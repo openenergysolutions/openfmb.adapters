@@ -18,6 +18,8 @@ endif()
 
 if(${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC)
 	set(COREDX_TARGET Windows_x86_vs2012)
+elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL GNU)
+	set(COREDX_TARGET Linux_2.6_x86_64_gcc43)
 else()
 	message(FATAL_ERROR "This script doesn't support ${CMAKE_CXX_COMPILER_ID} yet")
 endif()
