@@ -4,6 +4,6 @@ set(OPENFMB_ADAPTER_VERSION 0.0.1)
 
 include("cmake/coredx.cmake")
 
-# this is the library of dds profiles
-add_subdirectory(./dds_types)
+# DDS adapter based on Twin Oaks library
+add_subdirectory(./adapters/dds/twinoaks)
 
