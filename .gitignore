@@ -3,3 +3,7 @@
 
 # ignore generated protos
 /adapter-api/src/proto
+
+# clion stuff
+/.idea/
+/cmake-build-*
