@@ -1,0 +1,18 @@
+
+syntax = "proto3";
+
+
+import "commonmodule/AnalogueValue.proto";
+import "commonmodule/Unit.proto";
+ 
+
+message MV {
+  AnalogueValue mag = 2;
+  bytes q = 4;
+  string t = 6;
+  Unit unit = 8;
+}
+
+
+
+

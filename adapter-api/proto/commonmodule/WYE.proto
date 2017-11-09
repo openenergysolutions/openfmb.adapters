@@ -1,0 +1,18 @@
+
+syntax = "proto3";
+
+
+import "commonmodule/CMV.proto";
+ 
+
+message WYE {
+  CMV net = 2;
+  CMV neut = 4;
+  CMV phsA = 6;
+  CMV phsB = 8;
+  CMV phsC = 10;
+}
+
+
+
+

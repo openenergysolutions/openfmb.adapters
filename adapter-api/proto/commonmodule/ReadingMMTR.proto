@@ -1,0 +1,22 @@
+
+syntax = "proto3";
+
+
+import "commonmodule/IdentifiedObject.proto";
+import "commonmodule/BCR.proto";
+
+
+message ReadingMMTR {
+  IdentifiedObject logicalNode = 2;
+  BCR dmdVArh = 4;
+  BCR dmdWh = 6;
+  BCR supVArh = 8 ;
+  BCR supWh = 10 ;
+  BCR totVAh = 12 ;
+  BCR totVArh = 13;
+  BCR totWh = 14 ;
+}
+
+
+
+

@@ -1,0 +1,16 @@
+
+syntax = "proto3";
+
+
+import "commonmodule/MeasurementIED.proto";
+import "commonmodule/ResourceReadingValue.proto"; 
+
+
+message ResourceReadingProfile {
+  MeasurementIED measurementIED = 2;
+  ResourceReadingValue resourceReadingValue = 4;
+}
+
+
+
+

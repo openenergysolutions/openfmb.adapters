@@ -1,0 +1,10 @@
+
+syntax = "proto3";
+
+
+message IdentifiedObject {
+  string description = 2;
+  bytes mRID = 4;
+  string name = 6;
+}
+

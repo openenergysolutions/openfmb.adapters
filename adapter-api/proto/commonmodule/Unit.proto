@@ -1,0 +1,16 @@
+
+syntax = "proto3";
+
+
+import "commonmodule/UnitMultiplierKind.proto";
+import "commonmodule/UnitSymbolKind.proto";
+ 
+
+message Unit {
+  UnitMultiplierKind multiplier = 2;
+  UnitSymbolKind SIUnit = 4;
+}
+
+
+
+

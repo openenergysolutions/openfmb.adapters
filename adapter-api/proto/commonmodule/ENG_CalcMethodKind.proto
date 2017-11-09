@@ -1,0 +1,11 @@
+
+syntax = "proto3";
+
+
+
+enum ENG_CalcMethodKind {
+  noneENG_CalcMethodKind  = 0;
+  SP    = 11;
+}
+
+

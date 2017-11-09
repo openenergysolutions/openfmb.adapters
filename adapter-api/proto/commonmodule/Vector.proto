@@ -1,0 +1,15 @@
+
+syntax = "proto3";
+
+
+import "commonmodule/AnalogueValue.proto";
+ 
+
+message Vector {
+  AnalogueValue ang = 2;
+  AnalogueValue mag = 4;
+}
+
+
+
+

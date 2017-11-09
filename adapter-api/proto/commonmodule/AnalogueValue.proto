@@ -1,0 +1,12 @@
+
+syntax = "proto3";
+
+
+message AnalogueValue {
+  float f = 2;
+  int32 i = 4;
+}
+
+
+
+

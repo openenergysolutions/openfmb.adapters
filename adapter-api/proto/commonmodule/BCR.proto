@@ -1,0 +1,17 @@
+
+syntax = "proto3";
+
+
+import "commonmodule/UnitSymbolKind.proto";
+
+
+message BCR {
+  int64 actVal = 2;
+  bytes q = 4;
+  string t = 6;
+  UnitSymbolKind units = 8 ;
+}
+
+
+
+

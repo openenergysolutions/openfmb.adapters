@@ -1,0 +1,18 @@
+
+syntax = "proto3";
+
+
+import "commonmodule/Vector.proto";
+import "commonmodule/Unit.proto";
+ 
+
+message CMV {
+  Vector cVal = 2;
+  bytes q = 4;
+  string t = 6;
+  Unit unit = 8;
+}
+
+
+
+

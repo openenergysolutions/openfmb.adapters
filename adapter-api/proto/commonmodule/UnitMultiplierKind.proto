@@ -1,0 +1,20 @@
+
+syntax = "proto3";
+
+
+
+enum UnitMultiplierKind {
+  noneUnitMultiplierKind  = 0;
+  centi  = 2;
+  deci   = 3;
+  giga   = 4;
+  kilo   = 5;
+  mega   = 6;
+  micro  = 7;
+  milli  = 8;
+  nano   = 9;
+  pico   = 10;
+  tera   = 11;
+}
+
+

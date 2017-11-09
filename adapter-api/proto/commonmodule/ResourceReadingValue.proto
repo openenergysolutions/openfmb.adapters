@@ -1,0 +1,19 @@
+
+syntax = "proto3";
+
+
+import "commonmodule/IdentifiedObject.proto";
+import "commonmodule/ReadingMMXU.proto";
+import "commonmodule/ReadingMMTR.proto"; 
+
+
+message ResourceReadingValue {
+  IdentifiedObject measurementValue = 2;
+  string terminalID = 4;  
+  ReadingMMXU readingMMXU = 6;
+  ReadingMMTR readingMMTR = 8;
+}
+
+
+
+

@@ -1,0 +1,16 @@
+
+syntax = "proto3";
+
+
+import "commonmodule/CMV.proto";
+ 
+
+message DEL {
+  CMV phsAB = 6;
+  CMV phsBC = 8;
+  CMV phsCA = 10;
+}
+
+
+
+

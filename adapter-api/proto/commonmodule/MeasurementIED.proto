@@ -1,0 +1,13 @@
+
+syntax = "proto3";
+
+
+import "commonmodule/IdentifiedObject.proto";
+
+
+message MeasurementIED {
+  IdentifiedObject measurementValueSource = 2;
+  string sourceApplicationID = 4;
+  string sourceDateTime = 6;
+}
+
