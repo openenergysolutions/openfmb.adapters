@@ -41,7 +41,7 @@ SET(PROTO_SOURCES
 	${PROTO_OUTPUT_DIR}/commonmodule/UnitSymbolKind.pb.cc
 	${PROTO_OUTPUT_DIR}/commonmodule/Vector.pb.cc
 	${PROTO_OUTPUT_DIR}/commonmodule/WYE.pb.cc
-)
+        src/IProtoBus.h)
 
 # ResourceStatusProfile
 add_custom_command(
