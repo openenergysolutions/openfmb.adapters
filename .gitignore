@@ -1,2 +1,5 @@
 # any cmake build directories that begin with "build"
 /build*
+
+# ignore generated protos
+/adapter-api/src/proto
