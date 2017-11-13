@@ -14,7 +14,7 @@ namespace openfmb {
         virtual ~IAdapter() {}
 
         // start the execution of the adapter
-        void start(IProtoPublishers& publishers);
+        virtual void start(IProtoPublishers& publishers) = 0;
     };
 
 
