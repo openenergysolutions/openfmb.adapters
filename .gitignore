@@ -2,7 +2,7 @@
 /build*
 
 # ignore generated protos
-/adapter-api/src/proto
+/adapter-api/src/adapter-api/proto
 
 # clion stuff
 /.idea/

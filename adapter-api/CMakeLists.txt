@@ -1,7 +1,7 @@
 
 
 SET(PROTO_INPUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/proto)
-SET(PROTO_OUTPUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/proto)
+SET(PROTO_OUTPUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/adapter-api/proto)
 
 SET(PROTO_HEADERS
 	${PROTO_OUTPUT_DIR}/ResourceReadingProfile.pb.h
@@ -41,7 +41,7 @@ SET(PROTO_SOURCES
 	${PROTO_OUTPUT_DIR}/commonmodule/UnitSymbolKind.pb.cc
 	${PROTO_OUTPUT_DIR}/commonmodule/Vector.pb.cc
 	${PROTO_OUTPUT_DIR}/commonmodule/WYE.pb.cc
-        src/IProtoBus.h)
+        src/adapter-api/IProtoBus.h)
 
 # ResourceStatusProfile
 add_custom_command(
@@ -53,7 +53,8 @@ add_custom_command(
 )
 
 add_library(adapter-api ${PROTO_SOURCES})
-target_include_directories(adapter-api PRIVATE ${PROTO_OUTPUT_DIR})
+target_include_directories(adapter-api PUBLIC ${PROTO_OUTPUT_DIR})
+target_include_directories(adapter-api INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/src")
 
 if(MSVC)
 
