@@ -41,7 +41,13 @@ SET(PROTO_SOURCES
 	${PROTO_OUTPUT_DIR}/commonmodule/UnitSymbolKind.pb.cc
 	${PROTO_OUTPUT_DIR}/commonmodule/Vector.pb.cc
 	${PROTO_OUTPUT_DIR}/commonmodule/WYE.pb.cc
-        src/adapter-api/IProtoBus.h)
+)
+
+SET(API_HEADERS
+    src/adapter-api/ISubscriber.h
+    src/adapter-api/IProtoPublishers.h
+    src/adapter-api/IProtoSubscribers.h
+)
 
 # ResourceStatusProfile
 add_custom_command(
@@ -52,7 +58,7 @@ add_custom_command(
     COMMENT "Generating openfmb protos..."
 )
 
-add_library(adapter-api ${PROTO_SOURCES})
+add_library(adapter-api ${PROTO_SOURCES} ${PROTO_HEADERS} ${API_HEADERS})
 target_include_directories(adapter-api PUBLIC ${PROTO_OUTPUT_DIR})
 target_include_directories(adapter-api INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/src")
 
