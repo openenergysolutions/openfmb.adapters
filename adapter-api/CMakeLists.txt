@@ -44,7 +44,8 @@ SET(PROTO_SOURCES
         src/adapter-api/IProtoBus.h)
 
 # ResourceStatusProfile
-add_custom_command(
+add_custom_target(
+    proto
     COMMAND mkdir -p ${PROTO_OUTPUT_DIR}
     COMMAND protoc --cpp_out=${PROTO_OUTPUT_DIR} --proto_path=${PROTO_INPUT_DIR} ${PROTO_INPUT_DIR}/*.proto ${PROTO_INPUT_DIR}/commonmodule/*.proto
     DEPENDS ${PROTO_INPUT_DIR}/*.proto
