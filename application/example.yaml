@@ -1,0 +1,10 @@
+---
+dnp3:
+    name                : "SEL 351-A"
+    sourceApplicationID : "RANKIN.1208.XCBR.1"
+    mRID                : "157b6053-e35c-42bc-a6b5-c7a5846f6f25"
+    desc                : "Circuit breaker at the head of Rankin feeder 1208"
+    remote_host         : "172.168.1.90"
+    port                : 20000
+    link_local          : 1
+    link_remote         : 1024

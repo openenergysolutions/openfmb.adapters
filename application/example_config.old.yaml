@@ -1,0 +1,65 @@
+---
+Device:
+    sourceApplicationID : "RANKIN.1208.XCBR.1"
+    mRID                : "157b6053-e35c-42bc-a6b5-c7a5846f6f25"
+    desc                : "Circuit breaker at the head of Rankin feeder 1208"
+    name                : "SEL 351-A"
+
+DNP3:
+    ip_address          : "172.168.1.90"
+    port                : 20007
+    link_local          : 100
+    link_remote         : 1
+#OR (ONLY ONE PER CONFIG)
+MODBUS:
+    ip_address          : "172.168.1.44"
+    port                : 502
+    address_offset      : 0
+    read_type           : ABB_CONVERTED_SINT_16_TYPE   #defines size/type of values read- options are FLOAT_32_TYPE, INT_16_TYPE,SINT_16_TYPE (and specal type ABB_CONVERTED_SINT_16_TYPE which applies very specific conversion factors)
+    
+BreakerReadingProfile: #OR RecloserReadingProfile, SwitchReadingProfile, ESSReadingProfile, SolarReadingProfile, LoadReadingProfile (ONLY ONE PER CONFIG)
+#set the id to negative number to disable (or delete/comment out the line) 
+    terminalID          : "Unknown?"
+    ReadingMMXU:
+        Hz              : {id: 8 ,  factor: 1}
+        PPV_phsAB       : {id: -1,  factor: 1}          
+        PPV_phsBC       : {id: -1,  factor: 1}   
+        PPV_phsCA       : {id: -1,  factor: 1}
+        PhV_phsA        : {id: 0 ,  factor: 1}
+        PhV_phsA_Angle  : {id: 12,  factor: 1}
+        PhV_phsB        : {id: 1 ,  factor: 1}
+        PhV_phsB_Angle  : {id: 13,  factor: 1}  
+        PhV_phsC        : {id: 2 ,  factor: 1}
+        PhV_phsC_Angle  : {id: 14,  factor: 1}
+        PhV_neut        : {id: 3 ,  factor: 1}
+        PhV_net         : {id: -1,  factor: 1}
+        A_phsA          : {id: 4 ,  factor: 1}
+        A_phsB          : {id: 5 ,  factor: 1}
+        A_phsC          : {id: 6 ,  factor: 1}
+        A_neut          : {id: 7 ,  factor: 1}
+        A_net           : {id: -1,  factor: 1}
+        W_phsA          : {id: -1,  factor: 1}
+        W_phsB          : {id: -1,  factor: 1}
+        W_phsC          : {id: -1,  factor: 1}
+        W_neut          : {id: -1,  factor: 1}
+        W_net           : {id: 9 ,  factor: 1}
+        VAr_phsA        : {id: -1,  factor: 1}
+        VAr_phsB        : {id: -1,  factor: 1}
+        VAr_phsC        : {id: -1,  factor: 1}
+        VAr_neut        : {id: -1,  factor: 1}
+        VAr_net         : {id: 10,  factor: 1}
+        VA_phsA         : {id: -1,  factor: 1}
+        VA_phsB         : {id: -1,  factor: 1}
+        VA_phsC         : {id: -1,  factor: 1}
+        VA_neut         : {id: -1,  factor: 1}
+        VA_net          : {id: 11,  factor: 1}
+    ReadingMMTR:
+        DmdVArh         : {id: -1,  factor: 1}
+        DmdWh           : {id: -1,  factor: 1}
+        SupVArh         : {id: -1,  factor: 1}
+        SupWh           : {id: -1,  factor: 1}
+        TotVAh          : {id: -1,  factor: 1}
+        TotVArh         : {id: -1,  factor: 1}
+        TotWh           : {id: -1,  factor: 1}
+
+
