@@ -9,7 +9,7 @@
 
 namespace openfmb {
 
-    class ProtoBus : public IProtoSubscribers, public IProtoPublishers
+    class ProtoBus final : public IProtoSubscribers, public IProtoPublishers
     {
     public:
 

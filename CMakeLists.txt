@@ -6,6 +6,9 @@ set(OPENFMB_ADAPTER_VERSION 0.0.1)
 # API used by the adapters / application
 add_subdirectory(./adapter-api)
 
+# DNP3 adapter based on opendnp3
+add_subdirectory(./adapters/dnp3)
+
 # DDS adapter based on Twin Oaks library
 add_subdirectory(./adapters/dds/twinoaks)
 
