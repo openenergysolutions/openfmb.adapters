@@ -44,12 +44,11 @@ SET(PROTO_SOURCES
         src/adapter-api/IProtoBus.h)
 
 # ResourceStatusProfile
-add_custom_target(
-    proto
+add_custom_command(
+    OUTPUT ${PROTO_SOURCES} ${PROTO_HEADERS}
     COMMAND mkdir -p ${PROTO_OUTPUT_DIR}
     COMMAND protoc --cpp_out=${PROTO_OUTPUT_DIR} --proto_path=${PROTO_INPUT_DIR} ${PROTO_INPUT_DIR}/*.proto ${PROTO_INPUT_DIR}/commonmodule/*.proto
-    DEPENDS ${PROTO_INPUT_DIR}/*.proto
-    OUTPUT ${PROTO_SOURCES} ${PROTO_HEADERS}
+    MAIN_DEPENDENCY ${PROTO_INPUT_DIR}/ResourceReadingProfile.proto
     COMMENT "Generating openfmb protos..."
 )
 
