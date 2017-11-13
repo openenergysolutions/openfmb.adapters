@@ -45,6 +45,7 @@ SET(PROTO_SOURCES
 
 # ResourceStatusProfile
 add_custom_command(
+    COMMAND mkdir -p ${PROTO_OUTPUT_DIR}
     COMMAND protoc --cpp_out=${PROTO_OUTPUT_DIR} --proto_path=${PROTO_INPUT_DIR} ${PROTO_INPUT_DIR}/*.proto ${PROTO_INPUT_DIR}/commonmodule/*.proto
     OUTPUT ${PROTO_SOURCES} ${PROTO_HEADERS}
     COMMENT "Generating openfmb protos..."
