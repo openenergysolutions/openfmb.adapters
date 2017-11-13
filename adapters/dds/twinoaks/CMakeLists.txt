@@ -1,4 +1,6 @@
 
+include("coredx.cmake")
+
 set(SOURCES
 	src/OpenFMB.cc
 	src/OpenFMBDataReader.cc
