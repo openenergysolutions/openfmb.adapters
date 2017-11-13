@@ -7,5 +7,5 @@ set(OPENFMB_ADAPTER_SOURCES
 )
 
 add_executable(openfmb-adapter ${OPENFMB_ADAPTER_SOURCES})
-target_link_libraries(openfmb-adapter adapter-api)
+target_link_libraries(openfmb-adapter dnp3-adapter twinoaks-dds-adapter)
 

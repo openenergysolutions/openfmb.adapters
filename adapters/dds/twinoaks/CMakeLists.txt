@@ -15,5 +15,5 @@ set(PRIVATE_HEADERS
 	src/OpenFMBTypeSupport.hh
 )
 
-add_library(openfmb_to_dds STATIC ${SOURCES} ${PRIVATE_HEADERS})
-target_include_directories(openfmb_to_dds PRIVATE ${COREDX_INCLUDE})
+add_library(twinoaks-dds-adapter STATIC ${SOURCES} ${PRIVATE_HEADERS})
+target_include_directories(twinoaks-dds-adapter PRIVATE ${COREDX_INCLUDE})
