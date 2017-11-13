@@ -5,14 +5,15 @@
 #include "adapter-api/IProtoSubscribers.h"
 #include "adapter-api/IProtoPublishers.h"
 
+#include <vector>
+
 namespace openfmb {
 
     class ProtoBus : public IProtoSubscribers, public IProtoPublishers
     {
     public:
 
-        ProtoBus() = default;
-        ~ProtoBus() = default;
+        void finalize();
 
         // ---- implement IProtoPublishers ----
 
@@ -20,12 +21,17 @@ namespace openfmb {
 
         // ---- implement IProtoSubscribers ----
 
-        virtual void subscribe(const std::shared_ptr<ISubscriber<ResourceReadingProfile>>& subscriber) override;
+        virtual void subscribe(const rrp_subscriber_t& subscriber) override;
 
 
     private:
 
+        std::vector<rrp_subscriber_t> rrp_subscribers;
 
+        void require_finalized();
+        void require_not_finalized();
+
+        bool is_finalized = false;
     };
 
 }

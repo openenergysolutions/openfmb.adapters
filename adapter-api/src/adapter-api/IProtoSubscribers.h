@@ -17,6 +17,8 @@ namespace openfmb {
 
     public:
 
+        typedef std::shared_ptr<ISubscriber<ResourceReadingProfile>> rrp_subscriber_t;
+
         virtual ~IProtoSubscribers() {}
 
         /**
@@ -24,7 +26,7 @@ namespace openfmb {
          *
          * @param subscriber interface to invoke when messages are published
          */
-        virtual void subscribe(const std::shared_ptr<ISubscriber<ResourceReadingProfile>>& subscriber) = 0;
+        virtual void subscribe(const rrp_subscriber_t& subscriber) = 0;
     };
 }
 
