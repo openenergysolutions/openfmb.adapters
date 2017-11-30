@@ -10,7 +10,7 @@ add_subdirectory(./adapter-api)
 add_subdirectory(./adapters/dnp3)
 
 # DDS adapter based on Twin Oaks library
-add_subdirectory(./adapters/dds/twinoaks)
+# add_subdirectory(./adapters/dds/twinoaks)
 
 # main application
 add_subdirectory(./application)

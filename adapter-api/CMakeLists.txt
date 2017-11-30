@@ -64,10 +64,10 @@ target_include_directories(adapter-api INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/sr
 
 if(MSVC)
 
-if(DEFINED ENV{PROTOC_ROOT_DIR})
-	set(PROTOC_INCLUDE_DIR $ENV{PROTOC_ROOT_DIR}\\include)
-	message("protoc include dir: ${PROTOC_INCLUDE_DIR}")
-	target_include_directories(adapter-api PUBLIC ${PROTOC_INCLUDE_DIR})
+if(DEFINED ENV{PROTO_INSTALL_DIR})
+	set(PROTO_INSTALL_DIR $ENV{PROTO_INSTALL_DIR})
+	message("proto install dir: ${PROTO_INSTALL_DIR}")
+	target_include_directories(adapter-api PUBLIC ${PROTO_INSTALL_DIR}/proto-cpp/include)	
 else()
 	message(FATAL_ERROR "PROTOC_ROOT_DIR must be defined for MSVC")
 endif()
