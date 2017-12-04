@@ -26,7 +26,7 @@ namespace openfmb {
         void load_mmxu_mapping(const YAML::Node& node);
 
         template <class T>
-        void bind_mmxu_handler(const YAML::Node& node, const T& action);
+        void bind_mmxu_handler(uint16_t index, double scale, const T& action);
 
         std::map<uint16_t, map_fun_t> analog_map;
 
