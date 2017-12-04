@@ -1,10 +1,68 @@
 ---
-dnp3:
-    name                : "SEL 351-A"
-    sourceApplicationID : "RANKIN.1208.XCBR.1"
-    mRID                : "157b6053-e35c-42bc-a6b5-c7a5846f6f25"
-    desc                : "Circuit breaker at the head of Rankin feeder 1208"
-    remote_host         : "172.168.1.90"
-    port                : 20000
-    link_local          : 1
-    link_remote         : 1024
+# top-level application settings
+application:
+    log-name            : "openfmb"
+
+# map of configured adapters
+adapters:
+    # this level contains a map of adapters using their unique id
+    dnp3-master:
+        name                : "SEL 351-A"
+        sourceApplicationID : "RANKIN.1208.XCBR.1"
+        mRID                : "157b6053-e35c-42bc-a6b5-c7a5846f6f25"
+        desc                : "Circuit breaker at the head of Rankin feeder 1208"
+        channel             :
+            type                    : "tcp-client"
+            adapter                 : "0.0.0.0"
+            remote-ip               : "172.168.1.90"
+            port                    : 20000
+        link-layer                  :
+            master-address          : 1
+            outstation-address      : 1024
+        app-layer                   :
+            integrity-poll-ms       : 5000
+        profiles                    :
+            breaker-reading-profile :
+                terminal-id          : "what is this?"
+                ReadingMMXU :
+                    Hz              : {index:  8,  scale: 1.0}
+                    PPV_phsAB       : {index: -1,  scale: 1.0}
+                    PPV_phsBC       : {index: -1,  scale: 1.0}
+                    PPV_phsCA       : {index: -1,  scale: 1.0}
+                    PhV_phsA        : {index:  0,  scale: 1.0}
+                    PhV_phsA_Angle  : {index: 12,  scale: 1.0}
+                    PhV_phsB        : {index:  1,  scale: 1.0}
+                    PhV_phsB_Angle  : {index: 13,  scale: 1.0}
+                    PhV_phsC        : {index:  2,  scale: 1.0}
+                    PhV_phsC_Angle  : {index: 14,  scale: 1.0}
+                    PhV_neut        : {index:  3,  scale: 1.0}
+                    PhV_net         : {index: -1,  scale: 1.0}
+                    A_phsA          : {index:  4,  scale: 1.0}
+                    A_phsB          : {index:  5,  scale: 1.0}
+                    A_phsC          : {index:  6,  scale: 1.0}
+                    A_neut          : {index:  7,  scale: 1.0}
+                    A_net           : {index: -1,  scale: 1.0}
+                    W_phsA          : {index: -1,  scale: 1.0}
+                    W_phsB          : {index: -1,  scale: 1.0}
+                    W_phsC          : {index: -1,  scale: 1.0}
+                    W_neut          : {index: -1,  scale: 1.0}
+                    W_net           : {index:  9,  scale: 1.0}
+                    VAr_phsA        : {index: -1,  scale: 1.0}
+                    VAr_phsB        : {index: -1,  scale: 1.0}
+                    VAr_phsC        : {index: -1,  scale: 1.0}
+                    VAr_neut        : {index: -1,  scale: 1.0}
+                    VAr_net         : {index: 10,  scale: 1.0}
+                    VA_phsA         : {index: -1,  scale: 1.0}
+                    VA_phsB         : {index: -1,  scale: 1.0}
+                    VA_phsC         : {index: -1,  scale: 1.0}
+                    VA_neut         : {index: -1,  scale: 1.0}
+                    VA_net          : {index: 11,  scale: 1.0}
+                ReadingMMTR:
+                    DmdVArh         : {index: -1,  scale: 1.0}
+                    DmdWh           : {index: -1,  scale: 1.0}
+                    SupVArh         : {index: -1,  scale: 1.0}
+                    SupWh           : {index: -1,  scale: 1.0}
+                    TotVAh          : {index: -1,  scale: 1.0}
+                    TotVArh         : {index: -1,  scale: 1.0}
+                    TotWh           : {index: -1,  scale: 1.0}
+    # some other adapter
