@@ -1,14 +1,18 @@
 
 
-
-set(DNP3_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/dnp3/DNP3MasterFactory.cpp
-)
-
 set(DNP3_HEADERS
         ${CMAKE_CURRENT_SOURCE_DIR}/src/dnp3/DNP3MasterAdapter.h
         ${CMAKE_CURRENT_SOURCE_DIR}/src/dnp3/DNP3MasterFactory.h
-        src/dnp3/ResourceReadingPointMap.h)
+        src/dnp3/PointMap.h
+)
+
+set(DNP3_SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/dnp3/DNP3MasterFactory.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/dnp3/DNP3MasterAdapter.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/dnp3/PointMap.cpp
+)
+
+
 
 add_library(dnp3-adapter STATIC ${DNP3_SOURCES} ${DNP3_HEADERS})
 target_link_libraries(dnp3-adapter PUBLIC adapter-api)

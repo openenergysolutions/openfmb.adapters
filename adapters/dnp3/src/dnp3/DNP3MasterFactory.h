@@ -4,10 +4,19 @@
 
 #include "adapter-api/IAdapter.h"
 
+namespace asiodnp3 {
+    class DNP3Manager;
+}
+
 namespace openfmb {
 
     class DNP3MasterFactory final : public IAdapterFactory {
+
+    std::shared_ptr<asiodnp3::DNP3Manager> manager;
+
     public:
+
+        DNP3MasterFactory();
 
         virtual const char* name() const override { return "dnp3-master"; }
 

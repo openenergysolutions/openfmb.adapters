@@ -11,6 +11,7 @@ adapters:
         sourceApplicationID : "RANKIN.1208.XCBR.1"
         mRID                : "157b6053-e35c-42bc-a6b5-c7a5846f6f25"
         desc                : "Circuit breaker at the head of Rankin feeder 1208"
+        dnp3-log-id         : "sel351-master"
         channel             :
             type                    : "tcp-client"
             adapter                 : "0.0.0.0"
@@ -21,9 +22,8 @@ adapters:
             outstation-address      : 1024
         app-layer                   :
             integrity-poll-ms       : 5000
-        profiles                    :
-            breaker-reading-profile :
-                terminal-id          : "what is this?"
+        breaker-reading-profile     :
+                terminal-id         : "what is this?"
                 ReadingMMXU :
                     Hz              : {index:  8,  scale: 1.0}
                     PPV_phsAB       : {index: -1,  scale: 1.0}
