@@ -33,12 +33,11 @@ namespace openfmb {
         const channel_t channel;
         const master_t master;
 
+        // --- helper methods for creating resources ---
+
         static point_map_t create_point_map(const YAML::Node& node);
         static channel_t create_channel(const manager_t& manager, const YAML::Node& node);
         static master_t create_master(const channel_t& channel, const YAML::Node& node);
-
-        // channel and master instances
-
 
     };
 

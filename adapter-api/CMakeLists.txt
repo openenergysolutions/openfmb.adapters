@@ -47,6 +47,8 @@ SET(API_HEADERS
     src/adapter-api/ISubscriber.h
     src/adapter-api/IProtoPublishers.h
     src/adapter-api/IProtoSubscribers.h
+	src/adapter-api/util/Exception.h
+	src/adapter-api/util/StringUtil.h
 )
 
 # ResourceStatusProfile
