@@ -1,13 +1,20 @@
 
+
 #include "PointMap.h"
 
 #include "adapter-api/util/Exception.h"
+
+#include <yaml-cpp/node/detail/iterator.h>
+#include <yaml-cpp/node/detail/node.h>
 
 namespace openfmb {
 
 
     PointMap::PointMap(const YAML::Node &node) {
         const auto& mmxu = node["ReadingMMXU"];
+        for(auto iter = mmxu.begin(); iter != mmxu.end(); ++iter) {
+            this->load_mmxu_mapping(*iter);
+        }
     }
 
     bool PointMap::apply(uint16_t index, double value, ResourceReadingProfile &profile) const {
@@ -125,6 +132,7 @@ namespace openfmb {
                         mmxu.mutable_phv()->mutable_neut()->mutable_cval()->mutable_mag();
                     }
             );
+
         } else if(id == "PhV_net") {
 
             this->bind_mmxu_handler(
@@ -133,6 +141,7 @@ namespace openfmb {
                         mmxu.mutable_phv()->mutable_net()->mutable_cval()->mutable_mag();
                     }
             );
+
         } else if(id == "PhV_net") {
 
             this->bind_mmxu_handler(
@@ -187,9 +196,8 @@ namespace openfmb {
                     }
             );
 
-        }
-        else {
-            throw Exception("Unknown MMXU measurement: ", node.Tag());
+        } else {
+            throw Exception("Unknown MMXU measurement: ", id);
         }
     }
 
