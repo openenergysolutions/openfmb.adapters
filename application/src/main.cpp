@@ -8,8 +8,6 @@
 #include <fstream>
 #include <iostream>
 
-#include <yaml-cpp/yaml.h>
-
 using namespace openfmb;
 
 int main(int argc, char** argv)

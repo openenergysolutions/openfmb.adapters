@@ -1,5 +1,4 @@
 
-
 set(OPENFMB_ADAPTER_SOURCES
     src/main.cpp
     src/ProtoBus.h

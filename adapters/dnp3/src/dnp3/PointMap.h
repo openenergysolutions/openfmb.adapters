@@ -4,7 +4,7 @@
 
 #include "adapter-api/proto/ResourceReadingProfile.pb.h"
 
-#include <yaml-cpp/node/node.h>
+#include <yaml-cpp/yaml.h>
 
 #include <map>
 #include <functional>
