@@ -28,7 +28,7 @@ namespace openfmb {
 
         virtual const char* name() const = 0;
 
-        virtual std::unique_ptr<IAdapter> create(YAML::Node& node, IProtoSubscribers& subscribers) const = 0;
+        virtual std::unique_ptr<IAdapter> create(const YAML::Node& node, IProtoSubscribers& subscribers) const = 0;
     };
 
 }

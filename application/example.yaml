@@ -24,38 +24,38 @@ adapters:
         breaker-reading-profile     :
                 terminal-id         : "what is this?"
                 mmxu                :
-                    Hz              : {index:  8,  scale: 1.0}
-                    PPV_phsAB       : {index: -1,  scale: 1.0}
-                    PPV_phsBC       : {index: -1,  scale: 1.0}
-                    PPV_phsCA       : {index: -1,  scale: 1.0}
-                    PhV_phsA        : {index:  0,  scale: 1.0}
-                    PhV_phsA_Angle  : {index: 12,  scale: 1.0}
-                    PhV_phsB        : {index:  1,  scale: 1.0}
-                    PhV_phsB_Angle  : {index: 13,  scale: 1.0}
-                    PhV_phsC        : {index:  2,  scale: 1.0}
-                    PhV_phsC_Angle  : {index: 14,  scale: 1.0}
-                    PhV_neut        : {index:  3,  scale: 1.0}
-                    PhV_net         : {index: -1,  scale: 1.0}
-                    A_phsA          : {index:  4,  scale: 1.0}
-                    A_phsB          : {index:  5,  scale: 1.0}
-                    A_phsC          : {index:  6,  scale: 1.0}
-                    A_neut          : {index:  7,  scale: 1.0}
-                    A_net           : {index: -1,  scale: 1.0}
-                    W_phsA          : {index: -1,  scale: 1.0}
-                    W_phsB          : {index: -1,  scale: 1.0}
-                    W_phsC          : {index: -1,  scale: 1.0}
-                    W_neut          : {index: -1,  scale: 1.0}
-                    W_net           : {index:  9,  scale: 1.0}
-                    VAr_phsA        : {index: -1,  scale: 1.0}
-                    VAr_phsB        : {index: -1,  scale: 1.0}
-                    VAr_phsC        : {index: -1,  scale: 1.0}
-                    VAr_neut        : {index: -1,  scale: 1.0}
-                    VAr_net         : {index: 10,  scale: 1.0}
-                    VA_phsA         : {index: -1,  scale: 1.0}
-                    VA_phsB         : {index: -1,  scale: 1.0}
-                    VA_phsC         : {index: -1,  scale: 1.0}
-                    VA_neut         : {index: -1,  scale: 1.0}
-                    VA_net          : {index: 11,  scale: 1.0}
+                    hz.mag              : {index:  8,  scale: 1.0}
+                    ppv.phsab.cval.mag  : {index: -1,  scale: 1.0}
+                    PPV_phsBC           : {index: -1,  scale: 1.0}
+                    PPV_phsCA           : {index: -1,  scale: 1.0}
+                    PhV_phsA            : {index:  0,  scale: 1.0}
+                    PhV_phsA_Angle      : {index: 12,  scale: 1.0}
+                    PhV_phsB            : {index:  1,  scale: 1.0}
+                    PhV_phsB_Angle      : {index: 13,  scale: 1.0}
+                    PhV_phsC            : {index:  2,  scale: 1.0}
+                    PhV_phsC_Angle      : {index: 14,  scale: 1.0}
+                    PhV_neut            : {index:  3,  scale: 1.0}
+                    PhV_net             : {index: -1,  scale: 1.0}
+                    A_phsA              : {index:  4,  scale: 1.0}
+                    A_phsB              : {index:  5,  scale: 1.0}
+                    A_phsC              : {index:  6,  scale: 1.0}
+                    A_neut              : {index:  7,  scale: 1.0}
+                    A_net               : {index: -1,  scale: 1.0}
+                    W_phsA              : {index: -1,  scale: 1.0}
+                    W_phsB              : {index: -1,  scale: 1.0}
+                    W_phsC              : {index: -1,  scale: 1.0}
+                    W_neut              : {index: -1,  scale: 1.0}
+                    W_net               : {index:  9,  scale: 1.0}
+                    VAr_phsA            : {index: -1,  scale: 1.0}
+                    VAr_phsB            : {index: -1,  scale: 1.0}
+                    VAr_phsC            : {index: -1,  scale: 1.0}
+                    VAr_neut            : {index: -1,  scale: 1.0}
+                    VAr_net             : {index: 10,  scale: 1.0}
+                    VA_phsA             : {index: -1,  scale: 1.0}
+                    VA_phsB             : {index: -1,  scale: 1.0}
+                    VA_phsC             : {index: -1,  scale: 1.0}
+                    VA_neut             : {index: -1,  scale: 1.0}
+                    VA_net              : {index: 11,  scale: 1.0}
                 mmtr                :
                     DmdVArh         : {index: -1,  scale: 1.0}
                     DmdWh           : {index: -1,  scale: 1.0}

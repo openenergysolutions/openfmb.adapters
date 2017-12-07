@@ -11,10 +11,7 @@ namespace openfmb {
 
 
     PointMap::PointMap(const YAML::Node &node) {
-        const auto& mmxu = node["ReadingMMXU"];
-        for(auto iter = mmxu.begin(); iter != mmxu.end(); ++iter) {
-            this->load_mmxu_mapping(*iter);
-        }
+        this->load_mmxu_mapping(node["mmxu"]);
     }
 
     bool PointMap::apply(uint16_t index, double value, ResourceReadingProfile &profile) const {
@@ -27,7 +24,7 @@ namespace openfmb {
 
     void PointMap::load_mmxu_mapping(const YAML::Node& node)
     {
-        
+
         this->add_analogue_handler(
             node["hz.mag"],
             [](ResourceReadingProfile& p) -> AnalogueValue* {
