@@ -20,198 +20,145 @@ namespace openfmb {
     bool PointMap::apply(uint16_t index, double value, ResourceReadingProfile &profile) const {
         const auto iter = this->analog_map.find(index);
         if (iter == this->analog_map.end()) return false;
-        iter->second(value, profile);
+        const auto calc_value = static_cast<float>(value*iter->second.scale);
+        iter->second.select(profile)->set_f(calc_value);
         return true;
     }
 
     void PointMap::load_mmxu_mapping(const YAML::Node& node)
     {
+        this->add_analogue_handler(
+            node["hz.mag"],
+            [](ResourceReadingProfile& rrp) -> AnalogueValue* {
+                mmxu(rrp)->mutable_hz()->mutable_mag();
+            }
+        );
+
+        this->add_analogue_handler(
+            node["ppv.phsab.cval.mag"],
+            [](ResourceReadingProfile& rrp) -> AnalogueValue* {
+                mmxu(rrp)->mutable_ppv()->mutable_phsab()->mutable_cval()->mutable_mag();
+            }
+        );
+
+        this->add_analogue_handler(
+            node["ppv.phsbc.cval.mag"],
+            [](ResourceReadingProfile& rrp) -> AnalogueValue* {
+                mmxu(rrp)->mutable_ppv()->mutable_phsbc()->mutable_cval()->mutable_mag();
+            }
+        );
+
+        this->add_analogue_handler(
+            node["ppv.phsca.cval.mag"],
+            [](ResourceReadingProfile& rrp) -> AnalogueValue* {
+                mmxu(rrp)->mutable_ppv()->mutable_phsca()->mutable_cval()->mutable_mag();
+            }
+        );
+
+
+        this->add_analogue_handler(
+            node["phv.phsa.cval.mag"],
+            [](ResourceReadingProfile& rrp)  -> AnalogueValue* {
+                mmxu(rrp)->mutable_phv()->mutable_phsa()->mutable_cval()->mutable_mag();
+            }
+        );
+
+        this->add_analogue_handler(
+            node["phv.phsa.cval.ang"],
+            [](ResourceReadingProfile& rrp) -> AnalogueValue* {
+                mmxu(rrp)->mutable_phv()->mutable_phsa()->mutable_cval()->mutable_ang();
+            }
+        );
+
+        this->add_analogue_handler(
+            node["phv.phsb.cval.mag"],
+            [](ResourceReadingProfile& rrp) -> AnalogueValue* {
+                mmxu(rrp)->mutable_phv()->mutable_phsb()->mutable_cval()->mutable_mag();
+            }
+        );
+
+        this->add_analogue_handler(
+            node["phv.phsb.cval.ang"],
+            [](ResourceReadingProfile& rrp) -> AnalogueValue* {
+                mmxu(rrp)->mutable_phv()->mutable_phsb()->mutable_cval()->mutable_ang();
+            }
+        );
+
+        this->add_analogue_handler(
+            node["phv.phsc.cval.mag"],
+            [](ResourceReadingProfile& rrp) -> AnalogueValue* {
+                mmxu(rrp)->mutable_phv()->mutable_phsc()->mutable_cval()->mutable_mag();
+            }
+        );
+
+        this->add_analogue_handler(
+            node["phv.phsc.cval.ang"],
+            [](ResourceReadingProfile& rrp) -> AnalogueValue* {
+                mmxu(rrp)->mutable_phv()->mutable_phsc()->mutable_cval()->mutable_ang();
+            }
+        );
+
+        this->add_analogue_handler(
+            node["phv.neut.cval.mag"],
+            [](ResourceReadingProfile& rrp) -> AnalogueValue* {
+                mmxu(rrp)->mutable_phv()->mutable_neut()->mutable_cval()->mutable_mag();
+            }
+        );
+
+        this->add_analogue_handler(
+            node["phv.net.cval.mag"],
+            [](ResourceReadingProfile& rrp) -> AnalogueValue* {
+                mmxu(rrp)->mutable_phv()->mutable_net()->mutable_cval()->mutable_mag();
+            }
+        );
+
+        this->add_analogue_handler(
+            node["a.phsa.cval.mag"],
+            [](ResourceReadingProfile& rrp) -> AnalogueValue* {
+                mmxu(rrp)->mutable_a()->mutable_phsa()->mutable_cval()->mutable_mag();
+            }
+        );
+
+        this->add_analogue_handler(
+            node["a.phsb.cval.mag"],
+            [](ResourceReadingProfile& rrp) -> AnalogueValue* {
+                mmxu(rrp)->mutable_a()->mutable_phsb()->mutable_cval()->mutable_mag();
+            }
+        );
+
+        this->add_analogue_handler(
+            node["a.phsc.cval.mag"],
+            [](ResourceReadingProfile& rrp) -> AnalogueValue* {
+                mmxu(rrp)->mutable_a()->mutable_phsc()->mutable_cval()->mutable_mag();
+            }
+        );
+
+        this->add_analogue_handler(
+            node["a.neut.cval.mag"],
+            [](ResourceReadingProfile& rrp) -> AnalogueValue* {
+                mmxu(rrp)->mutable_a()->mutable_neut()->mutable_cval()->mutable_mag();
+            }
+        );
+
+        this->add_analogue_handler(
+            node["a.net.cval.mag"],
+            [](ResourceReadingProfile& rrp) -> AnalogueValue* {
+                mmxu(rrp)->mutable_a()->mutable_net()->mutable_cval()->mutable_mag();
+            }
+        );
+
+    }
+
+    void PointMap::add_analogue_handler(const YAML::Node& node, select_fun_t select)
+    {
         const auto index = node["index"].as<std::uint16_t>();
         const auto scale = node["scale"].as<double>();
-        const auto& id = node.Tag();
 
         if(this->analog_map.find(index) != this->analog_map.end()) {
             throw Exception("DNP3 index already mapped: ", index);
         }
 
-        if(id == "Hz") {
-
-            this->bind_mmxu_handler(
-                    index, scale,
-                    [](ReadingMMXU& mmxu) -> AnalogueValue* {
-                        mmxu.mutable_hz()->mutable_mag();
-                    }
-            );
-
-        } else if(id == "PPV_phsAB") {
-
-            this->bind_mmxu_handler(
-                    index, scale,
-                    [](ReadingMMXU& mmxu) -> AnalogueValue* {
-                        mmxu.mutable_ppv()->mutable_phsab()->mutable_cval()->mutable_mag();
-                    }
-            );
-
-        } else if(id == "PPV_phsBC") {
-
-            this->bind_mmxu_handler(
-                    index, scale,
-                    [](ReadingMMXU& mmxu) -> AnalogueValue* {
-                        mmxu.mutable_ppv()->mutable_phsbc()->mutable_cval()->mutable_mag();
-                    }
-            );
-
-        } else if(id == "PPV_phsCA") {
-
-            this->bind_mmxu_handler(
-                    index, scale,
-                    [](ReadingMMXU& mmxu) -> AnalogueValue* {
-                        mmxu.mutable_ppv()->mutable_phsca()->mutable_cval()->mutable_mag();
-                    }
-            );
-
-        } else if(id == "PhV_phsA") {
-
-            this->bind_mmxu_handler(
-                    index, scale,
-                    [](ReadingMMXU& mmxu)  -> AnalogueValue* {
-                        mmxu.mutable_phv()->mutable_phsa()->mutable_cval()->mutable_mag();
-                    }
-            );
-
-        } else if(id == "PhV_phsA_Angle") {
-
-            this->bind_mmxu_handler(
-                    index, scale,
-                    [](ReadingMMXU& mmxu) -> AnalogueValue* {
-                        mmxu.mutable_phv()->mutable_phsa()->mutable_cval()->mutable_ang();
-                    }
-            );
-
-        } else if(id == "PhV_phsB") {
-
-            this->bind_mmxu_handler(
-                    index, scale,
-                    [](ReadingMMXU& mmxu) -> AnalogueValue* {
-                        mmxu.mutable_phv()->mutable_phsb()->mutable_cval()->mutable_mag();
-                    }
-            );
-
-        } else if(id == "PhV_phsB_Angle") {
-
-            this->bind_mmxu_handler(
-                    index, scale,
-                    [](ReadingMMXU& mmxu) -> AnalogueValue* {
-                        mmxu.mutable_phv()->mutable_phsb()->mutable_cval()->mutable_ang();
-                    }
-            );
-
-        } else if(id == "PhV_phsC") {
-
-            this->bind_mmxu_handler(
-                    index, scale,
-                    [](ReadingMMXU& mmxu) -> AnalogueValue* {
-                        mmxu.mutable_phv()->mutable_phsc()->mutable_cval()->mutable_mag();
-                    }
-            );
-
-        } else if(id == "PhV_phsC_Angle") {
-
-            this->bind_mmxu_handler(
-                    index, scale,
-                    [](ReadingMMXU& mmxu) -> AnalogueValue* {
-                        mmxu.mutable_phv()->mutable_phsc()->mutable_cval()->mutable_ang();
-                    }
-            );
-
-        } else if(id == "PhV_neut") {
-
-            this->bind_mmxu_handler(
-                    index, scale,
-                    [](ReadingMMXU& mmxu) -> AnalogueValue* {
-                        mmxu.mutable_phv()->mutable_neut()->mutable_cval()->mutable_mag();
-                    }
-            );
-
-        } else if(id == "PhV_net") {
-
-            this->bind_mmxu_handler(
-                    index, scale,
-                    [](ReadingMMXU& mmxu) -> AnalogueValue* {
-                        mmxu.mutable_phv()->mutable_net()->mutable_cval()->mutable_mag();
-                    }
-            );
-
-        } else if(id == "PhV_net") {
-
-            this->bind_mmxu_handler(
-                    index, scale,
-                    [](ReadingMMXU& mmxu) -> AnalogueValue* {
-                        mmxu.mutable_phv()->mutable_net()->mutable_cval()->mutable_mag();
-                    }
-            );
-
-        } else if(id == "A_phsA") {
-
-            this->bind_mmxu_handler(
-                    index, scale,
-                    [](ReadingMMXU& mmxu) -> AnalogueValue* {
-                        mmxu.mutable_a()->mutable_phsa()->mutable_cval()->mutable_mag();
-                    }
-            );
-
-        } else if(id == "A_phsB") {
-
-            this->bind_mmxu_handler(
-                    index, scale,
-                    [](ReadingMMXU& mmxu) -> AnalogueValue* {
-                        mmxu.mutable_a()->mutable_phsb()->mutable_cval()->mutable_mag();
-                    }
-            );
-
-        } else if(id == "A_phsC") {
-
-            this->bind_mmxu_handler(
-                    index, scale,
-                    [](ReadingMMXU& mmxu) -> AnalogueValue* {
-                        mmxu.mutable_a()->mutable_phsc()->mutable_cval()->mutable_mag();
-                    }
-            );
-
-        } else if(id == "A_neut") {
-
-            this->bind_mmxu_handler(
-                    index, scale,
-                    [](ReadingMMXU& mmxu) -> AnalogueValue* {
-                        mmxu.mutable_a()->mutable_neut()->mutable_cval()->mutable_mag();
-                    }
-            );
-
-        } else if(id == "A_net") {
-
-            this->bind_mmxu_handler(
-                    index, scale,
-                    [](ReadingMMXU& mmxu) -> AnalogueValue* {
-                        mmxu.mutable_a()->mutable_net()->mutable_cval()->mutable_mag();
-                    }
-            );
-
-        } else {
-            throw Exception("Unknown MMXU measurement: ", id);
-        }
-    }
-
-    template <class T>
-    void PointMap::bind_mmxu_handler(uint16_t index, double scale, const T& get_analogue)
-    {
-        this->analog_map[index] = [=](double value, ResourceReadingProfile& profile) {
-
-            AnalogueValue* const analogue = get_analogue(
-                    *profile.mutable_resourcereadingvalue()->mutable_readingmmxu()
-            );
-
-            analogue->set_f(static_cast<float>(scale*value));
-        };
+        this->analog_map[index] = AnalogRecord(select, scale);
     }
 
 }

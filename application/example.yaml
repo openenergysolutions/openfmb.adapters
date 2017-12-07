@@ -1,18 +1,17 @@
 ---
-# top-level application settings
-application:
+application:  # top-level application settings
     log-name            : "openfmb"
 
-# map of configured adapters
+# a sequence of adapters
 adapters:
-    # this level contains a map of adapters using their unique id
-    dnp3-master:
-        name                : "SEL 351-A"
-        sourceApplicationID : "RANKIN.1208.XCBR.1"
-        mRID                : "157b6053-e35c-42bc-a6b5-c7a5846f6f25"
-        desc                : "Circuit breaker at the head of Rankin feeder 1208"
-        dnp3-log-id         : "sel351-master"
-        channel             :
+     # this level contains a sequence of adapters using their unique "type"
+     -  type                  : "dnp3-master"
+        name                  : "SEL 351-A"
+        source-application-id : "RANKIN.1208.XCBR.1"
+        mRID                  : "157b6053-e35c-42bc-a6b5-c7a5846f6f25"
+        desc                  : "Circuit breaker at the head of Rankin feeder 1208"
+        dnp3-log-id           : "sel351-master"
+        channel               :
             type                    : "tcp-client"
             adapter                 : "0.0.0.0"
             remote-ip               : "172.168.1.90"
@@ -24,7 +23,7 @@ adapters:
             integrity-poll-ms       : 5000
         breaker-reading-profile     :
                 terminal-id         : "what is this?"
-                ReadingMMXU :
+                mmxu                :
                     Hz              : {index:  8,  scale: 1.0}
                     PPV_phsAB       : {index: -1,  scale: 1.0}
                     PPV_phsBC       : {index: -1,  scale: 1.0}
@@ -57,7 +56,7 @@ adapters:
                     VA_phsC         : {index: -1,  scale: 1.0}
                     VA_neut         : {index: -1,  scale: 1.0}
                     VA_net          : {index: 11,  scale: 1.0}
-                ReadingMMTR:
+                mmtr                :
                     DmdVArh         : {index: -1,  scale: 1.0}
                     DmdWh           : {index: -1,  scale: 1.0}
                     SupVArh         : {index: -1,  scale: 1.0}
@@ -65,4 +64,6 @@ adapters:
                     TotVAh          : {index: -1,  scale: 1.0}
                     TotVArh         : {index: -1,  scale: 1.0}
                     TotWh           : {index: -1,  scale: 1.0}
-    # some other adapter
+     -  type                  : "other-adapter-name"
+
+

@@ -63,6 +63,8 @@ add_custom_command(
 add_library(adapter-api ${PROTO_SOURCES} ${PROTO_HEADERS} ${API_HEADERS})
 target_include_directories(adapter-api PUBLIC ${PROTO_OUTPUT_DIR})
 target_include_directories(adapter-api INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/src")
+target_link_libraries(adapter-api PUBLIC protobuf)
+target_link_libraries(adapter-api INTERFACE yaml-cpp)
 
 if(MSVC)
 

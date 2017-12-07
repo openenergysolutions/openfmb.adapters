@@ -13,7 +13,20 @@ namespace openfmb {
 
     class PointMap {
 
-        typedef std::function<void (double, ResourceReadingProfile&)> map_fun_t;
+        typedef AnalogueValue* (*select_fun_t)(ResourceReadingProfile& rrp);
+
+        struct AnalogRecord {
+
+            AnalogRecord() = default;
+
+            AnalogRecord(select_fun_t select, double scale) :
+            select(select),
+            scale(scale)
+            {}
+
+            select_fun_t select = nullptr;
+            double scale = 1.0;
+        };
 
     public:
 
@@ -23,12 +36,15 @@ namespace openfmb {
 
     private:
 
+        static ReadingMMXU* mmxu(ResourceReadingProfile& rrp)
+        {
+            return rrp.mutable_resourcereadingvalue()->mutable_readingmmxu();
+        }
+
         void load_mmxu_mapping(const YAML::Node& node);
+        void add_analogue_handler(const YAML::Node& node, select_fun_t select);
 
-        template <class T>
-        void bind_mmxu_handler(uint16_t index, double scale, const T& action);
-
-        std::map<uint16_t, map_fun_t> analog_map;
+        std::map<uint16_t, AnalogRecord> analog_map;
 
     };
 
