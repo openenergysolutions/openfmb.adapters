@@ -43,6 +43,12 @@ SET(PROTO_SOURCES
 	${PROTO_OUTPUT_DIR}/commonmodule/WYE.pb.cc
 )
 
+SET(CPP_FORMAT_DIRS
+		${CPP_FORMAT_DIRS}
+		${CMAKE_CURRENT_SOURCE_DIR}/src/adapter-api/*.h
+		${CMAKE_CURRENT_SOURCE_DIR}/src/adapter-api/util/*.h
+)
+
 SET(API_HEADERS
     src/adapter-api/ISubscriber.h
     src/adapter-api/IProtoPublishers.h
