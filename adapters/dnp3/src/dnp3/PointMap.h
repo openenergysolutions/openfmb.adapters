@@ -15,19 +15,28 @@ namespace openfmb
     class PointMap
     {
 
-        typedef AnalogueValue* (*select_fun_t)(ResourceReadingProfile& rrp);
+        typedef void (*set_fun_t)(ResourceReadingProfile& rrp, float value);
 
         struct AnalogRecord
         {
 
+        public:
+
             AnalogRecord() = default;
 
-            AnalogRecord(select_fun_t select, double scale) :
-                select(select),
+            AnalogRecord(set_fun_t setter, double scale) :
+                setter(setter),
                 scale(scale)
             {}
 
-            select_fun_t select = nullptr;
+            void set_value(ResourceReadingProfile& rrp, double value) const
+            {
+                setter(rrp, static_cast<float>(this->scale * value));
+            }
+
+        private:
+
+            set_fun_t setter = nullptr;
             double scale = 1.0;
         };
 
@@ -52,7 +61,7 @@ namespace openfmb
         void load_mmxu_mapping(const YAML::Node& node);
         void load_mmtr_mapping(const YAML::Node& node);
 
-        void load(const YAML::Node& parent, const std::string& name, select_fun_t select);
+        void load(const YAML::Node& parent, const std::string& name, set_fun_t setter);
 
         std::map<uint16_t, AnalogRecord> analog_map;
 

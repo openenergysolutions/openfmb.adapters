@@ -20,82 +20,131 @@ namespace openfmb
     {
         const auto iter = this->analog_map.find(index);
         if (iter == this->analog_map.end()) return false;
-        const auto calc_value = static_cast<float>(value * iter->second.scale);
-        iter->second.select(profile)->set_f(calc_value);
+        iter->second.set_value(profile, value);
         return true;
     }
 
     void PointMap::load_mmxu_mapping(const YAML::Node& node)
     {
         this->load(node, "hz.mag",
-                   [](ResourceReadingProfile & p) -> AnalogueValue* { mmxu(p)->mutable_hz()->mutable_mag(); }
+                   [](ResourceReadingProfile & p, float value)
+        {
+            mmxu(p)->mutable_hz()->mutable_mag()->set_f(value);
+        }
                   );
 
         this->load(node, "ppv.phsab.cval.mag",
-                   [](ResourceReadingProfile & p) -> AnalogueValue* { mmxu(p)->mutable_hz()->mutable_mag(); }
+                   [](ResourceReadingProfile & p, float value)
+        {
+            mmxu(p)->mutable_hz()->mutable_mag()->set_f(value);
+        }
                   );
 
         this->load(node, "ppv.phsbc.cval.mag",
-                   [](ResourceReadingProfile & p) -> AnalogueValue* { mmxu(p)->mutable_ppv()->mutable_phsbc()->mutable_cval()->mutable_mag(); }
+                   [](ResourceReadingProfile & p, float value)
+        {
+            mmxu(p)->mutable_ppv()->mutable_phsbc()->mutable_cval()->mutable_mag()->set_f(value);
+        }
                   );
 
         this->load(node, "ppv.phsca.cval.mag",
-                   [](ResourceReadingProfile & p) -> AnalogueValue* { mmxu(p)->mutable_ppv()->mutable_phsca()->mutable_cval()->mutable_mag(); }
+                   [](ResourceReadingProfile & p, float value)
+        {
+            mmxu(p)->mutable_ppv()->mutable_phsca()->mutable_cval()->mutable_mag()->set_f(value);
+        }
                   );
 
         this->load(node, "phv.phsa.cval.mag",
-                   [](ResourceReadingProfile & p)  -> AnalogueValue* { mmxu(p)->mutable_phv()->mutable_phsa()->mutable_cval()->mutable_mag(); }
+                   [](ResourceReadingProfile & p, float value)
+        {
+            mmxu(p)->mutable_phv()->mutable_phsa()->mutable_cval()->mutable_mag()->set_f(value);
+        }
                   );
 
         this->load(node, "phv.phsa.cval.ang",
-                   [](ResourceReadingProfile & p) -> AnalogueValue* { mmxu(p)->mutable_phv()->mutable_phsa()->mutable_cval()->mutable_ang(); }
+                   [](ResourceReadingProfile & p, float value)
+        {
+            mmxu(p)->mutable_phv()->mutable_phsa()->mutable_cval()->mutable_ang()->set_f(value);
+        }
                   );
 
         this->load(node, "phv.phsb.cval.mag",
-                   [](ResourceReadingProfile & p) -> AnalogueValue* { mmxu(p)->mutable_phv()->mutable_phsb()->mutable_cval()->mutable_mag(); }
+                   [](ResourceReadingProfile & p, float value)
+        {
+            mmxu(p)->mutable_phv()->mutable_phsb()->mutable_cval()->mutable_mag()->set_f(value);
+        }
                   );
 
         this->load(node, "phv.phsb.cval.ang",
-                   [](ResourceReadingProfile & p) -> AnalogueValue* { mmxu(p)->mutable_phv()->mutable_phsb()->mutable_cval()->mutable_ang(); }
+                   [](ResourceReadingProfile & p, float value)
+        {
+            mmxu(p)->mutable_phv()->mutable_phsb()->mutable_cval()->mutable_ang()->set_f(value);
+        }
                   );
 
         this->load(node, "phv.phsc.cval.mag",
-                   [](ResourceReadingProfile & p) -> AnalogueValue* { mmxu(p)->mutable_phv()->mutable_phsc()->mutable_cval()->mutable_mag(); }
+                   [](ResourceReadingProfile & p, float value)
+        {
+            mmxu(p)->mutable_phv()->mutable_phsc()->mutable_cval()->mutable_mag()->set_f(value);
+        }
                   );
 
         this->load(node, "phv.phsc.cval.ang",
-                   [](ResourceReadingProfile & p) -> AnalogueValue* { mmxu(p)->mutable_phv()->mutable_phsc()->mutable_cval()->mutable_ang(); }
+                   [](ResourceReadingProfile & p, float value)
+        {
+            mmxu(p)->mutable_phv()->mutable_phsc()->mutable_cval()->mutable_ang()->set_f(value);
+        }
                   );
 
 
         this->load(node, "phv.neut.cval.mag",
-                   [](ResourceReadingProfile & p) -> AnalogueValue* { mmxu(p)->mutable_phv()->mutable_neut()->mutable_cval()->mutable_mag(); }
+                   [](ResourceReadingProfile & p, float value)
+        {
+            mmxu(p)->mutable_phv()->mutable_neut()->mutable_cval()->mutable_mag()->set_f(value);
+        }
                   );
 
         this->load(node, "phv.net.cval.mag",
-                   [](ResourceReadingProfile & p) -> AnalogueValue* { mmxu(p)->mutable_phv()->mutable_net()->mutable_cval()->mutable_mag(); }
+                   [](ResourceReadingProfile & p, float value)
+        {
+            mmxu(p)->mutable_phv()->mutable_net()->mutable_cval()->mutable_mag()->set_f(value);
+        }
                   );
 
         this->load(node, "a.phsa.cval.mag",
-                   [](ResourceReadingProfile & p) -> AnalogueValue* { mmxu(p)->mutable_a()->mutable_phsa()->mutable_cval()->mutable_mag(); }
+                   [](ResourceReadingProfile & p, float value)
+        {
+            mmxu(p)->mutable_a()->mutable_phsa()->mutable_cval()->mutable_mag()->set_f(value);
+        }
                   );
 
         this->load(node, "a.phsb.cval.mag",
-                   [](ResourceReadingProfile & p) -> AnalogueValue* { mmxu(p)->mutable_a()->mutable_phsb()->mutable_cval()->mutable_mag(); }
+                   [](ResourceReadingProfile & p, float value)
+        {
+            mmxu(p)->mutable_a()->mutable_phsb()->mutable_cval()->mutable_mag()->set_f(value);
+        }
                   );
 
         this->load(node, "a.phsc.cval.mag",
-                   [](ResourceReadingProfile & p) -> AnalogueValue* { mmxu(p)->mutable_a()->mutable_phsc()->mutable_cval()->mutable_mag(); }
+                   [](ResourceReadingProfile & p, float value)
+        {
+            mmxu(p)->mutable_a()->mutable_phsc()->mutable_cval()->mutable_mag()->set_f(value);
+        }
                   );
 
         this->load(node, "a.neut.cval.mag",
-                   [](ResourceReadingProfile & p) -> AnalogueValue* { mmxu(p)->mutable_a()->mutable_neut()->mutable_cval()->mutable_mag(); }
+                   [](ResourceReadingProfile & p, float value)
+        {
+            mmxu(p)->mutable_a()->mutable_neut()->mutable_cval()->mutable_mag()->set_f(value);
+        }
                   );
 
         this->load(node, "a.net.cval.mag",
-                   [](ResourceReadingProfile & p) -> AnalogueValue* { mmxu(p)->mutable_a()->mutable_net()->mutable_cval()->mutable_mag(); }
+                   [](ResourceReadingProfile & p, float value)
+        {
+            mmxu(p)->mutable_a()->mutable_net()->mutable_cval()->mutable_mag()->set_f(value);
+        }
                   );
-
     }
 
     void PointMap::load_mmtr_mapping(const YAML::Node& node)
@@ -103,12 +152,12 @@ namespace openfmb
         // TODO: How should binary counters be extracted?
         /*
         this->load(node, "dmdvarh.actval",
-                   [](ResourceReadingProfile & p) -> AnalogueValue* { mmtr(p)->mutable_dmdvarh()->actval() }
+                   [](ResourceReadingProfile &p, float value) { mmtr(p)->mutable_dmdvarh()->actval() }
         );
         */
     }
 
-    void PointMap::load(const YAML::Node& parent, const std::string& name, select_fun_t select)
+    void PointMap::load(const YAML::Node& parent, const std::string& name, set_fun_t setter)
     {
         const auto node = parent[name];
 
@@ -136,7 +185,7 @@ namespace openfmb
             throw Exception("DNP3 index already mapped: ", index);
         }
 
-        this->analog_map[index] = AnalogRecord(select, scale);
+        this->analog_map[index] = AnalogRecord(setter, scale);
     }
 
 }

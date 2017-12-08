@@ -16,7 +16,6 @@ namespace openfmb
 
     class SOEHandler final : public opendnp3::ISOEHandler
     {
-
         virtual void Start() override;
         virtual void End() override;
 
@@ -48,6 +47,8 @@ namespace openfmb
         PointMap point_map;
         ResourceReadingProfile profile;
         std::shared_ptr<IProtoPublishers> publisher;
+
+        bool rrp_touched = false;
     };
 
 }

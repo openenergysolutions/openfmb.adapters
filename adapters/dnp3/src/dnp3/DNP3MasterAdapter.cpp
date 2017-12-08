@@ -3,6 +3,7 @@
 
 #include <asiodnp3/PrintingSOEHandler.h>
 #include <asiodnp3/DefaultMasterApplication.h>
+#include <opendnp3/LogLevels.h>
 
 using namespace openpal;
 using namespace opendnp3;
@@ -40,7 +41,7 @@ namespace openfmb
 
         return manager->AddTCPClient(
                    node["dnp3-log-id"].as<std::string>(),
-                   ~0,                                      // TODO - configure levels
+                   opendnp3::levels::NORMAL,                                      // TODO - configure levels
                    asiopal::ChannelRetry::Default(),
                    config["remote-ip"].as<std::string>(),
                    config["adapter"].as<std::string>(),

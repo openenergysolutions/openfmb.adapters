@@ -19,33 +19,33 @@ adapters:
             port                    : 20000
         link-layer                  :
             master-address          : 1
-            outstation-address      : 1024
+            outstation-address      : 10
         app-layer                   :
             integrity-poll-ms       : 5000
         breaker-reading-profile     :
                 terminal-id         : "what is this?"
                 mmxu                :
-                    hz.mag              : {index:  8,  scale: 1.0}
+                    hz.mag              : {index:  0,  scale: 1.0}
 
                     ppv.phsab.cval.mag  : {index: -1,  scale: 1.0}
                     ppv.phsbc.cval.mag  : {index: -1,  scale: 1.0}
                     ppv.phsca.cval.mag  : {index: -1,  scale: 1.0}
 
-                    phv.phsa.cval.mag   : {index:  0,  scale: 1.0}
-                    phv.phsa.cval.ang   : {index: 12,  scale: 1.0}
-                    phv.phsb.cval.mag   : {index:  1,  scale: 1.0}
-                    phv.phsb.cval.ang   : {index: 13,  scale: 1.0}
-                    phv.phsc.cval.mag   : {index:  2,  scale: 1.0}
-                    phv.phsc.cval.ang   : {index: 14,  scale: 1.0}
+                    phv.phsa.cval.mag   : {index: -1,  scale: 1.0}
+                    phv.phsa.cval.ang   : {index: -1,  scale: 1.0}
+                    phv.phsb.cval.mag   : {index: -1,  scale: 1.0}
+                    phv.phsb.cval.ang   : {index: -1,  scale: 1.0}
+                    phv.phsc.cval.mag   : {index: -1,  scale: 1.0}
+                    phv.phsc.cval.ang   : {index: -1,  scale: 1.0}
 
-                    phv.neut.cval.mag   : {index:  3,  scale: 1.0}
+                    phv.neut.cval.mag   : {index: -1,  scale: 1.0}
                     phv.net.cval.mag    : {index: -1,  scale: 1.0}
 
-                    a.phsa.cval.mag     : {index:  4,  scale: 1.0}
-                    a.phsb.cval.mag     : {index:  5,  scale: 1.0}
-                    a.phsc.cval.mag     : {index:  6,  scale: 1.0}
+                    a.phsa.cval.mag     : {index: -1,  scale: 1.0}
+                    a.phsb.cval.mag     : {index: -1,  scale: 1.0}
+                    a.phsc.cval.mag     : {index: -1,  scale: 1.0}
 
-                    a.neut.cval.mag     : {index:  7,  scale: 1.0}
+                    a.neut.cval.mag     : {index: -1,  scale: 1.0}
                     a.net.cval.mag      : {index: -1,  scale: 1.0}
 
                     # TODO remainder of MMXU
@@ -58,7 +58,7 @@ adapters:
                     TotVAh          : {index: -1,  scale: 1.0}
                     TotVArh         : {index: -1,  scale: 1.0}
                     TotWh           : {index: -1,  scale: 1.0}
-     -  type                  : "other-adapter-name"
+     -  type                  : "console-pretty-printer"
         enabled               :  false
 
 
