@@ -2,7 +2,8 @@
 #ifndef OPENFMB_ADAPTER_ISUBSCRIBER_H
 #define OPENFMB_ADAPTER_ISUBSCRIBER_H
 
-namespace openfmb {
+namespace openfmb
+{
 
     /**
      * Callback interface invoked to notify a subscriber of a new message
@@ -10,7 +11,8 @@ namespace openfmb {
      * @tparam T type of message the subscriber processes
      */
     template <class T>
-    class ISubscriber {
+    class ISubscriber
+    {
     public:
         virtual ~ISubscriber() {}
 

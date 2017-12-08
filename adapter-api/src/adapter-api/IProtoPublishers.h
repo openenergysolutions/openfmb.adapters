@@ -4,12 +4,14 @@
 
 #include "proto/ResourceReadingProfile.pb.h"
 
-namespace openfmb {
+namespace openfmb
+{
 
     /**
      * Interface used to publish messages internally to the adapter application
      */
-    class IProtoPublishers {
+    class IProtoPublishers
+    {
 
     public:
 

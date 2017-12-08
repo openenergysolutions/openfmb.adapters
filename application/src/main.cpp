@@ -16,7 +16,8 @@ std::vector<std::unique_ptr<IAdapter>> init_adapters(const YAML::Node& adapter_l
 
 int main(int argc, char** argv)
 {
-    if(argc != 2) {
+    if(argc != 2)
+    {
         std::cerr << "usage: " << std::endl;
         std::cerr << "openfmb-adapter <config file>" << std::endl;
         return -1;
@@ -36,7 +37,8 @@ int main(int argc, char** argv)
     bus->finalize();
 
     // start the adapters running/publishing to the bus
-    for(auto& adapter: adapters) {
+    for(auto& adapter : adapters)
+    {
         adapter->start(*bus);
     }
 
@@ -51,11 +53,13 @@ std::vector<std::unique_ptr<IAdapter>> init_adapters(const YAML::Node& adapter_l
     std::vector<std::unique_ptr<IAdapter>> adapters;
 
     // loop over the adapters initializing them
-    for(YAML::const_iterator it = adapter_list.begin(); it != adapter_list.end(); ++it) {
+    for(YAML::const_iterator it = adapter_list.begin(); it != adapter_list.end(); ++it)
+    {
         const auto type = (*it)["type"].as<std::string>();
         const auto enabled = (*it)["enabled"].as<bool>();
-        if(enabled) {
-            std::cout << "initializing: "<< type << std::endl;
+        if(enabled)
+        {
+            std::cout << "initializing: " << type << std::endl;
             adapters.push_back(registry.find(type).create(*it, subscribers));
         }
     }

@@ -7,22 +7,23 @@
 
 #include <thread>
 
-namespace openfmb {
+namespace openfmb
+{
 
-DNP3MasterFactory::DNP3MasterFactory() :
-    manager(
+    DNP3MasterFactory::DNP3MasterFactory() :
+        manager(
             std::make_shared<asiodnp3::DNP3Manager>(
-                    std::thread::hardware_concurrency(),
-                    asiodnp3::ConsoleLogger::Create()
+                std::thread::hardware_concurrency(),
+                asiodnp3::ConsoleLogger::Create()
             )
-    )
-{
+        )
+    {
 
-}
+    }
 
-std::unique_ptr<IAdapter> DNP3MasterFactory::create(const YAML::Node& node, IProtoSubscribers& subscribers) const
-{
-    return std::make_unique<DNP3MasterAdapter>(this->manager, node, subscribers);
-}
+    std::unique_ptr<IAdapter> DNP3MasterFactory::create(const YAML::Node& node, IProtoSubscribers& subscribers) const
+    {
+        return std::make_unique<DNP3MasterAdapter>(this->manager, node, subscribers);
+    }
 
 }

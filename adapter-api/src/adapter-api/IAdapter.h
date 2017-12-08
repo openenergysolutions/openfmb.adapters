@@ -7,9 +7,11 @@
 
 #include "yaml-cpp/yaml.h"
 
-namespace openfmb {
+namespace openfmb
+{
 
-    class IAdapter {
+    class IAdapter
+    {
     public:
         virtual ~IAdapter() {}
 
@@ -22,7 +24,8 @@ namespace openfmb {
      * An adapter is something that can read a YAML configuration,
      * and create an instance of an IAdapter
      */
-    class IAdapterFactory {
+    class IAdapterFactory
+    {
     public:
         virtual ~IAdapterFactory() {}
 

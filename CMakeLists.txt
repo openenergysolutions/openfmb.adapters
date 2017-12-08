@@ -21,7 +21,7 @@ add_subdirectory(./adapters/dnp3)
 add_subdirectory(./application)
 
 add_custom_target(
-        FORMAT
+        format
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
         COMMAND astyle ${CPP_FORMAT_DIRS} --options=./astyle.cfg
 )

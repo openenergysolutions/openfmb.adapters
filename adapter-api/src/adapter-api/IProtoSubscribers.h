@@ -8,12 +8,14 @@
 
 #include <memory>
 
-namespace openfmb {
+namespace openfmb
+{
 
     /**
     * Interface used to subscribe to messages internally to the adapter application
     */
-    class IProtoSubscribers {
+    class IProtoSubscribers
+    {
 
     public:
 

@@ -7,7 +7,8 @@
 
 #include <vector>
 
-namespace openfmb {
+namespace openfmb
+{
 
     class ProtoBus final : public IProtoSubscribers, public IProtoPublishers
     {

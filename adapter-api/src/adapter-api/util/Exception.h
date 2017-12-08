@@ -22,7 +22,7 @@ namespace openfmb
 
         template <class T, class... Args>
         Exception(T t, Args... args) :
-                std::runtime_error(strings::join(t, args...))
+            std::runtime_error(strings::join(t, args...))
         {
 
         }

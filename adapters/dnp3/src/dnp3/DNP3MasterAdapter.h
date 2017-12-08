@@ -10,7 +10,8 @@
 
 #include <asiodnp3/DNP3Manager.h>
 
-namespace openfmb {
+namespace openfmb
+{
 
     class DNP3MasterAdapter final : public IAdapter
     {

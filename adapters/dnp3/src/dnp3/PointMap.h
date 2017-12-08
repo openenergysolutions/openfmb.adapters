@@ -9,19 +9,22 @@
 #include <map>
 #include <functional>
 
-namespace openfmb {
+namespace openfmb
+{
 
-    class PointMap {
+    class PointMap
+    {
 
         typedef AnalogueValue* (*select_fun_t)(ResourceReadingProfile& rrp);
 
-        struct AnalogRecord {
+        struct AnalogRecord
+        {
 
             AnalogRecord() = default;
 
             AnalogRecord(select_fun_t select, double scale) :
-            select(select),
-            scale(scale)
+                select(select),
+                scale(scale)
             {}
 
             select_fun_t select = nullptr;

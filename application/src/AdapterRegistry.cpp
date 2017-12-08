@@ -13,7 +13,8 @@ AdapterRegistry::AdapterRegistry()
 openfmb::IAdapterFactory& AdapterRegistry::find(const std::string& id)
 {
     auto adapter = this->lookup.find(id);
-    if(adapter == this->lookup.end()) {
+    if(adapter == this->lookup.end())
+    {
         throw openfmb::Exception("Unknown adapter id: ", id);
     }
     return *(adapter->second);

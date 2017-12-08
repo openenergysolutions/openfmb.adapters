@@ -6,7 +6,8 @@
 
 #include "adapter-api/IAdapter.h"
 
-class AdapterRegistry {
+class AdapterRegistry
+{
 
 public:
 
