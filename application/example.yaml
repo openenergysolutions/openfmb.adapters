@@ -6,6 +6,7 @@ application:  # top-level application settings
 adapters:
      # this level contains a sequence of adapters using their unique "type"
      -  type                  : "dnp3-master"
+        enabled               :  true
         name                  : "SEL 351-A"
         source-application-id : "RANKIN.1208.XCBR.1"
         mRID                  : "157b6053-e35c-42bc-a6b5-c7a5846f6f25"
@@ -25,25 +26,32 @@ adapters:
                 terminal-id         : "what is this?"
                 mmxu                :
                     hz.mag              : {index:  8,  scale: 1.0}
+
                     ppv.phsab.cval.mag  : {index: -1,  scale: 1.0}
-                    PPV_phsBC           : {index: -1,  scale: 1.0}
-                    PPV_phsCA           : {index: -1,  scale: 1.0}
-                    PhV_phsA            : {index:  0,  scale: 1.0}
-                    PhV_phsA_Angle      : {index: 12,  scale: 1.0}
-                    PhV_phsB            : {index:  1,  scale: 1.0}
-                    PhV_phsB_Angle      : {index: 13,  scale: 1.0}
-                    PhV_phsC            : {index:  2,  scale: 1.0}
-                    PhV_phsC_Angle      : {index: 14,  scale: 1.0}
-                    PhV_neut            : {index:  3,  scale: 1.0}
-                    PhV_net             : {index: -1,  scale: 1.0}
-                    A_phsA              : {index:  4,  scale: 1.0}
-                    A_phsB              : {index:  5,  scale: 1.0}
-                    A_phsC              : {index:  6,  scale: 1.0}
-                    A_neut              : {index:  7,  scale: 1.0}
-                    A_net               : {index: -1,  scale: 1.0}
+                    ppv.phsbc.cval.mag  : {index: -1,  scale: 1.0}
+                    ppv.phsca.cval.mag  : {index: -1,  scale: 1.0}
+
+                    phv.phsa.cval.mag   : {index:  0,  scale: 1.0}
+                    phv.phsa.cval.ang   : {index: 12,  scale: 1.0}
+                    phv.phsb.cval.mag   : {index:  1,  scale: 1.0}
+                    phv.phsa.cval.ang   : {index: 13,  scale: 1.0}
+                    phv.phsc.cval.mag   : {index:  2,  scale: 1.0}
+                    phv.phsa.cval.ang   : {index: 14,  scale: 1.0}
+
+                    phv.neut.cval.mag   : {index:  3,  scale: 1.0}
+                    phv.net.cval.mag    : {index: -1,  scale: 1.0}
+
+                    a.phsa.cval.mag     : {index:  4,  scale: 1.0}
+                    a.phsb.cval.mag     : {index:  5,  scale: 1.0}
+                    a.phsc.cval.mag     : {index:  6,  scale: 1.0}
+
+                    a.neut.cval.mag     : {index:  7,  scale: 1.0}
+                    a.net.cval.mag      : {index: -1,  scale: 1.0}
+
                     W_phsA              : {index: -1,  scale: 1.0}
                     W_phsB              : {index: -1,  scale: 1.0}
                     W_phsC              : {index: -1,  scale: 1.0}
+
                     W_neut              : {index: -1,  scale: 1.0}
                     W_net               : {index:  9,  scale: 1.0}
                     VAr_phsA            : {index: -1,  scale: 1.0}
@@ -65,5 +73,6 @@ adapters:
                     TotVArh         : {index: -1,  scale: 1.0}
                     TotWh           : {index: -1,  scale: 1.0}
      -  type                  : "other-adapter-name"
+        enabled               :  false
 
 

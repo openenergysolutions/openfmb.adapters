@@ -24,6 +24,24 @@ namespace openfmb {
 
     void PointMap::load_mmxu_mapping(const YAML::Node& node)
     {
+        this->add_analogue_handlers(node,
+            {
+                    {
+                            "hz.mag",
+                            [](ResourceReadingProfile& p) -> AnalogueValue* { mmxu(p)->mutable_hz()->mutable_mag(); }
+                    },
+                    {
+                            "ppv.phsab.cval.mag",
+                            [](ResourceReadingProfile& p) -> AnalogueValue* { mmxu(p)->mutable_hz()->mutable_mag(); }
+                    },
+                    {
+                            "ppv.phsbc.cval.mag",
+                            [](ResourceReadingProfile& p) -> AnalogueValue* { mmxu(p)->mutable_ppv()->mutable_phsbc()->mutable_cval()->mutable_mag(); }
+                    }
+            }
+        );
+
+        /*
 
         this->add_analogue_handler(
             node["hz.mag"],
@@ -140,17 +158,40 @@ namespace openfmb {
 
         this->add_analogue_handler(
             node["a.net.cval.mag"],
-            [](ResourceReadingProfile& p) -> AnalogueValue* {
-                mmxu(p)->mutable_a()->mutable_net()->mutable_cval()->mutable_mag();
-            }
+            [](ResourceReadingProfile& p) -> AnalogueValue* { mmxu(p)->mutable_a()->mutable_net()->mutable_cval()->mutable_mag(); }
         );
 
+
+        */
     }
 
-    void PointMap::add_analogue_handler(const YAML::Node& node, select_fun_t select)
+    void PointMap::add_analogue_handlers(const YAML::Node& node, const std::initializer_list<std::pair<std::string, select_fun_t>>& points)
     {
-        const auto index = node["index"].as<std::uint16_t>();
+        for(auto& point : points) {
+            this->add_analogue_handler(node, point.first, point.second);
+        }
+    }
+
+    void PointMap::add_analogue_handler(const YAML::Node& base_node, const std::string& name, select_fun_t select)
+    {
+        const auto node = base_node[name];
+
+        if(!node) {
+            throw Exception("Measurement mapping not specified: ", name);
+        }
+
+        const auto long_index = node["index"].as<int32_t>();
+
+        // negative indices are ignored
+        if(long_index < 0) return;
+
         const auto scale = node["scale"].as<double>();
+
+        if(long_index > std::numeric_limits<uint16_t>::max()) {
+            throw Exception("Index exceeds max ushort: ", long_index);
+        }
+
+        const auto index = static_cast<uint16_t>(long_index);
 
         if(this->analog_map.find(index) != this->analog_map.end()) {
             throw Exception("DNP3 index already mapped: ", index);

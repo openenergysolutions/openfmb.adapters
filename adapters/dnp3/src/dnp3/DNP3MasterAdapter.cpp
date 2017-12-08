@@ -16,7 +16,7 @@ namespace openfmb {
             IProtoSubscribers& subscribers
     ) :
         point_map(create_point_map(node)),
-        channel(create_channel(manager, node["channel"])),
+        channel(create_channel(manager, node)),
         master(create_master(channel, node))
     {
 
@@ -27,9 +27,9 @@ namespace openfmb {
         // TODO
     }
 
-    DNP3MasterAdapter::point_map_t DNP3MasterAdapter::create_point_map(const YAML::Node& node)
+    DNP3MasterAdapter::point_map_t DNP3MasterAdapter::create_point_map(const YAML::Node& parent)
     {
-        return std::make_shared<PointMap>(node["breaker-reading-profile"]);
+        return std::make_shared<PointMap>(parent["breaker-reading-profile"]);
     }
 
     DNP3MasterAdapter::channel_t DNP3MasterAdapter::create_channel(const manager_t& manager, const YAML::Node& node)

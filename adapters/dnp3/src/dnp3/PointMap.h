@@ -42,7 +42,8 @@ namespace openfmb {
         }
 
         void load_mmxu_mapping(const YAML::Node& node);
-        void add_analogue_handler(const YAML::Node& node, select_fun_t select);
+        void add_analogue_handlers(const YAML::Node& node, const std::initializer_list<std::pair<std::string, select_fun_t>>& points);
+        void add_analogue_handler(const YAML::Node& node, const std::string& name, select_fun_t select);
 
         std::map<uint16_t, AnalogRecord> analog_map;
 
