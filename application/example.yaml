@@ -15,7 +15,7 @@ adapters:
         channel               :
             type                    : "tcp-client"
             adapter                 : "0.0.0.0"
-            remote-ip               : "172.168.1.90"
+            remote-ip               : "127.0.0.1"
             port                    : 20000
         link-layer                  :
             master-address          : 1
@@ -34,9 +34,9 @@ adapters:
                     phv.phsa.cval.mag   : {index:  0,  scale: 1.0}
                     phv.phsa.cval.ang   : {index: 12,  scale: 1.0}
                     phv.phsb.cval.mag   : {index:  1,  scale: 1.0}
-                    phv.phsa.cval.ang   : {index: 13,  scale: 1.0}
+                    phv.phsb.cval.ang   : {index: 13,  scale: 1.0}
                     phv.phsc.cval.mag   : {index:  2,  scale: 1.0}
-                    phv.phsa.cval.ang   : {index: 14,  scale: 1.0}
+                    phv.phsc.cval.ang   : {index: 14,  scale: 1.0}
 
                     phv.neut.cval.mag   : {index:  3,  scale: 1.0}
                     phv.net.cval.mag    : {index: -1,  scale: 1.0}
@@ -48,22 +48,8 @@ adapters:
                     a.neut.cval.mag     : {index:  7,  scale: 1.0}
                     a.net.cval.mag      : {index: -1,  scale: 1.0}
 
-                    W_phsA              : {index: -1,  scale: 1.0}
-                    W_phsB              : {index: -1,  scale: 1.0}
-                    W_phsC              : {index: -1,  scale: 1.0}
+                    # TODO remainder of MMXU
 
-                    W_neut              : {index: -1,  scale: 1.0}
-                    W_net               : {index:  9,  scale: 1.0}
-                    VAr_phsA            : {index: -1,  scale: 1.0}
-                    VAr_phsB            : {index: -1,  scale: 1.0}
-                    VAr_phsC            : {index: -1,  scale: 1.0}
-                    VAr_neut            : {index: -1,  scale: 1.0}
-                    VAr_net             : {index: 10,  scale: 1.0}
-                    VA_phsA             : {index: -1,  scale: 1.0}
-                    VA_phsB             : {index: -1,  scale: 1.0}
-                    VA_phsC             : {index: -1,  scale: 1.0}
-                    VA_neut             : {index: -1,  scale: 1.0}
-                    VA_net              : {index: 11,  scale: 1.0}
                 mmtr                :
                     DmdVArh         : {index: -1,  scale: 1.0}
                     DmdWh           : {index: -1,  scale: 1.0}

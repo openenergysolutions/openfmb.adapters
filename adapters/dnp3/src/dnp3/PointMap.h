@@ -44,7 +44,13 @@ namespace openfmb
             return rrp.mutable_resourcereadingvalue()->mutable_readingmmxu();
         }
 
+        static ReadingMMTR* mmtr(ResourceReadingProfile& rrp)
+        {
+            return rrp.mutable_resourcereadingvalue()->mutable_readingmmtr();
+        }
+
         void load_mmxu_mapping(const YAML::Node& node);
+        void load_mmtr_mapping(const YAML::Node& node);
 
         void load(const YAML::Node& parent, const std::string& name, select_fun_t select);
 

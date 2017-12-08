@@ -4,7 +4,7 @@
 
 #include "adapter-api/IAdapter.h"
 
-#include "PointMap.h"
+#include "SOEHandler.h"
 
 #include <memory>
 
@@ -18,7 +18,8 @@ namespace openfmb
         typedef std::shared_ptr<asiodnp3::DNP3Manager> manager_t;
         typedef std::shared_ptr<asiodnp3::IChannel> channel_t;
         typedef std::shared_ptr<asiodnp3::IMaster> master_t;
-        typedef std::shared_ptr<PointMap> point_map_t;
+        typedef std::shared_ptr<SOEHandler> data_handler_t;
+
 
     public:
 
@@ -26,19 +27,19 @@ namespace openfmb
 
         DNP3MasterAdapter(const manager_t& manager, const YAML::Node& node, IProtoSubscribers& subscribers);
 
-        virtual void start(IProtoPublishers& publishers) override;
+        virtual void start(const std::shared_ptr<IProtoPublishers>& publishers) override;
 
     private:
 
-        const point_map_t point_map;
+        const data_handler_t data_handler;
         const channel_t channel;
         const master_t master;
 
         // --- helper methods for creating resources ---
 
-        static point_map_t create_point_map(const YAML::Node& node);
+        static data_handler_t create_data_handler(const YAML::Node& node);
         static channel_t create_channel(const manager_t& manager, const YAML::Node& node);
-        static master_t create_master(const channel_t& channel, const YAML::Node& node);
+        static master_t create_master(const channel_t& channel, const data_handler_t& data_handler, const YAML::Node& node);
 
     };
 

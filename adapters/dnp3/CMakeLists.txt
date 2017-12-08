@@ -1,15 +1,17 @@
 
 
 set(DNP3_HEADERS
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/dnp3/DNP3MasterAdapter.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/dnp3/DNP3MasterFactory.h
+        src/dnp3/DNP3MasterAdapter.h
+        src/dnp3/DNP3MasterFactory.h
         src/dnp3/PointMap.h
+        src/dnp3/SOEHandler.h
 )
 
 set(DNP3_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/dnp3/DNP3MasterFactory.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/dnp3/DNP3MasterAdapter.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/dnp3/PointMap.cpp
+        src/dnp3/DNP3MasterFactory.cpp
+        src/dnp3/DNP3MasterAdapter.cpp
+        src/dnp3/PointMap.cpp
+        src/dnp3/SOEHandler.cpp
 )
 
 set(DNP3_LIBS asiodnp3 asiopal opendnp3 openpal)

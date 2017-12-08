@@ -43,7 +43,6 @@ namespace openfmb
                    [](ResourceReadingProfile & p) -> AnalogueValue* { mmxu(p)->mutable_ppv()->mutable_phsca()->mutable_cval()->mutable_mag(); }
                   );
 
-
         this->load(node, "phv.phsa.cval.mag",
                    [](ResourceReadingProfile & p)  -> AnalogueValue* { mmxu(p)->mutable_phv()->mutable_phsa()->mutable_cval()->mutable_mag(); }
                   );
@@ -96,7 +95,17 @@ namespace openfmb
         this->load(node, "a.net.cval.mag",
                    [](ResourceReadingProfile & p) -> AnalogueValue* { mmxu(p)->mutable_a()->mutable_net()->mutable_cval()->mutable_mag(); }
                   );
-        
+
+    }
+
+    void PointMap::load_mmtr_mapping(const YAML::Node& node)
+    {
+        // TODO: How should binary counters be extracted?
+        /*
+        this->load(node, "dmdvarh.actval",
+                   [](ResourceReadingProfile & p) -> AnalogueValue* { mmtr(p)->mutable_dmdvarh()->actval() }
+        );
+        */
     }
 
     void PointMap::load(const YAML::Node& parent, const std::string& name, select_fun_t select)

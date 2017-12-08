@@ -16,7 +16,7 @@ namespace openfmb
         virtual ~IAdapter() {}
 
         // start the execution of the adapter
-        virtual void start(IProtoPublishers& publishers) = 0;
+        virtual void start(const std::shared_ptr<IProtoPublishers>& publisher) = 0;
     };
 
 

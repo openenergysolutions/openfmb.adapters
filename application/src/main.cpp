@@ -39,7 +39,7 @@ int main(int argc, char** argv)
     // start the adapters running/publishing to the bus
     for(auto& adapter : adapters)
     {
-        adapter->start(*bus);
+        adapter->start(bus);
     }
 
     std::cout << "Press Enter to Continue";

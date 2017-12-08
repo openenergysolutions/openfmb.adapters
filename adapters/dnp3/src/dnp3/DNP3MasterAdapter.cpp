@@ -16,21 +16,22 @@ namespace openfmb
         const YAML::Node& node,
         IProtoSubscribers& subscribers
     ) :
-        point_map(create_point_map(node)),
+        data_handler(create_data_handler(node)),
         channel(create_channel(manager, node)),
-        master(create_master(channel, node))
+        master(create_master(channel, data_handler, node))
     {
 
     }
 
-    void DNP3MasterAdapter::start(IProtoPublishers& publishers)
+    void DNP3MasterAdapter::start(const std::shared_ptr<IProtoPublishers>& publisher)
     {
-        // TODO
+        this->data_handler->set_publisher(publisher);
+        this->master->Enable();
     }
 
-    DNP3MasterAdapter::point_map_t DNP3MasterAdapter::create_point_map(const YAML::Node& parent)
+    DNP3MasterAdapter::data_handler_t DNP3MasterAdapter::create_data_handler(const YAML::Node& node)
     {
-        return std::make_shared<PointMap>(parent["breaker-reading-profile"]);
+        return std::make_shared<SOEHandler>(node["breaker-reading-profile"]);
     }
 
     DNP3MasterAdapter::channel_t DNP3MasterAdapter::create_channel(const manager_t& manager, const YAML::Node& node)
@@ -48,7 +49,7 @@ namespace openfmb
                );
     }
 
-    DNP3MasterAdapter::master_t DNP3MasterAdapter::create_master(const channel_t& channel, const YAML::Node& node)
+    DNP3MasterAdapter::master_t DNP3MasterAdapter::create_master(const channel_t& channel, const data_handler_t& data_handler, const YAML::Node& node)
     {
         MasterStackConfig config;
 
@@ -64,7 +65,7 @@ namespace openfmb
 
         auto master = channel->AddMaster(
                           node["dnp3-log-id"].as<std::string>(),
-                          PrintingSOEHandler::Create(),               // TODO - use PublishingSOEHandler
+                          data_handler,
                           DefaultMasterApplication::Create(),
                           config
                       );
