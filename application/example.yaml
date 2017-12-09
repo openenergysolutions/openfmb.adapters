@@ -59,6 +59,6 @@ adapters:
                     TotVArh         : {index: -1,  scale: 1.0}
                     TotWh           : {index: -1,  scale: 1.0}
      -  type                  : "console-pretty-printer"
-        enabled               :  false
-
-
+        enabled               :  true
+        print-profiles        :
+            breaker-reading   : true

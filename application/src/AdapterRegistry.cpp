@@ -2,12 +2,14 @@
 #include "AdapterRegistry.h"
 
 #include "dnp3/DNP3MasterFactory.h"
+#include "console/ConsoleAdapterFactory.h"
 
 #include "adapter-api/util/Exception.h"
 
 AdapterRegistry::AdapterRegistry()
 {
     this->add(std::make_unique<openfmb::DNP3MasterFactory>());
+    this->add(std::make_unique<openfmb::ConsoleAdapterFactory>());
 }
 
 openfmb::IAdapterFactory& AdapterRegistry::find(const std::string& id)

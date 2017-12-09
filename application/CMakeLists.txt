@@ -14,6 +14,8 @@ SET(CPP_FORMAT_DIRS
         PARENT_SCOPE
 )
 
+SET(ADAPTERS dnp3-adapter console-adapter)
+
 add_executable(openfmb-adapter ${OPENFMB_ADAPTER_SOURCES})
-target_link_libraries(openfmb-adapter dnp3-adapter)
+target_link_libraries(openfmb-adapter ${ADAPTERS})
 

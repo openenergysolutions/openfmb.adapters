@@ -49,7 +49,13 @@ SET(API_HEADERS
     src/adapter-api/IProtoSubscribers.h
 	src/adapter-api/util/Exception.h
 	src/adapter-api/util/StringUtil.h
+	src/adapter-api/util/YAMLUtil.h
 )
+
+SET(API_SOURCES
+	src/adapter-api/util/YAMLUtil.cpp
+)
+
 
 # directories to be automatically formatted by astyle
 SET(CPP_FORMAT_DIRS
@@ -68,7 +74,7 @@ add_custom_command(
     COMMENT "Generating openfmb protos..."
 )
 
-add_library(adapter-api ${PROTO_SOURCES} ${PROTO_HEADERS} ${API_HEADERS})
+add_library(adapter-api ${PROTO_SOURCES} ${PROTO_HEADERS} ${API_SOURCES} ${API_HEADERS})
 target_include_directories(adapter-api PUBLIC ${PROTO_OUTPUT_DIR})
 target_include_directories(adapter-api INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/src")
 target_link_libraries(adapter-api PUBLIC protobuf)

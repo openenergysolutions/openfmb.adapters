@@ -11,7 +11,7 @@ namespace openfmb
 
         virtual const char* name() const override
         {
-            return "console";
+            return "console-pretty-printer";
         }
 
         virtual std::unique_ptr<IAdapter> create(const YAML::Node& node, IProtoSubscribers& subscribers) const override;
