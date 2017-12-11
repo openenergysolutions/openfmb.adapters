@@ -45,6 +45,7 @@ SET(PROTO_SOURCES
 
 SET(API_HEADERS
     src/adapter-api/ISubscriber.h
+	src/adapter-api/ProfileNames.h
     src/adapter-api/IProtoPublishers.h
     src/adapter-api/IProtoSubscribers.h
 	src/adapter-api/util/Exception.h
@@ -54,7 +55,7 @@ SET(API_HEADERS
 
 SET(API_SOURCES
 	src/adapter-api/util/YAMLUtil.cpp
-)
+		src/adapter-api/ProfileNames.h)
 
 
 # directories to be automatically formatted by astyle

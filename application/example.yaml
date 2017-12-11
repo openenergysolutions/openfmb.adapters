@@ -4,13 +4,16 @@ application:  # top-level application settings
 
 # a sequence of adapters
 adapters:
+
      # this level contains a sequence of adapters using their unique "type"
+
+     #  DNP3 master adapter
      -  type                  : "dnp3-master"
         enabled               :  true
-        name                  : "SEL 351-A"
-        source-application-id : "RANKIN.1208.XCBR.1"
-        mRID                  : "157b6053-e35c-42bc-a6b5-c7a5846f6f25"
-        desc                  : "Circuit breaker at the head of Rankin feeder 1208"
+        #name                  : "SEL 351-A"
+        #source-application-id : "RANKIN.1208.XCBR.1"
+        #mRID                  : "157b6053-e35c-42bc-a6b5-c7a5846f6f25"
+        #desc                  : "Circuit breaker at the head of Rankin feeder 1208"
         dnp3-log-id           : "sel351-master"
         channel               :
             type                    : "tcp-client"
@@ -22,7 +25,7 @@ adapters:
             outstation-address      : 10
         app-layer                   :
             integrity-poll-ms       : 5000
-        breaker-reading-profile     :
+        resource-reading            :
                 terminal-id         : "what is this?"
                 mmxu                :
                     hz.mag              : {index:  0,  scale: 1.0}
@@ -58,7 +61,17 @@ adapters:
                     TotVAh          : {index: -1,  scale: 1.0}
                     TotVArh         : {index: -1,  scale: 1.0}
                     TotWh           : {index: -1,  scale: 1.0}
+
+     #  adapter that just prints published messages to the console
      -  type                  : "console-pretty-printer"
         enabled               :  true
         print-profiles        :
-            breaker-reading   : true
+            resource-reading  : true
+
+     #  twinoaks DDS adapter
+     -  type                  : "twinoaks-dds"
+        enabled               : false
+        domain_id             : 0
+        publishers            :
+            # subscribe to and publish these profiles via DDS
+            resource-reading   : true

@@ -7,13 +7,15 @@
 #include <yaml-cpp/node/detail/iterator.h>
 #include <yaml-cpp/node/detail/node.h>
 
+#include "adapter-api/util/YAMLUtil.h"
+
 namespace openfmb
 {
 
 
     PointMap::PointMap(const YAML::Node& node)
     {
-        this->load_mmxu_mapping(node["mmxu"]);
+        this->load_mmxu_mapping(yaml::require(node, "mmxu"));
     }
 
     bool PointMap::apply(uint16_t index, double value, ResourceReadingProfile& profile) const

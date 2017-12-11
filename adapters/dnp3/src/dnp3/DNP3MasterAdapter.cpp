@@ -5,6 +5,8 @@
 #include <asiodnp3/DefaultMasterApplication.h>
 #include <opendnp3/LogLevels.h>
 
+#include "adapter-api/ProfileNames.h"
+
 using namespace openpal;
 using namespace opendnp3;
 using namespace asiodnp3;
@@ -17,7 +19,7 @@ namespace openfmb
         const YAML::Node& node,
         IProtoSubscribers& subscribers
     ) :
-        data_handler(create_data_handler(node)),
+        data_handler(std::make_shared<SOEHandler>(node[profiles::resource_reading])),
         channel(create_channel(manager, node)),
         master(create_master(channel, data_handler, node))
     {
@@ -28,11 +30,6 @@ namespace openfmb
     {
         this->data_handler->set_publisher(publisher);
         this->master->Enable();
-    }
-
-    DNP3MasterAdapter::data_handler_t DNP3MasterAdapter::create_data_handler(const YAML::Node& node)
-    {
-        return std::make_shared<SOEHandler>(node["breaker-reading-profile"]);
     }
 
     DNP3MasterAdapter::channel_t DNP3MasterAdapter::create_channel(const manager_t& manager, const YAML::Node& node)

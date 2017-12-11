@@ -1,11 +1,12 @@
 
-
-
 #include "adapter-api/util/Exception.h"
 #include "adapter-api/IAdapter.h"
+#include "adapter-api/util/YAMLUtil.h"
 
 #include "AdapterRegistry.h"
 #include "ProtoBus.h"
+
+
 
 #include <fstream>
 #include <iostream>
@@ -31,7 +32,7 @@ int main(int argc, char** argv)
     // adapters publish and subscribe to this common bus
     const auto bus = std::make_shared<ProtoBus>();
 
-    const auto adapters = init_adapters(yaml_root["adapters"], registry, *bus);
+    const auto adapters = init_adapters(yaml::require(yaml_root, "adapters"), registry, *bus);
 
     // don't allow any more subscriptions to the bus (effectively make it immutable)
     bus->finalize();

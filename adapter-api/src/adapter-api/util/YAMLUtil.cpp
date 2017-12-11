@@ -12,7 +12,7 @@ namespace openfmb
         {
             const auto child = parent[key];
             if(!child) {
-                throw Exception("YAML node missing required key: ", key);
+                throw Exception("YAML node missing required key: '", key, "'");
             }
             return child;
         }

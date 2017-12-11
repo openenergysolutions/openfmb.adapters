@@ -19,9 +19,7 @@ namespace openfmb
     }
 
     SOEHandler::SOEHandler(const YAML::Node& parent) : point_map(parent)
-    {
-        //this->profile.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_hz()->mutable_mag()->set_f(10.0);
-    }
+    {}
 
     void SOEHandler::Process(const opendnp3::HeaderInfo& info, const opendnp3::ICollection<opendnp3::Indexed<opendnp3::Binary>>& values)
     {}

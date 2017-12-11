@@ -5,6 +5,8 @@
 
 #include <iostream>
 
+#include "adapter-api/ProfileNames.h"
+
 namespace openfmb
 {
 
@@ -23,7 +25,7 @@ namespace openfmb
     {
         const auto profiles = yaml::require(node, "print-profiles");
 
-        if(yaml::require(profiles, "breaker-reading").as<bool>())
+        if(yaml::require(profiles, profiles::resource_reading).as<bool>())
         {
             subscribers.subscribe(std::make_shared<Printer<ResourceReadingProfile>>());
         }

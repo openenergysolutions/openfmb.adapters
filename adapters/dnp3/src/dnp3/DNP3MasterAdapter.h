@@ -1,4 +1,3 @@
-
 #ifndef OPENFMB_ADAPTER_DNP3MASTERADAPTER_H
 #define OPENFMB_ADAPTER_DNP3MASTERADAPTER_H
 
@@ -37,7 +36,6 @@ namespace openfmb
 
         // --- helper methods for creating resources ---
 
-        static data_handler_t create_data_handler(const YAML::Node& node);
         static channel_t create_channel(const manager_t& manager, const YAML::Node& node);
         static master_t create_master(const channel_t& channel, const data_handler_t& data_handler, const YAML::Node& node);
 
