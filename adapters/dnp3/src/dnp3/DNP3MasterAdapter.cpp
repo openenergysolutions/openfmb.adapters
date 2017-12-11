@@ -4,6 +4,7 @@
 #include <asiodnp3/PrintingSOEHandler.h>
 #include <asiodnp3/DefaultMasterApplication.h>
 #include <opendnp3/LogLevels.h>
+#include <adapter-api/util/YAMLUtil.h>
 
 #include "adapter-api/ProfileNames.h"
 
@@ -19,7 +20,11 @@ namespace openfmb
         const YAML::Node& node,
         IProtoSubscribers& subscribers
     ) :
-        data_handler(std::make_shared<SOEHandler>(node[profiles::resource_reading])),
+        data_handler(
+            std::make_shared<SOEHandler>(
+                yaml::require(node, profiles::resource_reading)
+            )
+        ),
         channel(create_channel(manager, node)),
         master(create_master(channel, data_handler, node))
     {
@@ -34,15 +39,15 @@ namespace openfmb
 
     DNP3MasterAdapter::channel_t DNP3MasterAdapter::create_channel(const manager_t& manager, const YAML::Node& node)
     {
-        const auto& config = node["channel"];
+        const auto config = yaml::require(node, "channel");
 
         return manager->AddTCPClient(
-                   node["dnp3-log-id"].as<std::string>(),
-                   opendnp3::levels::NORMAL,                                      // TODO - configure levels
+                   yaml::require(node, "dnp3-log-id").as<std::string>(),
+                   opendnp3::levels::NORMAL,
                    asiopal::ChannelRetry::Default(),
-                   config["remote-ip"].as<std::string>(),
-                   config["adapter"].as<std::string>(),
-                   config["port"].as<std::uint16_t>(),
+                   yaml::require(config, "remote-ip").as<std::string>(),
+                   yaml::require(config, "adapter").as<std::string>(),
+                   yaml::require(config, "port").as<std::uint16_t>(),
                    nullptr                                  // no channel listener
                );
     }
@@ -52,9 +57,9 @@ namespace openfmb
         MasterStackConfig config;
 
         {
-            const auto& link = node["link-layer"];
-            config.link.LocalAddr = link["master-address"].as<std::uint16_t>();
-            config.link.RemoteAddr = link["outstation-address"].as<std::uint16_t>();
+            const auto link = yaml::require(node, "link-layer");
+            config.link.LocalAddr = yaml::require(link, "master-address").as<std::uint16_t>();
+            config.link.RemoteAddr = yaml::require(link, "outstation-address").as<std::uint16_t>();
         }
 
         // actively disable unsolicited mode, and don't re-enable it after integrity scan
@@ -62,16 +67,18 @@ namespace openfmb
         config.master.unsolClassMask = ClassField::None();
 
         auto master = channel->AddMaster(
-                          node["dnp3-log-id"].as<std::string>(),
+                          yaml::require(node, "dnp3-log-id").as<std::string>(),
                           data_handler,
                           DefaultMasterApplication::Create(),
                           config
                       );
 
+        const auto app = yaml::require(node, "app-layer");
+
         // configure the integrity scan
         master->AddClassScan(
             ClassField::AllClasses(),
-            TimeDuration::Milliseconds(node["app-layer"]["integrity-poll-ms"].as<uint32_t>())
+            TimeDuration::Milliseconds(yaml::require(app, "integrity-poll-ms").as<uint32_t>())
         );
 
         return master;

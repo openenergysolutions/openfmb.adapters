@@ -70,7 +70,7 @@ adapters:
 
      #  twinoaks DDS adapter
      -  type                  : "twinoaks-dds"
-        enabled               : false
+        enabled               : true
         domain_id             : 0
         publishers            :
             # subscribe to and publish these profiles via DDS
