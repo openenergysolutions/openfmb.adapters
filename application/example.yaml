@@ -10,6 +10,7 @@ adapters:
      #  DNP3 master adapter
      -  type                  : "dnp3-master"
         enabled               :  true
+        log-name              : "dnp3-SEL-351-A"
         #name                  : "SEL 351-A"
         #source-application-id : "RANKIN.1208.XCBR.1"
         #mRID                  : "157b6053-e35c-42bc-a6b5-c7a5846f6f25"
@@ -65,12 +66,14 @@ adapters:
      #  adapter that just prints published messages to the console
      -  type                  : "console-pretty-printer"
         enabled               :  true
+        log-name              : "console"
         print-profiles        :
             resource-reading  : true
 
      #  twinoaks DDS adapter
      -  type                  : "twinoaks-dds"
-        enabled               : true
+        enabled               : false
+        log-name              : "dds"
         domain_id             : 0
         publishers            :
             # subscribe to and publish these profiles via DDS

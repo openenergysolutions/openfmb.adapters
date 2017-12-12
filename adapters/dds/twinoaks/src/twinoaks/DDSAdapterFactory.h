@@ -16,7 +16,7 @@ namespace openfmb
             return "twinoaks-dds";
         }
 
-        virtual std::unique_ptr<IAdapter> create(const YAML::Node& node, IProtoSubscribers& subscribers) const override;
+        virtual std::unique_ptr<IAdapter> create(const YAML::Node& node, const logger_t& logger, IProtoSubscribers& subscribers) override;
 
     };
 

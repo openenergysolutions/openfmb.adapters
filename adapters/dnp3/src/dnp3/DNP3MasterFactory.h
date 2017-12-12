@@ -17,6 +17,8 @@ namespace openfmb
 
         std::shared_ptr<asiodnp3::DNP3Manager> manager;
 
+        std::shared_ptr<asiodnp3::DNP3Manager> get_manager(const logger_t& logger);
+
     public:
 
         DNP3MasterFactory();
@@ -26,7 +28,7 @@ namespace openfmb
             return "dnp3-master";
         }
 
-        virtual std::unique_ptr<IAdapter> create(const YAML::Node& node, IProtoSubscribers& subscribers) const override;
+        virtual std::unique_ptr<IAdapter> create(const YAML::Node& node, const logger_t& logger, IProtoSubscribers& subscribers) override;
     };
 
 }

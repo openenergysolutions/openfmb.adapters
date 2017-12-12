@@ -15,6 +15,10 @@ using namespace openfmb;
 
 vector<unique_ptr<IAdapter>> init_adapters(const std::string& yaml_path, AdapterRegistry& registry, IProtoSubscribers& subscribers);
 
+openfmb::logger_t get_logger(const YAML::Node& root);
+openfmb::logger_t clone(const openfmb::logger_t& other, const std::string& name);
+openfmb::logger_t configure(const openfmb::logger_t& other);
+
 int main(int argc, char** argv)
 {
     if(argc != 2)
@@ -45,7 +49,7 @@ int main(int argc, char** argv)
     // wait for ctrl-c
     Shutdown::await(SIGINT);
 
-    std::cout << "shutting down" << std::endl;
+    std::cout << "begin shutdown" << std::endl;
 
     return 0;
 }
@@ -53,6 +57,8 @@ int main(int argc, char** argv)
 vector<unique_ptr<IAdapter>> init_adapters(const std::string& yaml_path, AdapterRegistry& registry, IProtoSubscribers& subscribers)
 {
     const auto yaml_root = YAML::LoadFile(yaml_path);
+
+    const auto logger = get_logger(yaml_root);
 
     const auto adapter_list = yaml::require(yaml_root, "adapters");
 
@@ -63,12 +69,38 @@ vector<unique_ptr<IAdapter>> init_adapters(const std::string& yaml_path, Adapter
     {
         const auto type = yaml::require(*it, "type").as<string>();
         const auto enabled = yaml::require(*it, "enabled").as<bool>();
+        const auto log_name = yaml::require(*it, "log-name").as<string>();
+
         if(enabled)
         {
-            cout << "initializing: " << type << endl;
-            adapters.push_back(registry.find(type).create(*it, subscribers));
+            logger->info("Initializing adapter: {}", type);
+
+
+            adapters.push_back(
+                registry.find(type).create(*it, clone(logger, log_name), subscribers)
+            );
         }
     }
 
     return move(adapters);
+}
+
+openfmb::logger_t get_logger(const YAML::Node& root)
+{
+    // TODO - create more complex logger based on configuration
+    std::vector<spdlog::sink_ptr> sinks;
+    sinks.push_back(std::make_shared<spdlog::sinks::stdout_sink_mt>());
+
+    return configure(std::make_shared<spdlog::logger>("main", sinks.begin(), sinks.end()));
+}
+
+openfmb::logger_t clone(const openfmb::logger_t& other, const std::string& name)
+{
+    return configure(std::make_shared<spdlog::logger>(name, other->sinks().begin(), other->sinks().end()));
+}
+
+openfmb::logger_t configure(const openfmb::logger_t& logger)
+{
+    //logger->set_pattern("[%H:%M:%S %z] [%l] [%n] - %v");
+    return logger;
 }

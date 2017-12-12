@@ -44,10 +44,12 @@ SET(PROTO_SOURCES
 )
 
 SET(API_HEADERS
+    src/adapter-api/IAdapter.h
     src/adapter-api/ISubscriber.h
 	src/adapter-api/ProfileNames.h
-    src/adapter-api/IProtoPublishers.h
+	src/adapter-api/IProtoPublishers.h
     src/adapter-api/IProtoSubscribers.h
+    src/adapter-api/TypeDefinitions.h
 	src/adapter-api/util/Exception.h
 	src/adapter-api/util/StringUtil.h
 	src/adapter-api/util/YAMLUtil.h
@@ -55,7 +57,7 @@ SET(API_HEADERS
 
 SET(API_SOURCES
 	src/adapter-api/util/YAMLUtil.cpp
-		src/adapter-api/ProfileNames.h)
+)
 
 
 # directories to be automatically formatted by astyle
@@ -78,6 +80,7 @@ add_custom_command(
 add_library(adapter-api ${PROTO_SOURCES} ${PROTO_HEADERS} ${API_SOURCES} ${API_HEADERS})
 target_include_directories(adapter-api PUBLIC ${PROTO_OUTPUT_DIR})
 target_include_directories(adapter-api INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/src")
+target_include_directories(adapter-api INTERFACE "${CMAKE_SOURCE_DIR}/deps/spdlog/include")
 target_link_libraries(adapter-api PUBLIC protobuf)
 target_link_libraries(adapter-api INTERFACE yaml-cpp)
 
