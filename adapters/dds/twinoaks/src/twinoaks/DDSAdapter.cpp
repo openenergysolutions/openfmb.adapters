@@ -1,5 +1,4 @@
 
-#include <iostream>
 #include "DDSAdapter.h"
 
 #include "adapter-api/util/YAMLUtil.h"
@@ -25,7 +24,6 @@ namespace openfmb
         virtual void receive(const T& message) override
         {
             convert(message, outgoing);
-            std::cout << "publishing DDS" << std::endl;
             writer->write(&outgoing, DDS::HANDLE_NIL);
         }
 
