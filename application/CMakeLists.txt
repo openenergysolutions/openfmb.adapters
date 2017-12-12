@@ -5,7 +5,7 @@ set(OPENFMB_ADAPTER_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/src/ProtoBus.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/AdapterRegistry.h
         ${CMAKE_CURRENT_SOURCE_DIR}/src/AdapterRegistry.cpp
-        )
+        src/Shutdown.h)
 
 SET(CPP_FORMAT_DIRS
         ${CPP_FORMAT_DIRS}
