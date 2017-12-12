@@ -10,7 +10,7 @@ namespace openfmb
     {
     public:
 
-        ConsoleAdapter(const YAML::Node& node, IProtoSubscribers& subscribers);
+        ConsoleAdapter(const YAML::Node& node, const logger_t& logger, IProtoSubscribers& subscribers);
 
         // start the execution of the adapter
         virtual void start(const std::shared_ptr<IProtoPublishers>& publisher) override {}

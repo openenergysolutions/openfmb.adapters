@@ -64,9 +64,9 @@ adapters:
                     TotWh           : {index: -1,  scale: 1.0}
 
      #  adapter that just prints published messages to the console
-     -  type                  : "console-pretty-printer"
+     -  type                  : "msg-logger"
         enabled               :  true
-        log-name              : "console"
+        log-name              : "published"
         print-profiles        :
             resource-reading  : true
 

@@ -12,7 +12,8 @@ set(DNP3_SOURCES
         src/dnp3/DNP3MasterAdapter.cpp
         src/dnp3/PointMap.cpp
         src/dnp3/SOEHandler.cpp
-        ../console/src/console/ConsoleAdapterFactory.h src/dnp3/LogAdapter.h)
+        src/dnp3/LogAdapter.h
+)
 
 set(DNP3_LIBS asiodnp3 asiopal opendnp3 openpal)
 

@@ -8,8 +8,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
 # API used by the adapters / application
 add_subdirectory(./adapter-api)
 
-# adapter that prints profiles to the console
-add_subdirectory(./adapters/console)
+# adapter that logs published messages
+add_subdirectory(./adapters/msg-logger)
 
 # DNP3 adapter based on opendnp3
 add_subdirectory(./adapters/dnp3)

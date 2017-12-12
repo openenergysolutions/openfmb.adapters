@@ -14,7 +14,7 @@ namespace openfmb
 
     class DNP3MasterAdapter final : public IAdapter
     {
-        typedef std::shared_ptr<asiodnp3::DNP3Manager> manager_t;
+
         typedef std::shared_ptr<asiodnp3::IChannel> channel_t;
         typedef std::shared_ptr<asiodnp3::IMaster> master_t;
         typedef std::shared_ptr<SOEHandler> data_handler_t;
@@ -24,11 +24,13 @@ namespace openfmb
 
         DNP3MasterAdapter() = delete;
 
-        DNP3MasterAdapter(const manager_t& manager, const YAML::Node& node, IProtoSubscribers& subscribers);
+        DNP3MasterAdapter(const logger_t& logger, const YAML::Node& node, IProtoSubscribers& subscribers);
 
         virtual void start(const std::shared_ptr<IProtoPublishers>& publishers) override;
 
     private:
+
+        asiodnp3::DNP3Manager manager;
 
         const data_handler_t data_handler;
         const channel_t channel;
@@ -36,7 +38,7 @@ namespace openfmb
 
         // --- helper methods for creating resources ---
 
-        static channel_t create_channel(const manager_t& manager, const YAML::Node& node);
+        static channel_t create_channel(asiodnp3::DNP3Manager& manager, const YAML::Node& node);
         static master_t create_master(const channel_t& channel, const data_handler_t& data_handler, const YAML::Node& node);
 
     };

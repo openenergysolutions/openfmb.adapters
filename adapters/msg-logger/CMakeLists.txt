@@ -17,7 +17,7 @@ SET(CPP_FORMAT_DIRS
         PARENT_SCOPE
 )
 
-add_library(console-adapter STATIC ${PROJECT_SOURCES} ${PROJECT_HEADERS})
-target_link_libraries(console-adapter PUBLIC adapter-api)
-target_include_directories(console-adapter INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/src)
+add_library(msg-logger-adapter STATIC ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+target_link_libraries(msg-logger-adapter PUBLIC adapter-api)
+target_include_directories(msg-logger-adapter INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 

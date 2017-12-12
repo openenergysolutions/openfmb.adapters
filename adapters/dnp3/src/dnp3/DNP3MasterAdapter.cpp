@@ -7,6 +7,7 @@
 #include <adapter-api/util/YAMLUtil.h>
 
 #include "adapter-api/ProfileNames.h"
+#include "LogAdapter.h"
 
 using namespace openpal;
 using namespace opendnp3;
@@ -16,10 +17,14 @@ namespace openfmb
 {
 
     DNP3MasterAdapter::DNP3MasterAdapter(
-        const manager_t& manager,
+        const logger_t& logger,
         const YAML::Node& node,
         IProtoSubscribers& subscribers
     ) :
+        manager(
+            std::thread::hardware_concurrency(),
+            std::make_shared<LogAdapter>(logger)
+        ),
         data_handler(
             std::make_shared<SOEHandler>(
                 yaml::require(node, profiles::resource_reading)
@@ -37,11 +42,11 @@ namespace openfmb
         this->master->Enable();
     }
 
-    DNP3MasterAdapter::channel_t DNP3MasterAdapter::create_channel(const manager_t& manager, const YAML::Node& node)
+    DNP3MasterAdapter::channel_t DNP3MasterAdapter::create_channel(asiodnp3::DNP3Manager& manager, const YAML::Node& node)
     {
         const auto config = yaml::require(node, "channel");
 
-        return manager->AddTCPClient(
+        return manager.AddTCPClient(
                    yaml::require(node, "dnp3-log-id").as<std::string>(),
                    opendnp3::levels::NORMAL,
                    asiopal::ChannelRetry::Default(),

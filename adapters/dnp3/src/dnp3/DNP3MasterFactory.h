@@ -15,13 +15,9 @@ namespace openfmb
     class DNP3MasterFactory final : public IAdapterFactory
     {
 
-        std::shared_ptr<asiodnp3::DNP3Manager> manager;
-
-        std::shared_ptr<asiodnp3::DNP3Manager> get_manager(const logger_t& logger);
-
     public:
 
-        DNP3MasterFactory();
+        DNP3MasterFactory() = default;
 
         virtual const char* name() const override
         {

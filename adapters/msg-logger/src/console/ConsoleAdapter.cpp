@@ -11,23 +11,29 @@ namespace openfmb
 {
 
     template <class Proto>
-    class Printer final : public ISubscriber<Proto>
+    class LogPrinter final : public ISubscriber<Proto>
     {
+        const logger_t logger;
+
+    public:
+
+        LogPrinter(const logger_t& logger) : logger(logger) {}
+
 
         virtual void receive(const Proto& message) override
         {
-            std::cout << message.DebugString() << std::endl;
+            logger->info(message.DebugString());
         }
 
     };
 
-    ConsoleAdapter::ConsoleAdapter(const YAML::Node& node, IProtoSubscribers& subscribers)
+    ConsoleAdapter::ConsoleAdapter(const YAML::Node& node, const logger_t& logger, IProtoSubscribers& subscribers)
     {
         const auto profiles = yaml::require(node, "print-profiles");
 
         if(yaml::require(profiles, profiles::resource_reading).as<bool>())
         {
-            subscribers.subscribe(std::make_shared<Printer<ResourceReadingProfile>>());
+            subscribers.subscribe(std::make_shared<LogPrinter<ResourceReadingProfile>>(logger));
         }
     }
 

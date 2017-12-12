@@ -14,7 +14,7 @@ SET(CPP_FORMAT_DIRS
         PARENT_SCOPE
         )
 
-SET(ADAPTERS dnp3-adapter console-adapter twinoaks-dds-adapter)
+SET(ADAPTERS dnp3-adapter msg-logger-adapter twinoaks-dds-adapter)
 
 add_executable(openfmb-adapter ${OPENFMB_ADAPTER_SOURCES})
 target_link_libraries(openfmb-adapter ${ADAPTERS} pthread)
