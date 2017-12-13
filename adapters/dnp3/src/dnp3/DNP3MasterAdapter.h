@@ -32,14 +32,19 @@ namespace openfmb
 
         asiodnp3::DNP3Manager manager;
 
-        const data_handler_t data_handler;
-        const channel_t channel;
-        const master_t master;
+        void add_master(const YAML::Node& node);
+
+        struct MasterRecord
+        {
+            data_handler_t data_handler;
+            master_t master;
+        };
+
+        std::vector<MasterRecord> masters;
 
         // --- helper methods for creating resources ---
 
-        static channel_t create_channel(asiodnp3::DNP3Manager& manager, const YAML::Node& node);
-        static master_t create_master(const channel_t& channel, const data_handler_t& data_handler, const YAML::Node& node);
+        channel_t create_channel(const YAML::Node& node);
 
     };
 

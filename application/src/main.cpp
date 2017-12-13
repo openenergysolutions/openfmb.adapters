@@ -67,18 +67,23 @@ vector<unique_ptr<IAdapter>> init_adapters(const std::string& yaml_path, Adapter
     // loop over the adapters initializing them
     for(YAML::const_iterator it = adapter_list.begin(); it != adapter_list.end(); ++it)
     {
-        const auto type = yaml::require(*it, "type").as<string>();
+        const auto id = yaml::require(*it, "id").as<string>();
         const auto enabled = yaml::require(*it, "enabled").as<bool>();
-        const auto log_name = yaml::require(*it, "log-name").as<string>();
+
 
         if(enabled)
         {
-            logger->info("Initializing adapter: {}", type);
+            logger->info("Initializing adapter: {}", id);
 
+            const auto log_name = yaml::require(*it, "log-name").as<string>();
 
             adapters.push_back(
-                registry.find(type).create(*it, clone(logger, log_name), subscribers)
+                registry.find(id).create(*it, clone(logger, log_name), subscribers)
             );
+        }
+        else
+        {
+            logger->info("Skipping configuration for disabled adapter: {}", id);
         }
     }
 
@@ -87,11 +92,31 @@ vector<unique_ptr<IAdapter>> init_adapters(const std::string& yaml_path, Adapter
 
 openfmb::logger_t get_logger(const YAML::Node& root)
 {
-    // TODO - create more complex logger based on configuration
-    std::vector<spdlog::sink_ptr> sinks;
-    sinks.push_back(std::make_shared<spdlog::sinks::stdout_sink_mt>());
+    const auto logging = yaml::require(root, "logging");
+    const auto primary_log_name = yaml::require(logging, "name").as<string>();
 
-    return configure(std::make_shared<spdlog::logger>("main", sinks.begin(), sinks.end()));
+
+    std::vector<spdlog::sink_ptr> sinks;
+
+    if(yaml::with_default(logging["console"], false))
+    {
+        sinks.push_back(std::make_shared<spdlog::sinks::stdout_sink_mt>());
+    }
+
+    const auto rotating = logging["rotating"];
+
+    if(rotating)
+    {
+        sinks.push_back(
+            std::make_shared<spdlog::sinks::rotating_file_sink_mt>(
+                yaml::require(rotating, "path").as<string>(),
+                yaml::require(rotating, "max-size").as<size_t>(),
+                yaml::require(rotating, "max-files").as<size_t>()
+            )
+        );
+    }
+
+    return configure(std::make_shared<spdlog::logger>(primary_log_name, sinks.begin(), sinks.end()));
 }
 
 openfmb::logger_t clone(const openfmb::logger_t& other, const std::string& name)

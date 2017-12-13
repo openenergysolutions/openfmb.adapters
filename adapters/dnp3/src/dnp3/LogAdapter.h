@@ -25,22 +25,22 @@ namespace openfmb
             switch(entry.filters.GetBitfield())
             {
             case(opendnp3::flags::DBG):
-                logger->debug(entry.message);
+                logger->debug("[{}] - {}", entry.loggerid, entry.message);
                 break;
             case(opendnp3::flags::INFO):
-                logger->info(entry.message);
+                logger->info("[{}] - {}", entry.loggerid, entry.message);
                 break;
             case(opendnp3::flags::WARN):
-                logger->warn(entry.message);
+                logger->warn("[{}] - {}", entry.loggerid, entry.message);
                 break;
             case(opendnp3::flags::ERR):
-                logger->error(entry.message);
+                logger->error("[{}] - {}", entry.loggerid, entry.message);
                 break;
             case(opendnp3::flags::EVENT):
-                logger->critical(entry.message);
+                logger->critical("[{}] - {}", entry.loggerid, entry.message);
                 break;
             default:
-                logger->info(entry.message);
+                logger->info("[{}] - {}", entry.loggerid, entry.message);
                 break;
             }
         }

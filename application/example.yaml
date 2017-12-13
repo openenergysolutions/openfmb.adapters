@@ -1,80 +1,81 @@
 ---
-application:  # top-level application settings
-    log-name            : "openfmb"
+# logging configuration
+logging:
+    name: "main"
+    # log to the console?
+    console: true
+    # log to a rotating file?
+    rotating:
+        path: "adapter.log"
+        max-size: 1048576
+        max-files: 3
 
-# a sequence of adapters
+# a sequence of adapters with the first entry always being the unique "type"
 adapters:
+    #  DNP3 adapter
+    - id: "dnp3"
+      enabled:  true
+      log-name: "dnp3"
 
-     # this level contains a sequence of adapters using their unique "type"
+      # default to std::thread::hardware_concurrency() if not specified
+      thread-pool-size:  1
 
-     #  DNP3 master adapter
-     -  type                  : "dnp3-master"
-        enabled               :  true
-        log-name              : "dnp3-SEL-351-A"
-        #name                  : "SEL 351-A"
-        #source-application-id : "RANKIN.1208.XCBR.1"
-        #mRID                  : "157b6053-e35c-42bc-a6b5-c7a5846f6f25"
-        #desc                  : "Circuit breaker at the head of Rankin feeder 1208"
-        dnp3-log-id           : "sel351-master"
-        channel               :
-            type                    : "tcp-client"
-            adapter                 : "0.0.0.0"
-            remote-ip               : "127.0.0.1"
-            port                    : 20000
-        link-layer                  :
-            master-address          : 1
-            outstation-address      : 10
-        app-layer                   :
-            integrity-poll-ms       : 5000
-        resource-reading            :
-                terminal-id         : "what is this?"
-                mmxu                :
-                    hz.mag              : {index:  0,  scale: 1.0}
+      # a sequence of master instances
+      masters:
+          - logger: "master1"
+            channel:
+                adapter: "0.0.0.0"
+                remote-ip: "127.0.0.1"
+                port: 20000
+            link-layer:
+                master-address: 1
+                outstation-address: 10
+            app-layer:
+                integrity-poll-ms: 5000
+            resource-reading:
+                mmxu:
+                    hz.mag:             {index:  0,  scale: 1.0}
 
-                    ppv.phsab.cval.mag  : {index: -1,  scale: 1.0}
-                    ppv.phsbc.cval.mag  : {index: -1,  scale: 1.0}
-                    ppv.phsca.cval.mag  : {index: -1,  scale: 1.0}
+                    ppv.phsab.cval.mag: {index: -1,  scale: 1.0}
+                    ppv.phsbc.cval.mag: {index: -1,  scale: 1.0}
+                    ppv.phsca.cval.mag: {index: -1,  scale: 1.0}
 
-                    phv.phsa.cval.mag   : {index: -1,  scale: 1.0}
-                    phv.phsa.cval.ang   : {index: -1,  scale: 1.0}
-                    phv.phsb.cval.mag   : {index: -1,  scale: 1.0}
-                    phv.phsb.cval.ang   : {index: -1,  scale: 1.0}
-                    phv.phsc.cval.mag   : {index: -1,  scale: 1.0}
-                    phv.phsc.cval.ang   : {index: -1,  scale: 1.0}
+                    phv.phsa.cval.mag:  {index: -1,  scale: 1.0}
+                    phv.phsa.cval.ang:  {index: -1,  scale: 1.0}
+                    phv.phsb.cval.mag:  {index: -1,  scale: 1.0}
+                    phv.phsb.cval.ang:  {index: -1,  scale: 1.0}
+                    phv.phsc.cval.mag:  {index: -1,  scale: 1.0}
+                    phv.phsc.cval.ang:  {index: -1,  scale: 1.0}
 
-                    phv.neut.cval.mag   : {index: -1,  scale: 1.0}
-                    phv.net.cval.mag    : {index: -1,  scale: 1.0}
+                    phv.neut.cval.mag:  {index: -1,  scale: 1.0}
+                    phv.net.cval.mag:   {index: -1,  scale: 1.0}
 
-                    a.phsa.cval.mag     : {index: -1,  scale: 1.0}
-                    a.phsb.cval.mag     : {index: -1,  scale: 1.0}
-                    a.phsc.cval.mag     : {index: -1,  scale: 1.0}
+                    a.phsa.cval.mag:    {index: -1,  scale: 1.0}
+                    a.phsb.cval.mag:    {index: -1,  scale: 1.0}
+                    a.phsc.cval.mag:    {index: -1,  scale: 1.0}
 
-                    a.neut.cval.mag     : {index: -1,  scale: 1.0}
-                    a.net.cval.mag      : {index: -1,  scale: 1.0}
+                    a.neut.cval.mag:    {index: -1,  scale: 1.0}
+                    a.net.cval.mag:     {index: -1,  scale: 1.0}
 
                     # TODO remainder of MMXU
 
-                mmtr                :
-                    DmdVArh         : {index: -1,  scale: 1.0}
-                    DmdWh           : {index: -1,  scale: 1.0}
-                    SupVArh         : {index: -1,  scale: 1.0}
-                    SupWh           : {index: -1,  scale: 1.0}
-                    TotVAh          : {index: -1,  scale: 1.0}
-                    TotVArh         : {index: -1,  scale: 1.0}
-                    TotWh           : {index: -1,  scale: 1.0}
+                mmtr:
+
+                   # TODO - map MMTR
 
      #  adapter that just prints published messages to the console
-     -  type                  : "msg-logger"
-        enabled               :  true
-        log-name              : "published"
-        print-profiles        :
-            resource-reading  : true
+    - id: "msg-logger"
+      enabled:  false
+      log-name: "published"
+      print:
+          resource-reading  : true
 
      #  twinoaks DDS adapter
-     -  type                  : "twinoaks-dds"
-        enabled               : false
-        log-name              : "dds"
-        domain_id             : 0
-        publishers            :
-            # subscribe to and publish these profiles via DDS
-            resource-reading   : true
+
+    - id: "twinoaks-dds"
+      enabled: false
+      log-name: "dds"
+      domain_id: 0
+      # subscribe to and publish these profiles via DDS
+      publish:
+          resource-reading: true

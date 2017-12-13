@@ -21,7 +21,7 @@ namespace openfmb
 
         virtual const char* name() const override
         {
-            return "dnp3-master";
+            return "dnp3";
         }
 
         virtual std::unique_ptr<IAdapter> create(const YAML::Node& node, const logger_t& logger, IProtoSubscribers& subscribers) override;

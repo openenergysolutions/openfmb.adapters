@@ -22,43 +22,20 @@ namespace openfmb
         IProtoSubscribers& subscribers
     ) :
         manager(
-            std::thread::hardware_concurrency(),
+            yaml::with_default(node["thread-pool-size"], std::thread::hardware_concurrency()),
             std::make_shared<LogAdapter>(logger)
-        ),
-        data_handler(
-            std::make_shared<SOEHandler>(
-                yaml::require(node, profiles::resource_reading)
-            )
-        ),
-        channel(create_channel(manager, node)),
-        master(create_master(channel, data_handler, node))
+        )
     {
-
+        yaml::foreach(node["masters"], [this](const YAML::Node& n)
+    {
+        this->add_master(n);
+        });
     }
 
-    void DNP3MasterAdapter::start(const std::shared_ptr<IProtoPublishers>& publisher)
+    void DNP3MasterAdapter::add_master(const YAML::Node& node)
     {
-        this->data_handler->set_publisher(publisher);
-        this->master->Enable();
-    }
+        const auto channel = this->create_channel(node);
 
-    DNP3MasterAdapter::channel_t DNP3MasterAdapter::create_channel(asiodnp3::DNP3Manager& manager, const YAML::Node& node)
-    {
-        const auto config = yaml::require(node, "channel");
-
-        return manager.AddTCPClient(
-                   yaml::require(node, "dnp3-log-id").as<std::string>(),
-                   opendnp3::levels::NORMAL,
-                   asiopal::ChannelRetry::Default(),
-                   yaml::require(config, "remote-ip").as<std::string>(),
-                   yaml::require(config, "adapter").as<std::string>(),
-                   yaml::require(config, "port").as<std::uint16_t>(),
-                   nullptr                                  // no channel listener
-               );
-    }
-
-    DNP3MasterAdapter::master_t DNP3MasterAdapter::create_master(const channel_t& channel, const data_handler_t& data_handler, const YAML::Node& node)
-    {
         MasterStackConfig config;
 
         {
@@ -71,8 +48,10 @@ namespace openfmb
         config.master.disableUnsolOnStartup = true;
         config.master.unsolClassMask = ClassField::None();
 
+        const auto data_handler = std::make_shared<SOEHandler>(yaml::require(node, profiles::resource_reading));
+
         auto master = channel->AddMaster(
-                          yaml::require(node, "dnp3-log-id").as<std::string>(),
+                          yaml::require(node, "logger").as<std::string>(),
                           data_handler,
                           DefaultMasterApplication::Create(),
                           config
@@ -86,9 +65,34 @@ namespace openfmb
             TimeDuration::Milliseconds(yaml::require(app, "integrity-poll-ms").as<uint32_t>())
         );
 
-        return master;
+        this->masters.push_back(MasterRecord { data_handler : data_handler, master : master });
     }
 
-}
+    void DNP3MasterAdapter::start(const std::shared_ptr<IProtoPublishers>& publisher)
+    {
+        for(auto& record : this->masters)
+        {
+            record.data_handler->set_publisher(publisher);
+            record.master->Enable();
+        }
+    }
 
+    DNP3MasterAdapter::channel_t DNP3MasterAdapter::create_channel(const YAML::Node& node)
+    {
+        const auto channel = yaml::require(node, "channel");
+
+        return this->manager.AddTCPClient(
+                   yaml::require(node, "logger").as<std::string>(),
+                   opendnp3::levels::NORMAL,
+                   asiopal::ChannelRetry::Default(),
+                   yaml::require(channel, "remote-ip").as<std::string>(),
+                   yaml::require(channel, "adapter").as<std::string>(),
+                   yaml::require(channel, "port").as<std::uint16_t>(),
+                   nullptr // no channel listener
+               );
+    }
+
+
+
+}
 
