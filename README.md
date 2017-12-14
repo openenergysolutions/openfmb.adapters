@@ -29,6 +29,6 @@ Run *cmake* to create a build file for your platform, optionally disabling compo
 ```
 Options include:
 * **-DOPENFMB_USE_DNP3=OFF** - Don't build support for DNP3
-* **-DOPENFMB_TWIN_OAKS_DDS=OFF** - Don't build support for TwinOaks DDS
+* **-DOPENFMB_USE_TWINOAKS_DDS=OFF** - Don't build support for TwinOaks DDS
 
 You can then run your build using the build file created by cmake
