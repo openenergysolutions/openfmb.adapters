@@ -14,7 +14,20 @@ SET(CPP_FORMAT_DIRS
         PARENT_SCOPE
         )
 
-SET(ADAPTERS dnp3-adapter msg-logger-adapter twinoaks-dds-adapter)
+# adapters that are always built regardless of configuration
+set(ADAPTERS msg-logger-adapter)
+
+if(OPENFMB_USE_DNP3)
+    add_definitions(-DOPENFMB_USE_DNP3)
+    list(APPEND ADAPTERS dnp3-adapter)
+endif()
+
+if(OPENFMB_USE_TWINOAKS_DDS)
+    add_definitions(-DOPENFMB_USE_TWINOAKS_DDS)
+    list(APPEND ADAPTERS twinoaks-dds-adapter)
+endif()
+
+message("Application will be built with support for: ${ADAPTERS}")
 
 add_executable(openfmb-adapter ${OPENFMB_ADAPTER_SOURCES})
 target_link_libraries(openfmb-adapter ${ADAPTERS} pthread)

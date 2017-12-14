@@ -17,7 +17,7 @@ set(DNP3_SOURCES
 
 set(DNP3_LIBS asiodnp3 asiopal opendnp3 openpal)
 
-SET(CPP_FORMAT_DIRS
+set(CPP_FORMAT_DIRS
         ${CPP_FORMAT_DIRS}
         ${CMAKE_CURRENT_SOURCE_DIR}/src/dnp3/*.h
         ${CMAKE_CURRENT_SOURCE_DIR}/src/dnp3/*.cpp

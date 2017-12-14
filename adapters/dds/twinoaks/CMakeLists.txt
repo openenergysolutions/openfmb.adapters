@@ -25,7 +25,7 @@ set(HEADERS
         )
 
 # directories to be automatically formatted by astyle
-SET(CPP_FORMAT_DIRS
+set(CPP_FORMAT_DIRS
         ${CPP_FORMAT_DIRS}
         ${CMAKE_CURRENT_SOURCE_DIR}/src/twinoaks/*.h
         ${CMAKE_CURRENT_SOURCE_DIR}/src/twinoaks/*.cpp

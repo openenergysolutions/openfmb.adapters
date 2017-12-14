@@ -17,7 +17,8 @@ public:
 
 private:
 
-    void add(std::unique_ptr<openfmb::IAdapterFactory> factory);
+    template<class T>
+    void add();
 
     std::map<std::string, std::unique_ptr<openfmb::IAdapterFactory>> lookup;
 
