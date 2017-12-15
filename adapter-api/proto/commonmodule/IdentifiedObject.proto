@@ -1,6 +1,7 @@
 
 syntax = "proto3";
 
+option java_package = "com.oes.openfmb.proto";
 
 message IdentifiedObject {
   string description = 2;

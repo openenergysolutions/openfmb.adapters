@@ -1,7 +1,7 @@
 
 syntax = "proto3";
 
-
+option java_package = "com.oes.openfmb.proto";
 
 enum UnitMultiplierKind {
   noneUnitMultiplierKind  = 0;

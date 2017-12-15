@@ -4,6 +4,7 @@ syntax = "proto3";
 
 import "commonmodule/IdentifiedObject.proto";
 
+option java_package = "com.oes.openfmb.proto";
 
 message MeasurementIED {
   IdentifiedObject measurementValueSource = 2;

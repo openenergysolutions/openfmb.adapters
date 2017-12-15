@@ -6,8 +6,9 @@ import "commonmodule/IdentifiedObject.proto";
 import "commonmodule/WYE.proto"; 
 import "commonmodule/ENG_CalcMethodKind.proto";
 import "commonmodule/MV.proto"; 
-import "commonmodule/DEL.proto"; 
- 
+import "commonmodule/DEL.proto";
+
+option java_package = "com.oes.openfmb.proto";
 
 message ReadingMMXU {
   IdentifiedObject logicalNode = 2;

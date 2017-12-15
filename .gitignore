@@ -7,3 +7,7 @@
 # clion stuff
 /.idea/
 /cmake-build-*
+
+/codegen/target
+/codegen/*.iml
+/codegen/*.idea

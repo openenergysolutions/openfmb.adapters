@@ -4,6 +4,7 @@ syntax = "proto3";
 
 import "commonmodule/UnitSymbolKind.proto";
 
+option java_package = "com.oes.openfmb.proto";
 
 message BCR {
   int64 actVal = 2;
