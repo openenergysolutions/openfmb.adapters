@@ -29,7 +29,7 @@ namespace openfmb
 
     ConsoleAdapter::ConsoleAdapter(const YAML::Node& node, const logger_t& logger, IProtoSubscribers& subscribers)
     {
-        const auto profiles = yaml::require(node, "print-profiles");
+        const auto profiles = yaml::require(node, "profiles");
 
         if(yaml::require(profiles, profiles::resource_reading).as<bool>())
         {

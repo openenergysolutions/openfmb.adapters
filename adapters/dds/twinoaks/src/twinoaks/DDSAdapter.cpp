@@ -33,7 +33,7 @@ namespace openfmb
     {
         const auto domain_id = yaml::require(node, "domain_id").as<DDS::DomainId_t>();
 
-        const auto publishers = yaml::require(node, "publishers");
+        const auto publishers = yaml::require(node, "publish");
 
         const auto participant = create_participant(domain_id);
 

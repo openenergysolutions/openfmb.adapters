@@ -65,15 +65,15 @@ adapters:
 
      #  adapter that just prints published messages to the console
     - id: "msg-logger"
-      enabled:  false
+      enabled:  true
       log-name: "published"
-      print:
+      profiles:
           resource-reading  : true
 
      #  twinoaks DDS adapter
 
     - id: "twinoaks-dds"
-      enabled: false
+      enabled: true
       log-name: "dds"
       domain_id: 0
       # subscribe to and publish these profiles via DDS
