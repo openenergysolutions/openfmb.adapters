@@ -14,8 +14,8 @@ public class ProtoHelpers {
 
     public static Iterable<Artifact> artifacts(Path directory) {
         return Arrays.asList(
-            Artifact.create(directory.resolve("ResourceReadingProfileHelpers.h"), () -> resourceReadingProfileHelpers.header()),
-            Artifact.create(directory.resolve("ResourceReadingProfileHelpers.cpp"), () -> resourceReadingProfileHelpers.implementation())
+            Artifact.create(directory.resolve("ResourceReadingProfileHelper.h"), () -> resourceReadingProfileHelpers.header()),
+            Artifact.create(directory.resolve("ResourceReadingProfileHelper.cpp"), () -> resourceReadingProfileHelpers.implementation())
         );
     }
 

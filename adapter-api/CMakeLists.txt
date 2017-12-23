@@ -1,9 +1,23 @@
+find_library(PROTOBUF_LIBRARY protobuf)
 
+if(NOT PROTOBUF_LIBRARY)
+	message(FATAL_ERROR "protobuf library could not be found. Is it installed on your system?")
+else()
+	message("Protobuf library is: ${PROTOBUF_LIBRARY}")
+endif()
 
-SET(PROTO_INPUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/proto)
-SET(PROTO_OUTPUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/adapter-api/proto)
+find_program(PROTOBUF_COMPILER protoc)
 
-SET(PROTO_HEADERS
+if(NOT PROTOBUF_COMPILER)
+	message(FATAL_ERROR "could not find protoc (protobuf compiler). Is it installed on your system?")
+else()
+	message("Protobuf compiler found")
+endif()
+
+set(PROTO_INPUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/proto)
+set(PROTO_OUTPUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/adapter-api/proto)
+
+set(PROTO_HEADERS
 	${PROTO_OUTPUT_DIR}/ResourceReadingProfile.pb.h
 	${PROTO_OUTPUT_DIR}/commonmodule/AnalogueValue.pb.h
 	${PROTO_OUTPUT_DIR}/commonmodule/BCR.pb.h
@@ -23,7 +37,7 @@ SET(PROTO_HEADERS
 	${PROTO_OUTPUT_DIR}/commonmodule/WYE.pb.h
 )
 
-SET(PROTO_SOURCES
+set(PROTO_SOURCES
 	${PROTO_OUTPUT_DIR}/ResourceReadingProfile.pb.cc
 	${PROTO_OUTPUT_DIR}/commonmodule/AnalogueValue.pb.cc
 	${PROTO_OUTPUT_DIR}/commonmodule/BCR.pb.cc
@@ -43,7 +57,7 @@ SET(PROTO_SOURCES
 	${PROTO_OUTPUT_DIR}/commonmodule/WYE.pb.cc
 )
 
-SET(API_HEADERS
+set(API_HEADERS
     src/adapter-api/IAdapter.h
     src/adapter-api/ISubscriber.h
 	src/adapter-api/ProfileNames.h
@@ -53,10 +67,12 @@ SET(API_HEADERS
 	src/adapter-api/util/Exception.h
 	src/adapter-api/util/StringUtil.h
 	src/adapter-api/util/YAMLUtil.h
+    src/adapter-api/helpers/ResourceReadingProfileHelper.h
 )
 
-SET(API_SOURCES
+set(API_SOURCES
 	src/adapter-api/util/YAMLUtil.cpp
+    src/adapter-api/helpers/ResourceReadingProfileHelper.cpp
 )
 
 
@@ -72,7 +88,7 @@ SET(CPP_FORMAT_DIRS
 add_custom_command(
     OUTPUT ${PROTO_SOURCES} ${PROTO_HEADERS}
     COMMAND mkdir -p ${PROTO_OUTPUT_DIR}
-    COMMAND protoc --cpp_out=${PROTO_OUTPUT_DIR} --proto_path=${PROTO_INPUT_DIR} ${PROTO_INPUT_DIR}/*.proto ${PROTO_INPUT_DIR}/commonmodule/*.proto
+    COMMAND ${PROTOBUF_COMPILER} --cpp_out=${PROTO_OUTPUT_DIR} --proto_path=${PROTO_INPUT_DIR} ${PROTO_INPUT_DIR}/*.proto ${PROTO_INPUT_DIR}/commonmodule/*.proto
     MAIN_DEPENDENCY ${PROTO_INPUT_DIR}/ResourceReadingProfile.proto
     COMMENT "Generating openfmb protos..."
 )
@@ -81,7 +97,7 @@ add_library(adapter-api ${PROTO_SOURCES} ${PROTO_HEADERS} ${API_SOURCES} ${API_H
 target_include_directories(adapter-api PUBLIC ${PROTO_OUTPUT_DIR})
 target_include_directories(adapter-api INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/src")
 target_include_directories(adapter-api INTERFACE "${CMAKE_SOURCE_DIR}/deps/spdlog/include")
-target_link_libraries(adapter-api PUBLIC protobuf)
+target_link_libraries(adapter-api PUBLIC ${PROTOBUF_LIBRARY})
 target_link_libraries(adapter-api INTERFACE yaml-cpp)
 
 if(MSVC)

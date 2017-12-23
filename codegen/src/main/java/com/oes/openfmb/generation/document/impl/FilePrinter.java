@@ -19,8 +19,8 @@ public class FilePrinter implements LinePrinter, Closeable{
             for(int i = 0; i < indent; ++i) {
                 writer.print("    ");
             }
-            writer.println(line);
         }
+        writer.println(line);
     }
 
     @Override

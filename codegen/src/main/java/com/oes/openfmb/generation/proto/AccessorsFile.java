@@ -28,9 +28,9 @@ public class AccessorsFile implements CppClassFile {
                                         clazz(this.getClassName(),
                                                 lines(
                                                         "",
-                                                        String.format("typedef AnalogValue* (analog_getter_t*)(%s&);", this.descriptor.getName()),
+                                                        String.format("typedef AnalogueValue* (*analog_getter_t)(%s&);", this.descriptor.getName()),
                                                         "typedef std::map<std::string, analog_getter_t> analog_map_t;",
-                                                        String.format("typedef BCR* (bcr_getter_t*)(%s&);", this.descriptor.getName()),
+                                                        String.format("typedef BCR* (*bcr_getter_t)(%s&);", this.descriptor.getName()),
                                                         "typedef std::map<std::string, bcr_getter_t> bcr_map_t;",
                                                         "",
                                                         "public:",
