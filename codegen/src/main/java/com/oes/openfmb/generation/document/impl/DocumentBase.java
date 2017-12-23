@@ -12,18 +12,31 @@ abstract class DocumentBase implements Document {
 
     @Override
     public final Document append(Document other) {
-        return new ConcatenatedDocument(this, other);
+        return new ConcatenatedDocuments(this, other);
     }
 
     @Override
-    public final Document indent(String line) {
+    public Document prepend(String line) {
+        return this.prepend(Documents.line(line));
+    }
+
+    @Override
+    public Document prepend(Document other) {
+        return new ConcatenatedDocuments(other, this);
+    }
+
+    @Override
+    public Document indent(String line) {
         return this.indent(Documents.line(line));
     }
 
     @Override
-    public final Document indent(Document other) {
-        return new IndentedDocument(this, other);
+    public Document indent(Document other) {
+        return this.append(Documents.indent(other));
     }
 
-
+    @Override
+    public Document prefix(String prefix) {
+        return Documents.prefixed(this, prefix);
+    }
 }

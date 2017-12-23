@@ -3,12 +3,12 @@ package com.oes.openfmb.generation.document.impl;
 import com.oes.openfmb.generation.document.Document;
 import com.oes.openfmb.generation.document.LinePrinter;
 
-public final class ConcatenatedDocument extends DocumentBase {
+public final class ConcatenatedDocuments extends DocumentBase {
 
     private final Document first;
     private final Document second;
 
-    ConcatenatedDocument(Document first, Document second) {
+    ConcatenatedDocuments(Document first, Document second) {
         this.first = first;
         this.second = second;
     }

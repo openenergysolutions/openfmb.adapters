@@ -4,16 +4,22 @@ public interface Document {
 
     void write(LinePrinter printer);
 
-    // Append a single line to this document w/o indenting
+    // Append a single line to this document
     Document append(String line);
 
-    // Append a document to this document w/o indenting
+    // Append a document to this document
     Document append(Document other);
 
-    // Append a single indented line to this document
+    // Prepend a single line to this document
+    Document prepend(String line);
+
+    // Prepend a document to this document
+    Document prepend(Document other);
+
     Document indent(String line);
 
-    // Append a document to this document, and indent all of the lines by one level
     Document indent(Document other);
+
+    Document prefix(String prefix);
 
 }
