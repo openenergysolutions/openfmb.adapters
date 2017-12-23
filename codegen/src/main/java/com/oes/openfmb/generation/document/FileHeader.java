@@ -14,9 +14,7 @@ public class FileHeader {
                 "                                           __/ |",
                 "                                          |___/",
                 "",
-                " This file is auto-generated. Do not edit manually",
-                "",
-                "Licensed under the terms of the BSDv3 license"
+                " This file is auto-generated. Do not edit manually"
     ).prepend(space).append(space).prefix("// ").append(space);
 
 }

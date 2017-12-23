@@ -10,8 +10,11 @@ public class ConsolePrinter implements LinePrinter {
 
     @Override
     public void print(int indent, String line) {
-        for(int i = 0; i < indent; ++i) {
-            System.out.print("    ");
+
+        if(!line.isEmpty()) {
+            for (int i = 0; i < indent; ++i) {
+                System.out.print("    ");
+            }
         }
         System.out.println(line);
     }

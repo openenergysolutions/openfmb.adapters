@@ -1,7 +1,7 @@
 package com.oes.openfmb.util;
 
 import com.google.protobuf.Descriptors;
-import com.oes.openfmb.FieldPath;
+import com.oes.openfmb.generation.proto.FieldPath;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.function.Consumer;
 
 public class FieldPathImpl implements FieldPath {
 
-    //  the chain of all the fields to get from the root message to this field
+    //  the chain of all the fields to artifacts from the root message to this field
     private final Descriptors.Descriptor root;
     private final Info info;
     private final FieldPathImpl parent;

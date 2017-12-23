@@ -6,8 +6,8 @@ import com.oes.openfmb.generation.document.Documents;
 abstract class DocumentBase implements Document {
 
     @Override
-    public final Document append(String line) {
-        return this.append(Documents.line(line));
+    public final Document append(String... lines) {
+        return this.append(Documents.lines(lines));
     }
 
     @Override
@@ -38,5 +38,10 @@ abstract class DocumentBase implements Document {
     @Override
     public Document prefix(String prefix) {
         return Documents.prefixed(this, prefix);
+    }
+
+    @Override
+    public Document space() {
+        return this.append(Documents.space);
     }
 }

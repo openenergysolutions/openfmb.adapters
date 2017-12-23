@@ -29,6 +29,14 @@ public class Documents {
         return new BasicDocument(Arrays.asList(lines));
     }
 
+    public static Document join(Document... documents) {
+        return join(Arrays.stream(documents));
+    }
+
+    public static Document join(Stream<Document> documents) {
+        return documents.reduce(Document::append).get();
+    }
+
     public static Document spaced(Stream<Document> documents) {
         return documents.reduce((lhs, rhs) -> lhs.append(space).append(rhs)).get();
     }
@@ -41,8 +49,40 @@ public class Documents {
         return indent(line(line));
     }
 
-    public static Document namespace(String namespace, Document inner)
+    public static Document guards(String className, Document...inner)
     {
-        return line("namespace " + namespace + " {").append(space).indent(inner).append("}");
+        return lines(
+                    String.format("#ifndef OPENFMB_%s_H", className.toUpperCase()),
+                    String.format("#define OPENFMB_%s_H", className.toUpperCase())
+                )
+                .space()
+                .append(Documents.join(inner))
+                .space()
+                .append("#endif")
+                .space();
+    }
+
+    public static Document namespace(String namespace, Document... inner)
+    {
+        return line("namespace " + namespace + " {")
+                .append(space)
+                .append(Documents.join(inner))
+                .append(space)
+                .append(String.format("} // end namespace %s", namespace));
+    }
+
+    public static Document clazz(String name, Document inner)
+    {
+        return line("class " + name + " {").indent(inner).append("};");
+    }
+
+    public static Document include(String filename)
+    {
+        return line(String.format("#include \"%s\"", filename));
+    }
+
+    public static Document include(Standard value)
+    {
+        return line(String.format("#include <%s>", value.toString()));
     }
 }

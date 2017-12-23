@@ -5,7 +5,7 @@ public interface Document {
     void write(LinePrinter printer);
 
     // Append a single line to this document
-    Document append(String line);
+    Document append(String... lines);
 
     // Append a document to this document
     Document append(Document other);
@@ -21,5 +21,7 @@ public interface Document {
     Document indent(Document other);
 
     Document prefix(String prefix);
+
+    Document space();
 
 }

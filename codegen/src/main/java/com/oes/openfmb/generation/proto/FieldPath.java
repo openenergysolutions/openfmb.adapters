@@ -1,4 +1,4 @@
-package com.oes.openfmb;
+package com.oes.openfmb.generation.proto;
 
 import com.google.protobuf.Descriptors;
 

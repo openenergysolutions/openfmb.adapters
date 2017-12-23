@@ -1,7 +1,7 @@
 package com.oes.openfmb.util;
 
 import com.google.protobuf.Descriptors;
-import com.oes.openfmb.FieldPath;
+import com.oes.openfmb.generation.proto.FieldPath;
 
 import java.util.ArrayList;
 import java.util.List;
