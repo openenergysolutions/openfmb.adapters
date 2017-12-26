@@ -28,22 +28,17 @@ public class AccessorsFile implements CppClassFile {
                                         clazz(this.getClassName(),
                                                 lines(
                                                         "",
-                                                        String.format("typedef AnalogueValue* (*analog_getter_t)(%s&);", this.descriptor.getName()),
-                                                        "typedef std::map<std::string, analog_getter_t> analog_map_t;",
-                                                        String.format("typedef BCR* (*bcr_getter_t)(%s&);", this.descriptor.getName()),
-                                                        "typedef std::map<std::string, bcr_getter_t> bcr_map_t;",
-                                                        "",
                                                         "public:",
                                                         "",
                                                         this.getClassName() + "();",
                                                         "",
-                                                        "inline const analog_map_t& get_analogs() const { return this->analogs; }",
-                                                        "inline const bcr_map_t& get_bcrs() const { return this->bcrs; }",
+                                                        String.format("inline const analogue_map_t<%s>& get_analogues() const { return this->analogues; }", this.descriptor.getName()),
+                                                        String.format("inline const bcr_map_t<%s>& get_bcrs() const { return this->bcrs; }", this.descriptor.getName()),
                                                         "",
                                                         "private:",
                                                         "",
-                                                        "analog_map_t analogs;",
-                                                        "bcr_map_t bcrs;"
+                                                        String.format("analogue_map_t<%s> analogues;", this.descriptor.getName()),
+                                                        String.format("bcr_map_t<%s> bcrs;",  this.descriptor.getName())
                                                 )
                                         )
                                 )
@@ -65,7 +60,7 @@ public class AccessorsFile implements CppClassFile {
                                        .space()
                                        .append("// initialize the analog map")
                                        .append(
-                                               entries("analogs",
+                                               entries("analogues",
                                                             DescriptorUtil.find(
                                                                 this.descriptor,
                                                                 DescriptorUtil.isMessageWithName("AnalogueValue")
@@ -93,7 +88,7 @@ public class AccessorsFile implements CppClassFile {
     private Document includes()
     {
         return include(this.descriptor.getName() + ".pb.h")
-                .append(include(Standard.map));
+                .append(include("../HelperTypedefs.h"));
 
     }
 

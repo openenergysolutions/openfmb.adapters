@@ -19,231 +19,231 @@ ResourceReadingProfileHelper::ResourceReadingProfileHelper()
 {
 
 // initialize the analog map
-this->analogs["resourceReadingValue.readingMMXU.a.net.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.a.net.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_a()->mutable_net()->mutable_cval()->mutable_ang();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.a.net.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.a.net.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_a()->mutable_net()->mutable_cval()->mutable_mag();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.a.neut.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.a.neut.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_a()->mutable_neut()->mutable_cval()->mutable_ang();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.a.neut.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.a.neut.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_a()->mutable_neut()->mutable_cval()->mutable_mag();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.a.phsA.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.a.phsA.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_a()->mutable_phsa()->mutable_cval()->mutable_ang();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.a.phsA.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.a.phsA.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_a()->mutable_phsa()->mutable_cval()->mutable_mag();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.a.phsB.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.a.phsB.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_a()->mutable_phsb()->mutable_cval()->mutable_ang();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.a.phsB.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.a.phsB.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_a()->mutable_phsb()->mutable_cval()->mutable_mag();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.a.phsC.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.a.phsC.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_a()->mutable_phsc()->mutable_cval()->mutable_ang();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.a.phsC.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.a.phsC.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_a()->mutable_phsc()->mutable_cval()->mutable_mag();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.hz.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.hz.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_hz()->mutable_mag();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.phV.net.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.phV.net.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_phv()->mutable_net()->mutable_cval()->mutable_ang();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.phV.net.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.phV.net.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_phv()->mutable_net()->mutable_cval()->mutable_mag();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.phV.neut.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.phV.neut.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_phv()->mutable_neut()->mutable_cval()->mutable_ang();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.phV.neut.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.phV.neut.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_phv()->mutable_neut()->mutable_cval()->mutable_mag();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.phV.phsA.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.phV.phsA.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_phv()->mutable_phsa()->mutable_cval()->mutable_ang();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.phV.phsA.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.phV.phsA.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_phv()->mutable_phsa()->mutable_cval()->mutable_mag();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.phV.phsB.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.phV.phsB.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_phv()->mutable_phsb()->mutable_cval()->mutable_ang();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.phV.phsB.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.phV.phsB.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_phv()->mutable_phsb()->mutable_cval()->mutable_mag();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.phV.phsC.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.phV.phsC.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_phv()->mutable_phsc()->mutable_cval()->mutable_ang();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.phV.phsC.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.phV.phsC.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_phv()->mutable_phsc()->mutable_cval()->mutable_mag();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.pPV.phsAB.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.pPV.phsAB.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_ppv()->mutable_phsab()->mutable_cval()->mutable_ang();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.pPV.phsAB.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.pPV.phsAB.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_ppv()->mutable_phsab()->mutable_cval()->mutable_mag();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.pPV.phsBC.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.pPV.phsBC.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_ppv()->mutable_phsbc()->mutable_cval()->mutable_ang();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.pPV.phsBC.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.pPV.phsBC.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_ppv()->mutable_phsbc()->mutable_cval()->mutable_mag();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.pPV.phsCA.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.pPV.phsCA.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_ppv()->mutable_phsca()->mutable_cval()->mutable_ang();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.pPV.phsCA.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.pPV.phsCA.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_ppv()->mutable_phsca()->mutable_cval()->mutable_mag();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.vA.net.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.vA.net.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_va()->mutable_net()->mutable_cval()->mutable_ang();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.vA.net.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.vA.net.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_va()->mutable_net()->mutable_cval()->mutable_mag();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.vA.neut.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.vA.neut.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_va()->mutable_neut()->mutable_cval()->mutable_ang();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.vA.neut.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.vA.neut.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_va()->mutable_neut()->mutable_cval()->mutable_mag();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.vA.phsA.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.vA.phsA.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_va()->mutable_phsa()->mutable_cval()->mutable_ang();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.vA.phsA.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.vA.phsA.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_va()->mutable_phsa()->mutable_cval()->mutable_mag();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.vA.phsB.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.vA.phsB.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_va()->mutable_phsb()->mutable_cval()->mutable_ang();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.vA.phsB.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.vA.phsB.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_va()->mutable_phsb()->mutable_cval()->mutable_mag();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.vA.phsC.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.vA.phsC.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_va()->mutable_phsc()->mutable_cval()->mutable_ang();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.vA.phsC.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.vA.phsC.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_va()->mutable_phsc()->mutable_cval()->mutable_mag();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.vAr.net.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.vAr.net.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_var()->mutable_net()->mutable_cval()->mutable_ang();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.vAr.net.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.vAr.net.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_var()->mutable_net()->mutable_cval()->mutable_mag();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.vAr.neut.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.vAr.neut.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_var()->mutable_neut()->mutable_cval()->mutable_ang();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.vAr.neut.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.vAr.neut.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_var()->mutable_neut()->mutable_cval()->mutable_mag();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.vAr.phsA.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.vAr.phsA.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_var()->mutable_phsa()->mutable_cval()->mutable_ang();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.vAr.phsA.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.vAr.phsA.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_var()->mutable_phsa()->mutable_cval()->mutable_mag();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.vAr.phsB.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.vAr.phsB.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_var()->mutable_phsb()->mutable_cval()->mutable_ang();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.vAr.phsB.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.vAr.phsB.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_var()->mutable_phsb()->mutable_cval()->mutable_mag();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.vAr.phsC.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.vAr.phsC.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_var()->mutable_phsc()->mutable_cval()->mutable_ang();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.vAr.phsC.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.vAr.phsC.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_var()->mutable_phsc()->mutable_cval()->mutable_mag();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.v.net.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.v.net.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_v()->mutable_net()->mutable_cval()->mutable_ang();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.v.net.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.v.net.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_v()->mutable_net()->mutable_cval()->mutable_mag();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.v.neut.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.v.neut.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_v()->mutable_neut()->mutable_cval()->mutable_ang();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.v.neut.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.v.neut.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_v()->mutable_neut()->mutable_cval()->mutable_mag();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.v.phsA.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.v.phsA.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_v()->mutable_phsa()->mutable_cval()->mutable_ang();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.v.phsA.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.v.phsA.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_v()->mutable_phsa()->mutable_cval()->mutable_mag();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.v.phsB.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.v.phsB.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_v()->mutable_phsb()->mutable_cval()->mutable_ang();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.v.phsB.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.v.phsB.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_v()->mutable_phsb()->mutable_cval()->mutable_mag();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.v.phsC.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.v.phsC.cVal.ang"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_v()->mutable_phsc()->mutable_cval()->mutable_ang();
 };
 
-this->analogs["resourceReadingValue.readingMMXU.v.phsC.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
+this->analogues["resourceReadingValue.readingMMXU.v.phsC.cVal.mag"] = [](ResourceReadingProfile& message) -> AnalogueValue* {
     return message.mutable_resourcereadingvalue()->mutable_readingmmxu()->mutable_v()->mutable_phsc()->mutable_cval()->mutable_mag();
 };
 

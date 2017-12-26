@@ -11,11 +11,11 @@ import java.nio.file.Paths;
 
 public class Main {
 
-    final static Path protoHelperDir = Paths.get("../adapter-api/src/adapter-api/helpers");
+    final static Path protoHelperDir = Paths.get("../adapter-api/src/adapter-api/helpers/generated");
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
-        wipeDir(protoHelperDir);
+        deleteFolderContents(protoHelperDir.toFile());
         ProtoHelpers.artifacts(protoHelperDir).forEach(Main::write);
 
     }
@@ -33,17 +33,16 @@ public class Main {
         }
     }
 
-    private static void wipeDir(Path path) throws IOException
-    {
-        if(Files.exists(path)) {
-            // clear all files from the directory
-            Files.walk(path)
-                    .map(Path::toFile)
-                    .forEach(File::delete);
-        }
-        else
-        {
-            Files.createDirectories(path);
+    private static void deleteFolderContents(File folder) {
+        final File[] files = folder.listFiles();
+        if(files!=null) {
+            for(File f: files) {
+                if(f.isDirectory()) {
+                    deleteFolderContents(f);
+                } else {
+                    f.delete();
+                }
+            }
         }
     }
 }

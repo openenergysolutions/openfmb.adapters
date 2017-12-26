@@ -15,28 +15,23 @@
 #define OPENFMB_RESOURCEREADINGPROFILEHELPER_H
 
 #include "ResourceReadingProfile.pb.h"
-#include <map>
+#include "../HelperTypedefs.h"
 
 namespace openfmb {
 
 class ResourceReadingProfileHelper {
 
-    typedef AnalogueValue* (*analog_getter_t)(ResourceReadingProfile&);
-    typedef std::map<std::string, analog_getter_t> analog_map_t;
-    typedef BCR* (*bcr_getter_t)(ResourceReadingProfile&);
-    typedef std::map<std::string, bcr_getter_t> bcr_map_t;
-
     public:
 
     ResourceReadingProfileHelper();
 
-    inline const analog_map_t& get_analogs() const { return this->analogs; }
-    inline const bcr_map_t& get_bcrs() const { return this->bcrs; }
+    inline const analogue_map_t<ResourceReadingProfile>& get_analogues() const { return this->analogues; }
+    inline const bcr_map_t<ResourceReadingProfile>& get_bcrs() const { return this->bcrs; }
 
     private:
 
-    analog_map_t analogs;
-    bcr_map_t bcrs;
+    analogue_map_t<ResourceReadingProfile> analogues;
+    bcr_map_t<ResourceReadingProfile> bcrs;
 };
 
 } // end namespace openfmb
