@@ -9,8 +9,6 @@ namespace openfmb
 
     void SOEHandler::End()
     {
-        //this->publisher->publish(this->profile);
-
         if(this->rrp_touched && this->publisher)
         {
             this->rrp_touched = false;
@@ -32,14 +30,22 @@ namespace openfmb
         auto load = [this](const opendnp3::Indexed<opendnp3::Analog>& meas)
         {
 
-            this->rrp_touched |= this->point_map.apply(meas.index, meas.value.value, this->profile);
+            this->rrp_touched |= this->point_map.apply(meas, this->profile);
         };
 
         values.ForeachItem(load);
     }
 
     void SOEHandler::Process(const opendnp3::HeaderInfo& info, const opendnp3::ICollection<opendnp3::Indexed<opendnp3::Counter>>& values)
-    {}
+    {
+        auto load = [this](const opendnp3::Indexed<opendnp3::Counter>& meas)
+        {
+
+            this->rrp_touched |= this->point_map.apply(meas, this->profile);
+        };
+
+        values.ForeachItem(load);
+    }
 
     void SOEHandler::Process(const opendnp3::HeaderInfo& info, const opendnp3::ICollection<opendnp3::Indexed<opendnp3::FrozenCounter>>& values)
     {}

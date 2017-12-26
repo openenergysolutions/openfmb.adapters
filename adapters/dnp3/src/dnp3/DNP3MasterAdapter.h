@@ -19,7 +19,6 @@ namespace openfmb
         typedef std::shared_ptr<asiodnp3::IMaster> master_t;
         typedef std::shared_ptr<SOEHandler> data_handler_t;
 
-
     public:
 
         DNP3MasterAdapter() = delete;

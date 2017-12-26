@@ -11,27 +11,29 @@
 //  This file is auto-generated. Do not edit manually
 // 
 
-#ifndef OPENFMB_RESOURCEREADINGPROFILEHELPER_H
-#define OPENFMB_RESOURCEREADINGPROFILEHELPER_H
+#ifndef OPENFMB_RESOURCEREADINGPROFILEMAP_H
+#define OPENFMB_RESOURCEREADINGPROFILEMAP_H
 
 #include "ResourceReadingProfile.pb.h"
 #include "../HelperTypedefs.h"
 
 namespace openfmb {
 
-class ResourceReadingProfileHelper {
+class ResourceReadingProfileMap {
 
     public:
 
-    ResourceReadingProfileHelper();
+    typedef ResourceReadingProfile profile_t;
 
-    inline const analogue_map_t<ResourceReadingProfile>& get_analogues() const { return this->analogues; }
-    inline const bcr_map_t<ResourceReadingProfile>& get_bcrs() const { return this->bcrs; }
+    ResourceReadingProfileMap();
+
+    inline const analogue_map_t<profile_t>& get_analogues() const { return this->analogues; }
+    inline const bcr_map_t<profile_t>& get_bcrs() const { return this->bcrs; }
 
     private:
 
-    analogue_map_t<ResourceReadingProfile> analogues;
-    bcr_map_t<ResourceReadingProfile> bcrs;
+    analogue_map_t<profile_t> analogues;
+    bcr_map_t<profile_t> bcrs;
 };
 
 } // end namespace openfmb

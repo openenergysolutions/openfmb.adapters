@@ -10,6 +10,7 @@
 #include "adapter-api/IProtoPublishers.h"
 
 #include "PointMap.h"
+#include "adapter-api/helpers/generated/ResourceReadingProfileMap.h"
 
 namespace openfmb
 {
@@ -44,11 +45,13 @@ namespace openfmb
 
     private:
 
-        PointMap point_map;
+        PointMap<ResourceReadingProfileMap> point_map;
         ResourceReadingProfile profile;
-        std::shared_ptr<IProtoPublishers> publisher;
-
         bool rrp_touched = false;
+
+
+
+        std::shared_ptr<IProtoPublishers> publisher;
     };
 
 }

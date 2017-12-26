@@ -2,71 +2,127 @@
 #ifndef OPENFMB_ADAPTER_POINTMAP_H
 #define OPENFMB_ADAPTER_POINTMAP_H
 
-#include "adapter-api/proto/ResourceReadingProfile.pb.h"
+#include <opendnp3/app/MeasurementTypes.h>
+#include <opendnp3/app/Indexed.h>
 
-#include <yaml-cpp/yaml.h>
+#include "adapter-api/helpers/HelperTypedefs.h"
+#include "adapter-api/util/Exception.h"
+#include "adapter-api/util/YAMLUtil.h"
 
 #include <map>
 #include <functional>
 
+
 namespace openfmb
 {
 
+    template <class ProfileMap>
     class PointMap
     {
 
-        typedef void (*set_fun_t)(ResourceReadingProfile& rrp, float value);
-
-        struct AnalogRecord
-        {
-
-        public:
-
-            AnalogRecord() = default;
-
-            AnalogRecord(set_fun_t setter, double scale) :
-                setter(setter),
-                scale(scale)
-            {}
-
-            void set_value(ResourceReadingProfile& rrp, double value) const
-            {
-                setter(rrp, static_cast<float>(this->scale * value));
-            }
-
-        private:
-
-            set_fun_t setter = nullptr;
-            double scale = 1.0;
-        };
-
     public:
+
+        typedef typename ProfileMap::profile_t profile_t;
+
+        template <class T>
+        using setter_t = std::function<void (const T& analog, profile_t& profile)>;
 
         PointMap(const YAML::Node& node);
 
-        bool apply(uint16_t  index, double value, ResourceReadingProfile& profile) const;
+        bool apply(const opendnp3::Indexed<opendnp3::Analog>& meas, profile_t& profile) const;
+        bool apply(const opendnp3::Indexed<opendnp3::Counter>& meas, profile_t& profile) const;
 
     private:
 
-        static ReadingMMXU* mmxu(ResourceReadingProfile& rrp)
-        {
-            return rrp.mutable_resourcereadingvalue()->mutable_readingmmxu();
-        }
+        void map_analogue(const YAML::Node& parent, const std::string& name, analogue_getter_t<profile_t> getter);
+        void map_bcr(const YAML::Node& parent, const std::string& name, bcr_getter_t<profile_t> getter);
 
-        static ReadingMMTR* mmtr(ResourceReadingProfile& rrp)
-        {
-            return rrp.mutable_resourcereadingvalue()->mutable_readingmmtr();
-        }
-
-        void load_mmxu_mapping(const YAML::Node& node);
-        void load_mmtr_mapping(const YAML::Node& node);
-
-        void load(const YAML::Node& parent, const std::string& name, set_fun_t setter);
-
-        std::map<uint16_t, AnalogRecord> analog_map;
+        std::map<uint16_t, setter_t<opendnp3::Analog>> analog_map;
+        std::map<uint16_t, setter_t<opendnp3::Counter>> counter_map;
 
     };
 
+    template <class ProfileMap>
+    PointMap<ProfileMap>::PointMap(const YAML::Node& node)
+    {
+        ProfileMap map; // instantiate the mapping
+
+        for(auto& pair : map.get_analogues())
+        {
+            this->map_analogue(yaml::require(node, "analogue"), pair.first, pair.second);
+        }
+
+        for(auto& pair : map.get_bcrs())
+        {
+            this->map_bcr(yaml::require(node, "bcr"), pair.first, pair.second);
+        }
+    }
+
+    template <class ProfileMap>
+    bool PointMap<ProfileMap>::apply(const opendnp3::Indexed<opendnp3::Analog>& meas, profile_t& profile) const
+    {
+        auto iter = this->analog_map.find(meas.index);
+        if(iter == this->analog_map.end()) return false;
+        iter->second(meas.value, profile);
+        return true;
+    }
+
+    template <class ProfileMap>
+    bool PointMap<ProfileMap>::apply(const opendnp3::Indexed<opendnp3::Counter>& meas, profile_t& profile) const
+    {
+        auto iter = this->counter_map.find(meas.index);
+        if(iter == this->counter_map.end()) return false;
+        iter->second(meas.value, profile);
+        return true;
+    }
+
+    template <class ProfileMap>
+    void PointMap<ProfileMap>::map_analogue(const YAML::Node& parent, const std::string& name, analogue_getter_t<profile_t> getter)
+    {
+        const auto node = yaml::require(parent, name);
+        const auto long_index = yaml::require(node, "index").as<int32_t>();
+
+        // negative indices are ignored
+        if(long_index < 0) return;
+
+        if(long_index > std::numeric_limits<uint16_t>::max())
+        {
+            throw Exception("Index exceeds max ushort: ", long_index);
+        }
+
+        const auto scale = yaml::require(node, "scale").as<double>();
+        const auto index = static_cast<uint16_t>(long_index);
+
+
+        this->analog_map[index] = [getter, scale](const opendnp3::Analog& analog, profile_t& profile) {
+            getter(profile)->set_f(static_cast<float>(analog.value*scale));
+        };
+    }
+
+    template <class ProfileMap>
+    void PointMap<ProfileMap>::map_bcr(const YAML::Node& parent, const std::string& name, bcr_getter_t<profile_t> getter)
+    {
+        const auto node = yaml::require(parent, name);
+        const auto long_index = yaml::require(node, "index").as<int32_t>();
+
+        // negative indices are ignored
+        if(long_index < 0) return;
+
+        if(long_index > std::numeric_limits<uint16_t>::max())
+        {
+            throw Exception("Index exceeds max ushort: ", long_index);
+        }
+
+        const auto scale = yaml::require(node, "scale").as<double>();
+        const auto index = static_cast<uint16_t>(long_index);
+
+
+        this->analog_map[index] = [getter, scale](const opendnp3::Analog& analog, profile_t& profile) {
+            getter(profile)->set_actval(
+                static_cast<int64_t>(analog.value*scale)
+            );
+        };
+    }
 }
 
 #endif //OPENFMB_ADAPTER_ANALOGHANDLER_H

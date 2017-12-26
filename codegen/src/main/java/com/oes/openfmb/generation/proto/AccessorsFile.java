@@ -30,15 +30,17 @@ public class AccessorsFile implements CppClassFile {
                                                         "",
                                                         "public:",
                                                         "",
+                                                        String.format("typedef %s profile_t;", this.descriptor.getName()),
+                                                        "",
                                                         this.getClassName() + "();",
                                                         "",
-                                                        String.format("inline const analogue_map_t<%s>& get_analogues() const { return this->analogues; }", this.descriptor.getName()),
-                                                        String.format("inline const bcr_map_t<%s>& get_bcrs() const { return this->bcrs; }", this.descriptor.getName()),
+                                                        "inline const analogue_map_t<profile_t>& get_analogues() const { return this->analogues; }",
+                                                        "inline const bcr_map_t<profile_t>& get_bcrs() const { return this->bcrs; }",
                                                         "",
                                                         "private:",
                                                         "",
-                                                        String.format("analogue_map_t<%s> analogues;", this.descriptor.getName()),
-                                                        String.format("bcr_map_t<%s> bcrs;",  this.descriptor.getName())
+                                                        "analogue_map_t<profile_t> analogues;",
+                                                        "bcr_map_t<profile_t> bcrs;"
                                                 )
                                         )
                                 )
@@ -94,7 +96,7 @@ public class AccessorsFile implements CppClassFile {
 
     private String getClassName()
     {
-        return this.descriptor.getName() + "Helper";
+        return this.descriptor.getName() + "Map";
     }
 
     private Document entries(String mapName, List<FieldPath> fields)

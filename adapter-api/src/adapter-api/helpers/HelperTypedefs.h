@@ -10,10 +10,16 @@
 namespace openfmb {
 
     template <class Profile>
-    using analogue_map_t = std::map<std::string, AnalogueValue* (*)(Profile& profile)>;
+    using analogue_getter_t = AnalogueValue* (*)(Profile& profile);
 
     template <class Profile>
-    using bcr_map_t = std::map<std::string, BCR* (*)(Profile& profile)>;
+    using bcr_getter_t = BCR* (*)(Profile& profile);
+
+    template <class Profile>
+    using analogue_map_t = std::map<std::string, analogue_getter_t<Profile>>;
+
+    template <class Profile>
+    using bcr_map_t = std::map<std::string, bcr_getter_t<Profile>>;
 
 }
 

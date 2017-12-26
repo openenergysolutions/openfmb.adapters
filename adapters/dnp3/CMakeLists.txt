@@ -10,7 +10,6 @@ set(DNP3_HEADERS
 set(DNP3_SOURCES
         src/dnp3/DNP3MasterFactory.cpp
         src/dnp3/DNP3MasterAdapter.cpp
-        src/dnp3/PointMap.cpp
         src/dnp3/SOEHandler.cpp
         src/dnp3/LogAdapter.h
 )

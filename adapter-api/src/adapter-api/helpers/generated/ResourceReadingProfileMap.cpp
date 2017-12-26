@@ -11,11 +11,11 @@
 //  This file is auto-generated. Do not edit manually
 // 
 
-#include "ResourceReadingProfileHelper.h"
+#include "ResourceReadingProfileMap.h"
 
 namespace openfmb {
 
-ResourceReadingProfileHelper::ResourceReadingProfileHelper()
+ResourceReadingProfileMap::ResourceReadingProfileMap()
 {
 
 // initialize the analog map
