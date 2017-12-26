@@ -17,7 +17,7 @@ namespace openfmb
 {
 
     DNP3MasterAdapter::DNP3MasterAdapter(
-        const logger_t& logger,
+        const Logger& logger,
         const YAML::Node& node,
         IProtoSubscribers& subscribers
     ) :

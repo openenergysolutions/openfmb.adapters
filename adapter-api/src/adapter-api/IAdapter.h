@@ -7,7 +7,7 @@
 
 #include "yaml-cpp/yaml.h"
 
-#include "TypeDefinitions.h"
+#include "Logger.h"
 
 namespace openfmb
 {
@@ -32,7 +32,7 @@ namespace openfmb
 
         virtual const char* name() const = 0;
 
-        virtual std::unique_ptr<IAdapter> create(const YAML::Node& node, const logger_t& logger, IProtoSubscribers& subscribers) = 0;
+        virtual std::unique_ptr<IAdapter> create(const YAML::Node& node, const Logger& logger, IProtoSubscribers& subscribers) = 0;
     };
 
 }

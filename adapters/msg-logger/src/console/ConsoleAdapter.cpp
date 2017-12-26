@@ -13,21 +13,21 @@ namespace openfmb
     template <class Proto>
     class LogPrinter final : public ISubscriber<Proto>
     {
-        const logger_t logger;
+        Logger logger;
 
     public:
 
-        LogPrinter(const logger_t& logger) : logger(logger) {}
+        LogPrinter(const Logger& logger) : logger(logger) {}
 
 
         virtual void receive(const Proto& message) override
         {
-            logger->info(message.DebugString());
+            logger.info(message.DebugString());
         }
 
     };
 
-    ConsoleAdapter::ConsoleAdapter(const YAML::Node& node, const logger_t& logger, IProtoSubscribers& subscribers)
+    ConsoleAdapter::ConsoleAdapter(const YAML::Node& node, const Logger& logger, IProtoSubscribers& subscribers)
     {
         const auto profiles = yaml::require(node, "profiles");
 

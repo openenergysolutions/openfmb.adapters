@@ -24,7 +24,7 @@ namespace openfmb
             return "dnp3";
         }
 
-        virtual std::unique_ptr<IAdapter> create(const YAML::Node& node, const logger_t& logger, IProtoSubscribers& subscribers) override;
+        virtual std::unique_ptr<IAdapter> create(const YAML::Node& node, const Logger& logger, IProtoSubscribers& subscribers) override;
     };
 
 }

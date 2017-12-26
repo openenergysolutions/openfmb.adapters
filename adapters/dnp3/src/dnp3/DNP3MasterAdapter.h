@@ -24,7 +24,7 @@ namespace openfmb
 
         DNP3MasterAdapter() = delete;
 
-        DNP3MasterAdapter(const logger_t& logger, const YAML::Node& node, IProtoSubscribers& subscribers);
+        DNP3MasterAdapter(const Logger& logger, const YAML::Node& node, IProtoSubscribers& subscribers);
 
         virtual void start(const std::shared_ptr<IProtoPublishers>& publishers) override;
 

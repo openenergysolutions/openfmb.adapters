@@ -63,7 +63,7 @@ set(API_HEADERS
 	src/adapter-api/ProfileNames.h
 	src/adapter-api/IProtoPublishers.h
     src/adapter-api/IProtoSubscribers.h
-    src/adapter-api/TypeDefinitions.h
+    src/adapter-api/Logger.h
 	src/adapter-api/util/Exception.h
 	src/adapter-api/util/StringUtil.h
 	src/adapter-api/util/YAMLUtil.h
