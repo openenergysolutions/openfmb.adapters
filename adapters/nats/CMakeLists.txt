@@ -1,4 +1,8 @@
+find_library(LIBNATS nats)
 
+if(NOT LIBNATS)
+	message(FATAL_ERROR "Nats library not found. Is cnats (https://github.com/nats-io/cnats) installed?")
+endif()
 
 set(NATS_HEADERS
         src/nats/NatsAdapter.h
@@ -18,6 +22,6 @@ set(CPP_FORMAT_DIRS
 )
 
 add_library(nats-adapter STATIC ${NATS_SOURCES} ${NATS_HEADERS})
-target_link_libraries(nats-adapter PUBLIC adapter-api nats)
+target_link_libraries(nats-adapter PUBLIC adapter-api ${LIBNATS})
 target_include_directories(nats-adapter INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
