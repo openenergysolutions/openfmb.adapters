@@ -11,8 +11,8 @@ set(NATS_HEADERS
 
 set(NATS_SOURCES
 	src/nats/NatsAdapter.cpp
-        src/nats/NatsFactory.cpp                
-)
+        src/nats/NatsFactory.cpp
+        src/nats/SynchronizedQueue.h src/nats/Message.h)
 
 set(CPP_FORMAT_DIRS
         ${CPP_FORMAT_DIRS}

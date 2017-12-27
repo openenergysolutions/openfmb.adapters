@@ -3,6 +3,9 @@
 
 #include "adapter-api/IAdapter.h"
 
+#include "SynchronizedQueue.h"
+#include "Message.h"
+
 
 namespace openfmb
 {
@@ -20,7 +23,7 @@ namespace openfmb
 
     private:
 
-
+        SynchronizedQueue<std::unique_ptr<Message>> messages;
     };
 
 }
