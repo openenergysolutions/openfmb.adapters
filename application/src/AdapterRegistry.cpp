@@ -7,6 +7,10 @@
 #include "dnp3/DNP3MasterFactory.h"
 #endif
 
+#ifdef OPENFMB_USE_NATS
+#include "nats/NatsFactory.h"
+#endif
+
 #ifdef OPENFMB_USE_TWINOAKS_DDS
 #include "twinoaks/DDSAdapterFactory.h"
 #endif
@@ -17,9 +21,12 @@ AdapterRegistry::AdapterRegistry()
 {
     this->add<openfmb::ConsoleAdapterFactory>();
 
-
 #ifdef OPENFMB_USE_DNP3
     this->add<openfmb::DNP3MasterFactory>();
+#endif
+
+#ifdef OPENFMB_USE_NATS
+    this->add<openfmb::NatsFactory>();
 #endif
 
 #ifdef OPENFMB_USE_TWINOAKS_DDS

@@ -4,6 +4,7 @@ set(OPENFMB_ADAPTER_VERSION 0.0.1)
 
 # optionally disable certain adapters
 option(OPENFMB_USE_DNP3 "Build the DNP3 adapter" ON)
+option(OPENFMB_USE_NATS "Build the NATS adapter" ON)
 option(OPENFMB_USE_TWINOAKS_DDS "Build the Twin Oaks DDS adapter" ON)
 
 #temporary hack
@@ -16,11 +17,15 @@ add_subdirectory(./adapter-api)
 add_subdirectory(./adapters/msg-logger)
 
 if(OPENFMB_USE_DNP3)
-  add_subdirectory(./adapters/dnp3) # DNP3 adapter based on opendnp3
+  add_subdirectory(./adapters/dnp3)
 endif()
 
 if(OPENFMB_USE_TWINOAKS_DDS)
-  add_subdirectory(./adapters/dds/twinoaks) # DDS adapter based on Twin Oaks library
+  add_subdirectory(./adapters/dds/twinoaks)
+endif()
+
+if(OPENFMB_USE_NATS)
+  add_subdirectory(./adapters/nats)
 endif()
 
 # main application

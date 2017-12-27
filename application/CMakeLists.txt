@@ -22,6 +22,11 @@ if(OPENFMB_USE_DNP3)
     list(APPEND ADAPTERS dnp3-adapter)
 endif()
 
+if(OPENFMB_USE_NATS)
+    add_definitions(-DOPENFMB_USE_NATS)
+    list(APPEND ADAPTERS nats-adapter)
+endif()
+
 if(OPENFMB_USE_TWINOAKS_DDS)
     add_definitions(-DOPENFMB_USE_TWINOAKS_DDS)
     list(APPEND ADAPTERS twinoaks-dds-adapter)

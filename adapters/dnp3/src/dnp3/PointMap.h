@@ -94,8 +94,9 @@ namespace openfmb
         const auto index = static_cast<uint16_t>(long_index);
 
 
-        this->analog_map[index] = [getter, scale](const opendnp3::Analog& analog, profile_t& profile) {
-            getter(profile)->set_f(static_cast<float>(analog.value*scale));
+        this->analog_map[index] = [getter, scale](const opendnp3::Analog & analog, profile_t& profile)
+        {
+            getter(profile)->set_f(static_cast<float>(analog.value * scale));
         };
     }
 
@@ -117,9 +118,10 @@ namespace openfmb
         const auto index = static_cast<uint16_t>(long_index);
 
 
-        this->analog_map[index] = [getter, scale](const opendnp3::Analog& analog, profile_t& profile) {
+        this->analog_map[index] = [getter, scale](const opendnp3::Analog & analog, profile_t& profile)
+        {
             getter(profile)->set_actval(
-                static_cast<int64_t>(analog.value*scale)
+                static_cast<int64_t>(analog.value * scale)
             );
         };
     }
