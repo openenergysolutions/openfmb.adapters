@@ -27,6 +27,11 @@ namespace openfmb
 
         }
 
+        const uint8_t* data() const
+        {
+            return this->buffer.get();
+        }
+
         uint8_t* data()
         {
             return this->buffer.get();

@@ -23,6 +23,12 @@ namespace openfmb
         );
     }
 
+    NatsAdapter::~NatsAdapter()
+    {
+        this->shutdown = true;
+        this->background_thread->join();
+    }
+
     void NatsAdapter::start(const std::shared_ptr<IProtoPublishers>& publishers)
     {
         if(this->background_thread) return;
@@ -35,12 +41,35 @@ namespace openfmb
 
     void NatsAdapter::run()
     {
-        while(true)
+        natsConnection* connection;
+
+        while(!shutdown) {
+            auto err = natsConnection_ConnectTo(&connection, NATS_DEFAULT_URL);
+
+            if(err) // TODO - specify URL in config
+            {
+                logger.warn("Unable to connect to NATS server: {}", nats_GetLastError(nullptr));
+                std::this_thread::sleep_for(std::chrono::seconds(5));
+            }
+            else
+            {
+                this->run(*connection);
+
+                natsConnection_Close(connection);
+            }
+        }
+
+    }
+
+    void NatsAdapter::run(natsConnection& conn)
+    {
+        while(!shutdown)
         {
             auto msg = this->messages->pop(std::chrono::milliseconds(100));
             if(msg)
             {
-                this->logger.info("read msg for {} w/ size {}", msg->subject, msg->buffer.length());
+                this->logger.info("publishing {} bytes to subject: {}", msg->subject, msg->buffer.length());
+                natsConnection_Publish(&conn, msg->subject.c_str(), msg->buffer.data(), static_cast<int>(msg->buffer.length()));
             }
         }
     }
