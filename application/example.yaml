@@ -49,7 +49,7 @@ adapters:
                     resourceReadingValue.readingMMXU.a.phsC.cVal.ang:     {index:  -1, scale: 1.0}
                     resourceReadingValue.readingMMXU.a.phsC.cVal.mag:     {index:  -1, scale: 1.0}
 
-                    resourceReadingValue.readingMMXU.hz.mag:              {index:  -1, scale: 1.0}
+                    resourceReadingValue.readingMMXU.hz.mag:              {index:  0, scale: 1.0}
 
                     resourceReadingValue.readingMMXU.pPV.phsAB.cVal.ang:  {index:  -1, scale: 1.0}
                     resourceReadingValue.readingMMXU.pPV.phsAB.cVal.mag:  {index:  -1, scale: 1.0}
@@ -132,7 +132,7 @@ adapters:
 
      #  adapter that just prints published messages to the console
     - id: "msg-logger"
-      enabled:  true
+      enabled:  false
       log-name: "published"
       profiles:
           resource-reading  : true
@@ -146,3 +146,7 @@ adapters:
       # subscribe to and publish these profiles via DDS
       publish:
           resource-reading: true
+
+    - id: "nats"
+      enabled: true
+      log-name: "nats"

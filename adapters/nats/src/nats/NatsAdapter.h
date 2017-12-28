@@ -23,7 +23,12 @@ namespace openfmb
 
     private:
 
-        SynchronizedQueue<std::unique_ptr<Message>> messages;
+        Logger logger;
+        std::unique_ptr<std::thread> background_thread;
+
+        const std::shared_ptr<SynchronizedQueue<Message>> messages;
+
+        void run();
     };
 
 }

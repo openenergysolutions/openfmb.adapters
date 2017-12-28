@@ -8,9 +8,6 @@
 
 namespace openfmb
 {
-
-
-
     template <class T>
     class SynchronizedQueue
     {
@@ -18,36 +15,23 @@ namespace openfmb
     public:
 
         SynchronizedQueue(size_t max_queue_size) : max_queue_size(max_queue_size)
-        {
+        {}
 
-        }
+        /**
+         * Push a value into the queue
+         *
+         * @param item to be moved into the queue
+         * @return true if the value was added without popping another item to make space
+         */
+        bool push(std::unique_ptr<T> item);
 
-        bool push(std::unique_ptr<T> item)
-        {
-            std::unique_lock<std::mutex> lock(this->mutex);
-            this->items.push_back(std::move(item));
-            const auto trimmed = this->trim_old_item();
-
-            lock.unlock();
-            this->condition.notify_one();
-            return !trimmed;
-        }
-
-        std::unique_ptr<T> wait(const std::chrono::steady_clock::duration& duration)
-        {
-            std::unique_lock<std::mutex> lock(this->mutex);
-            const auto success = this->condition.wait_for(lock, duration, [this]() -> bool { return !this->items.empty(); });
-            if(success)
-            {
-                auto ret = std::move(this->items.front());
-                this->items.pop_front();
-                return std::move(ret);
-            }
-            else
-            {
-                return nullptr;
-            }
-        }
+        /**
+         * Try to pop an item from the queue within the specified timeout
+         *
+         * @param timeout Maximum time to wait for a value to be available
+         * @return An available value or nullptr upon timeout
+         */
+        std::unique_ptr<T> pop(const std::chrono::steady_clock::duration& timeout);
 
     private:
 
@@ -73,6 +57,36 @@ namespace openfmb
 
     };
 
+    template <class T>
+    bool SynchronizedQueue<T>::push(std::unique_ptr<T> item)
+    {
+        std::unique_lock<std::mutex> lock(this->mutex);
+        this->items.push_back(std::move(item));
+        const auto trimmed = this->trim_old_item();
+
+        lock.unlock();
+        this->condition.notify_one();
+        return !trimmed;
+    }
+
+    template <class T>
+    std::unique_ptr<T> SynchronizedQueue<T>::pop(const std::chrono::steady_clock::duration& duration)
+    {
+        const auto has_item = [this]() -> bool { return !this->items.empty(); };
+
+        std::unique_lock<std::mutex> lock(this->mutex);
+
+        if(this->condition.wait_for(lock, duration, has_item))
+        {
+            auto ret = std::move(this->items.front());
+            this->items.pop_front();
+            return std::move(ret);
+        }
+        else
+        {
+            return nullptr;
+        }
+    }
 }
 
 #endif //OPENFMB_ADAPTER_PUBLISHQUEUE_H
