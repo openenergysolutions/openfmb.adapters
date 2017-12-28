@@ -43,7 +43,8 @@ namespace openfmb
     {
         natsConnection* connection;
 
-        while(!shutdown) {
+        while(!shutdown)
+        {
             auto err = natsConnection_ConnectTo(&connection, NATS_DEFAULT_URL);
 
             if(err) // TODO - specify URL in config
@@ -68,8 +69,19 @@ namespace openfmb
             auto msg = this->messages->pop(std::chrono::milliseconds(100));
             if(msg)
             {
-                this->logger.info("publishing {} bytes to subject: {}", msg->subject, msg->buffer.length());
-                natsConnection_Publish(&conn, msg->subject.c_str(), msg->buffer.data(), static_cast<int>(msg->buffer.length()));
+
+                auto err = natsConnection_Publish(&conn, msg->subject.c_str(), msg->buffer.data(), static_cast<int>(msg->buffer.length()));
+
+                if(err)
+                {
+                    this->logger.warn("publish to subject {} failed: {}", msg->subject, nats_GetLastError(nullptr));
+                }
+                else
+                {
+                    this->logger.info("published {} bytes to subject: {}", msg->buffer.length(), msg->subject);
+                }
+
+
             }
         }
     }
