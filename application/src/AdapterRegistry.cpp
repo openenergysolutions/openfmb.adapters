@@ -15,8 +15,6 @@
 #include "twinoaks/DDSAdapterFactory.h"
 #endif
 
-#include "adapter-api/util/Exception.h"
-
 AdapterRegistry::AdapterRegistry()
 {
     this->add<openfmb::ConsoleAdapterFactory>();
@@ -35,21 +33,16 @@ AdapterRegistry::AdapterRegistry()
 
 }
 
-openfmb::IAdapterFactory& AdapterRegistry::find(const std::string& id)
+std::shared_ptr<openfmb::IAdapterFactory> AdapterRegistry::find(const std::string& id)
 {
     auto adapter = this->lookup.find(id);
-    if(adapter == this->lookup.end())
-    {
-        throw openfmb::Exception("Unknown adapter id: ", id);
-    }
-    return *(adapter->second);
+    return (adapter == this->lookup.end()) ? nullptr : adapter->second;
 }
 
 template <class T>
 void AdapterRegistry::add()
 {
-    auto factory = std::make_unique<T>();
-
-    this->lookup[factory->name()] = std::move(factory);
+    auto factory = std::make_shared<T>();
+    this->lookup[factory->name()] = factory;
 }
 

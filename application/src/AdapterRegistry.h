@@ -13,14 +13,14 @@ public:
 
     AdapterRegistry();
 
-    openfmb::IAdapterFactory& find(const std::string& id);
+    std::shared_ptr<openfmb::IAdapterFactory> find(const std::string& id);
 
 private:
 
     template<class T>
     void add();
 
-    std::map<std::string, std::unique_ptr<openfmb::IAdapterFactory>> lookup;
+    std::map<std::string, std::shared_ptr<openfmb::IAdapterFactory>> lookup;
 
 };
 

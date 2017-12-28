@@ -75,8 +75,12 @@ vector<unique_ptr<IAdapter>> init_adapters(const std::string& yaml_path, Adapter
 
             const auto log_name = yaml::require(*it, "log-name").as<string>();
 
+            const auto factory = registry.find(id);
+
+            if(!factory) throw Exception("No adapter factory with id: ", id);
+
             adapters.push_back(
-                registry.find(id).create(*it, logger.clone(log_name), subscribers)
+                factory->create(*it, logger.clone(log_name), subscribers)
             );
         }
         else
