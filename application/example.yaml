@@ -3,17 +3,21 @@
 logging:
     name: "main"
     # log to the console?
-    console: true
+    console:
+        enabled: true
     # log to a rotating file?
-    rotating:
+    rotating-file:
+        enabled: true
         path: "adapter.log"
         max-size: 1048576
         max-files: 3
 
-# a sequence of adapters with the first entry always being the unique "type"
+# a map of adapters
+
 adapters:
-    #  DNP3 adapter
-    - id: "dnp3"
+
+    dnp3: #  DNP3 adapter
+
       enabled:  true
       log-name: "dnp3"
 
@@ -101,16 +105,14 @@ adapters:
                     resourceReadingValue.readingMMTR.totVArh:   {index:  -1, scale: 1.0}
                     resourceReadingValue.readingMMTR.totWh:     {index:  -1, scale: 1.0}
 
-     #  adapter that just prints published messages to the console
-    - id: "msg-logger"
+
+    console-printer: #  adapter that just prints published messages to the console
       enabled:  false
       log-name: "published"
       profiles:
           ResourceReadingProfile  : true
 
-     #  twinoaks DDS adapter
-
-    - id: "twinoaks-dds"
+    twinoaks-dds: #  twinoaks DDS adapter
       enabled: true
       log-name: "dds"
       domain_id: 0
@@ -118,7 +120,7 @@ adapters:
       publish:
           ResourceReadingProfile: true
 
-    - id: "nats"
+    nats: #nats adapter based on C-client (cnats)
       enabled: true
       log-name: "nats"
       max_queued_messages: 100

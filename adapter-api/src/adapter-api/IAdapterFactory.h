@@ -24,6 +24,8 @@ namespace openfmb
 
         virtual std::string name() const = 0;
 
+        virtual void write_default_config(YAML::Emitter& emitter) const = 0;
+
         virtual std::unique_ptr<IAdapter> create(const YAML::Node& node, const Logger& logger, IProtoSubscribers& subscribers) = 0;
     };
 

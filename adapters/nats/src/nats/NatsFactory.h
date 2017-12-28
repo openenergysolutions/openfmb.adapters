@@ -19,6 +19,11 @@ namespace openfmb
             return "nats";
         }
 
+        virtual void write_default_config(YAML::Emitter& emitter) const override
+        {
+            // TODO
+        }
+
         virtual std::unique_ptr<IAdapter> create(const YAML::Node& node, const Logger& logger, IProtoSubscribers& subscribers) override;
     };
 
