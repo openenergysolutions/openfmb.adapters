@@ -37,11 +37,12 @@ namespace openfmb
 
         MasterStackConfig config;
 
-        {
-            const auto link = yaml::require(node, "link-layer");
-            config.link.LocalAddr = yaml::require(link, "master-address").as<std::uint16_t>();
-            config.link.RemoteAddr = yaml::require(link, "outstation-address").as<std::uint16_t>();
-        }
+
+        const auto protocol = yaml::require(node, "protocol");
+
+        config.link.LocalAddr = yaml::require(protocol, "master-address").as<std::uint16_t>();
+        config.link.RemoteAddr = yaml::require(protocol, "outstation-address").as<std::uint16_t>();
+
 
         // actively disable unsolicited mode, and don't re-enable it after integrity scan
         config.master.disableUnsolOnStartup = true;
@@ -56,12 +57,10 @@ namespace openfmb
                           config
                       );
 
-        const auto app = yaml::require(node, "app-layer");
-
         // configure the integrity scan
         master->AddClassScan(
             ClassField::AllClasses(),
-            TimeDuration::Milliseconds(yaml::require(app, "integrity-poll-ms").as<uint32_t>())
+            TimeDuration::Milliseconds(yaml::require(protocol, "integrity-poll-ms").as<uint32_t>())
         );
 
         this->masters.push_back(MasterRecord { data_handler : data_handler, master : master });

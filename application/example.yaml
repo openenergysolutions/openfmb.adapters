@@ -23,15 +23,16 @@ adapters:
       # a sequence of master instances
       masters:
           - logger: "master1"
+          
             channel:
                 adapter: "0.0.0.0"
                 remote-ip: "127.0.0.1"
                 port: 20000
-            link-layer:
+            protocol:
                 master-address: 1
                 outstation-address: 10
-            app-layer:
                 integrity-poll-ms: 5000
+
             ResourceReadingProfile:
                     # analogue values
                     resourceReadingValue.readingMMXU.a.net.cVal.ang:      {index:  -1, scale: 1.0}
