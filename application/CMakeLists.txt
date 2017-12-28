@@ -1,18 +1,20 @@
 
 set(OPENFMB_ADAPTER_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/ProtoBus.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/ProtoBus.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/AdapterRegistry.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/AdapterRegistry.cpp
-        src/Shutdown.h)
+        src/main.cpp
+        src/ProtoBus.h
+        src/ProtoBus.cpp
+        src/AdapterRegistry.h
+        src/AdapterRegistry.cpp
+        src/Shutdown.h
+        src/ConfigStrings.h
+)
 
 SET(CPP_FORMAT_DIRS
         ${CPP_FORMAT_DIRS}
         ${CMAKE_CURRENT_SOURCE_DIR}/src/*.h
         ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
         PARENT_SCOPE
-        )
+)
 
 # adapters that are always built regardless of configuration
 set(ADAPTERS msg-logger-adapter)

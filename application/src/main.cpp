@@ -6,6 +6,7 @@
 #include "AdapterRegistry.h"
 #include "ProtoBus.h"
 #include "Shutdown.h"
+#include "ConfigStrings.h"
 
 #include <fstream>
 #include <iostream>
@@ -89,6 +90,11 @@ int run_application(const std::string& config_file_path)
     // load the adapters from the yaml configuration
     const auto adapters = init_adapters(config_file_path, registry, *bus);
 
+    if(adapters.empty()) {
+        std::cerr << "No enabled adapters founded" << std::endl;
+        return -1;
+    }
+
     // don't allow any more subscriptions to the bus (effectively make it immutable)
     bus->finalize();
 
@@ -101,27 +107,25 @@ int run_application(const std::string& config_file_path)
     // wait for ctrl-c
     Shutdown::await(SIGINT);
 
-    std::cout << "begin shutdown" << std::endl;
-
     return 0;
 }
 
 void write_default_logger_config(YAML::Emitter& out)
 {
-    out << YAML::Key << "logging";
+    out << YAML::Key << config::logging;
 
     out << YAML::BeginMap;
-    /**/out << YAML::Key << "primary-logger-name" << YAML::Value << "application";
-    /**/out << YAML::Key << "console" << YAML::Comment("print log messages to the console");
+    /**/out << YAML::Key << config::logger_name << YAML::Value << "application";
+    /**/out << YAML::Key << config::console << YAML::Comment("print log messages to the console");
     /**/out << YAML::BeginMap;
-    /**//**/out << YAML::Key << "enabled" << YAML::Value << true;
+    /**//**/out << YAML::Key << config::enabled << YAML::Value << true;
     /**/out << YAML::EndMap;
-    /**/out << YAML::Key << "rotating-file" << YAML::Comment("print log messages to a rotating file");
+    /**/out << YAML::Key << config::rotating_file << YAML::Comment("print log messages to a rotating file");
     /**/out << YAML::BeginMap;
-    /**//**/out << YAML::Key << "enabled" << YAML::Value << false;
-    /**//**/out << YAML::Key << "path" << YAML::Value << "adapter.log";
-    /**//**/out << YAML::Key << "max-size" << YAML::Value << 1048576 << YAML::Comment("maximum size of a single file in bytes");
-    /**//**/out << YAML::Key << "max-files" << YAML::Value << 3;
+    /**//**/out << YAML::Key << config::enabled << YAML::Value << false;
+    /**//**/out << YAML::Key << config::path << YAML::Value << "adapter.log";
+    /**//**/out << YAML::Key << config::max_size << YAML::Value << 1048576 << YAML::Comment("maximum size of a single file in bytes");
+    /**//**/out << YAML::Key << config::max_files << YAML::Value << 3;
     /**/out << YAML::EndMap;
     out << YAML::EndMap;
 }
@@ -134,13 +138,13 @@ int write_adapters(YAML::Emitter& out)
     {
         out << name;
         out << YAML::BeginMap;
-        out << YAML::Key << "enabled" << YAML::Value << false;
-        out << YAML::Key << "logger-name" << YAML::Value << name;
+        out << YAML::Key << config::enabled << YAML::Value << false;
+        out << YAML::Key << config::logger_name << YAML::Value << name;
         factory.write_default_config(out);
         out << YAML::EndMap;
     };
 
-    out << YAML::Key << "adapters";
+    out << YAML::Key << config::adapters;
 
     out << YAML::BeginMap;
     registry.foreach_adapter(write_config);
@@ -176,21 +180,26 @@ vector<unique_ptr<IAdapter>> init_adapters(const std::string& yaml_path, Adapter
 
     auto logger = get_logger(yaml_root);
 
-    const auto adapter_list = yaml::require(yaml_root, "adapters");
+    const auto adapter_list = yaml::require(yaml_root, config::adapters);
 
     vector<unique_ptr<IAdapter>> adapters;
 
-    auto load = [&](const std::string & name, IAdapterFactory & factory)
+    auto load = [&](const std::string & name, IAdapterFactory & factory) -> void
     {
-        const auto entry = yaml::require(adapter_list, name);
-        const auto enabled = yaml::require(entry, "enabled").as<bool>();
+        const auto entry = adapter_list[name];
+        if(!entry) {
+            logger.info("No configuration specified for adapter: {}", name);
+            return;
+        }
+
+        const auto enabled = yaml::require(entry, config::enabled).as<bool>();
 
 
         if(enabled)
         {
             logger.info("Initializing adapter: {}", name);
 
-            const auto log_name = yaml::require(entry, "log-name").as<string>();
+            const auto log_name = yaml::require(entry, config::logger_name).as<string>();
 
             adapters.push_back(
                 factory.create(entry, logger.clone(log_name), subscribers)
@@ -209,28 +218,28 @@ vector<unique_ptr<IAdapter>> init_adapters(const std::string& yaml_path, Adapter
 
 Logger get_logger(const YAML::Node& root)
 {
-    const auto logging = yaml::require(root, "logging");
-    const auto primary_log_name = yaml::require(logging, "name").as<string>();
+    const auto logging = yaml::require(root, config::logging);
+    const auto primary_log_name = yaml::require(logging, config::logger_name).as<string>();
 
 
     std::vector<spdlog::sink_ptr> sinks;
 
-    const auto console = yaml::require(logging, "console");
+    const auto console = yaml::require(logging, config::console);
 
-    if(yaml::require(console, "enabled").as<bool>())
+    if(yaml::require(console, config::enabled).as<bool>())
     {
         sinks.push_back(std::make_shared<spdlog::sinks::stdout_sink_mt>());
     }
 
-    const auto rotating = yaml::require(logging, "rotating-file");
+    const auto rotating = yaml::require(logging, config::rotating_file);
 
-    if(yaml::require(rotating, "enabled").as<bool>())
+    if(yaml::require(rotating, config::enabled).as<bool>())
     {
         sinks.push_back(
             std::make_shared<spdlog::sinks::rotating_file_sink_mt>(
-                yaml::require(rotating, "path").as<string>(),
-                yaml::require(rotating, "max-size").as<size_t>(),
-                yaml::require(rotating, "max-files").as<size_t>()
+                yaml::require(rotating, config::path).as<string>(),
+                yaml::require(rotating, config::max_size).as<size_t>(),
+                yaml::require(rotating, config::max_files).as<size_t>()
             )
         );
     }
