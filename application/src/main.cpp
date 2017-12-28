@@ -130,20 +130,21 @@ int write_adapters(YAML::Emitter& out)
 {
     AdapterRegistry registry;
 
-    auto write_config = [&](const std::string& name, const IAdapterFactory& factory) -> void
+    auto write_config = [&](const std::string & name, const IAdapterFactory & factory) -> void
     {
-        out << "id" << YAML::Value << name;
-
+        out << name;
         out << YAML::BeginMap;
+        out << YAML::Key << "enabled" << YAML::Value << false;
+        out << YAML::Key << "logger-name" << YAML::Value << name;
         factory.write_default_config(out);
         out << YAML::EndMap;
     };
 
     out << YAML::Key << "adapters";
 
-    out << YAML::BeginSeq;
+    out << YAML::BeginMap;
     registry.foreach_adapter(write_config);
-    out << YAML::EndSeq;
+    out << YAML::EndMap;
 }
 
 int write_config(const std::string& config_file_path)
@@ -179,7 +180,7 @@ vector<unique_ptr<IAdapter>> init_adapters(const std::string& yaml_path, Adapter
 
     vector<unique_ptr<IAdapter>> adapters;
 
-    auto load = [&](const std::string& name, IAdapterFactory& factory)
+    auto load = [&](const std::string & name, IAdapterFactory & factory)
     {
         const auto entry = yaml::require(adapter_list, name);
         const auto enabled = yaml::require(entry, "enabled").as<bool>();
@@ -192,7 +193,7 @@ vector<unique_ptr<IAdapter>> init_adapters(const std::string& yaml_path, Adapter
             const auto log_name = yaml::require(entry, "log-name").as<string>();
 
             adapters.push_back(
-                    factory.create(entry, logger.clone(log_name), subscribers)
+                factory.create(entry, logger.clone(log_name), subscribers)
             );
         }
         else
