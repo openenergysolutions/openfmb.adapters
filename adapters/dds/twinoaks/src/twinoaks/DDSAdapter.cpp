@@ -2,7 +2,6 @@
 #include "DDSAdapter.h"
 
 #include "adapter-api/util/YAMLUtil.h"
-#include "adapter-api/ProfileNames.h"
 
 #include "generated/OpenFMBTypeSupport.hh"
 #include "Conversions.h"
@@ -38,7 +37,7 @@ namespace openfmb
         const auto participant = create_participant(domain_id);
 
         // bind the specified subscribers
-        if(publishers[profiles::resource_reading])
+        if(yaml::require(publishers, ResourceReadingProfile::descriptor()->name()).as<bool>())
         {
             subscribers.subscribe(
                 create_subscriber<ResourceReadingProfile, resourcemodule::ResourceReadingProfile>(participant)

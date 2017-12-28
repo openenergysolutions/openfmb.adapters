@@ -49,12 +49,12 @@ namespace openfmb
 
         for(auto& pair : map.get_analogues())
         {
-            this->map_analogue(yaml::require(node, "analogue"), pair.first, pair.second);
+            this->map_analogue(node, pair.first, pair.second);
         }
 
         for(auto& pair : map.get_bcrs())
         {
-            this->map_bcr(yaml::require(node, "bcr"), pair.first, pair.second);
+            this->map_bcr(node, pair.first, pair.second);
         }
     }
 

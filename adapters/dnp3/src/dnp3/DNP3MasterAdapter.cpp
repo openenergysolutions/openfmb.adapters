@@ -6,7 +6,6 @@
 #include <opendnp3/LogLevels.h>
 #include <adapter-api/util/YAMLUtil.h>
 
-#include "adapter-api/ProfileNames.h"
 #include "LogAdapter.h"
 
 using namespace openpal;
@@ -48,7 +47,7 @@ namespace openfmb
         config.master.disableUnsolOnStartup = true;
         config.master.unsolClassMask = ClassField::None();
 
-        const auto data_handler = std::make_shared<SOEHandler>(yaml::require(node, profiles::resource_reading));
+        const auto data_handler = std::make_shared<SOEHandler>(yaml::require(node, ResourceReadingProfile::descriptor()->name()));
 
         auto master = channel->AddMaster(
                           yaml::require(node, "logger").as<std::string>(),

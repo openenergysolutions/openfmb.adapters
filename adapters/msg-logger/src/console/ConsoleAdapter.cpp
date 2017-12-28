@@ -5,8 +5,6 @@
 
 #include <iostream>
 
-#include "adapter-api/ProfileNames.h"
-
 namespace openfmb
 {
 
@@ -31,7 +29,7 @@ namespace openfmb
     {
         const auto profiles = yaml::require(node, "profiles");
 
-        if(yaml::require(profiles, profiles::resource_reading).as<bool>())
+        if(yaml::require(profiles, ResourceReadingProfile::descriptor()->name()).as<bool>())
         {
             subscribers.subscribe(std::make_shared<LogPrinter<ResourceReadingProfile>>(logger));
         }

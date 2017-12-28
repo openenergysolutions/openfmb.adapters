@@ -14,9 +14,10 @@ namespace openfmb
 
     class NatsAdapter final : public IAdapter
     {
-        struct Config {
+        struct Config
+        {
 
-            Config(const YAML::Node &node);
+            Config(const YAML::Node& node);
 
             const size_t max_queued_messages;
             const std::string connect_url;
@@ -46,6 +47,11 @@ namespace openfmb
 
         void run();
         void run(natsConnection& connection);
+
+        void configure_publishers(const YAML::Node& node, IProtoSubscribers& subscribers);
+
+        template <class T>
+        void add_publisher(const YAML::Node& node, IProtoSubscribers& subscribers);
     };
 
 }

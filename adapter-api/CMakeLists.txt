@@ -60,8 +60,7 @@ set(PROTO_SOURCES
 set(API_HEADERS
     src/adapter-api/IAdapter.h
     src/adapter-api/ISubscriber.h
-	src/adapter-api/ProfileNames.h
-	src/adapter-api/IProtoPublishers.h
+        src/adapter-api/IProtoPublishers.h
     src/adapter-api/IProtoSubscribers.h
     src/adapter-api/Logger.h
 	src/adapter-api/util/Exception.h

@@ -15,18 +15,10 @@ namespace openfmb
             std::make_shared<SynchronizedQueue<Message>>(config.max_queued_messages)
         )
     {
-        // TODO - make the subscriptions configurable
-        // TODO - what should the subject names be?
-        subscribers.subscribe(
-            std::make_shared<Subscriber<ResourceReadingProfile>>(
-                logger,
-                ResourceReadingProfile::descriptor()->full_name(),
-                this->messages
-            )
-        );
+        this->configure_publishers(yaml::require(node, "publish"), subscribers);
     }
 
-    NatsAdapter::Config::Config(const YAML::Node &node) :
+    NatsAdapter::Config::Config(const YAML::Node& node) :
         max_queued_messages(yaml::require(node, "max_queued_messages").as<size_t>()),
         connect_url(yaml::require(node, "connect_url").as<std::string>()),
         connect_retry_seconds(std::chrono::seconds(yaml::require(node, "connect_retry_seconds").as<uint32_t>()))
@@ -95,6 +87,37 @@ namespace openfmb
 
             }
         }
+    }
+
+    template <class T>
+    void NatsAdapter::add_publisher(const YAML::Node& node, IProtoSubscribers& subscribers)
+    {
+        const YAML::Node profile = yaml::require(node, T::descriptor()->name());
+
+
+        if(profile.as<bool>())
+        {
+            const auto subject =  T::descriptor()->full_name();
+
+            logger.info("{} will be published to subject: {}", T::descriptor()->name(), subject);
+
+            subscribers.subscribe(
+                std::make_shared<Subscriber<T>>(
+                    this->logger,
+                    subject,
+                    this->messages
+                )
+            );
+
+
+        }
+
+    }
+
+    void NatsAdapter::configure_publishers(const YAML::Node& node, IProtoSubscribers& subscribers)
+    {
+        this->add_publisher<ResourceReadingProfile>(node, subscribers);
+
     }
 }
 
