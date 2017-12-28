@@ -14,8 +14,17 @@ namespace openfmb
 
     class NatsAdapter final : public IAdapter
     {
+        struct Config {
+
+            Config(const YAML::Node &node);
+
+            const size_t max_queued_messages;
+            const std::string connect_url;
+            const std::chrono::seconds connect_retry_seconds;
+        };
 
     public:
+
 
         NatsAdapter() = delete;
 
@@ -26,6 +35,8 @@ namespace openfmb
         virtual void start(const std::shared_ptr<IProtoPublishers>& publishers) override;
 
     private:
+
+        const Config config;
 
         Logger logger;
         std::unique_ptr<std::thread> background_thread;

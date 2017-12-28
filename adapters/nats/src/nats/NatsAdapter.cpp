@@ -3,13 +3,16 @@
 
 #include "Subscriber.h"
 
+#include "adapter-api/util/YAMLUtil.h"
+
 namespace openfmb
 {
 
     NatsAdapter::NatsAdapter(const Logger& logger, const YAML::Node& node, IProtoSubscribers& subscribers) :
+        config(node),
         logger(logger),
         messages(
-            std::make_shared<SynchronizedQueue<Message>>(100) // TODO - configure the size of the queue
+            std::make_shared<SynchronizedQueue<Message>>(config.max_queued_messages)
         )
     {
         // TODO - make the subscriptions configurable
@@ -21,6 +24,14 @@ namespace openfmb
                 this->messages
             )
         );
+    }
+
+    NatsAdapter::Config::Config(const YAML::Node &node) :
+        max_queued_messages(yaml::require(node, "max_queued_messages").as<size_t>()),
+        connect_url(yaml::require(node, "connect_url").as<std::string>()),
+        connect_retry_seconds(std::chrono::seconds(yaml::require(node, "connect_retry_seconds").as<uint32_t>()))
+    {
+
     }
 
     NatsAdapter::~NatsAdapter()
@@ -45,12 +56,12 @@ namespace openfmb
 
         while(!shutdown)
         {
-            auto err = natsConnection_ConnectTo(&connection, NATS_DEFAULT_URL);
+            auto err = natsConnection_ConnectTo(&connection, this->config.connect_url.c_str());
 
-            if(err) // TODO - specify URL in config
+            if(err)
             {
                 logger.warn("Unable to connect to NATS server: {}", nats_GetLastError(nullptr));
-                std::this_thread::sleep_for(std::chrono::seconds(5));
+                std::this_thread::sleep_for(this->config.connect_retry_seconds);
             }
             else
             {
