@@ -1,11 +1,9 @@
 #ifndef OPENFMB_ADAPTER_DNP3MASTERADAPTER_H
 #define OPENFMB_ADAPTER_DNP3MASTERADAPTER_H
 
-#include "adapter-api/IAdapter.h"
+#include "adapter-api/IAdapterFactory.h"
 
 #include "SOEHandler.h"
-
-#include <memory>
 
 #include <asiodnp3/DNP3Manager.h>
 

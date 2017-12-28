@@ -2,6 +2,9 @@
 #define OPENFMB_ADAPTER_CONSOLEADAPTER_H
 
 #include <adapter-api/IAdapter.h>
+#include <adapter-api/IProtoSubscribers.h>
+#include <adapter-api/Logger.h>
+#include <yaml-cpp/yaml.h>
 
 namespace openfmb
 {

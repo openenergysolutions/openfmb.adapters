@@ -2,9 +2,9 @@
 #ifndef OPENFMB_ADAPTER_ADAPTERREGISTRY_H
 #define OPENFMB_ADAPTER_ADAPTERREGISTRY_H
 
-#include <map>
+#include <adapter-api/IAdapterFactory.h>
 
-#include "adapter-api/IAdapter.h"
+#include <map>
 
 class AdapterRegistry
 {

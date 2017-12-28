@@ -2,12 +2,7 @@
 #ifndef OPENFMB_ADAPTER_DNP3MASTERFACTORY_H
 #define OPENFMB_ADAPTER_DNP3MASTERFACTORY_H
 
-#include "adapter-api/IAdapter.h"
-
-namespace asiodnp3
-{
-    class DNP3Manager;
-}
+#include "adapter-api/IAdapterFactory.h"
 
 namespace openfmb
 {
@@ -19,7 +14,7 @@ namespace openfmb
 
         DNP3MasterFactory() = default;
 
-        virtual const char* name() const override
+        virtual std::string name() const override
         {
             return "dnp3";
         }

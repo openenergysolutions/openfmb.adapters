@@ -1,7 +1,7 @@
 #ifndef OPENFMB_ADAPTER_DDSADAPTERFACTORY_H
 #define OPENFMB_ADAPTER_DDSADAPTERFACTORY_H
 
-#include "adapter-api/IAdapter.h"
+#include "adapter-api/IAdapterFactory.h"
 
 namespace openfmb
 {
@@ -11,7 +11,7 @@ namespace openfmb
 
     public:
 
-        virtual const char* name() const override
+        virtual std::string name() const override
         {
             return "twinoaks-dds";
         }

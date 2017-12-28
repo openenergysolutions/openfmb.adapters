@@ -1,7 +1,7 @@
 #ifndef OPENFMB_ADAPTER_CONSOLEADAPTERFACTORY_H
 #define OPENFMB_ADAPTER_CONSOLEADAPTERFACTORY_H
 
-#include "adapter-api/IAdapter.h"
+#include "adapter-api/IAdapterFactory.h"
 
 namespace openfmb
 {
@@ -9,9 +9,9 @@ namespace openfmb
     {
     public:
 
-        virtual const char* name() const override
+        virtual std::string name() const override
         {
-            return "msg-logger";
+            return "console-printer";
         }
 
         virtual std::unique_ptr<IAdapter> create(const YAML::Node& node, const Logger& logger, IProtoSubscribers& subscribers) override;

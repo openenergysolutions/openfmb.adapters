@@ -23,7 +23,7 @@ adapters:
       # a sequence of master instances
       masters:
           - logger: "master1"
-          
+
             channel:
                 adapter: "0.0.0.0"
                 remote-ip: "127.0.0.1"

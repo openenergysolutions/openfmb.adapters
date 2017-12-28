@@ -2,7 +2,7 @@
 #ifndef OPENFMB_ADAPTER_NATSFACTORY_H
 #define OPENFMB_ADAPTER_NATSFACTORY_H
 
-#include "adapter-api/IAdapter.h"
+#include "adapter-api/IAdapterFactory.h"
 
 namespace openfmb
 {
@@ -14,7 +14,7 @@ namespace openfmb
 
         NatsFactory() = default;
 
-        virtual const char* name() const override
+        virtual std::string name() const override
         {
             return "nats";
         }

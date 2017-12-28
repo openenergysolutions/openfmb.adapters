@@ -1,12 +1,16 @@
 #ifndef OPENFMB_ADAPTER_NATSADAPTER_H
 #define OPENFMB_ADAPTER_NATSADAPTER_H
 
-#include "adapter-api/IAdapter.h"
+#include <adapter-api/IAdapter.h>
+#include <adapter-api/Logger.h>
+#include <adapter-api/IProtoSubscribers.h>
+
+#include <yaml-cpp/yaml.h>
+#include <nats/nats.h>
+
 
 #include "SynchronizedQueue.h"
 #include "Message.h"
-
-#include <nats/nats.h>
 
 namespace openfmb
 {

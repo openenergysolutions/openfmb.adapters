@@ -5,7 +5,7 @@
 #include <dds/dds.hh>
 
 #include "adapter-api/util/Exception.h"
-#include "adapter-api/IAdapter.h"
+#include "adapter-api/IAdapterFactory.h"
 
 namespace openfmb
 {
