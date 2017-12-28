@@ -1,5 +1,5 @@
 
-#include "DNP3MasterAdapter.h"
+#include "DNP3Adapter.h"
 
 #include <asiodnp3/PrintingSOEHandler.h>
 #include <asiodnp3/DefaultMasterApplication.h>
@@ -15,7 +15,7 @@ using namespace asiodnp3;
 namespace openfmb
 {
 
-    DNP3MasterAdapter::DNP3MasterAdapter(
+    DNP3Adapter::DNP3Adapter(
         const Logger& logger,
         const YAML::Node& node,
         IProtoSubscribers& subscribers
@@ -31,7 +31,7 @@ namespace openfmb
         });
     }
 
-    void DNP3MasterAdapter::add_master(const YAML::Node& node)
+    void DNP3Adapter::add_master(const YAML::Node& node)
     {
         const auto channel = this->create_channel(node);
 
@@ -66,7 +66,7 @@ namespace openfmb
         this->masters.push_back(MasterRecord { data_handler : data_handler, master : master });
     }
 
-    void DNP3MasterAdapter::start(const std::shared_ptr<IProtoPublishers>& publisher)
+    void DNP3Adapter::start(const std::shared_ptr<IProtoPublishers>& publisher)
     {
         for(auto& record : this->masters)
         {
@@ -75,7 +75,7 @@ namespace openfmb
         }
     }
 
-    DNP3MasterAdapter::channel_t DNP3MasterAdapter::create_channel(const YAML::Node& node)
+    DNP3Adapter::channel_t DNP3Adapter::create_channel(const YAML::Node& node)
     {
         const auto channel = yaml::require(node, "channel");
 

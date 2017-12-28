@@ -1,15 +1,15 @@
 
 
 set(DNP3_HEADERS
-        src/dnp3/DNP3MasterAdapter.h
-        src/dnp3/DNP3MasterFactory.h
+        src/dnp3/DNP3Adapter.h
+        src/dnp3/DNP3Factory.h
         src/dnp3/PointMap.h
         src/dnp3/SOEHandler.h
 )
 
 set(DNP3_SOURCES
-        src/dnp3/DNP3MasterFactory.cpp
-        src/dnp3/DNP3MasterAdapter.cpp
+        src/dnp3/DNP3Factory.cpp
+        src/dnp3/DNP3Adapter.cpp
         src/dnp3/SOEHandler.cpp
         src/dnp3/LogAdapter.h
 )

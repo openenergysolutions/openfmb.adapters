@@ -1,18 +1,18 @@
 
-#ifndef OPENFMB_ADAPTER_DNP3MASTERFACTORY_H
-#define OPENFMB_ADAPTER_DNP3MASTERFACTORY_H
+#ifndef OPENFMB_ADAPTER_DNP3FACTORY_H
+#define OPENFMB_ADAPTER_DNP3FACTORY_H
 
 #include "adapter-api/IAdapterFactory.h"
 
 namespace openfmb
 {
 
-    class DNP3MasterFactory final : public IAdapterFactory
+    class DNP3Factory final : public IAdapterFactory
     {
 
     public:
 
-        DNP3MasterFactory() = default;
+        DNP3Factory() = default;
 
         virtual std::string name() const override
         {

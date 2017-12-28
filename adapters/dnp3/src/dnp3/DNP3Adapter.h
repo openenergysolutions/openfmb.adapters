@@ -1,5 +1,5 @@
-#ifndef OPENFMB_ADAPTER_DNP3MASTERADAPTER_H
-#define OPENFMB_ADAPTER_DNP3MASTERADAPTER_H
+#ifndef OPENFMB_ADAPTER_DNP3ADAPTER_H
+#define OPENFMB_ADAPTER_DNP3ADAPTER_H
 
 #include "adapter-api/IAdapterFactory.h"
 
@@ -10,7 +10,7 @@
 namespace openfmb
 {
 
-    class DNP3MasterAdapter final : public IAdapter
+    class DNP3Adapter final : public IAdapter
     {
 
         typedef std::shared_ptr<asiodnp3::IChannel> channel_t;
@@ -19,9 +19,9 @@ namespace openfmb
 
     public:
 
-        DNP3MasterAdapter() = delete;
+        DNP3Adapter() = delete;
 
-        DNP3MasterAdapter(const Logger& logger, const YAML::Node& node, IProtoSubscribers& subscribers);
+        DNP3Adapter(const Logger& logger, const YAML::Node& node, IProtoSubscribers& subscribers);
 
         virtual void start(const std::shared_ptr<IProtoPublishers>& publishers) override;
 

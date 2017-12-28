@@ -4,7 +4,7 @@
 #include "console/ConsoleAdapterFactory.h"
 
 #ifdef OPENFMB_USE_DNP3
-#include "dnp3/DNP3MasterFactory.h"
+#include "dnp3/DNP3Factory.h"
 #endif
 
 #ifdef OPENFMB_USE_NATS
@@ -20,7 +20,7 @@ AdapterRegistry::AdapterRegistry()
     this->add<openfmb::ConsoleAdapterFactory>();
 
 #ifdef OPENFMB_USE_DNP3
-    this->add<openfmb::DNP3MasterFactory>();
+    this->add<openfmb::DNP3Factory>();
 #endif
 
 #ifdef OPENFMB_USE_NATS
