@@ -13,14 +13,12 @@ public:
 
     AdapterRegistry();
 
-    std::shared_ptr<openfmb::IAdapterFactory> find(const std::string& id);
-
     template <class Action>
     void foreach_adapter(const Action& action) const
     {
         for(auto& entry : lookup)
         {
-            action(entry.first, *entry.second);
+            action(*entry.second);
         }
     }
 

@@ -33,12 +33,6 @@ AdapterRegistry::AdapterRegistry()
 
 }
 
-std::shared_ptr<openfmb::IAdapterFactory> AdapterRegistry::find(const std::string& id)
-{
-    auto adapter = this->lookup.find(id);
-    return (adapter == this->lookup.end()) ? nullptr : adapter->second;
-}
-
 template <class T>
 void AdapterRegistry::add()
 {

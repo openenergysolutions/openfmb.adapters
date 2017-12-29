@@ -6,8 +6,8 @@ set(OPENFMB_ADAPTER_SOURCES
         src/AdapterRegistry.h
         src/AdapterRegistry.cpp
         src/Shutdown.h
-        src/ConfigStrings.h
-)
+        src/ConfigKeys.h
+        src/LoggerConfig.h src/LoggerConfig.cpp)
 
 SET(CPP_FORMAT_DIRS
         ${CPP_FORMAT_DIRS}
