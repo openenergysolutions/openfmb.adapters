@@ -1,7 +1,7 @@
 
 #include "AdapterRegistry.h"
 
-#include "console/ConsoleAdapterFactory.h"
+#include "log/LogAdapterFactory.h"
 
 #ifdef OPENFMB_USE_DNP3
 #include "dnp3/DNP3Factory.h"
@@ -17,7 +17,7 @@
 
 AdapterRegistry::AdapterRegistry()
 {
-    this->add<openfmb::ConsoleAdapterFactory>();
+    this->add<openfmb::LogAdapterFactory>();
 
 #ifdef OPENFMB_USE_DNP3
     this->add<openfmb::DNP3Factory>();

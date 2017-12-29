@@ -90,7 +90,8 @@ int run_application(const std::string& config_file_path)
     // load the adapters from the yaml configuration
     const auto adapters = init_adapters(config_file_path, registry, *bus);
 
-    if(adapters.empty()) {
+    if(adapters.empty())
+    {
         std::cerr << "No enabled adapters founded" << std::endl;
         return -1;
     }
@@ -110,17 +111,18 @@ int run_application(const std::string& config_file_path)
     return 0;
 }
 
-void write_default_logger_config(YAML::Emitter& out)
+void write_default_application_config(YAML::Emitter& out)
 {
+    out << YAML::Comment("common application settings");
     out << YAML::Key << config::logging;
 
     out << YAML::BeginMap;
     /**/out << YAML::Key << config::logger_name << YAML::Value << "application";
-    /**/out << YAML::Key << config::console << YAML::Comment("print log messages to the console");
+    /**/out << YAML::Key << config::console << YAML::Comment("log messages to the console");
     /**/out << YAML::BeginMap;
     /**//**/out << YAML::Key << config::enabled << YAML::Value << true;
     /**/out << YAML::EndMap;
-    /**/out << YAML::Key << config::rotating_file << YAML::Comment("print log messages to a rotating file");
+    /**/out << YAML::Key << config::rotating_file << YAML::Comment("log messages to rotating files");
     /**/out << YAML::BeginMap;
     /**//**/out << YAML::Key << config::enabled << YAML::Value << false;
     /**//**/out << YAML::Key << config::path << YAML::Value << "adapter.log";
@@ -136,14 +138,17 @@ int write_adapters(YAML::Emitter& out)
 
     auto write_config = [&](const std::string & name, const IAdapterFactory & factory) -> void
     {
+        out << YAML::Newline << YAML::Comment(factory.description());
         out << name;
         out << YAML::BeginMap;
         out << YAML::Key << config::enabled << YAML::Value << false;
         out << YAML::Key << config::logger_name << YAML::Value << name;
         factory.write_default_config(out);
         out << YAML::EndMap;
+        out << YAML::Newline;
     };
 
+    out << YAML::Newline << YAML::Newline << YAML::Comment("map of adapter configurations");
     out << YAML::Key << config::adapters;
 
     out << YAML::BeginMap;
@@ -156,14 +161,16 @@ int write_config(const std::string& config_file_path)
     YAML::Emitter out;
 
     // begin primary map
+    out << YAML::BeginDoc;
     out << YAML::BeginMap;
 
-    write_default_logger_config(out);
+    write_default_application_config(out);
 
     write_adapters(out);
 
     // end primary map
     out << YAML::EndMap;
+    out << YAML::EndDoc;
 
     cout << out.c_str() << endl;
 
@@ -187,7 +194,8 @@ vector<unique_ptr<IAdapter>> init_adapters(const std::string& yaml_path, Adapter
     auto load = [&](const std::string & name, IAdapterFactory & factory) -> void
     {
         const auto entry = adapter_list[name];
-        if(!entry) {
+        if(!entry)
+        {
             logger.info("No configuration specified for adapter: {}", name);
             return;
         }

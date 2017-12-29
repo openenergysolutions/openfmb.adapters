@@ -5,19 +5,21 @@
 
 namespace openfmb
 {
-    class ConsoleAdapterFactory : public IAdapterFactory
+    class LogAdapterFactory : public IAdapterFactory
     {
     public:
 
         virtual std::string name() const override
         {
-            return "console-printer";
+            return "log";
         }
 
-        virtual void write_default_config(YAML::Emitter& emitter) const override
+        virtual std::string description() const override
         {
-            // TODO
-        }
+            return "pretty prints profiles to the log";
+        };
+
+        virtual void write_default_config(YAML::Emitter& emitter) const override;
 
         virtual std::unique_ptr<IAdapter> create(const YAML::Node& node, const Logger& logger, IProtoSubscribers& subscribers) override;
     };

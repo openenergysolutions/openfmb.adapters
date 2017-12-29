@@ -1,5 +1,5 @@
 
-#include "ConsoleAdapter.h"
+#include "LogAdapter.h"
 
 #include "adapter-api/util/YAMLUtil.h"
 
@@ -20,12 +20,12 @@ namespace openfmb
 
         virtual void receive(const Proto& message) override
         {
-            logger.info(message.DebugString());
+            logger.info("publishing {}\n {}", Proto::descriptor()->name(), message.DebugString());
         }
 
     };
 
-    ConsoleAdapter::ConsoleAdapter(const YAML::Node& node, const Logger& logger, IProtoSubscribers& subscribers)
+    LogAdapter::LogAdapter(const YAML::Node& node, const Logger& logger, IProtoSubscribers& subscribers)
     {
         const auto profiles = yaml::require(node, "profiles");
 

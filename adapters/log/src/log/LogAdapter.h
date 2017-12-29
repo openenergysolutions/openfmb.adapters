@@ -9,18 +9,18 @@
 namespace openfmb
 {
 
-    class ConsoleAdapter final : public IAdapter
+    class LogAdapter final : public IAdapter
     {
     public:
 
-        ConsoleAdapter(const YAML::Node& node, const Logger& logger, IProtoSubscribers& subscribers);
+        LogAdapter(const YAML::Node& node, const Logger& logger, IProtoSubscribers& subscribers);
 
         // start the execution of the adapter
         virtual void start(const std::shared_ptr<IProtoPublishers>& publisher) override {}
 
     private:
 
-        ConsoleAdapter() = delete;
+        LogAdapter() = delete;
     };
 }
 

@@ -14,7 +14,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
 add_subdirectory(./adapter-api)
 
 # adapter that logs published messages
-add_subdirectory(./adapters/msg-logger)
+add_subdirectory(./adapters/log)
 
 if(OPENFMB_USE_DNP3)
   add_subdirectory(./adapters/dnp3)

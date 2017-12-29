@@ -13,8 +13,13 @@ namespace openfmb
 
         virtual std::string name() const override
         {
-            return "twinoaks-dds";
+            return "dds-twinoaks";
         }
+
+        virtual std::string description() const override
+        {
+            return "publish/subscribe to DDS using TwinOaks bindings (requires run-time license)";
+        };
 
         virtual void write_default_config(YAML::Emitter& emitter) const override;
 

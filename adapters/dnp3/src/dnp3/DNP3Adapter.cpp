@@ -12,6 +12,8 @@ using namespace openpal;
 using namespace opendnp3;
 using namespace asiodnp3;
 
+#include "ConfigKeys.h"
+
 namespace openfmb
 {
 
@@ -21,11 +23,11 @@ namespace openfmb
         IProtoSubscribers& subscribers
     ) :
         manager(
-            yaml::with_default(node["thread-pool-size"], std::thread::hardware_concurrency()),
+            yaml::with_default(node[keys::thread_pool_size], std::thread::hardware_concurrency()),
             std::make_shared<LogAdapter>(logger)
         )
     {
-        yaml::foreach(node["masters"], [this](const YAML::Node& n)
+        yaml::foreach(node[keys::masters], [this](const YAML::Node& n)
     {
         this->add_master(n);
         });
@@ -38,10 +40,10 @@ namespace openfmb
         MasterStackConfig config;
 
 
-        const auto protocol = yaml::require(node, "protocol");
+        const auto protocol = yaml::require(node, keys::protocol);
 
-        config.link.LocalAddr = yaml::require(protocol, "master-address").as<std::uint16_t>();
-        config.link.RemoteAddr = yaml::require(protocol, "outstation-address").as<std::uint16_t>();
+        config.link.LocalAddr = yaml::require(protocol, keys::master_address).as<std::uint16_t>();
+        config.link.RemoteAddr = yaml::require(protocol, keys::outstation_address).as<std::uint16_t>();
 
 
         // actively disable unsolicited mode, and don't re-enable it after integrity scan
@@ -51,7 +53,7 @@ namespace openfmb
         const auto data_handler = std::make_shared<SOEHandler>(yaml::require(node, ResourceReadingProfile::descriptor()->name()));
 
         auto master = channel->AddMaster(
-                          yaml::require(node, "logger").as<std::string>(),
+                          yaml::require(node, keys::name).as<std::string>(),
                           data_handler,
                           DefaultMasterApplication::Create(),
                           config
@@ -60,7 +62,7 @@ namespace openfmb
         // configure the integrity scan
         master->AddClassScan(
             ClassField::AllClasses(),
-            TimeDuration::Milliseconds(yaml::require(protocol, "integrity-poll-ms").as<uint32_t>())
+            TimeDuration::Milliseconds(yaml::require(protocol, keys::integrity_poll_ms).as<uint32_t>())
         );
 
         this->masters.push_back(MasterRecord { data_handler : data_handler, master : master });
@@ -77,15 +79,15 @@ namespace openfmb
 
     DNP3Adapter::channel_t DNP3Adapter::create_channel(const YAML::Node& node)
     {
-        const auto channel = yaml::require(node, "channel");
+        const auto channel = yaml::require(node, keys::channel);
 
         return this->manager.AddTCPClient(
-                   yaml::require(node, "logger").as<std::string>(),
+                   yaml::require(node, keys::name).as<std::string>(),
                    opendnp3::levels::NORMAL,
                    asiopal::ChannelRetry::Default(),
-                   yaml::require(channel, "remote-ip").as<std::string>(),
-                   yaml::require(channel, "adapter").as<std::string>(),
-                   yaml::require(channel, "port").as<std::uint16_t>(),
+                   yaml::require(channel, keys::outstation_ip).as<std::string>(),
+                   yaml::require(channel, keys::adapter).as<std::string>(),
+                   yaml::require(channel, keys::port).as<std::uint16_t>(),
                    nullptr // no channel listener
                );
     }

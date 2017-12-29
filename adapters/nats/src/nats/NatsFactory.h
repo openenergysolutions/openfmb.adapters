@@ -19,6 +19,11 @@ namespace openfmb
             return "nats";
         }
 
+        virtual std::string description() const override
+        {
+            return "publish/subscribe to a NATS server";
+        };
+
         virtual void write_default_config(YAML::Emitter& emitter) const override
         {
             // TODO

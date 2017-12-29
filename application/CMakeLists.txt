@@ -17,7 +17,7 @@ SET(CPP_FORMAT_DIRS
 )
 
 # adapters that are always built regardless of configuration
-set(ADAPTERS msg-logger-adapter)
+set(ADAPTERS log-adapter)
 
 if(OPENFMB_USE_DNP3)
     add_definitions(-DOPENFMB_USE_DNP3)
