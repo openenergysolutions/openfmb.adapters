@@ -5,6 +5,8 @@
 
 #include "adapter-api/util/YAMLUtil.h"
 
+#include "ConfigKeys.h"
+
 namespace openfmb
 {
 
@@ -15,13 +17,13 @@ namespace openfmb
             std::make_shared<SynchronizedQueue<Message>>(config.max_queued_messages)
         )
     {
-        this->configure_publishers(yaml::require(node, "publish"), subscribers);
+        this->configure_publishers(yaml::require(node, keys::publish), subscribers);
     }
 
     NatsAdapter::Config::Config(const YAML::Node& node) :
-        max_queued_messages(yaml::require(node, "max_queued_messages").as<size_t>()),
-        connect_url(yaml::require(node, "connect_url").as<std::string>()),
-        connect_retry_seconds(std::chrono::seconds(yaml::require(node, "connect_retry_seconds").as<uint32_t>()))
+        max_queued_messages(yaml::require(node, keys::max_queued_messages).as<size_t>()),
+        connect_url(yaml::require(node, keys::connect_url).as<std::string>()),
+        connect_retry_seconds(std::chrono::seconds(yaml::require(node, keys::connect_retry_seconds).as<uint32_t>()))
     {
 
     }

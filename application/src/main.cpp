@@ -142,7 +142,6 @@ int write_adapters(YAML::Emitter& out)
         out << name;
         out << YAML::BeginMap;
         out << YAML::Key << config::enabled << YAML::Value << false;
-        out << YAML::Key << config::logger_name << YAML::Value << name;
         factory.write_default_config(out);
         out << YAML::EndMap;
         out << YAML::Newline;
@@ -207,10 +206,8 @@ vector<unique_ptr<IAdapter>> init_adapters(const std::string& yaml_path, Adapter
         {
             logger.info("Initializing adapter: {}", name);
 
-            const auto log_name = yaml::require(entry, config::logger_name).as<string>();
-
             adapters.push_back(
-                factory.create(entry, logger.clone(log_name), subscribers)
+                factory.create(entry, logger.clone(name), subscribers)
             );
         }
         else
