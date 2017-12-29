@@ -4,7 +4,9 @@
 #include "adapter-api/util/YAMLUtil.h"
 
 #include "generated/OpenFMBTypeSupport.hh"
+
 #include "Conversions.h"
+#include "ConfigKeys.h"
 
 namespace openfmb
 {
@@ -30,9 +32,9 @@ namespace openfmb
 
     DDSAdapter::DDSAdapter(const YAML::Node& node, IProtoSubscribers& subscribers)
     {
-        const auto domain_id = yaml::require(node, "domain_id").as<DDS::DomainId_t>();
+        const auto domain_id = yaml::require(node, keys::domain_id).as<DDS::DomainId_t>();
 
-        const auto publishers = yaml::require(node, "publish");
+        const auto publishers = yaml::require(node, keys::publish);
 
         const auto participant = create_participant(domain_id);
 

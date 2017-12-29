@@ -22,7 +22,7 @@ set(HEADERS
         src/twinoaks/generated/OpenFMBDataReader.hh
         src/twinoaks/generated/OpenFMBDataWriter.hh
         src/twinoaks/generated/OpenFMBTypeSupport.hh
-        )
+        src/twinoaks/ConfigKeys.h)
 
 # directories to be automatically formatted by astyle
 set(CPP_FORMAT_DIRS
