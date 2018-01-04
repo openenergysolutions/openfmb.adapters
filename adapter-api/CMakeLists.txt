@@ -16,15 +16,31 @@ endif()
 
 set(PROTO_OUTPUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/adapter-api/proto)
 
-set(PROTO_HEADERS
-	${PROTO_OUTPUT_DIR}/resourcemodule/resourcemodule.pb.h
-	${PROTO_OUTPUT_DIR}/commonmodule/commonmodule.pb.h
+# to avoid a lot of boilerplate, we list the module names
+# and then use this list to build the header/source file lists
+set(PROTO_MODULES
+        breaker
+        common
+        ess
+        generation
+        load
+        recloser
+        regulator
+        resource
+        solar
+        switch
 )
 
-set(PROTO_SOURCES
-	${PROTO_OUTPUT_DIR}/resourcemodule/resourcemodule.pb.cc
-	${PROTO_OUTPUT_DIR}/commonmodule/commonmodule.pb.cc
-)
+FUNCTION(SET_PROTO_FILES var extension)
+    SET(listVar "")
+    FOREACH(f ${PROTO_MODULES})
+        LIST(APPEND listVar "${PROTO_OUTPUT_DIR}/${f}module/${f}module.${extension}")
+    ENDFOREACH(f)
+    SET(${var} "${listVar}" PARENT_SCOPE)
+ENDFUNCTION(SET_PROTO_FILES)
+
+set_proto_files(PROTO_HEADERS "pb.h")
+set_proto_files(PROTO_SOURCES "pb.cc")
 
 set(API_HEADERS
     src/adapter-api/IAdapter.h
@@ -62,9 +78,8 @@ set(RESOURCE_PATH ${PROTO_INPUT_DIR}/resourcemodule)
 add_custom_command(
     OUTPUT ${PROTO_HEADERS} ${PROTO_SOURCES}
     COMMAND mkdir -p ${PROTO_OUTPUT_DIR}
-    COMMAND ${PROTOBUF_COMPILER} --cpp_out=${PROTO_OUTPUT_DIR} --proto_path=${PROTO_INPUT_DIR} ${COMMON_PATH}/commonmodule.proto
-    COMMAND ${PROTOBUF_COMPILER} --cpp_out=${PROTO_OUTPUT_DIR} --proto_path=${PROTO_INPUT_DIR} --proto_path=${RESOURCE_PATH} ${RESOURCE_PATH}/resourcemodule.proto
-    MAIN_DEPENDENCY ${PROTO_INPUT_DIR}/resourcemodule/resourcemodule.proto
+    COMMAND ${PROTOBUF_COMPILER} --cpp_out=${PROTO_OUTPUT_DIR} --proto_path=${PROTO_INPUT_DIR} ${PROTO_INPUT_DIR}/**/*.proto
+    MAIN_DEPENDENCY ${PROTO_INPUT_DIR}/commonmodule/commonmodule.proto
     COMMENT "Generating openfmb protos..."
 )
 
