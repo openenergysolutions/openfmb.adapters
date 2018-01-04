@@ -14,10 +14,13 @@ else()
 	message("Protobuf compiler found")
 endif()
 
+# the base directory where the protos live
+set(PROTO_INPUT_DIR ${CMAKE_SOURCE_DIR}/deps/openfmb-protobuf/proto/openfmb)
+# the base diretory where the protos will be generated
 set(PROTO_OUTPUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/adapter-api/proto)
 
 # to avoid a lot of boilerplate, we list the module names
-# and then use this list to build the header/source file lists
+# and then use this list to build the header/source/proto file lists
 set(PROTO_MODULES
         breaker
         common
@@ -31,16 +34,25 @@ set(PROTO_MODULES
         switch
 )
 
-FUNCTION(SET_PROTO_FILES var extension)
+FUNCTION(set_proto_output_files var extension)
     SET(listVar "")
     FOREACH(f ${PROTO_MODULES})
         LIST(APPEND listVar "${PROTO_OUTPUT_DIR}/${f}module/${f}module.${extension}")
     ENDFOREACH(f)
     SET(${var} "${listVar}" PARENT_SCOPE)
-ENDFUNCTION(SET_PROTO_FILES)
+ENDFUNCTION(set_proto_output_files)
 
-set_proto_files(PROTO_HEADERS "pb.h")
-set_proto_files(PROTO_SOURCES "pb.cc")
+FUNCTION(set_proto_input_files var)
+    SET(listVar "")
+    FOREACH(f ${PROTO_MODULES})
+        LIST(APPEND listVar "${PROTO_INPUT_DIR}/${f}module/${f}module.proto")
+    ENDFOREACH(f)
+    SET(${var} "${listVar}" PARENT_SCOPE)
+ENDFUNCTION(set_proto_input_files)
+
+set_proto_output_files(PROTO_HEADERS "pb.h")
+set_proto_output_files(PROTO_SOURCES "pb.cc")
+set_proto_input_files(PROTO_INPUT_FILES)
 
 set(API_HEADERS
     src/adapter-api/IAdapter.h
@@ -69,17 +81,12 @@ SET(CPP_FORMAT_DIRS
 		PARENT_SCOPE
 )
 
-# the base directory where the protos live
-set(PROTO_INPUT_DIR ${CMAKE_SOURCE_DIR}/deps/openfmb-protobuf/proto/openfmb)
-set(COMMON_PATH ${PROTO_INPUT_DIR}/commonmodule)
-set(RESOURCE_PATH ${PROTO_INPUT_DIR}/resourcemodule)
-
 # generate the protos
 add_custom_command(
     OUTPUT ${PROTO_HEADERS} ${PROTO_SOURCES}
     COMMAND mkdir -p ${PROTO_OUTPUT_DIR}
     COMMAND ${PROTOBUF_COMPILER} --cpp_out=${PROTO_OUTPUT_DIR} --proto_path=${PROTO_INPUT_DIR} ${PROTO_INPUT_DIR}/**/*.proto
-    MAIN_DEPENDENCY ${PROTO_INPUT_DIR}/commonmodule/commonmodule.proto
+    DEPENDS ${PROTO_INPUTS_FILES}
     COMMENT "Generating openfmb protos..."
 )
 
