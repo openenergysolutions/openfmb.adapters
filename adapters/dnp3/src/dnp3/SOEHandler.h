@@ -46,7 +46,7 @@ namespace openfmb
     private:
 
         PointMap<ResourceReadingProfileMap> point_map;
-        ResourceReadingProfile profile;
+        resourcemodule::ResourceReadingProfile profile;
         bool rrp_touched = false;
 
 

@@ -3,6 +3,8 @@ package com.oes.openfmb.generation.proto;
 import com.google.protobuf.Descriptors;
 import com.oes.openfmb.generation.document.*;
 import com.oes.openfmb.util.DescriptorUtil;
+import openfmb.commonmodule.AnalogValue;
+import openfmb.commonmodule.BCR;
 
 import java.util.List;
 
@@ -10,9 +12,11 @@ import static com.oes.openfmb.generation.document.Documents.*;
 
 public class AccessorsFile implements CppClassFile {
 
+    private final String filename;
     private final Descriptors.Descriptor descriptor;
 
-    public AccessorsFile(Descriptors.Descriptor descriptor) {
+    public AccessorsFile(String filename, Descriptors.Descriptor descriptor) {
+        this.filename = filename;
         this.descriptor = descriptor;
     }
 
@@ -30,16 +34,16 @@ public class AccessorsFile implements CppClassFile {
                                                         "",
                                                         "public:",
                                                         "",
-                                                        String.format("typedef %s profile_t;", this.descriptor.getName()),
+                                                        String.format("typedef %s profile_t;", getCppTypeName(this.descriptor)),
                                                         "",
                                                         this.getClassName() + "();",
                                                         "",
-                                                        "inline const analogue_map_t<profile_t>& get_analogues() const { return this->analogues; }",
+                                                        "inline const analogue_map_t<profile_t>& get_analogs() const { return this->analogs; }",
                                                         "inline const bcr_map_t<profile_t>& get_bcrs() const { return this->bcrs; }",
                                                         "",
                                                         "private:",
                                                         "",
-                                                        "analogue_map_t<profile_t> analogues;",
+                                                        "analogue_map_t<profile_t> analogs;",
                                                         "bcr_map_t<profile_t> bcrs;"
                                                 )
                                         )
@@ -62,10 +66,10 @@ public class AccessorsFile implements CppClassFile {
                                        .space()
                                        .append("// initialize the analog map")
                                        .append(
-                                               entries("analogues",
+                                               entries("analogs",
                                                             DescriptorUtil.find(
                                                                 this.descriptor,
-                                                                DescriptorUtil.isMessageWithName("AnalogueValue")
+                                                                DescriptorUtil.matches(AnalogValue.getDescriptor())
                                                             )
                                                )
                                        )
@@ -76,7 +80,7 @@ public class AccessorsFile implements CppClassFile {
                                                entries("bcrs",
                                                        DescriptorUtil.find(
                                                                this.descriptor,
-                                                               DescriptorUtil.isMessageWithName("BCR")
+                                                               DescriptorUtil.matches(BCR.getDescriptor())
                                                        )
                                                )
                                        )
@@ -89,7 +93,7 @@ public class AccessorsFile implements CppClassFile {
 
     private Document includes()
     {
-        return include(this.descriptor.getName() + ".pb.h")
+        return include(this.filename )
                 .append(include("../HelperTypedefs.h"));
 
     }
@@ -99,16 +103,14 @@ public class AccessorsFile implements CppClassFile {
         return this.descriptor.getName() + "Map";
     }
 
+    private static String getCppTypeName(Descriptors.Descriptor descriptor)
+    {
+        return descriptor.getFullName().replace(".", "::");
+    }
+
     private Document entries(String mapName, List<FieldPath> fields)
     {
         return Documents.spaced(fields.stream().map(f -> getter(mapName, f)));
-    }
-
-    private static List<FieldPath> analogs(Descriptors.Descriptor descriptor) {
-        return DescriptorUtil.find(
-                descriptor,
-                DescriptorUtil.isMessageWithName("AnalogueValue")
-        );
     }
 
     private static Document getter(String mapName, FieldPath path) {
@@ -118,8 +120,8 @@ public class AccessorsFile implements CppClassFile {
                         "this->%s[\"%s\"] = [](%s& message) -> %s* {",
                         mapName,
                         path.getPathString("."),
-                        path.getRoot().getName(),
-                        path.getInfo().field.getMessageType().getName()
+                        getCppTypeName(path.getRoot()),
+                        getCppTypeName(path.getInfo().field.getMessageType())
                 )
         );
 

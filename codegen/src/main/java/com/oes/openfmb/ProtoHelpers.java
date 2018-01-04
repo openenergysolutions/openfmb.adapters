@@ -2,7 +2,7 @@ package com.oes.openfmb;
 
 import com.oes.openfmb.generation.Artifact;
 import com.oes.openfmb.generation.proto.AccessorsFile;
-import com.oes.openfmb.proto.ResourceReadingProfileOuterClass;
+import openfmb.resourcemodule.ResourceReadingProfile;
 
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -10,7 +10,10 @@ import java.util.Arrays;
 public class ProtoHelpers {
 
 
-    private static AccessorsFile resourceReadingProfileHelpers = new AccessorsFile(ResourceReadingProfileOuterClass.ResourceReadingProfile.getDescriptor());
+    private static AccessorsFile resourceReadingProfileHelpers = new AccessorsFile(
+            "resourcemodule/resourcemodule.pb.h",
+            ResourceReadingProfile.getDescriptor()
+    );
 
     public static Iterable<Artifact> artifacts(Path directory) {
         return Arrays.asList(

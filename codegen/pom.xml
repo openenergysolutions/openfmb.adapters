@@ -24,7 +24,7 @@
         <artifactId>protobuf-maven-plugin</artifactId>
         <version>0.5.1</version>
         <configuration>
-          <protoSourceRoot>../adapter-api/proto</protoSourceRoot>
+          <protoSourceRoot>../deps/openfmb-protobuf/proto/openfmb</protoSourceRoot>
         </configuration>
         <executions>
           <execution>

@@ -15,7 +15,7 @@ namespace openfmb
         out << YAML::Key << keys::connect_retry_seconds << 5;
         out << YAML::Key << keys::publish;
         out << YAML::BeginMap;
-        out << YAML::Key << ResourceReadingProfile::descriptor()->name() << true;
+        out << YAML::Key << resourcemodule::ResourceReadingProfile::descriptor()->name() << true;
         out << YAML::EndMap;
 
     }

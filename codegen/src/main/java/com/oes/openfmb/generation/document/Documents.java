@@ -38,7 +38,7 @@ public class Documents {
     }
 
     public static Document spaced(Stream<Document> documents) {
-        return documents.reduce((lhs, rhs) -> lhs.append(space).append(rhs)).get();
+        return documents.reduce((lhs, rhs) -> lhs.append(space).append(rhs)).orElseGet(()->Documents.space);
     }
 
     public static Document indent(Document document) {

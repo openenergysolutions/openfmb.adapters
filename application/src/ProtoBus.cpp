@@ -16,7 +16,7 @@ namespace openfmb
         this->is_finalized = true;
     }
 
-    void ProtoBus::publish(const ResourceReadingProfile& profile)
+    void ProtoBus::publish(const resourcemodule::ResourceReadingProfile& profile)
     {
         this->require_finalized();
         for(auto& sub : this->rrp_subscribers) sub->receive(profile);

@@ -47,7 +47,7 @@ namespace openfmb
     {
         ProfileMap map; // instantiate the mapping
 
-        for(auto& pair : map.get_analogues())
+        for(auto& pair : map.get_analogs())
         {
             this->map_analogue(node, pair.first, pair.second);
         }

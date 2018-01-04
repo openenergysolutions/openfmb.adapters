@@ -10,7 +10,7 @@ namespace openfmb
     {
         out << YAML::Key << keys::profiles;
         out << YAML::BeginMap;
-        out << YAML::Key << ResourceReadingProfile::descriptor()->name() << true;
+        out << YAML::Key << resourcemodule::ResourceReadingProfile::descriptor()->name() << true;
         out << YAML::EndMap;
     }
 

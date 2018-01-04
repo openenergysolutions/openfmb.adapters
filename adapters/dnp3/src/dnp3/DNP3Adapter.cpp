@@ -50,7 +50,7 @@ namespace openfmb
         config.master.disableUnsolOnStartup = true;
         config.master.unsolClassMask = ClassField::None();
 
-        const auto data_handler = std::make_shared<SOEHandler>(yaml::require(node, ResourceReadingProfile::descriptor()->name()));
+        const auto data_handler = std::make_shared<SOEHandler>(yaml::require(node, resourcemodule::ResourceReadingProfile::descriptor()->name()));
 
         auto master = channel->AddMaster(
                           yaml::require(node, keys::name).as<std::string>(),

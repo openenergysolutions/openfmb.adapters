@@ -18,7 +18,7 @@ namespace openfmb
 
         // ---- implement IProtoPublishers ----
 
-        virtual void publish(const ResourceReadingProfile& profile) override;
+        virtual void publish(const resourcemodule::ResourceReadingProfile& profile) override;
 
         // ---- implement IProtoSubscribers ----
 

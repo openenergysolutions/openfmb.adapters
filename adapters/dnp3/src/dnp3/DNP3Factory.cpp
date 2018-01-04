@@ -16,7 +16,7 @@ namespace openfmb
         out << YAML::Newline << YAML::Comment("AnalogueValue leaf nodes in the profile");
 
         out << YAML::BeginMap;
-        for (auto& mapping : map.get_analogues())
+        for (auto& mapping : map.get_analogs())
         {
             out << YAML::Key << mapping.first;
             out << YAML::Flow;

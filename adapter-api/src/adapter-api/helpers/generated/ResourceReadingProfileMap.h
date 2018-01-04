@@ -14,7 +14,7 @@
 #ifndef OPENFMB_RESOURCEREADINGPROFILEMAP_H
 #define OPENFMB_RESOURCEREADINGPROFILEMAP_H
 
-#include "ResourceReadingProfile.pb.h"
+#include "resourcemodule/resourcemodule.pb.h"
 #include "../HelperTypedefs.h"
 
 namespace openfmb {
@@ -23,16 +23,16 @@ class ResourceReadingProfileMap {
 
     public:
 
-    typedef ResourceReadingProfile profile_t;
+    typedef resourcemodule::ResourceReadingProfile profile_t;
 
     ResourceReadingProfileMap();
 
-    inline const analogue_map_t<profile_t>& get_analogues() const { return this->analogues; }
+    inline const analogue_map_t<profile_t>& get_analogs() const { return this->analogs; }
     inline const bcr_map_t<profile_t>& get_bcrs() const { return this->bcrs; }
 
     private:
 
-    analogue_map_t<profile_t> analogues;
+    analogue_map_t<profile_t> analogs;
     bcr_map_t<profile_t> bcrs;
 };
 

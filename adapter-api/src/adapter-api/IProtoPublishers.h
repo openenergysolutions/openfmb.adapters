@@ -2,7 +2,7 @@
 #ifndef OPENFMB_ADAPTER_IPROTOPUBLISHERS_H
 #define OPENFMB_ADAPTER_IPROTOPUBLISHERS_H
 
-#include "proto/ResourceReadingProfile.pb.h"
+#include "proto/resourcemodule/resourcemodule.pb.h"
 
 namespace openfmb
 {
@@ -22,7 +22,7 @@ namespace openfmb
          *
          * @param profile object to publish
          */
-        virtual void publish(const ResourceReadingProfile& profile) = 0;
+        virtual void publish(const resourcemodule::ResourceReadingProfile& profile) = 0;
 
     };
 

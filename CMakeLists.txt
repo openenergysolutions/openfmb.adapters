@@ -4,8 +4,8 @@ set(OPENFMB_ADAPTER_VERSION 0.0.1)
 
 # optionally disable certain adapters
 option(OPENFMB_USE_DNP3 "Build the DNP3 adapter" ON)
-option(OPENFMB_USE_NATS "Build the NATS adapter" ON)
-option(OPENFMB_USE_TWINOAKS_DDS "Build the Twin Oaks DDS adapter" ON)
+option(OPENFMB_USE_NATS "Build the NATS adapter" OFF)
+option(OPENFMB_USE_TWINOAKS_DDS "Build the Twin Oaks DDS adapter" OFF)
 
 #temporary hack
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")

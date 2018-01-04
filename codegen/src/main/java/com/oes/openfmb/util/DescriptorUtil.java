@@ -35,8 +35,8 @@ public class DescriptorUtil {
         return paths;
     }
 
-    public static Function<Descriptors.FieldDescriptor, Boolean> isMessageWithName(String name) {
-        return field -> field.getType() == Descriptors.FieldDescriptor.Type.MESSAGE && field.getMessageType().getName().equals(name);
+    public static Function<Descriptors.FieldDescriptor, Boolean> matches(Descriptors.Descriptor descriptor) {
+        return field -> field.getType() == Descriptors.FieldDescriptor.Type.MESSAGE && field.getMessageType().equals(descriptor);
     }
 
     private static void visit(FieldPathImpl path, Consumer<FieldPathImpl> consumer)

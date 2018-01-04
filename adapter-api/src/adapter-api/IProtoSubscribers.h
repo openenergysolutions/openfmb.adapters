@@ -2,7 +2,7 @@
 #ifndef OPENFMB_ADAPTER_IPROTOSUBSCRIBERS_H
 #define OPENFMB_ADAPTER_IPROTOSUBSCRIBERS_H
 
-#include "proto/ResourceReadingProfile.pb.h"
+#include "proto/resourcemodule/resourcemodule.pb.h"
 
 #include "ISubscriber.h"
 
@@ -19,7 +19,7 @@ namespace openfmb
 
     public:
 
-        typedef std::shared_ptr<ISubscriber<ResourceReadingProfile>> rrp_subscriber_t;
+        typedef std::shared_ptr<ISubscriber<resourcemodule::ResourceReadingProfile>> rrp_subscriber_t;
 
         virtual ~IProtoSubscribers() {}
 

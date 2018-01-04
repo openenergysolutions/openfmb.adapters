@@ -14,53 +14,22 @@ else()
 	message("Protobuf compiler found")
 endif()
 
-set(PROTO_INPUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/proto)
 set(PROTO_OUTPUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/adapter-api/proto)
 
 set(PROTO_HEADERS
-	${PROTO_OUTPUT_DIR}/ResourceReadingProfile.pb.h
-	${PROTO_OUTPUT_DIR}/commonmodule/AnalogueValue.pb.h
-	${PROTO_OUTPUT_DIR}/commonmodule/BCR.pb.h
-	${PROTO_OUTPUT_DIR}/commonmodule/CMV.pb.h
-	${PROTO_OUTPUT_DIR}/commonmodule/DEL.pb.h
-	${PROTO_OUTPUT_DIR}/commonmodule/ENG_CalcMethodKind.pb.h
-	${PROTO_OUTPUT_DIR}/commonmodule/IdentifiedObject.pb.h
-	${PROTO_OUTPUT_DIR}/commonmodule/MeasurementIED.pb.h
-	${PROTO_OUTPUT_DIR}/commonmodule/MV.pb.h
-	${PROTO_OUTPUT_DIR}/commonmodule/ReadingMMTR.pb.h
-	${PROTO_OUTPUT_DIR}/commonmodule/ReadingMMXU.pb.h
-	${PROTO_OUTPUT_DIR}/commonmodule/ResourceReadingValue.pb.h
-	${PROTO_OUTPUT_DIR}/commonmodule/UnitMultiplierKind.pb.h
-	${PROTO_OUTPUT_DIR}/commonmodule/Unit.pb.h
-	${PROTO_OUTPUT_DIR}/commonmodule/UnitSymbolKind.pb.h
-	${PROTO_OUTPUT_DIR}/commonmodule/Vector.pb.h
-	${PROTO_OUTPUT_DIR}/commonmodule/WYE.pb.h
+	${PROTO_OUTPUT_DIR}/resourcemodule/resourcemodule.pb.h
+	${PROTO_OUTPUT_DIR}/commonmodule/commonmodule.pb.h
 )
 
 set(PROTO_SOURCES
-	${PROTO_OUTPUT_DIR}/ResourceReadingProfile.pb.cc
-	${PROTO_OUTPUT_DIR}/commonmodule/AnalogueValue.pb.cc
-	${PROTO_OUTPUT_DIR}/commonmodule/BCR.pb.cc
-	${PROTO_OUTPUT_DIR}/commonmodule/CMV.pb.cc
-	${PROTO_OUTPUT_DIR}/commonmodule/DEL.pb.cc
-	${PROTO_OUTPUT_DIR}/commonmodule/ENG_CalcMethodKind.pb.cc
-	${PROTO_OUTPUT_DIR}/commonmodule/IdentifiedObject.pb.cc
-	${PROTO_OUTPUT_DIR}/commonmodule/MeasurementIED.pb.cc
-	${PROTO_OUTPUT_DIR}/commonmodule/MV.pb.cc
-	${PROTO_OUTPUT_DIR}/commonmodule/ReadingMMTR.pb.cc
-	${PROTO_OUTPUT_DIR}/commonmodule/ReadingMMXU.pb.cc
-	${PROTO_OUTPUT_DIR}/commonmodule/ResourceReadingValue.pb.cc
-	${PROTO_OUTPUT_DIR}/commonmodule/UnitMultiplierKind.pb.cc
-	${PROTO_OUTPUT_DIR}/commonmodule/Unit.pb.cc
-	${PROTO_OUTPUT_DIR}/commonmodule/UnitSymbolKind.pb.cc
-	${PROTO_OUTPUT_DIR}/commonmodule/Vector.pb.cc
-	${PROTO_OUTPUT_DIR}/commonmodule/WYE.pb.cc
+	${PROTO_OUTPUT_DIR}/resourcemodule/resourcemodule.pb.cc
+	${PROTO_OUTPUT_DIR}/commonmodule/commonmodule.pb.cc
 )
 
 set(API_HEADERS
     src/adapter-api/IAdapter.h
     src/adapter-api/ISubscriber.h
-        src/adapter-api/IProtoPublishers.h
+    src/adapter-api/IProtoPublishers.h
     src/adapter-api/IProtoSubscribers.h
     src/adapter-api/Logger.h
 	src/adapter-api/util/Exception.h
@@ -84,12 +53,18 @@ SET(CPP_FORMAT_DIRS
 		PARENT_SCOPE
 )
 
-# ResourceStatusProfile
+# the base directory where the protos live
+set(PROTO_INPUT_DIR ${CMAKE_SOURCE_DIR}/deps/openfmb-protobuf/proto/openfmb)
+set(COMMON_PATH ${PROTO_INPUT_DIR}/commonmodule)
+set(RESOURCE_PATH ${PROTO_INPUT_DIR}/resourcemodule)
+
+# generate the protos
 add_custom_command(
-    OUTPUT ${PROTO_SOURCES} ${PROTO_HEADERS}
+    OUTPUT ${PROTO_HEADERS} ${PROTO_SOURCES}
     COMMAND mkdir -p ${PROTO_OUTPUT_DIR}
-    COMMAND ${PROTOBUF_COMPILER} --cpp_out=${PROTO_OUTPUT_DIR} --proto_path=${PROTO_INPUT_DIR} ${PROTO_INPUT_DIR}/*.proto ${PROTO_INPUT_DIR}/commonmodule/*.proto
-    MAIN_DEPENDENCY ${PROTO_INPUT_DIR}/ResourceReadingProfile.proto
+    COMMAND ${PROTOBUF_COMPILER} --cpp_out=${PROTO_OUTPUT_DIR} --proto_path=${PROTO_INPUT_DIR} ${COMMON_PATH}/commonmodule.proto
+    COMMAND ${PROTOBUF_COMPILER} --cpp_out=${PROTO_OUTPUT_DIR} --proto_path=${PROTO_INPUT_DIR} --proto_path=${RESOURCE_PATH} ${RESOURCE_PATH}/resourcemodule.proto
+    MAIN_DEPENDENCY ${PROTO_INPUT_DIR}/resourcemodule/resourcemodule.proto
     COMMENT "Generating openfmb protos..."
 )
 

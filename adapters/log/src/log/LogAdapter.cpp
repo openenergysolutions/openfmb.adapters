@@ -29,9 +29,9 @@ namespace openfmb
     {
         const auto profiles = yaml::require(node, "profiles");
 
-        if(yaml::require(profiles, ResourceReadingProfile::descriptor()->name()).as<bool>())
+        if(yaml::require(profiles, resourcemodule::ResourceReadingProfile::descriptor()->name()).as<bool>())
         {
-            subscribers.subscribe(std::make_shared<LogPrinter<ResourceReadingProfile>>(logger));
+            subscribers.subscribe(std::make_shared<LogPrinter<resourcemodule::ResourceReadingProfile>>(logger));
         }
     }
 

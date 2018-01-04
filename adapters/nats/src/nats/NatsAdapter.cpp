@@ -118,7 +118,7 @@ namespace openfmb
 
     void NatsAdapter::configure_publishers(const YAML::Node& node, IProtoSubscribers& subscribers)
     {
-        this->add_publisher<ResourceReadingProfile>(node, subscribers);
+        this->add_publisher<resourcemodule::ResourceReadingProfile>(node, subscribers);
 
     }
 }
