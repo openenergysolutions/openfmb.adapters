@@ -3,7 +3,7 @@
 #include "DDSAdapter.h"
 #include "ConfigKeys.h"
 
-namespace openfmb
+namespace adapter
 {
 
     void DDSAdapterFactory::write_default_config(YAML::Emitter& out) const
@@ -11,7 +11,7 @@ namespace openfmb
         out << YAML::Key << keys::domain_id << 0;
         out << YAML::Key << keys::publish;
         out << YAML::BeginMap;
-        out << YAML::Key << ResourceReadingProfile::descriptor()->name() << false;
+        out << YAML::Key << resourcemodule::ResourceReadingProfile::descriptor()->name() << false;
         out << YAML::EndMap;
     }
 

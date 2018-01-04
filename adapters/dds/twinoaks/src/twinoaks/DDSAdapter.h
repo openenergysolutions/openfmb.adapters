@@ -7,7 +7,7 @@
 #include "adapter-api/util/Exception.h"
 #include "adapter-api/IAdapterFactory.h"
 
-namespace openfmb
+namespace adapter
 {
 
     class DDSAdapter : public IAdapter

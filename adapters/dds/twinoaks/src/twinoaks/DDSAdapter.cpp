@@ -3,12 +3,12 @@
 
 #include "adapter-api/util/YAMLUtil.h"
 
-#include "generated/OpenFMBTypeSupport.hh"
+#include "OpenFMB-3.0.0TypeSupport.hh"
 
 #include "Conversions.h"
 #include "ConfigKeys.h"
 
-namespace openfmb
+namespace adapter
 {
     template <class T, class U>
     class Subscriber : public ISubscriber<T>
@@ -39,10 +39,10 @@ namespace openfmb
         const auto participant = create_participant(domain_id);
 
         // bind the specified subscribers
-        if(yaml::require(publishers, ResourceReadingProfile::descriptor()->name()).as<bool>())
+        if(yaml::require(publishers, resourcemodule::ResourceReadingProfile::descriptor()->name()).as<bool>())
         {
             subscribers.subscribe(
-                create_subscriber<ResourceReadingProfile, resourcemodule::ResourceReadingProfile>(participant)
+                create_subscriber<resourcemodule::ResourceReadingProfile, openfmb::resourcemodule::ResourceReadingProfile>(participant)
             );
         }
 

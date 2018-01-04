@@ -31,7 +31,7 @@ namespace adapter
 #endif
 
 #ifdef OPENFMB_USE_TWINOAKS_DDS
-        this->add<openfmb::DDSAdapterFactory>();
+        this->add<adapter::DDSAdapterFactory>();
 #endif
 
     }

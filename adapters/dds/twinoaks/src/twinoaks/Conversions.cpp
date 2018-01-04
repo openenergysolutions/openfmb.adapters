@@ -1,27 +1,25 @@
 
 #include "Conversions.h"
 
-namespace openfmb
+namespace adapter
 {
 
-    void convert(const ResourceReadingProfile& profile, resourcemodule::ResourceReadingProfile& out)
+    void convert(const resourcemodule::ResourceReadingProfile& profile, openfmb::resourcemodule::ResourceReadingProfile& out)
     {
         out.clear();
-        if(profile.has_resourcereadingvalue())
+        if(profile.has_resourcereading())
         {
-            resourcemodule::ResourceReadingValue in;
-            convert(profile.resourcereadingvalue(), in);
-            out.resourceReadingValue.push_back(in);
+            convert(profile.resourcereading(), out.resourceReading);
         }
     }
 
-    void convert(const ResourceReadingValue& in, resourcemodule::ResourceReadingValue& out)
+    void convert(const resourcemodule::ResourceReading& in, openfmb::resourcemodule::ResourceReading& out)
     {
         out.clear();
         if(in.has_readingmmxu()) out.readingMMXU = create(in.readingmmxu());
     }
 
-    void convert(const ReadingMMXU& in, commonmodule::ReadingMMXU& out)
+    void convert(const commonmodule::ReadingMMXU& in, openfmb::commonmodule::ReadingMMXU& out)
     {
         out.clear();
 
@@ -37,14 +35,14 @@ namespace openfmb
 
     }
 
-    void convert(const MV& in, commonmodule::MV& out)
+    void convert(const commonmodule::MV& in, openfmb::commonmodule::MV& out)
     {
         out.clear();
         if(in.has_mag()) convert(in.mag(), out.mag);
-        if(in.has_unit()) out.units = create(in.unit());
+        if(in.has_units()) out.units = create(in.units());
     }
 
-    void convert(const WYE& in, commonmodule::WYE& out)
+    void convert(const commonmodule::WYE& in, openfmb::commonmodule::WYE& out)
     {
         out.clear();
         if(in.has_net())  out.net = create(in.net());
@@ -54,21 +52,21 @@ namespace openfmb
         if(in.has_phsc()) out.phsC = create(in.phsc());
     }
 
-    void convert(const CMV& in, commonmodule::CMV& out)
+    void convert(const commonmodule::CMV& in, openfmb::commonmodule::CMV& out)
     {
         out.clear();
-        if(in.has_unit()) out.units = create(in.unit());
+        if(in.has_units()) out.units = create(in.units());
         if(in.has_cval()) convert(in.cval(), out.cVal);
     }
 
-    void convert(const Vector& in, commonmodule::Vector& out)
+    void convert(const commonmodule::Vector& in, openfmb::commonmodule::Vector& out)
     {
         out.clear();
         if(in.has_mag()) convert(in.mag(), out.mag);
         if(in.has_ang()) out.ang = create(in.ang());
     }
 
-    void convert(const DEL& in, commonmodule::DEL& out)
+    void convert(const commonmodule::DEL& in, openfmb::commonmodule::DEL& out)
     {
         out.clear();
         if(in.has_phsab()) out.phsAB = create(in.phsab());
@@ -76,20 +74,19 @@ namespace openfmb
         if(in.has_phsca()) out.phsCA = create(in.phsca());
     }
 
-    void convert(const AnalogueValue& in, commonmodule::AnalogueValue& out)
+    void convert(const commonmodule::AnalogValue& in, openfmb::commonmodule::AnalogueValue& out)
     {
         out.clear();
-        out.f = new commonmodule::FLOAT32(in.f());
-        out.i = new commonmodule::INT32(in.i());
+        out.f = new openfmb::commonmodule::FLOAT32(in.f());
+        out.i = new openfmb::commonmodule::INT32(in.i());
     }
 
-    void convert(const Unit& in, commonmodule::Unit& out)
+    void convert(const commonmodule::Unit& in, openfmb::commonmodule::Unit& out)
     {
         out.clear();
-        out.SIUnit = static_cast<commonmodule::UnitSymbolKind>(in.siunit());
-        out.multiplier = new commonmodule::UnitMultiplierKind(
-            static_cast<commonmodule::UnitMultiplierKind>(in.multiplier())
-        );
+        //out.SIUnit = static_cast<openfmb::commonmodule::UnitSymbolKind>(in.siunit());
+        out.SIUnit = openfmb::commonmodule::UnitSymbolKind(in.siunit());
+        out.multiplier = new openfmb::commonmodule::UnitMultiplierKind(static_cast<openfmb::commonmodule::UnitMultiplierKind>(in.multiplier()));
     }
 
 

@@ -2,7 +2,7 @@
 #ifndef OPENFMB_ADAPTER_CONFIGKEYS_H
 #define OPENFMB_ADAPTER_CONFIGKEYS_H
 
-namespace openfmb
+namespace adapter
 {
 
     namespace keys
