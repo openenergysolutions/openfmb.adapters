@@ -3,7 +3,7 @@
 
 #include <sstream>
 
-namespace openfmb
+namespace adapter
 {
     namespace strings
     {

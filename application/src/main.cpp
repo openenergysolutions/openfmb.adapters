@@ -13,7 +13,7 @@
 #include <iostream>
 
 using namespace std;
-using namespace openfmb;
+using namespace adapter;
 
 vector<unique_ptr<IAdapter>> init_adapters(const std::string& yaml_path, AdapterRegistry& registry, IProtoSubscribers& subscribers);
 

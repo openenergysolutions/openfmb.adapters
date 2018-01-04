@@ -6,7 +6,7 @@
 #include <condition_variable>
 #include <chrono>
 
-namespace openfmb
+namespace adapter
 {
     template <class T>
     class SynchronizedQueue

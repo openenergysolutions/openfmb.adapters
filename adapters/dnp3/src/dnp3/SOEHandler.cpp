@@ -1,6 +1,6 @@
 #include "SOEHandler.h"
 
-namespace openfmb
+namespace adapter
 {
     void SOEHandler::Start()
     {

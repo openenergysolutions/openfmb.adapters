@@ -6,7 +6,7 @@
 
 #include <yaml-cpp/yaml.h>
 
-namespace openfmb
+namespace adapter
 {
 
     namespace logging

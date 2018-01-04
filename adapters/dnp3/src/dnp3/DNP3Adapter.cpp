@@ -14,7 +14,7 @@ using namespace asiodnp3;
 
 #include "ConfigKeys.h"
 
-namespace openfmb
+namespace adapter
 {
 
     DNP3Adapter::DNP3Adapter(

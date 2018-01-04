@@ -13,7 +13,7 @@
 #include <functional>
 
 
-namespace openfmb
+namespace adapter
 {
 
     template <class ProfileMap>

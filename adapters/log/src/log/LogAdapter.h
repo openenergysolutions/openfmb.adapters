@@ -6,7 +6,7 @@
 #include <adapter-api/Logger.h>
 #include <yaml-cpp/yaml.h>
 
-namespace openfmb
+namespace adapter
 {
 
     class LogAdapter final : public IAdapter

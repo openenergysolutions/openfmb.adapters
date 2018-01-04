@@ -1,7 +1,7 @@
 
 #include "ProtoBus.h"
 
-namespace openfmb
+namespace adapter
 {
 
     // ---- implement IProtoPublishers ----

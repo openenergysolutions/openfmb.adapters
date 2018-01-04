@@ -12,7 +12,7 @@
 #include "PointMap.h"
 #include "adapter-api/helpers/generated/ResourceReadingProfileMap.h"
 
-namespace openfmb
+namespace adapter
 {
 
     class SOEHandler final : public opendnp3::ISOEHandler

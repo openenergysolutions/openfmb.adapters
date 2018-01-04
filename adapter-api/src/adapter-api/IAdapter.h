@@ -6,7 +6,7 @@
 
 #include <memory>
 
-namespace openfmb
+namespace adapter
 {
     class IAdapter
     {

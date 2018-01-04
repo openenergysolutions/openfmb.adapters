@@ -3,7 +3,7 @@
 
 #include "Exception.h"
 
-namespace openfmb
+namespace adapter
 {
     namespace yaml
     {

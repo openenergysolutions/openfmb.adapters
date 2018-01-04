@@ -13,7 +13,7 @@
 
 #include "ResourceReadingProfileMap.h"
 
-namespace openfmb {
+namespace adapter {
 
 ResourceReadingProfileMap::ResourceReadingProfileMap()
 {
@@ -503,4 +503,4 @@ this->bcrs["resourceReading.readingMMTR.TotWh"] = [](resourcemodule::ResourceRea
 
 } // end constructor
 
-} // end namespace openfmb
+} // end namespace adapter

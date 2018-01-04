@@ -9,7 +9,7 @@
 
 #include "Buffer.h"
 
-namespace openfmb
+namespace adapter
 {
 
     class Message

@@ -4,7 +4,7 @@
 
 #include "adapter-api/IAdapterFactory.h"
 
-namespace openfmb
+namespace adapter
 {
 
     class NatsFactory final : public IAdapterFactory

@@ -2,7 +2,7 @@
 #ifndef OPENFMB_ADAPTER_ISUBSCRIBER_H
 #define OPENFMB_ADAPTER_ISUBSCRIBER_H
 
-namespace openfmb
+namespace adapter
 {
 
     /**

@@ -8,7 +8,7 @@
 #include "adapter-api/Logger.h"
 
 
-namespace openfmb
+namespace adapter
 {
 
     class LogAdapter final : public openpal::ILogHandler

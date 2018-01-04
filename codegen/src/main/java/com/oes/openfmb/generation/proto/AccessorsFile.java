@@ -28,7 +28,7 @@ public class AccessorsFile implements CppClassFile {
                                this.includes(),
                                space,
                                Documents.namespace(
-                                        "openfmb",
+                                        "adapter",
                                         clazz(this.getClassName(),
                                                 lines(
                                                         "",
@@ -60,7 +60,7 @@ public class AccessorsFile implements CppClassFile {
                 .space()
                 .append(
                     Documents.namespace(
-                    "openfmb",
+                    "adapter",
                                line(String.format("%s::%s()", this.getClassName(), this.getClassName()))
                                        .append("{")
                                        .space()

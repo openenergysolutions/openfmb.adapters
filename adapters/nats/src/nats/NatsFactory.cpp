@@ -5,7 +5,7 @@
 
 #include "ConfigKeys.h"
 
-namespace openfmb
+namespace adapter
 {
     void NatsFactory::write_default_config(YAML::Emitter& out) const
     {

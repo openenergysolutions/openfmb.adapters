@@ -4,7 +4,7 @@
 
 #include "StringUtil.h"
 
-namespace openfmb
+namespace adapter
 {
     /**
     * Super class of std::runtime_error that allows

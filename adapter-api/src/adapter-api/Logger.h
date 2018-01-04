@@ -4,7 +4,7 @@
 
 #include "spdlog/spdlog.h"
 
-namespace openfmb
+namespace adapter
 {
 
     /**

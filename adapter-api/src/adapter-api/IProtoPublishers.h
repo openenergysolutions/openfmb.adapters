@@ -4,7 +4,7 @@
 
 #include "proto/resourcemodule/resourcemodule.pb.h"
 
-namespace openfmb
+namespace adapter
 {
 
     /**

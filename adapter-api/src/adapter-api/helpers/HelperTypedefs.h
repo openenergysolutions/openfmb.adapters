@@ -6,7 +6,7 @@
 
 #include <map>
 
-namespace openfmb {
+namespace adapter {
 
     template <class Profile>
     using analogue_getter_t = commonmodule::AnalogValue* (*)(Profile& profile);

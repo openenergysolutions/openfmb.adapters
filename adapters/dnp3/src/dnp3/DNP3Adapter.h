@@ -7,7 +7,7 @@
 
 #include <asiodnp3/DNP3Manager.h>
 
-namespace openfmb
+namespace adapter
 {
 
     class DNP3Adapter final : public IAdapter

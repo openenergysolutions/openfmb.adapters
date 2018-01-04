@@ -15,28 +15,32 @@
 #include "twinoaks/DDSAdapterFactory.h"
 #endif
 
-AdapterRegistry::AdapterRegistry()
+namespace adapter
 {
-    this->add<openfmb::LogAdapterFactory>();
+
+    AdapterRegistry::AdapterRegistry()
+    {
+        this->add<adapter::LogAdapterFactory>();
 
 #ifdef OPENFMB_USE_DNP3
-    this->add<openfmb::DNP3Factory>();
+        this->add<adapter::DNP3Factory>();
 #endif
 
 #ifdef OPENFMB_USE_NATS
-    this->add<openfmb::NatsFactory>();
+        this->add<adapter::NatsFactory>();
 #endif
 
 #ifdef OPENFMB_USE_TWINOAKS_DDS
-    this->add<openfmb::DDSAdapterFactory>();
+        this->add<openfmb::DDSAdapterFactory>();
 #endif
 
-}
+    }
 
-template <class T>
-void AdapterRegistry::add()
-{
-    auto factory = std::make_shared<T>();
-    this->lookup[factory->name()] = factory;
-}
+    template<class T>
+    void AdapterRegistry::add()
+    {
+        auto factory = std::make_shared<T>();
+        this->lookup[factory->name()] = factory;
+    }
 
+}

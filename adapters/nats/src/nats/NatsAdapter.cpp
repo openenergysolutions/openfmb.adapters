@@ -7,7 +7,7 @@
 
 #include "ConfigKeys.h"
 
-namespace openfmb
+namespace adapter
 {
 
     NatsAdapter::NatsAdapter(const Logger& logger, const YAML::Node& node, IProtoSubscribers& subscribers) :

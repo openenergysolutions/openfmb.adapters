@@ -17,7 +17,7 @@
 #include "resourcemodule/resourcemodule.pb.h"
 #include "../HelperTypedefs.h"
 
-namespace openfmb {
+namespace adapter {
 
 class ResourceReadingProfileMap {
 
@@ -36,7 +36,7 @@ class ResourceReadingProfileMap {
     bcr_map_t<profile_t> bcrs;
 };
 
-} // end namespace openfmb
+} // end namespace adapter
 
 #endif
 

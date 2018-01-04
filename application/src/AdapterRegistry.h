@@ -6,29 +6,34 @@
 
 #include <map>
 
-class AdapterRegistry
+namespace adapter
 {
 
-public:
-
-    AdapterRegistry();
-
-    template <class Action>
-    void foreach_adapter(const Action& action) const
+    class AdapterRegistry
     {
-        for(auto& entry : lookup)
+
+    public:
+
+        AdapterRegistry();
+
+        template<class Action>
+        void foreach_adapter(const Action& action) const
         {
-            action(*entry.second);
+            for (auto& entry : lookup)
+            {
+                action(*entry.second);
+            }
         }
-    }
 
-private:
+    private:
 
-    template<class T>
-    void add();
+        template<class T>
+        void add();
 
-    std::map<std::string, std::shared_ptr<openfmb::IAdapterFactory>> lookup;
+        std::map<std::string, std::shared_ptr<IAdapterFactory>> lookup;
 
-};
+    };
+
+}
 
 #endif //OPENFMB_ADAPTER_ADAPTERREGISTRY_H

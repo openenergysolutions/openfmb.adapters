@@ -3,7 +3,7 @@
 
 #include "adapter-api/IAdapterFactory.h"
 
-namespace openfmb
+namespace adapter
 {
     class LogAdapterFactory : public IAdapterFactory
     {

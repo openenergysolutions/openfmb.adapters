@@ -9,7 +9,7 @@
 #include "Message.h"
 
 
-namespace openfmb
+namespace adapter
 {
 
     template <class T>

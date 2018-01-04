@@ -5,7 +5,7 @@
 
 #include <iostream>
 
-namespace openfmb
+namespace adapter
 {
 
     template <class Proto>

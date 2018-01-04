@@ -12,7 +12,7 @@
 #include "SynchronizedQueue.h"
 #include "Message.h"
 
-namespace openfmb
+namespace adapter
 {
 
 

@@ -5,7 +5,7 @@
 #include <cstddef>
 #include <memory>
 
-namespace openfmb
+namespace adapter
 {
 
     class Buffer

@@ -9,7 +9,7 @@
 
 #include "Logger.h"
 
-namespace openfmb
+namespace adapter
 {
 
     /**

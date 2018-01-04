@@ -5,7 +5,7 @@
 
 #include "ConfigKeys.h"
 
-namespace openfmb
+namespace adapter
 {
     template <class T>
     void write_profile_mapping(YAML::Emitter& out)
