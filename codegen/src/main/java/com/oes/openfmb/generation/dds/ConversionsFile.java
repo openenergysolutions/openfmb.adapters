@@ -19,19 +19,27 @@ public class ConversionsFile implements CppClassFile {
 
     private final String className;
     private final Set<Descriptors.Descriptor> descriptors;
+    private final Set<Descriptors.EnumDescriptor> enums;
 
     public ConversionsFile(String baseFileName) {
         this.className = baseFileName;
-        this.descriptors = buildDescriptorSet();
-    }
 
-    private static Set<Descriptors.Descriptor> buildDescriptorSet()
-    {
-        List<Descriptors.Descriptor> descriptors = Arrays.asList(
+        List<Descriptors.Descriptor> types = Arrays.asList(
                 ResourceReadingProfile.getDescriptor()
         );
 
+        this.descriptors = buildDescriptorSet(types);
+        this.enums = buildEnumSet(types);
+    }
+
+    private static Set<Descriptors.Descriptor> buildDescriptorSet(List<Descriptors.Descriptor> descriptors)
+    {
         return descriptors.stream().map(DescriptorUtil::findUniqueSubMessages).flatMap(Set::stream).collect(Collectors.toSet());
+    }
+
+    private static Set<Descriptors.EnumDescriptor> buildEnumSet(List<Descriptors.Descriptor> descriptors)
+    {
+        return descriptors.stream().map(DescriptorUtil::findUniqueEnums).flatMap(Set::stream).collect(Collectors.toSet());
     }
 
 
@@ -60,6 +68,8 @@ public class ConversionsFile implements CppClassFile {
                 space,
                 namespace("adapter",
                         namespace("dds",
+                            enumAssertions(),
+                            space,
                             helpers(),
                             space,
                             implementations()
@@ -100,6 +110,37 @@ public class ConversionsFile implements CppClassFile {
                 .append("};");
     }
 
+    private Document enumAssertions()
+    {
+        return Documents.spaced(this.enums.stream().map(ed -> assertion(ed)));
+    }
+
+    private static Document assertion(Descriptors.EnumDescriptor descriptor)
+    {
+        return Documents.join(
+                descriptor.getValues().stream().map(v -> assertion(v))
+        );
+    }
+
+    private static Document assertion(Descriptors.EnumValueDescriptor d)
+    {
+        // proto 3 requires that things begin w/ value of zero
+        // some enum values don't actually exist in the UML
+        if(d.getNumber() == 0 &&  d.getName().endsWith("_undefined"))
+        {
+            return Documents.empty;
+        }
+
+        return line(
+            String.format("static_assert(static_cast<int>(%s::%s) == static_cast<int>(openfmb::%s::%s), \"mismatched enum values\");",
+                    cppName(d.getType()),
+                    d.getName(),
+                    cppName(d.getType()),
+                    d.getName()
+            )
+        );
+    }
+
     private Document implementations()
     {
         return spaced(descriptors.stream().map(d -> implementation(d)));
@@ -107,10 +148,11 @@ public class ConversionsFile implements CppClassFile {
 
     private Document implementation(Descriptors.Descriptor d)
     {
+
         return line(String.format("void convert(const %s& in, openfmb::%s& out)", cppName(d), cppName(d)))
                 .append("{")
                 .indent(
-                        join(
+                        TypeInfo.omit(d) ? Documents.space : join(
                                 line("out.clear();"),
                                 Documents.space,
                                 messageFieldConversions(d)
@@ -131,26 +173,52 @@ public class ConversionsFile implements CppClassFile {
     {
         if(field.getType() != Descriptors.FieldDescriptor.Type.MESSAGE) return Documents.empty;
 
-        if(field.isRequired())
+
+        if(TypeInfo.is(field.getContainingType()).inheritedFrom(field.getMessageType()))
         {
-            return line(String.format("convert(in.%s, out.%s", field.getName(), field.getName()));
-        }
-        else
-        {
+            System.out.println(field.getContainingType().getName() + " inherits from " + field.getMessageType().getName());
             return line(
                     String.format(
-                            "if(in.has_%s()) out.%s = create<%s,openfmb::%s>(in.%s());",
+                            "if(in.has_%s()) convert(in.%s(), out); // inherited type",
                             field.getName().toLowerCase(),
-                            field.getName(),
-                            cppName(field.getMessageType()),
-                            cppName(field.getMessageType()),
                             field.getName().toLowerCase()
                     )
             );
         }
+        else
+        {
+            if(TypeInfo.required(field))
+            {
+                return line(
+                        String.format(
+                                "convert(in.%s(), out.%s); // required field in DDS",
+                                field.getName().toLowerCase(),
+                                field.getName()
+                        )
+                );
+            }
+            else
+            {
+                return line(
+                        String.format(
+                                "if(in.has_%s()) out.%s = create<%s,openfmb::%s>(in.%s());",
+                                field.getName().toLowerCase(),
+                                field.getName(),
+                                cppName(field.getMessageType()),
+                                cppName(field.getMessageType()),
+                                field.getName().toLowerCase()
+                        )
+                );
+            }
+        }
     }
 
-    private String cppName(Descriptors.Descriptor d)
+    private static String cppName(Descriptors.EnumDescriptor d)
+    {
+        return d.getFullName().replace(".", "::");
+    }
+
+    private static String cppName(Descriptors.Descriptor d)
     {
         return d.getFullName().replace(".", "::");
     }

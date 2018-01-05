@@ -17,6 +17,81 @@ namespace adapter {
 
 namespace dds {
 
+static_assert(static_cast<int>(commonmodule::PhaseCodeKind::PhaseCodeKind_none) == static_cast<int>(openfmb::commonmodule::PhaseCodeKind::PhaseCodeKind_none), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::PhaseCodeKind::PhaseCodeKind_other) == static_cast<int>(openfmb::commonmodule::PhaseCodeKind::PhaseCodeKind_other), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::PhaseCodeKind::PhaseCodeKind_N) == static_cast<int>(openfmb::commonmodule::PhaseCodeKind::PhaseCodeKind_N), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::PhaseCodeKind::PhaseCodeKind_C) == static_cast<int>(openfmb::commonmodule::PhaseCodeKind::PhaseCodeKind_C), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::PhaseCodeKind::PhaseCodeKind_CN) == static_cast<int>(openfmb::commonmodule::PhaseCodeKind::PhaseCodeKind_CN), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::PhaseCodeKind::PhaseCodeKind_AC) == static_cast<int>(openfmb::commonmodule::PhaseCodeKind::PhaseCodeKind_AC), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::PhaseCodeKind::PhaseCodeKind_ACN) == static_cast<int>(openfmb::commonmodule::PhaseCodeKind::PhaseCodeKind_ACN), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::PhaseCodeKind::PhaseCodeKind_B) == static_cast<int>(openfmb::commonmodule::PhaseCodeKind::PhaseCodeKind_B), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::PhaseCodeKind::PhaseCodeKind_BN) == static_cast<int>(openfmb::commonmodule::PhaseCodeKind::PhaseCodeKind_BN), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::PhaseCodeKind::PhaseCodeKind_BC) == static_cast<int>(openfmb::commonmodule::PhaseCodeKind::PhaseCodeKind_BC), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::PhaseCodeKind::PhaseCodeKind_BCN) == static_cast<int>(openfmb::commonmodule::PhaseCodeKind::PhaseCodeKind_BCN), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::PhaseCodeKind::PhaseCodeKind_A) == static_cast<int>(openfmb::commonmodule::PhaseCodeKind::PhaseCodeKind_A), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::PhaseCodeKind::PhaseCodeKind_AN) == static_cast<int>(openfmb::commonmodule::PhaseCodeKind::PhaseCodeKind_AN), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::PhaseCodeKind::PhaseCodeKind_AB) == static_cast<int>(openfmb::commonmodule::PhaseCodeKind::PhaseCodeKind_AB), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::PhaseCodeKind::PhaseCodeKind_ABN) == static_cast<int>(openfmb::commonmodule::PhaseCodeKind::PhaseCodeKind_ABN), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::PhaseCodeKind::PhaseCodeKind_ABC) == static_cast<int>(openfmb::commonmodule::PhaseCodeKind::PhaseCodeKind_ABC), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::PhaseCodeKind::PhaseCodeKind_ABCN) == static_cast<int>(openfmb::commonmodule::PhaseCodeKind::PhaseCodeKind_ABCN), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::PhaseCodeKind::PhaseCodeKind_s2) == static_cast<int>(openfmb::commonmodule::PhaseCodeKind::PhaseCodeKind_s2), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::PhaseCodeKind::PhaseCodeKind_s2N) == static_cast<int>(openfmb::commonmodule::PhaseCodeKind::PhaseCodeKind_s2N), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::PhaseCodeKind::PhaseCodeKind_s1) == static_cast<int>(openfmb::commonmodule::PhaseCodeKind::PhaseCodeKind_s1), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::PhaseCodeKind::PhaseCodeKind_s1N) == static_cast<int>(openfmb::commonmodule::PhaseCodeKind::PhaseCodeKind_s1N), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::PhaseCodeKind::PhaseCodeKind_s12) == static_cast<int>(openfmb::commonmodule::PhaseCodeKind::PhaseCodeKind_s12), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::PhaseCodeKind::PhaseCodeKind_s12N) == static_cast<int>(openfmb::commonmodule::PhaseCodeKind::PhaseCodeKind_s12N), "mismatched enum values");
+
+static_assert(static_cast<int>(commonmodule::UnitSymbolKind::UnitSymbolKind_none) == static_cast<int>(openfmb::commonmodule::UnitSymbolKind::UnitSymbolKind_none), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::UnitSymbolKind::UnitSymbolKind_meter) == static_cast<int>(openfmb::commonmodule::UnitSymbolKind::UnitSymbolKind_meter), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::UnitSymbolKind::UnitSymbolKind_gram) == static_cast<int>(openfmb::commonmodule::UnitSymbolKind::UnitSymbolKind_gram), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::UnitSymbolKind::UnitSymbolKind_Amp) == static_cast<int>(openfmb::commonmodule::UnitSymbolKind::UnitSymbolKind_Amp), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::UnitSymbolKind::UnitSymbolKind_deg) == static_cast<int>(openfmb::commonmodule::UnitSymbolKind::UnitSymbolKind_deg), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::UnitSymbolKind::UnitSymbolKind_rad) == static_cast<int>(openfmb::commonmodule::UnitSymbolKind::UnitSymbolKind_rad), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::UnitSymbolKind::UnitSymbolKind_degC) == static_cast<int>(openfmb::commonmodule::UnitSymbolKind::UnitSymbolKind_degC), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::UnitSymbolKind::UnitSymbolKind_Farad) == static_cast<int>(openfmb::commonmodule::UnitSymbolKind::UnitSymbolKind_Farad), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::UnitSymbolKind::UnitSymbolKind_sec) == static_cast<int>(openfmb::commonmodule::UnitSymbolKind::UnitSymbolKind_sec), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::UnitSymbolKind::UnitSymbolKind_Henry) == static_cast<int>(openfmb::commonmodule::UnitSymbolKind::UnitSymbolKind_Henry), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::UnitSymbolKind::UnitSymbolKind_V) == static_cast<int>(openfmb::commonmodule::UnitSymbolKind::UnitSymbolKind_V), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::UnitSymbolKind::UnitSymbolKind_ohm) == static_cast<int>(openfmb::commonmodule::UnitSymbolKind::UnitSymbolKind_ohm), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::UnitSymbolKind::UnitSymbolKind_Joule) == static_cast<int>(openfmb::commonmodule::UnitSymbolKind::UnitSymbolKind_Joule), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::UnitSymbolKind::UnitSymbolKind_Newton) == static_cast<int>(openfmb::commonmodule::UnitSymbolKind::UnitSymbolKind_Newton), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::UnitSymbolKind::UnitSymbolKind_Hz) == static_cast<int>(openfmb::commonmodule::UnitSymbolKind::UnitSymbolKind_Hz), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::UnitSymbolKind::UnitSymbolKind_W) == static_cast<int>(openfmb::commonmodule::UnitSymbolKind::UnitSymbolKind_W), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::UnitSymbolKind::UnitSymbolKind_Pa) == static_cast<int>(openfmb::commonmodule::UnitSymbolKind::UnitSymbolKind_Pa), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::UnitSymbolKind::UnitSymbolKind_m2) == static_cast<int>(openfmb::commonmodule::UnitSymbolKind::UnitSymbolKind_m2), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::UnitSymbolKind::UnitSymbolKind_Siemens) == static_cast<int>(openfmb::commonmodule::UnitSymbolKind::UnitSymbolKind_Siemens), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::UnitSymbolKind::UnitSymbolKind_VA) == static_cast<int>(openfmb::commonmodule::UnitSymbolKind::UnitSymbolKind_VA), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::UnitSymbolKind::UnitSymbolKind_VAr) == static_cast<int>(openfmb::commonmodule::UnitSymbolKind::UnitSymbolKind_VAr), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::UnitSymbolKind::UnitSymbolKind_wPerVA) == static_cast<int>(openfmb::commonmodule::UnitSymbolKind::UnitSymbolKind_wPerVA), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::UnitSymbolKind::UnitSymbolKind_VAh) == static_cast<int>(openfmb::commonmodule::UnitSymbolKind::UnitSymbolKind_VAh), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::UnitSymbolKind::UnitSymbolKind_Wh) == static_cast<int>(openfmb::commonmodule::UnitSymbolKind::UnitSymbolKind_Wh), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::UnitSymbolKind::UnitSymbolKind_VArh) == static_cast<int>(openfmb::commonmodule::UnitSymbolKind::UnitSymbolKind_VArh), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::UnitSymbolKind::UnitSymbolKind_hzPerS) == static_cast<int>(openfmb::commonmodule::UnitSymbolKind::UnitSymbolKind_hzPerS), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::UnitSymbolKind::UnitSymbolKind_wPerS) == static_cast<int>(openfmb::commonmodule::UnitSymbolKind::UnitSymbolKind_wPerS), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::UnitSymbolKind::UnitSymbolKind_other) == static_cast<int>(openfmb::commonmodule::UnitSymbolKind::UnitSymbolKind_other), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::UnitSymbolKind::UnitSymbolKind_min) == static_cast<int>(openfmb::commonmodule::UnitSymbolKind::UnitSymbolKind_min), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::UnitSymbolKind::UnitSymbolKind_hour) == static_cast<int>(openfmb::commonmodule::UnitSymbolKind::UnitSymbolKind_hour), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::UnitSymbolKind::UnitSymbolKind_m3) == static_cast<int>(openfmb::commonmodule::UnitSymbolKind::UnitSymbolKind_m3), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::UnitSymbolKind::UnitSymbolKind_wPerM2) == static_cast<int>(openfmb::commonmodule::UnitSymbolKind::UnitSymbolKind_wPerM2), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::UnitSymbolKind::UnitSymbolKind_degF) == static_cast<int>(openfmb::commonmodule::UnitSymbolKind::UnitSymbolKind_degF), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::UnitSymbolKind::UnitSymbolKind_mph) == static_cast<int>(openfmb::commonmodule::UnitSymbolKind::UnitSymbolKind_mph), "mismatched enum values");
+
+static_assert(static_cast<int>(commonmodule::UnitMultiplierKind::UnitMultiplierKind_none) == static_cast<int>(openfmb::commonmodule::UnitMultiplierKind::UnitMultiplierKind_none), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::UnitMultiplierKind::UnitMultiplierKind_other) == static_cast<int>(openfmb::commonmodule::UnitMultiplierKind::UnitMultiplierKind_other), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::UnitMultiplierKind::UnitMultiplierKind_centi) == static_cast<int>(openfmb::commonmodule::UnitMultiplierKind::UnitMultiplierKind_centi), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::UnitMultiplierKind::UnitMultiplierKind_deci) == static_cast<int>(openfmb::commonmodule::UnitMultiplierKind::UnitMultiplierKind_deci), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::UnitMultiplierKind::UnitMultiplierKind_Giga) == static_cast<int>(openfmb::commonmodule::UnitMultiplierKind::UnitMultiplierKind_Giga), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::UnitMultiplierKind::UnitMultiplierKind_kilo) == static_cast<int>(openfmb::commonmodule::UnitMultiplierKind::UnitMultiplierKind_kilo), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::UnitMultiplierKind::UnitMultiplierKind_Mega) == static_cast<int>(openfmb::commonmodule::UnitMultiplierKind::UnitMultiplierKind_Mega), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::UnitMultiplierKind::UnitMultiplierKind_micro) == static_cast<int>(openfmb::commonmodule::UnitMultiplierKind::UnitMultiplierKind_micro), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::UnitMultiplierKind::UnitMultiplierKind_milli) == static_cast<int>(openfmb::commonmodule::UnitMultiplierKind::UnitMultiplierKind_milli), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::UnitMultiplierKind::UnitMultiplierKind_nano) == static_cast<int>(openfmb::commonmodule::UnitMultiplierKind::UnitMultiplierKind_nano), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::UnitMultiplierKind::UnitMultiplierKind_pico) == static_cast<int>(openfmb::commonmodule::UnitMultiplierKind::UnitMultiplierKind_pico), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::UnitMultiplierKind::UnitMultiplierKind_Tera) == static_cast<int>(openfmb::commonmodule::UnitMultiplierKind::UnitMultiplierKind_Tera), "mismatched enum values");
+
+static_assert(static_cast<int>(commonmodule::CalcMethodKind::CalcMethodKind_P_CLASS) == static_cast<int>(openfmb::commonmodule::CalcMethodKind::CalcMethodKind_P_CLASS), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::CalcMethodKind::CalcMethodKind_M_CLASS) == static_cast<int>(openfmb::commonmodule::CalcMethodKind::CalcMethodKind_M_CLASS), "mismatched enum values");
+
 template <class T, class R>
 R* create(const T& value)
 {
@@ -35,7 +110,7 @@ void convert(const commonmodule::LogicalNode& in, openfmb::commonmodule::Logical
 {
     out.clear();
 
-    if(in.has_identifiedobject()) out.identifiedObject = create<commonmodule::IdentifiedObject,openfmb::commonmodule::IdentifiedObject>(in.identifiedobject());
+    if(in.has_identifiedobject()) convert(in.identifiedobject(), out); // inherited type
 }
 
 void convert(const commonmodule::Unit& in, openfmb::commonmodule::Unit& out)
@@ -54,16 +129,15 @@ void convert(const commonmodule::BCR& in, openfmb::commonmodule::BCR& out)
 {
     out.clear();
 
-    if(in.has_q()) out.q = create<commonmodule::Quality,openfmb::commonmodule::Quality>(in.q());
-    if(in.has_t()) out.t = create<commonmodule::Timestamp,openfmb::commonmodule::Timestamp>(in.t());
-    if(in.has_units()) out.units = create<commonmodule::Unit,openfmb::commonmodule::Unit>(in.units());
+    convert(in.q(), out.q); // required field in DDS
+    convert(in.t(), out.t); // required field in DDS
 }
 
 void convert(const commonmodule::ReadingMMTR& in, openfmb::commonmodule::ReadingMMTR& out)
 {
     out.clear();
 
-    if(in.has_logicalnode()) out.logicalNode = create<commonmodule::LogicalNode,openfmb::commonmodule::LogicalNode>(in.logicalnode());
+    if(in.has_logicalnode()) convert(in.logicalnode(), out); // inherited type
     if(in.has_dmdvah()) out.DmdVAh = create<commonmodule::BCR,openfmb::commonmodule::BCR>(in.dmdvah());
     if(in.has_dmdvarh()) out.DmdVArh = create<commonmodule::BCR,openfmb::commonmodule::BCR>(in.dmdvarh());
     if(in.has_dmdwh()) out.DmdWh = create<commonmodule::BCR,openfmb::commonmodule::BCR>(in.dmdwh());
@@ -90,23 +164,22 @@ void convert(const commonmodule::Vector& in, openfmb::commonmodule::Vector& out)
 {
     out.clear();
 
-    if(in.has_ang()) out.ang = create<commonmodule::AnalogValue,openfmb::commonmodule::AnalogValue>(in.ang());
-    if(in.has_mag()) out.mag = create<commonmodule::AnalogValue,openfmb::commonmodule::AnalogValue>(in.mag());
+    if(in.has_ang()) out.ang = create<commonmodule::AnalogueValue,openfmb::commonmodule::AnalogueValue>(in.ang());
+    convert(in.mag(), out.mag); // required field in DDS
 }
 
 void convert(const resourcemodule::ResourceReadingProfile& in, openfmb::resourcemodule::ResourceReadingProfile& out)
 {
     out.clear();
 
-    if(in.has_readingmessageinfo()) out.readingMessageInfo = create<commonmodule::ReadingMessageInfo,openfmb::commonmodule::ReadingMessageInfo>(in.readingmessageinfo());
-    if(in.has_ied()) out.ied = create<commonmodule::IED,openfmb::commonmodule::IED>(in.ied());
-    if(in.has_meter()) out.meter = create<commonmodule::Meter,openfmb::commonmodule::Meter>(in.meter());
-    if(in.has_resourcereading()) out.resourceReading = create<resourcemodule::ResourceReading,openfmb::resourcemodule::ResourceReading>(in.resourcereading());
+    if(in.has_readingmessageinfo()) convert(in.readingmessageinfo(), out); // inherited type
+    convert(in.ied(), out.ied); // required field in DDS
+    convert(in.meter(), out.meter); // required field in DDS
+    convert(in.resourcereading(), out.resourceReading); // required field in DDS
 }
 
 void convert(const commonmodule::Quality& in, openfmb::commonmodule::Quality& out)
 {
-    out.clear();
 
 }
 
@@ -114,14 +187,21 @@ void convert(const commonmodule::ConductingEquipmentTerminalReading& in, openfmb
 {
     out.clear();
 
-    if(in.has_terminal()) out.terminal = create<commonmodule::Terminal,openfmb::commonmodule::Terminal>(in.terminal());
+    convert(in.terminal(), out.terminal); // required field in DDS
+}
+
+void convert(const commonmodule::ConductingEquipment& in, openfmb::commonmodule::ConductingEquipment& out)
+{
+    out.clear();
+
+    if(in.has_identifiedobject()) convert(in.identifiedobject(), out); // inherited type
 }
 
 void convert(const commonmodule::ReadingMMXU& in, openfmb::commonmodule::ReadingMMXU& out)
 {
     out.clear();
 
-    if(in.has_logicalnode()) out.logicalNode = create<commonmodule::LogicalNode,openfmb::commonmodule::LogicalNode>(in.logicalnode());
+    if(in.has_logicalnode()) convert(in.logicalnode(), out); // inherited type
     if(in.has_a()) out.A = create<commonmodule::WYE,openfmb::commonmodule::WYE>(in.a());
     if(in.has_clcmth()) out.ClcMth = create<commonmodule::ENG_CalcMethodKind,openfmb::commonmodule::ENG_CalcMethodKind>(in.clcmth());
     if(in.has_hz()) out.Hz = create<commonmodule::MV,openfmb::commonmodule::MV>(in.hz());
@@ -136,7 +216,7 @@ void convert(const commonmodule::ReadingMMTN& in, openfmb::commonmodule::Reading
 {
     out.clear();
 
-    if(in.has_logicalnode()) out.logicalNode = create<commonmodule::LogicalNode,openfmb::commonmodule::LogicalNode>(in.logicalnode());
+    if(in.has_logicalnode()) convert(in.logicalnode(), out); // inherited type
     if(in.has_dmdvah()) out.DmdVAh = create<commonmodule::BCR,openfmb::commonmodule::BCR>(in.dmdvah());
     if(in.has_dmdvarh()) out.DmdVArh = create<commonmodule::BCR,openfmb::commonmodule::BCR>(in.dmdvarh());
     if(in.has_dmdwh()) out.DmdWh = create<commonmodule::BCR,openfmb::commonmodule::BCR>(in.dmdwh());
@@ -160,7 +240,7 @@ void convert(const commonmodule::PhaseMMTN& in, openfmb::commonmodule::PhaseMMTN
     if(in.has_phsca()) out.phsCA = create<commonmodule::ReadingMMTN,openfmb::commonmodule::ReadingMMTN>(in.phsca());
 }
 
-void convert(const commonmodule::AnalogValue& in, openfmb::commonmodule::AnalogValue& out)
+void convert(const commonmodule::AnalogueValue& in, openfmb::commonmodule::AnalogueValue& out)
 {
     out.clear();
 
@@ -170,9 +250,9 @@ void convert(const commonmodule::CMV& in, openfmb::commonmodule::CMV& out)
 {
     out.clear();
 
-    if(in.has_cval()) out.cVal = create<commonmodule::Vector,openfmb::commonmodule::Vector>(in.cval());
-    if(in.has_q()) out.q = create<commonmodule::Quality,openfmb::commonmodule::Quality>(in.q());
-    if(in.has_t()) out.t = create<commonmodule::Timestamp,openfmb::commonmodule::Timestamp>(in.t());
+    convert(in.cval(), out.cVal); // required field in DDS
+    convert(in.q(), out.q); // required field in DDS
+    convert(in.t(), out.t); // required field in DDS
     if(in.has_units()) out.units = create<commonmodule::Unit,openfmb::commonmodule::Unit>(in.units());
 }
 
@@ -180,9 +260,9 @@ void convert(const commonmodule::MV& in, openfmb::commonmodule::MV& out)
 {
     out.clear();
 
-    if(in.has_mag()) out.mag = create<commonmodule::AnalogValue,openfmb::commonmodule::AnalogValue>(in.mag());
-    if(in.has_q()) out.q = create<commonmodule::Quality,openfmb::commonmodule::Quality>(in.q());
-    if(in.has_t()) out.t = create<commonmodule::Timestamp,openfmb::commonmodule::Timestamp>(in.t());
+    convert(in.mag(), out.mag); // required field in DDS
+    convert(in.q(), out.q); // required field in DDS
+    convert(in.t(), out.t); // required field in DDS
     if(in.has_units()) out.units = create<commonmodule::Unit,openfmb::commonmodule::Unit>(in.units());
 }
 
@@ -190,7 +270,7 @@ void convert(const resourcemodule::ResourceReading& in, openfmb::resourcemodule:
 {
     out.clear();
 
-    if(in.has_conductingequipmentterminalreading()) out.conductingEquipmentTerminalReading = create<commonmodule::ConductingEquipmentTerminalReading,openfmb::commonmodule::ConductingEquipmentTerminalReading>(in.conductingequipmentterminalreading());
+    if(in.has_conductingequipmentterminalreading()) convert(in.conductingequipmentterminalreading(), out); // inherited type
     if(in.has_phasemmtn()) out.phaseMMTN = create<commonmodule::PhaseMMTN,openfmb::commonmodule::PhaseMMTN>(in.phasemmtn());
     if(in.has_readingmmtr()) out.readingMMTR = create<commonmodule::ReadingMMTR,openfmb::commonmodule::ReadingMMTR>(in.readingmmtr());
     if(in.has_readingmmxu()) out.readingMMXU = create<commonmodule::ReadingMMXU,openfmb::commonmodule::ReadingMMXU>(in.readingmmxu());
@@ -206,29 +286,29 @@ void convert(const commonmodule::Terminal& in, openfmb::commonmodule::Terminal& 
 {
     out.clear();
 
-    if(in.has_acdcterminal()) out.acdcTerminal = create<commonmodule::ACDCTerminal,openfmb::commonmodule::ACDCTerminal>(in.acdcterminal());
+    if(in.has_acdcterminal()) convert(in.acdcterminal(), out); // inherited type
 }
 
 void convert(const commonmodule::IED& in, openfmb::commonmodule::IED& out)
 {
     out.clear();
 
-    if(in.has_identifiedobject()) out.identifiedObject = create<commonmodule::IdentifiedObject,openfmb::commonmodule::IdentifiedObject>(in.identifiedobject());
+    if(in.has_identifiedobject()) convert(in.identifiedobject(), out); // inherited type
 }
 
 void convert(const commonmodule::ReadingMessageInfo& in, openfmb::commonmodule::ReadingMessageInfo& out)
 {
     out.clear();
 
-    if(in.has_identifiedobject()) out.identifiedObject = create<commonmodule::IdentifiedObject,openfmb::commonmodule::IdentifiedObject>(in.identifiedobject());
-    if(in.has_messagetimestamp()) out.messageTimestamp = create<commonmodule::Timestamp,openfmb::commonmodule::Timestamp>(in.messagetimestamp());
+    if(in.has_identifiedobject()) convert(in.identifiedobject(), out); // inherited type
+    convert(in.messagetimestamp(), out.messageTimeStamp); // required field in DDS
 }
 
 void convert(const commonmodule::ACDCTerminal& in, openfmb::commonmodule::ACDCTerminal& out)
 {
     out.clear();
 
-    if(in.has_identifiedobject()) out.identifiedObject = create<commonmodule::IdentifiedObject,openfmb::commonmodule::IdentifiedObject>(in.identifiedobject());
+    if(in.has_identifiedobject()) convert(in.identifiedobject(), out); // inherited type
 }
 
 void convert(const commonmodule::DEL& in, openfmb::commonmodule::DEL& out)
@@ -244,7 +324,7 @@ void convert(const commonmodule::Meter& in, openfmb::commonmodule::Meter& out)
 {
     out.clear();
 
-    if(in.has_identifiedobject()) out.identifiedObject = create<commonmodule::IdentifiedObject,openfmb::commonmodule::IdentifiedObject>(in.identifiedobject());
+    if(in.has_conductingequipment()) convert(in.conductingequipment(), out); // inherited type
 }
 
 } // end namespace dds

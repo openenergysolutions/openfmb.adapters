@@ -9,7 +9,7 @@
 namespace adapter {
 
     template <class Profile>
-    using analogue_getter_t = commonmodule::AnalogValue* (*)(Profile& profile);
+    using analogue_getter_t = commonmodule::AnalogueValue* (*)(Profile& profile);
 
     template <class Profile>
     using bcr_getter_t = commonmodule::BCR* (*)(Profile& profile);

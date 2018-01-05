@@ -28,7 +28,7 @@ namespace adapter
 
     void convert(const commonmodule::WYE& in, openfmb::commonmodule::WYE& out);
 
-    void convert(const commonmodule::AnalogValue& in, openfmb::commonmodule::AnalogueValue& out);
+    void convert(const commonmodule::AnalogueValue& in, openfmb::commonmodule::AnalogueValue& out);
 
     void convert(const commonmodule::Unit& in, openfmb::commonmodule::Unit& out);
 
@@ -52,9 +52,9 @@ namespace adapter
         return create<commonmodule::CMV, openfmb::commonmodule::CMV>(value);
     }
 
-    static inline openfmb::commonmodule::AnalogueValue* create(const commonmodule::AnalogValue& value)
+    static inline openfmb::commonmodule::AnalogueValue* create(const commonmodule::AnalogueValue& value)
     {
-        return create<commonmodule::AnalogValue, openfmb::commonmodule::AnalogueValue>(value);
+        return create<commonmodule::AnalogueValue, openfmb::commonmodule::AnalogueValue>(value);
     }
 
     static inline openfmb::commonmodule::Unit* create(const commonmodule::Unit& value)

@@ -3,7 +3,7 @@ package com.oes.openfmb.generation.proto;
 import com.google.protobuf.Descriptors;
 import com.oes.openfmb.generation.document.*;
 import com.oes.openfmb.util.DescriptorUtil;
-import openfmb.commonmodule.AnalogValue;
+import openfmb.commonmodule.AnalogueValue;
 import openfmb.commonmodule.BCR;
 
 import java.util.List;
@@ -69,7 +69,7 @@ public class AccessorsFile implements CppClassFile {
                                                entries("analogs",
                                                             DescriptorUtil.find(
                                                                 this.descriptor,
-                                                                DescriptorUtil.matches(AnalogValue.getDescriptor())
+                                                                DescriptorUtil.matches(AnalogueValue.getDescriptor())
                                                             )
                                                )
                                        )

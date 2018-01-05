@@ -18,7 +18,6 @@ public class Main {
     final static Path conversionsDir = Paths.get("../adapters/dds/twinoaks/src/twinoaks/generated/");
 
     public static void main(String[] args) {
-
         deleteFolderContents(protoHelperDir.toFile());
         deleteFolderContents(conversionsDir.toFile());
         ProtoHelpers.artifacts(protoHelperDir).forEach(Main::write);

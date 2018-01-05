@@ -44,13 +44,15 @@ void convert(const commonmodule::Quality&, openfmb::commonmodule::Quality&);
 
 void convert(const commonmodule::ConductingEquipmentTerminalReading&, openfmb::commonmodule::ConductingEquipmentTerminalReading&);
 
+void convert(const commonmodule::ConductingEquipment&, openfmb::commonmodule::ConductingEquipment&);
+
 void convert(const commonmodule::ReadingMMXU&, openfmb::commonmodule::ReadingMMXU&);
 
 void convert(const commonmodule::ReadingMMTN&, openfmb::commonmodule::ReadingMMTN&);
 
 void convert(const commonmodule::PhaseMMTN&, openfmb::commonmodule::PhaseMMTN&);
 
-void convert(const commonmodule::AnalogValue&, openfmb::commonmodule::AnalogValue&);
+void convert(const commonmodule::AnalogueValue&, openfmb::commonmodule::AnalogueValue&);
 
 void convert(const commonmodule::CMV&, openfmb::commonmodule::CMV&);
 

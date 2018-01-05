@@ -74,7 +74,7 @@ namespace adapter
         if(in.has_phsca()) out.phsCA = create(in.phsca());
     }
 
-    void convert(const commonmodule::AnalogValue& in, openfmb::commonmodule::AnalogueValue& out)
+    void convert(const commonmodule::AnalogueValue& in, openfmb::commonmodule::AnalogueValue& out)
     {
         out.clear();
         out.f = new openfmb::commonmodule::FLOAT32(in.f());

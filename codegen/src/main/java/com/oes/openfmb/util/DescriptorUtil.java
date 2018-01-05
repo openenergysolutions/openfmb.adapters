@@ -20,6 +20,13 @@ public class DescriptorUtil {
         return set;
     }
 
+    public static Set<Descriptors.EnumDescriptor> findUniqueEnums(Descriptors.Descriptor descriptor)
+    {
+        Set<Descriptors.EnumDescriptor> set = new HashSet<>();
+        addUniqueEnums(set, descriptor);
+        return set;
+    }
+
 
     /**
      * Recursively find all the fields in the message that match a predicate
@@ -74,6 +81,23 @@ public class DescriptorUtil {
         descriptor.getFields().forEach(f -> {
             if(f.getType() == Descriptors.FieldDescriptor.Type.MESSAGE) {
                 addUniqueSubMessages(set, f.getMessageType());
+            }
+        });
+    }
+
+    private static void addUniqueEnums(Set<Descriptors.EnumDescriptor> set, Descriptors.Descriptor descriptor)
+    {
+        descriptor.getFields().forEach(f -> {
+            switch(f.getType())
+            {
+                case ENUM:
+                    set.add(f.getEnumType());
+                    break;
+                case MESSAGE:
+                    addUniqueEnums(set, f.getMessageType());
+                    break;
+                default:
+                    break;
             }
         });
     }
