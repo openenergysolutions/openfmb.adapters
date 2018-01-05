@@ -18,14 +18,12 @@ set(DDS_SOURCES
 )
 
 set(SOURCES
-        src/twinoaks/Conversions.cpp
         src/twinoaks/DDSAdapter.cpp
         src/twinoaks/DDSAdapterFactory.cpp
         src/twinoaks/generated/Conversions.cpp
 )
 
 set(HEADERS
-        src/twinoaks/Conversions.h
         src/twinoaks/DDSAdapter.h
         src/twinoaks/DDSAdapterFactory.h
         src/twinoaks/ConfigKeys.h

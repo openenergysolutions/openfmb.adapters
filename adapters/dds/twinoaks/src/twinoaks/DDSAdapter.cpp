@@ -5,7 +5,7 @@
 
 #include "OpenFMB-3.0.0TypeSupport.hh"
 
-#include "Conversions.h"
+#include "generated/Conversions.h"
 #include "ConfigKeys.h"
 
 namespace adapter
@@ -24,7 +24,7 @@ namespace adapter
 
         virtual void receive(const T& message) override
         {
-            convert(message, outgoing);
+            dds::convert(message, outgoing);
             writer->write(&outgoing, DDS::HANDLE_NIL);
         }
 
