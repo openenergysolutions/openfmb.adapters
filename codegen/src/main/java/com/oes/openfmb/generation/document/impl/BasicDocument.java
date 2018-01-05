@@ -1,5 +1,6 @@
 package com.oes.openfmb.generation.document.impl;
 
+import com.oes.openfmb.generation.document.Document;
 import com.oes.openfmb.generation.document.LinePrinter;
 
 import java.util.Collections;
@@ -14,6 +15,11 @@ public final class BasicDocument extends DocumentBase {
 
     public BasicDocument(Iterable<String> lines) {
         this.lines = lines;
+    }
+
+    public static Document empty()
+    {
+        return new BasicDocument(Collections.emptyList());
     }
 
     @Override

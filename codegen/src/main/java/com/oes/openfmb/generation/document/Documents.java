@@ -16,6 +16,8 @@ public class Documents {
 
     public static final Document space = new BasicDocument("");
 
+    public static final Document empty = BasicDocument.empty();
+
     public static Document prefixed(Document document, String prefix)
     {
         return new PrefixedDocument(document, prefix);
@@ -35,6 +37,10 @@ public class Documents {
 
     public static Document join(Stream<Document> documents) {
         return documents.reduce(Document::append).get();
+    }
+
+    public static Document spaced(Document... documents) {
+        return Arrays.asList(documents).stream().reduce((lhs, rhs) -> lhs.append(space).append(rhs)).orElseGet(()->Documents.space);
     }
 
     public static Document spaced(Stream<Document> documents) {

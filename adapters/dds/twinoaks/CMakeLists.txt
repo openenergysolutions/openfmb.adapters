@@ -21,6 +21,7 @@ set(SOURCES
         src/twinoaks/Conversions.cpp
         src/twinoaks/DDSAdapter.cpp
         src/twinoaks/DDSAdapterFactory.cpp
+        src/twinoaks/generated/Conversions.cpp
 )
 
 set(HEADERS
@@ -28,6 +29,7 @@ set(HEADERS
         src/twinoaks/DDSAdapter.h
         src/twinoaks/DDSAdapterFactory.h
         src/twinoaks/ConfigKeys.h
+        src/twinoaks/generated/Conversions.h
 )
 
 # directories to be automatically formatted by astyle

@@ -4,12 +4,21 @@ import com.google.protobuf.Descriptors;
 import com.oes.openfmb.generation.proto.FieldPath;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class DescriptorUtil {
 
+
+    public static Set<Descriptors.Descriptor> findUniqueSubMessages(Descriptors.Descriptor descriptor)
+    {
+        Set<Descriptors.Descriptor> set = new HashSet<>();
+        addUniqueSubMessages(set, descriptor);
+        return set;
+    }
 
 
     /**
@@ -57,5 +66,15 @@ public class DescriptorUtil {
                 break;
         }
 
+    }
+
+    private static void addUniqueSubMessages(Set<Descriptors.Descriptor> set, Descriptors.Descriptor descriptor)
+    {
+        set.add(descriptor);
+        descriptor.getFields().forEach(f -> {
+            if(f.getType() == Descriptors.FieldDescriptor.Type.MESSAGE) {
+                addUniqueSubMessages(set, f.getMessageType());
+            }
+        });
     }
 }
