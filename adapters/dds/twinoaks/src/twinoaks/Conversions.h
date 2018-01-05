@@ -5,7 +5,7 @@
 
 #include <resourcemodule/resourcemodule.pb.h>
 
-#include "adapter-api/proto/ResourceReadingProfile.pb.h"
+#include "adapter-api/proto/resourcemodule/resourcemodule.pb.h"
 
 #include "OpenFMB-3.0.0TypeSupport.hh"
 
