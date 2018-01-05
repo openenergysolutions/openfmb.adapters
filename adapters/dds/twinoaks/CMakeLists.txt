@@ -30,7 +30,7 @@ set(HEADERS
         src/twinoaks/DDSAdapterFactory.h
         src/twinoaks/ConfigKeys.h
         src/twinoaks/generated/Conversions.h
-)
+        src/twinoaks/ConversionHelpers.h)
 
 # directories to be automatically formatted by astyle
 set(CPP_FORMAT_DIRS

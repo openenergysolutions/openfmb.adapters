@@ -66,6 +66,8 @@ public class ConversionsFile implements CppClassFile {
                 FileHeader.lines,
                 include(this.className + ".h"),
                 space,
+                include("../ConversionHelpers.h"),
+                space,
                 namespace("adapter",
                         namespace("dds",
                             enumAssertions(),
@@ -155,7 +157,9 @@ public class ConversionsFile implements CppClassFile {
                         TypeInfo.omit(d) ? Documents.space : join(
                                 line("out.clear();"),
                                 Documents.space,
-                                messageFieldConversions(d)
+                                messageFieldConversions(d),
+                                Documents.space,
+                                primitiveFieldConversions(d)
                         )
                 )
                 .append("}");
@@ -166,6 +170,22 @@ public class ConversionsFile implements CppClassFile {
     {
         return join(
           d.getFields().stream().map(this::messageFieldConversion)
+        );
+    }
+
+    private Document primitiveFieldConversions(Descriptors.Descriptor d)
+    {
+        return join(
+                d.getFields().stream().map(this::primitiveFieldConversion)
+        );
+    }
+
+    private Document primitiveFieldConversion(Descriptors.FieldDescriptor field)
+    {
+        if(field.getType() == Descriptors.FieldDescriptor.Type.MESSAGE) return Documents.empty;
+
+        return line(
+                String.format("convert_primitive(in.%s(), out.%s);", field.getName().toLowerCase(), field.getName())
         );
     }
 

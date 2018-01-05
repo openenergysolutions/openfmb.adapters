@@ -13,6 +13,8 @@
 
 #include "Conversions.h"
 
+#include "../ConversionHelpers.h"
+
 namespace adapter {
 
 namespace dds {
@@ -104,6 +106,10 @@ void convert(const commonmodule::Timestamp& in, openfmb::commonmodule::Timestamp
 {
     out.clear();
 
+
+    convert_primitive(in.fraction(), out.fraction);
+    convert_primitive(in.seconds(), out.seconds);
+    convert_primitive(in.tq(), out.tq);
 }
 
 void convert(const commonmodule::LogicalNode& in, openfmb::commonmodule::LogicalNode& out)
@@ -111,18 +117,23 @@ void convert(const commonmodule::LogicalNode& in, openfmb::commonmodule::Logical
     out.clear();
 
     if(in.has_identifiedobject()) convert(in.identifiedobject(), out); // inherited type
+
 }
 
 void convert(const commonmodule::Unit& in, openfmb::commonmodule::Unit& out)
 {
     out.clear();
 
+    convert_primitive(in.multiplier(), out.multiplier);
+    convert_primitive(in.siunit(), out.SIUnit);
 }
 
 void convert(const commonmodule::ENG_CalcMethodKind& in, openfmb::commonmodule::ENG_CalcMethodKind& out)
 {
     out.clear();
 
+
+    convert_primitive(in.setval(), out.setVal);
 }
 
 void convert(const commonmodule::BCR& in, openfmb::commonmodule::BCR& out)
@@ -131,6 +142,9 @@ void convert(const commonmodule::BCR& in, openfmb::commonmodule::BCR& out)
 
     convert(in.q(), out.q); // required field in DDS
     convert(in.t(), out.t); // required field in DDS
+
+    convert_primitive(in.actval(), out.actVal);
+    convert_primitive(in.units(), out.units);
 }
 
 void convert(const commonmodule::ReadingMMTR& in, openfmb::commonmodule::ReadingMMTR& out)
@@ -147,6 +161,7 @@ void convert(const commonmodule::ReadingMMTR& in, openfmb::commonmodule::Reading
     if(in.has_totvah()) out.TotVAh = create<commonmodule::BCR,openfmb::commonmodule::BCR>(in.totvah());
     if(in.has_totvarh()) out.TotVArh = create<commonmodule::BCR,openfmb::commonmodule::BCR>(in.totvarh());
     if(in.has_totwh()) out.TotWh = create<commonmodule::BCR,openfmb::commonmodule::BCR>(in.totwh());
+
 }
 
 void convert(const commonmodule::WYE& in, openfmb::commonmodule::WYE& out)
@@ -158,6 +173,7 @@ void convert(const commonmodule::WYE& in, openfmb::commonmodule::WYE& out)
     if(in.has_phsa()) out.phsA = create<commonmodule::CMV,openfmb::commonmodule::CMV>(in.phsa());
     if(in.has_phsb()) out.phsB = create<commonmodule::CMV,openfmb::commonmodule::CMV>(in.phsb());
     if(in.has_phsc()) out.phsC = create<commonmodule::CMV,openfmb::commonmodule::CMV>(in.phsc());
+
 }
 
 void convert(const commonmodule::Vector& in, openfmb::commonmodule::Vector& out)
@@ -166,6 +182,7 @@ void convert(const commonmodule::Vector& in, openfmb::commonmodule::Vector& out)
 
     if(in.has_ang()) out.ang = create<commonmodule::AnalogueValue,openfmb::commonmodule::AnalogueValue>(in.ang());
     convert(in.mag(), out.mag); // required field in DDS
+
 }
 
 void convert(const resourcemodule::ResourceReadingProfile& in, openfmb::resourcemodule::ResourceReadingProfile& out)
@@ -176,6 +193,7 @@ void convert(const resourcemodule::ResourceReadingProfile& in, openfmb::resource
     convert(in.ied(), out.ied); // required field in DDS
     convert(in.meter(), out.meter); // required field in DDS
     convert(in.resourcereading(), out.resourceReading); // required field in DDS
+
 }
 
 void convert(const commonmodule::Quality& in, openfmb::commonmodule::Quality& out)
@@ -188,6 +206,7 @@ void convert(const commonmodule::ConductingEquipmentTerminalReading& in, openfmb
     out.clear();
 
     convert(in.terminal(), out.terminal); // required field in DDS
+
 }
 
 void convert(const commonmodule::ConductingEquipment& in, openfmb::commonmodule::ConductingEquipment& out)
@@ -195,6 +214,7 @@ void convert(const commonmodule::ConductingEquipment& in, openfmb::commonmodule:
     out.clear();
 
     if(in.has_identifiedobject()) convert(in.identifiedobject(), out); // inherited type
+
 }
 
 void convert(const commonmodule::ReadingMMXU& in, openfmb::commonmodule::ReadingMMXU& out)
@@ -210,6 +230,7 @@ void convert(const commonmodule::ReadingMMXU& in, openfmb::commonmodule::Reading
     if(in.has_va()) out.VA = create<commonmodule::WYE,openfmb::commonmodule::WYE>(in.va());
     if(in.has_var()) out.VAr = create<commonmodule::WYE,openfmb::commonmodule::WYE>(in.var());
     if(in.has_w()) out.W = create<commonmodule::WYE,openfmb::commonmodule::WYE>(in.w());
+
 }
 
 void convert(const commonmodule::ReadingMMTN& in, openfmb::commonmodule::ReadingMMTN& out)
@@ -226,6 +247,7 @@ void convert(const commonmodule::ReadingMMTN& in, openfmb::commonmodule::Reading
     if(in.has_totvah()) out.TotVAh = create<commonmodule::BCR,openfmb::commonmodule::BCR>(in.totvah());
     if(in.has_totvarh()) out.TotVArh = create<commonmodule::BCR,openfmb::commonmodule::BCR>(in.totvarh());
     if(in.has_totwh()) out.TotWh = create<commonmodule::BCR,openfmb::commonmodule::BCR>(in.totwh());
+
 }
 
 void convert(const commonmodule::PhaseMMTN& in, openfmb::commonmodule::PhaseMMTN& out)
@@ -238,12 +260,16 @@ void convert(const commonmodule::PhaseMMTN& in, openfmb::commonmodule::PhaseMMTN
     if(in.has_phsbc()) out.phsBC = create<commonmodule::ReadingMMTN,openfmb::commonmodule::ReadingMMTN>(in.phsbc());
     if(in.has_phsc()) out.phsC = create<commonmodule::ReadingMMTN,openfmb::commonmodule::ReadingMMTN>(in.phsc());
     if(in.has_phsca()) out.phsCA = create<commonmodule::ReadingMMTN,openfmb::commonmodule::ReadingMMTN>(in.phsca());
+
 }
 
 void convert(const commonmodule::AnalogueValue& in, openfmb::commonmodule::AnalogueValue& out)
 {
     out.clear();
 
+
+    convert_primitive(in.f(), out.f);
+    convert_primitive(in.i(), out.i);
 }
 
 void convert(const commonmodule::CMV& in, openfmb::commonmodule::CMV& out)
@@ -254,6 +280,7 @@ void convert(const commonmodule::CMV& in, openfmb::commonmodule::CMV& out)
     convert(in.q(), out.q); // required field in DDS
     convert(in.t(), out.t); // required field in DDS
     if(in.has_units()) out.units = create<commonmodule::Unit,openfmb::commonmodule::Unit>(in.units());
+
 }
 
 void convert(const commonmodule::MV& in, openfmb::commonmodule::MV& out)
@@ -264,6 +291,7 @@ void convert(const commonmodule::MV& in, openfmb::commonmodule::MV& out)
     convert(in.q(), out.q); // required field in DDS
     convert(in.t(), out.t); // required field in DDS
     if(in.has_units()) out.units = create<commonmodule::Unit,openfmb::commonmodule::Unit>(in.units());
+
 }
 
 void convert(const resourcemodule::ResourceReading& in, openfmb::resourcemodule::ResourceReading& out)
@@ -274,12 +302,17 @@ void convert(const resourcemodule::ResourceReading& in, openfmb::resourcemodule:
     if(in.has_phasemmtn()) out.phaseMMTN = create<commonmodule::PhaseMMTN,openfmb::commonmodule::PhaseMMTN>(in.phasemmtn());
     if(in.has_readingmmtr()) out.readingMMTR = create<commonmodule::ReadingMMTR,openfmb::commonmodule::ReadingMMTR>(in.readingmmtr());
     if(in.has_readingmmxu()) out.readingMMXU = create<commonmodule::ReadingMMXU,openfmb::commonmodule::ReadingMMXU>(in.readingmmxu());
+
 }
 
 void convert(const commonmodule::IdentifiedObject& in, openfmb::commonmodule::IdentifiedObject& out)
 {
     out.clear();
 
+
+    convert_primitive(in.description(), out.description);
+    convert_primitive(in.mrid(), out.mRID);
+    convert_primitive(in.name(), out.name);
 }
 
 void convert(const commonmodule::Terminal& in, openfmb::commonmodule::Terminal& out)
@@ -287,6 +320,8 @@ void convert(const commonmodule::Terminal& in, openfmb::commonmodule::Terminal& 
     out.clear();
 
     if(in.has_acdcterminal()) convert(in.acdcterminal(), out); // inherited type
+
+    convert_primitive(in.phases(), out.phases);
 }
 
 void convert(const commonmodule::IED& in, openfmb::commonmodule::IED& out)
@@ -294,6 +329,7 @@ void convert(const commonmodule::IED& in, openfmb::commonmodule::IED& out)
     out.clear();
 
     if(in.has_identifiedobject()) convert(in.identifiedobject(), out); // inherited type
+
 }
 
 void convert(const commonmodule::ReadingMessageInfo& in, openfmb::commonmodule::ReadingMessageInfo& out)
@@ -302,6 +338,8 @@ void convert(const commonmodule::ReadingMessageInfo& in, openfmb::commonmodule::
 
     if(in.has_identifiedobject()) convert(in.identifiedobject(), out); // inherited type
     convert(in.messagetimestamp(), out.messageTimeStamp); // required field in DDS
+
+    convert_primitive(in.applicationname(), out.applicationName);
 }
 
 void convert(const commonmodule::ACDCTerminal& in, openfmb::commonmodule::ACDCTerminal& out)
@@ -309,6 +347,9 @@ void convert(const commonmodule::ACDCTerminal& in, openfmb::commonmodule::ACDCTe
     out.clear();
 
     if(in.has_identifiedobject()) convert(in.identifiedobject(), out); // inherited type
+
+    convert_primitive(in.connected(), out.connected);
+    convert_primitive(in.sequencenumber(), out.sequenceNumber);
 }
 
 void convert(const commonmodule::DEL& in, openfmb::commonmodule::DEL& out)
@@ -318,6 +359,7 @@ void convert(const commonmodule::DEL& in, openfmb::commonmodule::DEL& out)
     if(in.has_phsab()) out.phsAB = create<commonmodule::CMV,openfmb::commonmodule::CMV>(in.phsab());
     if(in.has_phsbc()) out.phsBC = create<commonmodule::CMV,openfmb::commonmodule::CMV>(in.phsbc());
     if(in.has_phsca()) out.phsCA = create<commonmodule::CMV,openfmb::commonmodule::CMV>(in.phsca());
+
 }
 
 void convert(const commonmodule::Meter& in, openfmb::commonmodule::Meter& out)
@@ -325,6 +367,7 @@ void convert(const commonmodule::Meter& in, openfmb::commonmodule::Meter& out)
     out.clear();
 
     if(in.has_conductingequipment()) convert(in.conductingequipment(), out); // inherited type
+
 }
 
 } // end namespace dds
