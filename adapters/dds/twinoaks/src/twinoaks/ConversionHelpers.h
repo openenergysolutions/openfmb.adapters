@@ -5,6 +5,15 @@ namespace adapter {
 
     namespace dds {
 
+        template <class R, class T>
+        R* create(const T& value)
+        {
+            auto ret = new R();
+            // must be a convert(..) function in scope that takes these types
+            convert(value, *ret);
+            return ret;
+        };
+
         inline void convert_primitive(bool in, unsigned char*& out)
         {
             // what is this?

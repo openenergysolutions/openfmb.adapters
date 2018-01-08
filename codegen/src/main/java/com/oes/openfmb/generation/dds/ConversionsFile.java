@@ -70,11 +70,9 @@ public class ConversionsFile implements CppClassFile {
                 space,
                 namespace("adapter",
                         namespace("dds",
-                            enumAssertions(),
+                            implementations(),
                             space,
-                            helpers(),
-                            space,
-                            implementations()
+                            enumAssertions()
                         )
                 )
         );
@@ -97,21 +95,6 @@ public class ConversionsFile implements CppClassFile {
 
     }
 
-    private Document helpers()
-    {
-        return line("template <class T, class R>")
-                .append("R* create(const T& value)")
-                .append("{")
-                .indent(
-                      lines(
-                              "auto ret = new R();",
-                              "convert(value, *ret);",
-                              "return ret;"
-                      )
-                )
-                .append("};");
-    }
-
     private Document enumAssertions()
     {
         return Documents.spaced(this.enums.stream().map(ed -> assertion(ed)));
@@ -128,7 +111,7 @@ public class ConversionsFile implements CppClassFile {
     {
         // proto 3 requires that things begin w/ value of zero
         // some enum values don't actually exist in the UML
-        if(d.getNumber() == 0 &&  d.getName().endsWith("_undefined"))
+        if(d.getNumber() == 0 &&  d.getName().endsWith("_UNDEFINED"))
         {
             return Documents.empty;
         }
@@ -154,7 +137,7 @@ public class ConversionsFile implements CppClassFile {
         return line(String.format("void convert(const %s& in, openfmb::%s& out)", cppName(d), cppName(d)))
                 .append("{")
                 .indent(
-                        join(
+                        FieldInfo.omitConversion(d) ? line("// omitted via configuration") : join(
                                 line("out.clear();"),
                                 Documents.space,
                                 messageFieldConversions(d),
@@ -220,10 +203,9 @@ public class ConversionsFile implements CppClassFile {
             {
                 return line(
                         String.format(
-                                "if(in.has_%s()) out.%s = create<%s,openfmb::%s>(in.%s());",
+                                "if(in.has_%s()) out.%s = create<openfmb::%s>(in.%s());",
                                 field.getName().toLowerCase(),
                                 field.getName(),
-                                cppName(field.getMessageType()),
                                 cppName(field.getMessageType()),
                                 field.getName().toLowerCase()
                         )
