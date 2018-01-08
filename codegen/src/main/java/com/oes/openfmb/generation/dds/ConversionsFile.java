@@ -154,7 +154,7 @@ public class ConversionsFile implements CppClassFile {
         return line(String.format("void convert(const %s& in, openfmb::%s& out)", cppName(d), cppName(d)))
                 .append("{")
                 .indent(
-                        TypeInfo.omit(d) ? Documents.space : join(
+                        join(
                                 line("out.clear();"),
                                 Documents.space,
                                 messageFieldConversions(d),
@@ -194,9 +194,8 @@ public class ConversionsFile implements CppClassFile {
         if(field.getType() != Descriptors.FieldDescriptor.Type.MESSAGE) return Documents.empty;
 
 
-        if(TypeInfo.is(field.getContainingType()).inheritedFrom(field.getMessageType()))
+        if(FieldInfo.isInherited(field))
         {
-            System.out.println(field.getContainingType().getName() + " inherits from " + field.getMessageType().getName());
             return line(
                     String.format(
                             "if(in.has_%s()) convert(in.%s(), out); // inherited type",
@@ -207,7 +206,7 @@ public class ConversionsFile implements CppClassFile {
         }
         else
         {
-            if(TypeInfo.required(field))
+            if(FieldInfo.isRequired(field))
             {
                 return line(
                         String.format(
