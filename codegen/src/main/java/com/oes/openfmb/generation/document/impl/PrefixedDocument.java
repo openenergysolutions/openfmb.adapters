@@ -14,6 +14,11 @@ public final class PrefixedDocument extends DocumentBase {
     }
 
     @Override
+    public boolean isEmpty() {
+        return document.isEmpty();
+    }
+
+    @Override
     public void write(LinePrinter printer) {
         document.write((indent, line) -> printer.print(indent, prefix + line));
     }

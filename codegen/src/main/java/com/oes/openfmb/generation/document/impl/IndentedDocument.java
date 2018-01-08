@@ -11,6 +11,12 @@ public final class IndentedDocument extends DocumentBase {
         this.document = document;
     }
 
+
+    @Override
+    public boolean isEmpty() {
+        return document.isEmpty();
+    }
+
     @Override
     public void write(LinePrinter printer) {
         document.write((indent, line) -> printer.print(indent + 1, line));

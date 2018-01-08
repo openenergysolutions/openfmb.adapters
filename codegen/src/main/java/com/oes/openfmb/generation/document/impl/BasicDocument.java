@@ -4,22 +4,28 @@ import com.oes.openfmb.generation.document.Document;
 import com.oes.openfmb.generation.document.LinePrinter;
 
 import java.util.Collections;
+import java.util.List;
 
 public final class BasicDocument extends DocumentBase {
 
-    private final Iterable<String> lines;
+    private final List<String> lines;
 
     public BasicDocument(String line) {
         this.lines = Collections.singletonList(line);
     }
 
-    public BasicDocument(Iterable<String> lines) {
+    public BasicDocument(List<String> lines) {
         this.lines = lines;
     }
 
     public static Document empty()
     {
         return new BasicDocument(Collections.emptyList());
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return lines.isEmpty();
     }
 
     @Override

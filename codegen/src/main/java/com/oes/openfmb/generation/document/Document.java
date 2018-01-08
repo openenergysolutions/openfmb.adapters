@@ -2,6 +2,8 @@ package com.oes.openfmb.generation.document;
 
 public interface Document {
 
+    boolean isEmpty();
+
     void write(LinePrinter printer);
 
     // Append a single line to this document

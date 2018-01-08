@@ -90,7 +90,7 @@ public class ConversionsFile implements CppClassFile {
     private Document signatures()
     {
         return spaced(
-                descriptors.stream().map(d -> line(String.format("void convert(const %s&, openfmb::%s&);", cppName(d), cppName(d))))
+                descriptors.stream().map(d -> line(String.format("void convert_message(const %s&, openfmb::%s&);", cppName(d), cppName(d))))
         );
 
     }
@@ -134,14 +134,12 @@ public class ConversionsFile implements CppClassFile {
     private Document implementation(Descriptors.Descriptor d)
     {
 
-        return line(String.format("void convert(const %s& in, openfmb::%s& out)", cppName(d), cppName(d)))
+        return line(String.format("void convert_message(const %s& in, openfmb::%s& out)", cppName(d), cppName(d)))
                 .append("{")
                 .indent(
                         FieldInfo.omitConversion(d) ? line("// omitted via configuration") : join(
                                 line("out.clear();"),
-                                Documents.space,
                                 messageFieldConversions(d),
-                                Documents.space,
                                 primitiveFieldConversions(d)
                         )
                 )
@@ -151,25 +149,48 @@ public class ConversionsFile implements CppClassFile {
 
     private Document messageFieldConversions(Descriptors.Descriptor d)
     {
-        return join(
+        Document conversions = join(
           d.getFields().stream().map(this::messageFieldConversion)
         );
+
+        return conversions.isEmpty() ? conversions : line("// convert message fields").append(conversions);
     }
 
-    private Document primitiveFieldConversions(Descriptors.Descriptor d)
-    {
-        return join(
+    private Document primitiveFieldConversions(Descriptors.Descriptor d) {
+
+        Document conversions = join(
                 d.getFields().stream().map(this::primitiveFieldConversion)
         );
+
+        return conversions.isEmpty() ? conversions : line("// convert primitive fields").append(conversions);
     }
 
     private Document primitiveFieldConversion(Descriptors.FieldDescriptor field)
     {
         if(field.getType() == Descriptors.FieldDescriptor.Type.MESSAGE) return Documents.empty;
 
-        return line(
-                String.format("convert_primitive(in.%s(), out.%s);", field.getName().toLowerCase(), field.getName())
-        );
+        if(FieldInfo.isRequired(field))
+        {
+            return line(
+                    String.format("out.%s = convert_%s(in.%s());",
+                            field.getName(),
+                            field.getType().toString().toLowerCase(),
+                            field.getName().toLowerCase()
+                    )
+            );
+        }
+        else
+        {
+            return line(
+                    String.format(
+                            "out.%s = create_%s(in.%s());",
+                            field.getName(),
+                            field.getType().toString().toLowerCase(),
+                            field.getName().toLowerCase()
+                    )
+            );
+        }
+
     }
 
     private Document messageFieldConversion(Descriptors.FieldDescriptor field)
@@ -181,7 +202,7 @@ public class ConversionsFile implements CppClassFile {
         {
             return line(
                     String.format(
-                            "if(in.has_%s()) convert(in.%s(), out); // inherited type",
+                            "if(in.has_%s()) convert_message(in.%s(), out); // inherited type",
                             field.getName().toLowerCase(),
                             field.getName().toLowerCase()
                     )
@@ -193,7 +214,7 @@ public class ConversionsFile implements CppClassFile {
             {
                 return line(
                         String.format(
-                                "convert(in.%s(), out.%s); // required field in DDS",
+                                "convert_message(in.%s(), out.%s); // required field in DDS",
                                 field.getName().toLowerCase(),
                                 field.getName()
                         )
@@ -203,7 +224,7 @@ public class ConversionsFile implements CppClassFile {
             {
                 return line(
                         String.format(
-                                "if(in.has_%s()) out.%s = create<openfmb::%s>(in.%s());",
+                                "if(in.has_%s()) out.%s = create_message<openfmb::%s>(in.%s());",
                                 field.getName().toLowerCase(),
                                 field.getName(),
                                 cppName(field.getMessageType()),

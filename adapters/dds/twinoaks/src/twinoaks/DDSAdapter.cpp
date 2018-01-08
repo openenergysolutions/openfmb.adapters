@@ -24,7 +24,7 @@ namespace adapter
 
         virtual void receive(const T& message) override
         {
-            dds::convert(message, outgoing);
+            dds::convert_message(message, outgoing);
             writer->write(&outgoing, DDS::HANDLE_NIL);
         }
 

@@ -36,15 +36,15 @@ public class Documents {
     }
 
     public static Document join(Stream<Document> documents) {
-        return documents.reduce(Document::append).get();
+        return documents.reduce(Document::append).orElse(Documents.empty);
     }
 
     public static Document spaced(Document... documents) {
-        return Arrays.asList(documents).stream().reduce((lhs, rhs) -> lhs.append(space).append(rhs)).orElseGet(()->Documents.space);
+        return Arrays.stream(documents).reduce((lhs, rhs) -> lhs.append(space).append(rhs)).orElse(Documents.empty);
     }
 
     public static Document spaced(Stream<Document> documents) {
-        return documents.reduce((lhs, rhs) -> lhs.append(space).append(rhs)).orElseGet(()->Documents.space);
+        return documents.reduce((lhs, rhs) -> lhs.append(space).append(rhs)).orElse(Documents.empty);
     }
 
     public static Document indent(Document document) {

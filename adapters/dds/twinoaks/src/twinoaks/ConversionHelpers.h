@@ -1,89 +1,116 @@
 #ifndef OPENFMB_ADAPTER_CONVERSIONHELPERS_H
 #define OPENFMB_ADAPTER_CONVERSIONHELPERS_H
 
-namespace adapter {
+namespace adapter
+{
 
-    namespace dds {
+    namespace dds
+    {
 
-        template <class R, class T>
-        R* create(const T& value)
+        /*
+        Uncomment these if they ever get fixed
+        */
+        //static_assert(sizeof(::openfmb::commonmodule::INT64U) == sizeof(::google::protobuf::uint64_t), "size mismatch");
+        //static_assert(sizeof(::openfmb::commonmodule::INT64) == sizeof(::google::protobuf::int64_t), "size mismatch");
+
+
+        template <class Out, class T>
+        Out* create_message(const T& value)
         {
-            auto ret = new R();
-            // must be a convert(..) function in scope that takes these types
-            convert(value, *ret);
+            auto ret = new Out();
+            // must be a convert_message(..) function in scope that takes these types
+            convert_message(value, *ret);
             return ret;
         };
 
-        inline void convert_primitive(bool in, unsigned char*& out)
+        template <class Out, class In>
+        Out* allocate_enum(const In& value)
         {
-            // what is this?
+            return new Out(static_cast<Out>(value));
+        };
+
+        // -------- TODO ------------
+
+        inline unsigned char* create_bool(bool value)
+        {
+            // this is coming up in ACDCTerminal.connected
+            // what should this conversion be?
+            return nullptr;
         }
 
-        inline void convert_primitive(const ::std::string& in, unsigned char*& out)
+        inline unsigned char* create_bytes(const std::string& value)
         {
-            // allocate a new string?
+            // this is for timestamp quality
+            return nullptr;
         }
 
+        // -------- string conversions ---------
 
-        inline void convert_primitive(const ::std::string& in, char*& out)
+        inline char* create_string(const ::std::string& in)
         {
-            // allocate a new string?
+            return nullptr; // TODO
         }
 
-        inline void convert_primitive(::google::protobuf::uint32 in, openfmb::commonmodule::INT32U& out)
+        inline char* convert_string(const ::std::string& in)
         {
-            out = in;
+            return create_string(in); // no difference for mandatory / optional for strings
         }
 
-        inline void convert_primitive(::google::protobuf::int32 in, openfmb::commonmodule::INT32& out)
+        // -------- numeric conversions ---------
+
+        inline openfmb::commonmodule::INT32U convert_uint32(::google::protobuf::uint32_t value)
         {
-            out = in;
+            return static_cast<openfmb::commonmodule::INT32U>(value);
         }
 
-        inline void convert_primitive(::google::protobuf::int32 in, openfmb::commonmodule::INT32*& out)
+        inline openfmb::commonmodule::INT64U convert_uint64(::google::protobuf::uint64_t value)
         {
-            out = new openfmb::commonmodule::INT32(in);
+            return static_cast<openfmb::commonmodule::INT64U>(value);
         }
 
-        inline void convert_primitive(::google::protobuf::int64 in, openfmb::commonmodule::INT64& out)
+        inline openfmb::commonmodule::INT64 convert_int64(::google::protobuf::int64_t value)
         {
-            out = in;
+            return static_cast<openfmb::commonmodule::INT64>(value);
         }
 
-        inline void convert_primitive(float in, openfmb::commonmodule::FLOAT32& out)
+        inline openfmb::commonmodule::INT32* create_int32(::google::protobuf::int32_t value)
         {
-            out = in;
+            return new openfmb::commonmodule::INT32(static_cast<openfmb::commonmodule::INT32>(value));
         }
 
-        inline void convert_primitive(float in, openfmb::commonmodule::FLOAT32*& out)
+        inline openfmb::commonmodule::FLOAT32* create_float(float value)
         {
-            out = new openfmb::commonmodule::FLOAT32(in);
+            return new openfmb::commonmodule::FLOAT32(value);
         }
 
-        inline void convert_primitive(commonmodule::UnitMultiplierKind in, openfmb::commonmodule::UnitMultiplierKind*& out)
+        // -------- enum conversions ---------
+
+
+        inline openfmb::commonmodule::UnitMultiplierKind* create_enum(::commonmodule::UnitMultiplierKind value)
         {
-            out = new openfmb::commonmodule::UnitMultiplierKind(static_cast<openfmb::commonmodule::UnitMultiplierKind>(in));
+            return allocate_enum<openfmb::commonmodule::UnitMultiplierKind>(value);
         }
 
-        inline void convert_primitive(commonmodule::UnitSymbolKind in, openfmb::commonmodule::UnitSymbolKind*& out)
+        inline openfmb::commonmodule::UnitSymbolKind* create_enum(::commonmodule::UnitSymbolKind value)
         {
-            out = new openfmb::commonmodule::UnitSymbolKind(static_cast<openfmb::commonmodule::UnitSymbolKind>(in));
+            return allocate_enum<openfmb::commonmodule::UnitSymbolKind>(value);
         }
 
-        inline void convert_primitive(commonmodule::PhaseCodeKind in, openfmb::commonmodule::PhaseCodeKind*& out)
+        inline openfmb::commonmodule::PhaseCodeKind* create_enum(::commonmodule::PhaseCodeKind value)
         {
-            out = new openfmb::commonmodule::PhaseCodeKind(static_cast<openfmb::commonmodule::PhaseCodeKind>(in));
+            return allocate_enum<openfmb::commonmodule::PhaseCodeKind>(value);
         }
 
-        inline void convert_primitive(commonmodule::UnitSymbolKind in, openfmb::commonmodule::UnitSymbolKind& out)
+        inline openfmb::commonmodule::UnitSymbolKind convert_enum(::commonmodule::UnitSymbolKind value)
         {
-            out = static_cast<openfmb::commonmodule::UnitSymbolKind>(in);
+            return static_cast<openfmb::commonmodule::UnitSymbolKind>(value);
         }
 
-        inline void convert_primitive(commonmodule::CalcMethodKind in, openfmb::commonmodule::CalcMethodKind& out)
+        inline openfmb::commonmodule::CalcMethodKind convert_enum(::commonmodule::CalcMethodKind value)
         {
-            out = static_cast<openfmb::commonmodule::CalcMethodKind>(in);
+            return static_cast<openfmb::commonmodule::CalcMethodKind>(value);
         }
+
     }
 
 }

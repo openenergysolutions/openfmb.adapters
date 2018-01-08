@@ -14,6 +14,11 @@ public final class ConcatenatedDocuments extends DocumentBase {
     }
 
     @Override
+    public boolean isEmpty() {
+        return first.isEmpty() && second.isEmpty();
+    }
+
+    @Override
     public void write(LinePrinter printer) {
         first.write(printer);
         second.write(printer);
