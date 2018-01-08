@@ -39,6 +39,7 @@ FUNCTION(set_proto_output_files var extension)
     FOREACH(f ${PROTO_MODULES})
         LIST(APPEND listVar "${PROTO_OUTPUT_DIR}/${f}module/${f}module.${extension}")
     ENDFOREACH(f)
+    LIST(APPEND listVar "${PROTO_OUTPUT_DIR}/uml.${extension}")
     SET(${var} "${listVar}" PARENT_SCOPE)
 ENDFUNCTION(set_proto_output_files)
 
@@ -47,6 +48,7 @@ FUNCTION(set_proto_input_files var)
     FOREACH(f ${PROTO_MODULES})
         LIST(APPEND listVar "${PROTO_INPUT_DIR}/${f}module/${f}module.proto")
     ENDFOREACH(f)
+    LIST(APPEND listVar "${PROTO_INPUT_DIR}/uml.proto")
     SET(${var} "${listVar}" PARENT_SCOPE)
 ENDFUNCTION(set_proto_input_files)
 
@@ -60,10 +62,10 @@ set(API_HEADERS
     src/adapter-api/IProtoPublishers.h
     src/adapter-api/IProtoSubscribers.h
     src/adapter-api/Logger.h
-	src/adapter-api/util/Exception.h
-	src/adapter-api/util/StringUtil.h
-	src/adapter-api/util/YAMLUtil.h
-	src/adapter-api/helpers/generated/ResourceReadingProfileMap.h
+    src/adapter-api/util/Exception.h
+    src/adapter-api/util/StringUtil.h
+    src/adapter-api/util/YAMLUtil.h
+    src/adapter-api/helpers/generated/ResourceReadingProfileMap.h
 )
 
 set(API_SOURCES
@@ -85,7 +87,7 @@ SET(CPP_FORMAT_DIRS
 add_custom_command(
     OUTPUT ${PROTO_HEADERS} ${PROTO_SOURCES}
     COMMAND mkdir -p ${PROTO_OUTPUT_DIR}
-    COMMAND ${PROTOBUF_COMPILER} --cpp_out=${PROTO_OUTPUT_DIR} --proto_path=${PROTO_INPUT_DIR} ${PROTO_INPUT_DIR}/**/*.proto
+    COMMAND ${PROTOBUF_COMPILER} --cpp_out=${PROTO_OUTPUT_DIR} --proto_path=${PROTO_INPUT_DIR} ${PROTO_INPUT_DIR}/*.proto ${PROTO_INPUT_DIR}/**/*.proto
     DEPENDS ${PROTO_INPUTS_FILES}
     COMMENT "Generating openfmb protos..."
 )
