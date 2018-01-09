@@ -15,6 +15,7 @@
 #define OPENFMB_CONVERSIONS_H
 
 #include "adapter-api/proto/resourcemodule/resourcemodule.pb.h"
+#include "adapter-api/proto/breakermodule/breakermodule.pb.h"
 
 #include "OpenFMB-3.0.0TypeSupport.hh"
 
@@ -34,6 +35,8 @@ void convert_message(const resourcemodule::ResourceReading&, openfmb::resourcemo
 
 void convert_message(const commonmodule::ConductingEquipment&, openfmb::commonmodule::ConductingEquipment&);
 
+void convert_message(const breakermodule::Breaker&, openfmb::breakermodule::Breaker&);
+
 void convert_message(const commonmodule::ConductingEquipmentTerminalReading&, openfmb::commonmodule::ConductingEquipmentTerminalReading&);
 
 void convert_message(const commonmodule::Quality&, openfmb::commonmodule::Quality&);
@@ -41,6 +44,10 @@ void convert_message(const commonmodule::Quality&, openfmb::commonmodule::Qualit
 void convert_message(const commonmodule::ENG_CalcMethodKind&, openfmb::commonmodule::ENG_CalcMethodKind&);
 
 void convert_message(const commonmodule::WYE&, openfmb::commonmodule::WYE&);
+
+void convert_message(const breakermodule::BreakerReading&, openfmb::breakermodule::BreakerReading&);
+
+void convert_message(const breakermodule::BreakerReadingProfile&, openfmb::breakermodule::BreakerReadingProfile&);
 
 void convert_message(const commonmodule::PhaseMMTN&, openfmb::commonmodule::PhaseMMTN&);
 

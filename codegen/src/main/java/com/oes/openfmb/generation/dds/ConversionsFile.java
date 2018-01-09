@@ -6,6 +6,7 @@ import com.oes.openfmb.generation.document.Document;
 import com.oes.openfmb.generation.document.Documents;
 import com.oes.openfmb.generation.document.FileHeader;
 import com.oes.openfmb.util.DescriptorUtil;
+import openfmb.breakermodule.BreakerReadingProfile;
 import openfmb.resourcemodule.ResourceReadingProfile;
 
 import java.util.Arrays;
@@ -25,7 +26,8 @@ public class ConversionsFile implements CppClassFile {
         this.className = baseFileName;
 
         List<Descriptors.Descriptor> types = Arrays.asList(
-                ResourceReadingProfile.getDescriptor()
+                ResourceReadingProfile.getDescriptor(),
+                BreakerReadingProfile.getDescriptor()
         );
 
         this.descriptors = buildDescriptorSet(types);
@@ -80,9 +82,14 @@ public class ConversionsFile implements CppClassFile {
 
     private Document headerIncludes()
     {
-       return spaced(
-               include("adapter-api/proto/resourcemodule/resourcemodule.pb.h"),
-               include("OpenFMB-3.0.0TypeSupport.hh")
+       return join(
+                   include("adapter-api/proto/resourcemodule/resourcemodule.pb.h"),
+                   include("adapter-api/proto/breakermodule/breakermodule.pb.h")
+       ).append(
+               join(
+                   space,
+                   include("OpenFMB-3.0.0TypeSupport.hh")
+               )
        );
 
     }

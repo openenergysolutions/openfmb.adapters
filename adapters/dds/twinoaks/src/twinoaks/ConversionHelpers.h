@@ -29,6 +29,19 @@ namespace adapter
             return new Out(static_cast<Out>(value));
         };
 
+        template <class Out, class In>
+        void convert_message(const ::google::protobuf::RepeatedPtrField<In>& input, DDS::sequence<Out>& output)
+        {
+            output.clear();
+            for(auto& elem : input)
+            {
+                Out value;
+                convert_message(elem, value);
+                output.push_back(value);
+            }
+        };
+
+
         // -------- TODO ------------
 
         inline unsigned char* create_bool(bool value)
