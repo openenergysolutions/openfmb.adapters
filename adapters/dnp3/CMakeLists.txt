@@ -1,4 +1,8 @@
+find_package(Boost)
 
+if(NOT Boost_FOUND)
+    message(FATAL_ERROR "Unable to find BOOST. Required for UUID generation.")
+endif()
 
 set(DNP3_HEADERS
         src/dnp3/DNP3Adapter.h
@@ -26,4 +30,5 @@ set(CPP_FORMAT_DIRS
 add_library(dnp3-adapter STATIC ${DNP3_SOURCES} ${DNP3_HEADERS})
 target_link_libraries(dnp3-adapter PUBLIC adapter-api ${DNP3_LIBS})
 target_include_directories(dnp3-adapter INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/src)
+target_include_directories(adapter-api INTERFACE ${Boost_INCLUDE_DIRS})
 

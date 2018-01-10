@@ -12,6 +12,8 @@
 #include "PointMap.h"
 #include "adapter-api/helpers/generated/ResourceReadingProfileMap.h"
 
+#include <boost/uuid/random_generator.hpp>
+
 namespace adapter
 {
 
@@ -44,6 +46,9 @@ namespace adapter
         }
 
     private:
+
+        boost::uuids::random_generator uuid_generator;
+
 
         PointMap<ResourceReadingProfileMap> point_map;
         resourcemodule::ResourceReadingProfile profile;

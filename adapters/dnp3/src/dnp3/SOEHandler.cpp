@@ -1,16 +1,23 @@
 #include "SOEHandler.h"
 
+#include <boost/uuid/uuid_io.hpp>
+
+
 namespace adapter
 {
-    void SOEHandler::Start()
-    {
-
-    }
+    void SOEHandler::Start() {}
 
     void SOEHandler::End()
     {
         if(this->rrp_touched && this->publisher)
         {
+            const auto uuid = this->uuid_generator();
+
+            // mRID is changed whenever we publish a new message
+            this->profile.mutable_readingmessageinfo()->mutable_identifiedobject()->set_mrid(
+                    boost::uuids::to_string(uuid)
+            );
+
             this->rrp_touched = false;
             this->publisher->publish(this->profile);
         }
