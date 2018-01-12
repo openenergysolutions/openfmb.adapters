@@ -71,22 +71,22 @@ namespace adapter
 
         // -------- numeric conversions ---------
 
-        inline openfmb::commonmodule::INT32U convert_uint32(::google::protobuf::uint32_t value)
+        inline openfmb::commonmodule::INT32U convert_uint32(::google::protobuf::uint32 value)
         {
             return static_cast<openfmb::commonmodule::INT32U>(value);
         }
 
-        inline openfmb::commonmodule::INT64U convert_uint64(::google::protobuf::uint64_t value)
+        inline openfmb::commonmodule::INT64U convert_uint64(::google::protobuf::uint64 value)
         {
             return static_cast<openfmb::commonmodule::INT64U>(value);
         }
 
-        inline openfmb::commonmodule::INT64 convert_int64(::google::protobuf::int64_t value)
+        inline openfmb::commonmodule::INT64 convert_int64(::google::protobuf::int64 value)
         {
             return static_cast<openfmb::commonmodule::INT64>(value);
         }
 
-        inline openfmb::commonmodule::INT32* create_int32(::google::protobuf::int32_t value)
+        inline openfmb::commonmodule::INT32* create_int32(::google::protobuf::int32 value)
         {
             return new openfmb::commonmodule::INT32(static_cast<openfmb::commonmodule::INT32>(value));
         }
