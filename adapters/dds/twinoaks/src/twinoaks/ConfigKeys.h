@@ -10,6 +10,7 @@ namespace adapter
 
         static const char* const domain_id = "domain-id";
         static const char* const publish = "publish";
+        static const char* const subscribe = "subscribe";
 
     }
 }
