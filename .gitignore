@@ -11,3 +11,6 @@
 /codegen/target
 /codegen/*.iml
 /codegen/*.idea
+
+# Visual Studio Code
+/.vscode
