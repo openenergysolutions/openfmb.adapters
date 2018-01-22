@@ -21,15 +21,15 @@ namespace adapter
 
         DNP3Adapter() = delete;
 
-        DNP3Adapter(const Logger& logger, const YAML::Node& node, IProtoSubscribers& subscribers);
+        DNP3Adapter(const Logger& logger, const YAML::Node& node, IMessageBus& bus);
 
-        virtual void start(const std::shared_ptr<IProtoPublishers>& publishers) override;
+        virtual void start() override;
 
     private:
 
         asiodnp3::DNP3Manager manager;
 
-        void add_master(const YAML::Node& node);
+        void add_master(const YAML::Node& node, IMessageBus& bus);
 
         struct MasterRecord
         {

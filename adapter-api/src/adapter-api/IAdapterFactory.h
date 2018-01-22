@@ -3,7 +3,7 @@
 #define OPENFMB_ADAPTER_IADAPTERFACTORY_H
 
 #include "IAdapter.h"
-#include "IProtoSubscribers.h"
+#include "IMessageBus.h"
 
 #include "yaml-cpp/yaml.h"
 
@@ -28,7 +28,7 @@ namespace adapter
 
         virtual void write_default_config(YAML::Emitter& emitter) const = 0;
 
-        virtual std::unique_ptr<IAdapter> create(const YAML::Node& node, const Logger& logger, IProtoSubscribers& subscribers) = 0;
+        virtual std::unique_ptr<IAdapter> create(const YAML::Node& node, const Logger& logger, IMessageBus& bus) = 0;
     };
 
 }

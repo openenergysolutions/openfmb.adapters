@@ -3,49 +3,47 @@
 
 namespace adapter
 {
+    template <class T>
+    class PublisherImpl final : public IPublisher<T>
+    {
+    public:
 
-    // ---- implement IProtoPublishers ----
+        PublisherImpl(std::shared_ptr<SubscriberRegistry<T>> registry) : registry(registry)
+        {}
+
+        virtual void publish(const T& message) override
+        {
+            registry->publish(message);
+        }
+
+    private:
+
+        const std::shared_ptr<SubscriberRegistry<T>> registry;
+    };
+
+    ProtoBus::ProtoBus() :
+        rrp_registry(std::make_shared<SubscriberRegistry<resourcemodule::ResourceReadingProfile>>())
+    {}
 
     void ProtoBus::finalize()
     {
-        if(this->is_finalized)
-        {
-            throw std::logic_error("ProtoBus already finalized!");
-        }
-
-        this->is_finalized = true;
+        this->rrp_registry->finalize();
     }
 
-    void ProtoBus::publish(const resourcemodule::ResourceReadingProfile& profile)
+    // ---- implement IProtoPublishers ----
+
+    Publisher<resourcemodule::ResourceReadingProfile> ProtoBus::get_resource_reading_publisher()
     {
-        this->require_finalized();
-        for(auto& sub : this->rrp_subscribers) sub->receive(profile);
+        return Publisher<resourcemodule::ResourceReadingProfile>(
+                   std::make_shared<PublisherImpl<resourcemodule::ResourceReadingProfile>>(this->rrp_registry)
+               );
     }
 
     // ---- implement IProtoSubscribers ----
 
-    void ProtoBus::subscribe(const rrp_subscriber_t& subscriber)
+    void ProtoBus::subscribe(Subscriber<resourcemodule::ResourceReadingProfile> subscriber)
     {
-        this->require_not_finalized();
-        this->rrp_subscribers.push_back(subscriber);
-    }
-
-    // ---- private helpers ----
-
-    void ProtoBus::require_finalized()
-    {
-        if(!this->is_finalized)
-        {
-            throw std::logic_error("ProtoBus not yet finalized, cannot publish a message!");
-        }
-    }
-
-    void ProtoBus::require_not_finalized()
-    {
-        if(this->is_finalized)
-        {
-            throw std::logic_error("ProtoBus is finalized, cannot add a subscriber!");
-        }
+        this->rrp_registry->add(subscriber);
     }
 
 }

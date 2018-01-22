@@ -7,7 +7,7 @@
 
 #include <opendnp3/master/ISOEHandler.h>
 
-#include "adapter-api/IProtoPublishers.h"
+#include "adapter-api/IMessageBus.h"
 
 #include "PointMap.h"
 #include "adapter-api/helpers/generated/ResourceReadingProfileMap.h"
@@ -24,7 +24,7 @@ namespace adapter
 
     public:
 
-        SOEHandler(const YAML::Node& parent);
+        SOEHandler(const YAML::Node& parent, Publisher<resourcemodule::ResourceReadingProfile> publisher);
 
         virtual void Process(const opendnp3::HeaderInfo& info, const opendnp3::ICollection<opendnp3::Indexed<opendnp3::Binary>>& values) override;
         virtual void Process(const opendnp3::HeaderInfo& info, const opendnp3::ICollection<opendnp3::Indexed<opendnp3::DoubleBitBinary>>& values) override;
@@ -40,10 +40,7 @@ namespace adapter
         virtual void Process(const opendnp3::HeaderInfo& info, const opendnp3::ICollection<opendnp3::Indexed<opendnp3::SecurityStat>>& values) override;
         virtual void Process(const opendnp3::HeaderInfo& info, const opendnp3::ICollection<opendnp3::DNPTime>& values) override;
 
-        inline void set_publisher(const std::shared_ptr<IProtoPublishers> publisher)
-        {
-            this->publisher = publisher;
-        }
+
 
     private:
 
@@ -53,10 +50,7 @@ namespace adapter
         PointMap<ResourceReadingProfileMap> point_map;
         resourcemodule::ResourceReadingProfile profile;
         bool rrp_touched = false;
-
-
-
-        std::shared_ptr<IProtoPublishers> publisher;
+        Publisher<resourcemodule::ResourceReadingProfile> publisher;
     };
 
 }

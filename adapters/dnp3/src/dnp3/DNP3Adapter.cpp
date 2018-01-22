@@ -20,20 +20,20 @@ namespace adapter
     DNP3Adapter::DNP3Adapter(
         const Logger& logger,
         const YAML::Node& node,
-        IProtoSubscribers& subscribers
+        IMessageBus& bus
     ) :
         manager(
             yaml::with_default(node[keys::thread_pool_size], std::thread::hardware_concurrency()),
             std::make_shared<LogAdapter>(logger)
         )
     {
-        yaml::foreach(node[keys::masters], [this](const YAML::Node& n)
+        yaml::foreach(node[keys::masters], [&](const YAML::Node& n)
     {
-        this->add_master(n);
+        this->add_master(n, bus);
         });
     }
 
-    void DNP3Adapter::add_master(const YAML::Node& node)
+    void DNP3Adapter::add_master(const YAML::Node& node, IMessageBus& bus)
     {
         const auto channel = this->create_channel(node);
 
@@ -50,7 +50,10 @@ namespace adapter
         config.master.disableUnsolOnStartup = true;
         config.master.unsolClassMask = ClassField::None();
 
-        const auto data_handler = std::make_shared<SOEHandler>(yaml::require(node, resourcemodule::ResourceReadingProfile::descriptor()->name()));
+        const auto data_handler = std::make_shared<SOEHandler>(
+                                      yaml::require(node, resourcemodule::ResourceReadingProfile::descriptor()->name()),
+                                      bus.get_resource_reading_publisher()
+                                  );
 
         auto master = channel->AddMaster(
                           yaml::require(node, keys::name).as<std::string>(),
@@ -68,11 +71,10 @@ namespace adapter
         this->masters.push_back(MasterRecord { data_handler : data_handler, master : master });
     }
 
-    void DNP3Adapter::start(const std::shared_ptr<IProtoPublishers>& publisher)
+    void DNP3Adapter::start()
     {
         for(auto& record : this->masters)
         {
-            record.data_handler->set_publisher(publisher);
             record.master->Enable();
         }
     }

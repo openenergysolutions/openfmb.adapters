@@ -58,9 +58,9 @@ set_proto_input_files(PROTO_INPUT_FILES)
 
 set(API_HEADERS
     src/adapter-api/IAdapter.h
+    src/adapter-api/IPublisher.h
     src/adapter-api/ISubscriber.h
-    src/adapter-api/IProtoPublishers.h
-    src/adapter-api/IProtoSubscribers.h
+    src/adapter-api/IMessageBus.h
     src/adapter-api/Logger.h
     src/adapter-api/util/Exception.h
     src/adapter-api/util/StringUtil.h

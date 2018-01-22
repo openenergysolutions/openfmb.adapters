@@ -14,9 +14,9 @@ namespace adapter
         out << YAML::EndMap;
     }
 
-    std::unique_ptr<IAdapter> LogAdapterFactory::create(const YAML::Node& node, const Logger& logger, IProtoSubscribers& subscribers)
+    std::unique_ptr<IAdapter> LogAdapterFactory::create(const YAML::Node& node, const Logger& logger, IMessageBus& bus)
     {
-        return std::make_unique<LogAdapter>(node, logger, subscribers);
+        return std::make_unique<LogAdapter>(node, logger, bus);
     }
 
 }

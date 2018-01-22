@@ -2,37 +2,37 @@
 #ifndef OPENFMB_ADAPTER_PROTOBUS_H
 #define OPENFMB_ADAPTER_PROTOBUS_H
 
-#include "adapter-api/IProtoSubscribers.h"
-#include "adapter-api/IProtoPublishers.h"
+#include "adapter-api/IMessageBus.h"
 
-#include <vector>
+#include "SubscriberRegistry.h"
 
 namespace adapter
 {
 
-    class ProtoBus final : public IProtoSubscribers, public IProtoPublishers
+    class ProtoBus final : public IMessageBus
     {
     public:
 
+        ProtoBus();
+
         void finalize();
 
-        // ---- implement IProtoPublishers ----
+        // ---- publishers ----
 
-        virtual void publish(const resourcemodule::ResourceReadingProfile& profile) override;
+        virtual Publisher<resourcemodule::ResourceReadingProfile> get_resource_reading_publisher() override;
 
-        // ---- implement IProtoSubscribers ----
+        // ---- subscribers ----
 
-        virtual void subscribe(const rrp_subscriber_t& subscriber) override;
+        virtual void subscribe(Subscriber<resourcemodule::ResourceReadingProfile> subscriber) override;
 
 
     private:
 
-        std::vector<rrp_subscriber_t> rrp_subscribers;
+        // ---- registries for the different types ----
 
-        void require_finalized();
-        void require_not_finalized();
+        const std::shared_ptr<SubscriberRegistry<resourcemodule::ResourceReadingProfile>> rrp_registry;
 
-        bool is_finalized = false;
+
     };
 
 }

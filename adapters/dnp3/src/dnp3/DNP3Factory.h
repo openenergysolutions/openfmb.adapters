@@ -21,12 +21,12 @@ namespace adapter
 
         virtual std::string description() const override
         {
-            return "support for DNP3 masters";
+            return "maps openFMB to the DNP3 protocol";
         };
 
         virtual void write_default_config(YAML::Emitter& emitter) const override;
 
-        virtual std::unique_ptr<IAdapter> create(const YAML::Node& node, const Logger& logger, IProtoSubscribers& subscribers) override;
+        virtual std::unique_ptr<IAdapter> create(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override;
 
     };
 

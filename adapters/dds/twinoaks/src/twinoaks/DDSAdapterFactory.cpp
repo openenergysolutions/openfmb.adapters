@@ -23,9 +23,9 @@ namespace adapter
         out << YAML::EndMap;
     }
 
-    std::unique_ptr<IAdapter> DDSAdapterFactory::create(const YAML::Node& node, const Logger& logger, IProtoSubscribers& subscribers)
+    std::unique_ptr<IAdapter> DDSAdapterFactory::create(const YAML::Node& node, const Logger& logger, IMessageBus& bus)
     {
-        return std::make_unique<DDSAdapter>(node, subscribers);
+        return std::make_unique<DDSAdapter>(node, bus);
     }
 
 }

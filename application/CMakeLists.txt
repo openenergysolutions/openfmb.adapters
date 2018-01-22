@@ -9,6 +9,7 @@ set(OPENFMB_ADAPTER_SOURCES
         src/ConfigKeys.h
         src/LoggerConfig.h
         src/LoggerConfig.cpp
+        src/SubscriberRegistry.h
 )
 
 SET(CPP_FORMAT_DIRS

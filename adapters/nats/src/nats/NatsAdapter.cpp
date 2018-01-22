@@ -10,14 +10,14 @@
 namespace adapter
 {
 
-    NatsAdapter::NatsAdapter(const Logger& logger, const YAML::Node& node, IProtoSubscribers& subscribers) :
+    NatsAdapter::NatsAdapter(const Logger& logger, const YAML::Node& node, IMessageBus& bus) :
         config(node),
         logger(logger),
         messages(
             std::make_shared<SynchronizedQueue<Message>>(config.max_queued_messages)
         )
     {
-        this->configure_publishers(yaml::require(node, keys::publish), subscribers);
+        this->configure_publishers(yaml::require(node, keys::publish), bus);
     }
 
     NatsAdapter::Config::Config(const YAML::Node& node) :
@@ -34,7 +34,7 @@ namespace adapter
         this->background_thread->join();
     }
 
-    void NatsAdapter::start(const std::shared_ptr<IProtoPublishers>& publishers)
+    void NatsAdapter::start()
     {
         if(this->background_thread) return;
 
@@ -92,7 +92,7 @@ namespace adapter
     }
 
     template <class T>
-    void NatsAdapter::add_publisher(const YAML::Node& node, IProtoSubscribers& subscribers)
+    void NatsAdapter::add_publisher(const YAML::Node& node, IMessageBus& bus)
     {
         const YAML::Node profile = yaml::require(node, T::descriptor()->name());
 
@@ -103,23 +103,23 @@ namespace adapter
 
             logger.info("{} will be published to subject: {}", T::descriptor()->name(), subject);
 
-            subscribers.subscribe(
-                std::make_shared<Subscriber<T>>(
-                    this->logger,
-                    subject,
-                    this->messages
+            bus.subscribe(
+                Subscriber<T>(
+                    std::make_shared<SubscriberImpl<T>>(
+                        this->logger,
+                        subject,
+                        this->messages
+                    )
                 )
             );
-
 
         }
 
     }
 
-    void NatsAdapter::configure_publishers(const YAML::Node& node, IProtoSubscribers& subscribers)
+    void NatsAdapter::configure_publishers(const YAML::Node& node, IMessageBus& bus)
     {
-        this->add_publisher<resourcemodule::ResourceReadingProfile>(node, subscribers);
-
+        this->add_publisher<resourcemodule::ResourceReadingProfile>(node, bus);
     }
 }
 

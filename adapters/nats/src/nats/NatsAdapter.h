@@ -3,7 +3,7 @@
 
 #include <adapter-api/IAdapter.h>
 #include <adapter-api/Logger.h>
-#include <adapter-api/IProtoSubscribers.h>
+#include <adapter-api/IMessageBus.h>
 
 #include <yaml-cpp/yaml.h>
 #include <nats/nats.h>
@@ -14,7 +14,6 @@
 
 namespace adapter
 {
-
 
     class NatsAdapter final : public IAdapter
     {
@@ -35,9 +34,9 @@ namespace adapter
 
         ~NatsAdapter();
 
-        NatsAdapter(const Logger& logger, const YAML::Node& node, IProtoSubscribers& subscribers);
+        NatsAdapter(const Logger& logger, const YAML::Node& node, IMessageBus& bus);
 
-        virtual void start(const std::shared_ptr<IProtoPublishers>& publishers) override;
+        virtual void start() override;
 
     private:
 
@@ -52,10 +51,10 @@ namespace adapter
         void run();
         void run(natsConnection& connection);
 
-        void configure_publishers(const YAML::Node& node, IProtoSubscribers& subscribers);
+        void configure_publishers(const YAML::Node& node, IMessageBus& bus);
 
         template <class T>
-        void add_publisher(const YAML::Node& node, IProtoSubscribers& subscribers);
+        void add_publisher(const YAML::Node& node, IMessageBus& bus);
     };
 
 }

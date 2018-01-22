@@ -15,7 +15,7 @@
 using namespace std;
 using namespace adapter;
 
-vector<unique_ptr<IAdapter>> init_adapters(const std::string& yaml_path, AdapterRegistry& registry, IProtoSubscribers& subscribers);
+vector<unique_ptr<IAdapter>> init_adapters(const std::string& yaml_path, AdapterRegistry& registry, IMessageBus& bus);
 
 int run_application(const std::string& config_file_path);
 
@@ -100,7 +100,7 @@ int run_application(const std::string& config_file_path)
     // start the adapters running/publishing to the bus
     for(auto& adapter : adapters)
     {
-        adapter->start(bus);
+        adapter->start();
     }
 
     // wait for ctrl-c
@@ -159,7 +159,7 @@ int write_config(const std::string& config_file_path)
     return 0;
 }
 
-vector<unique_ptr<IAdapter>> init_adapters(const std::string& yaml_path, AdapterRegistry& registry, IProtoSubscribers& subscribers)
+vector<unique_ptr<IAdapter>> init_adapters(const std::string& yaml_path, AdapterRegistry& registry, IMessageBus& bus)
 {
     const auto yaml_root = YAML::LoadFile(yaml_path);
 
@@ -186,7 +186,7 @@ vector<unique_ptr<IAdapter>> init_adapters(const std::string& yaml_path, Adapter
             logger.info("Initializing adapter: {}", factory.name());
 
             adapters.push_back(
-                factory.create(entry, logger.clone(factory.name()), subscribers)
+                factory.create(entry, logger.clone(factory.name()), bus)
             );
         }
         else

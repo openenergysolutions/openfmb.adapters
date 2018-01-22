@@ -9,21 +9,23 @@ namespace adapter
 
     void SOEHandler::End()
     {
-        if(this->rrp_touched && this->publisher)
+        if(this->rrp_touched)
         {
             const auto uuid = this->uuid_generator();
 
             // mRID is changed whenever we publish a new message
             this->profile.mutable_readingmessageinfo()->mutable_identifiedobject()->set_mrid(
-                    boost::uuids::to_string(uuid)
+                boost::uuids::to_string(uuid)
             );
 
             this->rrp_touched = false;
-            this->publisher->publish(this->profile);
+            this->publisher.publish(this->profile);
         }
     }
 
-    SOEHandler::SOEHandler(const YAML::Node& parent) : point_map(parent)
+    SOEHandler::SOEHandler(const YAML::Node& parent, Publisher<resourcemodule::ResourceReadingProfile> publisher) :
+        point_map(parent),
+        publisher(publisher)
     {}
 
     void SOEHandler::Process(const opendnp3::HeaderInfo& info, const opendnp3::ICollection<opendnp3::Indexed<opendnp3::Binary>>& values)

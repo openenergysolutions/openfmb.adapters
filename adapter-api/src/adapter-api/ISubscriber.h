@@ -2,6 +2,7 @@
 #ifndef OPENFMB_ADAPTER_ISUBSCRIBER_H
 #define OPENFMB_ADAPTER_ISUBSCRIBER_H
 
+
 namespace adapter
 {
 
@@ -14,7 +15,7 @@ namespace adapter
     class ISubscriber
     {
     public:
-        virtual ~ISubscriber() {}
+        virtual ~ISubscriber() = default;
 
         /**
          * Callback method invoked when a message of this type is published
@@ -24,6 +25,26 @@ namespace adapter
         virtual void receive(const T& message) = 0;
     };
 
+    /**
+     * Copyable wrapper to an abstract subscriber
+     */
+    template <class T>
+    class Subscriber
+    {
+    public:
+
+        Subscriber(std::shared_ptr<ISubscriber<T>> impl) : impl(impl)
+        {}
+
+        inline void receive(const T& message)
+        {
+            impl->receive(message);
+        }
+
+    private:
+
+        const std::shared_ptr<ISubscriber<T>> impl;
+    };
 }
 
 #endif

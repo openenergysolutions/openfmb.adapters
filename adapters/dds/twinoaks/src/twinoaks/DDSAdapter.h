@@ -15,17 +15,16 @@ namespace adapter
 
     public:
 
-        DDSAdapter(const YAML::Node& node, IProtoSubscribers& subscribers);
+        DDSAdapter(const YAML::Node& node, IMessageBus& bus);
 
-        // doesn't publish anything yet to the bus
-        virtual void start(const std::shared_ptr<IProtoPublishers>& publisher) override {}
+        virtual void start() override {}
 
     private:
 
         static DDS::DomainParticipant* create_participant(DDS::DomainId_t domain_id);
 
         template <class ProtoType, class DDSType>
-        static std::shared_ptr<ISubscriber<ProtoType>> create_subscriber(DDS::DomainParticipant* participant);
+        static Subscriber<ProtoType> create_subscriber(DDS::DomainParticipant* participant);
 
         template <class T, class... Args>
         static T* require(T* created, Args... args);

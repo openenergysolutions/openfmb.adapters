@@ -75,12 +75,12 @@ namespace adapter
         out << YAML::EndSeq;
     }
 
-    std::unique_ptr<IAdapter> DNP3Factory::create(const YAML::Node& node, const Logger& logger, IProtoSubscribers& subscribers)
+    std::unique_ptr<IAdapter> DNP3Factory::create(const YAML::Node& node, const Logger& logger, IMessageBus& bus)
     {
         return std::make_unique<DNP3Adapter>(
                    logger,
                    node,
-                   subscribers
+                   bus
                );
     }
 

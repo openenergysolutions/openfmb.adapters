@@ -1,10 +1,7 @@
 #ifndef OPENFMB_ADAPTER_CONSOLEADAPTER_H
 #define OPENFMB_ADAPTER_CONSOLEADAPTER_H
 
-#include <adapter-api/IAdapter.h>
-#include <adapter-api/IProtoSubscribers.h>
-#include <adapter-api/Logger.h>
-#include <yaml-cpp/yaml.h>
+#include <adapter-api/IAdapterFactory.h>
 
 namespace adapter
 {
@@ -13,10 +10,10 @@ namespace adapter
     {
     public:
 
-        LogAdapter(const YAML::Node& node, const Logger& logger, IProtoSubscribers& subscribers);
+        LogAdapter(const YAML::Node& node, const Logger& logger, IMessageBus& bus);
 
         // start the execution of the adapter
-        virtual void start(const std::shared_ptr<IProtoPublishers>& publisher) override {}
+        virtual void start() override {}
 
     private:
 

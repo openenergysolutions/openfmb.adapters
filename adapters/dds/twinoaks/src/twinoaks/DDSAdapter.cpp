@@ -11,7 +11,7 @@
 namespace adapter
 {
     template <class T, class U>
-    class Subscriber : public ISubscriber<T>
+    class SubscriberImpl : public ISubscriber<T>
     {
 
         U outgoing;
@@ -19,7 +19,7 @@ namespace adapter
 
     public:
 
-        Subscriber(DDS::DataWriter* writer) : writer(writer)
+        SubscriberImpl(DDS::DataWriter* writer) : writer(writer)
         {}
 
         virtual void receive(const T& message) override
@@ -30,7 +30,7 @@ namespace adapter
 
     };
 
-    DDSAdapter::DDSAdapter(const YAML::Node& node, IProtoSubscribers& subscribers)
+    DDSAdapter::DDSAdapter(const YAML::Node& node, IMessageBus& bus)
     {
         const auto domain_id = yaml::require(node, keys::domain_id).as<DDS::DomainId_t>();
 
@@ -41,7 +41,7 @@ namespace adapter
         // bind the specified subscribers
         if(yaml::require(publishers, resourcemodule::ResourceReadingProfile::descriptor()->name()).as<bool>())
         {
-            subscribers.subscribe(
+            bus.subscribe(
                 create_subscriber<resourcemodule::ResourceReadingProfile, openfmb::resourcemodule::ResourceReadingProfile>(participant)
             );
         }
@@ -59,7 +59,7 @@ namespace adapter
     }
 
     template <class ProtoType, class DDSType>
-    std::shared_ptr<ISubscriber<ProtoType>> DDSAdapter::create_subscriber(DDS::DomainParticipant* participant)
+    Subscriber<ProtoType> DDSAdapter::create_subscriber(DDS::DomainParticipant* participant)
     {
         const char* type_name = DDSType::TypeSupport::get_type_name();
 
@@ -95,7 +95,9 @@ namespace adapter
                                 "unable to create DDS writer for: ", type_name
                             );
 
-        return std::make_shared<Subscriber<ProtoType, DDSType>>(writer);
+        Subscriber<ProtoType>(
+            std::make_shared<SubscriberImpl<ProtoType, DDSType>>(writer)
+        );
     }
 
 

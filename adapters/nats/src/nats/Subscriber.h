@@ -1,6 +1,6 @@
 
-#ifndef OPENFMB_ADAPTER_SUBSCRIBER_H
-#define OPENFMB_ADAPTER_SUBSCRIBER_H
+#ifndef OPENFMB_ADAPTER_SUBSCRIBERIMPL_H
+#define OPENFMB_ADAPTER_SUBSCRIBERIMPL_H
 
 #include "adapter-api/ISubscriber.h"
 #include "adapter-api/Logger.h"
@@ -13,14 +13,14 @@ namespace adapter
 {
 
     template <class T>
-    class Subscriber final : public ISubscriber<T>
+    class SubscriberImpl final : public ISubscriber<T>
     {
 
     public:
 
         typedef SynchronizedQueue<Message> message_queue_t;
 
-        Subscriber(Logger logger, const std::string& subject, std::shared_ptr<message_queue_t> sink) :
+        SubscriberImpl(Logger logger, const std::string& subject, std::shared_ptr<message_queue_t> sink) :
             logger(logger),
             subject(subject),
             sink(sink)

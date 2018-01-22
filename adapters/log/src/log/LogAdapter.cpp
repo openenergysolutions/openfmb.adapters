@@ -3,8 +3,6 @@
 
 #include "adapter-api/util/YAMLUtil.h"
 
-#include <iostream>
-
 namespace adapter
 {
 
@@ -25,13 +23,17 @@ namespace adapter
 
     };
 
-    LogAdapter::LogAdapter(const YAML::Node& node, const Logger& logger, IProtoSubscribers& subscribers)
+    LogAdapter::LogAdapter(const YAML::Node& node, const Logger& logger, IMessageBus& bus)
     {
         const auto profiles = yaml::require(node, "profiles");
 
         if(yaml::require(profiles, resourcemodule::ResourceReadingProfile::descriptor()->name()).as<bool>())
         {
-            subscribers.subscribe(std::make_shared<LogPrinter<resourcemodule::ResourceReadingProfile>>(logger));
+            bus.subscribe(
+                Subscriber<resourcemodule::ResourceReadingProfile>(
+                    std::make_shared<LogPrinter<resourcemodule::ResourceReadingProfile>>(logger)
+                )
+            );
         }
     }
 
