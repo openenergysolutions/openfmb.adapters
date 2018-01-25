@@ -59,6 +59,7 @@ set_proto_input_files(PROTO_INPUT_FILES)
 set(API_HEADERS
     src/adapter-api/IAdapter.h
 	src/adapter-api/IAdapterFactory.h
+
     src/adapter-api/IPublisher.h
     src/adapter-api/ISubscriber.h
     src/adapter-api/IMessageBus.h
@@ -66,6 +67,8 @@ set(API_HEADERS
     src/adapter-api/util/Exception.h
     src/adapter-api/util/StringUtil.h
     src/adapter-api/util/YAMLUtil.h
+    src/adapter-api/helpers/HelperTypedefs.h
+    src/adapter-api/helpers/IProtoVisitor.h
     src/adapter-api/helpers/generated/ResourceReadingProfileMap.h
 )
 
