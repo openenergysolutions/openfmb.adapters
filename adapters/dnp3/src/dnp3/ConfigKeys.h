@@ -27,6 +27,7 @@ namespace adapter
         // mapping
         static const char* const index = "index";
         static const char* const scale = "scale";
+        static const char* const unit_symbol_kind = "unit_symbol_kind";
     }
 }
 

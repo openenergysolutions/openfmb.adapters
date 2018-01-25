@@ -2,6 +2,9 @@
 #define OPENFMB_ADAPTER_YAMLUTIL_H
 
 #include <yaml-cpp/yaml.h>
+#include <google/protobuf/descriptor.h>
+
+#include "Exception.h"
 
 namespace adapter
 {
@@ -35,7 +38,18 @@ namespace adapter
             {
                 action(*it);
             }
+        }
 
+        template <class E>
+        E parse_enum_value(const YAML::Node& parent, const ::google::protobuf::EnumDescriptor* descriptor, bool (parser)(const std::string&, E*))
+        {
+            const auto string_value = yaml::require(parent, descriptor->name()).as<std::string>();
+            E ret;
+            if(!parser(string_value, &ret))
+            {
+                throw Exception("Invalid value '", string_value, "' for protobuf enum descriptor: ", descriptor->name());
+            }
+            return ret;
         }
     }
 }

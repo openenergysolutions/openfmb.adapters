@@ -1,8 +1,6 @@
 
 #include "YAMLUtil.h"
 
-#include "Exception.h"
-
 namespace adapter
 {
     namespace yaml

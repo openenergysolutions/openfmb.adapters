@@ -8,6 +8,7 @@
 #include "adapter-api/helpers/HelperTypedefs.h"
 #include "adapter-api/util/Exception.h"
 #include "adapter-api/util/YAMLUtil.h"
+#include "ConfigKeys.h"
 
 #include <map>
 #include <functional>
@@ -16,16 +17,16 @@
 namespace adapter
 {
 
-    template <class ProfileMap>
+    template <class T>
     class PointMap
     {
 
     public:
 
-        typedef typename ProfileMap::profile_t profile_t;
+        typedef typename T::profile_t profile_t;
 
-        template <class T>
-        using setter_t = std::function<void (const T& analog, profile_t& profile)>;
+        template <class U>
+        using setter_t = std::function<void (const U& analog, profile_t& profile)>;
 
         PointMap(const YAML::Node& node);
 
@@ -42,10 +43,10 @@ namespace adapter
 
     };
 
-    template <class ProfileMap>
-    PointMap<ProfileMap>::PointMap(const YAML::Node& node)
+    template <class T>
+    PointMap<T>::PointMap(const YAML::Node& node)
     {
-        ProfileMap map; // instantiate the mapping
+        T map; // instantiate the mapping class
 
         for(auto& pair : map.get_analogs())
         {
@@ -58,8 +59,8 @@ namespace adapter
         }
     }
 
-    template <class ProfileMap>
-    bool PointMap<ProfileMap>::apply(const opendnp3::Indexed<opendnp3::Analog>& meas, profile_t& profile) const
+    template <class T>
+    bool PointMap<T>::apply(const opendnp3::Indexed<opendnp3::Analog>& meas, profile_t& profile) const
     {
         auto iter = this->analog_map.find(meas.index);
         if(iter == this->analog_map.end()) return false;
@@ -67,8 +68,8 @@ namespace adapter
         return true;
     }
 
-    template <class ProfileMap>
-    bool PointMap<ProfileMap>::apply(const opendnp3::Indexed<opendnp3::Counter>& meas, profile_t& profile) const
+    template <class T>
+    bool PointMap<T>::apply(const opendnp3::Indexed<opendnp3::Counter>& meas, profile_t& profile) const
     {
         auto iter = this->counter_map.find(meas.index);
         if(iter == this->counter_map.end()) return false;
@@ -76,8 +77,8 @@ namespace adapter
         return true;
     }
 
-    template <class ProfileMap>
-    void PointMap<ProfileMap>::map_analogue(const YAML::Node& parent, const std::string& name, analogue_getter_t<profile_t> getter)
+    template <class T>
+    void PointMap<T>::map_analogue(const YAML::Node& parent, const std::string& name, analogue_getter_t<profile_t> getter)
     {
         const auto node = yaml::require(parent, name);
         const auto long_index = yaml::require(node, "index").as<int32_t>();
@@ -100,11 +101,11 @@ namespace adapter
         };
     }
 
-    template <class ProfileMap>
-    void PointMap<ProfileMap>::map_bcr(const YAML::Node& parent, const std::string& name, bcr_getter_t<profile_t> getter)
+    template <class T>
+    void PointMap<T>::map_bcr(const YAML::Node& parent, const std::string& name, bcr_getter_t<profile_t> getter)
     {
         const auto node = yaml::require(parent, name);
-        const auto long_index = yaml::require(node, "index").as<int32_t>();
+        const auto long_index = yaml::require(node, keys::index).as<int32_t>();
 
         // negative indices are ignored
         if(long_index < 0) return;
@@ -114,17 +115,23 @@ namespace adapter
             throw Exception("Index exceeds max ushort: ", long_index);
         }
 
-        const auto scale = yaml::require(node, "scale").as<double>();
+        const auto scale = yaml::require(node, keys::scale).as<double>();
         const auto index = static_cast<uint16_t>(long_index);
+        const auto units = yaml::parse_enum_value(node, commonmodule::UnitSymbolKind_descriptor(), commonmodule::UnitSymbolKind_Parse);
 
 
-        this->analog_map[index] = [getter, scale](const opendnp3::Analog & analog, profile_t& profile)
+        this->analog_map[index] = [getter, scale, units](const opendnp3::Analog & analog, profile_t& profile)
         {
-            getter(profile)->set_actval(
-                static_cast<int64_t>(analog.value * scale)
+            commonmodule::BCR* counter = getter(profile);
+
+            // set the actual counter value by scaling the analog
+            counter->set_actval(
+                static_cast<::google::protobuf::int64>(analog.value * scale)
             );
+
+            counter->set_units(units);
         };
     }
 }
 
-#endif //OPENFMB_ADAPTER_ANALOGHANDLER_H
+#endif //OPENFMB_ADAPTER_POINTMAP_H

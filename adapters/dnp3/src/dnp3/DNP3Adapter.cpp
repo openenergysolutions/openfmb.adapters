@@ -12,8 +12,6 @@ using namespace openpal;
 using namespace opendnp3;
 using namespace asiodnp3;
 
-#include "ConfigKeys.h"
-
 namespace adapter
 {
 
