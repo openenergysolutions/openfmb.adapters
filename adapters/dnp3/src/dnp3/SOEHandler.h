@@ -24,7 +24,7 @@ namespace adapter
 
     public:
 
-        SOEHandler(const YAML::Node& parent, Publisher<resourcemodule::ResourceReadingProfile> publisher);
+        SOEHandler(const YAML::Node& parent, publisher_t<resourcemodule::ResourceReadingProfile> publisher);
 
         virtual void Process(const opendnp3::HeaderInfo& info, const opendnp3::ICollection<opendnp3::Indexed<opendnp3::Binary>>& values) override;
         virtual void Process(const opendnp3::HeaderInfo& info, const opendnp3::ICollection<opendnp3::Indexed<opendnp3::DoubleBitBinary>>& values) override;
@@ -50,7 +50,7 @@ namespace adapter
         PointMap<ResourceReadingProfileMap> point_map;
         resourcemodule::ResourceReadingProfile profile;
         bool rrp_touched = false;
-        Publisher<resourcemodule::ResourceReadingProfile> publisher;
+        const publisher_t<resourcemodule::ResourceReadingProfile> publisher;
     };
 
 }

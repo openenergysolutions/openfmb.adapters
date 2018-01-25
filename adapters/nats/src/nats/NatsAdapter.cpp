@@ -104,12 +104,10 @@ namespace adapter
             logger.info("{} will be published to subject: {}", T::descriptor()->name(), subject);
 
             bus.subscribe(
-                Subscriber<T>(
-                    std::make_shared<SubscriberImpl<T>>(
-                        this->logger,
-                        subject,
-                        this->messages
-                    )
+                std::make_shared<SubscriberImpl<T>>(
+                    this->logger,
+                    subject,
+                    this->messages
                 )
             );
 

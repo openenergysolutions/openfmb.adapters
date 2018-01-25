@@ -21,10 +21,10 @@ namespace adapter
         virtual ~IMessageBus() = default;
 
         /// --- getters for various publishers ---
-        virtual Publisher<resourcemodule::ResourceReadingProfile> get_resource_reading_publisher() = 0;
+        virtual publisher_t<resourcemodule::ResourceReadingProfile> get_resource_reading_publisher() = 0;
 
         /// --- methods for subscribing to the profiles ---
-        virtual void subscribe(Subscriber<resourcemodule::ResourceReadingProfile> subscriber) = 0;
+        virtual void subscribe(subscriber_t<resourcemodule::ResourceReadingProfile> subscriber) = 0;
 
     };
 

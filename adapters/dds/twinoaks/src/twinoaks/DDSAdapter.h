@@ -24,7 +24,7 @@ namespace adapter
         static DDS::DomainParticipant* create_participant(DDS::DomainId_t domain_id);
 
         template <class ProtoType, class DDSType>
-        static Subscriber<ProtoType> create_subscriber(DDS::DomainParticipant* participant);
+        static subscriber_t<ProtoType> create_subscriber(DDS::DomainParticipant* participant);
 
         template <class T, class... Args>
         static T* require(T* created, Args... args);

@@ -27,26 +27,9 @@ namespace adapter
         virtual void publish(const T& message) = 0;
     };
 
-    /**
-     * Copyable wrapper to an abstract publisher
-     */
     template <class T>
-    class Publisher
-    {
-    public:
+    using publisher_t = std::shared_ptr<IPublisher<T>>;
 
-        Publisher(std::shared_ptr<IPublisher<T>> impl) : impl(impl)
-        {}
-
-        inline void publish(const T& message)
-        {
-            impl->publish(message);
-        }
-
-    private:
-
-        const std::shared_ptr<IPublisher<T>> impl;
-    };
 
 }
 

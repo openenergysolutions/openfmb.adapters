@@ -25,26 +25,8 @@ namespace adapter
         virtual void receive(const T& message) = 0;
     };
 
-    /**
-     * Copyable wrapper to an abstract subscriber
-     */
     template <class T>
-    class Subscriber
-    {
-    public:
-
-        Subscriber(std::shared_ptr<ISubscriber<T>> impl) : impl(impl)
-        {}
-
-        inline void receive(const T& message)
-        {
-            impl->receive(message);
-        }
-
-    private:
-
-        const std::shared_ptr<ISubscriber<T>> impl;
-    };
+    using subscriber_t = std::shared_ptr<ISubscriber<T>>;
 }
 
 #endif

@@ -59,7 +59,7 @@ namespace adapter
     }
 
     template <class ProtoType, class DDSType>
-    Subscriber<ProtoType> DDSAdapter::create_subscriber(DDS::DomainParticipant* participant)
+    subscriber_t<ProtoType> DDSAdapter::create_subscriber(DDS::DomainParticipant* participant)
     {
         const char* type_name = DDSType::TypeSupport::get_type_name();
 
@@ -95,7 +95,7 @@ namespace adapter
                                 "unable to create DDS writer for: ", type_name
                             );
 
-        Subscriber<ProtoType>(
+        subscriber_t<ProtoType>(
             std::make_shared<SubscriberImpl<ProtoType, DDSType>>(writer)
         );
     }

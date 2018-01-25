@@ -13,24 +13,28 @@ namespace adapter
     {
     public:
 
-        ProtoBus();
+        ProtoBus() = default;
+        ~ProtoBus() = default;
 
+        /**
+         * Don't allow more subscribers to be added. Existing publishers may now begin publishing
+         */
         void finalize();
 
         // ---- publishers ----
 
-        virtual Publisher<resourcemodule::ResourceReadingProfile> get_resource_reading_publisher() override;
+        virtual publisher_t<resourcemodule::ResourceReadingProfile> get_resource_reading_publisher() override;
 
         // ---- subscribers ----
 
-        virtual void subscribe(Subscriber<resourcemodule::ResourceReadingProfile> subscriber) override;
+        virtual void subscribe(subscriber_t<resourcemodule::ResourceReadingProfile> subscriber) override;
 
 
     private:
 
-        // ---- registries for the different types ----
+        // ---- subscriber registries for the different types, these are the publishers that get handed out as well ----
 
-        const std::shared_ptr<SubscriberRegistry<resourcemodule::ResourceReadingProfile>> rrp_registry;
+        const std::shared_ptr<SubscriberRegistry<resourcemodule::ResourceReadingProfile>> rrp_registry = std::make_shared<SubscriberRegistry<resourcemodule::ResourceReadingProfile>>();
 
 
     };

@@ -30,9 +30,7 @@ namespace adapter
         if(yaml::require(profiles, resourcemodule::ResourceReadingProfile::descriptor()->name()).as<bool>())
         {
             bus.subscribe(
-                Subscriber<resourcemodule::ResourceReadingProfile>(
-                    std::make_shared<LogPrinter<resourcemodule::ResourceReadingProfile>>(logger)
-                )
+                std::make_shared<LogPrinter<resourcemodule::ResourceReadingProfile>>(logger)
             );
         }
     }

@@ -4,37 +4,38 @@
 
 #include "adapter-api/util/Exception.h"
 #include "adapter-api/ISubscriber.h"
+#include "adapter-api/IPublisher.h"
 
 #include <vector>
 
 namespace adapter
 {
     template <class T>
-    class SubscriberRegistry
+    class SubscriberRegistry final : public IPublisher<T>
     {
 
     public:
 
         SubscriberRegistry() = default;
 
-        void publish(const T& message)
+        virtual void publish(const T& message) override
         {
             if(!is_finalized)
             {
-                throw Exception("Message published before bus finalization");
+                throw Exception("Message published before subscriber finalization");
             }
 
             for(auto& sub : subscribers)
             {
-                sub.receive(message);
+                sub->receive(message);
             }
         }
 
-        void add(Subscriber<T> subscriber)
+        void add(subscriber_t<T> subscriber)
         {
             if(is_finalized)
             {
-                throw Exception("Subscriber added after finalization");
+                throw Exception("Subscriber added after subscriber finalization");
             }
 
             subscribers.push_back(subscriber);
@@ -50,7 +51,7 @@ namespace adapter
         bool is_finalized = false;
 
         // all of the subscribers for a particular type
-        std::vector<Subscriber<T>> subscribers;
+        std::vector<subscriber_t<T>> subscribers;
     };
 
 }

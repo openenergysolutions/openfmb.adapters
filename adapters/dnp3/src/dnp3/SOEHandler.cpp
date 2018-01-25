@@ -19,11 +19,11 @@ namespace adapter
             );
 
             this->rrp_touched = false;
-            this->publisher.publish(this->profile);
+            this->publisher->publish(this->profile);
         }
     }
 
-    SOEHandler::SOEHandler(const YAML::Node& parent, Publisher<resourcemodule::ResourceReadingProfile> publisher) :
+    SOEHandler::SOEHandler(const YAML::Node& parent, publisher_t<resourcemodule::ResourceReadingProfile> publisher) :
         point_map(parent),
         publisher(publisher)
     {}
