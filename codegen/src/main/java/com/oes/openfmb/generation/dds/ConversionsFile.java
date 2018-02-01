@@ -1,7 +1,7 @@
 package com.oes.openfmb.generation.dds;
 
 import com.google.protobuf.Descriptors;
-import com.oes.openfmb.generation.document.CppClassFile;
+import com.oes.openfmb.generation.document.CppFilePair;
 import com.oes.openfmb.generation.document.Document;
 import com.oes.openfmb.generation.document.Documents;
 import com.oes.openfmb.generation.document.FileHeader;
@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 import static com.oes.openfmb.generation.document.Documents.*;
 
-public class ConversionsFile implements CppClassFile {
+public class ConversionsFile extends CppFilePair {
 
     private final String className;
     private final Set<Descriptors.Descriptor> descriptors;
@@ -44,6 +44,11 @@ public class ConversionsFile implements CppClassFile {
         return descriptors.stream().map(DescriptorUtil::findUniqueEnums).flatMap(Set::stream).collect(Collectors.toSet());
     }
 
+
+    @Override
+    protected String baseFileName() {
+        return this.baseFileName();
+    }
 
     @Override
     public Document header() {

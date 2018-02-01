@@ -10,14 +10,19 @@ import java.util.List;
 
 import static com.oes.openfmb.generation.document.Documents.*;
 
-public class AccessorsFile implements CppClassFile {
+public class AccessorsFile extends CppFilePair {
 
-    private final String filename;
     private final Descriptors.Descriptor descriptor;
+    private final String protoInclude;
 
-    public AccessorsFile(String filename, Descriptors.Descriptor descriptor) {
-        this.filename = filename;
+    public AccessorsFile(Descriptors.Descriptor descriptor, String protoInclude) {
         this.descriptor = descriptor;
+        this.protoInclude = protoInclude;
+    }
+
+    @Override
+    protected String baseFileName() {
+        return this.descriptor.getName()+"Map";
     }
 
     @Override
@@ -93,7 +98,7 @@ public class AccessorsFile implements CppClassFile {
 
     private Document includes()
     {
-        return include(this.filename )
+        return include(this.protoInclude)
                 .append(include("../HelperTypedefs.h"));
 
     }
