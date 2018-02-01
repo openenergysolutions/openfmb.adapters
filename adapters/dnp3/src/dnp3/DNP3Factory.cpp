@@ -3,45 +3,70 @@
 
 #include "DNP3Adapter.h"
 
-#include "ConfigKeys.h"
+#include "adapter-api/helpers/generated/ResourceReadingProfileVisitor.h"
 
 namespace adapter
 {
     template <class T>
-    void write_profile_mapping(YAML::Emitter& out)
+    class ConfigWriteVisitor final : public IProtoVisitor<T>
     {
-        T map;
+        YAML::Emitter& out;
 
-        out << YAML::Key << T::profile_t::descriptor()->name();
-        out << YAML::Newline << YAML::Comment("AnalogueValue leaf nodes in the profile");
+    public:
+        ConfigWriteVisitor(YAML::Emitter& out) : out(out) {}
 
-        out << YAML::BeginMap;
-        for (auto& mapping : map.get_analogs())
+        void start_message_field(const std::string& field_name) override
         {
-            out << YAML::Key << mapping.first;
-            out << YAML::Flow;
-            out << YAML::Newline;
+            out << YAML::Key << field_name;
             out << YAML::BeginMap;
-            out << YAML::Key << keys::index << -1;
-            out << YAML::Key << keys::scale << 1.0;
+        }
+
+        void handle(const std::string& field_name, mv_getter_t<T> getter) override
+        {
+            out << YAML::Key << field_name << YAML::Comment("MV");
+            out << YAML::BeginMap;
+            this->write_analogue_config("mag");
             out << YAML::EndMap;
         }
 
-        out << YAML::Newline << YAML::Comment("BCR leaf nodes in the profile");
-
-        for (auto& mapping : map.get_bcrs())
+        void handle(const std::string& field_name, cmv_getter_t<T> getter) override
         {
-            out << YAML::Key << mapping.first;
-            out << YAML::Flow;
-            out << YAML::Newline;
+            out << YAML::Key << field_name << YAML::Comment("CMV");
+            out << YAML::BeginMap << "cVal";
+            out << YAML::BeginMap;
+            this->write_analogue_config("ang");
+            this->write_analogue_config("mag");
+            out << YAML::EndMap;
+            out << YAML::EndMap;
+
+        }
+
+        void handle(const std::string& field_name, bcr_getter_t<T> getter) override
+        {
+            out << YAML::Key << field_name << YAML::Comment("BCR");
             out << YAML::BeginMap;
             out << YAML::Key << keys::index << -1;
             out << YAML::Key << keys::scale << 1.0;
             out << YAML::Key << commonmodule::UnitSymbolKind_descriptor()->name() << commonmodule::UnitSymbolKind_Name(commonmodule::UnitSymbolKind::UnitSymbolKind_none);
             out << YAML::EndMap;
         }
-        out << YAML::EndMap;
-    }
+
+        void end_message_field() override
+        {
+            out << YAML::EndMap;
+        }
+
+    private:
+        void write_analogue_config(const std::string& name)
+        {
+            out << YAML::Key << name;
+            out << YAML::BeginMap;
+            out << YAML::Key << keys::index << -1;
+            out << YAML::Key << keys::scale << 1.0;
+            out << YAML::EndMap;
+
+        }
+    };
 
     void DNP3Factory::write_default_config(YAML::Emitter& out) const
     {
@@ -69,7 +94,14 @@ namespace adapter
         out << YAML::Key << keys::integrity_poll_ms << YAML::Value << 5000;
         out << YAML::EndMap;
 
-        write_profile_mapping<ResourceReadingProfileMap>(out);
+        out << YAML::Key << "profile";
+        out << YAML::BeginMap;
+        out << YAML::Key << "name" << resourcemodule::ResourceReadingProfile::descriptor()->name();
+        {
+            ConfigWriteVisitor<resourcemodule::ResourceReadingProfile> visitor(out);
+            visit(visitor);
+        }
+        out << YAML::EndMap;
 
         out << YAML::EndMap;
 

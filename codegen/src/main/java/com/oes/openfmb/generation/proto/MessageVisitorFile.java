@@ -67,20 +67,14 @@ public class MessageVisitorFile extends CppFilePair {
     {
         return line(getVisitSignature())
                 .append("{")
-                .indent(start(this.descriptor.getName(), this.descriptor)) // recursively build up the implementation
+                .indent(start(this.descriptor)) // recursively build up the implementation
                 .append("}");
 
     }
 
-    private Document start(String name, Descriptors.Descriptor descriptor)
+    private Document start(Descriptors.Descriptor descriptor)
     {
-        final Document inner = join(descriptor.getFields().stream().map(f -> this.build(FieldPathImpl.create(descriptor, f))));
-
-        return inner.isEmpty() ? inner :
-            line(String.format("visitor.start_message_field(\"%s\");", name))
-            .indent(inner)
-            .append(line("visitor.end_message_field();"));
-
+        return join(descriptor.getFields().stream().map(f -> this.build(FieldPathImpl.create(descriptor, f))));
     }
 
     private Document start(FieldPath path, Descriptors.Descriptor descriptor)
