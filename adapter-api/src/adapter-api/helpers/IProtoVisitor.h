@@ -5,6 +5,8 @@
 #include <initializer_list>
 #include <string>
 
+#include "HelperTypedefs.h"
+
 namespace adapter {
 
     /**
@@ -12,6 +14,7 @@ namespace adapter {
      *
      * This is used for both generating default configurations and reading configurations
      */
+    template <class Profile>
     class IProtoVisitor {
 
         public:
@@ -22,6 +25,11 @@ namespace adapter {
          * @param field_name the name of the field inside the message
          */
         virtual void start_message_field(const std::string& field_name) = 0;
+
+        virtual void handle(const std::string& field_name, mv_getter_t<Profile> getter) = 0;
+        virtual void handle(const std::string& field_name, cmv_getter_t<Profile> getter) = 0;
+        virtual void handle(const std::string& field_name, bcr_getter_t<Profile> getter) = 0;
+
 
         /**
          * stop traversing a previously started message field

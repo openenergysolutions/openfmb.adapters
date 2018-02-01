@@ -74,16 +74,6 @@ void convert_message(const commonmodule::ConductingEquipment& in, openfmb::commo
     if(in.has_identifiedobject()) convert_message(in.identifiedobject(), out); // inherited type
 }
 
-void convert_message(const breakermodule::BreakerReadingProfile& in, openfmb::breakermodule::BreakerReadingProfile& out)
-{
-    out.clear();
-    // convert message fields
-    if(in.has_readingmessageinfo()) convert_message(in.readingmessageinfo(), out); // inherited type
-    convert_message(in.breaker(), out.breaker); // required field in DDS
-    convert_message(in.breakerreading(), out.breakerReading); // required field in DDS
-    convert_message(in.ied(), out.ied); // required field in DDS
-}
-
 void convert_message(const commonmodule::ConductingEquipmentTerminalReading& in, openfmb::commonmodule::ConductingEquipmentTerminalReading& out)
 {
     out.clear();
@@ -96,6 +86,13 @@ void convert_message(const commonmodule::Quality& in, openfmb::commonmodule::Qua
     // omitted via configuration
 }
 
+void convert_message(const commonmodule::ENG_CalcMethodKind& in, openfmb::commonmodule::ENG_CalcMethodKind& out)
+{
+    out.clear();
+    // convert primitive fields
+    out.setVal = convert_enum(in.setval());
+}
+
 void convert_message(const breakermodule::BreakerReading& in, openfmb::breakermodule::BreakerReading& out)
 {
     out.clear();
@@ -104,13 +101,6 @@ void convert_message(const breakermodule::BreakerReading& in, openfmb::breakermo
     if(in.has_phasemmtn()) out.phaseMMTN = create_message<openfmb::commonmodule::PhaseMMTN>(in.phasemmtn());
     if(in.has_readingmmtr()) out.readingMMTR = create_message<openfmb::commonmodule::ReadingMMTR>(in.readingmmtr());
     if(in.has_readingmmxu()) out.readingMMXU = create_message<openfmb::commonmodule::ReadingMMXU>(in.readingmmxu());
-}
-
-void convert_message(const commonmodule::ENG_CalcMethodKind& in, openfmb::commonmodule::ENG_CalcMethodKind& out)
-{
-    out.clear();
-    // convert primitive fields
-    out.setVal = convert_enum(in.setval());
 }
 
 void convert_message(const commonmodule::WYE& in, openfmb::commonmodule::WYE& out)
@@ -122,13 +112,6 @@ void convert_message(const commonmodule::WYE& in, openfmb::commonmodule::WYE& ou
     if(in.has_phsa()) out.phsA = create_message<openfmb::commonmodule::CMV>(in.phsa());
     if(in.has_phsb()) out.phsB = create_message<openfmb::commonmodule::CMV>(in.phsb());
     if(in.has_phsc()) out.phsC = create_message<openfmb::commonmodule::CMV>(in.phsc());
-}
-
-void convert_message(const breakermodule::Breaker& in, openfmb::breakermodule::Breaker& out)
-{
-    out.clear();
-    // convert message fields
-    if(in.has_conductingequipment()) convert_message(in.conductingequipment(), out); // inherited type
 }
 
 void convert_message(const commonmodule::PhaseMMTN& in, openfmb::commonmodule::PhaseMMTN& out)
@@ -200,6 +183,16 @@ void convert_message(const commonmodule::ReadingMMTR& in, openfmb::commonmodule:
     if(in.has_totwh()) out.TotWh = create_message<openfmb::commonmodule::BCR>(in.totwh());
 }
 
+void convert_message(const breakermodule::BreakerReadingProfile& in, openfmb::breakermodule::BreakerReadingProfile& out)
+{
+    out.clear();
+    // convert message fields
+    if(in.has_readingmessageinfo()) convert_message(in.readingmessageinfo(), out); // inherited type
+    convert_message(in.breaker(), out.breaker); // required field in DDS
+    convert_message(in.breakerreading(), out.breakerReading); // required field in DDS
+    convert_message(in.ied(), out.ied); // required field in DDS
+}
+
 void convert_message(const commonmodule::Terminal& in, openfmb::commonmodule::Terminal& out)
 {
     out.clear();
@@ -226,6 +219,13 @@ void convert_message(const commonmodule::DEL& in, openfmb::commonmodule::DEL& ou
     if(in.has_phsab()) out.phsAB = create_message<openfmb::commonmodule::CMV>(in.phsab());
     if(in.has_phsbc()) out.phsBC = create_message<openfmb::commonmodule::CMV>(in.phsbc());
     if(in.has_phsca()) out.phsCA = create_message<openfmb::commonmodule::CMV>(in.phsca());
+}
+
+void convert_message(const breakermodule::Breaker& in, openfmb::breakermodule::Breaker& out)
+{
+    out.clear();
+    // convert message fields
+    if(in.has_conductingequipment()) convert_message(in.conductingequipment(), out); // inherited type
 }
 
 void convert_message(const commonmodule::ReadingMMTN& in, openfmb::commonmodule::ReadingMMTN& out)

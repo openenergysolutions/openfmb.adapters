@@ -3,19 +3,19 @@ package com.oes.openfmb;
 import com.oes.openfmb.generation.Artifact;
 import com.oes.openfmb.generation.document.CppFilePair;
 import com.oes.openfmb.generation.proto.AccessorsFile;
+import com.oes.openfmb.generation.proto.MessageVisitorFile;
 import openfmb.resourcemodule.ResourceReadingProfile;
 
 import java.nio.file.Path;
-import java.util.Arrays;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class ProtoHelpers {
+public class MessageVisitors {
 
 
     private static Stream<CppFilePair> files() {
         return Stream.of(
-                new AccessorsFile(
+                new MessageVisitorFile(
                         ResourceReadingProfile.getDescriptor(),
                         "resourcemodule/resourcemodule.pb.h"
                 )

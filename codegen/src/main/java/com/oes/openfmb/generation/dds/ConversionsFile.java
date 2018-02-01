@@ -47,7 +47,7 @@ public class ConversionsFile extends CppFilePair {
 
     @Override
     protected String baseFileName() {
-        return this.baseFileName();
+        return this.className;
     }
 
     @Override

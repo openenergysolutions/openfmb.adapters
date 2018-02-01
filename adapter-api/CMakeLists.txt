@@ -70,11 +70,13 @@ set(API_HEADERS
     src/adapter-api/helpers/HelperTypedefs.h
     src/adapter-api/helpers/IProtoVisitor.h
     src/adapter-api/helpers/generated/ResourceReadingProfileMap.h
+	src/adapter-api/helpers/generated/ResourceReadingProfileVisitor.h
 )
 
 set(API_SOURCES
 	src/adapter-api/util/YAMLUtil.cpp
     src/adapter-api/helpers/generated/ResourceReadingProfileMap.cpp
+	src/adapter-api/helpers/generated/ResourceReadingProfileVisitor.cpp
     src/adapter-api/helpers/HelperTypedefs.h
 )
 

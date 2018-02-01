@@ -39,11 +39,12 @@ public class FieldPathImpl implements FieldPath {
         return String.join(delimiter, names);
     }
 
-    FieldPathImpl push(Descriptors.FieldDescriptor field) {
+    @Override
+    public FieldPath build(Descriptors.FieldDescriptor field) {
         return new FieldPathImpl(root, new Info(this.info.depth + 1, field), this);
     }
 
-    static FieldPathImpl create(Descriptors.Descriptor root, Descriptors.FieldDescriptor field)
+    public static FieldPath create(Descriptors.Descriptor root, Descriptors.FieldDescriptor field)
     {
         return new FieldPathImpl(root, new Info(0, field), null);
     }

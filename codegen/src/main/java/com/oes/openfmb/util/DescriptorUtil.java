@@ -41,7 +41,7 @@ public class DescriptorUtil {
 
         if(message != null) {
 
-            final Consumer<FieldPathImpl> consumer = path -> {
+            final Consumer<FieldPath> consumer = path -> {
                 if(predicate.apply(path.getInfo().field)) paths.add(path);
             };
 
@@ -55,7 +55,7 @@ public class DescriptorUtil {
         return field -> field.getType() == Descriptors.FieldDescriptor.Type.MESSAGE && field.getMessageType().equals(descriptor);
     }
 
-    private static void visit(FieldPathImpl path, Consumer<FieldPathImpl> consumer)
+    private static void visit(FieldPath path, Consumer<FieldPath> consumer)
     {
         consumer.accept(path);
         switch(path.getInfo().field.getType())
@@ -63,7 +63,7 @@ public class DescriptorUtil {
             case MESSAGE:
                 path.getInfo().field.getMessageType().getFields().forEach(f ->
                         visit(
-                                path.push(f),
+                                path.build(f),
                                 consumer
                         )
                 );

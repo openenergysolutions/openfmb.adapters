@@ -12,6 +12,12 @@ namespace adapter {
     using analogue_getter_t = commonmodule::AnalogueValue* (*)(Profile& profile);
 
     template <class Profile>
+    using mv_getter_t = commonmodule::MV* (*)(Profile& profile);
+
+    template <class Profile>
+    using cmv_getter_t = commonmodule::CMV* (*)(Profile& profile);
+
+    template <class Profile>
     using bcr_getter_t = commonmodule::BCR* (*)(Profile& profile);
 
     template <class Profile>

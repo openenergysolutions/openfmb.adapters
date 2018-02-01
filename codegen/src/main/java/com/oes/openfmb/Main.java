@@ -18,6 +18,7 @@ public class Main {
         deleteFolderContents(protoHelperDir.toFile());
         deleteFolderContents(conversionsDir.toFile());
         ProtoHelpers.artifacts(protoHelperDir).forEach(Main::write);
+        MessageVisitors.artifacts(protoHelperDir).forEach(Main::write);
         Conversions.artifacts(conversionsDir).forEach(Main::write);
     }
 
