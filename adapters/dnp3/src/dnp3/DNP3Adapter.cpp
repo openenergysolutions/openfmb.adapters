@@ -7,6 +7,7 @@
 #include <adapter-api/util/YAMLUtil.h>
 
 #include "LogAdapter.h"
+#include "ConfigKeys.h"
 
 using namespace openpal;
 using namespace opendnp3;
@@ -49,7 +50,7 @@ namespace adapter
         config.master.unsolClassMask = ClassField::None();
 
         const auto data_handler = std::make_shared<SOEHandler>(
-                                      yaml::require(node, resourcemodule::ResourceReadingProfile::descriptor()->name()),
+                                      nullptr, // TODO
                                       bus.get_resource_reading_publisher()
                                   );
 

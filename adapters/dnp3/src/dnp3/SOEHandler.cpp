@@ -23,8 +23,8 @@ namespace adapter
         }
     }
 
-    SOEHandler::SOEHandler(const YAML::Node& parent, publisher_t<resourcemodule::ResourceReadingProfile> publisher) :
-        point_map(parent),
+    SOEHandler::SOEHandler(std::unique_ptr<const IProfileMapping<resourcemodule::ResourceReadingProfile>> mapping, publisher_t<resourcemodule::ResourceReadingProfile> publisher) :
+        mapping(std::move(mapping)),
         publisher(publisher)
     {}
 
@@ -39,7 +39,7 @@ namespace adapter
         auto load = [this](const opendnp3::Indexed<opendnp3::Analog>& meas)
         {
 
-            this->rrp_touched |= this->point_map.apply(meas, this->profile);
+            this->rrp_touched |= this->mapping->apply(meas, this->profile);
         };
 
         values.ForeachItem(load);
@@ -50,7 +50,7 @@ namespace adapter
         auto load = [this](const opendnp3::Indexed<opendnp3::Counter>& meas)
         {
 
-            this->rrp_touched |= this->point_map.apply(meas, this->profile);
+            this->rrp_touched |= this->mapping->apply(meas, this->profile);
         };
 
         values.ForeachItem(load);

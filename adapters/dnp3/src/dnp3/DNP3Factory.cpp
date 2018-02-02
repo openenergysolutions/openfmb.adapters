@@ -4,6 +4,7 @@
 #include "DNP3Adapter.h"
 
 #include "adapter-api/helpers/generated/ResourceReadingProfileVisitor.h"
+#include "ConfigKeys.h"
 
 namespace adapter
 {

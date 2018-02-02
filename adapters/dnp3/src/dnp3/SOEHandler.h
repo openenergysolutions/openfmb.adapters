@@ -9,8 +9,7 @@
 
 #include "adapter-api/IMessageBus.h"
 
-#include "PointMap.h"
-#include "adapter-api/helpers/generated/ResourceReadingProfileMap.h"
+#include "IProfileMapping.h"
 
 #include <boost/uuid/random_generator.hpp>
 
@@ -24,7 +23,7 @@ namespace adapter
 
     public:
 
-        SOEHandler(const YAML::Node& parent, publisher_t<resourcemodule::ResourceReadingProfile> publisher);
+        SOEHandler(std::unique_ptr<const IProfileMapping<resourcemodule::ResourceReadingProfile>> mapping, publisher_t<resourcemodule::ResourceReadingProfile> publisher);
 
         virtual void Process(const opendnp3::HeaderInfo& info, const opendnp3::ICollection<opendnp3::Indexed<opendnp3::Binary>>& values) override;
         virtual void Process(const opendnp3::HeaderInfo& info, const opendnp3::ICollection<opendnp3::Indexed<opendnp3::DoubleBitBinary>>& values) override;
@@ -47,7 +46,7 @@ namespace adapter
         boost::uuids::random_generator uuid_generator;
 
 
-        PointMap<ResourceReadingProfileMap> point_map;
+        std::unique_ptr<const IProfileMapping<resourcemodule::ResourceReadingProfile>> mapping;
         resourcemodule::ResourceReadingProfile profile;
         bool rrp_touched = false;
         const publisher_t<resourcemodule::ResourceReadingProfile> publisher;

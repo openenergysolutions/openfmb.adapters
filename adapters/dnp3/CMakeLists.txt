@@ -16,7 +16,7 @@ set(DNP3_SOURCES
         src/dnp3/DNP3Adapter.cpp
         src/dnp3/SOEHandler.cpp
         src/dnp3/LogAdapter.h
-        src/dnp3/ConfigKeys.h)
+        src/dnp3/ConfigKeys.h src/dnp3/IProfileMapping.h)
 
 set(DNP3_LIBS asiodnp3 asiopal opendnp3 openpal)
 
