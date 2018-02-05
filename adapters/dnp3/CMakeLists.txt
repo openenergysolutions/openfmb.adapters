@@ -12,14 +12,14 @@ set(DNP3_HEADERS
         src/dnp3/LogAdapter.h
         src/dnp3/PointMap.h
         src/dnp3/ProfileMapping.h
+        src/dnp3/ProfileMappingReader.h
         src/dnp3/SOEHandler.h
 )
 
 set(DNP3_SOURCES
         src/dnp3/DNP3Factory.cpp
         src/dnp3/DNP3Adapter.cpp
-        src/dnp3/SOEHandler.cpp
-)
+        )
 
 set(DNP3_LIBS asiodnp3 asiopal opendnp3 openpal)
 

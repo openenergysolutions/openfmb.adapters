@@ -10,19 +10,21 @@
 
 #include "adapter-api/helpers/IProtoVisitor.h"
 
-namespace adapter {
+namespace adapter
+{
 
     template<class T>
-    class IProfileMapping {
+    class IProfileMapping
+    {
 
 
     public:
 
         virtual ~IProfileMapping() = default;
 
-        virtual bool set_value(const opendnp3::Indexed<opendnp3::Analog> &meas, T &profile) const = 0;
+        virtual bool set_value(const opendnp3::Indexed<opendnp3::Analog>& meas, T& profile) const = 0;
 
-        virtual bool set_value(const opendnp3::Indexed<opendnp3::Counter> &meas, T &profile) const = 0;
+        virtual bool set_value(const opendnp3::Indexed<opendnp3::Counter>& meas, T& profile) const = 0;
 
     };
 

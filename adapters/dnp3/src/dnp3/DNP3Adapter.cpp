@@ -5,9 +5,11 @@
 #include <asiodnp3/DefaultMasterApplication.h>
 #include <opendnp3/LogLevels.h>
 #include <adapter-api/util/YAMLUtil.h>
+#include <adapter-api/helpers/generated/ResourceReadingProfileVisitor.h>
 
 #include "LogAdapter.h"
 #include "ConfigKeys.h"
+#include "ProfileMappingReader.h"
 
 using namespace openpal;
 using namespace opendnp3;
@@ -50,7 +52,7 @@ namespace adapter
         config.master.unsolClassMask = ClassField::None();
 
         const auto data_handler = std::make_shared<SOEHandler<resourcemodule::ResourceReadingProfile>>(
-                                      nullptr, // TODO
+                                      read_mapping<resourcemodule::ResourceReadingProfile>(node, visit),
                                       bus.get_resource_reading_publisher()
                                   );
 

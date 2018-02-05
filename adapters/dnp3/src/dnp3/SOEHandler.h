@@ -72,8 +72,8 @@ namespace adapter
 
     template <class T>
     SOEHandler<T>::SOEHandler(std::unique_ptr<const IProfileMapping<T>> mapping, publisher_t<T> publisher) :
-            mapping(std::move(mapping)),
-            publisher(publisher)
+        mapping(std::move(mapping)),
+        publisher(publisher)
     {}
 
     template <class T>
@@ -85,7 +85,7 @@ namespace adapter
 
             // mRID is changed whenever we publish a new message
             this->profile.mutable_readingmessageinfo()->mutable_identifiedobject()->set_mrid(
-                    boost::uuids::to_string(uuid)
+                boost::uuids::to_string(uuid)
             );
 
             this->profile_touched = false;

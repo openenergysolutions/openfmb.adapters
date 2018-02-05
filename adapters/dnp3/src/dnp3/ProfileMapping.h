@@ -10,8 +10,9 @@
 
 namespace adapter
 {
+
     template <class T>
-    class ProfileMapping final : public IProfileMapping
+    class ProfileMapping final : public IProfileMapping<T>
     {
 
     public:
@@ -22,13 +23,13 @@ namespace adapter
         template <class U>
         using setter_t = std::function<void (const U& meas, T& profile)>;
 
-        virtual bool apply(const opendnp3::Indexed<opendnp3::Analog>& meas, T& profile) const override;
-        virtual bool apply(const opendnp3::Indexed<opendnp3::Counter>& meas, T& profile) const override;
+        virtual bool set_value(const opendnp3::Indexed<opendnp3::Analog>& meas, T& profile) const override;
+        virtual bool set_value(const opendnp3::Indexed<opendnp3::Counter>& meas, T& profile) const override;
+
+    private:
 
         void add(uint16_t index, const setter_t<opendnp3::Analog>& setter);
         void add(uint16_t index, const setter_t<opendnp3::Counter>& setter);
-
-    private:
 
         std::map<uint16_t, setter_t<opendnp3::Analog>> analog_map;
         std::map<uint16_t, setter_t<opendnp3::Counter>> counter_map;
@@ -36,7 +37,7 @@ namespace adapter
 
 
     template <class T>
-    bool ProfilePointMap<T>::apply(const opendnp3::Indexed<opendnp3::Analog>& meas, T& profile) const
+    bool ProfileMapping<T>::set_value(const opendnp3::Indexed<opendnp3::Analog>& meas, T& profile) const
     {
         auto iter = this->analog_map.find(meas.index);
         if(iter == this->analog_map.end()) return false;
@@ -45,7 +46,7 @@ namespace adapter
     }
 
     template <class T>
-    bool ProfilePointMap<T>::apply(const opendnp3::Indexed<opendnp3::Counter>& meas, T& profile) const
+    bool ProfileMapping<T>::set_value(const opendnp3::Indexed<opendnp3::Counter>& meas, T& profile) const
     {
         auto iter = this->counter_map.find(meas.index);
         if(iter == this->counter_map.end()) return false;
@@ -54,9 +55,9 @@ namespace adapter
     }
 
     template <class T>
-    void ProfilePointMap<T>::add(uint16_t index, const setter_t<opendnp3::Analog>& setter)
+    void ProfileMapping<T>::add(uint16_t index, const setter_t<opendnp3::Analog>& setter)
     {
-        const auto iter = this->analog_map.find(uint16_t);
+        const auto iter = this->analog_map.find(index);
         if(iter == this->analog_map.end())
         {
             throw Exception("Bad configuration, analog index already mapped: ", index);
@@ -68,9 +69,9 @@ namespace adapter
     }
 
     template <class T>
-    void ProfilePointMap<T>::add(uint16_t index, const setter_t<opendnp3::Counter>& setter)
+    void ProfileMapping<T>::add(uint16_t index, const setter_t<opendnp3::Counter>& setter)
     {
-        const auto iter = this->counter_map.find(uint16_t);
+        const auto iter = this->counter_map.find(index);
         if(iter == this->counter_map.end())
         {
             throw Exception("Bad configuration, counter index already mapped: ", index);
