@@ -15,7 +15,6 @@ namespace adapter
 
         typedef std::shared_ptr<asiodnp3::IChannel> channel_t;
         typedef std::shared_ptr<asiodnp3::IMaster> master_t;
-        typedef std::shared_ptr<SOEHandler> data_handler_t;
 
     public:
 
@@ -31,13 +30,7 @@ namespace adapter
 
         void add_master(const YAML::Node& node, IMessageBus& bus);
 
-        struct MasterRecord
-        {
-            data_handler_t data_handler;
-            master_t master;
-        };
-
-        std::vector<MasterRecord> masters;
+        std::vector<master_t> masters;
 
         // --- helper methods for creating resources ---
 

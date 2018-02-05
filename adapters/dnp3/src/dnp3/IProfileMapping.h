@@ -20,9 +20,9 @@ namespace adapter {
 
         virtual ~IProfileMapping() = default;
 
-        virtual bool apply(const opendnp3::Indexed<opendnp3::Analog> &meas, T &profile) const = 0;
+        virtual bool set_value(const opendnp3::Indexed<opendnp3::Analog> &meas, T &profile) const = 0;
 
-        virtual bool apply(const opendnp3::Indexed<opendnp3::Counter> &meas, T &profile) const = 0;
+        virtual bool set_value(const opendnp3::Indexed<opendnp3::Counter> &meas, T &profile) const = 0;
 
     };
 

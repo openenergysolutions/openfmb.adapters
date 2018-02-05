@@ -1,28 +1,12 @@
 #include "SOEHandler.h"
 
-#include <boost/uuid/uuid_io.hpp>
+
 
 
 namespace adapter
 {
-    void SOEHandler::Start() {}
 
-    void SOEHandler::End()
-    {
-        if(this->rrp_touched)
-        {
-            const auto uuid = this->uuid_generator();
-
-            // mRID is changed whenever we publish a new message
-            this->profile.mutable_readingmessageinfo()->mutable_identifiedobject()->set_mrid(
-                boost::uuids::to_string(uuid)
-            );
-
-            this->rrp_touched = false;
-            this->publisher->publish(this->profile);
-        }
-    }
-
+/*
     SOEHandler::SOEHandler(std::unique_ptr<const IProfileMapping<resourcemodule::ResourceReadingProfile>> mapping, publisher_t<resourcemodule::ResourceReadingProfile> publisher) :
         mapping(std::move(mapping)),
         publisher(publisher)
@@ -39,7 +23,7 @@ namespace adapter
         auto load = [this](const opendnp3::Indexed<opendnp3::Analog>& meas)
         {
 
-            this->rrp_touched |= this->mapping->apply(meas, this->profile);
+            this->profile_touched |= this->mapping->set_value(meas, this->profile);
         };
 
         values.ForeachItem(load);
@@ -50,7 +34,7 @@ namespace adapter
         auto load = [this](const opendnp3::Indexed<opendnp3::Counter>& meas)
         {
 
-            this->rrp_touched |= this->mapping->apply(meas, this->profile);
+            this->profile_touched |= this->mapping->set_value(meas, this->profile);
         };
 
         values.ForeachItem(load);
@@ -82,6 +66,7 @@ namespace adapter
 
     void SOEHandler::Process(const opendnp3::HeaderInfo& info, const opendnp3::ICollection<opendnp3::DNPTime>& values)
     {}
+*/
 
 }
 

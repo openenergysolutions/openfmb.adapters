@@ -49,7 +49,7 @@ namespace adapter
         config.master.disableUnsolOnStartup = true;
         config.master.unsolClassMask = ClassField::None();
 
-        const auto data_handler = std::make_shared<SOEHandler>(
+        const auto data_handler = std::make_shared<SOEHandler<resourcemodule::ResourceReadingProfile>>(
                                       nullptr, // TODO
                                       bus.get_resource_reading_publisher()
                                   );
@@ -67,14 +67,14 @@ namespace adapter
             TimeDuration::Milliseconds(yaml::require(protocol, keys::integrity_poll_ms).as<uint32_t>())
         );
 
-        this->masters.push_back(MasterRecord { data_handler : data_handler, master : master });
+        this->masters.push_back(master);
     }
 
     void DNP3Adapter::start()
     {
-        for(auto& record : this->masters)
+        for(auto& master : this->masters)
         {
-            record.master->Enable();
+            master->Enable();
         }
     }
 

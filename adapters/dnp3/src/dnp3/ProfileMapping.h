@@ -1,6 +1,6 @@
 
-#ifndef OPENFMB_ADAPTER_PROFILEPOINTMAP_H
-#define OPENFMB_ADAPTER_PROFILEPOINTMAP_H
+#ifndef OPENFMB_ADAPTER_PROFILEPMAPPING_H
+#define OPENFMB_ADAPTER_PROFILEPMAPPING_H
 
 #include "IProfileMapping.h"
 #include "adapter-api/util/Exception.h"
@@ -11,7 +11,7 @@
 namespace adapter
 {
     template <class T>
-    class ProfilePointMap
+    class ProfileMapping final : public IProfileMapping
     {
 
     public:
@@ -22,8 +22,8 @@ namespace adapter
         template <class U>
         using setter_t = std::function<void (const U& meas, T& profile)>;
 
-        bool apply(const opendnp3::Indexed<opendnp3::Analog>& meas, T& profile) const;
-        bool apply(const opendnp3::Indexed<opendnp3::Counter>& meas, T& profile) const;
+        virtual bool apply(const opendnp3::Indexed<opendnp3::Analog>& meas, T& profile) const override;
+        virtual bool apply(const opendnp3::Indexed<opendnp3::Counter>& meas, T& profile) const override;
 
         void add(uint16_t index, const setter_t<opendnp3::Analog>& setter);
         void add(uint16_t index, const setter_t<opendnp3::Counter>& setter);
@@ -82,4 +82,4 @@ namespace adapter
     }
 }
 
-#endif //OPENFMB_ADAPTER_PROFILEPOINTMAP_H
+#endif //OPENFMB_ADAPTER_PROFILEPMAPPING_H
