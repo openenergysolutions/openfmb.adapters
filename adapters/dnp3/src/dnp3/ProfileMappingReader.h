@@ -129,9 +129,9 @@ namespace adapter
         void configure_cmv(const std::string& field_name, cmv_getter_t<T> getter)
         {
             const YAML::Node vector_node = yaml::require(
-                            this->get_config_node(field_name),
-                            "cVal"
-                    );
+                                               this->get_config_node(field_name),
+                                               "cVal"
+                                           );
 
 
             const YAML::Node mag_node = yaml::require(vector_node, keys::mag);
