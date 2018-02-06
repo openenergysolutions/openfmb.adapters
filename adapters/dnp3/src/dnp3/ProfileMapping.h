@@ -26,10 +26,10 @@ namespace adapter
         virtual bool set_value(const opendnp3::Indexed<opendnp3::Analog>& meas, T& profile) const override;
         virtual bool set_value(const opendnp3::Indexed<opendnp3::Counter>& meas, T& profile) const override;
 
-    private:
-
         void add(uint16_t index, const setter_t<opendnp3::Analog>& setter);
         void add(uint16_t index, const setter_t<opendnp3::Counter>& setter);
+
+    private:
 
         std::map<uint16_t, setter_t<opendnp3::Analog>> analog_map;
         std::map<uint16_t, setter_t<opendnp3::Counter>> counter_map;
@@ -64,7 +64,7 @@ namespace adapter
         }
         else
         {
-            this->analog_map.insert(index, setter);
+            this->analog_map[index] = setter;
         }
     }
 
@@ -78,7 +78,7 @@ namespace adapter
         }
         else
         {
-            this->counter_map.insert(index, setter);
+            this->counter_map[index] = setter;
         }
     }
 }

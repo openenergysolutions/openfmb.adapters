@@ -25,9 +25,17 @@ namespace adapter
         static const char* const outstation_address = "outstation_address";
 
         // mapping
+        static const char* const profile = "profile";
         static const char* const index = "index";
+        static const char* const mag = "mag";
+        static const char* const ang = "ang";
         static const char* const scale = "scale";
+        static const char* const mapped_from = "mapped_from";
         static const char* const unit_symbol_kind = "unit_symbol_kind";
+
+        // enum values for "mapped_from"
+        static const char* const analog = "analog";
+        static const char* const counter = "counter";
     }
 }
 

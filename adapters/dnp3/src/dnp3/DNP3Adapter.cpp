@@ -51,8 +51,10 @@ namespace adapter
         config.master.disableUnsolOnStartup = true;
         config.master.unsolClassMask = ClassField::None();
 
+        const auto profile_node = yaml::require(node, keys::profile);
+
         const auto data_handler = std::make_shared<SOEHandler<resourcemodule::ResourceReadingProfile>>(
-                                      read_mapping<resourcemodule::ResourceReadingProfile>(node, visit),
+                                      read_mapping<resourcemodule::ResourceReadingProfile>(profile_node, visit),
                                       bus.get_resource_reading_publisher()
                                   );
 
