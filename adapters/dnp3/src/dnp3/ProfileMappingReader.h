@@ -27,7 +27,9 @@ namespace adapter
 
         void handle(const std::string& field_name, mv_getter_t<T> getter) override
         {
-            this->configure_scalar_value(field_name, getter);
+            // MV only has a magnitude
+            const auto node = yaml::require(this->get_config_node(field_name), keys::mag);
+            this->configure_scalar_value(node, getter);
         }
 
         void handle(const std::string& field_name, cmv_getter_t<T> getter) override
@@ -37,7 +39,8 @@ namespace adapter
 
         void handle(const std::string& field_name, bcr_getter_t<T> getter) override
         {
-            this->configure_scalar_value(field_name, getter);
+            const auto node = this->get_config_node(field_name);
+            this->configure_scalar_value(node, getter);
         }
 
         void end_message_field() override
@@ -108,10 +111,9 @@ namespace adapter
         }
 
         template <class U>
-        void configure_scalar_value(const std::string& field_name, U getter)
+        void configure_scalar_value(const YAML::Node& node, U getter)
         {
-            const YAML::Node field_node = this->get_config_node(field_name);
-            const int32_t signed_index = yaml::require(field_node, keys::index).as<int32_t>();
+            const int32_t signed_index = yaml::require(node, keys::index).as<int32_t>();
             if(signed_index < 0)
             {
                 return;
@@ -121,14 +123,19 @@ namespace adapter
                 throw Exception("Index exceeds max ushort: ", signed_index);
             }
             // call the specific configuration method
-            this->configure(field_node, static_cast<uint16_t>(signed_index), getter);
+            this->configure(node, static_cast<uint16_t>(signed_index), getter);
         }
 
         void configure_cmv(const std::string& field_name, cmv_getter_t<T> getter)
         {
-            const YAML::Node field_node = this->get_config_node(field_name);
-            const YAML::Node mag_node = yaml::require(field_node, keys::mag);
-            const YAML::Node ang_node = yaml::require(field_node, keys::ang);
+            const YAML::Node vector_node = yaml::require(
+                            this->get_config_node(field_name),
+                            "cVal"
+                    );
+
+
+            const YAML::Node mag_node = yaml::require(vector_node, keys::mag);
+            const YAML::Node ang_node = yaml::require(vector_node, keys::ang);
 
             // independently configure the angle and magnitude
             this->configure_cmv_mag(mag_node, getter);
