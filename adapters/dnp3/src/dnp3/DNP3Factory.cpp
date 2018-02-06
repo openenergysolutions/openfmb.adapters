@@ -48,6 +48,7 @@ namespace adapter
             out << YAML::BeginMap;
             out << YAML::Key << keys::index << -1;
             out << YAML::Key << keys::scale << 1.0;
+            out << YAML::Key << keys::mapped_from << YAML::Value << keys::counter << YAML::Comment("can be 'analog' or 'counter'");
             out << YAML::Key << commonmodule::UnitSymbolKind_descriptor()->name() << commonmodule::UnitSymbolKind_Name(commonmodule::UnitSymbolKind::UnitSymbolKind_none);
             out << YAML::EndMap;
         }

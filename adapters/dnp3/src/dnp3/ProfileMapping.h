@@ -58,7 +58,7 @@ namespace adapter
     void ProfileMapping<T>::add(uint16_t index, const setter_t<opendnp3::Analog>& setter)
     {
         const auto iter = this->analog_map.find(index);
-        if(iter == this->analog_map.end())
+        if(iter != this->analog_map.end())
         {
             throw Exception("Bad configuration, analog index already mapped: ", index);
         }
@@ -72,7 +72,7 @@ namespace adapter
     void ProfileMapping<T>::add(uint16_t index, const setter_t<opendnp3::Counter>& setter)
     {
         const auto iter = this->counter_map.find(index);
-        if(iter == this->counter_map.end())
+        if(iter != this->counter_map.end())
         {
             throw Exception("Bad configuration, counter index already mapped: ", index);
         }
