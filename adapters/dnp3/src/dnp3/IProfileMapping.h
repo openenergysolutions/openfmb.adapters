@@ -22,9 +22,21 @@ namespace adapter
 
         virtual ~IProfileMapping() = default;
 
+        /**
+         * called once, during initialization
+         */
+        virtual void initialize(T& profile) const = 0;
+
+        /**
+         * called just before a message is published
+         */
+        virtual void before_publish(T& profile) const = 0;
+
         virtual bool set_value(const opendnp3::Indexed<opendnp3::Analog>& meas, T& profile) const = 0;
 
         virtual bool set_value(const opendnp3::Indexed<opendnp3::Counter>& meas, T& profile) const = 0;
+
+
 
     };
 

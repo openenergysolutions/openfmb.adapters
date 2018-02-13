@@ -23,16 +23,43 @@ namespace adapter
         template <class U>
         using setter_t = std::function<void (const U& meas, T& profile)>;
 
+        using initializer_t = std::function<void (T& profile)>;
+
+
         virtual bool set_value(const opendnp3::Indexed<opendnp3::Analog>& meas, T& profile) const override;
         virtual bool set_value(const opendnp3::Indexed<opendnp3::Counter>& meas, T& profile) const override;
+        virtual void initialize(T& profile) const override
+        {
+            for(auto& init : this->initializers)
+            {
+                init(profile);
+            }
+        }
+        virtual void before_publish(T& profile) const override
+        {
+            for(auto& init : this->before_publish_initializers)
+            {
+                init(profile);
+            }
+        }
 
         void add(uint16_t index, const setter_t<opendnp3::Analog>& setter);
         void add(uint16_t index, const setter_t<opendnp3::Counter>& setter);
+        void add_one_time_initializer(const initializer_t& initializer)
+        {
+            this->initializers.push_back(initializer);
+        }
+        void add_before_publish_initializer(const initializer_t& initializer)
+        {
+            this->initializers.push_back(initializer);
+        }
 
     private:
 
         std::map<uint16_t, setter_t<opendnp3::Analog>> analog_map;
         std::map<uint16_t, setter_t<opendnp3::Counter>> counter_map;
+        std::vector<initializer_t> initializers;
+        std::vector<initializer_t> before_publish_initializers;
     };
 
 

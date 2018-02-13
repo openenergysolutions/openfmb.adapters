@@ -31,6 +31,13 @@ namespace adapter
         static const char* const ang = "ang";
         static const char* const scale = "scale";
         static const char* const mapped_from = "mapped_from";
+        static const char* const application_name = "applicationName";
+        static const char* const identified_object = "identifiedObject";
+        static const char* const description = "description";
+        static const char* const mRID = "mRID";
+        static const char* const default_uuid = "00000000-0000-0000-0000-000000000000";
+        static const char* const set_val = "setVal";
+
         static const char* const unit_symbol_kind = "unit_symbol_kind";
 
         // enum values for "mapped_from"

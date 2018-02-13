@@ -55,27 +55,42 @@ namespace adapter
 
         void handle(const std::string& field_name, getter_t<commonmodule::ReadingMessageInfo, T> getter) override
         {
-            // TODO
+            out << YAML::Key << field_name << YAML::Comment("ReadingMessageInfo - the mRID is set dynamically");
+            out << YAML::BeginMap;
+            out << YAML::Key << keys::identified_object;
+            out << YAML::BeginMap;
+            out << YAML::Value <<  keys::description << YAML::Value << "default";
+            out << YAML::Value <<  keys::name << YAML::Value << "default";
+            out << YAML::EndMap;
+            out << YAML::Key << keys::application_name << YAML::Value << "default";
+            out << YAML::EndMap;
         }
 
         void handle(const std::string& field_name, getter_t<commonmodule::IdentifiedObject, T> getter) override
         {
-            // TODO
+            this->write_identified_object(field_name);
         }
 
         void handle(const std::string& field_name, getter_t<commonmodule::ConductingEquipmentTerminalReading, T> getter) override
         {
-            // TODO
+            // don't do anything until we understand how to set these fields
         }
 
         void handle(const std::string& field_name, getter_t<commonmodule::LogicalNode, T> getter) override
         {
-            // TODO
+            out << YAML::Key << field_name;
+            out << YAML::BeginMap;
+            this->write_identified_object(keys::identified_object);
+            out << YAML::EndMap;
         }
 
         void handle(const std::string& field_name, getter_t<commonmodule::ENG_CalcMethodKind, T> getter) override
         {
-            // TODO
+            out << YAML::Key << field_name;
+            out << YAML::BeginMap;
+            // TODO - what should be the default here?
+            out << YAML::Key << keys::set_val << YAML::Value << commonmodule::CalcMethodKind_Name(commonmodule::CalcMethodKind::CalcMethodKind_M_CLASS);
+            out << YAML::EndMap;
         }
 
         void end_message_field() override
@@ -84,6 +99,17 @@ namespace adapter
         }
 
     private:
+
+        void write_identified_object(const std::string& field_name)
+        {
+            out << YAML::Key << field_name;
+            out << YAML::BeginMap;
+            out << YAML::Value <<  keys::description << YAML::Value << "default";
+            out << YAML::Value <<  keys::mRID << YAML::Value << keys::default_uuid << YAML::Comment("set me");
+            out << YAML::Value <<  keys::name << YAML::Value << "default";
+            out << YAML::EndMap;
+        }
+
         void write_analogue_config(const std::string& name)
         {
             out << YAML::Key << name;

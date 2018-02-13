@@ -6,6 +6,11 @@
 
 #include <deque>
 #include <cstdint>
+#include <memory>
+
+#include <boost/uuid/random_generator.hpp>
+#include <boost/uuid/uuid_io.hpp>
+
 
 namespace adapter
 {
@@ -45,6 +50,15 @@ namespace adapter
 
         void handle(const std::string& field_name, getter_t<commonmodule::ReadingMessageInfo, T> getter) override
         {
+            const auto node = this->get_config_node(field_name);
+
+            this->mapping.add_before_publish_initializer(
+                // we generate a new UUID for every message
+                [getter, generator = this->generator](T & profile) -> void
+            {
+                getter(profile)->mutable_identifiedobject()->set_mrid(boost::uuids::to_string((*generator)()));
+            }
+            );
 
         }
 
@@ -223,6 +237,8 @@ namespace adapter
 
         const YAML::Node root;
         ProfileMapping<T>& mapping;
+
+        const std::shared_ptr<boost::uuids::random_generator> generator = std::make_shared<boost::uuids::random_generator>();
     };
 
 

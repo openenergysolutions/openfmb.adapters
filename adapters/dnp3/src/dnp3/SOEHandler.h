@@ -8,9 +8,6 @@
 
 #include "IProfileMapping.h"
 
-#include <boost/uuid/random_generator.hpp>
-#include <boost/uuid/uuid_io.hpp>
-
 namespace adapter
 {
 
@@ -61,9 +58,6 @@ namespace adapter
         template <class U>
         void ProcessAny(const opendnp3::ICollection<opendnp3::Indexed<U>>& values);
 
-        boost::uuids::random_generator uuid_generator;
-
-
         std::unique_ptr<const IProfileMapping<T>> mapping;
         T profile;
         bool profile_touched = false;
@@ -74,21 +68,17 @@ namespace adapter
     SOEHandler<T>::SOEHandler(std::unique_ptr<const IProfileMapping<T>> mapping, publisher_t<T> publisher) :
         mapping(std::move(mapping)),
         publisher(publisher)
-    {}
+    {
+        this->mapping->initialize(this->profile);
+    }
 
     template <class T>
     void SOEHandler<T>::End()
     {
         if(this->profile_touched)
         {
-            const auto uuid = this->uuid_generator();
-
-            // mRID is changed whenever we publish a new message
-            this->profile.mutable_readingmessageinfo()->mutable_identifiedobject()->set_mrid(
-                boost::uuids::to_string(uuid)
-            );
-
             this->profile_touched = false;
+            this->mapping->before_publish(this->profile);
             this->publisher->publish(this->profile);
         }
     }
