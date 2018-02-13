@@ -56,7 +56,8 @@ namespace adapter
                 // we generate a new UUID for every message
                 [getter, generator = this->generator](T & profile) -> void
             {
-                getter(profile)->mutable_identifiedobject()->set_mrid(boost::uuids::to_string((*generator)()));
+                const auto uuid = (*generator)();
+                getter(profile)->mutable_identifiedobject()->set_mrid(boost::uuids::to_string(uuid));
             }
             );
 

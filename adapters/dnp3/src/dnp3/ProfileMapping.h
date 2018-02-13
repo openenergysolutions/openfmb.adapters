@@ -51,7 +51,7 @@ namespace adapter
         }
         void add_before_publish_initializer(const initializer_t& initializer)
         {
-            this->initializers.push_back(initializer);
+            this->before_publish_initializers.push_back(initializer);
         }
 
     private:
