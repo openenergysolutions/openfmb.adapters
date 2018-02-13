@@ -150,8 +150,6 @@ int write_config(const std::string& config_file_path)
     out << YAML::EndMap;
     out << YAML::EndDoc;
 
-    cout << out.c_str() << endl;
-
     std::ofstream output_file(config_file_path);
     output_file << out.c_str();
     output_file << endl;

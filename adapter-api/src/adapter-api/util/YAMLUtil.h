@@ -23,15 +23,6 @@ namespace adapter
         }
 
         template <class Action>
-        void if_present(const YAML::Node& parent, const std::string& key, const Action& action)
-        {
-            if(parent[key])
-            {
-                action(parent[key]);
-            }
-        }
-
-        template <class Action>
         void foreach(const YAML::Node& parent, const Action& action)
         {
             if(!parent) return;
@@ -45,7 +36,16 @@ namespace adapter
         template <class E>
         E parse_enum_value(const YAML::Node& parent, const ::google::protobuf::EnumDescriptor* descriptor, bool (parser)(const std::string&, E*))
         {
-            const auto string_value = yaml::require(parent, descriptor->name()).as<std::string>();
+            return parse_enum_value(
+                       yaml::require_string(parent, descriptor->name()),
+                       descriptor,
+                       parser
+                   );
+        }
+
+        template <class E>
+        E parse_enum_value(const std::string& string_value, const ::google::protobuf::EnumDescriptor* descriptor, bool (parser)(const std::string&, E*))
+        {
             E ret;
             if(!parser(string_value, &ret))
             {
@@ -53,6 +53,8 @@ namespace adapter
             }
             return ret;
         }
+
+
     }
 }
 

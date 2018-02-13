@@ -25,7 +25,7 @@ namespace adapter
         /**
          * called once, during initialization
          */
-        virtual void initialize(T& profile) const = 0;
+        virtual void initialize(T& profile) = 0;
 
         /**
          * called just before a message is published

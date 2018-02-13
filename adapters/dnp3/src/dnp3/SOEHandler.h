@@ -19,7 +19,7 @@ namespace adapter
 
     public:
 
-        SOEHandler(std::unique_ptr<const IProfileMapping<T>> mapping, publisher_t<T> publisher);
+        SOEHandler(std::unique_ptr<IProfileMapping<T>> mapping, publisher_t<T> publisher);
 
         virtual void Process(const opendnp3::HeaderInfo& info, const opendnp3::ICollection<opendnp3::Indexed<opendnp3::Binary>>& values) override {}
 
@@ -58,14 +58,14 @@ namespace adapter
         template <class U>
         void ProcessAny(const opendnp3::ICollection<opendnp3::Indexed<U>>& values);
 
-        std::unique_ptr<const IProfileMapping<T>> mapping;
+        std::unique_ptr<IProfileMapping<T>> mapping;
         T profile;
         bool profile_touched = false;
         const publisher_t<T> publisher;
     };
 
     template <class T>
-    SOEHandler<T>::SOEHandler(std::unique_ptr<const IProfileMapping<T>> mapping, publisher_t<T> publisher) :
+    SOEHandler<T>::SOEHandler(std::unique_ptr<IProfileMapping<T>> mapping, publisher_t<T> publisher) :
         mapping(std::move(mapping)),
         publisher(publisher)
     {
