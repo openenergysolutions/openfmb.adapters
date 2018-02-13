@@ -4,14 +4,30 @@ namespace adapter {
 
 void visit(IProtoVisitor<resourcemodule::ResourceReadingProfile>& visitor)
 {
-    /*
     visitor.handle("readingMessageInfo", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::ReadingMessageInfo* {
         return profile.mutable_readingmessageinfo();
     });
-    */
+    visitor.start_message_field("ied");
+        visitor.handle("identifiedObject", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::IdentifiedObject* {
+            return profile.mutable_ied()->mutable_identifiedobject();
+        });
+    visitor.end_message_field();
+    visitor.start_message_field("meter");
+        visitor.start_message_field("conductingEquipment");
+            visitor.handle("identifiedObject", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::IdentifiedObject* {
+                return profile.mutable_meter()->mutable_conductingequipment()->mutable_identifiedobject();
+            });
+        visitor.end_message_field();
+    visitor.end_message_field();
     visitor.start_message_field("resourceReading");
+        visitor.handle("conductingEquipmentTerminalReading", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::ConductingEquipmentTerminalReading* {
+            return profile.mutable_resourcereading()->mutable_conductingequipmentterminalreading();
+        });
         visitor.start_message_field("phaseMMTN");
             visitor.start_message_field("phsA");
+                visitor.handle("logicalNode", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::LogicalNode* {
+                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsa()->mutable_logicalnode();
+                });
                 visitor.handle("DmdVAh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
                     return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsa()->mutable_dmdvah();
                 });
@@ -41,6 +57,9 @@ void visit(IProtoVisitor<resourcemodule::ResourceReadingProfile>& visitor)
                 });
             visitor.end_message_field();
             visitor.start_message_field("phsAB");
+                visitor.handle("logicalNode", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::LogicalNode* {
+                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsab()->mutable_logicalnode();
+                });
                 visitor.handle("DmdVAh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
                     return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsab()->mutable_dmdvah();
                 });
@@ -70,6 +89,9 @@ void visit(IProtoVisitor<resourcemodule::ResourceReadingProfile>& visitor)
                 });
             visitor.end_message_field();
             visitor.start_message_field("phsB");
+                visitor.handle("logicalNode", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::LogicalNode* {
+                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsb()->mutable_logicalnode();
+                });
                 visitor.handle("DmdVAh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
                     return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsb()->mutable_dmdvah();
                 });
@@ -99,6 +121,9 @@ void visit(IProtoVisitor<resourcemodule::ResourceReadingProfile>& visitor)
                 });
             visitor.end_message_field();
             visitor.start_message_field("phsBC");
+                visitor.handle("logicalNode", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::LogicalNode* {
+                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsbc()->mutable_logicalnode();
+                });
                 visitor.handle("DmdVAh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
                     return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsbc()->mutable_dmdvah();
                 });
@@ -128,6 +153,9 @@ void visit(IProtoVisitor<resourcemodule::ResourceReadingProfile>& visitor)
                 });
             visitor.end_message_field();
             visitor.start_message_field("phsC");
+                visitor.handle("logicalNode", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::LogicalNode* {
+                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsc()->mutable_logicalnode();
+                });
                 visitor.handle("DmdVAh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
                     return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsc()->mutable_dmdvah();
                 });
@@ -157,6 +185,9 @@ void visit(IProtoVisitor<resourcemodule::ResourceReadingProfile>& visitor)
                 });
             visitor.end_message_field();
             visitor.start_message_field("phsCA");
+                visitor.handle("logicalNode", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::LogicalNode* {
+                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsca()->mutable_logicalnode();
+                });
                 visitor.handle("DmdVAh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
                     return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsca()->mutable_dmdvah();
                 });
@@ -187,6 +218,9 @@ void visit(IProtoVisitor<resourcemodule::ResourceReadingProfile>& visitor)
             visitor.end_message_field();
         visitor.end_message_field();
         visitor.start_message_field("readingMMTR");
+            visitor.handle("logicalNode", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::LogicalNode* {
+                return profile.mutable_resourcereading()->mutable_readingmmtr()->mutable_logicalnode();
+            });
             visitor.handle("DmdVAh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
                 return profile.mutable_resourcereading()->mutable_readingmmtr()->mutable_dmdvah();
             });
@@ -216,6 +250,9 @@ void visit(IProtoVisitor<resourcemodule::ResourceReadingProfile>& visitor)
             });
         visitor.end_message_field();
         visitor.start_message_field("readingMMXU");
+            visitor.handle("logicalNode", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::LogicalNode* {
+                return profile.mutable_resourcereading()->mutable_readingmmxu()->mutable_logicalnode();
+            });
             visitor.start_message_field("A");
                 visitor.handle("net", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::CMV* {
                     return profile.mutable_resourcereading()->mutable_readingmmxu()->mutable_a()->mutable_net();
@@ -233,6 +270,9 @@ void visit(IProtoVisitor<resourcemodule::ResourceReadingProfile>& visitor)
                     return profile.mutable_resourcereading()->mutable_readingmmxu()->mutable_a()->mutable_phsc();
                 });
             visitor.end_message_field();
+            visitor.handle("ClcMth", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::ENG_CalcMethodKind* {
+                return profile.mutable_resourcereading()->mutable_readingmmxu()->mutable_clcmth();
+            });
             visitor.handle("Hz", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::MV* {
                 return profile.mutable_resourcereading()->mutable_readingmmxu()->mutable_hz();
             });

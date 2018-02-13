@@ -29,10 +29,19 @@ namespace adapter {
          */
         virtual void start_message_field(const std::string& field_name) = 0;
 
+        /// --- handlers for measurement types ---
+
         virtual void handle(const std::string& field_name, getter_t<commonmodule::MV, Profile> getter) = 0;
         virtual void handle(const std::string& field_name, getter_t<commonmodule::CMV, Profile> getter) = 0;
         virtual void handle(const std::string& field_name, getter_t<commonmodule::BCR, Profile> getter) = 0;
 
+        /// --- handlers for other types of fields ---
+
+        virtual void handle(const std::string& field_name, getter_t<commonmodule::ReadingMessageInfo, Profile> getter) = 0;
+        virtual void handle(const std::string& field_name, getter_t<commonmodule::IdentifiedObject, Profile> getter) = 0;
+        virtual void handle(const std::string& field_name, getter_t<commonmodule::ConductingEquipmentTerminalReading, Profile> getter) = 0;
+        virtual void handle(const std::string& field_name, getter_t<commonmodule::LogicalNode, Profile> getter) = 0;
+        virtual void handle(const std::string& field_name, getter_t<commonmodule::ENG_CalcMethodKind, Profile> getter) = 0;
 
         /**
          * stop traversing a previously started message field

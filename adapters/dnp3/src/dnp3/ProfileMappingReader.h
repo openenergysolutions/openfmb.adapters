@@ -43,6 +43,31 @@ namespace adapter
             this->configure_scalar_value(node, getter);
         }
 
+        void handle(const std::string& field_name, getter_t<commonmodule::ReadingMessageInfo, T> getter) override
+        {
+
+        }
+
+        void handle(const std::string& field_name, getter_t<commonmodule::IdentifiedObject, T> getter) override
+        {
+
+        }
+
+        void handle(const std::string& field_name, getter_t<commonmodule::ConductingEquipmentTerminalReading, T> getter) override
+        {
+
+        }
+
+        void handle(const std::string& field_name, getter_t<commonmodule::LogicalNode, T> getter) override
+        {
+
+        }
+
+        void handle(const std::string& field_name, getter_t<commonmodule::ENG_CalcMethodKind, T> getter) override
+        {
+
+        }
+
         void end_message_field() override
         {
             this->path.pop_back();

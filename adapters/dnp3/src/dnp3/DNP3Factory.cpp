@@ -53,6 +53,31 @@ namespace adapter
             out << YAML::EndMap;
         }
 
+        void handle(const std::string& field_name, getter_t<commonmodule::ReadingMessageInfo, T> getter) override
+        {
+            // TODO
+        }
+
+        void handle(const std::string& field_name, getter_t<commonmodule::IdentifiedObject, T> getter) override
+        {
+            // TODO
+        }
+
+        void handle(const std::string& field_name, getter_t<commonmodule::ConductingEquipmentTerminalReading, T> getter) override
+        {
+            // TODO
+        }
+
+        void handle(const std::string& field_name, getter_t<commonmodule::LogicalNode, T> getter) override
+        {
+            // TODO
+        }
+
+        void handle(const std::string& field_name, getter_t<commonmodule::ENG_CalcMethodKind, T> getter) override
+        {
+            // TODO
+        }
+
         void end_message_field() override
         {
             out << YAML::EndMap;

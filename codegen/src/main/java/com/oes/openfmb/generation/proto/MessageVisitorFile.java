@@ -139,19 +139,19 @@ public class MessageVisitorFile extends CppFilePair {
         }
         else if(message.equals(ConductingEquipmentTerminalReading.getDescriptor()))
         {
-            return Documents.empty;
+            return handler(path, message.getName());
         }
         else if(message.equals(LogicalNode.getDescriptor()))
         {
-            return Documents.empty;
+            return handler(path, message.getName());
         }
         else if(message.equals(ENG_CalcMethodKind.getDescriptor()))
         {
-            return Documents.empty;
+            return handler(path, message.getName());
         }
         else if(message.equals(IdentifiedObject.getDescriptor()))
         {
-            return Documents.empty;
+            return handler(path, message.getName());
         }
         else
         {
