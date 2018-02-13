@@ -67,7 +67,6 @@ set(API_HEADERS
     src/adapter-api/util/Exception.h
     src/adapter-api/util/StringUtil.h
     src/adapter-api/util/YAMLUtil.h
-    src/adapter-api/helpers/HelperTypedefs.h
     src/adapter-api/helpers/IProtoVisitor.h
 	src/adapter-api/helpers/generated/MessageVisitors.h
 )
@@ -75,7 +74,6 @@ set(API_HEADERS
 set(API_SOURCES
 	src/adapter-api/util/YAMLUtil.cpp
 	src/adapter-api/helpers/generated/MessageVisitors.cpp
-    src/adapter-api/helpers/HelperTypedefs.h
 )
 
 

@@ -2,12 +2,14 @@
 #ifndef OPENFMB_ADAPTER_IPROTOVISITOR_H
 #define OPENFMB_ADAPTER_IPROTOVISITOR_H
 
-#include <initializer_list>
+#include "commonmodule/commonmodule.pb.h"
+
 #include <string>
 
-#include "HelperTypedefs.h"
-
 namespace adapter {
+
+    template <class Type, class Profile>
+    using getter_t = Type* (*)(Profile& profile);
 
     /**
      * A callback class used to traverse an openFMB protobuf message hierarchy
@@ -18,6 +20,7 @@ namespace adapter {
     class IProtoVisitor {
 
         public:
+
 
         /**
          * start traversing a message field
