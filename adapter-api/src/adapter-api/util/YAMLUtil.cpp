@@ -14,6 +14,11 @@ namespace adapter
             }
             return child;
         }
+
+        std::string require_string(const YAML::Node& parent, const std::string& key)
+        {
+            return require(parent, key).as<std::string>();
+        }
     }
 }
 

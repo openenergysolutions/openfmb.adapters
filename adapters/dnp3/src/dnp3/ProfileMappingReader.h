@@ -51,6 +51,20 @@ namespace adapter
         void handle(const std::string& field_name, getter_t<commonmodule::ReadingMessageInfo, T> getter) override
         {
             const auto node = this->get_config_node(field_name);
+            const auto ioNode = yaml::require(node, keys::identified_object);
+
+            this->mapping.add_one_time_initializer(
+                    [ getter,
+                      appName = yaml::require_string(node, keys::application_name),
+                      name = yaml::require_string(ioNode, keys::name),
+                      description = yaml::require_string(ioNode, keys::description)
+                    ](T& profile) -> void
+                    {
+                        getter(profile)->set_applicationname(appName);
+                        getter(profile)->mutable_identifiedobject()->set_name(name);
+                        getter(profile)->mutable_identifiedobject()->set_description(description);
+                    }
+            );
 
             this->mapping.add_before_publish_initializer(
                 // we generate a new UUID for every message

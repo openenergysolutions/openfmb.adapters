@@ -13,6 +13,8 @@ namespace adapter
 
         YAML::Node require(const YAML::Node& parent, const std::string& key);
 
+        std::string require_string(const YAML::Node& parent, const std::string& key);
+
         template <class T>
         T with_default(const YAML::Node& node, const T& default_value)
         {
