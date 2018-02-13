@@ -6,9 +6,7 @@ import com.oes.openfmb.generation.document.Document;
 import com.oes.openfmb.generation.document.Documents;
 import com.oes.openfmb.generation.document.FileHeader;
 import com.oes.openfmb.util.FieldPathImpl;
-import openfmb.commonmodule.BCR;
-import openfmb.commonmodule.CMV;
-import openfmb.commonmodule.MV;
+import openfmb.commonmodule.*;
 
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -106,8 +104,18 @@ public class MessageVisitorFile extends CppFilePair {
         {
             case MESSAGE:
                 return build(path, path.getInfo().field.getMessageType());
+            case STRING:
+                if(path.getInfo().field.getName().equals("description"))
+                {
+                    return Documents.empty;
+                }
+                else
+                {
+                    throw new RuntimeException("Unknown string field: " + path);
+                }
+
             default:
-                return empty;
+                throw new RuntimeException("Unknown leaf node: " + path);
         }
     }
 
@@ -124,6 +132,26 @@ public class MessageVisitorFile extends CppFilePair {
         else if(message.equals(BCR.getDescriptor()))
         {
             return handler(path, message.getName());
+        }
+        else if(message.equals(ReadingMessageInfo.getDescriptor()))
+        {
+            return handler(path, message.getName());
+        }
+        else if(message.equals(ConductingEquipmentTerminalReading.getDescriptor()))
+        {
+            return Documents.empty;
+        }
+        else if(message.equals(LogicalNode.getDescriptor()))
+        {
+            return Documents.empty;
+        }
+        else if(message.equals(ENG_CalcMethodKind.getDescriptor()))
+        {
+            return Documents.empty;
+        }
+        else if(message.equals(IdentifiedObject.getDescriptor()))
+        {
+            return Documents.empty;
         }
         else
         {

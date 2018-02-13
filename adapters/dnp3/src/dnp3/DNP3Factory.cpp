@@ -22,7 +22,7 @@ namespace adapter
             out << YAML::BeginMap;
         }
 
-        void handle(const std::string& field_name, mv_getter_t<T> getter) override
+        void handle(const std::string& field_name, getter_t<commonmodule::MV, T> getter) override
         {
             out << YAML::Key << field_name << YAML::Comment("MV");
             out << YAML::BeginMap;
@@ -30,7 +30,7 @@ namespace adapter
             out << YAML::EndMap;
         }
 
-        void handle(const std::string& field_name, cmv_getter_t<T> getter) override
+        void handle(const std::string& field_name, getter_t<commonmodule::CMV, T> getter) override
         {
             out << YAML::Key << field_name << YAML::Comment("CMV");
             out << YAML::BeginMap << "cVal";
@@ -42,7 +42,7 @@ namespace adapter
 
         }
 
-        void handle(const std::string& field_name, bcr_getter_t<T> getter) override
+        void handle(const std::string& field_name, getter_t<commonmodule::BCR, T> getter) override
         {
             out << YAML::Key << field_name << YAML::Comment("BCR");
             out << YAML::BeginMap;

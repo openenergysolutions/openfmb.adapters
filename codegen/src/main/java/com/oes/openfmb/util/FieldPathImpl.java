@@ -15,6 +15,12 @@ public class FieldPathImpl implements FieldPath {
     private final FieldPathImpl parent;
 
     @Override
+    public String toString()
+    {
+        return this.getPathString(".");
+    }
+
+    @Override
     public Descriptors.Descriptor getRoot() {
         return this.root;
     }

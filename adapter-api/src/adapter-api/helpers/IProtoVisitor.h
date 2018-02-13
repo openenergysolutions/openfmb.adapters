@@ -26,9 +26,9 @@ namespace adapter {
          */
         virtual void start_message_field(const std::string& field_name) = 0;
 
-        virtual void handle(const std::string& field_name, mv_getter_t<Profile> getter) = 0;
-        virtual void handle(const std::string& field_name, cmv_getter_t<Profile> getter) = 0;
-        virtual void handle(const std::string& field_name, bcr_getter_t<Profile> getter) = 0;
+        virtual void handle(const std::string& field_name, getter_t<commonmodule::MV, Profile> getter) = 0;
+        virtual void handle(const std::string& field_name, getter_t<commonmodule::CMV, Profile> getter) = 0;
+        virtual void handle(const std::string& field_name, getter_t<commonmodule::BCR, Profile> getter) = 0;
 
 
         /**

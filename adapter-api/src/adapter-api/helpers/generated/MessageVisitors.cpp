@@ -4,6 +4,11 @@ namespace adapter {
 
 void visit(IProtoVisitor<resourcemodule::ResourceReadingProfile>& visitor)
 {
+    /*
+    visitor.handle("readingMessageInfo", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::ReadingMessageInfo* {
+        return profile.mutable_readingmessageinfo();
+    });
+    */
     visitor.start_message_field("resourceReading");
         visitor.start_message_field("phaseMMTN");
             visitor.start_message_field("phsA");

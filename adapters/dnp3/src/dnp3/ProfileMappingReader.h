@@ -25,19 +25,19 @@ namespace adapter
             this->path.push_back(field_name);
         }
 
-        void handle(const std::string& field_name, mv_getter_t<T> getter) override
+        void handle(const std::string& field_name, getter_t<commonmodule::MV, T> getter) override
         {
             // MV only has a magnitude
             const auto node = yaml::require(this->get_config_node(field_name), keys::mag);
             this->configure_scalar_value(node, getter);
         }
 
-        void handle(const std::string& field_name, cmv_getter_t<T> getter) override
+        void handle(const std::string& field_name, getter_t<commonmodule::CMV, T> getter) override
         {
             this->configure_cmv(field_name, getter);
         }
 
-        void handle(const std::string& field_name, bcr_getter_t<T> getter) override
+        void handle(const std::string& field_name, getter_t<commonmodule::BCR, T> getter) override
         {
             const auto node = this->get_config_node(field_name);
             this->configure_scalar_value(node, getter);
@@ -50,7 +50,7 @@ namespace adapter
 
     private:
 
-        void configure(const YAML::Node& node, uint16_t index, mv_getter_t<T> getter)
+        void configure(const YAML::Node& node, uint16_t index, getter_t<commonmodule::MV, T> getter)
         {
             const auto setter = [scale = get_scale(node), getter](const opendnp3::Analog & meas, T & profile)
             {
@@ -61,7 +61,7 @@ namespace adapter
             this->mapping.add(index, setter);
         }
 
-        void configure(const YAML::Node& node, uint16_t index, bcr_getter_t<T> getter)
+        void configure(const YAML::Node& node, uint16_t index, getter_t<commonmodule::BCR, T> getter)
         {
             // need the scale regardless of mapping
             const auto scale = get_scale(node);
@@ -82,7 +82,7 @@ namespace adapter
             }
         }
 
-        void configure_analog(const YAML::Node& node, uint16_t index, double scale, bcr_getter_t<T> getter)
+        void configure_analog(const YAML::Node& node, uint16_t index, double scale, getter_t<commonmodule::BCR, T> getter)
         {
             const auto setter = [scale = get_scale(node), getter](const opendnp3::Analog & meas, T & profile)
             {
@@ -93,7 +93,7 @@ namespace adapter
             this->mapping.add(index, setter);
         }
 
-        void configure_counter(const YAML::Node& node, uint16_t index, double scale, bcr_getter_t<T> getter)
+        void configure_counter(const YAML::Node& node, uint16_t index, double scale, getter_t<commonmodule::BCR, T> getter)
         {
 
             const auto setter = [scale = get_scale(node), getter](const opendnp3::Counter & meas, T & profile)
@@ -126,7 +126,7 @@ namespace adapter
             this->configure(node, static_cast<uint16_t>(signed_index), getter);
         }
 
-        void configure_cmv(const std::string& field_name, cmv_getter_t<T> getter)
+        void configure_cmv(const std::string& field_name, getter_t<commonmodule::CMV, T> getter)
         {
             const YAML::Node vector_node = yaml::require(
                                                this->get_config_node(field_name),
@@ -142,7 +142,7 @@ namespace adapter
             this->configure_cmv_ang(ang_node, getter);
         }
 
-        void configure_cmv_ang(const YAML::Node& node, cmv_getter_t<T> getter)
+        void configure_cmv_ang(const YAML::Node& node, getter_t<commonmodule::CMV, T> getter)
         {
             const int32_t signed_index = yaml::require(node, keys::index).as<int32_t>();
             if(signed_index < 0)
@@ -163,7 +163,7 @@ namespace adapter
             this->mapping.add(static_cast<uint16_t>(signed_index), setter);
         }
 
-        void configure_cmv_mag(const YAML::Node& node, cmv_getter_t<T> getter)
+        void configure_cmv_mag(const YAML::Node& node, getter_t<commonmodule::CMV, T> getter)
         {
             const int32_t signed_index = yaml::require(node, keys::index).as<int32_t>();
             if(signed_index < 0)
