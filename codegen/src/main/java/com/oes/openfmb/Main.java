@@ -11,13 +11,13 @@ import java.nio.file.Paths;
 
 public class Main {
 
-    final static Path protoHelperDir = Paths.get("../adapter-api/src/adapter-api/helpers/generated");
+    final static Path visitorDir = Paths.get("../adapter-api/src/adapter-api/helpers/generated");
     final static Path conversionsDir = Paths.get("../adapters/dds/twinoaks/src/twinoaks/generated/");
 
     public static void main(String[] args) {
-        deleteFolderContents(protoHelperDir.toFile());
+        deleteFolderContents(visitorDir.toFile());
         deleteFolderContents(conversionsDir.toFile());
-        MessageVisitors.artifacts(protoHelperDir).forEach(Main::write);
+        MessageVisitors.artifacts(visitorDir).forEach(Main::write);
         Conversions.artifacts(conversionsDir).forEach(Main::write);
     }
 

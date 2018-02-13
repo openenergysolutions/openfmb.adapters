@@ -69,12 +69,12 @@ set(API_HEADERS
     src/adapter-api/util/YAMLUtil.h
     src/adapter-api/helpers/HelperTypedefs.h
     src/adapter-api/helpers/IProtoVisitor.h
-	src/adapter-api/helpers/generated/ResourceReadingProfileVisitor.h
+	src/adapter-api/helpers/generated/MessageVisitors.h
 )
 
 set(API_SOURCES
 	src/adapter-api/util/YAMLUtil.cpp
-	src/adapter-api/helpers/generated/ResourceReadingProfileVisitor.cpp
+	src/adapter-api/helpers/generated/MessageVisitors.cpp
     src/adapter-api/helpers/HelperTypedefs.h
 )
 

@@ -3,7 +3,7 @@
 
 #include "DNP3Adapter.h"
 
-#include "adapter-api/helpers/generated/ResourceReadingProfileVisitor.h"
+#include "adapter-api/helpers/generated/MessageVisitors.h"
 #include "ConfigKeys.h"
 
 namespace adapter

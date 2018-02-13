@@ -10,32 +10,38 @@ import openfmb.commonmodule.BCR;
 import openfmb.commonmodule.CMV;
 import openfmb.commonmodule.MV;
 
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
+
 import static com.oes.openfmb.generation.document.Documents.*;
 
 public class MessageVisitorFile extends CppFilePair {
 
-    private final Descriptors.Descriptor descriptor;
-    private final String profileIncludeFile;
+    private final Iterable<Descriptors.Descriptor> descriptors;
+    private final Iterable<String> includes;
 
-    public MessageVisitorFile(Descriptors.Descriptor descriptor, String profileIncludeFile) {
-        this.descriptor = descriptor;
-        this.profileIncludeFile = profileIncludeFile;
+    public MessageVisitorFile(Iterable<Descriptors.Descriptor> descriptors, Iterable<String> includes) {
+        this.descriptors = descriptors;
+        this.includes = includes;
     }
 
-    public String baseFileName() {
-        return descriptor.getName() + "Visitor";
+    @Override
+    protected String baseFileName() {
+        return "MessageVisitors";
     }
 
     @Override
     public Document header() {
         return join(
                 FileHeader.lines,
-                include(this.profileIncludeFile),
+                join(StreamSupport.stream(includes.spliterator(), false).map(Documents::include)),
                 include("../IProtoVisitor.h"),
                 Documents.space,
                 namespace(
                         "adapter",
-                        line(getVisitSignature() + ";")
+                        spaced(
+                                getDescriptorStream().map(d -> line(getVisitSignature(d)+";"))
+                        )
                 )
         );
     }
@@ -48,38 +54,45 @@ public class MessageVisitorFile extends CppFilePair {
                 space,
                 namespace(
                 "adapter",
-                        visitImpl()
+                        spaced(
+                                getDescriptorStream().map(d -> visitImpl(d))
+                        )
                 )
         );
     }
 
-    private String cppMessageName()
+    private Stream<Descriptors.Descriptor> getDescriptorStream()
     {
-        return this.descriptor.getFullName().replace(".", "::");
+        return StreamSupport.stream(descriptors.spliterator(), false);
     }
 
-    private String getVisitSignature()
+    private String cppMessageName(Descriptors.Descriptor descriptor)
     {
-        return String.format("void visit(IProtoVisitor<%s>& visitor)", this.cppMessageName());
+        return descriptor.getFullName().replace(".", "::");
     }
 
-    private Document visitImpl()
+    private String getVisitSignature(Descriptors.Descriptor descriptor)
     {
-        return line(getVisitSignature())
+        return String.format("void visit(IProtoVisitor<%s>& visitor)", this.cppMessageName(descriptor));
+    }
+
+    private Document visitImpl(Descriptors.Descriptor descriptor)
+    {
+        return line(getVisitSignature(descriptor))
                 .append("{")
-                .indent(start(this.descriptor)) // recursively build up the implementation
+                .indent(start(descriptor)) // recursively build up the implementation
                 .append("}");
 
     }
 
     private Document start(Descriptors.Descriptor descriptor)
     {
-        return join(descriptor.getFields().stream().map(f -> this.build(FieldPathImpl.create(descriptor, f))));
+        return join(descriptor.getFields().stream().map(f -> this.build(descriptor, FieldPathImpl.create(descriptor, f))));
     }
 
-    private Document start(FieldPath path, Descriptors.Descriptor descriptor)
+    private Document start(Descriptors.Descriptor root, FieldPath path, Descriptors.Descriptor descriptor)
     {
-        final Document inner = join(descriptor.getFields().stream().map(f -> this.build(path.build(f))));
+        final Document inner = join(descriptor.getFields().stream().map(f -> this.build(root, path.build(f))));
 
         return inner.isEmpty() ? inner :
             line(String.format("visitor.start_message_field(\"%s\");", path.getInfo().field.getName()))
@@ -87,44 +100,44 @@ public class MessageVisitorFile extends CppFilePair {
             .append(line("visitor.end_message_field();"));
     }
 
-    private Document build(FieldPath path)
+    private Document build(Descriptors.Descriptor root, FieldPath path)
     {
         switch (path.getInfo().field.getType())
         {
             case MESSAGE:
-                return build(path, path.getInfo().field.getMessageType());
+                return build(root, path, path.getInfo().field.getMessageType());
             default:
                 return empty;
         }
     }
 
-    private Document build(FieldPath path, Descriptors.Descriptor message)
+    private Document build(Descriptors.Descriptor root, FieldPath path, Descriptors.Descriptor message)
     {
         if(message.equals(CMV.getDescriptor()))
         {
-            return handler(path, message.getName());
+            return handler(root, path, message.getName());
         }
         else if(message.equals(MV.getDescriptor()))
         {
-            return handler(path, message.getName());
+            return handler(root, path, message.getName());
         }
         else if(message.equals(BCR.getDescriptor()))
         {
-            return handler(path, message.getName());
+            return handler(root, path, message.getName());
         }
         else
         {
-            return start(path, message);
+            return start(root, path, message);
         }
     }
 
-    private Document handler(FieldPath path, String type)
+    private Document handler(Descriptors.Descriptor root, FieldPath path, String type)
     {
         return line(
                 String.format(
                     "visitor.handle(\"%s\", [](%s& profile) -> commonmodule::%s* {",
                     path.getInfo().field.getName(),
-                        this.cppMessageName(),
+                        this.cppMessageName(root),
                         type
                 )
         ).indent(

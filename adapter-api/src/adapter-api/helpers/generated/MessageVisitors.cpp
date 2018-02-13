@@ -1,4 +1,4 @@
-#include "ResourceReadingProfileVisitor.h"
+#include "MessageVisitors.h"
 
 namespace adapter {
 

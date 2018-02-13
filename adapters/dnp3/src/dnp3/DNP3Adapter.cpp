@@ -5,7 +5,7 @@
 #include <asiodnp3/DefaultMasterApplication.h>
 #include <opendnp3/LogLevels.h>
 #include <adapter-api/util/YAMLUtil.h>
-#include <adapter-api/helpers/generated/ResourceReadingProfileVisitor.h>
+#include <adapter-api/helpers/generated/MessageVisitors.h>
 
 #include "LogAdapter.h"
 #include "ConfigKeys.h"
