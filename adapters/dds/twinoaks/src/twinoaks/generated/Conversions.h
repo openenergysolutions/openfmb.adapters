@@ -31,6 +31,8 @@ void convert_message(const commonmodule::IED&, openfmb::commonmodule::IED&);
 
 void convert_message(const commonmodule::BCR&, openfmb::commonmodule::BCR&);
 
+void convert_message(const breakermodule::Breaker&, openfmb::breakermodule::Breaker&);
+
 void convert_message(const resourcemodule::ResourceReading&, openfmb::resourcemodule::ResourceReading&);
 
 void convert_message(const commonmodule::ConductingEquipment&, openfmb::commonmodule::ConductingEquipment&);
@@ -41,11 +43,11 @@ void convert_message(const commonmodule::Quality&, openfmb::commonmodule::Qualit
 
 void convert_message(const commonmodule::ENG_CalcMethodKind&, openfmb::commonmodule::ENG_CalcMethodKind&);
 
-void convert_message(const breakermodule::Breaker&, openfmb::breakermodule::Breaker&);
+void convert_message(const breakermodule::BreakerReading&, openfmb::breakermodule::BreakerReading&);
 
 void convert_message(const commonmodule::WYE&, openfmb::commonmodule::WYE&);
 
-void convert_message(const breakermodule::BreakerReading&, openfmb::breakermodule::BreakerReading&);
+void convert_message(const breakermodule::BreakerReadingProfile&, openfmb::breakermodule::BreakerReadingProfile&);
 
 void convert_message(const commonmodule::PhaseMMTN&, openfmb::commonmodule::PhaseMMTN&);
 
@@ -62,8 +64,6 @@ void convert_message(const commonmodule::Meter&, openfmb::commonmodule::Meter&);
 void convert_message(const commonmodule::ReadingMMTR&, openfmb::commonmodule::ReadingMMTR&);
 
 void convert_message(const commonmodule::Terminal&, openfmb::commonmodule::Terminal&);
-
-void convert_message(const breakermodule::BreakerReadingProfile&, openfmb::breakermodule::BreakerReadingProfile&);
 
 void convert_message(const resourcemodule::ResourceReadingProfile&, openfmb::resourcemodule::ResourceReadingProfile&);
 

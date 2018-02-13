@@ -87,12 +87,12 @@ public class MessageVisitorFile extends CppFilePair {
 
     private Document start(Descriptors.Descriptor descriptor)
     {
-        return join(descriptor.getFields().stream().map(f -> this.build(descriptor, FieldPathImpl.create(descriptor, f))));
+        return join(descriptor.getFields().stream().map(f -> this.build(FieldPathImpl.create(descriptor, f))));
     }
 
-    private Document start(Descriptors.Descriptor root, FieldPath path, Descriptors.Descriptor descriptor)
+    private Document start(FieldPath path, Descriptors.Descriptor descriptor)
     {
-        final Document inner = join(descriptor.getFields().stream().map(f -> this.build(root, path.build(f))));
+        final Document inner = join(descriptor.getFields().stream().map(f -> this.build(path.build(f))));
 
         return inner.isEmpty() ? inner :
             line(String.format("visitor.start_message_field(\"%s\");", path.getInfo().field.getName()))
@@ -100,44 +100,44 @@ public class MessageVisitorFile extends CppFilePair {
             .append(line("visitor.end_message_field();"));
     }
 
-    private Document build(Descriptors.Descriptor root, FieldPath path)
+    private Document build(FieldPath path)
     {
         switch (path.getInfo().field.getType())
         {
             case MESSAGE:
-                return build(root, path, path.getInfo().field.getMessageType());
+                return build(path, path.getInfo().field.getMessageType());
             default:
                 return empty;
         }
     }
 
-    private Document build(Descriptors.Descriptor root, FieldPath path, Descriptors.Descriptor message)
+    private Document build(FieldPath path, Descriptors.Descriptor message)
     {
         if(message.equals(CMV.getDescriptor()))
         {
-            return handler(root, path, message.getName());
+            return handler(path, message.getName());
         }
         else if(message.equals(MV.getDescriptor()))
         {
-            return handler(root, path, message.getName());
+            return handler(path, message.getName());
         }
         else if(message.equals(BCR.getDescriptor()))
         {
-            return handler(root, path, message.getName());
+            return handler(path, message.getName());
         }
         else
         {
-            return start(root, path, message);
+            return start(path, message);
         }
     }
 
-    private Document handler(Descriptors.Descriptor root, FieldPath path, String type)
+    private Document handler(FieldPath path, String type)
     {
         return line(
                 String.format(
                     "visitor.handle(\"%s\", [](%s& profile) -> commonmodule::%s* {",
                     path.getInfo().field.getName(),
-                        this.cppMessageName(root),
+                        this.cppMessageName(path.getRoot()),
                         type
                 )
         ).indent(

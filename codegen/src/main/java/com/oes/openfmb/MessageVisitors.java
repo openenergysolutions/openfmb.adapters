@@ -3,7 +3,6 @@ package com.oes.openfmb;
 import com.oes.openfmb.generation.Artifact;
 import com.oes.openfmb.generation.document.CppFilePair;
 import com.oes.openfmb.generation.proto.MessageVisitorFile;
-import openfmb.breakermodule.BreakerReadingProfile;
 import openfmb.resourcemodule.ResourceReadingProfile;
 
 import java.nio.file.Path;
