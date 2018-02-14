@@ -25,27 +25,17 @@ namespace adapter
 
         using initializer_t = std::function<void (T& profile)>;
 
+        // --- implement IProfileMapping<T> ---
 
         virtual bool set_value(const opendnp3::Indexed<opendnp3::Analog>& meas, T& profile) const override;
 
         virtual bool set_value(const opendnp3::Indexed<opendnp3::Counter>& meas, T& profile) const override;
 
-        virtual void initialize(T& profile) override
-        {
-            for(auto& init : this->one_time_initializers)
-            {
-                init(profile);
-            }
+        virtual void initialize(T& profile) override;
 
-            this->one_time_initializers.clear();
-        }
-        virtual void before_publish(T& profile) const override
-        {
-            for(auto& init : this->before_publish_initializers)
-            {
-                init(profile);
-            }
-        }
+        virtual void before_publish(T& profile) const override;
+
+        // --- methods used to populate the mapping ---
 
         void add(uint16_t index, const setter_t<opendnp3::Analog>& setter);
 
@@ -86,6 +76,26 @@ namespace adapter
         if(iter == this->counter_map.end()) return false;
         iter->second(meas.value, profile);
         return true;
+    }
+
+    template <class T>
+    void ProfileMapping<T>::initialize(T& profile)
+    {
+        for(auto& init : this->one_time_initializers)
+        {
+            init(profile);
+        }
+
+        this->one_time_initializers.clear();
+    }
+
+    template <class T>
+    void ProfileMapping<T>::before_publish(T& profile) const
+    {
+        for(auto& init : this->before_publish_initializers)
+        {
+            init(profile);
+        }
     }
 
     template <class T>
