@@ -250,7 +250,7 @@ void convert_to_proto(const openfmb::commonmodule::Timestamp& in, commonmodule::
     // convert primitive fields
     out.set_fraction(convert_uint32(in.fraction));
     out.set_seconds(convert_uint64(in.seconds));
-    // omitting 'bytes' field called tq
+    // TODO - field 'tq' of type 'bytes' omitted
 }
 
 void convert_to_proto(const openfmb::commonmodule::AnalogueValue& in, commonmodule::AnalogueValue& out)

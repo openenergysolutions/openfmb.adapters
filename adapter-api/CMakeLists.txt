@@ -72,6 +72,7 @@ set(API_HEADERS
 )
 
 set(API_SOURCES
+	src/adapter-api/IMessageBus.cpp
 	src/adapter-api/util/YAMLUtil.cpp
 	src/adapter-api/helpers/generated/MessageVisitors.cpp
 )

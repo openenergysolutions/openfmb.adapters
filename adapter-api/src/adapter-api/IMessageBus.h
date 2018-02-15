@@ -20,11 +20,17 @@ namespace adapter
 
         virtual ~IMessageBus() = default;
 
-        /// --- getters for various publishers ---
-        virtual publisher_t<resourcemodule::ResourceReadingProfile> get_resource_reading_publisher() = 0;
-
         /// --- methods for subscribing to the profiles ---
         virtual void subscribe(subscriber_t<resourcemodule::ResourceReadingProfile> subscriber) = 0;
+
+        // specializations of this helper all the protected methods below
+        template <class T>
+        publisher_t<T> get_publisher();
+
+    protected:
+
+        /// --- getters for various publishers ---
+        virtual publisher_t<resourcemodule::ResourceReadingProfile> get_resource_reading_publisher() = 0;
 
     };
 

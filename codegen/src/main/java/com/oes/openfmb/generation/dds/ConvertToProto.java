@@ -105,7 +105,7 @@ public class ConvertToProto extends CppFilePair {
 
         if(field.getType() == Descriptors.FieldDescriptor.Type.BYTES)
         {
-            return line(String.format("// omitting 'bytes' field called %s", field.getName()));
+            return line(String.format("// TODO - field '%s' of type 'bytes' omitted", field.getName()));
         }
 
         if(FieldInfo.isRequired(field))

@@ -6,10 +6,13 @@
 #include "OpenFMB-3.0.0TypeSupport.hh"
 
 #include "generated/ConvertFromProto.h"
+#include "generated/ConvertToProto.h"
+
 #include "ConfigKeys.h"
 
 namespace adapter
 {
+    // Class used to listen to protobuf subscriptions
     template <class T, class U>
     class SubscriberImpl : public ISubscriber<T>
     {
@@ -19,7 +22,7 @@ namespace adapter
 
     public:
 
-        SubscriberImpl(DDS::DataWriter* writer) : writer(writer)
+        explicit SubscriberImpl(DDS::DataWriter* writer) : writer(writer)
         {}
 
         virtual void receive(const T& message) override
@@ -30,21 +33,86 @@ namespace adapter
 
     };
 
-    DDSAdapter::DDSAdapter(const YAML::Node& node, IMessageBus& bus)
+    // Class used to listen to DDS subscriptions
+    template <class T, class U>
+    class SubscriptionListener final : public DataReaderListener
+    {
+    public:
+        explicit SubscriptionListener(publisher_t<T> publisher) : publisher(publisher) {}
+
+        virtual void on_data_available(DataReader* dr ) override
+        {
+            const auto reader = U::DataReader::narrow(dr);
+
+            typename U::Seq samples;
+            DDS::SampleInfoSeq samples_info;
+
+            auto err = reader->take(
+                    &samples,
+                    &samples_info,
+                    DDS::LENGTH_UNLIMITED,
+                    DDS_ANY_SAMPLE_STATE,
+                    DDS_ANY_VIEW_STATE,
+                    DDS_ANY_INSTANCE_STATE
+            );
+
+            if(err != DDS::RETCODE_OK)
+            {
+                // TODO - logging
+                return;
+            }
+
+            // TODO - does this need to be exception safe?
+
+            for (decltype(samples.size()) i = 0; i < samples.size(); i++)
+            {
+                if ( samples_info[i]->valid_data)
+                {
+                    T proto;
+                    dds::convert_to_proto(*samples[i], proto);
+                    publisher->publish(proto);
+                }
+            }
+
+            reader->return_loan(&samples, &samples_info);
+        }
+
+    private:
+
+        const publisher_t<T> publisher;
+    };
+
+    enum class ProfileMode
+    {
+        publish,
+        subscribe,
+        none
+    };
+
+    ProfileMode parse_profile_mode(const std::string& mode)
+    {
+        if(mode == keys::publish) {
+            return ProfileMode::publish;
+        } else if(mode == keys::subscribe) {
+            return ProfileMode::subscribe;
+        } else if(mode == keys::none) {
+            return ProfileMode::none;
+        } else {
+            throw Exception("Unknown profile mode: ", mode);
+        }
+
+    }
+
+    DDSAdapter::DDSAdapter(const YAML::Node& node, const Logger& logger, IMessageBus& bus)
     {
         const auto domain_id = yaml::require(node, keys::domain_id).as<DDS::DomainId_t>();
 
-        const auto publishers = yaml::require(node, keys::publish);
+        const auto profiles = yaml::require(node, keys::profiles);
 
-        const auto participant = create_participant(domain_id);
+        const auto participant = this->create_participant(domain_id);
 
-        // bind the specified subscribers
-        if(yaml::require(publishers, resourcemodule::ResourceReadingProfile::descriptor()->name()).as<bool>())
-        {
-            bus.subscribe(
-                create_subscriber<resourcemodule::ResourceReadingProfile, openfmb::resourcemodule::ResourceReadingProfile>(participant)
-            );
-        }
+        // configure the various profiles
+        this->configure<resourcemodule::ResourceReadingProfile, openfmb::resourcemodule::ResourceReadingProfile>(profiles, participant, bus);
 
     }
 
@@ -59,47 +127,73 @@ namespace adapter
     }
 
     template <class ProtoType, class DDSType>
-    subscriber_t<ProtoType> DDSAdapter::create_subscriber(DDS::DomainParticipant* participant)
+    void DDSAdapter::configure(const YAML::Node& node, DDS::DomainParticipant* participant, IMessageBus& bus)
     {
+        const auto mode = parse_profile_mode(yaml::require_string(node, ProtoType::descriptor()->name()));
+        if(mode == ProfileMode::none) return;
+
         const char* type_name = DDSType::TypeSupport::get_type_name();
 
-        auto publisher = require(
-                             participant->create_publisher(DDS::PUBLISHER_QOS_DEFAULT, nullptr, DDS::STATUS_MASK_NONE),
-                             "Unable to created DDS publisher for: ", type_name
-                         );
-
-
         verify(
-            DDSType::TypeSupport::register_type(participant, type_name),
-            "Error registering type: ", type_name
+                DDSType::TypeSupport::register_type(participant, type_name),
+                "Error registering type: ", type_name
         );
 
-        auto topic = require(
-                         participant->create_topic(
-                             type_name,             // topic name
-                             type_name,             // type name
-                             TOPIC_QOS_DEFAULT,
-                             nullptr,               // no listener
-                             DDS::STATUS_MASK_NONE
-                         ),
-                         "unable to create DDS topic for: ", type_name
-                     );
-
-        const auto writer = require(
-                                publisher->create_datawriter(
-                                    topic,
-                                    DATAWRITER_QOS_DEFAULT,
-                                    nullptr,              // no listener
-                                    DDS::STATUS_MASK_NONE
-                                ),
-                                "unable to create DDS writer for: ", type_name
-                            );
-
-        subscriber_t<ProtoType>(
-            std::make_shared<SubscriberImpl<ProtoType, DDSType>>(writer)
+        // create a topic
+        const auto topic = require(
+                participant->create_topic(
+                        type_name,             // topic name
+                        type_name,             // type name
+                        TOPIC_QOS_DEFAULT,
+                        nullptr,               // no listener
+                        DDS::STATUS_MASK_NONE
+                ),
+                "unable to create DDS topic for: ", type_name
         );
+
+        if(mode == ProfileMode::publish)
+        {
+            const auto publisher = require(
+                    participant->create_publisher(DDS::PUBLISHER_QOS_DEFAULT, nullptr, DDS::STATUS_MASK_NONE),
+                    "Unable to created DDS publisher for: ", type_name
+            );
+
+            const auto writer = require(
+                    publisher->create_datawriter(
+                            topic,
+                            DATAWRITER_QOS_DEFAULT,
+                            nullptr,              // no listener
+                            DDS::STATUS_MASK_NONE
+                    ),
+                    "unable to create DDS writer for: ", type_name
+            );
+
+            bus.subscribe(std::make_shared<SubscriberImpl<ProtoType, DDSType>>(writer));
+        }
+        else
+        {
+
+            const auto subscriber = require(
+                    participant->create_subscriber(DDS::SUBSCRIBER_QOS_DEFAULT, nullptr, DDS::STATUS_MASK_NONE),
+                    "unable to create DDS subscriber for: ", type_name
+            );
+
+            auto listener = std::make_unique<SubscriptionListener<ProtoType, DDSType>>(bus.get_publisher<ProtoType>());
+
+            require(
+                    subscriber->create_datareader(
+                            (TopicDescription*) topic,
+                            DDS::DATAREADER_QOS_DEFAULT,
+                            listener.get(),
+                            DDS::DATA_AVAILABLE_STATUS
+                    ),
+                    "unable to create DDS reader for: ", type_name
+            );
+
+            // we must keep this alive on the heap since the DDS library doesn't understand smart pointers
+            this->listeners.push_back(std::move(listener));
+        }
     }
-
 
     template <class T, class... Args>
     T* DDSAdapter::require(T* created, Args... args)

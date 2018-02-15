@@ -55,7 +55,7 @@ namespace adapter
 
         const auto data_handler = std::make_shared<SOEHandler<resourcemodule::ResourceReadingProfile>>(
                                       read_mapping<resourcemodule::ResourceReadingProfile>(profile_node, visit),
-                                      bus.get_resource_reading_publisher()
+                                      bus.get_publisher<resourcemodule::ResourceReadingProfile>()
                                   );
 
         auto master = channel->AddMaster(
