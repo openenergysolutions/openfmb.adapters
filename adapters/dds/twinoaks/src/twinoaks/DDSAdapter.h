@@ -19,23 +19,23 @@ namespace adapter
 
         DDSAdapter(const YAML::Node& node, const Logger& logger, IMessageBus& bus);
 
-        virtual void start() override {}
+        virtual void start() override;
 
     private:
-
-        static DDS::DomainParticipant* create_participant(DDS::DomainId_t domain_id);
-
-        template <class T, class... Args>
-        static T* require(T* created, Args... args);
-
-        template <class... Args>
-        static void verify(DDS::ReturnCode_t code, Args... args);
 
         template <class ProtoType, class DDSType>
         void configure(const YAML::Node& node, DDS::DomainParticipant* participant, IMessageBus& bus);
 
+        template <class ProtoType, class DDSType>
+        void subscribe_to_dds(DDS::DomainParticipant* participant, DDS::Topic* topic, IMessageBus& bus);
+
+        template <class ProtoType, class DDSType>
+        void publisher_to_dds(DDS::DomainParticipant* participant, DDS::Topic* topic, IMessageBus& bus);
+
         // collection of active DDS listeners
-        std::vector<std::unique_ptr<DDS::DataReaderListener>> listeners;
+        std::vector<std::shared_ptr<DDS::DataReaderListener>> listeners;
+
+        std::vector<std::function<void ()>> start_actions;
 
     };
 

@@ -82,6 +82,25 @@ namespace adapter
         const publisher_t<T> publisher;
     };
 
+    template <class T, class... Args>
+    T* require(T* created, Args... args)
+    {
+        if(!created)
+        {
+            throw Exception(args...);
+        }
+        return created;
+    };
+
+    template <class... Args>
+    void verify(DDS::ReturnCode_t code, Args... args)
+    {
+        if(code)
+        {
+            throw Exception(args...);
+        }
+    }
+
     enum class ProfileMode
     {
         publish,
@@ -109,21 +128,24 @@ namespace adapter
 
         const auto profiles = yaml::require(node, keys::profiles);
 
-        const auto participant = this->create_participant(domain_id);
+        const auto participant = require(
+                DDS::DomainParticipantFactory::get_instance()->create_participant(domain_id, DDS::PARTICIPANT_QOS_DEFAULT, nullptr, DDS::STATUS_MASK_NONE),
+                "Unable to create domain participant: ", domain_id
+        );
 
         // configure the various profiles
         this->configure<resourcemodule::ResourceReadingProfile, openfmb::resourcemodule::ResourceReadingProfile>(profiles, participant, bus);
 
     }
 
-    DDS::DomainParticipant* DDSAdapter::create_participant(DDS::DomainId_t domain_id)
+    void DDSAdapter::start()
     {
-        auto factory = DDS::DomainParticipantFactory::get_instance();
+        for(auto& action : this->start_actions)
+        {
+            action();
+        }
 
-        return require(
-                   factory->create_participant(domain_id, DDS::PARTICIPANT_QOS_DEFAULT, nullptr, DDS::STATUS_MASK_NONE),
-                   "Unable to create domain participant: ", domain_id
-               );
+        this->start_actions.clear();
     }
 
     template <class ProtoType, class DDSType>
@@ -153,33 +175,49 @@ namespace adapter
 
         if(mode == ProfileMode::publish)
         {
-            const auto publisher = require(
-                    participant->create_publisher(DDS::PUBLISHER_QOS_DEFAULT, nullptr, DDS::STATUS_MASK_NONE),
-                    "Unable to created DDS publisher for: ", type_name
-            );
-
-            const auto writer = require(
-                    publisher->create_datawriter(
-                            topic,
-                            DATAWRITER_QOS_DEFAULT,
-                            nullptr,              // no listener
-                            DDS::STATUS_MASK_NONE
-                    ),
-                    "unable to create DDS writer for: ", type_name
-            );
-
-            bus.subscribe(std::make_shared<SubscriberImpl<ProtoType, DDSType>>(writer));
+            this->publisher_to_dds<ProtoType, DDSType>(participant, topic, bus);
         }
         else
         {
+            this->subscribe_to_dds<ProtoType, DDSType>(participant, topic, bus);
+        }
+    }
 
-            const auto subscriber = require(
-                    participant->create_subscriber(DDS::SUBSCRIBER_QOS_DEFAULT, nullptr, DDS::STATUS_MASK_NONE),
-                    "unable to create DDS subscriber for: ", type_name
-            );
+    template <class ProtoType, class DDSType>
+    void DDSAdapter::publisher_to_dds(DDS::DomainParticipant* participant, DDS::Topic* topic, IMessageBus& bus)
+    {
+        const auto publisher = require(
+                participant->create_publisher(DDS::PUBLISHER_QOS_DEFAULT, nullptr, DDS::STATUS_MASK_NONE),
+                "Unable to created DDS publisher for: ", DDSType::TypeSupport::get_type_name()
+        );
 
-            auto listener = std::make_unique<SubscriptionListener<ProtoType, DDSType>>(bus.get_publisher<ProtoType>());
+        const auto writer = require(
+                publisher->create_datawriter(
+                        topic,
+                        DATAWRITER_QOS_DEFAULT,
+                        nullptr,              // no listener
+                        DDS::STATUS_MASK_NONE
+                ),
+                "unable to create DDS writer for: ", DDSType::TypeSupport::get_type_name()
+        );
 
+        bus.subscribe(std::make_shared<SubscriberImpl<ProtoType, DDSType>>(writer));
+    }
+
+    template <class ProtoType, class DDSType>
+    void DDSAdapter::subscribe_to_dds(DDS::DomainParticipant* participant, DDS::Topic* topic, IMessageBus& bus)
+    {
+        const auto subscriber = require(
+                participant->create_subscriber(DDS::SUBSCRIBER_QOS_DEFAULT, nullptr, DDS::STATUS_MASK_NONE),
+                "unable to create DDS subscriber for: ", DDSType::TypeSupport::get_type_name()
+        );
+
+        auto listener = std::make_shared<SubscriptionListener<ProtoType, DDSType>>(bus.get_publisher<ProtoType>());
+
+        // we must keep this alive on the heap since the DDS library doesn't understand smart pointers
+        this->listeners.push_back(std::move(listener));
+
+        auto subscribe = [subscriber, topic, listener]() {
             require(
                     subscriber->create_datareader(
                             (TopicDescription*) topic,
@@ -187,32 +225,14 @@ namespace adapter
                             listener.get(),
                             DDS::DATA_AVAILABLE_STATUS
                     ),
-                    "unable to create DDS reader for: ", type_name
+                    "unable to create DDS reader for: ", DDSType::TypeSupport::get_type_name()
             );
+        };
 
-            // we must keep this alive on the heap since the DDS library doesn't understand smart pointers
-            this->listeners.push_back(std::move(listener));
-        }
+        // don't start processing subscriptions until the adapter starts
+        this->start_actions.push_back(subscribe);
     }
 
-    template <class T, class... Args>
-    T* DDSAdapter::require(T* created, Args... args)
-    {
-        if(!created)
-        {
-            throw Exception(args...);
-        }
-        return created;
-    };
-
-    template <class... Args>
-    void DDSAdapter::verify(DDS::ReturnCode_t code, Args... args)
-    {
-        if(code)
-        {
-            throw Exception(args...);
-        }
-    }
 }
 
 
