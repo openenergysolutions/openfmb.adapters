@@ -127,7 +127,7 @@ void convert_message(const breakermodule::BreakerReadingProfile& in, openfmb::br
     // convert message fields
     if(in.has_readingmessageinfo()) convert_message(in.readingmessageinfo(), out); // inherited type
     convert_message(in.breaker(), out.breaker); // required field in DDS
-    convert_message(in.breakerreading(), out.breakerReading); // required field in DDS
+    convert_repeated_field(in.breakerreading(), out.breakerReading); // repeated field
     convert_message(in.ied(), out.ied); // required field in DDS
 }
 

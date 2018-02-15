@@ -222,11 +222,11 @@ public class ConversionsFile extends CppFilePair {
         }
         else
         {
-            if(FieldInfo.isRequired(field))
+            if(field.isRepeated())
             {
                 return line(
                         String.format(
-                                "convert_message(in.%s(), out.%s); // required field in DDS",
+                                "convert_repeated_field(in.%s(), out.%s); // repeated field",
                                 field.getName().toLowerCase(),
                                 field.getName()
                         )
@@ -234,16 +234,30 @@ public class ConversionsFile extends CppFilePair {
             }
             else
             {
-                return line(
-                        String.format(
-                                "if(in.has_%s()) out.%s = create_message<openfmb::%s>(in.%s());",
-                                field.getName().toLowerCase(),
-                                field.getName(),
-                                cppName(field.getMessageType()),
-                                field.getName().toLowerCase()
-                        )
-                );
+                if(FieldInfo.isRequired(field))
+                {
+                    return line(
+                            String.format(
+                                    "convert_message(in.%s(), out.%s); // required field in DDS",
+                                    field.getName().toLowerCase(),
+                                    field.getName()
+                            )
+                    );
+                }
+                else
+                {
+                    return line(
+                            String.format(
+                                    "if(in.has_%s()) out.%s = create_message<openfmb::%s>(in.%s());",
+                                    field.getName().toLowerCase(),
+                                    field.getName(),
+                                    cppName(field.getMessageType()),
+                                    field.getName().toLowerCase()
+                            )
+                    );
+                }
             }
+
         }
     }
 

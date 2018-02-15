@@ -30,7 +30,7 @@ namespace adapter
         };
 
         template <class Out, class In>
-        void convert_message(const ::google::protobuf::RepeatedPtrField<In>& input, DDS::sequence<Out>& output)
+        void convert_repeated_field(const ::google::protobuf::RepeatedPtrField<In>& input, DDS::sequence<Out>& output)
         {
             output.clear();
             for(auto& elem : input)
