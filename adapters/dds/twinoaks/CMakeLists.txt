@@ -31,6 +31,7 @@ set(HEADERS
         src/twinoaks/generated/ConvertFromProto.h
         src/twinoaks/generated/ConvertToProto.h
         src/twinoaks/ConvertFromProtoHelpers.h
+        src/twinoaks/ConvertToProtoHelpers.h
 )
 
 # directories to be automatically formatted by astyle
