@@ -21,6 +21,7 @@ set(SOURCES
         src/twinoaks/DDSAdapter.cpp
         src/twinoaks/DDSAdapterFactory.cpp
         src/twinoaks/generated/ConvertFromProto.cpp
+        src/twinoaks/generated/ConvertToProto.cpp
 )
 
 set(HEADERS
@@ -28,6 +29,7 @@ set(HEADERS
         src/twinoaks/DDSAdapterFactory.h
         src/twinoaks/ConfigKeys.h
         src/twinoaks/generated/ConvertFromProto.h
+        src/twinoaks/generated/ConvertToProto.h
         src/twinoaks/ConvertFromProtoHelpers.h
 )
 

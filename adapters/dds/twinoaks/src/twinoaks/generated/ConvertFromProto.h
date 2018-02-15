@@ -31,8 +31,6 @@ void convert_from_proto(const commonmodule::IED& in, openfmb::commonmodule::IED&
 
 void convert_from_proto(const commonmodule::BCR& in, openfmb::commonmodule::BCR& out);
 
-void convert_from_proto(const breakermodule::Breaker& in, openfmb::breakermodule::Breaker& out);
-
 void convert_from_proto(const resourcemodule::ResourceReading& in, openfmb::resourcemodule::ResourceReading& out);
 
 void convert_from_proto(const commonmodule::ConductingEquipment& in, openfmb::commonmodule::ConductingEquipment& out);
@@ -43,11 +41,11 @@ void convert_from_proto(const commonmodule::Quality& in, openfmb::commonmodule::
 
 void convert_from_proto(const commonmodule::ENG_CalcMethodKind& in, openfmb::commonmodule::ENG_CalcMethodKind& out);
 
-void convert_from_proto(const breakermodule::BreakerReading& in, openfmb::breakermodule::BreakerReading& out);
+void convert_from_proto(const breakermodule::Breaker& in, openfmb::breakermodule::Breaker& out);
 
 void convert_from_proto(const commonmodule::WYE& in, openfmb::commonmodule::WYE& out);
 
-void convert_from_proto(const breakermodule::BreakerReadingProfile& in, openfmb::breakermodule::BreakerReadingProfile& out);
+void convert_from_proto(const breakermodule::BreakerReading& in, openfmb::breakermodule::BreakerReading& out);
 
 void convert_from_proto(const commonmodule::PhaseMMTN& in, openfmb::commonmodule::PhaseMMTN& out);
 
@@ -64,6 +62,8 @@ void convert_from_proto(const commonmodule::Meter& in, openfmb::commonmodule::Me
 void convert_from_proto(const commonmodule::ReadingMMTR& in, openfmb::commonmodule::ReadingMMTR& out);
 
 void convert_from_proto(const commonmodule::Terminal& in, openfmb::commonmodule::Terminal& out);
+
+void convert_from_proto(const breakermodule::BreakerReadingProfile& in, openfmb::breakermodule::BreakerReadingProfile& out);
 
 void convert_from_proto(const resourcemodule::ResourceReadingProfile& in, openfmb::resourcemodule::ResourceReadingProfile& out);
 

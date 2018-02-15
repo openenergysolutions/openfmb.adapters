@@ -17,8 +17,8 @@ public class Main {
     public static void main(String[] args) {
         deleteFolderContents(visitorDir.toFile());
         deleteFolderContents(conversionsDir.toFile());
-        MessageVisitors.artifacts(visitorDir).forEach(Main::write);
-        Conversions.artifacts(conversionsDir).forEach(Main::write);
+        Artifacts.Visitors.get(visitorDir).forEach(Main::write);
+        Artifacts.Conversions.get(conversionsDir).forEach(Main::write);
     }
 
     private static void write(Artifact artifact)

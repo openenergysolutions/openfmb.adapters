@@ -16,37 +16,15 @@ import java.util.stream.Collectors;
 
 import static com.oes.openfmb.generation.document.Documents.*;
 
-public class ConvertFromProtoFile extends CppFilePair {
+public class ConvertFromProto extends CppFilePair {
 
-    private final Set<Descriptors.Descriptor> descriptors;
-    private final Set<Descriptors.EnumDescriptor> enums;
-    private static final String baseFileName = "ConvertFromProto";
+    public ConvertFromProto() {
 
-    public ConvertFromProtoFile() {
-
-        List<Descriptors.Descriptor> types = Arrays.asList(
-                ResourceReadingProfile.getDescriptor(),
-                BreakerReadingProfile.getDescriptor()
-        );
-
-        this.descriptors = buildDescriptorSet(types);
-        this.enums = buildEnumSet(types);
     }
-
-    private static Set<Descriptors.Descriptor> buildDescriptorSet(List<Descriptors.Descriptor> descriptors)
-    {
-        return descriptors.stream().map(DescriptorUtil::findUniqueSubMessages).flatMap(Set::stream).collect(Collectors.toSet());
-    }
-
-    private static Set<Descriptors.EnumDescriptor> buildEnumSet(List<Descriptors.Descriptor> descriptors)
-    {
-        return descriptors.stream().map(DescriptorUtil::findUniqueEnums).flatMap(Set::stream).collect(Collectors.toSet());
-    }
-
 
     @Override
     protected String baseFileName() {
-        return baseFileName;
+        return "ConvertFromProto";
     }
 
     @Override
@@ -101,14 +79,14 @@ public class ConvertFromProtoFile extends CppFilePair {
     private Document signatures()
     {
         return spaced(
-                descriptors.stream().map(d -> line(signature(d)+";"))
+                Profiles.getDescriptors().map(d -> line(signature(d)+";"))
         );
 
     }
 
     private Document enumAssertions()
     {
-        return Documents.spaced(this.enums.stream().map(ed -> assertion(ed)));
+        return Documents.spaced(Profiles.getEnums().map(ed -> assertion(ed)));
     }
 
     private static Document assertion(Descriptors.EnumDescriptor descriptor)
@@ -139,7 +117,7 @@ public class ConvertFromProtoFile extends CppFilePair {
 
     private Document implementations()
     {
-        return spaced(descriptors.stream().map(d -> implementation(d)));
+        return spaced(Profiles.getDescriptors().map(d -> implementation(d)));
     }
 
     private Document implementation(Descriptors.Descriptor d)
