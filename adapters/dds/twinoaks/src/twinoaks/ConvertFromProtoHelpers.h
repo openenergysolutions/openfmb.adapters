@@ -15,11 +15,11 @@ namespace adapter
 
 
         template <class Out, class T>
-        Out* create_message(const T& value)
+        Out* allocate_from_proto(const T& value)
         {
             auto ret = new Out();
-            // must be a convert_message(..) function in scope that takes these types
-            convert_message(value, *ret);
+            // must be a convert_from_proto(..) function in scope that takes these types
+            convert_from_proto(value, *ret);
             return ret;
         };
 
@@ -36,7 +36,7 @@ namespace adapter
             for(auto& elem : input)
             {
                 Out value;
-                convert_message(elem, value);
+                convert_from_proto(elem, value);
                 output.push_back(value);
             }
         };

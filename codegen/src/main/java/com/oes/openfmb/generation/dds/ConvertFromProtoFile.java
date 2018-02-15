@@ -16,13 +16,13 @@ import java.util.stream.Collectors;
 
 import static com.oes.openfmb.generation.document.Documents.*;
 
-public class ConversionsFile extends CppFilePair {
+public class ConvertFromProtoFile extends CppFilePair {
 
     private final Set<Descriptors.Descriptor> descriptors;
     private final Set<Descriptors.EnumDescriptor> enums;
     private static final String baseFileName = "ConvertFromProto";
 
-    public ConversionsFile() {
+    public ConvertFromProtoFile() {
 
         List<Descriptors.Descriptor> types = Arrays.asList(
                 ResourceReadingProfile.getDescriptor(),
@@ -72,7 +72,7 @@ public class ConversionsFile extends CppFilePair {
                 FileHeader.lines,
                 include(this.baseFileName() + ".h"),
                 space,
-                include("../ConversionHelpers.h"),
+                include("../ConvertFromProtoHelpers.h"),
                 space,
                 namespace("adapter",
                         namespace("dds",
@@ -101,7 +101,7 @@ public class ConversionsFile extends CppFilePair {
     private Document signatures()
     {
         return spaced(
-                descriptors.stream().map(d -> line(String.format("void convert_message(const %s&, openfmb::%s&);", cppName(d), cppName(d))))
+                descriptors.stream().map(d -> line(signature(d)+";"))
         );
 
     }
@@ -145,7 +145,7 @@ public class ConversionsFile extends CppFilePair {
     private Document implementation(Descriptors.Descriptor d)
     {
 
-        return line(String.format("void convert_message(const %s& in, openfmb::%s& out)", cppName(d), cppName(d)))
+        return line(signature((d)))
                 .append("{")
                 .indent(
                         FieldInfo.omitConversion(d) ? line("// omitted via configuration") : join(
@@ -213,7 +213,7 @@ public class ConversionsFile extends CppFilePair {
         {
             return line(
                     String.format(
-                            "if(in.has_%s()) convert_message(in.%s(), out); // inherited type",
+                            "if(in.has_%s()) convert_from_proto(in.%s(), out); // inherited type",
                             field.getName().toLowerCase(),
                             field.getName().toLowerCase()
                     )
@@ -237,7 +237,7 @@ public class ConversionsFile extends CppFilePair {
                 {
                     return line(
                             String.format(
-                                    "convert_message(in.%s(), out.%s); // required field in DDS",
+                                    "convert_from_proto(in.%s(), out.%s); // required field in DDS",
                                     field.getName().toLowerCase(),
                                     field.getName()
                             )
@@ -247,7 +247,7 @@ public class ConversionsFile extends CppFilePair {
                 {
                     return line(
                             String.format(
-                                    "if(in.has_%s()) out.%s = create_message<openfmb::%s>(in.%s());",
+                                    "if(in.has_%s()) out.%s = allocate_from_proto<openfmb::%s>(in.%s());",
                                     field.getName().toLowerCase(),
                                     field.getName(),
                                     cppName(field.getMessageType()),
@@ -258,6 +258,11 @@ public class ConversionsFile extends CppFilePair {
             }
 
         }
+    }
+
+    private static String signature(Descriptors.Descriptor d)
+    {
+        return String.format("void convert_from_proto(const %s& in, openfmb::%s& out)", cppName(d), cppName(d));
     }
 
     private static String cppName(Descriptors.EnumDescriptor d)

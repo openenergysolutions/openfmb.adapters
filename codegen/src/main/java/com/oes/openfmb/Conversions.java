@@ -1,7 +1,7 @@
 package com.oes.openfmb;
 
 import com.oes.openfmb.generation.Artifact;
-import com.oes.openfmb.generation.dds.ConversionsFile;
+import com.oes.openfmb.generation.dds.ConvertFromProtoFile;
 import com.oes.openfmb.generation.document.CppFilePair;
 
 import java.nio.file.Path;
@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 public class Conversions {
 
-    private static CppFilePair conversions = new ConversionsFile();
+    private static CppFilePair conversions = new ConvertFromProtoFile();
 
     public static Iterable<Artifact> artifacts(Path directory) {
         return Arrays.asList(

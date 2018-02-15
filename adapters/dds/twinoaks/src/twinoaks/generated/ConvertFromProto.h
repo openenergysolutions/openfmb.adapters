@@ -23,63 +23,63 @@ namespace adapter {
 
 namespace dds {
 
-void convert_message(const commonmodule::MV&, openfmb::commonmodule::MV&);
+void convert_from_proto(const commonmodule::MV& in, openfmb::commonmodule::MV& out);
 
-void convert_message(const commonmodule::ReadingMessageInfo&, openfmb::commonmodule::ReadingMessageInfo&);
+void convert_from_proto(const commonmodule::ReadingMessageInfo& in, openfmb::commonmodule::ReadingMessageInfo& out);
 
-void convert_message(const commonmodule::IED&, openfmb::commonmodule::IED&);
+void convert_from_proto(const commonmodule::IED& in, openfmb::commonmodule::IED& out);
 
-void convert_message(const commonmodule::BCR&, openfmb::commonmodule::BCR&);
+void convert_from_proto(const commonmodule::BCR& in, openfmb::commonmodule::BCR& out);
 
-void convert_message(const breakermodule::Breaker&, openfmb::breakermodule::Breaker&);
+void convert_from_proto(const breakermodule::Breaker& in, openfmb::breakermodule::Breaker& out);
 
-void convert_message(const resourcemodule::ResourceReading&, openfmb::resourcemodule::ResourceReading&);
+void convert_from_proto(const resourcemodule::ResourceReading& in, openfmb::resourcemodule::ResourceReading& out);
 
-void convert_message(const commonmodule::ConductingEquipment&, openfmb::commonmodule::ConductingEquipment&);
+void convert_from_proto(const commonmodule::ConductingEquipment& in, openfmb::commonmodule::ConductingEquipment& out);
 
-void convert_message(const commonmodule::ConductingEquipmentTerminalReading&, openfmb::commonmodule::ConductingEquipmentTerminalReading&);
+void convert_from_proto(const commonmodule::ConductingEquipmentTerminalReading& in, openfmb::commonmodule::ConductingEquipmentTerminalReading& out);
 
-void convert_message(const commonmodule::Quality&, openfmb::commonmodule::Quality&);
+void convert_from_proto(const commonmodule::Quality& in, openfmb::commonmodule::Quality& out);
 
-void convert_message(const commonmodule::ENG_CalcMethodKind&, openfmb::commonmodule::ENG_CalcMethodKind&);
+void convert_from_proto(const commonmodule::ENG_CalcMethodKind& in, openfmb::commonmodule::ENG_CalcMethodKind& out);
 
-void convert_message(const breakermodule::BreakerReading&, openfmb::breakermodule::BreakerReading&);
+void convert_from_proto(const breakermodule::BreakerReading& in, openfmb::breakermodule::BreakerReading& out);
 
-void convert_message(const commonmodule::WYE&, openfmb::commonmodule::WYE&);
+void convert_from_proto(const commonmodule::WYE& in, openfmb::commonmodule::WYE& out);
 
-void convert_message(const breakermodule::BreakerReadingProfile&, openfmb::breakermodule::BreakerReadingProfile&);
+void convert_from_proto(const breakermodule::BreakerReadingProfile& in, openfmb::breakermodule::BreakerReadingProfile& out);
 
-void convert_message(const commonmodule::PhaseMMTN&, openfmb::commonmodule::PhaseMMTN&);
+void convert_from_proto(const commonmodule::PhaseMMTN& in, openfmb::commonmodule::PhaseMMTN& out);
 
-void convert_message(const commonmodule::IdentifiedObject&, openfmb::commonmodule::IdentifiedObject&);
+void convert_from_proto(const commonmodule::IdentifiedObject& in, openfmb::commonmodule::IdentifiedObject& out);
 
-void convert_message(const commonmodule::Vector&, openfmb::commonmodule::Vector&);
+void convert_from_proto(const commonmodule::Vector& in, openfmb::commonmodule::Vector& out);
 
-void convert_message(const commonmodule::ACDCTerminal&, openfmb::commonmodule::ACDCTerminal&);
+void convert_from_proto(const commonmodule::ACDCTerminal& in, openfmb::commonmodule::ACDCTerminal& out);
 
-void convert_message(const commonmodule::LogicalNode&, openfmb::commonmodule::LogicalNode&);
+void convert_from_proto(const commonmodule::LogicalNode& in, openfmb::commonmodule::LogicalNode& out);
 
-void convert_message(const commonmodule::Meter&, openfmb::commonmodule::Meter&);
+void convert_from_proto(const commonmodule::Meter& in, openfmb::commonmodule::Meter& out);
 
-void convert_message(const commonmodule::ReadingMMTR&, openfmb::commonmodule::ReadingMMTR&);
+void convert_from_proto(const commonmodule::ReadingMMTR& in, openfmb::commonmodule::ReadingMMTR& out);
 
-void convert_message(const commonmodule::Terminal&, openfmb::commonmodule::Terminal&);
+void convert_from_proto(const commonmodule::Terminal& in, openfmb::commonmodule::Terminal& out);
 
-void convert_message(const resourcemodule::ResourceReadingProfile&, openfmb::resourcemodule::ResourceReadingProfile&);
+void convert_from_proto(const resourcemodule::ResourceReadingProfile& in, openfmb::resourcemodule::ResourceReadingProfile& out);
 
-void convert_message(const commonmodule::DEL&, openfmb::commonmodule::DEL&);
+void convert_from_proto(const commonmodule::DEL& in, openfmb::commonmodule::DEL& out);
 
-void convert_message(const commonmodule::ReadingMMTN&, openfmb::commonmodule::ReadingMMTN&);
+void convert_from_proto(const commonmodule::ReadingMMTN& in, openfmb::commonmodule::ReadingMMTN& out);
 
-void convert_message(const commonmodule::Timestamp&, openfmb::commonmodule::Timestamp&);
+void convert_from_proto(const commonmodule::Timestamp& in, openfmb::commonmodule::Timestamp& out);
 
-void convert_message(const commonmodule::AnalogueValue&, openfmb::commonmodule::AnalogueValue&);
+void convert_from_proto(const commonmodule::AnalogueValue& in, openfmb::commonmodule::AnalogueValue& out);
 
-void convert_message(const commonmodule::ReadingMMXU&, openfmb::commonmodule::ReadingMMXU&);
+void convert_from_proto(const commonmodule::ReadingMMXU& in, openfmb::commonmodule::ReadingMMXU& out);
 
-void convert_message(const commonmodule::CMV&, openfmb::commonmodule::CMV&);
+void convert_from_proto(const commonmodule::CMV& in, openfmb::commonmodule::CMV& out);
 
-void convert_message(const commonmodule::Unit&, openfmb::commonmodule::Unit&);
+void convert_from_proto(const commonmodule::Unit& in, openfmb::commonmodule::Unit& out);
 
 } // end namespace dds
 
