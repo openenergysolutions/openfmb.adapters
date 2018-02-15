@@ -11,8 +11,8 @@
 //  This file is auto-generated. Do not edit manually
 // 
 
-#ifndef OPENFMB_CONVERSIONS_H
-#define OPENFMB_CONVERSIONS_H
+#ifndef OPENFMB_CONVERTFROMPROTO_H
+#define OPENFMB_CONVERTFROMPROTO_H
 
 #include "adapter-api/proto/resourcemodule/resourcemodule.pb.h"
 #include "adapter-api/proto/breakermodule/breakermodule.pb.h"

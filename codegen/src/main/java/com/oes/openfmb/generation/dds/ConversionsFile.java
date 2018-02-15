@@ -18,12 +18,11 @@ import static com.oes.openfmb.generation.document.Documents.*;
 
 public class ConversionsFile extends CppFilePair {
 
-    private final String className;
     private final Set<Descriptors.Descriptor> descriptors;
     private final Set<Descriptors.EnumDescriptor> enums;
+    private static final String baseFileName = "ConvertFromProto";
 
-    public ConversionsFile(String baseFileName) {
-        this.className = baseFileName;
+    public ConversionsFile() {
 
         List<Descriptors.Descriptor> types = Arrays.asList(
                 ResourceReadingProfile.getDescriptor(),
@@ -47,14 +46,14 @@ public class ConversionsFile extends CppFilePair {
 
     @Override
     protected String baseFileName() {
-        return this.className;
+        return baseFileName;
     }
 
     @Override
     public Document header() {
         return Documents.join(
                 FileHeader.lines,
-                guards(this.className,
+                guards(this.baseFileName(),
                         headerIncludes(),
                         space,
                         Documents.namespace(
@@ -71,7 +70,7 @@ public class ConversionsFile extends CppFilePair {
     public Document implementation() {
         return Documents.join(
                 FileHeader.lines,
-                include(this.className + ".h"),
+                include(this.baseFileName() + ".h"),
                 space,
                 include("../ConversionHelpers.h"),
                 space,

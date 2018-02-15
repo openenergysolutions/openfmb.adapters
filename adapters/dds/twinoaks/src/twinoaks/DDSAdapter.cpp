@@ -5,7 +5,7 @@
 
 #include "OpenFMB-3.0.0TypeSupport.hh"
 
-#include "generated/Conversions.h"
+#include "generated/ConvertFromProto.h"
 #include "ConfigKeys.h"
 
 namespace adapter

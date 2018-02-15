@@ -20,14 +20,14 @@ set(DDS_SOURCES
 set(SOURCES
         src/twinoaks/DDSAdapter.cpp
         src/twinoaks/DDSAdapterFactory.cpp
-        src/twinoaks/generated/Conversions.cpp
+        src/twinoaks/generated/ConvertFromProto.cpp
 )
 
 set(HEADERS
         src/twinoaks/DDSAdapter.h
         src/twinoaks/DDSAdapterFactory.h
         src/twinoaks/ConfigKeys.h
-        src/twinoaks/generated/Conversions.h
+        src/twinoaks/generated/ConvertFromProto.h
         src/twinoaks/ConversionHelpers.h)
 
 # directories to be automatically formatted by astyle

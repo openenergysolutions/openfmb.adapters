@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 public class Conversions {
 
-    private static CppFilePair conversions = new ConversionsFile("Conversions");
+    private static CppFilePair conversions = new ConversionsFile();
 
     public static Iterable<Artifact> artifacts(Path directory) {
         return Arrays.asList(
