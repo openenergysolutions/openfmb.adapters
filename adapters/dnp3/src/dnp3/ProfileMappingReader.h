@@ -245,7 +245,7 @@ namespace adapter
 
             const auto setter = [scale = get_scale(node), getter](const opendnp3::Analog & meas, T & profile)
             {
-                getter(profile)->mutable_cval()->mutable_mag()->set_f(static_cast<float>(meas.value * scale));
+                getter(profile)->mutable_cval()->mutable_ang()->set_f(static_cast<float>(meas.value * scale));
                 // TODO - extend to set timestamp/quality ?
             };
 
@@ -263,6 +263,14 @@ namespace adapter
             {
                 throw Exception("Index exceeds max ushort (", signed_index, ")");
             }
+
+            const auto setter = [scale = get_scale(node), getter](const opendnp3::Analog & meas, T & profile)
+            {
+                getter(profile)->mutable_cval()->mutable_ang()->set_f(static_cast<float>(meas.value * scale));
+                // TODO - extend to set timestamp/quality ?
+            };
+
+            this->mapping.add(static_cast<uint16_t>(signed_index), setter);
         }
 
         YAML::Node get_config_node(const std::string& name)
