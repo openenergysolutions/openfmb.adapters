@@ -11,7 +11,7 @@ namespace adapter
         void convert_repeated_field(const DDS::sequence<In>& input, ::google::protobuf::RepeatedPtrField<Out>& output)
         {
             output.Clear();
-            for(decltype(input.length()) i=0; i<input.length(); ++i)
+            for(decltype(input.length()) i = 0; i < input.length(); ++i)
             {
                 convert_to_proto(input.at(i), *output.Add());
             }

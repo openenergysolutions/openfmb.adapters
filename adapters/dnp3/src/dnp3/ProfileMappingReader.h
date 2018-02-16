@@ -301,6 +301,11 @@ namespace adapter
 
         visit(reader);
 
+        if(mapping->is_empty())
+        {
+            throw Exception("No measurements mapped");
+        }
+
         return std::move(mapping);
     }
 }

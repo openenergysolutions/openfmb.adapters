@@ -48,13 +48,13 @@ namespace adapter
             DDS::SampleInfoSeq samples_info;
 
             auto err = reader->take(
-                    &samples,
-                    &samples_info,
-                    DDS::LENGTH_UNLIMITED,
-                    DDS_ANY_SAMPLE_STATE,
-                    DDS_ANY_VIEW_STATE,
-                    DDS_ANY_INSTANCE_STATE
-            );
+                           &samples,
+                           &samples_info,
+                           DDS::LENGTH_UNLIMITED,
+                           DDS_ANY_SAMPLE_STATE,
+                           DDS_ANY_VIEW_STATE,
+                           DDS_ANY_INSTANCE_STATE
+                       );
 
             if(err != DDS::RETCODE_OK)
             {
@@ -110,13 +110,20 @@ namespace adapter
 
     ProfileMode parse_profile_mode(const std::string& mode)
     {
-        if(mode == keys::publish) {
+        if(mode == keys::publish)
+        {
             return ProfileMode::publish;
-        } else if(mode == keys::subscribe) {
+        }
+        else if(mode == keys::subscribe)
+        {
             return ProfileMode::subscribe;
-        } else if(mode == keys::none) {
+        }
+        else if(mode == keys::none)
+        {
             return ProfileMode::none;
-        } else {
+        }
+        else
+        {
             throw Exception("Unknown profile mode: ", mode);
         }
 
@@ -129,9 +136,9 @@ namespace adapter
         const auto profiles = yaml::require(node, keys::profiles);
 
         const auto participant = require(
-                DDS::DomainParticipantFactory::get_instance()->create_participant(domain_id, DDS::PARTICIPANT_QOS_DEFAULT, nullptr, DDS::STATUS_MASK_NONE),
-                "Unable to create domain participant: ", domain_id
-        );
+                                     DDS::DomainParticipantFactory::get_instance()->create_participant(domain_id, DDS::PARTICIPANT_QOS_DEFAULT, nullptr, DDS::STATUS_MASK_NONE),
+                                     "Unable to create domain participant: ", domain_id
+                                 );
 
         // configure the various profiles
         this->configure<resourcemodule::ResourceReadingProfile, openfmb::resourcemodule::ResourceReadingProfile>(profiles, participant, bus);
@@ -157,21 +164,21 @@ namespace adapter
         const char* type_name = DDSType::TypeSupport::get_type_name();
 
         verify(
-                DDSType::TypeSupport::register_type(participant, type_name),
-                "Error registering type: ", type_name
+            DDSType::TypeSupport::register_type(participant, type_name),
+            "Error registering type: ", type_name
         );
 
         // create a topic
         const auto topic = require(
-                participant->create_topic(
-                        type_name,             // topic name
-                        type_name,             // type name
-                        TOPIC_QOS_DEFAULT,
-                        nullptr,               // no listener
-                        DDS::STATUS_MASK_NONE
-                ),
-                "unable to create DDS topic for: ", type_name
-        );
+                               participant->create_topic(
+                                   type_name,             // topic name
+                                   type_name,             // type name
+                                   TOPIC_QOS_DEFAULT,
+                                   nullptr,               // no listener
+                                   DDS::STATUS_MASK_NONE
+                               ),
+                               "unable to create DDS topic for: ", type_name
+                           );
 
         if(mode == ProfileMode::publish)
         {
@@ -187,19 +194,19 @@ namespace adapter
     void DDSAdapter::publisher_to_dds(DDS::DomainParticipant* participant, DDS::Topic* topic, IMessageBus& bus)
     {
         const auto publisher = require(
-                participant->create_publisher(DDS::PUBLISHER_QOS_DEFAULT, nullptr, DDS::STATUS_MASK_NONE),
-                "Unable to created DDS publisher for: ", DDSType::TypeSupport::get_type_name()
-        );
+                                   participant->create_publisher(DDS::PUBLISHER_QOS_DEFAULT, nullptr, DDS::STATUS_MASK_NONE),
+                                   "Unable to created DDS publisher for: ", DDSType::TypeSupport::get_type_name()
+                               );
 
         const auto writer = require(
-                publisher->create_datawriter(
-                        topic,
-                        DATAWRITER_QOS_DEFAULT,
-                        nullptr,              // no listener
-                        DDS::STATUS_MASK_NONE
-                ),
-                "unable to create DDS writer for: ", DDSType::TypeSupport::get_type_name()
-        );
+                                publisher->create_datawriter(
+                                    topic,
+                                    DATAWRITER_QOS_DEFAULT,
+                                    nullptr,              // no listener
+                                    DDS::STATUS_MASK_NONE
+                                ),
+                                "unable to create DDS writer for: ", DDSType::TypeSupport::get_type_name()
+                            );
 
         bus.subscribe(std::make_shared<SubscriberImpl<ProtoType, DDSType>>(writer));
     }
@@ -208,24 +215,25 @@ namespace adapter
     void DDSAdapter::subscribe_to_dds(DDS::DomainParticipant* participant, DDS::Topic* topic, IMessageBus& bus)
     {
         const auto subscriber = require(
-                participant->create_subscriber(DDS::SUBSCRIBER_QOS_DEFAULT, nullptr, DDS::STATUS_MASK_NONE),
-                "unable to create DDS subscriber for: ", DDSType::TypeSupport::get_type_name()
-        );
+                                    participant->create_subscriber(DDS::SUBSCRIBER_QOS_DEFAULT, nullptr, DDS::STATUS_MASK_NONE),
+                                    "unable to create DDS subscriber for: ", DDSType::TypeSupport::get_type_name()
+                                );
 
         auto listener = std::make_shared<SubscriptionListener<ProtoType, DDSType>>(bus.get_publisher<ProtoType>());
 
         // we must keep this alive on the heap since the DDS library doesn't understand smart pointers
         this->listeners.push_back(std::move(listener));
 
-        auto subscribe = [subscriber, topic, listener]() {
+        auto subscribe = [subscriber, topic, listener]()
+        {
             require(
-                    subscriber->create_datareader(
-                            (TopicDescription*) topic,
-                            DDS::DATAREADER_QOS_DEFAULT,
-                            listener.get(),
-                            DDS::DATA_AVAILABLE_STATUS
-                    ),
-                    "unable to create DDS reader for: ", DDSType::TypeSupport::get_type_name()
+                subscriber->create_datareader(
+                    (TopicDescription*) topic,
+                    DDS::DATAREADER_QOS_DEFAULT,
+                    listener.get(),
+                    DDS::DATA_AVAILABLE_STATUS
+                ),
+                "unable to create DDS reader for: ", DDSType::TypeSupport::get_type_name()
             );
         };
 

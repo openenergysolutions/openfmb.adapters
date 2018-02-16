@@ -35,6 +35,8 @@ namespace adapter
 
         virtual void before_publish(T& profile) const override;
 
+        virtual bool is_empty() const override;
+
         // --- methods used to populate the mapping ---
 
         void add(uint16_t index, const setter_t<opendnp3::Analog>& setter);
@@ -96,6 +98,12 @@ namespace adapter
         {
             init(profile);
         }
+    }
+
+    template <class T>
+    bool ProfileMapping<T>::is_empty() const
+    {
+        return this->counter_map.empty() && this->analog_map.empty();
     }
 
     template <class T>
