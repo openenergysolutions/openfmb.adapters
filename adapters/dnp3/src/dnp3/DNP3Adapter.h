@@ -22,6 +22,11 @@ namespace adapter
 
         DNP3Adapter(const Logger& logger, const YAML::Node& node, IMessageBus& bus);
 
+        virtual std::string name() const override
+        {
+            return "dnp3";
+        }
+
         virtual void start() override;
 
     private:

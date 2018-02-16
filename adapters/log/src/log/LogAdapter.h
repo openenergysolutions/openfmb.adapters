@@ -12,6 +12,11 @@ namespace adapter
 
         LogAdapter(const YAML::Node& node, const Logger& logger, IMessageBus& bus);
 
+        virtual std::string name() const override
+        {
+            return "log";
+        }
+
         // start the execution of the adapter
         virtual void start() override {}
 

@@ -36,6 +36,11 @@ namespace adapter
 
         NatsAdapter(const Logger& logger, const YAML::Node& node, IMessageBus& bus);
 
+        virtual std::string name() const override
+        {
+            return "nats";
+        }
+
         virtual void start() override;
 
     private:

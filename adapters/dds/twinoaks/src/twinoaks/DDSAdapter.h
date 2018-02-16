@@ -21,19 +21,27 @@ namespace adapter
 
         virtual void start() override;
 
+        virtual std::string name() const override
+        {
+            return "dds-twinoaks";
+        }
+
     private:
+
+        Logger logger;
 
         template <class ProtoType, class DDSType>
         void configure(const YAML::Node& node, DDS::DomainParticipant* participant, IMessageBus& bus);
 
         template <class ProtoType, class DDSType>
-        void subscribe_to_dds(DDS::DomainParticipant* participant, DDS::Topic* topic, IMessageBus& bus);
+        void subscribe_to_dds(DDS::DomainParticipant* participant, IMessageBus& bus);
 
         template <class ProtoType, class DDSType>
-        void publisher_to_dds(DDS::DomainParticipant* participant, DDS::Topic* topic, IMessageBus& bus);
+        void publish_to_dds(DDS::DomainParticipant* participant, IMessageBus& bus);
 
         // collection of active DDS listeners
-        std::vector<std::shared_ptr<DDS::DataReaderListener>> listeners;
+        std::vector<std::shared_ptr<DDS::DataReaderListener>> reader_listeners;
+        std::vector<std::shared_ptr<DDS::DataWriterListener>> writer_listeners;
 
         std::vector<std::function<void ()>> start_actions;
 
