@@ -3,6 +3,7 @@
 
 #include <asiodnp3/PrintingSOEHandler.h>
 #include <asiodnp3/DefaultMasterApplication.h>
+#include <asiodnp3/ConsoleLogger.h>
 #include <opendnp3/LogLevels.h>
 #include <adapter-api/util/YAMLUtil.h>
 #include <adapter-api/helpers/generated/MessageVisitors.h>
@@ -23,9 +24,11 @@ namespace adapter
         const YAML::Node& node,
         IMessageBus& bus
     ) :
+        logger(logger),
         manager(
             yaml::with_default(node[keys::thread_pool_size], std::thread::hardware_concurrency()),
-            std::make_shared<LogAdapter>(logger)
+            ConsoleLogger::Create()
+            //std::make_shared<LogAdapter>(logger)
         )
     {
         yaml::foreach(node[keys::masters], [&](const YAML::Node& n)
@@ -53,14 +56,21 @@ namespace adapter
 
         const auto profile_node = yaml::require(node, keys::profile);
 
-        const auto data_handler = std::make_shared<SOEHandler<resourcemodule::ResourceReadingProfile>>(
-                                      read_mapping<resourcemodule::ResourceReadingProfile>(profile_node, visit),
-                                      bus.get_publisher<resourcemodule::ResourceReadingProfile>()
-                                  );
+        auto mapping = read_mapping<resourcemodule::ResourceReadingProfile>(profile_node, visit);
+
+        if(mapping->is_empty())
+        {
+            throw Exception("DNP3 adapter has no point mappings");
+        }
+
+        logger.info("{} point(s) are mapped to {}", mapping->get_num_mappings(), resourcemodule::ResourceReadingProfile::descriptor()->name());
 
         auto master = channel->AddMaster(
                           yaml::require(node, keys::name).as<std::string>(),
-                          data_handler,
+                          std::make_shared<SOEHandler<resourcemodule::ResourceReadingProfile>>(
+                              std::move(mapping),
+                              bus.get_publisher<resourcemodule::ResourceReadingProfile>()
+                          ),
                           DefaultMasterApplication::Create(),
                           config
                       );

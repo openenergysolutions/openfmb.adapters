@@ -37,9 +37,17 @@ namespace adapter
         virtual bool set_value(const opendnp3::Indexed<opendnp3::Counter>& meas, T& profile) const = 0;
 
         /**
+         * Total number of mapped measurement values
+         */
+        virtual size_t get_num_mappings() const = 0;
+
+        /**
          * Test if there are any point mappings loaded
          */
-        virtual bool is_empty() const = 0;
+        inline bool is_empty() const
+        {
+            return this->get_num_mappings() == 0;
+        }
 
     };
 

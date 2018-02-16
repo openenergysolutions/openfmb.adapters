@@ -222,13 +222,9 @@ namespace adapter
                                                "cVal"
                                            );
 
-
-            const YAML::Node mag_node = yaml::require(vector_node, keys::mag);
-            const YAML::Node ang_node = yaml::require(vector_node, keys::ang);
-
             // independently configure the angle and magnitude
-            this->configure_cmv_mag(mag_node, getter);
-            this->configure_cmv_ang(ang_node, getter);
+            this->configure_cmv_mag(yaml::require(vector_node, keys::mag), getter);
+            this->configure_cmv_ang(yaml::require(vector_node, keys::ang), getter);
         }
 
         void configure_cmv_ang(const YAML::Node& node, getter_t<commonmodule::CMV, T> getter)
@@ -266,7 +262,7 @@ namespace adapter
 
             const auto setter = [scale = get_scale(node), getter](const opendnp3::Analog & meas, T & profile)
             {
-                getter(profile)->mutable_cval()->mutable_ang()->set_f(static_cast<float>(meas.value * scale));
+                getter(profile)->mutable_cval()->mutable_mag()->set_f(static_cast<float>(meas.value * scale));
                 // TODO - extend to set timestamp/quality ?
             };
 
@@ -308,11 +304,6 @@ namespace adapter
         ConfigReadVisitor<T> reader(node, *mapping);
 
         visit(reader);
-
-        if(mapping->is_empty())
-        {
-            throw Exception("No measurements mapped");
-        }
 
         return std::move(mapping);
     }

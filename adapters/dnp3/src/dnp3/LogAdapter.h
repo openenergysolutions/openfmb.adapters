@@ -18,10 +18,11 @@ namespace adapter
 
     public:
 
-        LogAdapter(const Logger& logger) : logger(logger) {}
+        explicit LogAdapter(const Logger& logger) : logger(logger) {}
 
         virtual void Log( const openpal::LogEntry& entry ) override
         {
+            std::cout << entry.message << std::endl;
             switch(entry.filters.GetBitfield())
             {
             case(opendnp3::flags::DBG):

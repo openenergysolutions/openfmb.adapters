@@ -26,6 +26,7 @@ namespace adapter
 
     private:
 
+        Logger logger;
         asiodnp3::DNP3Manager manager;
 
         void add_master(const YAML::Node& node, IMessageBus& bus);

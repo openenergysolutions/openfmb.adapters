@@ -35,7 +35,7 @@ namespace adapter
 
         virtual void before_publish(T& profile) const override;
 
-        virtual bool is_empty() const override;
+        virtual size_t get_num_mappings() const override;
 
         // --- methods used to populate the mapping ---
 
@@ -101,9 +101,9 @@ namespace adapter
     }
 
     template <class T>
-    bool ProfileMapping<T>::is_empty() const
+    size_t ProfileMapping<T>::get_num_mappings() const
     {
-        return this->counter_map.empty() && this->analog_map.empty();
+        return this->counter_map.size() + this->analog_map.size();
     }
 
     template <class T>

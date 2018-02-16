@@ -96,7 +96,7 @@ namespace adapter
 
     private:
 
-        Logger(const std::shared_ptr<spdlog::logger>& impl) : impl(impl)
+        Logger(std::shared_ptr<spdlog::logger> impl) : impl(impl)
         {}
 
         template<class SinkCollection>
