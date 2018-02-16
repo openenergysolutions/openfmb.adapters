@@ -10,7 +10,6 @@ set(DNP3_HEADERS
         src/dnp3/DNP3Factory.h
         src/dnp3/IProfileMapping.h
         src/dnp3/LogAdapter.h
-        src/dnp3/PointMap.h
         src/dnp3/ProfileMapping.h
         src/dnp3/ProfileMappingReader.h
         src/dnp3/SOEHandler.h
