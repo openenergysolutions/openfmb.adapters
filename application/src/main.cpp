@@ -187,10 +187,6 @@ vector<unique_ptr<IAdapter>> init_adapters(const std::string& yaml_path, Adapter
                 factory.create(entry, logger.clone(factory.name()), bus)
             );
         }
-        else
-        {
-            logger.info("Skipping configuration for disabled adapter: {}", factory.name());
-        }
     };
 
     registry.foreach_adapter(try_to_load);
