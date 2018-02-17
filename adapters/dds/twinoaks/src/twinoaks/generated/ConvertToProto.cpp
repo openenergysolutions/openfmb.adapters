@@ -36,7 +36,7 @@ void convert_to_proto(const openfmb::commonmodule::ReadingMessageInfo& in, commo
     convert_to_proto(in, *out.mutable_identifiedobject()); // inherited type
     convert_to_proto(in.messageTimeStamp, *out.mutable_messagetimestamp()); // required field in DDS
     // convert primitive fields
-    out.set_applicationname(convert_string(in.applicationName));
+    if(in.applicationName) out.set_applicationname(convert_string(in.applicationName));
 }
 
 void convert_to_proto(const openfmb::commonmodule::IED& in, commonmodule::IED& out)

@@ -110,13 +110,27 @@ public class ConvertToProto extends CppFilePair {
 
         if(FieldInfo.isRequired(field))
         {
-            return line(
-                    String.format("out.set_%s(convert_%s(in.%s));",
-                            field.getName().toLowerCase(),
-                            field.getType().toString().toLowerCase(),
-                            field.getName()
-                    )
-            );
+            if(field.getType().equals(Descriptors.FieldDescriptor.Type.STRING))
+            {
+                return line(
+                        String.format("if(in.%s) out.set_%s(convert_%s(in.%s));",
+                                field.getName(),
+                                field.getName().toLowerCase(),
+                                field.getType().toString().toLowerCase(),
+                                field.getName()
+                        )
+                );
+            }
+            else
+            {
+                return line(
+                        String.format("out.set_%s(convert_%s(in.%s));",
+                                field.getName().toLowerCase(),
+                                field.getType().toString().toLowerCase(),
+                                field.getName()
+                        )
+                );
+            }
         }
         else
         {
