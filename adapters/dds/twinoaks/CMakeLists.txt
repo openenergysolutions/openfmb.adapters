@@ -47,4 +47,3 @@ target_include_directories(twinoaks-dds-adapter PRIVATE ${COREDX_INCLUDE})
 target_include_directories(twinoaks-dds-adapter INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/src")
 target_include_directories(twinoaks-dds-adapter PRIVATE ${DDS_PATH})
 target_link_libraries(twinoaks-dds-adapter adapter-api ${DDS} ${DDS_CPP})
-

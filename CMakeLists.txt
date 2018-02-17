@@ -10,6 +10,8 @@ option(OPENFMB_USE_TWINOAKS_DDS "Build the Twin Oaks DDS adapter" ON)
 #temporary hack
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
 
+enable_testing()
+
 # API used by the adapters / application
 add_subdirectory(./adapter-api)
 
@@ -22,6 +24,7 @@ endif()
 
 if(OPENFMB_USE_TWINOAKS_DDS)
   add_subdirectory(./adapters/dds/twinoaks)
+  add_subdirectory(./adapters/dds/twinoaks/test)
 endif()
 
 if(OPENFMB_USE_NATS)
