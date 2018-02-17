@@ -61,7 +61,9 @@ namespace adapter
 
         inline char* create_string(const ::std::string& in)
         {
-            return nullptr; // TODO
+            char* dest = new char[in.size() + 1];
+            strcpy(dest, in.c_str());
+            return dest;
         }
 
         inline char* convert_string(const ::std::string& in)

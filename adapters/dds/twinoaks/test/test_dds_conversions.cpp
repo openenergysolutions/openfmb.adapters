@@ -11,6 +11,7 @@ TEST_CASE( "protobuf <=> DDS conversions round trip correctly" ) {
 
         resourcemodule::ResourceReadingProfile input;
         resourcemodule::ResourceReadingProfile output;
+
         input.mutable_readingmessageinfo()->set_applicationname("application");
 
 
