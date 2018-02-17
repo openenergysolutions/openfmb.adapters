@@ -30,7 +30,6 @@ namespace adapter
 
         virtual void receive(const T& message) override
         {
-            logger.info("publishing DDS message");
             dds::convert_from_proto(message, outgoing);
             auto err = writer->write(&outgoing, DDS::HANDLE_NIL);
             if(err != DDS::RETCODE_OK)
@@ -53,8 +52,6 @@ namespace adapter
 
         virtual void on_data_available(DataReader* dr ) override
         {
-            logger.info("Received DDS message");
-
             const auto reader = U::DataReader::narrow(dr);
 
             typename U::Seq samples;
@@ -94,36 +91,6 @@ namespace adapter
 
         Logger logger;
         const publisher_t<T> publisher;
-    };
-
-    class WriterListener final : public DDS::DataWriterListener
-    {
-    public:
-        WriterListener(const Logger &logger) : logger(logger) {}
-
-        virtual void on_offered_deadline_missed ( DataWriter*, const OfferedDeadlineMissedStatus&) override
-        {
-            logger.warn("on_offered_deadline_missed()");
-        }
-
-        virtual void on_offered_incompatible_qos( DataWriter*, const OfferedIncompatibleQosStatus&) override
-        {
-            logger.warn("on_offered_incompatible_qos()");
-        }
-
-        virtual void on_liveliness_lost(DataWriter*, const LivelinessLostStatus&) override
-        {
-            logger.warn("on_liveliness_lost()");
-        }
-
-        virtual void on_publication_matched(DataWriter*, const PublicationMatchedStatus&) override
-        {
-            logger.warn("on_publication_matched()");
-        }
-
-    private:
-
-        Logger logger;
     };
 
     template <class T, class... Args>
@@ -243,14 +210,11 @@ namespace adapter
                 "unable to create DDS topic for: ", DDSType::TypeSupport::get_type_name()
         );
 
-        const auto listener = std::make_shared<WriterListener>(this->logger);
-        this->writer_listeners.push_back(listener);
-
         const auto writer = require(
                                 publisher->create_datawriter(
                                     topic,
                                     DATAWRITER_QOS_DEFAULT,
-                                    listener.get(),
+                                    nullptr,
                                     DDS::STATUS_MASK_NONE
                                 ),
                                 "unable to create DDS writer for: ", DDSType::TypeSupport::get_type_name()
