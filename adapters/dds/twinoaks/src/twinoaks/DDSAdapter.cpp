@@ -166,6 +166,15 @@ namespace adapter
         this->start_actions.clear();
     }
 
+    template <class DDSType>
+    std::string DDSAdapter::get_topic_name()
+    {
+        // TODO - do this correctly in the future
+        std::ostringstream oss;
+        oss << "openfmb_resourcemodule_" << DDSType::TypeSupport::get_type_name();
+        return oss.str();
+    }
+
     template <class ProtoType, class DDSType>
     void DDSAdapter::configure(const YAML::Node& node, DDS::DomainParticipant* participant, IMessageBus& bus)
     {
@@ -194,15 +203,15 @@ namespace adapter
                                );
 
         verify(
-                DDSType::TypeSupport::register_type(participant, DDSType::TypeSupport::get_type_name()),
+                DDSType::TypeSupport::register_type(participant, DDSType::TypeSupport::get_fully_qualified_type_name()),
                 "Error registering type: ", DDSType::TypeSupport::get_type_name()
         );
 
         // create a topic
         const auto topic = require(
                 participant->create_topic(
-                        DDSType::TypeSupport::get_type_name(),             // topic name
-                        DDSType::TypeSupport::get_type_name(),             // type name
+                        get_topic_name<DDSType>().c_str(),                       // topic name
+                        DDSType::TypeSupport::get_fully_qualified_type_name(),   // type name
                         TOPIC_QOS_DEFAULT,
                         nullptr,               // no listener
                         DDS::STATUS_MASK_NONE
@@ -232,15 +241,15 @@ namespace adapter
                                 );
 
         verify(
-                DDSType::TypeSupport::register_type(participant, DDSType::TypeSupport::get_type_name()),
+                DDSType::TypeSupport::register_type(participant, DDSType::TypeSupport::get_fully_qualified_type_name()),
                 "Error registering type: ", DDSType::TypeSupport::get_type_name()
         );
 
         // create a topic
         const auto topic = require(
                 participant->create_topic(
-                        DDSType::TypeSupport::get_type_name(),             // topic name
-                        DDSType::TypeSupport::get_type_name(),             // type name
+                        get_topic_name<DDSType>().c_str(),                 // topic name
+                        DDSType::TypeSupport::get_fully_qualified_type_name(),             // type name
                         TOPIC_QOS_DEFAULT,
                         nullptr,               // no listener
                         DDS::STATUS_MASK_NONE

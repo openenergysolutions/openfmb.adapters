@@ -30,6 +30,9 @@ namespace adapter
 
         Logger logger;
 
+        template <class DDSType>
+        static std::string get_topic_name();
+
         template <class ProtoType, class DDSType>
         void configure(const YAML::Node& node, DDS::DomainParticipant* participant, IMessageBus& bus);
 
