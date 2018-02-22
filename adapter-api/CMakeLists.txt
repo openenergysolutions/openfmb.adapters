@@ -1,3 +1,9 @@
+find_package(Boost)
+
+if(NOT Boost_FOUND)
+	message(FATAL_ERROR "Unable to find BOOST. Required for UUID generation.")
+endif()
+
 find_library(PROTOBUF_LIBRARY protobuf)
 
 if(NOT PROTOBUF_LIBRARY)
@@ -97,6 +103,7 @@ add_custom_command(
 
 add_library(adapter-api ${PROTO_SOURCES} ${PROTO_HEADERS} ${API_SOURCES} ${API_HEADERS})
 target_include_directories(adapter-api PUBLIC ${PROTO_OUTPUT_DIR})
+target_include_directories(adapter-api PUBLIC ${Boost_INCLUDE_DIRS})
 target_include_directories(adapter-api INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/src")
 target_include_directories(adapter-api INTERFACE "${CMAKE_SOURCE_DIR}/deps/spdlog/include")
 target_link_libraries(adapter-api PUBLIC ${PROTOBUF_LIBRARY})
