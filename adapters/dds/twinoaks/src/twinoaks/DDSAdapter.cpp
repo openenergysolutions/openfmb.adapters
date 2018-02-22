@@ -10,6 +10,8 @@
 
 #include "ConfigKeys.h"
 
+#include <boost/algorithm/string/replace.hpp>
+
 namespace adapter
 {
     // Class used to listen to protobuf subscriptions
@@ -169,10 +171,11 @@ namespace adapter
     template <class DDSType>
     std::string DDSAdapter::get_topic_name()
     {
-        // TODO - do this correctly in the future
-        std::ostringstream oss;
-        oss << "openfmb_resourcemodule_" << DDSType::TypeSupport::get_type_name();
-        return oss.str();
+        return boost::replace_all_copy<std::string>(
+            DDSType::TypeSupport::get_fully_qualified_type_name(),
+            "::",
+            "_"
+        );
     }
 
     template <class ProtoType, class DDSType>
