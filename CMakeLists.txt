@@ -2,33 +2,33 @@ cmake_minimum_required (VERSION 3.0)
 project (openfmb-adapter)
 set(OPENFMB_ADAPTER_VERSION 0.0.1)
 
-# optionally disable certain adapters
-option(OPENFMB_USE_DNP3 "Build the DNP3 adapter" ON)
-option(OPENFMB_USE_NATS "Build the NATS adapter" ON)
-option(OPENFMB_USE_TWINOAKS_DDS "Build the Twin Oaks DDS adapter" ON)
+# optionally disable certain plugins
+option(OPENFMB_USE_DNP3 "Build the DNP3 plugin" ON)
+option(OPENFMB_USE_NATS "Build the NATS plugin" ON)
+option(OPENFMB_USE_TWINOAKS_DDS "Build the Twin Oaks DDS plugin" ON)
 
 #temporary hack
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
 
 enable_testing()
 
-# API used by the adapters / application
+# API used by the plugins / application
 add_subdirectory(./adapter-api)
 
-# adapter that logs published messages
-add_subdirectory(./adapters/log)
+# plugin that logs published messages
+add_subdirectory(./plugins/log)
 
 if(OPENFMB_USE_DNP3)
-  add_subdirectory(./adapters/dnp3)
+  add_subdirectory(./plugins/dnp3)
 endif()
 
 if(OPENFMB_USE_TWINOAKS_DDS)
-  add_subdirectory(./adapters/dds/twinoaks)
-  add_subdirectory(./adapters/dds/twinoaks/test)
+  add_subdirectory(./plugins/dds/twinoaks)
+  add_subdirectory(./plugins/dds/twinoaks/test)
 endif()
 
 if(OPENFMB_USE_NATS)
-  add_subdirectory(./adapters/nats)
+  add_subdirectory(./plugins/nats)
 endif()
 
 # main application
