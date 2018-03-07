@@ -1,12 +1,12 @@
-#include "DDSAdapterFactory.h"
+#include "DDSPluginFactory.h"
 
-#include "DDSAdapter.h"
+#include "DDSPlugin.h"
 #include "ConfigKeys.h"
 
 namespace adapter
 {
 
-    void DDSAdapterFactory::write_default_config(YAML::Emitter& out) const
+    void DDSPluginFactory::write_default_config(YAML::Emitter& out) const
     {
         out << YAML::Key << keys::domain_id << 0;
 
@@ -17,9 +17,9 @@ namespace adapter
         out << YAML::EndMap;
     }
 
-    std::unique_ptr<IAdapter> DDSAdapterFactory::create(const YAML::Node& node, const Logger& logger, IMessageBus& bus)
+    std::unique_ptr<IPlugin> DDSPluginFactory::create(const YAML::Node& node, const Logger& logger, IMessageBus& bus)
     {
-        return std::make_unique<DDSAdapter>(node, logger, bus);
+        return std::make_unique<DDSPlugin>(node, logger, bus);
     }
 
 }

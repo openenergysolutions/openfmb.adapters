@@ -1,5 +1,5 @@
 
-#include "DDSAdapter.h"
+#include "DDSPlugin.h"
 
 #include "adapter-api/util/YAMLUtil.h"
 
@@ -142,7 +142,7 @@ namespace adapter
 
     }
 
-    DDSAdapter::DDSAdapter(const YAML::Node& node, const Logger& logger, IMessageBus& bus) : logger(logger)
+    DDSPlugin::DDSPlugin(const YAML::Node& node, const Logger& logger, IMessageBus& bus) : logger(logger)
     {
         const auto domain_id = yaml::require(node, keys::domain_id).as<DDS::DomainId_t>();
 
@@ -158,7 +158,7 @@ namespace adapter
 
     }
 
-    void DDSAdapter::start()
+    void DDSPlugin::start()
     {
         for(auto& action : this->start_actions)
         {
@@ -169,36 +169,36 @@ namespace adapter
     }
 
     template <class DDSType>
-    std::string DDSAdapter::get_topic_name()
+    std::string DDSPlugin::get_topic_name()
     {
         return boost::replace_all_copy<std::string>(
-            DDSType::TypeSupport::get_fully_qualified_type_name(),
-            "::",
-            "_"
-        );
+                   DDSType::TypeSupport::get_fully_qualified_type_name(),
+                   "::",
+                   "_"
+               );
     }
 
     template <class ProtoType, class DDSType>
-    void DDSAdapter::configure(const YAML::Node& node, DDS::DomainParticipant* participant, IMessageBus& bus)
+    void DDSPlugin::configure(const YAML::Node& node, DDS::DomainParticipant* participant, IMessageBus& bus)
     {
         const auto mode_string = yaml::require_string(node, ProtoType::descriptor()->name());
         const auto mode = parse_profile_mode(mode_string);
 
         switch(mode)
         {
-            case(ProfileMode::publish):
-                this->publish_to_dds<ProtoType, DDSType>(participant, bus);
-                break;
-            case(ProfileMode::subscribe):
-                this->subscribe_to_dds<ProtoType, DDSType>(participant, bus);
-                break;
-            default:
-                break;
+        case(ProfileMode::publish):
+            this->publish_to_dds<ProtoType, DDSType>(participant, bus);
+            break;
+        case(ProfileMode::subscribe):
+            this->subscribe_to_dds<ProtoType, DDSType>(participant, bus);
+            break;
+        default:
+            break;
         }
     }
 
     template <class ProtoType, class DDSType>
-    void DDSAdapter::publish_to_dds(DDS::DomainParticipant* participant, IMessageBus& bus)
+    void DDSPlugin::publish_to_dds(DDS::DomainParticipant* participant, IMessageBus& bus)
     {
         const auto publisher = require(
                                    participant->create_publisher(DDS::PUBLISHER_QOS_DEFAULT, nullptr, DDS::STATUS_MASK_NONE),
@@ -206,21 +206,21 @@ namespace adapter
                                );
 
         verify(
-                DDSType::TypeSupport::register_type(participant, DDSType::TypeSupport::get_fully_qualified_type_name()),
-                "Error registering type: ", DDSType::TypeSupport::get_type_name()
+            DDSType::TypeSupport::register_type(participant, DDSType::TypeSupport::get_fully_qualified_type_name()),
+            "Error registering type: ", DDSType::TypeSupport::get_type_name()
         );
 
         // create a topic
         const auto topic = require(
-                participant->create_topic(
-                        get_topic_name<DDSType>().c_str(),                       // topic name
-                        DDSType::TypeSupport::get_fully_qualified_type_name(),   // type name
-                        TOPIC_QOS_DEFAULT,
-                        nullptr,               // no listener
-                        DDS::STATUS_MASK_NONE
-                ),
-                "unable to create DDS topic for: ", DDSType::TypeSupport::get_type_name()
-        );
+                               participant->create_topic(
+                                   get_topic_name<DDSType>().c_str(),                       // topic name
+                                   DDSType::TypeSupport::get_fully_qualified_type_name(),   // type name
+                                   TOPIC_QOS_DEFAULT,
+                                   nullptr,               // no listener
+                                   DDS::STATUS_MASK_NONE
+                               ),
+                               "unable to create DDS topic for: ", DDSType::TypeSupport::get_type_name()
+                           );
 
         const auto writer = require(
                                 publisher->create_datawriter(
@@ -236,7 +236,7 @@ namespace adapter
     }
 
     template <class ProtoType, class DDSType>
-    void DDSAdapter::subscribe_to_dds(DDS::DomainParticipant* participant, IMessageBus& bus)
+    void DDSPlugin::subscribe_to_dds(DDS::DomainParticipant* participant, IMessageBus& bus)
     {
         const auto subscriber = require(
                                     participant->create_subscriber(DDS::SUBSCRIBER_QOS_DEFAULT, nullptr, DDS::STATUS_MASK_NONE),
@@ -244,27 +244,27 @@ namespace adapter
                                 );
 
         verify(
-                DDSType::TypeSupport::register_type(participant, DDSType::TypeSupport::get_fully_qualified_type_name()),
-                "Error registering type: ", DDSType::TypeSupport::get_type_name()
+            DDSType::TypeSupport::register_type(participant, DDSType::TypeSupport::get_fully_qualified_type_name()),
+            "Error registering type: ", DDSType::TypeSupport::get_type_name()
         );
 
         // create a topic
         const auto topic = require(
-                participant->create_topic(
-                        get_topic_name<DDSType>().c_str(),                 // topic name
-                        DDSType::TypeSupport::get_fully_qualified_type_name(),             // type name
-                        TOPIC_QOS_DEFAULT,
-                        nullptr,               // no listener
-                        DDS::STATUS_MASK_NONE
-                ),
-                "unable to create DDS topic for: ", DDSType::TypeSupport::get_type_name()
-        );
+                               participant->create_topic(
+                                   get_topic_name<DDSType>().c_str(),                 // topic name
+                                   DDSType::TypeSupport::get_fully_qualified_type_name(),             // type name
+                                   TOPIC_QOS_DEFAULT,
+                                   nullptr,               // no listener
+                                   DDS::STATUS_MASK_NONE
+                               ),
+                               "unable to create DDS topic for: ", DDSType::TypeSupport::get_type_name()
+                           );
 
 
         const auto listener = std::make_shared<SubscriptionListener<ProtoType, DDSType>>(
-                this->logger,
-                bus.get_publisher<ProtoType>()
-        );
+                                  this->logger,
+                                  bus.get_publisher<ProtoType>()
+                              );
 
         // we must keep this alive on the heap since the DDS library doesn't understand smart pointers
         this->reader_listeners.push_back(listener);
@@ -281,7 +281,7 @@ namespace adapter
                 "unable to create DDS reader for: ", DDSType::TypeSupport::get_type_name()
             );
 
-           logger.info("Started DDS subscription for {}", DDSType::TypeSupport::get_type_name());
+            logger.info("Started DDS subscription for {}", DDSType::TypeSupport::get_type_name());
         };
 
         // don't start processing subscriptions until the adapter starts

@@ -63,8 +63,8 @@ set_proto_output_files(PROTO_SOURCES "pb.cc")
 set_proto_input_files(PROTO_INPUT_FILES)
 
 set(API_HEADERS
-    src/adapter-api/IAdapter.h
-	src/adapter-api/IAdapterFactory.h
+        src/adapter-api/IPlugin.h
+		src/adapter-api/IPluginFactory.h
 
     src/adapter-api/IPublisher.h
     src/adapter-api/ISubscriber.h

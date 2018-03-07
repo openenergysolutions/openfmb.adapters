@@ -1,13 +1,13 @@
 
-#include "NatsFactory.h"
+#include "NatsPluginFactory.h"
 
-#include "NatsAdapter.h"
+#include "NatsPlugin.h"
 
 #include "ConfigKeys.h"
 
 namespace adapter
 {
-    void NatsFactory::write_default_config(YAML::Emitter& out) const
+    void NatsPluginFactory::write_default_config(YAML::Emitter& out) const
     {
         out << YAML::Key << keys::max_queued_messages << 100;
         out << YAML::Comment("how many messages to buffer before discarding the oldest");
@@ -20,9 +20,9 @@ namespace adapter
 
     }
 
-    std::unique_ptr<IAdapter> NatsFactory::create(const YAML::Node& node, const Logger& logger, IMessageBus& bus)
+    std::unique_ptr<IPlugin> NatsPluginFactory::create(const YAML::Node& node, const Logger& logger, IMessageBus& bus)
     {
-        return std::make_unique<NatsAdapter>(
+        return std::make_unique<NatsPlugin>(
                    logger,
                    node,
                    bus

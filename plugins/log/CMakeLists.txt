@@ -1,13 +1,13 @@
 
 
 set(PROJECT_HEADERS
-        src/log/LogAdapterFactory.h
-        src/log/LogAdapter.h
+        src/log/LogPluginFactory.h
+        src/log/LogPlugin.h
 )
 
 set(PROJECT_SOURCES
-        src/log/LogAdapterFactory.cpp
-        src/log/LogAdapter.cpp
+        src/log/LogPluginFactory.cpp
+        src/log/LogPlugin.cpp
 )
 
 SET(CPP_FORMAT_DIRS
@@ -17,7 +17,7 @@ SET(CPP_FORMAT_DIRS
         PARENT_SCOPE
 )
 
-add_library(log-adapter STATIC ${PROJECT_SOURCES} ${PROJECT_HEADERS})
-target_link_libraries(log-adapter PUBLIC adapter-api)
-target_include_directories(log-adapter INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/src)
+add_library(log-plugin STATIC ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+target_link_libraries(log-plugin PUBLIC adapter-api)
+target_include_directories(log-plugin INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 

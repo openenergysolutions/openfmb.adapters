@@ -1,5 +1,5 @@
 
-#include "LogAdapter.h"
+#include "LogPlugin.h"
 
 #include "adapter-api/util/YAMLUtil.h"
 
@@ -23,7 +23,7 @@ namespace adapter
 
     };
 
-    LogAdapter::LogAdapter(const YAML::Node& node, const Logger& logger, IMessageBus& bus)
+    LogPlugin::LogPlugin(const YAML::Node& node, const Logger& logger, IMessageBus& bus)
     {
         const auto profiles = yaml::require(node, "profiles");
 

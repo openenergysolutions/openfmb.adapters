@@ -11,14 +11,14 @@
 namespace adapter
 {
 
-    class LogAdapter final : public openpal::ILogHandler
+    class LogPlugin final : public openpal::ILogHandler
     {
 
         Logger logger;
 
     public:
 
-        explicit LogAdapter(const Logger& logger) : logger(logger) {}
+        explicit LogPlugin(const Logger& logger) : logger(logger) {}
 
         virtual void Log( const openpal::LogEntry& entry ) override
         {

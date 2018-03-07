@@ -1,20 +1,20 @@
 
-#ifndef OPENFMB_ADAPTER_ADAPTERREGISTRY_H
-#define OPENFMB_ADAPTER_ADAPTERREGISTRY_H
+#ifndef OPENFMB_ADAPTER_PLUGINREGISTRY_H
+#define OPENFMB_ADAPTER_PLUGINREGISTRY_H
 
-#include <adapter-api/IAdapterFactory.h>
+#include <adapter-api/IPluginFactory.h>
 
 #include <map>
 
 namespace adapter
 {
 
-    class AdapterRegistry
+    class PluginRegistry
     {
 
     public:
 
-        AdapterRegistry();
+        PluginRegistry();
 
         template<class Action>
         void foreach_adapter(const Action& action) const
@@ -30,7 +30,7 @@ namespace adapter
         template<class T>
         void add();
 
-        std::map<std::string, std::shared_ptr<IAdapterFactory>> lookup;
+        std::map<std::string, std::shared_ptr<IPluginFactory>> lookup;
 
     };
 

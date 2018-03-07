@@ -1,15 +1,15 @@
 
-#ifndef OPENFMB_ADAPTER_IADAPTER_H
-#define OPENFMB_ADAPTER_IADAPTER_H
+#ifndef OPENFMB_ADAPTER_IPLUGIN_H
+#define OPENFMB_ADAPTER_IPLUGIN_H
 
 #include <string>
 
 namespace adapter
 {
-    class IAdapter
+    class IPlugin
     {
     public:
-        virtual ~IAdapter() = default;
+        virtual ~IPlugin() = default;
 
         // supplies the same name as the factory
         virtual std::string name() const = 0;

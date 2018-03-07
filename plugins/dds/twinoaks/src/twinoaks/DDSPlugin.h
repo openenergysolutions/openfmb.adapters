@@ -1,23 +1,23 @@
-#ifndef OPENFMB_ADAPTER_DDSADAPTER_H
-#define OPENFMB_ADAPTER_DDSADAPTER_H
+#ifndef OPENFMB_ADAPTER_DDSPLUGIN_H
+#define OPENFMB_ADAPTER_DDSPLUGIN_H
 
 #include <dds/dds.h>
 #include <dds/dds.hh>
 
 #include "adapter-api/util/Exception.h"
-#include "adapter-api/IAdapterFactory.h"
+#include "adapter-api/IPluginFactory.h"
 
 #include <vector>
 
 namespace adapter
 {
 
-    class DDSAdapter : public IAdapter
+    class DDSPlugin : public IPlugin
     {
 
     public:
 
-        DDSAdapter(const YAML::Node& node, const Logger& logger, IMessageBus& bus);
+        DDSPlugin(const YAML::Node& node, const Logger& logger, IMessageBus& bus);
 
         virtual void start() override;
 
@@ -52,4 +52,4 @@ namespace adapter
 
 }
 
-#endif //OPENFMB_ADAPTER_DDSADAPTER_H
+#endif //OPENFMB_ADAPTER_DDSPLUGIN_H

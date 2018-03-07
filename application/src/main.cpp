@@ -1,9 +1,9 @@
 
 #include "adapter-api/util/Exception.h"
-#include "adapter-api/IAdapter.h"
+#include "adapter-api/IPlugin.h"
 #include "adapter-api/util/YAMLUtil.h"
 
-#include "AdapterRegistry.h"
+#include "PluginRegistry.h"
 #include "ProtoBus.h"
 #include "Shutdown.h"
 #include "ConfigKeys.h"
@@ -15,7 +15,7 @@
 using namespace std;
 using namespace adapter;
 
-vector<unique_ptr<IAdapter>> initialize(const std::string& yaml_path, AdapterRegistry& registry, IMessageBus& bus);
+vector<unique_ptr<IPlugin>> initialize(const std::string& yaml_path, PluginRegistry& registry, IMessageBus& bus);
 
 int run_application(const std::string& config_file_path);
 
@@ -80,17 +80,17 @@ void print_usage()
 
 int run_application(const std::string& config_file_path)
 {
-    AdapterRegistry registry;
+    PluginRegistry registry;
 
-    // adapters publish and subscribe to this common bus
+    // plugins publish and subscribe to this common bus
     const auto bus = make_shared<ProtoBus>();
 
-    // load the logger & adapters from the yaml configuration
-    const auto adapters = initialize(config_file_path, registry, *bus);
+    // load the logger & plugins from the yaml configuration
+    const auto plugins = initialize(config_file_path, registry, *bus);
 
-    if(adapters.empty())
+    if(plugins.empty())
     {
-        std::cerr << "No enabled adapters founded" << std::endl;
+        std::cerr << "No enabled plugins founded" << std::endl;
         return -1;
     }
 
@@ -98,9 +98,9 @@ int run_application(const std::string& config_file_path)
     bus->finalize();
 
     // start the adapters running/publishing to the bus
-    for(auto& adapter : adapters)
+    for(auto& plugin : plugins)
     {
-        adapter->start();
+        plugin->start();
     }
 
     // wait for ctrl-c
@@ -109,11 +109,11 @@ int run_application(const std::string& config_file_path)
     return 0;
 }
 
-int write_adapters(YAML::Emitter& out)
+int write_default_plugin_configs(YAML::Emitter& out)
 {
-    AdapterRegistry registry;
+    PluginRegistry registry;
 
-    const auto write_config = [&](const IAdapterFactory & factory) -> void
+    const auto write_config = [&](const IPluginFactory & factory) -> void
     {
         out << YAML::Newline << YAML::Comment(factory.description());
         out << factory.name();
@@ -124,8 +124,8 @@ int write_adapters(YAML::Emitter& out)
         out << YAML::Newline;
     };
 
-    out << YAML::Newline << YAML::Newline << YAML::Comment("map of adapter configurations");
-    out << YAML::Key << keys::adapters;
+    out << YAML::Newline << YAML::Newline << YAML::Comment("map of plugin configurations");
+    out << YAML::Key << keys::plugins;
 
     out << YAML::BeginMap;
     registry.foreach_adapter(write_config);
@@ -144,7 +144,7 @@ int write_config(const std::string& config_file_path)
 
     logging::write_default_logging_config(out);
 
-    write_adapters(out);
+    write_default_plugin_configs(out);
 
     // end primary map
     out << YAML::EndMap;
@@ -157,19 +157,19 @@ int write_config(const std::string& config_file_path)
     return 0;
 }
 
-std::vector<std::unique_ptr<IAdapter>> initialize(const std::string& yaml_path, AdapterRegistry& registry, IMessageBus& bus)
+std::vector<std::unique_ptr<IPlugin>> initialize(const std::string& yaml_path, PluginRegistry& registry, IMessageBus& bus)
 {
     const auto yaml_root = YAML::LoadFile(yaml_path);
 
     auto logger = logging::create_logger_from_yaml(yaml_root);
 
-    const auto adapter_list = yaml::require(yaml_root, keys::adapters);
+    const auto plugin_list = yaml::require(yaml_root, keys::plugins);
 
-    vector<unique_ptr<IAdapter>> adapters;
+    vector<unique_ptr<IPlugin>> plugins;
 
-    const auto try_to_load = [&](IAdapterFactory & factory) -> void
+    const auto try_to_load = [&](IPluginFactory & factory) -> void
     {
-        const auto entry = adapter_list[factory.name()];
+        const auto entry = plugin_list[factory.name()];
         if(!entry)
         {
             logger.info("No configuration specified for adapter: {}", factory.name());
@@ -181,9 +181,9 @@ std::vector<std::unique_ptr<IAdapter>> initialize(const std::string& yaml_path, 
 
         if(enabled)
         {
-            logger.info("Initializing adapter: {}", factory.name());
+            logger.info("Initializing plugin: {}", factory.name());
 
-            adapters.push_back(
+            plugins.push_back(
                 factory.create(entry, logger.clone(factory.name()), bus)
             );
         }
@@ -191,7 +191,7 @@ std::vector<std::unique_ptr<IAdapter>> initialize(const std::string& yaml_path, 
 
     registry.foreach_adapter(try_to_load);
 
-    return move(adapters);
+    return move(plugins);
 }
 
 

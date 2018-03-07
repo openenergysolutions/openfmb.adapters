@@ -6,7 +6,7 @@ namespace adapter
 
     namespace keys
     {
-        static const char* const adapters = "adapters";
+        static const char* const plugins = "plugins";
         static const char* const enabled = "enabled";
         static const char* const logger_name = "logger-name";
     }

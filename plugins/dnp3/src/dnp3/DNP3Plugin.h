@@ -1,7 +1,7 @@
-#ifndef OPENFMB_ADAPTER_DNP3ADAPTER_H
-#define OPENFMB_ADAPTER_DNP3ADAPTER_H
+#ifndef OPENFMB_ADAPTER_DNP3PLUGIN_H
+#define OPENFMB_ADAPTER_DNP3PLUGIN_H
 
-#include "adapter-api/IAdapterFactory.h"
+#include "adapter-api/IPluginFactory.h"
 
 #include "SOEHandler.h"
 
@@ -10,7 +10,7 @@
 namespace adapter
 {
 
-    class DNP3Adapter final : public IAdapter
+    class DNP3Plugin final : public IPlugin
     {
 
         typedef std::shared_ptr<asiodnp3::IChannel> channel_t;
@@ -18,9 +18,9 @@ namespace adapter
 
     public:
 
-        DNP3Adapter() = delete;
+        DNP3Plugin() = delete;
 
-        DNP3Adapter(const Logger& logger, const YAML::Node& node, IMessageBus& bus);
+        DNP3Plugin(const Logger& logger, const YAML::Node& node, IMessageBus& bus);
 
         virtual std::string name() const override
         {

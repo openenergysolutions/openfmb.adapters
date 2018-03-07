@@ -1,7 +1,7 @@
-#ifndef OPENFMB_ADAPTER_NATSADAPTER_H
-#define OPENFMB_ADAPTER_NATSADAPTER_H
+#ifndef OPENFMB_ADAPTER_NATSPLUGIN_H
+#define OPENFMB_ADAPTER_NATSPLUGIN_H
 
-#include <adapter-api/IAdapter.h>
+#include <adapter-api/IPlugin.h>
 #include <adapter-api/Logger.h>
 #include <adapter-api/IMessageBus.h>
 
@@ -15,7 +15,7 @@
 namespace adapter
 {
 
-    class NatsAdapter final : public IAdapter
+    class NatsPlugin final : public IPlugin
     {
         struct Config
         {
@@ -30,11 +30,11 @@ namespace adapter
     public:
 
 
-        NatsAdapter() = delete;
+        NatsPlugin() = delete;
 
-        ~NatsAdapter();
+        ~NatsPlugin();
 
-        NatsAdapter(const Logger& logger, const YAML::Node& node, IMessageBus& bus);
+        NatsPlugin(const Logger& logger, const YAML::Node& node, IMessageBus& bus);
 
         virtual std::string name() const override
         {

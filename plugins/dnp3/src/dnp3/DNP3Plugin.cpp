@@ -1,5 +1,5 @@
 
-#include "DNP3Adapter.h"
+#include "DNP3Plugin.h"
 
 #include <asiodnp3/PrintingSOEHandler.h>
 #include <asiodnp3/DefaultMasterApplication.h>
@@ -19,7 +19,7 @@ using namespace asiodnp3;
 namespace adapter
 {
 
-    DNP3Adapter::DNP3Adapter(
+    DNP3Plugin::DNP3Plugin(
         const Logger& logger,
         const YAML::Node& node,
         IMessageBus& bus
@@ -28,7 +28,7 @@ namespace adapter
         manager(
             yaml::with_default(node[keys::thread_pool_size], std::thread::hardware_concurrency()),
             ConsoleLogger::Create()
-            //std::make_shared<LogAdapter>(logger)
+            //std::make_shared<LogPlugin>(logger)
         )
     {
         yaml::foreach(node[keys::masters], [&](const YAML::Node& n)
@@ -37,7 +37,7 @@ namespace adapter
         });
     }
 
-    void DNP3Adapter::add_master(const YAML::Node& node, IMessageBus& bus)
+    void DNP3Plugin::add_master(const YAML::Node& node, IMessageBus& bus)
     {
         const auto channel = this->create_channel(node);
 
@@ -84,7 +84,7 @@ namespace adapter
         this->masters.push_back(master);
     }
 
-    void DNP3Adapter::start()
+    void DNP3Plugin::start()
     {
         for(auto& master : this->masters)
         {
@@ -92,7 +92,7 @@ namespace adapter
         }
     }
 
-    DNP3Adapter::channel_t DNP3Adapter::create_channel(const YAML::Node& node)
+    DNP3Plugin::channel_t DNP3Plugin::create_channel(const YAML::Node& node)
     {
         const auto channel = yaml::require(node, keys::channel);
 

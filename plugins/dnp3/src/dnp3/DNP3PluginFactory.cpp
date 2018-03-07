@@ -1,7 +1,7 @@
 
-#include "DNP3Factory.h"
+#include "DNP3PluginFactory.h"
 
-#include "DNP3Adapter.h"
+#include "DNP3Plugin.h"
 
 #include "adapter-api/helpers/generated/MessageVisitors.h"
 #include "ConfigKeys.h"
@@ -121,7 +121,7 @@ namespace adapter
         }
     };
 
-    void DNP3Factory::write_default_config(YAML::Emitter& out) const
+    void DNP3PluginFactory::write_default_config(YAML::Emitter& out) const
     {
         out << YAML::Key << keys::thread_pool_size << YAML::Value << 1;
         out << YAML::Comment("defaults to std::thread::hardware_concurrency() if <= 0");
@@ -161,9 +161,9 @@ namespace adapter
         out << YAML::EndSeq;
     }
 
-    std::unique_ptr<IAdapter> DNP3Factory::create(const YAML::Node& node, const Logger& logger, IMessageBus& bus)
+    std::unique_ptr<IPlugin> DNP3PluginFactory::create(const YAML::Node& node, const Logger& logger, IMessageBus& bus)
     {
-        return std::make_unique<DNP3Adapter>(
+        return std::make_unique<DNP3Plugin>(
                    logger,
                    node,
                    bus

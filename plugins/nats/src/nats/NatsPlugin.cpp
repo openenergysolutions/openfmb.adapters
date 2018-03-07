@@ -1,5 +1,5 @@
 
-#include "NatsAdapter.h"
+#include "NatsPlugin.h"
 
 #include "Subscriber.h"
 
@@ -10,7 +10,7 @@
 namespace adapter
 {
 
-    NatsAdapter::NatsAdapter(const Logger& logger, const YAML::Node& node, IMessageBus& bus) :
+    NatsPlugin::NatsPlugin(const Logger& logger, const YAML::Node& node, IMessageBus& bus) :
         config(node),
         logger(logger),
         messages(
@@ -20,7 +20,7 @@ namespace adapter
         this->configure_publishers(yaml::require(node, keys::publish), bus);
     }
 
-    NatsAdapter::Config::Config(const YAML::Node& node) :
+    NatsPlugin::Config::Config(const YAML::Node& node) :
         max_queued_messages(yaml::require(node, keys::max_queued_messages).as<size_t>()),
         connect_url(yaml::require(node, keys::connect_url).as<std::string>()),
         connect_retry_seconds(std::chrono::seconds(yaml::require(node, keys::connect_retry_seconds).as<uint32_t>()))
@@ -28,13 +28,13 @@ namespace adapter
 
     }
 
-    NatsAdapter::~NatsAdapter()
+    NatsPlugin::~NatsPlugin()
     {
         this->shutdown = true;
         this->background_thread->join();
     }
 
-    void NatsAdapter::start()
+    void NatsPlugin::start()
     {
         if(this->background_thread) return;
 
@@ -44,7 +44,7 @@ namespace adapter
         });
     }
 
-    void NatsAdapter::run()
+    void NatsPlugin::run()
     {
         natsConnection* connection;
 
@@ -67,7 +67,7 @@ namespace adapter
 
     }
 
-    void NatsAdapter::run(natsConnection& conn)
+    void NatsPlugin::run(natsConnection& conn)
     {
         while(!shutdown)
         {
@@ -92,7 +92,7 @@ namespace adapter
     }
 
     template <class T>
-    void NatsAdapter::add_publisher(const YAML::Node& node, IMessageBus& bus)
+    void NatsPlugin::add_publisher(const YAML::Node& node, IMessageBus& bus)
     {
         const YAML::Node profile = yaml::require(node, T::descriptor()->name());
 
@@ -115,7 +115,7 @@ namespace adapter
 
     }
 
-    void NatsAdapter::configure_publishers(const YAML::Node& node, IMessageBus& bus)
+    void NatsPlugin::configure_publishers(const YAML::Node& node, IMessageBus& bus)
     {
         this->add_publisher<resourcemodule::ResourceReadingProfile>(node, bus);
     }

@@ -5,14 +5,18 @@ if(NOT LIBNATS)
 endif()
 
 set(NATS_HEADERS
-        src/nats/NatsAdapter.h
-        src/nats/NatsFactory.h
+        src/nats/NatsPlugin.h
+        src/nats/NatsPluginFactory.h
 )
 
 set(NATS_SOURCES
-	src/nats/NatsAdapter.cpp
-        src/nats/NatsFactory.cpp
-        src/nats/SynchronizedQueue.h src/nats/Message.h src/nats/Buffer.h src/nats/Subscriber.h)
+        src/nats/NatsPlugin.cpp
+        src/nats/NatsPluginFactory.cpp
+        src/nats/SynchronizedQueue.h
+		src/nats/Message.h
+		src/nats/Buffer.h
+		src/nats/Subscriber.h
+)
 
 set(CPP_FORMAT_DIRS
         ${CPP_FORMAT_DIRS}
@@ -21,7 +25,7 @@ set(CPP_FORMAT_DIRS
         PARENT_SCOPE
 )
 
-add_library(nats-adapter STATIC ${NATS_SOURCES} ${NATS_HEADERS})
-target_link_libraries(nats-adapter PUBLIC adapter-api ${LIBNATS})
-target_include_directories(nats-adapter INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/src)
+add_library(nats-plugin STATIC ${NATS_SOURCES} ${NATS_HEADERS})
+target_link_libraries(nats-plugin PUBLIC adapter-api ${LIBNATS})
+target_include_directories(nats-plugin INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 

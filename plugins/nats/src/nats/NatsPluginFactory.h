@@ -1,18 +1,18 @@
 
-#ifndef OPENFMB_ADAPTER_NATSFACTORY_H
-#define OPENFMB_ADAPTER_NATSFACTORY_H
+#ifndef OPENFMB_ADAPTER_NATSPLUGINFACTORY_H
+#define OPENFMB_ADAPTER_NATSPLUGINFACTORY_H
 
-#include "adapter-api/IAdapterFactory.h"
+#include "adapter-api/IPluginFactory.h"
 
 namespace adapter
 {
 
-    class NatsFactory final : public IAdapterFactory
+    class NatsPluginFactory final : public IPluginFactory
     {
 
     public:
 
-        NatsFactory() = default;
+        NatsPluginFactory() = default;
 
         virtual std::string name() const override
         {
@@ -26,7 +26,7 @@ namespace adapter
 
         virtual void write_default_config(YAML::Emitter& emitter) const override;
 
-        virtual std::unique_ptr<IAdapter> create(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override;
+        virtual std::unique_ptr<IPlugin> create(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override;
     };
 
 }
