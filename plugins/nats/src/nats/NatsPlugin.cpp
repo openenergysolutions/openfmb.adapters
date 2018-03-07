@@ -4,6 +4,7 @@
 #include "Subscriber.h"
 
 #include "adapter-api/util/YAMLUtil.h"
+#include "adapter-api/ProfileMode.h"
 
 #include "ConfigKeys.h"
 
@@ -17,7 +18,7 @@ namespace adapter
             std::make_shared<SynchronizedQueue<Message>>(config.max_queued_messages)
         )
     {
-        this->configure_publishers(yaml::require(node, keys::publish), bus);
+        this->configure_profile<resourcemodule::ResourceReadingProfile>(yaml::require(node, keys::profiles), bus);
     }
 
     NatsPlugin::Config::Config(const YAML::Node& node) :
@@ -115,9 +116,21 @@ namespace adapter
 
     }
 
-    void NatsPlugin::configure_publishers(const YAML::Node& node, IMessageBus& bus)
+    template <class T>
+    void NatsPlugin::configure_profile(const YAML::Node& node, IMessageBus& bus)
     {
-        this->add_publisher<resourcemodule::ResourceReadingProfile>(node, bus);
+        // get the mode for the profile
+        const auto mode = parse_profile_mode(yaml::require_string(node, T::descriptor()->name()));
+        switch(mode)
+        {
+        case(ProfileMode::publish):
+            this->add_publisher<resourcemodule::ResourceReadingProfile>(node, bus);
+            break;
+        case(ProfileMode::subscribe):
+            throw Exception("subscriber functionality not implemented!");
+        default:
+            break;
+        }
     }
 }
 

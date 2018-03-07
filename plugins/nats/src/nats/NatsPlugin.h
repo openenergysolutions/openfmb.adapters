@@ -56,7 +56,8 @@ namespace adapter
         void run();
         void run(natsConnection& connection);
 
-        void configure_publishers(const YAML::Node& node, IMessageBus& bus);
+        template <class T>
+        void configure_profile(const YAML::Node& node, IMessageBus& bus);
 
         template <class T>
         void add_publisher(const YAML::Node& node, IMessageBus& bus);

@@ -8,8 +8,6 @@ namespace adapter
         static const char* const connect_retry_seconds = "connect-retry-seconds";
         static const char* const connect_url = "connect-url";
         static const char* const max_queued_messages = "max-queued-messages";
-
-        static const char* const publish = "publish";
     }
 }
 

@@ -2,6 +2,7 @@
 
 #include "DDSPlugin.h"
 #include "ConfigKeys.h"
+#include "adapter-api/ProfileMode.h"
 
 namespace adapter
 {

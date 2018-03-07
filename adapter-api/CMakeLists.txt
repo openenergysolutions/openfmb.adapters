@@ -63,13 +63,13 @@ set_proto_output_files(PROTO_SOURCES "pb.cc")
 set_proto_input_files(PROTO_INPUT_FILES)
 
 set(API_HEADERS
-        src/adapter-api/IPlugin.h
-		src/adapter-api/IPluginFactory.h
-
+    src/adapter-api/IPlugin.h
+	src/adapter-api/IPluginFactory.h
     src/adapter-api/IPublisher.h
     src/adapter-api/ISubscriber.h
     src/adapter-api/IMessageBus.h
     src/adapter-api/Logger.h
+	src/adapter-api/ProfileMode.h
     src/adapter-api/util/Exception.h
     src/adapter-api/util/StringUtil.h
     src/adapter-api/util/YAMLUtil.h
@@ -79,6 +79,7 @@ set(API_HEADERS
 
 set(API_SOURCES
 	src/adapter-api/IMessageBus.cpp
+	src/adapter-api/ProfileMode.cpp
 	src/adapter-api/util/YAMLUtil.cpp
 	src/adapter-api/helpers/generated/MessageVisitors.cpp
 )

@@ -5,6 +5,8 @@
 
 #include "ConfigKeys.h"
 
+#include "adapter-api/ProfileMode.h"
+
 namespace adapter
 {
     void NatsPluginFactory::write_default_config(YAML::Emitter& out) const
@@ -13,9 +15,9 @@ namespace adapter
         out << YAML::Comment("how many messages to buffer before discarding the oldest");
         out << YAML::Key << keys::connect_url << "nats://localhost:4222";
         out << YAML::Key << keys::connect_retry_seconds << 5;
-        out << YAML::Key << keys::publish;
+        out << YAML::Key << keys::profiles;
         out << YAML::BeginMap;
-        out << YAML::Key << resourcemodule::ResourceReadingProfile::descriptor()->name() << true;
+        out << YAML::Key << resourcemodule::ResourceReadingProfile::descriptor()->name() << keys::none;
         out << YAML::EndMap;
 
     }

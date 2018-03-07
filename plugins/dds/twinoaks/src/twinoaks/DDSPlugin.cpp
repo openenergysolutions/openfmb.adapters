@@ -2,6 +2,7 @@
 #include "DDSPlugin.h"
 
 #include "adapter-api/util/YAMLUtil.h"
+#include "adapter-api/ProfileMode.h"
 
 #include "OpenFMB-3.0.0TypeSupport.hh"
 
@@ -114,34 +115,6 @@ namespace adapter
         }
     }
 
-    enum class ProfileMode
-    {
-        publish,
-        subscribe,
-        none
-    };
-
-    ProfileMode parse_profile_mode(const std::string& mode)
-    {
-        if(mode == keys::publish)
-        {
-            return ProfileMode::publish;
-        }
-        else if(mode == keys::subscribe)
-        {
-            return ProfileMode::subscribe;
-        }
-        else if(mode == keys::none)
-        {
-            return ProfileMode::none;
-        }
-        else
-        {
-            throw Exception("Unknown profile mode: ", mode);
-        }
-
-    }
-
     DDSPlugin::DDSPlugin(const YAML::Node& node, const Logger& logger, IMessageBus& bus) : logger(logger)
     {
         const auto domain_id = yaml::require(node, keys::domain_id).as<DDS::DomainId_t>();
@@ -181,8 +154,7 @@ namespace adapter
     template <class ProtoType, class DDSType>
     void DDSPlugin::configure(const YAML::Node& node, DDS::DomainParticipant* participant, IMessageBus& bus)
     {
-        const auto mode_string = yaml::require_string(node, ProtoType::descriptor()->name());
-        const auto mode = parse_profile_mode(mode_string);
+        const auto mode = parse_profile_mode(yaml::require_string(node, ProtoType::descriptor()->name()));
 
         switch(mode)
         {
