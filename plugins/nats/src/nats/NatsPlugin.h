@@ -8,12 +8,22 @@
 #include <yaml-cpp/yaml.h>
 #include <nats/nats.h>
 
+#include <vector>
 
 #include "SynchronizedQueue.h"
 #include "Message.h"
 
 namespace adapter
 {
+    // ISubscription is something that can be started as soon
+    // as a NATs connection exists
+    class INATSSubscription
+    {
+    public:
+        virtual ~INATSSubscription() = default;
+        virtual void start(natsConnection* connection) = 0;
+    };
+
 
     class NatsPlugin final : public IPlugin
     {
@@ -45,6 +55,8 @@ namespace adapter
 
     private:
 
+        std::vector<std::unique_ptr<INATSSubscription>> subscriptions;
+
         const Config config;
 
         Logger logger;
@@ -60,7 +72,13 @@ namespace adapter
         void configure_profile(const YAML::Node& node, IMessageBus& bus);
 
         template <class T>
-        void add_publisher(const YAML::Node& node, IMessageBus& bus);
+        static std::string get_subject_name();
+
+        template <class T>
+        void add_publisher(IMessageBus& bus);
+
+        template <class T>
+        void add_subscriber(IMessageBus& bus);
     };
 
 }

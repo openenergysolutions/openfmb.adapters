@@ -1,12 +1,14 @@
 
+#include <boost/algorithm/string/replace.hpp>
 #include "NatsPlugin.h"
 
-#include "Subscriber.h"
+#include "NATSPublisher.h"
 
 #include "adapter-api/util/YAMLUtil.h"
 #include "adapter-api/ProfileMode.h"
 
 #include "ConfigKeys.h"
+#include "NATSSubscriber.h"
 
 namespace adapter
 {
@@ -60,6 +62,12 @@ namespace adapter
             }
             else
             {
+                // set up any subscriptions
+                for(auto& sub : this->subscriptions)
+                {
+                    sub->start(connection);
+                }
+
                 this->run(*connection);
 
                 natsConnection_Close(connection);
@@ -93,27 +101,45 @@ namespace adapter
     }
 
     template <class T>
-    void NatsPlugin::add_publisher(const YAML::Node& node, IMessageBus& bus)
+    std::string NatsPlugin::get_subject_name()
     {
-        const YAML::Node profile = yaml::require(node, T::descriptor()->name());
+        return boost::replace_all_copy<std::string>(
+                   T::descriptor()->full_name(),
+                   ".",
+                   "_"
+               );
+    }
 
+    template <class T>
+    void NatsPlugin::add_publisher(IMessageBus& bus)
+    {
+        const auto subject =  get_subject_name<T>();
 
-        if(profile.as<bool>())
-        {
-            const auto subject =  T::descriptor()->full_name();
+        logger.info("{} will be published to subject: {}", T::descriptor()->name(), subject);
 
-            logger.info("{} will be published to subject: {}", T::descriptor()->name(), subject);
+        bus.subscribe(
+            std::make_shared<NATSPublisher<T>>(
+                this->logger,
+                subject,
+                this->messages
+            )
+        );
+    }
 
-            bus.subscribe(
-                std::make_shared<SubscriberImpl<T>>(
-                    this->logger,
-                    subject,
-                    this->messages
-                )
-            );
+    template <class T>
+    void NatsPlugin::add_subscriber(IMessageBus& bus)
+    {
+        const auto subject =  get_subject_name<T>();
 
-        }
+        logger.info("{} will be read from subject: {}", T::descriptor()->name(), subject);
 
+        this->subscriptions.push_back(
+            std::make_unique<NATSSubscriber<T>>(
+                this->logger,
+                subject,
+                bus.get_publisher<T>()
+            )
+        );
     }
 
     template <class T>
@@ -124,10 +150,11 @@ namespace adapter
         switch(mode)
         {
         case(ProfileMode::publish):
-            this->add_publisher<resourcemodule::ResourceReadingProfile>(node, bus);
+            this->add_publisher<T>(bus);
             break;
         case(ProfileMode::subscribe):
-            throw Exception("subscriber functionality not implemented!");
+            this->add_subscriber<T>(bus);
+            break;
         default:
             break;
         }

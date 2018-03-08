@@ -15,7 +15,7 @@ set(NATS_SOURCES
         src/nats/SynchronizedQueue.h
 		src/nats/Message.h
 		src/nats/Buffer.h
-		src/nats/Subscriber.h
+        src/nats/NATSPublisher.h
 )
 
 set(CPP_FORMAT_DIRS

@@ -1,6 +1,6 @@
 
-#ifndef OPENFMB_ADAPTER_SUBSCRIBERIMPL_H
-#define OPENFMB_ADAPTER_SUBSCRIBERIMPL_H
+#ifndef OPENFMB_ADAPTER_NATSPUBLISHER_H
+#define OPENFMB_ADAPTER_NATSPUBLISHER_H
 
 #include "adapter-api/ISubscriber.h"
 #include "adapter-api/Logger.h"
@@ -11,16 +11,15 @@
 
 namespace adapter
 {
-
     template <class T>
-    class SubscriberImpl final : public ISubscriber<T>
+    class NATSPublisher final : public ISubscriber<T> // a NATS publisher subscribers to the internal bus
     {
 
     public:
 
         typedef SynchronizedQueue<Message> message_queue_t;
 
-        SubscriberImpl(Logger logger, const std::string& subject, std::shared_ptr<message_queue_t> sink) :
+        NATSPublisher(Logger logger, const std::string& subject, std::shared_ptr<message_queue_t> sink) :
             logger(logger),
             subject(subject),
             sink(sink)
@@ -61,4 +60,4 @@ namespace adapter
 
 }
 
-#endif //OPENFMB_ADAPTER_SUBSCRIBER_H
+#endif //OPENFMB_ADAPTER_NATSPUBLISHER_H
