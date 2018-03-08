@@ -41,6 +41,10 @@ namespace adapter
             {
                 logger.error("Unable to create NATS subscription: {}", nats_GetLastError(nullptr));
             }
+            else
+            {
+                logger.info("Created NATS subscribtion: {}", T::descriptor()->name());
+            }
         }
 
     private:
