@@ -4,6 +4,7 @@ set(OPENFMB_ADAPTER_VERSION 0.0.1)
 
 # optionally disable certain plugins
 option(OPENFMB_USE_DNP3 "Build the DNP3 plugin" ON)
+option(OPENFMB_USE_MODBUS "Build the Modbus plugin" ON)
 option(OPENFMB_USE_NATS "Build the NATS plugin" ON)
 option(OPENFMB_USE_TWINOAKS_DDS "Build the Twin Oaks DDS plugin" ON)
 
@@ -20,6 +21,10 @@ add_subdirectory(./plugins/log)
 
 if(OPENFMB_USE_DNP3)
   add_subdirectory(./plugins/dnp3)
+endif()
+
+if(OPENFMB_USE_MODBUS)
+  add_subdirectory(./deps/modbus)
 endif()
 
 if(OPENFMB_USE_TWINOAKS_DDS)
