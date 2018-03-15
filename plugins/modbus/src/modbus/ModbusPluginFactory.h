@@ -16,12 +16,12 @@ namespace adapter
 
         virtual std::string name() const override
         {
-            return "dnp3";
+            return "modbus";
         }
 
         virtual std::string description() const override
         {
-            return "maps openFMB to the DNP3 protocol";
+            return "maps openFMB to the Modbus protocol";
         };
 
         virtual void write_default_config(YAML::Emitter& emitter) const override;

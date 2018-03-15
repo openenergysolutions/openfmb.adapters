@@ -8,20 +8,24 @@ namespace adapter
 {
 
     class ModbusPlugin final : public IPlugin
-    {      
+    {
 
     public:
 
         ModbusPlugin() = delete;
 
+        ModbusPlugin(const YAML::Node& node, const Logger& logger, IMessageBus& bus);
+
         virtual std::string name() const override
         {
-            return "dnp3";
+            return "modbus";
         }
 
         virtual void start() override;
 
     private:
+
+        Logger logger;
 
     };
 
