@@ -27,6 +27,11 @@ if(OPENFMB_USE_DNP3)
     list(APPEND ADAPTERS dnp3-plugin)
 endif()
 
+if(OPENFMB_USE_MODBUS)
+    add_definitions(-DOPENFMB_USE_MODBUS)
+    list(APPEND ADAPTERS modbus-plugin)
+endif()
+
 if(OPENFMB_USE_NATS)
     add_definitions(-DOPENFMB_USE_NATS)
     list(APPEND ADAPTERS nats-plugin)

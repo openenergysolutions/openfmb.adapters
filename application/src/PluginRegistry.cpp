@@ -7,6 +7,10 @@
 #include "dnp3/DNP3PluginFactory.h"
 #endif
 
+#ifdef OPENFMB_USE_MODBUS
+#include "modbus/ModbusPluginFactory.h"
+#endif
+
 #ifdef OPENFMB_USE_NATS
 #include "nats/NatsPluginFactory.h"
 #endif
@@ -24,6 +28,10 @@ namespace adapter
 
 #ifdef OPENFMB_USE_DNP3
         this->add<adapter::DNP3PluginFactory>();
+#endif
+
+#ifdef OPENFMB_USE_MODBUS
+        this->add<adapter::ModbusPluginFactory>();
 #endif
 
 #ifdef OPENFMB_USE_NATS
