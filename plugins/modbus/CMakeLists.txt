@@ -1,5 +1,6 @@
 
 set(MODBUS_HEADERS
+        src/modbus/ConfigKeys.h
         src/modbus/ModbusPlugin.h
         src/modbus/ModbusPluginFactory.h
 )
