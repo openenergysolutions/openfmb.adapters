@@ -7,28 +7,33 @@
 
 #include "ConfigStrings.h"
 
-namespace adapter {
+namespace adapter
+{
 
     template<class T>
-    class ModbusConfigWriteVisitor final : public IProtoVisitor<T> {
-        YAML::Emitter &out;
+    class ModbusConfigWriteVisitor final : public IProtoVisitor<T>
+    {
+        YAML::Emitter& out;
 
     public:
-        ModbusConfigWriteVisitor(YAML::Emitter &out) : out(out) {}
+        ModbusConfigWriteVisitor(YAML::Emitter& out) : out(out) {}
 
-        void start_message_field(const std::string &field_name) override {
+        void start_message_field(const std::string& field_name) override
+        {
             out << YAML::Key << field_name;
             out << YAML::BeginMap;
         }
 
-        void handle(const std::string &field_name, getter_t<commonmodule::MV, T> getter) override {
+        void handle(const std::string& field_name, getter_t<commonmodule::MV, T> getter) override
+        {
             out << YAML::Key << field_name << YAML::Comment("MV");
             out << YAML::BeginMap;
             this->write_analogue_config("mag");
             out << YAML::EndMap;
         }
 
-        void handle(const std::string &field_name, getter_t<commonmodule::CMV, T> getter) override {
+        void handle(const std::string& field_name, getter_t<commonmodule::CMV, T> getter) override
+        {
             out << YAML::Key << field_name << YAML::Comment("CMV");
             out << YAML::BeginMap << "cVal";
             out << YAML::BeginMap;
@@ -39,14 +44,17 @@ namespace adapter {
 
         }
 
-        void handle(const std::string &field_name, getter_t<commonmodule::BCR, T> getter) override {
+        void handle(const std::string& field_name, getter_t<commonmodule::BCR, T> getter) override
+        {
             out << YAML::Key << field_name << YAML::Comment("BCR");
             out << YAML::BeginMap;
-            out << YAML::Key << keys::index << -1;;
+            out << YAML::Key << keys::lower_index << -1;
+            out << YAML::Key << keys::upper_index << -1;
             out << YAML::EndMap;
         }
 
-        void handle(const std::string &field_name, getter_t<commonmodule::ReadingMessageInfo, T> getter) override {
+        void handle(const std::string& field_name, getter_t<commonmodule::ReadingMessageInfo, T> getter) override
+        {
             out << YAML::Key << field_name << YAML::Comment("ReadingMessageInfo - the mRID is set dynamically");
             out << YAML::BeginMap;
             out << YAML::Key << keys::identified_object;
@@ -58,28 +66,32 @@ namespace adapter {
             out << YAML::EndMap;
         }
 
-        void handle(const std::string &field_name, getter_t<commonmodule::IdentifiedObject, T> getter) override {
+        void handle(const std::string& field_name, getter_t<commonmodule::IdentifiedObject, T> getter) override
+        {
             this->write_identified_object(field_name);
         }
 
-        void handle(const std::string &field_name, getter_t<commonmodule::ConductingEquipmentTerminalReading, T> getter) override {}
+        void handle(const std::string& field_name, getter_t<commonmodule::ConductingEquipmentTerminalReading, T> getter) override {}
 
-        void handle(const std::string &field_name, getter_t<commonmodule::LogicalNode, T> getter) override {
+        void handle(const std::string& field_name, getter_t<commonmodule::LogicalNode, T> getter) override
+        {
             out << YAML::Key << field_name;
             out << YAML::BeginMap;
             this->write_identified_object(keys::identified_object);
             out << YAML::EndMap;
         }
 
-        void handle(const std::string &field_name, getter_t<commonmodule::ENG_CalcMethodKind, T> getter) override {}
+        void handle(const std::string& field_name, getter_t<commonmodule::ENG_CalcMethodKind, T> getter) override {}
 
-        void end_message_field() override {
+        void end_message_field() override
+        {
             out << YAML::EndMap;
         }
 
     private:
 
-        void write_identified_object(const std::string &field_name) {
+        void write_identified_object(const std::string& field_name)
+        {
             out << YAML::Key << field_name;
             out << YAML::BeginMap;
             out << YAML::Value << keys::description << YAML::Value << "" << YAML::Comment(comments::ignored_if_blank);
@@ -88,12 +100,14 @@ namespace adapter {
             out << YAML::EndMap;
         }
 
-        void write_analogue_config(const std::string &name) {
+        void write_analogue_config(const std::string& name)
+        {
             out << YAML::Key << name;
             out << YAML::BeginMap;
-            out << YAML::Key << keys::index << -1;
+            out << YAML::Key << keys::lower_index << -1;
+            out << YAML::Key << keys::upper_index << -1;
+            out << YAML::Key << keys::scale << 1.0;
             out << YAML::EndMap;
-
         }
     };
 

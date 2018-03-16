@@ -26,16 +26,18 @@ namespace adapter
         // mapping level
         static const char* const mapping = "mapping";
         static const char* const description = "description";
-        static const char* const identified_object = "identified_object";
-        static const char* const application_name = "application_name";
+        static const char* const identified_object = "identified-object";
+        static const char* const application_name = "application-name";
         static const char* const mRID = "mRID";
-        static const char* const index = "index";
+        static const char* const upper_index = "upper_index";
+        static const char* const lower_index = "lower_index";
+        static const char* const scale = "scale";
 
     }
 
     namespace comments
     {
-        static const char* const ignored_if_blank = "ignored_if_blank";
+        static const char* const ignored_if_blank = "ignored if blank";
     }
 }
 
