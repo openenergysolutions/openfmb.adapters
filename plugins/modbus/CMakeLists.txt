@@ -9,7 +9,7 @@ set(MODBUS_SOURCES
         src/modbus/ModbusPlugin.cpp
         src/modbus/ModbusPluginFactory.cpp
         src/modbus/ModbusConfigWriteVisitor.h
-)
+        src/modbus/Register32.h)
 
 set(CPP_FORMAT_DIRS
         ${CPP_FORMAT_DIRS}
