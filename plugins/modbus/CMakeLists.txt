@@ -1,6 +1,6 @@
 
 set(MODBUS_HEADERS
-        src/modbus/ConfigKeys.h
+        src/modbus/ConfigStrings.h
         src/modbus/ModbusPlugin.h
         src/modbus/ModbusPluginFactory.h
 )
@@ -8,6 +8,7 @@ set(MODBUS_HEADERS
 set(MODBUS_SOURCES
         src/modbus/ModbusPlugin.cpp
         src/modbus/ModbusPluginFactory.cpp
+        src/modbus/ModbusConfigWriteVisitor.h
 )
 
 set(CPP_FORMAT_DIRS

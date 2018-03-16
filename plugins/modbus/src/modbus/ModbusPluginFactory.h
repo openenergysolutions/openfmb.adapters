@@ -28,6 +28,10 @@ namespace adapter
 
         virtual std::unique_ptr<IPlugin> create(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override;
 
+    private:
+
+        static void write_default_session(const std::string& name, YAML::Emitter& emitter);
+        static void write_default_poll(YAML::Emitter& emitter, uint16_t start, uint16_t count);
     };
 
 }

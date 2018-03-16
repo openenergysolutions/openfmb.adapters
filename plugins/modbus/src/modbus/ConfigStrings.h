@@ -1,0 +1,42 @@
+#ifndef OPENFMB_ADAPTER_CONFIGSTRINGS_H
+#define OPENFMB_ADAPTER_CONFIGSTRINGS_H
+
+namespace adapter
+{
+    namespace keys
+    {
+        // top level
+        static const char* const name = "name";
+        static const char* const thread_pool_size = "thread-pool-size";
+
+        // channel & session
+        static const char* const sessions = "sessions";
+        static const char* const remote_ip = "remote-ip";
+        static const char* const port = "port";
+        static const char* const unit_identifier = "unit-identifier";
+
+        // poll level
+        static const char* const profile = "profile";
+        static const char* const polls = "polls";
+        static const char* const period_ms = "period_ms";
+        static const char* const type = "type";
+        static const char* const start = "start";
+        static const char* const count = "count";
+
+        // mapping level
+        static const char* const mapping = "mapping";
+        static const char* const description = "description";
+        static const char* const identified_object = "identified_object";
+        static const char* const application_name = "application_name";
+        static const char* const mRID = "mRID";
+        static const char* const index = "index";
+
+    }
+
+    namespace comments
+    {
+        static const char* const ignored_if_blank = "ignored_if_blank";
+    }
+}
+
+#endif //OPENFMB_ADAPTER_CONFIGSTRINGS_H
