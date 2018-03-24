@@ -42,9 +42,9 @@ namespace adapter
             return this->lower->is_set && this->upper->is_set;
         }
 
-        float to_float(float scale) const override
+        float to_float() const override
         {
-            return scale * static_cast<float>(get_value_u32());
+            return static_cast<float>(get_value_u32());
         }
 
         // ---- getters for upper / lower pieces ----

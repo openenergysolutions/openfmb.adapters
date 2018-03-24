@@ -8,6 +8,7 @@ set(MODBUS_SOURCES
         src/modbus/ModbusPlugin.cpp
         src/modbus/ModbusPluginFactory.h
         src/modbus/ModbusPluginFactory.cpp
+        src/modbus/Register16.h
         src/modbus/Register32.h
         src/modbus/ICachedAnalogue.h)
 

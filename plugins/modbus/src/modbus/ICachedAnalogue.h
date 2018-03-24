@@ -15,7 +15,7 @@ namespace adapter
 
         virtual bool is_set() const = 0;
 
-        virtual float to_float(float scale) const = 0;
+        virtual float to_float() const = 0;
 
     };
 

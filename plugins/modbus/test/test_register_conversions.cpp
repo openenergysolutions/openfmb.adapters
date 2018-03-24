@@ -1,13 +1,30 @@
 #include "catch.hpp"
 
+#include "modbus/Register16.h"
 #include "modbus/Register32.h"
 
 using namespace adapter;
 
+TEST_CASE( "16-bit registers function as expected" )
+{
+    SECTION("Not set until value is set")
+    {
+        Register16 value;
+        REQUIRE_FALSE(value.is_set());
+        value.set(4);
+        REQUIRE(value.is_set());
+    }
+
+    SECTION("Float converts as expected")
+    {
+        Register16 value;
+        value.set(4);
+        REQUIRE(value.to_float() == Approx(4.0f));
+    }
+}
+
 TEST_CASE( "32-bit registers function as expected" )
 {
-
-
     SECTION("Not set until both values set")
     {
 
@@ -28,6 +45,6 @@ TEST_CASE( "32-bit registers function as expected" )
         value.get_lower()->set(3);
         value.get_upper()->set(1);
         // 3  + 65536 = 65539
-        REQUIRE(value.to_float(1.0) == Approx(65539));
+        REQUIRE(value.to_float() == Approx(65539.0f));
     }
 }
