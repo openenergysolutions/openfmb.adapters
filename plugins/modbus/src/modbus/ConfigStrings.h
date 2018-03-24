@@ -32,6 +32,8 @@ namespace adapter
         static const char* const upper_index = "upper_index";
         static const char* const lower_index = "lower_index";
         static const char* const scale = "scale";
+        static const char* const mag = "mag";
+        static const char* const ang = "ang";
 
     }
 

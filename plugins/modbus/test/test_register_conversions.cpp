@@ -27,7 +27,6 @@ TEST_CASE( "32-bit registers function as expected" )
 {
     SECTION("Not set until both values set")
     {
-
         Register32 value;
         REQUIRE_FALSE(value.is_set());
 

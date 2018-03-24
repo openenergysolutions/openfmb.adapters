@@ -4,6 +4,8 @@
 
 #include "ProfileMapping.h"
 
+#include "adapter-api/helpers/ConfigVisitorBase.h"
+
 #include <deque>
 #include <cstdint>
 #include <memory>
@@ -18,17 +20,11 @@ namespace adapter
     using visit_fun_t = void (*)(IProtoVisitor<T>&);
 
     template <class T>
-    class ConfigReadVisitor final : public IProtoVisitor<T>
+    class ConfigReadVisitor final : public ConfigVisitorBase<T>
     {
     public:
 
-        ConfigReadVisitor(const YAML::Node& root, ProfileMapping<T>& mapping) : root(root), mapping(mapping) {}
-
-
-        void start_message_field(const std::string& field_name) override
-        {
-            this->path.push_back(field_name);
-        }
+        ConfigReadVisitor(const YAML::Node& root, ProfileMapping<T>& mapping) : ConfigVisitorBase<T>(root), mapping(mapping) {}
 
         void handle(const std::string& field_name, getter_t<commonmodule::MV, T> getter) override
         {
@@ -130,11 +126,6 @@ namespace adapter
                 getter(profile)->set_setval(value);
             }
             );
-        }
-
-        void end_message_field() override
-        {
-            this->path.pop_back();
         }
 
     private:
@@ -269,27 +260,9 @@ namespace adapter
             this->mapping.add(static_cast<uint16_t>(signed_index), setter);
         }
 
-        YAML::Node get_config_node(const std::string& name)
-        {
-            this->path.push_back(name);
-            auto node = get_config_node(this->root, this->path.begin(), this->path.end());
-            this->path.pop_back();
-            return node;
-        }
-
-        template <class Iter>
-        static YAML::Node get_config_node(const YAML::Node& node, Iter begin, Iter end)
-        {
-            if(begin == end) return node;
-
-            const auto next = yaml::require(node, *begin);
-            return get_config_node(next, ++begin, end);
-        }
-
 
         std::deque<std::string> path;
 
-        const YAML::Node root;
         ProfileMapping<T>& mapping;
 
         const std::shared_ptr<boost::uuids::random_generator> generator = std::make_shared<boost::uuids::random_generator>();

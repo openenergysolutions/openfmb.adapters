@@ -1,6 +1,7 @@
 
 
 set(MODBUS_SOURCES
+        src/modbus/ConfigReadVisitor.h
         src/modbus/ConfigStrings.h
         src/modbus/IRegister.h
         src/modbus/ModbusConfigWriteVisitor.h
@@ -8,9 +9,11 @@ set(MODBUS_SOURCES
         src/modbus/ModbusPlugin.cpp
         src/modbus/ModbusPluginFactory.h
         src/modbus/ModbusPluginFactory.cpp
+        src/modbus/ProfileMapping.h
         src/modbus/Register16.h
         src/modbus/Register32.h
-        src/modbus/ICachedAnalogue.h)
+        src/modbus/ICachedAnalogue.h
+)
 
 set(CPP_FORMAT_DIRS
         ${CPP_FORMAT_DIRS}
