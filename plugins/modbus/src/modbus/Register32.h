@@ -2,53 +2,72 @@
 #ifndef OPENFMB_ADAPTER_REGISTER32_H
 #define OPENFMB_ADAPTER_REGISTER32_H
 
-#include <cstdint>
+#include "IRegister.h"
+#include "ICachedAnalogue.h"
 
-namespace adapter {
+#include <memory>
 
-    class Register32
+namespace adapter
+{
+
+    class Register32 final : public ICachedAnalogue
     {
+        struct Register : public IRegister
+        {
+
+            bool is_set = false;
+            uint16_t value = 0;
+
+            void set(uint16_t value) override
+            {
+                this->value = value;
+                this->is_set = true;
+            }
+        };
+
     public:
+
 
         Register32() = default;
 
-        void clear()
+        // ---- implement ICachedAnalogue -----
+
+        void reset() override
         {
-            this->lower_set = this->upper_set = false;
+            this->lower->is_set = this->upper->is_set = false;
         }
 
-        void set_lower(uint16_t lower)
+        bool is_set() const override
         {
-            this->lower = lower;
+            return this->lower->is_set && this->upper->is_set;
         }
 
-        void set_upper(uint16_t lower)
+        float to_float(float scale) const override
         {
-            this->upper = upper;
+            return scale * static_cast<float>(get_value_u32());
         }
 
-        bool is_set() const
+        // ---- getters for upper / lower pieces ----
+
+        std::shared_ptr<IRegister> get_upper()
         {
-            return this->lower_set && this->upper_set;
+            return this->upper;
         }
 
-        uint32_t get_value() const
+        std::shared_ptr<IRegister> get_lower()
         {
-            return (static_cast<uint32_t>(upper) << 16) | static_cast<uint32_t>(lower);
-        }
-
-        float to_float(float scale) const
-        {
-            return scale*static_cast<float>(get_value());
+            return this->lower;
         }
 
     private:
 
-        bool lower_set = false;
-        bool upper_set = false;
+        uint32_t get_value_u32() const
+        {
+            return (static_cast<uint32_t>(upper->value) << 16) | static_cast<uint32_t>(lower->value);
+        }
 
-        uint16_t lower = 0;
-        uint16_t upper = 0;
+        const std::shared_ptr<Register> lower = std::make_shared<Register>();
+        const std::shared_ptr<Register> upper = std::make_shared<Register>();
     };
 
 }

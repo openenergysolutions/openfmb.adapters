@@ -26,6 +26,7 @@ endif()
 if(OPENFMB_USE_MODBUS)
   add_subdirectory(./deps/modbus)
   add_subdirectory(./plugins/modbus)
+  add_subdirectory(./plugins/modbus/test)
 endif()
 
 if(OPENFMB_USE_TWINOAKS_DDS)

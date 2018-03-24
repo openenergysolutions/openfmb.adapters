@@ -11,12 +11,14 @@ void convert_round_trip(const P& input, P& output)
     adapter::dds::convert_to_proto(dds, output);
 }
 
-TEST_CASE( "protobuf <=> DDS conversions round trip correctly" ) {
+TEST_CASE( "protobuf <=> DDS conversions round trip correctly" )
+{
 
     resourcemodule::ResourceReadingProfile input;
     resourcemodule::ResourceReadingProfile output;
 
-    SECTION("Strings convert as expected") {
+    SECTION("Strings convert as expected")
+    {
 
 
         input.mutable_readingmessageinfo()->set_applicationname("application");
