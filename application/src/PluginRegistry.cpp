@@ -4,7 +4,7 @@
 #include "log/LogPluginFactory.h"
 
 #ifdef OPENFMB_USE_DNP3
-#include "dnp3/DNP3PluginFactory.h"
+#include "dnp3/PluginFactory.h"
 #endif
 
 #ifdef OPENFMB_USE_MODBUS
@@ -27,7 +27,7 @@ namespace adapter
         this->add<adapter::LogPluginFactory>();
 
 #ifdef OPENFMB_USE_DNP3
-        this->add<adapter::DNP3PluginFactory>();
+        this->add<dnp3::PluginFactory>();
 #endif
 
 #ifdef OPENFMB_USE_MODBUS

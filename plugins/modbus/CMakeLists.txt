@@ -1,7 +1,7 @@
 
 
 set(MODBUS_SOURCES
-        src/modbus/ConfigReadVisitor.h
+        src/modbus/MappingLoader.h
         src/modbus/ConfigStrings.h
         src/modbus/IRegister.h
         src/modbus/MappingType.h

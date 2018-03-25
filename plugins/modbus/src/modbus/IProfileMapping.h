@@ -31,6 +31,12 @@ namespace adapter
          */
         virtual void flush(T& profile) = 0;
 
+        /**
+         *
+         * @return
+         */
+        virtual size_t num_holding_registers() const = 0;
+
     };
 
 }

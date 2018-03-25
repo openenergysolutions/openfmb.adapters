@@ -34,16 +34,17 @@ namespace adapter
         void initialize(T& profile) override;
         void apply(const modbus::ReadHoldingRegistersResponse& response) override;
         void flush(T& profile) override;
+        size_t num_holding_registers() const override;
 
         /// ---- helpers for configuring the mapping ----
 
         void add_holding_register(uint16_t index, std::shared_ptr<IRegister> reg)
         {
-            if(registers.find(index) != registers.end())
+            if(holding_registers.find(index) != holding_registers.end())
             {
                 throw Exception("Index already mapped: ", index);
             }
-            this->registers[index] = reg;
+            this->holding_registers[index] = reg;
         }
 
         void add_flush_action(flush_fun_t fun)
@@ -58,7 +59,7 @@ namespace adapter
 
     private:
 
-        std::map<uint16_t, std::shared_ptr<IRegister>> registers;
+        std::map<uint16_t, std::shared_ptr<IRegister>> holding_registers;
         std::vector<flush_fun_t> flush_actions;
         std::vector<init_fun_t> init_actions;
     };
@@ -78,8 +79,8 @@ namespace adapter
     {
         for(auto& value : response.get_values())
         {
-            auto iter = registers.find(value.address);
-            if(iter != registers.end())
+            auto iter = holding_registers.find(value.address);
+            if(iter != holding_registers.end())
             {
                 iter->second->set(value.value);
             }
@@ -93,6 +94,12 @@ namespace adapter
         {
             check(profile);
         }
+    }
+
+    template<class T>
+    size_t ProfileMapping<T>::num_holding_registers() const
+    {
+        return this->holding_registers.size();
     }
 }
 

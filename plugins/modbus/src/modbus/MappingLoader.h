@@ -1,6 +1,6 @@
 
-#ifndef OPENFMB_ADAPTER_CONFIGREADVISITOR_H
-#define OPENFMB_ADAPTER_CONFIGREADVISITOR_H
+#ifndef OPENFMB_ADAPTER_MAPPINGLOADER_H
+#define OPENFMB_ADAPTER_MAPPINGLOADER_H
 
 #include "ProfileMapping.h"
 #include "ConfigStrings.h"
@@ -13,11 +13,11 @@
 namespace adapter
 {
     template <class T>
-    class ConfigReadVisitor final : public ConfigVisitorBase<T>
+    class MappingLoader final : public ConfigVisitorBase<T>
     {
     public:
 
-        ConfigReadVisitor(const YAML::Node& root, ProfileMapping<T>& mapping) :
+        MappingLoader(const YAML::Node& root, ProfileMapping<T>& mapping) :
             ConfigVisitorBase<T>(root),
             mapping(mapping)
         {}
@@ -27,10 +27,11 @@ namespace adapter
             // MV only has a magnitude
 
             this->configure_analogue(
-                    yaml::require(this->get_config_node(field_name), keys::mag),
-                    [getter](T& profile) -> commonmodule::AnalogueValue* {
-                        return getter(profile)->mutable_mag();
-                    }
+                yaml::require(this->get_config_node(field_name), keys::mag),
+                [getter](T & profile) -> commonmodule::AnalogueValue*
+            {
+                return getter(profile)->mutable_mag();
+            }
             );
         }
 
@@ -39,19 +40,13 @@ namespace adapter
             this->configure(field_name, getter);
         }
 
-        void handle(const std::string& field_name, getter_t<commonmodule::BCR, T> getter) override
-        {
-            // TODO - implement BCR
-        }
+        void handle(const std::string& field_name, getter_t<commonmodule::BCR, T> getter) override {}
 
         void handle(const std::string& field_name, getter_t<commonmodule::ReadingMessageInfo, T> getter) override {}
 
         void handle(const std::string& field_name, getter_t<commonmodule::IdentifiedObject, T> getter) override {}
 
-        void handle(const std::string& field_name, getter_t<commonmodule::ConductingEquipmentTerminalReading, T> getter) override
-        {
-            // TODO - nothing until we decide how to fill this in
-        }
+        void handle(const std::string& field_name, getter_t<commonmodule::ConductingEquipmentTerminalReading, T> getter) override {}
 
         void handle(const std::string& field_name, getter_t<commonmodule::LogicalNode, T> getter) override {}
 
@@ -74,17 +69,19 @@ namespace adapter
             // independently configure the angle and magnitude
 
             this->configure_analogue(
-                    yaml::require(vector_node, keys::mag),
-                    [getter](T& profile) -> commonmodule::AnalogueValue* {
-                        return getter(profile)->mutable_cval()->mutable_mag();
-                    }
+                yaml::require(vector_node, keys::mag),
+                [getter](T & profile) -> commonmodule::AnalogueValue*
+            {
+                return getter(profile)->mutable_cval()->mutable_mag();
+            }
             );
 
             this->configure_analogue(
-                    yaml::require(vector_node, keys::ang),
-                    [getter](T& profile) -> commonmodule::AnalogueValue* {
-                        return getter(profile)->mutable_cval()->mutable_ang();
-                    }
+                yaml::require(vector_node, keys::ang),
+                [getter](T & profile) -> commonmodule::AnalogueValue*
+            {
+                return getter(profile)->mutable_cval()->mutable_ang();
+            }
             );
         }
 
@@ -92,15 +89,16 @@ namespace adapter
         void configure_analogue(const YAML::Node& node, const F& getter)
         {
             const auto type = MappingTypeMeta::from_string(yaml::require_string(node, keys::type));
-            switch(type) {
-                case(MappingType::bit16):
-                    this->map_analogue_bit16(node, getter);
-                    break;
-                case(MappingType::bit32):
-                    this->map_analogue_bit32(node, getter);
-                    break;
-                default:
-                    break;
+            switch(type)
+            {
+            case(MappingType::bit16):
+                this->map_analogue_bit16(node, getter);
+                break;
+            case(MappingType::bit32):
+                this->map_analogue_bit32(node, getter);
+                break;
+            default:
+                break;
             }
         }
 
@@ -131,18 +129,23 @@ namespace adapter
         }
 
         template <class F>
-        void add_analogue_init_and_flush(const std::shared_ptr<ICachedValue> &value, float scale, const F& getter)
+        void add_analogue_init_and_flush(const std::shared_ptr<ICachedValue>& value, float scale, const F& getter)
         {
-            this->mapping.add_init_action([value](){ value->reset(); });
+            this->mapping.add_init_action([value]()
+            {
+                value->reset();
+            });
 
             this->mapping.add_flush_action(
-                [value, getter, scale](T& profile) -> bool {
-                    if(value->is_set()) {
-                        getter(profile)->set_f(value->to_float()*scale);
-                        return true;
-                    }
-                    return false;
+                [value, getter, scale](T & profile) -> bool
+            {
+                if(value->is_set())
+                {
+                    getter(profile)->set_f(value->to_float()*scale);
+                    return true;
                 }
+                return false;
+            }
             );
         }
 
@@ -151,4 +154,4 @@ namespace adapter
 
 }
 
-#endif //OPENFMB_ADAPTER_CONFIGREADVISITOR_H
+#endif //OPENFMB_ADAPTER_MAPPINGLOADER_H

@@ -4,7 +4,8 @@
 
 #include <string>
 
-namespace adapter {
+namespace adapter
+{
 
     enum class MappingType
     {

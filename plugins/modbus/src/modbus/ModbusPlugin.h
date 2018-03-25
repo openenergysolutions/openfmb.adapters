@@ -5,11 +5,6 @@
 
 #include "modbus/IModbusManager.h"
 
-namespace modbus {
-    class IModbusManager;
-}
-
-
 namespace adapter
 {
 
@@ -30,6 +25,8 @@ namespace adapter
         virtual void start() override;
 
     private:
+
+        void configure_session(const YAML::Node& node, IMessageBus& bus);
 
         Logger logger;
         std::unique_ptr<modbus::IModbusManager> manager;

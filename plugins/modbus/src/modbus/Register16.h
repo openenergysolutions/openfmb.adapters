@@ -33,7 +33,8 @@ namespace adapter
             return static_cast<float>(this->value);
         }
 
-        int64_t to_int64() const override {
+        int64_t to_int64() const override
+        {
             return this->value;
         }
 

@@ -47,7 +47,8 @@ namespace adapter
             return static_cast<float>(get_value_u32());
         }
 
-        int64_t to_int64() const override {
+        int64_t to_int64() const override
+        {
             return get_value_u32();
         }
 

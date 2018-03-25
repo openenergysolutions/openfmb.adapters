@@ -6,6 +6,7 @@
 #include <yaml-cpp/yaml.h>
 
 #include "ConfigStrings.h"
+#include "MappingType.h"
 
 namespace adapter
 {
@@ -48,8 +49,9 @@ namespace adapter
         {
             out << YAML::Key << field_name << YAML::Comment("BCR");
             out << YAML::BeginMap;
-            out << YAML::Key << keys::lower_index << -1;
-            out << YAML::Key << keys::upper_index << -1;
+            out << YAML::Key << keys::type << YAML::Value << MappingTypeMeta::none << YAML::Comment("can be 'bit32', 'bit16', or 'none' to disable");
+            out << YAML::Key << keys::lower_index << 0;
+            out << YAML::Key << keys::upper_index << 1;
             out << YAML::EndMap;
         }
 
@@ -104,8 +106,9 @@ namespace adapter
         {
             out << YAML::Key << name;
             out << YAML::BeginMap;
-            out << YAML::Key << keys::lower_index << -1;
-            out << YAML::Key << keys::upper_index << -1;
+            out << YAML::Key << keys::type << YAML::Value << MappingTypeMeta::none << YAML::Comment("can be 'bit32', 'bit16', or 'none' to disable");
+            out << YAML::Key << keys::lower_index << 0;
+            out << YAML::Key << keys::upper_index << 1;
             out << YAML::Key << keys::scale << 1.0;
             out << YAML::EndMap;
         }
