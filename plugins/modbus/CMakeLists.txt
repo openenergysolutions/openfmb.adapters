@@ -6,6 +6,7 @@ set(MODBUS_SOURCES
         src/modbus/MappingLoader.h
         src/modbus/ConfigStrings.h
         src/modbus/IRegister.h
+        src/modbus/IPollSink.h
         src/modbus/IProfileMapping.h
         src/modbus/MappingType.h
         src/modbus/MappingType.cpp
@@ -17,7 +18,8 @@ set(MODBUS_SOURCES
         src/modbus/Register16.h
         src/modbus/Register32.h
         src/modbus/ICachedValue.h
-)
+        src/modbus/IPollSink.h
+        src/modbus/PollSink.h)
 
 set(CPP_FORMAT_DIRS
         ${CPP_FORMAT_DIRS}
@@ -27,7 +29,7 @@ set(CPP_FORMAT_DIRS
         PARENT_SCOPE
 )
 
-add_library(modbus-plugin STATIC ${MODBUS_SOURCES})
+add_library(modbus-plugin STATIC ${MODBUS_PUBLIC_HEADERS} ${MODBUS_SOURCES})
 target_link_libraries(modbus-plugin PUBLIC adapter-api modbus-cpp)
 target_include_directories(modbus-plugin PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
