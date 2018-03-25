@@ -3,7 +3,7 @@
 #include "modbus/Register16.h"
 #include "modbus/Register32.h"
 
-using namespace adapter;
+using namespace adapter::modbus;
 
 TEST_CASE( "16-bit registers function as expected" )
 {
