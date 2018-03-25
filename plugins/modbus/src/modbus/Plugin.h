@@ -31,6 +31,7 @@ namespace adapter
 
             Logger logger;
             std::unique_ptr<::modbus::IModbusManager> manager;
+            std::vector<std::function<void ()>> start_actions;
 
         };
     }

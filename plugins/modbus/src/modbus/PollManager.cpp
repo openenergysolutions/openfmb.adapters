@@ -72,6 +72,13 @@ namespace adapter
                     self->start();
                 });
             }
+            else
+            {
+                // start the next poll
+                auto next = this->poll_sequence.front();
+                this->poll_sequence.pop_front();
+                next(this->shared_from_this());
+            }
         }
 
         void PollManager::on_poll_failure()

@@ -10,6 +10,8 @@
 #include "modbus/session/ISession.h"
 #include "modbus/exceptions/IException.h"
 
+#include <deque>
+
 namespace adapter
 {
     namespace modbus
@@ -25,6 +27,14 @@ namespace adapter
                         std::unique_ptr<IPollSink> sink,
                         const std::chrono::steady_clock::duration& period,
                         const session_t& session);
+
+            static std::shared_ptr<PollManager> create(const Logger& logger,
+                    std::unique_ptr<IPollSink> sink,
+                    const std::chrono::steady_clock::duration& period,
+                    const session_t& session)
+            {
+                return std::make_shared<PollManager>(logger, std::move(sink), period, session);
+            }
 
             void add(const ::modbus::ReadHoldingRegistersRequest& request);
 
@@ -46,7 +56,7 @@ namespace adapter
             loopser::Timer timer;
             std::chrono::steady_clock::time_point poll_sequence_start;
             std::vector<poll_action_t> polls;
-            std::vector<poll_action_t> poll_sequence;
+            std::deque<poll_action_t> poll_sequence;
         };
 
     }
