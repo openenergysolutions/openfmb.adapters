@@ -11,6 +11,8 @@ set(MODBUS_SOURCES
         src/modbus/MappingType.h
         src/modbus/MappingType.cpp
         src/modbus/ConfigWriteVisitor.h
+        src/modbus/PollManager.h
+        src/modbus/PollManager.cpp
         src/modbus/Plugin.h
         src/modbus/Plugin.cpp
         src/modbus/PluginFactory.cpp
@@ -19,7 +21,8 @@ set(MODBUS_SOURCES
         src/modbus/Register32.h
         src/modbus/ICachedValue.h
         src/modbus/IPollSink.h
-        src/modbus/PollSink.h)
+        src/modbus/PollSink.h
+        )
 
 set(CPP_FORMAT_DIRS
         ${CPP_FORMAT_DIRS}
