@@ -4,6 +4,8 @@ set(MODBUS_SOURCES
         src/modbus/ConfigReadVisitor.h
         src/modbus/ConfigStrings.h
         src/modbus/IRegister.h
+        src/modbus/MappingType.h
+        src/modbus/MappingType.cpp
         src/modbus/ModbusConfigWriteVisitor.h
         src/modbus/ModbusPlugin.h
         src/modbus/ModbusPlugin.cpp
@@ -12,7 +14,7 @@ set(MODBUS_SOURCES
         src/modbus/ProfileMapping.h
         src/modbus/Register16.h
         src/modbus/Register32.h
-        src/modbus/ICachedAnalogue.h
+        src/modbus/ICachedValue.h
 )
 
 set(CPP_FORMAT_DIRS

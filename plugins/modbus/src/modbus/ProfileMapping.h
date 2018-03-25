@@ -4,19 +4,20 @@
 
 #include "IProfileMapping.h"
 #include "IRegister.h"
-#include "ICachedAnalogue.h"
+#include "ICachedValue.h"
 
 #include "adapter-api/util/Exception.h"
 
 #include <map>
 #include <vector>
+#include <memory>
 #include <functional>
 
 namespace adapter
 {
 
     template <class T>
-    class ProfileMapping : IProfileMapping<T>
+    class ProfileMapping : public IProfileMapping<T>
     {
 
         using flush_fun_t = std::function<bool (T&)>;
@@ -63,9 +64,9 @@ namespace adapter
     };
 
     template <class T>
-    void ProfileMapping<T>::initialize(T& profile) override
+    void ProfileMapping<T>::initialize(T& profile)
     {
-        profile.clear();
+        profile.Clear();
         for(auto& action : this->init_actions)
         {
             action();
@@ -86,7 +87,7 @@ namespace adapter
     }
 
     template <class T>
-    void ProfileMapping<T>::flush(T& profile) override
+    void ProfileMapping<T>::flush(T& profile)
     {
         for(auto& check : this->flush_actions)
         {

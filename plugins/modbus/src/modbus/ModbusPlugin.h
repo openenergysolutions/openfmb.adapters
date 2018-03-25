@@ -3,6 +3,12 @@
 
 #include "adapter-api/IPluginFactory.h"
 
+#include "modbus/IModbusManager.h"
+
+namespace modbus {
+    class IModbusManager;
+}
+
 
 namespace adapter
 {
@@ -26,6 +32,7 @@ namespace adapter
     private:
 
         Logger logger;
+        std::unique_ptr<modbus::IModbusManager> manager;
 
     };
 

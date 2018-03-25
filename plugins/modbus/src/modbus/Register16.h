@@ -3,12 +3,12 @@
 #define OPENFMB_ADAPTER_REGISTER16_H
 
 #include "IRegister.h"
-#include "ICachedAnalogue.h"
+#include "ICachedValue.h"
 
 namespace adapter
 {
 
-    class Register16 final : public ICachedAnalogue, public IRegister
+    class Register16 final : public ICachedValue, public IRegister
     {
 
     public:
@@ -31,6 +31,10 @@ namespace adapter
         float to_float() const override
         {
             return static_cast<float>(this->value);
+        }
+
+        int64_t to_int64() const override {
+            return this->value;
         }
 
         // ---- implement IRegister ----

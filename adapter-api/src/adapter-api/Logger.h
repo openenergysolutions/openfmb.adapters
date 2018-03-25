@@ -93,10 +93,14 @@ namespace adapter
             this->impl->critical(arg);
         }
 
+        std::shared_ptr<spdlog::logger> get_impl() const
+        {
+            return impl;
+        }
 
     private:
 
-        Logger(std::shared_ptr<spdlog::logger> impl) : impl(impl)
+        Logger(const std::shared_ptr<spdlog::logger>& impl) : impl(impl)
         {}
 
         template<class SinkCollection>

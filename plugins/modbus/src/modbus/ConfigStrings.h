@@ -29,11 +29,13 @@ namespace adapter
         static const char* const identified_object = "identified-object";
         static const char* const application_name = "application-name";
         static const char* const mRID = "mRID";
+        static const char* const index = "index";
         static const char* const upper_index = "upper_index";
         static const char* const lower_index = "lower_index";
         static const char* const scale = "scale";
         static const char* const mag = "mag";
         static const char* const ang = "ang";
+        static const char* const cVal = "cVal";
 
     }
 

@@ -3,14 +3,14 @@
 #define OPENFMB_ADAPTER_REGISTER32_H
 
 #include "IRegister.h"
-#include "ICachedAnalogue.h"
+#include "ICachedValue.h"
 
 #include <memory>
 
 namespace adapter
 {
 
-    class Register32 final : public ICachedAnalogue
+    class Register32 final : public ICachedValue
     {
         struct Register : public IRegister
         {
@@ -45,6 +45,10 @@ namespace adapter
         float to_float() const override
         {
             return static_cast<float>(get_value_u32());
+        }
+
+        int64_t to_int64() const override {
+            return get_value_u32();
         }
 
         // ---- getters for upper / lower pieces ----
