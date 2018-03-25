@@ -8,7 +8,7 @@
 #endif
 
 #ifdef OPENFMB_USE_MODBUS
-#include "modbus/ModbusPluginFactory.h"
+#include "modbus/PluginFactory.h"
 #endif
 
 #ifdef OPENFMB_USE_NATS
@@ -31,7 +31,7 @@ namespace adapter
 #endif
 
 #ifdef OPENFMB_USE_MODBUS
-        this->add<adapter::ModbusPluginFactory>();
+        this->add<modbus::PluginFactory>();
 #endif
 
 #ifdef OPENFMB_USE_NATS

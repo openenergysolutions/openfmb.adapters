@@ -9,6 +9,6 @@ set(CPP_FORMAT_DIRS
 
 add_executable(test-modbus-plugin ${TEST_SOURCES})
 target_include_directories(test-modbus-plugin PRIVATE ${CMAKE_SOURCE_DIR}/deps/catch)
-target_include_directories(test-modbus-plugin PRIVATE $<TARGET_PROPERTY:modbus-plugin,INCLUDE_DIRECTORIES>)
+target_include_directories(test-modbus-plugin PRIVATE ../src/ ../include)
 target_link_libraries(test-modbus-plugin modbus-plugin)
 add_test(test-modbus-plugin test-modbus-plugin)

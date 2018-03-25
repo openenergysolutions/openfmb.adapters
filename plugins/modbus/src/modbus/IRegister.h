@@ -1,19 +1,22 @@
-#ifndef OPENFMB_ADAPTER_IREGISTER_H
-#define OPENFMB_ADAPTER_IREGISTER_H
+#ifndef OPENFMB_ADAPTER_MODBUS_IREGISTER_H
+#define OPENFMB_ADAPTER_MODBUS_IREGISTER_H
 
 #include <cstdint>
 
 namespace adapter
 {
-
-    class IRegister
+    namespace modbus
     {
-    public:
-        virtual ~IRegister() = default;
 
-        virtual void set(uint16_t value) = 0;
-    };
+        class IRegister
+        {
+        public:
+            virtual ~IRegister() = default;
 
+            virtual void set(uint16_t value) = 0;
+        };
+
+    }
 }
 
-#endif //OPENFMB_ADAPTER_IREGISTER_H
+#endif

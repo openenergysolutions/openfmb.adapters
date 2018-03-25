@@ -10,7 +10,8 @@
 
 namespace adapter
 {
-    namespace dnp3 {
+    namespace dnp3
+    {
         template <class T>
         class SOEHandler final : public opendnp3::ISOEHandler
         {
@@ -66,8 +67,8 @@ namespace adapter
 
         template <class T>
         SOEHandler<T>::SOEHandler(std::unique_ptr<IProfileMapping<T>> mapping, publisher_t<T> publisher) :
-                mapping(std::move(mapping)),
-                publisher(publisher)
+            mapping(std::move(mapping)),
+            publisher(publisher)
         {
             this->mapping->initialize(this->profile);
         }
