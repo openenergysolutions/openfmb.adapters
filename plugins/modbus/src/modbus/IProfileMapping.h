@@ -20,7 +20,7 @@ namespace adapter
             /**
              * called prior to beginning a sequence of polls
              */
-            virtual void initialize(T& profile) = 0;
+            virtual void initialize() = 0;
 
             /**
              * called after receiving a response to record some state
@@ -36,7 +36,7 @@ namespace adapter
              *
              * @return
              */
-            virtual size_t num_holding_registers() const = 0;
+            virtual size_t num_mapped_values() const = 0;
 
         };
     }

@@ -10,18 +10,16 @@ namespace adapter
 {
     namespace modbus
     {
-        void PluginFactory::write_default_config(YAML::Emitter& out) const
+        void write_default_poll(YAML::Emitter& out, uint16_t start, uint16_t count)
         {
-            out << YAML::Key << keys::thread_pool_size << YAML::Value << 1;
-            out << YAML::Comment("defaults to std::thread::hardware_concurrency() if <= 0");
-
-            out << YAML::Key << keys::sessions;
-            out << YAML::BeginSeq;
-            write_default_session("session1", out);
-            out << YAML::EndSeq;
+            out << YAML::BeginMap;
+            out << YAML::Key << keys::type << YAML::Value << "read_holding_registers";
+            out << YAML::Key << keys::start << YAML::Value << start;
+            out << YAML::Key << keys::count << YAML::Value << count;
+            out << YAML::EndMap;
         }
 
-        void PluginFactory::write_default_session(const std::string& name, YAML::Emitter& out)
+        void write_default_session(const std::string& name, YAML::Emitter& out)
         {
             out << YAML::BeginMap;
 
@@ -49,13 +47,15 @@ namespace adapter
             out << YAML::EndMap;
         }
 
-        void PluginFactory::write_default_poll(YAML::Emitter& out, uint16_t start, uint16_t count)
+        void PluginFactory::write_default_config(YAML::Emitter& out) const
         {
-            out << YAML::BeginMap;
-            out << YAML::Key << keys::type << YAML::Value << "read_holding_registers";
-            out << YAML::Key << keys::start << YAML::Value << start;
-            out << YAML::Key << keys::count << YAML::Value << count;
-            out << YAML::EndMap;
+            out << YAML::Key << keys::thread_pool_size << YAML::Value << 1;
+            out << YAML::Comment("defaults to std::thread::hardware_concurrency() if <= 0");
+
+            out << YAML::Key << keys::sessions;
+            out << YAML::BeginSeq;
+            write_default_session("session1", out);
+            out << YAML::EndSeq;
         }
 
         std::unique_ptr<IPlugin> PluginFactory::create(const YAML::Node& node, const Logger& logger, IMessageBus& bus)

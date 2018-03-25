@@ -32,10 +32,10 @@ namespace adapter
 
             /// ---- implement IProfileMapping<T> ----
 
-            void initialize(T& profile) override;
+            void initialize() override;
             void apply(const ::modbus::ReadHoldingRegistersResponse& response) override;
             void flush(T& profile) override;
-            size_t num_holding_registers() const override;
+            size_t num_mapped_values() const override;
 
             /// ---- helpers for configuring the mapping ----
 
@@ -66,9 +66,8 @@ namespace adapter
         };
 
         template <class T>
-        void ProfileMapping<T>::initialize(T& profile)
+        void ProfileMapping<T>::initialize()
         {
-            profile.Clear();
             for(auto& action : this->init_actions)
             {
                 action();
@@ -98,7 +97,7 @@ namespace adapter
         }
 
         template<class T>
-        size_t ProfileMapping<T>::num_holding_registers() const
+        size_t ProfileMapping<T>::num_mapped_values() const
         {
             return this->holding_registers.size();
         }
