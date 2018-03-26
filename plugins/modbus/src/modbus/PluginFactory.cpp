@@ -26,11 +26,12 @@ namespace adapter
             out << YAML::Key << keys::name << YAML::Value << name;
             out << YAML::Comment("name for logging purposes");
             out << YAML::Key << keys::remote_ip << YAML::Value << "127.0.0.1";
-            out << YAML::Key << keys::port << YAML::Value << 20000;
+            out << YAML::Key << keys::port << YAML::Value << 502;
             out << YAML::Key << keys::unit_identifier << YAML::Value << 1 << YAML::Comment("aka 'slave address'");
 
             out << YAML::Key << keys::profile << YAML::Value << resourcemodule::ResourceReadingProfile::descriptor()->name();
-            out << YAML::Key << keys::period_ms << YAML::Value << 1000 << YAML::Comment("perform polls once per second");
+            out << YAML::Key << keys::poll_period_ms << YAML::Value << 1000 << YAML::Comment("perform polls once per second");
+            out << YAML::Key << keys::response_timeout_ms << YAML::Value << 1000 << YAML::Comment("response timeout");
 
             out << YAML::Key << keys::polls;
             out << YAML::BeginSeq;

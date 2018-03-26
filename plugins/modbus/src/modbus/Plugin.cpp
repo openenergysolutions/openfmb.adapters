@@ -37,7 +37,6 @@ namespace adapter
                    );
         }
 
-
         Plugin::Plugin(const YAML::Node& node, const Logger& logger, IMessageBus& bus) : logger(logger)
         {
             // initialize the Modbus manager
@@ -66,30 +65,47 @@ namespace adapter
 
             this->logger.info("Session {} has {} mapped values", name, sink->num_mapped_values());
 
-            // TODO - configure the host, IP, unit identifier, and default timeout
-            auto channel = this->manager->create_tcp_channel(name, ::modbus::Ipv4Endpoint("127.0.0.1", 502));
-            auto session = channel->create_session(
-                               ::modbus::UnitIdentifier(1),
-                               std::chrono::seconds(1),
-                               std::make_shared<::modbus::ISessionResponseHandler>()
-                           );
-
-            // TODO - configure the period
-            auto poll_manager = PollManager::create(this->logger, std::move(sink), std::chrono::milliseconds(1000), session);
+            const auto poller = PollManager::create(
+                                    this->logger,
+                                    std::move(sink),
+                                    std::chrono::milliseconds(yaml::require(node, keys::poll_period_ms).as<int64_t>()),
+                                    this->get_session(name, node)
+                                );
 
             // TODO configure the poll manager
-            poll_manager->add(
+            poller->add(
                 ::modbus::ReadHoldingRegistersRequest(::modbus::Address(0), 5)
             );
 
-            poll_manager->add(
+            poller->add(
                 ::modbus::ReadHoldingRegistersRequest(::modbus::Address(20), 6)
             );
 
-            this->start_actions.push_back([poll_manager]()
+            this->start_actions.push_back([poller]()
             {
-                poll_manager->start();
+                poller->start();
             });
+        }
+
+        std::shared_ptr<::modbus::ISession> Plugin::get_session(const std::string& name, const YAML::Node& node)
+        {
+            auto channel = this->manager->create_tcp_channel(
+                               name,
+                               ::modbus::Ipv4Endpoint(
+                                   yaml::require_string(node, keys::remote_ip),
+                                   yaml::require(node, keys::port).as<uint16_t>()
+                               )
+                           );
+
+            return channel->create_session(
+                       ::modbus::UnitIdentifier(
+                           yaml::require(node, keys::unit_identifier).as<uint8_t>()
+                       ),
+                       std::chrono::seconds(
+                           yaml::require(node, keys::response_timeout_ms).as<int32_t>()
+                       ),
+                       std::make_shared<::modbus::ISessionResponseHandler>()
+                   );
         }
 
         void Plugin::start()

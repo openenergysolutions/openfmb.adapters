@@ -21,7 +21,8 @@ namespace adapter
             // poll level
             static const char* const profile = "profile";
             static const char* const polls = "polls";
-            static const char* const period_ms = "period_ms";
+            static const char* const poll_period_ms = "poll_period_ms";
+            static const char* const response_timeout_ms = "response_timeout_ms";
             static const char* const type = "type";
             static const char* const start = "start";
             static const char* const count = "count";
