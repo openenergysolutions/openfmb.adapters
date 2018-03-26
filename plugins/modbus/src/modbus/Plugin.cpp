@@ -72,14 +72,20 @@ namespace adapter
                                     this->get_session(name, node)
                                 );
 
-            // TODO configure the poll manager
-            poller->add(
-                ::modbus::ReadHoldingRegistersRequest(::modbus::Address(0), 5)
-            );
+            // configure polls
+            yaml::foreach(
+                yaml::require(node, keys::polls),
+                [poller](const YAML::Node& node)
+        {
+            // TODO - switch based on poll type
+            const auto start = yaml::require(node, keys::start).as<uint16_t>();
+                const auto count = yaml::require(node, keys::count).as<uint16_t>();
 
-            poller->add(
-                ::modbus::ReadHoldingRegistersRequest(::modbus::Address(20), 6)
-            );
+                poller->add(
+                    ::modbus::ReadHoldingRegistersRequest(::modbus::Address(start), count)
+                );
+
+            });
 
             this->start_actions.push_back([poller]()
             {
