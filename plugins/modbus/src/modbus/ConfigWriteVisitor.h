@@ -87,6 +87,8 @@ namespace adapter
 
             void handle(const std::string& field_name, getter_t<commonmodule::ENG_CalcMethodKind, T> getter) override {}
 
+            void handle(const std::string &field_name, getter_t<commonmodule::ENG_PFSignKind, T> getter) override {}
+
             void end_message_field() override
             {
                 out << YAML::EndMap;

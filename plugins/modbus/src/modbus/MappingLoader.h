@@ -91,6 +91,8 @@ namespace adapter
 
             void handle(const std::string& field_name, getter_t<commonmodule::ENG_CalcMethodKind, T> getter) override {}
 
+            void handle(const std::string &field_name, getter_t<commonmodule::ENG_PFSignKind, T> getter) override {}
+
         private:
 
             void map_bcr_bit16(const YAML::Node& node, getter_t<commonmodule::BCR, T> getter)

@@ -100,6 +100,10 @@ namespace adapter
                 // TODO - nothing until we decide how to fill this in
             }
 
+            void handle(const std::string &field_name, getter_t<commonmodule::ENG_PFSignKind, T> getter) override {
+
+            }
+
             void handle(const std::string& field_name, getter_t<commonmodule::LogicalNode, T> getter) override
             {
                 const auto node = yaml::require(this->get_config_node(field_name), keys::identified_object);

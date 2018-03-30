@@ -64,20 +64,25 @@ public class MessageVisitorFile extends CppFilePair {
         return StreamSupport.stream(descriptors.spliterator(), false);
     }
 
-    private String cppMessageName(Descriptors.Descriptor descriptor)
+    static private String cppMessageName(Descriptors.Descriptor descriptor)
     {
         return descriptor.getFullName().replace(".", "::");
     }
 
     private String getVisitSignature(Descriptors.Descriptor descriptor)
     {
-        return String.format("void visit(IProtoVisitor<%s>& visitor)", this.cppMessageName(descriptor));
+        return String.format("void visit(IProtoVisitor<%s>& visitor)", cppMessageName(descriptor));
     }
 
     private Document visitImpl(Descriptors.Descriptor descriptor)
     {
         return line(getVisitSignature(descriptor))
                 .append("{")
+                .indent(
+                        line(
+                                String.format("const auto context0 = [](%s& profile) { return &profile; };", cppMessageName(descriptor))
+                        )
+                )
                 .indent(start(descriptor)) // recursively build up the implementation
                 .append("}");
 
@@ -88,14 +93,49 @@ public class MessageVisitorFile extends CppFilePair {
         return join(descriptor.getFields().stream().map(f -> this.build(FieldPathImpl.create(descriptor, f))));
     }
 
-    private Document start(FieldPath path, Descriptors.Descriptor descriptor)
+    private Document startMessageField(FieldPath path, Descriptors.Descriptor descriptor)
     {
         final Document inner = join(descriptor.getFields().stream().map(f -> this.build(path.build(f))));
 
         return inner.isEmpty() ? inner :
             line(String.format("visitor.start_message_field(\"%s\");", path.getInfo().field.getName()))
-            .indent(inner)
+            .append("{")
+            .indent(
+                    line(getContextDefinition(path))
+                    .append(inner)
+            )
+            .append("}")
             .append(line("visitor.end_message_field();"));
+    }
+
+    private Document startRepeatedMessageField(FieldPath path, Descriptors.Descriptor descriptor)
+    {
+        final Document inner = join(descriptor.getFields().stream().map(f -> this.build(path.build(f))));
+
+        return inner.isEmpty() ? inner :
+                         line(
+                                 String.format(
+                                         "const auto max_count%d = visitor.start_repeated_message_field(\"%s\");",
+                                         path.getInfo().depth,
+                                         path.getInfo().field.getName()
+                                 )
+                         )
+                        .append(
+                                line(String.format(
+                                        "for(int count%d = 0; count%d < max_count%d; ++count%d)",
+                                        path.getInfo().depth,
+                                        path.getInfo().depth,
+                                        path.getInfo().depth,
+                                        path.getInfo().depth
+                                ))
+                        )
+                        .append("{")
+                        .indent(
+                                getRepeatedContextDefinition(path)
+                        )
+                        .indent(inner)
+                        .append("}")
+                        .append(line("visitor.end_repeated_message_field();"));
     }
 
     private Document build(FieldPath path)
@@ -103,7 +143,14 @@ public class MessageVisitorFile extends CppFilePair {
         switch (path.getInfo().field.getType())
         {
             case MESSAGE:
-                return build(path, path.getInfo().field.getMessageType());
+                if(path.getInfo().field.isRepeated())
+                {
+                    return startRepeatedMessageField(path, path.getInfo().field.getMessageType());
+                }
+                else
+                {
+                    return build(path, path.getInfo().field.getMessageType());
+                }
             case STRING:
                 if(path.getInfo().field.getName().equals("description"))
                 {
@@ -153,32 +200,70 @@ public class MessageVisitorFile extends CppFilePair {
         {
             return handler(path, message.getName());
         }
+        else if(message.equals(ENG_PFSignKind.getDescriptor()))
+        {
+            return handler(path, message.getName());
+        }
         else
         {
-            return start(path, message);
+            return startMessageField(path, message);
         }
     }
 
-    private Document handler(FieldPath path, String type)
+    private static Document handler(FieldPath path, String type)
     {
-        return line(
-                String.format(
-                    "visitor.handle(\"%s\", [](%s& profile) -> commonmodule::%s* {",
-                    path.getInfo().field.getName(),
-                        this.cppMessageName(path.getRoot()),
-                        type
+        return line("visitor.handle(")
+                .indent(
+                    lines(
+                        quoted(path.getInfo().field.getName()) + ",",
+                        getContextLambda(path)
+                    )
                 )
-        ).indent(
-                line(String.format("return %s;", accessor(path)))
-        ).append("});");
+                .append(");");
+    }
+
+    private static String quoted(String input)
+    {
+        return "\"" + input + "\"";
+    }
+
+    private static String getRepeatedContextDefinition(FieldPath path)
+    {
+        return String.format(
+                "const auto context%d = [context = context%d, i = count%d](%s& profile) { return context(profile)->mutable_%s()->Mutable(i); };",
+                path.getInfo().depth + 1,
+                path.getInfo().depth,
+                path.getInfo().depth,
+                cppMessageName(path.getRoot()),
+                path.getInfo().field.getName().toLowerCase()
+        );
+    }
+
+    private static String getContextLambda(FieldPath path)
+    {
+        return String.format(
+                "[context = context%d](%s& profile) { return %s; }",
+                path.getInfo().depth,
+                cppMessageName(path.getRoot()),
+                accessor(path)
+        );
+    }
+
+    private static String getContextDefinition(FieldPath path)
+    {
+        return String.format(
+                "const auto context%d = %s;",
+                path.getInfo().depth + 1,
+                getContextLambda(path)
+        );
     }
 
     private static String accessor(FieldPath path) {
-        final StringBuilder builder = new StringBuilder("profile");
-        path.visit(info ->
-                builder.append(info.depth == 0 ? ".mutable_" : "->mutable_").append(info.field.getName().toLowerCase()).append("()")
+
+        return String.format(
+                "context(profile)->mutable_%s()",
+                path.getInfo().field.getName().toLowerCase()
         );
-        return builder.toString();
     }
 
 

@@ -83,6 +83,10 @@ namespace adapter
                 // don't do anything until we understand how to set these fields
             }
 
+            void handle(const std::string &field_name, getter_t<commonmodule::ENG_PFSignKind, T> getter) override {
+
+            }
+
             void handle(const std::string& field_name, getter_t<commonmodule::LogicalNode, T> getter) override
             {
                 out << YAML::Key << field_name;

@@ -4,359 +4,552 @@ namespace adapter {
 
 void visit(IProtoVisitor<resourcemodule::ResourceReadingProfile>& visitor)
 {
-    visitor.handle("readingMessageInfo", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::ReadingMessageInfo* {
-        return profile.mutable_readingmessageinfo();
-    });
+    const auto context0 = [](resourcemodule::ResourceReadingProfile& profile) { return &profile; };
+    visitor.handle(
+        "readingMessageInfo",
+        [context = context0](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_readingmessageinfo(); }
+    );
     visitor.start_message_field("ied");
-        visitor.handle("identifiedObject", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::IdentifiedObject* {
-            return profile.mutable_ied()->mutable_identifiedobject();
-        });
+    {
+        const auto context1 = [context = context0](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_ied(); };
+        visitor.handle(
+            "identifiedObject",
+            [context = context1](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); }
+        );
+    }
     visitor.end_message_field();
     visitor.start_message_field("meter");
+    {
+        const auto context1 = [context = context0](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_meter(); };
         visitor.start_message_field("conductingEquipment");
-            visitor.handle("identifiedObject", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::IdentifiedObject* {
-                return profile.mutable_meter()->mutable_conductingequipment()->mutable_identifiedobject();
-            });
+        {
+            const auto context2 = [context = context1](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_conductingequipment(); };
+            visitor.handle(
+                "identifiedObject",
+                [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); }
+            );
+        }
         visitor.end_message_field();
+    }
     visitor.end_message_field();
-    visitor.start_message_field("resourceReading");
-        visitor.handle("conductingEquipmentTerminalReading", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::ConductingEquipmentTerminalReading* {
-            return profile.mutable_resourcereading()->mutable_conductingequipmentterminalreading();
-        });
+    const auto max_count0 = visitor.start_repeated_message_field("resourceReading");
+    for(int count0 = 0; count0 < max_count0; ++count0)
+    {
+        const auto context1 = [context = context0, i = count0](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_resourcereading()->Mutable(i); };
+        visitor.handle(
+            "conductingEquipmentTerminalReading",
+            [context = context1](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_conductingequipmentterminalreading(); }
+        );
         visitor.start_message_field("phaseMMTN");
+        {
+            const auto context2 = [context = context1](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phasemmtn(); };
             visitor.start_message_field("phsA");
-                visitor.handle("logicalNode", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::LogicalNode* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsa()->mutable_logicalnode();
-                });
-                visitor.handle("DmdVAh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsa()->mutable_dmdvah();
-                });
-                visitor.handle("DmdVArh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsa()->mutable_dmdvarh();
-                });
-                visitor.handle("DmdWh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsa()->mutable_dmdwh();
-                });
-                visitor.handle("SupVAh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsa()->mutable_supvah();
-                });
-                visitor.handle("SupVArh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsa()->mutable_supvarh();
-                });
-                visitor.handle("SupWh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsa()->mutable_supwh();
-                });
-                visitor.handle("TotVAh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsa()->mutable_totvah();
-                });
-                visitor.handle("TotVArh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsa()->mutable_totvarh();
-                });
-                visitor.handle("TotWh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsa()->mutable_totwh();
-                });
+            {
+                const auto context3 = [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsa(); };
+                visitor.handle(
+                    "logicalNode",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_logicalnode(); }
+                );
+                visitor.handle(
+                    "DmdVAh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvah(); }
+                );
+                visitor.handle(
+                    "DmdVArh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvarh(); }
+                );
+                visitor.handle(
+                    "DmdWh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdwh(); }
+                );
+                visitor.handle(
+                    "SupVAh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supvah(); }
+                );
+                visitor.handle(
+                    "SupVArh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supvarh(); }
+                );
+                visitor.handle(
+                    "SupWh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supwh(); }
+                );
+                visitor.handle(
+                    "TotVAh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totvah(); }
+                );
+                visitor.handle(
+                    "TotVArh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totvarh(); }
+                );
+                visitor.handle(
+                    "TotWh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totwh(); }
+                );
+            }
             visitor.end_message_field();
             visitor.start_message_field("phsAB");
-                visitor.handle("logicalNode", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::LogicalNode* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsab()->mutable_logicalnode();
-                });
-                visitor.handle("DmdVAh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsab()->mutable_dmdvah();
-                });
-                visitor.handle("DmdVArh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsab()->mutable_dmdvarh();
-                });
-                visitor.handle("DmdWh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsab()->mutable_dmdwh();
-                });
-                visitor.handle("SupVAh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsab()->mutable_supvah();
-                });
-                visitor.handle("SupVArh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsab()->mutable_supvarh();
-                });
-                visitor.handle("SupWh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsab()->mutable_supwh();
-                });
-                visitor.handle("TotVAh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsab()->mutable_totvah();
-                });
-                visitor.handle("TotVArh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsab()->mutable_totvarh();
-                });
-                visitor.handle("TotWh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsab()->mutable_totwh();
-                });
+            {
+                const auto context3 = [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsab(); };
+                visitor.handle(
+                    "logicalNode",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_logicalnode(); }
+                );
+                visitor.handle(
+                    "DmdVAh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvah(); }
+                );
+                visitor.handle(
+                    "DmdVArh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvarh(); }
+                );
+                visitor.handle(
+                    "DmdWh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdwh(); }
+                );
+                visitor.handle(
+                    "SupVAh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supvah(); }
+                );
+                visitor.handle(
+                    "SupVArh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supvarh(); }
+                );
+                visitor.handle(
+                    "SupWh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supwh(); }
+                );
+                visitor.handle(
+                    "TotVAh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totvah(); }
+                );
+                visitor.handle(
+                    "TotVArh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totvarh(); }
+                );
+                visitor.handle(
+                    "TotWh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totwh(); }
+                );
+            }
             visitor.end_message_field();
             visitor.start_message_field("phsB");
-                visitor.handle("logicalNode", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::LogicalNode* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsb()->mutable_logicalnode();
-                });
-                visitor.handle("DmdVAh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsb()->mutable_dmdvah();
-                });
-                visitor.handle("DmdVArh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsb()->mutable_dmdvarh();
-                });
-                visitor.handle("DmdWh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsb()->mutable_dmdwh();
-                });
-                visitor.handle("SupVAh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsb()->mutable_supvah();
-                });
-                visitor.handle("SupVArh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsb()->mutable_supvarh();
-                });
-                visitor.handle("SupWh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsb()->mutable_supwh();
-                });
-                visitor.handle("TotVAh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsb()->mutable_totvah();
-                });
-                visitor.handle("TotVArh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsb()->mutable_totvarh();
-                });
-                visitor.handle("TotWh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsb()->mutable_totwh();
-                });
+            {
+                const auto context3 = [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsb(); };
+                visitor.handle(
+                    "logicalNode",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_logicalnode(); }
+                );
+                visitor.handle(
+                    "DmdVAh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvah(); }
+                );
+                visitor.handle(
+                    "DmdVArh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvarh(); }
+                );
+                visitor.handle(
+                    "DmdWh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdwh(); }
+                );
+                visitor.handle(
+                    "SupVAh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supvah(); }
+                );
+                visitor.handle(
+                    "SupVArh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supvarh(); }
+                );
+                visitor.handle(
+                    "SupWh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supwh(); }
+                );
+                visitor.handle(
+                    "TotVAh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totvah(); }
+                );
+                visitor.handle(
+                    "TotVArh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totvarh(); }
+                );
+                visitor.handle(
+                    "TotWh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totwh(); }
+                );
+            }
             visitor.end_message_field();
             visitor.start_message_field("phsBC");
-                visitor.handle("logicalNode", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::LogicalNode* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsbc()->mutable_logicalnode();
-                });
-                visitor.handle("DmdVAh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsbc()->mutable_dmdvah();
-                });
-                visitor.handle("DmdVArh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsbc()->mutable_dmdvarh();
-                });
-                visitor.handle("DmdWh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsbc()->mutable_dmdwh();
-                });
-                visitor.handle("SupVAh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsbc()->mutable_supvah();
-                });
-                visitor.handle("SupVArh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsbc()->mutable_supvarh();
-                });
-                visitor.handle("SupWh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsbc()->mutable_supwh();
-                });
-                visitor.handle("TotVAh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsbc()->mutable_totvah();
-                });
-                visitor.handle("TotVArh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsbc()->mutable_totvarh();
-                });
-                visitor.handle("TotWh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsbc()->mutable_totwh();
-                });
+            {
+                const auto context3 = [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsbc(); };
+                visitor.handle(
+                    "logicalNode",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_logicalnode(); }
+                );
+                visitor.handle(
+                    "DmdVAh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvah(); }
+                );
+                visitor.handle(
+                    "DmdVArh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvarh(); }
+                );
+                visitor.handle(
+                    "DmdWh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdwh(); }
+                );
+                visitor.handle(
+                    "SupVAh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supvah(); }
+                );
+                visitor.handle(
+                    "SupVArh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supvarh(); }
+                );
+                visitor.handle(
+                    "SupWh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supwh(); }
+                );
+                visitor.handle(
+                    "TotVAh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totvah(); }
+                );
+                visitor.handle(
+                    "TotVArh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totvarh(); }
+                );
+                visitor.handle(
+                    "TotWh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totwh(); }
+                );
+            }
             visitor.end_message_field();
             visitor.start_message_field("phsC");
-                visitor.handle("logicalNode", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::LogicalNode* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsc()->mutable_logicalnode();
-                });
-                visitor.handle("DmdVAh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsc()->mutable_dmdvah();
-                });
-                visitor.handle("DmdVArh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsc()->mutable_dmdvarh();
-                });
-                visitor.handle("DmdWh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsc()->mutable_dmdwh();
-                });
-                visitor.handle("SupVAh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsc()->mutable_supvah();
-                });
-                visitor.handle("SupVArh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsc()->mutable_supvarh();
-                });
-                visitor.handle("SupWh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsc()->mutable_supwh();
-                });
-                visitor.handle("TotVAh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsc()->mutable_totvah();
-                });
-                visitor.handle("TotVArh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsc()->mutable_totvarh();
-                });
-                visitor.handle("TotWh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsc()->mutable_totwh();
-                });
+            {
+                const auto context3 = [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsc(); };
+                visitor.handle(
+                    "logicalNode",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_logicalnode(); }
+                );
+                visitor.handle(
+                    "DmdVAh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvah(); }
+                );
+                visitor.handle(
+                    "DmdVArh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvarh(); }
+                );
+                visitor.handle(
+                    "DmdWh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdwh(); }
+                );
+                visitor.handle(
+                    "SupVAh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supvah(); }
+                );
+                visitor.handle(
+                    "SupVArh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supvarh(); }
+                );
+                visitor.handle(
+                    "SupWh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supwh(); }
+                );
+                visitor.handle(
+                    "TotVAh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totvah(); }
+                );
+                visitor.handle(
+                    "TotVArh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totvarh(); }
+                );
+                visitor.handle(
+                    "TotWh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totwh(); }
+                );
+            }
             visitor.end_message_field();
             visitor.start_message_field("phsCA");
-                visitor.handle("logicalNode", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::LogicalNode* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsca()->mutable_logicalnode();
-                });
-                visitor.handle("DmdVAh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsca()->mutable_dmdvah();
-                });
-                visitor.handle("DmdVArh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsca()->mutable_dmdvarh();
-                });
-                visitor.handle("DmdWh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsca()->mutable_dmdwh();
-                });
-                visitor.handle("SupVAh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsca()->mutable_supvah();
-                });
-                visitor.handle("SupVArh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsca()->mutable_supvarh();
-                });
-                visitor.handle("SupWh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsca()->mutable_supwh();
-                });
-                visitor.handle("TotVAh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsca()->mutable_totvah();
-                });
-                visitor.handle("TotVArh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsca()->mutable_totvarh();
-                });
-                visitor.handle("TotWh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                    return profile.mutable_resourcereading()->mutable_phasemmtn()->mutable_phsca()->mutable_totwh();
-                });
+            {
+                const auto context3 = [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsca(); };
+                visitor.handle(
+                    "logicalNode",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_logicalnode(); }
+                );
+                visitor.handle(
+                    "DmdVAh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvah(); }
+                );
+                visitor.handle(
+                    "DmdVArh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvarh(); }
+                );
+                visitor.handle(
+                    "DmdWh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdwh(); }
+                );
+                visitor.handle(
+                    "SupVAh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supvah(); }
+                );
+                visitor.handle(
+                    "SupVArh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supvarh(); }
+                );
+                visitor.handle(
+                    "SupWh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supwh(); }
+                );
+                visitor.handle(
+                    "TotVAh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totvah(); }
+                );
+                visitor.handle(
+                    "TotVArh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totvarh(); }
+                );
+                visitor.handle(
+                    "TotWh",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totwh(); }
+                );
+            }
             visitor.end_message_field();
+        }
         visitor.end_message_field();
         visitor.start_message_field("readingMMTR");
-            visitor.handle("logicalNode", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::LogicalNode* {
-                return profile.mutable_resourcereading()->mutable_readingmmtr()->mutable_logicalnode();
-            });
-            visitor.handle("DmdVAh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                return profile.mutable_resourcereading()->mutable_readingmmtr()->mutable_dmdvah();
-            });
-            visitor.handle("DmdVArh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                return profile.mutable_resourcereading()->mutable_readingmmtr()->mutable_dmdvarh();
-            });
-            visitor.handle("DmdWh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                return profile.mutable_resourcereading()->mutable_readingmmtr()->mutable_dmdwh();
-            });
-            visitor.handle("SupVAh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                return profile.mutable_resourcereading()->mutable_readingmmtr()->mutable_supvah();
-            });
-            visitor.handle("SupVArh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                return profile.mutable_resourcereading()->mutable_readingmmtr()->mutable_supvarh();
-            });
-            visitor.handle("SupWh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                return profile.mutable_resourcereading()->mutable_readingmmtr()->mutable_supwh();
-            });
-            visitor.handle("TotVAh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                return profile.mutable_resourcereading()->mutable_readingmmtr()->mutable_totvah();
-            });
-            visitor.handle("TotVArh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                return profile.mutable_resourcereading()->mutable_readingmmtr()->mutable_totvarh();
-            });
-            visitor.handle("TotWh", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::BCR* {
-                return profile.mutable_resourcereading()->mutable_readingmmtr()->mutable_totwh();
-            });
+        {
+            const auto context2 = [context = context1](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_readingmmtr(); };
+            visitor.handle(
+                "logicalNode",
+                [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_logicalnode(); }
+            );
+            visitor.handle(
+                "DmdVAh",
+                [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvah(); }
+            );
+            visitor.handle(
+                "DmdVArh",
+                [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvarh(); }
+            );
+            visitor.handle(
+                "DmdWh",
+                [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdwh(); }
+            );
+            visitor.handle(
+                "SupVAh",
+                [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supvah(); }
+            );
+            visitor.handle(
+                "SupVArh",
+                [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supvarh(); }
+            );
+            visitor.handle(
+                "SupWh",
+                [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supwh(); }
+            );
+            visitor.handle(
+                "TotVAh",
+                [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totvah(); }
+            );
+            visitor.handle(
+                "TotVArh",
+                [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totvarh(); }
+            );
+            visitor.handle(
+                "TotWh",
+                [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totwh(); }
+            );
+        }
         visitor.end_message_field();
         visitor.start_message_field("readingMMXU");
-            visitor.handle("logicalNode", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::LogicalNode* {
-                return profile.mutable_resourcereading()->mutable_readingmmxu()->mutable_logicalnode();
-            });
+        {
+            const auto context2 = [context = context1](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_readingmmxu(); };
+            visitor.handle(
+                "logicalNode",
+                [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_logicalnode(); }
+            );
             visitor.start_message_field("A");
-                visitor.handle("net", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::CMV* {
-                    return profile.mutable_resourcereading()->mutable_readingmmxu()->mutable_a()->mutable_net();
-                });
-                visitor.handle("neut", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::CMV* {
-                    return profile.mutable_resourcereading()->mutable_readingmmxu()->mutable_a()->mutable_neut();
-                });
-                visitor.handle("phsA", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::CMV* {
-                    return profile.mutable_resourcereading()->mutable_readingmmxu()->mutable_a()->mutable_phsa();
-                });
-                visitor.handle("phsB", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::CMV* {
-                    return profile.mutable_resourcereading()->mutable_readingmmxu()->mutable_a()->mutable_phsb();
-                });
-                visitor.handle("phsC", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::CMV* {
-                    return profile.mutable_resourcereading()->mutable_readingmmxu()->mutable_a()->mutable_phsc();
-                });
+            {
+                const auto context3 = [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_a(); };
+                visitor.handle(
+                    "net",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_net(); }
+                );
+                visitor.handle(
+                    "neut",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_neut(); }
+                );
+                visitor.handle(
+                    "phsA",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsa(); }
+                );
+                visitor.handle(
+                    "phsB",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsb(); }
+                );
+                visitor.handle(
+                    "phsC",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsc(); }
+                );
+            }
             visitor.end_message_field();
-            visitor.handle("ClcMth", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::ENG_CalcMethodKind* {
-                return profile.mutable_resourcereading()->mutable_readingmmxu()->mutable_clcmth();
-            });
-            visitor.handle("Hz", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::MV* {
-                return profile.mutable_resourcereading()->mutable_readingmmxu()->mutable_hz();
-            });
+            visitor.handle(
+                "ClcMth",
+                [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_clcmth(); }
+            );
+            visitor.handle(
+                "Hz",
+                [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_hz(); }
+            );
+            visitor.start_message_field("PF");
+            {
+                const auto context3 = [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_pf(); };
+                visitor.handle(
+                    "net",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_net(); }
+                );
+                visitor.handle(
+                    "neut",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_neut(); }
+                );
+                visitor.handle(
+                    "phsA",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsa(); }
+                );
+                visitor.handle(
+                    "phsB",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsb(); }
+                );
+                visitor.handle(
+                    "phsC",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsc(); }
+                );
+            }
+            visitor.end_message_field();
+            visitor.handle(
+                "PFSign",
+                [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_pfsign(); }
+            );
             visitor.start_message_field("PhV");
-                visitor.handle("net", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::CMV* {
-                    return profile.mutable_resourcereading()->mutable_readingmmxu()->mutable_phv()->mutable_net();
-                });
-                visitor.handle("neut", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::CMV* {
-                    return profile.mutable_resourcereading()->mutable_readingmmxu()->mutable_phv()->mutable_neut();
-                });
-                visitor.handle("phsA", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::CMV* {
-                    return profile.mutable_resourcereading()->mutable_readingmmxu()->mutable_phv()->mutable_phsa();
-                });
-                visitor.handle("phsB", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::CMV* {
-                    return profile.mutable_resourcereading()->mutable_readingmmxu()->mutable_phv()->mutable_phsb();
-                });
-                visitor.handle("phsC", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::CMV* {
-                    return profile.mutable_resourcereading()->mutable_readingmmxu()->mutable_phv()->mutable_phsc();
-                });
+            {
+                const auto context3 = [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phv(); };
+                visitor.handle(
+                    "net",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_net(); }
+                );
+                visitor.handle(
+                    "neut",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_neut(); }
+                );
+                visitor.handle(
+                    "phsA",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsa(); }
+                );
+                visitor.handle(
+                    "phsB",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsb(); }
+                );
+                visitor.handle(
+                    "phsC",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsc(); }
+                );
+            }
             visitor.end_message_field();
             visitor.start_message_field("PPV");
-                visitor.handle("phsAB", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::CMV* {
-                    return profile.mutable_resourcereading()->mutable_readingmmxu()->mutable_ppv()->mutable_phsab();
-                });
-                visitor.handle("phsBC", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::CMV* {
-                    return profile.mutable_resourcereading()->mutable_readingmmxu()->mutable_ppv()->mutable_phsbc();
-                });
-                visitor.handle("phsCA", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::CMV* {
-                    return profile.mutable_resourcereading()->mutable_readingmmxu()->mutable_ppv()->mutable_phsca();
-                });
+            {
+                const auto context3 = [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_ppv(); };
+                visitor.handle(
+                    "phsAB",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsab(); }
+                );
+                visitor.handle(
+                    "phsBC",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsbc(); }
+                );
+                visitor.handle(
+                    "phsCA",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsca(); }
+                );
+            }
             visitor.end_message_field();
             visitor.start_message_field("VA");
-                visitor.handle("net", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::CMV* {
-                    return profile.mutable_resourcereading()->mutable_readingmmxu()->mutable_va()->mutable_net();
-                });
-                visitor.handle("neut", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::CMV* {
-                    return profile.mutable_resourcereading()->mutable_readingmmxu()->mutable_va()->mutable_neut();
-                });
-                visitor.handle("phsA", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::CMV* {
-                    return profile.mutable_resourcereading()->mutable_readingmmxu()->mutable_va()->mutable_phsa();
-                });
-                visitor.handle("phsB", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::CMV* {
-                    return profile.mutable_resourcereading()->mutable_readingmmxu()->mutable_va()->mutable_phsb();
-                });
-                visitor.handle("phsC", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::CMV* {
-                    return profile.mutable_resourcereading()->mutable_readingmmxu()->mutable_va()->mutable_phsc();
-                });
+            {
+                const auto context3 = [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_va(); };
+                visitor.handle(
+                    "net",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_net(); }
+                );
+                visitor.handle(
+                    "neut",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_neut(); }
+                );
+                visitor.handle(
+                    "phsA",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsa(); }
+                );
+                visitor.handle(
+                    "phsB",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsb(); }
+                );
+                visitor.handle(
+                    "phsC",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsc(); }
+                );
+            }
             visitor.end_message_field();
             visitor.start_message_field("VAr");
-                visitor.handle("net", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::CMV* {
-                    return profile.mutable_resourcereading()->mutable_readingmmxu()->mutable_var()->mutable_net();
-                });
-                visitor.handle("neut", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::CMV* {
-                    return profile.mutable_resourcereading()->mutable_readingmmxu()->mutable_var()->mutable_neut();
-                });
-                visitor.handle("phsA", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::CMV* {
-                    return profile.mutable_resourcereading()->mutable_readingmmxu()->mutable_var()->mutable_phsa();
-                });
-                visitor.handle("phsB", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::CMV* {
-                    return profile.mutable_resourcereading()->mutable_readingmmxu()->mutable_var()->mutable_phsb();
-                });
-                visitor.handle("phsC", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::CMV* {
-                    return profile.mutable_resourcereading()->mutable_readingmmxu()->mutable_var()->mutable_phsc();
-                });
+            {
+                const auto context3 = [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_var(); };
+                visitor.handle(
+                    "net",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_net(); }
+                );
+                visitor.handle(
+                    "neut",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_neut(); }
+                );
+                visitor.handle(
+                    "phsA",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsa(); }
+                );
+                visitor.handle(
+                    "phsB",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsb(); }
+                );
+                visitor.handle(
+                    "phsC",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsc(); }
+                );
+            }
             visitor.end_message_field();
             visitor.start_message_field("W");
-                visitor.handle("net", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::CMV* {
-                    return profile.mutable_resourcereading()->mutable_readingmmxu()->mutable_w()->mutable_net();
-                });
-                visitor.handle("neut", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::CMV* {
-                    return profile.mutable_resourcereading()->mutable_readingmmxu()->mutable_w()->mutable_neut();
-                });
-                visitor.handle("phsA", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::CMV* {
-                    return profile.mutable_resourcereading()->mutable_readingmmxu()->mutable_w()->mutable_phsa();
-                });
-                visitor.handle("phsB", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::CMV* {
-                    return profile.mutable_resourcereading()->mutable_readingmmxu()->mutable_w()->mutable_phsb();
-                });
-                visitor.handle("phsC", [](resourcemodule::ResourceReadingProfile& profile) -> commonmodule::CMV* {
-                    return profile.mutable_resourcereading()->mutable_readingmmxu()->mutable_w()->mutable_phsc();
-                });
+            {
+                const auto context3 = [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_w(); };
+                visitor.handle(
+                    "net",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_net(); }
+                );
+                visitor.handle(
+                    "neut",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_neut(); }
+                );
+                visitor.handle(
+                    "phsA",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsa(); }
+                );
+                visitor.handle(
+                    "phsB",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsb(); }
+                );
+                visitor.handle(
+                    "phsC",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsc(); }
+                );
+            }
             visitor.end_message_field();
+        }
         visitor.end_message_field();
-    visitor.end_message_field();
+    }
+    visitor.end_repeated_message_field();
 }
 
 } // end namespace adapter

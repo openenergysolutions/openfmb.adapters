@@ -12,7 +12,7 @@ import java.nio.file.Paths;
 public class Main {
 
     final static Path visitorDir = Paths.get("../adapter-api/src/adapter-api/helpers/generated");
-    final static Path conversionsDir = Paths.get("../adapters/dds/twinoaks/src/twinoaks/generated/");
+    final static Path conversionsDir = Paths.get("../plugins/dds/twinoaks/src/twinoaks/generated/");
 
     public static void main(String[] args) {
         deleteFolderContents(visitorDir.toFile());
