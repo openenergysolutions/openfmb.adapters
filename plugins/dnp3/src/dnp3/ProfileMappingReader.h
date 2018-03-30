@@ -4,7 +4,7 @@
 
 #include "ProfileMapping.h"
 
-#include "adapter-api/helpers/ConfigVisitorBase.h"
+#include "adapter-api/helpers/ConfigReadVisitorBase.h"
 
 #include <deque>
 #include <cstdint>
@@ -23,11 +23,11 @@ namespace adapter
         using visit_fun_t = void (*)(IProtoVisitor<T>&);
 
         template <class T>
-        class ConfigReadVisitor final : public ConfigVisitorBase<T>
+        class ConfigReadVisitor final : public ConfigReadVisitorBase<T>
         {
         public:
 
-            ConfigReadVisitor(const YAML::Node& root, ProfileMapping<T>& mapping) : ConfigVisitorBase<T>(root), mapping(mapping) {}
+            ConfigReadVisitor(const YAML::Node& root, ProfileMapping<T>& mapping) : ConfigReadVisitorBase<T>(root), mapping(mapping) {}
 
             void handle(const std::string& field_name, getter_t<commonmodule::MV, T> getter) override
             {
@@ -100,7 +100,8 @@ namespace adapter
                 // TODO - nothing until we decide how to fill this in
             }
 
-            void handle(const std::string &field_name, getter_t<commonmodule::ENG_PFSignKind, T> getter) override {
+            void handle(const std::string& field_name, getter_t<commonmodule::ENG_PFSignKind, T> getter) override
+            {
 
             }
 

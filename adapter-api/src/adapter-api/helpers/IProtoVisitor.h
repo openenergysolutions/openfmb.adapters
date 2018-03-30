@@ -40,12 +40,16 @@ namespace adapter {
          * @param field_name
          * @return
          */
-        virtual uint32_t start_repeated_message_field(const std::string& field_name) { return 0; };
+        virtual size_t start_repeated_message_field(const std::string& field_name) = 0;
+
+        virtual void start_iteration(size_t i) = 0;
+
+        virtual void end_iteration() = 0;
 
         /**
          * End iteration over a repeated field
          */
-        virtual void end_repeated_message_field() {};
+        virtual void end_repeated_message_field() = 0;
 
         /// --- handlers for measurement types ---
 

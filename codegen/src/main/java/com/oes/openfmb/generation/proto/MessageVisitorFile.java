@@ -122,7 +122,7 @@ public class MessageVisitorFile extends CppFilePair {
                          )
                         .append(
                                 line(String.format(
-                                        "for(int count%d = 0; count%d < max_count%d; ++count%d)",
+                                        "for(uint32_t count%d = 0; count%d < max_count%d; ++count%d)",
                                         path.getInfo().depth,
                                         path.getInfo().depth,
                                         path.getInfo().depth,
@@ -130,10 +130,17 @@ public class MessageVisitorFile extends CppFilePair {
                                 ))
                         )
                         .append("{")
+
                         .indent(
-                                getRepeatedContextDefinition(path)
-                        )
+                                lines(
+                                        String.format("visitor.start_iteration(count%d);", path.getInfo().depth),
+                                        getRepeatedContextDefinition(path)
+
+                                )
+
+                         )
                         .indent(inner)
+                        .indent("visitor.end_iteration();")
                         .append("}")
                         .append(line("visitor.end_repeated_message_field();"));
     }

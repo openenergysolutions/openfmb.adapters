@@ -4,6 +4,7 @@ set(DNP3_PUBLIC_HEADERS
 
 set(DNP3_SOURCES
         src/dnp3/ConfigKeys.h
+        src/dnp3/ConfigWriteVisitor.h
         src/dnp3/Plugin.h
         src/dnp3/IProfileMapping.h
         src/dnp3/LogAdapter.h

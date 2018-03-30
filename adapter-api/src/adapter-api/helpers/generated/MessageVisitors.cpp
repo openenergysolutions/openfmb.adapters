@@ -33,8 +33,9 @@ void visit(IProtoVisitor<resourcemodule::ResourceReadingProfile>& visitor)
     }
     visitor.end_message_field();
     const auto max_count0 = visitor.start_repeated_message_field("resourceReading");
-    for(int count0 = 0; count0 < max_count0; ++count0)
+    for(uint32_t count0 = 0; count0 < max_count0; ++count0)
     {
+        visitor.start_iteration(count0);
         const auto context1 = [context = context0, i = count0](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_resourcereading()->Mutable(i); };
         visitor.handle(
             "conductingEquipmentTerminalReading",
@@ -548,6 +549,7 @@ void visit(IProtoVisitor<resourcemodule::ResourceReadingProfile>& visitor)
             visitor.end_message_field();
         }
         visitor.end_message_field();
+        visitor.end_iteration();
     }
     visitor.end_repeated_message_field();
 }

@@ -1,6 +1,6 @@
 
-#ifndef OPENFMB_ADAPTER_MODBUS_MAPPINGLOADER_H
-#define OPENFMB_ADAPTER_MODBUS_MAPPINGLOADER_H
+#ifndef OPENFMB_ADAPTER_MODBUS_CONFIGREADVISITOR_H
+#define OPENFMB_ADAPTER_MODBUS_CONFIGREADVISITOR_H
 
 #include "ProfileMapping.h"
 #include "ConfigStrings.h"
@@ -8,19 +8,19 @@
 #include "Register16.h"
 #include "Register32.h"
 
-#include <adapter-api/helpers/ConfigVisitorBase.h>
+#include <adapter-api/helpers/ConfigReadVisitorBase.h>
 
 namespace adapter
 {
     namespace modbus
     {
         template <class T>
-        class MappingLoader final : public ConfigVisitorBase<T>
+        class ConfigReadVisitor final : public ConfigReadVisitorBase<T>
         {
         public:
 
-            MappingLoader(const YAML::Node& root, ProfileMapping<T>& mapping) :
-                ConfigVisitorBase<T>(root),
+            ConfigReadVisitor(const YAML::Node& root, ProfileMapping<T>& mapping) :
+                ConfigReadVisitorBase<T>(root),
                 mapping(mapping)
             {}
 
@@ -91,7 +91,7 @@ namespace adapter
 
             void handle(const std::string& field_name, getter_t<commonmodule::ENG_CalcMethodKind, T> getter) override {}
 
-            void handle(const std::string &field_name, getter_t<commonmodule::ENG_PFSignKind, T> getter) override {}
+            void handle(const std::string& field_name, getter_t<commonmodule::ENG_PFSignKind, T> getter) override {}
 
         private:
 

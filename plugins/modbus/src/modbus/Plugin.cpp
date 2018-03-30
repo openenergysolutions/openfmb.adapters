@@ -1,7 +1,7 @@
 
 #include "Plugin.h"
 
-#include "MappingLoader.h"
+#include "ConfigReadVisitor.h"
 #include "PollSink.h"
 #include "PollManager.h"
 
@@ -22,7 +22,7 @@ namespace adapter
         {
 
             auto mapping = std::make_unique<ProfileMapping<T>>();
-            MappingLoader<T> visitor(node, *mapping);
+            ConfigReadVisitor<T> visitor(node, *mapping);
             visit(visitor);
             return std::move(mapping);
         }
