@@ -68,6 +68,8 @@ namespace adapter {
 
 
     };
+
+
 }
 
 #endif //OPENFMB_ADAPTER_IPROTOVISITOR_H

@@ -130,15 +130,8 @@ public class MessageVisitorFile extends CppFilePair {
                                 ))
                         )
                         .append("{")
-
-                        .indent(
-                                lines(
-                                        String.format("visitor.start_iteration(count%d);", path.getInfo().depth),
-                                        getRepeatedContextDefinition(path)
-
-                                )
-
-                         )
+                        .indent(String.format("visitor.start_iteration(count%d);", path.getInfo().depth))
+                        .indent(getRepeatedContextDefinition(path))
                         .indent(inner)
                         .indent("visitor.end_iteration();")
                         .append("}")
@@ -234,16 +227,44 @@ public class MessageVisitorFile extends CppFilePair {
         return "\"" + input + "\"";
     }
 
-    private static String getRepeatedContextDefinition(FieldPath path)
+    private static Document getRepeatedContextDefinition(FieldPath path)
     {
-        return String.format(
-                "const auto context%d = [context = context%d, i = count%d](%s& profile) { return context(profile)->mutable_%s()->Mutable(i); };",
-                path.getInfo().depth + 1,
-                path.getInfo().depth,
-                path.getInfo().depth,
-                cppMessageName(path.getRoot()),
-                path.getInfo().field.getName().toLowerCase()
-        );
+        final int d = path.getInfo().depth;
+
+        return line(
+                    String.format(
+                    "const auto context%d = [context = context%d, i = count%d, max = max_count%d](%s& profile) {",
+                       d + 1,
+                        d,
+                        d,
+                        d,
+                        cppMessageName(path.getRoot())
+                    )
+                )
+                .indent(
+                        line(
+                            String.format("const auto repeated = context(profile)->mutable_%s();", path.getInfo().field.getName().toLowerCase())
+                        )
+                        .append("if(repeated->size() < max) {")
+                        .indent(
+                                lines(
+                                        "repeated->Reserve(max);",
+                                        "for(size_t j = 0; j < max; ++j) {"
+                                )
+                                .indent(
+                                        "repeated->Add();"
+                                )
+                                .append("}")
+
+                        )
+                        .append(
+                                lines(
+                                  "}",
+                                  "return repeated->Mutable(i);"
+                                )
+                        )
+                )
+                .append("};");
     }
 
     private static String getContextLambda(FieldPath path)

@@ -36,7 +36,16 @@ void visit(IProtoVisitor<resourcemodule::ResourceReadingProfile>& visitor)
     for(uint32_t count0 = 0; count0 < max_count0; ++count0)
     {
         visitor.start_iteration(count0);
-        const auto context1 = [context = context0, i = count0](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_resourcereading()->Mutable(i); };
+        const auto context1 = [context = context0, i = count0, max = max_count0](resourcemodule::ResourceReadingProfile& profile) {
+            const auto repeated = context(profile)->mutable_resourcereading();
+            if(repeated->size() < max) {
+                repeated->Reserve(max);
+                for(size_t j = 0; j < max; ++j) {
+                    repeated->Add();
+                }
+            }
+            return repeated->Mutable(i);
+        };
         visitor.handle(
             "conductingEquipmentTerminalReading",
             [context = context1](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_conductingequipmentterminalreading(); }

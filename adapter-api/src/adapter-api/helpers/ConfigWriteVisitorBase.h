@@ -36,7 +36,7 @@ namespace adapter {
         {
             out << YAML::Key << field_name;
             out << YAML::BeginSeq;
-            return 0;
+            return 1;
         }
 
         virtual void start_iteration(size_t i) final
