@@ -8,15 +8,6 @@
 
 namespace adapter
 {
-
-    namespace keys
-    {
-        const char* const profiles = "profiles";
-        const char* const publish = "publish";
-        const char* const subscribe = "subscribe";
-        const char* const none = "none";
-    }
-
     enum class ProfileMode
     {
         publish,
@@ -24,7 +15,14 @@ namespace adapter
         none
     };
 
-    ProfileMode parse_profile_mode(const std::string& mode);
+    struct ProfileModeMeta
+    {
+        static constexpr const char* const publish = "publish";
+        static constexpr const char* const subscribe = "subscribe";
+        static constexpr const char* const none = "none";
+
+        static ProfileMode parse(const std::string& mode);
+    };
 
 }
 

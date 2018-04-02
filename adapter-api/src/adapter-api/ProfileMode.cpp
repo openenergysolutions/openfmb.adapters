@@ -2,16 +2,25 @@
 
 #include "ProfileMode.h"
 
-namespace adapter {
+namespace adapter
+{
 
-    ProfileMode parse_profile_mode(const std::string &mode) {
-        if (mode == keys::publish) {
+    ProfileMode ProfileModeMeta::parse(const std::string& mode)
+    {
+        if (mode == ProfileModeMeta::publish)
+        {
             return ProfileMode::publish;
-        } else if (mode == keys::subscribe) {
+        }
+        else if (mode == ProfileModeMeta::subscribe)
+        {
             return ProfileMode::subscribe;
-        } else if (mode == keys::none) {
+        }
+        else if (mode == ProfileModeMeta::none)
+        {
             return ProfileMode::none;
-        } else {
+        }
+        else
+        {
             throw Exception("Unknown profile mode: ", mode);
         }
 

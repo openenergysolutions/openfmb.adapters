@@ -7,7 +7,8 @@
 #include <string>
 #include <functional>
 
-namespace adapter {
+namespace adapter
+{
 
     template <class Type, class Profile>
     using getter_t = std::function<Type* (Profile&)>;
@@ -18,9 +19,10 @@ namespace adapter {
      * This is used for both generating default configurations and reading configurations
      */
     template <class Profile>
-    class IProtoVisitor {
+    class IProtoVisitor
+    {
 
-        public:
+    public:
 
 
         /**

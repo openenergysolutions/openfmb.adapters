@@ -10,45 +10,55 @@
 #include <stack>
 #include <boost/numeric/conversion/cast.hpp>
 
-namespace adapter {
+namespace adapter
+{
 
     template <class T>
-    class ConfigReadVisitorBase : public IProtoVisitor<T> {
+    class ConfigReadVisitorBase : public IProtoVisitor<T>
+    {
 
     public:
 
-        void start_message_field(const std::string &field_name) final {
+        void start_message_field(const std::string& field_name) final
+        {
             this->current.push(
-                    yaml::require(this->current.top(), field_name)
+                yaml::require(this->current.top(), field_name)
             );
         }
 
-        void end_message_field() final {
+        void end_message_field() final
+        {
             this->current.pop();
         }
 
-        virtual int start_repeated_message_field(const std::string& field_name) final {
+        virtual int start_repeated_message_field(const std::string& field_name) final
+        {
             auto node = yaml::require(current.top(), field_name);
-            if(!node.IsSequence()) {
+            if(!node.IsSequence())
+            {
                 throw Exception("node is not a sequence: ", field_name);
             }
             this->current.push(node);
             return boost::numeric_cast<int>(node.size());
         }
 
-        virtual void start_iteration(int i) final {
+        virtual void start_iteration(int i) final
+        {
             auto node = this->current.top()[i];
-            if(!node) {
+            if(!node)
+            {
                 throw Exception("no node at index: ", i);
             }
             this->current.push(node);
         }
 
-        virtual void end_iteration() final {
+        virtual void end_iteration() final
+        {
             this->current.pop();
         }
 
-        virtual void end_repeated_message_field() final {
+        virtual void end_repeated_message_field() final
+        {
             this->current.pop();
         }
 

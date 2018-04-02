@@ -6,6 +6,7 @@
 #include "ConfigStrings.h"
 
 #include "adapter-api/ProfileMode.h"
+#include "adapter-api/ConfigStrings.h"
 
 namespace adapter
 {
@@ -19,7 +20,7 @@ namespace adapter
             out << YAML::Key << keys::connect_retry_seconds << 5;
             out << YAML::Key << ::adapter::keys::profiles;
             out << YAML::BeginMap;
-            out << YAML::Key << resourcemodule::ResourceReadingProfile::descriptor()->name() << ::adapter::keys::none;
+            out << YAML::Key << resourcemodule::ResourceReadingProfile::descriptor()->name() << ::adapter::ProfileModeMeta::none;
             out << YAML::EndMap;
 
         }

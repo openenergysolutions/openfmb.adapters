@@ -12,6 +12,7 @@
 
 #include <boost/uuid/random_generator.hpp>
 #include <boost/uuid/uuid_io.hpp>
+#include <boost/numeric/conversion/cast.hpp>
 
 
 namespace adapter
@@ -202,12 +203,8 @@ namespace adapter
                 {
                     return;
                 }
-                if(signed_index > std::numeric_limits<uint16_t>::max())
-                {
-                    throw Exception("Index exceeds max ushort: ", signed_index);
-                }
                 // call the specific configuration method
-                this->configure(node, static_cast<uint16_t>(signed_index), getter);
+                this->configure(node, boost::numeric_cast<uint16_t>(signed_index), getter);
             }
 
             void configure_cmv(const std::string& field_name, getter_t<commonmodule::CMV, T> getter)
@@ -229,10 +226,6 @@ namespace adapter
                 {
                     return;
                 }
-                if(signed_index > std::numeric_limits<uint16_t>::max())
-                {
-                    throw Exception("Index exceeds max ushort (", signed_index, ")");
-                }
 
                 const auto setter = [scale = get_scale(node), getter](const opendnp3::Analog & meas, T & profile)
                 {
@@ -240,7 +233,7 @@ namespace adapter
                     // TODO - extend to set timestamp/quality ?
                 };
 
-                this->mapping.add(static_cast<uint16_t>(signed_index), setter);
+                this->mapping.add(boost::numeric_cast<uint16_t>(signed_index), setter);
             }
 
             void configure_cmv_mag(const YAML::Node& node, getter_t<commonmodule::CMV, T> getter)
@@ -250,10 +243,6 @@ namespace adapter
                 {
                     return;
                 }
-                if(signed_index > std::numeric_limits<uint16_t>::max())
-                {
-                    throw Exception("Index exceeds max ushort (", signed_index, ")");
-                }
 
                 const auto setter = [scale = get_scale(node), getter](const opendnp3::Analog & meas, T & profile)
                 {
@@ -261,7 +250,7 @@ namespace adapter
                     // TODO - extend to set timestamp/quality ?
                 };
 
-                this->mapping.add(static_cast<uint16_t>(signed_index), setter);
+                this->mapping.add(boost::numeric_cast<uint16_t>(signed_index), setter);
             }
 
 

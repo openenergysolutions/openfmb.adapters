@@ -63,6 +63,7 @@ set_proto_output_files(PROTO_SOURCES "pb.cc")
 set_proto_input_files(PROTO_INPUT_FILES)
 
 set(API_HEADERS
+	src/adapter-api/ConfigStrings.h
     src/adapter-api/IPlugin.h
 	src/adapter-api/IPluginFactory.h
     src/adapter-api/IPublisher.h
@@ -83,14 +84,17 @@ set(API_SOURCES
 	src/adapter-api/ProfileMode.cpp
 	src/adapter-api/util/YAMLUtil.cpp
 	src/adapter-api/helpers/generated/MessageVisitors.cpp
-        src/adapter-api/helpers/ConfigReadVisitorBase.h src/adapter-api/helpers/ConfigWriteVisitorBase.h)
+        src/adapter-api/helpers/ConfigReadVisitorBase.h src/adapter-api/helpers/ConfigWriteVisitorBase.h src/adapter-api/ConfigStrings.h)
 
 
 # directories to be automatically formatted by astyle
 SET(CPP_FORMAT_DIRS
 		${CPP_FORMAT_DIRS}
 		${CMAKE_CURRENT_SOURCE_DIR}/src/adapter-api/*.h
+		${CMAKE_CURRENT_SOURCE_DIR}/src/adapter-api/*.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/src/adapter-api/util/*.h
+		${CMAKE_CURRENT_SOURCE_DIR}/src/adapter-api/util/*.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/src/adapter-api/helpers/*.h
 		PARENT_SCOPE
 )
 

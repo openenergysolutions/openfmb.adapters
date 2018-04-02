@@ -9,7 +9,7 @@
 #include <adapter-api/helpers/generated/MessageVisitors.h>
 
 #include "LogAdapter.h"
-#include "ConfigKeys.h"
+#include "ConfigStrings.h"
 #include "ConfigReadVisitor.h"
 
 using namespace openpal;

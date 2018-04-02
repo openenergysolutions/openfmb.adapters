@@ -6,6 +6,7 @@
 
 #include "adapter-api/util/YAMLUtil.h"
 #include "adapter-api/ProfileMode.h"
+#include "adapter-api/ConfigStrings.h"
 
 #include "ConfigStrings.h"
 #include "NATSSubscriber.h"
@@ -147,7 +148,7 @@ namespace adapter
         void Plugin::configure_profile(const YAML::Node& node, IMessageBus& bus)
         {
             // get the mode for the profile
-            const auto mode = parse_profile_mode(yaml::require_string(node, T::descriptor()->name()));
+            const auto mode = ProfileModeMeta::parse(yaml::require_string(node, T::descriptor()->name()));
             switch(mode)
             {
             case(ProfileMode::publish):

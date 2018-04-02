@@ -4,7 +4,7 @@
 
 #include "adapter-api/helpers/ConfigWriteVisitorBase.h"
 
-#include "ConfigKeys.h"
+#include "ConfigStrings.h"
 
 namespace adapter
 {

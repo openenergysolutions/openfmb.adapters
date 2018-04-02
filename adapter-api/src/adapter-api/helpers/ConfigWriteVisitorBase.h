@@ -7,7 +7,8 @@
 
 #include <yaml-cpp/yaml.h>
 
-namespace adapter {
+namespace adapter
+{
 
     template<class T>
     class ConfigWriteVisitorBase : public IProtoVisitor<T>
