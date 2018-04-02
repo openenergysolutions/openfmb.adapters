@@ -11,10 +11,10 @@ namespace adapter
 
     namespace keys
     {
-        static const char* const profiles = "profiles";
-        static const char* const publish = "publish";
-        static const char* const subscribe = "subscribe";
-        static const char* const none = "none";
+        const char* const profiles = "profiles";
+        const char* const publish = "publish";
+        const char* const subscribe = "subscribe";
+        const char* const none = "none";
     }
 
     enum class ProfileMode
