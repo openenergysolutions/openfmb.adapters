@@ -19,7 +19,7 @@ namespace adapter
             out << YAML::BeginSeq;
 
             out << YAML::BeginMap;
-            out << YAML::Key << keys::name << YAML::Value << "device1";
+            out << YAML::Key << ::adapter::keys::name << YAML::Value << "device1";
             out << YAML::Comment("This name is pre-pended to each log message");
 
             out << YAML::Key << keys::channel;

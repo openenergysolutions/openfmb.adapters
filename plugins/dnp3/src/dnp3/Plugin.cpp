@@ -5,10 +5,11 @@
 #include <asiodnp3/DefaultMasterApplication.h>
 #include <asiodnp3/ConsoleLogger.h>
 #include <opendnp3/LogLevels.h>
+
 #include <adapter-api/util/YAMLUtil.h>
 #include <adapter-api/helpers/generated/MessageVisitors.h>
+#include <adapter-api/ConfigStrings.h>
 
-#include "LogAdapter.h"
 #include "ConfigStrings.h"
 #include "ConfigReadVisitor.h"
 
@@ -83,7 +84,7 @@ namespace adapter
                         resourcemodule::ResourceReadingProfile::descriptor()->name());
 
             auto master = channel->AddMaster(
-                              yaml::require(node, keys::name).as<std::string>(),
+                              yaml::require(node, ::adapter::keys::name).as<std::string>(),
                               std::make_shared<SOEHandler<resourcemodule::ResourceReadingProfile>>(
                                   std::move(mapping),
                                   bus.get_publisher<resourcemodule::ResourceReadingProfile>()
@@ -114,11 +115,11 @@ namespace adapter
             const auto channel = yaml::require(node, keys::channel);
 
             return this->manager.AddTCPClient(
-                       yaml::require(node, keys::name).as<std::string>(),
+                       yaml::require_string(node, ::adapter::keys::name),
                        opendnp3::levels::NORMAL,
                        asiopal::ChannelRetry::Default(),
-                       yaml::require(channel, keys::outstation_ip).as<std::string>(),
-                       yaml::require(channel, keys::adapter).as<std::string>(),
+                       yaml::require_string(channel, keys::outstation_ip),
+                       yaml::require_string(channel, keys::adapter),
                        yaml::require(channel, keys::port).as<std::uint16_t>(),
                        nullptr // no channel listener
                    );

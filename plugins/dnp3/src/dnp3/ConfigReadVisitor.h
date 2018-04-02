@@ -5,6 +5,7 @@
 #include "ProfileMapping.h"
 
 #include "adapter-api/helpers/ConfigReadVisitorBase.h"
+#include "adapter-api/ConfigStrings.h"
 
 #include <deque>
 #include <cstdint>
@@ -47,13 +48,13 @@ namespace adapter
             void handle(const std::string& field_name, getter_t<commonmodule::ReadingMessageInfo, T> getter) override
             {
                 const auto node = this->get_config_node(field_name);
-                const auto ioNode = yaml::require(node, keys::identified_object);
+                const auto ioNode = yaml::require(node, ::adapter::keys::identified_object);
 
                 this->mapping.add_one_time_initializer(
                     [ getter,
-                      appName = yaml::require_string(node, keys::application_name),
-                      name = yaml::require_string(ioNode, keys::name),
-                      description = yaml::require_string(ioNode, keys::description)
+                      appName = yaml::require_string(node, ::adapter::keys::application_name),
+                      name = yaml::require_string(ioNode, ::adapter::keys::name),
+                      description = yaml::require_string(ioNode, ::adapter::keys::description)
                     ](T & profile) -> void
                 {
                     getter(profile)->set_applicationname(appName);
@@ -79,9 +80,9 @@ namespace adapter
 
                 this->mapping.add_one_time_initializer(
                     [ getter,
-                      name = yaml::require_string(node, keys::name),
-                      mrid = yaml::require_string(node, keys::mRID),
-                      description = yaml::require_string(node, keys::description)
+                      name = yaml::require_string(node, ::adapter::keys::name),
+                      mrid = yaml::require_string(node, ::adapter::keys::mRID),
+                      description = yaml::require_string(node, ::adapter::keys::description)
                     ](T & profile) -> void
                 {
                     getter(profile)->set_name(name);
@@ -104,13 +105,13 @@ namespace adapter
 
             void handle(const std::string& field_name, getter_t<commonmodule::LogicalNode, T> getter) override
             {
-                const auto node = yaml::require(this->get_config_node(field_name), keys::identified_object);
+                const auto node = yaml::require(this->get_config_node(field_name), ::adapter::keys::identified_object);
 
                 this->mapping.add_one_time_initializer(
                     [ getter,
-                      name = yaml::require_string(node, keys::name),
-                      mrid = yaml::require_string(node, keys::mRID),
-                      description = yaml::require_string(node, keys::description)
+                      name = yaml::require_string(node, ::adapter::keys::name),
+                      mrid = yaml::require_string(node, ::adapter::keys::mRID),
+                      description = yaml::require_string(node, ::adapter::keys::description)
                     ](T & profile) -> void
                 {
                     getter(profile)->mutable_identifiedobject()->set_name(name);
@@ -123,7 +124,7 @@ namespace adapter
             void handle(const std::string& field_name, getter_t<commonmodule::ENG_CalcMethodKind, T> getter) override
             {
                 const auto node = this->get_config_node(field_name);
-                const auto value = yaml::parse_enum_value(yaml::require_string(node, keys::set_val), commonmodule::CalcMethodKind_descriptor(), commonmodule::CalcMethodKind_Parse);
+                const auto value = yaml::parse_enum_value(yaml::require_string(node, ::adapter::keys::set_val), commonmodule::CalcMethodKind_descriptor(), commonmodule::CalcMethodKind_Parse);
 
                 this->mapping.add_one_time_initializer(
                     [getter, value](T & profile) -> void

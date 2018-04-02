@@ -3,6 +3,7 @@
 #define OPENFMB_ADAPTER_DNP3_CONFIGWRITEVISITOR_H
 
 #include "adapter-api/helpers/ConfigWriteVisitorBase.h"
+#include "adapter-api/ConfigStrings.h"
 
 #include "ConfigStrings.h"
 
@@ -57,12 +58,12 @@ namespace adapter
                 this->out << YAML::Key << field_name
                           << YAML::Comment("ReadingMessageInfo - the mRID is set dynamically");
                 this->out << YAML::BeginMap;
-                this->out << YAML::Key << keys::identified_object;
+                this->out << YAML::Key << ::adapter::keys::identified_object;
                 this->out << YAML::BeginMap;
-                this->out << YAML::Value << keys::description << YAML::Value << "default";
-                this->out << YAML::Value << keys::name << YAML::Value << "default";
+                this->out << YAML::Value << ::adapter::keys::description << YAML::Value << "default";
+                this->out << YAML::Value << ::adapter::keys::name << YAML::Value << "default";
                 this->out << YAML::EndMap;
-                this->out << YAML::Key << keys::application_name << YAML::Value << "default";
+                this->out << YAML::Key << ::adapter::keys::application_name << YAML::Value << "default";
                 this->out << YAML::EndMap;
             }
 
@@ -86,7 +87,7 @@ namespace adapter
             {
                 this->out << YAML::Key << field_name;
                 this->out << YAML::BeginMap;
-                this->write_identified_object(keys::identified_object);
+                this->write_identified_object(::adapter::keys::identified_object);
                 this->out << YAML::EndMap;
             }
 
@@ -95,7 +96,7 @@ namespace adapter
                 this->out << YAML::Key << field_name;
                 this->out << YAML::BeginMap;
                 // TODO - what should be the default here?
-                this->out << YAML::Key << keys::set_val << YAML::Value
+                this->out << YAML::Key << ::adapter::keys::set_val << YAML::Value
                           << commonmodule::CalcMethodKind_Name(commonmodule::CalcMethodKind::CalcMethodKind_M_CLASS);
                 this->out << YAML::EndMap;
             }
@@ -106,9 +107,9 @@ namespace adapter
             {
                 this->out << YAML::Key << field_name;
                 this->out << YAML::BeginMap;
-                this->out << YAML::Value << keys::description << YAML::Value << "default";
-                this->out << YAML::Value << keys::mRID << YAML::Value << keys::default_uuid << YAML::Comment("set me");
-                this->out << YAML::Value << keys::name << YAML::Value << "default";
+                this->out << YAML::Value << ::adapter::keys::description << YAML::Value << "default";
+                this->out << YAML::Value << ::adapter::keys::mRID << YAML::Value << keys::default_uuid << YAML::Comment("set me");
+                this->out << YAML::Value << ::adapter::keys::name << YAML::Value << "default";
                 this->out << YAML::EndMap;
             }
 
