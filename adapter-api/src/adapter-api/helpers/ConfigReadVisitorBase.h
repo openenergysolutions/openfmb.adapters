@@ -8,6 +8,7 @@
 
 #include <yaml-cpp/yaml.h>
 #include <stack>
+#include <boost/numeric/conversion/cast.hpp>
 
 namespace adapter {
 
@@ -26,16 +27,16 @@ namespace adapter {
             this->current.pop();
         }
 
-        virtual size_t start_repeated_message_field(const std::string& field_name) final {
+        virtual int start_repeated_message_field(const std::string& field_name) final {
             auto node = yaml::require(current.top(), field_name);
             if(!node.IsSequence()) {
                 throw Exception("node is not a sequence: ", field_name);
             }
             this->current.push(node);
-            return node.size();
+            return boost::numeric_cast<int>(node.size());
         }
 
-        virtual void start_iteration(size_t i) final {
+        virtual void start_iteration(int i) final {
             auto node = this->current.top()[i];
             if(!node) {
                 throw Exception("no node at index: ", i);

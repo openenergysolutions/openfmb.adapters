@@ -122,7 +122,7 @@ public class MessageVisitorFile extends CppFilePair {
                          )
                         .append(
                                 line(String.format(
-                                        "for(uint32_t count%d = 0; count%d < max_count%d; ++count%d)",
+                                        "for(auto count%d = 0; count%d < max_count%d; ++count%d)",
                                         path.getInfo().depth,
                                         path.getInfo().depth,
                                         path.getInfo().depth,
@@ -249,7 +249,8 @@ public class MessageVisitorFile extends CppFilePair {
                         .indent(
                                 lines(
                                         "repeated->Reserve(max);",
-                                        "for(size_t j = 0; j < max; ++j) {"
+                                        "// add items until we're at max requested capacity",
+                                        "for(auto j = repeated->size(); j < max; ++j) {"
                                 )
                                 .indent(
                                         "repeated->Add();"

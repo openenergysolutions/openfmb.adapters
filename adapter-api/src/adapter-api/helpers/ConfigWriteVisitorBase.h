@@ -32,14 +32,14 @@ namespace adapter {
             out << YAML::EndMap;
         }
 
-        virtual size_t start_repeated_message_field(const std::string& field_name) final
+        virtual int start_repeated_message_field(const std::string& field_name) final
         {
             out << YAML::Key << field_name;
             out << YAML::BeginSeq;
             return 1;
         }
 
-        virtual void start_iteration(size_t i) final
+        virtual void start_iteration(int i) final
         {
             out << YAML::BeginMap;
         }

@@ -40,9 +40,9 @@ namespace adapter {
          * @param field_name
          * @return
          */
-        virtual size_t start_repeated_message_field(const std::string& field_name) = 0;
+        virtual int start_repeated_message_field(const std::string& field_name) = 0;
 
-        virtual void start_iteration(size_t i) = 0;
+        virtual void start_iteration(int i) = 0;
 
         virtual void end_iteration() = 0;
 

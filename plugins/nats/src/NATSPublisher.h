@@ -14,7 +14,7 @@ namespace adapter
     namespace nats
     {
         template <class T>
-        class NATSPublisher final : public ISubscriber<T> // a NATS publisher subscribers to the internal bus
+        class NATSPublisher final : public ISubscriber<T> // a NATS publisher subscribes to the internal bus
         {
 
         public:
