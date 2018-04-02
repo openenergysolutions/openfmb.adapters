@@ -32,7 +32,6 @@ namespace adapter
             constexpr const char* const ang = "ang";
             constexpr const char* const scale = "scale";
             constexpr const char* const mapped_from = "mapped_from";
-            constexpr const char* const default_uuid = "00000000-0000-0000-0000-000000000000";
 
             // enum values for "mapped_from"
             constexpr const char* const analog = "analog";

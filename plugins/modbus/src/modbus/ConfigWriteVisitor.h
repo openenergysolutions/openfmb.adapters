@@ -49,41 +49,7 @@ namespace adapter
                 this->out << YAML::EndMap;
             }
 
-            void handle(const std::string& field_name, getter_t<commonmodule::ReadingMessageInfo, T> getter) override
-            {
-                this->out << YAML::Key << field_name << YAML::Comment("ReadingMessageInfo - the mRID is set dynamically");
-                this->out << YAML::BeginMap;
-                this->out << YAML::Key << keys::identified_object;
-                this->out << YAML::BeginMap;
-                this->out << YAML::Value << keys::description << YAML::Value << "" << YAML::Comment(comments::ignored_if_blank);
-                this->out << YAML::Value << keys::name << YAML::Value << "" << YAML::Comment(comments::ignored_if_blank);
-                this->out << YAML::EndMap;
-                this->out << YAML::Key << keys::application_name << YAML::Value << "" << YAML::Comment(comments::ignored_if_blank);
-                this->out << YAML::EndMap;
-            }
-
-            void handle(const std::string& field_name, getter_t<commonmodule::IdentifiedObject, T> getter) override
-            {
-                this->write_identified_object(field_name);
-            }
-
-            void handle(const std::string& field_name, getter_t<commonmodule::ConductingEquipmentTerminalReading, T> getter) override {}
-
-            void handle(const std::string& field_name, getter_t<commonmodule::ENG_CalcMethodKind, T> getter) override {}
-
-            void handle(const std::string& field_name, getter_t<commonmodule::ENG_PFSignKind, T> getter) override {}
-
         private:
-
-            void write_identified_object(const std::string& field_name)
-            {
-                this->out << YAML::Key << field_name;
-                this->out << YAML::BeginMap;
-                this->out << YAML::Value << keys::description << YAML::Value << "" << YAML::Comment(comments::ignored_if_blank);
-                this->out << YAML::Value << keys::mRID << YAML::Value << "" << YAML::Comment(comments::ignored_if_blank);
-                this->out << YAML::Value << keys::name << YAML::Value << "" << YAML::Comment(comments::ignored_if_blank);
-                this->out << YAML::EndMap;
-            }
 
             void write_analogue_config(const std::string& name)
             {
