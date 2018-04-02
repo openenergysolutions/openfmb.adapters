@@ -81,18 +81,6 @@ namespace adapter
                 }
             }
 
-            void handle(const std::string& field_name, getter_t<commonmodule::ReadingMessageInfo, T> getter) override {}
-
-            void handle(const std::string& field_name, getter_t<commonmodule::IdentifiedObject, T> getter) override {}
-
-            void handle(const std::string& field_name, getter_t<commonmodule::ConductingEquipmentTerminalReading, T> getter) override {}
-
-            void handle(const std::string& field_name, getter_t<commonmodule::LogicalNode, T> getter) override {}
-
-            void handle(const std::string& field_name, getter_t<commonmodule::ENG_CalcMethodKind, T> getter) override {}
-
-            void handle(const std::string& field_name, getter_t<commonmodule::ENG_PFSignKind, T> getter) override {}
-
         private:
 
             void map_bcr_bit16(const YAML::Node& node, getter_t<commonmodule::BCR, T> getter)
@@ -200,6 +188,15 @@ namespace adapter
                 }
                 );
             }
+
+        protected:
+
+            void add_message_init(const std::function<void(T&)>& init) override
+            {
+                this->mapping.add_flush_action(init);
+            }
+
+        private:
 
             ProfileMapping<T>& mapping;
         };

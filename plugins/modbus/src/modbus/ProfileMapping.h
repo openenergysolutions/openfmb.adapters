@@ -20,10 +20,8 @@ namespace adapter
         template <class T>
         class ProfileMapping : public IProfileMapping<T>
         {
-
-            using flush_fun_t = std::function<bool (T&)>;
-
             using init_fun_t = std::function<void ()>;
+            using flush_fun_t = std::function<void (T&)>;
 
             template <class Type, class Profile>
             using getter_t = Type * (*)(Profile& profile);
@@ -61,8 +59,8 @@ namespace adapter
         private:
 
             std::map<uint16_t, std::shared_ptr<IRegister>> holding_registers;
-            std::vector<flush_fun_t> flush_actions;
             std::vector<init_fun_t> init_actions;
+            std::vector<flush_fun_t> flush_actions;
         };
 
         template <class T>
@@ -90,9 +88,9 @@ namespace adapter
         template <class T>
         void ProfileMapping<T>::flush(T& profile)
         {
-            for(auto& check : this->flush_actions)
+            for(auto& action : this->flush_actions)
             {
-                check(profile);
+                action(profile);
             }
         }
 

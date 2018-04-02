@@ -69,14 +69,6 @@ namespace adapter
 
             void handle(const std::string& field_name, getter_t<commonmodule::ConductingEquipmentTerminalReading, T> getter) override {}
 
-            void handle(const std::string& field_name, getter_t<commonmodule::LogicalNode, T> getter) override
-            {
-                this->out << YAML::Key << field_name;
-                this->out << YAML::BeginMap;
-                this->write_identified_object(keys::identified_object);
-                this->out << YAML::EndMap;
-            }
-
             void handle(const std::string& field_name, getter_t<commonmodule::ENG_CalcMethodKind, T> getter) override {}
 
             void handle(const std::string& field_name, getter_t<commonmodule::ENG_PFSignKind, T> getter) override {}

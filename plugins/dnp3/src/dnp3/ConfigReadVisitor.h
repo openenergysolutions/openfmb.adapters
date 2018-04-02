@@ -11,8 +11,6 @@
 #include <cstdint>
 #include <memory>
 
-#include <boost/uuid/random_generator.hpp>
-#include <boost/uuid/uuid_io.hpp>
 #include <boost/numeric/conversion/cast.hpp>
 
 
@@ -45,94 +43,6 @@ namespace adapter
                 this->configure_scalar_value(node, getter);
             }
 
-            void handle(const std::string& field_name, getter_t<commonmodule::ReadingMessageInfo, T> getter) override
-            {
-                const auto node = this->get_config_node(field_name);
-                const auto ioNode = yaml::require(node, ::adapter::keys::identified_object);
-
-                this->mapping.add_one_time_initializer(
-                    [ getter,
-                      appName = yaml::require_string(node, ::adapter::keys::application_name),
-                      name = yaml::require_string(ioNode, ::adapter::keys::name),
-                      description = yaml::require_string(ioNode, ::adapter::keys::description)
-                    ](T & profile) -> void
-                {
-                    getter(profile)->set_applicationname(appName);
-                    getter(profile)->mutable_identifiedobject()->set_name(name);
-                    getter(profile)->mutable_identifiedobject()->set_description(description);
-                }
-                );
-
-                this->mapping.add_before_publish_initializer(
-                    // we generate a new UUID for every message
-                    [getter, generator = this->generator](T & profile) -> void
-                {
-                    const auto uuid = (*generator)();
-                    getter(profile)->mutable_identifiedobject()->set_mrid(boost::uuids::to_string(uuid));
-                }
-                );
-
-            }
-
-            void handle(const std::string& field_name, getter_t<commonmodule::IdentifiedObject, T> getter) override
-            {
-                const auto node = this->get_config_node(field_name);
-
-                this->mapping.add_one_time_initializer(
-                    [ getter,
-                      name = yaml::require_string(node, ::adapter::keys::name),
-                      mrid = yaml::require_string(node, ::adapter::keys::mRID),
-                      description = yaml::require_string(node, ::adapter::keys::description)
-                    ](T & profile) -> void
-                {
-                    getter(profile)->set_name(name);
-                    getter(profile)->set_mrid(mrid);
-                    getter(profile)->set_description(description);
-                }
-                );
-
-            }
-
-            void handle(const std::string& field_name, getter_t<commonmodule::ConductingEquipmentTerminalReading, T> getter) override
-            {
-                // TODO - nothing until we decide how to fill this in
-            }
-
-            void handle(const std::string& field_name, getter_t<commonmodule::ENG_PFSignKind, T> getter) override
-            {
-
-            }
-
-            void handle(const std::string& field_name, getter_t<commonmodule::LogicalNode, T> getter) override
-            {
-                const auto node = yaml::require(this->get_config_node(field_name), ::adapter::keys::identified_object);
-
-                this->mapping.add_one_time_initializer(
-                    [ getter,
-                      name = yaml::require_string(node, ::adapter::keys::name),
-                      mrid = yaml::require_string(node, ::adapter::keys::mRID),
-                      description = yaml::require_string(node, ::adapter::keys::description)
-                    ](T & profile) -> void
-                {
-                    getter(profile)->mutable_identifiedobject()->set_name(name);
-                    getter(profile)->mutable_identifiedobject()->set_mrid(mrid);
-                    getter(profile)->mutable_identifiedobject()->set_description(description);
-                }
-                );
-            }
-
-            void handle(const std::string& field_name, getter_t<commonmodule::ENG_CalcMethodKind, T> getter) override
-            {
-                const auto node = this->get_config_node(field_name);
-                const auto value = yaml::parse_enum_value(yaml::require_string(node, ::adapter::keys::set_val), commonmodule::CalcMethodKind_descriptor(), commonmodule::CalcMethodKind_Parse);
-
-                this->mapping.add_one_time_initializer(
-                    [getter, value](T & profile) -> void
-                {
-                    getter(profile)->set_setval(value);
-                }
-                );
-            }
 
         private:
 
@@ -254,10 +164,17 @@ namespace adapter
                 this->mapping.add(boost::numeric_cast<uint16_t>(signed_index), setter);
             }
 
+        protected:
+
+            void add_message_init(const std::function<void(T&)>& init) override
+            {
+                mapping.add_before_publish_initializer(init);
+            }
+
+        private:
+
 
             ProfileMapping<T>& mapping;
-
-            const std::shared_ptr<boost::uuids::random_generator> generator = std::make_shared<boost::uuids::random_generator>();
         };
 
     }

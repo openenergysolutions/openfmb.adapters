@@ -83,14 +83,6 @@ namespace adapter
 
             }
 
-            void handle(const std::string& field_name, getter_t<commonmodule::LogicalNode, T> getter) override
-            {
-                this->out << YAML::Key << field_name;
-                this->out << YAML::BeginMap;
-                this->write_identified_object(::adapter::keys::identified_object);
-                this->out << YAML::EndMap;
-            }
-
             void handle(const std::string& field_name, getter_t<commonmodule::ENG_CalcMethodKind, T> getter) override
             {
                 this->out << YAML::Key << field_name;

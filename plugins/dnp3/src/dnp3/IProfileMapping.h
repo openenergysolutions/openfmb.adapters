@@ -23,11 +23,6 @@ namespace adapter
             virtual ~IProfileMapping() = default;
 
             /**
-             * called once, during initialization
-             */
-            virtual void initialize(T& profile) = 0;
-
-            /**
              * called just before a message is published
              */
             virtual void before_publish(T& profile) const = 0;

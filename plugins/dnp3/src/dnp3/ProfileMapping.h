@@ -33,8 +33,6 @@ namespace adapter
 
             virtual bool set_value(const opendnp3::Indexed<opendnp3::Counter>& meas, T& profile) const override;
 
-            virtual void initialize(T& profile) override;
-
             virtual void before_publish(T& profile) const override;
 
             virtual size_t get_num_mappings() const override;
@@ -80,17 +78,6 @@ namespace adapter
             if (iter == this->counter_map.end()) return false;
             iter->second(meas.value, profile);
             return true;
-        }
-
-        template<class T>
-        void ProfileMapping<T>::initialize(T& profile)
-        {
-            for (auto& init : this->one_time_initializers)
-            {
-                init(profile);
-            }
-
-            this->one_time_initializers.clear();
         }
 
         template<class T>

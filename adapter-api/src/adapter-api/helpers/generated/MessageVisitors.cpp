@@ -57,10 +57,15 @@ void visit(IProtoVisitor<resourcemodule::ResourceReadingProfile>& visitor)
             visitor.start_message_field("phsA");
             {
                 const auto context3 = [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsa(); };
-                visitor.handle(
-                    "logicalNode",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_logicalnode(); }
-                );
+                visitor.start_message_field("logicalNode");
+                {
+                    const auto context4 = [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_logicalnode(); };
+                    visitor.handle(
+                        "identifiedObject",
+                        [context = context4](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); }
+                    );
+                }
+                visitor.end_message_field();
                 visitor.handle(
                     "DmdVAh",
                     [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvah(); }
@@ -102,10 +107,15 @@ void visit(IProtoVisitor<resourcemodule::ResourceReadingProfile>& visitor)
             visitor.start_message_field("phsAB");
             {
                 const auto context3 = [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsab(); };
-                visitor.handle(
-                    "logicalNode",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_logicalnode(); }
-                );
+                visitor.start_message_field("logicalNode");
+                {
+                    const auto context4 = [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_logicalnode(); };
+                    visitor.handle(
+                        "identifiedObject",
+                        [context = context4](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); }
+                    );
+                }
+                visitor.end_message_field();
                 visitor.handle(
                     "DmdVAh",
                     [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvah(); }
@@ -147,10 +157,15 @@ void visit(IProtoVisitor<resourcemodule::ResourceReadingProfile>& visitor)
             visitor.start_message_field("phsB");
             {
                 const auto context3 = [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsb(); };
-                visitor.handle(
-                    "logicalNode",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_logicalnode(); }
-                );
+                visitor.start_message_field("logicalNode");
+                {
+                    const auto context4 = [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_logicalnode(); };
+                    visitor.handle(
+                        "identifiedObject",
+                        [context = context4](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); }
+                    );
+                }
+                visitor.end_message_field();
                 visitor.handle(
                     "DmdVAh",
                     [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvah(); }
@@ -192,10 +207,15 @@ void visit(IProtoVisitor<resourcemodule::ResourceReadingProfile>& visitor)
             visitor.start_message_field("phsBC");
             {
                 const auto context3 = [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsbc(); };
-                visitor.handle(
-                    "logicalNode",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_logicalnode(); }
-                );
+                visitor.start_message_field("logicalNode");
+                {
+                    const auto context4 = [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_logicalnode(); };
+                    visitor.handle(
+                        "identifiedObject",
+                        [context = context4](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); }
+                    );
+                }
+                visitor.end_message_field();
                 visitor.handle(
                     "DmdVAh",
                     [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvah(); }
@@ -237,10 +257,15 @@ void visit(IProtoVisitor<resourcemodule::ResourceReadingProfile>& visitor)
             visitor.start_message_field("phsC");
             {
                 const auto context3 = [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsc(); };
-                visitor.handle(
-                    "logicalNode",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_logicalnode(); }
-                );
+                visitor.start_message_field("logicalNode");
+                {
+                    const auto context4 = [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_logicalnode(); };
+                    visitor.handle(
+                        "identifiedObject",
+                        [context = context4](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); }
+                    );
+                }
+                visitor.end_message_field();
                 visitor.handle(
                     "DmdVAh",
                     [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvah(); }
@@ -282,10 +307,15 @@ void visit(IProtoVisitor<resourcemodule::ResourceReadingProfile>& visitor)
             visitor.start_message_field("phsCA");
             {
                 const auto context3 = [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsca(); };
-                visitor.handle(
-                    "logicalNode",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_logicalnode(); }
-                );
+                visitor.start_message_field("logicalNode");
+                {
+                    const auto context4 = [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_logicalnode(); };
+                    visitor.handle(
+                        "identifiedObject",
+                        [context = context4](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); }
+                    );
+                }
+                visitor.end_message_field();
                 visitor.handle(
                     "DmdVAh",
                     [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvah(); }
@@ -329,10 +359,15 @@ void visit(IProtoVisitor<resourcemodule::ResourceReadingProfile>& visitor)
         visitor.start_message_field("readingMMTR");
         {
             const auto context2 = [context = context1](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_readingmmtr(); };
-            visitor.handle(
-                "logicalNode",
-                [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_logicalnode(); }
-            );
+            visitor.start_message_field("logicalNode");
+            {
+                const auto context3 = [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_logicalnode(); };
+                visitor.handle(
+                    "identifiedObject",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); }
+                );
+            }
+            visitor.end_message_field();
             visitor.handle(
                 "DmdVAh",
                 [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvah(); }
@@ -374,10 +409,15 @@ void visit(IProtoVisitor<resourcemodule::ResourceReadingProfile>& visitor)
         visitor.start_message_field("readingMMXU");
         {
             const auto context2 = [context = context1](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_readingmmxu(); };
-            visitor.handle(
-                "logicalNode",
-                [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_logicalnode(); }
-            );
+            visitor.start_message_field("logicalNode");
+            {
+                const auto context3 = [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_logicalnode(); };
+                visitor.handle(
+                    "identifiedObject",
+                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); }
+                );
+            }
+            visitor.end_message_field();
             visitor.start_message_field("A");
             {
                 const auto context3 = [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_a(); };

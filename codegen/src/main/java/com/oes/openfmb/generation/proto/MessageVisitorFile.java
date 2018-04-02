@@ -188,10 +188,6 @@ public class MessageVisitorFile extends CppFilePair {
         {
             return handler(path, message.getName());
         }
-        else if(message.equals(LogicalNode.getDescriptor()))
-        {
-            return handler(path, message.getName());
-        }
         else if(message.equals(ENG_CalcMethodKind.getDescriptor()))
         {
             return handler(path, message.getName());

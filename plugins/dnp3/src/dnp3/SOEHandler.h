@@ -70,7 +70,7 @@ namespace adapter
             mapping(std::move(mapping)),
             publisher(publisher)
         {
-            this->mapping->initialize(this->profile);
+
         }
 
         template <class T>
@@ -81,6 +81,7 @@ namespace adapter
                 this->profile_touched = false;
                 this->mapping->before_publish(this->profile);
                 this->publisher->publish(this->profile);
+                this->profile.Clear();
             }
         }
 
