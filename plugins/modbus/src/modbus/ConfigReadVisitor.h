@@ -29,7 +29,7 @@ namespace adapter
                 // MV only has a magnitude
 
                 this->configure_analogue(
-                    yaml::require(this->get_config_node(field_name), keys::mag),
+                    yaml::require(this->get_config_node(field_name), ::adapter::keys::mag),
                     [getter](T & profile) -> commonmodule::AnalogueValue*
                 {
                     return getter(profile)->mutable_mag();
@@ -41,13 +41,13 @@ namespace adapter
             {
                 const YAML::Node vector_node = yaml::require(
                                                    this->get_config_node(field_name),
-                                                   keys::cVal
+                                                   ::adapter::keys::cVal
                                                );
 
                 // independently configure the angle and magnitude
 
                 this->configure_analogue(
-                    yaml::require(vector_node, keys::mag),
+                    yaml::require(vector_node, ::adapter::keys::mag),
                     [getter](T & profile) -> commonmodule::AnalogueValue*
                 {
                     return getter(profile)->mutable_cval()->mutable_mag();
@@ -55,7 +55,7 @@ namespace adapter
                 );
 
                 this->configure_analogue(
-                    yaml::require(vector_node, keys::ang),
+                    yaml::require(vector_node, ::adapter::keys::ang),
                     [getter](T & profile) -> commonmodule::AnalogueValue*
                 {
                     return getter(profile)->mutable_cval()->mutable_ang();

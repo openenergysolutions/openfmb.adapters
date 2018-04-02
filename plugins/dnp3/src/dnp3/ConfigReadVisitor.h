@@ -28,7 +28,7 @@ namespace adapter
             void handle(const std::string& field_name, getter_t<commonmodule::MV, T> getter) override
             {
                 // MV only has a magnitude
-                const auto node = yaml::require(this->get_config_node(field_name), keys::mag);
+                const auto node = yaml::require(this->get_config_node(field_name), ::adapter::keys::mag);
                 this->configure_scalar_value(node, getter);
             }
 
@@ -126,8 +126,8 @@ namespace adapter
                                                );
 
                 // independently configure the angle and magnitude
-                this->configure_cmv_mag(yaml::require(vector_node, keys::mag), getter);
-                this->configure_cmv_ang(yaml::require(vector_node, keys::ang), getter);
+                this->configure_cmv_mag(yaml::require(vector_node, ::adapter::keys::mag), getter);
+                this->configure_cmv_ang(yaml::require(vector_node, ::adapter::keys::ang), getter);
             }
 
             void configure_cmv_ang(const YAML::Node& node, getter_t<commonmodule::CMV, T> getter)

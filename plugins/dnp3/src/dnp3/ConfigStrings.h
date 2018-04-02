@@ -28,8 +28,6 @@ namespace adapter
             // mapping
             constexpr const char* const profile = "profile";
             constexpr const char* const index = "index";
-            constexpr const char* const mag = "mag";
-            constexpr const char* const ang = "ang";
             constexpr const char* const scale = "scale";
             constexpr const char* const mapped_from = "mapped_from";
 

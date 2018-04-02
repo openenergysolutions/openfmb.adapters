@@ -84,7 +84,7 @@ namespace adapter
 
         virtual void add_message_init(const std::function<void (T&)>& init) = 0;
 
-        ConfigReadVisitorBase(const YAML::Node& root)
+        explicit ConfigReadVisitorBase(const YAML::Node& root)
         {
             current.push(root);
         }

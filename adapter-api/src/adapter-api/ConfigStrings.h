@@ -17,7 +17,10 @@ namespace adapter
         constexpr const char* const identified_object = "identifiedObject";
         constexpr const char* const description = "description";
         constexpr const char* const mRID = "mRID";
-        constexpr const char* const set_val = "setVal";
+
+        constexpr const char* const mag = "mag";
+        constexpr const char* const ang = "ang";
+        constexpr const char* const cVal = "cVal";
     }
 }
 

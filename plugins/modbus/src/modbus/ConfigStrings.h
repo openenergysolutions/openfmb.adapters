@@ -29,23 +29,10 @@ namespace adapter
 
             // mapping level
             const char* const mapping = "mapping";
-            const char* const description = "description";
-            const char* const identified_object = "identified-object";
-            const char* const application_name = "application-name";
-            const char* const mRID = "mRID";
             const char* const index = "index";
             const char* const upper_index = "upper_index";
             const char* const lower_index = "lower_index";
             const char* const scale = "scale";
-            const char* const mag = "mag";
-            const char* const ang = "ang";
-            const char* const cVal = "cVal";
-
-        }
-
-        namespace comments
-        {
-            const char* const ignored_if_blank = "ignored if blank";
         }
     }
 

@@ -57,6 +57,33 @@ namespace adapter
             out << YAML::EndSeq;
         }
 
+        void handle(const std::string& field_name, getter_t<commonmodule::MV, T> getter) final
+        {
+            this->out << YAML::Key << field_name << YAML::Comment("MV");
+            this->out << YAML::BeginMap;
+            this->write_analogue_config(keys::mag);
+            this->out << YAML::EndMap;
+        }
+
+        void handle(const std::string& field_name, getter_t<commonmodule::CMV, T> getter) final
+        {
+            this->out << YAML::Key << field_name << YAML::Comment("CMV");
+            this->out << YAML::BeginMap << keys::cVal;
+            this->out << YAML::BeginMap;
+            this->write_analogue_config(keys::ang);
+            this->write_analogue_config(keys::mag);
+            this->out << YAML::EndMap;
+            this->out << YAML::EndMap;
+        }
+
+        void handle(const std::string& field_name, getter_t<commonmodule::BCR, T> getter) final
+        {
+            this->out << YAML::Key << field_name << YAML::Comment("BCR");
+            this->out << YAML::BeginMap;
+            this->write_bcr_keys();
+            this->out << YAML::EndMap;
+        }
+
         void handle(const std::string& field_name, getter_t <commonmodule::IdentifiedObject, T> getter) final
         {
             this->out << YAML::Key << field_name;
@@ -87,6 +114,24 @@ namespace adapter
         void handle(const std::string& field_name, getter_t<commonmodule::ENG_CalcMethodKind, T> getter) final {}
 
         void handle(const std::string& field_name, getter_t<commonmodule::ENG_PFSignKind, T> getter) final {}
+
+    protected:
+
+        virtual void write_analogue_keys() = 0;
+
+        virtual void write_bcr_keys() = 0;
+
+    private:
+
+        void write_analogue_config(const std::string& name)
+        {
+            this->out << YAML::Key << name;
+            this->out << YAML::BeginMap;
+            this->write_analogue_keys();
+            this->out << YAML::EndMap;
+        }
+
+
 
     };
 
