@@ -6,24 +6,29 @@
 
 #include "ConfigKeys.h"
 
-namespace adapter {
+namespace adapter
+{
 
-    namespace dnp3 {
+    namespace dnp3
+    {
 
         template<class T>
-        class ConfigWriteVisitor final : public ConfigWriteVisitorBase<T> {
+        class ConfigWriteVisitor final : public ConfigWriteVisitorBase<T>
+        {
 
         public:
-            ConfigWriteVisitor(YAML::Emitter &out) : ConfigWriteVisitorBase<T>(out) {}
+            ConfigWriteVisitor(YAML::Emitter& out) : ConfigWriteVisitorBase<T>(out) {}
 
-            void handle(const std::string &field_name, getter_t<commonmodule::MV, T> getter) override {
+            void handle(const std::string& field_name, getter_t<commonmodule::MV, T> getter) override
+            {
                 this->out << YAML::Key << field_name << YAML::Comment("MV");
                 this->out << YAML::BeginMap;
                 this->write_analogue_config("mag");
                 this->out << YAML::EndMap;
             }
 
-            void handle(const std::string &field_name, getter_t<commonmodule::CMV, T> getter) override {
+            void handle(const std::string& field_name, getter_t<commonmodule::CMV, T> getter) override
+            {
                 this->out << YAML::Key << field_name << YAML::Comment("CMV");
                 this->out << YAML::BeginMap << "cVal";
                 this->out << YAML::BeginMap;
@@ -34,7 +39,8 @@ namespace adapter {
 
             }
 
-            void handle(const std::string &field_name, getter_t<commonmodule::BCR, T> getter) override {
+            void handle(const std::string& field_name, getter_t<commonmodule::BCR, T> getter) override
+            {
                 this->out << YAML::Key << field_name << YAML::Comment("BCR");
                 this->out << YAML::BeginMap;
                 this->out << YAML::Key << keys::index << -1;
@@ -46,7 +52,8 @@ namespace adapter {
                 this->out << YAML::EndMap;
             }
 
-            void handle(const std::string &field_name, getter_t<commonmodule::ReadingMessageInfo, T> getter) override {
+            void handle(const std::string& field_name, getter_t<commonmodule::ReadingMessageInfo, T> getter) override
+            {
                 this->out << YAML::Key << field_name
                           << YAML::Comment("ReadingMessageInfo - the mRID is set dynamically");
                 this->out << YAML::BeginMap;
@@ -59,27 +66,32 @@ namespace adapter {
                 this->out << YAML::EndMap;
             }
 
-            void handle(const std::string &field_name, getter_t<commonmodule::IdentifiedObject, T> getter) override {
+            void handle(const std::string& field_name, getter_t<commonmodule::IdentifiedObject, T> getter) override
+            {
                 this->write_identified_object(field_name);
             }
 
-            void handle(const std::string &field_name,
-                        getter_t<commonmodule::ConductingEquipmentTerminalReading, T> getter) override {
+            void handle(const std::string& field_name,
+                        getter_t<commonmodule::ConductingEquipmentTerminalReading, T> getter) override
+            {
                 // don't do anything until we understand how to set these fields
             }
 
-            void handle(const std::string &field_name, getter_t<commonmodule::ENG_PFSignKind, T> getter) override {
+            void handle(const std::string& field_name, getter_t<commonmodule::ENG_PFSignKind, T> getter) override
+            {
 
             }
 
-            void handle(const std::string &field_name, getter_t<commonmodule::LogicalNode, T> getter) override {
+            void handle(const std::string& field_name, getter_t<commonmodule::LogicalNode, T> getter) override
+            {
                 this->out << YAML::Key << field_name;
                 this->out << YAML::BeginMap;
                 this->write_identified_object(keys::identified_object);
                 this->out << YAML::EndMap;
             }
 
-            void handle(const std::string &field_name, getter_t<commonmodule::ENG_CalcMethodKind, T> getter) override {
+            void handle(const std::string& field_name, getter_t<commonmodule::ENG_CalcMethodKind, T> getter) override
+            {
                 this->out << YAML::Key << field_name;
                 this->out << YAML::BeginMap;
                 // TODO - what should be the default here?
@@ -90,7 +102,8 @@ namespace adapter {
 
         private:
 
-            void write_identified_object(const std::string &field_name) {
+            void write_identified_object(const std::string& field_name)
+            {
                 this->out << YAML::Key << field_name;
                 this->out << YAML::BeginMap;
                 this->out << YAML::Value << keys::description << YAML::Value << "default";
@@ -99,7 +112,8 @@ namespace adapter {
                 this->out << YAML::EndMap;
             }
 
-            void write_analogue_config(const std::string &name) {
+            void write_analogue_config(const std::string& name)
+            {
                 this->out << YAML::Key << name;
                 this->out << YAML::BeginMap;
                 this->out << YAML::Key << keys::index << -1;

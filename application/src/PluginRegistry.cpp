@@ -12,7 +12,7 @@
 #endif
 
 #ifdef OPENFMB_USE_NATS
-#include "nats/NatsPluginFactory.h"
+#include "nats/PluginFactory.h"
 #endif
 
 #ifdef OPENFMB_USE_TWINOAKS_DDS
@@ -35,7 +35,7 @@ namespace adapter
 #endif
 
 #ifdef OPENFMB_USE_NATS
-        this->add<adapter::NatsPluginFactory>();
+        this->add<nats::PluginFactory>();
 #endif
 
 #ifdef OPENFMB_USE_TWINOAKS_DDS
