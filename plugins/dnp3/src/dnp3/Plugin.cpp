@@ -10,7 +10,7 @@
 
 #include "LogAdapter.h"
 #include "ConfigKeys.h"
-#include "ProfileMappingReader.h"
+#include "ConfigReadVisitor.h"
 
 using namespace openpal;
 using namespace opendnp3;
@@ -20,6 +20,20 @@ namespace adapter
 {
     namespace dnp3
     {
+        template <class T>
+        using visit_fun_t = void (*)(IProtoVisitor<T>&);
+
+        template <class T>
+        std::unique_ptr<IProfileMapping<T>> read_mapping(const YAML::Node& node, visit_fun_t<T> visit)
+        {
+            std::unique_ptr<ProfileMapping<T>> mapping(std::make_unique<ProfileMapping<T>>());
+
+            ConfigReadVisitor<T> reader(node, *mapping);
+
+            visit(reader);
+
+            return std::move(mapping);
+        }
 
         Plugin::Plugin(
             const Logger& logger,

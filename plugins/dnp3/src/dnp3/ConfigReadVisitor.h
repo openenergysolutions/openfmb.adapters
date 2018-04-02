@@ -1,6 +1,6 @@
 
-#ifndef OPENFMB_ADAPTER_PROFILEPMAPPINGREADER_H
-#define OPENFMB_ADAPTER_PROFILEPMAPPINGREADER_H
+#ifndef OPENFMB_ADAPTER_DNP3_CONFIGREADVISITOR_H
+#define OPENFMB_ADAPTER_DNP3_CONFIGREADVISITOR_H
 
 #include "ProfileMapping.h"
 
@@ -18,10 +18,6 @@ namespace adapter
 {
     namespace dnp3
     {
-
-        template <class T>
-        using visit_fun_t = void (*)(IProtoVisitor<T>&);
-
         template <class T>
         class ConfigReadVisitor final : public ConfigReadVisitorBase<T>
         {
@@ -269,24 +265,10 @@ namespace adapter
             }
 
 
-            std::deque<std::string> path;
-
             ProfileMapping<T>& mapping;
 
             const std::shared_ptr<boost::uuids::random_generator> generator = std::make_shared<boost::uuids::random_generator>();
         };
-
-        template <class T>
-        std::unique_ptr<IProfileMapping<T>> read_mapping(const YAML::Node& node, visit_fun_t<T> visit)
-        {
-            std::unique_ptr<ProfileMapping<T>> mapping(std::make_unique<ProfileMapping<T>>());
-
-            ConfigReadVisitor<T> reader(node, *mapping);
-
-            visit(reader);
-
-            return std::move(mapping);
-        }
 
     }
 }
