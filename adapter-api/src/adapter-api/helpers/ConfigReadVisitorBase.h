@@ -110,21 +110,47 @@ namespace adapter
         // ReadingMessageInfo is just inherited from IdentifiedObject
         const auto ioNode = yaml::require(node, ::adapter::keys::identified_object);
 
-        const auto init =
-            [ getter,
-              app_name = yaml::require_string(node, ::adapter::keys::application_name),
-              name = yaml::require_string(ioNode, ::adapter::keys::name),
-              description = yaml::require_string(ioNode, ::adapter::keys::description),
-              generator = this->generator
-            ](T & profile) -> void
-        {
-            getter(profile)->set_applicationname(app_name);
-            getter(profile)->mutable_identifiedobject()->set_name(name);
-            getter(profile)->mutable_identifiedobject()->set_description(description);
-            getter(profile)->mutable_identifiedobject()->set_mrid(boost::uuids::to_string((*generator)()));
-        };
+        const auto app_name = yaml::require_string(node, ::adapter::keys::application_name);
+        const auto name = yaml::require_string(ioNode, ::adapter::keys::name);
+        const auto description = yaml::require_string(ioNode, ::adapter::keys::description);
 
-        this->add_message_init(init);
+        // put a fresh UUID onto every message
+        this->add_message_init(
+            [getter, generator = this->generator](T & profile)
+        {
+            getter(profile)->mutable_identifiedobject()->set_mrid(boost::uuids::to_string((*generator)()));
+        }
+        );
+
+        if(!app_name.empty())
+        {
+            this->add_message_init(
+                [getter, app_name](T & profile)
+            {
+                getter(profile)->set_applicationname(app_name);
+            }
+            );
+        }
+
+        if(!name.empty())
+        {
+            this->add_message_init(
+                [getter, name](T & profile)
+            {
+                getter(profile)->mutable_identifiedobject()->set_name(name);
+            }
+            );
+        }
+
+        if(!description.empty())
+        {
+            this->add_message_init(
+                [getter, description](T & profile)
+            {
+                getter(profile)->mutable_identifiedobject()->set_description(description);
+            }
+            );
+        }
     }
 
     template <class T>
@@ -134,27 +160,42 @@ namespace adapter
 
         // validate the UUID if not empty
         const auto uuid = yaml::require_string(node, ::adapter::keys::mRID);
+        const auto name = yaml::require_string(node, ::adapter::keys::name);
+        const auto description = yaml::require_string(node, ::adapter::keys::description);
+
         if(!uuid.empty())
         {
-            // throws bad_lexical_cast if not a valid UUID
-            boost::lexical_cast<boost::uuids::uuid>(uuid);
+
+            try
+            {
+                // throws bad_lexical_cast if not a valid UUID
+                boost::lexical_cast<boost::uuids::uuid>(uuid);
+            }
+            catch (...)
+            {
+                throw Exception("Not a valid UUID: ", uuid);
+            }
+
+            this->add_message_init(
+                [getter, uuid](T & profile) -> void { getter(profile)->set_mrid(uuid); }
+            );
         }
 
-        const auto init =
-            [ getter,
-              name = yaml::require_string(node, ::adapter::keys::name),
-              mrid = uuid,
-              description = yaml::require_string(node, ::adapter::keys::description)
-            ](T & profile) -> void
+        if(!name.empty())
         {
-            getter(profile)->set_name(name);
-            getter(profile)->set_mrid(mrid);
-            getter(profile)->set_description(description);
-        };
+            this->add_message_init(
+                [getter, name](T & profile) -> void { getter(profile)->set_name(name); }
+            );
+        }
 
-        this->add_message_init(init);
+        if(!description.empty())
+        {
+            this->add_message_init(
+                [getter, description](T & profile) -> void { getter(profile)->set_description(description); }
+            );
+        }
     }
 
 }
 
-#endif //OPENFMB_ADAPTER_CONFIGVISITORBASE_H
+#endif

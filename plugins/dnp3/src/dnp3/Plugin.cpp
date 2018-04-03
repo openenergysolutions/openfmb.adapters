@@ -29,14 +29,14 @@ namespace adapter
         {
             const auto profile = std::make_shared<T>();
 
-            ConfigReadVisitor<T> reader(node, profile, builder);
-            visit(reader);
-
             // clear the profile before processing measurements
             builder->add_start_action([profile]()
             {
                 profile->Clear();
             });
+
+            ConfigReadVisitor<T> reader(node, profile, builder);
+            visit(reader);
 
             // publish the profile when the response completes
             builder->add_end_action([profile, publisher = bus.get_publisher<T>()]()
