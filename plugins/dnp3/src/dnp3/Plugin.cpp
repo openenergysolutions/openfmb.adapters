@@ -3,7 +3,6 @@
 
 #include <asiodnp3/PrintingSOEHandler.h>
 #include <asiodnp3/DefaultMasterApplication.h>
-#include <asiodnp3/ConsoleLogger.h>
 #include <opendnp3/LogLevels.h>
 
 #include <adapter-api/util/YAMLUtil.h>
@@ -12,6 +11,7 @@
 
 #include "ConfigStrings.h"
 #include "ConfigReadVisitor.h"
+#include "LogAdapter.h"
 
 using namespace openpal;
 using namespace opendnp3;
@@ -25,15 +25,24 @@ namespace adapter
         using visit_fun_t = void (*)(IProtoVisitor<T>&);
 
         template <class T>
-        std::unique_ptr<IProfileMapping<T>> read_mapping(const YAML::Node& node, visit_fun_t<T> visit)
+        void load_mapping(const YAML::Node& node, IMessageBus& bus, const std::shared_ptr<IConfigurationBuilder>& builder)
         {
-            std::unique_ptr<ProfileMapping<T>> mapping(std::make_unique<ProfileMapping<T>>());
+            const auto profile = std::make_shared<T>();
 
-            ConfigReadVisitor<T> reader(node, *mapping);
-
+            ConfigReadVisitor<T> reader(node, profile, builder);
             visit(reader);
 
-            return std::move(mapping);
+            // clear the profile before processing measurements
+            builder->add_start_action([profile]()
+            {
+                profile->Clear();
+            });
+
+            // publish the profile when the response completes
+            builder->add_end_action([profile, publisher = bus.get_publisher<T>()]()
+            {
+                publisher->publish(*profile);
+            });
         }
 
         Plugin::Plugin(
@@ -44,8 +53,7 @@ namespace adapter
             logger(logger),
             manager(
                 yaml::with_default(node[keys::thread_pool_size], std::thread::hardware_concurrency()),
-                ConsoleLogger::Create()
-                //std::make_shared<LogPlugin>(logger)
+                std::make_shared<LogAdapter>(logger)
             )
         {
             yaml::foreach(node[keys::masters], [&](const YAML::Node& n)
@@ -73,22 +81,14 @@ namespace adapter
 
             const auto profile_node = yaml::require(node, keys::profile);
 
-            auto mapping = read_mapping<resourcemodule::ResourceReadingProfile>(profile_node, visit);
+            const auto handler = std::make_shared<SOEHandler>();
 
-            if (mapping->is_empty())
-            {
-                throw Exception("DNP3 adapter has no point mappings");
-            }
-
-            logger.info("{} point(s) are mapped to {}", mapping->get_num_mappings(),
-                        resourcemodule::ResourceReadingProfile::descriptor()->name());
+            // TODO - load a sequence of these
+            load_mapping<resourcemodule::ResourceReadingProfile>(profile_node, bus, handler);
 
             auto master = channel->AddMaster(
                               yaml::require(node, ::adapter::keys::name).as<std::string>(),
-                              std::make_shared<SOEHandler<resourcemodule::ResourceReadingProfile>>(
-                                  std::move(mapping),
-                                  bus.get_publisher<resourcemodule::ResourceReadingProfile>()
-                              ),
+                              handler,
                               DefaultMasterApplication::Create(),
                               config
                           );

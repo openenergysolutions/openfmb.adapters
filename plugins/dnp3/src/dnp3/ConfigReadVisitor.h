@@ -2,10 +2,11 @@
 #ifndef OPENFMB_ADAPTER_DNP3_CONFIGREADVISITOR_H
 #define OPENFMB_ADAPTER_DNP3_CONFIGREADVISITOR_H
 
-#include "ProfileMapping.h"
 
 #include "adapter-api/helpers/ConfigReadVisitorBase.h"
 #include "adapter-api/ConfigStrings.h"
+
+#include "IConfigurationBuilder.h"
 
 #include <deque>
 #include <cstdint>
@@ -21,9 +22,17 @@ namespace adapter
         template <class T>
         class ConfigReadVisitor final : public ConfigReadVisitorBase<T>
         {
+            const std::shared_ptr<T> profile;
+            const std::shared_ptr<IConfigurationBuilder> builder;
+
         public:
 
-            ConfigReadVisitor(const YAML::Node& root, ProfileMapping<T>& mapping) : ConfigReadVisitorBase<T>(root), mapping(mapping) {}
+            ConfigReadVisitor(const YAML::Node& root, const std::shared_ptr<T>& profile, const std::shared_ptr<IConfigurationBuilder>& builder) :
+                ConfigReadVisitorBase<T>(root),
+                profile(profile),
+                builder(builder)
+            {}
+
 
             void handle(const std::string& field_name, getter_t<commonmodule::MV, T> getter) override
             {
@@ -48,13 +57,13 @@ namespace adapter
 
             void configure(const YAML::Node& node, uint16_t index, getter_t<commonmodule::MV, T> getter)
             {
-                const auto setter = [scale = get_scale(node), getter](const opendnp3::Analog & meas, T & profile)
+                const auto handler = [scale = get_scale(node), getter, profile = this->profile](const opendnp3::Analog & meas)
                 {
-                    getter(profile)->mutable_mag()->set_f(static_cast<float>(meas.value * scale));
+                    getter(*profile)->mutable_mag()->set_f(static_cast<float>(meas.value * scale));
                     // TODO - extend to set timestamp/quality
                 };
 
-                this->mapping.add(index, setter);
+                this->builder->add_measurement_handler(handler, index);
             }
 
             void configure(const YAML::Node& node, uint16_t index, getter_t<commonmodule::BCR, T> getter)
@@ -80,25 +89,25 @@ namespace adapter
 
             void configure_analog(const YAML::Node& node, uint16_t index, double scale, getter_t<commonmodule::BCR, T> getter)
             {
-                const auto setter = [scale = get_scale(node), getter](const opendnp3::Analog & meas, T & profile)
+                const auto handler = [scale = get_scale(node), getter, profile = this->profile](const opendnp3::Analog & meas)
                 {
-                    getter(profile)->set_actval(static_cast<google::protobuf::int64>(meas.value * scale));
+                    getter(*profile)->set_actval(static_cast<google::protobuf::int64>(meas.value * scale));
                     // TODO - extend to set timestamp/quality
                 };
 
-                this->mapping.add(index, setter);
+                this->builder->add_measurement_handler(handler, index);
             }
 
             void configure_counter(const YAML::Node& node, uint16_t index, double scale, getter_t<commonmodule::BCR, T> getter)
             {
 
-                const auto setter = [scale = get_scale(node), getter](const opendnp3::Counter & meas, T & profile)
+                const auto handler = [scale = get_scale(node), getter, profile = this->profile](const opendnp3::Counter & meas)
                 {
-                    getter(profile)->set_actval(static_cast<google::protobuf::int64>(meas.value * scale));
+                    getter(*profile)->set_actval(static_cast<google::protobuf::int64>(meas.value * scale));
                     // TODO - extend to set timestamp/quality
                 };
 
-                this->mapping.add(index, setter);
+                this->builder->add_measurement_handler(handler, index);
             }
 
             static double get_scale(const YAML::Node& node)
@@ -132,49 +141,49 @@ namespace adapter
 
             void configure_cmv_ang(const YAML::Node& node, getter_t<commonmodule::CMV, T> getter)
             {
-                const int32_t signed_index = yaml::require(node, keys::index).as<int32_t>();
-                if(signed_index < 0)
+                const int32_t index = yaml::require(node, keys::index).as<int32_t>();
+                if(index < 0)
                 {
                     return;
                 }
 
-                const auto setter = [scale = get_scale(node), getter](const opendnp3::Analog & meas, T & profile)
+                const auto handler = [scale = get_scale(node), getter, profile = this->profile](const opendnp3::Analog & meas)
                 {
-                    getter(profile)->mutable_cval()->mutable_ang()->set_f(static_cast<float>(meas.value * scale));
+                    getter(*profile)->mutable_cval()->mutable_ang()->set_f(static_cast<float>(meas.value * scale));
                     // TODO - extend to set timestamp/quality ?
                 };
 
-                this->mapping.add(boost::numeric_cast<uint16_t>(signed_index), setter);
+                this->builder->add_measurement_handler(handler, boost::numeric_cast<uint16_t>(index));
             }
 
             void configure_cmv_mag(const YAML::Node& node, getter_t<commonmodule::CMV, T> getter)
             {
-                const int32_t signed_index = yaml::require(node, keys::index).as<int32_t>();
-                if(signed_index < 0)
+                const int32_t index = yaml::require(node, keys::index).as<int32_t>();
+                if(index < 0)
                 {
                     return;
                 }
 
-                const auto setter = [scale = get_scale(node), getter](const opendnp3::Analog & meas, T & profile)
+                const auto handler = [scale = get_scale(node), getter, profile = this->profile](const opendnp3::Analog & meas)
                 {
-                    getter(profile)->mutable_cval()->mutable_mag()->set_f(static_cast<float>(meas.value * scale));
+                    getter(*profile)->mutable_cval()->mutable_mag()->set_f(static_cast<float>(meas.value * scale));
                     // TODO - extend to set timestamp/quality ?
                 };
 
-                this->mapping.add(boost::numeric_cast<uint16_t>(signed_index), setter);
+                this->builder->add_measurement_handler(handler, boost::numeric_cast<uint16_t>(index));
             }
 
         protected:
 
             void add_message_init(const std::function<void(T&)>& init) override
             {
-                mapping.add_before_publish_initializer(init);
+                auto action = [init, profile = this->profile]()
+                {
+                    init(*profile);
+                };
+                this->builder->add_start_action(action);
             }
 
-        private:
-
-
-            ProfileMapping<T>& mapping;
         };
 
     }

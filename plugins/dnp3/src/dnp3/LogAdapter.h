@@ -7,24 +7,22 @@
 
 #include "adapter-api/Logger.h"
 
-
 namespace adapter
 {
     namespace dnp3
     {
 
-        class LogPlugin final : public openpal::ILogHandler
+        class LogAdapter final : public openpal::ILogHandler
         {
 
-            Logger logger;
+            ::adapter::Logger logger;
 
         public:
 
-            explicit LogPlugin(const Logger& logger) : logger(logger) {}
+            explicit LogAdapter(const ::adapter::Logger& logger) : logger(logger) {}
 
             virtual void Log( const openpal::LogEntry& entry ) override
             {
-                std::cout << entry.message << std::endl;
                 switch(entry.filters.GetBitfield())
                 {
                 case(opendnp3::flags::DBG):

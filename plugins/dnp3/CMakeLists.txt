@@ -6,14 +6,14 @@ set(DNP3_SOURCES
         src/dnp3/ConfigStrings.h
         src/dnp3/ConfigWriteVisitor.h
         src/dnp3/Plugin.h
-        src/dnp3/IProfileMapping.h
+        src/dnp3/IConfigurationBuilder.h
         src/dnp3/LogAdapter.h
-        src/dnp3/ProfileMapping.h
         src/dnp3/ConfigReadVisitor.h
         src/dnp3/SOEHandler.h
+        src/dnp3/SOEHandler.cpp
         src/dnp3/PluginFactory.cpp
         src/dnp3/Plugin.cpp
-)
+        src/dnp3/IConfigurationBuilder.h)
 
 set(DNP3_LIBS asiodnp3 asiopal opendnp3 openpal)
 

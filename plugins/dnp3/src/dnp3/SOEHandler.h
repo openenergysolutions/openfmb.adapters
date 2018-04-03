@@ -6,35 +6,33 @@
 
 #include "adapter-api/IMessageBus.h"
 
-#include "IProfileMapping.h"
+#include "IConfigurationBuilder.h"
+
+
+#include <map>
 
 namespace adapter
 {
     namespace dnp3
     {
-        template <class T>
-        class SOEHandler final : public opendnp3::ISOEHandler
+        class SOEHandler final : public opendnp3::ISOEHandler, public IConfigurationBuilder
         {
-            virtual void Start() override {}
-            virtual void End() override;
 
         public:
 
-            SOEHandler(std::unique_ptr<IProfileMapping<T>> mapping, publisher_t<T> publisher);
+            template <class T>
+            using handler_map = std::map<uint16_t, std::function<void (const T&)>>;
+
+
+            SOEHandler() = default;
 
             virtual void Process(const opendnp3::HeaderInfo& info, const opendnp3::ICollection<opendnp3::Indexed<opendnp3::Binary>>& values) override {}
 
             virtual void Process(const opendnp3::HeaderInfo& info, const opendnp3::ICollection<opendnp3::Indexed<opendnp3::DoubleBitBinary>>& values) override {}
 
-            virtual void Process(const opendnp3::HeaderInfo& info, const opendnp3::ICollection<opendnp3::Indexed<opendnp3::Analog>>& values) override
-            {
-                this->ProcessAny(values);
-            }
+            virtual void Process(const opendnp3::HeaderInfo& info, const opendnp3::ICollection<opendnp3::Indexed<opendnp3::Analog>>& values) override;
 
-            virtual void Process(const opendnp3::HeaderInfo& info, const opendnp3::ICollection<opendnp3::Indexed<opendnp3::Counter>>& values) override
-            {
-                this->ProcessAny(values);
-            }
+            virtual void Process(const opendnp3::HeaderInfo& info, const opendnp3::ICollection<opendnp3::Indexed<opendnp3::Counter>>& values) override;
 
             virtual void Process(const opendnp3::HeaderInfo& info, const opendnp3::ICollection<opendnp3::Indexed<opendnp3::FrozenCounter>>& values) override {}
 
@@ -54,50 +52,30 @@ namespace adapter
 
             virtual void Process(const opendnp3::HeaderInfo& info, const opendnp3::ICollection<opendnp3::DNPTime>& values) override {}
 
+
+            /// ---- implement IConfigurationBuilder -----
+
+            void add_start_action(const action_t& action) override;
+
+            void add_measurement_handler(const meas_handler_t <opendnp3::Analog>& handler, uint16_t index) override;
+
+            void add_measurement_handler(const meas_handler_t <opendnp3::Counter>& handler, uint16_t index) override;
+
+            void add_end_action(const action_t& action) override;
+
         private:
 
-            template <class U>
-            void ProcessAny(const opendnp3::ICollection<opendnp3::Indexed<U>>& values);
+            virtual void Start() override;
+            virtual void End() override;
 
-            std::unique_ptr<IProfileMapping<T>> mapping;
-            T profile;
-            bool profile_touched = false;
-            const publisher_t<T> publisher;
+            std::vector<std::function<void ()>> start_handlers;
+
+            handler_map<opendnp3::Analog> analog_handlers;
+            handler_map<opendnp3::Counter> counter_handlers;
+
+            std::vector<std::function<void ()>> end_handlers;
         };
 
-        template <class T>
-        SOEHandler<T>::SOEHandler(std::unique_ptr<IProfileMapping<T>> mapping, publisher_t<T> publisher) :
-            mapping(std::move(mapping)),
-            publisher(publisher)
-        {
-
-        }
-
-        template <class T>
-        void SOEHandler<T>::End()
-        {
-            if(this->profile_touched)
-            {
-                this->profile_touched = false;
-                this->mapping->before_publish(this->profile);
-                this->publisher->publish(this->profile);
-                this->profile.Clear();
-            }
-        }
-
-        template <class T>
-        template <class U>
-        void SOEHandler<T>::ProcessAny(const opendnp3::ICollection<opendnp3::Indexed<U>>& values)
-        {
-
-            auto load = [this](const opendnp3::Indexed<U>& meas)
-            {
-
-                this->profile_touched |= this->mapping->set_value(meas, this->profile);
-            };
-
-            values.ForeachItem(load);
-        }
     }
 
 }
