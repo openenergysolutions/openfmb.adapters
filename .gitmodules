@@ -11,3 +11,6 @@
 	path = deps/modbus
 	url = git@github.com:aegis4ics/modbus-cpp.git
 	branch = loopser
+[submodule "deps/argagg"]
+	path = deps/argagg
+	url = https://github.com/vietjtnguyen/argagg.git
