@@ -25,6 +25,8 @@ namespace adapter
             }
         }
 
+        std::shared_ptr<const IPluginFactory> find(const std::string& name);
+
     private:
 
         template<class T>

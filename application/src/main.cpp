@@ -2,6 +2,7 @@
 #include "adapter-api/util/Exception.h"
 #include "adapter-api/IPlugin.h"
 #include "adapter-api/util/YAMLUtil.h"
+#include "adapter-api/Profile.h"
 
 #include "PluginRegistry.h"
 #include "ProtoBus.h"
@@ -9,6 +10,7 @@
 #include "ConfigKeys.h"
 #include "LoggerConfig.h"
 #include "ArgumentParser.h"
+
 
 #include <fstream>
 #include <iostream>
@@ -19,7 +21,14 @@ std::vector<std::unique_ptr<IPlugin>> initialize(const std::string& yaml_path, P
 
 int run_application(const std::string& config_file_path);
 
-int write_config(const std::string& config_file_path);
+int write_config(const std::string& config_file_path, const std::vector<Profile>& profiles, std::shared_ptr<const adapter::IPluginFactory> factory);
+
+std::vector<Profile> get_profiles(const argagg::parser_results& args);
+
+std::shared_ptr<const adapter::IPluginFactory> get_factory(const argagg::parser_results& args);
+
+// global plugin registry
+PluginRegistry registry;
 
 int main(int argc, char** argv)
 {
@@ -42,7 +51,11 @@ int main(int argc, char** argv)
 
         if(args[flags::generate_config])
         {
-            return write_config(args[flags::generate_config]);
+            return write_config(
+                       args[flags::generate_config],
+                       get_profiles(args),
+                       get_factory(args)
+                   );
         }
 
         std::cerr << "You did not specify an option" << std::endl;
@@ -58,10 +71,33 @@ int main(int argc, char** argv)
     }
 }
 
+std::vector<Profile> get_profiles(const argagg::parser_results& args)
+{
+    std::vector<Profile> profiles;
+    for(auto& profile : args[flags::profile].all)
+    {
+        profiles.push_back(ProfileMeta::from_string(profile));
+    }
+
+    if(profiles.empty())
+    {
+        throw Exception("You must specify at least one profile configuration to generate");
+    }
+    return profiles;
+}
+
+std::shared_ptr<const adapter::IPluginFactory> get_factory(const argagg::parser_results& args)
+{
+    if(!args[flags::plugin])
+    {
+        throw Exception("No plugin specified for generation");
+    }
+
+    return registry.find(args[flags::plugin].as<std::string>());
+}
+
 int run_application(const std::string& config_file_path)
 {
-    PluginRegistry registry;
-
     // plugins publish and subscribe to this common bus
     const auto bus = std::make_shared<ProtoBus>();
 
@@ -89,30 +125,25 @@ int run_application(const std::string& config_file_path)
     return 0;
 }
 
-int write_default_plugin_configs(YAML::Emitter& out)
+int write_default_plugin_config(const IPluginFactory& factory, const std::vector<Profile>& profiles, YAML::Emitter& out)
 {
-    PluginRegistry registry;
-
-    const auto write_config = [&](const IPluginFactory & factory) -> void
-    {
-        out << YAML::Newline << YAML::Comment(factory.description());
-        out << factory.name();
-        out << YAML::BeginMap;
-        out << YAML::Key << keys::enabled << YAML::Value << false;
-        factory.write_default_config(out);
-        out << YAML::EndMap;
-        out << YAML::Newline;
-    };
-
     out << YAML::Newline << YAML::Newline << YAML::Comment("map of plugin configurations");
     out << YAML::Key << keys::plugins;
 
     out << YAML::BeginMap;
-    registry.foreach_adapter(write_config);
+
+    out << YAML::Newline << YAML::Comment(factory.description());
+    out << factory.name();
+    out << YAML::BeginMap;
+    out << YAML::Key << keys::enabled << YAML::Value << false;
+    factory.write_default_config(out);
+    out << YAML::EndMap;
+    out << YAML::Newline;
+
     out << YAML::EndMap;
 }
 
-int write_config(const std::string& config_file_path)
+int write_config(const std::string& config_file_path, const std::vector<Profile>& profiles, std::shared_ptr<const adapter::IPluginFactory> factory)
 {
     YAML::Emitter out;
 
@@ -124,7 +155,7 @@ int write_config(const std::string& config_file_path)
 
     logging::write_default_logging_config(out);
 
-    write_default_plugin_configs(out);
+    write_default_plugin_config(*factory, profiles, out);
 
     // end primary map
     out << YAML::EndMap;

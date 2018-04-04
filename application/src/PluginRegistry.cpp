@@ -1,7 +1,10 @@
 
+
 #include "PluginRegistry.h"
 
 #include "log/LogPluginFactory.h"
+
+#include <adapter-api/util/Exception.h>
 
 #ifdef OPENFMB_USE_DNP3
 #include "dnp3/PluginFactory.h"
@@ -42,6 +45,16 @@ namespace adapter
         this->add<adapter::DDSPluginFactory>();
 #endif
 
+    }
+
+    std::shared_ptr<const IPluginFactory> PluginRegistry::find(const std::string& name)
+    {
+        const auto result = this->lookup.find(name);
+        if(result == this->lookup.end())
+        {
+            throw Exception("No plugin with name: ", name);
+        }
+        return result->second;
     }
 
     template<class T>
