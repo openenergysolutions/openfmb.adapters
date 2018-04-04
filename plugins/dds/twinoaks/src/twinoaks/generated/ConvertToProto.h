@@ -25,6 +25,8 @@ namespace dds {
 
 void convert_to_proto(const openfmb::commonmodule::TimeQuality& in, commonmodule::TimeQuality& out);
 
+void convert_to_proto(const openfmb::breakermodule::Breaker& in, breakermodule::Breaker& out);
+
 void convert_to_proto(const openfmb::commonmodule::Timestamp& in, commonmodule::Timestamp& out);
 
 void convert_to_proto(const openfmb::commonmodule::ReadingMMXU& in, commonmodule::ReadingMMXU& out);
@@ -57,8 +59,6 @@ void convert_to_proto(const openfmb::commonmodule::Meter& in, commonmodule::Mete
 
 void convert_to_proto(const openfmb::commonmodule::Vector& in, commonmodule::Vector& out);
 
-void convert_to_proto(const openfmb::breakermodule::BreakerReadingProfile& in, breakermodule::BreakerReadingProfile& out);
-
 void convert_to_proto(const openfmb::resourcemodule::ResourceReading& in, resourcemodule::ResourceReading& out);
 
 void convert_to_proto(const openfmb::commonmodule::WYE& in, commonmodule::WYE& out);
@@ -71,21 +71,21 @@ void convert_to_proto(const openfmb::commonmodule::DEL& in, commonmodule::DEL& o
 
 void convert_to_proto(const openfmb::resourcemodule::ResourceReadingProfile& in, resourcemodule::ResourceReadingProfile& out);
 
+void convert_to_proto(const openfmb::breakermodule::BreakerReadingProfile& in, breakermodule::BreakerReadingProfile& out);
+
 void convert_to_proto(const openfmb::commonmodule::ACDCTerminal& in, commonmodule::ACDCTerminal& out);
 
 void convert_to_proto(const openfmb::commonmodule::ReadingMessageInfo& in, commonmodule::ReadingMessageInfo& out);
 
-void convert_to_proto(const openfmb::breakermodule::Breaker& in, breakermodule::Breaker& out);
-
 void convert_to_proto(const openfmb::commonmodule::Quality& in, commonmodule::Quality& out);
+
+void convert_to_proto(const openfmb::breakermodule::BreakerReading& in, breakermodule::BreakerReading& out);
 
 void convert_to_proto(const openfmb::commonmodule::DetailQual& in, commonmodule::DetailQual& out);
 
 void convert_to_proto(const openfmb::commonmodule::ENG_PFSignKind& in, commonmodule::ENG_PFSignKind& out);
 
 void convert_to_proto(const openfmb::commonmodule::PhaseMMTN& in, commonmodule::PhaseMMTN& out);
-
-void convert_to_proto(const openfmb::breakermodule::BreakerReading& in, breakermodule::BreakerReading& out);
 
 } // end namespace dds
 

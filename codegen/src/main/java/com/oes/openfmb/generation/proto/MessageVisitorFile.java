@@ -7,13 +7,35 @@ import com.oes.openfmb.generation.document.Documents;
 import com.oes.openfmb.generation.document.FileHeader;
 import com.oes.openfmb.util.FieldPathImpl;
 import openfmb.commonmodule.*;
+import openfmb.switchmodule.SwitchStatus;
+import openfmb.switchmodule.SwitchStatusXSWI;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
+import java.util.Set;
 
 import static com.oes.openfmb.generation.document.Documents.*;
 
 public class MessageVisitorFile extends CppFilePair {
+
+    private final static Set<Descriptors.Descriptor> terminalMessages = new HashSet<>(
+            Arrays.asList(
+                CMV.getDescriptor(),
+                MV.getDescriptor(),
+                BCR.getDescriptor(),
+                ReadingMessageInfo.getDescriptor(),
+                StatusMessageInfo.getDescriptor(),
+                ConductingEquipmentTerminalReading.getDescriptor(),
+                ENG_CalcMethodKind.getDescriptor(),
+                IdentifiedObject.getDescriptor(),
+                ENG_PFSignKind.getDescriptor(),
+                StatusDPS.getDescriptor(),
+                ENS_BehaviourModeKind.getDescriptor(),
+                ENS_DynamicTestKind.getDescriptor()
+            )
+    );
 
     private final Iterable<Descriptors.Descriptor> descriptors;
     private final Iterable<String> includes;
@@ -168,35 +190,7 @@ public class MessageVisitorFile extends CppFilePair {
 
     private Document build(FieldPath path, Descriptors.Descriptor message)
     {
-        if(message.equals(CMV.getDescriptor()))
-        {
-            return handler(path, message.getName());
-        }
-        else if(message.equals(MV.getDescriptor()))
-        {
-            return handler(path, message.getName());
-        }
-        else if(message.equals(BCR.getDescriptor()))
-        {
-            return handler(path, message.getName());
-        }
-        else if(message.equals(ReadingMessageInfo.getDescriptor()))
-        {
-            return handler(path, message.getName());
-        }
-        else if(message.equals(ConductingEquipmentTerminalReading.getDescriptor()))
-        {
-            return handler(path, message.getName());
-        }
-        else if(message.equals(ENG_CalcMethodKind.getDescriptor()))
-        {
-            return handler(path, message.getName());
-        }
-        else if(message.equals(IdentifiedObject.getDescriptor()))
-        {
-            return handler(path, message.getName());
-        }
-        else if(message.equals(ENG_PFSignKind.getDescriptor()))
+        if(terminalMessages.contains(message))
         {
             return handler(path, message.getName());
         }

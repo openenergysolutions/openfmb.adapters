@@ -84,6 +84,14 @@ namespace adapter
             this->out << YAML::EndMap;
         }
 
+        void handle(const std::string& field_name, getter_t<commonmodule::StatusDPS, T> getter) override
+        {
+            this->out << YAML::Key << field_name << YAML::Comment("StatusDPS");
+            this->out << YAML::BeginMap;
+            this->write_status_dps_keys();
+            this->out << YAML::EndMap;
+        }
+
         void handle(const std::string& field_name, getter_t <commonmodule::IdentifiedObject, T> getter) final
         {
             this->out << YAML::Key << field_name;
@@ -96,15 +104,12 @@ namespace adapter
 
         void handle(const std::string& field_name, getter_t<commonmodule::ReadingMessageInfo, T> getter) final
         {
-            this->out << YAML::Key << field_name << YAML::Comment("ReadingMessageInfo - mRID set dynamically");
-            this->out << YAML::BeginMap;
-            this->out << YAML::Key << keys::identified_object;
-            this->out << YAML::BeginMap;
-            this->out << YAML::Value << keys::description << YAML::Value << "";
-            this->out << YAML::Value << keys::name << YAML::Value << "";
-            this->out << YAML::EndMap;
-            this->out << YAML::Key << ::adapter::keys::application_name << YAML::Value << "";
-            this->out << YAML::EndMap;
+            this->write_message_info(field_name);
+        }
+
+        void handle(const std::string& field_name, getter_t<commonmodule::StatusMessageInfo, T> getter) final
+        {
+            this->write_message_info(field_name);
         }
 
         // TODO - ignore these for now
@@ -121,7 +126,22 @@ namespace adapter
 
         virtual void write_bcr_keys() = 0;
 
+        virtual void write_status_dps_keys() = 0;
+
     private:
+
+        void write_message_info(const std::string& field_name)
+        {
+            this->out << YAML::Key << field_name << YAML::Comment("mRID set dynamically");
+            this->out << YAML::BeginMap;
+            this->out << YAML::Key << keys::identified_object;
+            this->out << YAML::BeginMap;
+            this->out << YAML::Value << keys::description << YAML::Value << "";
+            this->out << YAML::Value << keys::name << YAML::Value << "";
+            this->out << YAML::EndMap;
+            this->out << YAML::Key << ::adapter::keys::application_name << YAML::Value << "";
+            this->out << YAML::EndMap;
+        }
 
         void write_analogue_config(const std::string& name)
         {

@@ -18,7 +18,7 @@ namespace adapter
         public:
             ConfigWriteVisitor(YAML::Emitter& out) : ConfigWriteVisitorBase<T>(out) {}
 
-        private:
+        protected:
 
             virtual void write_bcr_keys() override
             {
@@ -33,6 +33,11 @@ namespace adapter
                 this->out << YAML::Key << keys::lower_index << 0;
                 this->out << YAML::Key << keys::upper_index << 1;
                 this->out << YAML::Key << keys::scale << 1.0;
+            }
+
+            void write_status_dps_keys() override
+            {
+                // TODO
             }
         };
     }

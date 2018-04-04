@@ -52,6 +52,10 @@ namespace adapter
                 this->configure_scalar_value(node, getter);
             }
 
+            void handle(const std::string& field_name, getter_t<commonmodule::StatusDPS, T> getter) override
+            {
+                // TODO
+            }
 
         private:
 

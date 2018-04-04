@@ -12,10 +12,15 @@
 // 
 
 #include "resourcemodule/resourcemodule.pb.h"
+#include "switchmodule/switchmodule.pb.h"
 #include "../IProtoVisitor.h"
 
 namespace adapter {
 
 void visit(IProtoVisitor<resourcemodule::ResourceReadingProfile>& visitor);
+
+void visit(IProtoVisitor<switchmodule::SwitchReadingProfile>& visitor);
+
+void visit(IProtoVisitor<switchmodule::SwitchStatusProfile>& visitor);
 
 } // end namespace adapter

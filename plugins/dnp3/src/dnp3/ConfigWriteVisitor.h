@@ -4,6 +4,7 @@
 
 #include "adapter-api/helpers/ConfigWriteVisitorBase.h"
 #include "adapter-api/ConfigStrings.h"
+#include "adapter-api/util/Exception.h"
 
 #include "ConfigStrings.h"
 
@@ -38,6 +39,11 @@ namespace adapter
             {
                 this->out << YAML::Key << keys::index << -1;
                 this->out << YAML::Key << keys::scale << 1.0;
+            }
+
+            void write_status_dps_keys() override
+            {
+                // TODO
             }
         };
     }

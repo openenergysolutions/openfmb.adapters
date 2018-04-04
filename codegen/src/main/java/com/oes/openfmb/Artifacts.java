@@ -6,6 +6,8 @@ import com.oes.openfmb.generation.dds.ConvertToProto;
 import com.oes.openfmb.generation.document.CppFilePair;
 import com.oes.openfmb.generation.proto.MessageVisitorFile;
 import openfmb.resourcemodule.ResourceReadingProfile;
+import openfmb.switchmodule.SwitchReadingProfile;
+import openfmb.switchmodule.SwitchStatusProfile;
 
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -40,10 +42,13 @@ public class Artifacts {
         private static final CppFilePair visitors =
                 new MessageVisitorFile(
                         Arrays.asList(
-                                ResourceReadingProfile.getDescriptor()
+                                ResourceReadingProfile.getDescriptor(),
+                                SwitchReadingProfile.getDescriptor(),
+                                SwitchStatusProfile.getDescriptor()
                         ),
                         Arrays.asList(
-                                "resourcemodule/resourcemodule.pb.h"
+                                "resourcemodule/resourcemodule.pb.h",
+                                "switchmodule/switchmodule.pb.h"
                         )
                 );
 

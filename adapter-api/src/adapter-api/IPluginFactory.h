@@ -8,6 +8,7 @@
 #include "yaml-cpp/yaml.h"
 
 #include "Logger.h"
+#include "Profile.h"
 
 namespace adapter
 {

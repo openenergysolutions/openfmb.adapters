@@ -70,21 +70,23 @@ set(API_HEADERS
     src/adapter-api/ISubscriber.h
     src/adapter-api/IMessageBus.h
     src/adapter-api/Logger.h
+	src/adapter-api/Profile.h
 	src/adapter-api/ProfileMode.h
     src/adapter-api/util/Exception.h
     src/adapter-api/util/StringUtil.h
     src/adapter-api/util/YAMLUtil.h
     src/adapter-api/helpers/IProtoVisitor.h
-        src/adapter-api/helpers/ConfigReadVisitorBase.h
+    src/adapter-api/helpers/ConfigReadVisitorBase.h
 	src/adapter-api/helpers/generated/MessageVisitors.h
 )
 
 set(API_SOURCES
 	src/adapter-api/IMessageBus.cpp
+	src/adapter-api/Profile.cpp
 	src/adapter-api/ProfileMode.cpp
 	src/adapter-api/util/YAMLUtil.cpp
 	src/adapter-api/helpers/generated/MessageVisitors.cpp
-        src/adapter-api/helpers/ConfigReadVisitorBase.h src/adapter-api/helpers/ConfigWriteVisitorBase.h src/adapter-api/ConfigStrings.h)
+    src/adapter-api/helpers/ConfigReadVisitorBase.h src/adapter-api/helpers/ConfigWriteVisitorBase.h src/adapter-api/ConfigStrings.h src/adapter-api/Profile.h)
 
 
 # directories to be automatically formatted by astyle

@@ -68,7 +68,15 @@ namespace adapter
 
         // ---- final handlers for OpenFMB identity related things ----
 
-        void handle(const std::string& field_name, getter_t<commonmodule::ReadingMessageInfo, T> getter) final;
+        void handle(const std::string& field_name, getter_t<commonmodule::ReadingMessageInfo, T> getter) final
+        {
+            this->handle_message_info(field_name, getter);
+        }
+
+        void handle(const std::string& field_name, getter_t <commonmodule::StatusMessageInfo, T> getter) final
+        {
+            this->handle_message_info(field_name, getter);
+        }
 
         void handle(const std::string& field_name, getter_t<commonmodule::IdentifiedObject, T> getter) final;
 
@@ -81,6 +89,10 @@ namespace adapter
         void handle(const std::string& field_name, getter_t<commonmodule::ENG_PFSignKind, T> getter) final {}
 
     protected:
+
+        template <class U>
+        void handle_message_info(const std::string& field_name, getter_t <U, T> getter);
+
 
         virtual void add_message_init(const std::function<void (T&)>& init) = 0;
 
@@ -103,11 +115,12 @@ namespace adapter
 
     };
 
-    template <class T>
-    void ConfigReadVisitorBase<T>::handle(const std::string& field_name, getter_t<commonmodule::ReadingMessageInfo, T> getter)
+    template<class T>
+    template <class U>
+    void ConfigReadVisitorBase<T>::handle_message_info(const std::string& field_name, getter_t <U, T> getter)
     {
         const auto node = this->get_config_node(field_name);
-        // ReadingMessageInfo is just inherited from IdentifiedObject
+        // MessageInfo classes are just inherited from IdentifiedObject
         const auto ioNode = yaml::require(node, ::adapter::keys::identified_object);
 
         const auto app_name = yaml::require_string(node, ::adapter::keys::application_name);
