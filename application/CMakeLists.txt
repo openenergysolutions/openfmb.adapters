@@ -1,5 +1,7 @@
 
 set(OPENFMB_ADAPTER_SOURCES
+        src/ArgumentParser.h
+        src/ArgumentParser.cpp
         src/main.cpp
         src/ProtoBus.h
         src/ProtoBus.cpp
@@ -10,7 +12,7 @@ set(OPENFMB_ADAPTER_SOURCES
         src/LoggerConfig.h
         src/LoggerConfig.cpp
         src/SubscriberRegistry.h
-)
+        src/ArgumentParser.h)
 
 SET(CPP_FORMAT_DIRS
         ${CPP_FORMAT_DIRS}
@@ -46,4 +48,5 @@ message("Application will be built with support for: ${ADAPTERS}")
 
 add_executable(openfmb-adapter ${OPENFMB_ADAPTER_SOURCES})
 target_link_libraries(openfmb-adapter ${ADAPTERS} pthread)
+target_include_directories(openfmb-adapter PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../deps/argagg/include)
 

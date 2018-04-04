@@ -8,74 +8,54 @@
 #include "Shutdown.h"
 #include "ConfigKeys.h"
 #include "LoggerConfig.h"
+#include "ArgumentParser.h"
 
 #include <fstream>
 #include <iostream>
 
-using namespace std;
 using namespace adapter;
 
-vector<unique_ptr<IPlugin>> initialize(const std::string& yaml_path, PluginRegistry& registry, IMessageBus& bus);
+std::vector<std::unique_ptr<IPlugin>> initialize(const std::string& yaml_path, PluginRegistry& registry, IMessageBus& bus);
 
 int run_application(const std::string& config_file_path);
 
 int write_config(const std::string& config_file_path);
 
-void print_usage();
-
 int main(int argc, char** argv)
 {
-    if(argc < 2)
+    adapter::ArgumentParser parser;
+
+    try
     {
-        cerr << "At least one argument is required" << endl << endl;
-        print_usage();
+        const auto args = parser.parse(argc, argv);
+
+        if(args[flags::help])
+        {
+            parser.print_help();
+            return 0;
+        }
+
+        if(args[flags::config_file])
+        {
+            return run_application(args[flags::config_file].as<std::string>());
+        }
+
+        if(args[flags::generate_config])
+        {
+            return write_config(args[flags::generate_config]);
+        }
+
+        std::cerr << "You did not specify an option" << std::endl;
+        parser.print_help();
         return -1;
     }
-
-    const std::string flag(argv[1]);
-
-    if(flag == "-h")
+    catch(const std::exception& ex)
     {
-        print_usage();
-        return 0;
+        std::cerr << ex.what() << std::endl;
+        std::cerr << std::endl;
+        parser.print_help();
+        return -1;
     }
-    else if(flag == "-c")
-    {
-
-        if(argc != 3)
-        {
-            cerr << "-c requires the config file to be specified" << endl << endl;
-            print_usage();
-            return -1;
-        }
-
-        return run_application(argv[2]);
-
-    }
-    else if(flag == "-g")
-    {
-        if(argc != 3)
-        {
-            cerr << "-g requires the output config file to be specified" << endl << endl;
-            print_usage();
-            return -1;
-        }
-
-        return write_config(argv[2]);
-    }
-
-    cerr << "unknown flag: " << flag << endl << endl;
-    print_usage();
-    return -1;
-}
-
-void print_usage()
-{
-    cout << "usage: " << endl;
-    cout << "openfmb-adapter <flags>" << endl;
-    cout << "    -c <file>  # Run the application with a particular configuration file" << endl;
-    cout << "    -g <file>  # Generate a default configuration file" << endl;
-    cout << "    -h         # Show this help menu" << endl;
 }
 
 int run_application(const std::string& config_file_path)
@@ -83,7 +63,7 @@ int run_application(const std::string& config_file_path)
     PluginRegistry registry;
 
     // plugins publish and subscribe to this common bus
-    const auto bus = make_shared<ProtoBus>();
+    const auto bus = std::make_shared<ProtoBus>();
 
     // load the logger & plugins from the yaml configuration
     const auto plugins = initialize(config_file_path, registry, *bus);
@@ -152,7 +132,7 @@ int write_config(const std::string& config_file_path)
 
     std::ofstream output_file(config_file_path);
     output_file << out.c_str();
-    output_file << endl;
+    output_file << std::endl;
 
     return 0;
 }
@@ -165,7 +145,7 @@ std::vector<std::unique_ptr<IPlugin>> initialize(const std::string& yaml_path, P
 
     const auto plugin_list = yaml::require(yaml_root, keys::plugins);
 
-    vector<unique_ptr<IPlugin>> plugins;
+    std::vector<std::unique_ptr<IPlugin>> plugins;
 
     const auto try_to_load = [&](IPluginFactory & factory) -> void
     {
@@ -191,7 +171,7 @@ std::vector<std::unique_ptr<IPlugin>> initialize(const std::string& yaml_path, P
 
     registry.foreach_adapter(try_to_load);
 
-    return move(plugins);
+    return std::move(plugins);
 }
 
 
