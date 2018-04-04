@@ -78,12 +78,7 @@ std::vector<Profile> get_profiles(const argagg::parser_results& args)
     {
         profiles.push_back(ProfileMeta::from_string(profile));
     }
-
-    if(profiles.empty())
-    {
-        throw Exception("You must specify at least one profile configuration to generate");
-    }
-    return profiles;
+    return std::move(profiles);
 }
 
 std::shared_ptr<const adapter::IPluginFactory> get_factory(const argagg::parser_results& args)
@@ -136,7 +131,7 @@ int write_default_plugin_config(const IPluginFactory& factory, const std::vector
     out << factory.name();
     out << YAML::BeginMap;
     out << YAML::Key << keys::enabled << YAML::Value << false;
-    factory.write_default_config(out);
+    factory.write_default_config(out, profiles);
     out << YAML::EndMap;
     out << YAML::Newline;
 

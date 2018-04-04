@@ -29,6 +29,9 @@ namespace adapter
             handler(Profile::switch_status);
         }
     };
+
 }
+
+
 
 #endif

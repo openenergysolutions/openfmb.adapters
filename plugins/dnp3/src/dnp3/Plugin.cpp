@@ -13,6 +13,8 @@
 #include "ConfigReadVisitor.h"
 #include "LogAdapter.h"
 
+#include "adapter-api/util/YAMLUtil.h"
+
 using namespace openpal;
 using namespace opendnp3;
 using namespace asiodnp3;
@@ -25,7 +27,7 @@ namespace adapter
         using visit_fun_t = void (*)(IProtoVisitor<T>&);
 
         template <class T>
-        void load_mapping(const YAML::Node& node, IMessageBus& bus, const std::shared_ptr<IConfigurationBuilder>& builder)
+        void load_typed_mapping(const YAML::Node& node, IMessageBus& bus, const std::shared_ptr<IConfigurationBuilder>& builder)
         {
             const auto profile = std::make_shared<T>();
 
@@ -43,6 +45,25 @@ namespace adapter
             {
                 publisher->publish(*profile);
             });
+        }
+
+        void load_mapping(const YAML::Node& node, IMessageBus& bus, const std::shared_ptr<IConfigurationBuilder>& builder)
+        {
+            const auto profile = ProfileMeta::from_string(yaml::require_string(node, ::adapter::keys::name));
+            switch(profile)
+            {
+            case(Profile::resource_reading):
+                load_typed_mapping<resourcemodule::ResourceReadingProfile>(node, bus, builder);
+                break;
+            case(Profile::switch_reading):
+                load_typed_mapping<switchmodule::SwitchReadingProfile>(node, bus, builder);
+                break;
+            case(Profile::switch_status):
+                load_typed_mapping<switchmodule::SwitchStatusProfile>(node, bus, builder);
+                break;
+            default:
+                throw Exception("Unsupported profile: ", ProfileMeta::to_string(profile));
+            }
         }
 
         Plugin::Plugin(
@@ -79,12 +100,17 @@ namespace adapter
             config.master.disableUnsolOnStartup = true;
             config.master.unsolClassMask = ClassField::None();
 
-            const auto profile_node = yaml::require(node, keys::profile);
-
             const auto handler = std::make_shared<SOEHandler>();
 
-            // TODO - load a sequence of these
-            load_mapping<resourcemodule::ResourceReadingProfile>(profile_node, bus, handler);
+            const auto load_one_profile = [&](const YAML::Node & node)
+            {
+                load_mapping(node, bus, handler);
+            };
+
+            yaml::foreach(
+                yaml::require(node, ::adapter::keys::profiles),
+                load_one_profile
+            );
 
             auto master = channel->AddMaster(
                               yaml::require(node, ::adapter::keys::name).as<std::string>(),

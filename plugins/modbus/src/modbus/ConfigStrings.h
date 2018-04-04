@@ -28,7 +28,6 @@ namespace adapter
             const char* const count = "count";
 
             // mapping level
-            const char* const mapping = "mapping";
             const char* const index = "index";
             const char* const upper_index = "upper_index";
             const char* const lower_index = "lower_index";

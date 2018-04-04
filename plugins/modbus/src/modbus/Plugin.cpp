@@ -27,14 +27,29 @@ namespace adapter
             return std::move(mapping);
         }
 
-        template<class T>
-        std::unique_ptr<IPollSink> get_poll_sink(const YAML::Node& node, IMessageBus& bus)
+        template <class T>
+        std::unique_ptr<IPollSink> get_typed_poll_sink(const YAML::Node& node, IMessageBus& bus)
         {
-
             return std::make_unique<PollSink<T>>(
                        bus.get_publisher<T>(),
                        read_mapping<T>(node)
                    );
+        }
+
+        std::unique_ptr<IPollSink> get_poll_sink(const YAML::Node& node, IMessageBus& bus)
+        {
+            const auto profile = ProfileMeta::from_string(yaml::require_string(node, keys::name));
+            switch(profile)
+            {
+            case(Profile::resource_reading):
+                return get_typed_poll_sink<resourcemodule::ResourceReadingProfile>(node, bus);
+            case(Profile::switch_reading):
+                return get_typed_poll_sink<switchmodule::SwitchReadingProfile>(node, bus);
+            case(Profile::switch_status):
+                return get_typed_poll_sink<switchmodule::SwitchStatusProfile>(node, bus);
+            default:
+                throw Exception("Unsupported profile: ", ProfileMeta::to_string(profile));
+            }
         }
 
         Plugin::Plugin(const YAML::Node& node, const Logger& logger, IMessageBus& bus) : logger(logger)
@@ -58,10 +73,7 @@ namespace adapter
         {
             const auto name = yaml::require_string(node, keys::name);
 
-            auto sink = get_poll_sink<resourcemodule::ResourceReadingProfile>(
-                            yaml::require(node, keys::mapping),
-                            bus
-                        );
+            auto sink = get_poll_sink(yaml::require(node, keys::profile), bus);
 
             this->logger.info("Session {} has {} mapped values", name, sink->num_mapped_values());
 

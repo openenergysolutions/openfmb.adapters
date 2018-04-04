@@ -12,6 +12,7 @@
 
 namespace adapter
 {
+    using profile_vec_t = std::vector<Profile>;
 
     /**
      * An adapter is something that can read a YAML configuration,
@@ -27,7 +28,7 @@ namespace adapter
 
         virtual std::string description() const = 0;
 
-        virtual void write_default_config(YAML::Emitter& emitter) const = 0;
+        virtual void write_default_config(YAML::Emitter& emitter, const profile_vec_t& profiles) const = 0;
 
         virtual std::unique_ptr<IPlugin> create(const YAML::Node& node, const Logger& logger, IMessageBus& bus) = 0;
     };

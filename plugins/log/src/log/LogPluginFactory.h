@@ -19,7 +19,7 @@ namespace adapter
             return "pretty prints profiles to the log";
         };
 
-        virtual void write_default_config(YAML::Emitter& emitter) const override;
+        virtual void write_default_config(YAML::Emitter& emitter, const profile_vec_t& profiles) const override;
 
         virtual std::unique_ptr<IPlugin> create(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override;
     };
