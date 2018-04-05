@@ -112,10 +112,10 @@ namespace adapter
             );
 
             this->logger.info(
-                    "num binary: {} num analog: {} num counter: {}",
-                    handler->num_binary(),
-                    handler->num_analog(),
-                    handler->num_counter()
+                "num binary: {} num analog: {} num counter: {}",
+                handler->num_binary(),
+                handler->num_analog(),
+                handler->num_counter()
             );
 
             auto master = channel->AddMaster(

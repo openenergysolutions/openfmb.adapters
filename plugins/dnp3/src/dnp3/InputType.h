@@ -4,9 +4,11 @@
 
 #include <string>
 
-namespace adapter {
+namespace adapter
+{
 
-    namespace dnp3 {
+    namespace dnp3
+    {
 
         enum class InputType
         {

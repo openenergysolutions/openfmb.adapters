@@ -2,6 +2,7 @@
 #include "LogPlugin.h"
 
 #include "adapter-api/util/YAMLUtil.h"
+#include "adapter-api/Profile.h"
 
 namespace adapter
 {
@@ -27,12 +28,36 @@ namespace adapter
     {
         const auto profiles = yaml::require(node, "profiles");
 
-        if(yaml::require(profiles, resourcemodule::ResourceReadingProfile::descriptor()->name()).as<bool>())
+        auto read = [&](Profile profile)
         {
-            bus.subscribe(
-                std::make_shared<LogPrinter<resourcemodule::ResourceReadingProfile>>(logger)
-            );
-        }
+            const auto enabled = yaml::require(profiles, ProfileMeta::to_string(profile)).as<bool>();
+            if(enabled)
+            {
+                switch(profile)
+                {
+                case(Profile::resource_reading):
+                    bus.subscribe(
+                        std::make_shared<LogPrinter<resourcemodule::ResourceReadingProfile>>(logger)
+                    );
+                    break;
+                case(Profile::switch_reading):
+                    bus.subscribe(
+                        std::make_shared<LogPrinter<switchmodule::SwitchReadingProfile>>(logger)
+                    );
+                    break;
+                case(Profile::switch_status):
+                    bus.subscribe(
+                        std::make_shared<LogPrinter<switchmodule::SwitchStatusProfile>>(logger)
+                    );
+                    break;
+                default:
+                    throw Exception("Unsupported log profile: ", ProfileMeta::to_string(profile));
+                }
+            }
+        };
+
+
+        ProfileMeta::foreach(read);
     }
 
 }

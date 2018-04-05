@@ -35,28 +35,6 @@ namespace adapter
             }
         }
 
-        template <class E>
-        E parse_enum_value(const YAML::Node& parent, const ::google::protobuf::EnumDescriptor* descriptor, bool (parser)(const std::string&, E*))
-        {
-            return parse_enum_value(
-                       yaml::require_string(parent, descriptor->name()),
-                       descriptor,
-                       parser
-                   );
-        }
-
-        template <class E>
-        E parse_enum_value(const std::string& string_value, const ::google::protobuf::EnumDescriptor* descriptor, bool (parser)(const std::string&, E*))
-        {
-            E ret;
-            if(!parser(string_value, &ret))
-            {
-                throw Exception("Invalid value '", string_value, "' for protobuf enum descriptor: ", descriptor->name());
-            }
-            return ret;
-        }
-
-
     }
 }
 

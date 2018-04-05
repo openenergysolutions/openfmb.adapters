@@ -28,8 +28,7 @@ namespace adapter
             virtual void write_bcr_keys() override
             {
 
-                this->out << YAML::Key << keys::input_type << YAML::Value << InputTypeMeta::disabled;
-                this->out << YAML::Comment("{ disabled, analog, counter }");
+                this->out << YAML::Key << keys::input_type << YAML::Value << InputTypeMeta::disabled << YAML::Comment("{ disabled, analog, counter }");
                 this->out << YAML::Key << keys::index << 0;
             }
 
@@ -42,7 +41,10 @@ namespace adapter
 
             void write_status_dps_keys() override
             {
-                // TODO
+                this->out << YAML::Key << keys::input_type << YAML::Value << InputTypeMeta::disabled << YAML::Comment("{ disabled, binary }");
+                this->out << YAML::Key << keys::index << 0;
+                this->out << YAML::Key << keys::high << commonmodule::DbPosKind_descriptor()->FindValueByNumber(commonmodule::DbPosKind::DbPosKind_closed)->name();
+                this->out << YAML::Key << keys::low << commonmodule::DbPosKind_descriptor()->FindValueByNumber(commonmodule::DbPosKind::DbPosKind_open)->name();
             }
         };
     }

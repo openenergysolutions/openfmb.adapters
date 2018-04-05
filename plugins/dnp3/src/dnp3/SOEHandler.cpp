@@ -52,7 +52,7 @@ namespace adapter
             this->start_handlers.push_back(action);
         }
 
-        void SOEHandler::add_measurement_handler(const IConfigurationBuilder::meas_handler_t<opendnp3::Binary> &handler, uint16_t index)
+        void SOEHandler::add_measurement_handler(const IConfigurationBuilder::meas_handler_t<opendnp3::Binary>& handler, uint16_t index)
         {
             if(this->binary_handlers.find(index) != this->binary_handlers.end())
             {

@@ -30,6 +30,8 @@ namespace adapter
             constexpr const char* const index = "index";
             constexpr const char* const scale = "scale";
             constexpr const char* const input_type = "input_type";
+            constexpr const char* const high = "high";
+            constexpr const char* const low = "low";
         }
     }
 }
