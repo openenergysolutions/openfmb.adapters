@@ -23,6 +23,8 @@ namespace adapter
 
             virtual void add_start_action(const action_t& action) = 0;
 
+            virtual void add_measurement_handler(const meas_handler_t<opendnp3::Binary>& handler, uint16_t index) = 0;
+
             virtual void add_measurement_handler(const meas_handler_t<opendnp3::Analog>& handler, uint16_t index) = 0;
 
             virtual void add_measurement_handler(const meas_handler_t<opendnp3::Counter>& handler, uint16_t index) = 0;

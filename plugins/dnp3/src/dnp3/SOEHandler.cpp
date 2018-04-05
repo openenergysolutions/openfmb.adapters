@@ -22,6 +22,10 @@ namespace adapter
             values.ForeachItem(process);
         }
 
+        void SOEHandler::Process(const opendnp3::HeaderInfo& info, const opendnp3::ICollection<opendnp3::Indexed<opendnp3::Binary>>& values)
+        {
+            process_any(values, this->binary_handlers);
+        }
 
         void SOEHandler::Process(const opendnp3::HeaderInfo& info, const opendnp3::ICollection<opendnp3::Indexed<opendnp3::Analog>>& values)
         {
@@ -48,6 +52,15 @@ namespace adapter
             this->start_handlers.push_back(action);
         }
 
+        void SOEHandler::add_measurement_handler(const IConfigurationBuilder::meas_handler_t<opendnp3::Binary> &handler, uint16_t index)
+        {
+            if(this->binary_handlers.find(index) != this->binary_handlers.end())
+            {
+                throw Exception("Binary index already mapped: ", index);
+            }
+            this->binary_handlers[index] = handler;
+        }
+
         void SOEHandler::add_measurement_handler(const IConfigurationBuilder::meas_handler_t<opendnp3::Analog>& handler, uint16_t index)
         {
             if(this->analog_handlers.find(index) != this->analog_handlers.end())
@@ -70,6 +83,8 @@ namespace adapter
         {
             this->end_handlers.push_back(action);
         }
+
+
 
     }
 

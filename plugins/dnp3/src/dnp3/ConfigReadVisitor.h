@@ -7,6 +7,7 @@
 #include "adapter-api/ConfigStrings.h"
 
 #include "IConfigurationBuilder.h"
+#include "InputType.h"
 
 #include <deque>
 #include <cstdint>
@@ -36,82 +37,85 @@ namespace adapter
 
             void handle(const std::string& field_name, getter_t<commonmodule::MV, T> getter) override
             {
-                // MV only has a magnitude
-                const auto node = yaml::require(this->get_config_node(field_name), ::adapter::keys::mag);
-                this->configure_scalar_value(node, getter);
+                const auto node = this->get_config_node(field_name);
+
+                this->configure_analogue(
+                        yaml::require(node, ::adapter::keys::mag),
+                        [getter](T& profile) { return getter(profile)->mutable_mag(); }
+                );
             }
 
             void handle(const std::string& field_name, getter_t<commonmodule::CMV, T> getter) override
             {
-                this->configure_cmv(field_name, getter);
+                const YAML::Node vector_node = yaml::require(
+                        this->get_config_node(field_name),
+                        ::adapter::keys::cVal
+                );
+
+                // independently configure the angle and magnitude
+                this->configure_analogue(
+                        yaml::require(vector_node, ::adapter::keys::mag),
+                        [getter](T& profile) { return getter(profile)->mutable_cval()->mutable_mag(); }
+                );
+
+                this->configure_analogue(
+                        yaml::require(vector_node, ::adapter::keys::ang),
+                        [getter](T& profile) { return getter(profile)->mutable_cval()->mutable_ang(); }
+                );
             }
 
             void handle(const std::string& field_name, getter_t<commonmodule::BCR, T> getter) override
             {
                 const auto node = this->get_config_node(field_name);
-                this->configure_scalar_value(node, getter);
+                const auto input_type = this->get_input_type(node);
+
+                switch(input_type)
+                {
+                    case(InputType::disabled):
+                        break;
+
+                    case(InputType::analog):
+
+                        this->builder->add_measurement_handler(
+                                [getter, profile = this->profile](const opendnp3::Analog& meas)
+                                {
+                                     getter(*profile)->set_actval(static_cast<google::protobuf::int64>(meas.value));
+                                },
+                                get_index(node)
+                        );
+
+                        break;
+                    case(InputType::counter):
+
+                        this->builder->add_measurement_handler(
+                                [getter, profile = this->profile](const opendnp3::Counter& meas)
+                                {
+                                    getter(*profile)->set_actval(meas.value);
+                                },
+                                get_index(node)
+                        );
+
+                        break;
+                    default:
+                        throw Exception("BCR cannot be configred for input type: ", InputTypeMeta::to_string(input_type));
+                }
             }
 
             void handle(const std::string& field_name, getter_t<commonmodule::StatusDPS, T> getter) override
             {
-                // TODO
+
             }
 
         private:
 
-            void configure(const YAML::Node& node, uint16_t index, getter_t<commonmodule::MV, T> getter)
+            static InputType get_input_type(const YAML::Node& node)
             {
-                const auto handler = [scale = get_scale(node), getter, profile = this->profile](const opendnp3::Analog & meas)
-                {
-                    getter(*profile)->mutable_mag()->set_f(static_cast<float>(meas.value * scale));
-                    // TODO - extend to set timestamp/quality
-                };
-
-                this->builder->add_measurement_handler(handler, index);
+                return InputTypeMeta::from_string(yaml::require_string(node, keys::input_type));
             }
 
-            void configure(const YAML::Node& node, uint16_t index, getter_t<commonmodule::BCR, T> getter)
+            static uint16_t get_index(const YAML::Node& node)
             {
-                // need the scale regardless of mapping
-                const auto scale = get_scale(node);
-                // first determine if we're mapping the BCR out of an analog or a counter
-                const auto mapped_from = yaml::require(node, keys::mapped_from).as<std::string>();
-
-                if(mapped_from == keys::analog)
-                {
-                    this->configure_analog(node, index, scale, getter);
-                }
-                else if(mapped_from == keys::counter)
-                {
-                    this->configure_counter(node, index, scale, getter);
-                }
-                else
-                {
-                    throw Exception("Unknown DNP3 source type in BCR mapping: ", mapped_from);
-                }
-            }
-
-            void configure_analog(const YAML::Node& node, uint16_t index, double scale, getter_t<commonmodule::BCR, T> getter)
-            {
-                const auto handler = [scale = get_scale(node), getter, profile = this->profile](const opendnp3::Analog & meas)
-                {
-                    getter(*profile)->set_actval(static_cast<google::protobuf::int64>(meas.value * scale));
-                    // TODO - extend to set timestamp/quality
-                };
-
-                this->builder->add_measurement_handler(handler, index);
-            }
-
-            void configure_counter(const YAML::Node& node, uint16_t index, double scale, getter_t<commonmodule::BCR, T> getter)
-            {
-
-                const auto handler = [scale = get_scale(node), getter, profile = this->profile](const opendnp3::Counter & meas)
-                {
-                    getter(*profile)->set_actval(static_cast<google::protobuf::int64>(meas.value * scale));
-                    // TODO - extend to set timestamp/quality
-                };
-
-                this->builder->add_measurement_handler(handler, index);
+                return boost::numeric_cast<uint16_t>(yaml::require(node, keys::index).as<int32_t>());
             }
 
             static double get_scale(const YAML::Node& node)
@@ -119,63 +123,32 @@ namespace adapter
                 return yaml::require(node, keys::scale).as<double>();
             }
 
+            void configure_analogue(const YAML::Node& node, getter_t<commonmodule::AnalogueValue, T> getter)
+            {
+                const auto input_type = get_input_type(node);
+                switch(input_type)
+                {
+                    case(InputType::disabled):
+                        break;
+                    case(InputType::analog):
+                        this->configure_analogue<opendnp3::Analog>(node, getter);
+                        break;
+                    default:
+                        throw Exception("CMV cannot be configred for input type: ", InputTypeMeta::to_string(input_type));
+                }
+            }
+
+
             template <class U>
-            void configure_scalar_value(const YAML::Node& node, U getter)
+            void configure_analogue(const YAML::Node& node, getter_t<commonmodule::AnalogueValue, T> getter)
             {
-                const int32_t signed_index = yaml::require(node, keys::index).as<int32_t>();
-                if(signed_index < 0)
+                const auto handler = [scale = get_scale(node), getter, profile = this->profile](const U& meas)
                 {
-                    return;
-                }
-                // call the specific configuration method
-                this->configure(node, boost::numeric_cast<uint16_t>(signed_index), getter);
-            }
-
-            void configure_cmv(const std::string& field_name, getter_t<commonmodule::CMV, T> getter)
-            {
-                const YAML::Node vector_node = yaml::require(
-                                                   this->get_config_node(field_name),
-                                                   "cVal"
-                                               );
-
-                // independently configure the angle and magnitude
-                this->configure_cmv_mag(yaml::require(vector_node, ::adapter::keys::mag), getter);
-                this->configure_cmv_ang(yaml::require(vector_node, ::adapter::keys::ang), getter);
-            }
-
-            void configure_cmv_ang(const YAML::Node& node, getter_t<commonmodule::CMV, T> getter)
-            {
-                const int32_t index = yaml::require(node, keys::index).as<int32_t>();
-                if(index < 0)
-                {
-                    return;
-                }
-
-                const auto handler = [scale = get_scale(node), getter, profile = this->profile](const opendnp3::Analog & meas)
-                {
-                    getter(*profile)->mutable_cval()->mutable_ang()->set_f(static_cast<float>(meas.value * scale));
-                    // TODO - extend to set timestamp/quality ?
+                    getter(*profile)->set_f(static_cast<float>(meas.value * scale));
                 };
 
-                this->builder->add_measurement_handler(handler, boost::numeric_cast<uint16_t>(index));
-            }
-
-            void configure_cmv_mag(const YAML::Node& node, getter_t<commonmodule::CMV, T> getter)
-            {
-                const int32_t index = yaml::require(node, keys::index).as<int32_t>();
-                if(index < 0)
-                {
-                    return;
-                }
-
-                const auto handler = [scale = get_scale(node), getter, profile = this->profile](const opendnp3::Analog & meas)
-                {
-                    getter(*profile)->mutable_cval()->mutable_mag()->set_f(static_cast<float>(meas.value * scale));
-                    // TODO - extend to set timestamp/quality ?
-                };
-
-                this->builder->add_measurement_handler(handler, boost::numeric_cast<uint16_t>(index));
-            }
+                this->builder->add_measurement_handler(handler, get_index(node));
+            };
 
         protected:
 

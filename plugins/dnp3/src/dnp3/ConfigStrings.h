@@ -29,11 +29,7 @@ namespace adapter
             constexpr const char* const profile = "profile";
             constexpr const char* const index = "index";
             constexpr const char* const scale = "scale";
-            constexpr const char* const mapped_from = "mapped_from";
-
-            // enum values for "mapped_from"
-            constexpr const char* const analog = "analog";
-            constexpr const char* const counter = "counter";
+            constexpr const char* const input_type = "input_type";
         }
     }
 }

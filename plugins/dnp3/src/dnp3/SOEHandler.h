@@ -26,7 +26,7 @@ namespace adapter
 
             SOEHandler() = default;
 
-            virtual void Process(const opendnp3::HeaderInfo& info, const opendnp3::ICollection<opendnp3::Indexed<opendnp3::Binary>>& values) override {}
+            virtual void Process(const opendnp3::HeaderInfo& info, const opendnp3::ICollection<opendnp3::Indexed<opendnp3::Binary>>& values) override;
 
             virtual void Process(const opendnp3::HeaderInfo& info, const opendnp3::ICollection<opendnp3::Indexed<opendnp3::DoubleBitBinary>>& values) override {}
 
@@ -57,11 +57,19 @@ namespace adapter
 
             void add_start_action(const action_t& action) override;
 
+            void add_measurement_handler(const meas_handler_t <opendnp3::Binary> &handler, uint16_t index) override;
+
             void add_measurement_handler(const meas_handler_t <opendnp3::Analog>& handler, uint16_t index) override;
 
             void add_measurement_handler(const meas_handler_t <opendnp3::Counter>& handler, uint16_t index) override;
 
             void add_end_action(const action_t& action) override;
+
+            inline size_t num_binary() const { return this->binary_handlers.size(); }
+            inline size_t num_analog() const { return this->analog_handlers.size(); }
+            inline size_t num_counter() const { return this->counter_handlers.size(); }
+
+            inline size_t num_points() const { return this->num_binary() + this->num_analog() + this->num_counter(); }
 
         private:
 
@@ -70,6 +78,7 @@ namespace adapter
 
             std::vector<std::function<void ()>> start_handlers;
 
+            handler_map<opendnp3::Binary> binary_handlers;
             handler_map<opendnp3::Analog> analog_handlers;
             handler_map<opendnp3::Counter> counter_handlers;
 

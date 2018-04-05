@@ -13,7 +13,6 @@
 #include "ConfigReadVisitor.h"
 #include "LogAdapter.h"
 
-#include "adapter-api/util/YAMLUtil.h"
 
 using namespace openpal;
 using namespace opendnp3;
@@ -110,6 +109,13 @@ namespace adapter
             yaml::foreach(
                 yaml::require(node, ::adapter::keys::profiles),
                 load_one_profile
+            );
+
+            this->logger.info(
+                    "num binary: {} num analog: {} num counter: {}",
+                    handler->num_binary(),
+                    handler->num_analog(),
+                    handler->num_counter()
             );
 
             auto master = channel->AddMaster(

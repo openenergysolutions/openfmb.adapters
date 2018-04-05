@@ -7,6 +7,7 @@
 #include "adapter-api/util/Exception.h"
 
 #include "ConfigStrings.h"
+#include "InputType.h"
 
 namespace adapter
 {
@@ -27,17 +28,15 @@ namespace adapter
             virtual void write_bcr_keys() override
             {
 
-                this->out << YAML::Key << keys::index << -1;
-                this->out << YAML::Key << keys::scale << 1.0;
-                this->out << YAML::Key << keys::mapped_from << YAML::Value << keys::counter
-                          << YAML::Comment("can be 'analog' or 'counter'");
-                this->out << YAML::Key << commonmodule::UnitSymbolKind_descriptor()->name()
-                          << commonmodule::UnitSymbolKind_Name(commonmodule::UnitSymbolKind::UnitSymbolKind_none);
+                this->out << YAML::Key << keys::input_type << YAML::Value << InputTypeMeta::disabled;
+                this->out << YAML::Comment("{ disabled, analog, counter }");
+                this->out << YAML::Key << keys::index << 0;
             }
 
             virtual void write_analogue_keys() override
             {
-                this->out << YAML::Key << keys::index << -1;
+                this->out << YAML::Key << keys::input_type << YAML::Value << InputTypeMeta::disabled << YAML::Comment("{ disabled, analog }");
+                this->out << YAML::Key << keys::index << 0;
                 this->out << YAML::Key << keys::scale << 1.0;
             }
 
