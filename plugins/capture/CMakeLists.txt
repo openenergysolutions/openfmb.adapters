@@ -1,0 +1,24 @@
+
+
+set(PUBLIC_HEADERS
+        include/capture/PluginFactory.h
+)
+
+set(SOURCES
+        src/PluginFactory.cpp
+        src/Plugin.h
+        src/Plugin.cpp
+)
+
+SET(CPP_FORMAT_DIRS
+        ${CPP_FORMAT_DIRS}
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/capture/*.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/*.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
+        PARENT_SCOPE
+)
+
+add_library(capture-plugin STATIC ${PUBLIC_HEADERS} ${PROJECT_HEADERS} ${SOURCES})
+target_link_libraries(capture-plugin PUBLIC adapter-api)
+target_include_directories(capture-plugin PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+

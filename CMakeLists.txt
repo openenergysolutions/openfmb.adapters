@@ -19,6 +19,9 @@ add_subdirectory(./adapter-api)
 # plugin that logs published messages
 add_subdirectory(./plugins/log)
 
+# plugin that can capture published messages to replayable format
+add_subdirectory(./plugins/capture)
+
 if(OPENFMB_USE_DNP3)
   add_subdirectory(./plugins/dnp3)
 endif()
