@@ -27,10 +27,15 @@ namespace adapter
                 }
             };
 
+            const uint32_t modulus;
+
         public:
 
+            explicit Register32(uint32_t modulus) : modulus(modulus)
+            {}
 
-            Register32() = default;
+            Register32() : modulus(std::numeric_limits<uint16_t>::max())
+            {}
 
             // ---- implement ICachedAnalogue -----
 
@@ -70,7 +75,15 @@ namespace adapter
 
             uint32_t get_value_u32() const
             {
-                return (static_cast<uint32_t>(upper->value) << 16) | static_cast<uint32_t>(lower->value);
+                if(this->modulus == std::numeric_limits<uint16_t>::max())
+                {
+                    return (static_cast<uint32_t>(upper->value) << 16) | static_cast<uint32_t>(lower->value);
+                }
+                else
+                {
+                    return static_cast<uint32_t>(upper->value * this->modulus) + static_cast<uint32_t>(lower->value);
+                }
+
             }
 
             const std::shared_ptr<Register> lower = std::make_shared<Register>();

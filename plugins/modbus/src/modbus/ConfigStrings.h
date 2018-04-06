@@ -9,29 +9,30 @@ namespace adapter
         namespace keys
         {
             // top level
-            const char* const name = "name";
-            const char* const thread_pool_size = "thread-pool-size";
+            constexpr const char* const name = "name";
+            constexpr const char* const thread_pool_size = "thread-pool-size";
 
             // channel & session
-            const char* const sessions = "sessions";
-            const char* const remote_ip = "remote-ip";
-            const char* const port = "port";
-            const char* const unit_identifier = "unit-identifier";
+            constexpr const char* const sessions = "sessions";
+            constexpr const char* const remote_ip = "remote-ip";
+            constexpr const char* const port = "port";
+            constexpr const char* const unit_identifier = "unit-identifier";
 
             // poll level
-            const char* const profile = "profile";
-            const char* const polls = "polls";
-            const char* const poll_period_ms = "poll_period_ms";
-            const char* const response_timeout_ms = "response_timeout_ms";
-            const char* const type = "type";
-            const char* const start = "start";
-            const char* const count = "count";
+            constexpr const char* const profile = "profile";
+            constexpr const char* const polls = "polls";
+            constexpr const char* const poll_period_ms = "poll_period_ms";
+            constexpr const char* const response_timeout_ms = "response_timeout_ms";
+            constexpr const char* const type = "type";
+            constexpr const char* const start = "start";
+            constexpr const char* const count = "count";
 
             // mapping level
-            const char* const index = "index";
-            const char* const upper_index = "upper_index";
-            const char* const lower_index = "lower_index";
-            const char* const scale = "scale";
+            constexpr const char* const index = "index";
+            constexpr const char* const upper_index = "upper_index";
+            constexpr const char* const lower_index = "lower_index";
+            constexpr const char* const scale = "scale";
+            constexpr const char* const modulus = "modulus";
         }
     }
 

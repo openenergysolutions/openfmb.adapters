@@ -11,7 +11,7 @@
 #include "modbus/Ipv4Endpoint.h"
 #include "modbus/channel/IChannel.h"
 #include "modbus/session/ISessionResponseHandler.h"
-#include "modbus/messages/ReadHoldingRegistersRequest.h"
+
 
 namespace adapter
 {

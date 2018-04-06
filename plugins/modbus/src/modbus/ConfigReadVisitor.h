@@ -101,8 +101,9 @@ namespace adapter
             {
                 const auto lower_index = yaml::require(node, keys::lower_index).as<uint16_t>();
                 const auto upper_index = yaml::require(node, keys::upper_index).as<uint16_t>();
+                const auto modulus = yaml::require(node, keys::modulus).as<uint32_t>();
 
-                const auto reg = std::make_shared<Register32>();
+                const auto reg = std::make_shared<Register32>(modulus);
 
                 this->mapping.add_holding_register(lower_index, reg->get_lower());
                 this->mapping.add_holding_register(upper_index, reg->get_upper());
@@ -165,8 +166,9 @@ namespace adapter
                 const auto scale = yaml::require(node, keys::scale).as<float>();
                 const auto upper_index = yaml::require(node, keys::upper_index).as<uint16_t>();
                 const auto lower_index = yaml::require(node, keys::lower_index).as<uint16_t>();
+                const auto modulus = yaml::require(node, keys::modulus).as<uint32_t>();
 
-                const auto reg = std::make_shared<Register32>();
+                const auto reg = std::make_shared<Register32>(modulus);
 
                 this->mapping.add_holding_register(upper_index, reg->get_upper());
                 this->mapping.add_holding_register(lower_index, reg->get_lower());

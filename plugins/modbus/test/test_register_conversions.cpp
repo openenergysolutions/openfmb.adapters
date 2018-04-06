@@ -27,12 +27,11 @@ TEST_CASE( "32-bit registers function as expected" )
 {
     SECTION("Not set until both values set")
     {
-        Register32 value;
+        Register32 value(65536);
         REQUIRE_FALSE(value.is_set());
 
         value.get_lower()->set(4);
         REQUIRE_FALSE(value.is_set());
-
         value.get_upper()->set(6);
         REQUIRE(value.is_set());
     }
@@ -45,5 +44,15 @@ TEST_CASE( "32-bit registers function as expected" )
         value.get_upper()->set(1);
         // 3  + 65536 = 65539
         REQUIRE(value.to_float() == Approx(65539.0f));
+    }
+
+    SECTION("Modulo 10K format works")
+    {
+
+        Register32 value(10000);
+        value.get_upper()->set(1234);
+        value.get_lower()->set(5678);
+        // 1234*10000 + 5678 = 123455679
+        REQUIRE(value.to_int64() == 12345678);
     }
 }
