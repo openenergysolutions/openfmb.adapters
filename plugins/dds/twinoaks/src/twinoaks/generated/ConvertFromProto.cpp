@@ -29,13 +29,6 @@ void convert_from_proto(const commonmodule::TimeQuality& in, openfmb::commonmodu
     out.timeAccuracy = convert_enum(in.timeaccuracy());
 }
 
-void convert_from_proto(const breakermodule::Breaker& in, openfmb::breakermodule::Breaker& out)
-{
-    out.clear();
-    // convert message fields
-    if(in.has_conductingequipment()) convert_from_proto(in.conductingequipment(), out); // inherited type
-}
-
 void convert_from_proto(const commonmodule::Timestamp& in, openfmb::commonmodule::Timestamp& out)
 {
     out.clear();
@@ -164,6 +157,13 @@ void convert_from_proto(const commonmodule::BCR& in, openfmb::commonmodule::BCR&
     out.units = create_enum(in.units());
 }
 
+void convert_from_proto(const breakermodule::Breaker& in, openfmb::breakermodule::Breaker& out)
+{
+    out.clear();
+    // convert message fields
+    if(in.has_conductingequipment()) convert_from_proto(in.conductingequipment(), out); // inherited type
+}
+
 void convert_from_proto(const commonmodule::IED& in, openfmb::commonmodule::IED& out)
 {
     out.clear();
@@ -240,6 +240,17 @@ void convert_from_proto(const commonmodule::DEL& in, openfmb::commonmodule::DEL&
     if(in.has_phsca()) out.phsCA = allocate_from_proto<openfmb::commonmodule::CMV>(in.phsca());
 }
 
+void convert_from_proto(const breakermodule::BreakerReading& in, openfmb::breakermodule::BreakerReading& out)
+{
+    out.clear();
+    // convert message fields
+    if(in.has_conductingequipmentterminalreading()) convert_from_proto(in.conductingequipmentterminalreading(), out); // inherited type
+    if(in.has_diffreadingmmxu()) out.diffReadingMMXU = allocate_from_proto<openfmb::commonmodule::ReadingMMXU>(in.diffreadingmmxu());
+    if(in.has_phasemmtn()) out.phaseMMTN = allocate_from_proto<openfmb::commonmodule::PhaseMMTN>(in.phasemmtn());
+    if(in.has_readingmmtr()) out.readingMMTR = allocate_from_proto<openfmb::commonmodule::ReadingMMTR>(in.readingmmtr());
+    if(in.has_readingmmxu()) out.readingMMXU = allocate_from_proto<openfmb::commonmodule::ReadingMMXU>(in.readingmmxu());
+}
+
 void convert_from_proto(const resourcemodule::ResourceReadingProfile& in, openfmb::resourcemodule::ResourceReadingProfile& out)
 {
     out.clear();
@@ -247,17 +258,7 @@ void convert_from_proto(const resourcemodule::ResourceReadingProfile& in, openfm
     if(in.has_readingmessageinfo()) convert_from_proto(in.readingmessageinfo(), out); // inherited type
     convert_from_proto(in.ied(), out.ied); // required field in DDS
     convert_from_proto(in.meter(), out.meter); // required field in DDS
-    convert_repeated_field(in.resourcereading(), out.resourceReading); // repeated field
-}
-
-void convert_from_proto(const breakermodule::BreakerReadingProfile& in, openfmb::breakermodule::BreakerReadingProfile& out)
-{
-    out.clear();
-    // convert message fields
-    if(in.has_readingmessageinfo()) convert_from_proto(in.readingmessageinfo(), out); // inherited type
-    convert_from_proto(in.breaker(), out.breaker); // required field in DDS
-    convert_from_proto(in.breakerreading(), out.breakerReading); // required field in DDS
-    convert_from_proto(in.ied(), out.ied); // required field in DDS
+    convert_from_proto(in.resourcereading(), out.resourceReading); // required field in DDS
 }
 
 void convert_from_proto(const commonmodule::ACDCTerminal& in, openfmb::commonmodule::ACDCTerminal& out)
@@ -285,15 +286,14 @@ void convert_from_proto(const commonmodule::Quality& in, openfmb::commonmodule::
     // omitted via configuration
 }
 
-void convert_from_proto(const breakermodule::BreakerReading& in, openfmb::breakermodule::BreakerReading& out)
+void convert_from_proto(const breakermodule::BreakerReadingProfile& in, openfmb::breakermodule::BreakerReadingProfile& out)
 {
     out.clear();
     // convert message fields
-    if(in.has_conductingequipmentterminalreading()) convert_from_proto(in.conductingequipmentterminalreading(), out); // inherited type
-    if(in.has_diffreadingmmxu()) out.diffReadingMMXU = allocate_from_proto<openfmb::commonmodule::ReadingMMXU>(in.diffreadingmmxu());
-    if(in.has_phasemmtn()) out.phaseMMTN = allocate_from_proto<openfmb::commonmodule::PhaseMMTN>(in.phasemmtn());
-    if(in.has_readingmmtr()) out.readingMMTR = allocate_from_proto<openfmb::commonmodule::ReadingMMTR>(in.readingmmtr());
-    if(in.has_readingmmxu()) out.readingMMXU = allocate_from_proto<openfmb::commonmodule::ReadingMMXU>(in.readingmmxu());
+    if(in.has_readingmessageinfo()) convert_from_proto(in.readingmessageinfo(), out); // inherited type
+    convert_from_proto(in.breaker(), out.breaker); // required field in DDS
+    convert_from_proto(in.breakerreading(), out.breakerReading); // required field in DDS
+    convert_from_proto(in.ied(), out.ied); // required field in DDS
 }
 
 void convert_from_proto(const commonmodule::DetailQual& in, openfmb::commonmodule::DetailQual& out)

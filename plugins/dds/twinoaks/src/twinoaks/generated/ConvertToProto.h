@@ -25,8 +25,6 @@ namespace dds {
 
 void convert_to_proto(const openfmb::commonmodule::TimeQuality& in, commonmodule::TimeQuality& out);
 
-void convert_to_proto(const openfmb::breakermodule::Breaker& in, breakermodule::Breaker& out);
-
 void convert_to_proto(const openfmb::commonmodule::Timestamp& in, commonmodule::Timestamp& out);
 
 void convert_to_proto(const openfmb::commonmodule::ReadingMMXU& in, commonmodule::ReadingMMXU& out);
@@ -53,6 +51,8 @@ void convert_to_proto(const openfmb::commonmodule::ConductingEquipment& in, comm
 
 void convert_to_proto(const openfmb::commonmodule::BCR& in, commonmodule::BCR& out);
 
+void convert_to_proto(const openfmb::breakermodule::Breaker& in, breakermodule::Breaker& out);
+
 void convert_to_proto(const openfmb::commonmodule::IED& in, commonmodule::IED& out);
 
 void convert_to_proto(const openfmb::commonmodule::Meter& in, commonmodule::Meter& out);
@@ -69,9 +69,9 @@ void convert_to_proto(const openfmb::commonmodule::Unit& in, commonmodule::Unit&
 
 void convert_to_proto(const openfmb::commonmodule::DEL& in, commonmodule::DEL& out);
 
-void convert_to_proto(const openfmb::resourcemodule::ResourceReadingProfile& in, resourcemodule::ResourceReadingProfile& out);
+void convert_to_proto(const openfmb::breakermodule::BreakerReading& in, breakermodule::BreakerReading& out);
 
-void convert_to_proto(const openfmb::breakermodule::BreakerReadingProfile& in, breakermodule::BreakerReadingProfile& out);
+void convert_to_proto(const openfmb::resourcemodule::ResourceReadingProfile& in, resourcemodule::ResourceReadingProfile& out);
 
 void convert_to_proto(const openfmb::commonmodule::ACDCTerminal& in, commonmodule::ACDCTerminal& out);
 
@@ -79,7 +79,7 @@ void convert_to_proto(const openfmb::commonmodule::ReadingMessageInfo& in, commo
 
 void convert_to_proto(const openfmb::commonmodule::Quality& in, commonmodule::Quality& out);
 
-void convert_to_proto(const openfmb::breakermodule::BreakerReading& in, breakermodule::BreakerReading& out);
+void convert_to_proto(const openfmb::breakermodule::BreakerReadingProfile& in, breakermodule::BreakerReadingProfile& out);
 
 void convert_to_proto(const openfmb::commonmodule::DetailQual& in, commonmodule::DetailQual& out);
 

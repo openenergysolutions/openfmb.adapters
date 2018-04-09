@@ -32,21 +32,9 @@ void visit(IProtoVisitor<resourcemodule::ResourceReadingProfile>& visitor)
         visitor.end_message_field();
     }
     visitor.end_message_field();
-    const auto max_count0 = visitor.start_repeated_message_field("resourceReading");
-    for(auto count0 = 0; count0 < max_count0; ++count0)
+    visitor.start_message_field("resourceReading");
     {
-        visitor.start_iteration(count0);
-        const auto context1 = [context = context0, i = count0, max = max_count0](resourcemodule::ResourceReadingProfile& profile) {
-            const auto repeated = context(profile)->mutable_resourcereading();
-            if(repeated->size() < max) {
-                repeated->Reserve(max);
-                // add items until we're at max requested capacity
-                for(auto j = repeated->size(); j < max; ++j) {
-                    repeated->Add();
-                }
-            }
-            return repeated->Mutable(i);
-        };
+        const auto context1 = [context = context0](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_resourcereading(); };
         visitor.handle(
             "conductingEquipmentTerminalReading",
             [context = context1](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_conductingequipmentterminalreading(); }
@@ -599,9 +587,8 @@ void visit(IProtoVisitor<resourcemodule::ResourceReadingProfile>& visitor)
             visitor.end_message_field();
         }
         visitor.end_message_field();
-        visitor.end_iteration();
     }
-    visitor.end_repeated_message_field();
+    visitor.end_message_field();
 }
 
 void visit(IProtoVisitor<switchmodule::SwitchReadingProfile>& visitor)
