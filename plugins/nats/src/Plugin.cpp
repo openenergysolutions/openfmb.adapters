@@ -22,7 +22,11 @@ namespace adapter
                 std::make_shared<SynchronizedQueue<Message>>(config.max_queued_messages)
             )
         {
-            this->configure_profile<resourcemodule::ResourceReadingProfile>(yaml::require(node, ::adapter::keys::profiles), bus);
+            const auto profiles = yaml::require(node, ::adapter::keys::profiles);
+
+            this->configure_profile<resourcemodule::ResourceReadingProfile>(profiles, bus);
+            this->configure_profile<switchmodule::SwitchStatusProfile>(profiles, bus);
+            this->configure_profile<switchmodule::SwitchReadingProfile>(profiles, bus);
         }
 
         Plugin::Config::Config(const YAML::Node& node) :
