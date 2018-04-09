@@ -34,7 +34,7 @@ namespace adapter
             explicit Register32(uint32_t modulus) : modulus(modulus)
             {}
 
-            Register32() : modulus(std::numeric_limits<uint16_t>::max())
+            Register32() : modulus(65536)
             {}
 
             // ---- implement ICachedAnalogue -----
@@ -75,7 +75,7 @@ namespace adapter
 
             uint32_t get_value_u32() const
             {
-                if(this->modulus == std::numeric_limits<uint16_t>::max())
+                if(this->modulus == 65536)
                 {
                     return (static_cast<uint32_t>(upper->value) << 16) | static_cast<uint32_t>(lower->value);
                 }
