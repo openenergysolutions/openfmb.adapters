@@ -30,6 +30,8 @@ namespace adapter
 
                 this->out << YAML::Key << keys::input_type << YAML::Value << InputTypeMeta::disabled << YAML::Comment("{ disabled, analog, counter }");
                 this->out << YAML::Key << keys::index << 0;
+                // scaling is required for BCRs to change orders of magnitude, e.g. kWh to Wh (x1000)
+                this->out << YAML::Key << keys::scale << 1.0;
             }
 
             virtual void write_analogue_keys() override
