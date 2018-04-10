@@ -94,7 +94,7 @@ namespace adapter
                     this->builder->add_measurement_handler(
                         [getter, profile = this->profile, scale = this->get_scale(node)](const opendnp3::Analog & meas)
                     {
-                        getter(*profile)->set_actval(static_cast<google::protobuf::int64>(meas.value*scale));
+                        getter(*profile)->set_actval(static_cast<google::protobuf::int64>(meas.value * scale));
                     },
                     get_index(node)
                     );
@@ -105,7 +105,7 @@ namespace adapter
                     this->builder->add_measurement_handler(
                         [getter, profile = this->profile, scale = this->get_scale(node)](const opendnp3::Counter & meas)
                     {
-                        getter(*profile)->set_actval(static_cast<google::protobuf::int64>(meas.value*scale));
+                        getter(*profile)->set_actval(static_cast<google::protobuf::int64>(meas.value * scale));
                     },
                     get_index(node)
                     );
