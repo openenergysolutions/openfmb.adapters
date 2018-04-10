@@ -137,6 +137,22 @@ namespace adapter
         }
         );
 
+        this->add_message_complete_action(
+            [getter](T & profile)
+        {
+            const auto now = std::chrono::system_clock::now().time_since_epoch();
+            const auto seconds = std::chrono::duration_cast<std::chrono::seconds>(now).count();
+            const auto millisec = std::chrono::duration_cast<std::chrono::milliseconds>(now).count() % 1000;
+
+            const auto timestamp = getter(profile)->mutable_messagetimestamp();
+
+            timestamp->set_seconds(seconds);
+            // fractional seconds are scaled as a percentage of a second to the full range of a uint32_t
+            timestamp->set_fraction(
+                static_cast<uint32_t>((millisec / 1000.0)*std::numeric_limits<uint32_t>::max())
+            );
+        }
+        );
 
 
         if(!app_name.empty())
