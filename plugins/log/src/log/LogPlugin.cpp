@@ -26,33 +26,27 @@ namespace adapter
 
     LogPlugin::LogPlugin(const YAML::Node& node, const Logger& logger, IMessageBus& bus)
     {
-        const auto profiles = yaml::require(node, "profiles");
-
         auto read = [&](Profile profile)
         {
-            const auto enabled = yaml::require(profiles, ProfileMeta::to_string(profile)).as<bool>();
-            if(enabled)
+            switch(profile)
             {
-                switch(profile)
-                {
-                case(Profile::resource_reading):
-                    bus.subscribe(
-                        std::make_shared<LogPrinter<resourcemodule::ResourceReadingProfile>>(logger)
-                    );
-                    break;
-                case(Profile::switch_reading):
-                    bus.subscribe(
-                        std::make_shared<LogPrinter<switchmodule::SwitchReadingProfile>>(logger)
-                    );
-                    break;
-                case(Profile::switch_status):
-                    bus.subscribe(
-                        std::make_shared<LogPrinter<switchmodule::SwitchStatusProfile>>(logger)
-                    );
-                    break;
-                default:
-                    throw Exception("Unsupported log profile: ", ProfileMeta::to_string(profile));
-                }
+            case(Profile::resource_reading):
+                bus.subscribe(
+                    std::make_shared<LogPrinter<resourcemodule::ResourceReadingProfile>>(logger)
+                );
+                break;
+            case(Profile::switch_reading):
+                bus.subscribe(
+                    std::make_shared<LogPrinter<switchmodule::SwitchReadingProfile>>(logger)
+                );
+                break;
+            case(Profile::switch_status):
+                bus.subscribe(
+                    std::make_shared<LogPrinter<switchmodule::SwitchStatusProfile>>(logger)
+                );
+                break;
+            default:
+                throw Exception("Unsupported log profile: ", ProfileMeta::to_string(profile));
             }
         };
 

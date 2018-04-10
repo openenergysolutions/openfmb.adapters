@@ -15,16 +15,6 @@ namespace adapter
         {
             throw Exception("Log config generation does not accept a profile list");
         }
-
-        out << YAML::Key << keys::profiles;
-        out << YAML::BeginMap;
-
-        ProfileMeta::foreach([&](Profile profile)
-    {
-        out << YAML::Key << ProfileMeta::to_string(profile) << YAML::Value << true;
-        });
-
-        out << YAML::EndMap;
     }
 
     std::unique_ptr<IPlugin> LogPluginFactory::create(const YAML::Node& node, const Logger& logger, IMessageBus& bus)
