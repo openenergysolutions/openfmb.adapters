@@ -212,13 +212,20 @@ namespace adapter
 
         protected:
 
-            void add_message_init(const std::function<void(T&)>& init) override
+            void add_message_init_action(const std::function<void(T&)>& action) override
             {
-                auto action = [init, profile = this->profile]()
+                this->builder->add_start_action([action, profile = this->profile]()
                 {
-                    init(*profile);
-                };
-                this->builder->add_start_action(action);
+                    action(*profile);
+                });
+            }
+
+            void add_message_complete_action(const std::function<void(T&)>& action) override
+            {
+                this->builder->add_end_action([action, profile = this->profile]()
+                {
+                    action(*profile);
+                });
             }
 
         };

@@ -198,9 +198,14 @@ namespace adapter
 
         protected:
 
-            void add_message_init(const std::function<void(T&)>& init) override
+            void add_message_init_action(const std::function<void(T&)>& action) override
             {
-                this->mapping.add_flush_action(init);
+                this->mapping.add_flush_action(action);
+            }
+
+            void add_message_complete_action(const std::function<void(T&)>& action) override
+            {
+                this->mapping.add_flush_action(action);
             }
 
         private:

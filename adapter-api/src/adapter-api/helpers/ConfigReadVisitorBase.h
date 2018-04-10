@@ -94,7 +94,9 @@ namespace adapter
         void handle_message_info(const std::string& field_name, getter_t <U, T> getter);
 
 
-        virtual void add_message_init(const std::function<void (T&)>& init) = 0;
+        virtual void add_message_init_action(const std::function<void (T&)>& init) = 0;
+
+        virtual void add_message_complete_action(const std::function<void (T&)>& init) = 0;
 
         explicit ConfigReadVisitorBase(const YAML::Node& root)
         {
@@ -128,16 +130,18 @@ namespace adapter
         const auto description = yaml::require_string(ioNode, ::adapter::keys::description);
 
         // put a fresh UUID onto every message
-        this->add_message_init(
+        this->add_message_init_action(
             [getter, generator = this->generator](T & profile)
         {
             getter(profile)->mutable_identifiedobject()->set_mrid(boost::uuids::to_string((*generator)()));
         }
         );
 
+
+
         if(!app_name.empty())
         {
-            this->add_message_init(
+            this->add_message_init_action(
                 [getter, app_name](T & profile)
             {
                 getter(profile)->set_applicationname(app_name);
@@ -147,7 +151,7 @@ namespace adapter
 
         if(!name.empty())
         {
-            this->add_message_init(
+            this->add_message_init_action(
                 [getter, name](T & profile)
             {
                 getter(profile)->mutable_identifiedobject()->set_name(name);
@@ -157,13 +161,14 @@ namespace adapter
 
         if(!description.empty())
         {
-            this->add_message_init(
+            this->add_message_init_action(
                 [getter, description](T & profile)
             {
                 getter(profile)->mutable_identifiedobject()->set_description(description);
             }
             );
         }
+
     }
 
     template <class T>
@@ -189,21 +194,21 @@ namespace adapter
                 throw Exception("Not a valid UUID: ", uuid);
             }
 
-            this->add_message_init(
+            this->add_message_init_action(
                 [getter, uuid](T & profile) -> void { getter(profile)->set_mrid(uuid); }
             );
         }
 
         if(!name.empty())
         {
-            this->add_message_init(
+            this->add_message_init_action(
                 [getter, name](T & profile) -> void { getter(profile)->set_name(name); }
             );
         }
 
         if(!description.empty())
         {
-            this->add_message_init(
+            this->add_message_init_action(
                 [getter, description](T & profile) -> void { getter(profile)->set_description(description); }
             );
         }
