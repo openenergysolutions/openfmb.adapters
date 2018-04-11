@@ -12,7 +12,7 @@ namespace adapter
     namespace modbus
     {
 
-        class Register32 final : public ICachedValue
+        class Register32 final : public ICachedValue32
         {
             struct Register : public IRegister
             {
@@ -27,15 +27,9 @@ namespace adapter
                 }
             };
 
-            const uint32_t modulus;
-
         public:
 
-            explicit Register32(uint32_t modulus) : modulus(modulus)
-            {}
-
-            Register32() : modulus(65536)
-            {}
+            Register32() = default;
 
             // ---- implement ICachedAnalogue -----
 
@@ -49,14 +43,24 @@ namespace adapter
                 return this->lower->is_set && this->upper->is_set;
             }
 
-            float to_float() const override
+            uint32_t to_uint32() const override
             {
-                return static_cast<float>(get_value_u32());
+                return (static_cast<uint32_t>(upper->value) << 16) | static_cast<uint32_t>(lower->value);
             }
 
-            int64_t to_int64() const override
+            int32_t to_sint32() const override
             {
-                return get_value_u32();
+                return static_cast<int32_t>(this->to_uint32());
+            }
+
+            uint32_t to_uint32(uint32_t modulus) const override
+            {
+                return static_cast<uint32_t>(upper->value * modulus) + static_cast<uint32_t>(lower->value);
+            }
+
+            int32_t to_sint32(uint32_t modulus) const override
+            {
+                return static_cast<int32_t>(to_uint32(modulus));
             }
 
             // ---- getters for upper / lower pieces ----
@@ -72,19 +76,6 @@ namespace adapter
             }
 
         private:
-
-            uint32_t get_value_u32() const
-            {
-                if(this->modulus == 65536)
-                {
-                    return (static_cast<uint32_t>(upper->value) << 16) | static_cast<uint32_t>(lower->value);
-                }
-                else
-                {
-                    return static_cast<uint32_t>(upper->value * this->modulus) + static_cast<uint32_t>(lower->value);
-                }
-
-            }
 
             const std::shared_ptr<Register> lower = std::make_shared<Register>();
             const std::shared_ptr<Register> upper = std::make_shared<Register>();

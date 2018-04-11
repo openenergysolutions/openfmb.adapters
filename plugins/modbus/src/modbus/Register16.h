@@ -10,7 +10,7 @@ namespace adapter
     namespace modbus
     {
 
-        class Register16 final : public ICachedValue, public IRegister
+        class Register16 final : public ICachedValue16, public IRegister
         {
 
         public:
@@ -30,14 +30,14 @@ namespace adapter
                 return this->is_value_set;
             }
 
-            float to_float() const override
+            uint16_t to_uint16() const override
             {
-                return static_cast<float>(this->value);
+                return value;
             }
 
-            int64_t to_int64() const override
+            int16_t to_sint16() const override
             {
-                return this->value;
+                return static_cast<int16_t>(value);
             }
 
             // ---- implement IRegister ----

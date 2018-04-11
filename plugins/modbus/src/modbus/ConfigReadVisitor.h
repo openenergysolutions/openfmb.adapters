@@ -14,6 +14,9 @@ namespace adapter
 {
     namespace modbus
     {
+        template <class U>
+        using setter_t = std::function<void (U&)>;
+
         template <class T>
         class ConfigReadVisitor final : public ConfigReadVisitorBase<T>
         {
@@ -27,7 +30,6 @@ namespace adapter
             void handle(const std::string& field_name, getter_t<commonmodule::MV, T> getter) override
             {
                 // MV only has a magnitude
-
                 this->configure_analogue(
                     yaml::require(this->get_config_node(field_name), ::adapter::keys::mag),
                     [getter](T & profile) -> commonmodule::AnalogueValue*
@@ -61,137 +63,194 @@ namespace adapter
                     return getter(profile)->mutable_cval()->mutable_ang();
                 }
                 );
+
             }
 
             void handle(const std::string& field_name, getter_t<commonmodule::BCR, T> getter) override
             {
-                const auto node = this->get_config_node(field_name);
-
-                const auto type = MappingTypeMeta::from_string(yaml::require_string(node, keys::type));
-                switch(type)
-                {
-                case(MappingType::bit16):
-                    this->map_bcr_bit16(node, getter);
-                    break;
-                case(MappingType::bit32):
-                    this->map_bcr_bit32(node, getter);
-                    break;
-                default:
-                    break;
-                }
+                this->configure_bcr(
+                    this->get_config_node(field_name),
+                    getter
+                );
             }
 
             void handle(const std::string& field_name, getter_t<commonmodule::StatusDPS, T> getter) override
             {
-
+                // TODO
             }
 
         private:
 
-            void map_bcr_bit16(const YAML::Node& node, getter_t<commonmodule::BCR, T> getter)
+            void configure_analogue(const YAML::Node& node, getter_t<commonmodule::AnalogueValue, T> getter)
+            {
+                const auto type_string = yaml::require_string(node, keys::type);
+
+                switch(MappingTypeMeta::from_string(type_string))
+                {
+                case (MappingType::none):
+                    break;
+                case (MappingType::uint16):
+                    this->map_register16(node, [getter, scale = get_float_scale(node)](T & profile,
+                                         const std::shared_ptr<Register16>& reg)
+                    {
+                        getter(profile)->set_f(reg->to_uint16() * scale);
+                    });
+                    break;
+                case (MappingType::sint16):
+                    this->map_register16(node, [getter, scale = get_float_scale(node)](T & profile,
+                                         const std::shared_ptr<Register16>& reg)
+                    {
+                        getter(profile)->set_f(reg->to_sint16() * scale);
+                    });
+                    break;
+                case (MappingType::uint32):
+                    this->map_register32(node, [getter, scale = get_float_scale(node)](T & profile,
+                                         const std::shared_ptr<Register32>& reg)
+                    {
+                        getter(profile)->set_f(reg->to_uint32() * scale);
+                    });
+                    break;
+                case (MappingType::sint32):
+                    this->map_register32(node, [getter, scale = get_float_scale(node)](T & profile,
+                                         const std::shared_ptr<Register32>& reg)
+                    {
+                        getter(profile)->set_f(reg->to_sint32() * scale);
+                    });
+                    break;
+                case (MappingType::uint32_with_modulus):
+                    {
+                        this->map_register32(node, [getter, scale = get_float_scale(node), modulus = get_modulus(node)]
+                                             (T & profile, const std::shared_ptr<Register32>& reg)
+                        {
+                            getter(profile)->set_f(reg->to_uint32(modulus) * scale);
+                        });
+                        break;
+                    }
+                case (MappingType::sint32_with_modulus):
+                    {
+                        this->map_register32(node, [getter, scale = get_float_scale(node), modulus = get_modulus(node)]
+                                             (T & profile, const std::shared_ptr<Register32>& reg)
+                        {
+                            getter(profile)->set_f(reg->to_sint32(modulus) * scale);
+                        });
+                        break;
+                    }
+                default:
+                    throw Exception("Unhandled modbus mapping type: ", type_string);
+                }
+            }
+
+            void configure_bcr(const YAML::Node& node, getter_t<commonmodule::BCR, T> getter)
+            {
+                const auto type_string = yaml::require_string(node, keys::type);
+
+                switch(MappingTypeMeta::from_string(type_string))
+                {
+                case(MappingType::none):
+                    break;
+                case(MappingType::uint16):
+                    this->map_register16(node, [getter](T & profile, const std::shared_ptr<Register16>& reg)
+                    {
+                        getter(profile)->set_actval(reg->to_uint16());
+                    });
+                    break;
+                case(MappingType::sint16):
+                    this->map_register16(node, [getter](T & profile, const std::shared_ptr<Register16>& reg)
+                    {
+                        getter(profile)->set_actval(reg->to_sint16());
+                    });
+                    break;
+                case(MappingType::uint32):
+                    this->map_register32(node, [getter](T & profile, const std::shared_ptr<Register32>& reg)
+                    {
+                        getter(profile)->set_actval(reg->to_uint32());
+                    });
+                    break;
+                case(MappingType::sint32):
+                    this->map_register32(node, [getter](T & profile, const std::shared_ptr<Register32>& reg)
+                    {
+                        getter(profile)->set_actval(reg->to_sint32());
+                    });
+                case(MappingType::uint32_with_modulus):
+                    {
+                        this->map_register32(node, [getter, modulus = get_modulus(node)](T & profile, const std::shared_ptr<Register32>& reg)
+                        {
+                            getter(profile)->set_actval(reg->to_uint32(modulus));
+                        });
+                    }
+                    break;
+                case(MappingType::sint32_with_modulus):
+                    {
+                        this->map_register32(node, [getter, modulus = get_modulus(node)](T & profile, const std::shared_ptr<Register32>& reg)
+                        {
+                            getter(profile)->set_actval(reg->to_sint32(modulus));
+                        });
+                    }
+                    break;
+
+                default:
+                    throw Exception("Unhandled modbus mapping type: ", type_string);
+                }
+            }
+
+            static uint32_t get_modulus(const YAML::Node& node)
+            {
+                return yaml::require(node, keys::modulus).as<uint32_t>();
+            }
+
+            static float get_float_scale(const YAML::Node& node)
+            {
+                return yaml::require(node, keys::scale).as<float>();
+            }
+
+            template <class S>
+            void map_register16(const YAML::Node& node, const S& setter)
             {
                 const auto index = yaml::require(node, keys::index).as<uint16_t>();
 
                 const auto reg = std::make_shared<Register16>();
+
                 this->mapping.add_holding_register(index, reg);
-                this->add_bcr_init_and_flush(reg, getter);
-            }
 
-            void map_bcr_bit32(const YAML::Node& node, getter_t<commonmodule::BCR, T> getter)
-            {
-                const auto lower_index = yaml::require(node, keys::lower_index).as<uint16_t>();
-                const auto upper_index = yaml::require(node, keys::upper_index).as<uint16_t>();
-                const auto modulus = yaml::require(node, keys::modulus).as<uint32_t>();
-
-                const auto reg = std::make_shared<Register32>(modulus);
-
-                this->mapping.add_holding_register(lower_index, reg->get_lower());
-                this->mapping.add_holding_register(upper_index, reg->get_upper());
-
-                this->add_bcr_init_and_flush(reg, getter);
-            }
-
-            void add_bcr_init_and_flush(const std::shared_ptr<ICachedValue>& value, getter_t<commonmodule::BCR, T> getter)
-            {
-                this->mapping.add_init_action([value]()
+                this->mapping.add_init_action([reg]()
                 {
-                    value->reset();
+                    reg->reset();
                 });
 
                 this->mapping.add_flush_action(
-                    [value, getter](T & profile) -> bool
+                    [reg, setter](T & profile)
                 {
-                    if(value->is_set())
+                    if(reg->is_set())
                     {
-                        getter(profile)->set_actval(value->to_int64());
-                        return true;
+                        setter(profile, reg);
                     }
-                    return false;
                 }
                 );
             }
 
-            template <class F>
-            void configure_analogue(const YAML::Node& node, F getter)
+            template <class S>
+            void map_register32(const YAML::Node& node, const S& setter)
             {
-                const auto type = MappingTypeMeta::from_string(yaml::require_string(node, keys::type));
-                switch(type)
-                {
-                case(MappingType::bit16):
-                    this->map_analogue_bit16(node, getter);
-                    break;
-                case(MappingType::bit32):
-                    this->map_analogue_bit32(node, getter);
-                    break;
-                default:
-                    break;
-                }
-            }
-
-            template <class F>
-            void map_analogue_bit16(const YAML::Node& node, F getter)
-            {
-                const auto scale = yaml::require(node, keys::scale).as<float>();
-                const auto index = yaml::require(node, keys::index).as<uint16_t>();
-
-                const auto reg = std::make_shared<Register16>();
-
-                this->mapping.add_holding_register(index, reg);
-                this->add_analogue_init_and_flush(reg, scale, getter);
-            }
-
-            template <class F>
-            void map_analogue_bit32(const YAML::Node& node, F getter)
-            {
-                const auto scale = yaml::require(node, keys::scale).as<float>();
-                const auto upper_index = yaml::require(node, keys::upper_index).as<uint16_t>();
                 const auto lower_index = yaml::require(node, keys::lower_index).as<uint16_t>();
-                const auto modulus = yaml::require(node, keys::modulus).as<uint32_t>();
+                const auto upper_index = yaml::require(node, keys::upper_index).as<uint16_t>();
 
-                const auto reg = std::make_shared<Register32>(modulus);
+                const auto reg = std::make_shared<Register32>();
 
-                this->mapping.add_holding_register(upper_index, reg->get_upper());
                 this->mapping.add_holding_register(lower_index, reg->get_lower());
-                this->add_analogue_init_and_flush(reg, scale, getter);
-            }
+                this->mapping.add_holding_register(upper_index, reg->get_upper());
 
-            template <class F>
-            void add_analogue_init_and_flush(const std::shared_ptr<ICachedValue>& value, float scale, F getter)
-            {
-                this->mapping.add_init_action([value]()
+                this->mapping.add_init_action([reg]()
                 {
-                    value->reset();
+                    reg->reset();
                 });
 
                 this->mapping.add_flush_action(
-                    [value, getter, scale](T & profile) -> bool
+                    [reg, setter](T & profile)
                 {
-                    if(value->is_set())
+                    if(reg->is_set())
                     {
-                        getter(profile)->set_f(value->to_float()*scale);
-                        return true;
+                        setter(profile, reg);
                     }
-                    return false;
                 }
                 );
             }

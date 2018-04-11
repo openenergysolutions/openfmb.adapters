@@ -8,9 +8,6 @@ namespace adapter
     namespace modbus
     {
 
-        const std::string MappingTypeMeta::none("none");
-        const std::string MappingTypeMeta::bit16("bit16");
-        const std::string MappingTypeMeta::bit32("bit32");
 
         MappingType MappingTypeMeta::from_string(const std::string& value)
         {
@@ -18,13 +15,29 @@ namespace adapter
             {
                 return MappingType::none;
             }
-            else if(value == bit16)
+            else if(value == uint16)
             {
-                return MappingType::bit16;
+                return MappingType::uint16;
             }
-            else if(value == bit32)
+            else if(value == sint16)
             {
-                return MappingType::bit32;
+                return MappingType::sint16;
+            }
+            else if(value == uint32)
+            {
+                return MappingType::uint32;
+            }
+            else if(value == sint32)
+            {
+                return MappingType::sint32;
+            }
+            else if(value == uint32_with_modulus)
+            {
+                return MappingType::uint32_with_modulus;
+            }
+            else if(value == sint32_with_modulus)
+            {
+                return MappingType::sint32_with_modulus;
             }
             else
             {
