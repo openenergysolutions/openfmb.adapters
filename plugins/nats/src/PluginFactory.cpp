@@ -26,9 +26,9 @@ namespace adapter
             out << YAML::Key << ::adapter::keys::profiles;
             out << YAML::BeginMap;
 
-            ProfileMeta::foreach([&](Profile profile)
-        {
-            out << YAML::Key << ProfileMeta::to_string(profile) << ::adapter::ProfileModeMeta::none;
+            ProfileMeta::foreach_enum([&](Profile profile)
+            {
+                out << YAML::Key << ProfileMeta::to_string(profile) << ::adapter::ProfileModeMeta::none;
             });
 
             out << YAML::EndMap;

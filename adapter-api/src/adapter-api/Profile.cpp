@@ -1,10 +1,10 @@
 
 #include "Profile.h"
 
-#include "proto/resourcemodule/resourcemodule.pb.h"
-#include "proto/switchmodule/switchmodule.pb.h"
-
 #include "util/Exception.h"
+
+#include "resourcemodule/resourcemodule.pb.h"
+#include "switchmodule/switchmodule.pb.h"
 
 namespace adapter
 {
@@ -43,6 +43,7 @@ namespace adapter
             throw Exception("Unknown profile name: ", name);
         };
     }
+
 
 }
 

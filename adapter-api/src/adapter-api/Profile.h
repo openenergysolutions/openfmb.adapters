@@ -22,7 +22,7 @@ namespace adapter
         static Profile from_string(const std::string& name);
 
         template <class T>
-        static void foreach(const T& handler)
+        static void foreach_enum(const T& handler)
         {
             handler(Profile::resource_reading);
             handler(Profile::switch_reading);

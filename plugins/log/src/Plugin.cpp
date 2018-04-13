@@ -27,32 +27,28 @@ namespace adapter
 
         Plugin::Plugin(const YAML::Node& node, const Logger& logger, IMessageBus& bus)
         {
-            auto read = [&](Profile profile)
-            {
-                switch(profile)
-                {
-                case(Profile::resource_reading):
-                    bus.subscribe(
-                        std::make_shared<LogPrinter<resourcemodule::ResourceReadingProfile>>(logger)
-                    );
-                    break;
-                case(Profile::switch_reading):
-                    bus.subscribe(
-                        std::make_shared<LogPrinter<switchmodule::SwitchReadingProfile>>(logger)
-                    );
-                    break;
-                case(Profile::switch_status):
-                    bus.subscribe(
-                        std::make_shared<LogPrinter<switchmodule::SwitchStatusProfile>>(logger)
-                    );
-                    break;
-                default:
-                    throw Exception("Unsupported log profile: ", ProfileMeta::to_string(profile));
-                }
-            };
+            this->handle_all_profiles(node, logger, bus);
+        }
 
+        void Plugin::handle_resource_reading(const YAML::Node& node, const Logger& logger, IMessageBus& bus)
+        {
+            bus.subscribe(
+                std::make_shared<LogPrinter<resourcemodule::ResourceReadingProfile>>(logger)
+            );
+        }
 
-            ProfileMeta::foreach(read);
+        void Plugin::handle_switch_reading(const YAML::Node& node, const Logger& logger, IMessageBus& bus)
+        {
+            bus.subscribe(
+                std::make_shared<LogPrinter<switchmodule::SwitchReadingProfile>>(logger)
+            );
+        }
+
+        void Plugin::handle_switch_status(const YAML::Node& node, const Logger& logger, IMessageBus& bus)
+        {
+            bus.subscribe(
+                std::make_shared<LogPrinter<switchmodule::SwitchStatusProfile>>(logger)
+            );
         }
     }
 

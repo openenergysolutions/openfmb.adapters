@@ -26,12 +26,18 @@ namespace adapter
 
             std::mutex mutex;
             std::ofstream log_file;
+            Logger logger;
 
         public:
 
-            SharedLog(const std::string& filename);
+            SharedLog(const std::string& filename, const Logger& logger) :
+                log_file(filename, std::ios_base::app | std::ios_base::out),
+                logger(logger)
+            {
 
-            void write(const std::string& name, const ::google::protobuf::MessageLite& message);
+            }
+
+            bool write(const std::string& name, const ::google::protobuf::MessageLite& message);
         };
 
         template <class T>
@@ -50,22 +56,19 @@ namespace adapter
         };
 
 
-        Plugin::Plugin(const YAML::Node& node, const Logger& logger, IMessageBus& bus)
-        {
-            const auto log = std::make_shared<SharedLog>(yaml::require_string(node, keys::file));
 
-            bus.subscribe(std::make_shared<Subscriber<resourcemodule::ResourceReadingProfile>>(log));
-            bus.subscribe(std::make_shared<Subscriber<switchmodule::SwitchReadingProfile>>(log));
-            bus.subscribe(std::make_shared<Subscriber<switchmodule::SwitchStatusProfile>>(log));
+        Plugin::Plugin(const YAML::Node& node, const Logger& logger, IMessageBus& bus) :
+            shared_log(std::make_shared<SharedLog>(yaml::require_string(node, keys::file), logger))
+        {
+            bus.subscribe(std::make_shared<Subscriber<resourcemodule::ResourceReadingProfile>>(shared_log));
+            bus.subscribe(std::make_shared<Subscriber<switchmodule::SwitchReadingProfile>>(shared_log));
+            bus.subscribe(std::make_shared<Subscriber<switchmodule::SwitchStatusProfile>>(shared_log));
         }
 
-        SharedLog::SharedLog(const std::string& filename)
-            : log_file(filename, std::ios_base::app | std::ios_base::out)
-        {
+        Plugin::~Plugin()
+        {}
 
-        }
-
-        void SharedLog::write(const std::string& name, const ::google::protobuf::MessageLite& message)
+        bool SharedLog::write(const std::string& name, const ::google::protobuf::MessageLite& message)
         {
             const auto millisec = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
 
@@ -76,8 +79,8 @@ namespace adapter
                 const auto buffer = std::make_unique<uint8_t[]>(size);
                 if(!message.SerializeToArray(buffer.get(), size_int))
                 {
-                    // TODO
-                    return;
+                    logger.error("Failed to serialize protobuff message of type: {}", name);
+                    return false;
                 }
 
                 std::ostringstream oss;
@@ -90,10 +93,12 @@ namespace adapter
                 // file writing isn't guaranteed to be thread-safe
                 std::unique_lock<std::mutex> lock(this->mutex);
                 log_file << millisec << "," << name  << "," << oss.str() << std::endl;
+                return true;
             }
             catch(const std::exception& ex)
             {
-                // TODO
+                logger.error("Exception serializing message of type '{}': ", ex.what());
+                return false;
             }
         }
     }

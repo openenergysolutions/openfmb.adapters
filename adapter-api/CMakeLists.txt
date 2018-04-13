@@ -86,7 +86,7 @@ set(API_SOURCES
 	src/adapter-api/ProfileMode.cpp
 	src/adapter-api/util/YAMLUtil.cpp
 	src/adapter-api/helpers/generated/MessageVisitors.cpp
-    src/adapter-api/helpers/ConfigReadVisitorBase.h src/adapter-api/helpers/ConfigWriteVisitorBase.h src/adapter-api/ConfigStrings.h src/adapter-api/Profile.h)
+    src/adapter-api/helpers/ConfigReadVisitorBase.h src/adapter-api/helpers/ConfigWriteVisitorBase.h src/adapter-api/ConfigStrings.h src/adapter-api/Profile.h src/adapter-api/IProfileHandler.h)
 
 
 # directories to be automatically formatted by astyle
@@ -113,7 +113,7 @@ add_library(adapter-api ${PROTO_SOURCES} ${PROTO_HEADERS} ${API_SOURCES} ${API_H
 target_include_directories(adapter-api PUBLIC ${PROTO_OUTPUT_DIR})
 target_include_directories(adapter-api PUBLIC ${Boost_INCLUDE_DIRS})
 target_include_directories(adapter-api INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/src")
-target_include_directories(adapter-api INTERFACE "${CMAKE_SOURCE_DIR}/deps/spdlog/include")
+target_include_directories(adapter-api PUBLIC "${CMAKE_SOURCE_DIR}/deps/spdlog/include")
 target_link_libraries(adapter-api PUBLIC ${PROTOBUF_LIBRARY})
 target_link_libraries(adapter-api INTERFACE yaml-cpp)
 

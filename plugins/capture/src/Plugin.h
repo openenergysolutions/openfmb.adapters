@@ -7,6 +7,7 @@
 #include <adapter-api/Logger.h>
 #include <adapter-api/IPlugin.h>
 #include <adapter-api/IMessageBus.h>
+#include <adapter-api/Profile.h>
 
 #include <ios>
 #include <fstream>
@@ -16,6 +17,8 @@ namespace adapter
 {
     namespace capture
     {
+        class SharedLog;
+
         class Plugin : public IPlugin
         {
 
@@ -23,12 +26,18 @@ namespace adapter
 
             Plugin(const YAML::Node& node, const Logger& logger, IMessageBus& bus);
 
+            ~Plugin();
+
             std::string name() const override
             {
                 return "capture";
             }
 
             void start() override {}
+
+        private:
+
+            const std::shared_ptr<SharedLog> shared_log;
         };
     }
 }
