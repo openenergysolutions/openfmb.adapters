@@ -8,6 +8,9 @@
 #include <adapter-api/IPlugin.h>
 #include <adapter-api/IMessageBus.h>
 
+#include <ios>
+#include <fstream>
+#include <google/protobuf/message_lite.h>
 
 namespace adapter
 {
@@ -15,6 +18,7 @@ namespace adapter
     {
         class Plugin : public IPlugin
         {
+
         public:
 
             Plugin(const YAML::Node& node, const Logger& logger, IMessageBus& bus);

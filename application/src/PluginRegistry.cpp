@@ -3,6 +3,7 @@
 #include "PluginRegistry.h"
 
 #include "log/PluginFactory.h"
+#include "capture/PluginFactory.h"
 
 #include <adapter-api/util/Exception.h>
 
@@ -28,6 +29,7 @@ namespace adapter
     PluginRegistry::PluginRegistry()
     {
         this->add<log::PluginFactory>();
+        this->add<capture::PluginFactory>();
 
 #ifdef OPENFMB_USE_DNP3
         this->add<dnp3::PluginFactory>();
