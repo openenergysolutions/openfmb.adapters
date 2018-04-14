@@ -1,5 +1,6 @@
 
 #include <adapter-api/util/Exception.h>
+#include <adapter-api/IProfileWriter.h>
 #include "modbus/PluginFactory.h"
 
 #include "Plugin.h"
@@ -20,32 +21,27 @@ namespace adapter
             out << YAML::EndMap;
         }
 
-        void write_profile_data(YAML::Emitter& out, Profile profile)
+        class ProfileWriter : public IProfileWriter
         {
-            switch(profile)
+        protected:
+            void write_resource_reading(const std::string& name, YAML::Emitter& out) override
             {
-            case (Profile::resource_reading):
-                {
-                    ConfigWriteVisitor<resourcemodule::ResourceReadingProfile> visitor(out);
-                    visit(visitor);
-                    break;
-                }
-            case (Profile::switch_reading):
-                {
-                    ConfigWriteVisitor<switchmodule::SwitchReadingProfile> visitor(out);
-                    visit(visitor);
-                    break;
-                }
-            case (Profile::switch_status):
-                {
-                    ConfigWriteVisitor<switchmodule::SwitchStatusProfile> visitor(out);
-                    visit(visitor);
-                    break;
-                }
-            default:
-                throw Exception("Unhandled profile write: ", ProfileMeta::to_string(profile));
+                ConfigWriteVisitor<resourcemodule::ResourceReadingProfile> visitor(out);
+                visit(visitor);
             }
-        }
+
+            void write_switch_reading(const std::string& name, YAML::Emitter& out) override
+            {
+                ConfigWriteVisitor<switchmodule::SwitchReadingProfile> visitor(out);
+                visit(visitor);
+            }
+
+            void write_switch_status(const std::string& name, YAML::Emitter& out) override
+            {
+                ConfigWriteVisitor<switchmodule::SwitchStatusProfile> visitor(out);
+                visit(visitor);
+            }
+        };
 
         void write_default_session(const std::string& name, YAML::Emitter& out, Profile profile)
         {
@@ -70,7 +66,8 @@ namespace adapter
             out << YAML::Key << keys::profile;
             out << YAML::BeginMap;
             out << YAML::Key << keys::name << YAML::Value << ProfileMeta::to_string(profile);
-            write_profile_data(out, profile);
+            ProfileWriter writer;
+            writer.write_one_profile(profile, out);
             out << YAML::EndMap;
 
             out << YAML::EndMap;
