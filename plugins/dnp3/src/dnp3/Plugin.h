@@ -6,7 +6,7 @@
 #include "SOEHandler.h"
 
 #include <asiodnp3/DNP3Manager.h>
-#include <adapter-api/IProfileHandler.h>
+#include <adapter-api/IProfileReader.h>
 
 namespace adapter
 {

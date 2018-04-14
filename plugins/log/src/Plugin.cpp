@@ -27,24 +27,24 @@ namespace adapter
 
         Plugin::Plugin(const YAML::Node& node, const Logger& logger, IMessageBus& bus)
         {
-            this->handle_all_profiles(node, logger, bus);
+            this->read_all_profiles(node, logger, bus);
         }
 
-        void Plugin::handle_resource_reading(const YAML::Node& node, const Logger& logger, IMessageBus& bus)
+        void Plugin::read_resource_reading(const YAML::Node& node, const Logger& logger, IMessageBus& bus)
         {
             bus.subscribe(
                 std::make_shared<LogPrinter<resourcemodule::ResourceReadingProfile>>(logger)
             );
         }
 
-        void Plugin::handle_switch_reading(const YAML::Node& node, const Logger& logger, IMessageBus& bus)
+        void Plugin::read_switch_reading(const YAML::Node& node, const Logger& logger, IMessageBus& bus)
         {
             bus.subscribe(
                 std::make_shared<LogPrinter<switchmodule::SwitchReadingProfile>>(logger)
             );
         }
 
-        void Plugin::handle_switch_status(const YAML::Node& node, const Logger& logger, IMessageBus& bus)
+        void Plugin::read_switch_status(const YAML::Node& node, const Logger& logger, IMessageBus& bus)
         {
             bus.subscribe(
                 std::make_shared<LogPrinter<switchmodule::SwitchStatusProfile>>(logger)

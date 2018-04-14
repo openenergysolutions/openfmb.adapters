@@ -2,14 +2,14 @@
 #define OPENFMB_ADAPTER_LOG_PLUGIN_H
 
 #include <adapter-api/IPluginFactory.h>
-#include <adapter-api/IProfileHandler.h>
+#include <adapter-api/IProfileReader.h>
 
 
 namespace adapter
 {
     namespace log
     {
-        class Plugin final : public IPlugin, private IProfileHandler
+        class Plugin final : public IPlugin, private IProfileReader
         {
 
 
@@ -27,11 +27,11 @@ namespace adapter
 
         private:
 
-            virtual void handle_resource_reading(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override;
+            virtual void read_resource_reading(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override;
 
-            virtual void handle_switch_reading(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override;
+            virtual void read_switch_reading(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override;
 
-            virtual void handle_switch_status(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override;
+            virtual void read_switch_status(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override;
 
             Plugin() = delete;
         };

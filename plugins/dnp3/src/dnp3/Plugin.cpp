@@ -25,7 +25,7 @@ namespace adapter
         template <class T>
         using visit_fun_t = void (*)(IProtoVisitor<T>&);
 
-        class ProfileLoader : public IProfileHandler
+        class ProfileLoader : public IProfileReader
         {
             const std::shared_ptr<IConfigurationBuilder> builder;
 
@@ -34,17 +34,17 @@ namespace adapter
 
 
         protected:
-            void handle_resource_reading(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override
+            void read_resource_reading(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override
             {
                 load_typed_mapping<resourcemodule::ResourceReadingProfile>(node, bus, this->builder);
             }
 
-            void handle_switch_reading(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override
+            void read_switch_reading(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override
             {
                 load_typed_mapping<switchmodule::SwitchReadingProfile>(node, bus, this->builder);
             }
 
-            void handle_switch_status(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override
+            void read_switch_status(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override
             {
                 load_typed_mapping<switchmodule::SwitchStatusProfile>(node, bus, this->builder);
             }
@@ -118,7 +118,7 @@ namespace adapter
                 profiles,
                 [&](const YAML::Node& node)
         {
-            loader.handle_one_profile(
+            loader.read_one_profile(
                 yaml::require_string(node, ::adapter::keys::name),
                 node,
                 logger,

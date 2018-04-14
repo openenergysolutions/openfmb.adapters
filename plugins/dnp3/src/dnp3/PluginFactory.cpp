@@ -1,4 +1,5 @@
 
+#include <adapter-api/IProfileWriter.h>
 #include "dnp3/PluginFactory.h"
 
 #include "adapter-api/helpers/generated/MessageVisitors.h"
@@ -11,32 +12,33 @@ namespace adapter
 {
     namespace dnp3
     {
-        void write_profile_data(YAML::Emitter& out, Profile profile)
+        struct ProfileWriter : public IProfileWriter
         {
-            switch(profile)
+        protected:
+            void write_resource_reading(const std::string& name, YAML::Emitter& out) override
             {
-            case (Profile::resource_reading):
-                {
-                    ConfigWriteVisitor<resourcemodule::ResourceReadingProfile> visitor(out);
-                    visit(visitor);
-                    break;
-                }
-            case (Profile::switch_reading):
-                {
-                    ConfigWriteVisitor<switchmodule::SwitchReadingProfile> visitor(out);
-                    visit(visitor);
-                    break;
-                }
-            case (Profile::switch_status):
-                {
-                    ConfigWriteVisitor<switchmodule::SwitchStatusProfile> visitor(out);
-                    visit(visitor);
-                    break;
-                }
-            default:
-                throw Exception("Unhandled profile write: ", ProfileMeta::to_string(profile));
+                this->write_any<resourcemodule::ResourceReadingProfile>(out);
             }
-        }
+
+            void write_switch_reading(const std::string& name, YAML::Emitter& out) override
+            {
+                this->write_any<switchmodule::SwitchReadingProfile>(out);
+            }
+
+            void write_switch_status(const std::string& name, YAML::Emitter& out) override
+            {
+                this->write_any<switchmodule::SwitchStatusProfile>(out);
+            }
+
+        private:
+
+            template <class T>
+            void write_any(YAML::Emitter& out)
+            {
+                ConfigWriteVisitor<T> visitor(out);
+                visit(visitor);
+            }
+        };
 
         void PluginFactory::write_default_config(YAML::Emitter& out, const profile_vec_t& profiles) const
         {
@@ -72,12 +74,13 @@ namespace adapter
             out << YAML::Key << "profiles";
             out << YAML::BeginSeq;
 
+            ProfileWriter writer;
 
             for(auto profile : profiles)
             {
                 out << YAML::BeginMap;
                 out << YAML::Key << "name" << YAML::Value << ProfileMeta::to_string(profile);
-                write_profile_data(out, profile);
+                writer.write_one_profile(profile, out);
                 out << YAML::EndMap;
             }
 
