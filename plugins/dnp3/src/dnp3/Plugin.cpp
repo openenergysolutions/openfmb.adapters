@@ -25,45 +25,54 @@ namespace adapter
         template <class T>
         using visit_fun_t = void (*)(IProtoVisitor<T>&);
 
-        template <class T>
-        void load_typed_mapping(const YAML::Node& node, IMessageBus& bus, const std::shared_ptr<IConfigurationBuilder>& builder)
+        class ProfileLoader : public IProfileHandler
         {
-            const auto profile = std::make_shared<T>();
+            const std::shared_ptr<IConfigurationBuilder> builder;
 
-            // clear the profile before processing measurements
-            builder->add_start_action([profile]()
+        public:
+            ProfileLoader(const std::shared_ptr<IConfigurationBuilder>& builder) : builder(builder) {}
+
+
+        protected:
+            void handle_resource_reading(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override
             {
-                profile->Clear();
-            });
-
-            ConfigReadVisitor<T> reader(node, profile, builder);
-            visit(reader);
-
-            // publish the profile when the response completes
-            builder->add_end_action([profile, publisher = bus.get_publisher<T>()]()
-            {
-                publisher->publish(*profile);
-            });
-        }
-
-        void load_mapping(const YAML::Node& node, IMessageBus& bus, const std::shared_ptr<IConfigurationBuilder>& builder)
-        {
-            const auto profile = ProfileMeta::from_string(yaml::require_string(node, ::adapter::keys::name));
-            switch(profile)
-            {
-            case(Profile::resource_reading):
-                load_typed_mapping<resourcemodule::ResourceReadingProfile>(node, bus, builder);
-                break;
-            case(Profile::switch_reading):
-                load_typed_mapping<switchmodule::SwitchReadingProfile>(node, bus, builder);
-                break;
-            case(Profile::switch_status):
-                load_typed_mapping<switchmodule::SwitchStatusProfile>(node, bus, builder);
-                break;
-            default:
-                throw Exception("Unsupported profile: ", ProfileMeta::to_string(profile));
+                load_typed_mapping<resourcemodule::ResourceReadingProfile>(node, bus, this->builder);
             }
-        }
+
+            void handle_switch_reading(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override
+            {
+                load_typed_mapping<switchmodule::SwitchReadingProfile>(node, bus, this->builder);
+            }
+
+            void handle_switch_status(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override
+            {
+                load_typed_mapping<switchmodule::SwitchStatusProfile>(node, bus, this->builder);
+            }
+
+        private:
+
+            template <class T>
+            void load_typed_mapping(const YAML::Node& node, IMessageBus& bus, const std::shared_ptr<IConfigurationBuilder>& builder)
+            {
+                const auto profile = std::make_shared<T>();
+
+                // clear the profile before processing measurements
+                builder->add_start_action([profile]()
+                {
+                    profile->Clear();
+                });
+
+                ConfigReadVisitor<T> reader(node, profile, builder);
+                visit(reader);
+
+                // publish the profile when the response completes
+                builder->add_end_action([profile, publisher = bus.get_publisher<T>()]()
+                {
+                    publisher->publish(*profile);
+                });
+            }
+        };
+
 
         Plugin::Plugin(
             const Logger& logger,
@@ -101,14 +110,21 @@ namespace adapter
 
             const auto handler = std::make_shared<SOEHandler>();
 
-            const auto load_one_profile = [&](const YAML::Node & node)
-            {
-                load_mapping(node, bus, handler);
-            };
+            ProfileLoader loader(handler);
+
+            const auto profiles = yaml::require(node, ::adapter::keys::profiles);
 
             yaml::foreach(
-                yaml::require(node, ::adapter::keys::profiles),
-                load_one_profile
+                profiles,
+                [&](const YAML::Node& node)
+        {
+            loader.handle_one_profile(
+                yaml::require_string(node, ::adapter::keys::name),
+                node,
+                logger,
+                bus
+            );
+            }
             );
 
             this->logger.info(
@@ -156,7 +172,6 @@ namespace adapter
                        nullptr // no channel listener
                    );
         }
-
 
     }
 }

@@ -1,11 +1,12 @@
 #ifndef OPENFMB_ADAPTER_DNP3_PLUGIN_H
 #define OPENFMB_ADAPTER_DNP3_PLUGIN_H
 
-#include "adapter-api/IPluginFactory.h"
+#include <adapter-api/IPluginFactory.h>
 
 #include "SOEHandler.h"
 
 #include <asiodnp3/DNP3Manager.h>
+#include <adapter-api/IProfileHandler.h>
 
 namespace adapter
 {

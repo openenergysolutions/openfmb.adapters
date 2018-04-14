@@ -2,6 +2,7 @@
 #define OPENFMB_ADAPTER_IPROFILEHANDLER_H
 
 #include <yaml-cpp/node/node.h>
+#include <adapter-api/util/Exception.h>
 
 #include "Logger.h"
 #include "IMessageBus.h"
@@ -18,6 +19,29 @@ namespace adapter
             this->handle_resource_reading(node, logger, bus);
             this->handle_switch_reading(node, logger, bus);
             this->handle_switch_status(node, logger, bus);
+        }
+
+        void handle_one_profile(Profile profile, const YAML::Node& node, const Logger& logger, IMessageBus& bus)
+        {
+            switch(profile)
+            {
+            case(Profile::resource_reading):
+                this->handle_resource_reading(node, logger, bus);
+                break;
+            case(Profile::switch_reading):
+                this->handle_switch_reading(node, logger, bus);
+                break;
+            case(Profile::switch_status):
+                this->handle_switch_status(node, logger, bus);
+                break;
+            default:
+                throw Exception("Unhandled profile: ", ProfileMeta::to_string(profile));
+            }
+        }
+
+        inline void handle_one_profile(const std::string& profile_name, const YAML::Node& node, const Logger& logger, IMessageBus& bus)
+        {
+            return handle_one_profile(ProfileMeta::from_string(profile_name), node, logger, bus);
         }
 
     protected:
