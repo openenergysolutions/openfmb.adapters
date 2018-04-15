@@ -5,7 +5,7 @@
 
 #include "adapter-api/Logger.h"
 
-#include "IPollSink.h"
+#include "IPollHandler.h"
 
 #include "modbus/session/ISession.h"
 #include "modbus/exceptions/IException.h"
@@ -23,17 +23,17 @@ namespace adapter
 
         public:
 
-            PollManager(const Logger& logger,
-                        std::unique_ptr<IPollSink> sink,
+            PollManager(Logger logger,
+                        std::shared_ptr<IPollHandler> handler,
                         const std::chrono::steady_clock::duration& period,
                         const session_t& session);
 
             static std::shared_ptr<PollManager> create(const Logger& logger,
-                    std::unique_ptr<IPollSink> sink,
+                    std::shared_ptr<IPollHandler> handler,
                     const std::chrono::steady_clock::duration& period,
                     const session_t& session)
             {
-                return std::make_shared<PollManager>(logger, std::move(sink), period, session);
+                return std::make_shared<PollManager>(logger, handler, period, session);
             }
 
             void add(const ::modbus::ReadHoldingRegistersRequest& request);
@@ -50,7 +50,7 @@ namespace adapter
             void add_poll(const T& request);
 
             Logger logger;
-            const std::unique_ptr<IPollSink> sink;
+            const std::shared_ptr<IPollHandler> handler;
             const std::chrono::steady_clock::duration period;
             const session_t session;
             loopser::Timer timer;

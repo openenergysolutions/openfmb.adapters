@@ -5,23 +5,22 @@ set(MODBUS_PUBLIC_HEADERS
 set(MODBUS_SOURCES
         src/modbus/ConfigReadVisitor.h
         src/modbus/ConfigStrings.h
+        src/modbus/IConfigurationBuilder.h
         src/modbus/IRegister.h
-        src/modbus/IPollSink.h
-        src/modbus/IProfileMapping.h
+        src/modbus/IPollHandler.h
         src/modbus/MappingType.h
         src/modbus/MappingType.cpp
         src/modbus/ConfigWriteVisitor.h
+        src/modbus/PollHandler.h
+        src/modbus/PollHandler.cpp
         src/modbus/PollManager.h
         src/modbus/PollManager.cpp
         src/modbus/Plugin.h
         src/modbus/Plugin.cpp
         src/modbus/PluginFactory.cpp
-        src/modbus/ProfileMapping.h
         src/modbus/Register16.h
         src/modbus/Register32.h
         src/modbus/ICachedValue.h
-        src/modbus/IPollSink.h
-        src/modbus/PollSink.h
         )
 
 set(CPP_FORMAT_DIRS

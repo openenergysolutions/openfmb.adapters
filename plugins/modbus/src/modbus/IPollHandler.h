@@ -1,6 +1,6 @@
 
-#ifndef OPENFMB_ADAPTER_MODBUS_IPROFILEMAPPING_H
-#define OPENFMB_ADAPTER_MODBUS_IPROFILEMAPPING_H
+#ifndef OPENFMB_ADAPTER_MODBUS_IPOLLHANDLER_H
+#define OPENFMB_ADAPTER_MODBUS_IPOLLHANDLER_H
 
 #include "modbus/messages/ReadHoldingRegistersResponse.h"
 
@@ -8,19 +8,18 @@ namespace adapter
 {
     namespace modbus
     {
-        template<class T>
-        class IProfileMapping
+        class IPollHandler
         {
 
 
         public:
 
-            virtual ~IProfileMapping() = default;
+            virtual ~IPollHandler() = default;
 
             /**
              * called prior to beginning a sequence of polls
              */
-            virtual void initialize() = 0;
+            virtual void begin() = 0;
 
             /**
              * called after receiving a response to record some state
@@ -28,9 +27,9 @@ namespace adapter
             virtual void apply(const ::modbus::ReadHoldingRegistersResponse& response) = 0;
 
             /**
-             * called after polls are complete to fill out a message
+             * called after polls are complete to fill and publish a message
              */
-            virtual void flush(T& profile) = 0;
+            virtual void end() = 0;
 
             /**
              *

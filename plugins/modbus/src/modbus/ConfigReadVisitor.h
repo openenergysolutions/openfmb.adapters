@@ -2,7 +2,7 @@
 #ifndef OPENFMB_ADAPTER_MODBUS_CONFIGREADVISITOR_H
 #define OPENFMB_ADAPTER_MODBUS_CONFIGREADVISITOR_H
 
-#include "ProfileMapping.h"
+#include "IConfigurationBuilder.h"
 #include "ConfigStrings.h"
 #include "MappingType.h"
 #include "Register16.h"
@@ -20,11 +20,15 @@ namespace adapter
         template <class T>
         class ConfigReadVisitor final : public ConfigReadVisitorBase<T>
         {
+            const std::shared_ptr<T> profile;
+            const std::shared_ptr<IConfigurationBuilder> builder;
+
         public:
 
-            ConfigReadVisitor(const YAML::Node& root, ProfileMapping<T>& mapping) :
+            ConfigReadVisitor(const YAML::Node& root, std::shared_ptr<T> profile, std::shared_ptr<IConfigurationBuilder> builder) :
                 ConfigReadVisitorBase<T>(root),
-                mapping(mapping)
+                profile(profile),
+                builder(builder)
             {}
 
             void handle(const std::string& field_name, getter_t<commonmodule::MV, T> getter) override
@@ -210,19 +214,19 @@ namespace adapter
 
                 const auto reg = std::make_shared<Register16>();
 
-                this->mapping.add_holding_register(index, reg);
+                this->builder->add_holding_register(index, reg);
 
-                this->mapping.add_init_action([reg]()
+                this->builder->add_begin_action([reg]()
                 {
                     reg->reset();
                 });
 
-                this->mapping.add_flush_action(
-                    [reg, setter](T & profile)
+                this->builder->add_end_action(
+                    [reg, setter, profile = this->profile]()
                 {
                     if(reg->is_set())
                     {
-                        setter(profile, reg);
+                        setter(*profile, reg);
                     }
                 }
                 );
@@ -236,20 +240,20 @@ namespace adapter
 
                 const auto reg = std::make_shared<Register32>();
 
-                this->mapping.add_holding_register(lower_index, reg->get_lower());
-                this->mapping.add_holding_register(upper_index, reg->get_upper());
+                this->builder->add_holding_register(lower_index, reg->get_lower());
+                this->builder->add_holding_register(upper_index, reg->get_upper());
 
-                this->mapping.add_init_action([reg]()
+                this->builder->add_begin_action([reg]()
                 {
                     reg->reset();
                 });
 
-                this->mapping.add_flush_action(
-                    [reg, setter](T & profile)
+                this->builder->add_end_action(
+                    [reg, setter, profile = this->profile]()
                 {
                     if(reg->is_set())
                     {
-                        setter(profile, reg);
+                        setter(*profile, reg);
                     }
                 }
                 );
@@ -259,17 +263,20 @@ namespace adapter
 
             void add_message_init_action(const std::function<void(T&)>& action) override
             {
-                this->mapping.add_flush_action(action);
+                this->builder->add_begin_action([action, profile = this->profile]()
+                {
+                    action(*profile);
+                });
             }
 
             void add_message_complete_action(const std::function<void(T&)>& action) override
             {
-                this->mapping.add_flush_action(action);
+                this->builder->add_end_action([action, profile = this->profile]()
+                {
+                    action(*profile);
+                });
             }
 
-        private:
-
-            ProfileMapping<T>& mapping;
         };
     }
 }

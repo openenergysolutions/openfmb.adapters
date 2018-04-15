@@ -2,10 +2,11 @@
 #include "Plugin.h"
 
 #include "ConfigReadVisitor.h"
-#include "PollSink.h"
+#include "PollHandler.h"
 #include "PollManager.h"
 
-#include "adapter-api/helpers/generated/MessageVisitors.h"
+#include <adapter-api/helpers/generated/MessageVisitors.h>
+#include <adapter-api/IProfileReader.h>
 
 #include "modbus/logging/LoggerFactory.h"
 #include "modbus/Ipv4Endpoint.h"
@@ -17,40 +18,50 @@ namespace adapter
 {
     namespace modbus
     {
-        template<class T>
-        std::unique_ptr<IProfileMapping<T>> read_mapping(const YAML::Node& node)
-        {
 
-            auto mapping = std::make_unique<ProfileMapping<T>>();
-            ConfigReadVisitor<T> visitor(node, *mapping);
-            visit(visitor);
-            return std::move(mapping);
-        }
-
-        template <class T>
-        std::unique_ptr<IPollSink> get_typed_poll_sink(const YAML::Node& node, IMessageBus& bus)
+        class ProfileReader : public IProfileReader
         {
-            return std::make_unique<PollSink<T>>(
-                       bus.get_publisher<T>(),
-                       read_mapping<T>(node)
-                   );
-        }
+            const std::shared_ptr<PollHandler> handler;
 
-        std::unique_ptr<IPollSink> get_poll_sink(const YAML::Node& node, IMessageBus& bus)
-        {
-            const auto profile = ProfileMeta::from_string(yaml::require_string(node, keys::name));
-            switch(profile)
+        public:
+            ProfileReader(const std::shared_ptr<PollHandler>& handler) : handler(handler) {}
+
+        protected:
+            void read_resource_reading(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override
             {
-            case(Profile::resource_reading):
-                return get_typed_poll_sink<resourcemodule::ResourceReadingProfile>(node, bus);
-            case(Profile::switch_reading):
-                return get_typed_poll_sink<switchmodule::SwitchReadingProfile>(node, bus);
-            case(Profile::switch_status):
-                return get_typed_poll_sink<switchmodule::SwitchStatusProfile>(node, bus);
-            default:
-                throw Exception("Unsupported profile: ", ProfileMeta::to_string(profile));
+                this->read_any<resourcemodule::ResourceReadingProfile>(node, bus);
             }
-        }
+
+            void read_switch_reading(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override
+            {
+                this->read_any<switchmodule::SwitchReadingProfile>(node, bus);
+            }
+
+            void read_switch_status(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override
+            {
+                this->read_any<switchmodule::SwitchStatusProfile>(node, bus);
+            }
+
+        private:
+
+            template <class T>
+            void read_any(const YAML::Node& node, IMessageBus& bus)
+            {
+                const auto profile = std::make_shared<T>();
+
+                ConfigReadVisitor<T> visitor(node, profile, this->handler);
+                visit(visitor);
+
+                this->handler->add_end_action(
+                    [profile, publisher = bus.get_publisher<T>()] ()
+                {
+                    publisher->publish(*profile);
+                }
+                );
+
+            }
+        };
+
 
         Plugin::Plugin(const YAML::Node& node, const Logger& logger, IMessageBus& bus) : logger(logger)
         {
@@ -73,13 +84,24 @@ namespace adapter
         {
             const auto name = yaml::require_string(node, keys::name);
 
-            auto sink = get_poll_sink(yaml::require(node, keys::profile), bus);
+            const auto handler = std::make_shared<PollHandler>();
 
-            this->logger.info("Session {} has {} mapped values", name, sink->num_mapped_values());
+            const auto profile_node = yaml::require(node, keys::profile);
+
+            ProfileReader reader(handler);
+            reader.read_one_profile(
+                yaml::require_string(profile_node, ::adapter::keys::name),
+                profile_node,
+                this->logger,
+                bus
+            );
+
+
+            this->logger.info("Session {} has {} mapped values", name, handler->num_mapped_values());
 
             const auto poller = PollManager::create(
                                     this->logger,
-                                    std::move(sink),
+                                    handler,
                                     std::chrono::milliseconds(yaml::require(node, keys::poll_period_ms).as<int64_t>()),
                                     this->get_session(name, node)
                                 );
