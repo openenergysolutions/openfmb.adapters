@@ -21,22 +21,22 @@ namespace adapter
             out << YAML::EndMap;
         }
 
-        class ProfileWriter : public IProfileWriter
+        class ProfileWriter final : public IProfileWriter
         {
         protected:
-            void write_resource_reading(const std::string& name, YAML::Emitter& out) override
+            void write_resource_reading(YAML::Emitter& out) override
             {
                 ConfigWriteVisitor<resourcemodule::ResourceReadingProfile> visitor(out);
                 visit(visitor);
             }
 
-            void write_switch_reading(const std::string& name, YAML::Emitter& out) override
+            void write_switch_reading(YAML::Emitter& out) override
             {
                 ConfigWriteVisitor<switchmodule::SwitchReadingProfile> visitor(out);
                 visit(visitor);
             }
 
-            void write_switch_status(const std::string& name, YAML::Emitter& out) override
+            void write_switch_status(YAML::Emitter& out) override
             {
                 ConfigWriteVisitor<switchmodule::SwitchStatusProfile> visitor(out);
                 visit(visitor);

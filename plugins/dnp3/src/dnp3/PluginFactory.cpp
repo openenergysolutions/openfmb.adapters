@@ -15,17 +15,17 @@ namespace adapter
         struct ProfileWriter : public IProfileWriter
         {
         protected:
-            void write_resource_reading(const std::string& name, YAML::Emitter& out) override
+            void write_resource_reading(YAML::Emitter& out) override
             {
                 this->write_any<resourcemodule::ResourceReadingProfile>(out);
             }
 
-            void write_switch_reading(const std::string& name, YAML::Emitter& out) override
+            void write_switch_reading(YAML::Emitter& out) override
             {
                 this->write_any<switchmodule::SwitchReadingProfile>(out);
             }
 
-            void write_switch_status(const std::string& name, YAML::Emitter& out) override
+            void write_switch_status(YAML::Emitter& out) override
             {
                 this->write_any<switchmodule::SwitchStatusProfile>(out);
             }

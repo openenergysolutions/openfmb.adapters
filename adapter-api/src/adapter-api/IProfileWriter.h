@@ -15,9 +15,9 @@ namespace adapter
 
         void write_all_profiles(YAML::Emitter& out)
         {
-            this->write_resource_reading(ProfileMeta::to_string(Profile::resource_reading), out);
-            this->write_switch_reading(ProfileMeta::to_string(Profile::switch_reading), out);
-            this->write_switch_status(ProfileMeta::to_string(Profile::switch_status), out);
+            this->write_resource_reading(out);
+            this->write_switch_reading(out);
+            this->write_switch_status(out);
         }
 
         void write_one_profile(Profile profile, YAML::Emitter& out)
@@ -25,13 +25,13 @@ namespace adapter
             switch(profile)
             {
             case(Profile::resource_reading):
-                this->write_resource_reading(ProfileMeta::to_string(profile), out);
+                this->write_resource_reading(out);
                 break;
             case(Profile::switch_reading):
-                this->write_switch_reading(ProfileMeta::to_string(profile), out);
+                this->write_switch_reading(out);
                 break;
             case(Profile::switch_status):
-                this->write_switch_status(ProfileMeta::to_string(profile), out);
+                this->write_switch_status(out);
                 break;
             default:
                 throw Exception("Unhandled profile: ", ProfileMeta::to_string(profile));
@@ -45,11 +45,11 @@ namespace adapter
 
     protected:
 
-        virtual void write_resource_reading(const std::string& name, YAML::Emitter& out) = 0;
+        virtual void write_resource_reading(YAML::Emitter& out) = 0;
 
-        virtual void write_switch_reading(const std::string& name, YAML::Emitter& out) = 0;
+        virtual void write_switch_reading(YAML::Emitter& out) = 0;
 
-        virtual void write_switch_status(const std::string& name, YAML::Emitter& out) = 0;
+        virtual void write_switch_status(YAML::Emitter& out) = 0;
 
     };
 }
