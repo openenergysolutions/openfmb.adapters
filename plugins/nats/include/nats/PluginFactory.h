@@ -34,4 +34,4 @@ namespace adapter
 
 }
 
-#endif //OPENFMB_ADAPTER_NATSFACTORY_H
+#endif

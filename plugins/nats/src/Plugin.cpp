@@ -1,12 +1,15 @@
 
-#include <boost/algorithm/string/replace.hpp>
+
 #include "Plugin.h"
 
 #include "NATSPublisher.h"
 
-#include "adapter-api/util/YAMLUtil.h"
-#include "adapter-api/ProfileMode.h"
-#include "adapter-api/ConfigStrings.h"
+#include <adapter-api/util/YAMLUtil.h>
+#include <adapter-api/ProfileMode.h>
+#include <adapter-api/ConfigStrings.h>
+
+#include <boost/algorithm/string/replace.hpp>
+
 
 #include "ConfigStrings.h"
 #include "NATSSubscriber.h"
@@ -15,6 +18,7 @@ namespace adapter
 {
     namespace nats
     {
+
         Plugin::Plugin(const Logger& logger, const YAML::Node& node, IMessageBus& bus) :
             config(node),
             logger(logger),
@@ -24,9 +28,7 @@ namespace adapter
         {
             const auto profiles = yaml::require(node, ::adapter::keys::profiles);
 
-            this->configure_profile<resourcemodule::ResourceReadingProfile>(profiles, bus);
-            this->configure_profile<switchmodule::SwitchStatusProfile>(profiles, bus);
-            this->configure_profile<switchmodule::SwitchReadingProfile>(profiles, bus);
+            this->read_all_profiles(profiles, logger, bus);
         }
 
         Plugin::Config::Config(const YAML::Node& node) :
@@ -106,14 +108,37 @@ namespace adapter
             }
         }
 
-        template <class T>
-        std::string Plugin::get_subject_name()
+        void Plugin::read_resource_reading(const YAML::Node& node, const Logger& logger, IMessageBus& bus)
         {
-            return boost::replace_all_copy<std::string>(
-                       T::descriptor()->full_name(),
-                       ".",
-                       "_"
-                   );
+            this->configure_profile<resourcemodule::ResourceReadingProfile>(node, bus);
+        }
+
+        void Plugin::read_switch_reading(const YAML::Node& node, const Logger& logger, IMessageBus& bus)
+        {
+            this->configure_profile<switchmodule::SwitchReadingProfile>(node, bus);
+        }
+
+        void Plugin::read_switch_status(const YAML::Node& node, const Logger& logger, IMessageBus& bus)
+        {
+            this->configure_profile<switchmodule::SwitchStatusProfile>(node, bus);
+        }
+
+        template <class T>
+        void Plugin::configure_profile(const YAML::Node& node, IMessageBus& bus)
+        {
+            // get the mode for the profile
+            const auto mode = ProfileModeMeta::parse(yaml::require_string(node, T::descriptor()->name()));
+            switch(mode)
+            {
+            case(ProfileMode::publish):
+                this->add_publisher<T>(bus);
+                break;
+            case(ProfileMode::subscribe):
+                this->add_subscriber<T>(bus);
+                break;
+            default:
+                break;
+            }
         }
 
         template <class T>
@@ -149,21 +174,13 @@ namespace adapter
         }
 
         template <class T>
-        void Plugin::configure_profile(const YAML::Node& node, IMessageBus& bus)
+        std::string Plugin::get_subject_name()
         {
-            // get the mode for the profile
-            const auto mode = ProfileModeMeta::parse(yaml::require_string(node, T::descriptor()->name()));
-            switch(mode)
-            {
-            case(ProfileMode::publish):
-                this->add_publisher<T>(bus);
-                break;
-            case(ProfileMode::subscribe):
-                this->add_subscriber<T>(bus);
-                break;
-            default:
-                break;
-            }
+            return boost::replace_all_copy<std::string>(
+                       T::descriptor()->full_name(),
+                       ".",
+                       "_"
+                   );
         }
     }
 

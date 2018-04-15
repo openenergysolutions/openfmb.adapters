@@ -3,6 +3,7 @@
 
 #include <yaml-cpp/node/node.h>
 #include <adapter-api/util/Exception.h>
+#include <adapter-api/Profile.h>
 
 #include "Logger.h"
 #include "IMessageBus.h"

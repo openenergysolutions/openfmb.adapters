@@ -4,11 +4,13 @@
 #include <adapter-api/IPlugin.h>
 #include <adapter-api/Logger.h>
 #include <adapter-api/IMessageBus.h>
+#include <adapter-api/IProfileReader.h>
 
 #include <yaml-cpp/yaml.h>
 #include <nats/nats.h>
 
 #include <vector>
+
 
 #include "SynchronizedQueue.h"
 #include "Message.h"
@@ -27,7 +29,7 @@ namespace adapter
         };
 
 
-        class Plugin final : public IPlugin
+        class Plugin final : public IPlugin, public IProfileReader
         {
             struct Config
             {
@@ -41,7 +43,6 @@ namespace adapter
 
         public:
 
-
             Plugin() = delete;
 
             ~Plugin();
@@ -54,6 +55,14 @@ namespace adapter
             }
 
             virtual void start() override;
+
+        protected:
+
+            void read_resource_reading(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override;
+
+            void read_switch_reading(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override;
+
+            void read_switch_status(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override;
 
         private:
 
