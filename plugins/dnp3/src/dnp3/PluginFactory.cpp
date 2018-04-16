@@ -40,17 +40,45 @@ namespace adapter
             }
         };
 
-        void PluginFactory::write_default_config(YAML::Emitter& out, const profile_vec_t& profiles) const
+        void write_profile_configs(YAML::Emitter& out, const profile_vec_t& profiles)
         {
-            if(profiles.empty())
+            ProfileWriter writer;
+            for(auto profile : profiles)
             {
-                throw Exception("DNP3 plugin generation requires at least one profile argument");
+                out << YAML::BeginMap;
+                out << YAML::Key << "name" << YAML::Value << ProfileMeta::to_string(profile);
+                writer.write_one_profile(profile, out);
+                out << YAML::EndMap;
             }
+        }
 
+        void PluginFactory::write_default_config(YAML::Emitter& out) const
+        {
             out << YAML::Key << keys::thread_pool_size << YAML::Value << 1;
             out << YAML::Comment("defaults to std::thread::hardware_concurrency() if <= 0");
             out << YAML::Key << keys::masters;
             out << YAML::BeginSeq;
+
+            // TODO  - write a default list of files
+
+            out << YAML::EndSeq;
+        }
+
+        std::unique_ptr<IPlugin> PluginFactory::create(const YAML::Node& node, const Logger& logger, IMessageBus& bus)
+        {
+            return std::make_unique<Plugin>(
+                       logger,
+                       node,
+                       bus
+                   );
+        }
+
+        void PluginFactory::write_session_config(YAML::Emitter& out, const profile_vec_t& profiles) const
+        {
+            if(profiles.empty())
+            {
+                throw Exception("You must specify at least one profile when generating DNP3 session configuration");
+            }
 
             out << YAML::BeginMap;
             out << YAML::Key << ::adapter::keys::name << YAML::Value << "device1";
@@ -73,30 +101,11 @@ namespace adapter
 
             out << YAML::Key << "profiles";
             out << YAML::BeginSeq;
-
-            ProfileWriter writer;
-
-            for(auto profile : profiles)
-            {
-                out << YAML::BeginMap;
-                out << YAML::Key << "name" << YAML::Value << ProfileMeta::to_string(profile);
-                writer.write_one_profile(profile, out);
-                out << YAML::EndMap;
-            }
-
+            write_profile_configs(out, profiles);
             out << YAML::EndSeq;
+
             out << YAML::EndMap;
 
-            out << YAML::EndSeq;
-        }
-
-        std::unique_ptr<IPlugin> PluginFactory::create(const YAML::Node& node, const Logger& logger, IMessageBus& bus)
-        {
-            return std::make_unique<Plugin>(
-                       logger,
-                       node,
-                       bus
-                   );
         }
     }
 }

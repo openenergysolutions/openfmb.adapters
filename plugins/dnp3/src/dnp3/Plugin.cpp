@@ -13,6 +13,8 @@
 #include "ConfigReadVisitor.h"
 #include "LogAdapter.h"
 
+#include <stdexcept>
+
 
 using namespace openpal;
 using namespace opendnp3;
@@ -73,6 +75,18 @@ namespace adapter
             }
         };
 
+        YAML::Node load_file(const std::string& path)
+        {
+            try
+            {
+                return YAML::LoadFile(path);
+            }
+            catch(...)
+            {
+                throw Exception("Unable to read DNP3 session file: ", path);
+            }
+        }
+
 
         Plugin::Plugin(
             const Logger& logger,
@@ -85,10 +99,14 @@ namespace adapter
                 std::make_shared<LogAdapter>(logger)
             )
         {
-            yaml::foreach(node[keys::masters], [&](const YAML::Node& n)
-        {
-            this->add_master(n, bus);
-            });
+            const auto load_master = [&](const YAML::Node & master)
+            {
+                const auto path = master.as<std::string>();
+                this->logger.info("loading master configuration: {}", path);
+                this->add_master(load_file(path), bus);
+            };
+
+            yaml::foreach(node[keys::masters], load_master);
         }
 
         void Plugin::add_master(const YAML::Node& node, IMessageBus& bus)

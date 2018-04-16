@@ -22,13 +22,27 @@ namespace adapter
     {
     public:
 
-        virtual ~IPluginFactory() {}
+        virtual ~IPluginFactory() = default;
 
         virtual std::string name() const = 0;
 
         virtual std::string description() const = 0;
 
-        virtual void write_default_config(YAML::Emitter& emitter, const profile_vec_t& profiles) const = 0;
+        /**
+         * Write the default configuration for the adapter. All implementations must support this.
+         *
+         * @param out YAML emitter
+         */
+        virtual void write_default_config(YAML::Emitter& out) const = 0;
+
+        /**
+         * Write the default configuration for a single communication session. Only
+         * adapters that map legacy protocols to openFMB will support this method.
+         *
+         * @param out YAML emitter
+         * @param profiles vector of profiles for which to write configuration
+         */
+        virtual void write_session_config(YAML::Emitter& out, const profile_vec_t& profiles) const = 0;
 
         virtual std::unique_ptr<IPlugin> create(const YAML::Node& node, const Logger& logger, IMessageBus& bus) = 0;
     };

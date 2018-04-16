@@ -53,7 +53,6 @@ namespace adapter
             out << YAML::Key << keys::port << YAML::Value << 502;
             out << YAML::Key << keys::unit_identifier << YAML::Value << 1 << YAML::Comment("aka 'slave address'");
 
-            out << YAML::Key << keys::profile << YAML::Value << resourcemodule::ResourceReadingProfile::descriptor()->name();
             out << YAML::Key << keys::poll_period_ms << YAML::Value << 1000 << YAML::Comment("perform polls once per second");
             out << YAML::Key << keys::response_timeout_ms << YAML::Value << 1000 << YAML::Comment("response timeout");
 
@@ -73,25 +72,29 @@ namespace adapter
             out << YAML::EndMap;
         }
 
-        void PluginFactory::write_default_config(YAML::Emitter& out, const profile_vec_t& profiles) const
+        void PluginFactory::write_default_config(YAML::Emitter& out) const
         {
-            if(profiles.size() != 1)
-            {
-                throw Exception("Modbus config generation requires exactly 1 profile argument");
-            }
-
             out << YAML::Key << keys::thread_pool_size << YAML::Value << 1;
             out << YAML::Comment("defaults to std::thread::hardware_concurrency() if <= 0");
 
-            out << YAML::Key << keys::sessions;
+            out << YAML::Key << keys::sessions << YAML::Comment("list of session configuration files");
             out << YAML::BeginSeq;
-            write_default_session("session1", out, profiles[0]);
             out << YAML::EndSeq;
         }
 
         std::unique_ptr<IPlugin> PluginFactory::create(const YAML::Node& node, const Logger& logger, IMessageBus& bus)
         {
             return std::make_unique<Plugin>(node, logger, bus);
+        }
+
+        void PluginFactory::write_session_config(YAML::Emitter& out, const profile_vec_t& profiles) const
+        {
+            if(profiles.size() != 1)
+            {
+                throw Exception("Modbus session generation requires exactly 1 profile argument");
+            }
+
+            write_default_session("session1", out, profiles[0]);
         }
     }
 }

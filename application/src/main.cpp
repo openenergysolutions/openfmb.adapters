@@ -21,7 +21,9 @@ std::vector<std::unique_ptr<IPlugin>> initialize(const std::string& yaml_path, P
 
 int run_application(const std::string& config_file_path);
 
-int write_config(const std::string& config_file_path, const std::vector<Profile>& profiles, std::shared_ptr<const adapter::IPluginFactory> factory);
+int write_default_config(const std::string& config_file_path);
+
+int write_default_session_config(const std::string& config_file_path, const IPluginFactory& factory, const std::vector<Profile>& profiles);
 
 std::vector<Profile> get_profiles(const argagg::parser_results& args);
 
@@ -51,11 +53,21 @@ int main(int argc, char** argv)
 
         if(args[flags::generate_config])
         {
-            return write_config(
-                       args[flags::generate_config],
-                       get_profiles(args),
-                       get_factory(args)
-                   );
+            if(args[flags::plugin])
+            {
+                // user wants a session configuration for a particular plugin / profile combination
+                return write_default_session_config(
+                           args[flags::generate_config],
+                           *get_factory(args),
+                           get_profiles(args)
+                       );
+
+            }
+            else
+            {
+                // user is just asking for the main config file skeleton
+                return write_default_config(args[flags::generate_config]);
+            }
         }
 
         std::cerr << "You did not specify an option" << std::endl;
@@ -120,25 +132,17 @@ int run_application(const std::string& config_file_path)
     return 0;
 }
 
-int write_default_plugin_config(const IPluginFactory& factory, const std::vector<Profile>& profiles, YAML::Emitter& out)
+int write_default_plugin_config(const IPluginFactory& factory, YAML::Emitter& out)
 {
-    out << YAML::Newline << YAML::Newline << YAML::Comment("map of plugin configurations");
-    out << YAML::Key << keys::plugins;
-
-    out << YAML::BeginMap;
-
     out << YAML::Newline << YAML::Comment(factory.description());
     out << factory.name();
     out << YAML::BeginMap;
     out << YAML::Key << keys::enabled << YAML::Value << false;
-    factory.write_default_config(out, profiles);
-    out << YAML::EndMap;
-    out << YAML::Newline;
-
+    factory.write_default_config(out);
     out << YAML::EndMap;
 }
 
-int write_config(const std::string& config_file_path, const std::vector<Profile>& profiles, std::shared_ptr<const adapter::IPluginFactory> factory)
+int write_default_config(const std::string& config_file_path)
 {
     YAML::Emitter out;
 
@@ -150,7 +154,17 @@ int write_config(const std::string& config_file_path, const std::vector<Profile>
 
     logging::write_default_logging_config(out);
 
-    write_default_plugin_config(*factory, profiles, out);
+    out << YAML::Newline << YAML::Newline << YAML::Comment("map of plugin configurations");
+    out << YAML::Key << keys::plugins;
+    out << YAML::BeginMap;
+    registry.foreach_adapter(
+        [&](IPluginFactory & factory)
+    {
+        write_default_plugin_config(factory, out);
+        out << YAML::Newline;
+    }
+    );
+    out << YAML::EndMap;
 
     // end primary map
     out << YAML::EndMap;
@@ -160,6 +174,19 @@ int write_config(const std::string& config_file_path, const std::vector<Profile>
     output_file << out.c_str();
     output_file << std::endl;
 
+    return 0;
+}
+
+int write_default_session_config(const std::string& config_file_path, const IPluginFactory& factory, const std::vector<Profile>& profiles)
+{
+    YAML::Emitter out;
+    out << YAML::BeginDoc;
+    factory.write_session_config(out, profiles);
+    out << YAML::EndDoc;
+
+    std::ofstream output_file(config_file_path);
+    output_file << out.c_str();
+    output_file << std::endl;
     return 0;
 }
 

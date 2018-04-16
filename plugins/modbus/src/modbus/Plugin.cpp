@@ -62,6 +62,18 @@ namespace adapter
             }
         };
 
+        YAML::Node load_file(const std::string& path)
+        {
+            try
+            {
+                return YAML::LoadFile(path);
+            }
+            catch(...)
+            {
+                throw Exception("Unable to read DNP3 session file: ", path);
+            }
+        }
+
 
         Plugin::Plugin(const YAML::Node& node, const Logger& logger, IMessageBus& bus) : logger(logger)
         {
@@ -70,27 +82,28 @@ namespace adapter
                                 ::modbus::LoggerFactory::create_custom_logger(logger.get_impl()) // TODO - configure thread pool
                             );
 
+            const auto load_session = [&](const YAML::Node & node)
+            {
+                const auto path = node.as<std::string>();
+                this->logger.info("Loading modbus session configuration from: {}", path);
+                this->configure_session(load_file(path), bus);
+            };
+
             // loop over each session performing configuration
-            yaml::foreach(
-                yaml::require(node, keys::sessions),
-                [&](const YAML::Node& entry)
-        {
-            this->configure_session(entry, bus);
-            }
-            );
+            yaml::foreach(yaml::require(node, keys::sessions), load_session);
         }
 
         void Plugin::configure_session(const YAML::Node& node, IMessageBus& bus)
         {
             const auto name = yaml::require_string(node, keys::name);
+            const auto profile_node = yaml::require(node, keys::profile);
+            const auto profile_name = yaml::require_string(profile_node, ::adapter::keys::name);
 
             const auto handler = std::make_shared<PollHandler>();
 
-            const auto profile_node = yaml::require(node, keys::profile);
-
             ProfileReader reader(handler);
             reader.read_one_profile(
-                yaml::require_string(profile_node, ::adapter::keys::name),
+                profile_name,
                 profile_node,
                 this->logger,
                 bus
