@@ -49,4 +49,5 @@ message("Application will be built with support for: ${ADAPTERS}")
 add_executable(openfmb-adapter ${OPENFMB_ADAPTER_SOURCES})
 target_link_libraries(openfmb-adapter ${ADAPTERS} pthread)
 target_include_directories(openfmb-adapter PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../deps/argagg/include)
+install(TARGETS openfmb-adapter DESTINATION bin)
 
