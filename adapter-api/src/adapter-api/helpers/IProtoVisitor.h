@@ -63,9 +63,9 @@ namespace adapter
 
         /// --- handlers for other types of fields ---
 
-        virtual void handle(const std::string& field_name, getter_t<commonmodule::ReadingMessageInfo, Profile> getter) = 0;
-        virtual void handle(const std::string& field_name, getter_t<commonmodule::StatusMessageInfo, Profile> getter) = 0;
+        virtual void handle(const std::string& field_name, getter_t<commonmodule::MessageInfo, Profile> getter) = 0;
         virtual void handle(const std::string& field_name, getter_t<commonmodule::IdentifiedObject, Profile> getter) = 0;
+        virtual void handle(const std::string& field_name, getter_t<commonmodule::ConductingEquipment, Profile> getter) = 0;
         virtual void handle(const std::string& field_name, getter_t<commonmodule::ConductingEquipmentTerminalReading, Profile> getter) = 0;
         virtual void handle(const std::string& field_name, getter_t<commonmodule::ENG_CalcMethodKind, Profile> getter) = 0;
         virtual void handle(const std::string& field_name, getter_t<commonmodule::ENG_PFSignKind, Profile> getter) = 0;

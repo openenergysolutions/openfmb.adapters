@@ -81,6 +81,10 @@ namespace adapter
             {
                 return YAML::LoadFile(path);
             }
+            catch(const YAML::ParserException& ex)
+            {
+                throw Exception("Error parsing YAML: ", ex.what());
+            }
             catch(...)
             {
                 throw Exception("Unable to read DNP3 session file: ", path);

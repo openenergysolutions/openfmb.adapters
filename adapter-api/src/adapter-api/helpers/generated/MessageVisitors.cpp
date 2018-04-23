@@ -5,10 +5,15 @@ namespace adapter {
 void visit(IProtoVisitor<resourcemodule::ResourceReadingProfile>& visitor)
 {
     const auto context0 = [](resourcemodule::ResourceReadingProfile& profile) { return &profile; };
-    visitor.handle(
-        "readingMessageInfo",
-        [context = context0](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_readingmessageinfo(); }
-    );
+    visitor.start_message_field("readingMessageInfo");
+    {
+        const auto context1 = [context = context0](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_readingmessageinfo(); };
+        visitor.handle(
+            "messageInfo",
+            [context = context1](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_messageinfo(); }
+        );
+    }
+    visitor.end_message_field();
     visitor.start_message_field("ied");
     {
         const auto context1 = [context = context0](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_ied(); };
@@ -21,15 +26,10 @@ void visit(IProtoVisitor<resourcemodule::ResourceReadingProfile>& visitor)
     visitor.start_message_field("meter");
     {
         const auto context1 = [context = context0](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_meter(); };
-        visitor.start_message_field("conductingEquipment");
-        {
-            const auto context2 = [context = context1](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_conductingequipment(); };
-            visitor.handle(
-                "identifiedObject",
-                [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); }
-            );
-        }
-        visitor.end_message_field();
+        visitor.handle(
+            "conductingEquipment",
+            [context = context1](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_conductingequipment(); }
+        );
     }
     visitor.end_message_field();
     visitor.start_message_field("resourceReading");
@@ -594,10 +594,15 @@ void visit(IProtoVisitor<resourcemodule::ResourceReadingProfile>& visitor)
 void visit(IProtoVisitor<switchmodule::SwitchReadingProfile>& visitor)
 {
     const auto context0 = [](switchmodule::SwitchReadingProfile& profile) { return &profile; };
-    visitor.handle(
-        "readingMessageInfo",
-        [context = context0](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_readingmessageinfo(); }
-    );
+    visitor.start_message_field("readingMessageInfo");
+    {
+        const auto context1 = [context = context0](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_readingmessageinfo(); };
+        visitor.handle(
+            "messageInfo",
+            [context = context1](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_messageinfo(); }
+        );
+    }
+    visitor.end_message_field();
     visitor.start_message_field("ied");
     {
         const auto context1 = [context = context0](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_ied(); };
@@ -610,15 +615,10 @@ void visit(IProtoVisitor<switchmodule::SwitchReadingProfile>& visitor)
     visitor.start_message_field("protectedSwitch");
     {
         const auto context1 = [context = context0](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_protectedswitch(); };
-        visitor.start_message_field("conductingEquipment");
-        {
-            const auto context2 = [context = context1](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_conductingequipment(); };
-            visitor.handle(
-                "identifiedObject",
-                [context = context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); }
-            );
-        }
-        visitor.end_message_field();
+        visitor.handle(
+            "conductingEquipment",
+            [context = context1](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_conductingequipment(); }
+        );
     }
     visitor.end_message_field();
     visitor.start_message_field("switchReading");
@@ -1376,10 +1376,15 @@ void visit(IProtoVisitor<switchmodule::SwitchReadingProfile>& visitor)
 void visit(IProtoVisitor<switchmodule::SwitchStatusProfile>& visitor)
 {
     const auto context0 = [](switchmodule::SwitchStatusProfile& profile) { return &profile; };
-    visitor.handle(
-        "statusMessageInfo",
-        [context = context0](switchmodule::SwitchStatusProfile& profile) { return context(profile)->mutable_statusmessageinfo(); }
-    );
+    visitor.start_message_field("statusMessageInfo");
+    {
+        const auto context1 = [context = context0](switchmodule::SwitchStatusProfile& profile) { return context(profile)->mutable_statusmessageinfo(); };
+        visitor.handle(
+            "messageInfo",
+            [context = context1](switchmodule::SwitchStatusProfile& profile) { return context(profile)->mutable_messageinfo(); }
+        );
+    }
+    visitor.end_message_field();
     visitor.start_message_field("ied");
     {
         const auto context1 = [context = context0](switchmodule::SwitchStatusProfile& profile) { return context(profile)->mutable_ied(); };
@@ -1392,15 +1397,10 @@ void visit(IProtoVisitor<switchmodule::SwitchStatusProfile>& visitor)
     visitor.start_message_field("protectedSwitch");
     {
         const auto context1 = [context = context0](switchmodule::SwitchStatusProfile& profile) { return context(profile)->mutable_protectedswitch(); };
-        visitor.start_message_field("conductingEquipment");
-        {
-            const auto context2 = [context = context1](switchmodule::SwitchStatusProfile& profile) { return context(profile)->mutable_conductingequipment(); };
-            visitor.handle(
-                "identifiedObject",
-                [context = context2](switchmodule::SwitchStatusProfile& profile) { return context(profile)->mutable_identifiedobject(); }
-            );
-        }
-        visitor.end_message_field();
+        visitor.handle(
+            "conductingEquipment",
+            [context = context1](switchmodule::SwitchStatusProfile& profile) { return context(profile)->mutable_conductingequipment(); }
+        );
     }
     visitor.end_message_field();
     visitor.start_message_field("switchStatus");

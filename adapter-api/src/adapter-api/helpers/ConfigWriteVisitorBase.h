@@ -84,11 +84,27 @@ namespace adapter
             this->out << YAML::EndMap;
         }
 
-        void handle(const std::string& field_name, getter_t<commonmodule::StatusDPS, T> getter) override
+        void handle(const std::string& field_name, getter_t<commonmodule::StatusDPS, T> getter) final
         {
             this->out << YAML::Key << field_name << YAML::Comment("StatusDPS");
             this->out << YAML::BeginMap;
             this->write_status_dps_keys();
+            this->out << YAML::EndMap;
+        }
+
+        void handle(const std::string& field_name, getter_t<commonmodule::ConductingEquipment, T> getter) final
+        {
+            this->out << YAML::Key << field_name;
+            this->out << YAML::BeginMap;
+
+            this->out << YAML::Key << keys::named_object;
+            this->out << YAML::BeginMap;
+            this->out << YAML::Value << keys::description << YAML::Value << "";
+            this->out << YAML::Value << keys::name << YAML::Value << "";
+            this->out << YAML::EndMap;
+
+            this->write_static_mrid();
+
             this->out << YAML::EndMap;
         }
 
@@ -97,19 +113,21 @@ namespace adapter
             this->out << YAML::Key << field_name;
             this->out << YAML::BeginMap;
             this->out << YAML::Value << keys::description << YAML::Value << "";
-            this->out << YAML::Value << keys::mRID << YAML::Value << "" << YAML::Comment("can be empty or a valid UUID");
+            this->write_static_mrid();
             this->out << YAML::Value << keys::name << YAML::Value << "";
             this->out << YAML::EndMap;
         }
 
-        void handle(const std::string& field_name, getter_t<commonmodule::ReadingMessageInfo, T> getter) final
+        void handle(const std::string& field_name, getter_t<commonmodule::MessageInfo, T> getter) final
         {
-            this->write_message_info(field_name);
-        }
-
-        void handle(const std::string& field_name, getter_t<commonmodule::StatusMessageInfo, T> getter) final
-        {
-            this->write_message_info(field_name);
+            this->out << YAML::Key << field_name << YAML::Comment("mRID set dynamically");
+            this->out << YAML::BeginMap;
+            this->out << YAML::Key << keys::identified_object;
+            this->out << YAML::BeginMap;
+            this->out << YAML::Value << keys::description << YAML::Value << "";
+            this->out << YAML::Value << keys::name << YAML::Value << "";
+            this->out << YAML::EndMap;
+            this->out << YAML::EndMap;
         }
 
         // TODO - ignore these for now
@@ -130,17 +148,9 @@ namespace adapter
 
     private:
 
-        void write_message_info(const std::string& field_name)
+        void write_static_mrid()
         {
-            this->out << YAML::Key << field_name << YAML::Comment("mRID set dynamically");
-            this->out << YAML::BeginMap;
-            this->out << YAML::Key << keys::identified_object;
-            this->out << YAML::BeginMap;
-            this->out << YAML::Value << keys::description << YAML::Value << "";
-            this->out << YAML::Value << keys::name << YAML::Value << "";
-            this->out << YAML::EndMap;
-            this->out << YAML::Key << ::adapter::keys::application_name << YAML::Value << "";
-            this->out << YAML::EndMap;
+            this->out << YAML::Value << keys::mRID << YAML::Value << "" << YAML::Comment("can be empty or a valid UUID");
         }
 
         void write_analogue_config(const std::string& name)

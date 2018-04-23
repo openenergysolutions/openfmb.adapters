@@ -68,15 +68,9 @@ namespace adapter
 
         // ---- final handlers for OpenFMB identity related things ----
 
-        void handle(const std::string& field_name, getter_t<commonmodule::ReadingMessageInfo, T> getter) final
-        {
-            this->handle_message_info(field_name, getter);
-        }
+        void handle(const std::string& field_name, getter_t<commonmodule::MessageInfo, T> getter) final;
 
-        void handle(const std::string& field_name, getter_t <commonmodule::StatusMessageInfo, T> getter) final
-        {
-            this->handle_message_info(field_name, getter);
-        }
+        void handle(const std::string& field_name, getter_t <commonmodule::ConductingEquipment, T> getter) final;
 
         void handle(const std::string& field_name, getter_t<commonmodule::IdentifiedObject, T> getter) final;
 
@@ -91,7 +85,13 @@ namespace adapter
     protected:
 
         template <class U>
-        void handle_message_info(const std::string& field_name, getter_t <U, T> getter);
+        void configure_static_mrid(const YAML::Node& node, getter_t <U, T> getter);
+
+        template <class U>
+        void configure_static_name(const YAML::Node& node, getter_t <U, T> getter);
+
+        template <class U>
+        void configure_static_description(const YAML::Node& node, getter_t <U, T> getter);
 
 
         virtual void add_message_init_action(const std::function<void (T&)>& init) = 0;
@@ -117,17 +117,82 @@ namespace adapter
 
     };
 
-    template<class T>
+    template <class T>
     template <class U>
-    void ConfigReadVisitorBase<T>::handle_message_info(const std::string& field_name, getter_t <U, T> getter)
+    void ConfigReadVisitorBase<T>::configure_static_mrid(const YAML::Node& node, getter_t <U, T> getter)
+    {
+        const auto uuid = yaml::require_string(node, ::adapter::keys::mRID);
+
+        if(!uuid.empty())
+        {
+
+            try
+            {
+                // throws bad_lexical_cast if not a valid UUID
+                boost::lexical_cast<boost::uuids::uuid>(uuid);
+            }
+            catch (...)
+            {
+                throw Exception("Not a valid UUID: ", uuid);
+            }
+
+            this->add_message_init_action(
+                [getter, uuid](T & profile) -> void { getter(profile)->set_mrid(uuid); }
+            );
+        }
+    }
+
+    template<class T>
+    template<class U>
+    void ConfigReadVisitorBase<T>::configure_static_name(const YAML::Node& node, getter_t <U, T> getter)
+    {
+        const auto name = yaml::require_string(node, ::adapter::keys::name);
+
+        if(!name.empty())
+        {
+            if(!name.empty())
+            {
+                this->add_message_init_action(
+                    [getter, name](T & profile)
+                {
+                    getter(profile)->set_name(name);
+                }
+                );
+            }
+        }
+    }
+
+    template<class T>
+    template<class U>
+    void ConfigReadVisitorBase<T>::configure_static_description(const YAML::Node& node, getter_t <U, T> getter)
+    {
+        const auto description = yaml::require_string(node, ::adapter::keys::description);
+
+        if(!description.empty())
+        {
+            this->add_message_init_action(
+                [getter, description](T & profile)
+            {
+                getter(profile)->set_description(description);
+            }
+            );
+        }
+    }
+
+    template<class T>
+    void ConfigReadVisitorBase<T>::handle(const std::string& field_name, getter_t <commonmodule::MessageInfo, T> getter)
     {
         const auto node = this->get_config_node(field_name);
-        // MessageInfo classes are just inherited from IdentifiedObject
-        const auto ioNode = yaml::require(node, ::adapter::keys::identified_object);
 
-        const auto app_name = yaml::require_string(node, ::adapter::keys::application_name);
-        const auto name = yaml::require_string(ioNode, ::adapter::keys::name);
-        const auto description = yaml::require_string(ioNode, ::adapter::keys::description);
+        // MessageInfo classes are just inherited from IdentifiedObject
+        // but the difference is that the mRID is new for every message
+        {
+            const auto io_node = yaml::require(node, ::adapter::keys::identified_object);
+            const auto io_getter = [getter](T & profile) -> commonmodule::IdentifiedObject* { return getter(profile)->mutable_identifiedobject(); };
+            this->configure_static_name<commonmodule::IdentifiedObject>(io_node, io_getter);
+            this->configure_static_description<commonmodule::IdentifiedObject>(io_node, io_getter);
+        }
+
 
         // put a fresh UUID onto every message
         this->add_message_init_action(
@@ -154,37 +219,24 @@ namespace adapter
         }
         );
 
+    }
 
-        if(!app_name.empty())
+    template<class T>
+    void ConfigReadVisitorBase<T>::handle(const std::string& field_name, getter_t <commonmodule::ConductingEquipment, T> getter)
+    {
+        const auto node = this->get_config_node(field_name);
+
+        this->configure_static_mrid(node, getter);
+
+
+        const auto named_object_node = yaml::require(node, keys::named_object);
+        const auto named_object_getter = [getter](T & profile)
         {
-            this->add_message_init_action(
-                [getter, app_name](T & profile)
-            {
-                getter(profile)->set_applicationname(app_name);
-            }
-            );
-        }
+            return getter(profile)->mutable_namedobject();
+        };
 
-        if(!name.empty())
-        {
-            this->add_message_init_action(
-                [getter, name](T & profile)
-            {
-                getter(profile)->mutable_identifiedobject()->set_name(name);
-            }
-            );
-        }
-
-        if(!description.empty())
-        {
-            this->add_message_init_action(
-                [getter, description](T & profile)
-            {
-                getter(profile)->mutable_identifiedobject()->set_description(description);
-            }
-            );
-        }
-
+        this->configure_static_name<commonmodule::NamedObject>(named_object_node, named_object_getter);
+        this->configure_static_description<commonmodule::NamedObject>(named_object_node, named_object_getter);
     }
 
     template <class T>
@@ -192,42 +244,9 @@ namespace adapter
     {
         const auto node = this->get_config_node(field_name);
 
-        // validate the UUID if not empty
-        const auto uuid = yaml::require_string(node, ::adapter::keys::mRID);
-        const auto name = yaml::require_string(node, ::adapter::keys::name);
-        const auto description = yaml::require_string(node, ::adapter::keys::description);
-
-        if(!uuid.empty())
-        {
-
-            try
-            {
-                // throws bad_lexical_cast if not a valid UUID
-                boost::lexical_cast<boost::uuids::uuid>(uuid);
-            }
-            catch (...)
-            {
-                throw Exception("Not a valid UUID: ", uuid);
-            }
-
-            this->add_message_init_action(
-                [getter, uuid](T & profile) -> void { getter(profile)->set_mrid(uuid); }
-            );
-        }
-
-        if(!name.empty())
-        {
-            this->add_message_init_action(
-                [getter, name](T & profile) -> void { getter(profile)->set_name(name); }
-            );
-        }
-
-        if(!description.empty())
-        {
-            this->add_message_init_action(
-                [getter, description](T & profile) -> void { getter(profile)->set_description(description); }
-            );
-        }
+        this->configure_static_mrid(node, getter);
+        this->configure_static_name<commonmodule::IdentifiedObject>(node, getter);
+        this->configure_static_description<commonmodule::IdentifiedObject>(node, getter);
     }
 
 }

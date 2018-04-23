@@ -46,7 +46,7 @@ namespace adapter
             const std::shared_ptr<SharedLog> log;
 
         public:
-            Subscriber(std::shared_ptr<SharedLog> log) : log(log)
+            Subscriber(std::shared_ptr<SharedLog> log) : log(std::move(log))
             {}
 
             void receive(const T& message) override
@@ -79,7 +79,7 @@ namespace adapter
                 const auto buffer = std::make_unique<uint8_t[]>(size);
                 if(!message.SerializeToArray(buffer.get(), size_int))
                 {
-                    logger.error("Failed to serialize protobuff message of type: {}", name);
+                    logger.error("Failed to serialize protobuf message of type: {}", name);
                     return false;
                 }
 

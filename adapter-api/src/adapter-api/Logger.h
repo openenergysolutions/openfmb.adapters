@@ -106,9 +106,7 @@ namespace adapter
         template<class SinkCollection>
         static std::shared_ptr<spdlog::logger> create(const std::string& name, const SinkCollection& sinks)
         {
-            auto logger = std::make_shared<spdlog::logger>(name, sinks.begin(), sinks.end());
-            logger->set_pattern("[%H:%M:%S %z] [%l] [%n] - %v");
-            return logger;
+            return std::make_shared<spdlog::logger>(name, sinks.begin(), sinks.end());
         }
 
 
