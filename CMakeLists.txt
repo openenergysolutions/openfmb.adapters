@@ -44,6 +44,9 @@ endif()
 # main application
 add_subdirectory(./application)
 
+# capture decoder
+add_subdirectory(./util/decode-capture)
+
 add_custom_target(
         format
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
