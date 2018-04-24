@@ -4,32 +4,28 @@
 #include <vector>
 
 #include <boost/algorithm/string.hpp>
-#include <boost/archive/iterators/binary_from_base64.hpp>
-#include <boost/archive/iterators/transform_width.hpp>
+#include <cppcodec/base64_default_rfc4648.hpp>
 
-#include <adapter-api/IProfileWriter.h>
+#include <adapter-api/util/Exception.h>
+#include <adapter-api/Profile.h>
 
-namespace bai = boost::archive::iterators;
+#include <adapter-api/proto/resourcemodule/resourcemodule.pb.h>
+#include <adapter-api/proto/switchmodule/switchmodule.pb.h>
 
-class ProfilePrinter : public adapter::IProfileWriter
+using namespace adapter;
+
+template <class T>
+void get_profile_string(const uint8_t* data, size_t length)
 {
-
-protected:
-
-    void write_resource_reading(YAML::Emitter &out) override {
-
+    T message;
+    if(!message.ParseFromArray(data, length))
+    {
+        throw Exception("Error parsing message");
     }
 
-    void write_switch_reading(YAML::Emitter &out) override {
+    std::cout << message.DebugString() << std::endl;
+}
 
-    }
-
-    void write_switch_status(YAML::Emitter &out) override {
-
-    }
-};
-
-typedef bai::transform_width<bai::binary_from_base64<const char *>, 8, 6> decoder_t;
 
 int main(int argc, char** argv)
 {
@@ -47,21 +43,33 @@ int main(int argc, char** argv)
 
     while(std::getline(file, line))
     {
-        boost::split(tokens, line, [](char c) { return c == ','; });
+        boost::split(tokens, line, [](char c)
+        {
+            return c == ',';
+        });
 
-        if(tokens.size() != 3) {
+        if(tokens.size() != 3)
+        {
             std::cerr << "Bad token count: " << tokens.size() << " on line: " << line_number << std::endl;
         }
 
-        const auto base64 = tokens[2];
+        const auto profile = ProfileMeta::from_string(tokens[1]);
+        const auto payload = base64::decode(tokens[2]);
 
-        std::cout << "base64: " << base64 << std::endl;
-
-        std::stringstream os;
-        std::copy(decoder_t(base64.data()), decoder_t(base64.data() + line.size()), std::ostream_iterator<char>(os));
-
-        std::cout << "decoded: " << os.str() << std::endl;
-
+        switch(profile)
+        {
+        case(Profile::resource_reading):
+            get_profile_string<resourcemodule::ResourceReadingProfile>(payload.data(), payload.size());
+            break;
+        case(Profile::switch_status):
+            get_profile_string<switchmodule::SwitchStatusProfile>(payload.data(), payload.size());
+            break;
+        case(Profile::switch_reading):
+            get_profile_string<switchmodule::SwitchReadingProfile>(payload.data(), payload.size());
+            break;
+        default:
+            throw Exception("Unhandled profile: ", ProfileMeta::to_string(profile));
+        }
 
         tokens.clear();
         ++line_number;

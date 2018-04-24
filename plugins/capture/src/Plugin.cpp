@@ -5,21 +5,17 @@
 #include <adapter-api/util/YAMLUtil.h>
 
 #include <boost/numeric/conversion/cast.hpp>
-#include <boost/archive/iterators/base64_from_binary.hpp>
-#include <boost/archive/iterators/transform_width.hpp>
-#include <boost/archive/iterators/ostream_iterator.hpp>
+#include <cppcodec/base64_default_rfc4648.hpp>
 
 #include <chrono>
-#include <sstream>
 
 using namespace std::chrono;
-using namespace boost::archive::iterators;
+
 
 namespace adapter
 {
     namespace capture
     {
-        using base64_text = base64_from_binary<transform_width<const uint8_t*, 6, 8>>;
 
         class SharedLog
         {
@@ -83,16 +79,11 @@ namespace adapter
                     return false;
                 }
 
-                std::ostringstream oss;
-                std::copy(
-                    base64_text(buffer.get()),
-                    base64_text(buffer.get() + size),
-                    std::ostream_iterator<uint8_t>(oss)
-                );
+                const auto encoded = base64::encode(buffer.get(), size);
 
                 // file writing isn't guaranteed to be thread-safe
                 std::unique_lock<std::mutex> lock(this->mutex);
-                log_file << millisec << "," << name  << "," << oss.str() << std::endl;
+                log_file << millisec << "," << name  << "," << encoded << std::endl;
                 return true;
             }
             catch(const std::exception& ex)

@@ -9,5 +9,6 @@ SET(CPP_FORMAT_DIRS
 
 add_executable(openfmb-decode-capture ${SOURCES})
 target_link_libraries(openfmb-decode-capture adapter-api)
+target_include_directories(openfmb-decode-capture PRIVATE ${CMAKE_SOURCE_DIR}/deps/cppcodec)
 install(TARGETS openfmb-decode-capture DESTINATION bin)
 
