@@ -2,13 +2,13 @@
 #include "Plugin.h"
 #include "ConfigStrings.h"
 
-#include <adapter-api/Profile.h>
-
 #include <adapter-api/util/YAMLUtil.h>
 
 #include <boost/algorithm/string.hpp>
 #include <boost/numeric/conversion/cast.hpp>
 #include <cppcodec/base64_default_rfc4648.hpp>
+
+#include <fstream>
 
 using namespace std::chrono;
 
@@ -60,7 +60,7 @@ namespace adapter
                 try
                 {
                     this->logger.info("sleeping for 5 seconds before starting capture replay");
-                    std::this_thread::sleep_for(std::chrono::seconds(5));
+                    this->sleep_for(std::chrono::seconds(5));
                     this->replay_file();
                 }
                 catch(const std::exception& ex)
@@ -74,6 +74,12 @@ namespace adapter
         {
             // open the file
             std::ifstream file(this->file_path);
+
+            if(!file.is_open())
+            {
+                this->logger.error("Unable to open replay file: {}", this->file_path);
+                return;
+            }
 
             // read the first line
             LineInfo info;

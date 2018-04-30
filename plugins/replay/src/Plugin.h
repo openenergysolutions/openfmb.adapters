@@ -9,8 +9,6 @@
 #include <adapter-api/IMessageBus.h>
 #include <adapter-api/Profile.h>
 
-#include <fstream>
-
 namespace adapter
 {
     namespace replay
