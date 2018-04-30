@@ -19,14 +19,14 @@ namespace adapter
     {
         class SharedLog;
 
-        class Plugin : public IPlugin
+        class Plugin final : public IPlugin
         {
 
         public:
 
             Plugin(const YAML::Node& node, const Logger& logger, IMessageBus& bus);
 
-            ~Plugin();
+            ~Plugin() override;
 
             std::string name() const override
             {

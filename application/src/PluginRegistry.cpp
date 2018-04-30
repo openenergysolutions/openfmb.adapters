@@ -4,6 +4,7 @@
 
 #include "log/PluginFactory.h"
 #include "capture/PluginFactory.h"
+#include "replay/PluginFactory.h"
 
 #include <adapter-api/util/Exception.h>
 
@@ -30,6 +31,7 @@ namespace adapter
     {
         this->add<log::PluginFactory>();
         this->add<capture::PluginFactory>();
+        this->add<replay::PluginFactory>();
 
 #ifdef OPENFMB_USE_DNP3
         this->add<dnp3::PluginFactory>();

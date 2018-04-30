@@ -22,7 +22,7 @@ SET(CPP_FORMAT_DIRS
 )
 
 # adapters that are always built regardless of configuration
-set(ADAPTERS log-plugin capture-plugin)
+set(ADAPTERS log-plugin capture-plugin replay-plugin)
 
 if(OPENFMB_USE_DNP3)
     add_definitions(-DOPENFMB_USE_DNP3)
