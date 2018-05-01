@@ -4,7 +4,11 @@ if(NOT Boost_FOUND)
 	message(FATAL_ERROR "Unable to find BOOST. Required for UUID generation.")
 endif()
 
-find_library(PROTOBUF_LIBRARY protobuf)
+if(OPENFMB_LINK_STATIC)
+	find_library(PROTOBUF_LIBRARY libprotobuf.a)
+else()
+	find_library(PROTOBUF_LIBRARY protobuf)
+endif()
 
 if(NOT PROTOBUF_LIBRARY)
 	message(FATAL_ERROR "protobuf library could not be found. Is it installed on your system?")
@@ -12,12 +16,24 @@ else()
 	message("Protobuf library is: ${PROTOBUF_LIBRARY}")
 endif()
 
+if(OPENFMB_LINK_STATIC)
+	find_library(YAMLCPP_LIBRARY libyaml-cpp.a)
+else()
+	find_library(YAMLCPP_LIBRARY yaml-cpp)
+endif()
+
+if(NOT YAMLCPP_LIBRARY)
+	message(FATAL_ERROR "yaml-cpp library could not be found. Is it installed on your system?")
+else()
+	message("yaml-cpp library is: ${YAMLCPP_LIBRARY}")
+endif()
+
 find_program(PROTOBUF_COMPILER protoc)
 
 if(NOT PROTOBUF_COMPILER)
 	message(FATAL_ERROR "could not find protoc (protobuf compiler). Is it installed on your system?")
 else()
-	message("Protobuf compiler found")
+	message("Protobuf compiler is: ${PROTOBUF_COMPILER}")
 endif()
 
 # the base directory where the protos live

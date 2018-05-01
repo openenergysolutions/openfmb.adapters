@@ -7,6 +7,7 @@ option(OPENFMB_USE_DNP3 "Build the DNP3 plugin" ON)
 option(OPENFMB_USE_MODBUS "Build the Modbus plugin" ON)
 option(OPENFMB_USE_NATS "Build the NATS plugin" ON)
 option(OPENFMB_USE_TWINOAKS_DDS "Build the Twin Oaks DDS plugin" ON)
+option(OPENFMB_LINK_STATIC "Link dependencies statically where possible" OFF)
 
 #temporary hack
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")

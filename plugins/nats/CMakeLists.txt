@@ -1,7 +1,14 @@
-find_library(LIBNATS nats)
+
+if(OPENFMB_LINK_STATIC)
+	find_library(LIBNATS nats_static)
+else()
+	find_library(LIBNATS nats)
+endif()
 
 if(NOT LIBNATS)
 	message(FATAL_ERROR "Nats library not found. Is cnats (https://github.com/nats-io/cnats) installed?")
+else()
+	message("LIBNATS is ${LIBNATS}")
 endif()
 
 set(NATS_PUBLIC_HEADERS
