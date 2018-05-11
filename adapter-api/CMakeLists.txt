@@ -138,7 +138,7 @@ target_include_directories(adapter-api PUBLIC ${Boost_INCLUDE_DIRS})
 target_include_directories(adapter-api INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/src")
 target_include_directories(adapter-api PUBLIC "${CMAKE_SOURCE_DIR}/deps/spdlog/include")
 target_link_libraries(adapter-api PUBLIC ${PROTOBUF_LIBRARY})
-target_link_libraries(adapter-api INTERFACE yaml-cpp)
+target_link_libraries(adapter-api INTERFACE ${YAMLCPP_LIBRARY})
 
 if(MSVC)
 
