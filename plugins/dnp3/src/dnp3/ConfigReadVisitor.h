@@ -3,7 +3,7 @@
 #define OPENFMB_ADAPTER_DNP3_CONFIGREADVISITOR_H
 
 
-#include "adapter-api/helpers/ConfigReadVisitorBase.h"
+#include "adapter-api/config/ConfigReadVisitorBase.h"
 #include "adapter-api/ConfigStrings.h"
 
 #include "IConfigurationBuilder.h"

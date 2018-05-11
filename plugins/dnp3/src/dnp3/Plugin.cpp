@@ -6,7 +6,7 @@
 #include <opendnp3/LogLevels.h>
 
 #include <adapter-api/util/YAMLUtil.h>
-#include <adapter-api/helpers/generated/MessageVisitors.h>
+#include <adapter-api/config/generated/MessageVisitors.h>
 #include <adapter-api/ConfigStrings.h>
 
 #include "ConfigStrings.h"

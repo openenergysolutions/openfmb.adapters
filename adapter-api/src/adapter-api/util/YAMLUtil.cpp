@@ -9,14 +9,19 @@ namespace adapter
         YAML::Node require(const YAML::Node& parent, const std::string& key)
         {
             if(!parent) {
-                throw Exception("argument 'parent' node is invalid");
+                throw Exception("parent node is invalid");
+            }
+
+            if(!parent.IsMap()) {
+                const auto mark = parent.Mark();
+                throw Exception("parent node is not a map, line: ", mark.line, " column: ", mark.column);
             }
 
             const auto child = parent[key];
             if(!child)
             {
                 const auto mark = parent.Mark();
-                throw Exception("YAML node missing required key: '", key, "' at line: ", mark.line, " column: ", mark.column);
+                throw Exception("parent node missing required key: '", key, "' line: ", mark.line, " column: ", mark.column);
             }
             return child;
         }

@@ -2,7 +2,7 @@
 #include <adapter-api/IProfileWriter.h>
 #include "dnp3/PluginFactory.h"
 
-#include "adapter-api/helpers/generated/MessageVisitors.h"
+#include "adapter-api/config/generated/MessageVisitors.h"
 
 #include "ConfigWriteVisitor.h"
 #include "Plugin.h"

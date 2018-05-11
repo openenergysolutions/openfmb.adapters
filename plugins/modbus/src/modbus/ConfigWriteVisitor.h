@@ -1,7 +1,7 @@
 #ifndef OPENFMB_ADAPTER_MODBUS_CONFIGWRITEVISITOR_H
 #define OPENFMB_ADAPTER_MODBUS_CONFIGWRITEVISITOR_H
 
-#include "adapter-api/helpers/ConfigWriteVisitorBase.h"
+#include "adapter-api/config/ConfigWriteVisitorBase.h"
 
 #include "ConfigStrings.h"
 #include "MappingType.h"

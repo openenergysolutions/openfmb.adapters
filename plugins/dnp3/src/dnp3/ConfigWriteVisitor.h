@@ -2,7 +2,7 @@
 #ifndef OPENFMB_ADAPTER_DNP3_CONFIGWRITEVISITOR_H
 #define OPENFMB_ADAPTER_DNP3_CONFIGWRITEVISITOR_H
 
-#include "adapter-api/helpers/ConfigWriteVisitorBase.h"
+#include "adapter-api/config/ConfigWriteVisitorBase.h"
 #include "adapter-api/ConfigStrings.h"
 #include "adapter-api/util/Exception.h"
 

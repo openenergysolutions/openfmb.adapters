@@ -8,7 +8,7 @@
 #include "Register16.h"
 #include "Register32.h"
 
-#include <adapter-api/helpers/ConfigReadVisitorBase.h>
+#include <adapter-api/config/ConfigReadVisitorBase.h>
 
 namespace adapter
 {

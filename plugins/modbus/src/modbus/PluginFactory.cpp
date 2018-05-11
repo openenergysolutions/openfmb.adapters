@@ -6,7 +6,7 @@
 #include "Plugin.h"
 #include "ConfigWriteVisitor.h"
 
-#include "adapter-api/helpers/generated/MessageVisitors.h"
+#include "adapter-api/config/generated/MessageVisitors.h"
 
 namespace adapter
 {

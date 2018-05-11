@@ -5,7 +5,7 @@
 #include "PollHandler.h"
 #include "PollManager.h"
 
-#include <adapter-api/helpers/generated/MessageVisitors.h>
+#include <adapter-api/config/generated/MessageVisitors.h>
 #include <adapter-api/IProfileReader.h>
 
 #include "modbus/logging/LoggerFactory.h"

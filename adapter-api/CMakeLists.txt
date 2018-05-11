@@ -94,9 +94,10 @@ set(API_HEADERS
     src/adapter-api/util/Exception.h
     src/adapter-api/util/StringUtil.h
     src/adapter-api/util/YAMLUtil.h
-    src/adapter-api/helpers/IProtoVisitor.h
-    src/adapter-api/helpers/ConfigReadVisitorBase.h
-	src/adapter-api/helpers/generated/MessageVisitors.h
+	src/adapter-api/util/YAMLOverride.h
+    src/adapter-api/config/IProtoVisitor.h
+    src/adapter-api/config/ConfigReadVisitorBase.h
+	src/adapter-api/config/generated/MessageVisitors.h
 )
 
 set(API_SOURCES
@@ -104,9 +105,10 @@ set(API_SOURCES
 	src/adapter-api/Profile.cpp
 	src/adapter-api/ProfileMode.cpp
 	src/adapter-api/util/YAMLUtil.cpp
-	src/adapter-api/helpers/generated/MessageVisitors.cpp
-    src/adapter-api/helpers/ConfigReadVisitorBase.h
-	src/adapter-api/helpers/ConfigWriteVisitorBase.h
+	src/adapter-api/util/YAMLOverride.cpp
+	src/adapter-api/config/generated/MessageVisitors.cpp
+    src/adapter-api/config/ConfigReadVisitorBase.h
+	src/adapter-api/config/ConfigWriteVisitorBase.h
 	src/adapter-api/ConfigStrings.h
 	src/adapter-api/Profile.h
 )
@@ -119,7 +121,7 @@ SET(CPP_FORMAT_DIRS
 		${CMAKE_CURRENT_SOURCE_DIR}/src/adapter-api/*.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/src/adapter-api/util/*.h
 		${CMAKE_CURRENT_SOURCE_DIR}/src/adapter-api/util/*.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/src/adapter-api/helpers/*.h
+		${CMAKE_CURRENT_SOURCE_DIR}/src/adapter-api/config/*.h
 		PARENT_SCOPE
 )
 
