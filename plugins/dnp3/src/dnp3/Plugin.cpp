@@ -99,7 +99,7 @@ namespace adapter
         ) :
             logger(logger),
             manager(
-                yaml::with_default(node[keys::thread_pool_size], std::thread::hardware_concurrency()),
+                yaml::optionally(node[keys::thread_pool_size], std::thread::hardware_concurrency()),
                 std::make_shared<LogAdapter>(logger)
             )
         {
