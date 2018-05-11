@@ -140,7 +140,7 @@ int write_default_plugin_config(const IPluginFactory& factory, YAML::Emitter& ou
     out << YAML::Key << keys::enabled << YAML::Value << false;
     factory.write_default_config(out);
     out << YAML::EndMap;
-    
+
     return 0;
 }
 
