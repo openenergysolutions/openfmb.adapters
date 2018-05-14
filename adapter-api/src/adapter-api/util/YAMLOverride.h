@@ -1,19 +1,26 @@
 #ifndef OPENFMB_ADAPTER_YAMLOVERRIDE_H
 #define OPENFMB_ADAPTER_YAMLOVERRIDE_H
 
-#include <yaml-cpp/yaml.h>
+
+#include <string>
 
 namespace adapter
 {
     namespace yaml
     {
 
-        /**
-         *
-         * @param node a mutable YAML::Node
-         * @param override_spec a string specifying what value to override
-         */
-       void override(YAML::Node& node, const std::string& override_spec);
+        class IOverrideCallbacks
+        {
+        public:
+
+            static void process(const std::string& override_spec, IOverrideCallbacks& callbacks);
+
+            virtual void on_map_key(const std::string& key) = 0;
+
+            virtual void on_sequence_index(size_t index) = 0;
+        };
+
+
 
     }
 }

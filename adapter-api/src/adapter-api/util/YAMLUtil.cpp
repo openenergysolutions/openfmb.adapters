@@ -8,11 +8,13 @@ namespace adapter
 
         YAML::Node require(const YAML::Node& parent, const std::string& key)
         {
-            if(!parent) {
+            if(!parent)
+            {
                 throw Exception("parent node is invalid");
             }
 
-            if(!parent.IsMap()) {
+            if(!parent.IsMap())
+            {
                 const auto mark = parent.Mark();
                 throw Exception("parent node is not a map, line: ", mark.line, " column: ", mark.column);
             }

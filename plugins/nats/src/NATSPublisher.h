@@ -31,7 +31,8 @@ namespace adapter
 
             void receive(const T& proto) override
             {
-                try {
+                try
+                {
 
                     // create a buffer just large enough to hold the serialized payload
                     Buffer buffer(boost::numeric_cast<size_t>(proto.ByteSize()));
