@@ -1,6 +1,6 @@
 #include "catch.hpp"
 
-#include "adapter-api/util/YAMLOverride.h"
+#include "adapter-api/util/YAMLTemplate.h"
 #include "adapter-api/util/Exception.h"
 
 #include <boost/variant.hpp>

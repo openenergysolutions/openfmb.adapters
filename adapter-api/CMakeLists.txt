@@ -94,7 +94,7 @@ set(API_HEADERS
     src/adapter-api/util/Exception.h
     src/adapter-api/util/StringUtil.h
     src/adapter-api/util/YAMLUtil.h
-	src/adapter-api/util/YAMLOverride.h
+        src/adapter-api/util/YAMLTemplate.h
     src/adapter-api/config/IProtoVisitor.h
     src/adapter-api/config/ConfigReadVisitorBase.h
 	src/adapter-api/config/generated/MessageVisitors.h
@@ -105,7 +105,7 @@ set(API_SOURCES
 	src/adapter-api/Profile.cpp
 	src/adapter-api/ProfileMode.cpp
 	src/adapter-api/util/YAMLUtil.cpp
-	src/adapter-api/util/YAMLOverride.cpp
+        src/adapter-api/util/YAMLTemplate.cpp
 	src/adapter-api/config/generated/MessageVisitors.cpp
     src/adapter-api/config/ConfigReadVisitorBase.h
 	src/adapter-api/config/ConfigWriteVisitorBase.h
