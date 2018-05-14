@@ -142,6 +142,8 @@ target_include_directories(adapter-api PUBLIC "${CMAKE_SOURCE_DIR}/deps/spdlog/i
 target_link_libraries(adapter-api PUBLIC ${PROTOBUF_LIBRARY})
 target_link_libraries(adapter-api INTERFACE ${YAMLCPP_LIBRARY})
 
+add_subdirectory(./test)
+
 if(MSVC)
 
 if(DEFINED ENV{PROTO_INSTALL_DIR})
