@@ -34,9 +34,20 @@ namespace adapter
                     process_token(token.substr(0, open_bracket_pos), callbacks);
                 }
 
-                // now process the index
-                const auto index = std::stoul(token.substr(open_bracket_pos + 1, token.length() - 2));
-                callbacks.on_sequence_index(index);
+                const auto index_text = token.substr(open_bracket_pos + 1, token.length() - 2);
+
+                if(index_text.find('-') != std::string::npos) {
+                    throw Exception("index contains '-' character: ", index_text);
+                }
+
+                try {
+                    // now process the index
+                    const auto index = std::stoul(index_text);
+                    callbacks.on_sequence_index(index);
+                }
+                catch(const std::exception& ex) {
+                    throw Exception(ex.what());
+                }
 
             }
             else

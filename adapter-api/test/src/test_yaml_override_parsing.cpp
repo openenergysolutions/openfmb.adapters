@@ -1,6 +1,7 @@
 #include "catch.hpp"
 
 #include "adapter-api/util/YAMLOverride.h"
+#include "adapter-api/util/Exception.h"
 
 #include <boost/variant.hpp>
 
@@ -73,3 +74,23 @@ TEST_CASE( "can parse YAML override specifications" )
     }
 }
 
+TEST_CASE( "detects errors in YAML override specifications" )
+{
+    SECTION("missing open brace")
+    {
+        MockCallbacks mock;
+        REQUIRE_THROWS_AS(process("]", mock), ::adapter::Exception);
+    }
+
+    SECTION("non-numeric index")
+    {
+        MockCallbacks mock;
+        REQUIRE_THROWS_AS(process("[no number here]", mock), ::adapter::Exception);
+    }
+
+    SECTION("negative index")
+    {
+        MockCallbacks mock;
+        REQUIRE_THROWS_AS(process("[-1]", mock), ::adapter::Exception);
+    }
+}
