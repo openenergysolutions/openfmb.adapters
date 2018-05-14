@@ -1,5 +1,8 @@
 
-set(TEST_SOURCES src/main.cpp)
+set(TEST_SOURCES
+        src/main.cpp
+        src/test_yaml_override_parsing.cpp
+)
 
 set(CPP_FORMAT_DIRS
         ${CPP_FORMAT_DIRS}

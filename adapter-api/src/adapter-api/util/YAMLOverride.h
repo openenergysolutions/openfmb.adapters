@@ -13,14 +13,12 @@ namespace adapter
         {
         public:
 
-            static void process(const std::string& override_spec, IOverrideCallbacks& callbacks);
-
             virtual void on_map_key(const std::string& key) = 0;
 
             virtual void on_sequence_index(size_t index) = 0;
         };
 
-
+        void process(const std::string& override_spec, IOverrideCallbacks& callbacks);
 
     }
 }

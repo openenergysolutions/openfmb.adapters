@@ -31,7 +31,7 @@ namespace adapter
                 if(open_bracket_pos > 0)
                 {
                     // if there's a prefix, process it first recursively
-                    process_token(token.substr(0, open_bracket_pos - 1), callbacks);
+                    process_token(token.substr(0, open_bracket_pos), callbacks);
                 }
 
                 // now process the index
@@ -47,7 +47,7 @@ namespace adapter
 
         }
 
-        void IOverrideCallbacks::process(const std::string& override_spec, IOverrideCallbacks& callbacks)
+        void process(const std::string& override_spec, IOverrideCallbacks& callbacks)
         {
             std::string copy(override_spec);
             std::remove_if(copy.begin(), copy.end(), [](char c)
