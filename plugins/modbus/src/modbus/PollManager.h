@@ -7,6 +7,7 @@
 
 #include "IPollHandler.h"
 
+#include "modbus/ITimer.h"
 #include "modbus/session/ISession.h"
 #include "modbus/exceptions/IException.h"
 
@@ -53,7 +54,7 @@ namespace adapter
             const std::shared_ptr<IPollHandler> handler;
             const std::chrono::steady_clock::duration period;
             const session_t session;
-            loopser::Timer timer;
+            std::unique_ptr<::modbus::ITimer> timer;
             std::chrono::steady_clock::time_point poll_sequence_start;
             std::vector<poll_action_t> polls;
             std::deque<poll_action_t> poll_sequence;

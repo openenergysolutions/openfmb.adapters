@@ -37,7 +37,7 @@ namespace adapter
 
         void PollHandler::apply(const ::modbus::ReadHoldingRegistersResponse& response)
         {
-            for(auto& value : response.get_values())
+            for(auto& value : response.values)
             {
                 auto iter = this->holding_registers.find(value.address);
                 if(iter != this->holding_registers.end())

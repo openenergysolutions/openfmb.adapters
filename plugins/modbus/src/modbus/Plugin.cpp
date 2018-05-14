@@ -9,9 +9,8 @@
 #include <adapter-api/IProfileReader.h>
 
 #include "modbus/logging/LoggerFactory.h"
-#include "modbus/Ipv4Endpoint.h"
 #include "modbus/channel/IChannel.h"
-#include "modbus/session/ISessionResponseHandler.h"
+#include "modbus/channel/Ipv4Endpoint.h"
 
 
 namespace adapter
@@ -129,7 +128,7 @@ namespace adapter
                 const auto count = yaml::require(node, keys::count).as<uint16_t>();
 
                 poller->add(
-                    ::modbus::ReadHoldingRegistersRequest(::modbus::Address(start), count)
+                    ::modbus::ReadHoldingRegistersRequest{::modbus::Address(start), count}
                 );
 
             });
@@ -152,12 +151,11 @@ namespace adapter
 
             return channel->create_session(
                        ::modbus::UnitIdentifier(
-                           yaml::require(node, keys::unit_identifier).as<uint8_t>()
+                           yaml::require(node, keys::unit_identifier).as<int>()
                        ),
-                       std::chrono::seconds(
-                           yaml::require(node, keys::response_timeout_ms).as<int32_t>()
-                       ),
-                       std::make_shared<::modbus::ISessionResponseHandler>()
+                       std::chrono::milliseconds(
+                           yaml::require(node, keys::response_timeout_ms).as<int>()
+                       )
                    );
         }
 
