@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <vector>
 
+#include <iostream>
 
 namespace adapter
 {
@@ -115,25 +116,32 @@ namespace adapter
             return callbacks.current;
         }
 
-        YAML::Node find_scalar_with_value(const YAML::Node& node, const std::string& value)
+        void assert_no_unspecified_template_values(const YAML::Node& node)
         {
+
             switch(node.Type())
             {
             case(YAML::NodeType::Null):
-                return YAML::Node();
+                break;
             case(YAML::NodeType::Scalar):
-                return (node.as<std::string>() == value) ? node : YAML::Node();
+                if(node.as<std::string>() == "?")
+                {
+                    throw Exception("Unspecified template value on line ", node.Mark().line);
+                }
+                break;
             // iterate over maps and sequences
             case(YAML::NodeType::Map):
-            case(YAML::NodeType::Sequence):
+                for (auto it = node.begin(); it != node.end(); ++it)
                 {
-                    for (auto it = node.begin(); it != node.end(); ++it)
-                    {
-                        const auto result = find_scalar_with_value(*it, value);
-                        if(result) return result;
-                    }
-                    return YAML::Node();
+                    assert_no_unspecified_template_values(it->second);
                 }
+                break;
+            case(YAML::NodeType::Sequence):
+                for (size_t i = 0; i < node.size(); ++i)
+                {
+                    assert_no_unspecified_template_values(node[i]);
+                }
+                break;
             default:
                 throw Exception("Unhandled node type: ", node.Type());
             }

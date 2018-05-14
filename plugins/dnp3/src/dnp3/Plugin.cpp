@@ -6,6 +6,7 @@
 #include <opendnp3/LogLevels.h>
 
 #include <adapter-api/util/YAMLUtil.h>
+#include <adapter-api/util/YAMLTemplate.h>
 #include <adapter-api/config/generated/MessageVisitors.h>
 #include <adapter-api/ConfigStrings.h>
 
@@ -91,7 +92,6 @@ namespace adapter
             }
         }
 
-
         Plugin::Plugin(
             const Logger& logger,
             const YAML::Node& node,
@@ -107,7 +107,9 @@ namespace adapter
             {
                 const auto path = master.as<std::string>();
                 this->logger.info("loading master configuration: {}", path);
-                this->add_master(load_file(path), bus);
+                const auto root = load_file(path);
+                yaml::assert_no_unspecified_template_values(root);
+                this->add_master(root, bus);
             };
 
             yaml::foreach(node[keys::masters], load_master);

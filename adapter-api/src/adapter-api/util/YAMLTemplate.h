@@ -25,13 +25,12 @@ namespace adapter
         YAML::Node find(const YAML::Node& node, const std::string& path);
 
         /**
-         * Search the YAML tree looking for a scalar node with a particular value
+         * Search the YAML tree looking for a scalar node with the "?"
          *
          * @param node the root of the search
-         * @param value the string representation of the value
-         * @return A node containing the value (possibly empty)
+         * @throws Exception if a scalar node exists with value "?"
          */
-        YAML::Node find_scalar_with_value(const YAML::Node& node, const std::string& value);
+        void assert_no_unspecified_template_values(const YAML::Node& node);
     }
 }
 
