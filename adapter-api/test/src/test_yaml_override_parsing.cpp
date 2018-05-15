@@ -29,7 +29,7 @@ TEST_CASE( "can parse YAML override specifications" )
     SECTION("single key")
     {
         MockCallbacks mock;
-        process("token", mock);
+        parse("token", mock);
         REQUIRE(mock.callbacks.size() == 1);
         REQUIRE(mock.callbacks[0] == variant_t("token"));
     }
@@ -37,7 +37,7 @@ TEST_CASE( "can parse YAML override specifications" )
     SECTION("single index")
     {
         MockCallbacks mock;
-        process("[4]", mock);
+        parse("[4]", mock);
         REQUIRE(mock.callbacks.size() == 1);
         REQUIRE(mock.callbacks[0] == variant_t(4));
     }
@@ -45,7 +45,7 @@ TEST_CASE( "can parse YAML override specifications" )
     SECTION("multiple keys")
     {
         MockCallbacks mock;
-        process("token1.token2", mock);
+        parse("token1.token2", mock);
         REQUIRE(mock.callbacks.size() == 2);
         REQUIRE(mock.callbacks[0] == variant_t("token1"));
         REQUIRE(mock.callbacks[1] == variant_t("token2"));
@@ -54,7 +54,7 @@ TEST_CASE( "can parse YAML override specifications" )
     SECTION("multiple indexes")
     {
         MockCallbacks mock;
-        process("[4][7][3]", mock);
+        parse("[4][7][3]", mock);
         REQUIRE(mock.callbacks.size() == 3);
         REQUIRE(mock.callbacks[0] == variant_t(4));
         REQUIRE(mock.callbacks[1] == variant_t(7));
@@ -64,7 +64,7 @@ TEST_CASE( "can parse YAML override specifications" )
     SECTION("mixed specification")
     {
         MockCallbacks mock;
-        process("one[4][7].two[3]", mock);
+        parse("one[4][7].two[3]", mock);
         REQUIRE(mock.callbacks.size() == 5);
         REQUIRE(mock.callbacks[0] == variant_t("one"));
         REQUIRE(mock.callbacks[1] == variant_t(4));
@@ -79,18 +79,18 @@ TEST_CASE( "detects errors in YAML override specifications" )
     SECTION("missing open brace")
     {
         MockCallbacks mock;
-        REQUIRE_THROWS_AS(process("]", mock), ::adapter::Exception);
+        REQUIRE_THROWS_AS(parse("]", mock), ::adapter::Exception);
     }
 
     SECTION("non-numeric index")
     {
         MockCallbacks mock;
-        REQUIRE_THROWS_AS(process("[no number here]", mock), ::adapter::Exception);
+        REQUIRE_THROWS_AS(parse("[no number here]", mock), ::adapter::Exception);
     }
 
     SECTION("negative index")
     {
         MockCallbacks mock;
-        REQUIRE_THROWS_AS(process("[-1]", mock), ::adapter::Exception);
+        REQUIRE_THROWS_AS(parse("[-1]", mock), ::adapter::Exception);
     }
 }

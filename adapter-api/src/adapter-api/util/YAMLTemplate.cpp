@@ -63,7 +63,7 @@ namespace adapter
 
         }
 
-        void process(const std::string& override_spec, IOverrideCallbacks& callbacks)
+        void parse(const std::string& override_spec, IOverrideCallbacks& callbacks)
         {
             std::string copy(override_spec);
             std::remove_if(copy.begin(), copy.end(), [](char c)
@@ -112,7 +112,7 @@ namespace adapter
         YAML::Node find(const YAML::Node& node, const std::string& path)
         {
             Callbacks callbacks(node);
-            process(path, callbacks);
+            parse(path, callbacks);
             return callbacks.current;
         }
 

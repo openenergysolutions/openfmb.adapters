@@ -17,7 +17,7 @@ namespace adapter
             virtual void on_sequence_index(size_t index) = 0;
         };
 
-        void process(const std::string& path, IOverrideCallbacks& callbacks);
+        void parse(const std::string& path, IOverrideCallbacks& callbacks);
 
         /**
          * Find a child node given its override path
