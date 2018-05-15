@@ -71,9 +71,10 @@ namespace adapter
                 uint16_t end = begin;
                 for (auto& reg : this->holding_registers)
                 {
-                    if (reg.first > end + allowed_discontinuities + 1)
+                    if (reg.first > end + allowed_discontinuities + 1 || // There is a discontinuity
+                        reg.first - begin + 1 > ::modbus::ReadHoldingRegistersRequest::max_registers) // 
                     {
-                        // There is a discontinuity, add a request
+                        // Add the request
                         poll_manager->add(::modbus::ReadHoldingRegistersRequest{ begin, boost::numeric_cast<uint16_t>(end - begin + 1) });
                         begin = boost::numeric_cast<uint16_t>(reg.first);
                         end = boost::numeric_cast<uint16_t>(reg.first);
@@ -85,7 +86,7 @@ namespace adapter
                     }
                 }
 
-                // Add final poll
+                // Add last poll
                 poll_manager->add(::modbus::ReadHoldingRegistersRequest{ begin, boost::numeric_cast<uint16_t>(end - begin + 1) });
             }
         }
