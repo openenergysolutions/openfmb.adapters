@@ -16,7 +16,7 @@ namespace adapter
             if(!parent.IsMap())
             {
                 const auto mark = parent.Mark();
-                throw Exception("parent node is not a map, line: ", mark.line, " column: ", mark.column);
+                throw Exception("parent node is not a map (key == ", key, "), line: ", mark.line, " column: ", mark.column);
             }
 
             const auto child = parent[key];

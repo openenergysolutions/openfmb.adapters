@@ -11,8 +11,6 @@
 #include <algorithm>
 #include <vector>
 
-#include <iostream>
-
 namespace adapter
 {
     namespace yaml
@@ -79,37 +77,67 @@ namespace adapter
 
         class Callbacks : public IOverrideCallbacks
         {
+            using node_getter_t = std::function<YAML::Node (const YAML::Node&)>;
+            using getter_vector_iter = std::vector<node_getter_t>::iterator;
+
+            std::vector<node_getter_t> getters;
+
+        private:
+
+            // recursively apply the getters to the input node
+            YAML::Node find(const YAML::Node& node, getter_vector_iter begin, const getter_vector_iter& end)
+            {
+                if(begin == end) return node;
+                const auto next = (*begin)(node);
+                return find(next, ++begin, end);
+            }
 
         public:
 
-            YAML::Node current;
+            YAML::Node find(const YAML::Node& node)
+            {
+                // normal solutions like std::accumulate don't work here b/c the assignment
+                // operator for YAML::Node changes the original internal reference
+                // instead, we use this recursive solution that avoids assignment
+                return find(node, getters.begin(), getters.end());
+            }
 
-            explicit Callbacks(const YAML::Node& current) : current(current) {}
+            /// --- implement IOverrideCallabacks
 
             void on_map_key(const std::string& key) override
             {
-                if(!current.IsMap())
+                this->getters.push_back(
+                    [key](const YAML::Node & node)
                 {
-                    throw Exception("Node at line ", current.Mark().line, " is not a map. (key == ", key, ")");
+                    if(!node.IsMap())
+                    {
+                        throw Exception("Node at line ", node.Mark().line, " is not a map. (key == ", key, ")");
+                    }
+                    return yaml::require(node, key);
                 }
-                this->current = yaml::require(current, key);
+                );
             }
 
             void on_sequence_index(size_t index) override
             {
-                if(!current.IsSequence())
+                this->getters.push_back(
+                    [index](const YAML::Node & node)
                 {
-                    throw Exception("Node at line ", current.Mark().line, " is not a sequence. (index == ", index, ")");
+                    if(!node.IsSequence())
+                    {
+                        throw Exception("Node at line ", node.Mark().line, " is not a sequence. (index == ", index, ")");
+                    }
+                    return node[index];
                 }
-                this->current = this->current[index];
+                );
             }
         };
 
         YAML::Node find(const YAML::Node& node, const std::string& path)
         {
-            Callbacks callbacks(node);
+            Callbacks callbacks;
             parse(path, callbacks);
-            return callbacks.current;
+            return callbacks.find(node);
         }
 
         void assert_no_unspecified_template_values(const YAML::Node& node)
@@ -143,26 +171,17 @@ namespace adapter
             }
         }
 
-        void apply_template_override(YAML::Node& node, const std::string& spec)
+        void apply_template_override(const YAML::Node& node, const std::string& spec)
         {
-            std::string copy(spec);
-            std::remove_if(copy.begin(), copy.end(), [](char c)
-            {
-                return std::isspace(c);
-            });
-
-
             std::vector<std::string> tokens;
-            boost::split(tokens, copy, boost::is_any_of("="));
+            boost::split(tokens, spec, boost::is_any_of("="));
 
             if(tokens.size() != 2)
             {
                 throw Exception("override spec doesn't contain a single equals(=) operator: ", spec);
             }
 
-            // find the node using the path and set the value
             find(node, tokens[0]) = tokens[1];
-
         }
 
         YAML::Node load_file(const std::string& path)
@@ -189,13 +208,20 @@ namespace adapter
                 const auto overrides = yaml::require(item, ::adapter::keys::overrides);
 
                 logger.info("loading configuration from file: {}", path);
-                auto configuration =  load_file(path);
+                const auto configuration =  load_file(path);
+
+                const auto apply_override = [&](const YAML::Node & override)
+                {
+                    auto value = override.as<std::string>();
+
+                    // clear whitespace before parsing
+                    value.erase(std::remove_if(value.begin(), value.end(), isspace), value.end());
+
+                    apply_template_override(configuration, value);
+                };
 
                 // apply each override to the configuration
-                yaml::foreach(overrides, [&](const YAML::Node& override)
-            {
-                apply_template_override(configuration, configuration.as<std::string>());
-                });
+                yaml::foreach(overrides, apply_override);
 
                 // verify that there are no template "?" scalars left in the configuration
                 assert_no_unspecified_template_values(configuration);
