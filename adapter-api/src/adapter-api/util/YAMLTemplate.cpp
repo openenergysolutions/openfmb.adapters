@@ -4,6 +4,8 @@
 #include "Exception.h"
 #include "YAMLUtil.h"
 
+#include "../ConfigStrings.h"
+
 #include <boost/algorithm/string.hpp>
 
 #include <algorithm>
@@ -15,7 +17,7 @@ namespace adapter
 {
     namespace yaml
     {
-        void process_token(const std::string& token, IOverrideCallbacks& callbacks)
+        void parse_token(const std::string& token, IOverrideCallbacks& callbacks)
         {
             if(token.empty())
             {
@@ -33,7 +35,7 @@ namespace adapter
                 if(open_bracket_pos > 0)
                 {
                     // if there's a prefix, process it first recursively
-                    process_token(token.substr(0, open_bracket_pos), callbacks);
+                    parse_token(token.substr(0, open_bracket_pos), callbacks);
                 }
 
                 const auto index_text = token.substr(open_bracket_pos + 1, token.length() - 2);
@@ -63,21 +65,15 @@ namespace adapter
 
         }
 
-        void parse(const std::string& override_spec, IOverrideCallbacks& callbacks)
+        void parse(const std::string& path, IOverrideCallbacks& callbacks)
         {
-            std::string copy(override_spec);
-            std::remove_if(copy.begin(), copy.end(), [](char c)
-            {
-                return c == ' ';
-            });
-
             std::vector<std::string> tokens;
-            boost::split(tokens, copy, boost::is_any_of("."));
+            boost::split(tokens, path, boost::is_any_of("."));
 
-            // now, process each token
+            // now, parse each token
             for(const auto& token : tokens)
             {
-                process_token(token, callbacks);
+                parse_token(token, callbacks);
             }
         }
 
@@ -146,6 +142,86 @@ namespace adapter
                 throw Exception("Unhandled node type: ", node.Type());
             }
         }
+
+        void apply_template_override(YAML::Node& node, const std::string& spec)
+        {
+            std::string copy(spec);
+            std::remove_if(copy.begin(), copy.end(), [](char c)
+            {
+                return std::isspace(c);
+            });
+
+
+            std::vector<std::string> tokens;
+            boost::split(tokens, copy, boost::is_any_of("="));
+
+            if(tokens.size() != 2)
+            {
+                throw Exception("override spec doesn't contain a single equals(=) operator: ", spec);
+            }
+
+            // find the node using the path and set the value
+            find(node, tokens[0]) = tokens[1];
+
+        }
+
+        YAML::Node load_file(const std::string& path)
+        {
+            try
+            {
+                return YAML::LoadFile(path);
+            }
+            catch(const YAML::ParserException& ex)
+            {
+                throw Exception("Error parsing YAML: ", ex.what());
+            }
+            catch(...)
+            {
+                throw Exception("Unable to read configuration file: ", path);
+            }
+        }
+
+        void load_template_configs(const YAML::Node& node, Logger& logger, const std::function<void (const YAML::Node&)>& callback)
+        {
+            const auto load_config = [&](const YAML::Node & item)
+            {
+                const auto path = yaml::require_string(item, ::adapter::keys::path);
+                const auto overrides = yaml::require(item, ::adapter::keys::overrides);
+                logger.info("loading configuration from file file: {}", path);
+                auto configuration =  load_file(path);
+
+                // apply each override to the configuration
+                yaml::foreach(overrides, [&](const YAML::Node& override)
+            {
+                apply_template_override(configuration, configuration.as<std::string>());
+                });
+
+                // verify that there are no template "?" scalars left in the configuration
+                assert_no_unspecified_template_values(configuration);
+
+                // invoke the callback
+                callback(configuration);
+            };
+
+            yaml::foreach(node, load_config);
+        }
+
+        void write_default_template_config(YAML::Emitter& out, const std::string& filename)
+        {
+            out << YAML::BeginSeq;
+
+            out << YAML::BeginMap;
+            out << YAML::Key << ::adapter::keys::path << YAML::Value << filename << YAML::Comment("possibly a template");
+            out << YAML::Key << ::adapter::keys::overrides;
+            out << YAML::BeginSeq;
+            out << YAML::Value << "a.b.c = 4" << YAML::Comment("a sequence of override specifications to apply to the template");
+            out << YAML::EndSeq;
+            out << YAML::EndMap;
+
+
+            out << YAML::EndSeq;
+        }
+
     }
 }
 

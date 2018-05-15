@@ -1,12 +1,15 @@
 
+#include "modbus/PluginFactory.h"
+
 #include <adapter-api/util/Exception.h>
 #include <adapter-api/IProfileWriter.h>
-#include "modbus/PluginFactory.h"
+#include <adapter-api/config/generated/MessageVisitors.h>
+#include <adapter-api/util/YAMLTemplate.h>
 
 #include "Plugin.h"
 #include "ConfigWriteVisitor.h"
 
-#include "adapter-api/config/generated/MessageVisitors.h"
+
 
 namespace adapter
 {
@@ -78,8 +81,7 @@ namespace adapter
             out << YAML::Comment("defaults to std::thread::hardware_concurrency() if <= 0");
 
             out << YAML::Key << keys::sessions << YAML::Comment("list of session configuration files");
-            out << YAML::BeginSeq;
-            out << YAML::EndSeq;
+            yaml::write_default_template_config(out, "modbus-master-config.yaml");
         }
 
         std::unique_ptr<IPlugin> PluginFactory::create(const YAML::Node& node, const Logger& logger, IMessageBus& bus)

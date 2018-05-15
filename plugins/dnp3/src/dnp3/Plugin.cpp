@@ -76,22 +76,6 @@ namespace adapter
             }
         };
 
-        YAML::Node load_file(const std::string& path)
-        {
-            try
-            {
-                return YAML::LoadFile(path);
-            }
-            catch(const YAML::ParserException& ex)
-            {
-                throw Exception("Error parsing YAML: ", ex.what());
-            }
-            catch(...)
-            {
-                throw Exception("Unable to read DNP3 session file: ", path);
-            }
-        }
-
         Plugin::Plugin(
             const Logger& logger,
             const YAML::Node& node,
@@ -103,16 +87,14 @@ namespace adapter
                 std::make_shared<LogAdapter>(logger)
             )
         {
-            const auto load_master = [&](const YAML::Node & master)
+            yaml::load_template_configs(
+                yaml::require(node, keys::masters),
+                this->logger,
+                [&](const YAML::Node & config)
             {
-                const auto path = master.as<std::string>();
-                this->logger.info("loading master configuration: {}", path);
-                const auto root = load_file(path);
-                yaml::assert_no_unspecified_template_values(root);
-                this->add_master(root, bus);
-            };
-
-            yaml::foreach(node[keys::masters], load_master);
+                this->add_master(config, bus);
+            }
+            );
         }
 
         void Plugin::add_master(const YAML::Node& node, IMessageBus& bus)
