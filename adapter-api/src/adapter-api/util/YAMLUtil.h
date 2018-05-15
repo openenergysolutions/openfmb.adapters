@@ -33,7 +33,7 @@ namespace adapter
         {
             if(!parent) throw Exception("sequence node not defined");
 
-            if(!parent.IsSequence()) throw Exception("node is not a sequence");
+            if(!parent.IsSequence()) throw Exception("node is not a sequence, line: ", parent.Mark().line);
 
             for(auto it = parent.begin(); it != parent.end(); ++it)
             {

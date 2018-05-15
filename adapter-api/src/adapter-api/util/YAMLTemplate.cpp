@@ -187,7 +187,8 @@ namespace adapter
             {
                 const auto path = yaml::require_string(item, ::adapter::keys::path);
                 const auto overrides = yaml::require(item, ::adapter::keys::overrides);
-                logger.info("loading configuration from file file: {}", path);
+
+                logger.info("loading configuration from file: {}", path);
                 auto configuration =  load_file(path);
 
                 // apply each override to the configuration
