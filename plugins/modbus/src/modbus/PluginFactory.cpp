@@ -12,15 +12,6 @@ namespace adapter
 {
     namespace modbus
     {
-        void write_default_poll(YAML::Emitter& out, uint16_t start, uint16_t count)
-        {
-            out << YAML::BeginMap;
-            out << YAML::Key << keys::type << YAML::Value << "read_holding_registers";
-            out << YAML::Key << keys::start << YAML::Value << start;
-            out << YAML::Key << keys::count << YAML::Value << count;
-            out << YAML::EndMap;
-        }
-
         class ProfileWriter final : public IProfileWriter
         {
         protected:
@@ -55,12 +46,8 @@ namespace adapter
 
             out << YAML::Key << keys::poll_period_ms << YAML::Value << 1000 << YAML::Comment("perform polls once per second");
             out << YAML::Key << keys::response_timeout_ms << YAML::Value << 1000 << YAML::Comment("response timeout");
-
-            out << YAML::Key << keys::polls;
-            out << YAML::BeginSeq;
-            write_default_poll(out, 0, 10);
-            write_default_poll(out, 50, 5);
-            out << YAML::EndSeq;
+            out << YAML::Key << keys::allowed_byte_discontinuities << YAML::Value << 0 << YAML::Comment("polls for registers will be made without discontinuity");
+            out << YAML::Key << keys::allowed_bit_discontinuities << YAML::Value << 16 << YAML::Comment("polls for coils will be made with discontinuities up to 16 bits");
 
             out << YAML::Key << keys::profile;
             out << YAML::BeginMap;

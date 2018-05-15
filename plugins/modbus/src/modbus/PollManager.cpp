@@ -41,8 +41,7 @@ namespace adapter
             logger(logger),
             handler(handler),
             period(period),
-            session(session),
-            timer(nullptr) // TODO - correct?
+            session(session)
         {}
 
         void PollManager::add(const ::modbus::ReadHoldingRegistersRequest& request)

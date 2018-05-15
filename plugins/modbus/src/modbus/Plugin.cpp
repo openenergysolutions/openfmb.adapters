@@ -69,7 +69,7 @@ namespace adapter
             }
             catch(...)
             {
-                throw Exception("Unable to read DNP3 session file: ", path);
+                throw Exception("Unable to read Modbus session file: ", path);
             }
         }
 
@@ -111,27 +111,16 @@ namespace adapter
 
             this->logger.info("Session {} has {} mapped values", name, handler->num_mapped_values());
 
-            const auto poller = PollManager::create(
-                                    this->logger,
-                                    handler,
-                                    std::chrono::milliseconds(yaml::require(node, keys::poll_period_ms).as<int64_t>()),
-                                    this->get_session(name, node)
-                                );
+            auto poller = PollManager::create(
+                              this->logger,
+                              handler,
+                              std::chrono::milliseconds(yaml::require(node, keys::poll_period_ms).as<int64_t>()),
+                              this->get_session(name, node)
+                          );
 
-            // configure polls
-            yaml::foreach(
-                yaml::require(node, keys::polls),
-                [poller](const YAML::Node& node)
-        {
-            // TODO - switch based on poll type
-            const auto start = yaml::require(node, keys::start).as<uint16_t>();
-                const auto count = yaml::require(node, keys::count).as<uint16_t>();
-
-                poller->add(
-                    ::modbus::ReadHoldingRegistersRequest{::modbus::Address(start), count}
-                );
-
-            });
+            // Configure polls
+            handler->add_necessary_byte_polls(poller, yaml::require(node, keys::allowed_byte_discontinuities).as<int>());
+            handler->add_necessary_bit_polls(poller, yaml::require(node, keys::allowed_bit_discontinuities).as<int>());
 
             this->start_actions.push_back([poller]()
             {
