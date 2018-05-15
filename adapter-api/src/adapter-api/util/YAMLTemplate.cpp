@@ -122,7 +122,7 @@ namespace adapter
             case(YAML::NodeType::Scalar):
                 if(node.as<std::string>() == "?")
                 {
-                    throw Exception("Unspecified template value on line ", node.Mark().line);
+                    throw Exception("Unspecified template value, line: ", node.Mark().line);
                 }
                 break;
             // iterate over maps and sequences

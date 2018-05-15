@@ -76,7 +76,8 @@ int main(int argc, char** argv)
     }
     catch(const std::exception& ex)
     {
-        std::cerr << ex.what() << std::endl;
+        std::cerr << std::endl;
+        std::cerr << "Exception occurred during initialization: " << ex.what() << std::endl;
         std::cerr << std::endl;
         parser.print_help();
         return -1;
