@@ -8,6 +8,8 @@
 #include "SynchronizedQueue.h"
 #include "Message.h"
 
+#include <boost/numeric/conversion/cast.hpp>
+
 
 namespace adapter
 {
@@ -21,33 +23,36 @@ namespace adapter
 
             typedef SynchronizedQueue<Message> message_queue_t;
 
-            NATSPublisher(Logger logger, const std::string& subject, std::shared_ptr<message_queue_t> sink) :
-                logger(logger),
-                subject(subject),
-                sink(sink)
+            NATSPublisher(Logger logger, std::string subject, std::shared_ptr<message_queue_t> sink) :
+                logger(std::move(logger)),
+                subject(std::move(subject)),
+                sink(std::move(sink))
             {}
 
-            virtual void receive(const T& proto) override
+            void receive(const T& proto) override
             {
-
-                auto size = proto.ByteSize();
-                if(size < 0 || size > std::numeric_limits<size_t>::max())
+                try
                 {
-                    logger.error("Unexpected proto size: {} for subject: {}", proto.ByteSize(), this->subject);
-                    return;
+
+                    // create a buffer just large enough to hold the serialized payload
+                    Buffer buffer(boost::numeric_cast<size_t>(proto.ByteSize()));
+
+                    if(!proto.SerializeToArray(buffer.data(), buffer.length()))
+                    {
+                        logger.error("Failed to serialize proto for subject: {}", this->subject);
+                        return;
+                    }
+
+                    if(!this->sink->push(std::make_unique<Message>(this->subject, std::move(buffer))))
+                    {
+                        logger.error("publish queue overflow");
+                    }
+                }
+                catch(const boost::bad_numeric_cast& ex)
+                {
+                    logger.error("bad proto message length exception: {}", ex.what());
                 }
 
-                Buffer buffer(static_cast<size_t>(size));
-                if(!proto.SerializeToArray(buffer.data(), size))
-                {
-                    logger.error("Failed to serialize proto for subject: {}", this->subject);
-                    return;
-                }
-
-                if(!this->sink->push(std::make_unique<Message>(this->subject, std::move(buffer))))
-                {
-                    logger.error("publish queue overflow");
-                }
             }
 
 

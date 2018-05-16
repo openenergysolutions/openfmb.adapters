@@ -6,7 +6,8 @@
 #include <opendnp3/LogLevels.h>
 
 #include <adapter-api/util/YAMLUtil.h>
-#include <adapter-api/helpers/generated/MessageVisitors.h>
+#include <adapter-api/util/YAMLTemplate.h>
+#include <adapter-api/config/generated/MessageVisitors.h>
 #include <adapter-api/ConfigStrings.h>
 
 #include "ConfigStrings.h"
@@ -75,23 +76,6 @@ namespace adapter
             }
         };
 
-        YAML::Node load_file(const std::string& path)
-        {
-            try
-            {
-                return YAML::LoadFile(path);
-            }
-            catch(const YAML::ParserException& ex)
-            {
-                throw Exception("Error parsing YAML: ", ex.what());
-            }
-            catch(...)
-            {
-                throw Exception("Unable to read DNP3 session file: ", path);
-            }
-        }
-
-
         Plugin::Plugin(
             const Logger& logger,
             const YAML::Node& node,
@@ -99,18 +83,18 @@ namespace adapter
         ) :
             logger(logger),
             manager(
-                yaml::with_default(node[keys::thread_pool_size], std::thread::hardware_concurrency()),
+                yaml::optionally(node[keys::thread_pool_size], std::thread::hardware_concurrency()),
                 std::make_shared<LogAdapter>(logger)
             )
         {
-            const auto load_master = [&](const YAML::Node & master)
+            yaml::load_template_configs(
+                yaml::require(node, keys::masters),
+                this->logger,
+                [&](const YAML::Node & config)
             {
-                const auto path = master.as<std::string>();
-                this->logger.info("loading master configuration: {}", path);
-                this->add_master(load_file(path), bus);
-            };
-
-            yaml::foreach(node[keys::masters], load_master);
+                this->add_master(config, bus);
+            }
+            );
         }
 
         void Plugin::add_master(const YAML::Node& node, IMessageBus& bus)

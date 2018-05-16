@@ -1,12 +1,13 @@
 
-#include <adapter-api/IProfileWriter.h>
 #include "dnp3/PluginFactory.h"
 
-#include "adapter-api/helpers/generated/MessageVisitors.h"
+#include <adapter-api/IProfileWriter.h>
+#include <adapter-api/config/generated/MessageVisitors.h>
+#include <adapter-api/ConfigStrings.h>
+#include <adapter-api/util/YAMLTemplate.h>
 
 #include "ConfigWriteVisitor.h"
 #include "Plugin.h"
-
 
 namespace adapter
 {
@@ -57,11 +58,7 @@ namespace adapter
             out << YAML::Key << keys::thread_pool_size << YAML::Value << 1;
             out << YAML::Comment("defaults to std::thread::hardware_concurrency() if <= 0");
             out << YAML::Key << keys::masters;
-            out << YAML::BeginSeq;
-
-            // TODO  - write a default list of files
-
-            out << YAML::EndSeq;
+            yaml::write_default_template_config(out, "dnp3-master-template.yaml");
         }
 
         std::unique_ptr<IPlugin> PluginFactory::create(const YAML::Node& node, const Logger& logger, IMessageBus& bus)

@@ -76,7 +76,8 @@ int main(int argc, char** argv)
     }
     catch(const std::exception& ex)
     {
-        std::cerr << ex.what() << std::endl;
+        std::cerr << std::endl;
+        std::cerr << "Exception occurred during initialization: " << ex.what() << std::endl;
         std::cerr << std::endl;
         parser.print_help();
         return -1;
@@ -140,6 +141,8 @@ int write_default_plugin_config(const IPluginFactory& factory, YAML::Emitter& ou
     out << YAML::Key << keys::enabled << YAML::Value << false;
     factory.write_default_config(out);
     out << YAML::EndMap;
+
+    return 0;
 }
 
 int write_default_config(const std::string& config_file_path)

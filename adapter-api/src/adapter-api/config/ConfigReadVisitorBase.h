@@ -7,12 +7,12 @@
 #include "adapter-api/util/YAMLUtil.h"
 #include "adapter-api/ConfigStrings.h"
 
-#include <stack>
-
 #include <boost/numeric/conversion/cast.hpp>
 #include <boost/uuid/random_generator.hpp>
 #include <boost/uuid/uuid_io.hpp>
 #include <boost/lexical_cast.hpp>
+
+#include <stack>
 
 namespace adapter
 {
@@ -121,11 +121,11 @@ namespace adapter
     template <class U>
     void ConfigReadVisitorBase<T>::configure_static_mrid(const YAML::Node& node, getter_t <U, T> getter)
     {
-        const auto uuid = yaml::require_string(node, ::adapter::keys::mRID);
+        const auto uuid_node = yaml::require(node, ::adapter::keys::mRID);
+        const auto uuid = uuid_node.as<std::string>();
 
         if(!uuid.empty())
         {
-
             try
             {
                 // throws bad_lexical_cast if not a valid UUID
@@ -133,7 +133,7 @@ namespace adapter
             }
             catch (...)
             {
-                throw Exception("Not a valid UUID: ", uuid);
+                throw Exception("Not a valid UUID: ", uuid, ", line: ", uuid_node.Mark().line);
             }
 
             this->add_message_init_action(

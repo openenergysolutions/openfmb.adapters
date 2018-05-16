@@ -5,8 +5,9 @@
 #include "PollHandler.h"
 #include "PollManager.h"
 
-#include <adapter-api/helpers/generated/MessageVisitors.h>
+#include <adapter-api/config/generated/MessageVisitors.h>
 #include <adapter-api/IProfileReader.h>
+#include <adapter-api/util/YAMLTemplate.h>
 
 #include "modbus/logging/LoggerFactory.h"
 #include "modbus/channel/IChannel.h"
@@ -61,19 +62,6 @@ namespace adapter
             }
         };
 
-        YAML::Node load_file(const std::string& path)
-        {
-            try
-            {
-                return YAML::LoadFile(path);
-            }
-            catch(...)
-            {
-                throw Exception("Unable to read Modbus session file: ", path);
-            }
-        }
-
-
         Plugin::Plugin(const YAML::Node& node, const Logger& logger, IMessageBus& bus) : logger(logger)
         {
             // initialize the Modbus manager
@@ -81,15 +69,14 @@ namespace adapter
                                 ::modbus::LoggerFactory::create_custom_logger(logger.get_impl()) // TODO - configure thread pool
                             );
 
-            const auto load_session = [&](const YAML::Node & node)
+            yaml::load_template_configs(
+                yaml::require(node, keys::sessions),
+                this->logger,
+                [&](const YAML::Node & config)
             {
-                const auto path = node.as<std::string>();
-                this->logger.info("Loading modbus session configuration from: {}", path);
-                this->configure_session(load_file(path), bus);
-            };
-
-            // loop over each session performing configuration
-            yaml::foreach(yaml::require(node, keys::sessions), load_session);
+                this->configure_session(config, bus);
+            }
+            );
         }
 
         void Plugin::configure_session(const YAML::Node& node, IMessageBus& bus)
