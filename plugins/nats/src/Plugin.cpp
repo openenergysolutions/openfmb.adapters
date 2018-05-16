@@ -8,11 +8,9 @@
 #include <adapter-api/ProfileMode.h>
 #include <adapter-api/ConfigStrings.h>
 
-#include <boost/algorithm/string/replace.hpp>
-
-
 #include "ConfigStrings.h"
 #include "NATSSubscriber.h"
+#include "SubjectName.h"
 
 namespace adapter
 {
@@ -144,14 +142,11 @@ namespace adapter
         template <class T>
         void Plugin::add_publisher(IMessageBus& bus)
         {
-            const auto subject =  get_subject_name<T>();
-
-            logger.info("{} will be published to subject: {}", T::descriptor()->name(), subject);
+            logger.info("Registering subscriber for: {}", T::descriptor()->name());
 
             bus.subscribe(
                 std::make_shared<NATSPublisher<T>>(
                     this->logger,
-                    subject,
                     this->messages
                 )
             );
@@ -160,7 +155,7 @@ namespace adapter
         template <class T>
         void Plugin::add_subscriber(IMessageBus& bus)
         {
-            const auto subject =  get_subject_name<T>();
+            const auto subject =  get_subscribe_all_subject_name<T>();
 
             logger.info("{} will be read from subject: {}", T::descriptor()->name(), subject);
 
@@ -173,15 +168,6 @@ namespace adapter
             );
         }
 
-        template <class T>
-        std::string Plugin::get_subject_name()
-        {
-            return boost::replace_all_copy<std::string>(
-                       T::descriptor()->full_name(),
-                       ".",
-                       "_"
-                   );
-        }
     }
 
 }

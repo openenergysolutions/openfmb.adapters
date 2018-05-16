@@ -72,7 +72,7 @@ namespace adapter
                 for (auto& reg : this->holding_registers)
                 {
                     if (reg.first > end + allowed_discontinuities + 1 || // There is a discontinuity
-                        reg.first - begin + 1 > ::modbus::ReadHoldingRegistersRequest::max_registers) // 
+                            reg.first - begin + 1 > ::modbus::ReadHoldingRegistersRequest::max_registers) //
                     {
                         // Add the request
                         poll_manager->add(::modbus::ReadHoldingRegistersRequest{ begin, boost::numeric_cast<uint16_t>(end - begin + 1) });

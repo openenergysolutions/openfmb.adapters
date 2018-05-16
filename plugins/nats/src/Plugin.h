@@ -83,9 +83,6 @@ namespace adapter
             void configure_profile(const YAML::Node& node, IMessageBus& bus);
 
             template <class T>
-            static std::string get_subject_name();
-
-            template <class T>
             void add_publisher(IMessageBus& bus);
 
             template <class T>

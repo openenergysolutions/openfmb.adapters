@@ -140,8 +140,8 @@ TEST_CASE("Auto-polling")
 
             SECTION("Split poll in two when the request is too big but the discontinuity is satisfied")
             {
-                 handler.add_holding_register(0, nullptr);
-                 handler.add_holding_register(125, nullptr);
+                handler.add_holding_register(0, nullptr);
+                handler.add_holding_register(125, nullptr);
 
                 handler.add_necessary_byte_polls(poll_manager, 1000);
 

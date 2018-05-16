@@ -7,6 +7,7 @@
 
 #include "SynchronizedQueue.h"
 #include "Message.h"
+#include "SubjectName.h"
 
 #include <boost/numeric/conversion/cast.hpp>
 
@@ -21,11 +22,10 @@ namespace adapter
 
         public:
 
-            typedef SynchronizedQueue<Message> message_queue_t;
+            using message_queue_t = SynchronizedQueue<Message>;
 
-            NATSPublisher(Logger logger, std::string subject, std::shared_ptr<message_queue_t> sink) :
+            NATSPublisher(Logger logger, std::shared_ptr<message_queue_t> sink) :
                 logger(std::move(logger)),
-                subject(std::move(subject)),
                 sink(std::move(sink))
             {}
 
@@ -39,11 +39,11 @@ namespace adapter
 
                     if(!proto.SerializeToArray(buffer.data(), buffer.length()))
                     {
-                        logger.error("Failed to serialize proto for subject: {}", this->subject);
+                        logger.error("Failed to serialize proto of type: {}", T::descriptor()->name());
                         return;
                     }
 
-                    if(!this->sink->push(std::make_unique<Message>(this->subject, std::move(buffer))))
+                    if(!this->sink->push(std::make_unique<Message>(get_publish_subject_name(proto), std::move(buffer))))
                     {
                         logger.error("publish queue overflow");
                     }
@@ -55,12 +55,9 @@ namespace adapter
 
             }
 
-
-
         private:
 
             Logger logger;
-            const std::string subject;
             const std::shared_ptr<message_queue_t> sink;
 
         };

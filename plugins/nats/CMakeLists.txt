@@ -25,6 +25,8 @@ set(NATS_SOURCES
 		src/Buffer.h
         src/NATSPublisher.h
 		src/NATSSubscriber.h
+        src/SubjectName.h
+		src/SubjectName.cpp
 )
 
 set(CPP_FORMAT_DIRS
@@ -39,3 +41,4 @@ add_library(nats-plugin STATIC ${NATS_PUBLIC_HEADERS} ${NATS_SOURCES})
 target_link_libraries(nats-plugin PUBLIC adapter-api ${LIBNATS})
 target_include_directories(nats-plugin PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
+add_subdirectory(./test)

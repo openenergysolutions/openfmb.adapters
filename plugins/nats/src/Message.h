@@ -10,6 +10,9 @@ namespace adapter
 {
     namespace nats
     {
+        template <class T>
+        using get_mrid_func_t = std::function<std::string (const T&)>;
+
         class Message
         {
 
@@ -19,13 +22,11 @@ namespace adapter
 
             Message(const Message&) = delete;
 
-            ~Message() = default;
-
             const std::string subject;
             const Buffer buffer;
 
-            Message(const std::string& subject, Buffer buffer) :
-                subject(subject),
+            Message(std::string subject, Buffer buffer) :
+                subject(std::move(subject)),
                 buffer(std::move(buffer))
             {
 
