@@ -94,7 +94,7 @@ set(API_HEADERS
     src/adapter-api/util/Exception.h
     src/adapter-api/util/StringUtil.h
     src/adapter-api/util/YAMLUtil.h
-        src/adapter-api/util/YAMLTemplate.h
+    src/adapter-api/util/YAMLTemplate.h
     src/adapter-api/config/IProtoVisitor.h
     src/adapter-api/config/ConfigReadVisitorBase.h
 	src/adapter-api/config/generated/MessageVisitors.h
@@ -105,12 +105,14 @@ set(API_SOURCES
 	src/adapter-api/Profile.cpp
 	src/adapter-api/ProfileMode.cpp
 	src/adapter-api/util/YAMLUtil.cpp
-        src/adapter-api/util/YAMLTemplate.cpp
+    src/adapter-api/util/YAMLTemplate.cpp
 	src/adapter-api/config/generated/MessageVisitors.cpp
     src/adapter-api/config/ConfigReadVisitorBase.h
 	src/adapter-api/config/ConfigWriteVisitorBase.h
 	src/adapter-api/ConfigStrings.h
 	src/adapter-api/Profile.h
+    src/adapter-api/Version.h
+	src/adapter-api/Version.cpp
 )
 
 
@@ -134,11 +136,26 @@ add_custom_command(
     COMMENT "Generating openfmb protos..."
 )
 
+execute_process(
+		COMMAND git log -1 --format=%H
+		WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+		OUTPUT_VARIABLE GIT_COMMIT_HASH
+		OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+
+execute_process(
+		COMMAND git log -1 --date=short --format=%ad
+		WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+		OUTPUT_VARIABLE GIT_COMMIT_DATE
+		OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+
 add_library(adapter-api ${PROTO_SOURCES} ${PROTO_HEADERS} ${API_SOURCES} ${API_HEADERS})
 target_include_directories(adapter-api PUBLIC ${PROTO_OUTPUT_DIR})
 target_include_directories(adapter-api PUBLIC ${Boost_INCLUDE_DIRS})
 target_include_directories(adapter-api INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/src")
 target_include_directories(adapter-api PUBLIC "${CMAKE_SOURCE_DIR}/deps/spdlog/include")
+target_compile_definitions(adapter-api PRIVATE "-DMACRO_GIT_COMMIT_HASH=${GIT_COMMIT_HASH}" "-DMACRO_GIT_COMMIT_DATE=${GIT_COMMIT_DATE}")
 target_link_libraries(adapter-api PUBLIC ${PROTOBUF_LIBRARY})
 target_link_libraries(adapter-api INTERFACE ${YAMLCPP_LIBRARY})
 

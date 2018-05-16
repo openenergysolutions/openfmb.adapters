@@ -3,6 +3,7 @@
 #include "adapter-api/IPlugin.h"
 #include "adapter-api/util/YAMLUtil.h"
 #include "adapter-api/Profile.h"
+#include "adapter-api/Version.h"
 
 #include "PluginRegistry.h"
 #include "ProtoBus.h"
@@ -10,7 +11,6 @@
 #include "ConfigKeys.h"
 #include "LoggerConfig.h"
 #include "ArgumentParser.h"
-
 
 #include <fstream>
 #include <iostream>
@@ -39,6 +39,13 @@ int main(int argc, char** argv)
     try
     {
         const auto args = parser.parse(argc, argv);
+
+        if(args[flags::version])
+        {
+            std::cout << "git commmit date: " << version::git_commit_date() << std::endl;
+            std::cout << "git commmit hash: " << version::git_commit_hash() << std::endl;
+            return 0;
+        }
 
         if(args[flags::help])
         {
