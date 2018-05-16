@@ -8,6 +8,7 @@ set(MODBUS_SOURCES
         src/modbus/IConfigurationBuilder.h
         src/modbus/IRegister.h
         src/modbus/IPollHandler.h
+        src/modbus/IPollManager.h
         src/modbus/MappingType.h
         src/modbus/MappingType.cpp
         src/modbus/ConfigWriteVisitor.h

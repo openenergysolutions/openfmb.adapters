@@ -10,9 +10,8 @@
 #include <adapter-api/util/YAMLTemplate.h>
 
 #include "modbus/logging/LoggerFactory.h"
-#include "modbus/Ipv4Endpoint.h"
 #include "modbus/channel/IChannel.h"
-#include "modbus/session/ISessionResponseHandler.h"
+#include "modbus/channel/Ipv4Endpoint.h"
 
 
 namespace adapter
@@ -99,27 +98,16 @@ namespace adapter
 
             this->logger.info("Session {} has {} mapped values", name, handler->num_mapped_values());
 
-            const auto poller = PollManager::create(
-                                    this->logger,
-                                    handler,
-                                    std::chrono::milliseconds(yaml::require(node, keys::poll_period_ms).as<int64_t>()),
-                                    this->get_session(name, node)
-                                );
+            auto poller = PollManager::create(
+                              this->logger,
+                              handler,
+                              std::chrono::milliseconds(yaml::require(node, keys::poll_period_ms).as<int64_t>()),
+                              this->get_session(name, node)
+                          );
 
-            // configure polls
-            yaml::foreach(
-                yaml::require(node, keys::polls),
-                [poller](const YAML::Node& node)
-        {
-            // TODO - switch based on poll type
-            const auto start = yaml::require(node, keys::start).as<uint16_t>();
-                const auto count = yaml::require(node, keys::count).as<uint16_t>();
-
-                poller->add(
-                    ::modbus::ReadHoldingRegistersRequest(::modbus::Address(start), count)
-                );
-
-            });
+            // Configure polls
+            handler->add_necessary_byte_polls(poller, yaml::require(node, keys::allowed_byte_discontinuities).as<int>());
+            handler->add_necessary_bit_polls(poller, yaml::require(node, keys::allowed_bit_discontinuities).as<int>());
 
             this->start_actions.push_back([poller]()
             {
@@ -139,12 +127,11 @@ namespace adapter
 
             return channel->create_session(
                        ::modbus::UnitIdentifier(
-                           yaml::require(node, keys::unit_identifier).as<uint8_t>()
+                           yaml::require(node, keys::unit_identifier).as<int>()
                        ),
-                       std::chrono::seconds(
-                           yaml::require(node, keys::response_timeout_ms).as<int32_t>()
-                       ),
-                       std::make_shared<::modbus::ISessionResponseHandler>()
+                       std::chrono::milliseconds(
+                           yaml::require(node, keys::response_timeout_ms).as<int>()
+                       )
                    );
         }
 

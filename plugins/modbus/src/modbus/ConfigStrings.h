@@ -20,14 +20,13 @@ namespace adapter
 
             // poll level
             constexpr const char* const profile = "profile";
-            constexpr const char* const polls = "polls";
             constexpr const char* const poll_period_ms = "poll_period_ms";
             constexpr const char* const response_timeout_ms = "response_timeout_ms";
-            constexpr const char* const type = "type";
-            constexpr const char* const start = "start";
-            constexpr const char* const count = "count";
+            constexpr const char* const allowed_byte_discontinuities = "allowed_byte_discontinuities";
+            constexpr const char* const allowed_bit_discontinuities = "allowed_bit_discontinuities";
 
             // mapping level
+            constexpr const char* const type = "type";
             constexpr const char* const index = "index";
             constexpr const char* const upper_index = "upper_index";
             constexpr const char* const lower_index = "lower_index";

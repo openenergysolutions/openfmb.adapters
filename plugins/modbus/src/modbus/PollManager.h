@@ -5,8 +5,10 @@
 
 #include "adapter-api/Logger.h"
 
+#include "IPollManager.h"
 #include "IPollHandler.h"
 
+#include "modbus/ITimer.h"
 #include "modbus/session/ISession.h"
 #include "modbus/exceptions/IException.h"
 
@@ -16,7 +18,7 @@ namespace adapter
 {
     namespace modbus
     {
-        class PollManager : public std::enable_shared_from_this<PollManager>
+        class PollManager : public IPollManager, public std::enable_shared_from_this<PollManager>
         {
             using session_t = std::shared_ptr<::modbus::ISession>;
             using poll_action_t = std::function<void (const std::shared_ptr<PollManager>&)>;
@@ -36,7 +38,7 @@ namespace adapter
                 return std::make_shared<PollManager>(logger, handler, period, session);
             }
 
-            void add(const ::modbus::ReadHoldingRegistersRequest& request);
+            void add(const ::modbus::ReadHoldingRegistersRequest& request) override;
 
             void start();
 
@@ -53,7 +55,7 @@ namespace adapter
             const std::shared_ptr<IPollHandler> handler;
             const std::chrono::steady_clock::duration period;
             const session_t session;
-            loopser::Timer timer;
+            std::unique_ptr<::modbus::ITimer> timer;
             std::chrono::steady_clock::time_point poll_sequence_start;
             std::vector<poll_action_t> polls;
             std::deque<poll_action_t> poll_sequence;

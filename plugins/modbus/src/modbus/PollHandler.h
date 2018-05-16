@@ -12,6 +12,8 @@ namespace adapter
 {
     namespace modbus
     {
+        class IPollManager;
+
         class PollHandler final : public IPollHandler, public IConfigurationBuilder
         {
         public:
@@ -29,6 +31,10 @@ namespace adapter
             void add_begin_action(action_t fun) override;
             void add_holding_register(uint16_t index, std::shared_ptr<IRegister> reg) override;
             void add_end_action(action_t fun) override;
+
+            /// Poll creation from the mapping
+            void add_necessary_byte_polls(std::shared_ptr<IPollManager> poll_manager, unsigned int allowed_discontinuities = 0);
+            void add_necessary_bit_polls(std::shared_ptr<IPollManager> poll_manager, unsigned int allowed_discontinuities = 0);
 
         private:
 

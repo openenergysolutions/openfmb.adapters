@@ -1,5 +1,8 @@
 
-set(TEST_SOURCES main.cpp test_register_conversions.cpp)
+set(TEST_SOURCES main.cpp
+                 test_register_conversions.cpp
+                 test_poll_handler.cpp
+)
 
 set(CPP_FORMAT_DIRS
         ${CPP_FORMAT_DIRS}

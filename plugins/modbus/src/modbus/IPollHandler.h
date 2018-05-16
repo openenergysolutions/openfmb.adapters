@@ -35,7 +35,7 @@ namespace adapter
              *
              * @return
              */
-            virtual size_t num_mapped_values() const = 0;
+            virtual std::size_t num_mapped_values() const = 0;
 
         };
     }
