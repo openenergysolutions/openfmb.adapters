@@ -1,5 +1,6 @@
 [requires]
 boost_algorithm/1.66.0@bincrafters/stable
+boost_lockfree/1.66.0@bincrafters/stable
 boost_iostreams/1.66.0@bincrafters/stable
 boost_lexical_cast/1.66.0@bincrafters/stable
 boost_numeric_conversion/1.66.0@bincrafters/stable
