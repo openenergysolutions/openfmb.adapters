@@ -2,15 +2,22 @@ cmake_minimum_required (VERSION 3.0)
 project (openfmb-adapter)
 set(OPENFMB_ADAPTER_VERSION 0.0.1)
 
+if(NOT EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+  message(FATAL_ERROR "Unable to locate 'conanbuildinfo.cmake' file. Make sure to run 'conan install ..' in the build directory.")
+else()
+  include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+  conan_basic_setup(TARGETS)
+endif()
+
 # optionally disable certain plugins
 option(OPENFMB_USE_DNP3 "Build the DNP3 plugin" ON)
 option(OPENFMB_USE_MODBUS "Build the Modbus plugin" ON)
 option(OPENFMB_USE_NATS "Build the NATS plugin" ON)
 option(OPENFMB_USE_TWINOAKS_DDS "Build the Twin Oaks DDS plugin" OFF)
+option(OPENFMB_USE_HISTORIAN "Build the historian using TimescaleDB" ON)
 option(OPENFMB_LINK_STATIC "Link dependencies statically where possible" OFF)
 
-#temporary hack
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
+set(CMAKE_CXX_STANDARD 14)
 
 enable_testing()
 
@@ -45,6 +52,10 @@ if(OPENFMB_USE_NATS)
   add_subdirectory(./plugins/nats)
 endif()
 
+if(OPENFMB_USE_HISTORIAN)
+  add_subdirectory(./plugins/historian)
+endif()
+
 # main application
 add_subdirectory(./application)
 
@@ -56,4 +67,3 @@ add_custom_target(
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
         COMMAND astyle ${CPP_FORMAT_DIRS} --options=./astyle.cfg
 )
-
