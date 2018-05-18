@@ -30,6 +30,7 @@ private:
 
     Logger m_logger;
 
+    std::thread m_worker_thread;
     std::mutex m_mutex;
     std::condition_variable m_cond;
     std::queue<std::string> m_queue;
