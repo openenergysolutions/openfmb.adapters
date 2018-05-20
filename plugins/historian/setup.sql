@@ -4,10 +4,12 @@ CREATE DATABASE openfmb;
 CREATE EXTENSION IF NOT EXISTS timescaledb CASCADE;
 
 -- Create the data table
+-- Create the data table
 CREATE TABLE data(
-    time timestamptz not null,
-    device uuid not null,
-    message uuid not null,
-    tagname varchar(255) not null,
-    value numeric not null);
+	message_uuid uuid not null,
+    timestamp timestamptz not null,
+    device_uuid uuid not null,
+    tagname varchar(1024) not null,
+    value numeric not null,
+    PRIMARY KEY (message_uuid, device_uuid, tagname));
 SELECT create_hypertable('data', 'time');

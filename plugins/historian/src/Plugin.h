@@ -2,8 +2,10 @@
 #define OPENFMB_PLUGIN_HISTORIAN_PLUGIN_H
 
 #include <memory>
+#include "adapter-api/IMessageBus.h"
 #include "adapter-api/IPlugin.h"
-#include "adapter-api/IProfileReader.h"
+#include "adapter-api/Logger.h"
+#include "yaml-cpp/yaml.h"
 #include "TimescaleDBArchiver.h"
 
 namespace adapter
@@ -11,7 +13,7 @@ namespace adapter
 namespace historian
 {
 
-class Plugin final : public IPlugin, private IProfileReader
+class Plugin final : public IPlugin
 {
 public:
     Plugin(const YAML::Node& node, const Logger& logger, IMessageBus& bus);
@@ -20,10 +22,6 @@ public:
     void start() override;
 
 private:
-    void read_resource_reading(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override;
-    void read_switch_reading(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override;
-    void read_switch_status(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override;
-
     Logger m_logger;
     std::shared_ptr<TimescaleDBArchiver> m_archiver;
 };

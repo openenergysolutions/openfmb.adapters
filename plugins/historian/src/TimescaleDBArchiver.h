@@ -17,11 +17,24 @@ namespace historian
 
 class TimescaleDBArchiver : public IArchiver
 {
+    struct Item
+    {
+        std::string message_uuid;
+        uint64_t seconds;
+        std::string device_uuid;
+        std::string tagname;
+        std::string value;
+    };
+
 public:
     TimescaleDBArchiver(const Logger& logger);
     virtual ~TimescaleDBArchiver();
 
-    void save(const char* value) override;
+    void save(const std::string& message_uuid,
+              uint64_t seconds,
+              const std::string& device_uuid,
+              const std::string& tagname,
+              float value) override;
 
     void start();
 
@@ -33,7 +46,7 @@ private:
     std::thread m_worker_thread;
     std::mutex m_mutex;
     std::condition_variable m_cond;
-    std::queue<std::string> m_queue;
+    std::queue<Item> m_queue;
 
     std::unique_ptr<PQConnection> m_connection;
 };
