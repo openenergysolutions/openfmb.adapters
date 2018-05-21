@@ -1,7 +1,6 @@
 #include "Plugin.h"
 
 #include "BusListener.h"
-#include "PQConnection.h"
 
 namespace adapter
 {
@@ -12,7 +11,9 @@ Plugin::Plugin(const YAML::Node& node, const Logger& logger, IMessageBus& bus)
     : m_logger{logger},
       m_archiver{std::make_shared<TimescaleDBArchiver>(logger)}
 {
-    bus.subscribe(std::make_shared<BusListener<resourcemodule::ResourceReadingProfile>>(logger, m_archiver));
+    bus.subscribe(std::make_shared<BusListener<resourcemodule::ResourceReadingProfile>>(m_archiver));
+    bus.subscribe(std::make_shared<BusListener<switchmodule::SwitchReadingProfile>>(m_archiver));
+    bus.subscribe(std::make_shared<BusListener<switchmodule::SwitchStatusProfile>>(m_archiver));
 }
 
 std::string Plugin::name() const

@@ -3,8 +3,9 @@ set(historian_public_headers
 )
 
 set(historian_private_headers
-    ./src/IArchiver.h
     ./src/BusListener.h
+    ./src/IArchiver.h
+    ./src/Message.h
     ./src/Plugin.h
     ./src/PQConnection.h
     ./src/PQResult.h
@@ -29,5 +30,5 @@ set_property(TARGET postgresql
 
 # Build plugin
 add_library(historian-plugin ${historian_public_headers} ${historian_private_headers} ${historian_src})
-target_link_libraries(historian-plugin PUBLIC adapter-api postgresql)
+target_link_libraries(historian-plugin PUBLIC adapter-api postgresql CONAN_PKG::boost_uuid)
 target_include_directories(historian-plugin PUBLIC ./include)
