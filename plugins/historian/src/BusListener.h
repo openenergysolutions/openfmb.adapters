@@ -206,7 +206,7 @@ private:
     // ====== Helper functions =====
     std::string get_current_tagname(const std::string& id)
     {
-        std::string tagname;
+        std::string tagname(Proto::descriptor()->name() + ".");
         for (auto& tag : m_tagname_stack)
         {
             tagname.append(tag);

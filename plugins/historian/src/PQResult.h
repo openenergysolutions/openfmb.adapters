@@ -17,6 +17,7 @@ public:
 
     bool is_successful() const;
     std::string get_error() const;
+    int get_num_rows() const;
 
 private:
     PGresult* m_result;

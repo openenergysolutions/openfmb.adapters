@@ -93,10 +93,12 @@ void TimescaleDBArchiver::run()
             }
         }
 
+        query.append(" ON CONFLICT DO NOTHING");
+
         auto result = m_connection->exec(query.c_str());
         if (result.is_successful())
         {
-            m_logger.info("Successfully inserted {} values", message->items.size());
+            m_logger.info("Successfully inserted {} values", result.get_num_rows());
         }
         else
         {

@@ -26,5 +26,10 @@ std::string PQResult::get_error() const
     return std::string{ PQresultErrorMessage(m_result) };
 }
 
+int PQResult::get_num_rows() const
+{
+    return std::stoi(PQcmdTuples(m_result));
+}
+
 }
 }
