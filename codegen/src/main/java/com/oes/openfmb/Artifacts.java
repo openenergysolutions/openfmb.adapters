@@ -4,6 +4,7 @@ import com.oes.openfmb.generation.Artifact;
 import com.oes.openfmb.generation.dds.ConvertFromProto;
 import com.oes.openfmb.generation.dds.ConvertToProto;
 import com.oes.openfmb.generation.document.CppFilePair;
+import com.oes.openfmb.generation.proto.ArchiveVisitorFile;
 import com.oes.openfmb.generation.proto.MessageVisitorFile;
 import openfmb.resourcemodule.ResourceReadingProfile;
 import openfmb.switchmodule.SwitchReadingProfile;
@@ -39,7 +40,7 @@ public class Artifacts {
 
     public static class Visitors
     {
-        private static final CppFilePair visitors =
+        private static final CppFilePair modelVisitors =
                 new MessageVisitorFile(
                         Arrays.asList(
                                 ResourceReadingProfile.getDescriptor(),
@@ -52,8 +53,21 @@ public class Artifacts {
                         )
                 );
 
+        private static final CppFilePair archiveVisitors =
+                new ArchiveVisitorFile(
+                        Arrays.asList(
+                                ResourceReadingProfile.getDescriptor(),
+                                SwitchReadingProfile.getDescriptor(),
+                                SwitchStatusProfile.getDescriptor()
+                        ),
+                        Arrays.asList(
+                                "resourcemodule/resourcemodule.pb.h",
+                                "switchmodule/switchmodule.pb.h"
+                        )
+                );
+
         public static Iterable<Artifact> get(Path directory) {
-            return convert(directory, visitors);
+            return convert(directory, modelVisitors, archiveVisitors);
         }
     }
 
