@@ -1,5 +1,5 @@
-#ifndef OPENFMB_PLUGIN_HISTORIAN_BUS_LISTENER_H
-#define OPENFMB_PLUGIN_HISTORIAN_BUS_LISTENER_H
+#ifndef OPENFMB_PLUGIN_TIMESCALEDB_BUS_LISTENER_H
+#define OPENFMB_PLUGIN_TIMESCALEDB_BUS_LISTENER_H
 
 #include <deque>
 #include <memory>
@@ -14,7 +14,7 @@
 
 namespace adapter
 {
-namespace historian
+namespace timescaledb
 {
 
 template<typename Proto>

@@ -46,9 +46,9 @@ if(OPENFMB_USE_TWINOAKS_DDS)
     list(APPEND plugin_definitions OPENFMB_USE_TWINOAKS_DDS)
 endif()
 
-if(OPENFMB_USE_HISTORIAN)
-    list(APPEND plugins historian-plugin)
-    list(APPEND plugin_definitions OPENFMB_USE_HISTORIAN)
+if(OPENFMB_USE_TIMESCALEDB)
+    list(APPEND plugins timescaledb-plugin)
+    list(APPEND plugin_definitions OPENFMB_USE_TIMESCALEDB)
 endif()
 
 message("Application will be built with support for: ${ADAPTERS}")

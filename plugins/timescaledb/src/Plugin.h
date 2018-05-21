@@ -1,5 +1,5 @@
-#ifndef OPENFMB_PLUGIN_HISTORIAN_PLUGIN_H
-#define OPENFMB_PLUGIN_HISTORIAN_PLUGIN_H
+#ifndef OPENFMB_PLUGIN_TIMESCALEDB_PLUGIN_H
+#define OPENFMB_PLUGIN_TIMESCALEDB_PLUGIN_H
 
 #include <memory>
 #include "adapter-api/IMessageBus.h"
@@ -10,7 +10,7 @@
 
 namespace adapter
 {
-namespace historian
+namespace timescaledb
 {
 
 class Plugin final : public IPlugin

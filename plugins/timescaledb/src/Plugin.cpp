@@ -4,7 +4,7 @@
 
 namespace adapter
 {
-namespace historian
+namespace timescaledb
 {
 
 Plugin::Plugin(const YAML::Node& node, const Logger& logger, IMessageBus& bus)
@@ -18,7 +18,7 @@ Plugin::Plugin(const YAML::Node& node, const Logger& logger, IMessageBus& bus)
 
 std::string Plugin::name() const
 {
-    return "historian";
+    return "timescaledb";
 }
 
 void Plugin::start()

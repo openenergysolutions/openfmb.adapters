@@ -14,7 +14,7 @@ option(OPENFMB_USE_DNP3 "Build the DNP3 plugin" ON)
 option(OPENFMB_USE_MODBUS "Build the Modbus plugin" ON)
 option(OPENFMB_USE_NATS "Build the NATS plugin" ON)
 option(OPENFMB_USE_TWINOAKS_DDS "Build the Twin Oaks DDS plugin" OFF)
-option(OPENFMB_USE_HISTORIAN "Build the historian using TimescaleDB" ON)
+option(OPENFMB_USE_TIMESCALEDB "Build the historian using TimescaleDB" ON)
 option(OPENFMB_LINK_STATIC "Link dependencies statically where possible" OFF)
 
 set(CMAKE_CXX_STANDARD 14)
@@ -52,8 +52,8 @@ if(OPENFMB_USE_NATS)
   add_subdirectory(./plugins/nats)
 endif()
 
-if(OPENFMB_USE_HISTORIAN)
-  add_subdirectory(./plugins/historian)
+if(OPENFMB_USE_TIMESCALEDB)
+  add_subdirectory(./plugins/timescaledb)
 endif()
 
 # main application

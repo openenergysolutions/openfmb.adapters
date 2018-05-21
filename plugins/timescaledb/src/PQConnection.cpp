@@ -2,7 +2,7 @@
 
 namespace adapter
 {
-namespace historian
+namespace timescaledb
 {
 
 PQConnection::PQConnection(const char* connection_string)

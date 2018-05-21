@@ -1,8 +1,8 @@
-set(historian_public_headers
-    ./include/historian/PluginFactory.h
+set(timescaledb_public_headers
+    ./include/timescaledb/PluginFactory.h
 )
 
-set(historian_private_headers
+set(timescaledb_private_headers
     ./src/BusListener.h
     ./src/IArchiver.h
     ./src/Message.h
@@ -12,7 +12,7 @@ set(historian_private_headers
     ./src/TimescaleDBArchiver.h
 )
 
-set(historian_src
+set(timescaledb_src
     ./src/Plugin.cpp
     ./src/PluginFactory.cpp
     ./src/PQConnection.cpp
@@ -29,6 +29,6 @@ set_property(TARGET postgresql
              PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${PostgreSQL_INCLUDE_DIRS})
 
 # Build plugin
-add_library(historian-plugin ${historian_public_headers} ${historian_private_headers} ${historian_src})
-target_link_libraries(historian-plugin PUBLIC adapter-api postgresql CONAN_PKG::boost_uuid)
-target_include_directories(historian-plugin PUBLIC ./include)
+add_library(timescaledb-plugin ${timescaledb_public_headers} ${timescaledb_private_headers} ${timescaledb_src})
+target_link_libraries(timescaledb-plugin PUBLIC adapter-api postgresql CONAN_PKG::boost_uuid)
+target_include_directories(timescaledb-plugin PUBLIC ./include)

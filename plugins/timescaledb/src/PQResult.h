@@ -1,12 +1,12 @@
-#ifndef OPENFMB_PLUGIN_HISTORIAN_PQRESULT_H
-#define OPENFMB_PLUGIN_HISTORIAN_PQRESULT_H
+#ifndef OPENFMB_PLUGIN_TIMESCALEDB_PQRESULT_H
+#define OPENFMB_PLUGIN_TIMESCALEDB_PQRESULT_H
 
 #include <string>
 #include "libpq-fe.h"
 
 namespace adapter
 {
-namespace historian
+namespace timescaledb
 {
 
 class PQResult

@@ -5,7 +5,7 @@
 
 namespace adapter
 {
-namespace historian
+namespace timescaledb
 {
 
 TimescaleDBArchiver::TimescaleDBArchiver(const Logger& logger)

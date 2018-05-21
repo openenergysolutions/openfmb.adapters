@@ -1,5 +1,5 @@
-#ifndef OPENFMB_PLUGIN_HISTORIAN_TIMESCALEDB_ARCHIVER_H
-#define OPENFMB_PLUGIN_HISTORIAN_TIMESCALEDB_ARCHIVER_H
+#ifndef OPENFMB_PLUGIN_TIMESCALEDB_TIMESCALEDB_ARCHIVER_H
+#define OPENFMB_PLUGIN_TIMESCALEDB_TIMESCALEDB_ARCHIVER_H
 
 #include <condition_variable>
 #include <deque>
@@ -11,7 +11,7 @@
 
 namespace adapter
 {
-namespace historian
+namespace timescaledb
 {
 
 class TimescaleDBArchiver : public IArchiver

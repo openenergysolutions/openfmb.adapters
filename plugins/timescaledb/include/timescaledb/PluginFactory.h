@@ -1,11 +1,11 @@
-#ifndef OPENFMB_PLUGIN_HISTORIAN_PLUGINFACTORY_H
-#define OPENFMB_PLUGIN_HISTORIAN_PLUGINFACTORY_H
+#ifndef OPENFMB_PLUGIN_TIMESCALEDB_PLUGINFACTORY_H
+#define OPENFMB_PLUGIN_TIMESCALEDB_PLUGINFACTORY_H
 
 #include "adapter-api/IPluginFactory.h"
 
 namespace adapter
 {
-namespace historian
+namespace timescaledb
 {
 
 class PluginFactory final : public IPluginFactory

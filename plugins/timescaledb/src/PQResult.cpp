@@ -2,7 +2,7 @@
 
 namespace adapter
 {
-namespace historian
+namespace timescaledb
 {
 
 PQResult::PQResult(PGresult* result)

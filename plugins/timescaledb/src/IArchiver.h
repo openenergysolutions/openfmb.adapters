@@ -1,12 +1,12 @@
-#ifndef OPENFMB_PLUGIN_HISTORIAN_IARCHIVER_H
-#define OPENFMB_PLUGIN_HISTORIAN_IARCHIVER_H
+#ifndef OPENFMB_PLUGIN_TIMESCALEDB_IARCHIVER_H
+#define OPENFMB_PLUGIN_TIMESCALEDB_IARCHIVER_H
 
 #include <memory>
 #include "Message.h"
 
 namespace adapter
 {
-namespace historian
+namespace timescaledb
 {
 
 class IArchiver

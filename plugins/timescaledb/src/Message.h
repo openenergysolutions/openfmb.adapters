@@ -1,5 +1,5 @@
-#ifndef OPENFMB_PLUGIN_HISTORIAN_MESSAGE_H
-#define OPENFMB_PLUGIN_HISTORIAN_MESSAGE_H
+#ifndef OPENFMB_PLUGIN_TIMESCALEDB_MESSAGE_H
+#define OPENFMB_PLUGIN_TIMESCALEDB_MESSAGE_H
 
 #include <string>
 #include <vector>
@@ -7,7 +7,7 @@
 
 namespace adapter
 {
-namespace historian
+namespace timescaledb
 {
 
 struct MessageItem
