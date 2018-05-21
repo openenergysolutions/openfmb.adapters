@@ -11,14 +11,14 @@ import java.nio.file.Paths;
 
 public class Main {
 
-    final static Path visitorDir = Paths.get("../adapter-api/src/adapter-api/helpers/generated");
+    final static Path visitorDir = Paths.get("../adapter-api/src/adapter-api/config/generated");
     final static Path conversionsDir = Paths.get("../plugins/dds/twinoaks/src/twinoaks/generated/");
 
     public static void main(String[] args) {
         deleteFolderContents(visitorDir.toFile());
-        deleteFolderContents(conversionsDir.toFile());
+        //deleteFolderContents(conversionsDir.toFile());
         Artifacts.Visitors.get(visitorDir).forEach(Main::write);
-        Artifacts.Conversions.get(conversionsDir).forEach(Main::write);
+        //Artifacts.Conversions.get(conversionsDir).forEach(Main::write);
     }
 
     private static void write(Artifact artifact)

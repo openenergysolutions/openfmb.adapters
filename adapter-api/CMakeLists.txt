@@ -65,9 +65,12 @@ set(API_HEADERS
     src/adapter-api/util/StringUtil.h
     src/adapter-api/util/YAMLUtil.h
     src/adapter-api/util/YAMLTemplate.h
+	src/adapter-api/config/IArchiveVisitor.h
     src/adapter-api/config/IProtoVisitor.h
     src/adapter-api/config/ConfigReadVisitorBase.h
+	src/adapter-api/config/MessageInformation.h
 	src/adapter-api/config/generated/MessageVisitors.h
+	src/adapter-api/config/generated/ArchiveVisitors.h
 )
 
 set(API_SOURCES
@@ -77,8 +80,10 @@ set(API_SOURCES
 	src/adapter-api/util/YAMLUtil.cpp
     src/adapter-api/util/YAMLTemplate.cpp
 	src/adapter-api/config/generated/MessageVisitors.cpp
+	src/adapter-api/config/generated/ArchiveVisitors.cpp
     src/adapter-api/config/ConfigReadVisitorBase.h
 	src/adapter-api/config/ConfigWriteVisitorBase.h
+	src/adapter-api/config/MessageInformation.cpp
 	src/adapter-api/ConfigStrings.h
 	src/adapter-api/Profile.h
     src/adapter-api/Version.h
