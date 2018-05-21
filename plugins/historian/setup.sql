@@ -10,6 +10,5 @@ CREATE TABLE data(
     timestamp timestamptz not null,
     device_uuid uuid not null,
     tagname varchar(1024) not null,
-    value numeric not null,
-    PRIMARY KEY (message_uuid, device_uuid, tagname));
-SELECT create_hypertable('data', 'time');
+    value numeric not null);
+SELECT create_hypertable('data', 'timestamp');
