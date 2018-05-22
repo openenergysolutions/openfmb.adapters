@@ -24,6 +24,7 @@ public:
     void save(std::unique_ptr<Message> message) override;
 
     void start();
+    void shutdown();
 
 private:
     void run();
@@ -32,6 +33,7 @@ private:
     std::string m_database_url;
     std::string m_table_name;
     std::chrono::steady_clock::duration m_connection_retry;
+    bool m_shutdown;
 
     util::SynchronizedQueue<Message> m_queue;
     std::thread m_worker_thread;

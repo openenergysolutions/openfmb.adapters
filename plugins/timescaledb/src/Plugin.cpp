@@ -22,6 +22,11 @@ Plugin::Plugin(const YAML::Node& node, const Logger& logger, IMessageBus& bus)
     bus.subscribe(std::make_shared<BusListener<switchmodule::SwitchStatusProfile>>(m_logger, m_archiver));
 }
 
+Plugin::~Plugin()
+{
+    m_archiver->shutdown();
+}
+
 std::string Plugin::name() const
 {
     return "timescaledb";

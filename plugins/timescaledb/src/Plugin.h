@@ -17,6 +17,7 @@ class Plugin final : public IPlugin
 {
 public:
     Plugin(const YAML::Node& node, const Logger& logger, IMessageBus& bus);
+    virtual ~Plugin();
 
     std::string name() const override;
     void start() override;

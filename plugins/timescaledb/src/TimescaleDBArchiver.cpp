@@ -18,7 +18,8 @@ TimescaleDBArchiver::TimescaleDBArchiver(const Logger& logger,
       m_database_url{database_url},
       m_table_name{table_name},
       m_connection_retry{connection_retry},
-      m_queue{max_queued_messages}
+      m_queue{max_queued_messages},
+      m_shutdown{false}
 {
     
 }
@@ -42,9 +43,15 @@ void TimescaleDBArchiver::start()
     m_worker_thread = std::thread{ &TimescaleDBArchiver::run, this };
 }
 
+void TimescaleDBArchiver::shutdown()
+{
+    m_shutdown = true;
+    m_worker_thread.join();
+}
+
 void TimescaleDBArchiver::run()
 {
-    while(true)
+    while(!m_shutdown)
     {
         // Establish a connection
         while(!m_connection || !m_connection->is_connected())
@@ -61,11 +68,14 @@ void TimescaleDBArchiver::run()
                               std::chrono::duration_cast<std::chrono::seconds>(m_connection_retry).count());
                 std::this_thread::sleep_for(m_connection_retry);
             }
+
+            if(m_shutdown) return;
         }
         
 
         // Wait for data
         auto message = m_queue.pop(std::chrono::seconds(5));
+        if(m_shutdown) return;
         if(!message) continue;
 
         std::ostringstream oss;
