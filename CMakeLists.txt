@@ -6,7 +6,7 @@ if(NOT EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
   message(FATAL_ERROR "Unable to locate 'conanbuildinfo.cmake' file. Make sure to run 'conan install ..' in the build directory.")
 else()
   include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-  conan_basic_setup(TARGETS)
+  conan_basic_setup(TARGETS NO_OUTPUT_DIRS)
 endif()
 
 # optionally disable certain plugins
