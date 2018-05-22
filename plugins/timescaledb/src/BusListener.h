@@ -80,7 +80,7 @@ private:
 
         auto tagname = get_current_tagname("mag");
         auto mag = value.mag().f();
-        m_current_message->items.emplace_back(tagname, mag);
+        m_current_message->items.emplace_back(tagname, std::to_string(mag));
 
         m_tagname_stack.pop_back();
     }
@@ -92,13 +92,13 @@ private:
         {
             auto tagname = get_current_tagname("ang");
             auto ang = value.cval().ang().f();
-            m_current_message->items.emplace_back(tagname, ang);
+            m_current_message->items.emplace_back(tagname, std::to_string(ang));
         }
 
         {
             auto tagname = get_current_tagname("mag");
             auto mag = value.cval().mag().f();
-            m_current_message->items.emplace_back(tagname, mag);
+            m_current_message->items.emplace_back(tagname, std::to_string(mag));
         }
 
         m_tagname_stack.pop_back();
@@ -110,7 +110,7 @@ private:
 
         auto tagname = get_current_tagname("actVal");
         auto val = value.actval();
-        m_current_message->items.emplace_back(tagname, static_cast<int>(val));
+        m_current_message->items.emplace_back(tagname, std::to_string(val));
 
         m_tagname_stack.pop_back();
     }
@@ -121,7 +121,7 @@ private:
 
         auto tagname = get_current_tagname("stVal");
         auto val = static_cast<unsigned int>(value.stval());
-        m_current_message->items.emplace_back(tagname, val);
+        m_current_message->items.emplace_back(tagname, std::to_string(val));
 
         m_tagname_stack.pop_back();
     }

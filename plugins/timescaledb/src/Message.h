@@ -12,37 +12,12 @@ namespace timescaledb
 
 struct MessageItem
 {
-    enum class Type
-    {
-        UnsignedInteger,
-        SignedInteger,
-        FloatingPoint
-    };
-    union ValueUnion
-    {
-        unsigned int unsigned_int;
-        int signed_int;
-        float floating_point;
-    };
-
     std::string tagname;
-    Type type;
-    ValueUnion value;
+    std::string value;
 
-    MessageItem(const std::string& tagname, unsigned int value) : tagname{tagname}, type{Type::UnsignedInteger}
-    {
-        this->value.unsigned_int = value;
-    }
-
-    MessageItem(const std::string& tagname, int value) : tagname{tagname}, type{Type::SignedInteger}
-    {
-        this->value.signed_int = value;
-    }
-
-    MessageItem(const std::string& tagname, float value) : tagname{tagname}, type{Type::FloatingPoint}
-    {
-        this->value.floating_point = value;
-    }
+    MessageItem(const std::string& tagname, const std::string& value)
+        : tagname{tagname}, value{value}
+    {}
 };
 
 struct Message
