@@ -15,6 +15,10 @@ public:
     PQConnection(const char* connection_string);
     virtual ~PQConnection();
 
+    PQConnection(PQConnection&&) = default;
+    PQConnection(const PQConnection&) = delete;
+    void operator=(const PQConnection&) = delete;
+
     bool connect();
     bool is_connected() const;
     PQResult exec(const char* query);

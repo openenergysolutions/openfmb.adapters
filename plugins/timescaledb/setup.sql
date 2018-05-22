@@ -4,7 +4,6 @@ CREATE DATABASE openfmb;
 CREATE EXTENSION IF NOT EXISTS timescaledb CASCADE;
 
 -- Create the data table
--- Create the data table
 CREATE TABLE data(
 	message_uuid uuid not null,
     timestamp timestamptz not null,
