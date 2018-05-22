@@ -21,6 +21,12 @@ template<typename Proto>
 class ProtoMessageVisitor : private IArchiveVisitor
 {
 public:
+    ProtoMessageVisitor(Logger& logger)
+        : m_logger{logger}
+    {
+
+    }
+
     void save(const Proto& proto, std::shared_ptr<IArchiver> archiver)
     {
         // Extract message UUID, timestamp and device UUID
@@ -28,15 +34,26 @@ public:
         auto conducting_equipment = get_conducting_equip(proto);
 
         boost::uuids::uuid message_uuid;
-        boost::uuids::uuid device_uuid;
         try
         {
             boost::uuids::string_generator gen;
             message_uuid = gen(message_info.identifiedobject().mrid());
+        }
+        catch(std::runtime_error)
+        {
+            m_logger.warn("Message UUID is not valid: '{}'", message_info.identifiedobject().mrid());
+            return;
+        }
+
+        boost::uuids::uuid device_uuid;
+        try
+        {
+            boost::uuids::string_generator gen;
             device_uuid = gen(conducting_equipment.mrid());
         }
         catch(std::runtime_error)
         {
+            m_logger.warn("Device UUID is not valid: '{}'", conducting_equipment.mrid());
             return;
         }
 
@@ -141,6 +158,7 @@ private:
     }
 
     // ===== Private member variables =====
+    Logger& m_logger;
     std::deque<std::string> m_tagname_stack;
     std::unique_ptr<Message> m_current_message;
 };
@@ -149,19 +167,21 @@ template<typename Proto>
 class BusListener : public ISubscriber<Proto>
 {
 public:
-    explicit BusListener(std::shared_ptr<IArchiver> archiver)
-        : m_archiver{archiver}
+    explicit BusListener(Logger& logger, std::shared_ptr<IArchiver> archiver)
+        : m_logger{logger},
+          m_archiver{archiver}
     {
 
     }
 
     void receive(const Proto& message) override
     {
-        ProtoMessageVisitor<Proto> m_message_visitor;
+        ProtoMessageVisitor<Proto> m_message_visitor{m_logger};
         m_message_visitor.save(message, m_archiver);
     }
 
 private:
+    Logger& m_logger;
     std::shared_ptr<IArchiver> m_archiver;
 };
 
