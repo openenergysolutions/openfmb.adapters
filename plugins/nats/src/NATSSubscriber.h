@@ -18,7 +18,7 @@ namespace adapter
 
         public:
 
-            typedef SynchronizedQueue<Message> message_queue_t;
+            typedef util::SynchronizedQueue<Message> message_queue_t;
 
             NATSSubscriber(Logger logger, const std::string& subject, publisher_t<T> publisher) :
                 logger(logger),

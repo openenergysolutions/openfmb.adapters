@@ -5,7 +5,7 @@
 #include "adapter-api/ISubscriber.h"
 #include "adapter-api/Logger.h"
 
-#include "SynchronizedQueue.h"
+#include "adapter-api/util/SynchronizedQueue.h"
 #include "Message.h"
 #include "SubjectName.h"
 
@@ -22,7 +22,7 @@ namespace adapter
 
         public:
 
-            using message_queue_t = SynchronizedQueue<Message>;
+            using message_queue_t = util::SynchronizedQueue<Message>;
 
             NATSPublisher(Logger logger, std::shared_ptr<message_queue_t> sink) :
                 logger(std::move(logger)),

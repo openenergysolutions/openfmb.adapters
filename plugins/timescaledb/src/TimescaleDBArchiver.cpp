@@ -8,10 +8,16 @@ namespace adapter
 namespace timescaledb
 {
 
-TimescaleDBArchiver::TimescaleDBArchiver(const Logger& logger, const std::string& database_url, const std::string& table_name)
+TimescaleDBArchiver::TimescaleDBArchiver(const Logger& logger,
+                                         const std::string& database_url,
+                                         const std::string& table_name,
+                                         size_t max_queued_messages,
+                                         std::chrono::steady_clock::duration connection_retry)
     : m_logger{logger},
       m_database_url{database_url},
-      m_table_name{table_name}
+      m_table_name{table_name},
+      m_connection_retry{connection_retry},
+      m_queue{max_queued_messages}
 {
     
 }
@@ -23,11 +29,11 @@ TimescaleDBArchiver::~TimescaleDBArchiver()
 
 void TimescaleDBArchiver::save(std::unique_ptr<Message> message)
 {
+    auto successfully_pushed = m_queue.push(std::move(message));
+    if(!successfully_pushed)
     {
-        std::lock_guard<std::mutex> lock{m_mutex};
-        m_queue.emplace_back(std::move(message));
+        m_logger.warn("Buffer is full, one message was dropped.");
     }
-    m_cond.notify_one();
 }
 
 void TimescaleDBArchiver::start()
@@ -48,19 +54,18 @@ void TimescaleDBArchiver::run()
             {
                 m_logger.info("Connected to PostgreSQL database");
             }
+            else
+            {
+                m_logger.info("Unable to connect to PostgreSQL database, retry in {} seconds",
+                              std::chrono::duration_cast<std::chrono::seconds>(m_connection_retry).count());
+                std::this_thread::sleep_for(m_connection_retry);
+            }
         }
         
 
         // Wait for data
-        std::unique_lock<std::mutex> lock(m_mutex);
-        while (m_queue.empty())
-        {
-            m_cond.wait(lock);
-        }
-
-        auto message = std::move(m_queue.front());
-        m_queue.pop_front();
-        lock.unlock();
+        auto message = m_queue.pop(std::chrono::seconds(5));
+        if(!message) continue;
 
         auto query = std::string("INSERT INTO " + m_table_name + " "
                                      "(message_uuid, timestamp, device_uuid, tagname, value) "
@@ -106,10 +111,12 @@ void TimescaleDBArchiver::run()
         {
             m_logger.error("PostgreSQL request failed: {}", result.get_error());
 
-
             // The value is put back in front for reprocessing
-            std::lock_guard<std::mutex> lock{m_mutex};
-            m_queue.emplace_front(std::move(message));
+            auto successfully_pushed = m_queue.push_front(std::move(message));
+            if(!successfully_pushed)
+            {
+                m_logger.warn("Buffer is full, the last message won't be reprocessed.");
+            }
         }
     }
 }

@@ -63,6 +63,7 @@ set(API_HEADERS
 	src/adapter-api/ProfileMode.h
     src/adapter-api/util/Exception.h
     src/adapter-api/util/StringUtil.h
+	src/adapter-api/util/SynchronizedQueue.h
     src/adapter-api/util/YAMLUtil.h
     src/adapter-api/util/YAMLTemplate.h
 	src/adapter-api/config/IArchiveVisitor.h

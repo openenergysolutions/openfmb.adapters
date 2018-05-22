@@ -21,7 +21,7 @@ namespace adapter
             config(node),
             logger(logger),
             messages(
-                std::make_shared<SynchronizedQueue<Message>>(config.max_queued_messages)
+                std::make_shared<util::SynchronizedQueue<Message>>(config.max_queued_messages)
             )
         {
             const auto profiles = yaml::require(node, ::adapter::keys::profiles);
