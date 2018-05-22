@@ -2,14 +2,18 @@
 
 set(PROJECT_HEADERS
         include/log/PluginFactory.h
-
 )
 
 set(PROJECT_SOURCES
-        src/Plugin.h
         src/ConfigKeys.h
+        src/ITagFilter.h
+        src/LogArchiveVisitor.h
         src/PluginFactory.cpp
+        src/Plugin.h
         src/Plugin.cpp
+        src/LogArchiveVisitor.h
+        src/TagFilter.h
+        src/TagFilter.cpp
 )
 
 SET(CPP_FORMAT_DIRS

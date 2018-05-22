@@ -30,7 +30,7 @@ namespace adapter
 
         std::string require_string(const YAML::Node& parent, const std::string& key)
         {
-            return require(parent, key).as<std::string>();
+            return require(parent, key).Scalar();
         }
     }
 }
