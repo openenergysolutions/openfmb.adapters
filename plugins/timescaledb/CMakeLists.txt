@@ -4,6 +4,7 @@ set(timescaledb_public_headers
 
 set(timescaledb_private_headers
     ./src/BusListener.h
+    ./src/ConfigStrings.h
     ./src/IArchiver.h
     ./src/Message.h
     ./src/Plugin.h

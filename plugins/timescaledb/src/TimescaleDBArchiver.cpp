@@ -8,8 +8,10 @@ namespace adapter
 namespace timescaledb
 {
 
-TimescaleDBArchiver::TimescaleDBArchiver(const Logger& logger)
-    : m_logger(logger)
+TimescaleDBArchiver::TimescaleDBArchiver(const Logger& logger, const std::string& database_url, const std::string& table_name)
+    : m_logger{logger},
+      m_database_url{database_url},
+      m_table_name{table_name}
 {
     
 }
@@ -41,7 +43,7 @@ void TimescaleDBArchiver::run()
         while(!m_connection || !m_connection->is_connected())
         {
             m_logger.info("Trying to connect to PostgreSQL...");
-            m_connection = std::make_unique<PQConnection>("postgresql://postgres:asdf@localhost:5432/openfmb");
+            m_connection = std::make_unique<PQConnection>(m_database_url.c_str());
             if (m_connection->is_connected())
             {
                 m_logger.info("Connected to PostgreSQL database");
@@ -60,7 +62,7 @@ void TimescaleDBArchiver::run()
         m_queue.pop_front();
         lock.unlock();
 
-        auto query = std::string("INSERT INTO data "
+        auto query = std::string("INSERT INTO " + m_table_name + " "
                                      "(message_uuid, timestamp, device_uuid, tagname, value) "
                                  "VALUES ");
 

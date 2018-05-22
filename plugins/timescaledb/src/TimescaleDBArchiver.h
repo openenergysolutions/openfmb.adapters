@@ -17,7 +17,7 @@ namespace timescaledb
 class TimescaleDBArchiver : public IArchiver
 {
 public:
-    TimescaleDBArchiver(const Logger& logger);
+    TimescaleDBArchiver(const Logger& logger, const std::string& database_url, const std::string& table_name);
     virtual ~TimescaleDBArchiver();
 
     void save(std::unique_ptr<Message> message) override;
@@ -28,6 +28,8 @@ private:
     void run();
 
     Logger m_logger;
+    std::string m_database_url;
+    std::string m_table_name;
 
     std::thread m_worker_thread;
     std::mutex m_mutex;
