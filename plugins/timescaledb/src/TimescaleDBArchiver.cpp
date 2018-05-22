@@ -1,5 +1,6 @@
 #include "TimescaleDBArchiver.h"
 
+#include <sstream>
 #include <thread>
 #include <boost/uuid/uuid_io.hpp>
 
@@ -67,28 +68,30 @@ void TimescaleDBArchiver::run()
         auto message = m_queue.pop(std::chrono::seconds(5));
         if(!message) continue;
 
-        auto query = std::string("INSERT INTO " + m_table_name + " "
-                                     "(message_uuid, timestamp, device_uuid, tagname, value) "
-                                 "VALUES ");
+        std::ostringstream oss;
+        oss << "INSERT INTO " << m_table_name + " " <<
+                   "(message_uuid, timestamp, device_uuid, tagname, value) " <<
+               "VALUES ";
 
         for(auto& item : message->items)
         {
-            query.append("("
-                             "'" + boost::uuids::to_string(message->message_uuid) + "',"
-                             "to_timestamp(" + std::to_string(message->timestamp) + "),"
-                             "'" + boost::uuids::to_string(message->device_uuid) + "',"
-                             "'" + item.tagname + "',"
-                             "" + item.value + ""
-                          ")");
+            oss << "(" <<
+                       "'" << boost::uuids::to_string(message->message_uuid) << "'," <<
+                       "to_timestamp(" << std::to_string(message->timestamp) << ")," <<
+                       "'" << boost::uuids::to_string(message->device_uuid) << "'," <<
+                       "'" << item.tagname + "'," <<
+                       "" << item.value + "" <<
+                    ")";
+
             if(&item != &message->items.back())
             {
-                query.append(",");
+                oss << ",";
             }
         }
 
-        query.append(" ON CONFLICT DO NOTHING");
+        oss <<" ON CONFLICT DO NOTHING";
 
-        auto result = m_connection->exec(query.c_str());
+        auto result = m_connection->exec(oss.str().c_str());
         if (result.is_successful())
         {
             m_logger.info("Successfully inserted {} values", result.get_num_rows());

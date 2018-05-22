@@ -4,6 +4,7 @@
 #include <deque>
 #include <memory>
 #include <string>
+#include <sstream>
 #include <boost/uuid/uuid_generators.hpp>
 #include "adapter-api/ISubscriber.h"
 #include "adapter-api/config/IArchiveVisitor.h"
@@ -146,15 +147,16 @@ private:
     // ====== Helper functions =====
     std::string get_current_tagname(const std::string& id)
     {
-        std::string tagname(Proto::descriptor()->name() + ".");
+        std::ostringstream oss;
+
+        oss << Proto::descriptor()->name() << ".";
         for (auto& tag : m_tagname_stack)
         {
-            tagname.append(tag);
-            tagname.append(".");
+            oss << tag << ".";
         }
-        tagname.append(id);
+        oss << id;
 
-        return tagname;
+        return oss.str();
     }
 
     // ===== Private member variables =====
