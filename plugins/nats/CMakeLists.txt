@@ -25,7 +25,6 @@ set(NATS_SOURCES
         src/NATSPublisher.h
 		src/NATSSubscriber.h
         src/SubjectName.h
-		src/SubjectName.cpp
 )
 
 set(CPP_FORMAT_DIRS
