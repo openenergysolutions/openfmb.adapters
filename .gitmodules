@@ -3,13 +3,13 @@
 	url = https://github.com/gabime/spdlog.git
 [submodule "deps/openfmb-protobuf"]
 	path = deps/openfmb-protobuf
-	url = https://github.com/mthollylab/openfmb-protobuf.git
+	url = git@github.com:mthollylab/openfmb-protobuf.git
 [submodule "deps/openfmb-dds"]
 	path = deps/openfmb-dds
-	url = https://github.com/mthollylab/openfmb-dds.git
+	url = git@github.com:mthollylab/openfmb-dds.git
 [submodule "deps/modbus"]
 	path = deps/modbus
-	url = https://github.com/openenergysolutions/modbus-cpp.git
+	url = git@github.com:openenergysolutions/modbus-cpp.git
 [submodule "deps/argagg"]
 	path = deps/argagg
 	url = https://github.com/vietjtnguyen/argagg.git
