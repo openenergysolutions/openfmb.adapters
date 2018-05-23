@@ -3,6 +3,7 @@
 #define OPENFMB_ADAPTER_SUBJECTNAME_H
 
 #include <sstream>
+#include "adapter-api/config/MessageInformation.h"
 
 namespace adapter
 {
@@ -24,12 +25,14 @@ namespace adapter
          * There are template specializations for each profile in the cpp file
          */
         template <class T>
-        std::string get_subject_key_mrid(const T& profile);
+        std::string get_subject_key_mrid(const T& profile)
+        {
+            return get_conducting_equip(profile).mrid();
+        }
 
         template <class T>
         std::string get_publish_subject_name(const T& profile)
         {
-
             std::ostringstream oss;
             oss << openfmb << "." << T::descriptor()->full_name() << "." << get_subject_key_mrid(profile);
             return oss.str();

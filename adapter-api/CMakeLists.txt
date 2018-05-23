@@ -1,33 +1,3 @@
-find_package(Boost)
-
-if(NOT Boost_FOUND)
-	message(FATAL_ERROR "Unable to find BOOST. Required for UUID generation.")
-endif()
-
-if(OPENFMB_LINK_STATIC)
-	find_library(PROTOBUF_LIBRARY libprotobuf.a)
-else()
-	find_library(PROTOBUF_LIBRARY protobuf)
-endif()
-
-if(NOT PROTOBUF_LIBRARY)
-	message(FATAL_ERROR "protobuf library could not be found. Is it installed on your system?")
-else()
-	message("Protobuf library is: ${PROTOBUF_LIBRARY}")
-endif()
-
-if(OPENFMB_LINK_STATIC)
-	find_library(YAMLCPP_LIBRARY libyaml-cpp.a)
-else()
-	find_library(YAMLCPP_LIBRARY yaml-cpp)
-endif()
-
-if(NOT YAMLCPP_LIBRARY)
-	message(FATAL_ERROR "yaml-cpp library could not be found. Is it installed on your system?")
-else()
-	message("yaml-cpp library is: ${YAMLCPP_LIBRARY}")
-endif()
-
 find_program(PROTOBUF_COMPILER protoc)
 
 if(NOT PROTOBUF_COMPILER)
@@ -44,16 +14,16 @@ set(PROTO_OUTPUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/adapter-api/proto)
 # to avoid a lot of boilerplate, we list the module names
 # and then use this list to build the header/source/proto file lists
 set(PROTO_MODULES
-        breaker
-        common
-        ess
-        generation
-        load
-        recloser
-        regulator
-        resource
-        solar
-        switch
+    breaker
+    common
+    ess
+    generation
+    load
+    recloser
+    regulator
+    resource
+    solar
+    switch
 )
 
 FUNCTION(set_proto_output_files var extension)
@@ -93,6 +63,7 @@ set(API_HEADERS
 	src/adapter-api/ProfileMode.h
     src/adapter-api/util/Exception.h
     src/adapter-api/util/StringUtil.h
+	src/adapter-api/util/SynchronizedQueue.h
     src/adapter-api/util/YAMLUtil.h
     src/adapter-api/util/YAMLTemplate.h
 	src/adapter-api/config/IArchiveVisitor.h
@@ -123,20 +94,22 @@ set(API_SOURCES
 
 # directories to be automatically formatted by astyle
 SET(CPP_FORMAT_DIRS
-		${CPP_FORMAT_DIRS}
-		${CMAKE_CURRENT_SOURCE_DIR}/src/adapter-api/*.h
-		${CMAKE_CURRENT_SOURCE_DIR}/src/adapter-api/*.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/src/adapter-api/util/*.h
-		${CMAKE_CURRENT_SOURCE_DIR}/src/adapter-api/util/*.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/src/adapter-api/config/*.h
-		PARENT_SCOPE
+    ${CPP_FORMAT_DIRS}
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/adapter-api/*.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/adapter-api/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/adapter-api/util/*.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/adapter-api/util/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/adapter-api/config/*.h
+    PARENT_SCOPE
 )
 
 # generate the protos
+file(GLOB PROTO_FILES ${PROTO_INPUT_DIR}/*.proto ${PROTO_INPUT_DIR}/**/*.proto)
 add_custom_command(
     OUTPUT ${PROTO_HEADERS} ${PROTO_SOURCES}
-    COMMAND mkdir -p ${PROTO_OUTPUT_DIR}
-    COMMAND ${PROTOBUF_COMPILER} --cpp_out=${PROTO_OUTPUT_DIR} --proto_path=${PROTO_INPUT_DIR} ${PROTO_INPUT_DIR}/*.proto ${PROTO_INPUT_DIR}/**/*.proto
+    COMMAND ${CMAKE_COMMAND} -E make_directory ${PROTO_OUTPUT_DIR}
+    COMMAND ${PROTOBUF_COMPILER} --cpp_out=${PROTO_OUTPUT_DIR} --proto_path=${PROTO_INPUT_DIR} ${PROTO_FILES}
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     DEPENDS ${PROTO_INPUTS_FILES}
     COMMENT "Generating openfmb protos..."
 )
@@ -156,24 +129,17 @@ execute_process(
 )
 
 add_library(adapter-api ${PROTO_SOURCES} ${PROTO_HEADERS} ${API_SOURCES} ${API_HEADERS})
+target_link_libraries(adapter-api PUBLIC
+    CONAN_PKG::boost_algorithm
+    CONAN_PKG::boost_iostreams
+    CONAN_PKG::boost_lexical_cast
+    CONAN_PKG::boost_numeric_conversion
+    CONAN_PKG::boost_uuid
+    CONAN_PKG::protobuf
+    CONAN_PKG::yaml-cpp)
 target_include_directories(adapter-api PUBLIC ${PROTO_OUTPUT_DIR})
-target_include_directories(adapter-api PUBLIC ${Boost_INCLUDE_DIRS})
-target_include_directories(adapter-api INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/src")
-target_include_directories(adapter-api PUBLIC "${CMAKE_SOURCE_DIR}/deps/spdlog/include")
-target_compile_definitions(adapter-api PRIVATE "-DMACRO_GIT_COMMIT_HASH=${GIT_COMMIT_HASH}" "-DMACRO_GIT_COMMIT_DATE=${GIT_COMMIT_DATE}")
-target_link_libraries(adapter-api PUBLIC ${PROTOBUF_LIBRARY})
-target_link_libraries(adapter-api INTERFACE ${YAMLCPP_LIBRARY})
+target_include_directories(adapter-api PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
+target_include_directories(adapter-api PUBLIC ${CMAKE_SOURCE_DIR}/deps/spdlog/include)
+target_compile_definitions(adapter-api PRIVATE MACRO_GIT_COMMIT_HASH=${GIT_COMMIT_HASH} MACRO_GIT_COMMIT_DATE=${GIT_COMMIT_DATE})
 
 add_subdirectory(./test)
-
-if(MSVC)
-
-if(DEFINED ENV{PROTO_INSTALL_DIR})
-	set(PROTO_INSTALL_DIR $ENV{PROTO_INSTALL_DIR})
-	message("proto install dir: ${PROTO_INSTALL_DIR}")
-	target_include_directories(adapter-api PUBLIC ${PROTO_INSTALL_DIR}/proto-cpp/include)	
-else()
-	message(FATAL_ERROR "PROTOC_ROOT_DIR must be defined for MSVC")
-endif()
-	
-endif()

@@ -103,7 +103,7 @@ std::vector<Profile> get_profiles(const argagg::parser_results& args)
 
 std::shared_ptr<const adapter::IPluginFactory> get_factory(const argagg::parser_results& args)
 {
-    if(!args[flags::plugin])
+    if(args[flags::plugin].count() == 0)
     {
         throw Exception("No plugin specified for generation");
     }
@@ -236,6 +236,3 @@ std::vector<std::unique_ptr<IPlugin>> initialize(const std::string& yaml_path, P
 
     return std::move(plugins);
 }
-
-
-

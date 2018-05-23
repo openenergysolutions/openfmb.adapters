@@ -20,13 +20,11 @@ set(NATS_SOURCES
         src/Plugin.h
         src/Plugin.cpp
 		src/PluginFactory.cpp
-        src/SynchronizedQueue.h
 		src/Message.h
 		src/Buffer.h
         src/NATSPublisher.h
 		src/NATSSubscriber.h
         src/SubjectName.h
-		src/SubjectName.cpp
 )
 
 set(CPP_FORMAT_DIRS

@@ -24,6 +24,10 @@
 #include "twinoaks/DDSPluginFactory.h"
 #endif
 
+#ifdef OPENFMB_USE_TIMESCALEDB
+#include "timescaledb/PluginFactory.h"
+#endif
+
 namespace adapter
 {
 
@@ -47,6 +51,10 @@ namespace adapter
 
 #ifdef OPENFMB_USE_TWINOAKS_DDS
         this->add<adapter::DDSPluginFactory>();
+#endif
+
+#ifdef OPENFMB_USE_TIMESCALEDB
+        this->add<timescaledb::PluginFactory>();
 #endif
 
     }

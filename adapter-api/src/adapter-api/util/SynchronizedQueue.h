@@ -1,5 +1,5 @@
-#ifndef OPENFMB_ADAPTER_NATS_SYNCHRONIZEDQUEUE_H
-#define OPENFMB_ADAPTER_NATS_SYNCHRONIZEDQUEUE_H
+#ifndef OPENFMB_ADAPTER_SYNCHRONIZEDQUEUE_H
+#define OPENFMB_ADAPTER_SYNCHRONIZEDQUEUE_H
 
 #include <deque>
 #include <mutex>
@@ -8,7 +8,7 @@
 
 namespace adapter
 {
-    namespace nats
+    namespace util
     {
         template <class T>
         class SynchronizedQueue
@@ -26,6 +26,15 @@ namespace adapter
              * @return true if the value was added without popping another item to make space
              */
             bool push(std::unique_ptr<T> item);
+
+
+            /**
+             * Push a value infront of the queue. This will be the next value to be pop.
+             *
+             * @param item to be moved into the queue
+             * @return true if the value was added successfully.
+             */
+            bool push_front(std::unique_ptr<T> item);
 
             /**
              * Try to pop an item from the queue within the specified timeout
@@ -72,6 +81,18 @@ namespace adapter
         }
 
         template <class T>
+        bool SynchronizedQueue<T>::push_front(std::unique_ptr<T> item)
+        {
+            std::unique_lock<std::mutex> lock(this->mutex);
+            this->items.push_front(std::move(item));
+            const auto trimmed = this->trim_old_item();
+
+            lock.unlock();
+            this->condition.notify_one();
+            return !trimmed;
+        }
+
+        template <class T>
         std::unique_ptr<T> SynchronizedQueue<T>::pop(const std::chrono::steady_clock::duration& duration)
         {
             const auto has_item = [this]() -> bool { return !this->items.empty(); };
@@ -93,4 +114,3 @@ namespace adapter
 }
 
 #endif
-

@@ -12,5 +12,5 @@ set(CPP_FORMAT_DIRS
 
 add_executable(test-adapter-api ${TEST_SOURCES})
 target_include_directories(test-adapter-api PRIVATE ${CMAKE_SOURCE_DIR}/deps/catch)
-target_link_libraries(test-adapter-api adapter-api)
+target_link_libraries(test-adapter-api PRIVATE adapter-api CONAN_PKG::boost_variant)
 add_test(test-adapter-api test-adapter-api)

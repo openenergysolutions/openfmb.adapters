@@ -5,14 +5,13 @@
 #include <adapter-api/Logger.h>
 #include <adapter-api/IMessageBus.h>
 #include <adapter-api/IProfileReader.h>
+#include <adapter-api/util/SynchronizedQueue.h>
 
 #include <yaml-cpp/yaml.h>
 #include <nats/nats.h>
 
 #include <vector>
 
-
-#include "SynchronizedQueue.h"
 #include "Message.h"
 
 namespace adapter
@@ -74,7 +73,7 @@ namespace adapter
             std::unique_ptr<std::thread> background_thread;
             bool shutdown = false;
 
-            const std::shared_ptr<SynchronizedQueue<Message>> messages;
+            const std::shared_ptr<util::SynchronizedQueue<Message>> messages;
 
             void run();
             void run(natsConnection& connection);
