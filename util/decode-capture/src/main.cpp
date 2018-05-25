@@ -9,8 +9,8 @@
 #include <adapter-api/util/Exception.h>
 #include <adapter-api/Profile.h>
 
-#include <adapter-api/proto/resourcemodule/resourcemodule.pb.h>
-#include <adapter-api/proto/switchmodule/switchmodule.pb.h>
+#include <proto-api/resourcemodule/resourcemodule.pb.h>
+#include <proto-api/switchmodule/switchmodule.pb.h>
 
 using namespace adapter;
 

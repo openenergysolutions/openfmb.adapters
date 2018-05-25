@@ -1,8 +1,8 @@
 
 #include "MessageInformation.h"
 
-#include "../proto/resourcemodule/resourcemodule.pb.h"
-#include "../proto/switchmodule/switchmodule.pb.h"
+#include "proto-api/resourcemodule/resourcemodule.pb.h"
+#include "proto-api/switchmodule/switchmodule.pb.h"
 
 namespace adapter {
 

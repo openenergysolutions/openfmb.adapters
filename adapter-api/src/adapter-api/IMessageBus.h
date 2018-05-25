@@ -2,8 +2,8 @@
 #ifndef OPENFMB_ADAPTER_IMESSAGEBUS_H
 #define OPENFMB_ADAPTER_IMESSAGEBUS_H
 
-#include "proto/resourcemodule/resourcemodule.pb.h"
-#include "proto/switchmodule/switchmodule.pb.h"
+#include "proto-api/resourcemodule/resourcemodule.pb.h"
+#include "proto-api/switchmodule/switchmodule.pb.h"
 
 #include "IPublisher.h"
 #include "ISubscriber.h"
