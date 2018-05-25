@@ -1,4 +1,4 @@
-#include "ArchiveVisitors.h"
+#include "adapter-api/config/generated/ArchiveVisitors.h"
 
 namespace adapter {
 

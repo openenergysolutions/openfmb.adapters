@@ -1,5 +1,5 @@
 
-#include "MessageInformation.h"
+#include "adapter-api/config/MessageInformation.h"
 
 #include "proto-api/resourcemodule/resourcemodule.pb.h"
 #include "proto-api/switchmodule/switchmodule.pb.h"

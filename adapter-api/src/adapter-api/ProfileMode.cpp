@@ -1,6 +1,6 @@
 
 
-#include "ProfileMode.h"
+#include "adapter-api/ProfileMode.h"
 
 namespace adapter
 {
