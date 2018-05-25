@@ -60,7 +60,7 @@ public class ArchiveVisitorFile extends CppFilePair {
     public Document implementation() {
 
         return join(
-                include(headerFileName()),
+                include("adapter-api/config/generated/" + headerFileName()),
                 space,
                 namespace(
                 "adapter",
