@@ -29,26 +29,27 @@ set(API_HEADERS
 )
 
 set(API_SOURCES
-	src/adapter-api/IMessageBus.cpp
-	src/adapter-api/Profile.cpp
-	src/adapter-api/ProfileMode.cpp
-	src/adapter-api/Version.cpp
-	src/adapter-api/util/YAMLUtil.cpp
-	src/adapter-api/util/YAMLTemplate.cpp
-	src/adapter-api/config/generated/MessageVisitors.cpp
-	src/adapter-api/config/generated/ArchiveVisitors.cpp
-	src/adapter-api/config/MessageInformation.cpp
+	src/IMessageBus.cpp
+	src/Profile.cpp
+	src/ProfileMode.cpp
+	src/Version.cpp
+	src/util/YAMLUtil.cpp
+	src/util/YAMLTemplate.cpp
+	src/config/generated/MessageVisitors.cpp
+	src/config/generated/ArchiveVisitors.cpp
+	src/config/MessageInformation.cpp
 )
 
 
 # directories to be automatically formatted by astyle
 SET(CPP_FORMAT_DIRS
     ${CPP_FORMAT_DIRS}
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/adapter-api/*.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/adapter-api/*.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/adapter-api/util/*.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/adapter-api/util/*.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/adapter-api/config/*.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/adapter-api/*.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/adapter-api/util/*.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/adapter-api/config/*.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/util/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/config/*.cpp
     PARENT_SCOPE
 )
 

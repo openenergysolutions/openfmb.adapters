@@ -4,7 +4,8 @@
 #include "proto-api/resourcemodule/resourcemodule.pb.h"
 #include "proto-api/switchmodule/switchmodule.pb.h"
 
-namespace adapter {
+namespace adapter
+{
 
     // resource reading
 
