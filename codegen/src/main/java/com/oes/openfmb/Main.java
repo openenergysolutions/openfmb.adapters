@@ -11,7 +11,7 @@ import java.nio.file.Paths;
 
 public class Main {
 
-    final static Path visitorImplDir = Paths.get("../adapter-api/src/adapter-api/config/generated");
+    final static Path visitorImplDir = Paths.get("../adapter-api/src/config/generated");
     final static Path visitorIncludeDir = Paths.get("../adapter-api/include/adapter-api/config/generated");
     final static Path conversionsDir = Paths.get("../plugins/dds/twinoaks/src/twinoaks/generated/");
 
