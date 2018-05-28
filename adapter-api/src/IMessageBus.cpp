@@ -1,5 +1,5 @@
 
-#include "IMessageBus.h"
+#include "adapter-api/IMessageBus.h"
 
 namespace adapter
 {

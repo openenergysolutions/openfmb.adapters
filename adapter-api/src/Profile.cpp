@@ -1,7 +1,7 @@
 
-#include "Profile.h"
+#include "adapter-api/Profile.h"
 
-#include "util/Exception.h"
+#include "adapter-api/util/Exception.h"
 
 #include "resourcemodule/resourcemodule.pb.h"
 #include "switchmodule/switchmodule.pb.h"

@@ -1,4 +1,4 @@
-#include "MessageVisitors.h"
+#include "adapter-api/config/generated/MessageVisitors.h"
 
 namespace adapter {
 

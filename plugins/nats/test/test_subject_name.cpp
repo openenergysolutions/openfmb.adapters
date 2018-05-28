@@ -2,7 +2,7 @@
 
 #include "SubjectName.h"
 
-#include <adapter-api/proto/resourcemodule/resourcemodule.pb.h>
+#include <proto-api/resourcemodule/resourcemodule.pb.h>
 
 TEST_CASE( "subject names are formatted correctly" )
 {

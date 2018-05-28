@@ -1,10 +1,10 @@
 
-#include "YAMLTemplate.h"
+#include "adapter-api/util/YAMLTemplate.h"
 
-#include "Exception.h"
-#include "YAMLUtil.h"
+#include "adapter-api/util/Exception.h"
+#include "adapter-api/util/YAMLUtil.h"
 
-#include "../ConfigStrings.h"
+#include "adapter-api//ConfigStrings.h"
 
 #include <boost/algorithm/string.hpp>
 

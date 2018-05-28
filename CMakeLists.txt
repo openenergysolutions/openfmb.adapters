@@ -21,6 +21,9 @@ set(CMAKE_CXX_STANDARD 14)
 
 enable_testing()
 
+# Protobuf C++ objects, used by adapter-api and transitively by all plugins
+add_subdirectory(./proto-api)
+
 # API used by the plugins / application
 add_subdirectory(./adapter-api)
 
@@ -40,7 +43,6 @@ endif()
 if(OPENFMB_USE_MODBUS)
   add_subdirectory(./deps/modbus)
   add_subdirectory(./plugins/modbus)
-  add_subdirectory(./plugins/modbus/test)
 endif()
 
 if(OPENFMB_USE_TWINOAKS_DDS)

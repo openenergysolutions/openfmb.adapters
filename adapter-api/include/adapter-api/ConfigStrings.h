@@ -24,6 +24,8 @@ namespace adapter
         constexpr const char* const mag = "mag";
         constexpr const char* const ang = "ang";
         constexpr const char* const cVal = "cVal";
+        constexpr const char* const actVal = "actVal";
+        constexpr const char* const stVal = "stVal";
     }
 }
 

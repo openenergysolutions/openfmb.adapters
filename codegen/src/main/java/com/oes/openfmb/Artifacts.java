@@ -17,12 +17,12 @@ import java.util.stream.Stream;
 
 public class Artifacts {
 
-    private static Iterable<Artifact> convert(Path directory, CppFilePair... files)
+    private static Iterable<Artifact> convert(Path includeDirectory, Path implDirectory, CppFilePair... files)
     {
         return Arrays.stream(files).flatMap(pair ->
                 Stream.of(
-                        Artifact.create(directory.resolve(pair.headerFileName()), pair::header),
-                        Artifact.create(directory.resolve(pair.implementationFileName()), pair::implementation)
+                        Artifact.create(includeDirectory.resolve(pair.headerFileName()), pair::header),
+                        Artifact.create(implDirectory.resolve(pair.implementationFileName()), pair::implementation)
                 )
         ).collect(Collectors.toList());
     }
@@ -34,7 +34,7 @@ public class Artifacts {
         private static CppFilePair toProto = new ConvertToProto();
 
         public static Iterable<Artifact> get(Path directory) {
-            return convert(directory, fromProto, toProto);
+            return convert(directory, directory, fromProto, toProto);
         }
     }
 
@@ -66,8 +66,8 @@ public class Artifacts {
                         )
                 );
 
-        public static Iterable<Artifact> get(Path directory) {
-            return convert(directory, modelVisitors, archiveVisitors);
+        public static Iterable<Artifact> get(Path includeDirectory, Path implDirectory) {
+            return convert(includeDirectory, implDirectory, modelVisitors, archiveVisitors);
         }
     }
 
