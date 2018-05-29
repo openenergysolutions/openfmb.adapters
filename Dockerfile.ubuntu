@@ -1,15 +1,15 @@
-FROM alpine:3.7 as builder
+FROM ubuntu:18.04 as builder
 
 # System dependencies
-RUN apk update && apk add --no-cache \
-    build-base \
+RUN apt-get update && apt-get install -y \
+    build-essential \
     cmake \
     git \
-    libressl-dev \
-    linux-headers \
-    postgresql-dev \
-    protobuf-dev \
-    python3
+    python3 \
+    python3-pip \
+    libssl-dev \
+    libpq-dev \
+    postgresql-server-dev-10
 
 # Install OpenDNP3
 WORKDIR /home
@@ -25,7 +25,9 @@ RUN cmake . && cmake --build . --target install
 
 # Setup conan
 RUN pip3 install conan && \
+    conan remote remove conan-center && \
     conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan && \
+    conan remote add conan-center https://api.bintray.com/conan/conan/conan-center && \
     conan profile new ~/.conan/profiles/default --detect && \
     conan profile update settings.compiler.libcxx=libstdc++11 default
 
@@ -35,16 +37,14 @@ WORKDIR /home/openfmb
 RUN conan install .
 
 # Build the project
-RUN rm -rf ~/.conan/data/protobuf
 COPY . /home/openfmb/
 RUN cmake -DOPENFMB_LINK_STATIC=ON . && cmake --build .
 
 # Build running image
-FROM alpine:3.7
-RUN apk update && apk add --no-cache \
-    libpq \
-    libressl \
-    libstdc++
+FROM ubuntu:18.04
+RUN apt-get update && apt-get install -y \
+    libpq5 \
+    libssl1.1
 COPY --from=builder /home/openfmb/application/openfmb-adapter /usr/local/bin/
 WORKDIR /openfmb
 ENTRYPOINT ["openfmb-adapter"]
