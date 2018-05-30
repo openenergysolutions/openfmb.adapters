@@ -4,7 +4,6 @@
 #include <adapter-api/IPlugin.h>
 #include <adapter-api/Logger.h>
 #include <adapter-api/IMessageBus.h>
-#include <adapter-api/IProfileReader.h>
 #include <adapter-api/util/SynchronizedQueue.h>
 
 #include <yaml-cpp/yaml.h>
@@ -27,8 +26,15 @@ namespace adapter
             virtual void start(natsConnection* connection) = 0;
         };
 
+        class ISubscriptionSink
+        {
+        public:
+            virtual ~ISubscriptionSink() = default;
+            virtual void add(std::unique_ptr<INATSSubscription> subscription) = 0;
+        };
 
-        class Plugin final : public IPlugin, public IProfileReader
+
+        class Plugin final : public IPlugin, private ISubscriptionSink
         {
             struct Config
             {
@@ -55,15 +61,9 @@ namespace adapter
 
             virtual void start() override;
 
-        protected:
-
-            void read_resource_reading(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override;
-
-            void read_switch_reading(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override;
-
-            void read_switch_status(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override;
-
         private:
+
+            void add(std::unique_ptr<INATSSubscription> subscription) override;
 
             std::vector<std::unique_ptr<INATSSubscription>> subscriptions;
 
@@ -77,15 +77,6 @@ namespace adapter
 
             void run();
             void run(natsConnection& connection);
-
-            template <class T>
-            void configure_profile(const YAML::Node& node, IMessageBus& bus);
-
-            template <class T>
-            void add_publisher(IMessageBus& bus);
-
-            template <class T>
-            void add_subscriber(IMessageBus& bus);
         };
     }
 

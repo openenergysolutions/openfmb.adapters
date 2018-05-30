@@ -6,7 +6,7 @@
 #include "PollManager.h"
 
 #include <adapter-api/config/generated/MessageVisitors.h>
-#include <adapter-api/IProfileReader.h>
+#include <adapter-api/IProfileHandler.h>
 #include <adapter-api/util/YAMLTemplate.h>
 
 #include "modbus/logging/LoggerFactory.h"
@@ -19,37 +19,46 @@ namespace adapter
     namespace modbus
     {
 
-        class ProfileReader : public IProfileReader
+        class ProfileReader : public IProfileHandler
         {
             const std::shared_ptr<PollHandler> handler;
+            const YAML::Node node;
+            const Logger logger;
+            IMessageBus& bus;
 
         public:
-            ProfileReader(const std::shared_ptr<PollHandler>& handler) : handler(handler) {}
+
+            ProfileReader(std::shared_ptr<PollHandler> handler, const YAML::Node& node, Logger logger, IMessageBus& bus) :
+                handler(std::move(handler)),
+                node(node),
+                logger(std::move(logger)),
+                bus(bus)
+            {}
 
         protected:
-            void read_resource_reading(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override
+            void handle_resource_reading() override
             {
-                this->read_any<resourcemodule::ResourceReadingProfile>(node, bus);
+                this->handle_any<resourcemodule::ResourceReadingProfile>();
             }
 
-            void read_switch_reading(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override
+            void handle_switch_reading() override
             {
-                this->read_any<switchmodule::SwitchReadingProfile>(node, bus);
+                this->handle_any<switchmodule::SwitchReadingProfile>();
             }
 
-            void read_switch_status(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override
+            void handle_switch_status() override
             {
-                this->read_any<switchmodule::SwitchStatusProfile>(node, bus);
+                this->handle_any<switchmodule::SwitchStatusProfile>();
             }
 
         private:
 
             template <class T>
-            void read_any(const YAML::Node& node, IMessageBus& bus)
+            void handle_any()
             {
                 const auto profile = std::make_shared<T>();
 
-                ConfigReadVisitor<T> visitor(node, profile, this->handler);
+                ConfigReadVisitor<T> visitor(this->node, profile, this->handler);
                 visit(visitor);
 
                 this->handler->add_end_action(
@@ -87,14 +96,8 @@ namespace adapter
 
             const auto handler = std::make_shared<PollHandler>();
 
-            ProfileReader reader(handler);
-            reader.read_one_profile(
-                profile_name,
-                profile_node,
-                this->logger,
-                bus
-            );
-
+            ProfileReader reader(handler, profile_node, this->logger, bus);
+            reader.handle_one_profile(profile_name);
 
             this->logger.info("Session {} has {} mapped values", name, handler->num_mapped_values());
 

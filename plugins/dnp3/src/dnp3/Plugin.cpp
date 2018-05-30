@@ -9,6 +9,7 @@
 #include <adapter-api/util/YAMLTemplate.h>
 #include <adapter-api/config/generated/MessageVisitors.h>
 #include <adapter-api/ConfigStrings.h>
+#include <adapter-api/IProfileHandler.h>
 
 #include "ConfigStrings.h"
 #include "ConfigReadVisitor.h"
@@ -28,34 +29,43 @@ namespace adapter
         template <class T>
         using visit_fun_t = void (*)(IProtoVisitor<T>&);
 
-        class ProfileLoader : public IProfileReader
+        class ProfileLoader : public IProfileHandler
         {
+            const YAML::Node node;
+            const Logger logger;
+            IMessageBus& bus;
             const std::shared_ptr<IConfigurationBuilder> builder;
 
         public:
-            ProfileLoader(const std::shared_ptr<IConfigurationBuilder>& builder) : builder(builder) {}
+            ProfileLoader(const YAML::Node& node, const Logger& logger, IMessageBus& bus, std::shared_ptr<IConfigurationBuilder> builder) :
+                node(node),
+                logger(logger),
+                bus(bus),
+                builder(std::move(builder))
+            {}
 
 
         protected:
-            void read_resource_reading(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override
+
+            void handle_resource_reading() override
             {
-                load_typed_mapping<resourcemodule::ResourceReadingProfile>(node, bus, this->builder);
+                load_any<resourcemodule::ResourceReadingProfile>();
             }
 
-            void read_switch_reading(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override
+            void handle_switch_reading() override
             {
-                load_typed_mapping<switchmodule::SwitchReadingProfile>(node, bus, this->builder);
+                load_any<switchmodule::SwitchReadingProfile>();
             }
 
-            void read_switch_status(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override
+            void handle_switch_status() override
             {
-                load_typed_mapping<switchmodule::SwitchStatusProfile>(node, bus, this->builder);
+                load_any<switchmodule::SwitchStatusProfile>();
             }
 
         private:
 
             template <class T>
-            void load_typed_mapping(const YAML::Node& node, IMessageBus& bus, const std::shared_ptr<IConfigurationBuilder>& builder)
+            void load_any()
             {
                 const auto profile = std::make_shared<T>();
 
@@ -65,11 +75,11 @@ namespace adapter
                     profile->Clear();
                 });
 
-                ConfigReadVisitor<T> reader(node, profile, builder);
+                ConfigReadVisitor<T> reader(this->node, profile, this->builder);
                 visit(reader);
 
                 // publish the profile when the response completes
-                builder->add_end_action([profile, publisher = bus.get_publisher<T>()]()
+                this->builder->add_end_action([profile, publisher = this->bus.get_publisher<T>()]()
                 {
                     publisher->publish(*profile);
                 });
@@ -116,20 +126,14 @@ namespace adapter
 
             const auto handler = std::make_shared<SOEHandler>();
 
-            ProfileLoader loader(handler);
-
             const auto profiles = yaml::require(node, ::adapter::keys::profiles);
 
             yaml::foreach(
                 profiles,
                 [&](const YAML::Node& node)
         {
-            loader.read_one_profile(
-                yaml::require_string(node, ::adapter::keys::name),
-                node,
-                logger,
-                bus
-            );
+            ProfileLoader loader(node, logger, bus, handler);
+                loader.handle_one_profile(yaml::require_string(node, ::adapter::keys::name));
             }
             );
 
