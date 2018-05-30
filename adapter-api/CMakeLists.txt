@@ -3,6 +3,7 @@ set(API_HEADERS
 	include/adapter-api/ConfigStrings.h
 	include/adapter-api/IPlugin.h
 	include/adapter-api/IPluginFactory.h
+	include/adapter-api/IProfileHandler.h
 	include/adapter-api/IProfileReader.h
 	include/adapter-api/IProfileWriter.h
 	include/adapter-api/IPublisher.h
