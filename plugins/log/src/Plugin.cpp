@@ -25,7 +25,7 @@ namespace adapter
                 handler.handle_all_profiles();
             }
 
-            const auto add_filter = [&](const YAML::Node& config)
+            const auto add_filter = [&](const YAML::Node & config)
             {
                 FilteredLoggerProfileHandler handler(config, logger, bus);
                 handler.handle_one_profile(yaml::require_string(config, ::adapter::keys::profile));

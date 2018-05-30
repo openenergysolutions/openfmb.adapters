@@ -35,24 +35,27 @@ namespace adapter
             void handle_any()
             {
                 this->bus.subscribe(
-                        std::make_shared<DebugLogSubscriber<T>>(this->logger)
+                    std::make_shared<DebugLogSubscriber<T>>(this->logger)
                 );
             }
 
         public:
-            DebugLoggerProfileHandler(Logger logger, IMessageBus &bus) : logger(std::move(logger)), bus(bus) {}
+            DebugLoggerProfileHandler(Logger logger, IMessageBus& bus) : logger(std::move(logger)), bus(bus) {}
 
         protected:
 
-            void handle_resource_reading() override {
+            void handle_resource_reading() override
+            {
                 this->handle_any<resourcemodule::ResourceReadingProfile>();
             }
 
-            void handle_switch_reading() override {
+            void handle_switch_reading() override
+            {
                 this->handle_any<switchmodule::SwitchReadingProfile>();
             }
 
-            void handle_switch_status() override {
+            void handle_switch_status() override
+            {
                 this->handle_any<switchmodule::SwitchStatusProfile>();
             }
 

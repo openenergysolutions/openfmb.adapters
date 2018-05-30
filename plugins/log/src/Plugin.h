@@ -25,15 +25,15 @@ namespace adapter
 
         private:
 
-/*
-            void add_filter(Profile profile, const YAML::Node& config);
+            /*
+                        void add_filter(Profile profile, const YAML::Node& config);
 
-            virtual void read_resource_reading(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override;
+                        virtual void read_resource_reading(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override;
 
-            virtual void read_switch_reading(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override;
+                        virtual void read_switch_reading(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override;
 
-            virtual void read_switch_status(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override;
-*/
+                        virtual void read_switch_status(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override;
+            */
 
             Plugin() = delete;
         };

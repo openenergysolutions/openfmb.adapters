@@ -48,7 +48,8 @@ namespace adapter
             void handle_value(const std::string& tag_name, const value_getter_t& getter)
             {
                 const auto iter = this->values.find(tag_name);
-                if(iter != this->values.end()) {
+                if(iter != this->values.end())
+                {
                     this->values[tag_name] = getter;
                 }
             }
@@ -70,8 +71,12 @@ namespace adapter
             explicit CachingVisitor(const ITagList& list)
             {
                 // initialize the value map
-                for(size_t i = 0; i < list.count(); ++i) {
-                    this->values[list.get(i)] = [](int precision) { return "?"; };
+                for(size_t i = 0; i < list.count(); ++i)
+                {
+                    this->values[list.get(i)] = [](int precision)
+                    {
+                        return "?";
+                    };
                 }
             }
 
@@ -81,62 +86,73 @@ namespace adapter
                 return value == this->values.end() ? "?" : value->second(precision);
             }
 
-            void start_message_field(const std::string &field_name) override {
+            void start_message_field(const std::string& field_name) override
+            {
                 this->tag_name_stack.emplace_back(field_name);
             }
 
-            void end_message_field() override {
+            void end_message_field() override
+            {
                 this->tag_name_stack.pop_back();
             }
 
-            void start_iteration(int i) override {
+            void start_iteration(int i) override
+            {
                 std::ostringstream oss;
                 oss << "[" << i << "]";
                 this->tag_name_stack.emplace_back(oss.str());
             }
 
-            void end_iteration() override {
+            void end_iteration() override
+            {
                 this->tag_name_stack.pop_back();
             }
 
-            void handle(const std::string &field_name, const commonmodule::MV &value) override {
+            void handle(const std::string& field_name, const commonmodule::MV& value) override
+            {
                 if(value.has_mag())
                 {
                     this->handle_value(
-                            this->get_tag_name(field_name, ::adapter::keys::mag),
-                            getter(value.mag().f())
+                        this->get_tag_name(field_name, ::adapter::keys::mag),
+                        getter(value.mag().f())
                     );
                 }
             }
 
-            void handle(const std::string &field_name, const commonmodule::CMV &value) override {
+            void handle(const std::string& field_name, const commonmodule::CMV& value) override
+            {
                 if(value.cval().has_mag())
                 {
                     this->handle_value(
-                            this->get_tag_name(field_name, ::adapter::keys::cVal, ::adapter::keys::mag),
-                            getter(value.cval().mag().f())
+                        this->get_tag_name(field_name, ::adapter::keys::cVal, ::adapter::keys::mag),
+                        getter(value.cval().mag().f())
                     );
                 }
                 if(value.cval().has_ang())
                 {
                     this->handle_value(
-                            this->get_tag_name(field_name, ::adapter::keys::cVal, ::adapter::keys::ang),
-                            getter(value.cval().ang().f())
+                        this->get_tag_name(field_name, ::adapter::keys::cVal, ::adapter::keys::ang),
+                        getter(value.cval().ang().f())
                     );
                 }
             }
 
-            void handle(const std::string &field_name, const commonmodule::BCR &value) override {
+            void handle(const std::string& field_name, const commonmodule::BCR& value) override
+            {
                 this->handle_value(
-                        this->get_tag_name(field_name, ::adapter::keys::actVal),
-                        getter(value.actval())
+                    this->get_tag_name(field_name, ::adapter::keys::actVal),
+                    getter(value.actval())
                 );
             }
 
-            void handle(const std::string &field_name, const commonmodule::StatusDPS &value) override {
+            void handle(const std::string& field_name, const commonmodule::StatusDPS& value) override
+            {
                 this->handle_value(
-                        this->get_tag_name(field_name, ::adapter::keys::stVal),
-                        [s = commonmodule::DbPosKind_descriptor()->FindValueByNumber(value.stval())->name()](int precision) { return s; }
+                    this->get_tag_name(field_name, ::adapter::keys::stVal),
+                    [s = commonmodule::DbPosKind_descriptor()->FindValueByNumber(value.stval())->name()](int precision)
+                {
+                    return s;
+                }
                 );
             }
         };
@@ -162,21 +178,22 @@ namespace adapter
         public:
 
             FilteredLogSubscriber(Logger logger, const YAML::Node& config) :
-                    logger(std::move(logger)),
-                    name(yaml::require_string(config, ::adapter::keys::name)),
-                    print_alias(yaml::require(config, keys::print_alias).as<bool>()),
-                    log_file(yaml::require_string(config, ::adapter::keys::path), std::ios_base::app | std::ios_base::out)
+                logger(std::move(logger)),
+                name(yaml::require_string(config, ::adapter::keys::name)),
+                print_alias(yaml::require(config, keys::print_alias).as<bool>()),
+                log_file(yaml::require_string(config, ::adapter::keys::path), std::ios_base::app | std::ios_base::out)
             {
                 const auto values = yaml::require(config, keys::values);
 
-                const auto add_tag = [&](const YAML::Node& node)
+                const auto add_tag = [&](const YAML::Node & node)
                 {
                     this->tags.push_back(
-                            TagPair {
-                                .name = yaml::require_string(node, keys::tag),
-                                .alias = yaml::require_string(node, keys::alias),
-                                .digits = yaml::require(node, keys::digits).as<int>()
-                            }
+                        TagPair
+                    {
+                        .name = yaml::require_string(node, keys::tag),
+                        .alias = yaml::require_string(node, keys::alias),
+                        .digits = yaml::require(node, keys::digits).as<int>()
+                    }
                     );
                 };
 
@@ -213,11 +230,13 @@ namespace adapter
             }
 
         private:
-            size_t count() const override {
+            size_t count() const override
+            {
                 return tags.size();
             }
 
-            std::string get(size_t i) const override {
+            std::string get(size_t i) const override
+            {
                 return tags[i].name;
             }
 
@@ -233,27 +252,30 @@ namespace adapter
             void handle_any()
             {
                 this->bus.subscribe(
-                        std::make_shared<FilteredLogSubscriber<T>>(this->logger, this->config)
+                    std::make_shared<FilteredLogSubscriber<T>>(this->logger, this->config)
                 );
             }
 
         public:
 
-            FilteredLoggerProfileHandler(const YAML::Node &config, Logger logger, IMessageBus &bus) :
+            FilteredLoggerProfileHandler(const YAML::Node& config, Logger logger, IMessageBus& bus) :
                 config(config), logger(std::move(logger)), bus(bus)
             {}
 
         protected:
 
-            void handle_resource_reading() override {
+            void handle_resource_reading() override
+            {
                 this->handle_any<resourcemodule::ResourceReadingProfile>();
             }
 
-            void handle_switch_reading() override {
+            void handle_switch_reading() override
+            {
                 this->handle_any<switchmodule::SwitchReadingProfile>();
             }
 
-            void handle_switch_status() override {
+            void handle_switch_status() override
+            {
                 this->handle_any<switchmodule::SwitchStatusProfile>();
             }
         };
