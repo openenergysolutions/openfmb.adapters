@@ -169,7 +169,7 @@ template<typename Proto>
 class BusListener : public ISubscriber<Proto>
 {
 public:
-    explicit BusListener(Logger& logger, std::shared_ptr<IArchiver> archiver)
+    explicit BusListener(const Logger& logger, const std::shared_ptr<IArchiver>& archiver)
         : m_logger{logger},
           m_archiver{archiver}
     {
@@ -183,8 +183,8 @@ public:
     }
 
 private:
-    Logger& m_logger;
-    std::shared_ptr<IArchiver> m_archiver;
+    Logger m_logger;
+    const std::shared_ptr<IArchiver> m_archiver;
 };
 
 }
