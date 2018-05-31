@@ -1,10 +1,10 @@
 
 #include "dnp3/PluginFactory.h"
 
-#include <adapter-api/IProfileHandler.h>
 #include <adapter-api/config/generated/MessageVisitors.h>
 #include <adapter-api/ConfigStrings.h>
 #include <adapter-api/util/YAMLTemplate.h>
+#include <adapter-api/ProfileHelpers.h>
 
 #include "ConfigWriteVisitor.h"
 #include "Plugin.h"
@@ -13,49 +13,24 @@ namespace adapter
 {
     namespace dnp3
     {
-        class ProfileWriter : public IProfileHandler
+        template <class T>
+        struct WriterHandler
         {
-            YAML::Emitter& out;
-
-        public:
-
-            ProfileWriter(YAML::Emitter& out) : out(out) {}
-
-
-        protected:
-            void handle_resource_reading() override
+            static void handle(YAML::Emitter& out)
             {
-                this->write_any<resourcemodule::ResourceReadingProfile>();
-            }
-
-            void handle_switch_reading() override
-            {
-                this->write_any<switchmodule::SwitchReadingProfile>();
-            }
-
-            void handle_switch_status() override
-            {
-                this->write_any<switchmodule::SwitchStatusProfile>();
-            }
-
-        private:
-
-            template <class T>
-            void write_any()
-            {
-                ConfigWriteVisitor<T> visitor(this->out);
+                std::cout << "Generating: " << T::descriptor()->name() << std::endl;
+                ConfigWriteVisitor<T> visitor(out);
                 visit(visitor);
             }
         };
 
         void write_profile_configs(YAML::Emitter& out, const profile_vec_t& profiles)
         {
-            ProfileWriter writer(out);
             for(auto profile : profiles)
             {
                 out << YAML::BeginMap;
                 out << YAML::Key << "name" << YAML::Value << ProfileMeta::to_string(profile);
-                writer.handle_one_profile(profile);
+                profiles::handle_one<WriterHandler>(profile, out);
                 out << YAML::EndMap;
             }
         }
