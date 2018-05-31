@@ -3,12 +3,13 @@
 
 #include <adapter-api/util/YAMLUtil.h>
 #include <adapter-api/Profile.h>
+#include <adapter-api/ProfileHelpers.h>
 
 #include "ConfigKeys.h"
 #include "LogArchiveVisitor.h"
 #include "TagFilter.h"
-#include "DebugLoggerProfileHandler.h"
-#include "FilteredLoggerProfileHandler.h"
+#include "DebugStringLogSubscriber.h"
+#include "FilteredValueLogSubscriber.h"
 
 #include <set>
 
@@ -16,19 +17,44 @@ namespace adapter
 {
     namespace log
     {
+        template <class T>
+        struct DebugSubscriberHandler
+        {
+            static void handle(const Logger& logger, IMessageBus& bus)
+            {
+                bus.subscribe(
+                    std::make_shared<DebugStringLogSubscriber<T>>(logger)
+                );
+            }
+        };
+
+        template <class T>
+        struct FilteredSubscriberHandler
+        {
+            static void handle(const YAML::Node& config, const Logger& logger, IMessageBus& bus)
+            {
+                bus.subscribe(
+                    std::make_shared<FilteredValueLogSubscriber<T>>(logger, config)
+                );
+            }
+        };
+
 
         Plugin::Plugin(const YAML::Node& node, const Logger& logger, IMessageBus& bus)
         {
             if(yaml::require(node, keys::log_debug_string).as<bool>())
             {
-                DebugLoggerProfileHandler handler(logger, bus);
-                handler.handle_all_profiles();
+                profiles::handle_all<DebugSubscriberHandler>(logger, bus);
             }
 
             const auto add_filter = [&](const YAML::Node & config)
             {
-                FilteredLoggerProfileHandler handler(config, logger, bus);
-                handler.handle_one_profile(yaml::require_string(config, ::adapter::keys::profile));
+                profiles::handle_one<FilteredSubscriberHandler>(
+                    yaml::require_string(config, ::adapter::keys::profile),
+                    config,
+                    logger,
+                    bus
+                );
             };
 
             yaml::foreach(yaml::require(node, keys::filters), add_filter);

@@ -9,7 +9,7 @@
 #include <adapter-api/util/YAMLTemplate.h>
 #include <adapter-api/config/generated/MessageVisitors.h>
 #include <adapter-api/ConfigStrings.h>
-#include <adapter-api/IProfileHandler.h>
+#include <adapter-api/ProfileHelpers.h>
 
 #include "ConfigStrings.h"
 #include "ConfigReadVisitor.h"
@@ -29,43 +29,10 @@ namespace adapter
         template <class T>
         using visit_fun_t = void (*)(IProtoVisitor<T>&);
 
-        class ProfileLoader : public IProfileHandler
+        template <class T>
+        struct ProfileLoader
         {
-            const YAML::Node node;
-            const Logger logger;
-            IMessageBus& bus;
-            const std::shared_ptr<IConfigurationBuilder> builder;
-
-        public:
-            ProfileLoader(const YAML::Node& node, const Logger& logger, IMessageBus& bus, std::shared_ptr<IConfigurationBuilder> builder) :
-                node(node),
-                logger(logger),
-                bus(bus),
-                builder(std::move(builder))
-            {}
-
-
-        protected:
-
-            void handle_resource_reading() override
-            {
-                load_any<resourcemodule::ResourceReadingProfile>();
-            }
-
-            void handle_switch_reading() override
-            {
-                load_any<switchmodule::SwitchReadingProfile>();
-            }
-
-            void handle_switch_status() override
-            {
-                load_any<switchmodule::SwitchStatusProfile>();
-            }
-
-        private:
-
-            template <class T>
-            void load_any()
+            static void handle(const YAML::Node& node, const Logger& logger, IMessageBus& bus, std::shared_ptr<IConfigurationBuilder> builder)
             {
                 const auto profile = std::make_shared<T>();
 
@@ -75,16 +42,17 @@ namespace adapter
                     profile->Clear();
                 });
 
-                ConfigReadVisitor<T> reader(this->node, profile, this->builder);
+                ConfigReadVisitor<T> reader(node, profile, builder);
                 visit(reader);
 
                 // publish the profile when the response completes
-                this->builder->add_end_action([profile, publisher = this->bus.get_publisher<T>()]()
+                builder->add_end_action([profile, publisher = bus.get_publisher<T>()]()
                 {
                     publisher->publish(*profile);
                 });
             }
         };
+
 
         Plugin::Plugin(
             const Logger& logger,
@@ -132,8 +100,10 @@ namespace adapter
                 profiles,
                 [&](const YAML::Node& node)
         {
-            ProfileLoader loader(node, logger, bus, handler);
-                loader.handle_one_profile(yaml::require_string(node, ::adapter::keys::name));
+            profiles::handle_one<ProfileLoader>(
+                yaml::require_string(node, ::adapter::keys::name),
+                node, logger, bus, handler
+            );
             }
             );
 

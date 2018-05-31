@@ -1,9 +1,8 @@
-#ifndef OPENFMB_ADAPTER_FILTEREDLOGGERPROFILEHANDLER_H
-#define OPENFMB_ADAPTER_FILTEREDLOGGERPROFILEHANDLER_H
+#ifndef OPENFMB_ADAPTER_FILTEREDVALUELOGSUBSCRIBER_H
+#define OPENFMB_ADAPTER_FILTEREDVALUELOGSUBSCRIBER_H
 
 #include <adapter-api/ISubscriber.h>
 #include <adapter-api/Logger.h>
-#include <adapter-api/IProfileHandler.h>
 #include <adapter-api/config/MessageInformation.h>
 #include <adapter-api/config/generated/ArchiveVisitors.h>
 
@@ -158,7 +157,7 @@ namespace adapter
         };
 
         template <class Proto>
-        class FilteredLogSubscriber final : public ISubscriber<Proto>, private ITagList
+        class FilteredValueLogSubscriber final : public ISubscriber<Proto>, private ITagList
         {
             struct TagPair
             {
@@ -177,7 +176,7 @@ namespace adapter
 
         public:
 
-            FilteredLogSubscriber(Logger logger, const YAML::Node& config) :
+            FilteredValueLogSubscriber(Logger logger, const YAML::Node& config) :
                 logger(std::move(logger)),
                 name(yaml::require_string(config, ::adapter::keys::name)),
                 print_alias(yaml::require(config, keys::print_alias).as<bool>()),
@@ -242,43 +241,6 @@ namespace adapter
 
         };
 
-        class FilteredLoggerProfileHandler : public IProfileHandler
-        {
-            const YAML::Node config;
-            const Logger logger;
-            IMessageBus& bus;
-
-            template <class T>
-            void handle_any()
-            {
-                this->bus.subscribe(
-                    std::make_shared<FilteredLogSubscriber<T>>(this->logger, this->config)
-                );
-            }
-
-        public:
-
-            FilteredLoggerProfileHandler(const YAML::Node& config, Logger logger, IMessageBus& bus) :
-                config(config), logger(std::move(logger)), bus(bus)
-            {}
-
-        protected:
-
-            void handle_resource_reading() override
-            {
-                this->handle_any<resourcemodule::ResourceReadingProfile>();
-            }
-
-            void handle_switch_reading() override
-            {
-                this->handle_any<switchmodule::SwitchReadingProfile>();
-            }
-
-            void handle_switch_status() override
-            {
-                this->handle_any<switchmodule::SwitchStatusProfile>();
-            }
-        };
     }
 }
 

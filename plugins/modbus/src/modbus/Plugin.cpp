@@ -6,7 +6,7 @@
 #include "PollManager.h"
 
 #include <adapter-api/config/generated/MessageVisitors.h>
-#include <adapter-api/IProfileHandler.h>
+#include <adapter-api/ProfileHelpers.h>
 #include <adapter-api/util/YAMLTemplate.h>
 
 #include "modbus/logging/LoggerFactory.h"
@@ -19,49 +19,18 @@ namespace adapter
     namespace modbus
     {
 
-        class ProfileReader : public IProfileHandler
+        template <class T>
+        struct ProfileReader
         {
-            const std::shared_ptr<PollHandler> handler;
-            const YAML::Node node;
-            const Logger logger;
-            IMessageBus& bus;
 
-        public:
-
-            ProfileReader(std::shared_ptr<PollHandler> handler, const YAML::Node& node, Logger logger, IMessageBus& bus) :
-                handler(std::move(handler)),
-                node(node),
-                logger(std::move(logger)),
-                bus(bus)
-            {}
-
-        protected:
-            void handle_resource_reading() override
-            {
-                this->handle_any<resourcemodule::ResourceReadingProfile>();
-            }
-
-            void handle_switch_reading() override
-            {
-                this->handle_any<switchmodule::SwitchReadingProfile>();
-            }
-
-            void handle_switch_status() override
-            {
-                this->handle_any<switchmodule::SwitchStatusProfile>();
-            }
-
-        private:
-
-            template <class T>
-            void handle_any()
+            static void handle(std::shared_ptr<PollHandler> handler, const YAML::Node& node, Logger logger, IMessageBus& bus)
             {
                 const auto profile = std::make_shared<T>();
 
-                ConfigReadVisitor<T> visitor(this->node, profile, this->handler);
+                ConfigReadVisitor<T> visitor(node, profile, handler);
                 visit(visitor);
 
-                this->handler->add_end_action(
+                handler->add_end_action(
                     [profile, publisher = bus.get_publisher<T>()] ()
                 {
                     publisher->publish(*profile);
@@ -96,8 +65,7 @@ namespace adapter
 
             const auto handler = std::make_shared<PollHandler>();
 
-            ProfileReader reader(handler, profile_node, this->logger, bus);
-            reader.handle_one_profile(profile_name);
+            profiles::handle_one<ProfileReader>(profile_name, handler, node, this->logger, bus);
 
             this->logger.info("Session {} has {} mapped values", name, handler->num_mapped_values());
 

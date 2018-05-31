@@ -2,7 +2,7 @@
 #include "modbus/PluginFactory.h"
 
 #include <adapter-api/util/Exception.h>
-#include <adapter-api/IProfileHandler.h>
+#include <adapter-api/ProfileHelpers.h>
 #include <adapter-api/config/generated/MessageVisitors.h>
 #include <adapter-api/util/YAMLTemplate.h>
 
@@ -15,35 +15,13 @@ namespace adapter
 {
     namespace modbus
     {
-        class ProfileWriter final : public IProfileHandler
+        template <class T>
+        struct ProfileWriter
         {
-            YAML::Emitter& out;
-
-            template <class T>
-            void write_any()
+            static void handle(YAML::Emitter& out)
             {
-                ConfigWriteVisitor<T> visitor(this->out);
+                ConfigWriteVisitor<T> visitor(out);
                 visit(visitor);
-            }
-
-        public:
-            ProfileWriter(YAML::Emitter& out) : out(out) {}
-
-
-        protected:
-            void handle_resource_reading() override
-            {
-                this->write_any<resourcemodule::ResourceReadingProfile>();
-            }
-
-            void handle_switch_reading() override
-            {
-                this->write_any<switchmodule::SwitchReadingProfile>();
-            }
-
-            void handle_switch_status() override
-            {
-                this->write_any<switchmodule::SwitchStatusProfile>();
             }
         };
 
@@ -65,8 +43,7 @@ namespace adapter
             out << YAML::Key << keys::profile;
             out << YAML::BeginMap;
             out << YAML::Key << keys::name << YAML::Value << ProfileMeta::to_string(profile);
-            ProfileWriter writer(out);
-            writer.handle_one_profile(profile);
+            profiles::handle_one<ProfileWriter>(profile, out);
             out << YAML::EndMap;
 
             out << YAML::EndMap;

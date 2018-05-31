@@ -14,8 +14,8 @@ set(PROJECT_SOURCES
         src/LogArchiveVisitor.h
         src/TagFilter.h
         src/TagFilter.cpp
-        src/DebugLoggerProfileHandler.h
-        src/FilteredLoggerProfileHandler.h
+        src/DebugStringLogSubscriber.h
+        src/FilteredValueLogSubscriber.h
 )
 
 SET(CPP_FORMAT_DIRS

@@ -26,15 +26,8 @@ namespace adapter
             virtual void start(natsConnection* connection) = 0;
         };
 
-        class ISubscriptionSink
-        {
-        public:
-            virtual ~ISubscriptionSink() = default;
-            virtual void add(std::unique_ptr<INATSSubscription> subscription) = 0;
-        };
 
-
-        class Plugin final : public IPlugin, private ISubscriptionSink
+        class Plugin final : public IPlugin
         {
             struct Config
             {
@@ -63,7 +56,6 @@ namespace adapter
 
         private:
 
-            void add(std::unique_ptr<INATSSubscription> subscription) override;
 
             std::vector<std::unique_ptr<INATSSubscription>> subscriptions;
 
