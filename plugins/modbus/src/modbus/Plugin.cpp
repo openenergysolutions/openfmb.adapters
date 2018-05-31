@@ -65,7 +65,7 @@ namespace adapter
 
             const auto handler = std::make_shared<PollHandler>();
 
-            profiles::handle_one<ProfileReader>(profile_name, handler, node, this->logger, bus);
+            profiles::handle_one<ProfileReader>(profile_name, handler, profile_node, this->logger, bus);
 
             this->logger.info("Session {} has {} mapped values", name, handler->num_mapped_values());
 
