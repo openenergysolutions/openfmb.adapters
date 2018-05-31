@@ -3,6 +3,7 @@
 #include "ConfigStrings.h"
 
 #include <adapter-api/util/YAMLUtil.h>
+#include <adapter-api/ProfileHelpers.h>
 
 #include <boost/numeric/conversion/cast.hpp>
 #include <cppcodec/base64_default_rfc4648.hpp>
@@ -42,7 +43,7 @@ namespace adapter
             const std::shared_ptr<SharedLog> log;
 
         public:
-            Subscriber(std::shared_ptr<SharedLog> log) : log(std::move(log))
+            explicit Subscriber(std::shared_ptr<SharedLog> log) : log(std::move(log))
             {}
 
             void receive(const T& message) override
@@ -51,14 +52,19 @@ namespace adapter
             }
         };
 
-
+        template <class T>
+        struct ProfileSubscriber
+        {
+            static void handle(std::shared_ptr<SharedLog> log, IMessageBus& bus)
+            {
+                bus.subscribe(std::make_shared<Subscriber<T>>(std::move(log)));
+            }
+        };
 
         Plugin::Plugin(const YAML::Node& node, const Logger& logger, IMessageBus& bus) :
             shared_log(std::make_shared<SharedLog>(yaml::require_string(node, keys::file), logger))
         {
-            bus.subscribe(std::make_shared<Subscriber<resourcemodule::ResourceReadingProfile>>(shared_log));
-            bus.subscribe(std::make_shared<Subscriber<switchmodule::SwitchReadingProfile>>(shared_log));
-            bus.subscribe(std::make_shared<Subscriber<switchmodule::SwitchStatusProfile>>(shared_log));
+            profiles::handle_all<ProfileSubscriber>(this->shared_log, bus);
         }
 
         Plugin::~Plugin()
