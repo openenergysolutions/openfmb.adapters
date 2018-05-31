@@ -1,7 +1,7 @@
 
 #include "dnp3/PluginFactory.h"
 
-#include <adapter-api/IProfileWriter.h>
+#include <adapter-api/IProfileHandler.h>
 #include <adapter-api/config/generated/MessageVisitors.h>
 #include <adapter-api/ConfigStrings.h>
 #include <adapter-api/util/YAMLTemplate.h>
@@ -13,42 +13,49 @@ namespace adapter
 {
     namespace dnp3
     {
-        struct ProfileWriter : public IProfileWriter
+        class ProfileWriter : public IProfileHandler
         {
+            YAML::Emitter& out;
+
+        public:
+
+            ProfileWriter(YAML::Emitter& out) : out(out) {}
+
+
         protected:
-            void write_resource_reading(YAML::Emitter& out) override
+            void handle_resource_reading() override
             {
-                this->write_any<resourcemodule::ResourceReadingProfile>(out);
+                this->write_any<resourcemodule::ResourceReadingProfile>();
             }
 
-            void write_switch_reading(YAML::Emitter& out) override
+            void handle_switch_reading() override
             {
-                this->write_any<switchmodule::SwitchReadingProfile>(out);
+                this->write_any<switchmodule::SwitchReadingProfile>();
             }
 
-            void write_switch_status(YAML::Emitter& out) override
+            void handle_switch_status() override
             {
-                this->write_any<switchmodule::SwitchStatusProfile>(out);
+                this->write_any<switchmodule::SwitchStatusProfile>();
             }
 
         private:
 
             template <class T>
-            void write_any(YAML::Emitter& out)
+            void write_any()
             {
-                ConfigWriteVisitor<T> visitor(out);
+                ConfigWriteVisitor<T> visitor(this->out);
                 visit(visitor);
             }
         };
 
         void write_profile_configs(YAML::Emitter& out, const profile_vec_t& profiles)
         {
-            ProfileWriter writer;
+            ProfileWriter writer(out);
             for(auto profile : profiles)
             {
                 out << YAML::BeginMap;
                 out << YAML::Key << "name" << YAML::Value << ProfileMeta::to_string(profile);
-                writer.write_one_profile(profile, out);
+                writer.handle_one_profile(profile);
                 out << YAML::EndMap;
             }
         }

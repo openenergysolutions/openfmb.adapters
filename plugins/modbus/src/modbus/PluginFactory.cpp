@@ -2,7 +2,7 @@
 #include "modbus/PluginFactory.h"
 
 #include <adapter-api/util/Exception.h>
-#include <adapter-api/IProfileWriter.h>
+#include <adapter-api/IProfileHandler.h>
 #include <adapter-api/config/generated/MessageVisitors.h>
 #include <adapter-api/util/YAMLTemplate.h>
 
@@ -15,25 +15,35 @@ namespace adapter
 {
     namespace modbus
     {
-        class ProfileWriter final : public IProfileWriter
+        class ProfileWriter final : public IProfileHandler
         {
+            YAML::Emitter& out;
+
+            template <class T>
+            void write_any()
+            {
+                ConfigWriteVisitor<T> visitor(this->out);
+                visit(visitor);
+            }
+
+        public:
+            ProfileWriter(YAML::Emitter& out) : out(out) {}
+
+
         protected:
-            void write_resource_reading(YAML::Emitter& out) override
+            void handle_resource_reading() override
             {
-                ConfigWriteVisitor<resourcemodule::ResourceReadingProfile> visitor(out);
-                visit(visitor);
+                this->write_any<resourcemodule::ResourceReadingProfile>();
             }
 
-            void write_switch_reading(YAML::Emitter& out) override
+            void handle_switch_reading() override
             {
-                ConfigWriteVisitor<switchmodule::SwitchReadingProfile> visitor(out);
-                visit(visitor);
+                this->write_any<switchmodule::SwitchReadingProfile>();
             }
 
-            void write_switch_status(YAML::Emitter& out) override
+            void handle_switch_status() override
             {
-                ConfigWriteVisitor<switchmodule::SwitchStatusProfile> visitor(out);
-                visit(visitor);
+                this->write_any<switchmodule::SwitchStatusProfile>();
             }
         };
 
@@ -55,8 +65,8 @@ namespace adapter
             out << YAML::Key << keys::profile;
             out << YAML::BeginMap;
             out << YAML::Key << keys::name << YAML::Value << ProfileMeta::to_string(profile);
-            ProfileWriter writer;
-            writer.write_one_profile(profile, out);
+            ProfileWriter writer(out);
+            writer.handle_one_profile(profile);
             out << YAML::EndMap;
 
             out << YAML::EndMap;
