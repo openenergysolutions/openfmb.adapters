@@ -109,29 +109,30 @@ namespace adapter
 
             void handle(const std::string& field_name, const commonmodule::MV& value) override
             {
-                if(value.has_mag())
+                if(value.has_mag() && value.mag().has_f())
                 {
                     this->handle_value(
                         this->get_tag_name(field_name, ::adapter::keys::mag),
-                        getter(value.mag().f())
+                        getter(value.mag().f().value())
                     );
                 }
             }
 
             void handle(const std::string& field_name, const commonmodule::CMV& value) override
             {
-                if(value.cval().has_mag())
+
+                if(value.cval().mag().has_f())
                 {
                     this->handle_value(
                         this->get_tag_name(field_name, ::adapter::keys::cVal, ::adapter::keys::mag),
-                        getter(value.cval().mag().f())
+                        getter(value.cval().mag().f().value())
                     );
                 }
-                if(value.cval().has_ang())
+                if(value.cval().ang().has_f())
                 {
                     this->handle_value(
                         this->get_tag_name(field_name, ::adapter::keys::cVal, ::adapter::keys::ang),
-                        getter(value.cval().ang().f())
+                        getter(value.cval().ang().f().value())
                     );
                 }
             }
@@ -201,7 +202,7 @@ namespace adapter
 
             virtual void receive(const Proto& message) override
             {
-                if(get_conducting_equip(message).namedobject().name() != this->name)
+                if(get_conducting_equip(message).namedobject().name().value() != this->name)
                 {
                     return;
                 }

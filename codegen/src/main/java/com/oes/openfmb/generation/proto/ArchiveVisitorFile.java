@@ -117,7 +117,10 @@ public class ArchiveVisitorFile extends CppFilePair {
 
     private Document startRepeatedMessageField(FieldPath path, Descriptors.Descriptor descriptor)
     {
-        throw new RuntimeException("not implemented");
+        line(String.format("for(decltype(%s.count())", path.getInfo().field.getName())
+
+        //throw new RuntimeException("not implemented");
+        return Documents.line("throw Exception(\"help!\");");
     }
 
     private Document build(FieldPath path)

@@ -33,7 +33,8 @@ public class MessageVisitorFile extends CppFilePair {
                 ENG_PFSignKind.getDescriptor(),
                 StatusDPS.getDescriptor(),
                 ENS_BehaviourModeKind.getDescriptor(),
-                ENS_DynamicTestKind.getDescriptor()
+                ENS_DynamicTestKind.getDescriptor(),
+                ENS_HealthKind.getDescriptor()
             )
     );
 

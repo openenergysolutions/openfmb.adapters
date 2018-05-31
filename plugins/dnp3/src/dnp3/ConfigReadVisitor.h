@@ -204,7 +204,7 @@ namespace adapter
             {
                 const auto handler = [scale = get_scale(node), getter, profile = this->profile](const U & meas)
                 {
-                    getter(*profile)->set_f(static_cast<float>(meas.value * scale));
+                    getter(*profile)->mutable_f()->set_value(static_cast<float>(meas.value * scale));
                 };
 
                 this->builder->add_measurement_handler(handler, get_index(node));

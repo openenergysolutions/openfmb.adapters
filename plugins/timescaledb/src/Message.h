@@ -15,7 +15,7 @@ struct MessageItem
     std::string tagname;
     std::string value;
 
-    MessageItem(const std::string& tagname, const std::string& value)
+    explicit MessageItem(const std::string& tagname, const std::string& value)
         : tagname{tagname}, value{value}
     {}
 };

@@ -38,11 +38,11 @@ public:
         try
         {
             boost::uuids::string_generator gen;
-            message_uuid = gen(message_info.identifiedobject().mrid());
+            message_uuid = gen(message_info.identifiedobject().mrid().value());
         }
         catch(std::runtime_error)
         {
-            m_logger.warn("Message UUID is not valid: '{}'", message_info.identifiedobject().mrid());
+            m_logger.warn("Message UUID is not valid: '{}'", message_info.identifiedobject().mrid().value());
             return;
         }
 
@@ -96,9 +96,15 @@ private:
     {
         m_tagname_stack.push_back(field_name);
 
-        auto tagname = get_current_tagname("mag");
-        auto mag = value.mag().f();
-        m_current_message->items.emplace_back(tagname, std::to_string(mag));
+        if(value.mag().has_f())
+        {
+            m_current_message->items.emplace_back(
+                    MessageItem(
+                            get_current_tagname("mag"),
+                            std::to_string(value.mag().f().value())
+                    )
+            );
+        }
 
         m_tagname_stack.pop_back();
     }
@@ -107,16 +113,24 @@ private:
     {
         m_tagname_stack.push_back(field_name);
 
+        if(value.cval().ang().has_f())
         {
-            auto tagname = get_current_tagname("ang");
-            auto ang = value.cval().ang().f();
-            m_current_message->items.emplace_back(tagname, std::to_string(ang));
+            m_current_message->items.emplace_back(
+                    MessageItem(
+                        get_current_tagname("ang"),
+                        std::to_string(value.cval().ang().f().value())
+                    )
+            );
         }
 
+        if(value.cval().mag().has_f())
         {
-            auto tagname = get_current_tagname("mag");
-            auto mag = value.cval().mag().f();
-            m_current_message->items.emplace_back(tagname, std::to_string(mag));
+            m_current_message->items.emplace_back(
+                    MessageItem(
+                            get_current_tagname("mag"),
+                            std::to_string(value.cval().mag().f().value())
+                    )
+            );
         }
 
         m_tagname_stack.pop_back();
@@ -126,9 +140,12 @@ private:
     {
         m_tagname_stack.push_back(field_name);
 
-        auto tagname = get_current_tagname("actVal");
-        auto val = value.actval();
-        m_current_message->items.emplace_back(tagname, std::to_string(val));
+        m_current_message->items.emplace_back(
+                MessageItem(
+                        get_current_tagname("actVal"),
+                        std::to_string(value.actval())
+                )
+        );
 
         m_tagname_stack.pop_back();
     }

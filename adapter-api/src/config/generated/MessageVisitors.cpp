@@ -621,9 +621,21 @@ void visit(IProtoVisitor<switchmodule::SwitchReadingProfile>& visitor)
         );
     }
     visitor.end_message_field();
-    visitor.start_message_field("switchReading");
+    const auto max_count0 = visitor.start_repeated_message_field("switchReading");
+    for(auto count0 = 0; count0 < max_count0; ++count0)
     {
-        const auto context1 = [context = context0](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_switchreading(); };
+        visitor.start_iteration(count0);
+        const auto context1 = [context = context0, i = count0, max = max_count0](switchmodule::SwitchReadingProfile& profile) {
+            const auto repeated = context(profile)->mutable_switchreading();
+            if(repeated->size() < max) {
+                repeated->Reserve(max);
+                // add items until we're at max requested capacity
+                for(auto j = repeated->size(); j < max; ++j) {
+                    repeated->Add();
+                }
+            }
+            return repeated->Mutable(i);
+        };
         visitor.handle(
             "conductingEquipmentTerminalReading",
             [context = context1](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_conductingequipmentterminalreading(); }
@@ -1369,8 +1381,9 @@ void visit(IProtoVisitor<switchmodule::SwitchReadingProfile>& visitor)
             visitor.end_message_field();
         }
         visitor.end_message_field();
+        visitor.end_iteration();
     }
-    visitor.end_message_field();
+    visitor.end_repeated_message_field();
 }
 
 void visit(IProtoVisitor<switchmodule::SwitchStatusProfile>& visitor)
@@ -1433,6 +1446,10 @@ void visit(IProtoVisitor<switchmodule::SwitchStatusProfile>& visitor)
                 visitor.handle(
                     "Beh",
                     [context = context3](switchmodule::SwitchStatusProfile& profile) { return context(profile)->mutable_beh(); }
+                );
+                visitor.handle(
+                    "EEHealth",
+                    [context = context3](switchmodule::SwitchStatusProfile& profile) { return context(profile)->mutable_eehealth(); }
                 );
             }
             visitor.end_message_field();

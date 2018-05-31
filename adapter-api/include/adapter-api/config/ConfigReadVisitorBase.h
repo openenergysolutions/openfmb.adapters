@@ -87,6 +87,8 @@ namespace adapter
         template <class U>
         void configure_static_mrid(const YAML::Node& node, getter_t <U, T> getter);
 
+        void configure_required_static_mrid(const YAML::Node& node, getter_t <commonmodule::ConductingEquipment, T> getter);
+
         template <class U>
         void configure_static_name(const YAML::Node& node, getter_t <U, T> getter);
 
@@ -119,7 +121,7 @@ namespace adapter
 
     template <class T>
     template <class U>
-    void ConfigReadVisitorBase<T>::configure_static_mrid(const YAML::Node& node, getter_t <U, T> getter)
+    void ConfigReadVisitorBase<T>::configure_static_mrid(const YAML::Node& node, getter_t<U, T> getter)
     {
         const auto uuid_node = yaml::require(node, ::adapter::keys::mRID);
         const auto uuid = uuid_node.as<std::string>();
@@ -137,7 +139,31 @@ namespace adapter
             }
 
             this->add_message_init_action(
-                [getter, uuid](T & profile) -> void { getter(profile)->set_mrid(uuid); }
+                [getter, uuid](T & profile) -> void { getter(profile)->mutable_mrid()->set_value(uuid); }
+            );
+        }
+    }
+
+    template <class T>
+    void ConfigReadVisitorBase<T>::configure_required_static_mrid(const YAML::Node& node, getter_t<commonmodule::ConductingEquipment, T> getter)
+    {
+        const auto uuid_node = yaml::require(node, ::adapter::keys::mRID);
+        const auto uuid = uuid_node.as<std::string>();
+
+        if(!uuid.empty())
+        {
+            try
+            {
+                // throws bad_lexical_cast if not a valid UUID
+                boost::lexical_cast<boost::uuids::uuid>(uuid);
+            }
+            catch (...)
+            {
+                throw Exception("Not a valid UUID: ", uuid, ", line: ", uuid_node.Mark().line);
+            }
+
+            this->add_message_init_action(
+                    [getter, uuid](T & profile) -> void { getter(profile)->set_mrid(uuid); }
             );
         }
     }
@@ -155,7 +181,7 @@ namespace adapter
                 this->add_message_init_action(
                     [getter, name](T & profile)
                 {
-                    getter(profile)->set_name(name);
+                    getter(profile)->mutable_name()->set_value(name);
                 }
                 );
             }
@@ -173,7 +199,7 @@ namespace adapter
             this->add_message_init_action(
                 [getter, description](T & profile)
             {
-                getter(profile)->set_description(description);
+                getter(profile)->mutable_description()->set_value(description);
             }
             );
         }
@@ -198,7 +224,7 @@ namespace adapter
         this->add_message_init_action(
             [getter, generator = this->generator](T & profile)
         {
-            getter(profile)->mutable_identifiedobject()->set_mrid(boost::uuids::to_string((*generator)()));
+            getter(profile)->mutable_identifiedobject()->mutable_mrid()->set_value(boost::uuids::to_string((*generator)()));
         }
         );
 
@@ -226,7 +252,7 @@ namespace adapter
     {
         const auto node = this->get_config_node(field_name);
 
-        this->configure_static_mrid(node, getter);
+        this->configure_required_static_mrid(node, getter);
 
 
         const auto named_object_node = yaml::require(node, keys::named_object);

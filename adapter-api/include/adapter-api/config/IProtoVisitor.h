@@ -73,6 +73,7 @@ namespace adapter
         /// --- Ignore these for now everywhere until we know what they do ---
         virtual void handle(const std::string& field_name, getter_t<commonmodule::ENS_BehaviourModeKind, Profile> getter) {}
         virtual void handle(const std::string& field_name, getter_t<commonmodule::ENS_DynamicTestKind, Profile> getter) {}
+        virtual void handle(const std::string& field_name, getter_t<commonmodule::ENS_HealthKind, Profile> getter) {}
 
 
     };

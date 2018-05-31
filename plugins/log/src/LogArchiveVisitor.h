@@ -83,29 +83,29 @@ namespace adapter
 
             void handle(const std::string& field_name, const commonmodule::MV& value) override
             {
-                if(value.has_mag())
+                if(value.mag().has_f())
                 {
                     this->log_value(
                         this->get_tag_name(field_name, ::adapter::keys::mag),
-                        value.mag().f()
+                        value.mag().f().value()
                     );
                 }
             }
 
             void handle(const std::string& field_name, const commonmodule::CMV& value) override
             {
-                if(value.cval().has_mag())
+                if(value.cval().mag().has_f())
                 {
                     this->log_value(
                         this->get_tag_name(field_name, ::adapter::keys::cVal, ::adapter::keys::mag),
-                        value.cval().mag().f()
+                        value.cval().mag().f().value()
                     );
                 }
-                if(value.cval().has_ang())
+                if(value.cval().ang().has_f())
                 {
                     this->log_value(
                         this->get_tag_name(field_name, ::adapter::keys::cVal, ::adapter::keys::ang),
-                        value.cval().ang().f()
+                        value.cval().ang().f().value()
                     );
                 }
             }

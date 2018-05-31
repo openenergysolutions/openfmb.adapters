@@ -97,28 +97,28 @@ namespace adapter
                     this->map_register16(node, [getter, scale = get_float_scale(node)](T & profile,
                                          const std::shared_ptr<Register16>& reg)
                     {
-                        getter(profile)->set_f(reg->to_uint16() * scale);
+                        getter(profile)->mutable_f()->set_value(reg->to_uint16() * scale);
                     });
                     break;
                 case (MappingType::sint16):
                     this->map_register16(node, [getter, scale = get_float_scale(node)](T & profile,
                                          const std::shared_ptr<Register16>& reg)
                     {
-                        getter(profile)->set_f(reg->to_sint16() * scale);
+                        getter(profile)->mutable_f()->set_value(reg->to_sint16() * scale);
                     });
                     break;
                 case (MappingType::uint32):
                     this->map_register32(node, [getter, scale = get_float_scale(node)](T & profile,
                                          const std::shared_ptr<Register32>& reg)
                     {
-                        getter(profile)->set_f(reg->to_uint32() * scale);
+                        getter(profile)->mutable_f()->set_value(reg->to_uint32() * scale);
                     });
                     break;
                 case (MappingType::sint32):
                     this->map_register32(node, [getter, scale = get_float_scale(node)](T & profile,
                                          const std::shared_ptr<Register32>& reg)
                     {
-                        getter(profile)->set_f(reg->to_sint32() * scale);
+                        getter(profile)->mutable_f()->set_value(reg->to_sint32() * scale);
                     });
                     break;
                 case (MappingType::uint32_with_modulus):
@@ -126,7 +126,7 @@ namespace adapter
                         this->map_register32(node, [getter, scale = get_float_scale(node), modulus = get_modulus(node)]
                                              (T & profile, const std::shared_ptr<Register32>& reg)
                         {
-                            getter(profile)->set_f(reg->to_uint32(modulus) * scale);
+                            getter(profile)->mutable_f()->set_value(reg->to_uint32(modulus) * scale);
                         });
                         break;
                     }
@@ -135,7 +135,7 @@ namespace adapter
                         this->map_register32(node, [getter, scale = get_float_scale(node), modulus = get_modulus(node)]
                                              (T & profile, const std::shared_ptr<Register32>& reg)
                         {
-                            getter(profile)->set_f(reg->to_sint32(modulus) * scale);
+                            getter(profile)->mutable_f()->set_value(reg->to_sint32(modulus) * scale);
                         });
                         break;
                     }
