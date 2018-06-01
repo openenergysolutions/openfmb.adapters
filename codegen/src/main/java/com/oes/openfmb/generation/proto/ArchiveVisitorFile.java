@@ -117,10 +117,21 @@ public class ArchiveVisitorFile extends CppFilePair {
 
     private Document startRepeatedMessageField(FieldPath path, Descriptors.Descriptor descriptor)
     {
-        line(String.format("for(decltype(%s.count())", path.getInfo().field.getName())
+        final Document inner = join(descriptor.getFields().stream().map(f -> this.build(path.build(f))));
 
-        //throw new RuntimeException("not implemented");
-        return Documents.line("throw Exception(\"help!\");");
+        final int depth = path.getInfo().depth;
+        final String fieldName = path.getInfo().field.getName().toLowerCase();
+
+        return inner.isEmpty() ? inner :
+                line(String.format("visitor.start_message_field(\"%s\");", fieldName))
+                        .append(String.format("for(decltype(level%d.%s_size()) i = 0; i < level%d.%s_size(); ++i)", depth, fieldName, depth, fieldName))
+                        .append("{")
+                        .indent("visitor.start_iteration(i);")
+                        .indent(String.format("const auto& level%d = level%d.%s(i);", depth + 1, depth, fieldName))
+                        .indent(inner)
+                        .indent("visitor.end_iteration();")
+                        .append("}")
+                        .append("visitor.end_message_field();");
     }
 
     private Document build(FieldPath path)
