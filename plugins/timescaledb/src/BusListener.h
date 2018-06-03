@@ -193,13 +193,14 @@ public:
 
     }
 
-    void receive(const Proto& message) override
+private:
+
+    void process(const Proto& message) override
     {
         ProtoMessageVisitor<Proto> m_message_visitor{m_logger};
         m_message_visitor.save(message, m_archiver);
     }
 
-private:
     Logger m_logger;
     const std::shared_ptr<IArchiver> m_archiver;
 };

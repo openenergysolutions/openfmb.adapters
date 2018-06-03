@@ -18,7 +18,8 @@ namespace adapter
             explicit DebugStringLogSubscriber(Logger logger) : logger(std::move(logger))
             {}
 
-            virtual void receive(const Proto& message) override
+        private:
+            void process(const Proto& message) override
             {
                 logger.info("published {}\n {}", Proto::descriptor()->name(), message.DebugString());
             }

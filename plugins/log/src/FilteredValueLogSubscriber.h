@@ -200,13 +200,15 @@ namespace adapter
                 yaml::foreach(values, add_tag);
             }
 
-            virtual void receive(const Proto& message) override
-            {
-                if(get_conducting_equip(message).namedobject().name().value() != this->name)
-                {
-                    return;
-                }
+        private:
 
+            bool matches(const Proto &message) const override
+            {
+                return get_conducting_equip(message).namedobject().name().value() == this->name;
+            }
+
+            void process(const Proto& message) override
+            {
                 CachingVisitor visitor(*this);
                 visit(message, visitor);
 

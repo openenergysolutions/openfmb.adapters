@@ -46,7 +46,8 @@ namespace adapter
             explicit Subscriber(std::shared_ptr<SharedLog> log) : log(std::move(log))
             {}
 
-            void receive(const T& message) override
+        private:
+            void process(const T& message) override
             {
                 log->write(T::descriptor()->name(), message);
             }
