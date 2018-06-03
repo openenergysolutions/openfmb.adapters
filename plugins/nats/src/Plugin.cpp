@@ -31,10 +31,10 @@ namespace adapter
                 switch(mode)
                 {
                 case(ProfileMode::publish):
-                    add_publisher(node, logger, *bus, message_queue);
+                    add_publisher(logger, *bus, message_queue);
                     break;
                 case(ProfileMode::subscribe):
-                    subscriptions.push_back(create_subscription(node, logger, bus, message_queue));
+                    subscriptions.push_back(create_subscription(logger, bus, message_queue));
                     break;
                 default:
                     break;
@@ -42,7 +42,7 @@ namespace adapter
             }
 
         private:
-            static void add_publisher(const YAML::Node& node, Logger& logger, IMessageBus& bus, const message_queue_t& message_queue)
+            static void add_publisher(Logger& logger, IMessageBus& bus, const message_queue_t& message_queue)
             {
                 logger.info("Registering subscriber for: {}", T::descriptor()->name());
 
@@ -54,7 +54,7 @@ namespace adapter
                 );
             }
 
-            static std::unique_ptr<INATSSubscription> create_subscription(const YAML::Node& node, Logger& logger, publisher_t publisher, const std::shared_ptr<util::SynchronizedQueue<Message>>& message_queue)
+            static std::unique_ptr<INATSSubscription> create_subscription(Logger& logger, publisher_t publisher, const std::shared_ptr<util::SynchronizedQueue<Message>>& message_queue)
             {
                 const auto subject =  get_subscribe_all_subject_name<T>();
 
