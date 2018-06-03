@@ -3,8 +3,8 @@ set(openfmb_adapter_src
     ./src/ArgumentParser.h
     ./src/ArgumentParser.cpp
     ./src/main.cpp
-    ./src/ProtoBus.h
-    ./src/ProtoBus.cpp
+    ./src/MessageBus.h
+    ./src/MessageBus.cpp
     ./src/PluginRegistry.h
     ./src/PluginRegistry.cpp
     ./src/Shutdown.h

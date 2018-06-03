@@ -1,6 +1,6 @@
 
-#ifndef OPENFMB_ADAPTER_PROTOBUS_H
-#define OPENFMB_ADAPTER_PROTOBUS_H
+#ifndef OPENFMB_ADAPTER_MESSAGEBUS_H
+#define OPENFMB_ADAPTER_MESSAGEBUS_H
 
 #include "adapter-api/IMessageBus.h"
 
@@ -9,11 +9,11 @@
 namespace adapter
 {
 
-    class ProtoBus final : public IMessageBus
+    class MessageBus final : public IMessageBus
     {
     public:
 
-        ProtoBus() = default;
+        MessageBus() = default;
 
         /**
          * Don't allow more subscribers to be added. Existing publishers may now begin publishing

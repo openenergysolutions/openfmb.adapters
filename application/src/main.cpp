@@ -6,7 +6,7 @@
 #include "adapter-api/Version.h"
 
 #include "PluginRegistry.h"
-#include "ProtoBus.h"
+#include "MessageBus.h"
 #include "Shutdown.h"
 #include "ConfigKeys.h"
 #include "LoggerConfig.h"
@@ -114,7 +114,7 @@ std::shared_ptr<const adapter::IPluginFactory> get_factory(const argagg::parser_
 int run_application(const std::string& config_file_path)
 {
     // plugins publish and subscribe to this common bus
-    const auto bus = std::make_shared<ProtoBus>();
+    const auto bus = std::make_shared<MessageBus>();
 
     // load the logger & plugins from the yaml configuration
     const auto plugins = initialize(config_file_path, registry, bus);
