@@ -27,6 +27,9 @@ namespace adapter
         };
 
 
+        using message_queue_t = std::shared_ptr<util::SynchronizedQueue<Message>>;
+        using subscription_vec_t = std::vector<std::unique_ptr<INATSSubscription>>;
+
         class Plugin final : public IPlugin
         {
             struct Config
@@ -57,7 +60,7 @@ namespace adapter
         private:
 
 
-            std::vector<std::unique_ptr<INATSSubscription>> subscriptions;
+            subscription_vec_t subscriptions;
 
             const Config config;
 
@@ -65,7 +68,7 @@ namespace adapter
             std::unique_ptr<std::thread> background_thread;
             bool shutdown = false;
 
-            const std::shared_ptr<util::SynchronizedQueue<Message>> messages;
+            const message_queue_t messages;
 
             void run();
             void run(natsConnection& connection);

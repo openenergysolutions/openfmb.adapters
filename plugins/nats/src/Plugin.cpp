@@ -17,7 +17,6 @@ namespace adapter
 {
     namespace nats
     {
-        using subscription_sink_t = std::function<void (std::unique_ptr<INATSSubscription>)>;
 
         template <class T>
         class ProfileReader
@@ -25,7 +24,7 @@ namespace adapter
 
         public:
 
-            static void handle(const YAML::Node& node, Logger logger, message_bus_t bus, const std::shared_ptr<util::SynchronizedQueue<Message>>& message_queue, const subscription_sink_t& sink)
+            static void handle(const YAML::Node& node, Logger logger, message_bus_t bus, const message_queue_t& message_queue, subscription_vec_t& subscriptions)
             {
                 // get the mode for the profile
                 const auto mode = ProfileModeMeta::parse(yaml::require_string(node, T::descriptor()->name()));
@@ -35,7 +34,7 @@ namespace adapter
                     add_publisher(node, logger, *bus, message_queue);
                     break;
                 case(ProfileMode::subscribe):
-                    add_subscriber(node, logger, bus, message_queue, sink);
+                    subscriptions.push_back(create_subscription(node, logger, bus, message_queue));
                     break;
                 default:
                     break;
@@ -43,7 +42,7 @@ namespace adapter
             }
 
         private:
-            static void add_publisher(const YAML::Node& node, Logger& logger, IMessageBus& bus, const std::shared_ptr<util::SynchronizedQueue<Message>>& message_queue)
+            static void add_publisher(const YAML::Node& node, Logger& logger, IMessageBus& bus, const message_queue_t& message_queue)
             {
                 logger.info("Registering subscriber for: {}", T::descriptor()->name());
 
@@ -55,19 +54,17 @@ namespace adapter
                 );
             }
 
-            static void add_subscriber(const YAML::Node& node, Logger& logger, publisher_t publisher, const std::shared_ptr<util::SynchronizedQueue<Message>>& message_queue, const subscription_sink_t& sink)
+            static std::unique_ptr<INATSSubscription> create_subscription(const YAML::Node& node, Logger& logger, publisher_t publisher, const std::shared_ptr<util::SynchronizedQueue<Message>>& message_queue)
             {
                 const auto subject =  get_subscribe_all_subject_name<T>();
 
                 logger.info("{} will be read from subject: {}", T::descriptor()->name(), subject);
 
-                sink(
-                    std::make_unique<NATSSubscriber<T>>(
-                        logger,
-                        subject,
-                        std::move(publisher)
-                    )
-                );
+                return std::make_unique<NATSSubscriber<T>>(
+                           logger,
+                           subject,
+                           std::move(publisher)
+                       );
             }
         };
 
@@ -81,12 +78,7 @@ namespace adapter
         {
             const auto profiles_map = yaml::require(node, ::adapter::keys::profiles);
 
-            const auto sink = [this](std::unique_ptr<INATSSubscription> subscription)
-            {
-                this->subscriptions.push_back(std::move(subscription));
-            };
-
-            profiles::handle_all<ProfileReader>(profiles_map, logger, bus, this->messages, sink);
+            profiles::handle_all<ProfileReader>(profiles_map, logger, bus, this->messages, this->subscriptions);
         }
 
         Plugin::Config::Config(const YAML::Node& node) :
