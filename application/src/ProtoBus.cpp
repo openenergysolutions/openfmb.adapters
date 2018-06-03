@@ -11,23 +11,6 @@ namespace adapter
         this->ssp_registry->finalize();
     }
 
-    // ---- implement IProtoPublishers ----
-
-    publisher_t<resourcemodule::ResourceReadingProfile> ProtoBus::get_resource_reading_publisher()
-    {
-        return this->rrp_registry;
-    }
-
-    publisher_t<switchmodule::SwitchReadingProfile> ProtoBus::get_switch_reading_publisher()
-    {
-        return this->srp_registry;
-    }
-
-    publisher_t<switchmodule::SwitchStatusProfile> ProtoBus::get_switch_status_publisher()
-    {
-        return this->ssp_registry;
-    }
-
     // ---- implement IProtoSubscribers ----
 
     void ProtoBus::subscribe(subscriber_t<resourcemodule::ResourceReadingProfile> subscriber)
@@ -43,6 +26,21 @@ namespace adapter
     void ProtoBus::subscribe(subscriber_t<switchmodule::SwitchStatusProfile> subscriber)
     {
         this->ssp_registry->add(subscriber);
+    }
+
+    void ProtoBus::publish(const resourcemodule::ResourceReadingProfile& message)
+    {
+        this->rrp_registry->publish(message);
+    }
+
+    void ProtoBus::publish(const switchmodule::SwitchReadingProfile& message)
+    {
+        this->srp_registry->publish(message);
+    }
+
+    void ProtoBus::publish(const switchmodule::SwitchStatusProfile& message)
+    {
+        this->ssp_registry->publish(message);
     }
 
 

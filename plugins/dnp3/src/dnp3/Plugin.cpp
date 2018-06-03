@@ -32,7 +32,7 @@ namespace adapter
         template <class T>
         struct ProfileLoader
         {
-            static void handle(const YAML::Node& node, const Logger& logger, IMessageBus& bus, std::shared_ptr<IConfigurationBuilder> builder)
+            static void handle(const YAML::Node& node, const Logger& logger, publisher_t publisher, std::shared_ptr<IConfigurationBuilder> builder)
             {
                 const auto profile = std::make_shared<T>();
 
@@ -46,7 +46,7 @@ namespace adapter
                 visit(reader);
 
                 // publish the profile when the response completes
-                builder->add_end_action([profile, publisher = bus.get_publisher<T>()]()
+                builder->add_end_action([profile, publisher = publisher]()
                 {
                     publisher->publish(*profile);
                 });
@@ -57,7 +57,7 @@ namespace adapter
         Plugin::Plugin(
             const Logger& logger,
             const YAML::Node& node,
-            IMessageBus& bus
+            message_bus_t bus
         ) :
             logger(logger),
             manager(
@@ -75,7 +75,7 @@ namespace adapter
             );
         }
 
-        void Plugin::add_master(const YAML::Node& node, IMessageBus& bus)
+        void Plugin::add_master(const YAML::Node& node, message_bus_t bus)
         {
             const auto channel = this->create_channel(node);
 

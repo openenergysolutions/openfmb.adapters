@@ -17,7 +17,7 @@
 
 using namespace adapter;
 
-std::vector<std::unique_ptr<IPlugin>> initialize(const std::string& yaml_path, PluginRegistry& registry, IMessageBus& bus);
+std::vector<std::unique_ptr<IPlugin>> initialize(const std::string& yaml_path, PluginRegistry& registry, message_bus_t bus);
 
 int run_application(const std::string& config_file_path);
 
@@ -117,7 +117,7 @@ int run_application(const std::string& config_file_path)
     const auto bus = std::make_shared<ProtoBus>();
 
     // load the logger & plugins from the yaml configuration
-    const auto plugins = initialize(config_file_path, registry, *bus);
+    const auto plugins = initialize(config_file_path, registry, bus);
 
     if(plugins.empty())
     {
@@ -200,7 +200,7 @@ int write_default_session_config(const std::string& config_file_path, const IPlu
     return 0;
 }
 
-std::vector<std::unique_ptr<IPlugin>> initialize(const std::string& yaml_path, PluginRegistry& registry, IMessageBus& bus)
+std::vector<std::unique_ptr<IPlugin>> initialize(const std::string& yaml_path, PluginRegistry& registry, message_bus_t bus)
 {
     const auto yaml_root = YAML::LoadFile(yaml_path);
 

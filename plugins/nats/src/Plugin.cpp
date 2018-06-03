@@ -25,14 +25,14 @@ namespace adapter
 
         public:
 
-            static void handle(const YAML::Node& node, Logger logger, IMessageBus& bus, const std::shared_ptr<util::SynchronizedQueue<Message>>& message_queue, const subscription_sink_t& sink)
+            static void handle(const YAML::Node& node, Logger logger, message_bus_t bus, const std::shared_ptr<util::SynchronizedQueue<Message>>& message_queue, const subscription_sink_t& sink)
             {
                 // get the mode for the profile
                 const auto mode = ProfileModeMeta::parse(yaml::require_string(node, T::descriptor()->name()));
                 switch(mode)
                 {
                 case(ProfileMode::publish):
-                    add_publisher(node, logger, bus, message_queue);
+                    add_publisher(node, logger, *bus, message_queue);
                     break;
                 case(ProfileMode::subscribe):
                     add_subscriber(node, logger, bus, message_queue, sink);
@@ -55,7 +55,7 @@ namespace adapter
                 );
             }
 
-            static void add_subscriber(const YAML::Node& node, Logger& logger, IMessageBus& bus, const std::shared_ptr<util::SynchronizedQueue<Message>>& message_queue, const subscription_sink_t& sink)
+            static void add_subscriber(const YAML::Node& node, Logger& logger, publisher_t publisher, const std::shared_ptr<util::SynchronizedQueue<Message>>& message_queue, const subscription_sink_t& sink)
             {
                 const auto subject =  get_subscribe_all_subject_name<T>();
 
@@ -65,14 +65,14 @@ namespace adapter
                     std::make_unique<NATSSubscriber<T>>(
                         logger,
                         subject,
-                        bus.get_publisher<T>()
+                        std::move(publisher)
                     )
                 );
             }
         };
 
 
-        Plugin::Plugin(const Logger& logger, const YAML::Node& node, IMessageBus& bus) :
+        Plugin::Plugin(const Logger& logger, const YAML::Node& node, message_bus_t bus) :
             config(node),
             logger(logger),
             messages(

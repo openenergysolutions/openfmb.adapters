@@ -20,7 +20,7 @@ namespace adapter
 
             typedef util::SynchronizedQueue<Message> message_queue_t;
 
-            NATSSubscriber(Logger logger, const std::string& subject, publisher_t<T> publisher) :
+            NATSSubscriber(Logger logger, const std::string& subject, publisher_t publisher) :
                 logger(logger),
                 subject(subject),
                 publisher(publisher)
@@ -91,7 +91,7 @@ namespace adapter
 
             Logger logger;
             const std::string subject;
-            const publisher_t<T> publisher;
+            const publisher_t publisher;
             natsSubscription* subscription = nullptr;
 
         };

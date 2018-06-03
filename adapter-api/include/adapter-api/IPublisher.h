@@ -2,6 +2,9 @@
 #ifndef OPENFMB_ADAPTER_IPUBLISHER_H
 #define OPENFMB_ADAPTER_IPUBLISHER_H
 
+#include "proto-api/resourcemodule/resourcemodule.pb.h"
+#include "proto-api/switchmodule/switchmodule.pb.h"
+
 #include <memory>
 
 namespace adapter
@@ -12,24 +15,18 @@ namespace adapter
      *
      * @tparam T type of message being published
      */
-    template <class T>
     class IPublisher
     {
     public:
         virtual ~IPublisher() = default;
 
-        /**
-         * Publish a message to the bus. The message is immutable and must be completely
-         * published, transformed, or copied before this call returns.
-         *
-         * @param message The message to publish to the internal bus.
-         */
-        virtual void publish(const T& message) = 0;
+
+        virtual void publish(const resourcemodule::ResourceReadingProfile& message) = 0;
+        virtual void publish(const switchmodule::SwitchReadingProfile& message) = 0;
+        virtual void publish(const switchmodule::SwitchStatusProfile& message) = 0;
     };
 
-    template <class T>
-    using publisher_t = std::shared_ptr<IPublisher<T>>;
-
+    using publisher_t = std::shared_ptr<IPublisher>;
 
 }
 

@@ -25,7 +25,7 @@ namespace adapter
 
             void write_session_config(YAML::Emitter& out, const profile_vec_t& profiles) const override;
 
-            std::unique_ptr<IPlugin> create(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override;
+            std::unique_ptr<IPlugin> create(const YAML::Node& node, const Logger& logger, message_bus_t bus) override;
         };
     }
 }

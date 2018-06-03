@@ -28,8 +28,7 @@ set(API_HEADERS
 )
 
 set(API_SOURCES
-	src/IMessageBus.cpp
-	src/Profile.cpp
+        src/Profile.cpp
 	src/ProfileMode.cpp
 	src/Version.cpp
 	src/util/YAMLUtil.cpp

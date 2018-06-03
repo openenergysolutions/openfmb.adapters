@@ -31,7 +31,7 @@ namespace adapter
 
         public:
 
-            Plugin(const YAML::Node& node, const Logger& logger, IMessageBus& bus);
+            Plugin(const YAML::Node& node, const Logger& logger, message_bus_t bus);
 
             ~Plugin() override;
 
@@ -52,8 +52,6 @@ namespace adapter
 
             bool sleep_for(const std::chrono::steady_clock::duration& duration);
 
-            std::function<void ()> get_publish_action(Profile profile, const std::vector<uint8_t>& data);
-
             bool shutdown = false;
 
             std::unique_ptr<std::thread> thread;
@@ -61,11 +59,7 @@ namespace adapter
             Logger logger;
 
             const std::string file_path;
-
-            const publisher_t<resourcemodule::ResourceReadingProfile> resource_reading_publisher;
-            const publisher_t<switchmodule::SwitchReadingProfile> switch_reading_publisher;
-            const publisher_t<switchmodule::SwitchStatusProfile> switch_status_publisher;
-
+            const publisher_t publisher;
         };
     }
 }

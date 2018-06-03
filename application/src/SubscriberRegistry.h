@@ -4,21 +4,20 @@
 
 #include "adapter-api/util/Exception.h"
 #include "adapter-api/ISubscriber.h"
-#include "adapter-api/IPublisher.h"
 
 #include <vector>
 
 namespace adapter
 {
     template <class T>
-    class SubscriberRegistry final : public IPublisher<T>
+    class SubscriberRegistry final
     {
 
     public:
 
         SubscriberRegistry() = default;
 
-        virtual void publish(const T& message) override
+        virtual void publish(const T& message)
         {
             if(!is_finalized)
             {

@@ -14,32 +14,27 @@ namespace adapter
     public:
 
         ProtoBus() = default;
-        ~ProtoBus() = default;
 
         /**
          * Don't allow more subscribers to be added. Existing publishers may now begin publishing
          */
         void finalize();
 
+        // ---- publish ----
 
+        void publish(const resourcemodule::ResourceReadingProfile& message) override;
 
-        // ---- subscribers ----
+        void publish(const switchmodule::SwitchReadingProfile& message) override;
 
-        virtual void subscribe(subscriber_t<resourcemodule::ResourceReadingProfile> subscriber) override;
+        void publish(const switchmodule::SwitchStatusProfile& message) override;
+
+        // ---- subscribe ----
+
+        void subscribe(subscriber_t<resourcemodule::ResourceReadingProfile> subscriber) override;
 
         void subscribe(subscriber_t<switchmodule::SwitchReadingProfile> subscriber) override;
 
         void subscribe(subscriber_t<switchmodule::SwitchStatusProfile> subscriber) override;
-
-    protected:
-
-        // ---- publishers ----
-
-        virtual publisher_t<resourcemodule::ResourceReadingProfile> get_resource_reading_publisher() override;
-
-        publisher_t<switchmodule::SwitchReadingProfile> get_switch_reading_publisher() override;
-
-        publisher_t<switchmodule::SwitchStatusProfile> get_switch_status_publisher() override;
 
 
     private:
@@ -49,9 +44,6 @@ namespace adapter
         const std::shared_ptr<SubscriberRegistry<resourcemodule::ResourceReadingProfile>> rrp_registry = std::make_shared<SubscriberRegistry<resourcemodule::ResourceReadingProfile>>();
         const std::shared_ptr<SubscriberRegistry<switchmodule::SwitchReadingProfile>> srp_registry = std::make_shared<SubscriberRegistry<switchmodule::SwitchReadingProfile>>();
         const std::shared_ptr<SubscriberRegistry<switchmodule::SwitchStatusProfile>> ssp_registry = std::make_shared<SubscriberRegistry<switchmodule::SwitchStatusProfile>>();
-
-
-
     };
 
 }

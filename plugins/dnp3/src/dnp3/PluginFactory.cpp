@@ -43,12 +43,12 @@ namespace adapter
             yaml::write_default_template_config(out, "dnp3-master-template.yaml");
         }
 
-        std::unique_ptr<IPlugin> PluginFactory::create(const YAML::Node& node, const Logger& logger, IMessageBus& bus)
+        std::unique_ptr<IPlugin> PluginFactory::create(const YAML::Node& node, const Logger& logger, message_bus_t bus)
         {
             return std::make_unique<Plugin>(
                        logger,
                        node,
-                       bus
+                       std::move(bus)
                    );
         }
 

@@ -13,7 +13,9 @@ namespace adapter
 
         public:
 
-            Plugin(const YAML::Node& node, const Logger& logger, IMessageBus& bus);
+            Plugin() = delete;
+
+            Plugin(const YAML::Node& node, const Logger& logger, message_bus_t bus);
 
             virtual std::string name() const override
             {
@@ -23,19 +25,6 @@ namespace adapter
             // start the execution of the adapter
             virtual void start() override {}
 
-        private:
-
-            /*
-                        void add_filter(Profile profile, const YAML::Node& config);
-
-                        virtual void read_resource_reading(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override;
-
-                        virtual void read_switch_reading(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override;
-
-                        virtual void read_switch_status(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override;
-            */
-
-            Plugin() = delete;
         };
     }
 }

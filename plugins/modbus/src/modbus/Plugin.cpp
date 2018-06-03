@@ -23,7 +23,7 @@ namespace adapter
         struct ProfileReader
         {
 
-            static void handle(std::shared_ptr<PollHandler> handler, const YAML::Node& node, Logger logger, IMessageBus& bus)
+            static void handle(std::shared_ptr<PollHandler> handler, const YAML::Node& node, Logger logger, publisher_t publisher)
             {
                 const auto profile = std::make_shared<T>();
 
@@ -31,7 +31,7 @@ namespace adapter
                 visit(visitor);
 
                 handler->add_end_action(
-                    [profile, publisher = bus.get_publisher<T>()] ()
+                    [profile, publisher = publisher] ()
                 {
                     publisher->publish(*profile);
                 }
@@ -40,7 +40,7 @@ namespace adapter
             }
         };
 
-        Plugin::Plugin(const YAML::Node& node, const Logger& logger, IMessageBus& bus) : logger(logger)
+        Plugin::Plugin(const YAML::Node& node, const Logger& logger, message_bus_t bus) : logger(logger)
         {
             // initialize the Modbus manager
             this->manager = ::modbus::IModbusManager::create(
@@ -57,7 +57,7 @@ namespace adapter
             );
         }
 
-        void Plugin::configure_session(const YAML::Node& node, IMessageBus& bus)
+        void Plugin::configure_session(const YAML::Node& node, message_bus_t bus)
         {
             const auto name = yaml::require_string(node, keys::name);
             const auto profile_node = yaml::require(node, keys::profile);

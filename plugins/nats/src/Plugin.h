@@ -45,7 +45,7 @@ namespace adapter
 
             ~Plugin();
 
-            Plugin(const Logger& logger, const YAML::Node& node, IMessageBus& bus);
+            Plugin(const Logger& logger, const YAML::Node& node, message_bus_t bus);
 
             virtual std::string name() const override
             {

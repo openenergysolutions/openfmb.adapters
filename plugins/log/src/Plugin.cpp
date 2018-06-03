@@ -40,11 +40,11 @@ namespace adapter
         };
 
 
-        Plugin::Plugin(const YAML::Node& node, const Logger& logger, IMessageBus& bus)
+        Plugin::Plugin(const YAML::Node& node, const Logger& logger, message_bus_t bus)
         {
             if(yaml::require(node, keys::log_debug_string).as<bool>())
             {
-                profiles::handle_all<DebugSubscriberHandler>(logger, bus);
+                profiles::handle_all<DebugSubscriberHandler>(logger, *bus);
             }
 
             const auto add_filter = [&](const YAML::Node & config)
@@ -53,7 +53,7 @@ namespace adapter
                     yaml::require_string(config, ::adapter::keys::profile),
                     config,
                     logger,
-                    bus
+                    *bus
                 );
             };
 
