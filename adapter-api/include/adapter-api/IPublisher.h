@@ -20,8 +20,8 @@ namespace adapter
     public:
         virtual ~IPublisher() = default;
 
-
         virtual void publish(const resourcemodule::ResourceReadingProfile& message) = 0;
+        virtual void publish(const switchmodule::SwitchControlProfile& message) = 0;
         virtual void publish(const switchmodule::SwitchReadingProfile& message) = 0;
         virtual void publish(const switchmodule::SwitchStatusProfile& message) = 0;
     };

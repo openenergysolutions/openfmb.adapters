@@ -15,6 +15,8 @@ namespace adapter
         {
         case(Profile::resource_reading):
             return resourcemodule::ResourceReadingProfile::descriptor()->name();
+        case(Profile::switch_control):
+            return switchmodule::SwitchControlProfile::descriptor()->name();
         case(Profile::switch_reading):
             return switchmodule::SwitchReadingProfile::descriptor()->name();
         case(Profile::switch_status):
@@ -29,6 +31,10 @@ namespace adapter
         if(name == to_string(Profile::resource_reading))
         {
             return Profile::resource_reading;
+        }
+        else if(name == to_string(Profile::switch_control))
+        {
+            return Profile::switch_control;
         }
         else if(name == to_string(Profile::switch_reading))
         {

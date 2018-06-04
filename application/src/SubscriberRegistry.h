@@ -2,7 +2,6 @@
 #ifndef OPENFMB_ADAPTER_SUBSCRIBER_REGISTRY_H
 #define OPENFMB_ADAPTER_SUBSCRIBER_REGISTRY_H
 
-#include "adapter-api/util/Exception.h"
 #include "adapter-api/ISubscriber.h"
 
 #include <vector>
@@ -17,14 +16,9 @@ namespace adapter
 
         SubscriberRegistry() = default;
 
-        virtual void publish(const T& message)
+        void publish(const T& message)
         {
-            if(!is_finalized)
-            {
-                throw Exception("Message published before subscriber finalization");
-            }
-
-            for(auto& sub : subscribers)
+            for(auto& sub : this->subscribers)
             {
                 sub->receive(message);
             }
@@ -32,22 +26,10 @@ namespace adapter
 
         void add(subscriber_t<T> subscriber)
         {
-            if(is_finalized)
-            {
-                throw Exception("Subscriber added after subscriber finalization");
-            }
-
-            subscribers.push_back(subscriber);
-        }
-
-        void finalize()
-        {
-            is_finalized = true;
+            this->subscribers.push_back(std::move(subscriber));
         }
 
     private:
-
-        bool is_finalized = false;
 
         // all of the subscribers for a particular type
         std::vector<subscriber_t<T>> subscribers;

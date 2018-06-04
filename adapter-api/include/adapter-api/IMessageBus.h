@@ -25,6 +25,7 @@ namespace adapter
          */
 
         virtual void subscribe(subscriber_t<resourcemodule::ResourceReadingProfile> subscriber) = 0;
+        virtual void subscribe(subscriber_t<switchmodule::SwitchControlProfile> subscriber) = 0;
         virtual void subscribe(subscriber_t<switchmodule::SwitchReadingProfile> subscriber) = 0;
         virtual void subscribe(subscriber_t<switchmodule::SwitchStatusProfile> subscriber) = 0;
     };

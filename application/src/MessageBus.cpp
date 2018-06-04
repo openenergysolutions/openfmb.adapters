@@ -1,46 +1,74 @@
 
 #include "MessageBus.h"
 
+#include <adapter-api/util/Exception.h>
+
 namespace adapter
 {
 
     void MessageBus::finalize()
     {
-        this->rrp_registry->finalize();
-        this->srp_registry->finalize();
-        this->ssp_registry->finalize();
+        this->finalized = true;
+    }
+
+    void MessageBus::assert_prepublish()
+    {
+        if(!this->finalized) throw Exception("Publish(..) called before finalization");
+    }
+
+    void MessageBus::assert_presubscribe()
+    {
+        if(this->finalized) throw Exception("Subscribe(..) called after finalization");
     }
 
     // ---- implement IProtoSubscribers ----
 
     void MessageBus::subscribe(subscriber_t<resourcemodule::ResourceReadingProfile> subscriber)
     {
-        this->rrp_registry->add(subscriber);
+        this->assert_presubscribe();
+        this->resource_reading->add(subscriber);
+    }
+
+    void MessageBus::subscribe(subscriber_t<switchmodule::SwitchControlProfile> subscriber)
+    {
+        this->assert_presubscribe();
+        this->switch_control->add(subscriber);
     }
 
     void MessageBus::subscribe(subscriber_t<switchmodule::SwitchReadingProfile> subscriber)
     {
-        this->srp_registry->add(subscriber);
+        this->assert_presubscribe();
+        this->switch_reading->add(subscriber);
     }
 
     void MessageBus::subscribe(subscriber_t<switchmodule::SwitchStatusProfile> subscriber)
     {
-        this->ssp_registry->add(subscriber);
+        this->assert_presubscribe();
+        this->switch_status->add(subscriber);
     }
 
     void MessageBus::publish(const resourcemodule::ResourceReadingProfile& message)
     {
-        this->rrp_registry->publish(message);
+        this->assert_prepublish();
+        this->resource_reading->publish(message);
+    }
+
+    void MessageBus::publish(const switchmodule::SwitchControlProfile& message)
+    {
+        this->assert_prepublish();
+        this->switch_control->publish(message);
     }
 
     void MessageBus::publish(const switchmodule::SwitchReadingProfile& message)
     {
-        this->srp_registry->publish(message);
+        this->assert_prepublish();
+        this->switch_reading->publish(message);
     }
 
     void MessageBus::publish(const switchmodule::SwitchStatusProfile& message)
     {
-        this->ssp_registry->publish(message);
+        this->assert_prepublish();
+        this->switch_status->publish(message);
     }
 
 

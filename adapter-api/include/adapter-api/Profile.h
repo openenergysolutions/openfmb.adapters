@@ -9,6 +9,7 @@ namespace adapter
     enum class Profile
     {
         resource_reading,
+        switch_control,
         switch_reading,
         switch_status
     };
@@ -25,6 +26,7 @@ namespace adapter
         static void foreach_enum(const T& handler)
         {
             handler(Profile::resource_reading);
+            handler(Profile::switch_control);
             handler(Profile::switch_reading);
             handler(Profile::switch_status);
         }

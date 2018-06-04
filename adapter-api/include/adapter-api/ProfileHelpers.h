@@ -21,6 +21,9 @@ namespace adapter
             case (Profile::resource_reading):
                 T<resourcemodule::ResourceReadingProfile>::handle(std::forward<Args>(args)...);
                 break;
+            case (Profile::switch_control):
+                T<switchmodule::SwitchControlProfile>::handle(std::forward<Args>(args)...);
+                break;
             case (Profile::switch_reading):
                 T<switchmodule::SwitchReadingProfile>::handle(std::forward<Args>(args)...);
                 break;
@@ -39,6 +42,8 @@ namespace adapter
             {
             case (Profile::resource_reading):
                 return T<resourcemodule::ResourceReadingProfile>::get(std::forward<Args>(args)...);
+            case (Profile::switch_control):
+                return T<switchmodule::SwitchControlProfile>::get(std::forward<Args>(args)...);
             case (Profile::switch_reading):
                 return T<switchmodule::SwitchReadingProfile>::get(std::forward<Args>(args)...);
             case (Profile::switch_status):
@@ -64,6 +69,7 @@ namespace adapter
         void handle_all(Args&& ... args)
         {
             T<resourcemodule::ResourceReadingProfile>::handle(std::forward<Args>(args)...);
+            T<switchmodule::SwitchControlProfile>::handle(std::forward<Args>(args)...);
             T<switchmodule::SwitchReadingProfile>::handle(std::forward<Args>(args)...);
             T<switchmodule::SwitchStatusProfile>::handle(std::forward<Args>(args)...);
         }
