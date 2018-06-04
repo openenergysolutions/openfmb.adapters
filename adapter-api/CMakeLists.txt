@@ -12,6 +12,7 @@ set(API_HEADERS
 	include/adapter-api/ProfileMode.h
 	include/adapter-api/ProfileHelpers.h
 	include/adapter-api/Version.h
+	include/adapter-api/util/Time.h
 	include/adapter-api/util/Exception.h
 	include/adapter-api/util/StringUtil.h
 	include/adapter-api/util/SynchronizedQueue.h
@@ -31,9 +32,10 @@ set(API_SOURCES
     src/Profile.cpp
 	src/ProfileMode.cpp
 	src/Version.cpp
+	src/util/Time.cpp
 	src/util/YAMLUtil.cpp
 	src/util/YAMLTemplate.cpp
-		src/config/AccessorImpl.h
+    src/config/AccessorImpl.h
 	src/config/generated/MessageVisitors.cpp
 	src/config/generated/ArchiveVisitors.cpp
 	src/config/MessageInformation.cpp

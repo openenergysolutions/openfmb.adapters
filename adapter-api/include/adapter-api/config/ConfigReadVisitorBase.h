@@ -5,6 +5,7 @@
 #include "IProtoVisitor.h"
 
 #include "adapter-api/util/YAMLUtil.h"
+#include "adapter-api/util/Time.h"
 #include "adapter-api/ConfigStrings.h"
 
 #include <boost/numeric/conversion/cast.hpp>
@@ -185,7 +186,6 @@ namespace adapter
             this->configure_static_description<commonmodule::IdentifiedObject>(io_node, io_getter);
         }
 
-
         // put a fresh UUID onto every message
         this->add_message_init_action(
             [accessor, generator = this->generator](T & profile)
@@ -197,20 +197,9 @@ namespace adapter
         this->add_message_complete_action(
             [accessor](T & profile)
         {
-            const auto now = std::chrono::system_clock::now().time_since_epoch();
-            const auto seconds = std::chrono::duration_cast<std::chrono::seconds>(now).count();
-            const auto millisec = std::chrono::duration_cast<std::chrono::milliseconds>(now).count() % 1000;
-
-            const auto timestamp = accessor.create(profile)->mutable_messagetimestamp();
-
-            timestamp->set_seconds(seconds);
-            // fractional seconds are scaled as a percentage of a second to the full range of a uint32_t
-            timestamp->set_fraction(
-                static_cast<uint32_t>((millisec / 1000.0)*std::numeric_limits<uint32_t>::max())
-            );
+            time::set(std::chrono::system_clock::now(), *accessor.create(profile)->mutable_messagetimestamp());
         }
         );
-
     }
 
     template<class T>
