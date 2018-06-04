@@ -101,7 +101,17 @@ namespace adapter
         {
             this->out << YAML::Key << field_name;
             this->out << YAML::BeginMap;
-            this->write_check_conditions_keys();
+
+            this->out << YAML::Value << keys::interlockCheck;
+            this->out << YAML::BeginMap;
+            this->write_check_conditions_interlockCheck_keys();
+            this->out << YAML::EndMap;
+
+            this->out << YAML::Value << keys::synchroCheck;
+            this->out << YAML::BeginMap;
+            this->write_check_conditions_synchroCheck_keys();
+            this->out << YAML::EndMap;
+
             this->out << YAML::EndMap;
         }
 
@@ -159,7 +169,9 @@ namespace adapter
 
         virtual void write_status_dps_keys() = 0;
 
-        virtual void write_check_conditions_keys() = 0;
+        virtual void write_check_conditions_interlockCheck_keys() = 0;
+
+        virtual void write_check_conditions_synchroCheck_keys() = 0;
 
         virtual void write_switch_csg_keys() = 0;
 

@@ -16,18 +16,18 @@ namespace adapter
         {
 
         public:
-            ConfigWriteVisitor(YAML::Emitter& out) : ConfigWriteVisitorBase<T>(out) {}
+            explicit ConfigWriteVisitor(YAML::Emitter& out) : ConfigWriteVisitorBase<T>(out) {}
 
         protected:
 
-            virtual void write_bcr_keys() override
+            void write_bcr_keys() override
             {
                 this->out << YAML::Key << keys::type << YAML::Value << MappingTypeMeta::none << YAML::Comment("{none, uint16, sint16, uint32, sint32, uint32_with_modulus, sint32_with_modulus}");
                 this->out << YAML::Key << keys::lower_index << 0;
                 this->out << YAML::Key << keys::upper_index << 1;
             }
 
-            virtual void write_analogue_keys() override
+            void write_analogue_keys() override
             {
                 this->out << YAML::Key << keys::type << YAML::Value << MappingTypeMeta::none << YAML::Comment("{none, uint16, sint16, uint32, sint32, uint32_with_modulus, sint32_with_modulus}");
                 this->out << YAML::Key << keys::lower_index << 0;
@@ -40,7 +40,12 @@ namespace adapter
                 throw Exception("Not implemented");
             }
 
-            void write_check_conditions_keys() override
+            void write_check_conditions_interlockCheck_keys() override
+            {
+                throw Exception("Not implemented");
+            }
+
+            void write_check_conditions_synchroCheck_keys() override
             {
                 throw Exception("Not implemented");
             }

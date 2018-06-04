@@ -49,14 +49,19 @@ namespace adapter
                 this->out << YAML::Key << keys::low << commonmodule::DbPosKind_descriptor()->FindValueByNumber(commonmodule::DbPosKind::DbPosKind_open)->name();
             }
 
-            void write_check_conditions_keys() override
+            void write_check_conditions_interlockCheck_keys() override
             {
-                throw Exception("not implemented");
+
+            }
+
+            void write_check_conditions_synchroCheck_keys() override
+            {
+
             }
 
             void write_switch_csg_keys() override
             {
-                throw Exception("not implemented");
+                
             }
         };
     }
