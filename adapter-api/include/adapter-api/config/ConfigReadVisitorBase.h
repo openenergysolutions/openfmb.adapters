@@ -74,14 +74,6 @@ namespace adapter
 
         void handle(const std::string& field_name, getter_t<commonmodule::IdentifiedObject, T> getter) final;
 
-        // TODO: not sure what to do with these yet
-
-        void handle(const std::string& field_name, getter_t<commonmodule::ConductingEquipmentTerminalReading, T> getter) final {}
-
-        void handle(const std::string& field_name, getter_t<commonmodule::ENG_CalcMethodKind, T> getter) final {}
-
-        void handle(const std::string& field_name, getter_t<commonmodule::ENG_PFSignKind, T> getter) final {}
-
     protected:
 
         template <class S>

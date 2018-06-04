@@ -62,15 +62,14 @@ namespace adapter
         virtual void handle(const std::string& field_name, getter_t<commonmodule::StatusDPS, Profile> getter) = 0;
 
         /// --- handlers for other types of fields ---
-
         virtual void handle(const std::string& field_name, getter_t<commonmodule::MessageInfo, Profile> getter) = 0;
         virtual void handle(const std::string& field_name, getter_t<commonmodule::IdentifiedObject, Profile> getter) = 0;
         virtual void handle(const std::string& field_name, getter_t<commonmodule::ConductingEquipment, Profile> getter) = 0;
-        virtual void handle(const std::string& field_name, getter_t<commonmodule::ConductingEquipmentTerminalReading, Profile> getter) = 0;
-        virtual void handle(const std::string& field_name, getter_t<commonmodule::ENG_CalcMethodKind, Profile> getter) = 0;
-        virtual void handle(const std::string& field_name, getter_t<commonmodule::ENG_PFSignKind, Profile> getter) = 0;
 
         /// --- Ignore these for now everywhere until we know what they do ---
+        virtual void handle(const std::string& field_name, getter_t<commonmodule::ConductingEquipmentTerminalReading, Profile> getter) {}
+        virtual void handle(const std::string& field_name, getter_t<commonmodule::ENG_CalcMethodKind, Profile> getter) {}
+        virtual void handle(const std::string& field_name, getter_t<commonmodule::ENG_PFSignKind, Profile> getter) {}
         virtual void handle(const std::string& field_name, getter_t<commonmodule::ENS_BehaviourModeKind, Profile> getter) {}
         virtual void handle(const std::string& field_name, getter_t<commonmodule::ENS_DynamicTestKind, Profile> getter) {}
         virtual void handle(const std::string& field_name, getter_t<commonmodule::ENS_HealthKind, Profile> getter) {}

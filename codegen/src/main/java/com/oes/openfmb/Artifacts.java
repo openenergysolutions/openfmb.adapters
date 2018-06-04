@@ -8,6 +8,7 @@ import com.oes.openfmb.generation.document.CppFilePair;
 import com.oes.openfmb.generation.proto.ArchiveVisitorFile;
 import com.oes.openfmb.generation.proto.MessageVisitorFile;
 import openfmb.resourcemodule.ResourceReadingProfile;
+import openfmb.switchmodule.SwitchControlProfile;
 import openfmb.switchmodule.SwitchReadingProfile;
 import openfmb.switchmodule.SwitchStatusProfile;
 

@@ -130,14 +130,6 @@ namespace adapter
             this->out << YAML::EndMap;
         }
 
-        // TODO - ignore these for now
-
-        void handle(const std::string& field_name, getter_t<commonmodule::ConductingEquipmentTerminalReading, T> getter) final {}
-
-        void handle(const std::string& field_name, getter_t<commonmodule::ENG_CalcMethodKind, T> getter) final {}
-
-        void handle(const std::string& field_name, getter_t<commonmodule::ENG_PFSignKind, T> getter) final {}
-
     protected:
 
         virtual void write_analogue_keys() = 0;
