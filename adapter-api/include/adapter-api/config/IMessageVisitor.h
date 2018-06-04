@@ -1,6 +1,6 @@
 
-#ifndef OPENFMB_ADAPTER_IARCHIVEVISITOR_H
-#define OPENFMB_ADAPTER_IARCHIVEVISITOR_H
+#ifndef OPENFMB_ADAPTER_IMESSAGEVISITOR_H
+#define OPENFMB_ADAPTER_IMESSAGEVISITOR_H
 
 #include "commonmodule/commonmodule.pb.h"
 
@@ -12,7 +12,7 @@ namespace adapter
      * An interface used to traverse an OpenFMB message,
      * witch callback values for measurement values
      */
-    class IArchiveVisitor
+    class IMessageVisitor
     {
 
     public:

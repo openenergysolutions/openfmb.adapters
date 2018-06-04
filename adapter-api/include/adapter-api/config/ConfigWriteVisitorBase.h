@@ -3,7 +3,7 @@
 #ifndef OPENFMB_ADAPTER_CONFIGWRITEVISITORBASE_H
 #define OPENFMB_ADAPTER_CONFIGWRITEVISITORBASE_H
 
-#include "IProtoVisitor.h"
+#include "IModelVisitor.h"
 
 #include "../ConfigStrings.h"
 
@@ -13,7 +13,7 @@ namespace adapter
 {
 
     template<class T>
-    class ConfigWriteVisitorBase : public IProtoVisitor<T>
+    class ConfigWriteVisitorBase : public IModelVisitor<T>
     {
 
     protected:

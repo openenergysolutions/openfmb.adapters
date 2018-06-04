@@ -4,7 +4,7 @@
 #include <adapter-api/ISubscriber.h>
 #include <adapter-api/Logger.h>
 #include <adapter-api/config/MessageInformation.h>
-#include <adapter-api/config/generated/ArchiveVisitors.h>
+#include <adapter-api/config/generated/MessageVisitors.h>
 
 #include <fstream>
 #include <iomanip>
@@ -23,7 +23,7 @@ namespace adapter
             virtual std::string get(size_t i) const = 0;
         };
 
-        class CachingVisitor : public IArchiveVisitor
+        class CachingVisitor : public IMessageVisitor
         {
             std::vector<std::string> tag_name_stack;
 

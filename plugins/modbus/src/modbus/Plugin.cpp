@@ -5,7 +5,7 @@
 #include "PollHandler.h"
 #include "PollManager.h"
 
-#include <adapter-api/config/generated/MessageVisitors.h>
+#include <adapter-api/config/generated/ModelVisitors.h>
 #include <adapter-api/ProfileHelpers.h>
 #include <adapter-api/util/YAMLTemplate.h>
 

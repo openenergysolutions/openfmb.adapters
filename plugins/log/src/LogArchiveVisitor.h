@@ -1,10 +1,10 @@
 #ifndef OPENFMB_ADAPTER_LOG_LOGARCHIVEVISITOR_H
 #define OPENFMB_ADAPTER_LOG_LOGARCHIVEVISITOR_H
 
-#include <adapter-api/config/IArchiveVisitor.h>
+#include <adapter-api/config/IMessageVisitor.h>
 #include <adapter-api/ConfigStrings.h>
 #include <adapter-api/util/StringUtil.h>
-#include <adapter-api/config/generated/ArchiveVisitors.h>
+#include <adapter-api/config/generated/MessageVisitors.h>
 #include <adapter-api/config/MessageInformation.h>
 
 #include "ITagFilter.h"
@@ -15,7 +15,7 @@ namespace adapter
 {
     namespace log
     {
-        class LogArchiveVisitor : private IArchiveVisitor
+        class LogArchiveVisitor : private IMessageVisitor
         {
         public:
 

@@ -20,12 +20,12 @@ set(API_HEADERS
 	include/adapter-api/util/YAMLTemplate.h
 	include/adapter-api/config/ConfigReadVisitorBase.h
 	include/adapter-api/config/ConfigWriteVisitorBase.h
-	include/adapter-api/config/IArchiveVisitor.h
-	include/adapter-api/config/IProtoVisitor.h
+	include/adapter-api/config/IMessageVisitor.h
+	include/adapter-api/config/IModelVisitor.h
 	include/adapter-api/config/ConfigReadVisitorBase.h
 	include/adapter-api/config/MessageInformation.h
 	include/adapter-api/config/generated/MessageVisitors.h
-	include/adapter-api/config/generated/ArchiveVisitors.h
+	include/adapter-api/config/generated/ModelVisitors.h
 )
 
 set(API_SOURCES
@@ -37,7 +37,7 @@ set(API_SOURCES
 	src/util/YAMLTemplate.cpp
     src/config/AccessorImpl.h
 	src/config/generated/MessageVisitors.cpp
-	src/config/generated/ArchiveVisitors.cpp
+	src/config/generated/ModelVisitors.cpp
 	src/config/MessageInformation.cpp
 	include/adapter-api/config/IAccessor.h
 )

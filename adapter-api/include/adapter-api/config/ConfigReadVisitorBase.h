@@ -2,7 +2,7 @@
 #ifndef OPENFMB_ADAPTER_CONFIGVISITORBASE_H
 #define OPENFMB_ADAPTER_CONFIGVISITORBASE_H
 
-#include "IProtoVisitor.h"
+#include "IModelVisitor.h"
 
 #include "adapter-api/util/YAMLUtil.h"
 #include "adapter-api/util/Time.h"
@@ -19,7 +19,7 @@ namespace adapter
 {
 
     template <class T>
-    class ConfigReadVisitorBase : public IProtoVisitor<T>
+    class ConfigReadVisitorBase : public IModelVisitor<T>
     {
 
     public:

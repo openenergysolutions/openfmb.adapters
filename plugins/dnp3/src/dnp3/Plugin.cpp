@@ -7,7 +7,7 @@
 
 #include <adapter-api/util/YAMLUtil.h>
 #include <adapter-api/util/YAMLTemplate.h>
-#include <adapter-api/config/generated/MessageVisitors.h>
+#include <adapter-api/config/generated/ModelVisitors.h>
 #include <adapter-api/ConfigStrings.h>
 #include <adapter-api/ProfileHelpers.h>
 
@@ -27,7 +27,7 @@ namespace adapter
     namespace dnp3
     {
         template <class T>
-        using visit_fun_t = void (*)(IProtoVisitor<T>&);
+        using visit_fun_t = void (*)(IModelVisitor<T>&);
 
         template <class T>
         struct ProfileLoader

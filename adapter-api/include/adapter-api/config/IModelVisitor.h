@@ -1,6 +1,6 @@
 
-#ifndef OPENFMB_ADAPTER_IPROTOVISITOR_H
-#define OPENFMB_ADAPTER_IPROTOVISITOR_H
+#ifndef OPENFMB_ADAPTER_IMODELVISITOR_H
+#define OPENFMB_ADAPTER_IMODELVISITOR_H
 
 #include "commonmodule/commonmodule.pb.h"
 #include "switchmodule/switchmodule.pb.h"
@@ -12,12 +12,12 @@
 namespace adapter
 {
     /**
-     * A callback class used to traverse an abstract openFMB protobuf message hierarchy
+     * A callback class used to traverse the abstract model of an OpenFMB profile
      *
      * Provides callback methods used to extract values from a concrete message.
      */
     template <class T>
-    class IProtoVisitor
+    class IModelVisitor
     {
 
     public:

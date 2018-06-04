@@ -7,9 +7,9 @@
 #include <sstream>
 #include <boost/uuid/uuid_generators.hpp>
 #include "adapter-api/ISubscriber.h"
-#include "adapter-api/config/IArchiveVisitor.h"
+#include "adapter-api/config/IMessageVisitor.h"
 #include "adapter-api/config/MessageInformation.h"
-#include "adapter-api/config/generated/ArchiveVisitors.h"
+#include "adapter-api/config/generated/MessageVisitors.h"
 #include "IArchiver.h"
 #include "Message.h"
 
@@ -19,7 +19,7 @@ namespace timescaledb
 {
 
 template<typename Proto>
-class ProtoMessageVisitor : private IArchiveVisitor
+class ProtoMessageVisitor : private IMessageVisitor
 {
 public:
     ProtoMessageVisitor(Logger& logger)
@@ -70,7 +70,7 @@ public:
     }
 
 private:
-    // ===== IArchiveVisitor =====
+    // ===== IMessageVisitor =====
     void start_message_field(const std::string& field_name) override
     {
         m_tagname_stack.push_back(field_name);

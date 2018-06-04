@@ -13,14 +13,14 @@
 
 #include "resourcemodule/resourcemodule.pb.h"
 #include "switchmodule/switchmodule.pb.h"
-#include "../IProtoVisitor.h"
+#include "../IMessageVisitor.h"
 
 namespace adapter {
 
-void visit(IProtoVisitor<resourcemodule::ResourceReadingProfile>& visitor);
+void visit(const resourcemodule::ResourceReadingProfile& message, IMessageVisitor& visitor);
 
-void visit(IProtoVisitor<switchmodule::SwitchReadingProfile>& visitor);
+void visit(const switchmodule::SwitchReadingProfile& message, IMessageVisitor& visitor);
 
-void visit(IProtoVisitor<switchmodule::SwitchStatusProfile>& visitor);
+void visit(const switchmodule::SwitchStatusProfile& message, IMessageVisitor& visitor);
 
 } // end namespace adapter
