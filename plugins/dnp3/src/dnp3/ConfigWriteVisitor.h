@@ -25,7 +25,7 @@ namespace adapter
 
         private:
 
-            virtual void write_bcr_keys() override
+            void write_bcr_keys() override
             {
 
                 this->out << YAML::Key << keys::input_type << YAML::Value << InputTypeMeta::disabled << YAML::Comment("{ disabled, analog, counter }");
@@ -34,7 +34,7 @@ namespace adapter
                 this->out << YAML::Key << keys::scale << 1.0;
             }
 
-            virtual void write_analogue_keys() override
+            void write_analogue_keys() override
             {
                 this->out << YAML::Key << keys::input_type << YAML::Value << InputTypeMeta::disabled << YAML::Comment("{ disabled, analog }");
                 this->out << YAML::Key << keys::index << 0;
@@ -47,6 +47,16 @@ namespace adapter
                 this->out << YAML::Key << keys::index << 0;
                 this->out << YAML::Key << keys::high << commonmodule::DbPosKind_descriptor()->FindValueByNumber(commonmodule::DbPosKind::DbPosKind_closed)->name();
                 this->out << YAML::Key << keys::low << commonmodule::DbPosKind_descriptor()->FindValueByNumber(commonmodule::DbPosKind::DbPosKind_open)->name();
+            }
+
+            void write_check_conditions_keys() override
+            {
+                throw Exception("not implemented");
+            }
+
+            void write_switch_csg_keys() override
+            {
+                throw Exception("not implemented");
             }
         };
     }

@@ -7,6 +7,8 @@ import com.oes.openfmb.generation.document.Documents;
 import com.oes.openfmb.generation.document.FileHeader;
 import com.oes.openfmb.util.FieldPathImpl;
 import openfmb.commonmodule.*;
+import openfmb.switchmodule.SwitchCSG;
+import openfmb.switchmodule.SwitchControl;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -20,16 +22,26 @@ public class ModelVisitorFile extends CppFilePair {
 
     private final static Set<Descriptors.Descriptor> terminalMessages = new HashSet<>(
             Arrays.asList(
+                // measurement values that appear in reading/status profiles
                 CMV.getDescriptor(),
                 MV.getDescriptor(),
                 BCR.getDescriptor(),
+                StatusDPS.getDescriptor(),
+
+                // generic meta-data stuff that appears in all profiles
                 MessageInfo.getDescriptor(),
-                ConductingEquipmentTerminalReading.getDescriptor(),
-                ENG_CalcMethodKind.getDescriptor(),
                 IdentifiedObject.getDescriptor(),
                 ConductingEquipment.getDescriptor(),
+
+                // stuff that appears in control profiles
+                ControlValue.getDescriptor(),
+                CheckConditions.getDescriptor(),
+                SwitchCSG.getDescriptor(),
+
+                // various static attributes not currently being handled
+                ConductingEquipmentTerminalReading.getDescriptor(),
+                ENG_CalcMethodKind.getDescriptor(),
                 ENG_PFSignKind.getDescriptor(),
-                StatusDPS.getDescriptor(),
                 ENS_BehaviourModeKind.getDescriptor(),
                 ENS_DynamicTestKind.getDescriptor(),
                 ENS_HealthKind.getDescriptor()

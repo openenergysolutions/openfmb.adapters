@@ -23,4 +23,6 @@ void visit(IModelVisitor<switchmodule::SwitchReadingProfile>& visitor);
 
 void visit(IModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
 
+void visit(IModelVisitor<switchmodule::SwitchControlProfile>& visitor);
+
 } // end namespace adapter

@@ -37,7 +37,17 @@ namespace adapter
 
             void write_status_dps_keys() override
             {
-                // TODO
+                throw Exception("Not implemented");
+            }
+
+            void write_check_conditions_keys() override
+            {
+                throw Exception("Not implemented");
+            }
+
+            void write_switch_csg_keys() override
+            {
+                throw Exception("Not implemented");
             }
         };
     }

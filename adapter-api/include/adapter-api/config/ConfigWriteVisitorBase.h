@@ -92,6 +92,27 @@ namespace adapter
             this->out << YAML::EndMap;
         }
 
+        void handle(const std::string& field_name, Accessor <commonmodule::ControlValue, T> accessor) final
+        {
+            // no need to do anything for the control value
+        }
+
+        void handle(const std::string& field_name, Accessor <commonmodule::CheckConditions, T> accessor) final
+        {
+            this->out << YAML::Key << field_name;
+            this->out << YAML::BeginMap;
+            this->write_check_conditions_keys();
+            this->out << YAML::EndMap;
+        }
+
+        void handle(const std::string& field_name, Accessor <switchmodule::SwitchCSG, T> accessor) final
+        {
+            this->out << YAML::Key << field_name;
+            this->out << YAML::BeginMap;
+            this->write_switch_csg_keys();
+            this->out << YAML::EndMap;
+        }
+
         void handle(const std::string& field_name, Accessor<commonmodule::ConductingEquipment, T> accessor) final
         {
             this->out << YAML::Key << field_name;
@@ -137,6 +158,10 @@ namespace adapter
         virtual void write_bcr_keys() = 0;
 
         virtual void write_status_dps_keys() = 0;
+
+        virtual void write_check_conditions_keys() = 0;
+
+        virtual void write_switch_csg_keys() = 0;
 
     private:
 

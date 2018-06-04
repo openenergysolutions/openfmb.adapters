@@ -23,4 +23,6 @@ void visit(const switchmodule::SwitchReadingProfile& message, IMessageVisitor& v
 
 void visit(const switchmodule::SwitchStatusProfile& message, IMessageVisitor& visitor);
 
+void visit(const switchmodule::SwitchControlProfile& message, IMessageVisitor& visitor);
+
 } // end namespace adapter

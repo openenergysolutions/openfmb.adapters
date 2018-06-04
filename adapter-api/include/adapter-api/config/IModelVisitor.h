@@ -58,7 +58,12 @@ namespace adapter
         virtual void handle(const std::string& field_name, Accessor<commonmodule::BCR, T> accessor) = 0;
         virtual void handle(const std::string& field_name, Accessor<commonmodule::StatusDPS, T> accessor) = 0;
 
-        /// --- handlers for other types of fields ---
+        /// --- handlers for control types ---
+        virtual void handle(const std::string& field_name, Accessor<commonmodule::ControlValue, T> accessor) = 0;
+        virtual void handle(const std::string& field_name, Accessor<commonmodule::CheckConditions, T> accessor) = 0;
+        virtual void handle(const std::string& field_name, Accessor<switchmodule::SwitchCSG, T> accessor) = 0;
+
+        /// --- handlers for meta-data fields used by all profiles ---
         virtual void handle(const std::string& field_name, Accessor<commonmodule::MessageInfo, T> accessor) = 0;
         virtual void handle(const std::string& field_name, Accessor<commonmodule::IdentifiedObject, T> accessor) = 0;
         virtual void handle(const std::string& field_name, Accessor<commonmodule::ConductingEquipment, T> accessor) = 0;

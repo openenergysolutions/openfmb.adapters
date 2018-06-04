@@ -80,7 +80,22 @@ namespace adapter
 
             void handle(const std::string& field_name, Accessor<commonmodule::StatusDPS, T> accessor) override
             {
-                throw Exception(commonmodule::StatusDPS::descriptor()->name(), " not supported");
+                throw Exception("not implemented");
+            }
+
+            void handle(const std::string& field_name, Accessor<commonmodule::ControlValue, T> accessor) override
+            {
+                throw Exception("not implemented");
+            }
+
+            void handle(const std::string& field_name, Accessor<commonmodule::CheckConditions, T> accessor) override
+            {
+                throw Exception("not implemented");
+            }
+
+            void handle(const std::string& field_name, Accessor<switchmodule::SwitchCSG, T> accessor) override
+            {
+                throw Exception("not implemented");
             }
 
         private:

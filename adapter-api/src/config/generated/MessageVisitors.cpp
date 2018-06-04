@@ -1199,4 +1199,9 @@ void visit(const switchmodule::SwitchStatusProfile& message, IMessageVisitor& vi
     }
 }
 
+void visit(const switchmodule::SwitchControlProfile& message, IMessageVisitor& visitor)
+{
+    const auto& level0 = message;
+}
+
 } // end namespace adapter

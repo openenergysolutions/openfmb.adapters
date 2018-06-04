@@ -143,6 +143,21 @@ namespace adapter
                 }
             }
 
+            void handle(const std::string& field_name, Accessor<commonmodule::ControlValue, T> accessor) override
+            {
+                throw Exception("not implemented");
+            }
+
+            void handle(const std::string& field_name, Accessor<commonmodule::CheckConditions, T> accessor) override
+            {
+                throw Exception("not implemented");
+            }
+
+            void handle(const std::string& field_name, Accessor<switchmodule::SwitchCSG, T> accessor) override
+            {
+                throw Exception("not implemented");
+            }
+
         private:
 
             static commonmodule::DbPosKind get_db_pos_kind(const YAML::Node& node, const std::string& key)
