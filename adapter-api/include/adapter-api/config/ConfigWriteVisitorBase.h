@@ -22,7 +22,7 @@ namespace adapter
 
     public:
 
-        ConfigWriteVisitorBase(YAML::Emitter& out) : out(out) {}
+        explicit ConfigWriteVisitorBase(YAML::Emitter& out) : out(out) {}
 
         void start_message_field(const std::string& field_name) final
         {
@@ -57,7 +57,7 @@ namespace adapter
             out << YAML::EndSeq;
         }
 
-        void handle(const std::string& field_name, getter_t<commonmodule::MV, T> getter) final
+        void handle(const std::string& field_name, Accessor<commonmodule::MV, T> accessor) final
         {
             this->out << YAML::Key << field_name << YAML::Comment("MV");
             this->out << YAML::BeginMap;
@@ -65,7 +65,7 @@ namespace adapter
             this->out << YAML::EndMap;
         }
 
-        void handle(const std::string& field_name, getter_t<commonmodule::CMV, T> getter) final
+        void handle(const std::string& field_name, Accessor<commonmodule::CMV, T> accessor) final
         {
             this->out << YAML::Key << field_name << YAML::Comment("CMV");
             this->out << YAML::BeginMap << keys::cVal;
@@ -76,7 +76,7 @@ namespace adapter
             this->out << YAML::EndMap;
         }
 
-        void handle(const std::string& field_name, getter_t<commonmodule::BCR, T> getter) final
+        void handle(const std::string& field_name, Accessor<commonmodule::BCR, T> accessor) final
         {
             this->out << YAML::Key << field_name << YAML::Comment("BCR");
             this->out << YAML::BeginMap;
@@ -84,7 +84,7 @@ namespace adapter
             this->out << YAML::EndMap;
         }
 
-        void handle(const std::string& field_name, getter_t<commonmodule::StatusDPS, T> getter) final
+        void handle(const std::string& field_name, Accessor<commonmodule::StatusDPS, T> accessor) final
         {
             this->out << YAML::Key << field_name << YAML::Comment("StatusDPS");
             this->out << YAML::BeginMap;
@@ -92,7 +92,7 @@ namespace adapter
             this->out << YAML::EndMap;
         }
 
-        void handle(const std::string& field_name, getter_t<commonmodule::ConductingEquipment, T> getter) final
+        void handle(const std::string& field_name, Accessor<commonmodule::ConductingEquipment, T> accessor) final
         {
             this->out << YAML::Key << field_name;
             this->out << YAML::BeginMap;
@@ -108,7 +108,7 @@ namespace adapter
             this->out << YAML::EndMap;
         }
 
-        void handle(const std::string& field_name, getter_t <commonmodule::IdentifiedObject, T> getter) final
+        void handle(const std::string& field_name, Accessor<commonmodule::IdentifiedObject, T> accessor) final
         {
             this->out << YAML::Key << field_name;
             this->out << YAML::BeginMap;
@@ -118,7 +118,7 @@ namespace adapter
             this->out << YAML::EndMap;
         }
 
-        void handle(const std::string& field_name, getter_t<commonmodule::MessageInfo, T> getter) final
+        void handle(const std::string& field_name, Accessor<commonmodule::MessageInfo, T> accessor) final
         {
             this->out << YAML::Key << field_name << YAML::Comment("mRID set dynamically");
             this->out << YAML::BeginMap;

@@ -1,5 +1,5 @@
 #include "adapter-api/config/generated/MessageVisitors.h"
-#include "../Accessor.h"
+#include "../AccessorImpl.h"
 
 namespace adapter {
 

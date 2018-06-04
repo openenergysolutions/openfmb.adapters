@@ -68,11 +68,11 @@ namespace adapter
 
         // ---- final handlers for OpenFMB identity related things ----
 
-        void handle(const std::string& field_name, getter_t<commonmodule::MessageInfo, T> getter) final;
+        void handle(const std::string& field_name, Accessor<commonmodule::MessageInfo, T> accessor) final;
 
-        void handle(const std::string& field_name, getter_t <commonmodule::ConductingEquipment, T> getter) final;
+        void handle(const std::string& field_name, Accessor<commonmodule::ConductingEquipment, T> accessor) final;
 
-        void handle(const std::string& field_name, getter_t<commonmodule::IdentifiedObject, T> getter) final;
+        void handle(const std::string& field_name, Accessor<commonmodule::IdentifiedObject, T> accessor) final;
 
     protected:
 
@@ -80,10 +80,10 @@ namespace adapter
         void configure_static_mrid(const YAML::Node& node, const S& setter);
 
         template <class U>
-        void configure_static_name(const YAML::Node& node, getter_t <U, T> getter);
+        void configure_static_name(const YAML::Node& node, mutable_getter_t<U, T> getter);
 
         template <class U>
-        void configure_static_description(const YAML::Node& node, getter_t <U, T> getter);
+        void configure_static_description(const YAML::Node& node, mutable_getter_t<U, T> getter);
 
 
         virtual void add_message_init_action(const std::function<void (T&)>& init) = 0;
@@ -136,7 +136,7 @@ namespace adapter
 
     template<class T>
     template<class U>
-    void ConfigReadVisitorBase<T>::configure_static_name(const YAML::Node& node, getter_t <U, T> getter)
+    void ConfigReadVisitorBase<T>::configure_static_name(const YAML::Node& node, mutable_getter_t<U, T> getter)
     {
         const auto name = yaml::require_string(node, ::adapter::keys::name);
 
@@ -156,7 +156,7 @@ namespace adapter
 
     template<class T>
     template<class U>
-    void ConfigReadVisitorBase<T>::configure_static_description(const YAML::Node& node, getter_t <U, T> getter)
+    void ConfigReadVisitorBase<T>::configure_static_description(const YAML::Node& node, mutable_getter_t<U, T> getter)
     {
         const auto description = yaml::require_string(node, ::adapter::keys::description);
 
@@ -172,7 +172,7 @@ namespace adapter
     }
 
     template<class T>
-    void ConfigReadVisitorBase<T>::handle(const std::string& field_name, getter_t <commonmodule::MessageInfo, T> getter)
+    void ConfigReadVisitorBase<T>::handle(const std::string& field_name, Accessor<commonmodule::MessageInfo, T> accessor)
     {
         const auto node = this->get_config_node(field_name);
 
@@ -180,7 +180,7 @@ namespace adapter
         // but the difference is that the mRID is new for every message
         {
             const auto io_node = yaml::require(node, ::adapter::keys::identified_object);
-            const auto io_getter = [getter](T & profile) -> commonmodule::IdentifiedObject* { return getter(profile)->mutable_identifiedobject(); };
+            const auto io_getter = [accessor](T & profile) -> commonmodule::IdentifiedObject* { return accessor.create(profile)->mutable_identifiedobject(); };
             this->configure_static_name<commonmodule::IdentifiedObject>(io_node, io_getter);
             this->configure_static_description<commonmodule::IdentifiedObject>(io_node, io_getter);
         }
@@ -188,20 +188,20 @@ namespace adapter
 
         // put a fresh UUID onto every message
         this->add_message_init_action(
-            [getter, generator = this->generator](T & profile)
+            [accessor, generator = this->generator](T & profile)
         {
-            getter(profile)->mutable_identifiedobject()->mutable_mrid()->set_value(boost::uuids::to_string((*generator)()));
+            accessor.create(profile)->mutable_identifiedobject()->mutable_mrid()->set_value(boost::uuids::to_string((*generator)()));
         }
         );
 
         this->add_message_complete_action(
-            [getter](T & profile)
+            [accessor](T & profile)
         {
             const auto now = std::chrono::system_clock::now().time_since_epoch();
             const auto seconds = std::chrono::duration_cast<std::chrono::seconds>(now).count();
             const auto millisec = std::chrono::duration_cast<std::chrono::milliseconds>(now).count() % 1000;
 
-            const auto timestamp = getter(profile)->mutable_messagetimestamp();
+            const auto timestamp = accessor.create(profile)->mutable_messagetimestamp();
 
             timestamp->set_seconds(seconds);
             // fractional seconds are scaled as a percentage of a second to the full range of a uint32_t
@@ -214,20 +214,20 @@ namespace adapter
     }
 
     template<class T>
-    void ConfigReadVisitorBase<T>::handle(const std::string& field_name, getter_t <commonmodule::ConductingEquipment, T> getter)
+    void ConfigReadVisitorBase<T>::handle(const std::string& field_name, Accessor<commonmodule::ConductingEquipment, T> accessor)
     {
         const auto node = this->get_config_node(field_name);
 
-        this->configure_static_mrid(node, [getter](T & profile, const std::string & uuid)
+        this->configure_static_mrid(node, [accessor](T & profile, const std::string & uuid)
         {
-            getter(profile)->set_mrid(uuid);
+            accessor.create(profile)->set_mrid(uuid);
         });
 
 
         const auto named_object_node = yaml::require(node, keys::named_object);
-        const auto named_object_getter = [getter](T & profile)
+        const auto named_object_getter = [accessor](T & profile)
         {
-            return getter(profile)->mutable_namedobject();
+            return accessor.create(profile)->mutable_namedobject();
         };
 
         this->configure_static_name<commonmodule::NamedObject>(named_object_node, named_object_getter);
@@ -235,16 +235,17 @@ namespace adapter
     }
 
     template <class T>
-    void ConfigReadVisitorBase<T>::handle(const std::string& field_name, getter_t<commonmodule::IdentifiedObject, T> getter)
+    void ConfigReadVisitorBase<T>::handle(const std::string& field_name, Accessor<commonmodule::IdentifiedObject, T> accessor)
     {
         const auto node = this->get_config_node(field_name);
 
-        this->configure_static_mrid(node, [getter](T & profile, const std::string & uuid)
+        this->configure_static_mrid(node, [accessor](T & profile, const std::string & uuid)
         {
-            getter(profile)->mutable_mrid()->set_value(uuid);
+            accessor.create(profile)->mutable_mrid()->set_value(uuid);
         });
-        this->configure_static_name<commonmodule::IdentifiedObject>(node, getter);
-        this->configure_static_description<commonmodule::IdentifiedObject>(node, getter);
+
+        this->configure_static_name<commonmodule::IdentifiedObject>(node, accessor.to_mutable_getter());
+        this->configure_static_description<commonmodule::IdentifiedObject>(node, accessor.to_mutable_getter());
     }
 
 }

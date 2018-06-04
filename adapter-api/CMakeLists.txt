@@ -33,7 +33,7 @@ set(API_SOURCES
 	src/Version.cpp
 	src/util/YAMLUtil.cpp
 	src/util/YAMLTemplate.cpp
-	src/config/Accessor.h
+		src/config/AccessorImpl.h
 	src/config/generated/MessageVisitors.cpp
 	src/config/generated/ArchiveVisitors.cpp
 	src/config/MessageInformation.cpp

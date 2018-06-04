@@ -202,7 +202,7 @@ namespace adapter
 
         private:
 
-            bool matches(const Proto &message) const override
+            bool matches(const Proto& message) const override
             {
                 return get_conducting_equip(message).namedobject().name().value() == this->name;
             }

@@ -41,20 +41,20 @@ namespace adapter
             {}
 
 
-            void handle(const std::string& field_name, getter_t<commonmodule::MV, T> getter) override
+            void handle(const std::string& field_name, Accessor<commonmodule::MV, T> accessor) override
             {
                 const auto node = this->get_config_node(field_name);
 
                 this->configure_analogue(
                     yaml::require(node, ::adapter::keys::mag),
-                    [getter](T & profile)
+                    [accessor](T & profile)
                 {
-                    return getter(profile)->mutable_mag();
+                    return accessor.create(profile)->mutable_mag();
                 }
                 );
             }
 
-            void handle(const std::string& field_name, getter_t<commonmodule::CMV, T> getter) override
+            void handle(const std::string& field_name, Accessor<commonmodule::CMV, T> accessor) override
             {
                 const YAML::Node vector_node = yaml::require(
                                                    this->get_config_node(field_name),
@@ -64,22 +64,22 @@ namespace adapter
                 // independently configure the angle and magnitude
                 this->configure_analogue(
                     yaml::require(vector_node, ::adapter::keys::mag),
-                    [getter](T & profile)
+                    [accessor](T & profile)
                 {
-                    return getter(profile)->mutable_cval()->mutable_mag();
+                    return accessor.create(profile)->mutable_cval()->mutable_mag();
                 }
                 );
 
                 this->configure_analogue(
                     yaml::require(vector_node, ::adapter::keys::ang),
-                    [getter](T & profile)
+                    [accessor](T & profile)
                 {
-                    return getter(profile)->mutable_cval()->mutable_ang();
+                    return accessor.create(profile)->mutable_cval()->mutable_ang();
                 }
                 );
             }
 
-            void handle(const std::string& field_name, getter_t<commonmodule::BCR, T> getter) override
+            void handle(const std::string& field_name, Accessor<commonmodule::BCR, T> accessor) override
             {
                 const auto node = this->get_config_node(field_name);
                 const auto input_type = this->get_input_type(node);
@@ -92,9 +92,9 @@ namespace adapter
                 case(InputType::analog):
 
                     this->builder->add_measurement_handler(
-                        [getter, profile = this->profile, scale = this->get_scale(node)](const opendnp3::Analog & meas)
+                        [accessor, profile = this->profile, scale = this->get_scale(node)](const opendnp3::Analog & meas)
                     {
-                        getter(*profile)->set_actval(static_cast<google::protobuf::int64>(meas.value * scale));
+                        accessor.create(*profile)->set_actval(static_cast<google::protobuf::int64>(meas.value * scale));
                     },
                     get_index(node)
                     );
@@ -103,9 +103,9 @@ namespace adapter
                 case(InputType::counter):
 
                     this->builder->add_measurement_handler(
-                        [getter, profile = this->profile, scale = this->get_scale(node)](const opendnp3::Counter & meas)
+                        [accessor, profile = this->profile, scale = this->get_scale(node)](const opendnp3::Counter & meas)
                     {
-                        getter(*profile)->set_actval(static_cast<google::protobuf::int64>(meas.value * scale));
+                        accessor.create(*profile)->set_actval(static_cast<google::protobuf::int64>(meas.value * scale));
                     },
                     get_index(node)
                     );
@@ -116,7 +116,7 @@ namespace adapter
                 }
             }
 
-            void handle(const std::string& field_name, getter_t<commonmodule::StatusDPS, T> getter) override
+            void handle(const std::string& field_name, Accessor<commonmodule::StatusDPS, T> accessor) override
             {
                 const auto node = this->get_config_node(field_name);
                 const auto input_type = this->get_input_type(node);
@@ -129,9 +129,9 @@ namespace adapter
                 case(InputType::binary):
 
                     this->builder->add_measurement_handler(
-                        [getter, profile = this->profile, mapping = get_db_pos_kind_mapping(node)](const opendnp3::Binary & meas)
+                        [accessor, profile = this->profile, mapping = get_db_pos_kind_mapping(node)](const opendnp3::Binary & meas)
                     {
-                        getter(*profile)->set_stval(meas.value ? mapping.high : mapping.low);
+                        accessor.create(*profile)->set_stval(meas.value ? mapping.high : mapping.low);
                     },
                     get_index(node)
                     );
@@ -183,7 +183,7 @@ namespace adapter
                 return yaml::require(node, keys::scale).as<double>();
             }
 
-            void configure_analogue(const YAML::Node& node, getter_t<commonmodule::AnalogueValue, T> getter)
+            void configure_analogue(const YAML::Node& node, mutable_getter_t<commonmodule::AnalogueValue, T> getter)
             {
                 const auto input_type = get_input_type(node);
                 switch(input_type)
@@ -200,7 +200,7 @@ namespace adapter
 
 
             template <class U>
-            void configure_analogue(const YAML::Node& node, getter_t<commonmodule::AnalogueValue, T> getter)
+            void configure_analogue(const YAML::Node& node, mutable_getter_t<commonmodule::AnalogueValue, T> getter)
             {
                 const auto handler = [scale = get_scale(node), getter, profile = this->profile](const U & meas)
                 {

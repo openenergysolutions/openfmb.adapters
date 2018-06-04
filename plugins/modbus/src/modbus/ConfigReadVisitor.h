@@ -28,22 +28,22 @@ namespace adapter
             ConfigReadVisitor(const YAML::Node& root, std::shared_ptr<T> profile, std::shared_ptr<IConfigurationBuilder> builder) :
                 ConfigReadVisitorBase<T>(root),
                 profile(profile),
-                builder(builder)
+                builder(std::move(builder))
             {}
 
-            void handle(const std::string& field_name, getter_t<commonmodule::MV, T> getter) override
+            void handle(const std::string& field_name, Accessor<commonmodule::MV, T> accessor) override
             {
                 // MV only has a magnitude
                 this->configure_analogue(
                     yaml::require(this->get_config_node(field_name), ::adapter::keys::mag),
-                    [getter](T & profile) -> commonmodule::AnalogueValue*
+                    [accessor](T & profile) -> commonmodule::AnalogueValue*
                 {
-                    return getter(profile)->mutable_mag();
+                    return accessor.create(profile)->mutable_mag();
                 }
                 );
             }
 
-            void handle(const std::string& field_name, getter_t<commonmodule::CMV, T> getter) override
+            void handle(const std::string& field_name, Accessor<commonmodule::CMV, T> accessor) override
             {
                 const YAML::Node vector_node = yaml::require(
                                                    this->get_config_node(field_name),
@@ -54,38 +54,38 @@ namespace adapter
 
                 this->configure_analogue(
                     yaml::require(vector_node, ::adapter::keys::mag),
-                    [getter](T & profile) -> commonmodule::AnalogueValue*
+                    [accessor](T & profile) -> commonmodule::AnalogueValue*
                 {
-                    return getter(profile)->mutable_cval()->mutable_mag();
+                    return accessor.create(profile)->mutable_cval()->mutable_mag();
                 }
                 );
 
                 this->configure_analogue(
                     yaml::require(vector_node, ::adapter::keys::ang),
-                    [getter](T & profile) -> commonmodule::AnalogueValue*
+                    [accessor](T & profile) -> commonmodule::AnalogueValue*
                 {
-                    return getter(profile)->mutable_cval()->mutable_ang();
+                    return accessor.create(profile)->mutable_cval()->mutable_ang();
                 }
                 );
 
             }
 
-            void handle(const std::string& field_name, getter_t<commonmodule::BCR, T> getter) override
+            void handle(const std::string& field_name, Accessor<commonmodule::BCR, T> accessor) override
             {
                 this->configure_bcr(
                     this->get_config_node(field_name),
-                    getter
+                    accessor
                 );
             }
 
-            void handle(const std::string& field_name, getter_t<commonmodule::StatusDPS, T> getter) override
+            void handle(const std::string& field_name, Accessor<commonmodule::StatusDPS, T> accessor) override
             {
-                // TODO
+                throw Exception(commonmodule::StatusDPS::descriptor()->name(), " not supported");
             }
 
         private:
 
-            void configure_analogue(const YAML::Node& node, getter_t<commonmodule::AnalogueValue, T> getter)
+            void configure_analogue(const YAML::Node& node, mutable_getter_t<commonmodule::AnalogueValue, T> getter)
             {
                 const auto type_string = yaml::require_string(node, keys::type);
 
@@ -122,29 +122,25 @@ namespace adapter
                     });
                     break;
                 case (MappingType::uint32_with_modulus):
+                    this->map_register32(node, [getter, scale = get_float_scale(node), modulus = get_modulus(node)]
+                                         (T & profile, const std::shared_ptr<Register32>& reg)
                     {
-                        this->map_register32(node, [getter, scale = get_float_scale(node), modulus = get_modulus(node)]
-                                             (T & profile, const std::shared_ptr<Register32>& reg)
-                        {
-                            getter(profile)->mutable_f()->set_value(reg->to_uint32(modulus) * scale);
-                        });
-                        break;
-                    }
+                        getter(profile)->mutable_f()->set_value(reg->to_uint32(modulus) * scale);
+                    });
+                    break;
                 case (MappingType::sint32_with_modulus):
+                    this->map_register32(node, [getter, scale = get_float_scale(node), modulus = get_modulus(node)]
+                                         (T & profile, const std::shared_ptr<Register32>& reg)
                     {
-                        this->map_register32(node, [getter, scale = get_float_scale(node), modulus = get_modulus(node)]
-                                             (T & profile, const std::shared_ptr<Register32>& reg)
-                        {
-                            getter(profile)->mutable_f()->set_value(reg->to_sint32(modulus) * scale);
-                        });
-                        break;
-                    }
+                        getter(profile)->mutable_f()->set_value(reg->to_sint32(modulus) * scale);
+                    });
+                    break;
                 default:
                     throw Exception("Unhandled modbus mapping type: ", type_string);
                 }
             }
 
-            void configure_bcr(const YAML::Node& node, getter_t<commonmodule::BCR, T> getter)
+            void configure_bcr(const YAML::Node& node, Accessor<commonmodule::BCR, T> accessor)
             {
                 const auto type_string = yaml::require_string(node, keys::type);
 
@@ -153,43 +149,39 @@ namespace adapter
                 case(MappingType::none):
                     break;
                 case(MappingType::uint16):
-                    this->map_register16(node, [getter](T & profile, const std::shared_ptr<Register16>& reg)
+                    this->map_register16(node, [accessor](T & profile, const std::shared_ptr<Register16>& reg)
                     {
-                        getter(profile)->set_actval(reg->to_uint16());
+                        accessor.create(profile)->set_actval(reg->to_uint16());
                     });
                     break;
                 case(MappingType::sint16):
-                    this->map_register16(node, [getter](T & profile, const std::shared_ptr<Register16>& reg)
+                    this->map_register16(node, [accessor](T & profile, const std::shared_ptr<Register16>& reg)
                     {
-                        getter(profile)->set_actval(reg->to_sint16());
+                        accessor.create(profile)->set_actval(reg->to_sint16());
                     });
                     break;
                 case(MappingType::uint32):
-                    this->map_register32(node, [getter](T & profile, const std::shared_ptr<Register32>& reg)
+                    this->map_register32(node, [accessor](T & profile, const std::shared_ptr<Register32>& reg)
                     {
-                        getter(profile)->set_actval(reg->to_uint32());
+                        accessor.create(profile)->set_actval(reg->to_uint32());
                     });
                     break;
                 case(MappingType::sint32):
-                    this->map_register32(node, [getter](T & profile, const std::shared_ptr<Register32>& reg)
+                    this->map_register32(node, [accessor](T & profile, const std::shared_ptr<Register32>& reg)
                     {
-                        getter(profile)->set_actval(reg->to_sint32());
+                        accessor.create(profile)->set_actval(reg->to_sint32());
                     });
                 case(MappingType::uint32_with_modulus):
+                    this->map_register32(node, [accessor, modulus = get_modulus(node)](T & profile, const std::shared_ptr<Register32>& reg)
                     {
-                        this->map_register32(node, [getter, modulus = get_modulus(node)](T & profile, const std::shared_ptr<Register32>& reg)
-                        {
-                            getter(profile)->set_actval(reg->to_uint32(modulus));
-                        });
-                    }
+                        accessor.create(profile)->set_actval(reg->to_uint32(modulus));
+                    });
                     break;
                 case(MappingType::sint32_with_modulus):
+                    this->map_register32(node, [accessor, modulus = get_modulus(node)](T & profile, const std::shared_ptr<Register32>& reg)
                     {
-                        this->map_register32(node, [getter, modulus = get_modulus(node)](T & profile, const std::shared_ptr<Register32>& reg)
-                        {
-                            getter(profile)->set_actval(reg->to_sint32(modulus));
-                        });
-                    }
+                        accessor.create(profile)->set_actval(reg->to_sint32(modulus));
+                    });
                     break;
 
                 default:

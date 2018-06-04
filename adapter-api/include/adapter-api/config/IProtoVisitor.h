@@ -53,23 +53,23 @@ namespace adapter
 
         /// --- handlers for measurement types ---
 
-        virtual void handle(const std::string& field_name, accessor_t<commonmodule::MV, T> getter) = 0;
-        virtual void handle(const std::string& field_name, accessor_t<commonmodule::CMV, T> getter) = 0;
-        virtual void handle(const std::string& field_name, accessor_t<commonmodule::BCR, T> getter) = 0;
-        virtual void handle(const std::string& field_name, accessor_t<commonmodule::StatusDPS, T> getter) = 0;
+        virtual void handle(const std::string& field_name, Accessor<commonmodule::MV, T> accessor) = 0;
+        virtual void handle(const std::string& field_name, Accessor<commonmodule::CMV, T> accessor) = 0;
+        virtual void handle(const std::string& field_name, Accessor<commonmodule::BCR, T> accessor) = 0;
+        virtual void handle(const std::string& field_name, Accessor<commonmodule::StatusDPS, T> accessor) = 0;
 
         /// --- handlers for other types of fields ---
-        virtual void handle(const std::string& field_name, accessor_t<commonmodule::MessageInfo, T> getter) = 0;
-        virtual void handle(const std::string& field_name, accessor_t<commonmodule::IdentifiedObject, T> getter) = 0;
-        virtual void handle(const std::string& field_name, accessor_t<commonmodule::ConductingEquipment, T> getter) = 0;
+        virtual void handle(const std::string& field_name, Accessor<commonmodule::MessageInfo, T> accessor) = 0;
+        virtual void handle(const std::string& field_name, Accessor<commonmodule::IdentifiedObject, T> accessor) = 0;
+        virtual void handle(const std::string& field_name, Accessor<commonmodule::ConductingEquipment, T> accessor) = 0;
 
         /// --- Ignore these for now everywhere until we know what they do ---
-        virtual void handle(const std::string& field_name, accessor_t<commonmodule::ConductingEquipmentTerminalReading, T> getter) {}
-        virtual void handle(const std::string& field_name, accessor_t<commonmodule::ENG_CalcMethodKind, T> getter) {}
-        virtual void handle(const std::string& field_name, accessor_t<commonmodule::ENG_PFSignKind, T> getter) {}
-        virtual void handle(const std::string& field_name, accessor_t<commonmodule::ENS_BehaviourModeKind, T> getter) {}
-        virtual void handle(const std::string& field_name, accessor_t<commonmodule::ENS_DynamicTestKind, T> getter) {}
-        virtual void handle(const std::string& field_name, accessor_t<commonmodule::ENS_HealthKind, T> getter) {}
+        virtual void handle(const std::string& field_name, Accessor<commonmodule::ConductingEquipmentTerminalReading, T> accessor) {}
+        virtual void handle(const std::string& field_name, Accessor<commonmodule::ENG_CalcMethodKind, T> accessor) {}
+        virtual void handle(const std::string& field_name, Accessor<commonmodule::ENG_PFSignKind, T> accessor) {}
+        virtual void handle(const std::string& field_name, Accessor<commonmodule::ENS_BehaviourModeKind, T> accessor) {}
+        virtual void handle(const std::string& field_name, Accessor<commonmodule::ENS_DynamicTestKind, T> accessor) {}
+        virtual void handle(const std::string& field_name, Accessor<commonmodule::ENS_HealthKind, T> accessor) {}
 
     };
 

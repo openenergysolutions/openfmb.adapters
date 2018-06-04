@@ -70,12 +70,12 @@ public class MessageVisitorFile extends CppFilePair {
 
         return join(
                 include("adapter-api/config/generated/" + headerFileName()),
-                include("../Accessor.h"),
+                include("../AccessorImpl.h"),
                 space,
                 namespace(
                 "adapter",
                         spaced(
-                                getDescriptorStream().map(d -> visitImpl(d))
+                                getDescriptorStream().map(this::visitImpl)
                         )
                 )
         );

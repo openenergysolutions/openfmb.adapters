@@ -27,7 +27,10 @@ namespace adapter
 
     protected:
 
-        virtual bool matches(const T& message) const { return true; }
+        virtual bool matches(const T& message) const
+        {
+            return true;
+        }
 
         /**
          * Callback method invoked when a message of this type is published
