@@ -1,5 +1,6 @@
 package com.oes.openfmb;
 
+import com.google.protobuf.Descriptors;
 import com.oes.openfmb.generation.Artifact;
 import com.oes.openfmb.generation.dds.ConvertFromProto;
 import com.oes.openfmb.generation.dds.ConvertToProto;
@@ -12,6 +13,7 @@ import openfmb.switchmodule.SwitchStatusProfile;
 
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -40,31 +42,20 @@ public class Artifacts {
 
     public static class Visitors
     {
-        private static final CppFilePair modelVisitors =
-                new MessageVisitorFile(
-                        Arrays.asList(
-                                ResourceReadingProfile.getDescriptor(),
-                                SwitchReadingProfile.getDescriptor(),
-                                SwitchStatusProfile.getDescriptor()
-                        ),
-                        Arrays.asList(
-                                "resourcemodule/resourcemodule.pb.h",
-                                "switchmodule/switchmodule.pb.h"
-                        )
-                );
+        private static List<Descriptors.Descriptor> descriptors = Arrays.asList(
+                ResourceReadingProfile.getDescriptor(),
+                SwitchReadingProfile.getDescriptor(),
+                SwitchStatusProfile.getDescriptor()
+        );
 
-        private static final CppFilePair archiveVisitors =
-                new ArchiveVisitorFile(
-                        Arrays.asList(
-                                ResourceReadingProfile.getDescriptor(),
-                                SwitchReadingProfile.getDescriptor(),
-                                SwitchStatusProfile.getDescriptor()
-                        ),
-                        Arrays.asList(
-                                "resourcemodule/resourcemodule.pb.h",
-                                "switchmodule/switchmodule.pb.h"
-                        )
-                );
+        private static List<String> includes = Arrays.asList(
+                "resourcemodule/resourcemodule.pb.h",
+                "switchmodule/switchmodule.pb.h"
+        );
+
+        private static final CppFilePair modelVisitors = new MessageVisitorFile(descriptors, includes);
+
+        private static final CppFilePair archiveVisitors = new ArchiveVisitorFile(descriptors, includes);
 
         public static Iterable<Artifact> get(Path includeDirectory, Path implDirectory) {
             return convert(includeDirectory, implDirectory, modelVisitors, archiveVisitors);
