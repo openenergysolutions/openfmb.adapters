@@ -28,14 +28,16 @@ set(API_HEADERS
 )
 
 set(API_SOURCES
-        src/Profile.cpp
+    src/Profile.cpp
 	src/ProfileMode.cpp
 	src/Version.cpp
 	src/util/YAMLUtil.cpp
 	src/util/YAMLTemplate.cpp
+	src/config/Accessor.h
 	src/config/generated/MessageVisitors.cpp
 	src/config/generated/ArchiveVisitors.cpp
 	src/config/MessageInformation.cpp
+	include/adapter-api/config/IAccessor.h
 )
 
 

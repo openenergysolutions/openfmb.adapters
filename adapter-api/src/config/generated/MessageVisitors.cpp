@@ -1,344 +1,555 @@
 #include "adapter-api/config/generated/MessageVisitors.h"
+#include "../Accessor.h"
 
 namespace adapter {
 
 void visit(IProtoVisitor<resourcemodule::ResourceReadingProfile>& visitor)
 {
-    const auto context0 = [](resourcemodule::ResourceReadingProfile& profile) { return &profile; };
+    const auto mutable_context0 = [](resourcemodule::ResourceReadingProfile& profile) { return &profile; };
+    const auto const_context0 = [](const resourcemodule::ResourceReadingProfile& profile) { return &profile; };
     visitor.start_message_field("readingMessageInfo");
     {
-        const auto context1 = [context = context0](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_readingmessageinfo(); };
+        const auto mutable_context1 = [context = mutable_context0](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_readingmessageinfo(); };
+        const auto const_context1 = [context = const_context0](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_readingmessageinfo()) ? &temp->readingmessageinfo() : nullptr; };
         visitor.handle(
             "messageInfo",
-            [context = context1](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_messageinfo(); }
+            AccessorBuilder<commonmodule::MessageInfo, resourcemodule::ResourceReadingProfile>::build(
+                [context = mutable_context1](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_messageinfo(); },
+                [context = const_context1](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_messageinfo()) ? &temp->messageinfo() : nullptr; }
+            )
         );
     }
     visitor.end_message_field();
     visitor.start_message_field("ied");
     {
-        const auto context1 = [context = context0](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_ied(); };
+        const auto mutable_context1 = [context = mutable_context0](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_ied(); };
+        const auto const_context1 = [context = const_context0](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_ied()) ? &temp->ied() : nullptr; };
         visitor.handle(
             "identifiedObject",
-            [context = context1](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); }
+            AccessorBuilder<commonmodule::IdentifiedObject, resourcemodule::ResourceReadingProfile>::build(
+                [context = mutable_context1](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); },
+                [context = const_context1](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_identifiedobject()) ? &temp->identifiedobject() : nullptr; }
+            )
         );
     }
     visitor.end_message_field();
     visitor.start_message_field("meter");
     {
-        const auto context1 = [context = context0](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_meter(); };
+        const auto mutable_context1 = [context = mutable_context0](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_meter(); };
+        const auto const_context1 = [context = const_context0](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_meter()) ? &temp->meter() : nullptr; };
         visitor.handle(
             "conductingEquipment",
-            [context = context1](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_conductingequipment(); }
+            AccessorBuilder<commonmodule::ConductingEquipment, resourcemodule::ResourceReadingProfile>::build(
+                [context = mutable_context1](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_conductingequipment(); },
+                [context = const_context1](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_conductingequipment()) ? &temp->conductingequipment() : nullptr; }
+            )
         );
     }
     visitor.end_message_field();
     visitor.start_message_field("resourceReading");
     {
-        const auto context1 = [context = context0](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_resourcereading(); };
+        const auto mutable_context1 = [context = mutable_context0](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_resourcereading(); };
+        const auto const_context1 = [context = const_context0](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_resourcereading()) ? &temp->resourcereading() : nullptr; };
         visitor.handle(
             "conductingEquipmentTerminalReading",
-            [context = context1](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_conductingequipmentterminalreading(); }
+            AccessorBuilder<commonmodule::ConductingEquipmentTerminalReading, resourcemodule::ResourceReadingProfile>::build(
+                [context = mutable_context1](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_conductingequipmentterminalreading(); },
+                [context = const_context1](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_conductingequipmentterminalreading()) ? &temp->conductingequipmentterminalreading() : nullptr; }
+            )
         );
         visitor.start_message_field("phaseMMTN");
         {
-            const auto context2 = [context = context1](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phasemmtn(); };
+            const auto mutable_context2 = [context = mutable_context1](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phasemmtn(); };
+            const auto const_context2 = [context = const_context1](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phasemmtn()) ? &temp->phasemmtn() : nullptr; };
             visitor.start_message_field("phsA");
             {
-                const auto context3 = [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsa(); };
+                const auto mutable_context3 = [context = mutable_context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsa(); };
+                const auto const_context3 = [context = const_context2](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsa()) ? &temp->phsa() : nullptr; };
                 visitor.start_message_field("logicalNode");
                 {
-                    const auto context4 = [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_logicalnode(); };
+                    const auto mutable_context4 = [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_logicalnode(); };
+                    const auto const_context4 = [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_logicalnode()) ? &temp->logicalnode() : nullptr; };
                     visitor.handle(
                         "identifiedObject",
-                        [context = context4](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); }
+                        AccessorBuilder<commonmodule::IdentifiedObject, resourcemodule::ResourceReadingProfile>::build(
+                            [context = mutable_context4](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); },
+                            [context = const_context4](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_identifiedobject()) ? &temp->identifiedobject() : nullptr; }
+                        )
                     );
                 }
                 visitor.end_message_field();
                 visitor.handle(
                     "DmdVAh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvah(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvah(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_dmdvah()) ? &temp->dmdvah() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "DmdVArh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvarh(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvarh(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_dmdvarh()) ? &temp->dmdvarh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "DmdWh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdwh(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdwh(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_dmdwh()) ? &temp->dmdwh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "SupVAh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supvah(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supvah(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_supvah()) ? &temp->supvah() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "SupVArh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supvarh(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supvarh(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_supvarh()) ? &temp->supvarh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "SupWh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supwh(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supwh(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_supwh()) ? &temp->supwh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "TotVAh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totvah(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totvah(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_totvah()) ? &temp->totvah() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "TotVArh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totvarh(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totvarh(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_totvarh()) ? &temp->totvarh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "TotWh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totwh(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totwh(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_totwh()) ? &temp->totwh() : nullptr; }
+                    )
                 );
             }
             visitor.end_message_field();
             visitor.start_message_field("phsAB");
             {
-                const auto context3 = [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsab(); };
+                const auto mutable_context3 = [context = mutable_context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsab(); };
+                const auto const_context3 = [context = const_context2](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsab()) ? &temp->phsab() : nullptr; };
                 visitor.start_message_field("logicalNode");
                 {
-                    const auto context4 = [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_logicalnode(); };
+                    const auto mutable_context4 = [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_logicalnode(); };
+                    const auto const_context4 = [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_logicalnode()) ? &temp->logicalnode() : nullptr; };
                     visitor.handle(
                         "identifiedObject",
-                        [context = context4](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); }
+                        AccessorBuilder<commonmodule::IdentifiedObject, resourcemodule::ResourceReadingProfile>::build(
+                            [context = mutable_context4](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); },
+                            [context = const_context4](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_identifiedobject()) ? &temp->identifiedobject() : nullptr; }
+                        )
                     );
                 }
                 visitor.end_message_field();
                 visitor.handle(
                     "DmdVAh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvah(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvah(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_dmdvah()) ? &temp->dmdvah() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "DmdVArh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvarh(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvarh(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_dmdvarh()) ? &temp->dmdvarh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "DmdWh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdwh(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdwh(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_dmdwh()) ? &temp->dmdwh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "SupVAh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supvah(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supvah(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_supvah()) ? &temp->supvah() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "SupVArh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supvarh(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supvarh(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_supvarh()) ? &temp->supvarh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "SupWh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supwh(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supwh(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_supwh()) ? &temp->supwh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "TotVAh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totvah(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totvah(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_totvah()) ? &temp->totvah() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "TotVArh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totvarh(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totvarh(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_totvarh()) ? &temp->totvarh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "TotWh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totwh(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totwh(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_totwh()) ? &temp->totwh() : nullptr; }
+                    )
                 );
             }
             visitor.end_message_field();
             visitor.start_message_field("phsB");
             {
-                const auto context3 = [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsb(); };
+                const auto mutable_context3 = [context = mutable_context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsb(); };
+                const auto const_context3 = [context = const_context2](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsb()) ? &temp->phsb() : nullptr; };
                 visitor.start_message_field("logicalNode");
                 {
-                    const auto context4 = [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_logicalnode(); };
+                    const auto mutable_context4 = [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_logicalnode(); };
+                    const auto const_context4 = [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_logicalnode()) ? &temp->logicalnode() : nullptr; };
                     visitor.handle(
                         "identifiedObject",
-                        [context = context4](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); }
+                        AccessorBuilder<commonmodule::IdentifiedObject, resourcemodule::ResourceReadingProfile>::build(
+                            [context = mutable_context4](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); },
+                            [context = const_context4](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_identifiedobject()) ? &temp->identifiedobject() : nullptr; }
+                        )
                     );
                 }
                 visitor.end_message_field();
                 visitor.handle(
                     "DmdVAh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvah(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvah(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_dmdvah()) ? &temp->dmdvah() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "DmdVArh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvarh(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvarh(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_dmdvarh()) ? &temp->dmdvarh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "DmdWh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdwh(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdwh(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_dmdwh()) ? &temp->dmdwh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "SupVAh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supvah(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supvah(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_supvah()) ? &temp->supvah() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "SupVArh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supvarh(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supvarh(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_supvarh()) ? &temp->supvarh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "SupWh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supwh(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supwh(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_supwh()) ? &temp->supwh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "TotVAh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totvah(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totvah(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_totvah()) ? &temp->totvah() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "TotVArh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totvarh(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totvarh(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_totvarh()) ? &temp->totvarh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "TotWh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totwh(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totwh(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_totwh()) ? &temp->totwh() : nullptr; }
+                    )
                 );
             }
             visitor.end_message_field();
             visitor.start_message_field("phsBC");
             {
-                const auto context3 = [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsbc(); };
+                const auto mutable_context3 = [context = mutable_context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsbc(); };
+                const auto const_context3 = [context = const_context2](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsbc()) ? &temp->phsbc() : nullptr; };
                 visitor.start_message_field("logicalNode");
                 {
-                    const auto context4 = [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_logicalnode(); };
+                    const auto mutable_context4 = [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_logicalnode(); };
+                    const auto const_context4 = [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_logicalnode()) ? &temp->logicalnode() : nullptr; };
                     visitor.handle(
                         "identifiedObject",
-                        [context = context4](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); }
+                        AccessorBuilder<commonmodule::IdentifiedObject, resourcemodule::ResourceReadingProfile>::build(
+                            [context = mutable_context4](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); },
+                            [context = const_context4](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_identifiedobject()) ? &temp->identifiedobject() : nullptr; }
+                        )
                     );
                 }
                 visitor.end_message_field();
                 visitor.handle(
                     "DmdVAh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvah(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvah(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_dmdvah()) ? &temp->dmdvah() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "DmdVArh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvarh(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvarh(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_dmdvarh()) ? &temp->dmdvarh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "DmdWh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdwh(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdwh(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_dmdwh()) ? &temp->dmdwh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "SupVAh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supvah(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supvah(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_supvah()) ? &temp->supvah() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "SupVArh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supvarh(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supvarh(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_supvarh()) ? &temp->supvarh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "SupWh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supwh(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supwh(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_supwh()) ? &temp->supwh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "TotVAh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totvah(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totvah(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_totvah()) ? &temp->totvah() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "TotVArh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totvarh(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totvarh(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_totvarh()) ? &temp->totvarh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "TotWh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totwh(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totwh(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_totwh()) ? &temp->totwh() : nullptr; }
+                    )
                 );
             }
             visitor.end_message_field();
             visitor.start_message_field("phsC");
             {
-                const auto context3 = [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsc(); };
+                const auto mutable_context3 = [context = mutable_context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsc(); };
+                const auto const_context3 = [context = const_context2](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsc()) ? &temp->phsc() : nullptr; };
                 visitor.start_message_field("logicalNode");
                 {
-                    const auto context4 = [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_logicalnode(); };
+                    const auto mutable_context4 = [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_logicalnode(); };
+                    const auto const_context4 = [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_logicalnode()) ? &temp->logicalnode() : nullptr; };
                     visitor.handle(
                         "identifiedObject",
-                        [context = context4](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); }
+                        AccessorBuilder<commonmodule::IdentifiedObject, resourcemodule::ResourceReadingProfile>::build(
+                            [context = mutable_context4](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); },
+                            [context = const_context4](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_identifiedobject()) ? &temp->identifiedobject() : nullptr; }
+                        )
                     );
                 }
                 visitor.end_message_field();
                 visitor.handle(
                     "DmdVAh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvah(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvah(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_dmdvah()) ? &temp->dmdvah() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "DmdVArh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvarh(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvarh(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_dmdvarh()) ? &temp->dmdvarh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "DmdWh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdwh(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdwh(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_dmdwh()) ? &temp->dmdwh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "SupVAh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supvah(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supvah(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_supvah()) ? &temp->supvah() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "SupVArh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supvarh(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supvarh(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_supvarh()) ? &temp->supvarh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "SupWh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supwh(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supwh(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_supwh()) ? &temp->supwh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "TotVAh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totvah(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totvah(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_totvah()) ? &temp->totvah() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "TotVArh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totvarh(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totvarh(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_totvarh()) ? &temp->totvarh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "TotWh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totwh(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totwh(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_totwh()) ? &temp->totwh() : nullptr; }
+                    )
                 );
             }
             visitor.end_message_field();
             visitor.start_message_field("phsCA");
             {
-                const auto context3 = [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsca(); };
+                const auto mutable_context3 = [context = mutable_context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsca(); };
+                const auto const_context3 = [context = const_context2](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsca()) ? &temp->phsca() : nullptr; };
                 visitor.start_message_field("logicalNode");
                 {
-                    const auto context4 = [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_logicalnode(); };
+                    const auto mutable_context4 = [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_logicalnode(); };
+                    const auto const_context4 = [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_logicalnode()) ? &temp->logicalnode() : nullptr; };
                     visitor.handle(
                         "identifiedObject",
-                        [context = context4](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); }
+                        AccessorBuilder<commonmodule::IdentifiedObject, resourcemodule::ResourceReadingProfile>::build(
+                            [context = mutable_context4](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); },
+                            [context = const_context4](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_identifiedobject()) ? &temp->identifiedobject() : nullptr; }
+                        )
                     );
                 }
                 visitor.end_message_field();
                 visitor.handle(
                     "DmdVAh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvah(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvah(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_dmdvah()) ? &temp->dmdvah() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "DmdVArh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvarh(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvarh(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_dmdvarh()) ? &temp->dmdvarh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "DmdWh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdwh(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdwh(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_dmdwh()) ? &temp->dmdwh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "SupVAh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supvah(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supvah(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_supvah()) ? &temp->supvah() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "SupVArh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supvarh(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supvarh(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_supvarh()) ? &temp->supvarh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "SupWh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supwh(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supwh(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_supwh()) ? &temp->supwh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "TotVAh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totvah(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totvah(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_totvah()) ? &temp->totvah() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "TotVArh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totvarh(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totvarh(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_totvarh()) ? &temp->totvarh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "TotWh",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totwh(); }
+                    AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totwh(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_totwh()) ? &temp->totwh() : nullptr; }
+                    )
                 );
             }
             visitor.end_message_field();
@@ -346,242 +557,394 @@ void visit(IProtoVisitor<resourcemodule::ResourceReadingProfile>& visitor)
         visitor.end_message_field();
         visitor.start_message_field("readingMMTR");
         {
-            const auto context2 = [context = context1](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_readingmmtr(); };
+            const auto mutable_context2 = [context = mutable_context1](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_readingmmtr(); };
+            const auto const_context2 = [context = const_context1](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_readingmmtr()) ? &temp->readingmmtr() : nullptr; };
             visitor.start_message_field("logicalNode");
             {
-                const auto context3 = [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_logicalnode(); };
+                const auto mutable_context3 = [context = mutable_context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_logicalnode(); };
+                const auto const_context3 = [context = const_context2](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_logicalnode()) ? &temp->logicalnode() : nullptr; };
                 visitor.handle(
                     "identifiedObject",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); }
+                    AccessorBuilder<commonmodule::IdentifiedObject, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_identifiedobject()) ? &temp->identifiedobject() : nullptr; }
+                    )
                 );
             }
             visitor.end_message_field();
             visitor.handle(
                 "DmdVAh",
-                [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvah(); }
+                AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                    [context = mutable_context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvah(); },
+                    [context = const_context2](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_dmdvah()) ? &temp->dmdvah() : nullptr; }
+                )
             );
             visitor.handle(
                 "DmdVArh",
-                [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvarh(); }
+                AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                    [context = mutable_context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdvarh(); },
+                    [context = const_context2](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_dmdvarh()) ? &temp->dmdvarh() : nullptr; }
+                )
             );
             visitor.handle(
                 "DmdWh",
-                [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdwh(); }
+                AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                    [context = mutable_context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_dmdwh(); },
+                    [context = const_context2](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_dmdwh()) ? &temp->dmdwh() : nullptr; }
+                )
             );
             visitor.handle(
                 "SupVAh",
-                [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supvah(); }
+                AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                    [context = mutable_context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supvah(); },
+                    [context = const_context2](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_supvah()) ? &temp->supvah() : nullptr; }
+                )
             );
             visitor.handle(
                 "SupVArh",
-                [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supvarh(); }
+                AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                    [context = mutable_context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supvarh(); },
+                    [context = const_context2](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_supvarh()) ? &temp->supvarh() : nullptr; }
+                )
             );
             visitor.handle(
                 "SupWh",
-                [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supwh(); }
+                AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                    [context = mutable_context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_supwh(); },
+                    [context = const_context2](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_supwh()) ? &temp->supwh() : nullptr; }
+                )
             );
             visitor.handle(
                 "TotVAh",
-                [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totvah(); }
+                AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                    [context = mutable_context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totvah(); },
+                    [context = const_context2](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_totvah()) ? &temp->totvah() : nullptr; }
+                )
             );
             visitor.handle(
                 "TotVArh",
-                [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totvarh(); }
+                AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                    [context = mutable_context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totvarh(); },
+                    [context = const_context2](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_totvarh()) ? &temp->totvarh() : nullptr; }
+                )
             );
             visitor.handle(
                 "TotWh",
-                [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totwh(); }
+                AccessorBuilder<commonmodule::BCR, resourcemodule::ResourceReadingProfile>::build(
+                    [context = mutable_context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_totwh(); },
+                    [context = const_context2](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_totwh()) ? &temp->totwh() : nullptr; }
+                )
             );
         }
         visitor.end_message_field();
         visitor.start_message_field("readingMMXU");
         {
-            const auto context2 = [context = context1](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_readingmmxu(); };
+            const auto mutable_context2 = [context = mutable_context1](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_readingmmxu(); };
+            const auto const_context2 = [context = const_context1](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_readingmmxu()) ? &temp->readingmmxu() : nullptr; };
             visitor.start_message_field("logicalNode");
             {
-                const auto context3 = [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_logicalnode(); };
+                const auto mutable_context3 = [context = mutable_context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_logicalnode(); };
+                const auto const_context3 = [context = const_context2](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_logicalnode()) ? &temp->logicalnode() : nullptr; };
                 visitor.handle(
                     "identifiedObject",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); }
+                    AccessorBuilder<commonmodule::IdentifiedObject, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_identifiedobject()) ? &temp->identifiedobject() : nullptr; }
+                    )
                 );
             }
             visitor.end_message_field();
             visitor.start_message_field("A");
             {
-                const auto context3 = [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_a(); };
+                const auto mutable_context3 = [context = mutable_context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_a(); };
+                const auto const_context3 = [context = const_context2](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_a()) ? &temp->a() : nullptr; };
                 visitor.handle(
                     "net",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_net(); }
+                    AccessorBuilder<commonmodule::CMV, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_net(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_net()) ? &temp->net() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "neut",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_neut(); }
+                    AccessorBuilder<commonmodule::CMV, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_neut(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_neut()) ? &temp->neut() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsA",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsa(); }
+                    AccessorBuilder<commonmodule::CMV, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsa(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsa()) ? &temp->phsa() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsB",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsb(); }
+                    AccessorBuilder<commonmodule::CMV, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsb(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsb()) ? &temp->phsb() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsC",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsc(); }
+                    AccessorBuilder<commonmodule::CMV, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsc(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsc()) ? &temp->phsc() : nullptr; }
+                    )
                 );
             }
             visitor.end_message_field();
             visitor.handle(
                 "ClcMth",
-                [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_clcmth(); }
+                AccessorBuilder<commonmodule::ENG_CalcMethodKind, resourcemodule::ResourceReadingProfile>::build(
+                    [context = mutable_context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_clcmth(); },
+                    [context = const_context2](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_clcmth()) ? &temp->clcmth() : nullptr; }
+                )
             );
             visitor.handle(
                 "Hz",
-                [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_hz(); }
+                AccessorBuilder<commonmodule::MV, resourcemodule::ResourceReadingProfile>::build(
+                    [context = mutable_context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_hz(); },
+                    [context = const_context2](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_hz()) ? &temp->hz() : nullptr; }
+                )
             );
             visitor.start_message_field("PF");
             {
-                const auto context3 = [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_pf(); };
+                const auto mutable_context3 = [context = mutable_context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_pf(); };
+                const auto const_context3 = [context = const_context2](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_pf()) ? &temp->pf() : nullptr; };
                 visitor.handle(
                     "net",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_net(); }
+                    AccessorBuilder<commonmodule::CMV, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_net(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_net()) ? &temp->net() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "neut",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_neut(); }
+                    AccessorBuilder<commonmodule::CMV, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_neut(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_neut()) ? &temp->neut() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsA",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsa(); }
+                    AccessorBuilder<commonmodule::CMV, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsa(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsa()) ? &temp->phsa() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsB",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsb(); }
+                    AccessorBuilder<commonmodule::CMV, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsb(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsb()) ? &temp->phsb() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsC",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsc(); }
+                    AccessorBuilder<commonmodule::CMV, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsc(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsc()) ? &temp->phsc() : nullptr; }
+                    )
                 );
             }
             visitor.end_message_field();
             visitor.handle(
                 "PFSign",
-                [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_pfsign(); }
+                AccessorBuilder<commonmodule::ENG_PFSignKind, resourcemodule::ResourceReadingProfile>::build(
+                    [context = mutable_context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_pfsign(); },
+                    [context = const_context2](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_pfsign()) ? &temp->pfsign() : nullptr; }
+                )
             );
             visitor.start_message_field("PhV");
             {
-                const auto context3 = [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phv(); };
+                const auto mutable_context3 = [context = mutable_context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phv(); };
+                const auto const_context3 = [context = const_context2](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phv()) ? &temp->phv() : nullptr; };
                 visitor.handle(
                     "net",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_net(); }
+                    AccessorBuilder<commonmodule::CMV, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_net(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_net()) ? &temp->net() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "neut",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_neut(); }
+                    AccessorBuilder<commonmodule::CMV, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_neut(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_neut()) ? &temp->neut() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsA",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsa(); }
+                    AccessorBuilder<commonmodule::CMV, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsa(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsa()) ? &temp->phsa() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsB",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsb(); }
+                    AccessorBuilder<commonmodule::CMV, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsb(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsb()) ? &temp->phsb() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsC",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsc(); }
+                    AccessorBuilder<commonmodule::CMV, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsc(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsc()) ? &temp->phsc() : nullptr; }
+                    )
                 );
             }
             visitor.end_message_field();
             visitor.start_message_field("PPV");
             {
-                const auto context3 = [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_ppv(); };
+                const auto mutable_context3 = [context = mutable_context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_ppv(); };
+                const auto const_context3 = [context = const_context2](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_ppv()) ? &temp->ppv() : nullptr; };
                 visitor.handle(
                     "phsAB",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsab(); }
+                    AccessorBuilder<commonmodule::CMV, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsab(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsab()) ? &temp->phsab() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsBC",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsbc(); }
+                    AccessorBuilder<commonmodule::CMV, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsbc(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsbc()) ? &temp->phsbc() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsCA",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsca(); }
+                    AccessorBuilder<commonmodule::CMV, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsca(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsca()) ? &temp->phsca() : nullptr; }
+                    )
                 );
             }
             visitor.end_message_field();
             visitor.start_message_field("VA");
             {
-                const auto context3 = [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_va(); };
+                const auto mutable_context3 = [context = mutable_context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_va(); };
+                const auto const_context3 = [context = const_context2](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_va()) ? &temp->va() : nullptr; };
                 visitor.handle(
                     "net",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_net(); }
+                    AccessorBuilder<commonmodule::CMV, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_net(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_net()) ? &temp->net() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "neut",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_neut(); }
+                    AccessorBuilder<commonmodule::CMV, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_neut(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_neut()) ? &temp->neut() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsA",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsa(); }
+                    AccessorBuilder<commonmodule::CMV, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsa(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsa()) ? &temp->phsa() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsB",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsb(); }
+                    AccessorBuilder<commonmodule::CMV, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsb(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsb()) ? &temp->phsb() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsC",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsc(); }
+                    AccessorBuilder<commonmodule::CMV, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsc(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsc()) ? &temp->phsc() : nullptr; }
+                    )
                 );
             }
             visitor.end_message_field();
             visitor.start_message_field("VAr");
             {
-                const auto context3 = [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_var(); };
+                const auto mutable_context3 = [context = mutable_context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_var(); };
+                const auto const_context3 = [context = const_context2](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_var()) ? &temp->var() : nullptr; };
                 visitor.handle(
                     "net",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_net(); }
+                    AccessorBuilder<commonmodule::CMV, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_net(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_net()) ? &temp->net() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "neut",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_neut(); }
+                    AccessorBuilder<commonmodule::CMV, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_neut(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_neut()) ? &temp->neut() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsA",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsa(); }
+                    AccessorBuilder<commonmodule::CMV, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsa(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsa()) ? &temp->phsa() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsB",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsb(); }
+                    AccessorBuilder<commonmodule::CMV, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsb(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsb()) ? &temp->phsb() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsC",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsc(); }
+                    AccessorBuilder<commonmodule::CMV, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsc(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsc()) ? &temp->phsc() : nullptr; }
+                    )
                 );
             }
             visitor.end_message_field();
             visitor.start_message_field("W");
             {
-                const auto context3 = [context = context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_w(); };
+                const auto mutable_context3 = [context = mutable_context2](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_w(); };
+                const auto const_context3 = [context = const_context2](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_w()) ? &temp->w() : nullptr; };
                 visitor.handle(
                     "net",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_net(); }
+                    AccessorBuilder<commonmodule::CMV, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_net(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_net()) ? &temp->net() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "neut",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_neut(); }
+                    AccessorBuilder<commonmodule::CMV, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_neut(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_neut()) ? &temp->neut() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsA",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsa(); }
+                    AccessorBuilder<commonmodule::CMV, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsa(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsa()) ? &temp->phsa() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsB",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsb(); }
+                    AccessorBuilder<commonmodule::CMV, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsb(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsb()) ? &temp->phsb() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsC",
-                    [context = context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsc(); }
+                    AccessorBuilder<commonmodule::CMV, resourcemodule::ResourceReadingProfile>::build(
+                        [context = mutable_context3](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_phsc(); },
+                        [context = const_context3](const resourcemodule::ResourceReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsc()) ? &temp->phsc() : nullptr; }
+                    )
                 );
             }
             visitor.end_message_field();
@@ -593,31 +956,44 @@ void visit(IProtoVisitor<resourcemodule::ResourceReadingProfile>& visitor)
 
 void visit(IProtoVisitor<switchmodule::SwitchReadingProfile>& visitor)
 {
-    const auto context0 = [](switchmodule::SwitchReadingProfile& profile) { return &profile; };
+    const auto mutable_context0 = [](switchmodule::SwitchReadingProfile& profile) { return &profile; };
+    const auto const_context0 = [](const switchmodule::SwitchReadingProfile& profile) { return &profile; };
     visitor.start_message_field("readingMessageInfo");
     {
-        const auto context1 = [context = context0](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_readingmessageinfo(); };
+        const auto mutable_context1 = [context = mutable_context0](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_readingmessageinfo(); };
+        const auto const_context1 = [context = const_context0](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_readingmessageinfo()) ? &temp->readingmessageinfo() : nullptr; };
         visitor.handle(
             "messageInfo",
-            [context = context1](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_messageinfo(); }
+            AccessorBuilder<commonmodule::MessageInfo, switchmodule::SwitchReadingProfile>::build(
+                [context = mutable_context1](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_messageinfo(); },
+                [context = const_context1](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_messageinfo()) ? &temp->messageinfo() : nullptr; }
+            )
         );
     }
     visitor.end_message_field();
     visitor.start_message_field("ied");
     {
-        const auto context1 = [context = context0](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_ied(); };
+        const auto mutable_context1 = [context = mutable_context0](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_ied(); };
+        const auto const_context1 = [context = const_context0](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_ied()) ? &temp->ied() : nullptr; };
         visitor.handle(
             "identifiedObject",
-            [context = context1](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); }
+            AccessorBuilder<commonmodule::IdentifiedObject, switchmodule::SwitchReadingProfile>::build(
+                [context = mutable_context1](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); },
+                [context = const_context1](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_identifiedobject()) ? &temp->identifiedobject() : nullptr; }
+            )
         );
     }
     visitor.end_message_field();
     visitor.start_message_field("protectedSwitch");
     {
-        const auto context1 = [context = context0](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_protectedswitch(); };
+        const auto mutable_context1 = [context = mutable_context0](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_protectedswitch(); };
+        const auto const_context1 = [context = const_context0](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_protectedswitch()) ? &temp->protectedswitch() : nullptr; };
         visitor.handle(
             "conductingEquipment",
-            [context = context1](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_conductingequipment(); }
+            AccessorBuilder<commonmodule::ConductingEquipment, switchmodule::SwitchReadingProfile>::build(
+                [context = mutable_context1](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_conductingequipment(); },
+                [context = const_context1](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_conductingequipment()) ? &temp->conductingequipment() : nullptr; }
+            )
         );
     }
     visitor.end_message_field();
@@ -625,7 +1001,7 @@ void visit(IProtoVisitor<switchmodule::SwitchReadingProfile>& visitor)
     for(auto count0 = 0; count0 < max_count0; ++count0)
     {
         visitor.start_iteration(count0);
-        const auto context1 = [context = context0, i = count0, max = max_count0](switchmodule::SwitchReadingProfile& profile) {
+        const auto mutable_context1 = [context = mutable_context0, i = count0, max = max_count0](switchmodule::SwitchReadingProfile& profile) {
             const auto repeated = context(profile)->mutable_switchreading();
             if(repeated->size() < max) {
                 repeated->Reserve(max);
@@ -636,198 +1012,327 @@ void visit(IProtoVisitor<switchmodule::SwitchReadingProfile>& visitor)
             }
             return repeated->Mutable(i);
         };
+        const auto const_context1 = [context = const_context0, i = count0, max = max_count0](const switchmodule::SwitchReadingProfile& profile) -> switchmodule::SwitchReading const *{
+            const auto temp = context(profile);
+            if(!temp) return nullptr;
+            const auto size = temp->switchreading_size();
+            return i < size ? &temp->switchreading(i) : nullptr;
+        };
         visitor.handle(
             "conductingEquipmentTerminalReading",
-            [context = context1](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_conductingequipmentterminalreading(); }
+            AccessorBuilder<commonmodule::ConductingEquipmentTerminalReading, switchmodule::SwitchReadingProfile>::build(
+                [context = mutable_context1](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_conductingequipmentterminalreading(); },
+                [context = const_context1](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_conductingequipmentterminalreading()) ? &temp->conductingequipmentterminalreading() : nullptr; }
+            )
         );
         visitor.start_message_field("diffReadingMMXU");
         {
-            const auto context2 = [context = context1](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_diffreadingmmxu(); };
+            const auto mutable_context2 = [context = mutable_context1](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_diffreadingmmxu(); };
+            const auto const_context2 = [context = const_context1](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_diffreadingmmxu()) ? &temp->diffreadingmmxu() : nullptr; };
             visitor.start_message_field("logicalNode");
             {
-                const auto context3 = [context = context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_logicalnode(); };
+                const auto mutable_context3 = [context = mutable_context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_logicalnode(); };
+                const auto const_context3 = [context = const_context2](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_logicalnode()) ? &temp->logicalnode() : nullptr; };
                 visitor.handle(
                     "identifiedObject",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); }
+                    AccessorBuilder<commonmodule::IdentifiedObject, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_identifiedobject()) ? &temp->identifiedobject() : nullptr; }
+                    )
                 );
             }
             visitor.end_message_field();
             visitor.start_message_field("A");
             {
-                const auto context3 = [context = context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_a(); };
+                const auto mutable_context3 = [context = mutable_context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_a(); };
+                const auto const_context3 = [context = const_context2](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_a()) ? &temp->a() : nullptr; };
                 visitor.handle(
                     "net",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_net(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_net(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_net()) ? &temp->net() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "neut",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_neut(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_neut(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_neut()) ? &temp->neut() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsA",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsa(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsa(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsa()) ? &temp->phsa() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsB",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsb(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsb(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsb()) ? &temp->phsb() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsC",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsc(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsc(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsc()) ? &temp->phsc() : nullptr; }
+                    )
                 );
             }
             visitor.end_message_field();
             visitor.handle(
                 "ClcMth",
-                [context = context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_clcmth(); }
+                AccessorBuilder<commonmodule::ENG_CalcMethodKind, switchmodule::SwitchReadingProfile>::build(
+                    [context = mutable_context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_clcmth(); },
+                    [context = const_context2](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_clcmth()) ? &temp->clcmth() : nullptr; }
+                )
             );
             visitor.handle(
                 "Hz",
-                [context = context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_hz(); }
+                AccessorBuilder<commonmodule::MV, switchmodule::SwitchReadingProfile>::build(
+                    [context = mutable_context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_hz(); },
+                    [context = const_context2](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_hz()) ? &temp->hz() : nullptr; }
+                )
             );
             visitor.start_message_field("PF");
             {
-                const auto context3 = [context = context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_pf(); };
+                const auto mutable_context3 = [context = mutable_context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_pf(); };
+                const auto const_context3 = [context = const_context2](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_pf()) ? &temp->pf() : nullptr; };
                 visitor.handle(
                     "net",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_net(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_net(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_net()) ? &temp->net() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "neut",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_neut(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_neut(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_neut()) ? &temp->neut() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsA",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsa(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsa(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsa()) ? &temp->phsa() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsB",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsb(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsb(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsb()) ? &temp->phsb() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsC",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsc(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsc(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsc()) ? &temp->phsc() : nullptr; }
+                    )
                 );
             }
             visitor.end_message_field();
             visitor.handle(
                 "PFSign",
-                [context = context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_pfsign(); }
+                AccessorBuilder<commonmodule::ENG_PFSignKind, switchmodule::SwitchReadingProfile>::build(
+                    [context = mutable_context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_pfsign(); },
+                    [context = const_context2](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_pfsign()) ? &temp->pfsign() : nullptr; }
+                )
             );
             visitor.start_message_field("PhV");
             {
-                const auto context3 = [context = context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phv(); };
+                const auto mutable_context3 = [context = mutable_context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phv(); };
+                const auto const_context3 = [context = const_context2](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phv()) ? &temp->phv() : nullptr; };
                 visitor.handle(
                     "net",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_net(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_net(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_net()) ? &temp->net() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "neut",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_neut(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_neut(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_neut()) ? &temp->neut() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsA",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsa(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsa(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsa()) ? &temp->phsa() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsB",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsb(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsb(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsb()) ? &temp->phsb() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsC",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsc(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsc(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsc()) ? &temp->phsc() : nullptr; }
+                    )
                 );
             }
             visitor.end_message_field();
             visitor.start_message_field("PPV");
             {
-                const auto context3 = [context = context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_ppv(); };
+                const auto mutable_context3 = [context = mutable_context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_ppv(); };
+                const auto const_context3 = [context = const_context2](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_ppv()) ? &temp->ppv() : nullptr; };
                 visitor.handle(
                     "phsAB",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsab(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsab(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsab()) ? &temp->phsab() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsBC",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsbc(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsbc(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsbc()) ? &temp->phsbc() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsCA",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsca(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsca(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsca()) ? &temp->phsca() : nullptr; }
+                    )
                 );
             }
             visitor.end_message_field();
             visitor.start_message_field("VA");
             {
-                const auto context3 = [context = context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_va(); };
+                const auto mutable_context3 = [context = mutable_context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_va(); };
+                const auto const_context3 = [context = const_context2](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_va()) ? &temp->va() : nullptr; };
                 visitor.handle(
                     "net",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_net(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_net(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_net()) ? &temp->net() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "neut",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_neut(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_neut(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_neut()) ? &temp->neut() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsA",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsa(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsa(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsa()) ? &temp->phsa() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsB",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsb(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsb(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsb()) ? &temp->phsb() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsC",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsc(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsc(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsc()) ? &temp->phsc() : nullptr; }
+                    )
                 );
             }
             visitor.end_message_field();
             visitor.start_message_field("VAr");
             {
-                const auto context3 = [context = context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_var(); };
+                const auto mutable_context3 = [context = mutable_context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_var(); };
+                const auto const_context3 = [context = const_context2](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_var()) ? &temp->var() : nullptr; };
                 visitor.handle(
                     "net",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_net(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_net(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_net()) ? &temp->net() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "neut",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_neut(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_neut(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_neut()) ? &temp->neut() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsA",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsa(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsa(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsa()) ? &temp->phsa() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsB",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsb(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsb(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsb()) ? &temp->phsb() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsC",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsc(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsc(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsc()) ? &temp->phsc() : nullptr; }
+                    )
                 );
             }
             visitor.end_message_field();
             visitor.start_message_field("W");
             {
-                const auto context3 = [context = context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_w(); };
+                const auto mutable_context3 = [context = mutable_context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_w(); };
+                const auto const_context3 = [context = const_context2](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_w()) ? &temp->w() : nullptr; };
                 visitor.handle(
                     "net",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_net(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_net(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_net()) ? &temp->net() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "neut",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_neut(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_neut(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_neut()) ? &temp->neut() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsA",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsa(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsa(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsa()) ? &temp->phsa() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsB",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsb(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsb(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsb()) ? &temp->phsb() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsC",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsc(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsc(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsc()) ? &temp->phsc() : nullptr; }
+                    )
                 );
             }
             visitor.end_message_field();
@@ -835,304 +1340,497 @@ void visit(IProtoVisitor<switchmodule::SwitchReadingProfile>& visitor)
         visitor.end_message_field();
         visitor.start_message_field("phaseMMTN");
         {
-            const auto context2 = [context = context1](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phasemmtn(); };
+            const auto mutable_context2 = [context = mutable_context1](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phasemmtn(); };
+            const auto const_context2 = [context = const_context1](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phasemmtn()) ? &temp->phasemmtn() : nullptr; };
             visitor.start_message_field("phsA");
             {
-                const auto context3 = [context = context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsa(); };
+                const auto mutable_context3 = [context = mutable_context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsa(); };
+                const auto const_context3 = [context = const_context2](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsa()) ? &temp->phsa() : nullptr; };
                 visitor.start_message_field("logicalNode");
                 {
-                    const auto context4 = [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_logicalnode(); };
+                    const auto mutable_context4 = [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_logicalnode(); };
+                    const auto const_context4 = [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_logicalnode()) ? &temp->logicalnode() : nullptr; };
                     visitor.handle(
                         "identifiedObject",
-                        [context = context4](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); }
+                        AccessorBuilder<commonmodule::IdentifiedObject, switchmodule::SwitchReadingProfile>::build(
+                            [context = mutable_context4](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); },
+                            [context = const_context4](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_identifiedobject()) ? &temp->identifiedobject() : nullptr; }
+                        )
                     );
                 }
                 visitor.end_message_field();
                 visitor.handle(
                     "DmdVAh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_dmdvah(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_dmdvah(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_dmdvah()) ? &temp->dmdvah() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "DmdVArh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_dmdvarh(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_dmdvarh(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_dmdvarh()) ? &temp->dmdvarh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "DmdWh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_dmdwh(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_dmdwh(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_dmdwh()) ? &temp->dmdwh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "SupVAh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_supvah(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_supvah(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_supvah()) ? &temp->supvah() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "SupVArh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_supvarh(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_supvarh(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_supvarh()) ? &temp->supvarh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "SupWh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_supwh(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_supwh(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_supwh()) ? &temp->supwh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "TotVAh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_totvah(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_totvah(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_totvah()) ? &temp->totvah() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "TotVArh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_totvarh(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_totvarh(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_totvarh()) ? &temp->totvarh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "TotWh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_totwh(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_totwh(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_totwh()) ? &temp->totwh() : nullptr; }
+                    )
                 );
             }
             visitor.end_message_field();
             visitor.start_message_field("phsAB");
             {
-                const auto context3 = [context = context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsab(); };
+                const auto mutable_context3 = [context = mutable_context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsab(); };
+                const auto const_context3 = [context = const_context2](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsab()) ? &temp->phsab() : nullptr; };
                 visitor.start_message_field("logicalNode");
                 {
-                    const auto context4 = [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_logicalnode(); };
+                    const auto mutable_context4 = [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_logicalnode(); };
+                    const auto const_context4 = [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_logicalnode()) ? &temp->logicalnode() : nullptr; };
                     visitor.handle(
                         "identifiedObject",
-                        [context = context4](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); }
+                        AccessorBuilder<commonmodule::IdentifiedObject, switchmodule::SwitchReadingProfile>::build(
+                            [context = mutable_context4](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); },
+                            [context = const_context4](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_identifiedobject()) ? &temp->identifiedobject() : nullptr; }
+                        )
                     );
                 }
                 visitor.end_message_field();
                 visitor.handle(
                     "DmdVAh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_dmdvah(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_dmdvah(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_dmdvah()) ? &temp->dmdvah() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "DmdVArh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_dmdvarh(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_dmdvarh(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_dmdvarh()) ? &temp->dmdvarh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "DmdWh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_dmdwh(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_dmdwh(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_dmdwh()) ? &temp->dmdwh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "SupVAh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_supvah(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_supvah(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_supvah()) ? &temp->supvah() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "SupVArh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_supvarh(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_supvarh(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_supvarh()) ? &temp->supvarh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "SupWh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_supwh(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_supwh(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_supwh()) ? &temp->supwh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "TotVAh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_totvah(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_totvah(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_totvah()) ? &temp->totvah() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "TotVArh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_totvarh(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_totvarh(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_totvarh()) ? &temp->totvarh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "TotWh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_totwh(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_totwh(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_totwh()) ? &temp->totwh() : nullptr; }
+                    )
                 );
             }
             visitor.end_message_field();
             visitor.start_message_field("phsB");
             {
-                const auto context3 = [context = context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsb(); };
+                const auto mutable_context3 = [context = mutable_context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsb(); };
+                const auto const_context3 = [context = const_context2](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsb()) ? &temp->phsb() : nullptr; };
                 visitor.start_message_field("logicalNode");
                 {
-                    const auto context4 = [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_logicalnode(); };
+                    const auto mutable_context4 = [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_logicalnode(); };
+                    const auto const_context4 = [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_logicalnode()) ? &temp->logicalnode() : nullptr; };
                     visitor.handle(
                         "identifiedObject",
-                        [context = context4](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); }
+                        AccessorBuilder<commonmodule::IdentifiedObject, switchmodule::SwitchReadingProfile>::build(
+                            [context = mutable_context4](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); },
+                            [context = const_context4](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_identifiedobject()) ? &temp->identifiedobject() : nullptr; }
+                        )
                     );
                 }
                 visitor.end_message_field();
                 visitor.handle(
                     "DmdVAh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_dmdvah(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_dmdvah(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_dmdvah()) ? &temp->dmdvah() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "DmdVArh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_dmdvarh(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_dmdvarh(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_dmdvarh()) ? &temp->dmdvarh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "DmdWh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_dmdwh(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_dmdwh(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_dmdwh()) ? &temp->dmdwh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "SupVAh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_supvah(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_supvah(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_supvah()) ? &temp->supvah() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "SupVArh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_supvarh(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_supvarh(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_supvarh()) ? &temp->supvarh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "SupWh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_supwh(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_supwh(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_supwh()) ? &temp->supwh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "TotVAh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_totvah(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_totvah(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_totvah()) ? &temp->totvah() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "TotVArh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_totvarh(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_totvarh(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_totvarh()) ? &temp->totvarh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "TotWh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_totwh(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_totwh(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_totwh()) ? &temp->totwh() : nullptr; }
+                    )
                 );
             }
             visitor.end_message_field();
             visitor.start_message_field("phsBC");
             {
-                const auto context3 = [context = context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsbc(); };
+                const auto mutable_context3 = [context = mutable_context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsbc(); };
+                const auto const_context3 = [context = const_context2](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsbc()) ? &temp->phsbc() : nullptr; };
                 visitor.start_message_field("logicalNode");
                 {
-                    const auto context4 = [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_logicalnode(); };
+                    const auto mutable_context4 = [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_logicalnode(); };
+                    const auto const_context4 = [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_logicalnode()) ? &temp->logicalnode() : nullptr; };
                     visitor.handle(
                         "identifiedObject",
-                        [context = context4](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); }
+                        AccessorBuilder<commonmodule::IdentifiedObject, switchmodule::SwitchReadingProfile>::build(
+                            [context = mutable_context4](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); },
+                            [context = const_context4](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_identifiedobject()) ? &temp->identifiedobject() : nullptr; }
+                        )
                     );
                 }
                 visitor.end_message_field();
                 visitor.handle(
                     "DmdVAh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_dmdvah(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_dmdvah(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_dmdvah()) ? &temp->dmdvah() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "DmdVArh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_dmdvarh(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_dmdvarh(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_dmdvarh()) ? &temp->dmdvarh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "DmdWh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_dmdwh(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_dmdwh(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_dmdwh()) ? &temp->dmdwh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "SupVAh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_supvah(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_supvah(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_supvah()) ? &temp->supvah() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "SupVArh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_supvarh(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_supvarh(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_supvarh()) ? &temp->supvarh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "SupWh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_supwh(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_supwh(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_supwh()) ? &temp->supwh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "TotVAh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_totvah(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_totvah(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_totvah()) ? &temp->totvah() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "TotVArh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_totvarh(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_totvarh(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_totvarh()) ? &temp->totvarh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "TotWh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_totwh(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_totwh(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_totwh()) ? &temp->totwh() : nullptr; }
+                    )
                 );
             }
             visitor.end_message_field();
             visitor.start_message_field("phsC");
             {
-                const auto context3 = [context = context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsc(); };
+                const auto mutable_context3 = [context = mutable_context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsc(); };
+                const auto const_context3 = [context = const_context2](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsc()) ? &temp->phsc() : nullptr; };
                 visitor.start_message_field("logicalNode");
                 {
-                    const auto context4 = [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_logicalnode(); };
+                    const auto mutable_context4 = [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_logicalnode(); };
+                    const auto const_context4 = [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_logicalnode()) ? &temp->logicalnode() : nullptr; };
                     visitor.handle(
                         "identifiedObject",
-                        [context = context4](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); }
+                        AccessorBuilder<commonmodule::IdentifiedObject, switchmodule::SwitchReadingProfile>::build(
+                            [context = mutable_context4](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); },
+                            [context = const_context4](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_identifiedobject()) ? &temp->identifiedobject() : nullptr; }
+                        )
                     );
                 }
                 visitor.end_message_field();
                 visitor.handle(
                     "DmdVAh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_dmdvah(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_dmdvah(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_dmdvah()) ? &temp->dmdvah() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "DmdVArh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_dmdvarh(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_dmdvarh(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_dmdvarh()) ? &temp->dmdvarh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "DmdWh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_dmdwh(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_dmdwh(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_dmdwh()) ? &temp->dmdwh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "SupVAh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_supvah(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_supvah(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_supvah()) ? &temp->supvah() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "SupVArh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_supvarh(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_supvarh(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_supvarh()) ? &temp->supvarh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "SupWh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_supwh(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_supwh(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_supwh()) ? &temp->supwh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "TotVAh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_totvah(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_totvah(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_totvah()) ? &temp->totvah() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "TotVArh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_totvarh(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_totvarh(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_totvarh()) ? &temp->totvarh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "TotWh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_totwh(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_totwh(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_totwh()) ? &temp->totwh() : nullptr; }
+                    )
                 );
             }
             visitor.end_message_field();
             visitor.start_message_field("phsCA");
             {
-                const auto context3 = [context = context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsca(); };
+                const auto mutable_context3 = [context = mutable_context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsca(); };
+                const auto const_context3 = [context = const_context2](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsca()) ? &temp->phsca() : nullptr; };
                 visitor.start_message_field("logicalNode");
                 {
-                    const auto context4 = [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_logicalnode(); };
+                    const auto mutable_context4 = [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_logicalnode(); };
+                    const auto const_context4 = [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_logicalnode()) ? &temp->logicalnode() : nullptr; };
                     visitor.handle(
                         "identifiedObject",
-                        [context = context4](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); }
+                        AccessorBuilder<commonmodule::IdentifiedObject, switchmodule::SwitchReadingProfile>::build(
+                            [context = mutable_context4](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); },
+                            [context = const_context4](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_identifiedobject()) ? &temp->identifiedobject() : nullptr; }
+                        )
                     );
                 }
                 visitor.end_message_field();
                 visitor.handle(
                     "DmdVAh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_dmdvah(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_dmdvah(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_dmdvah()) ? &temp->dmdvah() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "DmdVArh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_dmdvarh(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_dmdvarh(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_dmdvarh()) ? &temp->dmdvarh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "DmdWh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_dmdwh(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_dmdwh(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_dmdwh()) ? &temp->dmdwh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "SupVAh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_supvah(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_supvah(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_supvah()) ? &temp->supvah() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "SupVArh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_supvarh(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_supvarh(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_supvarh()) ? &temp->supvarh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "SupWh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_supwh(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_supwh(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_supwh()) ? &temp->supwh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "TotVAh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_totvah(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_totvah(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_totvah()) ? &temp->totvah() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "TotVArh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_totvarh(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_totvarh(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_totvarh()) ? &temp->totvarh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "TotWh",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_totwh(); }
+                    AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_totwh(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_totwh()) ? &temp->totwh() : nullptr; }
+                    )
                 );
             }
             visitor.end_message_field();
@@ -1140,242 +1838,394 @@ void visit(IProtoVisitor<switchmodule::SwitchReadingProfile>& visitor)
         visitor.end_message_field();
         visitor.start_message_field("readingMMTR");
         {
-            const auto context2 = [context = context1](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_readingmmtr(); };
+            const auto mutable_context2 = [context = mutable_context1](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_readingmmtr(); };
+            const auto const_context2 = [context = const_context1](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_readingmmtr()) ? &temp->readingmmtr() : nullptr; };
             visitor.start_message_field("logicalNode");
             {
-                const auto context3 = [context = context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_logicalnode(); };
+                const auto mutable_context3 = [context = mutable_context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_logicalnode(); };
+                const auto const_context3 = [context = const_context2](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_logicalnode()) ? &temp->logicalnode() : nullptr; };
                 visitor.handle(
                     "identifiedObject",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); }
+                    AccessorBuilder<commonmodule::IdentifiedObject, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_identifiedobject()) ? &temp->identifiedobject() : nullptr; }
+                    )
                 );
             }
             visitor.end_message_field();
             visitor.handle(
                 "DmdVAh",
-                [context = context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_dmdvah(); }
+                AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                    [context = mutable_context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_dmdvah(); },
+                    [context = const_context2](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_dmdvah()) ? &temp->dmdvah() : nullptr; }
+                )
             );
             visitor.handle(
                 "DmdVArh",
-                [context = context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_dmdvarh(); }
+                AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                    [context = mutable_context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_dmdvarh(); },
+                    [context = const_context2](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_dmdvarh()) ? &temp->dmdvarh() : nullptr; }
+                )
             );
             visitor.handle(
                 "DmdWh",
-                [context = context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_dmdwh(); }
+                AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                    [context = mutable_context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_dmdwh(); },
+                    [context = const_context2](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_dmdwh()) ? &temp->dmdwh() : nullptr; }
+                )
             );
             visitor.handle(
                 "SupVAh",
-                [context = context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_supvah(); }
+                AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                    [context = mutable_context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_supvah(); },
+                    [context = const_context2](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_supvah()) ? &temp->supvah() : nullptr; }
+                )
             );
             visitor.handle(
                 "SupVArh",
-                [context = context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_supvarh(); }
+                AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                    [context = mutable_context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_supvarh(); },
+                    [context = const_context2](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_supvarh()) ? &temp->supvarh() : nullptr; }
+                )
             );
             visitor.handle(
                 "SupWh",
-                [context = context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_supwh(); }
+                AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                    [context = mutable_context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_supwh(); },
+                    [context = const_context2](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_supwh()) ? &temp->supwh() : nullptr; }
+                )
             );
             visitor.handle(
                 "TotVAh",
-                [context = context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_totvah(); }
+                AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                    [context = mutable_context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_totvah(); },
+                    [context = const_context2](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_totvah()) ? &temp->totvah() : nullptr; }
+                )
             );
             visitor.handle(
                 "TotVArh",
-                [context = context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_totvarh(); }
+                AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                    [context = mutable_context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_totvarh(); },
+                    [context = const_context2](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_totvarh()) ? &temp->totvarh() : nullptr; }
+                )
             );
             visitor.handle(
                 "TotWh",
-                [context = context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_totwh(); }
+                AccessorBuilder<commonmodule::BCR, switchmodule::SwitchReadingProfile>::build(
+                    [context = mutable_context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_totwh(); },
+                    [context = const_context2](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_totwh()) ? &temp->totwh() : nullptr; }
+                )
             );
         }
         visitor.end_message_field();
         visitor.start_message_field("readingMMXU");
         {
-            const auto context2 = [context = context1](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_readingmmxu(); };
+            const auto mutable_context2 = [context = mutable_context1](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_readingmmxu(); };
+            const auto const_context2 = [context = const_context1](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_readingmmxu()) ? &temp->readingmmxu() : nullptr; };
             visitor.start_message_field("logicalNode");
             {
-                const auto context3 = [context = context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_logicalnode(); };
+                const auto mutable_context3 = [context = mutable_context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_logicalnode(); };
+                const auto const_context3 = [context = const_context2](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_logicalnode()) ? &temp->logicalnode() : nullptr; };
                 visitor.handle(
                     "identifiedObject",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); }
+                    AccessorBuilder<commonmodule::IdentifiedObject, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_identifiedobject(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_identifiedobject()) ? &temp->identifiedobject() : nullptr; }
+                    )
                 );
             }
             visitor.end_message_field();
             visitor.start_message_field("A");
             {
-                const auto context3 = [context = context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_a(); };
+                const auto mutable_context3 = [context = mutable_context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_a(); };
+                const auto const_context3 = [context = const_context2](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_a()) ? &temp->a() : nullptr; };
                 visitor.handle(
                     "net",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_net(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_net(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_net()) ? &temp->net() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "neut",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_neut(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_neut(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_neut()) ? &temp->neut() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsA",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsa(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsa(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsa()) ? &temp->phsa() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsB",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsb(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsb(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsb()) ? &temp->phsb() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsC",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsc(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsc(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsc()) ? &temp->phsc() : nullptr; }
+                    )
                 );
             }
             visitor.end_message_field();
             visitor.handle(
                 "ClcMth",
-                [context = context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_clcmth(); }
+                AccessorBuilder<commonmodule::ENG_CalcMethodKind, switchmodule::SwitchReadingProfile>::build(
+                    [context = mutable_context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_clcmth(); },
+                    [context = const_context2](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_clcmth()) ? &temp->clcmth() : nullptr; }
+                )
             );
             visitor.handle(
                 "Hz",
-                [context = context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_hz(); }
+                AccessorBuilder<commonmodule::MV, switchmodule::SwitchReadingProfile>::build(
+                    [context = mutable_context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_hz(); },
+                    [context = const_context2](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_hz()) ? &temp->hz() : nullptr; }
+                )
             );
             visitor.start_message_field("PF");
             {
-                const auto context3 = [context = context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_pf(); };
+                const auto mutable_context3 = [context = mutable_context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_pf(); };
+                const auto const_context3 = [context = const_context2](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_pf()) ? &temp->pf() : nullptr; };
                 visitor.handle(
                     "net",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_net(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_net(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_net()) ? &temp->net() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "neut",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_neut(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_neut(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_neut()) ? &temp->neut() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsA",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsa(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsa(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsa()) ? &temp->phsa() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsB",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsb(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsb(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsb()) ? &temp->phsb() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsC",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsc(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsc(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsc()) ? &temp->phsc() : nullptr; }
+                    )
                 );
             }
             visitor.end_message_field();
             visitor.handle(
                 "PFSign",
-                [context = context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_pfsign(); }
+                AccessorBuilder<commonmodule::ENG_PFSignKind, switchmodule::SwitchReadingProfile>::build(
+                    [context = mutable_context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_pfsign(); },
+                    [context = const_context2](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_pfsign()) ? &temp->pfsign() : nullptr; }
+                )
             );
             visitor.start_message_field("PhV");
             {
-                const auto context3 = [context = context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phv(); };
+                const auto mutable_context3 = [context = mutable_context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phv(); };
+                const auto const_context3 = [context = const_context2](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phv()) ? &temp->phv() : nullptr; };
                 visitor.handle(
                     "net",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_net(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_net(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_net()) ? &temp->net() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "neut",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_neut(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_neut(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_neut()) ? &temp->neut() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsA",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsa(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsa(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsa()) ? &temp->phsa() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsB",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsb(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsb(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsb()) ? &temp->phsb() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsC",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsc(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsc(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsc()) ? &temp->phsc() : nullptr; }
+                    )
                 );
             }
             visitor.end_message_field();
             visitor.start_message_field("PPV");
             {
-                const auto context3 = [context = context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_ppv(); };
+                const auto mutable_context3 = [context = mutable_context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_ppv(); };
+                const auto const_context3 = [context = const_context2](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_ppv()) ? &temp->ppv() : nullptr; };
                 visitor.handle(
                     "phsAB",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsab(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsab(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsab()) ? &temp->phsab() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsBC",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsbc(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsbc(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsbc()) ? &temp->phsbc() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsCA",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsca(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsca(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsca()) ? &temp->phsca() : nullptr; }
+                    )
                 );
             }
             visitor.end_message_field();
             visitor.start_message_field("VA");
             {
-                const auto context3 = [context = context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_va(); };
+                const auto mutable_context3 = [context = mutable_context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_va(); };
+                const auto const_context3 = [context = const_context2](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_va()) ? &temp->va() : nullptr; };
                 visitor.handle(
                     "net",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_net(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_net(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_net()) ? &temp->net() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "neut",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_neut(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_neut(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_neut()) ? &temp->neut() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsA",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsa(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsa(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsa()) ? &temp->phsa() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsB",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsb(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsb(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsb()) ? &temp->phsb() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsC",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsc(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsc(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsc()) ? &temp->phsc() : nullptr; }
+                    )
                 );
             }
             visitor.end_message_field();
             visitor.start_message_field("VAr");
             {
-                const auto context3 = [context = context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_var(); };
+                const auto mutable_context3 = [context = mutable_context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_var(); };
+                const auto const_context3 = [context = const_context2](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_var()) ? &temp->var() : nullptr; };
                 visitor.handle(
                     "net",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_net(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_net(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_net()) ? &temp->net() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "neut",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_neut(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_neut(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_neut()) ? &temp->neut() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsA",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsa(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsa(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsa()) ? &temp->phsa() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsB",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsb(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsb(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsb()) ? &temp->phsb() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsC",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsc(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsc(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsc()) ? &temp->phsc() : nullptr; }
+                    )
                 );
             }
             visitor.end_message_field();
             visitor.start_message_field("W");
             {
-                const auto context3 = [context = context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_w(); };
+                const auto mutable_context3 = [context = mutable_context2](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_w(); };
+                const auto const_context3 = [context = const_context2](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_w()) ? &temp->w() : nullptr; };
                 visitor.handle(
                     "net",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_net(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_net(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_net()) ? &temp->net() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "neut",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_neut(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_neut(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_neut()) ? &temp->neut() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsA",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsa(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsa(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsa()) ? &temp->phsa() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsB",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsb(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsb(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsb()) ? &temp->phsb() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "phsC",
-                    [context = context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsc(); }
+                    AccessorBuilder<commonmodule::CMV, switchmodule::SwitchReadingProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchReadingProfile& profile) { return context(profile)->mutable_phsc(); },
+                        [context = const_context3](const switchmodule::SwitchReadingProfile& profile) { const auto temp = context(profile); return (temp && temp->has_phsc()) ? &temp->phsc() : nullptr; }
+                    )
                 );
             }
             visitor.end_message_field();
@@ -1388,78 +2238,114 @@ void visit(IProtoVisitor<switchmodule::SwitchReadingProfile>& visitor)
 
 void visit(IProtoVisitor<switchmodule::SwitchStatusProfile>& visitor)
 {
-    const auto context0 = [](switchmodule::SwitchStatusProfile& profile) { return &profile; };
+    const auto mutable_context0 = [](switchmodule::SwitchStatusProfile& profile) { return &profile; };
+    const auto const_context0 = [](const switchmodule::SwitchStatusProfile& profile) { return &profile; };
     visitor.start_message_field("statusMessageInfo");
     {
-        const auto context1 = [context = context0](switchmodule::SwitchStatusProfile& profile) { return context(profile)->mutable_statusmessageinfo(); };
+        const auto mutable_context1 = [context = mutable_context0](switchmodule::SwitchStatusProfile& profile) { return context(profile)->mutable_statusmessageinfo(); };
+        const auto const_context1 = [context = const_context0](const switchmodule::SwitchStatusProfile& profile) { const auto temp = context(profile); return (temp && temp->has_statusmessageinfo()) ? &temp->statusmessageinfo() : nullptr; };
         visitor.handle(
             "messageInfo",
-            [context = context1](switchmodule::SwitchStatusProfile& profile) { return context(profile)->mutable_messageinfo(); }
+            AccessorBuilder<commonmodule::MessageInfo, switchmodule::SwitchStatusProfile>::build(
+                [context = mutable_context1](switchmodule::SwitchStatusProfile& profile) { return context(profile)->mutable_messageinfo(); },
+                [context = const_context1](const switchmodule::SwitchStatusProfile& profile) { const auto temp = context(profile); return (temp && temp->has_messageinfo()) ? &temp->messageinfo() : nullptr; }
+            )
         );
     }
     visitor.end_message_field();
     visitor.start_message_field("ied");
     {
-        const auto context1 = [context = context0](switchmodule::SwitchStatusProfile& profile) { return context(profile)->mutable_ied(); };
+        const auto mutable_context1 = [context = mutable_context0](switchmodule::SwitchStatusProfile& profile) { return context(profile)->mutable_ied(); };
+        const auto const_context1 = [context = const_context0](const switchmodule::SwitchStatusProfile& profile) { const auto temp = context(profile); return (temp && temp->has_ied()) ? &temp->ied() : nullptr; };
         visitor.handle(
             "identifiedObject",
-            [context = context1](switchmodule::SwitchStatusProfile& profile) { return context(profile)->mutable_identifiedobject(); }
+            AccessorBuilder<commonmodule::IdentifiedObject, switchmodule::SwitchStatusProfile>::build(
+                [context = mutable_context1](switchmodule::SwitchStatusProfile& profile) { return context(profile)->mutable_identifiedobject(); },
+                [context = const_context1](const switchmodule::SwitchStatusProfile& profile) { const auto temp = context(profile); return (temp && temp->has_identifiedobject()) ? &temp->identifiedobject() : nullptr; }
+            )
         );
     }
     visitor.end_message_field();
     visitor.start_message_field("protectedSwitch");
     {
-        const auto context1 = [context = context0](switchmodule::SwitchStatusProfile& profile) { return context(profile)->mutable_protectedswitch(); };
+        const auto mutable_context1 = [context = mutable_context0](switchmodule::SwitchStatusProfile& profile) { return context(profile)->mutable_protectedswitch(); };
+        const auto const_context1 = [context = const_context0](const switchmodule::SwitchStatusProfile& profile) { const auto temp = context(profile); return (temp && temp->has_protectedswitch()) ? &temp->protectedswitch() : nullptr; };
         visitor.handle(
             "conductingEquipment",
-            [context = context1](switchmodule::SwitchStatusProfile& profile) { return context(profile)->mutable_conductingequipment(); }
+            AccessorBuilder<commonmodule::ConductingEquipment, switchmodule::SwitchStatusProfile>::build(
+                [context = mutable_context1](switchmodule::SwitchStatusProfile& profile) { return context(profile)->mutable_conductingequipment(); },
+                [context = const_context1](const switchmodule::SwitchStatusProfile& profile) { const auto temp = context(profile); return (temp && temp->has_conductingequipment()) ? &temp->conductingequipment() : nullptr; }
+            )
         );
     }
     visitor.end_message_field();
     visitor.start_message_field("switchStatus");
     {
-        const auto context1 = [context = context0](switchmodule::SwitchStatusProfile& profile) { return context(profile)->mutable_switchstatus(); };
+        const auto mutable_context1 = [context = mutable_context0](switchmodule::SwitchStatusProfile& profile) { return context(profile)->mutable_switchstatus(); };
+        const auto const_context1 = [context = const_context0](const switchmodule::SwitchStatusProfile& profile) { const auto temp = context(profile); return (temp && temp->has_switchstatus()) ? &temp->switchstatus() : nullptr; };
         visitor.start_message_field("statusValue");
         {
-            const auto context2 = [context = context1](switchmodule::SwitchStatusProfile& profile) { return context(profile)->mutable_statusvalue(); };
+            const auto mutable_context2 = [context = mutable_context1](switchmodule::SwitchStatusProfile& profile) { return context(profile)->mutable_statusvalue(); };
+            const auto const_context2 = [context = const_context1](const switchmodule::SwitchStatusProfile& profile) { const auto temp = context(profile); return (temp && temp->has_statusvalue()) ? &temp->statusvalue() : nullptr; };
             visitor.handle(
                 "identifiedObject",
-                [context = context2](switchmodule::SwitchStatusProfile& profile) { return context(profile)->mutable_identifiedobject(); }
+                AccessorBuilder<commonmodule::IdentifiedObject, switchmodule::SwitchStatusProfile>::build(
+                    [context = mutable_context2](switchmodule::SwitchStatusProfile& profile) { return context(profile)->mutable_identifiedobject(); },
+                    [context = const_context2](const switchmodule::SwitchStatusProfile& profile) { const auto temp = context(profile); return (temp && temp->has_identifiedobject()) ? &temp->identifiedobject() : nullptr; }
+                )
             );
         }
         visitor.end_message_field();
         visitor.start_message_field("switchStatusXSWI");
         {
-            const auto context2 = [context = context1](switchmodule::SwitchStatusProfile& profile) { return context(profile)->mutable_switchstatusxswi(); };
+            const auto mutable_context2 = [context = mutable_context1](switchmodule::SwitchStatusProfile& profile) { return context(profile)->mutable_switchstatusxswi(); };
+            const auto const_context2 = [context = const_context1](const switchmodule::SwitchStatusProfile& profile) { const auto temp = context(profile); return (temp && temp->has_switchstatusxswi()) ? &temp->switchstatusxswi() : nullptr; };
             visitor.start_message_field("logicalNodeForEventAndStatus");
             {
-                const auto context3 = [context = context2](switchmodule::SwitchStatusProfile& profile) { return context(profile)->mutable_logicalnodeforeventandstatus(); };
+                const auto mutable_context3 = [context = mutable_context2](switchmodule::SwitchStatusProfile& profile) { return context(profile)->mutable_logicalnodeforeventandstatus(); };
+                const auto const_context3 = [context = const_context2](const switchmodule::SwitchStatusProfile& profile) { const auto temp = context(profile); return (temp && temp->has_logicalnodeforeventandstatus()) ? &temp->logicalnodeforeventandstatus() : nullptr; };
                 visitor.start_message_field("logicalNode");
                 {
-                    const auto context4 = [context = context3](switchmodule::SwitchStatusProfile& profile) { return context(profile)->mutable_logicalnode(); };
+                    const auto mutable_context4 = [context = mutable_context3](switchmodule::SwitchStatusProfile& profile) { return context(profile)->mutable_logicalnode(); };
+                    const auto const_context4 = [context = const_context3](const switchmodule::SwitchStatusProfile& profile) { const auto temp = context(profile); return (temp && temp->has_logicalnode()) ? &temp->logicalnode() : nullptr; };
                     visitor.handle(
                         "identifiedObject",
-                        [context = context4](switchmodule::SwitchStatusProfile& profile) { return context(profile)->mutable_identifiedobject(); }
+                        AccessorBuilder<commonmodule::IdentifiedObject, switchmodule::SwitchStatusProfile>::build(
+                            [context = mutable_context4](switchmodule::SwitchStatusProfile& profile) { return context(profile)->mutable_identifiedobject(); },
+                            [context = const_context4](const switchmodule::SwitchStatusProfile& profile) { const auto temp = context(profile); return (temp && temp->has_identifiedobject()) ? &temp->identifiedobject() : nullptr; }
+                        )
                     );
                 }
                 visitor.end_message_field();
                 visitor.handle(
                     "Beh",
-                    [context = context3](switchmodule::SwitchStatusProfile& profile) { return context(profile)->mutable_beh(); }
+                    AccessorBuilder<commonmodule::ENS_BehaviourModeKind, switchmodule::SwitchStatusProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchStatusProfile& profile) { return context(profile)->mutable_beh(); },
+                        [context = const_context3](const switchmodule::SwitchStatusProfile& profile) { const auto temp = context(profile); return (temp && temp->has_beh()) ? &temp->beh() : nullptr; }
+                    )
                 );
                 visitor.handle(
                     "EEHealth",
-                    [context = context3](switchmodule::SwitchStatusProfile& profile) { return context(profile)->mutable_eehealth(); }
+                    AccessorBuilder<commonmodule::ENS_HealthKind, switchmodule::SwitchStatusProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchStatusProfile& profile) { return context(profile)->mutable_eehealth(); },
+                        [context = const_context3](const switchmodule::SwitchStatusProfile& profile) { const auto temp = context(profile); return (temp && temp->has_eehealth()) ? &temp->eehealth() : nullptr; }
+                    )
                 );
             }
             visitor.end_message_field();
             visitor.handle(
                 "DynamicTest",
-                [context = context2](switchmodule::SwitchStatusProfile& profile) { return context(profile)->mutable_dynamictest(); }
+                AccessorBuilder<commonmodule::ENS_DynamicTestKind, switchmodule::SwitchStatusProfile>::build(
+                    [context = mutable_context2](switchmodule::SwitchStatusProfile& profile) { return context(profile)->mutable_dynamictest(); },
+                    [context = const_context2](const switchmodule::SwitchStatusProfile& profile) { const auto temp = context(profile); return (temp && temp->has_dynamictest()) ? &temp->dynamictest() : nullptr; }
+                )
             );
             visitor.handle(
                 "Pos",
-                [context = context2](switchmodule::SwitchStatusProfile& profile) { return context(profile)->mutable_pos(); }
+                AccessorBuilder<commonmodule::StatusDPS, switchmodule::SwitchStatusProfile>::build(
+                    [context = mutable_context2](switchmodule::SwitchStatusProfile& profile) { return context(profile)->mutable_pos(); },
+                    [context = const_context2](const switchmodule::SwitchStatusProfile& profile) { const auto temp = context(profile); return (temp && temp->has_pos()) ? &temp->pos() : nullptr; }
+                )
             );
         }
         visitor.end_message_field();

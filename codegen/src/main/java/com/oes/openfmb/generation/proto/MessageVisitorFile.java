@@ -7,8 +7,6 @@ import com.oes.openfmb.generation.document.Documents;
 import com.oes.openfmb.generation.document.FileHeader;
 import com.oes.openfmb.util.FieldPathImpl;
 import openfmb.commonmodule.*;
-import openfmb.switchmodule.SwitchStatus;
-import openfmb.switchmodule.SwitchStatusXSWI;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -72,6 +70,7 @@ public class MessageVisitorFile extends CppFilePair {
 
         return join(
                 include("adapter-api/config/generated/" + headerFileName()),
+                include("../Accessor.h"),
                 space,
                 namespace(
                 "adapter",
@@ -102,8 +101,9 @@ public class MessageVisitorFile extends CppFilePair {
         return line(getVisitSignature(descriptor))
                 .append("{")
                 .indent(
-                        line(
-                                String.format("const auto context0 = [](%s& profile) { return &profile; };", cppMessageName(descriptor))
+                        lines(
+                                String.format("const auto mutable_context0 = [](%s& profile) { return &profile; };", cppMessageName(descriptor)),
+                                String.format("const auto const_context0 = [](const %s& profile) { return &profile; };", cppMessageName(descriptor))
                         )
                 )
                 .indent(start(descriptor)) // recursively build up the implementation
@@ -124,7 +124,8 @@ public class MessageVisitorFile extends CppFilePair {
             line(String.format("visitor.start_message_field(\"%s\");", path.getInfo().field.getName()))
             .append("{")
             .indent(
-                    line(getContextDefinition(path))
+                    getMutableContextDefinition(path)
+                    .append(getConstContextDefinition(path))
                     .append(inner)
             )
             .append("}")
@@ -154,7 +155,8 @@ public class MessageVisitorFile extends CppFilePair {
                         )
                         .append("{")
                         .indent(String.format("visitor.start_iteration(count%d);", path.getInfo().depth))
-                        .indent(getRepeatedContextDefinition(path))
+                        .indent(getRepeatedMutableContextDefinition(path))
+                        .indent(getRepeatedConstContextDefinition(path))
                         .indent(inner)
                         .indent("visitor.end_iteration();")
                         .append("}")
@@ -205,10 +207,8 @@ public class MessageVisitorFile extends CppFilePair {
     {
         return line("visitor.handle(")
                 .indent(
-                    lines(
-                        quoted(path.getInfo().field.getName()) + ",",
-                        getContextLambda(path)
-                    )
+                    line(quoted(path.getInfo().field.getName()) + ",")
+                    .append(accessor(path))
                 )
                 .append(");");
     }
@@ -218,13 +218,13 @@ public class MessageVisitorFile extends CppFilePair {
         return "\"" + input + "\"";
     }
 
-    private static Document getRepeatedContextDefinition(FieldPath path)
+    private static Document getRepeatedMutableContextDefinition(FieldPath path)
     {
         final int d = path.getInfo().depth;
 
         return line(
                     String.format(
-                    "const auto context%d = [context = context%d, i = count%d, max = max_count%d](%s& profile) {",
+                    "const auto mutable_context%d = [context = mutable_context%d, i = count%d, max = max_count%d](%s& profile) {",
                        d + 1,
                         d,
                         d,
@@ -259,32 +259,82 @@ public class MessageVisitorFile extends CppFilePair {
                 .append("};");
     }
 
-    private static String getContextLambda(FieldPath path)
+    private static Document getRepeatedConstContextDefinition(FieldPath path)
+    {
+        final int d = path.getInfo().depth;
+
+        return line(
+                String.format(
+                        "const auto const_context%d = [context = const_context%d, i = count%d, max = max_count%d](const %s& profile) -> %s const *{",
+                        d + 1,
+                        d,
+                        d,
+                        d,
+                        cppMessageName(path.getRoot()),
+                        cppMessageName(path.getInfo().field.getMessageType())
+                )
+        )
+                .indent(
+                        lines(
+                                "const auto temp = context(profile);",
+                                "if(!temp) return nullptr;",
+                                String.format("const auto size = temp->%s_size();", path.getInfo().field.getMessageType().getName().toLowerCase()),
+                                String.format("return i < size ? &temp->%s(i) : nullptr;", path.getInfo().field.getMessageType().getName().toLowerCase())
+                        )
+                )
+                .append("};");
+    }
+
+    private static String getMutableContextLambda(FieldPath path)
     {
         return String.format(
-                "[context = context%d](%s& profile) { return %s; }",
+                "[context = mutable_context%d](%s& profile) { return context(profile)->mutable_%s(); }",
                 path.getInfo().depth,
                 cppMessageName(path.getRoot()),
-                accessor(path)
-        );
-    }
-
-    private static String getContextDefinition(FieldPath path)
-    {
-        return String.format(
-                "const auto context%d = %s;",
-                path.getInfo().depth + 1,
-                getContextLambda(path)
-        );
-    }
-
-    private static String accessor(FieldPath path) {
-
-        return String.format(
-                "context(profile)->mutable_%s()",
                 path.getInfo().field.getName().toLowerCase()
         );
     }
 
+    private static Document getMutableContextDefinition(FieldPath path)
+    {
+        return line(String.format(
+                "const auto mutable_context%d = %s;",
+                path.getInfo().depth + 1,
+                getMutableContextLambda(path)
+        ));
+    }
 
+    private static String getConstContextLambda(FieldPath path)
+    {
+        return String.format(
+                "[context = const_context%d](const %s& profile) { const auto temp = context(profile); return (temp && temp->has_%s()) ? &temp->%s() : nullptr; }",
+                path.getInfo().depth,
+                cppMessageName(path.getRoot()),
+                path.getInfo().field.getName().toLowerCase(),
+                path.getInfo().field.getName().toLowerCase()
+        );
+    }
+
+    private static Document getConstContextDefinition(FieldPath path)
+    {
+        return line(String.format(
+                "const auto const_context%d = %s;",
+                path.getInfo().depth + 1,
+                getConstContextLambda(path)
+        ));
+    }
+
+    private static Document accessor(FieldPath path)
+    {
+        return line(
+                    String.format(
+                            "AccessorBuilder<%s, %s>::build(",
+                            cppMessageName(path.getInfo().field.getMessageType()),
+                            cppMessageName(path.getRoot())
+                    )
+                )
+                .indent(getMutableContextLambda(path) + ",")
+                .indent(getConstContextLambda(path))
+                .append(")");
+    }
 }
