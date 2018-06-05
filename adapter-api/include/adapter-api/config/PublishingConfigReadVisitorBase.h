@@ -1,6 +1,6 @@
 
-#ifndef OPENFMB_ADAPTER_PUBLISHINGCONFIGREADVISITOR_H
-#define OPENFMB_ADAPTER_PUBLISHINGCONFIGREADVISITOR_H
+#ifndef OPENFMB_ADAPTER_PUBLISHINGCONFIGREADVISITORBASE_H
+#define OPENFMB_ADAPTER_PUBLISHINGCONFIGREADVISITORBASE_H
 
 #include "ConfigReadVisitorBase.h"
 
@@ -22,7 +22,7 @@ namespace adapter
      * @tparam T
      */
     template <class T>
-    class PublishingConfigReadVisitor : public ConfigReadVisitorBase<T>
+    class PublishingConfigReadVisitorBase : public ConfigReadVisitorBase<T>
     {
 
     public:
@@ -37,7 +37,7 @@ namespace adapter
 
     protected:
 
-        explicit PublishingConfigReadVisitor(const YAML::Node& root) : ConfigReadVisitorBase<T>(root)
+        explicit PublishingConfigReadVisitorBase(const YAML::Node& root) : ConfigReadVisitorBase<T>(root)
         {}
 
         // --- helper methods for configuring static information ---
@@ -74,7 +74,7 @@ namespace adapter
     };
 
     template<class T>
-    void PublishingConfigReadVisitor<T>::handle(const std::string& field_name, Accessor<commonmodule::MessageInfo, T> accessor)
+    void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, Accessor<commonmodule::MessageInfo, T> accessor)
     {
         const auto node = this->get_config_node(field_name);
 
@@ -89,22 +89,22 @@ namespace adapter
 
         // put a fresh UUID onto every message
         this->add_message_init_action(
-                [accessor, generator = this->generator](T & profile)
-                {
-                    accessor.create(profile)->mutable_identifiedobject()->mutable_mrid()->set_value(boost::uuids::to_string((*generator)()));
-                }
+            [accessor, generator = this->generator](T & profile)
+        {
+            accessor.create(profile)->mutable_identifiedobject()->mutable_mrid()->set_value(boost::uuids::to_string((*generator)()));
+        }
         );
 
         this->add_message_complete_action(
-                [accessor](T & profile)
-                {
-                    time::set(std::chrono::system_clock::now(), *accessor.create(profile)->mutable_messagetimestamp());
-                }
+            [accessor](T & profile)
+        {
+            time::set(std::chrono::system_clock::now(), *accessor.create(profile)->mutable_messagetimestamp());
+        }
         );
     }
 
     template<class T>
-    void PublishingConfigReadVisitor<T>::handle(const std::string& field_name, Accessor<commonmodule::ConductingEquipment, T> accessor)
+    void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, Accessor<commonmodule::ConductingEquipment, T> accessor)
     {
         const auto node = this->get_config_node(field_name);
 
@@ -125,7 +125,7 @@ namespace adapter
     }
 
     template <class T>
-    void PublishingConfigReadVisitor<T>::handle(const std::string& field_name, Accessor<commonmodule::IdentifiedObject, T> accessor)
+    void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, Accessor<commonmodule::IdentifiedObject, T> accessor)
     {
         const auto node = this->get_config_node(field_name);
 
@@ -140,7 +140,7 @@ namespace adapter
 
     template <class T>
     template <class S>
-    void PublishingConfigReadVisitor<T>::configure_static_mrid(const YAML::Node& node, const S& setter)
+    void PublishingConfigReadVisitorBase<T>::configure_static_mrid(const YAML::Node& node, const S& setter)
     {
         const auto uuid_node = yaml::require(node, ::adapter::keys::mRID);
         const auto uuid = uuid_node.as<std::string>();
@@ -165,7 +165,7 @@ namespace adapter
 
     template<class T>
     template<class R>
-    void PublishingConfigReadVisitor<T>::configure_static_name(const YAML::Node& node, mutable_getter_t<R, T> getter)
+    void PublishingConfigReadVisitorBase<T>::configure_static_name(const YAML::Node& node, mutable_getter_t<R, T> getter)
     {
         const auto name = yaml::require_string(node, ::adapter::keys::name);
 
@@ -185,7 +185,7 @@ namespace adapter
 
     template<class T>
     template<class U>
-    void PublishingConfigReadVisitor<T>::configure_static_description(const YAML::Node& node, mutable_getter_t<U, T> getter)
+    void PublishingConfigReadVisitorBase<T>::configure_static_description(const YAML::Node& node, mutable_getter_t<U, T> getter)
     {
         const auto description = yaml::require_string(node, ::adapter::keys::description);
 

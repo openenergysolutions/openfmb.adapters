@@ -18,12 +18,12 @@ set(API_HEADERS
 	include/adapter-api/util/SynchronizedQueue.h
 	include/adapter-api/util/YAMLUtil.h
 	include/adapter-api/util/YAMLTemplate.h
-    include/adapter-api/config/PublishingConfigReadVisitor.h
+		include/adapter-api/config/PublishingConfigReadVisitorBase.h
 	include/adapter-api/config/ConfigReadVisitorBase.h
 	include/adapter-api/config/ConfigWriteVisitorBase.h
 	include/adapter-api/config/IMessageVisitor.h
 	include/adapter-api/config/IModelVisitor.h
-    include/adapter-api/config/PublishingConfigReadVisitor.h
+		include/adapter-api/config/PublishingConfigReadVisitorBase.h
 	include/adapter-api/config/MessageInformation.h
 	include/adapter-api/config/generated/MessageVisitors.h
 	include/adapter-api/config/generated/ModelVisitors.h
