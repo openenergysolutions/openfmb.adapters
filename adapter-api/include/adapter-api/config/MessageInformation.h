@@ -6,8 +6,7 @@
 
 namespace adapter
 {
-
-    // specializations for these templates in cpp file
+    // --- specializations for these templates in cpp file ---
 
     template <class Profile>
     const commonmodule::MessageInfo& get_message_info(const Profile& profile);

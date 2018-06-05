@@ -11,12 +11,11 @@ set(DNP3_SOURCES
         src/dnp3/InputType.cpp
         src/dnp3/LogAdapter.h
         src/dnp3/PublishingConfigReadVisitor.h
+        src/dnp3/SubscribingConfigReadVisitor.h
         src/dnp3/SOEHandler.h
         src/dnp3/SOEHandler.cpp
         src/dnp3/PluginFactory.cpp
         src/dnp3/Plugin.cpp
-        src/dnp3/IPublishConfigBuilder.h
-        src/dnp3/InputType.h
         src/dnp3/ControlCodeMeta.h
         src/dnp3/ControlCodeMeta.cpp
 )

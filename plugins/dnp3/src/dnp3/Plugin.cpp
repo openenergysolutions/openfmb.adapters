@@ -10,13 +10,13 @@
 #include <adapter-api/config/generated/ModelVisitors.h>
 #include <adapter-api/ConfigStrings.h>
 #include <adapter-api/ProfileHelpers.h>
+#include <adapter-api/config/ProfileType.h>
 
 #include "ConfigStrings.h"
 #include "PublishingConfigReadVisitor.h"
 #include "LogAdapter.h"
 
 #include <stdexcept>
-
 
 using namespace openpal;
 using namespace opendnp3;
@@ -30,9 +30,26 @@ namespace adapter
         using visit_fun_t = void (*)(IModelVisitor<T>&);
 
         template <class T>
-        struct ProfileLoader
+        class ProfileLoader
         {
+
+        public:
+
             static void handle(const YAML::Node& node, const Logger& logger, publisher_t publisher, std::shared_ptr<IPublishConfigBuilder> builder)
+            {
+                if(::adapter::get_profile_type<T>() == ProfileType::control)
+                {
+                    throw Exception("DNP3 adapter does not support subscribing to control profiles");
+                }
+                else
+                {
+                    handle_publish(node, logger, std::move(publisher), std::move(builder));
+                }
+            }
+
+        private:
+
+            static void handle_publish(const YAML::Node& node, const Logger& logger, publisher_t publisher, std::shared_ptr<IPublishConfigBuilder> builder)
             {
                 const auto profile = std::make_shared<T>();
 
