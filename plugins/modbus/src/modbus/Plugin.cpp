@@ -22,21 +22,10 @@ namespace adapter
         template <class T>
         struct ProfileReader
         {
-
-            static void handle(std::shared_ptr<PollHandler> handler, const YAML::Node& node, Logger logger, publisher_t publisher)
+            static void handle(std::shared_ptr<PollHandler> handler, const YAML::Node& node, publisher_t publisher)
             {
-                const auto profile = std::make_shared<T>();
-
-                PublishConfigReadVisitor<T> visitor(node, profile, handler);
+                PublishConfigReadVisitor<T> visitor(node, std::move(publisher), std::move(handler));
                 visit(visitor);
-
-                handler->add_end_action(
-                    [profile, publisher = publisher] ()
-                {
-                    publisher->publish(*profile);
-                }
-                );
-
             }
         };
 
@@ -65,7 +54,7 @@ namespace adapter
 
             const auto handler = std::make_shared<PollHandler>();
 
-            profiles::handle_one<ProfileReader>(profile_name, handler, profile_node, this->logger, bus);
+            profiles::handle_one<ProfileReader>(profile_name, handler, profile_node, bus);
 
             this->logger.info("Session {} has {} mapped values", name, handler->num_mapped_values());
 

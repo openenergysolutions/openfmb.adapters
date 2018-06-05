@@ -20,16 +20,29 @@ namespace adapter
         template <class T>
         class PublishConfigReadVisitor final : public PublishingConfigReadVisitorBase<T>
         {
-            const std::shared_ptr<T> profile;
+            const std::shared_ptr<T> profile = std::make_shared<T>();
+            const publisher_t publisher;
             const std::shared_ptr<IConfigurationBuilder> builder;
 
         public:
 
-            PublishConfigReadVisitor(const YAML::Node& root, std::shared_ptr<T> profile, std::shared_ptr<IConfigurationBuilder> builder) :
+            PublishConfigReadVisitor(const YAML::Node& root, publisher_t publisher, std::shared_ptr<IConfigurationBuilder> builder) :
                 PublishingConfigReadVisitorBase<T>(root),
-                profile(profile),
+                publisher(std::move(publisher)),
                 builder(std::move(builder))
-            {}
+            {
+                this->builder->add_begin_action([profile = this->profile](){ profile->Clear(); });
+            }
+
+            ~PublishConfigReadVisitor()
+            {
+                this->builder->add_end_action(
+                        [profile = this->profile, publisher = this->publisher]()
+                        {
+                            publisher->publish(*profile);
+                        }
+                );
+            }
 
             void handle(const std::string& field_name, Accessor<commonmodule::MV, T> accessor) override
             {
