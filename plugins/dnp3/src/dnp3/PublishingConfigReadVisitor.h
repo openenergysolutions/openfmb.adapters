@@ -23,8 +23,10 @@ namespace adapter
         template <class T>
         class PublishingConfigReadVisitor final : public PublishingConfigReadVisitorBase<T>
         {
-            const std::shared_ptr<T> profile;
+            const std::shared_ptr<T> profile = std::make_shared<T>();
+            const publisher_t publisher;
             const std::shared_ptr<IPublishConfigBuilder> builder;
+
 
             struct DbPosKindMapping
             {
@@ -34,11 +36,28 @@ namespace adapter
 
         public:
 
-            PublishingConfigReadVisitor(const YAML::Node& root, const std::shared_ptr<T>& profile, std::shared_ptr<IPublishConfigBuilder> builder) :
+            PublishingConfigReadVisitor(const YAML::Node& root, publisher_t publisher, std::shared_ptr<IPublishConfigBuilder> builder) :
                 PublishingConfigReadVisitorBase<T>(root),
-                profile(profile),
+                publisher(publisher),
                 builder(std::move(builder))
-            {}
+            {
+                builder->add_start_action(
+                    [profile = this->profile]()
+                {
+                    profile->Clear();
+                }
+                );
+            }
+
+            ~PublishingConfigReadVisitor()
+            {
+                this->builder->add_end_action(
+                    [profile = this->profile, publisher = this->publisher]()
+                {
+                    publisher->publish(*profile);
+                }
+                );
+            }
 
             void handle(const std::string& field_name, Accessor<commonmodule::MV, T> accessor) override
             {

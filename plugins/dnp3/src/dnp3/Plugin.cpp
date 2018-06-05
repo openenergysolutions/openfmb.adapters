@@ -35,7 +35,7 @@ namespace adapter
 
         public:
 
-            static void handle(const YAML::Node& node, const Logger& logger, publisher_t publisher, std::shared_ptr<IPublishConfigBuilder> builder)
+            static void handle(const YAML::Node& node, const Logger& logger, message_bus_t bus, std::shared_ptr<IPublishConfigBuilder> pub_builder)
             {
                 if(::adapter::get_profile_type<T>() == ProfileType::control)
                 {
@@ -43,7 +43,7 @@ namespace adapter
                 }
                 else
                 {
-                    handle_publish(node, logger, std::move(publisher), std::move(builder));
+                    handle_publish(node, logger, std::move(bus), std::move(pub_builder));
                 }
             }
 
@@ -51,22 +51,8 @@ namespace adapter
 
             static void handle_publish(const YAML::Node& node, const Logger& logger, publisher_t publisher, std::shared_ptr<IPublishConfigBuilder> builder)
             {
-                const auto profile = std::make_shared<T>();
-
-                // clear the profile before processing measurements
-                builder->add_start_action([profile]()
-                {
-                    profile->Clear();
-                });
-
-                PublishingConfigReadVisitor<T> reader(node, profile, builder);
+                PublishingConfigReadVisitor<T> reader(node, publisher, builder);
                 visit(reader);
-
-                // publish the profile when the response completes
-                builder->add_end_action([profile, publisher = std::move(publisher)]()
-                {
-                    publisher->publish(*profile);
-                });
             }
         };
 
