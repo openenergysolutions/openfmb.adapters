@@ -25,30 +25,6 @@ namespace adapter
             }
         };
 
-        void write_default_session(const std::string& name, YAML::Emitter& out, Profile profile)
-        {
-            out << YAML::BeginMap;
-
-            out << YAML::Key << keys::name << YAML::Value << name;
-            out << YAML::Comment("name for logging purposes");
-            out << YAML::Key << keys::remote_ip << YAML::Value << "127.0.0.1";
-            out << YAML::Key << keys::port << YAML::Value << 502;
-            out << YAML::Key << keys::unit_identifier << YAML::Value << 1 << YAML::Comment("aka 'slave address'");
-
-            out << YAML::Key << keys::poll_period_ms << YAML::Value << 1000 << YAML::Comment("perform polls once per second");
-            out << YAML::Key << keys::response_timeout_ms << YAML::Value << 1000 << YAML::Comment("response timeout");
-            out << YAML::Key << keys::allowed_byte_discontinuities << YAML::Value << 0 << YAML::Comment("polls for registers will be made without discontinuity");
-            out << YAML::Key << keys::allowed_bit_discontinuities << YAML::Value << 16 << YAML::Comment("polls for coils will be made with discontinuities up to 16 bits");
-
-            out << YAML::Key << keys::profile;
-            out << YAML::BeginMap;
-            out << YAML::Key << keys::name << YAML::Value << ProfileMeta::to_string(profile);
-            profiles::handle_one<ProfileWriter>(profile, out);
-            out << YAML::EndMap;
-
-            out << YAML::EndMap;
-        }
-
         void PluginFactory::write_default_config(YAML::Emitter& out) const
         {
             out << YAML::Key << keys::thread_pool_size << YAML::Value << 1;
@@ -65,12 +41,31 @@ namespace adapter
 
         void PluginFactory::write_session_config(YAML::Emitter& out, const profile_vec_t& profiles) const
         {
-            if(profiles.size() != 1)
-            {
-                throw Exception("Modbus session generation requires exactly 1 profile argument");
-            }
+            out << YAML::BeginMap;
 
-            write_default_session("session1", out, profiles[0]);
+            out << YAML::Key << keys::name << YAML::Value << "session1";
+            out << YAML::Comment("name for logging purposes");
+            out << YAML::Key << keys::remote_ip << YAML::Value << "127.0.0.1";
+            out << YAML::Key << keys::port << YAML::Value << 502;
+            out << YAML::Key << keys::unit_identifier << YAML::Value << 1 << YAML::Comment("aka 'slave address'");
+
+            out << YAML::Key << keys::poll_period_ms << YAML::Value << 1000 << YAML::Comment("perform polls once per second");
+            out << YAML::Key << keys::response_timeout_ms << YAML::Value << 1000 << YAML::Comment("response timeout");
+            out << YAML::Key << keys::allowed_byte_discontinuities << YAML::Value << 0 << YAML::Comment("polls for registers will be made without discontinuity");
+            out << YAML::Key << keys::allowed_bit_discontinuities << YAML::Value << 16 << YAML::Comment("polls for coils will be made with discontinuities up to 16 bits");
+
+            out << YAML::Key << ::adapter::keys::profiles;
+            out << YAML::BeginSeq;
+            for(const auto& profile: profiles)
+            {
+                out << YAML::BeginMap;
+                out << YAML::Key << keys::name << YAML::Value << ProfileMeta::to_string(profile);
+                profiles::handle_one<ProfileWriter>(profile, out);
+                out << YAML::EndMap;
+            }
+            out << YAML::EndSeq;
+
+            out << YAML::EndMap;
         }
     }
 }
