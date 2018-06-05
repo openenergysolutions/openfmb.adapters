@@ -52,7 +52,7 @@ namespace adapter
             const auto profiles_seq = yaml::require(node, ::adapter::keys::profiles);
             const auto handler = std::make_shared<PollHandler>();
 
-            const auto add_profile = [&](const YAML::Node& node)
+            const auto add_profile = [&](const YAML::Node & node)
             {
                 const auto profile_name = yaml::require_string(node, ::adapter::keys::name);
                 profiles::handle_one<ProfileReader>(profile_name, handler, node, bus);
@@ -65,13 +65,13 @@ namespace adapter
             auto poller = PollManager::create(
                               this->logger,
                               handler,
-                              std::chrono::milliseconds(yaml::require(node, keys::poll_period_ms).as<int64_t>()),
+                              std::chrono::milliseconds(yaml::require_integer<int32_t>(node, keys::poll_period_ms)),
                               this->get_session(name, node)
                           );
 
             // Configure polls
-            handler->add_necessary_byte_polls(poller, yaml::require(node, keys::allowed_byte_discontinuities).as<int>());
-            handler->add_necessary_bit_polls(poller, yaml::require(node, keys::allowed_bit_discontinuities).as<int>());
+            handler->add_necessary_byte_polls(poller, yaml::require_integer<uint16_t>(node, keys::allowed_byte_discontinuities));
+            handler->add_necessary_bit_polls(poller, yaml::require_integer<uint16_t>(node, keys::allowed_bit_discontinuities));
 
             this->start_actions.emplace_back([poller]()
             {
@@ -85,16 +85,16 @@ namespace adapter
                                name,
                                ::modbus::Ipv4Endpoint(
                                    yaml::require_string(node, keys::remote_ip),
-                                   yaml::require(node, keys::port).as<uint16_t>()
+                                   yaml::require_integer<uint16_t>(node, keys::port)
                                )
                            );
 
             return channel->create_session(
                        ::modbus::UnitIdentifier(
-                           yaml::require(node, keys::unit_identifier).as<int>()
+                           yaml::require_integer<uint8_t>(node, keys::unit_identifier)
                        ),
                        std::chrono::milliseconds(
-                           yaml::require(node, keys::response_timeout_ms).as<int>()
+                           yaml::require_integer<int32_t>(node, keys::response_timeout_ms)
                        )
                    );
         }

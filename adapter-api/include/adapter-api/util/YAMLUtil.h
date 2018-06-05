@@ -5,6 +5,8 @@
 
 #include "Exception.h"
 
+#include <boost/numeric/conversion/cast.hpp>
+
 namespace adapter
 {
     namespace yaml
@@ -20,6 +22,19 @@ namespace adapter
         YAML::Node require(const YAML::Node& parent, const std::string& key);
 
         std::string require_string(const YAML::Node& parent, const std::string& key);
+
+        /**
+         * YAML-CPP does a poor job of detecting bad numeric conversions
+         *
+         * This helper makes use boost::numeric::cast
+         */
+        template <typename T>
+        T require_integer(const YAML::Node& parent, const std::string& key)
+        {
+            static_assert(sizeof(T) < sizeof(int64_t));
+
+            return boost::numeric_cast<T>(require(parent, key).as<int64_t>());
+        }
 
         template <class T>
         T optionally(const YAML::Node& node, const T& default_value)

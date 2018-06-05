@@ -31,16 +31,19 @@ namespace adapter
                 publisher(std::move(publisher)),
                 builder(std::move(builder))
             {
-                this->builder->add_begin_action([profile = this->profile](){ profile->Clear(); });
+                this->builder->add_begin_action([profile = this->profile]()
+                {
+                    profile->Clear();
+                });
             }
 
             ~PublishConfigReadVisitor()
             {
                 this->builder->add_end_action(
-                        [profile = this->profile, publisher = this->publisher]()
-                        {
-                            publisher->publish(*profile);
-                        }
+                    [profile = this->profile, publisher = this->publisher]()
+                {
+                    publisher->publish(*profile);
+                }
                 );
             }
 

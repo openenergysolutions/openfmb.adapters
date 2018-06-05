@@ -56,7 +56,7 @@ namespace adapter
 
             out << YAML::Key << ::adapter::keys::profiles;
             out << YAML::BeginSeq;
-            for(const auto& profile: profiles)
+            for(const auto& profile : profiles)
             {
                 out << YAML::BeginMap;
                 out << YAML::Key << keys::name << YAML::Value << ProfileMeta::to_string(profile);

@@ -38,10 +38,10 @@ namespace adapter
 
             PublishingConfigReadVisitor(const YAML::Node& root, publisher_t publisher, std::shared_ptr<IPublishConfigBuilder> builder) :
                 PublishingConfigReadVisitorBase<T>(root),
-                publisher(publisher),
+                publisher(std::move(publisher)),
                 builder(std::move(builder))
             {
-                builder->add_start_action(
+                this->builder->add_start_action(
                     [profile = this->profile]()
                 {
                     profile->Clear();
