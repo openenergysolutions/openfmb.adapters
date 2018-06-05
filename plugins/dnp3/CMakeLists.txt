@@ -6,7 +6,7 @@ set(DNP3_SOURCES
         src/dnp3/ConfigStrings.h
         src/dnp3/ConfigWriteVisitor.h
         src/dnp3/Plugin.h
-        src/dnp3/IConfigurationBuilder.h
+        src/dnp3/IPublishConfigBuilder.h
         src/dnp3/InputType.h
         src/dnp3/InputType.cpp
         src/dnp3/LogAdapter.h
@@ -15,7 +15,7 @@ set(DNP3_SOURCES
         src/dnp3/SOEHandler.cpp
         src/dnp3/PluginFactory.cpp
         src/dnp3/Plugin.cpp
-        src/dnp3/IConfigurationBuilder.h
+        src/dnp3/IPublishConfigBuilder.h
         src/dnp3/InputType.h
         src/dnp3/ControlCodeMeta.h
         src/dnp3/ControlCodeMeta.cpp

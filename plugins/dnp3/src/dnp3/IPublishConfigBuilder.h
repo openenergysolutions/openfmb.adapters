@@ -1,6 +1,6 @@
 
-#ifndef OPENFMB_ADAPTER_DNP3_ICONFIGURATIONBUILDER_H
-#define OPENFMB_ADAPTER_DNP3_ICONFIGURATIONBUILDER_H
+#ifndef OPENFMB_ADAPTER_DNP3_IPUBLISHCONFIGBUILDER_H
+#define OPENFMB_ADAPTER_DNP3_IPUBLISHCONFIGBUILDER_H
 
 #include <functional>
 
@@ -10,7 +10,7 @@ namespace adapter
 {
     namespace dnp3
     {
-        class IConfigurationBuilder
+        class IPublishConfigBuilder
         {
         public:
 
@@ -19,7 +19,7 @@ namespace adapter
 
             using action_t = std::function<void ()>;
 
-            virtual ~IConfigurationBuilder() = default;
+            virtual ~IPublishConfigBuilder() = default;
 
             virtual void add_start_action(const action_t& action) = 0;
 

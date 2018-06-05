@@ -6,7 +6,7 @@
 #include "adapter-api/config/PublishingConfigReadVisitorBase.h"
 #include "adapter-api/ConfigStrings.h"
 
-#include "IConfigurationBuilder.h"
+#include "IPublishConfigBuilder.h"
 #include "InputType.h"
 
 #include <deque>
@@ -24,7 +24,7 @@ namespace adapter
         class PublishingConfigReadVisitor final : public PublishingConfigReadVisitorBase<T>
         {
             const std::shared_ptr<T> profile;
-            const std::shared_ptr<IConfigurationBuilder> builder;
+            const std::shared_ptr<IPublishConfigBuilder> builder;
 
             struct DbPosKindMapping
             {
@@ -34,7 +34,7 @@ namespace adapter
 
         public:
 
-            PublishingConfigReadVisitor(const YAML::Node& root, const std::shared_ptr<T>& profile, std::shared_ptr<IConfigurationBuilder> builder) :
+            PublishingConfigReadVisitor(const YAML::Node& root, const std::shared_ptr<T>& profile, std::shared_ptr<IPublishConfigBuilder> builder) :
                 PublishingConfigReadVisitorBase<T>(root),
                 profile(profile),
                 builder(std::move(builder))

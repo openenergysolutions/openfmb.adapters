@@ -32,7 +32,7 @@ namespace adapter
         template <class T>
         struct ProfileLoader
         {
-            static void handle(const YAML::Node& node, const Logger& logger, publisher_t publisher, std::shared_ptr<IConfigurationBuilder> builder)
+            static void handle(const YAML::Node& node, const Logger& logger, publisher_t publisher, std::shared_ptr<IPublishConfigBuilder> builder)
             {
                 const auto profile = std::make_shared<T>();
 
