@@ -1,6 +1,6 @@
 
-#ifndef OPENFMB_ADAPTER_MODBUS_CONFIGREADVISITOR_H
-#define OPENFMB_ADAPTER_MODBUS_CONFIGREADVISITOR_H
+#ifndef OPENFMB_ADAPTER_MODBUS_PUBLISHCONFIGREADVISITOR_H
+#define OPENFMB_ADAPTER_MODBUS_PUBLISHCONFIGREADVISITOR_H
 
 #include "IConfigurationBuilder.h"
 #include "ConfigStrings.h"
@@ -18,14 +18,14 @@ namespace adapter
         using setter_t = std::function<void (U&)>;
 
         template <class T>
-        class ConfigReadVisitor final : public PublishingConfigReadVisitorBase<T>
+        class PublishConfigReadVisitor final : public PublishingConfigReadVisitorBase<T>
         {
             const std::shared_ptr<T> profile;
             const std::shared_ptr<IConfigurationBuilder> builder;
 
         public:
 
-            ConfigReadVisitor(const YAML::Node& root, std::shared_ptr<T> profile, std::shared_ptr<IConfigurationBuilder> builder) :
+            PublishConfigReadVisitor(const YAML::Node& root, std::shared_ptr<T> profile, std::shared_ptr<IConfigurationBuilder> builder) :
                 PublishingConfigReadVisitorBase<T>(root),
                 profile(profile),
                 builder(std::move(builder))

@@ -3,7 +3,7 @@ set(MODBUS_PUBLIC_HEADERS
 )
 
 set(MODBUS_SOURCES
-        src/modbus/ConfigReadVisitor.h
+        src/modbus/PublishConfigReadVisitor.h
         src/modbus/ConfigStrings.h
         src/modbus/IConfigurationBuilder.h
         src/modbus/IRegister.h

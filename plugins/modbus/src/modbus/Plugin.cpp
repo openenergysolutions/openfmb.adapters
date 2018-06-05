@@ -1,7 +1,7 @@
 
 #include "Plugin.h"
 
-#include "ConfigReadVisitor.h"
+#include "PublishConfigReadVisitor.h"
 #include "PollHandler.h"
 #include "PollManager.h"
 
@@ -27,7 +27,7 @@ namespace adapter
             {
                 const auto profile = std::make_shared<T>();
 
-                ConfigReadVisitor<T> visitor(node, profile, handler);
+                PublishConfigReadVisitor<T> visitor(node, profile, handler);
                 visit(visitor);
 
                 handler->add_end_action(
