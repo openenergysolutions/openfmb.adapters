@@ -8,6 +8,7 @@
 
 #include "ConfigStrings.h"
 #include "InputType.h"
+#include "ControlCodeMeta.h"
 
 namespace adapter
 {
@@ -24,6 +25,24 @@ namespace adapter
             explicit ConfigWriteVisitor(YAML::Emitter& out) : ConfigWriteVisitorBase<T>(out) {}
 
         private:
+
+            void write_crob_keys(uint16_t index, uint32_t priority, opendnp3::ControlCode code)
+            {
+                this->out << YAML::BeginMap;
+
+                this->out << YAML::Key << keys::index << YAML::Value << index;
+                this->out << YAML::Key << keys::priority << YAML::Value << priority;
+                this->out << YAML::Key << keys::g12v1;
+
+                this->out << YAML::BeginMap;
+                this->out << YAML::Key << keys::control_code << YAML::Value << ControlCodeMeta::to_string(code);
+                this->out << YAML::Key << keys::count << YAML::Value << 1;
+                this->out << YAML::Key << keys::on_time_ms << YAML::Value << 1000;
+                this->out << YAML::Key << keys::off_time_ms << YAML::Value << 1000;
+                this->out << YAML::EndMap;
+
+                this->out << YAML::EndMap;
+            }
 
             void write_bcr_keys() override
             {
@@ -51,17 +70,54 @@ namespace adapter
 
             void write_check_conditions_interlockCheck_keys() override
             {
+                this->out << YAML::BeginMap;
 
+                this->out << YAML::Key << keys::when_true_execute;
+                this->out << YAML::BeginSeq;
+                this->write_crob_keys(0, 0, opendnp3::ControlCode::LATCH_ON);
+                this->out << YAML::EndSeq;
+
+                this->out << YAML::Key << keys::when_false_execute;
+                this->out << YAML::BeginSeq;
+                this->write_crob_keys(0, 1, opendnp3::ControlCode::LATCH_OFF);
+                this->out << YAML::EndSeq;
+
+                this->out << YAML::EndMap;
             }
 
             void write_check_conditions_synchroCheck_keys() override
             {
+                this->out << YAML::BeginMap;
 
+                this->out << YAML::Key << keys::when_true_execute;
+                this->out << YAML::BeginSeq;
+                this->write_crob_keys(1, 2, opendnp3::ControlCode::LATCH_ON);
+                this->out << YAML::EndSeq;
+
+                this->out << YAML::Key << keys::when_false_execute;
+                this->out << YAML::BeginSeq;
+                this->write_crob_keys(1, 3, opendnp3::ControlCode::LATCH_OFF);
+                this->out << YAML::EndSeq;
+
+                this->out << YAML::EndMap;
             }
 
             void write_switch_csg_keys() override
             {
-                
+                this->out << YAML::Comment("DNP3 adapter supports a SwitchCSG with a single value in schedule");
+                this->out << YAML::BeginMap;
+
+                this->out << YAML::Key << keys::when_true_execute;
+                this->out << YAML::BeginSeq;
+                this->write_crob_keys(2, 4, opendnp3::ControlCode::LATCH_ON);
+                this->out << YAML::EndSeq;
+
+                this->out << YAML::Key << keys::when_false_execute;
+                this->out << YAML::BeginSeq;
+                this->write_crob_keys(2, 5, opendnp3::ControlCode::LATCH_OFF);
+                this->out << YAML::EndSeq;
+
+                this->out << YAML::EndMap;
             }
         };
     }

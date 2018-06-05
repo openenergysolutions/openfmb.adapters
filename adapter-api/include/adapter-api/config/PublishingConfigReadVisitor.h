@@ -1,6 +1,6 @@
 
-#ifndef OPENFMB_ADAPTER_CONFIGVISITORBASE_H
-#define OPENFMB_ADAPTER_CONFIGVISITORBASE_H
+#ifndef OPENFMB_ADAPTER_PUBLISHINGCONFIGREADVISITOR_H
+#define OPENFMB_ADAPTER_PUBLISHINGCONFIGREADVISITOR_H
 
 #include "IModelVisitor.h"
 
@@ -18,8 +18,15 @@
 namespace adapter
 {
 
+    /**
+     * Base class that can be used in plugins that need to read a configuration and publish a profile
+     *
+     * Automatically handles message mRID, timestamp, etc
+     *
+     * @tparam T
+     */
     template <class T>
-    class ConfigReadVisitorBase : public IModelVisitor<T>
+    class PublishingConfigReadVisitor : public IModelVisitor<T>
     {
 
     public:
@@ -91,7 +98,7 @@ namespace adapter
 
         virtual void add_message_complete_action(const std::function<void (T&)>& init) = 0;
 
-        explicit ConfigReadVisitorBase(const YAML::Node& root)
+        explicit PublishingConfigReadVisitor(const YAML::Node& root)
         {
             current.push(root);
         }
@@ -112,7 +119,7 @@ namespace adapter
 
     template <class T>
     template <class S>
-    void ConfigReadVisitorBase<T>::configure_static_mrid(const YAML::Node& node, const S& setter)
+    void PublishingConfigReadVisitor<T>::configure_static_mrid(const YAML::Node& node, const S& setter)
     {
         const auto uuid_node = yaml::require(node, ::adapter::keys::mRID);
         const auto uuid = uuid_node.as<std::string>();
@@ -137,7 +144,7 @@ namespace adapter
 
     template<class T>
     template<class U>
-    void ConfigReadVisitorBase<T>::configure_static_name(const YAML::Node& node, mutable_getter_t<U, T> getter)
+    void PublishingConfigReadVisitor<T>::configure_static_name(const YAML::Node& node, mutable_getter_t<U, T> getter)
     {
         const auto name = yaml::require_string(node, ::adapter::keys::name);
 
@@ -157,7 +164,7 @@ namespace adapter
 
     template<class T>
     template<class U>
-    void ConfigReadVisitorBase<T>::configure_static_description(const YAML::Node& node, mutable_getter_t<U, T> getter)
+    void PublishingConfigReadVisitor<T>::configure_static_description(const YAML::Node& node, mutable_getter_t<U, T> getter)
     {
         const auto description = yaml::require_string(node, ::adapter::keys::description);
 
@@ -173,7 +180,7 @@ namespace adapter
     }
 
     template<class T>
-    void ConfigReadVisitorBase<T>::handle(const std::string& field_name, Accessor<commonmodule::MessageInfo, T> accessor)
+    void PublishingConfigReadVisitor<T>::handle(const std::string& field_name, Accessor<commonmodule::MessageInfo, T> accessor)
     {
         const auto node = this->get_config_node(field_name);
 
@@ -203,7 +210,7 @@ namespace adapter
     }
 
     template<class T>
-    void ConfigReadVisitorBase<T>::handle(const std::string& field_name, Accessor<commonmodule::ConductingEquipment, T> accessor)
+    void PublishingConfigReadVisitor<T>::handle(const std::string& field_name, Accessor<commonmodule::ConductingEquipment, T> accessor)
     {
         const auto node = this->get_config_node(field_name);
 
@@ -224,7 +231,7 @@ namespace adapter
     }
 
     template <class T>
-    void ConfigReadVisitorBase<T>::handle(const std::string& field_name, Accessor<commonmodule::IdentifiedObject, T> accessor)
+    void PublishingConfigReadVisitor<T>::handle(const std::string& field_name, Accessor<commonmodule::IdentifiedObject, T> accessor)
     {
         const auto node = this->get_config_node(field_name);
 

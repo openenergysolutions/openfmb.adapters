@@ -3,7 +3,7 @@
 #define OPENFMB_ADAPTER_DNP3_CONFIGREADVISITOR_H
 
 
-#include "adapter-api/config/ConfigReadVisitorBase.h"
+#include "adapter-api/config/PublishingConfigReadVisitor.h"
 #include "adapter-api/ConfigStrings.h"
 
 #include "IConfigurationBuilder.h"
@@ -21,7 +21,7 @@ namespace adapter
     namespace dnp3
     {
         template <class T>
-        class ConfigReadVisitor final : public ConfigReadVisitorBase<T>
+        class ConfigReadVisitor final : public PublishingConfigReadVisitor<T>
         {
             const std::shared_ptr<T> profile;
             const std::shared_ptr<IConfigurationBuilder> builder;
@@ -35,7 +35,7 @@ namespace adapter
         public:
 
             ConfigReadVisitor(const YAML::Node& root, const std::shared_ptr<T>& profile, const std::shared_ptr<IConfigurationBuilder>& builder) :
-                ConfigReadVisitorBase<T>(root),
+                PublishingConfigReadVisitor<T>(root),
                 profile(profile),
                 builder(builder)
             {}

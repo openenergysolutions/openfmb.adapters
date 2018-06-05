@@ -103,14 +103,10 @@ namespace adapter
             this->out << YAML::BeginMap;
 
             this->out << YAML::Value << keys::interlockCheck;
-            this->out << YAML::BeginMap;
             this->write_check_conditions_interlockCheck_keys();
-            this->out << YAML::EndMap;
 
             this->out << YAML::Value << keys::synchroCheck;
-            this->out << YAML::BeginMap;
             this->write_check_conditions_synchroCheck_keys();
-            this->out << YAML::EndMap;
 
             this->out << YAML::EndMap;
         }
@@ -118,9 +114,7 @@ namespace adapter
         void handle(const std::string& field_name, Accessor <switchmodule::SwitchCSG, T> accessor) final
         {
             this->out << YAML::Key << field_name;
-            this->out << YAML::BeginMap;
             this->write_switch_csg_keys();
-            this->out << YAML::EndMap;
         }
 
         void handle(const std::string& field_name, Accessor<commonmodule::ConductingEquipment, T> accessor) final

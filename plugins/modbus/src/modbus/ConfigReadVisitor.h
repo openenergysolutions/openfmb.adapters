@@ -8,7 +8,7 @@
 #include "Register16.h"
 #include "Register32.h"
 
-#include <adapter-api/config/ConfigReadVisitorBase.h>
+#include <adapter-api/config/PublishingConfigReadVisitor.h>
 
 namespace adapter
 {
@@ -18,7 +18,7 @@ namespace adapter
         using setter_t = std::function<void (U&)>;
 
         template <class T>
-        class ConfigReadVisitor final : public ConfigReadVisitorBase<T>
+        class ConfigReadVisitor final : public PublishingConfigReadVisitor<T>
         {
             const std::shared_ptr<T> profile;
             const std::shared_ptr<IConfigurationBuilder> builder;
@@ -26,7 +26,7 @@ namespace adapter
         public:
 
             ConfigReadVisitor(const YAML::Node& root, std::shared_ptr<T> profile, std::shared_ptr<IConfigurationBuilder> builder) :
-                ConfigReadVisitorBase<T>(root),
+                PublishingConfigReadVisitor<T>(root),
                 profile(profile),
                 builder(std::move(builder))
             {}

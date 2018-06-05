@@ -32,8 +32,16 @@ namespace adapter
             constexpr const char* const input_type = "input_type";
             constexpr const char* const high = "high";
             constexpr const char* const low = "low";
+            constexpr const char* const priority = "priority";
+            constexpr const char* const g12v1 = "g12v1";
+            constexpr const char* const control_code = "control-code";
+            constexpr const char* const count = "count";
+            constexpr const char* const on_time_ms = "on-time-ms";
+            constexpr const char* const off_time_ms = "off-time-ms";
+            constexpr const char* const when_true_execute = "when-true-execute";
+            constexpr const char* const when_false_execute = "when-false-execute";
         }
     }
 }
 
-#endif //OPENFMB_ADAPTER_DNP3_CONFIGSTRINGS_H
+#endif

@@ -15,7 +15,11 @@ set(DNP3_SOURCES
         src/dnp3/SOEHandler.cpp
         src/dnp3/PluginFactory.cpp
         src/dnp3/Plugin.cpp
-        src/dnp3/IConfigurationBuilder.h src/dnp3/InputType.h)
+        src/dnp3/IConfigurationBuilder.h
+        src/dnp3/InputType.h
+        src/dnp3/ControlCodeMeta.h
+        src/dnp3/ControlCodeMeta.cpp
+)
 
 set(DNP3_LIBS asiodnp3 asiopal opendnp3 openpal)
 
