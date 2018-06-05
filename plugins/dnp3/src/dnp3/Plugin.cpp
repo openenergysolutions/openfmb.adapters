@@ -12,7 +12,7 @@
 #include <adapter-api/ProfileHelpers.h>
 
 #include "ConfigStrings.h"
-#include "ConfigReadVisitor.h"
+#include "PublishingConfigReadVisitor.h"
 #include "LogAdapter.h"
 
 #include <stdexcept>
@@ -42,11 +42,11 @@ namespace adapter
                     profile->Clear();
                 });
 
-                ConfigReadVisitor<T> reader(node, profile, builder);
+                PublishingConfigReadVisitor<T> reader(node, profile, builder);
                 visit(reader);
 
                 // publish the profile when the response completes
-                builder->add_end_action([profile, publisher = publisher]()
+                builder->add_end_action([profile, publisher = std::move(publisher)]()
                 {
                     publisher->publish(*profile);
                 });

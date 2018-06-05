@@ -1,6 +1,6 @@
 
-#ifndef OPENFMB_ADAPTER_DNP3_CONFIGREADVISITOR_H
-#define OPENFMB_ADAPTER_DNP3_CONFIGREADVISITOR_H
+#ifndef OPENFMB_ADAPTER_DNP3_PUBLISHINGCONFIGREADVISITOR_H
+#define OPENFMB_ADAPTER_DNP3_PUBLISHINGCONFIGREADVISITOR_H
 
 
 #include "adapter-api/config/PublishingConfigReadVisitorBase.h"
@@ -21,7 +21,7 @@ namespace adapter
     namespace dnp3
     {
         template <class T>
-        class ConfigReadVisitor final : public PublishingConfigReadVisitorBase<T>
+        class PublishingConfigReadVisitor final : public PublishingConfigReadVisitorBase<T>
         {
             const std::shared_ptr<T> profile;
             const std::shared_ptr<IConfigurationBuilder> builder;
@@ -34,12 +34,11 @@ namespace adapter
 
         public:
 
-            ConfigReadVisitor(const YAML::Node& root, const std::shared_ptr<T>& profile, const std::shared_ptr<IConfigurationBuilder>& builder) :
+            PublishingConfigReadVisitor(const YAML::Node& root, const std::shared_ptr<T>& profile, std::shared_ptr<IConfigurationBuilder> builder) :
                 PublishingConfigReadVisitorBase<T>(root),
                 profile(profile),
-                builder(builder)
+                builder(std::move(builder))
             {}
-
 
             void handle(const std::string& field_name, Accessor<commonmodule::MV, T> accessor) override
             {
