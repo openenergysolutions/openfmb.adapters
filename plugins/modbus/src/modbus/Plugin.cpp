@@ -5,9 +5,10 @@
 #include "PollHandler.h"
 #include "PollManager.h"
 
-#include <adapter-api/config/generated/ModelVisitors.h>
 #include <adapter-api/ProfileHelpers.h>
 #include <adapter-api/util/YAMLTemplate.h>
+#include <adapter-api/config/ProfileType.h>
+#include <adapter-api/config/generated/ModelVisitors.h>
 
 #include "modbus/logging/LoggerFactory.h"
 #include "modbus/channel/IChannel.h"
@@ -20,11 +21,25 @@ namespace adapter
     {
 
         template <class T>
-        struct ProfileReader
+        class ProfileReader
         {
-            static void handle(std::shared_ptr<PollHandler> handler, const YAML::Node& node, publisher_t publisher)
+        public:
+            static void handle(const YAML::Node& node, message_bus_t bus, std::shared_ptr<PollHandler> handler)
             {
-                PublishConfigReadVisitor<T> visitor(node, std::move(publisher), std::move(handler));
+                if(adapter::get_profile_type<T>() == ProfileType::control)
+                {
+                    throw Exception("Modbus plugin doesn't support control profiles");
+                }
+                else
+                {
+                    handle_publish(node, std::move(bus), std::move(handler));
+                }
+            }
+
+        private:
+            static void handle_publish(const YAML::Node& node, message_bus_t bus, std::shared_ptr<PollHandler> handler)
+            {
+                PublishConfigReadVisitor<T> visitor(node, std::move(bus), std::move(handler));
                 visit(visitor);
             }
         };
@@ -54,8 +69,7 @@ namespace adapter
 
             const auto add_profile = [&](const YAML::Node & node)
             {
-                const auto profile_name = yaml::require_string(node, ::adapter::keys::name);
-                profiles::handle_one<ProfileReader>(profile_name, handler, node, bus);
+                profiles::handle_one<ProfileReader>(yaml::require_string(node, ::adapter::keys::name), node, bus, handler);
             };
 
             yaml::foreach(profiles_seq, add_profile);
