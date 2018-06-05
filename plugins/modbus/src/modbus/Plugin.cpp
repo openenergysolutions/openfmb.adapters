@@ -49,12 +49,16 @@ namespace adapter
         void Plugin::configure_session(const YAML::Node& node, message_bus_t bus)
         {
             const auto name = yaml::require_string(node, keys::name);
-            const auto profile_node = yaml::require(node, keys::profile);
-            const auto profile_name = yaml::require_string(profile_node, ::adapter::keys::name);
-
+            const auto profiles_seq = yaml::require(node, ::adapter::keys::profiles);
             const auto handler = std::make_shared<PollHandler>();
 
-            profiles::handle_one<ProfileReader>(profile_name, handler, profile_node, bus);
+            const auto add_profile = [&](const YAML::Node& node)
+            {
+                const auto profile_name = yaml::require_string(node, ::adapter::keys::name);
+                profiles::handle_one<ProfileReader>(profile_name, handler, node, bus);
+            };
+
+            yaml::foreach(profiles_seq, add_profile);
 
             this->logger.info("Session {} has {} mapped values", name, handler->num_mapped_values());
 
@@ -69,7 +73,7 @@ namespace adapter
             handler->add_necessary_byte_polls(poller, yaml::require(node, keys::allowed_byte_discontinuities).as<int>());
             handler->add_necessary_bit_polls(poller, yaml::require(node, keys::allowed_bit_discontinuities).as<int>());
 
-            this->start_actions.push_back([poller]()
+            this->start_actions.emplace_back([poller]()
             {
                 poller->start();
             });
