@@ -18,7 +18,7 @@ set(DNP3_SOURCES
         src/dnp3/Plugin.cpp
         src/dnp3/ControlCodeMeta.h
         src/dnp3/ControlCodeMeta.cpp
-        src/dnp3/CommandConfiguration.h)
+        src/dnp3/CommandConfiguration.h src/dnp3/CommandSequence.h src/dnp3/ICommandSequence.h)
 
 set(DNP3_LIBS asiodnp3 asiopal opendnp3 openpal)
 

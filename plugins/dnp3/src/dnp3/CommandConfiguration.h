@@ -13,70 +13,67 @@ namespace adapter
 {
     namespace dnp3
     {
-        // start a command operation
+        /**
+         * Something that can start a DNP3 command operation given the interface and the callback
+         */
         using command_action_t = std::function<void (opendnp3::ICommandProcessor&, const opendnp3::CommandCallbackT& callback)>;
 
-        class CommandAction
+        class PrioritizedCommand
         {
         public:
-            CommandAction(uint32_t priority, command_action_t action) : priority(priority), action(std::move(action)) {}
 
-            inline bool operator<(const CommandAction& rhs) const
+            PrioritizedCommand(command_action_t action, const uint32_t priority) :
+                action(std::move(action)),
+                priority(priority)
+            {}
+
+            inline bool operator<(const PrioritizedCommand& rhs) const
             {
                 return this->priority < rhs.priority;
             }
 
-        private:
-
-            uint32_t priority;
-            command_action_t action;
-        };
-
-        using command_action_sink_t = std::function<void (const CommandAction&)>;
-
-        template <class T>
-        using command_action_builder_t = std::function<void (const T& profile, const command_action_sink_t& sink)>;
-
-        template <class T>
-        class ICommandConfigBuilder
-        {
-        public:
-            virtual ~ICommandConfigBuilder() = default;
-
-            virtual void add(const command_action_builder_t<T>& builder) = 0;
-        };
-
-        template <class T>
-        class ICommandActionProcessor
-        {
-        public:
-            virtual ~ICommandActionProcessor() = default;
-
-            virtual std::priority_queue<CommandAction> get_actions(const T& profile) const = 0;
-        };
-
-        template <class T>
-        class CommandConfiguration final : public ICommandConfigBuilder<T>, public ICommandActionProcessor<T>
-        {
-
-        public:
-
-            std::priority_queue<CommandAction> get_actions(const T& profile) const override
+            void begin_execute(opendnp3::ICommandProcessor& processor, const opendnp3::CommandCallbackT& callback) const
             {
-                std::priority_queue<CommandAction> ret;
-                for(const auto& builder : this->builders)
-                {
-                    const auto add_to_queue = [&](const CommandAction & action)
-                    {
-                        ret.push(action);
-                    };
-
-                    builder(profile, add_to_queue);
-                }
-                return std::move(ret);
+                action(processor, callback);
             }
 
-            void add(const command_action_builder_t<T>& builder) override
+        private:
+            command_action_t action;
+            uint32_t priority;
+        };
+
+        /**
+         * Something that accepts prioritized commands
+         */
+        class ICommandSink
+        {
+        public:
+            virtual ~ICommandSink() = default;
+
+            virtual void add(const PrioritizedCommand& command) = 0;
+        };
+
+        /**
+         * Something that can send command actions to a sink given an instance of the prorfile
+         */
+        template <class T>
+        using command_action_builder_t = std::function<void (const T& profile, ICommandSink& sink)>;
+
+        template <class T>
+        class CommandConfiguration final
+        {
+
+        public:
+
+            void get_actions(const T& profile, ICommandSink& sink) const
+            {
+                for(const auto& builder : this->builders)
+                {
+                    builder(profile, sink);
+                }
+            }
+
+            void add(const command_action_builder_t<T>& builder)
             {
                 this->builders.push_back(builder);
             }
@@ -87,6 +84,7 @@ namespace adapter
             }
 
         private:
+
             std::vector<command_action_builder_t<T>> builders;
         };
     }

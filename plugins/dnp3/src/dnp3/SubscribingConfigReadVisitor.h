@@ -6,6 +6,7 @@
 #include <adapter-api/config/MessageInformation.h>
 
 #include "CommandConfiguration.h"
+#include "CommandSequence.h"
 #include "ControlCodeMeta.h"
 
 namespace adapter
@@ -41,15 +42,18 @@ namespace adapter
             protected:
                 void process(const T& message) override
                 {
-                    const auto commands = this->configuration->get_actions(message);
-                    if(commands.empty())
+                    CommandSequence sequence;
+                    this->configuration->get_actions(message, sequence);
+
+
+                    if(sequence.is_empty())
                     {
                         logger.warn("message of type '", T::descriptor()->name(), "' did not map to any commands");
                     }
                     else
                     {
                         // TODO  - forward the commands somewhere for execution
-                        logger.info("executing ", commands.size(), " commands!");
+                        logger.info("executing ", sequence.size(), " commands!");
                     }
                 }
             };
@@ -105,30 +109,8 @@ namespace adapter
             void handle(const std::string& field_name, Accessor<commonmodule::CheckConditions, T> accessor) override
             {
                 const auto node = this->get_config_node(field_name);
-                {
-                    const auto interlock = yaml::require(node, ::adapter::keys::interlockCheck);
-                    const auto when_true = read_control_list(yaml::require(interlock, keys::when_true_execute));
-                    const auto when_false = read_control_list(yaml::require(interlock, keys::when_false_execute));
-
-                    const auto builder = [ = ](const T & profile, const command_action_sink_t& add_action)
-                    {
-                        const auto conditions = accessor.get(profile);
-                        if(!conditions) return;
-                        if(conditions->has_interlockcheck())
-                        {
-                            if(conditions->interlockcheck().value())
-                            {
-                                for(const auto& action : when_true) add_action(action);
-                            }
-                            else
-                            {
-                                for(const auto& action : when_false) add_action(action);
-                            }
-                        }
-                    };
-
-                    this->configuration->add(builder);
-                }
+                this->handle_interlock_check(yaml::require(node, ::adapter::keys::interlockCheck), accessor);
+                this->handle_synchro_check(yaml::require(node, ::adapter::keys::synchroCheck), accessor);
             }
 
             void handle(const std::string& field_name, Accessor<switchmodule::SwitchCSG, T> accessor) override
@@ -148,6 +130,54 @@ namespace adapter
             void handle(const std::string& field_name, Accessor<commonmodule::MessageInfo, T> accessor) override {}
 
         private:
+
+            void handle_interlock_check(const YAML::Node& node, const Accessor<commonmodule::CheckConditions, T>& accessor)
+            {
+                const auto when_true = read_control_list(yaml::require(node, keys::when_true_execute));
+                const auto when_false = read_control_list(yaml::require(node, keys::when_false_execute));
+
+                const auto builder = [ = ](const T & profile, ICommandSink & sink)
+                {
+                    const auto conditions = accessor.get(profile);
+                    if(conditions && conditions->has_interlockcheck())
+                    {
+                        if(conditions->interlockcheck().value())
+                        {
+                            for(const auto& action : when_true) sink.add(action);
+                        }
+                        else
+                        {
+                            for(const auto& action : when_false) sink.add(action);
+                        }
+                    }
+                };
+
+                this->configuration->add(builder);
+            }
+
+            void handle_synchro_check(const YAML::Node& node, const Accessor<commonmodule::CheckConditions, T>& accessor)
+            {
+                const auto when_true = read_control_list(yaml::require(node, keys::when_true_execute));
+                const auto when_false = read_control_list(yaml::require(node, keys::when_false_execute));
+
+                const auto builder = [ = ](const T & profile, ICommandSink & sink)
+                {
+                    const auto conditions = accessor.get(profile);
+                    if(conditions && conditions->has_synchrocheck())
+                    {
+                        if(conditions->synchrocheck().value())
+                        {
+                            for(const auto& action : when_true) sink.add(action);
+                        }
+                        else
+                        {
+                            for(const auto& action : when_false) sink.add(action);
+                        }
+                    }
+                };
+
+                this->configuration->add(builder);
+            }
 
             struct Control
             {
@@ -176,25 +206,26 @@ namespace adapter
                        );
             }
 
-            static std::vector<CommandAction> read_control_list(const YAML::Node& node)
+            static std::vector<PrioritizedCommand> read_control_list(const YAML::Node& node)
             {
-                std::vector<CommandAction> actions;
+                std::vector<PrioritizedCommand> commands;
 
                 const auto read_one = [&](const YAML::Node & node)
                 {
                     const auto control = read_control(node);
 
-                    const auto action = [crob = control.crob, index = control.index](opendnp3::ICommandProcessor & processor, const opendnp3::CommandCallbackT & callback)
+                    const auto action = [crob = control.crob, index = control.index](
+                                            opendnp3::ICommandProcessor & processor, const opendnp3::CommandCallbackT & callback)
                     {
                         processor.DirectOperate(crob, index, callback);
                     };
 
-                    actions.emplace_back(control.priority, action);
+                    commands.emplace_back(action, control.priority);
                 };
 
                 yaml::foreach(node, read_one);
 
-                return actions;
+                return commands;
             }
 
         };
