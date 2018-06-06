@@ -14,6 +14,7 @@
 
 #include "ConfigStrings.h"
 #include "PublishingConfigReadVisitor.h"
+#include "SubscribingConfigReadVisitor.h"
 #include "LogAdapter.h"
 
 #include <stdexcept>
@@ -39,20 +40,27 @@ namespace adapter
             {
                 if(::adapter::get_profile_type<T>() == ProfileType::control)
                 {
-                    throw Exception("DNP3 adapter does not support subscribing to control profiles");
+                    handle_subscribe(node, logger, std::move(bus));
                 }
                 else
                 {
-                    handle_publish(node, logger, std::move(bus), std::move(pub_builder));
+                    handle_publish(node, std::move(bus), std::move(pub_builder));
                 }
             }
 
         private:
 
-            static void handle_publish(const YAML::Node& node, const Logger& logger, publisher_t publisher, std::shared_ptr<IPublishConfigBuilder> builder)
+            static void handle_publish(const YAML::Node& node, publisher_t publisher, std::shared_ptr<IPublishConfigBuilder> builder)
             {
-                PublishingConfigReadVisitor<T> reader(node, publisher, builder);
-                visit(reader);
+                PublishingConfigReadVisitor<T> visitor(node, publisher, builder);
+                visit(visitor);
+            }
+
+            static void handle_subscribe(const YAML::Node& node, const Logger& logger, message_bus_t bus)
+            {
+                SubscribingConfigReadVisitor<T> visitor(node);
+                visit(visitor);
+                visitor.subscribe(logger, std::move(bus));
             }
         };
 
@@ -84,12 +92,10 @@ namespace adapter
 
             MasterStackConfig config;
 
-
             const auto protocol = yaml::require(node, keys::protocol);
 
-            config.link.LocalAddr = yaml::require(protocol, keys::master_address).as<std::uint16_t>();
-            config.link.RemoteAddr = yaml::require(protocol, keys::outstation_address).as<std::uint16_t>();
-
+            config.link.LocalAddr = yaml::require_integer<uint16_t>(protocol, keys::master_address);
+            config.link.RemoteAddr = yaml::require_integer<uint16_t>(protocol, keys::outstation_address);
 
             // actively disable unsolicited mode, and don't re-enable it after integrity scan
             config.master.disableUnsolOnStartup = true;

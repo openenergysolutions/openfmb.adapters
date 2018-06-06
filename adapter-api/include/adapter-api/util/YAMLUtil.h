@@ -23,6 +23,8 @@ namespace adapter
 
         std::string require_string(const YAML::Node& parent, const std::string& key);
 
+        std::string require_uuid(const YAML::Node& parent, const std::string& key);
+
         /**
          * YAML-CPP does a poor job of detecting bad numeric conversions
          *
