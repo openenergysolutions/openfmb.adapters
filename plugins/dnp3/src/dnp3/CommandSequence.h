@@ -11,7 +11,11 @@ namespace adapter
     {
         class CommandSequence final: public ICommandSink, public ICommandSequence
         {
+            const std::string name;
+
         public:
+
+            CommandSequence(std::string name) : name(std::move(name)) {}
 
             /// --- implement ICommandSink ---
 
@@ -22,9 +26,9 @@ namespace adapter
 
             /// --- implement ICommandSequence ---
 
-            std::string name() override
+            std::string get_name() override
             {
-                return std::__cxx11::string();
+                return name;
             }
 
             bool begin_execute(opendnp3::ICommandProcessor& processor, const opendnp3::CommandCallbackT& callback) override

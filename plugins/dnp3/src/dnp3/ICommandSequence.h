@@ -19,7 +19,7 @@ namespace adapter
              * A name for the command sequence for logging purposes
              *
              */
-            virtual std::string name() = 0;
+            virtual std::string get_name() = 0;
             /**
              * Start execution of the next command
              *

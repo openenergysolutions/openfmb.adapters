@@ -42,18 +42,18 @@ namespace adapter
             protected:
                 void process(const T& message) override
                 {
-                    CommandSequence sequence;
-                    this->configuration->get_actions(message, sequence);
+                    CommandSequence sequence(T::descriptor()->name());
 
+                    this->configuration->get_actions(message, sequence);
 
                     if(sequence.is_empty())
                     {
-                        logger.warn("message of type '", T::descriptor()->name(), "' did not map to any commands");
+                        logger.warn("{} - contains no commands", sequence.get_name());
                     }
                     else
                     {
                         // TODO  - forward the commands somewhere for execution
-                        logger.info("executing ", sequence.size(), " commands!");
+                        logger.info("{} - executing {} commands!", sequence.get_name(), sequence.size());
                     }
                 }
             };
