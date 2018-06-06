@@ -21,7 +21,7 @@ namespace adapter
         {
             if(this->matches(message))
             {
-                this->receive(message);
+                this->process(message);
             }
         }
 
