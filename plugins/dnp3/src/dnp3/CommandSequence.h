@@ -13,6 +13,16 @@ namespace adapter
         {
             const std::string name;
 
+            class Compare
+            {
+            public:
+                bool operator()(const PrioritizedCommand& lhs, const PrioritizedCommand& rhs)
+                {
+                    // lower number is higher priority
+                    return lhs.get_priority() > rhs.get_priority();
+                }
+            };
+
         public:
 
             CommandSequence(std::string name) : name(std::move(name)) {}
@@ -52,7 +62,7 @@ namespace adapter
             }
 
         private:
-            std::priority_queue<PrioritizedCommand> queue;
+            std::priority_queue<PrioritizedCommand, std::vector<PrioritizedCommand>, Compare> queue;
         };
     }
 }

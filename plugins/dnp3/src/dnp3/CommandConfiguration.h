@@ -27,10 +27,7 @@ namespace adapter
                 priority(priority)
             {}
 
-            inline bool operator<(const PrioritizedCommand& rhs) const
-            {
-                return this->priority < rhs.priority;
-            }
+            inline uint32_t get_priority() const { return this->priority; }
 
             void begin_execute(opendnp3::ICommandProcessor& processor, const opendnp3::CommandCallbackT& callback) const
             {
