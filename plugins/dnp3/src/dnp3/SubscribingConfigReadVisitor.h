@@ -42,12 +42,11 @@ namespace adapter
                     return this->mRID == get_conducting_equip<T>(message).mrid();
                 }
 
-            protected:
                 void process(const T& message) override
                 {
                     auto sequence = std::make_unique<CommandSequence>(T::descriptor()->name());
 
-                    this->configuration->get_actions(message, *sequence);
+                    this->configuration->get_actions(message, this->logger, *sequence);
 
                     if(sequence->is_empty())
                     {
@@ -55,8 +54,6 @@ namespace adapter
                     }
                     else
                     {
-                        // TODO  - forward the commands somewhere for execution
-                        logger.info("{} - executing {} commands!", sequence->get_name(), sequence->size());
                         this->executor->add(std::move(sequence));
                     }
                 }
@@ -77,7 +74,7 @@ namespace adapter
                 logger.info("Subscribing to {} w/ mRID {}", T::descriptor()->name(), this->mRID);
 
                 bus->subscribe(
-                    std::make_shared<Subscriber>(this->mRID, std::move(logger), this->configuration, std::move(executor))
+                    std::make_shared<Subscriber>(this->mRID, logger, this->configuration, std::move(executor))
                 );
             }
 
@@ -107,7 +104,7 @@ namespace adapter
 
             void handle(const std::string& field_name, Accessor<commonmodule::ControlValue, T> accessor) override
             {
-
+                // TODO - implement modBlk
             }
 
             void handle(const std::string& field_name, Accessor<commonmodule::CheckConditions, T> accessor) override
@@ -119,7 +116,39 @@ namespace adapter
 
             void handle(const std::string& field_name, Accessor<switchmodule::SwitchCSG, T> accessor) override
             {
+                const auto node = this->get_config_node(field_name);
 
+                const auto when_true = read_control_list(yaml::require(node, keys::when_true_execute));
+                const auto when_false = read_control_list(yaml::require(node, keys::when_false_execute));
+
+                const auto builder = [=](const T& profile, Logger& logger, ICommandSink& sink)
+                {
+                    const auto switch_csg = accessor.get(profile);
+                    if(switch_csg)
+                    {
+                        if(switch_csg->crvpts_size() == 1)
+                        {
+                            const auto point = switch_csg->crvpts(0);
+                            if(point.has_pos())
+                            {
+                                if(point.pos().ctlval())
+                                {
+                                    for(const auto& action : when_true) sink.add(action);
+                                }
+                                else
+                                {
+                                    for(const auto& action : when_false) sink.add(action);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            logger.warn("Ignoring switch crvPts with size: {}", switch_csg->crvpts_size());
+                        }
+                    }
+                };
+
+                this->configuration->add(builder);
             }
 
             void handle(const std::string& field_name, Accessor<commonmodule::ConductingEquipment, T> accessor) override
@@ -140,7 +169,7 @@ namespace adapter
                 const auto when_true = read_control_list(yaml::require(node, keys::when_true_execute));
                 const auto when_false = read_control_list(yaml::require(node, keys::when_false_execute));
 
-                const auto builder = [ = ](const T & profile, ICommandSink & sink)
+                const auto builder = [ = ](const T& profile, Logger& logger, ICommandSink& sink)
                 {
                     const auto conditions = accessor.get(profile);
                     if(conditions && conditions->has_interlockcheck())
@@ -164,7 +193,7 @@ namespace adapter
                 const auto when_true = read_control_list(yaml::require(node, keys::when_true_execute));
                 const auto when_false = read_control_list(yaml::require(node, keys::when_false_execute));
 
-                const auto builder = [ = ](const T & profile, ICommandSink & sink)
+                const auto builder = [ = ](const T& profile, Logger& logger, ICommandSink& sink)
                 {
                     const auto conditions = accessor.get(profile);
                     if(conditions && conditions->has_synchrocheck())

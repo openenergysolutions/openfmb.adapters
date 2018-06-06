@@ -54,7 +54,7 @@ namespace adapter
          * Something that can send command actions to a sink given an instance of the prorfile
          */
         template <class T>
-        using command_action_builder_t = std::function<void (const T& profile, ICommandSink& sink)>;
+        using command_action_builder_t = std::function<void (const T& profile, Logger& logger, ICommandSink& sink)>;
 
         template <class T>
         class CommandConfiguration final
@@ -62,11 +62,11 @@ namespace adapter
 
         public:
 
-            void get_actions(const T& profile, ICommandSink& sink) const
+            void get_actions(const T& profile, Logger& logger, ICommandSink& sink) const
             {
                 for(const auto& builder : this->builders)
                 {
-                    builder(profile, sink);
+                    builder(profile, logger, sink);
                 }
             }
 
