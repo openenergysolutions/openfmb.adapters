@@ -7,6 +7,7 @@
 
 #include "CommandConfiguration.h"
 #include "CommandSequence.h"
+#include "ICommandSequenceExecutor.h"
 #include "ControlCodeMeta.h"
 
 namespace adapter
@@ -24,13 +25,15 @@ namespace adapter
                 const std::string mRID;
                 Logger logger;
                 const std::shared_ptr<CommandConfiguration<T>> configuration;
+                const std::shared_ptr<ICommandSequenceExecutor> executor;
 
             public:
 
-                Subscriber(std::string mRID, Logger logger, std::shared_ptr<CommandConfiguration<T>> configuration) :
+                Subscriber(std::string mRID, Logger logger, std::shared_ptr<CommandConfiguration<T>> configuration, std::shared_ptr<ICommandSequenceExecutor> executor) :
                     mRID(std::move(mRID)),
                     logger(std::move(logger)),
-                    configuration(std::move(configuration))
+                    configuration(std::move(configuration)),
+                    executor(std::move(executor))
                 {}
 
             protected:
@@ -42,18 +45,19 @@ namespace adapter
             protected:
                 void process(const T& message) override
                 {
-                    CommandSequence sequence(T::descriptor()->name());
+                    auto sequence = std::make_unique<CommandSequence>(T::descriptor()->name());
 
-                    this->configuration->get_actions(message, sequence);
+                    this->configuration->get_actions(message, *sequence);
 
-                    if(sequence.is_empty())
+                    if(sequence->is_empty())
                     {
-                        logger.warn("{} - contains no commands", sequence.get_name());
+                        logger.warn("{} - contains no commands", sequence->get_name());
                     }
                     else
                     {
                         // TODO  - forward the commands somewhere for execution
-                        logger.info("{} - executing {} commands!", sequence.get_name(), sequence.size());
+                        logger.info("{} - executing {} commands!", sequence->get_name(), sequence->size());
+                        this->executor->add(std::move(sequence));
                     }
                 }
             };
@@ -63,7 +67,7 @@ namespace adapter
             explicit SubscribingConfigReadVisitor(const YAML::Node& root) : ConfigReadVisitorBase<T>(root)
             {}
 
-            void subscribe(Logger logger, message_bus_t bus)
+            void subscribe(Logger logger, message_bus_t bus, std::shared_ptr<ICommandSequenceExecutor> executor)
             {
                 if(configuration->is_empty())
                 {
@@ -73,7 +77,7 @@ namespace adapter
                 logger.info("Subscribing to {} w/ mRID {}", T::descriptor()->name(), this->mRID);
 
                 bus->subscribe(
-                    std::make_shared<Subscriber>(this->mRID, std::move(logger), this->configuration)
+                    std::make_shared<Subscriber>(this->mRID, std::move(logger), this->configuration, std::move(executor))
                 );
             }
 

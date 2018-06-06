@@ -137,6 +137,9 @@ int run_application(const std::string& config_file_path)
     // wait for ctrl-c
     Shutdown::await(SIGINT);
 
+    // stop delivering messages
+    bus->shutdown();
+
     return 0;
 }
 

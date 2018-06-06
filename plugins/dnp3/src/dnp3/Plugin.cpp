@@ -16,6 +16,7 @@
 #include "PublishingConfigReadVisitor.h"
 #include "SubscribingConfigReadVisitor.h"
 #include "LogAdapter.h"
+#include "CommandSequenceExecutor.h"
 
 #include <stdexcept>
 
@@ -36,15 +37,15 @@ namespace adapter
 
         public:
 
-            static void handle(const YAML::Node& node, const Logger& logger, message_bus_t bus, std::shared_ptr<IPublishConfigBuilder> pub_builder)
+            static void handle(const YAML::Node& node, const Logger& logger, message_bus_t bus, std::shared_ptr<IPublishConfigBuilder> builder, std::shared_ptr<ICommandSequenceExecutor> executor)
             {
                 if(::adapter::get_profile_type<T>() == ProfileType::control)
                 {
-                    handle_subscribe(node, logger, std::move(bus));
+                    handle_subscribe(node, logger, std::move(bus), std::move(executor));
                 }
                 else
                 {
-                    handle_publish(node, std::move(bus), std::move(pub_builder));
+                    handle_publish(node, std::move(bus), std::move(builder));
                 }
             }
 
@@ -56,11 +57,11 @@ namespace adapter
                 visit(visitor);
             }
 
-            static void handle_subscribe(const YAML::Node& node, const Logger& logger, message_bus_t bus)
+            static void handle_subscribe(const YAML::Node& node, const Logger& logger, message_bus_t bus, std::shared_ptr<ICommandSequenceExecutor> executor)
             {
                 SubscribingConfigReadVisitor<T> visitor(node);
                 visit(visitor);
-                visitor.subscribe(logger, std::move(bus));
+                visitor.subscribe(logger, std::move(bus), std::move(executor));
             }
         };
 
@@ -102,6 +103,7 @@ namespace adapter
             config.master.unsolClassMask = ClassField::None();
 
             const auto handler = std::make_shared<SOEHandler>();
+            const auto executor = std::make_shared<CommandSequenceExecutor>(this->logger);
 
             const auto profiles = yaml::require(node, ::adapter::keys::profiles);
 
@@ -111,7 +113,11 @@ namespace adapter
         {
             profiles::handle_one<ProfileLoader>(
                 yaml::require_string(node, ::adapter::keys::name),
-                node, logger, bus, handler
+                node,
+                logger,
+                bus,
+                handler,
+                executor
             );
             }
             );
@@ -130,11 +136,21 @@ namespace adapter
                               config
                           );
 
-            // configure the integrity scan
-            master->AddClassScan(
-                ClassField::AllClasses(),
-                TimeDuration::Milliseconds(yaml::require(protocol, keys::integrity_poll_ms).as<uint32_t>())
-            );
+            if(handler->empty())
+            {
+                logger.info("No measurement handlers: ignoring poll configuration");
+            }
+            else
+            {
+                // configure the integrity scan
+                master->AddClassScan(
+                    ClassField::AllClasses(),
+                    TimeDuration::Milliseconds(yaml::require(protocol, keys::integrity_poll_ms).as<uint32_t>())
+                );
+            }
+
+            // start allowing the executor to dispatch controls
+            executor->start(master);
 
             this->masters.push_back(master);
         }

@@ -77,6 +77,10 @@ namespace adapter
             {
                 return this->counter_handlers.size();
             }
+            inline bool empty() const
+            {
+                return this->binary_handlers.empty() && this->analog_handlers.empty() && this->counter_handlers.empty();
+            }
 
         private:
 

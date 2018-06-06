@@ -20,6 +20,11 @@ namespace adapter
          */
         void finalize();
 
+        /**
+         * release all the subscriptions so that no more events can be dispatched
+         */
+        void shutdown();
+
         // ---- publish ----
 
         void publish(const resourcemodule::ResourceReadingProfile& message) override;

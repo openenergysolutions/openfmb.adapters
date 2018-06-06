@@ -11,6 +11,14 @@ namespace adapter
         this->finalized = true;
     }
 
+    void MessageBus::shutdown()
+    {
+        this->resource_reading->shutdown();
+        this->switch_reading->shutdown();
+        this->switch_status->shutdown();
+        this->switch_control->shutdown();
+    }
+
     void MessageBus::assert_prepublish()
     {
         if(!this->finalized) throw Exception("Publish(..) called before finalization");
