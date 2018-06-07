@@ -7,6 +7,7 @@ import com.oes.openfmb.generation.dds.ConvertToProto;
 import com.oes.openfmb.generation.document.CppFilePair;
 import com.oes.openfmb.generation.proto.MessageVisitorFile;
 import com.oes.openfmb.generation.proto.ModelVisitorFile;
+import openfmb.essmodule.ESSReadingProfile;
 import openfmb.resourcemodule.ResourceReadingProfile;
 import openfmb.switchmodule.SwitchControlProfile;
 import openfmb.switchmodule.SwitchReadingProfile;
@@ -45,14 +46,18 @@ public class Artifacts {
     {
         private static List<Descriptors.Descriptor> descriptors = Arrays.asList(
                 ResourceReadingProfile.getDescriptor(),
+                // switch
                 SwitchReadingProfile.getDescriptor(),
                 SwitchStatusProfile.getDescriptor(),
-                SwitchControlProfile.getDescriptor()
+                SwitchControlProfile.getDescriptor(),
+                // ess
+                ESSReadingProfile.getDescriptor()
         );
 
         private static List<String> includes = Arrays.asList(
                 "resourcemodule/resourcemodule.pb.h",
-                "switchmodule/switchmodule.pb.h"
+                "switchmodule/switchmodule.pb.h",
+                "essmodule/essmodule.pb.h"
         );
 
         private static final CppFilePair modelVisitors = new ModelVisitorFile(descriptors, includes);

@@ -13,6 +13,7 @@
 
 #include "resourcemodule/resourcemodule.pb.h"
 #include "switchmodule/switchmodule.pb.h"
+#include "essmodule/essmodule.pb.h"
 #include "../IModelVisitor.h"
 
 namespace adapter {
@@ -24,5 +25,7 @@ void visit(IModelVisitor<switchmodule::SwitchReadingProfile>& visitor);
 void visit(IModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
 
 void visit(IModelVisitor<switchmodule::SwitchControlProfile>& visitor);
+
+void visit(IModelVisitor<essmodule::ESSReadingProfile>& visitor);
 
 } // end namespace adapter

@@ -35,6 +35,8 @@ namespace adapter
 
         void publish(const switchmodule::SwitchStatusProfile& message) override;
 
+        void publish(const essmodule::ESSReadingProfile& message) override;
+
         // ---- subscribe ----
 
         void subscribe(subscriber_t<resourcemodule::ResourceReadingProfile> subscriber) override;
@@ -44,6 +46,8 @@ namespace adapter
         void subscribe(subscriber_t<switchmodule::SwitchReadingProfile> subscriber) override;
 
         void subscribe(subscriber_t<switchmodule::SwitchStatusProfile> subscriber) override;
+
+        void subscribe(subscriber_t<essmodule::ESSReadingProfile> subscriber) override;
 
 
     private:
@@ -59,6 +63,7 @@ namespace adapter
         const std::shared_ptr<SubscriberRegistry<switchmodule::SwitchControlProfile>> switch_control = std::make_shared<SubscriberRegistry<switchmodule::SwitchControlProfile>>();
         const std::shared_ptr<SubscriberRegistry<switchmodule::SwitchReadingProfile>> switch_reading = std::make_shared<SubscriberRegistry<switchmodule::SwitchReadingProfile>>();
         const std::shared_ptr<SubscriberRegistry<switchmodule::SwitchStatusProfile>> switch_status = std::make_shared<SubscriberRegistry<switchmodule::SwitchStatusProfile>>();
+        const std::shared_ptr<SubscriberRegistry<essmodule::ESSReadingProfile>> ess_reading = std::make_shared<SubscriberRegistry<essmodule::ESSReadingProfile>>();
     };
 
 }

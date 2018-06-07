@@ -4,6 +4,7 @@
 
 #include "proto-api/resourcemodule/resourcemodule.pb.h"
 #include "proto-api/switchmodule/switchmodule.pb.h"
+#include "proto-api/essmodule/essmodule.pb.h"
 
 #include <memory>
 
@@ -11,9 +12,7 @@ namespace adapter
 {
 
     /**
-     * Interface use to publish a particular kind of message to the adapter's internal bus
-     *
-     * @tparam T type of message being published
+     * Interface used to publish profiles to the bus
      */
     class IPublisher
     {
@@ -24,6 +23,7 @@ namespace adapter
         virtual void publish(const switchmodule::SwitchControlProfile& message) = 0;
         virtual void publish(const switchmodule::SwitchReadingProfile& message) = 0;
         virtual void publish(const switchmodule::SwitchStatusProfile& message) = 0;
+        virtual void publish(const essmodule::ESSReadingProfile& message) = 0;
     };
 
     using publisher_t = std::shared_ptr<IPublisher>;

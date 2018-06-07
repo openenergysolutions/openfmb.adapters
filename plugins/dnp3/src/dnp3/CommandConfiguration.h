@@ -27,7 +27,10 @@ namespace adapter
                 priority(priority)
             {}
 
-            inline uint32_t get_priority() const { return this->priority; }
+            inline uint32_t get_priority() const
+            {
+                return this->priority;
+            }
 
             void begin_execute(opendnp3::ICommandProcessor& processor, const opendnp3::CommandCallbackT& callback) const
             {

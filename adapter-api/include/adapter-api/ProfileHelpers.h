@@ -6,6 +6,7 @@
 
 #include <proto-api/resourcemodule/resourcemodule.pb.h>
 #include <proto-api/switchmodule/switchmodule.pb.h>
+#include <proto-api/essmodule/essmodule.pb.h>
 
 namespace adapter
 {
@@ -30,6 +31,9 @@ namespace adapter
             case (Profile::switch_status):
                 T<switchmodule::SwitchStatusProfile>::handle(std::forward<Args>(args)...);
                 break;
+            case (Profile::ess_reading):
+                T<essmodule::ESSReadingProfile>::handle(std::forward<Args>(args)...);
+                break;
             default:
                 throw Exception("Unhandled profile: ", ProfileMeta::to_string(profile));
             }
@@ -48,6 +52,8 @@ namespace adapter
                 return T<switchmodule::SwitchReadingProfile>::get(std::forward<Args>(args)...);
             case (Profile::switch_status):
                 return T<switchmodule::SwitchStatusProfile>::get(std::forward<Args>(args)...);
+            case (Profile::ess_reading):
+                return T<essmodule::ESSReadingProfile>::get(std::forward<Args>(args)...);
             default:
                 throw Exception("Unhandled profile: ", ProfileMeta::to_string(profile));
             }
@@ -72,6 +78,7 @@ namespace adapter
             T<switchmodule::SwitchControlProfile>::handle(std::forward<Args>(args)...);
             T<switchmodule::SwitchReadingProfile>::handle(std::forward<Args>(args)...);
             T<switchmodule::SwitchStatusProfile>::handle(std::forward<Args>(args)...);
+            T<essmodule::ESSReadingProfile>::handle(std::forward<Args>(args)...);
         }
     }
 }

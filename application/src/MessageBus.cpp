@@ -17,6 +17,7 @@ namespace adapter
         this->switch_reading->shutdown();
         this->switch_status->shutdown();
         this->switch_control->shutdown();
+        this->ess_reading->shutdown();
     }
 
     void MessageBus::assert_prepublish()
@@ -55,6 +56,12 @@ namespace adapter
         this->switch_status->add(subscriber);
     }
 
+    void MessageBus::subscribe(subscriber_t<essmodule::ESSReadingProfile> subscriber)
+    {
+        this->assert_presubscribe();
+        this->ess_reading->add(subscriber);
+    }
+
     void MessageBus::publish(const resourcemodule::ResourceReadingProfile& message)
     {
         this->assert_prepublish();
@@ -79,7 +86,11 @@ namespace adapter
         this->switch_status->publish(message);
     }
 
-
+    void MessageBus::publish(const essmodule::ESSReadingProfile& message)
+    {
+        this->assert_prepublish();
+        this->ess_reading->publish(message);
+    }
 }
 
 

@@ -3,6 +3,7 @@
 
 #include "proto-api/resourcemodule/resourcemodule.pb.h"
 #include "proto-api/switchmodule/switchmodule.pb.h"
+#include "proto-api/essmodule/essmodule.pb.h"
 
 namespace adapter
 {
@@ -61,6 +62,20 @@ namespace adapter
     const commonmodule::ConductingEquipment& get_conducting_equip(const switchmodule::SwitchControlProfile& profile)
     {
         return profile.protectedswitch().conductingequipment();
+    }
+
+    // ess reading
+
+    template <>
+    const commonmodule::MessageInfo& get_message_info(const essmodule::ESSReadingProfile& profile)
+    {
+        return profile.readingmessageinfo().messageinfo();
+    }
+
+    template <>
+    const commonmodule::ConductingEquipment& get_conducting_equip(const essmodule::ESSReadingProfile& profile)
+    {
+        return profile.ess().conductingequipment();
     }
 }
 

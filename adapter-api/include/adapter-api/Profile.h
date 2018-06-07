@@ -9,9 +9,12 @@ namespace adapter
     enum class Profile
     {
         resource_reading,
+        // switch
         switch_control,
         switch_reading,
-        switch_status
+        switch_status,
+        // ess
+        ess_reading
     };
 
     struct ProfileMeta
@@ -26,9 +29,12 @@ namespace adapter
         static void foreach_enum(const T& handler)
         {
             handler(Profile::resource_reading);
+
             handler(Profile::switch_control);
             handler(Profile::switch_reading);
             handler(Profile::switch_status);
+
+            handler(Profile::ess_reading);
         }
     };
 

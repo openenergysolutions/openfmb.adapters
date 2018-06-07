@@ -121,7 +121,7 @@ namespace adapter
                 const auto when_true = read_control_list(yaml::require(node, keys::when_true_execute));
                 const auto when_false = read_control_list(yaml::require(node, keys::when_false_execute));
 
-                const auto builder = [=](const T& profile, Logger& logger, ICommandSink& sink)
+                const auto builder = [ = ](const T & profile, Logger & logger, ICommandSink & sink)
                 {
                     const auto switch_csg = accessor.get(profile);
                     if(switch_csg)
@@ -169,7 +169,7 @@ namespace adapter
                 const auto when_true = read_control_list(yaml::require(node, keys::when_true_execute));
                 const auto when_false = read_control_list(yaml::require(node, keys::when_false_execute));
 
-                const auto builder = [ = ](const T& profile, Logger& logger, ICommandSink& sink)
+                const auto builder = [ = ](const T & profile, Logger & logger, ICommandSink & sink)
                 {
                     const auto conditions = accessor.get(profile);
                     if(conditions && conditions->has_interlockcheck())
@@ -193,7 +193,7 @@ namespace adapter
                 const auto when_true = read_control_list(yaml::require(node, keys::when_true_execute));
                 const auto when_false = read_control_list(yaml::require(node, keys::when_false_execute));
 
-                const auto builder = [ = ](const T& profile, Logger& logger, ICommandSink& sink)
+                const auto builder = [ = ](const T & profile, Logger & logger, ICommandSink & sink)
                 {
                     const auto conditions = accessor.get(profile);
                     if(conditions && conditions->has_synchrocheck())

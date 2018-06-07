@@ -5,6 +5,7 @@
 
 #include "resourcemodule/resourcemodule.pb.h"
 #include "switchmodule/switchmodule.pb.h"
+#include "essmodule/essmodule.pb.h"
 
 namespace adapter
 {
@@ -21,6 +22,8 @@ namespace adapter
             return switchmodule::SwitchReadingProfile::descriptor()->name();
         case(Profile::switch_status):
             return switchmodule::SwitchStatusProfile::descriptor()->name();
+        case(Profile::ess_reading):
+            return essmodule::ESSReadingProfile::descriptor()->name();
         default:
             throw Exception("Unhandled profile enum: ", static_cast<int>(profile));
         }
@@ -43,6 +46,10 @@ namespace adapter
         else if(name == to_string(Profile::switch_status))
         {
             return Profile::switch_status;
+        }
+        else if(name == to_string(Profile::ess_reading))
+        {
+            return Profile::ess_reading;
         }
         else
         {

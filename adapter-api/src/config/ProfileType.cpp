@@ -3,6 +3,7 @@
 
 #include "proto-api/resourcemodule/resourcemodule.pb.h"
 #include "proto-api/switchmodule/switchmodule.pb.h"
+#include "proto-api/essmodule/essmodule.pb.h"
 
 namespace adapter
 {
@@ -30,6 +31,11 @@ namespace adapter
         return ProfileType::control;
     }
 
+    template <>
+    ProfileType get_profile_type<essmodule::ESSReadingProfile>()
+    {
+        return ProfileType::reading;
+    }
 }
 
 
