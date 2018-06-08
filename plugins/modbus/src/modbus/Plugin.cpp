@@ -69,7 +69,12 @@ namespace adapter
 
             const auto add_profile = [&](const YAML::Node & node)
             {
-                profiles::handle_one<ProfileReader>(yaml::require_string(node, ::adapter::keys::name), node, bus, handler);
+                profiles::handle_one<ProfileReader>(
+                    yaml::require_string(node, ::adapter::keys::name),
+                    node,
+                    bus,
+                    handler
+                );
             };
 
             yaml::foreach(profiles_seq, add_profile);

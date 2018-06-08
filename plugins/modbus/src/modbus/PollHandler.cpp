@@ -9,10 +9,9 @@ namespace adapter
 {
     namespace modbus
     {
-
-        void PollHandler::add_begin_action(action_t fun)
+        void PollHandler::add_begin_action(logger_action_t fun)
         {
-            this->begin_actions.push_back(fun);
+            this->begin_actions.push_back(std::move(fun));
         }
 
         void PollHandler::add_holding_register(uint16_t index, std::shared_ptr<IRegister> reg)
@@ -20,16 +19,16 @@ namespace adapter
             holding_registers[index].push_back(reg);
         }
 
-        void PollHandler::add_end_action(action_t fun)
+        void PollHandler::add_end_action(logger_action_t fun)
         {
-            this->end_actions.push_back(fun);
+            this->end_actions.push_back(std::move(fun));
         }
 
-        void PollHandler::begin()
+        void PollHandler::begin(Logger& logger)
         {
             for(auto& action : this->begin_actions)
             {
-                action();
+                action(logger);
             }
         }
 
@@ -48,11 +47,11 @@ namespace adapter
             }
         }
 
-        void PollHandler::end()
+        void PollHandler::end(Logger& logger)
         {
             for(auto& action : this->end_actions)
             {
-                action();
+                action(logger);
             }
         }
 
@@ -94,6 +93,7 @@ namespace adapter
         {
             // TODO: Implement this for coils and discrete inputs
         }
+
     }
 
 }

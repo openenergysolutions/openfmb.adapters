@@ -4,6 +4,8 @@
 
 #include "modbus/messages/ReadHoldingRegistersResponse.h"
 
+#include <adapter-api/Logger.h>
+
 namespace adapter
 {
     namespace modbus
@@ -19,7 +21,7 @@ namespace adapter
             /**
              * called prior to beginning a sequence of polls
              */
-            virtual void begin() = 0;
+            virtual void begin(Logger& logger) = 0;
 
             /**
              * called after receiving a response to record some state
@@ -29,7 +31,7 @@ namespace adapter
             /**
              * called after polls are complete to fill and publish a message
              */
-            virtual void end() = 0;
+            virtual void end(Logger& logger) = 0;
 
             /**
              *

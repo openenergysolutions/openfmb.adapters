@@ -31,7 +31,7 @@ namespace adapter
                 publisher(std::move(publisher)),
                 builder(std::move(builder))
             {
-                this->builder->add_begin_action([profile = this->profile]()
+                this->builder->add_begin_action([profile = this->profile](Logger&)
                 {
                     profile->Clear();
                 });
@@ -40,7 +40,7 @@ namespace adapter
             ~PublishConfigReadVisitor()
             {
                 this->builder->add_end_action(
-                    [profile = this->profile, publisher = this->publisher]()
+                    [profile = this->profile, publisher = this->publisher](Logger&)
                 {
                     publisher->publish(*profile);
                 }
@@ -118,8 +118,11 @@ namespace adapter
             {
                 const auto node = this->get_config_node(field_name);
                 this->configure_boolean(
-                        yaml::require(node, ::adapter::keys::stVal),
-                        [accessor](T& profile, bool value) { accessor.create(profile)->set_stval(value); }
+                    yaml::require(node, ::adapter::keys::stVal),
+                    [accessor](T & profile, bool value)
+                {
+                    accessor.create(profile)->set_stval(value);
+                }
                 );
             }
 
@@ -127,8 +130,11 @@ namespace adapter
             {
                 const auto node = this->get_config_node(field_name);
                 this->configure_boolean(
-                        yaml::require(node, ::adapter::keys::ctlVal),
-                        [accessor](T& profile, bool value) { accessor.create(profile)->set_ctlval(value); }
+                    yaml::require(node, ::adapter::keys::ctlVal),
+                    [accessor](T & profile, bool value)
+                {
+                    accessor.create(profile)->set_ctlval(value);
+                }
                 );
             }
 
@@ -136,48 +142,56 @@ namespace adapter
             {
                 const auto node = this->get_config_node(field_name);
                 this->configure_float(
-                        node,
-                        [accessor](T& profile, float value) { accessor.create(profile)->set_value(value); }
+                    node,
+                    [accessor](T & profile, float value)
+                {
+                    accessor.create(profile)->set_value(value);
+                }
                 );
             }
 
             void handle(const std::string& field_name, PrimitiveAccessor<commonmodule::StateKind, T> accessor) override
             {
-                this->configure_enum<commonmodule::StateKind>(this->get_config_node(field_name), accessor, *commonmodule::StateKind_descriptor());
+                this->configure_enum<commonmodule::StateKind>(this->get_config_node(field_name), accessor, commonmodule::StateKind_descriptor());
             }
 
         private:
 
             template <class E>
-            void configure_enum(const YAML::Node& node, PrimitiveAccessor<E, T> accessor, const google::protobuf::EnumDescriptor& descriptor)
+            void configure_enum(const YAML::Node& node, PrimitiveAccessor<E, T> accessor, google::protobuf::EnumDescriptor const* descriptor)
             {
                 const auto mask = yaml::require_integer<uint16_t>(node, keys::mask);
                 std::map<uint16_t, E> mapping;
                 yaml::foreach(
-                        yaml::require(node, keys::mapping),
-                        [&mapping, &descriptor](const YAML::Node& item)
-                        {
-                            const auto value = yaml::require_integer<uint16_t>(item, keys::value);
-                            const auto name = yaml::require_string(item, keys::name);
-                            const auto value_descriptor = descriptor.FindValueByName(name);
-                            if(!value_descriptor)
-                            {
-                                throw Exception("Bad ", descriptor.name(), " enum name: ", name);
-                            }
-                            mapping[value] = static_cast<E>(value_descriptor->number());
-                        }
+                    yaml::require(node, keys::mapping),
+                    [&mapping, &descriptor](const YAML::Node& item)
+            {
+                const auto value = yaml::require_integer<uint16_t>(item, keys::value);
+                    const auto name = yaml::require_string(item, keys::name);
+                    const auto value_descriptor = descriptor->FindValueByName(name);
+                    if(!value_descriptor)
+                    {
+                        throw Exception("Bad ", descriptor->name(), " enum name: ", name);
+                    }
+                    mapping[value] = static_cast<E>(value_descriptor->number());
+                }
                 );
 
                 this->map_register16(
-                        node,
-                        [accessor, mask, mapping = std::move(mapping)](T & profile, const std::shared_ptr<Register16>& reg)
-                        {
-                            const auto entry = mapping.find(reg->to_uint16() & mask);
-                            if(entry != mapping.end())
-                            {
-                                accessor.set(profile, entry->second);
-                            }
-                        }
+                    node,
+                    [accessor, mask, mapping = std::move(mapping), descriptor](T & profile, const std::shared_ptr<Register16>& reg, Logger & logger)
+                {
+                    const auto masked_value = reg->to_uint16() & mask;
+                    const auto entry = mapping.find(masked_value);
+                    if(entry == mapping.end())
+                    {
+                        logger.warn("No mapping to ", descriptor->name(), " for masked value:  ", masked_value);
+                    }
+                    else
+                    {
+                        accessor.set(profile, entry->second);
+                    }
+                }
                 );
             }
 
@@ -185,11 +199,11 @@ namespace adapter
             {
                 const auto mask = yaml::require_integer<uint16_t>(node, keys::mask);
                 this->map_register16(
-                        node,
-                        [setter, mask](T & profile, const std::shared_ptr<Register16>& reg)
-                        {
-                            setter(profile, (reg->to_uint16() & mask) != 0);
-                        }
+                    node,
+                    [setter, mask](T & profile, const std::shared_ptr<Register16>& reg, Logger&)
+                {
+                    setter(profile, (reg->to_uint16() & mask) != 0);
+                }
                 );
             }
 
@@ -203,42 +217,42 @@ namespace adapter
                     break;
                 case (MappingType::uint16):
                     this->map_register16(node, [setter, scale = get_float_scale(node)](T & profile,
-                                         const std::shared_ptr<Register16>& reg)
+                                         const std::shared_ptr<Register16>& reg, Logger&)
                     {
                         setter(profile, reg->to_uint16() * scale);
                     });
                     break;
                 case (MappingType::sint16):
                     this->map_register16(node, [setter, scale = get_float_scale(node)](T & profile,
-                                         const std::shared_ptr<Register16>& reg)
+                                         const std::shared_ptr<Register16>& reg, Logger&)
                     {
                         setter(profile, reg->to_sint16() * scale);
                     });
                     break;
                 case (MappingType::uint32):
                     this->map_register32(node, [setter, scale = get_float_scale(node)](T & profile,
-                                         const std::shared_ptr<Register32>& reg)
+                                         const std::shared_ptr<Register32>& reg, Logger&)
                     {
                         setter(profile, reg->to_uint32() * scale);
                     });
                     break;
                 case (MappingType::sint32):
                     this->map_register32(node, [setter, scale = get_float_scale(node)](T & profile,
-                                         const std::shared_ptr<Register32>& reg)
+                                         const std::shared_ptr<Register32>& reg, Logger&)
                     {
                         setter(profile, reg->to_sint32() * scale);
                     });
                     break;
                 case (MappingType::uint32_with_modulus):
                     this->map_register32(node, [setter, scale = get_float_scale(node), modulus = get_modulus(node)]
-                                         (T & profile, const std::shared_ptr<Register32>& reg)
+                                         (T & profile, const std::shared_ptr<Register32>& reg, Logger&)
                     {
                         setter(profile, reg->to_uint32(modulus) * scale);
                     });
                     break;
                 case (MappingType::sint32_with_modulus):
                     this->map_register32(node, [setter, scale = get_float_scale(node), modulus = get_modulus(node)]
-                                         (T & profile, const std::shared_ptr<Register32>& reg)
+                                         (T & profile, const std::shared_ptr<Register32>& reg, Logger&)
                     {
                         setter(profile, reg->to_sint32(modulus) * scale);
                     });
@@ -257,36 +271,36 @@ namespace adapter
                 case(MappingType::none):
                     break;
                 case(MappingType::uint16):
-                    this->map_register16(node, [accessor](T & profile, const std::shared_ptr<Register16>& reg)
+                    this->map_register16(node, [accessor](T & profile, const std::shared_ptr<Register16>& reg, Logger&)
                     {
                         accessor.create(profile)->set_actval(reg->to_uint16());
                     });
                     break;
                 case(MappingType::sint16):
-                    this->map_register16(node, [accessor](T & profile, const std::shared_ptr<Register16>& reg)
+                    this->map_register16(node, [accessor](T & profile, const std::shared_ptr<Register16>& reg, Logger&)
                     {
                         accessor.create(profile)->set_actval(reg->to_sint16());
                     });
                     break;
                 case(MappingType::uint32):
-                    this->map_register32(node, [accessor](T & profile, const std::shared_ptr<Register32>& reg)
+                    this->map_register32(node, [accessor](T & profile, const std::shared_ptr<Register32>& reg, Logger&)
                     {
                         accessor.create(profile)->set_actval(reg->to_uint32());
                     });
                     break;
                 case(MappingType::sint32):
-                    this->map_register32(node, [accessor](T & profile, const std::shared_ptr<Register32>& reg)
+                    this->map_register32(node, [accessor](T & profile, const std::shared_ptr<Register32>& reg, Logger&)
                     {
                         accessor.create(profile)->set_actval(reg->to_sint32());
                     });
                 case(MappingType::uint32_with_modulus):
-                    this->map_register32(node, [accessor, modulus = get_modulus(node)](T & profile, const std::shared_ptr<Register32>& reg)
+                    this->map_register32(node, [accessor, modulus = get_modulus(node)](T & profile, const std::shared_ptr<Register32>& reg, Logger&)
                     {
                         accessor.create(profile)->set_actval(reg->to_uint32(modulus));
                     });
                     break;
                 case(MappingType::sint32_with_modulus):
-                    this->map_register32(node, [accessor, modulus = get_modulus(node)](T & profile, const std::shared_ptr<Register32>& reg)
+                    this->map_register32(node, [accessor, modulus = get_modulus(node)](T & profile, const std::shared_ptr<Register32>& reg, Logger&)
                     {
                         accessor.create(profile)->set_actval(reg->to_sint32(modulus));
                     });
@@ -316,17 +330,17 @@ namespace adapter
 
                 this->builder->add_holding_register(index, reg);
 
-                this->builder->add_begin_action([reg]()
+                this->builder->add_begin_action([reg](Logger & logger)
                 {
                     reg->reset();
                 });
 
                 this->builder->add_end_action(
-                    [reg, setter, profile = this->profile]()
+                    [reg, setter, profile = this->profile](Logger & logger)
                 {
                     if(reg->is_set())
                     {
-                        setter(*profile, reg);
+                        setter(*profile, reg, logger);
                     }
                 }
                 );
@@ -343,17 +357,17 @@ namespace adapter
                 this->builder->add_holding_register(lower_index, reg->get_lower());
                 this->builder->add_holding_register(upper_index, reg->get_upper());
 
-                this->builder->add_begin_action([reg]()
+                this->builder->add_begin_action([reg](Logger&)
                 {
                     reg->reset();
                 });
 
                 this->builder->add_end_action(
-                    [reg, setter, profile = this->profile]()
+                    [reg, setter, profile = this->profile](Logger & logger)
                 {
                     if(reg->is_set())
                     {
-                        setter(*profile, reg);
+                        setter(*profile, reg, logger);
                     }
                 }
                 );
@@ -363,7 +377,7 @@ namespace adapter
 
             void add_message_init_action(const std::function<void(T&)>& action) override
             {
-                this->builder->add_begin_action([action, profile = this->profile]()
+                this->builder->add_begin_action([action, profile = this->profile](Logger&)
                 {
                     action(*profile);
                 });
@@ -371,7 +385,7 @@ namespace adapter
 
             void add_message_complete_action(const std::function<void(T&)>& action) override
             {
-                this->builder->add_end_action([action, profile = this->profile]()
+                this->builder->add_end_action([action, profile = this->profile](Logger&)
                 {
                     action(*profile);
                 });

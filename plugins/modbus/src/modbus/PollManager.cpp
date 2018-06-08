@@ -38,8 +38,8 @@ namespace adapter
                                  std::shared_ptr<IPollHandler> handler,
                                  const std::chrono::steady_clock::duration& period,
                                  const session_t& session) :
-            logger(logger),
-            handler(handler),
+            logger(std::move(logger)),
+            handler(std::move(handler)),
             period(period),
             session(session)
         {}
@@ -56,7 +56,7 @@ namespace adapter
                 this->poll_sequence.clear();
                 for(auto& poll : this->polls) this->poll_sequence.push_back(poll);
                 this->poll_sequence_start = std::chrono::steady_clock::now();
-                this->handler->begin();
+                this->handler->begin(this->logger);
                 this->on_poll_success();
             }
         }
@@ -65,7 +65,7 @@ namespace adapter
         {
             if(this->poll_sequence.empty())
             {
-                this->handler->end();
+                this->handler->end(this->logger);
                 this->timer = this->session->start(period, [self = this->shared_from_this()]()
                 {
                     self->start();

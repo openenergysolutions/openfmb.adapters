@@ -20,17 +20,17 @@ namespace adapter
 
             /// ---- implement IPollHandler ----
 
-            void begin() override;
+            void begin(Logger& logger) override;
             void apply(const ::modbus::ReadHoldingRegistersResponse& response) override;
-            void end() override;
+            void end(Logger& logger) override;
 
             size_t num_mapped_values() const override;
 
             /// ---- helpers for configuring the mapping ----
 
-            void add_begin_action(action_t fun) override;
+            void add_begin_action(logger_action_t fun) override;
             void add_holding_register(uint16_t index, std::shared_ptr<IRegister> reg) override;
-            void add_end_action(action_t fun) override;
+            void add_end_action(logger_action_t fun) override;
 
             /// Poll creation from the mapping
             void add_necessary_byte_polls(std::shared_ptr<IPollManager> poll_manager, unsigned int allowed_discontinuities = 0);
@@ -39,8 +39,8 @@ namespace adapter
         private:
 
             std::map<uint16_t, std::vector<std::shared_ptr<IRegister>>> holding_registers;
-            std::vector<action_t> begin_actions;
-            std::vector<action_t> end_actions;
+            std::vector<logger_action_t> begin_actions;
+            std::vector<logger_action_t> end_actions;
         };
     }
 
