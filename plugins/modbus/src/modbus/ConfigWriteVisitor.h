@@ -5,6 +5,7 @@
 
 #include "ConfigStrings.h"
 #include "MappingType.h"
+#include "Source.h"
 
 namespace adapter
 {
@@ -57,7 +58,6 @@ namespace adapter
 
             void write_status_sps_keys() override
             {
-
                 this->write_boolean_keys(::adapter::keys::stVal);
             }
 
@@ -82,6 +82,7 @@ namespace adapter
 
             void write_enum_keys(const google::protobuf::EnumDescriptor& descriptor)
             {
+                this->out << YAML::Key << keys::source << SourceMeta::to_string(Source::none) << YAML::Comment("{none, holding_register}");
                 this->out << YAML::Key << keys::index << YAML::Value << 0;
                 this->out << YAML::Key << keys::mask << YAML::Value << "0xFFFF" << YAML::Comment("mask the register. map masked values to enum values");
                 this->out << YAML::Value << keys::mapping;
@@ -101,8 +102,10 @@ namespace adapter
 
             void write_boolean_keys(const char* name)
             {
+
                 this->out << YAML::Value << name;
                 this->out << YAML::BeginMap;
+                this->out << YAML::Key << keys::source << SourceMeta::to_string(Source::none) << YAML::Comment("{none, holding_register}");
                 this->out << YAML::Key << keys::index << YAML::Value << 0;
                 this->out << YAML::Key << keys::mask << YAML::Value << "0x0001" << YAML::Comment("mask the register. true if masked value != 0");
                 this->out << YAML::EndMap;

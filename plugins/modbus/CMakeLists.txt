@@ -21,6 +21,8 @@ set(MODBUS_SOURCES
         src/modbus/PluginFactory.cpp
         src/modbus/Register16.h
         src/modbus/Register32.h
+        src/modbus/Source.h
+        src/modbus/Source.cpp
         src/modbus/ICachedValue.h
         )
 

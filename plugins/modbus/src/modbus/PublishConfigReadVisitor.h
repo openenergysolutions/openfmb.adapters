@@ -7,6 +7,7 @@
 #include "MappingType.h"
 #include "Register16.h"
 #include "Register32.h"
+#include "Source.h"
 
 #include <adapter-api/config/PublishingConfigReadVisitorBase.h>
 
@@ -160,8 +161,16 @@ namespace adapter
             template <class E>
             void configure_enum(const YAML::Node& node, PrimitiveAccessor<E, T> accessor, google::protobuf::EnumDescriptor const* descriptor)
             {
+                const auto source = SourceMeta::from_string(yaml::require_string(node, keys::source));
+
+                if(source  != Source::holding_register)
+                {
+                    return;
+                }
+
                 const auto mask = yaml::require_integer<uint16_t>(node, keys::mask);
                 std::map<uint16_t, E> mapping;
+
                 yaml::foreach(
                     yaml::require(node, keys::mapping),
                     [&mapping, &descriptor](const YAML::Node& item)
@@ -197,14 +206,19 @@ namespace adapter
 
             void configure_boolean(const YAML::Node& node, const std::function<void (T&, bool)>& setter)
             {
-                const auto mask = yaml::require_integer<uint16_t>(node, keys::mask);
-                this->map_register16(
-                    node,
-                    [setter, mask](T & profile, const std::shared_ptr<Register16>& reg, Logger&)
+                const auto source = SourceMeta::from_string(yaml::require_string(node, keys::source));
+
+                if(source  == Source::holding_register)
                 {
-                    setter(profile, (reg->to_uint16() & mask) != 0);
+                    const auto mask = yaml::require_integer<uint16_t>(node, keys::mask);
+                    this->map_register16(
+                        node,
+                        [setter, mask](T & profile, const std::shared_ptr<Register16>& reg, Logger&)
+                    {
+                        setter(profile, (reg->to_uint16() & mask) != 0);
+                    }
+                    );
                 }
-                );
             }
 
             void configure_float(const YAML::Node& node, const std::function<void (T&, float)>& setter)
