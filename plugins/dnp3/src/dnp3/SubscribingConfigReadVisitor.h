@@ -143,12 +143,11 @@ namespace adapter
 
                 const auto builder = [ = ](const T & profile, Logger & logger, ICommandSink & sink)
                 {
-                    const auto switch_csg = accessor.get(profile);
-                    if(switch_csg)
+                    accessor.if_present(profile, [&](const switchmodule::SwitchCSG& switch_csg)
                     {
-                        if(switch_csg->crvpts_size() == 1)
+                        if(switch_csg.crvpts_size() == 1)
                         {
-                            const auto point = switch_csg->crvpts(0);
+                            const auto& point = switch_csg.crvpts(0);
                             if(point.has_pos())
                             {
                                 if(point.pos().ctlval())
@@ -163,9 +162,9 @@ namespace adapter
                         }
                         else
                         {
-                            logger.warn("Ignoring switch crvPts with size: {}", switch_csg->crvpts_size());
+                            logger.warn("Ignoring switch crvPts with size: {}", switch_csg.crvpts_size());
                         }
-                    }
+                    });
                 };
 
                 this->configuration->add(builder);
@@ -191,18 +190,20 @@ namespace adapter
 
                 const auto builder = [ = ](const T & profile, Logger & logger, ICommandSink & sink)
                 {
-                    const auto conditions = accessor.get(profile);
-                    if(conditions && conditions->has_interlockcheck())
+                    accessor.if_present(profile, [&](const commonmodule::CheckConditions& conditions)
                     {
-                        if(conditions->interlockcheck().value())
+                        if(conditions.has_interlockcheck())
                         {
-                            for(const auto& action : when_true) sink.add(action);
+                            if(conditions.interlockcheck().value())
+                            {
+                                for(const auto& action : when_true) sink.add(action);
+                            }
+                            else
+                            {
+                                for(const auto& action : when_false) sink.add(action);
+                            }
                         }
-                        else
-                        {
-                            for(const auto& action : when_false) sink.add(action);
-                        }
-                    }
+                    });
                 };
 
                 this->configuration->add(builder);
@@ -215,10 +216,9 @@ namespace adapter
 
                 const auto builder = [ = ](const T & profile, Logger & logger, ICommandSink & sink)
                 {
-                    const auto conditions = accessor.get(profile);
-                    if(conditions && conditions->has_synchrocheck())
+                    accessor.if_present(profile, [&](const commonmodule::CheckConditions& conditions)
                     {
-                        if(conditions->synchrocheck().value())
+                        if(conditions.synchrocheck().value())
                         {
                             for(const auto& action : when_true) sink.add(action);
                         }
@@ -226,7 +226,7 @@ namespace adapter
                         {
                             for(const auto& action : when_false) sink.add(action);
                         }
-                    }
+                    });
                 };
 
                 this->configuration->add(builder);

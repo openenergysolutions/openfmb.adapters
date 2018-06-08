@@ -54,7 +54,7 @@ namespace adapter
                 present_accessor(present_accessor)
         {}
 
-        bool present(const T &value) const override {
+        bool is_present(const T &value) const override {
             return present_accessor(value);
         }
 

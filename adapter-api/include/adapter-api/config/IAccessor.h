@@ -45,7 +45,7 @@ namespace adapter
         /**
          * Test if the value is present. Must be checked before calling get().
          */
-        virtual bool present(const T& value) const = 0;
+        virtual bool is_present(const T& value) const = 0;
 
         /**
          * A getter that does not mutate the value. Throws an exception if the value isn't present.
@@ -72,23 +72,20 @@ namespace adapter
 
         explicit Accessor(const std::shared_ptr<IAccessor<R, T>>& accessor) : accessor(accessor) {}
 
-        R const* get(const T& value) const
+        template <class U>
+        void if_present(const T& value, const U& handler) const
         {
-            return accessor->get(value);
+            const auto temp = accessor->get(value);
+            if(temp)
+            {
+                handler(*temp);
+            }
         }
 
         R* create(T& value) const
         {
             return accessor->create(value);
         }
-
-        inline const_getter_t<R, T> to_const_getter() const
-        {
-            return [accessor = this->accessor](const T & value)
-            {
-                return accessor->get(value);
-            };
-        };
 
         inline mutable_getter_t<R, T> to_mutable_getter() const
         {
@@ -99,6 +96,12 @@ namespace adapter
         };
 
     private:
+
+        R const* get(const T& value) const
+        {
+            return accessor->get(value);
+        }
+
         const std::shared_ptr<const IAccessor<R, T>> accessor;
     };
 
@@ -109,14 +112,13 @@ namespace adapter
 
         explicit PrimitiveAccessor(const std::shared_ptr<IPrimitiveAccessor<R, T>>& accessor) : accessor(accessor) {}
 
-        bool present(const T& value) const
+        template <class U>
+        void if_present(const T& value, const U& handler) const
         {
-            return accessor->present(value);
-        }
-
-        R get(const T& value) const
-        {
-            return accessor->get(value);
+            if(accessor->is_present(value))
+            {
+                handler(accessor->get(value));
+            }
         }
 
         void set(T& value, R primitive) const
