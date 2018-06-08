@@ -99,22 +99,34 @@ namespace adapter
 
         void handle(const std::string& field_name, Accessor <commonmodule::StatusSPS, T> accessor) final
         {
-
+            this->out << YAML::Key << field_name << YAML::Comment("StatusSPS");
+            this->out << YAML::BeginMap;
+            this->write_status_sps_keys();
+            this->out << YAML::EndMap;
         }
 
         void handle(const std::string& field_name, Accessor <commonmodule::ControlDPC, T> accessor) final
         {
-
+            this->out << YAML::Key << field_name << YAML::Comment("ControlDPC");
+            this->out << YAML::BeginMap;
+            this->write_control_dpc_keys();
+            this->out << YAML::EndMap;
         }
 
         void handle(const std::string& field_name, Accessor <google::protobuf::FloatValue, T> accessor) final
         {
-
+            this->out << YAML::Key << field_name << YAML::Comment("FloatValue");
+            this->out << YAML::BeginMap;
+            this->write_float_value_keys();
+            this->out << YAML::EndMap;
         }
 
         void handle(const std::string& field_name, PrimitiveAccessor <commonmodule::StateKind, T> accessor) final
         {
-
+            this->out << YAML::Key << field_name << YAML::Comment("StateKind");
+            this->out << YAML::BeginMap;
+            this->write_state_kind_keys();
+            this->out << YAML::EndMap;
         }
 
         void handle(const std::string& field_name, Accessor <commonmodule::CheckConditions, T> accessor) final
@@ -182,6 +194,14 @@ namespace adapter
         virtual void write_bcr_keys() = 0;
 
         virtual void write_status_dps_keys() = 0;
+
+        virtual void write_status_sps_keys() = 0;
+
+        virtual void write_control_dpc_keys() = 0;
+
+        virtual void write_float_value_keys() = 0;
+
+        virtual void write_state_kind_keys() = 0;
 
         virtual void write_check_conditions_interlockCheck_keys() = 0;
 

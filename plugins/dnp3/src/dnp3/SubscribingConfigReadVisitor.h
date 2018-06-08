@@ -143,7 +143,7 @@ namespace adapter
 
                 const auto builder = [ = ](const T & profile, Logger & logger, ICommandSink & sink)
                 {
-                    accessor.if_present(profile, [&](const switchmodule::SwitchCSG& switch_csg)
+                    accessor.if_present(profile, [&](const switchmodule::SwitchCSG & switch_csg)
                     {
                         if(switch_csg.crvpts_size() == 1)
                         {
@@ -190,7 +190,7 @@ namespace adapter
 
                 const auto builder = [ = ](const T & profile, Logger & logger, ICommandSink & sink)
                 {
-                    accessor.if_present(profile, [&](const commonmodule::CheckConditions& conditions)
+                    accessor.if_present(profile, [&](const commonmodule::CheckConditions & conditions)
                     {
                         if(conditions.has_interlockcheck())
                         {
@@ -216,7 +216,7 @@ namespace adapter
 
                 const auto builder = [ = ](const T & profile, Logger & logger, ICommandSink & sink)
                 {
-                    accessor.if_present(profile, [&](const commonmodule::CheckConditions& conditions)
+                    accessor.if_present(profile, [&](const commonmodule::CheckConditions & conditions)
                     {
                         if(conditions.synchrocheck().value())
                         {

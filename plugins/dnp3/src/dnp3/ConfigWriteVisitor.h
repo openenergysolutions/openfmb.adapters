@@ -24,7 +24,7 @@ namespace adapter
 
             explicit ConfigWriteVisitor(YAML::Emitter& out) : ConfigWriteVisitorBase<T>(out) {}
 
-        private:
+        protected:
 
             void write_crob_keys(uint16_t index, uint32_t priority, opendnp3::ControlCode code)
             {
@@ -118,6 +118,26 @@ namespace adapter
                 this->out << YAML::EndSeq;
 
                 this->out << YAML::EndMap;
+            }
+
+            void write_status_sps_keys() override
+            {
+                throw Exception("not implemented");
+            }
+
+            void write_control_dpc_keys() override
+            {
+                throw Exception("not implemented");
+            }
+
+            void write_float_value_keys() override
+            {
+                throw Exception("not implemented");
+            }
+
+            void write_state_kind_keys() override
+            {
+                throw Exception("not implemented");
             }
         };
     }

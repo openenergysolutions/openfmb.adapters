@@ -54,6 +54,39 @@ namespace adapter
             {
                 throw Exception("Not implemented");
             }
+
+            void write_status_sps_keys() override
+            {
+
+                this->write_boolean_keys(::adapter::keys::stVal);
+            }
+
+            void write_control_dpc_keys() override
+            {
+                throw Exception("Not implemented");
+            }
+
+            void write_float_value_keys() override
+            {
+                throw Exception("Not implemented");
+            }
+
+            void write_state_kind_keys() override
+            {
+                throw Exception("Not implemented");
+            }
+
+        private:
+
+            void write_boolean_keys(const char* name)
+            {
+                this->out << YAML::Value << name;
+                this->out << YAML::BeginMap;
+                this->out << YAML::Key << keys::type << YAML::Value << keys::holding_register;
+                this->out << YAML::Key << keys::index << YAML::Value << 0;
+                this->out << YAML::Key << keys::mask << YAML::Value << 0 << YAML::Comment("mask the register. true if masked value != 0");
+                this->out << YAML::EndMap;
+            }
         };
     }
 }
