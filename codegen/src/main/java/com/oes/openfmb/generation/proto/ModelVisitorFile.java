@@ -1,32 +1,36 @@
 package com.oes.openfmb.generation.proto;
 
 import com.google.protobuf.Descriptors;
+import com.google.protobuf.FloatValue;
 import com.oes.openfmb.generation.document.CppFilePair;
 import com.oes.openfmb.generation.document.Document;
 import com.oes.openfmb.generation.document.Documents;
 import com.oes.openfmb.generation.document.FileHeader;
 import com.oes.openfmb.util.FieldPathImpl;
 import openfmb.commonmodule.*;
+import openfmb.essmodule.ENG_ESSFunctionKind;
+import openfmb.essmodule.ENG_ESSFunctionParameter;
 import openfmb.switchmodule.SwitchCSG;
-import openfmb.switchmodule.SwitchControl;
 
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.*;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
-import java.util.Set;
 
 import static com.oes.openfmb.generation.document.Documents.*;
 
 public class ModelVisitorFile extends CppFilePair {
 
-    private final static Set<Descriptors.Descriptor> terminalMessages = new HashSet<>(
+    private final static Set<Descriptors.GenericDescriptor> handledTypes = new HashSet<>(
             Arrays.asList(
                 // measurement values that appear in reading/status profiles
                 CMV.getDescriptor(),
                 MV.getDescriptor(),
                 BCR.getDescriptor(),
                 StatusDPS.getDescriptor(),
+                StatusSPS.getDescriptor(),
+                ControlDPC.getDescriptor(),
+                FloatValue.getDescriptor(),
+                StateKind.getDescriptor(),
 
                 // generic meta-data stuff that appears in all profiles
                 MessageInfo.getDescriptor(),
@@ -36,15 +40,23 @@ public class ModelVisitorFile extends CppFilePair {
                 // stuff that appears in control profiles
                 ControlValue.getDescriptor(),
                 CheckConditions.getDescriptor(),
-                SwitchCSG.getDescriptor(),
+                SwitchCSG.getDescriptor()
+            )
+    );
 
-                // various static attributes not currently being handled
-                ConductingEquipmentTerminalReading.getDescriptor(),
-                ENG_CalcMethodKind.getDescriptor(),
-                ENG_PFSignKind.getDescriptor(),
-                ENS_BehaviourModeKind.getDescriptor(),
-                ENS_DynamicTestKind.getDescriptor(),
-                ENS_HealthKind.getDescriptor()
+    private final static Set<Descriptors.GenericDescriptor> ignoredTypes = new HashSet<>(
+            Arrays.asList(
+
+                    ConductingEquipmentTerminalReading.getDescriptor(),
+                    ENG_CalcMethodKind.getDescriptor(),
+                    ENG_PFSignKind.getDescriptor(),
+                    ENG_GridConnectModeKind.getDescriptor(),
+                    ENS_BehaviourModeKind.getDescriptor(),
+                    ENS_DynamicTestKind.getDescriptor(),
+                    ENS_HealthKind.getDescriptor(),
+
+                    ENG_ESSFunctionKind.getDescriptor(),
+                    ENG_ESSFunctionParameter.getDescriptor()
             )
     );
 
@@ -82,6 +94,7 @@ public class ModelVisitorFile extends CppFilePair {
 
         return join(
                 include("adapter-api/config/generated/" + headerFileName()),
+                include("adapter-api/util/Exception.h"),
                 include("../AccessorImpl.h"),
                 space,
                 namespace(
@@ -98,7 +111,7 @@ public class ModelVisitorFile extends CppFilePair {
         return StreamSupport.stream(descriptors.spliterator(), false);
     }
 
-    static private String cppMessageName(Descriptors.Descriptor descriptor)
+    static private String cppMessageName(Descriptors.GenericDescriptor descriptor)
     {
         return descriptor.getFullName().replace(".", "::");
     }
@@ -188,6 +201,8 @@ public class ModelVisitorFile extends CppFilePair {
                 {
                     return build(path, path.getInfo().field.getMessageType());
                 }
+            case ENUM:
+                return build(path, path.getInfo().field.getEnumType());
             case STRING:
                 if(path.getInfo().field.getName().equals("description"))
                 {
@@ -203,24 +218,55 @@ public class ModelVisitorFile extends CppFilePair {
         }
     }
 
-    private Document build(FieldPath path, Descriptors.Descriptor message)
+    private Document build(FieldPath path, Descriptors.EnumDescriptor descriptor)
     {
-        if(terminalMessages.contains(message))
+        if(handledTypes.contains(descriptor))
         {
-            return handler(path, message.getName());
+            return getPrimitiveHandler(path, descriptor.getName());
         }
-        else
+
+        if(ignoredTypes.contains(descriptor))
         {
-            return startMessageField(path, message);
+            return Documents.empty;
         }
+
+        throw new RuntimeException("Unhandled enum type: " + path);
     }
 
-    private static Document handler(FieldPath path, String type)
+    private Document build(FieldPath path, Descriptors.Descriptor message)
+    {
+        if(handledTypes.contains(message))
+        {
+            return getMessageHandler(path, message.getName());
+        }
+
+        if(ignoredTypes.contains(message))
+        {
+            return Documents.empty;
+        }
+
+
+        // otherwise, continue the recursion
+        return startMessageField(path, message);
+
+    }
+
+    private static Document getMessageHandler(FieldPath path, String type)
     {
         return line("visitor.handle(")
                 .indent(
                     line(quoted(path.getInfo().field.getName()) + ",")
-                    .append(accessor(path))
+                    .append(getMessageAccessor(path))
+                )
+                .append(");");
+    }
+
+    private static Document getPrimitiveHandler(FieldPath path, String type)
+    {
+        return line("visitor.handle(")
+                .indent(
+                        line(quoted(path.getInfo().field.getName()) + ",")
+                                .append(getPrimitiveAccessor(path))
                 )
                 .append(");");
     }
@@ -307,6 +353,38 @@ public class ModelVisitorFile extends CppFilePair {
         );
     }
 
+    private static String getPrimitiveSetterLambda(FieldPath path)
+    {
+        return String.format(
+                "[context = mutable_context%d](%s& profile, %s value) { return context(profile)->set_%s(value); }",
+                path.getInfo().depth,
+                cppMessageName(path.getRoot()),
+                cppMessageName(path.getInfo().getGenericDescriptor()),
+                path.getInfo().field.getName().toLowerCase()
+        );
+    }
+
+    private static String getPrimitiveGetterLambda(FieldPath path)
+    {
+        return String.format(
+                "[context = const_context%d](const %s& profile) { const auto temp = context(profile); return temp ? temp->%s() : throw Exception(\"Primitive value parent(s) not present: %s \"); }",
+                path.getInfo().depth,
+                cppMessageName(path.getRoot()),
+                path.getInfo().field.getName().toLowerCase(),
+                path.toString(),
+                path
+        );
+    }
+
+    private static String getPrimitivePresentLambda(FieldPath path)
+    {
+        return String.format(
+                "[context = const_context%d](const %s& profile) -> bool { return context(profile) != nullptr; }",
+                path.getInfo().depth,
+                cppMessageName(path.getRoot())
+        );
+    }
+
     private static Document getMutableContextDefinition(FieldPath path)
     {
         return line(String.format(
@@ -336,17 +414,32 @@ public class ModelVisitorFile extends CppFilePair {
         ));
     }
 
-    private static Document accessor(FieldPath path)
+    private static Document getMessageAccessor(FieldPath path)
     {
         return line(
                     String.format(
                             "AccessorBuilder<%s, %s>::build(",
-                            cppMessageName(path.getInfo().field.getMessageType()),
+                            cppMessageName(path.getInfo().getGenericDescriptor()),
                             cppMessageName(path.getRoot())
                     )
                 )
                 .indent(getMutableContextLambda(path) + ",")
                 .indent(getConstContextLambda(path))
+                .append(")");
+    }
+
+    private static Document getPrimitiveAccessor(FieldPath path)
+    {
+        return line(
+                String.format(
+                        "PrimitiveAccessorBuilder<%s, %s>::build(",
+                        cppMessageName(path.getInfo().getGenericDescriptor()),
+                        cppMessageName(path.getRoot())
+                )
+        )
+                .indent(getPrimitiveSetterLambda(path) + ",")
+                .indent(getPrimitiveGetterLambda(path) + ",")
+                .indent(getPrimitivePresentLambda(path))
                 .append(")");
     }
 }

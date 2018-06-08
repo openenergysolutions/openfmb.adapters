@@ -28,4 +28,6 @@ void visit(const switchmodule::SwitchControlProfile& message, IMessageVisitor& v
 
 void visit(const essmodule::ESSReadingProfile& message, IMessageVisitor& visitor);
 
+void visit(const essmodule::ESSStatusProfile& message, IMessageVisitor& visitor);
+
 } // end namespace adapter

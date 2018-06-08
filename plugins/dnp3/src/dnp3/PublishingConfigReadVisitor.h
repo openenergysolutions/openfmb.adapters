@@ -176,6 +176,26 @@ namespace adapter
                 throw Exception("not implemented");
             }
 
+            void handle(const std::string& field_name, Accessor<commonmodule::StatusSPS, T> accessor) override
+            {
+                throw Exception("not implemented");
+            }
+
+            void handle(const std::string& field_name, Accessor<commonmodule::ControlDPC, T> accessor) override
+            {
+                throw Exception("not implemented");
+            }
+
+            void handle(const std::string& field_name, Accessor<google::protobuf::FloatValue, T> accessor) override
+            {
+                throw Exception("not implemented");
+            }
+
+            void handle(const std::string& field_name, PrimitiveAccessor<commonmodule::StateKind, T> accessor) override
+            {
+                throw Exception("not implemented");
+            }
+
         private:
 
             static commonmodule::DbPosKind get_db_pos_kind(const YAML::Node& node, const std::string& key)

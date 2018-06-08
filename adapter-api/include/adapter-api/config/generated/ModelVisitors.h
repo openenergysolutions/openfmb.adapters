@@ -28,4 +28,6 @@ void visit(IModelVisitor<switchmodule::SwitchControlProfile>& visitor);
 
 void visit(IModelVisitor<essmodule::ESSReadingProfile>& visitor);
 
+void visit(IModelVisitor<essmodule::ESSStatusProfile>& visitor);
+
 } // end namespace adapter

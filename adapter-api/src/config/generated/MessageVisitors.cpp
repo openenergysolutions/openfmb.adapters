@@ -1699,4 +1699,25 @@ void visit(const essmodule::ESSReadingProfile& message, IMessageVisitor& visitor
     }
 }
 
+void visit(const essmodule::ESSStatusProfile& message, IMessageVisitor& visitor)
+{
+    const auto& level0 = message;
+    if(level0.has_essstatus())
+    {
+        const auto& level1 = level0.essstatus();
+        visitor.start_message_field("essStatus");
+        if(level1.has_essstatuszbat())
+        {
+            const auto& level2 = level1.essstatuszbat();
+            visitor.start_message_field("essStatusZBAT");
+            if(level2.has_soc())
+            {
+                visitor.handle("Soc", level2.soc());
+            }
+            visitor.end_message_field();
+        }
+        visitor.end_message_field();
+    }
+}
+
 } // end namespace adapter

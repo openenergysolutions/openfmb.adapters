@@ -38,6 +38,44 @@ namespace adapter
             return Accessor<R,T>(std::make_shared<AccessorImpl<R, T, M, C>>(mutable_accessor, const_accessor));
         }
     };
+
+    template <class R, class T, class M, class C, class P>
+    class PrimitiveAccessorImpl : public IPrimitiveAccessor<R, T>
+    {
+        const M mutable_accessor;
+        const C const_accessor;
+        const P present_accessor;
+
+    public:
+
+        PrimitiveAccessorImpl(const M& mutable_accessor, const C& const_accessor, const P& present_accessor) :
+                mutable_accessor(mutable_accessor),
+                const_accessor(const_accessor),
+                present_accessor(present_accessor)
+        {}
+
+        bool present(const T &value) const override {
+            return present_accessor(value);
+        }
+
+        virtual R get(const T &value) const {
+            return this->const_accessor(value);
+        }
+
+        virtual void set(T &value, R primitive) const {
+            this->mutable_accessor(value, primitive);
+        }
+    };
+
+    template <class R, class T>
+    struct PrimitiveAccessorBuilder
+    {
+        template <class M, class C, class P>
+        static PrimitiveAccessor<R, T> build(const M& mutable_accessor, const C& const_accessor, const P& present_accessor)
+        {
+            return PrimitiveAccessor<R,T>(std::make_shared<PrimitiveAccessorImpl<R, T, M, C, P>>(mutable_accessor, const_accessor, present_accessor));
+        }
+    };
 }
 
 #endif

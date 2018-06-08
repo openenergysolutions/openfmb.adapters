@@ -97,6 +97,26 @@ namespace adapter
             // no need to do anything for the control value
         }
 
+        void handle(const std::string& field_name, Accessor <commonmodule::StatusSPS, T> accessor) final
+        {
+
+        }
+
+        void handle(const std::string& field_name, Accessor <commonmodule::ControlDPC, T> accessor) final
+        {
+
+        }
+
+        void handle(const std::string& field_name, Accessor <google::protobuf::FloatValue, T> accessor) final
+        {
+
+        }
+
+        void handle(const std::string& field_name, PrimitiveAccessor <commonmodule::StateKind, T> accessor) final
+        {
+
+        }
+
         void handle(const std::string& field_name, Accessor <commonmodule::CheckConditions, T> accessor) final
         {
             this->out << YAML::Key << field_name;

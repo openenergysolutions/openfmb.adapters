@@ -37,6 +37,35 @@ namespace adapter
     };
 
     template <class R, class T>
+    class IPrimitiveAccessor
+    {
+    public:
+        virtual ~IPrimitiveAccessor() = default;
+
+        /**
+         * Test if the value is present. Must be checked before calling get().
+         */
+        virtual bool present(const T& value) const = 0;
+
+        /**
+         * A getter that does not mutate the value. Throws an exception if the value isn't present.
+         *
+         * @param value The value which to extract the return value
+         * @return A pointer to the value if present, otherwise nullptr
+         */
+        virtual R get(const T& value) const = 0;
+
+        /**
+         * A getter that may mutate the value in order to create the return type.
+         *
+         * @param value The value which to extract the return value
+         * @param primitive The value to set on the message
+         */
+        virtual void set(T& value, R primitive) const = 0;
+    };
+
+
+    template <class R, class T>
     class Accessor
     {
     public:
@@ -71,6 +100,32 @@ namespace adapter
 
     private:
         const std::shared_ptr<const IAccessor<R, T>> accessor;
+    };
+
+    template <class R, class T>
+    class PrimitiveAccessor
+    {
+    public:
+
+        explicit PrimitiveAccessor(const std::shared_ptr<IPrimitiveAccessor<R, T>>& accessor) : accessor(accessor) {}
+
+        bool present(const T& value) const
+        {
+            return accessor->present(value);
+        }
+
+        R get(const T& value) const
+        {
+            return accessor->get(value);
+        }
+
+        void set(T& value, R primitive) const
+        {
+            return accessor->set(value, primitive);
+        }
+
+    private:
+        const std::shared_ptr<const IPrimitiveAccessor<R, T>> accessor;
     };
 
 

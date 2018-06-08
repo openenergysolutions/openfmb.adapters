@@ -114,6 +114,26 @@ namespace adapter
                 throw Exception("not implemented");
             }
 
+            void handle(const std::string& field_name, Accessor<commonmodule::StatusSPS, T> accessor) override
+            {
+                throw Exception("not implemented");
+            }
+
+            void handle(const std::string& field_name, Accessor<commonmodule::ControlDPC, T> accessor) override
+            {
+                throw Exception("not implemented");
+            }
+
+            void handle(const std::string& field_name, Accessor<google::protobuf::FloatValue, T> accessor) override
+            {
+                throw Exception("not implemented");
+            }
+
+            void handle(const std::string& field_name, PrimitiveAccessor<commonmodule::StateKind, T> accessor) override
+            {
+                throw Exception("not implemented");
+            }
+
         private:
 
             void configure_analogue(const YAML::Node& node, mutable_getter_t<commonmodule::AnalogueValue, T> getter)
