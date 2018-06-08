@@ -50,11 +50,11 @@ namespace adapter
             void handle(const std::string& field_name, Accessor<commonmodule::MV, T> accessor) override
             {
                 // MV only has a magnitude
-                this->configure_analogue(
+                this->configure_float(
                     yaml::require(this->get_config_node(field_name), ::adapter::keys::mag),
-                    [accessor](T & profile) -> commonmodule::AnalogueValue*
+                    [accessor](T & profile, float value)
                 {
-                    return accessor.create(profile)->mutable_mag();
+                    accessor.create(profile)->mutable_mag()->mutable_f()->set_value(value);
                 }
                 );
             }
@@ -68,19 +68,19 @@ namespace adapter
 
                 // independently configure the angle and magnitude
 
-                this->configure_analogue(
+                this->configure_float(
                     yaml::require(vector_node, ::adapter::keys::mag),
-                    [accessor](T & profile) -> commonmodule::AnalogueValue*
+                    [accessor](T & profile, float value)
                 {
-                    return accessor.create(profile)->mutable_cval()->mutable_mag();
+                    accessor.create(profile)->mutable_cval()->mutable_mag()->mutable_f()->set_value(value);
                 }
                 );
 
-                this->configure_analogue(
+                this->configure_float(
                     yaml::require(vector_node, ::adapter::keys::ang),
-                    [accessor](T & profile) -> commonmodule::AnalogueValue*
+                    [accessor](T & profile, float value)
                 {
-                    return accessor.create(profile)->mutable_cval()->mutable_ang();
+                    return accessor.create(profile)->mutable_cval()->mutable_ang()->mutable_f()->set_value(value);
                 }
                 );
 
@@ -116,27 +116,84 @@ namespace adapter
 
             void handle(const std::string& field_name, Accessor<commonmodule::StatusSPS, T> accessor) override
             {
-                throw Exception("not implemented");
+                const auto node = this->get_config_node(field_name);
+                this->configure_boolean(
+                        yaml::require(node, ::adapter::keys::stVal),
+                        [accessor](T& profile, bool value) { accessor.create(profile)->set_stval(value); }
+                );
             }
 
             void handle(const std::string& field_name, Accessor<commonmodule::ControlDPC, T> accessor) override
             {
-                throw Exception("not implemented");
+                const auto node = this->get_config_node(field_name);
+                this->configure_boolean(
+                        yaml::require(node, ::adapter::keys::ctlVal),
+                        [accessor](T& profile, bool value) { accessor.create(profile)->set_ctlval(value); }
+                );
             }
 
             void handle(const std::string& field_name, Accessor<google::protobuf::FloatValue, T> accessor) override
             {
-                throw Exception("not implemented");
+                const auto node = this->get_config_node(field_name);
+                this->configure_float(
+                        node,
+                        [accessor](T& profile, float value) { accessor.create(profile)->set_value(value); }
+                );
             }
 
             void handle(const std::string& field_name, PrimitiveAccessor<commonmodule::StateKind, T> accessor) override
             {
-                throw Exception("not implemented");
+                this->configure_enum<commonmodule::StateKind>(this->get_config_node(field_name), accessor, *commonmodule::StateKind_descriptor());
             }
 
         private:
 
-            void configure_analogue(const YAML::Node& node, mutable_getter_t<commonmodule::AnalogueValue, T> getter)
+            template <class E>
+            void configure_enum(const YAML::Node& node, PrimitiveAccessor<E, T> accessor, const google::protobuf::EnumDescriptor& descriptor)
+            {
+                const auto mask = yaml::require_integer<uint16_t>(node, keys::mask);
+                std::map<uint16_t, E> mapping;
+                yaml::foreach(
+                        yaml::require(node, keys::mapping),
+                        [&mapping, &descriptor](const YAML::Node& item)
+                        {
+                            const auto value = yaml::require_integer<uint16_t>(item, keys::value);
+                            const auto name = yaml::require_string(item, keys::name);
+                            const auto value_descriptor = descriptor.FindValueByName(name);
+                            if(!value_descriptor)
+                            {
+                                throw Exception("Bad ", descriptor.name(), " enum name: ", name);
+                            }
+                            mapping[value] = static_cast<E>(value_descriptor->number());
+                        }
+                );
+
+                this->map_register16(
+                        node,
+                        [accessor, mask, mapping = std::move(mapping)](T & profile, const std::shared_ptr<Register16>& reg)
+                        {
+                            const auto entry = mapping.find(reg->to_uint16() & mask);
+                            if(entry != mapping.end())
+                            {
+                                accessor.set(profile, entry->second);
+                            }
+                        }
+                );
+            }
+
+            void configure_boolean(const YAML::Node& node, const std::function<void (T&, bool)>& setter)
+            {
+                const auto mask = yaml::require_integer<uint16_t>(node, keys::mask);
+                this->map_register16(
+                        node,
+                        [setter, mask](T & profile, const std::shared_ptr<Register16>& reg)
+                        {
+                            setter(profile, (reg->to_uint16() & mask) != 0);
+                        }
+                );
+            }
+
+            void configure_float(const YAML::Node& node, const std::function<void (T&, float)>& setter)
             {
                 const auto type_string = yaml::require_string(node, keys::type);
 
@@ -145,49 +202,49 @@ namespace adapter
                 case (MappingType::none):
                     break;
                 case (MappingType::uint16):
-                    this->map_register16(node, [getter, scale = get_float_scale(node)](T & profile,
+                    this->map_register16(node, [setter, scale = get_float_scale(node)](T & profile,
                                          const std::shared_ptr<Register16>& reg)
                     {
-                        getter(profile)->mutable_f()->set_value(reg->to_uint16() * scale);
+                        setter(profile, reg->to_uint16() * scale);
                     });
                     break;
                 case (MappingType::sint16):
-                    this->map_register16(node, [getter, scale = get_float_scale(node)](T & profile,
+                    this->map_register16(node, [setter, scale = get_float_scale(node)](T & profile,
                                          const std::shared_ptr<Register16>& reg)
                     {
-                        getter(profile)->mutable_f()->set_value(reg->to_sint16() * scale);
+                        setter(profile, reg->to_sint16() * scale);
                     });
                     break;
                 case (MappingType::uint32):
-                    this->map_register32(node, [getter, scale = get_float_scale(node)](T & profile,
+                    this->map_register32(node, [setter, scale = get_float_scale(node)](T & profile,
                                          const std::shared_ptr<Register32>& reg)
                     {
-                        getter(profile)->mutable_f()->set_value(reg->to_uint32() * scale);
+                        setter(profile, reg->to_uint32() * scale);
                     });
                     break;
                 case (MappingType::sint32):
-                    this->map_register32(node, [getter, scale = get_float_scale(node)](T & profile,
+                    this->map_register32(node, [setter, scale = get_float_scale(node)](T & profile,
                                          const std::shared_ptr<Register32>& reg)
                     {
-                        getter(profile)->mutable_f()->set_value(reg->to_sint32() * scale);
+                        setter(profile, reg->to_sint32() * scale);
                     });
                     break;
                 case (MappingType::uint32_with_modulus):
-                    this->map_register32(node, [getter, scale = get_float_scale(node), modulus = get_modulus(node)]
+                    this->map_register32(node, [setter, scale = get_float_scale(node), modulus = get_modulus(node)]
                                          (T & profile, const std::shared_ptr<Register32>& reg)
                     {
-                        getter(profile)->mutable_f()->set_value(reg->to_uint32(modulus) * scale);
+                        setter(profile, reg->to_uint32(modulus) * scale);
                     });
                     break;
                 case (MappingType::sint32_with_modulus):
-                    this->map_register32(node, [getter, scale = get_float_scale(node), modulus = get_modulus(node)]
+                    this->map_register32(node, [setter, scale = get_float_scale(node), modulus = get_modulus(node)]
                                          (T & profile, const std::shared_ptr<Register32>& reg)
                     {
-                        getter(profile)->mutable_f()->set_value(reg->to_sint32(modulus) * scale);
+                        setter(profile, reg->to_sint32(modulus) * scale);
                     });
                     break;
                 default:
-                    throw Exception("Unhandled modbus mapping type: ", type_string);
+                    throw Exception("Unhandled modbus float mapping type: ", type_string);
                 }
             }
 
