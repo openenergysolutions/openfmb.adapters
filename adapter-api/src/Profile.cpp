@@ -24,6 +24,8 @@ namespace adapter
             return switchmodule::SwitchStatusProfile::descriptor()->name();
         case(Profile::ess_reading):
             return essmodule::ESSReadingProfile::descriptor()->name();
+        case(Profile::ess_status):
+            return essmodule::ESSStatusProfile::descriptor()->name();
         default:
             throw Exception("Unhandled profile enum: ", static_cast<int>(profile));
         }
@@ -50,6 +52,10 @@ namespace adapter
         else if(name == to_string(Profile::ess_reading))
         {
             return Profile::ess_reading;
+        }
+        else if(name == to_string(Profile::ess_status))
+        {
+            return Profile::ess_status;
         }
         else
         {

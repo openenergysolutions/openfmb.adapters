@@ -24,6 +24,7 @@ namespace adapter
         virtual void publish(const switchmodule::SwitchReadingProfile& message) = 0;
         virtual void publish(const switchmodule::SwitchStatusProfile& message) = 0;
         virtual void publish(const essmodule::ESSReadingProfile& message) = 0;
+        virtual void publish(const essmodule::ESSStatusProfile& message) = 0;
     };
 
     using publisher_t = std::shared_ptr<IPublisher>;

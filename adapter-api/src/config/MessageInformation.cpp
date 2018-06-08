@@ -77,6 +77,20 @@ namespace adapter
     {
         return profile.ess().conductingequipment();
     }
+
+    // ess status
+
+    template <>
+    const commonmodule::MessageInfo& get_message_info(const essmodule::ESSStatusProfile& profile)
+    {
+        return profile.statusmessageinfo().messageinfo();
+    }
+
+    template <>
+    const commonmodule::ConductingEquipment& get_conducting_equip(const essmodule::ESSStatusProfile& profile)
+    {
+        return profile.ess().conductingequipment();
+    }
 }
 
 

@@ -63,20 +63,42 @@ namespace adapter
 
             void write_control_dpc_keys() override
             {
-                throw Exception("Not implemented");
+
+                this->write_boolean_keys(::adapter::keys::ctlVal);
             }
 
             void write_float_value_keys() override
             {
-                throw Exception("Not implemented");
+                // float value is mapped just like an analogue value
+                this->write_analogue_keys();
             }
 
             void write_state_kind_keys() override
             {
-                throw Exception("Not implemented");
+                this->write_enum_keys(*commonmodule::StateKind_descriptor());
             }
 
         private:
+
+            void write_enum_keys(const google::protobuf::EnumDescriptor& descriptor)
+            {
+                this->out << YAML::Key << keys::type << YAML::Value << keys::holding_register;
+                this->out << YAML::Key << keys::index << YAML::Value << 0;
+                this->out << YAML::Key << keys::mask << YAML::Value << "0xFFFF" << YAML::Comment("mask the register. map masked values to enum values");
+                this->out << YAML::Value << keys::mapping;
+
+                this->out << YAML::BeginSeq;
+
+                for(auto i = 0; i < descriptor.value_count(); ++i)
+                {
+                    const auto value = descriptor.value(i);
+                    this->out << YAML::BeginMap;
+                    this->out << YAML::Key << keys::name << YAML::Value << value->name();
+                    this->out << YAML::Key << keys::value << YAML::Value << value->number();
+                    this->out << YAML::EndMap;
+                }
+                this->out << YAML::EndSeq;
+            }
 
             void write_boolean_keys(const char* name)
             {
@@ -84,7 +106,7 @@ namespace adapter
                 this->out << YAML::BeginMap;
                 this->out << YAML::Key << keys::type << YAML::Value << keys::holding_register;
                 this->out << YAML::Key << keys::index << YAML::Value << 0;
-                this->out << YAML::Key << keys::mask << YAML::Value << 0 << YAML::Comment("mask the register. true if masked value != 0");
+                this->out << YAML::Key << keys::mask << YAML::Value << "0x0001" << YAML::Comment("mask the register. true if masked value != 0");
                 this->out << YAML::EndMap;
             }
         };

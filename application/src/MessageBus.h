@@ -37,6 +37,8 @@ namespace adapter
 
         void publish(const essmodule::ESSReadingProfile& message) override;
 
+        void publish(const essmodule::ESSStatusProfile& message) override;
+
         // ---- subscribe ----
 
         void subscribe(subscriber_t<resourcemodule::ResourceReadingProfile> subscriber) override;
@@ -49,13 +51,9 @@ namespace adapter
 
         void subscribe(subscriber_t<essmodule::ESSReadingProfile> subscriber) override;
 
+        void subscribe(subscriber_t<essmodule::ESSStatusProfile> subscriber) override;
 
     private:
-
-        void assert_prepublish();
-        void assert_presubscribe();
-
-        bool finalized = false;
 
         // ---- subscriber registries for the different types, these are the publishers that get handed out as well ----
 
@@ -64,6 +62,7 @@ namespace adapter
         const std::shared_ptr<SubscriberRegistry<switchmodule::SwitchReadingProfile>> switch_reading = std::make_shared<SubscriberRegistry<switchmodule::SwitchReadingProfile>>();
         const std::shared_ptr<SubscriberRegistry<switchmodule::SwitchStatusProfile>> switch_status = std::make_shared<SubscriberRegistry<switchmodule::SwitchStatusProfile>>();
         const std::shared_ptr<SubscriberRegistry<essmodule::ESSReadingProfile>> ess_reading = std::make_shared<SubscriberRegistry<essmodule::ESSReadingProfile>>();
+        const std::shared_ptr<SubscriberRegistry<essmodule::ESSStatusProfile>> ess_status = std::make_shared<SubscriberRegistry<essmodule::ESSStatusProfile>>();
     };
 
 }

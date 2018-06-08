@@ -27,6 +27,7 @@ namespace adapter
         constexpr const char* const cVal = "cVal";
         constexpr const char* const actVal = "actVal";
         constexpr const char* const stVal = "stVal";
+        constexpr const char* const ctlVal = "ctlVal";
         constexpr const char* const interlockCheck = "interlockCheck";
         constexpr const char* const synchroCheck = "synchroCheck";
     }

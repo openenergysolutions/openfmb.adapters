@@ -36,6 +36,12 @@ namespace adapter
     {
         return ProfileType::reading;
     }
+
+    template <>
+    ProfileType get_profile_type<essmodule::ESSStatusProfile>()
+    {
+        return ProfileType::status;
+    }
 }
 
 

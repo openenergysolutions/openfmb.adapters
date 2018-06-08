@@ -8,7 +8,12 @@ namespace adapter
 
     void MessageBus::finalize()
     {
-        this->finalized = true;
+        this->resource_reading->finalize();
+        this->switch_reading->finalize();
+        this->switch_status->finalize();
+        this->switch_control->finalize();
+        this->ess_reading->finalize();
+        this->ess_status->finalize();
     }
 
     void MessageBus::shutdown()
@@ -18,78 +23,69 @@ namespace adapter
         this->switch_status->shutdown();
         this->switch_control->shutdown();
         this->ess_reading->shutdown();
-    }
-
-    void MessageBus::assert_prepublish()
-    {
-        if(!this->finalized) throw Exception("Publish(..) called before finalization");
-    }
-
-    void MessageBus::assert_presubscribe()
-    {
-        if(this->finalized) throw Exception("Subscribe(..) called after finalization");
+        this->ess_status->shutdown();
     }
 
     // ---- implement IProtoSubscribers ----
 
     void MessageBus::subscribe(subscriber_t<resourcemodule::ResourceReadingProfile> subscriber)
     {
-        this->assert_presubscribe();
         this->resource_reading->add(subscriber);
     }
 
     void MessageBus::subscribe(subscriber_t<switchmodule::SwitchControlProfile> subscriber)
     {
-        this->assert_presubscribe();
         this->switch_control->add(subscriber);
     }
 
     void MessageBus::subscribe(subscriber_t<switchmodule::SwitchReadingProfile> subscriber)
     {
-        this->assert_presubscribe();
         this->switch_reading->add(subscriber);
     }
 
     void MessageBus::subscribe(subscriber_t<switchmodule::SwitchStatusProfile> subscriber)
     {
-        this->assert_presubscribe();
         this->switch_status->add(subscriber);
     }
 
     void MessageBus::subscribe(subscriber_t<essmodule::ESSReadingProfile> subscriber)
     {
-        this->assert_presubscribe();
         this->ess_reading->add(subscriber);
+    }
+
+    void MessageBus::subscribe(subscriber_t<essmodule::ESSStatusProfile> subscriber)
+    {
+        this->ess_status->add(subscriber);
     }
 
     void MessageBus::publish(const resourcemodule::ResourceReadingProfile& message)
     {
-        this->assert_prepublish();
         this->resource_reading->publish(message);
     }
 
     void MessageBus::publish(const switchmodule::SwitchControlProfile& message)
     {
-        this->assert_prepublish();
         this->switch_control->publish(message);
     }
 
     void MessageBus::publish(const switchmodule::SwitchReadingProfile& message)
     {
-        this->assert_prepublish();
         this->switch_reading->publish(message);
     }
 
     void MessageBus::publish(const switchmodule::SwitchStatusProfile& message)
     {
-        this->assert_prepublish();
         this->switch_status->publish(message);
     }
 
     void MessageBus::publish(const essmodule::ESSReadingProfile& message)
     {
-        this->assert_prepublish();
         this->ess_reading->publish(message);
+    }
+
+    void MessageBus::publish(const essmodule::ESSStatusProfile& message)
+    {
+        this->ess_status->publish(message);
     }
 }
 

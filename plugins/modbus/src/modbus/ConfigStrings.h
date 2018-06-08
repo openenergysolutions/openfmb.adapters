@@ -35,6 +35,7 @@ namespace adapter
             constexpr const char* const modulus = "modulus";
             constexpr const char* const mask = "mask";
             constexpr const char* const mapping = "mapping";
+            constexpr const char* const value = "value";
         }
     }
 

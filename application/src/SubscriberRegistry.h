@@ -3,6 +3,7 @@
 #define OPENFMB_ADAPTER_SUBSCRIBER_REGISTRY_H
 
 #include "adapter-api/ISubscriber.h"
+#include "adapter-api/util/Exception.h"
 
 #include <vector>
 #include <mutex>
@@ -17,6 +18,14 @@ namespace adapter
 
         SubscriberRegistry() = default;
 
+        void finalize()
+        {
+            std::lock_guard<std::mutex> lock(this->mutex);
+
+            if(finalized) throw Exception("Already finalized");
+            this->finalized = true;
+        }
+
         void shutdown()
         {
             std::lock_guard<std::mutex> lock(this->mutex);
@@ -28,6 +37,8 @@ namespace adapter
         {
             std::lock_guard<std::mutex> lock(this->mutex);
 
+            if(!this->finalized) throw Exception("Publish(..) called before finalization");
+
             for(auto& sub : this->subscribers)
             {
                 sub->receive(message);
@@ -38,12 +49,16 @@ namespace adapter
         {
             std::lock_guard<std::mutex> lock(this->mutex);
 
+            if(finalized) throw Exception("Subscribe(..) called after finalization");
+
             this->subscribers.push_back(std::move(subscriber));
         }
 
     private:
 
         std::mutex mutex;
+
+        bool finalized = false;
 
         // all of the subscribers for a particular type
         std::vector<subscriber_t<T>> subscribers;

@@ -34,6 +34,9 @@ namespace adapter
             case (Profile::ess_reading):
                 T<essmodule::ESSReadingProfile>::handle(std::forward<Args>(args)...);
                 break;
+            case (Profile::ess_status):
+                T<essmodule::ESSStatusProfile>::handle(std::forward<Args>(args)...);
+                break;
             default:
                 throw Exception("Unhandled profile: ", ProfileMeta::to_string(profile));
             }
@@ -54,6 +57,8 @@ namespace adapter
                 return T<switchmodule::SwitchStatusProfile>::get(std::forward<Args>(args)...);
             case (Profile::ess_reading):
                 return T<essmodule::ESSReadingProfile>::get(std::forward<Args>(args)...);
+            case (Profile::ess_status):
+                return T<essmodule::ESSStatusProfile>::get(std::forward<Args>(args)...);
             default:
                 throw Exception("Unhandled profile: ", ProfileMeta::to_string(profile));
             }
@@ -79,6 +84,7 @@ namespace adapter
             T<switchmodule::SwitchReadingProfile>::handle(std::forward<Args>(args)...);
             T<switchmodule::SwitchStatusProfile>::handle(std::forward<Args>(args)...);
             T<essmodule::ESSReadingProfile>::handle(std::forward<Args>(args)...);
+            T<essmodule::ESSStatusProfile>::handle(std::forward<Args>(args)...);
         }
     }
 }
