@@ -38,7 +38,7 @@ namespace adapter
 
         private:
 
-            std::map<uint16_t, std::shared_ptr<IRegister>> holding_registers;
+            std::map<uint16_t, std::vector<std::shared_ptr<IRegister>>> holding_registers;
             std::vector<action_t> begin_actions;
             std::vector<action_t> end_actions;
         };

@@ -17,11 +17,7 @@ namespace adapter
 
         void PollHandler::add_holding_register(uint16_t index, std::shared_ptr<IRegister> reg)
         {
-            if(holding_registers.find(index) != holding_registers.end())
-            {
-                throw Exception("Index already mapped: ", index);
-            }
-            this->holding_registers[index] = reg;
+            holding_registers[index].push_back(reg);
         }
 
         void PollHandler::add_end_action(action_t fun)
@@ -39,12 +35,15 @@ namespace adapter
 
         void PollHandler::apply(const ::modbus::ReadHoldingRegistersResponse& response)
         {
-            for(auto& value : response.values)
+            for(auto& reg : response.values)
             {
-                auto iter = this->holding_registers.find(value.address);
-                if(iter != this->holding_registers.end())
+                const auto entry = this->holding_registers.find(reg.address);
+                if(entry != this->holding_registers.end())
                 {
-                    iter->second->set(value.value);
+                    for(const auto& handler : entry->second)
+                    {
+                        handler->set(reg.value);
+                    }
                 }
             }
         }
