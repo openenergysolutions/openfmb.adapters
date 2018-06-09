@@ -5,6 +5,8 @@ set(MODBUS_PUBLIC_HEADERS
 set(MODBUS_SOURCES
         src/modbus/PublishConfigReadVisitor.h
         src/modbus/ConfigStrings.h
+        src/modbus/HeartbeatTransaction.h
+        src/modbus/HeartbeatTransaction.cpp
         src/modbus/IConfigurationBuilder.h
         src/modbus/IRegister.h
         src/modbus/IPollHandler.h
@@ -24,7 +26,9 @@ set(MODBUS_SOURCES
         src/modbus/Source.h
         src/modbus/Source.cpp
         src/modbus/ICachedValue.h
-        )
+        src/modbus/TransactionHandler.h
+        src/modbus/TransactionHandler.cpp
+        src/modbus/ITransaction.h)
 
 set(CPP_FORMAT_DIRS
         ${CPP_FORMAT_DIRS}
