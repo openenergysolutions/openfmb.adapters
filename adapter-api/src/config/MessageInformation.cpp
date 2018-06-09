@@ -91,6 +91,20 @@ namespace adapter
     {
         return profile.ess().conductingequipment();
     }
+
+    // ess control
+
+    template <>
+    const commonmodule::MessageInfo& get_message_info(const essmodule::ESSControlProfile& profile)
+    {
+        return profile.controlmessageinfo().messageinfo();
+    }
+
+    template <>
+    const commonmodule::ConductingEquipment& get_conducting_equip(const essmodule::ESSControlProfile& profile)
+    {
+        return profile.ess().conductingequipment();
+    }
 }
 
 

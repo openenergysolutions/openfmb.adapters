@@ -42,6 +42,12 @@ namespace adapter
     {
         return ProfileType::status;
     }
+
+    template <>
+    ProfileType get_profile_type<essmodule::ESSControlProfile>()
+    {
+        return ProfileType::control;
+    }
 }
 
 

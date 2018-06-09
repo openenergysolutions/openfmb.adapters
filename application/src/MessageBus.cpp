@@ -14,6 +14,7 @@ namespace adapter
         this->switch_control->finalize();
         this->ess_reading->finalize();
         this->ess_status->finalize();
+        this->ess_control->finalize();
     }
 
     void MessageBus::shutdown()
@@ -24,6 +25,7 @@ namespace adapter
         this->switch_control->shutdown();
         this->ess_reading->shutdown();
         this->ess_status->shutdown();
+        this->ess_control->shutdown();
     }
 
     // ---- implement IProtoSubscribers ----
@@ -58,6 +60,11 @@ namespace adapter
         this->ess_status->add(subscriber);
     }
 
+    void MessageBus::subscribe(subscriber_t<essmodule::ESSControlProfile> subscriber)
+    {
+        this->ess_control->add(subscriber);
+    }
+
     void MessageBus::publish(const resourcemodule::ResourceReadingProfile& message)
     {
         this->resource_reading->publish(message);
@@ -86,6 +93,11 @@ namespace adapter
     void MessageBus::publish(const essmodule::ESSStatusProfile& message)
     {
         this->ess_status->publish(message);
+    }
+
+    void MessageBus::publish(const essmodule::ESSControlProfile &message)
+    {
+        this->ess_control->publish(message);
     }
 }
 

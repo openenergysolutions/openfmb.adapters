@@ -15,7 +15,8 @@ namespace adapter
         switch_status,
         // ess
         ess_reading,
-        ess_status
+        ess_status,
+        ess_control
     };
 
     struct ProfileMeta
@@ -37,6 +38,7 @@ namespace adapter
 
             handler(Profile::ess_reading);
             handler(Profile::ess_status);
+            handler(Profile::ess_control);
         }
     };
 
