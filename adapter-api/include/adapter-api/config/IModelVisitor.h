@@ -63,7 +63,6 @@ namespace adapter
         virtual void handle(const std::string& field_name, PrimitiveAccessor<commonmodule::StateKind, T> accessor) = 0;
 
         /// --- handlers for control types ---
-        virtual void handle(const std::string& field_name, Accessor<commonmodule::ControlValue, T> accessor) = 0;
         virtual void handle(const std::string& field_name, Accessor<commonmodule::CheckConditions, T> accessor) = 0;
         virtual void handle(const std::string& field_name, Accessor<commonmodule::ControlFSCC, T> accessor) = 0;
         virtual void handle(const std::string& field_name, Accessor<switchmodule::SwitchCSG, T> accessor) = 0;

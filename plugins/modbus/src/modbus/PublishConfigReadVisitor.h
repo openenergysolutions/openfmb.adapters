@@ -100,11 +100,6 @@ namespace adapter
                 throw Exception("not implemented");
             }
 
-            void handle(const std::string& field_name, Accessor<commonmodule::ControlValue, T> accessor) override
-            {
-                throw Exception("not implemented");
-            }
-
             void handle(const std::string& field_name, Accessor<commonmodule::CheckConditions, T> accessor) override
             {
                 throw Exception("not implemented");

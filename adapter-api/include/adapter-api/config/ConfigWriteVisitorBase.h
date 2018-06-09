@@ -92,11 +92,6 @@ namespace adapter
             this->out << YAML::EndMap;
         }
 
-        void handle(const std::string& field_name, Accessor <commonmodule::ControlValue, T> accessor) final
-        {
-
-        }
-
         void handle(const std::string& field_name, Accessor <commonmodule::StatusSPS, T> accessor) final
         {
             this->out << YAML::Key << field_name << YAML::Comment("StatusSPS");

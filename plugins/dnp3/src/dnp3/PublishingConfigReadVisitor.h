@@ -161,11 +161,6 @@ namespace adapter
                 }
             }
 
-            void handle(const std::string& field_name, Accessor<commonmodule::ControlValue, T> accessor) override
-            {
-                throw Exception("not implemented");
-            }
-
             void handle(const std::string& field_name, Accessor<commonmodule::CheckConditions, T> accessor) override
             {
                 throw Exception("not implemented");
@@ -260,7 +255,6 @@ namespace adapter
                     throw Exception("CMV cannot be configred for input type: ", InputTypeMeta::to_string(input_type));
                 }
             }
-
 
             template <class U>
             void configure_analogue(const YAML::Node& node, mutable_getter_t<commonmodule::AnalogueValue, T> getter)

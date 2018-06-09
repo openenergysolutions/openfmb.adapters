@@ -122,11 +122,6 @@ namespace adapter
 
             // --- values to handle ---
 
-            void handle(const std::string& field_name, Accessor<commonmodule::ControlValue, T> accessor) override
-            {
-                // TODO - implement modBlk
-            }
-
             void handle(const std::string& field_name, Accessor<commonmodule::CheckConditions, T> accessor) override
             {
                 const auto node = this->get_config_node(field_name);

@@ -39,7 +39,6 @@ public class ModelVisitorFile extends CppFilePair {
                 ConductingEquipment.getDescriptor(),
 
                 // stuff that appears in control profiles
-                ControlValue.getDescriptor(),
                 CheckConditions.getDescriptor(),
                 SwitchCSG.getDescriptor(),
                 ESSCSG.getDescriptor(),
@@ -49,6 +48,8 @@ public class ModelVisitorFile extends CppFilePair {
 
     private final static Set<Descriptors.GenericDescriptor> ignoredTypes = new HashSet<>(
             Arrays.asList(
+                    // This contains mdBlk - ignore it for now
+                    ControlValue.getDescriptor(),
 
                     ConductingEquipmentTerminalReading.getDescriptor(),
                     ENG_CalcMethodKind.getDescriptor(),

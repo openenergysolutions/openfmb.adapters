@@ -2325,13 +2325,6 @@ void visit(IModelVisitor<switchmodule::SwitchControlProfile>& visitor)
         const auto mutable_context1 = [context = mutable_context0](switchmodule::SwitchControlProfile& profile) { return context(profile)->mutable_switchcontrol(); };
         const auto const_context1 = [context = const_context0](const switchmodule::SwitchControlProfile& profile) { const auto temp = context(profile); return (temp && temp->has_switchcontrol()) ? &temp->switchcontrol() : nullptr; };
         visitor.handle(
-            "controlValue",
-            AccessorBuilder<commonmodule::ControlValue, switchmodule::SwitchControlProfile>::build(
-                [context = mutable_context1](switchmodule::SwitchControlProfile& profile) { return context(profile)->mutable_controlvalue(); },
-                [context = const_context1](const switchmodule::SwitchControlProfile& profile) { const auto temp = context(profile); return (temp && temp->has_controlvalue()) ? &temp->controlvalue() : nullptr; }
-            )
-        );
-        visitor.handle(
             "check",
             AccessorBuilder<commonmodule::CheckConditions, switchmodule::SwitchControlProfile>::build(
                 [context = mutable_context1](switchmodule::SwitchControlProfile& profile) { return context(profile)->mutable_check(); },
@@ -3617,13 +3610,6 @@ void visit(IModelVisitor<essmodule::ESSControlProfile>& visitor)
     {
         const auto mutable_context1 = [context = mutable_context0](essmodule::ESSControlProfile& profile) { return context(profile)->mutable_esscontrol(); };
         const auto const_context1 = [context = const_context0](const essmodule::ESSControlProfile& profile) { const auto temp = context(profile); return (temp && temp->has_esscontrol()) ? &temp->esscontrol() : nullptr; };
-        visitor.handle(
-            "controlValue",
-            AccessorBuilder<commonmodule::ControlValue, essmodule::ESSControlProfile>::build(
-                [context = mutable_context1](essmodule::ESSControlProfile& profile) { return context(profile)->mutable_controlvalue(); },
-                [context = const_context1](const essmodule::ESSControlProfile& profile) { const auto temp = context(profile); return (temp && temp->has_controlvalue()) ? &temp->controlvalue() : nullptr; }
-            )
-        );
         visitor.handle(
             "check",
             AccessorBuilder<commonmodule::CheckConditions, essmodule::ESSControlProfile>::build(
