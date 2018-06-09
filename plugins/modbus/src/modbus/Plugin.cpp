@@ -12,7 +12,7 @@
 
 #include "PublishConfigReadVisitor.h"
 #include "PollHandler.h"
-#include "TransactionHandler.h"
+#include "TransactionProcessor.h"
 #include "PollTransaction.h"
 #include "HeartbeatTransaction.h"
 
@@ -75,7 +75,7 @@ namespace adapter
             const auto name = yaml::require_string(node, keys::name);
 
             const auto poll_handler = std::make_shared<PollHandler>();
-            const auto tx_handler = std::make_shared<TransactionHandler>(this->logger);
+            const auto tx_handler = std::make_shared<TransactionProcessor>(this->logger);
 
             const auto add_heartbeat = [&](const YAML::Node & node)
             {

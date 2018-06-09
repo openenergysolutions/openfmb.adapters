@@ -1,5 +1,5 @@
 
-#include "TransactionHandler.h"
+#include "TransactionProcessor.h"
 
 #include "adapter-api/util/Exception.h"
 
@@ -8,41 +8,31 @@ namespace adapter
     namespace modbus
     {
 
-        TransactionHandler::TransactionHandler(Logger logger) : logger(std::move(logger))
+        TransactionProcessor::TransactionProcessor(Logger logger) : logger(std::move(logger))
         {}
 
-        void TransactionHandler::add(std::shared_ptr<ITransaction> transaction)
+        void TransactionProcessor::add(std::shared_ptr<ITransaction> transaction)
         {
             std::lock_guard<std::mutex> lock(mutex);
-            if(!this->is_shutdown)
-            {
-                this->transactions.push(std::move(transaction));
-                this->check_for_start();
-            }
+            this->transactions.push(std::move(transaction));
+            this->check_for_start();
         }
 
-        void TransactionHandler::start(session_t session)
+        void TransactionProcessor::start(session_t session)
         {
             std::lock_guard<std::mutex> lock(mutex);
-            if(this->session) throw Exception("TransactionHandler already started");
+            if(this->session) throw Exception("TransactionProcessor already started");
             this->session = std::move(session);
             this->check_for_start();
         }
 
-        void TransactionHandler::shutdown()
-        {
-            std::lock_guard<std::mutex> lock(mutex);
-            this->is_shutdown = true;
-            while(!transactions.empty()) transactions.pop();
-        }
-
-        void TransactionHandler::on_complete(const std::shared_ptr<ITransaction>& transaction)
+        void TransactionProcessor::on_complete(const std::shared_ptr<ITransaction>& transaction)
         {
             std::lock_guard<std::mutex> lock(mutex);
             this->transactions.pop();
             this->is_running = false;
 
-            if(!is_shutdown && transaction->is_periodic())
+            if(transaction->is_periodic())
             {
                 this->session->start(transaction->get_period(), [self = shared_from_this(), transaction]()
                 {
@@ -53,7 +43,7 @@ namespace adapter
             this->check_for_start();
         }
 
-        void TransactionHandler::check_for_start()
+        void TransactionProcessor::check_for_start()
         {
             if(session && !is_running && !transactions.empty())
             {

@@ -1,6 +1,6 @@
 
-#ifndef OPENFMB_ADAPTER_MODBUS_TRANSACTIONHANDLER_H
-#define OPENFMB_ADAPTER_MODBUS_TRANSACTIONHANDLER_H
+#ifndef OPENFMB_ADAPTER_MODBUS_TRANSACTIONPROCESSOR_H
+#define OPENFMB_ADAPTER_MODBUS_TRANSACTIONPROCESSOR_H
 
 #include "adapter-api/Logger.h"
 
@@ -16,25 +16,22 @@ namespace adapter
 {
     namespace modbus
     {
-        class TransactionHandler : public std::enable_shared_from_this<TransactionHandler>
+        class TransactionProcessor : public std::enable_shared_from_this<TransactionProcessor>
         {
             Logger logger;
             session_t session;
 
             std::mutex mutex;
             bool is_running = false;
-            bool is_shutdown = false;
             std::queue<std::shared_ptr<ITransaction>> transactions;
 
         public:
 
-            TransactionHandler(Logger logger);
+            TransactionProcessor(Logger logger);
 
             void add(std::shared_ptr<ITransaction> transaction);
 
             void start(session_t session);
-
-            void shutdown();
 
         private:
 
