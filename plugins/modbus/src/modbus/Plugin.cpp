@@ -89,8 +89,10 @@ namespace adapter
                           );
 
             // Configure polls
-            handler->add_necessary_byte_polls(poller, yaml::require_integer<uint16_t>(node, keys::allowed_byte_discontinuities));
-            handler->add_necessary_bit_polls(poller, yaml::require_integer<uint16_t>(node, keys::allowed_bit_discontinuities));
+            handler->add_necessary_byte_polls(
+                    poller,
+                    yaml::require_integer<uint16_t>(node, keys::allowed_byte_discontinuities)
+            );
 
             this->start_actions.emplace_back([poller]()
             {

@@ -33,8 +33,7 @@ namespace adapter
             void add_end_action(logger_action_t fun) override;
 
             /// Poll creation from the mapping
-            void add_necessary_byte_polls(std::shared_ptr<IPollManager> poll_manager, unsigned int allowed_discontinuities = 0);
-            void add_necessary_bit_polls(std::shared_ptr<IPollManager> poll_manager, unsigned int allowed_discontinuities = 0);
+            void add_necessary_byte_polls(const std::shared_ptr<IPollManager>& poll_manager, uint16_t allowed_discontinuities = 0);
 
         private:
 

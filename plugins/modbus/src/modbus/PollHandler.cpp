@@ -60,38 +60,33 @@ namespace adapter
             return this->holding_registers.size();
         }
 
-        void PollHandler::add_necessary_byte_polls(std::shared_ptr<IPollManager> poll_manager, unsigned int allowed_discontinuities)
+        void PollHandler::add_necessary_byte_polls(const std::shared_ptr<IPollManager>& poll_manager, uint16_t allowed_discontinuities)
         {
-            // Add ReadRegistersRequest
-            if (!this->holding_registers.empty())
+            // nothing to configure
+            if (this->holding_registers.empty()) return;
+
+            auto begin = this->holding_registers.begin()->first;
+            auto end = begin;
+            for (auto& reg : this->holding_registers)
             {
-                uint16_t begin = boost::numeric_cast<uint16_t>(this->holding_registers.begin()->first);
-                uint16_t end = begin;
-                for (auto& reg : this->holding_registers)
+                if (reg.first > end + allowed_discontinuities + 1 || // There is a discontinuity
+                        reg.first - begin + 1 > ::modbus::ReadHoldingRegistersRequest::max_registers) //
                 {
-                    if (reg.first > end + allowed_discontinuities + 1 || // There is a discontinuity
-                            reg.first - begin + 1 > ::modbus::ReadHoldingRegistersRequest::max_registers) //
-                    {
-                        // Add the request
-                        poll_manager->add(::modbus::ReadHoldingRegistersRequest{ begin, boost::numeric_cast<uint16_t>(end - begin + 1) });
-                        begin = boost::numeric_cast<uint16_t>(reg.first);
-                        end = boost::numeric_cast<uint16_t>(reg.first);
-                    }
-                    else
-                    {
-                        // No discontinuity, keep adding
-                        end = reg.first;
-                    }
+                    // Add the request
+                    poll_manager->add(::modbus::ReadHoldingRegistersRequest{ begin, boost::numeric_cast<uint16_t>(end - begin + 1) });
+                    begin = reg.first;
+                    end = reg.first;
                 }
-
-                // Add last poll
-                poll_manager->add(::modbus::ReadHoldingRegistersRequest{ begin, boost::numeric_cast<uint16_t>(end - begin + 1) });
+                else
+                {
+                    // No discontinuity, keep adding
+                    end = reg.first;
+                }
             }
-        }
 
-        void PollHandler::add_necessary_bit_polls(std::shared_ptr<IPollManager> poll_manager, unsigned int allowed_discontinuities)
-        {
-            // TODO: Implement this for coils and discrete inputs
+            // Add last poll
+            poll_manager->add(::modbus::ReadHoldingRegistersRequest{ begin, boost::numeric_cast<uint16_t>(end - begin + 1) });
+
         }
 
     }
