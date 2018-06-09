@@ -22,6 +22,8 @@ namespace adapter
 
             using callback_t = std::function<void ()>;
 
+            virtual std::string get_description() const = 0;
+
             virtual void start(session_t session, const callback_t& callback) = 0;
 
             virtual bool is_periodic() const

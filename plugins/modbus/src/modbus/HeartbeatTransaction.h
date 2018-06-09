@@ -22,6 +22,11 @@ namespace adapter
 
             HeartbeatTransaction(Logger logger, uint16_t address, std::chrono::steady_clock::duration period, uint16_t invert_mask);
 
+            std::string get_description() const override
+            {
+                return "heartbeat";
+            }
+
             void start(std::shared_ptr<::modbus::ISession> session, const std::function<void()>& callback) override;
 
             bool is_periodic() const override

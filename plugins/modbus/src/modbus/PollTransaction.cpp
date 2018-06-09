@@ -17,12 +17,12 @@ namespace adapter
             period(period),
             handler(std::move(handler))
         {
-            this->handler->configure(config, *this);
+            this->handler->configure(config, this->polls);
         }
 
         void PollTransaction::start(session_t session, const ITransaction::callback_t& callback)
         {
-            if(polls.empty())
+            if(polls.requests.empty())
             {
                 session->start(std::chrono::seconds(0), callback);
             }
@@ -33,11 +33,6 @@ namespace adapter
             }
         }
 
-        void PollTransaction::add(const ::modbus::ReadHoldingRegistersRequest& request)
-        {
-            this->polls.push_back(request);
-        }
-
         void PollTransaction::start_next_request(size_t index, session_t session, const ITransaction::callback_t& callback)
         {
             const auto read_handler = [self = shared_from_this(), index, session, callback](const ::modbus::Expected<::modbus::ReadHoldingRegistersResponse>& response)
@@ -46,7 +41,7 @@ namespace adapter
                 {
                     self->handler->apply(response.get());
                     const auto next = index + 1;
-                    if(next < self->polls.size())
+                    if(next < self->polls.requests.size())
                     {
                         // start the next poll
                         self->start_next_request(next, session, callback);
@@ -65,8 +60,9 @@ namespace adapter
                 }
             };
 
-            session->send_request(this->polls[index], read_handler);
+            session->send_request(this->polls.requests[index], read_handler);
         }
+
     }
 }
 

@@ -58,6 +58,8 @@ namespace adapter
             if(session && !is_running && !transactions.empty())
             {
                 this->is_running = true;
+                this->logger.info("Starting transaction: {}", this->transactions.front()->get_description());
+
                 this->transactions.front()->start(
                     session,
                     [self = shared_from_this(), transaction = this->transactions.front()]()
