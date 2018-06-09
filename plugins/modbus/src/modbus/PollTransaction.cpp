@@ -17,7 +17,7 @@ namespace adapter
             period(period),
             handler(std::move(handler))
         {
-            handler->configure(config, *this);
+            this->handler->configure(config, *this);
         }
 
         void PollTransaction::start(session_t session, const ITransaction::callback_t& callback)
