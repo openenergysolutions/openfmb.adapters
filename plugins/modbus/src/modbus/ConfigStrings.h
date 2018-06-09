@@ -18,12 +18,16 @@ namespace adapter
             constexpr const char* const port = "port";
             constexpr const char* const unit_identifier = "unit-identifier";
 
+            // heartbeat
+            constexpr const char* const heartbeats = "heartbeats";
+            constexpr const char* const period_ms = "period_ms";
+
             // poll level
             constexpr const char* const profile = "profile";
             constexpr const char* const poll_period_ms = "poll_period_ms";
             constexpr const char* const response_timeout_ms = "response_timeout_ms";
-            constexpr const char* const allowed_byte_discontinuities = "allowed_byte_discontinuities";
-            constexpr const char* const allowed_bit_discontinuities = "allowed_bit_discontinuities";
+            constexpr const char* const auto_polling = "auto_polling";
+            constexpr const char* const max_register_gaps = "max_register_gaps";
 
             // mapping level
             constexpr const char* const type = "type";

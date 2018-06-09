@@ -51,8 +51,20 @@ namespace adapter
 
             out << YAML::Key << keys::poll_period_ms << YAML::Value << 1000 << YAML::Comment("perform polls once per second");
             out << YAML::Key << keys::response_timeout_ms << YAML::Value << 1000 << YAML::Comment("response timeout");
-            out << YAML::Key << keys::allowed_byte_discontinuities << YAML::Value << 0 << YAML::Comment("polls for registers will be made without discontinuity");
-            out << YAML::Key << keys::allowed_bit_discontinuities << YAML::Value << 16 << YAML::Comment("polls for coils will be made with discontinuities up to 16 bits");
+
+            out << YAML::Key << keys::auto_polling << YAML::Comment("configuration parameters for auto-polling");
+            out << YAML::BeginMap;
+            out << YAML::Key << keys::max_register_gaps << YAML::Value << 0 << YAML::Comment("0 == no gaps allowed when polling for registers");
+            out << YAML::EndMap;
+
+            out << YAML::Key << keys::heartbeats;
+            out << YAML::BeginSeq;
+            out << YAML::BeginMap;
+            out << YAML::Key << keys::index << YAML::Value << 7 << YAML::Comment("Read the specified register, invert the masked bits, and write it back");
+            out << YAML::Key << keys::period_ms << YAML::Value << 1000 << YAML::Comment("Heartbeat period in milliseconds");
+            out << YAML::Key << keys::mask << YAML::Value << "0x01" << YAML::Comment("Mask specifying the bits to invert");
+            out << YAML::EndMap;
+            out << YAML::EndSeq;
 
             out << YAML::Key << ::adapter::keys::profiles;
             out << YAML::BeginSeq;

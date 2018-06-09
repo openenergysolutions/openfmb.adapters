@@ -35,7 +35,16 @@ namespace adapter
         {
             static_assert(sizeof(T) < sizeof(int64_t));
 
-            return boost::numeric_cast<T>(require(parent, key).as<int64_t>());
+            const auto node = require(parent, key);
+
+            try
+            {
+                return boost::numeric_cast<T>(node.as<int64_t>());
+            }
+            catch(const std::exception& ex)
+            {
+                throw Exception(ex.what(), " line: ", node.Mark().line);
+            }
         }
 
         template <class T>

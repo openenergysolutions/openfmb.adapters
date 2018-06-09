@@ -14,6 +14,7 @@
 #include "PollHandler.h"
 #include "TransactionHandler.h"
 #include "PollTransaction.h"
+#include "HeartbeatTransaction.h"
 
 namespace adapter
 {
@@ -61,12 +62,34 @@ namespace adapter
             );
         }
 
+        AutoPollConfig read_auto_poll_config(const YAML::Node& node)
+        {
+            const auto config_node = yaml::require(node, keys::auto_polling);
+            return AutoPollConfig(
+                       yaml::require_integer<uint16_t>(config_node, keys::max_register_gaps)
+                   );
+        }
+
         void Plugin::configure_session(const YAML::Node& node, message_bus_t bus)
         {
             const auto name = yaml::require_string(node, keys::name);
-            const auto profiles_seq = yaml::require(node, ::adapter::keys::profiles);
+
             const auto poll_handler = std::make_shared<PollHandler>();
             const auto tx_handler = std::make_shared<TransactionHandler>(this->logger);
+
+            const auto add_heartbeat = [&](const YAML::Node & node)
+            {
+                tx_handler->add(
+                    std::make_shared<HeartbeatTransaction>(
+                        this->logger,
+                        yaml::require_integer<uint16_t>(node, keys::index),
+                        std::chrono::milliseconds(yaml::require_integer<uint32_t>(node, keys::period_ms)),
+                        yaml::require_integer<uint16_t>(node, keys::mask)
+                    )
+                );
+            };
+
+            yaml::foreach(yaml::require(node, keys::heartbeats), add_heartbeat);
 
             const auto add_profile = [&](const YAML::Node & node)
             {
@@ -78,7 +101,7 @@ namespace adapter
                 );
             };
 
-            yaml::foreach(profiles_seq, add_profile);
+            yaml::foreach(yaml::require(node, ::adapter::keys::profiles), add_profile);
 
             this->logger.info("Session {} has {} mapped values", name, poll_handler->num_mapped_values());
 
@@ -87,7 +110,7 @@ namespace adapter
                 tx_handler->add(
                     std::make_shared<PollTransaction>(
                         this->logger,
-                        AutoPollConfig(yaml::require_integer<uint16_t>(node, keys::allowed_byte_discontinuities)),
+                        read_auto_poll_config(node),
                         std::chrono::milliseconds(yaml::require_integer<uint32_t>(node, keys::poll_period_ms)),
                         poll_handler
                     )

@@ -14,11 +14,10 @@ namespace adapter
     {
         struct AutoPollConfig
         {
-            explicit AutoPollConfig(const uint16_t max_register_discontinuity) :
-                max_register_discontinuity(max_register_discontinuity)
+            explicit AutoPollConfig(uint16_t max_register_gaps) : max_register_gaps(max_register_gaps)
             {}
 
-            const uint16_t max_register_discontinuity;
+            const uint16_t max_register_gaps;
         };
 
         class IPollHandler

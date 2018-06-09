@@ -24,7 +24,7 @@ namespace adapter
         void TransactionHandler::start(session_t session)
         {
             std::lock_guard<std::mutex> lock(mutex);
-            if(session) throw Exception("TransactionHandler already started");
+            if(this->session) throw Exception("TransactionHandler already started");
             this->session = std::move(session);
             this->check_for_start();
         }
