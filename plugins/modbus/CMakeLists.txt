@@ -24,6 +24,7 @@ set(MODBUS_SOURCES
         src/modbus/Source.h
         src/modbus/Source.cpp
         src/modbus/ICachedValue.h
+        src/modbus/ITransactionProcessor.h
         src/modbus/TransactionProcessor.h
         src/modbus/TransactionProcessor.cpp
         src/modbus/ITransaction.h

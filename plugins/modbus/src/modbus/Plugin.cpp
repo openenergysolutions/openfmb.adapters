@@ -25,11 +25,11 @@ namespace adapter
         class ProfileReader
         {
         public:
-            static void handle(const YAML::Node& node, message_bus_t bus, std::shared_ptr<PollHandler> handler)
+            static void handle(const YAML::Node& node, message_bus_t bus, std::shared_ptr<PollHandler> handler, std::shared_ptr<ITransactionProcessor> processor)
             {
                 if(adapter::get_profile_type<T>() == ProfileType::control)
                 {
-                    throw Exception("Modbus plugin doesn't support control profiles");
+                    handle_subscribe(node, std::move(bus), std::move(processor));
                 }
                 else
                 {
@@ -38,10 +38,16 @@ namespace adapter
             }
 
         private:
+
             static void handle_publish(const YAML::Node& node, message_bus_t bus, std::shared_ptr<PollHandler> handler)
             {
                 PublishConfigReadVisitor<T> visitor(node, std::move(bus), std::move(handler));
                 visit(visitor);
+            }
+
+            static void handle_subscribe(const YAML::Node& node, message_bus_t bus, std::shared_ptr<ITransactionProcessor> processor)
+            {
+                throw Exception("Modbus plugin doesn't support control profiles");
             }
         };
 
@@ -97,7 +103,8 @@ namespace adapter
                     yaml::require_string(node, ::adapter::keys::name),
                     node,
                     bus,
-                    poll_handler
+                    poll_handler,
+                    tx_handler
                 );
             };
 
