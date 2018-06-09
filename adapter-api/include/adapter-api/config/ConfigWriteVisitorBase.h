@@ -138,7 +138,8 @@ namespace adapter
             this->out << YAML::EndMap;
         }
 
-        void handle(const std::string &field_name, Accessor <commonmodule::ControlFSCC, T> accessor) override {
+        void handle(const std::string& field_name, Accessor <commonmodule::ControlFSCC, T> accessor) override
+        {
             this->out << YAML::Key << field_name;
             this->write_control_fscc_keys();
         }

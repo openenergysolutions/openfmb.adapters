@@ -64,7 +64,7 @@ namespace adapter
             explicit SubscribingConfigReadVisitor(const YAML::Node& root) : ConfigReadVisitorBase<T>(root)
             {}
 
-            void subscribe(Logger logger, message_bus_t bus, std::shared_ptr<ICommandSequenceExecutor> executor)
+            void subscribe(Logger logger, IMessageBus& bus, std::shared_ptr<ICommandSequenceExecutor> executor)
             {
                 if(configuration->is_empty())
                 {
@@ -73,7 +73,7 @@ namespace adapter
 
                 logger.info("Subscribing to {} w/ mRID {}", T::descriptor()->name(), this->mRID);
 
-                bus->subscribe(
+                bus.subscribe(
                     std::make_shared<Subscriber>(this->mRID, logger, this->configuration, std::move(executor))
                 );
             }
@@ -129,7 +129,8 @@ namespace adapter
                 this->handle_synchro_check(yaml::require(node, ::adapter::keys::synchroCheck), accessor);
             }
 
-            void handle(const std::string &field_name, Accessor<commonmodule::ControlFSCC, T> accessor) override {
+            void handle(const std::string& field_name, Accessor<commonmodule::ControlFSCC, T> accessor) override
+            {
                 throw Exception("not implemented");
             }
 
@@ -169,7 +170,7 @@ namespace adapter
                 this->configuration->add(builder);
             }
 
-            void handle(const std::string &field_name, Accessor<essmodule::ESSCSG, T> accessor) override
+            void handle(const std::string& field_name, Accessor<essmodule::ESSCSG, T> accessor) override
             {
                 throw Exception("not implemented");
             }

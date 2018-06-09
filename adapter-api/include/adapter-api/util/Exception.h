@@ -28,6 +28,12 @@ namespace adapter
         }
 
     };
+
+    class NotImplemented : public Exception
+    {
+    public:
+        NotImplemented() : Exception("not implemented") {}
+    };
 }
 
 #endif //OPENFMB_ADAPTER_EXCEPTION_H

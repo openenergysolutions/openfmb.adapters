@@ -4,6 +4,7 @@ set(MODBUS_PUBLIC_HEADERS
 
 set(MODBUS_SOURCES
         src/modbus/PublishConfigReadVisitor.h
+        src/modbus/SubscribeConfigReadVisitor.h
         src/modbus/ConfigStrings.h
         src/modbus/HeartbeatTransaction.h
         src/modbus/HeartbeatTransaction.cpp

@@ -11,6 +11,7 @@
 #include "modbus/channel/Ipv4Endpoint.h"
 
 #include "PublishConfigReadVisitor.h"
+#include "SubscribeConfigReadVisitor.h"
 #include "PollHandler.h"
 #include "TransactionProcessor.h"
 #include "PollTransaction.h"
@@ -25,11 +26,11 @@ namespace adapter
         class ProfileReader
         {
         public:
-            static void handle(const YAML::Node& node, message_bus_t bus, std::shared_ptr<PollHandler> handler, std::shared_ptr<ITransactionProcessor> processor)
+            static void handle(const YAML::Node& node, const Logger& logger, message_bus_t bus, std::shared_ptr<PollHandler> handler, std::shared_ptr<ITransactionProcessor> processor)
             {
                 if(adapter::get_profile_type<T>() == ProfileType::control)
                 {
-                    handle_subscribe(node, std::move(bus), std::move(processor));
+                    handle_subscribe(node, logger, *bus, std::move(processor));
                 }
                 else
                 {
@@ -45,9 +46,11 @@ namespace adapter
                 visit(visitor);
             }
 
-            static void handle_subscribe(const YAML::Node& node, message_bus_t bus, std::shared_ptr<ITransactionProcessor> processor)
+            static void handle_subscribe(const YAML::Node& node, Logger logger, IMessageBus& bus, std::shared_ptr<ITransactionProcessor> processor)
             {
-                throw Exception("Modbus plugin doesn't support control profiles");
+                SubscribeConfigReadVisitor<T> visitor(node);
+                visit(visitor);
+                visitor.subscribe(logger, bus, std::move(processor));
             }
         };
 
@@ -102,6 +105,7 @@ namespace adapter
                 profiles::handle_one<ProfileReader>(
                     yaml::require_string(node, ::adapter::keys::name),
                     node,
+                    this->logger,
                     bus,
                     poll_handler,
                     tx_handler

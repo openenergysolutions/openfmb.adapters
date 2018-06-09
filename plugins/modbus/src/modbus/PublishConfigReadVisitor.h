@@ -105,7 +105,8 @@ namespace adapter
                 throw Exception("not implemented");
             }
 
-            void handle(const std::string &field_name, Accessor<commonmodule::ControlFSCC, T> accessor) override {
+            void handle(const std::string& field_name, Accessor<commonmodule::ControlFSCC, T> accessor) override
+            {
                 throw Exception("not implemented");
             }
 
@@ -114,7 +115,7 @@ namespace adapter
                 throw Exception("not implemented");
             }
 
-            void handle(const std::string &field_name, Accessor<essmodule::ESSCSG, T> accessor) override
+            void handle(const std::string& field_name, Accessor<essmodule::ESSCSG, T> accessor) override
             {
                 throw Exception("not implemented");
             }

@@ -41,7 +41,7 @@ namespace adapter
             {
                 if(::adapter::get_profile_type<T>() == ProfileType::control)
                 {
-                    handle_subscribe(node, logger, std::move(bus), std::move(executor));
+                    handle_subscribe(node, logger, *bus, std::move(executor));
                 }
                 else
                 {
@@ -57,11 +57,11 @@ namespace adapter
                 visit(visitor);
             }
 
-            static void handle_subscribe(const YAML::Node& node, const Logger& logger, message_bus_t bus, std::shared_ptr<ICommandSequenceExecutor> executor)
+            static void handle_subscribe(const YAML::Node& node, const Logger& logger, IMessageBus& bus, std::shared_ptr<ICommandSequenceExecutor> executor)
             {
                 SubscribingConfigReadVisitor<T> visitor(node);
                 visit(visitor);
-                visitor.subscribe(logger, std::move(bus), std::move(executor));
+                visitor.subscribe(logger, bus, std::move(executor));
             }
         };
 
