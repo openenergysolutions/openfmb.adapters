@@ -3583,4 +3583,95 @@ void visit(IModelVisitor<essmodule::ESSStatusProfile>& visitor)
     visitor.end_message_field();
 }
 
+void visit(IModelVisitor<essmodule::ESSControlProfile>& visitor)
+{
+    const auto mutable_context0 = [](essmodule::ESSControlProfile& profile) { return &profile; };
+    const auto const_context0 = [](const essmodule::ESSControlProfile& profile) { return &profile; };
+    visitor.start_message_field("controlMessageInfo");
+    {
+        const auto mutable_context1 = [context = mutable_context0](essmodule::ESSControlProfile& profile) { return context(profile)->mutable_controlmessageinfo(); };
+        const auto const_context1 = [context = const_context0](const essmodule::ESSControlProfile& profile) { const auto temp = context(profile); return (temp && temp->has_controlmessageinfo()) ? &temp->controlmessageinfo() : nullptr; };
+        visitor.handle(
+            "messageInfo",
+            AccessorBuilder<commonmodule::MessageInfo, essmodule::ESSControlProfile>::build(
+                [context = mutable_context1](essmodule::ESSControlProfile& profile) { return context(profile)->mutable_messageinfo(); },
+                [context = const_context1](const essmodule::ESSControlProfile& profile) { const auto temp = context(profile); return (temp && temp->has_messageinfo()) ? &temp->messageinfo() : nullptr; }
+            )
+        );
+    }
+    visitor.end_message_field();
+    visitor.start_message_field("ess");
+    {
+        const auto mutable_context1 = [context = mutable_context0](essmodule::ESSControlProfile& profile) { return context(profile)->mutable_ess(); };
+        const auto const_context1 = [context = const_context0](const essmodule::ESSControlProfile& profile) { const auto temp = context(profile); return (temp && temp->has_ess()) ? &temp->ess() : nullptr; };
+        visitor.handle(
+            "conductingEquipment",
+            AccessorBuilder<commonmodule::ConductingEquipment, essmodule::ESSControlProfile>::build(
+                [context = mutable_context1](essmodule::ESSControlProfile& profile) { return context(profile)->mutable_conductingequipment(); },
+                [context = const_context1](const essmodule::ESSControlProfile& profile) { const auto temp = context(profile); return (temp && temp->has_conductingequipment()) ? &temp->conductingequipment() : nullptr; }
+            )
+        );
+    }
+    visitor.end_message_field();
+    visitor.start_message_field("essControl");
+    {
+        const auto mutable_context1 = [context = mutable_context0](essmodule::ESSControlProfile& profile) { return context(profile)->mutable_esscontrol(); };
+        const auto const_context1 = [context = const_context0](const essmodule::ESSControlProfile& profile) { const auto temp = context(profile); return (temp && temp->has_esscontrol()) ? &temp->esscontrol() : nullptr; };
+        visitor.handle(
+            "controlValue",
+            AccessorBuilder<commonmodule::ControlValue, essmodule::ESSControlProfile>::build(
+                [context = mutable_context1](essmodule::ESSControlProfile& profile) { return context(profile)->mutable_controlvalue(); },
+                [context = const_context1](const essmodule::ESSControlProfile& profile) { const auto temp = context(profile); return (temp && temp->has_controlvalue()) ? &temp->controlvalue() : nullptr; }
+            )
+        );
+        visitor.handle(
+            "check",
+            AccessorBuilder<commonmodule::CheckConditions, essmodule::ESSControlProfile>::build(
+                [context = mutable_context1](essmodule::ESSControlProfile& profile) { return context(profile)->mutable_check(); },
+                [context = const_context1](const essmodule::ESSControlProfile& profile) { const auto temp = context(profile); return (temp && temp->has_check()) ? &temp->check() : nullptr; }
+            )
+        );
+        visitor.start_message_field("essControlFSCC");
+        {
+            const auto mutable_context2 = [context = mutable_context1](essmodule::ESSControlProfile& profile) { return context(profile)->mutable_esscontrolfscc(); };
+            const auto const_context2 = [context = const_context1](const essmodule::ESSControlProfile& profile) { const auto temp = context(profile); return (temp && temp->has_esscontrolfscc()) ? &temp->esscontrolfscc() : nullptr; };
+            visitor.handle(
+                "controlFSCC",
+                AccessorBuilder<commonmodule::ControlFSCC, essmodule::ESSControlProfile>::build(
+                    [context = mutable_context2](essmodule::ESSControlProfile& profile) { return context(profile)->mutable_controlfscc(); },
+                    [context = const_context2](const essmodule::ESSControlProfile& profile) { const auto temp = context(profile); return (temp && temp->has_controlfscc()) ? &temp->controlfscc() : nullptr; }
+                )
+            );
+            visitor.start_message_field("essControlScheduleFSCH");
+            {
+                const auto mutable_context3 = [context = mutable_context2](essmodule::ESSControlProfile& profile) { return context(profile)->mutable_esscontrolschedulefsch(); };
+                const auto const_context3 = [context = const_context2](const essmodule::ESSControlProfile& profile) { const auto temp = context(profile); return (temp && temp->has_esscontrolschedulefsch()) ? &temp->esscontrolschedulefsch() : nullptr; };
+                visitor.handle(
+                    "ValDCSG",
+                    AccessorBuilder<essmodule::ESSCSG, essmodule::ESSControlProfile>::build(
+                        [context = mutable_context3](essmodule::ESSControlProfile& profile) { return context(profile)->mutable_valdcsg(); },
+                        [context = const_context3](const essmodule::ESSControlProfile& profile) { const auto temp = context(profile); return (temp && temp->has_valdcsg()) ? &temp->valdcsg() : nullptr; }
+                    )
+                );
+            }
+            visitor.end_message_field();
+        }
+        visitor.end_message_field();
+    }
+    visitor.end_message_field();
+    visitor.start_message_field("ied");
+    {
+        const auto mutable_context1 = [context = mutable_context0](essmodule::ESSControlProfile& profile) { return context(profile)->mutable_ied(); };
+        const auto const_context1 = [context = const_context0](const essmodule::ESSControlProfile& profile) { const auto temp = context(profile); return (temp && temp->has_ied()) ? &temp->ied() : nullptr; };
+        visitor.handle(
+            "identifiedObject",
+            AccessorBuilder<commonmodule::IdentifiedObject, essmodule::ESSControlProfile>::build(
+                [context = mutable_context1](essmodule::ESSControlProfile& profile) { return context(profile)->mutable_identifiedobject(); },
+                [context = const_context1](const essmodule::ESSControlProfile& profile) { const auto temp = context(profile); return (temp && temp->has_identifiedobject()) ? &temp->identifiedobject() : nullptr; }
+            )
+        );
+    }
+    visitor.end_message_field();
+}
+
 } // end namespace adapter

@@ -30,4 +30,6 @@ void visit(const essmodule::ESSReadingProfile& message, IMessageVisitor& visitor
 
 void visit(const essmodule::ESSStatusProfile& message, IMessageVisitor& visitor);
 
+void visit(const essmodule::ESSControlProfile& message, IMessageVisitor& visitor);
+
 } // end namespace adapter

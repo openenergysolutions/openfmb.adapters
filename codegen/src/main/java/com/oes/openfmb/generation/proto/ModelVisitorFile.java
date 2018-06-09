@@ -10,6 +10,7 @@ import com.oes.openfmb.util.FieldPathImpl;
 import openfmb.commonmodule.*;
 import openfmb.essmodule.ENG_ESSFunctionKind;
 import openfmb.essmodule.ENG_ESSFunctionParameter;
+import openfmb.essmodule.ESSCSG;
 import openfmb.switchmodule.SwitchCSG;
 
 import java.util.*;
@@ -40,7 +41,9 @@ public class ModelVisitorFile extends CppFilePair {
                 // stuff that appears in control profiles
                 ControlValue.getDescriptor(),
                 CheckConditions.getDescriptor(),
-                SwitchCSG.getDescriptor()
+                SwitchCSG.getDescriptor(),
+                ESSCSG.getDescriptor(),
+                ControlFSCC.getDescriptor()
             )
     );
 

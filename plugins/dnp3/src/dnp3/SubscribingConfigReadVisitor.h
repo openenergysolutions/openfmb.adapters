@@ -134,6 +134,10 @@ namespace adapter
                 this->handle_synchro_check(yaml::require(node, ::adapter::keys::synchroCheck), accessor);
             }
 
+            void handle(const std::string &field_name, Accessor<commonmodule::ControlFSCC, T> accessor) override {
+                throw Exception("not implemented");
+            }
+
             void handle(const std::string& field_name, Accessor<switchmodule::SwitchCSG, T> accessor) override
             {
                 const auto node = this->get_config_node(field_name);
@@ -168,6 +172,11 @@ namespace adapter
                 };
 
                 this->configuration->add(builder);
+            }
+
+            void handle(const std::string &field_name, Accessor<essmodule::ESSCSG, T> accessor) override
+            {
+                throw Exception("not implemented");
             }
 
             void handle(const std::string& field_name, Accessor<commonmodule::ConductingEquipment, T> accessor) override

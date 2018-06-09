@@ -94,7 +94,7 @@ namespace adapter
 
         void handle(const std::string& field_name, Accessor <commonmodule::ControlValue, T> accessor) final
         {
-            // no need to do anything for the control value
+
         }
 
         void handle(const std::string& field_name, Accessor <commonmodule::StatusSPS, T> accessor) final
@@ -143,10 +143,21 @@ namespace adapter
             this->out << YAML::EndMap;
         }
 
+        void handle(const std::string &field_name, Accessor <commonmodule::ControlFSCC, T> accessor) override {
+            this->out << YAML::Key << field_name;
+            this->write_control_fscc_keys();
+        }
+
         void handle(const std::string& field_name, Accessor <switchmodule::SwitchCSG, T> accessor) final
         {
             this->out << YAML::Key << field_name;
             this->write_switch_csg_keys();
+        }
+
+        void handle(const std::string& field_name, Accessor<essmodule::ESSCSG, T> accessor) final
+        {
+            this->out << YAML::Key << field_name;
+            this->write_ess_csg_keys();
         }
 
         void handle(const std::string& field_name, Accessor<commonmodule::ConductingEquipment, T> accessor) final
@@ -209,6 +220,10 @@ namespace adapter
 
         virtual void write_switch_csg_keys() = 0;
 
+        virtual void write_ess_csg_keys() = 0;
+
+        virtual void write_control_fscc_keys() = 0;
+
     private:
 
         void write_static_mrid()
@@ -230,4 +245,4 @@ namespace adapter
 
 }
 
-#endif //OPENFMB_ADAPTER_CONFIGWRITEVISITORBASE_H
+#endif

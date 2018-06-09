@@ -1720,4 +1720,9 @@ void visit(const essmodule::ESSStatusProfile& message, IMessageVisitor& visitor)
     }
 }
 
+void visit(const essmodule::ESSControlProfile& message, IMessageVisitor& visitor)
+{
+    const auto& level0 = message;
+}
+
 } // end namespace adapter

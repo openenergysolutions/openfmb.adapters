@@ -120,6 +120,16 @@ namespace adapter
                 this->out << YAML::EndMap;
             }
 
+            void write_control_fscc_keys() override
+            {
+                throw Exception("not implemented");
+            }
+
+            void write_ess_csg_keys() override
+            {
+                throw Exception("not implemented");
+            }
+
             void write_status_sps_keys() override
             {
                 throw Exception("not implemented");

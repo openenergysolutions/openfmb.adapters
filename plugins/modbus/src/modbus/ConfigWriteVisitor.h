@@ -51,7 +51,17 @@ namespace adapter
                 throw Exception("Not implemented");
             }
 
+            void write_control_fscc_keys() override
+            {
+                throw Exception("Not implemented");
+            }
+
             void write_switch_csg_keys() override
+            {
+                throw Exception("Not implemented");
+            }
+
+            void write_ess_csg_keys() override
             {
                 throw Exception("Not implemented");
             }

@@ -65,7 +65,9 @@ namespace adapter
         /// --- handlers for control types ---
         virtual void handle(const std::string& field_name, Accessor<commonmodule::ControlValue, T> accessor) = 0;
         virtual void handle(const std::string& field_name, Accessor<commonmodule::CheckConditions, T> accessor) = 0;
+        virtual void handle(const std::string& field_name, Accessor<commonmodule::ControlFSCC, T> accessor) = 0;
         virtual void handle(const std::string& field_name, Accessor<switchmodule::SwitchCSG, T> accessor) = 0;
+        virtual void handle(const std::string& field_name, Accessor<essmodule::ESSCSG, T> accessor) = 0;
 
         /// --- handlers for meta-data fields used by all profiles ---
         virtual void handle(const std::string& field_name, Accessor<commonmodule::MessageInfo, T> accessor) = 0;

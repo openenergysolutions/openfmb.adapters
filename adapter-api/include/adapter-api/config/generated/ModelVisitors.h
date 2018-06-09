@@ -30,4 +30,6 @@ void visit(IModelVisitor<essmodule::ESSReadingProfile>& visitor);
 
 void visit(IModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
+void visit(IModelVisitor<essmodule::ESSControlProfile>& visitor);
+
 } // end namespace adapter
