@@ -38,32 +38,32 @@ namespace adapter
 
             void write_status_dps_keys() override
             {
-                throw Exception("Not implemented");
+                throw NotImplemented(LOCATION);
             }
 
             void write_check_conditions_interlockCheck_keys() override
             {
-                throw Exception("Not implemented");
+                throw NotImplemented(LOCATION);
             }
 
             void write_check_conditions_synchroCheck_keys() override
             {
-                throw Exception("Not implemented");
+                throw NotImplemented(LOCATION);
             }
 
             void write_control_fscc_keys() override
             {
-                throw Exception("Not implemented");
+                throw NotImplemented(LOCATION);
             }
 
             void write_switch_csg_keys() override
             {
-                throw Exception("Not implemented");
+                throw NotImplemented(LOCATION);
             }
 
             void write_ess_csg_keys() override
             {
-                throw Exception("Not implemented");
+                throw NotImplemented(LOCATION);
             }
 
             void write_status_sps_keys() override
