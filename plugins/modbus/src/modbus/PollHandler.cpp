@@ -3,7 +3,6 @@
 
 #include <boost/numeric/conversion/cast.hpp>
 #include <adapter-api/util/Exception.h>
-#include "IPollManager.h"
 
 namespace adapter
 {
@@ -60,7 +59,7 @@ namespace adapter
             return this->holding_registers.size();
         }
 
-        void PollHandler::add_necessary_byte_polls(const std::shared_ptr<IPollManager>& poll_manager, uint16_t allowed_discontinuities)
+        void PollHandler::configure(const AutoPollConfig& config, IRequestBuilder& builder)
         {
             // nothing to configure
             if (this->holding_registers.empty()) return;
@@ -69,11 +68,11 @@ namespace adapter
             auto end = begin;
             for (auto& reg : this->holding_registers)
             {
-                if (reg.first > end + allowed_discontinuities + 1 || // There is a discontinuity
+                if (reg.first > end + config.max_register_discontinuity + 1 || // There is a discontinuity
                         reg.first - begin + 1 > ::modbus::ReadHoldingRegistersRequest::max_registers) //
                 {
                     // Add the request
-                    poll_manager->add(::modbus::ReadHoldingRegistersRequest{ begin, boost::numeric_cast<uint16_t>(end - begin + 1) });
+                    builder.add(::modbus::ReadHoldingRegistersRequest{ begin, boost::numeric_cast<uint16_t>(end - begin + 1) });
                     begin = reg.first;
                     end = reg.first;
                 }
@@ -85,9 +84,9 @@ namespace adapter
             }
 
             // Add last poll
-            poll_manager->add(::modbus::ReadHoldingRegistersRequest{ begin, boost::numeric_cast<uint16_t>(end - begin + 1) });
-
+            builder.add(::modbus::ReadHoldingRegistersRequest{ begin, boost::numeric_cast<uint16_t>(end - begin + 1) });
         }
+
 
     }
 

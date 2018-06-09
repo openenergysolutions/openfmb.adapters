@@ -10,14 +10,12 @@ set(MODBUS_SOURCES
         src/modbus/IConfigurationBuilder.h
         src/modbus/IRegister.h
         src/modbus/IPollHandler.h
-        src/modbus/IPollManager.h
+        src/modbus/IRequestBuilder.h
         src/modbus/MappingType.h
         src/modbus/MappingType.cpp
         src/modbus/ConfigWriteVisitor.h
         src/modbus/PollHandler.h
         src/modbus/PollHandler.cpp
-        src/modbus/PollManager.h
-        src/modbus/PollManager.cpp
         src/modbus/Plugin.h
         src/modbus/Plugin.cpp
         src/modbus/PluginFactory.cpp
@@ -28,7 +26,10 @@ set(MODBUS_SOURCES
         src/modbus/ICachedValue.h
         src/modbus/TransactionHandler.h
         src/modbus/TransactionHandler.cpp
-        src/modbus/ITransaction.h)
+        src/modbus/ITransaction.h
+        src/modbus/PollTransaction.h
+        src/modbus/PollTransaction.cpp
+)
 
 set(CPP_FORMAT_DIRS
         ${CPP_FORMAT_DIRS}

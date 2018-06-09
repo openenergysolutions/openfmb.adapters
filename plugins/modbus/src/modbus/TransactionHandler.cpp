@@ -8,17 +8,17 @@ namespace adapter
     namespace modbus
     {
 
-        TransactionHandler::TransactionHandler(Logger logger, session_t  session) :
-            logger(std::move(logger)),
-            session(std::move(session))
+        TransactionHandler::TransactionHandler(Logger logger) : logger(std::move(logger))
         {}
 
         void TransactionHandler::add(std::shared_ptr<ITransaction> transaction)
         {
             std::lock_guard<std::mutex> lock(mutex);
-            if(this->is_shutdown)
+            if(!this->is_shutdown)
+            {
                 this->transactions.push(std::move(transaction));
-            this->check_for_start();
+                this->check_for_start();
+            }
         }
 
         void TransactionHandler::start(session_t session)

@@ -6,10 +6,21 @@
 
 #include <adapter-api/Logger.h>
 
+#include "IRequestBuilder.h"
+
 namespace adapter
 {
     namespace modbus
     {
+        struct AutoPollConfig
+        {
+            explicit AutoPollConfig(const uint16_t max_register_discontinuity) :
+                max_register_discontinuity(max_register_discontinuity)
+            {}
+
+            const uint16_t max_register_discontinuity;
+        };
+
         class IPollHandler
         {
 
@@ -17,6 +28,8 @@ namespace adapter
         public:
 
             virtual ~IPollHandler() = default;
+
+            // --- poll lifecycle ----
 
             /**
              * called prior to beginning a sequence of polls
@@ -32,6 +45,17 @@ namespace adapter
              * called after polls are complete to fill and publish a message
              */
             virtual void end(Logger& logger) = 0;
+
+
+            // --- helpers ----
+
+            /**
+             * Configure poll requests
+             *
+             * @param config Configuration parameters for auto polling
+             * @param builder Callback interface to specify polls
+             */
+            virtual void configure(const AutoPollConfig& config, IRequestBuilder& builder) = 0;
 
             /**
              *

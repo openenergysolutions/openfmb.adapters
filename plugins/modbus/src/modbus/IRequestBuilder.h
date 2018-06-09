@@ -1,6 +1,6 @@
 
-#ifndef OPENFMB_ADAPTER_MODBUS_IPOLLMANAGER_H
-#define OPENFMB_ADAPTER_MODBUS_IPOLLMANAGER_H
+#ifndef OPENFMB_ADAPTER_MODBUS_IREQUESTBUILDER_H
+#define OPENFMB_ADAPTER_MODBUS_IREQUESTBUILDER_H
 
 #include "modbus/messages/ReadHoldingRegistersRequest.h"
 
@@ -8,10 +8,10 @@ namespace adapter
 {
     namespace modbus
     {
-        class IPollManager
+        class IRequestBuilder
         {
         public:
-            virtual ~IPollManager() = default;
+            virtual ~IRequestBuilder() = default;
 
             virtual void add(const ::modbus::ReadHoldingRegistersRequest& request) = 0;
         };

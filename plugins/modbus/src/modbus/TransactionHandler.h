@@ -28,7 +28,7 @@ namespace adapter
 
         public:
 
-            TransactionHandler(Logger logger, session_t  session);
+            TransactionHandler(Logger logger);
 
             void add(std::shared_ptr<ITransaction> transaction);
 

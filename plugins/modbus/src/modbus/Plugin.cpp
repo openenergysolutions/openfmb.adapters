@@ -1,10 +1,6 @@
 
 #include "Plugin.h"
 
-#include "PublishConfigReadVisitor.h"
-#include "PollHandler.h"
-#include "PollManager.h"
-
 #include <adapter-api/ProfileHelpers.h>
 #include <adapter-api/util/YAMLTemplate.h>
 #include <adapter-api/config/ProfileType.h>
@@ -14,6 +10,10 @@
 #include "modbus/channel/IChannel.h"
 #include "modbus/channel/Ipv4Endpoint.h"
 
+#include "PublishConfigReadVisitor.h"
+#include "PollHandler.h"
+#include "TransactionHandler.h"
+#include "PollTransaction.h"
 
 namespace adapter
 {
@@ -65,7 +65,8 @@ namespace adapter
         {
             const auto name = yaml::require_string(node, keys::name);
             const auto profiles_seq = yaml::require(node, ::adapter::keys::profiles);
-            const auto handler = std::make_shared<PollHandler>();
+            const auto poll_handler = std::make_shared<PollHandler>();
+            const auto tx_handler = std::make_shared<TransactionHandler>(this->logger);
 
             const auto add_profile = [&](const YAML::Node & node)
             {
@@ -73,30 +74,31 @@ namespace adapter
                     yaml::require_string(node, ::adapter::keys::name),
                     node,
                     bus,
-                    handler
+                    poll_handler
                 );
             };
 
             yaml::foreach(profiles_seq, add_profile);
 
-            this->logger.info("Session {} has {} mapped values", name, handler->num_mapped_values());
+            this->logger.info("Session {} has {} mapped values", name, poll_handler->num_mapped_values());
 
-            auto poller = PollManager::create(
-                              this->logger,
-                              handler,
-                              std::chrono::milliseconds(yaml::require_integer<int32_t>(node, keys::poll_period_ms)),
-                              this->get_session(name, node)
-                          );
-
-            // Configure polls
-            handler->add_necessary_byte_polls(
-                    poller,
-                    yaml::require_integer<uint16_t>(node, keys::allowed_byte_discontinuities)
-            );
-
-            this->start_actions.emplace_back([poller]()
+            if(poll_handler->num_mapped_values() > 0)
             {
-                poller->start();
+                tx_handler->add(
+                    std::make_shared<PollTransaction>(
+                        this->logger,
+                        AutoPollConfig(yaml::require_integer<uint16_t>(node, keys::allowed_byte_discontinuities)),
+                        std::chrono::milliseconds(yaml::require_integer<uint32_t>(node, keys::poll_period_ms)),
+                        poll_handler
+                    )
+                );
+            }
+
+            const auto session = this->get_session(name, node);
+
+            this->start_actions.emplace_back([tx_handler, session]()
+            {
+                tx_handler->start(session);
             });
         }
 
