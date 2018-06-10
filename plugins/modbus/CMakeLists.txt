@@ -31,6 +31,8 @@ set(MODBUS_SOURCES
         src/modbus/ITransaction.h
         src/modbus/PollTransaction.h
         src/modbus/PollTransaction.cpp
+        src/modbus/BinaryControlAction.h
+        src/modbus/BinaryControlAction.cpp
 )
 
 set(CPP_FORMAT_DIRS

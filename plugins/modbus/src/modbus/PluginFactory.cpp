@@ -62,7 +62,7 @@ namespace adapter
             out << YAML::BeginMap;
             out << YAML::Key << keys::index << YAML::Value << 7 << YAML::Comment("Read the specified register, invert the masked bits, and write it back");
             out << YAML::Key << keys::period_ms << YAML::Value << 1000 << YAML::Comment("Heartbeat period in milliseconds");
-            out << YAML::Key << keys::mask << YAML::Value << "0x01" << YAML::Comment("Mask specifying the bits to invert");
+            out << YAML::Key << keys::mask << YAML::Value << YAML::Hex << 0x01 << YAML::Comment("Mask specifying the bits to invert");
             out << YAML::EndMap;
             out << YAML::EndSeq;
 

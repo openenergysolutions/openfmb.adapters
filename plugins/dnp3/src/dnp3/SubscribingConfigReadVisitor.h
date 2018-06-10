@@ -82,42 +82,42 @@ namespace adapter
 
             void handle(const std::string& field_name, Accessor<commonmodule::MV, T> accessor) override
             {
-                throw Exception("not implemented");
+                throw NotImplemented(LOCATION);
             }
 
             void handle(const std::string& field_name, Accessor<commonmodule::CMV, T> accessor) override
             {
-                throw Exception("not implemented");
+                throw NotImplemented(LOCATION);
             }
 
             void handle(const std::string& field_name, Accessor<commonmodule::BCR, T> accessor) override
             {
-                throw Exception("not implemented");
+                throw NotImplemented(LOCATION);
             }
 
             void handle(const std::string& field_name, Accessor<commonmodule::StatusDPS, T> accessor) override
             {
-                throw Exception("not implemented");
+                throw NotImplemented(LOCATION);
             }
 
             void handle(const std::string& field_name, Accessor<commonmodule::StatusSPS, T> accessor) override
             {
-                throw Exception("not implemented");
+                throw NotImplemented(LOCATION);
             }
 
             void handle(const std::string& field_name, Accessor<commonmodule::ControlDPC, T> accessor) override
             {
-                throw Exception("not implemented");
+                throw NotImplemented(LOCATION);
             }
 
             void handle(const std::string& field_name, Accessor<google::protobuf::FloatValue, T> accessor) override
             {
-                throw Exception("not implemented");
+                throw NotImplemented(LOCATION);
             }
 
             void handle(const std::string& field_name, PrimitiveAccessor<commonmodule::StateKind, T> accessor) override
             {
-                throw Exception("not implemented");
+                throw NotImplemented(LOCATION);
             }
 
             // --- values to handle ---
@@ -129,9 +129,9 @@ namespace adapter
                 this->handle_synchro_check(yaml::require(node, ::adapter::keys::synchroCheck), accessor);
             }
 
-            void handle(const std::string& field_name, Accessor<commonmodule::ControlFSCC, T> accessor) override
+            void handle(const std::string& field_name, Accessor<commonmodule::ScheduleCSG, T> accessor) override
             {
-                throw Exception("not implemented");
+                throw NotImplemented(LOCATION);
             }
 
             void handle(const std::string& field_name, Accessor<switchmodule::SwitchCSG, T> accessor) override
@@ -168,11 +168,6 @@ namespace adapter
                 };
 
                 this->configuration->add(builder);
-            }
-
-            void handle(const std::string& field_name, Accessor<essmodule::ESSCSG, T> accessor) override
-            {
-                throw Exception("not implemented");
             }
 
             void handle(const std::string& field_name, Accessor<commonmodule::ConductingEquipment, T> accessor) override

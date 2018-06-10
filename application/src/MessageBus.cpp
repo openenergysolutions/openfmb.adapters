@@ -95,7 +95,7 @@ namespace adapter
         this->ess_status->publish(message);
     }
 
-    void MessageBus::publish(const essmodule::ESSControlProfile &message)
+    void MessageBus::publish(const essmodule::ESSControlProfile& message)
     {
         this->ess_control->publish(message);
     }

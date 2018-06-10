@@ -39,7 +39,7 @@ namespace adapter
 
         void publish(const essmodule::ESSStatusProfile& message) override;
 
-        void publish(const essmodule::ESSControlProfile &message) override;
+        void publish(const essmodule::ESSControlProfile& message) override;
 
         // ---- subscribe ----
 

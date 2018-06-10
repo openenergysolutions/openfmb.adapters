@@ -30,6 +30,8 @@ namespace adapter
         constexpr const char* const ctlVal = "ctlVal";
         constexpr const char* const interlockCheck = "interlockCheck";
         constexpr const char* const synchroCheck = "synchroCheck";
+        constexpr const char* const controlScheduleFSCH = "controlScheduleFSCH";
+        constexpr const char* const ValACSG = "ValACSG";
     }
 }
 

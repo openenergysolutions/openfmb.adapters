@@ -11,9 +11,11 @@ import openfmb.commonmodule.*;
 import openfmb.essmodule.ENG_ESSFunctionKind;
 import openfmb.essmodule.ENG_ESSFunctionParameter;
 import openfmb.essmodule.ESSCSG;
+import openfmb.essmodule.ESSPoint;
 import openfmb.switchmodule.SwitchCSG;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -41,28 +43,53 @@ public class ModelVisitorFile extends CppFilePair {
                 // stuff that appears in control profiles
                 CheckConditions.getDescriptor(),
                 SwitchCSG.getDescriptor(),
-                ESSCSG.getDescriptor(),
-                ControlFSCC.getDescriptor()
+                //ESSCSG.getDescriptor(),
+                ScheduleCSG.getDescriptor()
             )
     );
 
-    private final static Set<Descriptors.GenericDescriptor> ignoredTypes = new HashSet<>(
-            Arrays.asList(
-                    // This contains mdBlk - ignore it for now
-                    ControlValue.getDescriptor(),
+    @FunctionalInterface
+    private interface Ignore
+    {
+        boolean apply(Descriptors.FieldDescriptor descriptor);
 
-                    ConductingEquipmentTerminalReading.getDescriptor(),
-                    ENG_CalcMethodKind.getDescriptor(),
-                    ENG_PFSignKind.getDescriptor(),
-                    ENG_GridConnectModeKind.getDescriptor(),
-                    ENS_BehaviourModeKind.getDescriptor(),
-                    ENS_DynamicTestKind.getDescriptor(),
-                    ENS_HealthKind.getDescriptor(),
+        Ignore always = d -> true;
+        Ignore never = d -> false;
 
-                    ENG_ESSFunctionKind.getDescriptor(),
-                    ENG_ESSFunctionParameter.getDescriptor()
-            )
-    );
+        static Ignore whenParentIs(Descriptors.Descriptor descriptor)
+        {
+            return field -> {
+                final Descriptors.Descriptor parent = field.getContainingType();
+                return (parent != null) && parent.equals(descriptor);
+            };
+        }
+
+    }
+
+    private final static Map<Descriptors.Descriptor, Ignore> ignoredTypes = getIgnoredTypes();
+
+    private static Map<Descriptors.Descriptor, Ignore> getIgnoredTypes()
+    {
+        final Map<Descriptors.Descriptor, Ignore> map = new HashMap<>();
+
+        // This contains mdBlk - ignore it for now
+        map.put(ControlValue.getDescriptor(), Ignore.always);
+        map.put(ConductingEquipmentTerminalReading.getDescriptor(), Ignore.always);
+        map.put(ENG_CalcMethodKind.getDescriptor(), Ignore.always);
+        map.put(ENG_PFSignKind.getDescriptor(), Ignore.always);
+        map.put(ENG_GridConnectModeKind.getDescriptor(), Ignore.always);
+        map.put(ENS_BehaviourModeKind.getDescriptor(), Ignore.always);
+        map.put(ENS_DynamicTestKind.getDescriptor(), Ignore.always);
+        map.put(ENS_HealthKind.getDescriptor(), Ignore.always);
+
+        map.put(ENG_ESSFunctionKind.getDescriptor(), Ignore.always);
+        map.put(ENG_ESSFunctionParameter.getDescriptor(), Ignore.always);
+
+        // conditional ignores
+        map.put(Timestamp.getDescriptor(), Ignore.whenParentIs(ESSPoint.getDescriptor()));
+
+        return Collections.unmodifiableMap(map);
+    }
 
     private final Iterable<Descriptors.Descriptor> descriptors;
     private final Iterable<String> includes;
@@ -229,7 +256,7 @@ public class ModelVisitorFile extends CppFilePair {
             return getPrimitiveHandler(path, descriptor.getName());
         }
 
-        if(ignoredTypes.contains(descriptor))
+        if(ignoredTypes.getOrDefault(descriptor, Ignore.never).apply(path.getInfo().field))
         {
             return Documents.empty;
         }
@@ -237,21 +264,21 @@ public class ModelVisitorFile extends CppFilePair {
         throw new RuntimeException("Unhandled enum type: " + path);
     }
 
-    private Document build(FieldPath path, Descriptors.Descriptor message)
+    private Document build(FieldPath path, Descriptors.Descriptor descriptor)
     {
-        if(handledTypes.contains(message))
+        if(handledTypes.contains(descriptor))
         {
-            return getMessageHandler(path, message.getName());
+            return getMessageHandler(path, descriptor.getName());
         }
 
-        if(ignoredTypes.contains(message))
+        if(ignoredTypes.getOrDefault(descriptor, Ignore.never).apply(path.getInfo().field))
         {
             return Documents.empty;
         }
 
 
         // otherwise, continue the recursion
-        return startMessageField(path, message);
+        return startMessageField(path, descriptor);
 
     }
 
@@ -324,6 +351,7 @@ public class ModelVisitorFile extends CppFilePair {
     private static Document getRepeatedConstContextDefinition(FieldPath path)
     {
         final int d = path.getInfo().depth;
+        final String fieldName = path.getInfo().field.getName().toLowerCase();
 
         return line(
                 String.format(
@@ -340,8 +368,7 @@ public class ModelVisitorFile extends CppFilePair {
                         lines(
                                 "const auto temp = context(profile);",
                                 "if(!temp) return nullptr;",
-                                String.format("const auto size = temp->%s_size();", path.getInfo().field.getMessageType().getName().toLowerCase()),
-                                String.format("return i < size ? &temp->%s(i) : nullptr;", path.getInfo().field.getMessageType().getName().toLowerCase())
+                                String.format("return i < temp->%s_size() ? &temp->%s(i) : nullptr;", fieldName, fieldName)
                         )
                 )
                 .append("};");

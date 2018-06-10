@@ -97,27 +97,22 @@ namespace adapter
 
             void handle(const std::string& field_name, Accessor<commonmodule::StatusDPS, T> accessor) override
             {
-                throw Exception("not implemented");
+                throw NotImplemented(LOCATION);
             }
 
             void handle(const std::string& field_name, Accessor<commonmodule::CheckConditions, T> accessor) override
             {
-                throw Exception("not implemented");
+                throw NotImplemented(LOCATION);
             }
 
-            void handle(const std::string& field_name, Accessor<commonmodule::ControlFSCC, T> accessor) override
+            void handle(const std::string& field_name, Accessor<commonmodule::ScheduleCSG, T> accessor) override
             {
-                throw Exception("not implemented");
+                throw NotImplemented(LOCATION);
             }
 
             void handle(const std::string& field_name, Accessor<switchmodule::SwitchCSG, T> accessor) override
             {
-                throw Exception("not implemented");
-            }
-
-            void handle(const std::string& field_name, Accessor<essmodule::ESSCSG, T> accessor) override
-            {
-                throw Exception("not implemented");
+                throw NotImplemented(LOCATION);
             }
 
             void handle(const std::string& field_name, Accessor<commonmodule::StatusSPS, T> accessor) override

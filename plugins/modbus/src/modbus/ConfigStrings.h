@@ -40,6 +40,12 @@ namespace adapter
             constexpr const char* const mask = "mask";
             constexpr const char* const mapping = "mapping";
             constexpr const char* const value = "value";
+
+            // controls
+            constexpr const char* const action = "action";
+            constexpr const char* const priority = "priority";
+            constexpr const char* const when_true = "when-true";
+            constexpr const char* const when_false = "when_false";
         }
     }
 

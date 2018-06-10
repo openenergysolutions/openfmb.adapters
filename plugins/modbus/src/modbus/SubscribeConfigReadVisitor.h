@@ -74,12 +74,7 @@ namespace adapter
                 throw NotImplemented(LOCATION);
             }
 
-            void handle(const std::string& field_name, Accessor <commonmodule::ControlFSCC, T> accessor) override
-            {
-                throw NotImplemented(LOCATION);
-            }
-
-            void handle(const std::string& field_name, Accessor <essmodule::ESSCSG, T> accessor) override
+            void handle(const std::string& field_name, Accessor <commonmodule::ScheduleCSG, T> accessor) override
             {
                 throw NotImplemented(LOCATION);
             }

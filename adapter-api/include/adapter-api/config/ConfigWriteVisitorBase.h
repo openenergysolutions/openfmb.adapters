@@ -6,6 +6,7 @@
 #include "IModelVisitor.h"
 
 #include "../ConfigStrings.h"
+#include "ProfileType.h"
 
 #include <yaml-cpp/yaml.h>
 
@@ -130,30 +131,32 @@ namespace adapter
             this->out << YAML::BeginMap;
 
             this->out << YAML::Value << keys::interlockCheck;
+            this->out << YAML::BeginMap;
             this->write_check_conditions_interlockCheck_keys();
+            this->out << YAML::EndMap;
 
             this->out << YAML::Value << keys::synchroCheck;
+            this->out << YAML::BeginMap;
             this->write_check_conditions_synchroCheck_keys();
+            this->out << YAML::EndMap;
 
             this->out << YAML::EndMap;
         }
 
-        void handle(const std::string& field_name, Accessor <commonmodule::ControlFSCC, T> accessor) override
+        void handle(const std::string& field_name, Accessor <commonmodule::ScheduleCSG, T> accessor) override
         {
             this->out << YAML::Key << field_name;
-            this->write_control_fscc_keys();
+            this->out << YAML::BeginMap;
+            this->write_schedule_csg_keys();
+            this->out << YAML::EndMap;
         }
 
         void handle(const std::string& field_name, Accessor <switchmodule::SwitchCSG, T> accessor) final
         {
             this->out << YAML::Key << field_name;
+            this->out << YAML::BeginMap;
             this->write_switch_csg_keys();
-        }
-
-        void handle(const std::string& field_name, Accessor<essmodule::ESSCSG, T> accessor) final
-        {
-            this->out << YAML::Key << field_name;
-            this->write_ess_csg_keys();
+            this->out << YAML::EndMap;
         }
 
         void handle(const std::string& field_name, Accessor<commonmodule::ConductingEquipment, T> accessor) final
@@ -214,11 +217,9 @@ namespace adapter
 
         virtual void write_check_conditions_synchroCheck_keys() = 0;
 
+        virtual void write_schedule_csg_keys() = 0;
+
         virtual void write_switch_csg_keys() = 0;
-
-        virtual void write_ess_csg_keys() = 0;
-
-        virtual void write_control_fscc_keys() = 0;
 
     private:
 
