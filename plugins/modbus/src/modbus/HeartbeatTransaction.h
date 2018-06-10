@@ -15,19 +15,13 @@ namespace adapter
 
         public:
 
-            HeartbeatTransaction(Logger logger, uint16_t address, std::chrono::steady_clock::duration period, uint16_t invert_mask) :
+            HeartbeatTransaction(Logger logger, uint16_t address, std::chrono::steady_clock::duration period, modify_reg_op_t op) :
                 ModifyRegisterTransactionBase(
                     std::move(logger),
                     address,
-                    std::vector<modify_reg_op_t>
-            {
-                [invert_mask](uint16_t value)
-                {
-                    return value ^ invert_mask;
-                }
-            }
-            ),
-            period(period)
+                    std::move(op)
+                ),
+                period(period)
             {}
 
             std::string get_description() const override

@@ -14,8 +14,8 @@ namespace adapter
 
         public:
 
-            ModifyRegisterTransaction(Logger logger, uint16_t address, std::vector<modify_reg_op_t> operations) :
-                ModifyRegisterTransactionBase(std::move(logger), address, std::move(operations))
+            ModifyRegisterTransaction(Logger logger, uint16_t address, modify_reg_op_t operation) :
+                ModifyRegisterTransactionBase(std::move(logger), address, std::move(operation))
             {}
 
             std::string get_description() const override

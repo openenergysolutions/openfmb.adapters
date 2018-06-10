@@ -10,10 +10,10 @@ namespace adapter
 {
     namespace modbus
     {
-        ModifyRegisterTransactionBase::ModifyRegisterTransactionBase(Logger logger, uint16_t address, std::vector<modify_reg_op_t> operations) :
+        ModifyRegisterTransactionBase::ModifyRegisterTransactionBase(Logger logger, uint16_t address, modify_reg_op_t operation) :
             logger(std::move(logger)),
             address(address),
-            operations(std::move(operations))
+            operation(std::move(operation))
         {}
 
         void ModifyRegisterTransactionBase::start(std::shared_ptr<::modbus::ISession> session, const std::function<void()>& callback)
@@ -25,15 +25,7 @@ namespace adapter
                     if(response.get().values.size() == 1)
                     {
                         // process all of the operations on the read value
-                        const uint16_t write_value = std::accumulate(
-                                                         self->operations.begin(),
-                                                         self->operations.end(),
-                                                         response.get().values[0].value,
-                                                         [&](uint16_t acc, const modify_reg_op_t& op)
-                        {
-                            return op(acc);
-                        }
-                                                     );
+                        const uint16_t write_value = self->operation(response.get().values[0].value);
 
                         const auto write_handler = [self = self, callback](const ::modbus::Expected<::modbus::WriteSingleRegisterResponse>& response)
                         {

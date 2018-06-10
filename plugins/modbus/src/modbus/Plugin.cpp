@@ -93,7 +93,10 @@ namespace adapter
                         this->logger,
                         yaml::require_integer<uint16_t>(node, keys::index),
                         std::chrono::milliseconds(yaml::require_integer<uint32_t>(node, keys::period_ms)),
-                        yaml::require_integer<uint16_t>(node, keys::mask)
+                        // ATM, we only support inverting masked bits
+                        operations::invert(
+                            yaml::require_integer<uint16_t>(node, keys::mask)
+                        )
                     )
                 );
             };
