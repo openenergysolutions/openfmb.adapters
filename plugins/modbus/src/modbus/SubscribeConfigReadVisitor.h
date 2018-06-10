@@ -63,6 +63,7 @@ namespace adapter
             };
 
             const std::shared_ptr<CommandConfiguration<T>> config = std::make_shared<CommandConfiguration<T>>();
+            std::string mRID;
 
         public:
 
@@ -71,7 +72,7 @@ namespace adapter
             void subscribe(const Logger& logger, IMessageBus& bus, std::shared_ptr<ITransactionProcessor> tx_processor)
             {
                 bus.subscribe(
-                   std::make_shared<CommandSubscriber<T>>(logger, "uuid", this->config, std::move(tx_processor))
+                   std::make_shared<CommandSubscriber<T>>(logger, this->mRID, this->config, std::move(tx_processor))
                 );
             }
 
@@ -173,7 +174,7 @@ namespace adapter
 
             void handle(const std::string& field_name, Accessor <commonmodule::CheckConditions, T> accessor) override
             {
-                // ignore
+
             }
 
             void handle(const std::string& field_name, Accessor <commonmodule::ScheduleCSG, T> accessor) override
@@ -214,7 +215,7 @@ namespace adapter
 
             void handle(const std::string& field_name, Accessor <commonmodule::ConductingEquipment, T> accessor) override
             {
-                // ignore
+                this->mRID = yaml::require_uuid(this->get_config_node(field_name), ::adapter::keys::mRID);
             }
 
         private:
