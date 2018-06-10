@@ -5,6 +5,7 @@
 #include <adapter-api/config/ConfigReadVisitorBase.h>
 
 #include "ITransactionProcessor.h"
+#include "ModifyRegisterTransaction.h"
 
 namespace adapter
 {

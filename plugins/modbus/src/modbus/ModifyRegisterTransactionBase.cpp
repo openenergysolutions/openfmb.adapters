@@ -1,20 +1,22 @@
 
 
+#include "ModifyRegisterTransactionBase.h"
+
 #include <modbus/exceptions/IException.h>
-#include "HeartbeatTransaction.h"
+
+#include <numeric>
 
 namespace adapter
 {
     namespace modbus
     {
-        HeartbeatTransaction::HeartbeatTransaction(Logger logger, uint16_t address, std::chrono::steady_clock::duration period, uint16_t invert_mask) :
+        ModifyRegisterTransactionBase::ModifyRegisterTransactionBase(Logger logger, uint16_t address, std::vector<modify_reg_op_t> operations) :
             logger(std::move(logger)),
             address(address),
-            period(period),
-            invert_mask(invert_mask)
+            operations(std::move(operations))
         {}
 
-        void HeartbeatTransaction::start(std::shared_ptr<::modbus::ISession> session, const std::function<void()>& callback)
+        void ModifyRegisterTransactionBase::start(std::shared_ptr<::modbus::ISession> session, const std::function<void()>& callback)
         {
             const auto read_handler = [self = this->shared_from_this(), session = session, callback](const ::modbus::Expected<::modbus::ReadHoldingRegistersResponse>& response)
             {
@@ -22,14 +24,22 @@ namespace adapter
                 {
                     if(response.get().values.size() == 1)
                     {
-                        // invert the specified bits in the received value
-                        const uint16_t write_value = response.get().values[0].value ^ self->invert_mask;
+                        // process all of the operations on the read value
+                        const uint16_t write_value = std::accumulate(
+                                                         self->operations.begin(),
+                                                         self->operations.end(),
+                                                         response.get().values[0].value,
+                                                         [&](uint16_t acc, const modify_reg_op_t& op)
+                        {
+                            return op(acc);
+                        }
+                                                     );
 
                         const auto write_handler = [self = self, callback](const ::modbus::Expected<::modbus::WriteSingleRegisterResponse>& response)
                         {
                             if(!response.is_valid())
                             {
-                                self->logger.warn("heartbeat write failed: ", response.get_exception<::modbus::IException>().get_message());
+                                self->logger.warn("{} write failed: ", self->get_description(), response.get_exception<::modbus::IException>().get_message());
                             }
 
                             callback();
@@ -48,7 +58,7 @@ namespace adapter
                 }
                 else
                 {
-                    self->logger.warn("heartbeat read failed: {}", response.get_exception<::modbus::IException>().get_message());
+                    self->logger.warn("{} failed: {}", self->get_description(), response.get_exception<::modbus::IException>().get_message());
                     callback();
                 }
             };

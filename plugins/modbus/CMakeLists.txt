@@ -7,7 +7,9 @@ set(MODBUS_SOURCES
         src/modbus/SubscribeConfigReadVisitor.h
         src/modbus/ConfigStrings.h
         src/modbus/HeartbeatTransaction.h
-        src/modbus/HeartbeatTransaction.cpp
+        src/modbus/ModifyRegisterTransaction.h
+        src/modbus/ModifyRegisterTransactionBase.h
+        src/modbus/ModifyRegisterTransactionBase.cpp
         src/modbus/IConfigurationBuilder.h
         src/modbus/IRegister.h
         src/modbus/IPollHandler.h
