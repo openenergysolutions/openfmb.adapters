@@ -6,6 +6,7 @@
 
 #include "ITransactionProcessor.h"
 #include "ModifyRegisterTransaction.h"
+#include "CommandConfigBuilder.h"
 
 namespace adapter
 {
@@ -15,6 +16,7 @@ namespace adapter
         template <class T>
         class SubscribeConfigReadVisitor final : public ConfigReadVisitorBase<T>
         {
+            CommandConfigBuilder<T> builder;
 
         public:
 

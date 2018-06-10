@@ -11,6 +11,8 @@ set(MODBUS_SOURCES
         src/modbus/ModifyRegisterTransaction.h
         src/modbus/ModifyRegisterTransactionBase.h
         src/modbus/ModifyRegisterTransactionBase.cpp
+        src/modbus/ICommandConfigBuilder.h
+        src/modbus/CommandConfigBuilder.h
         src/modbus/IConfigurationBuilder.h
         src/modbus/IRegister.h
         src/modbus/IPollHandler.h
