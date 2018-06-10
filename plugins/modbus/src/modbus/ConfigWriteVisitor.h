@@ -8,7 +8,6 @@
 #include "MappingType.h"
 #include "Source.h"
 #include "BinaryControlAction.h"
-#include "../../../../application/src/ConfigKeys.h"
 
 namespace adapter
 {
@@ -35,7 +34,7 @@ namespace adapter
             {
                 if(get_profile_type<T>() == ProfileType::control)
                 {
-                    this->out << YAML::Key << ::adapter::keys::enabled << YAML::Value <<  false << YAML::Comment("TODO: make this an enum, i.e. 'output type'");
+                    this->out << YAML::Key << keys::enabled << YAML::Value <<  false << YAML::Comment("TODO: make this an enum, i.e. 'output type'");
                     this->out << YAML::Key << keys::index << YAML::Value << 0;
                     this->out << YAML::Key << keys::scale << YAML::Value << 1.0;
                     this->out << YAML::Key << keys::priority << YAML::Value << 0;
@@ -68,7 +67,7 @@ namespace adapter
 
             void write_schedule_csg_keys() override
             {
-                this->write_true_false_binary_control_config();
+                this->write_analogue_keys();
             }
 
             void write_switch_csg_keys() override
