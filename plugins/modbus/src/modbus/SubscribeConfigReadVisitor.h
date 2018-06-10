@@ -19,19 +19,20 @@ namespace adapter
         template <class T>
         class SubscribeConfigReadVisitor final : public ConfigReadVisitorBase<T>
         {
+
             struct FloatConfig
             {
-                const uint16_t index;
-                const uint32_t priority;
-                const double scale;
+                uint16_t index;
+                uint32_t priority;
+                double scale;
             };
 
-            struct BinaryConfig
+            struct RegisterMaskAction
             {
-                const BinaryControlAction type;
-                const uint16_t index;
-                const uint16_t mask;
-                const uint32_t priority;
+                BinaryControlAction type;
+                uint16_t index;
+                uint16_t mask;
+                uint32_t priority;
 
                 bool apply(ICommandSink& sink) const
                 {
@@ -51,8 +52,8 @@ namespace adapter
 
             struct BinaryConfigPair
             {
-                BinaryConfig when_true;
-                BinaryConfig when_false;
+                RegisterMaskAction when_true;
+                RegisterMaskAction when_false;
 
                 bool apply(bool value, ICommandSink& sink) const
                 {
@@ -60,7 +61,7 @@ namespace adapter
                 }
             };
 
-            CommandConfigBuilder<T> builder;
+            const std::shared_ptr<CommandConfigBuilder<T>> builder = std::make_shared<CommandConfigBuilder<T>>();
 
         public:
 
@@ -98,7 +99,22 @@ namespace adapter
 
             void handle(const std::string& field_name, Accessor <commonmodule::ControlDPC, T> accessor) override
             {
-                throw NotImplemented(LOCATION);
+                const auto config = read_binary_action_pair(
+                        yaml::require(this->get_config_node(field_name), ::adapter::keys::ctlVal)
+                );
+
+                this->builder->add(
+                        [config, accessor](const T & profile, ICommandSink& sink, Logger& logger)
+                        {
+                            accessor.if_present(
+                                    profile,
+                                    [&](const commonmodule::ControlDPC& value)
+                                    {
+                                        config.apply(value.ctlval(), sink);
+                                    }
+                            );
+                        }
+                );
             }
 
             void handle(const std::string& field_name, Accessor <google::protobuf::FloatValue, T> accessor) override
@@ -109,7 +125,7 @@ namespace adapter
                 {
                     const auto action = read_float_action(node);
 
-                    this->builder.add(
+                    this->builder->add(
                         [action, accessor](const T & profile, ICommandSink & sink, Logger & logger)
                     {
                         accessor.if_present(
@@ -126,7 +142,25 @@ namespace adapter
 
             void handle(const std::string& field_name, PrimitiveAccessor <commonmodule::StateKind, T> accessor) override
             {
-                throw NotImplemented(LOCATION);
+                const auto node = this->get_config_node(field_name);
+                auto config = this->read_enum_config<commonmodule::StateKind>(node, *commonmodule::StateKind_descriptor());
+
+                this->builder->add(
+                        [config = std::move(config), accessor](const T& profile, ICommandSink& sink, Logger & logger)
+                        {
+                            accessor.if_present(
+                                    profile,
+                                    [&](commonmodule::StateKind value)
+                                    {
+                                        const auto entry = config.find(value);
+                                        if(entry != config.end())
+                                        {
+                                            entry->second.apply(sink);
+                                        }
+                                    }
+                            );
+                        }
+                );
             }
 
             void handle(const std::string& field_name, Accessor <switchmodule::SwitchCSG, T> accessor) override
@@ -143,7 +177,7 @@ namespace adapter
             {
                 const auto config = this->read_float_action(this->get_config_node(field_name));
 
-                this->builder.add(
+                this->builder->add(
                     [config, accessor](const T & profile, ICommandSink & sink, Logger & logger)
                 {
                     accessor.if_present(
@@ -182,6 +216,24 @@ namespace adapter
 
         private:
 
+            template <class E>
+            std::map<E, RegisterMaskAction> read_enum_config(const YAML::Node& node, const google::protobuf::EnumDescriptor& descriptor)
+            {
+                std::map<E, RegisterMaskAction> map;
+
+                const auto add_entry = [&](const YAML::Node& node)
+                {
+                    const auto name = yaml::require_string(node, keys::name);
+                    const auto value = descriptor.FindValueByName(name);
+                    if(!value) throw Exception("Unknown enum value: ", name);
+                    map[static_cast<E>(value->number())] = this->read_register_mask_action(node);
+                };
+
+                yaml::foreach(yaml::require(node, keys::mapping), add_entry);
+
+                return std::move(map);
+            }
+
             FloatConfig read_float_action(const YAML::Node& node)
             {
                 return FloatConfig
@@ -196,14 +248,14 @@ namespace adapter
             {
                 return BinaryConfigPair
                 {
-                    .when_true = read_binary_action(yaml::require(node, keys::when_true)),
-                    .when_false = read_binary_action(yaml::require(node, keys::when_false))
+                    .when_true = read_register_mask_action(yaml::require(node, keys::when_true)),
+                    .when_false = read_register_mask_action(yaml::require(node, keys::when_false))
                 };
             }
 
-            BinaryConfig read_binary_action(const YAML::Node& node)
+            RegisterMaskAction read_register_mask_action(const YAML::Node& node)
             {
-                return BinaryConfig
+                return RegisterMaskAction
                 {
                     .type = BinaryControlActionMeta::from_string(yaml::require_string(node, keys::action)),
                     .index = yaml::require_integer<uint16_t>(node, keys::index),
