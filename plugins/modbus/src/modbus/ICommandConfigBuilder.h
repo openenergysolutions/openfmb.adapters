@@ -30,7 +30,19 @@ namespace adapter
         class ICommandConfigBuilder
         {
         public:
+            virtual ~ICommandConfigBuilder() = default;
             virtual void add(const command_builder_t<T>& builder) = 0;
+        };
+
+        /**
+         * For a particular profile (T), something that can process a profile and can dispatch commands to a sink
+         */
+        template <class T>
+        class ICommandConfiguration
+        {
+        public:
+            virtual ~ICommandConfiguration() = default;
+            virtual void process(const T& profile, ICommandSink& sink, Logger& logger) const = 0;
         };
     }
 }

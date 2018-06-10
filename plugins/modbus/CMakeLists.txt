@@ -12,7 +12,7 @@ set(MODBUS_SOURCES
         src/modbus/ModifyRegisterTransactionBase.h
         src/modbus/ModifyRegisterTransactionBase.cpp
         src/modbus/ICommandConfigBuilder.h
-        src/modbus/CommandConfigBuilder.h
+        src/modbus/CommandConfiguration.h
         src/modbus/IConfigurationBuilder.h
         src/modbus/IRegister.h
         src/modbus/IPollHandler.h
@@ -38,7 +38,7 @@ set(MODBUS_SOURCES
         src/modbus/PollTransaction.cpp
         src/modbus/BinaryControlAction.h
         src/modbus/BinaryControlAction.cpp
-)
+        src/modbus/CommandSubscriber.h)
 
 set(CPP_FORMAT_DIRS
         ${CPP_FORMAT_DIRS}

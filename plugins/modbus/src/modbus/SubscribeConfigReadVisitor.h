@@ -7,8 +7,9 @@
 
 #include "ITransactionProcessor.h"
 #include "ModifyRegisterTransaction.h"
-#include "CommandConfigBuilder.h"
+#include "CommandConfiguration.h"
 #include "BinaryControlAction.h"
+#include "CommandSubscriber.h"
 
 
 namespace adapter
@@ -61,7 +62,7 @@ namespace adapter
                 }
             };
 
-            const std::shared_ptr<CommandConfigBuilder<T>> builder = std::make_shared<CommandConfigBuilder<T>>();
+            const std::shared_ptr<CommandConfiguration<T>> config = std::make_shared<CommandConfiguration<T>>();
 
         public:
 
@@ -69,7 +70,9 @@ namespace adapter
 
             void subscribe(const Logger& logger, IMessageBus& bus, std::shared_ptr<ITransactionProcessor> tx_processor)
             {
-                throw NotImplemented(LOCATION);
+                bus.subscribe(
+                   std::make_shared<CommandSubscriber<T>>(logger, "uuid", this->config, std::move(tx_processor))
+                );
             }
 
             void handle(const std::string& field_name, Accessor <commonmodule::MV, T> accessor) override
@@ -103,7 +106,7 @@ namespace adapter
                         yaml::require(this->get_config_node(field_name), ::adapter::keys::ctlVal)
                 );
 
-                this->builder->add(
+                this->config->add(
                         [config, accessor](const T & profile, ICommandSink& sink, Logger& logger)
                         {
                             accessor.if_present(
@@ -125,7 +128,7 @@ namespace adapter
                 {
                     const auto action = read_float_action(node);
 
-                    this->builder->add(
+                    this->config->add(
                         [action, accessor](const T & profile, ICommandSink & sink, Logger & logger)
                     {
                         accessor.if_present(
@@ -145,7 +148,7 @@ namespace adapter
                 const auto node = this->get_config_node(field_name);
                 auto config = this->read_enum_config<commonmodule::StateKind>(node, *commonmodule::StateKind_descriptor());
 
-                this->builder->add(
+                this->config->add(
                         [config = std::move(config), accessor](const T& profile, ICommandSink& sink, Logger & logger)
                         {
                             accessor.if_present(
@@ -177,7 +180,7 @@ namespace adapter
             {
                 const auto config = this->read_float_action(this->get_config_node(field_name));
 
-                this->builder->add(
+                this->config->add(
                     [config, accessor](const T & profile, ICommandSink & sink, Logger & logger)
                 {
                     accessor.if_present(

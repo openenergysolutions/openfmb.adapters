@@ -1,15 +1,17 @@
 
-#ifndef OPENFMB_ADAPTER_COMMANDCONFIGBUILDER_H
-#define OPENFMB_ADAPTER_COMMANDCONFIGBUILDER_H
+#ifndef OPENFMB_ADAPTER_COMMANDCONFIGURATION_H
+#define OPENFMB_ADAPTER_COMMANDCONFIGURATION_H
 
 #include "ICommandConfigBuilder.h"
+
+#include  <vector>
 
 namespace adapter
 {
     namespace modbus
     {
         template <class T>
-        class CommandConfigBuilder : public ICommandConfigBuilder<T>
+        class CommandConfiguration final : public ICommandConfiguration<T>, public ICommandConfigBuilder<T>
         {
             std::vector<command_builder_t<T>> builders;
 
@@ -19,7 +21,7 @@ namespace adapter
                 this->builders.push_back(builder);
             }
 
-            void process(const T& profile, ICommandSink& sink, Logger& logger) const
+            void process(const T& profile, ICommandSink& sink, Logger& logger) const override
             {
                 for(const auto& builder : this->builders)
                 {
