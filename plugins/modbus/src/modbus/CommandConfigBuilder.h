@@ -14,7 +14,8 @@ namespace adapter
             std::vector<command_builder_t<T>> builders;
 
         public:
-            void add(const command_builder_t<T> &builder) override {
+            void add(const command_builder_t<T>& builder) override
+            {
                 this->builders.push_back(builder);
             }
 

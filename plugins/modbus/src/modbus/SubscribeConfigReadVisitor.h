@@ -7,6 +7,7 @@
 #include "ITransactionProcessor.h"
 #include "ModifyRegisterTransaction.h"
 #include "CommandConfigBuilder.h"
+#include "../../../../application/src/ConfigKeys.h"
 
 namespace adapter
 {
@@ -59,7 +60,27 @@ namespace adapter
 
             void handle(const std::string& field_name, Accessor <google::protobuf::FloatValue, T> accessor) override
             {
-                throw NotImplemented(LOCATION);
+                const YAML::Node node = this->get_config_node(field_name);
+                const auto enabled = yaml::require(node, ::adapter::keys::enabled).as<bool>();
+                if(enabled)
+                {
+                    const auto index = yaml::require_integer<uint16_t>(node, keys::index);
+                    const auto scale = yaml::require(node, keys::scale).as<double>();
+                    const auto priority = yaml::require_integer<uint32_t>(node, keys::priority);
+
+                    this->builder.add(
+                        [ = ](const T & profile, ICommandSink & sink, Logger & logger)
+                    {
+                        accessor.if_present(
+                            profile,
+                            [&](const google::protobuf::FloatValue & fv)
+                        {
+                            sink.set_register(index, priority, static_cast<uint16_t>(fv.value()*scale));
+                        }
+                        );
+                    }
+                    );
+                }
             }
 
             void handle(const std::string& field_name, PrimitiveAccessor <commonmodule::StateKind, T> accessor) override
