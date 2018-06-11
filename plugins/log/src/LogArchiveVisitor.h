@@ -50,8 +50,9 @@ namespace adapter
             {}
 
             template <class T>
-            void log_value(const std::string& tag_name, const T& value)
+            void log_value(const std::string& field_name, const T& value)
             {
+                const auto tag_name = this->get_tag_name(field_name);
                 if(this->filter(tag_name))
                 {
                     logger.info("{} : {} == {}", this->device_name, tag_name, value);
@@ -81,55 +82,55 @@ namespace adapter
                 this->tag_name_stack.pop_back();
             }
 
-            void handle(const std::string& field_name, const commonmodule::MV& value) override
+            void handle(const std::string& field_name, bool value) override
             {
-                if(value.mag().has_f())
-                {
-                    this->log_value(
-                        this->get_tag_name(field_name, ::adapter::keys::mag),
-                        value.mag().f().value()
-                    );
-                }
+                this->log_value(field_name, value);
             }
 
-            void handle(const std::string& field_name, const commonmodule::CMV& value) override
+            void handle(const std::string& field_name, int32_t value) override
             {
-                if(value.cval().mag().has_f())
-                {
-                    this->log_value(
-                        this->get_tag_name(field_name, ::adapter::keys::cVal, ::adapter::keys::mag),
-                        value.cval().mag().f().value()
-                    );
-                }
-                if(value.cval().ang().has_f())
-                {
-                    this->log_value(
-                        this->get_tag_name(field_name, ::adapter::keys::cVal, ::adapter::keys::ang),
-                        value.cval().ang().f().value()
-                    );
-                }
+                this->log_value(field_name, value);
             }
 
-            void handle(const std::string& field_name, const commonmodule::BCR& value) override
+            void handle(const std::string& field_name, uint32_t value) override
             {
-                this->log_value(
-                    this->get_tag_name(field_name, ::adapter::keys::actVal),
-                    value.actval()
-                );
+                this->log_value(field_name, value);
             }
 
-            void handle(const std::string& field_name, const commonmodule::StatusDPS& value) override
+            void handle(const std::string& field_name, int64_t value) override
             {
-                this->log_value(
-                    this->get_tag_name(field_name, ::adapter::keys::stVal),
-                    value.stval()
-                );
+                this->log_value(field_name, value);
+            }
+
+            void handle(const std::string& field_name, uint64_t value) override
+            {
+                this->log_value(field_name, value);
+            }
+
+            void handle(const std::string& field_name, float value) override
+            {
+                this->log_value(field_name, value);
+            }
+
+            void handle(const std::string& field_name, const std::string& value) override
+            {
+                this->log_value(field_name, value);
+            }
+
+            void handle(const std::string& field_name, int value,
+                        const google::protobuf::EnumDescriptor& descriptor) override
+            {
+                const auto enum_value = descriptor.FindValueByNumber(value);
+                if(enum_value)
+                {
+                    this->log_value(field_name, enum_value->name());
+                }
+
             }
 
         private:
 
-            template <class T, class... Args>
-            std::string get_tag_name(const std::string& field_name, const T& t, Args... args) const
+            std::string get_tag_name(const std::string& field_name) const
             {
                 std::ostringstream oss;
                 oss << this->profile_name;
@@ -138,7 +139,7 @@ namespace adapter
                 {
                     oss << '.' << name;
                 }
-                oss << field_name << '.' << strings::join_with_discriminator('.', t, args...);
+                oss << field_name;
 
                 return oss.str();
             }

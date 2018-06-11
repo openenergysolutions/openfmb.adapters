@@ -2,9 +2,10 @@
 #ifndef OPENFMB_ADAPTER_IMESSAGEVISITOR_H
 #define OPENFMB_ADAPTER_IMESSAGEVISITOR_H
 
-#include "commonmodule/commonmodule.pb.h"
-
 #include <string>
+#include <cstdint>
+
+#include <google/protobuf/descriptor.h>
 
 namespace adapter
 {
@@ -40,12 +41,16 @@ namespace adapter
          */
         virtual void end_iteration() = 0;
 
-        /// --- handlers for measurement types ---
+        /// --- handlers for primitive types ---
 
-        virtual void handle(const std::string& field_name, const commonmodule::MV& value) = 0;
-        virtual void handle(const std::string& field_name, const commonmodule::CMV& value) = 0;
-        virtual void handle(const std::string& field_name, const commonmodule::BCR& value) = 0;
-        virtual void handle(const std::string& field_name, const commonmodule::StatusDPS& value) = 0;
+        virtual void handle(const std::string& field_name, bool value) = 0;
+        virtual void handle(const std::string& field_name, int32_t value) = 0;
+        virtual void handle(const std::string& field_name, uint32_t value) = 0;
+        virtual void handle(const std::string& field_name, int64_t value) = 0;
+        virtual void handle(const std::string& field_name, uint64_t value) = 0;
+        virtual void handle(const std::string& field_name, float value) = 0;
+        virtual void handle(const std::string& field_name, const std::string& value) = 0;
+        virtual void handle(const std::string& field_name, int value, const google::protobuf::EnumDescriptor& descriptor) = 0;
     };
 
 

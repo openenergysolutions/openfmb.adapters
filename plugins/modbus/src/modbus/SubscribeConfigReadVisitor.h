@@ -72,7 +72,7 @@ namespace adapter
             void subscribe(const Logger& logger, IMessageBus& bus, std::shared_ptr<ITransactionProcessor> tx_processor)
             {
                 bus.subscribe(
-                   std::make_shared<CommandSubscriber<T>>(logger, this->mRID, this->config, std::move(tx_processor))
+                    std::make_shared<CommandSubscriber<T>>(logger, this->mRID, this->config, std::move(tx_processor))
                 );
             }
 
@@ -104,20 +104,20 @@ namespace adapter
             void handle(const std::string& field_name, Accessor <commonmodule::ControlDPC, T> accessor) override
             {
                 const auto config = read_binary_action_pair(
-                        yaml::require(this->get_config_node(field_name), ::adapter::keys::ctlVal)
-                );
+                                        yaml::require(this->get_config_node(field_name), ::adapter::keys::ctlVal)
+                                    );
 
                 this->config->add(
-                        [config, accessor](const T & profile, ICommandSink& sink, Logger& logger)
-                        {
-                            accessor.if_present(
-                                    profile,
-                                    [&](const commonmodule::ControlDPC& value)
-                                    {
-                                        config.apply(value.ctlval(), sink);
-                                    }
-                            );
-                        }
+                    [config, accessor](const T & profile, ICommandSink & sink, Logger & logger)
+                {
+                    accessor.if_present(
+                        profile,
+                        [&](const commonmodule::ControlDPC & value)
+                    {
+                        config.apply(value.ctlval(), sink);
+                    }
+                    );
+                }
                 );
             }
 
@@ -150,20 +150,20 @@ namespace adapter
                 auto config = this->read_enum_config<commonmodule::StateKind>(node, *commonmodule::StateKind_descriptor());
 
                 this->config->add(
-                        [config = std::move(config), accessor](const T& profile, ICommandSink& sink, Logger & logger)
+                    [config = std::move(config), accessor](const T & profile, ICommandSink & sink, Logger & logger)
+                {
+                    accessor.if_present(
+                        profile,
+                        [&](commonmodule::StateKind value)
+                    {
+                        const auto entry = config.find(value);
+                        if(entry != config.end())
                         {
-                            accessor.if_present(
-                                    profile,
-                                    [&](commonmodule::StateKind value)
-                                    {
-                                        const auto entry = config.find(value);
-                                        if(entry != config.end())
-                                        {
-                                            entry->second.apply(sink);
-                                        }
-                                    }
-                            );
+                            entry->second.apply(sink);
                         }
+                    }
+                    );
+                }
                 );
             }
 
@@ -225,7 +225,7 @@ namespace adapter
             {
                 std::map<E, RegisterMaskAction> map;
 
-                const auto add_entry = [&](const YAML::Node& node)
+                const auto add_entry = [&](const YAML::Node & node)
                 {
                     const auto name = yaml::require_string(node, keys::name);
                     const auto value = descriptor.FindValueByName(name);

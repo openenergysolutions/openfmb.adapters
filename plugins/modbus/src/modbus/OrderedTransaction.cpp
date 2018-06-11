@@ -9,7 +9,10 @@ namespace adapter
         {
             if(this->transactions.empty())
             {
-                session->start(std::chrono::seconds(0), [callback]() { callback(false); });
+                session->start(std::chrono::seconds(0), [callback]()
+                {
+                    callback(false);
+                });
             }
             else
             {

@@ -20,7 +20,7 @@ namespace adapter
             const std::string description;
             Logger logger;
 
-            public:
+        public:
 
             OrderedTransaction(std::string description, Logger logger) :
                 description(std::move(description)),
@@ -39,7 +39,7 @@ namespace adapter
 
             void start(session_t session, const callback_t& callback) override;
 
-            private:
+        private:
 
             void start_next(size_t index, session_t session, const callback_t& callback);
         };

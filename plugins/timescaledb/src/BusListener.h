@@ -18,17 +18,108 @@ namespace adapter
 namespace timescaledb
 {
 
-template<typename Proto>
-class ProtoMessageVisitor : private IMessageVisitor
+class ProtoMessageVisitor : public IMessageVisitor
 {
 public:
-    ProtoMessageVisitor(Logger& logger)
-        : m_logger{logger}
+    ProtoMessageVisitor(std::string base_name, Message& message) : base_name(std::move(base_name)), message(message)
     {
 
     }
 
-    void save(const Proto& proto, std::shared_ptr<IArchiver> archiver)
+    // ===== IMessageVisitor =====
+    void start_message_field(const std::string& field_name) override
+    {
+        m_tagname_stack.push_back(field_name);
+    };
+
+    void end_message_field() override
+    {
+        m_tagname_stack.pop_back();
+    }
+
+    void start_iteration(int i) override
+    {
+        m_tagname_stack.push_back(std::to_string(i));
+    }
+
+    void end_iteration() override
+    {
+        m_tagname_stack.pop_back();
+    }
+
+    void handle(const std::string &field_name, bool value) override {
+        this->add_value(field_name, std::to_string(value));
+    }
+
+    void handle(const std::string &field_name, int32_t value) override {
+        this->add_value(field_name, std::to_string(value));
+    }
+
+    void handle(const std::string &field_name, uint32_t value) override {
+        this->add_value(field_name, std::to_string(value));
+    }
+
+    void handle(const std::string &field_name, int64_t value) override {
+        this->add_value(field_name, std::to_string(value));
+    }
+
+    void handle(const std::string &field_name, uint64_t value) override {
+        this->add_value(field_name, std::to_string(value));
+    }
+
+    void handle(const std::string &field_name, float value) override {
+        this->add_value(field_name, std::to_string(value));
+    }
+
+    void handle(const std::string &field_name, const std::string &value) override {
+        this->add_value(field_name, value);
+    }
+
+    void handle(const std::string &field_name, int value, const google::protobuf::EnumDescriptor &descriptor) override {
+        this->add_value(field_name, std::to_string(value));
+    }
+
+    void add_value(const std::string &field_name, const std::string& value)
+    {
+        message.items.emplace_back(get_current_tagname(field_name), value);
+    }
+
+private:
+    // ====== Helper functions =====
+    std::string get_current_tagname(const std::string& id)
+    {
+        std::ostringstream oss;
+
+        oss << this->base_name << ".";
+        for (auto& tag : m_tagname_stack)
+        {
+            oss << tag << ".";
+        }
+        oss << id;
+
+        return oss.str();
+    }
+
+    // ===== Private member variables =====
+    const std::string base_name;
+    std::deque<std::string> m_tagname_stack;
+    Message& message;
+};
+
+template<typename Proto>
+class BusListener : public ISubscriber<Proto>
+{
+public:
+    explicit BusListener(const Logger& logger, const std::shared_ptr<IArchiver>& archiver)
+        : m_logger{logger},
+          m_archiver{archiver}
+    {
+
+    }
+
+private:
+
+    void process(const Proto& proto) override
     {
         // Extract message UUID, timestamp and device UUID
         auto message_info = get_message_info(proto);
@@ -58,147 +149,14 @@ public:
             return;
         }
 
-        auto timestamp = message_info.messagetimestamp().seconds();
+        const auto timestamp = message_info.messagetimestamp().seconds();
 
-        // Build message
-        m_tagname_stack.clear();
-        m_current_message = std::make_unique<Message>(message_uuid, timestamp, device_uuid);
-        visit(proto, *this);
+        auto message = std::make_unique<Message>(message_uuid, timestamp, device_uuid);
+        ProtoMessageVisitor visitor(Proto::descriptor()->name(), *message);
+        visit(proto, visitor);
 
         // Save the message
-        archiver->save(std::move(m_current_message));
-    }
-
-private:
-    // ===== IMessageVisitor =====
-    void start_message_field(const std::string& field_name) override
-    {
-        m_tagname_stack.push_back(field_name);
-    };
-
-    void end_message_field() override
-    {
-        m_tagname_stack.pop_back();
-    }
-
-    void start_iteration(int i) override
-    {
-        m_tagname_stack.push_back(std::to_string(i));
-    }
-
-    void end_iteration() override
-    {
-        m_tagname_stack.pop_back();
-    }
-
-    // Measurement types
-    virtual void handle(const std::string& field_name, const commonmodule::MV& value) override
-    {
-        m_tagname_stack.push_back(field_name);
-
-        if(value.mag().has_f())
-        {
-            m_current_message->items.emplace_back(
-                    MessageItem(
-                            get_current_tagname("mag"),
-                            std::to_string(value.mag().f().value())
-                    )
-            );
-        }
-
-        m_tagname_stack.pop_back();
-    }
-
-    virtual void handle(const std::string& field_name, const commonmodule::CMV& value) override
-    {
-        m_tagname_stack.push_back(field_name);
-
-        if(value.cval().ang().has_f())
-        {
-            m_current_message->items.emplace_back(
-                    MessageItem(
-                        get_current_tagname("ang"),
-                        std::to_string(value.cval().ang().f().value())
-                    )
-            );
-        }
-
-        if(value.cval().mag().has_f())
-        {
-            m_current_message->items.emplace_back(
-                    MessageItem(
-                            get_current_tagname("mag"),
-                            std::to_string(value.cval().mag().f().value())
-                    )
-            );
-        }
-
-        m_tagname_stack.pop_back();
-    }
-
-    virtual void handle(const std::string& field_name, const commonmodule::BCR& value) override
-    {
-        m_tagname_stack.push_back(field_name);
-
-        m_current_message->items.emplace_back(
-                MessageItem(
-                        get_current_tagname("actVal"),
-                        std::to_string(value.actval())
-                )
-        );
-
-        m_tagname_stack.pop_back();
-    }
-
-    virtual void handle(const std::string& field_name, const commonmodule::StatusDPS& value) override
-    {
-        m_tagname_stack.push_back(field_name);
-
-        auto tagname = get_current_tagname("stVal");
-        auto val = static_cast<unsigned int>(value.stval());
-        m_current_message->items.emplace_back(tagname, std::to_string(val));
-
-        m_tagname_stack.pop_back();
-    }
-
-    // ====== Helper functions =====
-    std::string get_current_tagname(const std::string& id)
-    {
-        std::ostringstream oss;
-
-        oss << Proto::descriptor()->name() << ".";
-        for (auto& tag : m_tagname_stack)
-        {
-            oss << tag << ".";
-        }
-        oss << id;
-
-        return oss.str();
-    }
-
-    // ===== Private member variables =====
-    Logger& m_logger;
-    std::deque<std::string> m_tagname_stack;
-    std::unique_ptr<Message> m_current_message;
-};
-
-template<typename Proto>
-class BusListener : public ISubscriber<Proto>
-{
-public:
-    explicit BusListener(const Logger& logger, const std::shared_ptr<IArchiver>& archiver)
-        : m_logger{logger},
-          m_archiver{archiver}
-    {
-
-    }
-
-private:
-
-    void process(const Proto& message) override
-    {
-        ProtoMessageVisitor<Proto> m_message_visitor{m_logger};
-        m_message_visitor.save(message, m_archiver);
+        this->m_archiver->save(std::move(message));
     }
 
     Logger m_logger;

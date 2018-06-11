@@ -5,12 +5,10 @@ import com.oes.openfmb.generation.document.CppFilePair;
 import com.oes.openfmb.generation.document.Document;
 import com.oes.openfmb.generation.document.Documents;
 import com.oes.openfmb.generation.document.FileHeader;
-import com.oes.openfmb.util.FieldPathImpl;
-import openfmb.commonmodule.*;
 
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -18,21 +16,43 @@ import static com.oes.openfmb.generation.document.Documents.*;
 
 public class MessageVisitorFile extends CppFilePair {
 
-    private final static Set<Descriptors.Descriptor> measurementTypes = new HashSet<>(
-            Arrays.asList(
-                CMV.getDescriptor(),
-                MV.getDescriptor(),
-                BCR.getDescriptor(),
-                StatusDPS.getDescriptor()
-            )
-    );
+    private static Set<Descriptors.Descriptor> getChildMessageDescriptorsForProfiles(Stream<Descriptors.Descriptor> descriptors)
+    {
+        return descriptors.map(MessageVisitorFile::getChildMessageDescriptorsForProfile).flatMap(Set::stream).collect(Collectors.toSet());
+    }
+
+    private static Set<Descriptors.Descriptor> getChildMessageDescriptorsForProfile(Descriptors.Descriptor descriptor)
+    {
+        return descriptor.getFields().stream().map(MessageVisitorFile::getChildMessageDescriptors).flatMap(Set::stream).collect(Collectors.toSet());
+    }
+
+    private static Set<Descriptors.Descriptor> getChildMessageDescriptors(Descriptors.Descriptor descriptor)
+    {
+        final Set<Descriptors.Descriptor> set = descriptor.getFields().stream().map(MessageVisitorFile::getChildMessageDescriptors).flatMap(Set::stream).collect(Collectors.toSet());
+        set.add(descriptor);
+        return set;
+    }
+
+    private static Set<Descriptors.Descriptor> getChildMessageDescriptors(Descriptors.FieldDescriptor field)
+    {
+        if(field.getType() == Descriptors.FieldDescriptor.Type.MESSAGE)
+        {
+            return getChildMessageDescriptors(field.getMessageType());
+        }
+        else
+        {
+            return Collections.emptySet();
+        }
+    }
 
     private final Iterable<Descriptors.Descriptor> descriptors;
     private final Iterable<String> includes;
+    private final Set<Descriptors.Descriptor> childDescriptors;
 
     public MessageVisitorFile(Iterable<Descriptors.Descriptor> descriptors, Iterable<String> includes) {
         this.descriptors = descriptors;
         this.includes = includes;
+        this.childDescriptors = getChildMessageDescriptorsForProfiles(StreamSupport.stream(descriptors.spliterator(), false));
     }
 
     @Override
@@ -64,8 +84,17 @@ public class MessageVisitorFile extends CppFilePair {
                 space,
                 namespace(
                 "adapter",
-                        spaced(
-                                getDescriptorStream().map(this::visitImpl)
+                        join(
+                            spaced(
+                                    this.childDescriptors.stream().map(d -> line(getVisitSignature(d) + ";"))
+                            ),
+                            space,
+                            spaced(
+                                this.childDescriptors.stream().map(this::visitImpl)
+                            ),
+                            spaced(
+                                this.getDescriptorStream().map(this::visitImpl)
+                            )
                         )
                 )
         );
@@ -76,7 +105,7 @@ public class MessageVisitorFile extends CppFilePair {
         return StreamSupport.stream(descriptors.spliterator(), false);
     }
 
-    static private String cppMessageName(Descriptors.Descriptor descriptor)
+    static private String cppMessageName(Descriptors.GenericDescriptor descriptor)
     {
         return descriptor.getFullName().replace(".", "::");
     }
@@ -88,95 +117,75 @@ public class MessageVisitorFile extends CppFilePair {
 
     private Document visitImpl(Descriptors.Descriptor descriptor)
     {
+        final Document inner = join(descriptor.getFields().stream().map(this::getFieldHandler));
+
         return line(getVisitSignature(descriptor))
                 .append("{")
-                .indent("const auto& level0 = message;")
-                .indent(start(descriptor)) // recursively build up the implementation
+                .indent(inner) // recursively build up the implementation
                 .append("}");
 
     }
 
-    private Document start(Descriptors.Descriptor descriptor)
+    private Document getMessageField(Descriptors.FieldDescriptor field)
     {
-        return join(descriptor.getFields().stream().map(f -> this.build(FieldPathImpl.create(descriptor, f))));
-    }
-
-    private Document startMessageField(FieldPath path, Descriptors.Descriptor descriptor)
-    {
-        final Document inner = join(descriptor.getFields().stream().map(f -> this.build(path.build(f))));
-
-        return inner.isEmpty() ? inner :
-            line(String.format("if(level%d.has_%s())", path.getInfo().depth, path.getInfo().field.getName().toLowerCase()))
+        return
+            line(String.format("if(message.has_%s())", field.getName().toLowerCase()))
             .append("{")
-            .indent(String.format("const auto& level%d = level%d.%s();", path.getInfo().depth + 1, path.getInfo().depth, path.getInfo().field.getName().toLowerCase()))
-            .indent(String.format("visitor.start_message_field(\"%s\");", path.getInfo().field.getName()))
-            .indent(inner)
-            .indent(line("visitor.end_message_field();"))
+            .indent(String.format("visitor.start_message_field(\"%s\");", field.getName()))
+            .indent(String.format("visit(message.%s(), visitor);", field.getName().toLowerCase()))
+            .indent("visitor.end_message_field();")
             .append("}");
+
     }
 
-    private Document startRepeatedMessageField(FieldPath path, Descriptors.Descriptor descriptor)
+    private Document getRepeatedMessageField(Descriptors.FieldDescriptor field)
     {
-        final Document inner = join(descriptor.getFields().stream().map(f -> this.build(path.build(f))));
+        final String fieldName = field.getName().toLowerCase();
 
-        final int depth = path.getInfo().depth;
-        final String fieldName = path.getInfo().field.getName().toLowerCase();
-
-        return inner.isEmpty() ? inner :
-                line(String.format("visitor.start_message_field(\"%s\");", fieldName))
-                        .append(String.format("for(decltype(level%d.%s_size()) i = 0; i < level%d.%s_size(); ++i)", depth, fieldName, depth, fieldName))
+        return line(String.format("visitor.start_message_field(\"%s\");", fieldName))
+                        .append(String.format("for(decltype(message.%s_size()) i = 0; i < message.%s_size(); ++i)", fieldName, fieldName))
                         .append("{")
                         .indent("visitor.start_iteration(i);")
-                        .indent(String.format("const auto& level%d = level%d.%s(i);", depth + 1, depth, fieldName))
-                        .indent(inner)
+                        .indent(String.format("visit(message.%s(i), visitor);", fieldName))
                         .indent("visitor.end_iteration();")
                         .append("}")
                         .append("visitor.end_message_field();");
     }
 
-    private Document build(FieldPath path)
+    private Document getFieldHandler(Descriptors.FieldDescriptor field)
     {
-        if(path.getInfo().field.getType() == Descriptors.FieldDescriptor.Type.MESSAGE) {
-            if(path.getInfo().field.isRepeated())
-            {
-                return startRepeatedMessageField(path, path.getInfo().field.getMessageType());
-            }
-            else
-            {
-                return build(path, path.getInfo().field.getMessageType());
-            }
-        }
-        else
+        switch(field.getType())
         {
-            return Documents.empty;
+            case MESSAGE:
+                return field.isRepeated() ? getRepeatedMessageField(field) :  getMessageField(field);
+            case ENUM:
+                return getEnumHandler(field);
+            default:
+                return getPrimitiveHandler(field);
         }
     }
 
-    private Document build(FieldPath path, Descriptors.Descriptor message)
+    private static Document getEnumHandler(Descriptors.FieldDescriptor field)
     {
-        if(measurementTypes.contains(message))
-        {
-            return handler(path, message.getName());
-        }
-        else
-        {
-            return startMessageField(path, message);
-        }
-    }
-
-    private static Document handler(FieldPath path, String type)
-    {
-        return line(String.format("if(level%d.has_%s())", path.getInfo().depth, path.getInfo().field.getName().toLowerCase()))
-                .append("{")
-                .indent(
-                        String.format(
-                                "visitor.handle(%s, level%d.%s());",
-                                quoted(path.getInfo().field.getName()),
-                                path.getInfo().depth,
-                                path.getInfo().field.getName().toLowerCase()
-                                )
+        return line(
+                String.format(
+                        "visitor.handle(%s, static_cast<int>(message.%s()), *%s);",
+                        quoted(field.getName()),
+                        field.getName().toLowerCase(),
+                        cppMessageName(field.getEnumType()) + "_descriptor()"
                 )
-                .append("}");
+        );
+    }
+
+    private static Document getPrimitiveHandler(Descriptors.FieldDescriptor field)
+    {
+        return line(
+                        String.format(
+                                "visitor.handle(%s, message.%s());",
+                                quoted(field.getName()),
+                                field.getName().toLowerCase()
+                        )
+                );
     }
 
     private static String quoted(String input)

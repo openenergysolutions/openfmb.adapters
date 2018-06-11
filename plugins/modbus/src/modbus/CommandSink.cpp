@@ -44,20 +44,20 @@ namespace adapter
             for(const auto& op : this->set_operations)
             {
                 queue.push(
-                        Entry(
-                                std::make_shared<WriteRegisterTransaction>(logger, op.index, op.value),
-                                op.priority
-                        )
+                    Entry(
+                        std::make_shared<WriteRegisterTransaction>(logger, op.index, op.value),
+                        op.priority
+                    )
                 );
             }
 
             for(const auto& op : this->modify_map)
             {
                 queue.push(
-                        Entry(
-                            std::make_shared<ModifyRegisterTransaction>(logger, op.first.first, operations::accumulate(op.second)),
-                            op.first.second // priority
-                        )
+                    Entry(
+                        std::make_shared<ModifyRegisterTransaction>(logger, op.first.first, operations::accumulate(op.second)),
+                        op.first.second // priority
+                    )
                 );
             }
 

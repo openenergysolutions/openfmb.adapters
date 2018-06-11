@@ -24,7 +24,10 @@ namespace adapter
         {
             if(polls.requests.empty())
             {
-                session->start(std::chrono::seconds(0), [callback]() { callback(true); });
+                session->start(std::chrono::seconds(0), [callback]()
+                {
+                    callback(true);
+                });
             }
             else
             {

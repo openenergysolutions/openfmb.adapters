@@ -18,8 +18,8 @@ namespace adapter
             };
 
             session->send_request(
-                    ::modbus::WriteSingleRegisterRequest{.value = ::modbus::RegisterValue {.address = this->index, .value = this->value}},
-                    write_callback
+                ::modbus::WriteSingleRegisterRequest{.value = ::modbus::RegisterValue {.address = this->index, .value = this->value}},
+                write_callback
             );
         }
     }

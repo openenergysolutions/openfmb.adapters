@@ -29,8 +29,7 @@ namespace adapter
 
             std::map<std::string, value_getter_t> values;
 
-            template <class T, class... Args>
-            std::string get_tag_name(const std::string& field_name, const T& t, Args... args) const
+            std::string get_tag_name(const std::string& field_name) const
             {
                 std::ostringstream oss;
 
@@ -39,13 +38,14 @@ namespace adapter
                     oss << name << ".";
                 }
 
-                oss << field_name << '.' << strings::join_with_discriminator('.', t, args...);
+                oss << field_name;
 
                 return oss.str();
             }
 
-            void handle_value(const std::string& tag_name, const value_getter_t& getter)
+            void handle_value(const std::string& field_name, const value_getter_t& getter)
             {
+                const auto tag_name = this->get_tag_name(field_name);
                 const auto iter = this->values.find(tag_name);
                 if(iter != this->values.end())
                 {
@@ -107,53 +107,48 @@ namespace adapter
                 this->tag_name_stack.pop_back();
             }
 
-            void handle(const std::string& field_name, const commonmodule::MV& value) override
+            void handle(const std::string& field_name, bool value) override
             {
-                if(value.has_mag() && value.mag().has_f())
-                {
-                    this->handle_value(
-                        this->get_tag_name(field_name, ::adapter::keys::mag),
-                        getter(value.mag().f().value())
-                    );
-                }
+                this->handle_value(field_name, getter(value));
             }
 
-            void handle(const std::string& field_name, const commonmodule::CMV& value) override
+            void handle(const std::string& field_name, int32_t value) override
             {
-
-                if(value.cval().mag().has_f())
-                {
-                    this->handle_value(
-                        this->get_tag_name(field_name, ::adapter::keys::cVal, ::adapter::keys::mag),
-                        getter(value.cval().mag().f().value())
-                    );
-                }
-                if(value.cval().ang().has_f())
-                {
-                    this->handle_value(
-                        this->get_tag_name(field_name, ::adapter::keys::cVal, ::adapter::keys::ang),
-                        getter(value.cval().ang().f().value())
-                    );
-                }
+                this->handle_value(field_name, getter(value));
             }
 
-            void handle(const std::string& field_name, const commonmodule::BCR& value) override
+            void handle(const std::string& field_name, uint32_t value) override
             {
-                this->handle_value(
-                    this->get_tag_name(field_name, ::adapter::keys::actVal),
-                    getter(value.actval())
-                );
+                this->handle_value(field_name, getter(value));
             }
 
-            void handle(const std::string& field_name, const commonmodule::StatusDPS& value) override
+            void handle(const std::string& field_name, int64_t value) override
             {
-                this->handle_value(
-                    this->get_tag_name(field_name, ::adapter::keys::stVal),
-                    [s = commonmodule::DbPosKind_descriptor()->FindValueByNumber(value.stval())->name()](int precision)
+                this->handle_value(field_name, getter(value));
+            }
+
+            void handle(const std::string& field_name, uint64_t value) override
+            {
+                this->handle_value(field_name, getter(value));
+            }
+
+            void handle(const std::string& field_name, float value) override
+            {
+                this->handle_value(field_name, getter(value));
+            }
+
+            void handle(const std::string& field_name, const std::string& value) override
+            {
+                this->handle_value(field_name, getter(value));
+            }
+
+            void handle(const std::string& field_name, int value, const google::protobuf::EnumDescriptor& descriptor) override
+            {
+                const auto enum_value = descriptor.FindValueByNumber(value);
+                if(enum_value)
                 {
-                    return s;
+                    this->handle_value(field_name, getter(enum_value->name()));
                 }
-                );
             }
         };
 

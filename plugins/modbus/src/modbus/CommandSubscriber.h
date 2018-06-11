@@ -24,15 +24,15 @@ namespace adapter
         public:
 
             CommandSubscriber(
-                    Logger logger,
-                    std::string uuid,
-                    std::shared_ptr<const ICommandConfiguration<T>> config,
-                    std::shared_ptr<ITransactionProcessor> tx_processor
+                Logger logger,
+                std::string uuid,
+                std::shared_ptr<const ICommandConfiguration<T>> config,
+                std::shared_ptr<ITransactionProcessor> tx_processor
             ) :
-                    logger(std::move(logger)),
-                    uuid(std::move(uuid)),
-                    config(std::move(config)),
-                    tx_processor(std::move(tx_processor))
+                logger(std::move(logger)),
+                uuid(std::move(uuid)),
+                config(std::move(config)),
+                tx_processor(std::move(tx_processor))
             {}
 
             bool matches(const T& message) const override
