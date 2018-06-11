@@ -24,11 +24,11 @@ namespace adapter
         {
             out << YAML::BeginSeq;
 
-            write_tag_item(out, "resourceReading.readingMMXU.W.net.cVal.mag", "W", 0);
-            write_tag_item(out, "resourceReading.readingMMXU.PPV.phsAB.cVal.mag", "Vab", 1);
-            write_tag_item(out, "resourceReading.readingMMXU.PPV.phsBC.cVal.mag", "Vbc", 1);
-            write_tag_item(out, "resourceReading.readingMMXU.PPV.phsCA.cVal.mag", "Vca", 1);
-            write_tag_item(out, "resourceReading.readingMMXU.Hz.mag", "Hz", 3);
+            write_tag_item(out, "resourceReading.readingMMXU.W.net.cVal.mag.f.value", "W", 0);
+            write_tag_item(out, "resourceReading.readingMMXU.PPV.phsAB.cVal.mag.f.value", "Vab", 1);
+            write_tag_item(out, "resourceReading.readingMMXU.PPV.phsBC.cVal.mag.f.value", "Vbc", 1);
+            write_tag_item(out, "resourceReading.readingMMXU.PPV.phsCA.cVal.mag.f.value", "Vca", 1);
+            write_tag_item(out, "resourceReading.readingMMXU.Hz.mag.f.value", "Hz", 3);
 
             out << YAML::EndSeq;
         }
