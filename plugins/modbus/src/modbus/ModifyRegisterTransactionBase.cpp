@@ -16,7 +16,7 @@ namespace adapter
             operation(std::move(operation))
         {}
 
-        void ModifyRegisterTransactionBase::start(std::shared_ptr<::modbus::ISession> session, const std::function<void()>& callback)
+        void ModifyRegisterTransactionBase::start(std::shared_ptr<::modbus::ISession> session, const callback_t& callback)
         {
             const auto read_handler = [self = this->shared_from_this(), session = session, callback](const ::modbus::Expected<::modbus::ReadHoldingRegistersResponse>& response)
             {
@@ -29,12 +29,15 @@ namespace adapter
 
                         const auto write_handler = [self = self, callback](const ::modbus::Expected<::modbus::WriteSingleRegisterResponse>& response)
                         {
-                            if(!response.is_valid())
+                            if(response.is_valid())
+                            {
+                                callback(true);
+                            }
+                            else
                             {
                                 self->logger.warn("{} write failed: ", self->get_description(), response.get_exception<::modbus::IException>().get_message());
+                                callback(false);
                             }
-
-                            callback();
                         };
 
                         session->send_request(
@@ -45,13 +48,13 @@ namespace adapter
                     else
                     {
                         self->logger.warn("response does not contain a single value: {}", response.get().values.size());
-                        callback();
+                        callback(false);
                     }
                 }
                 else
                 {
                     self->logger.warn("{} failed: {}", self->get_description(), response.get_exception<::modbus::IException>().get_message());
-                    callback();
+                    callback(false);
                 }
             };
 

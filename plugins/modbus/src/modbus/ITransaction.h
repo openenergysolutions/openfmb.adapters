@@ -20,7 +20,7 @@ namespace adapter
 
             virtual ~ITransaction() = default;
 
-            using callback_t = std::function<void ()>;
+            using callback_t = std::function<void (bool success)>;
 
             virtual std::string get_description() const = 0;
 

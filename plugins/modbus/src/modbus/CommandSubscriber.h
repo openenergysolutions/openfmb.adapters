@@ -46,7 +46,7 @@ namespace adapter
             {
                 CommandSink sink;
                 this->config->process(message, sink, this->logger);
-                auto transaction = sink.get_transaction();
+                auto transaction = sink.get_transaction(T::descriptor()->name(), this->logger);
                 if(transaction)
                 {
                     this->tx_processor->add(std::move(transaction));

@@ -28,15 +28,15 @@ namespace adapter
 
         public:
 
-            TransactionProcessor(Logger logger);
+            explicit TransactionProcessor(Logger logger);
 
-            virtual void add(std::shared_ptr<ITransaction> transaction) override;
+            void add(std::shared_ptr<ITransaction> transaction) override;
 
             void start(session_t session);
 
         private:
 
-            void on_complete(const std::shared_ptr<ITransaction>& transaction);
+            void on_complete(const std::shared_ptr<ITransaction>& transaction, bool success);
 
             void check_for_start();
 

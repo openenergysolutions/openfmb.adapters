@@ -40,7 +40,7 @@ set(MODBUS_SOURCES
         src/modbus/BinaryControlAction.cpp
         src/modbus/CommandSubscriber.h
         src/modbus/CommandSink.cpp
-        src/modbus/CommandSink.h src/modbus/WriteRegisterTransaction.cpp src/modbus/WriteRegisterTransaction.h)
+        src/modbus/CommandSink.h src/modbus/WriteRegisterTransaction.cpp src/modbus/WriteRegisterTransaction.h src/modbus/OrderedTransaction.cpp src/modbus/OrderedTransaction.h)
 
 set(CPP_FORMAT_DIRS
         ${CPP_FORMAT_DIRS}

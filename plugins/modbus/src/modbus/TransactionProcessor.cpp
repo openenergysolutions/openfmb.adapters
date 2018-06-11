@@ -26,10 +26,9 @@ namespace adapter
             this->check_for_start();
         }
 
-        void TransactionProcessor::on_complete(const std::shared_ptr<ITransaction>& transaction)
+        void TransactionProcessor::on_complete(const std::shared_ptr<ITransaction>& transaction, bool success)
         {
             std::lock_guard<std::mutex> lock(mutex);
-            this->transactions.pop();
             this->is_running = false;
 
             if(transaction->is_periodic())
@@ -50,13 +49,17 @@ namespace adapter
                 this->is_running = true;
                 this->logger.info("Starting transaction: {}", this->transactions.front()->get_description());
 
+                const auto callback = [self = shared_from_this(), transaction = this->transactions.front()](bool success)
+                {
+                    self->on_complete(transaction, success);
+                };
+
                 this->transactions.front()->start(
                     session,
-                    [self = shared_from_this(), transaction = this->transactions.front()]()
-                {
-                    self->on_complete(transaction);
-                }
+                    callback
                 );
+
+                this->transactions.pop();
             }
         }
 

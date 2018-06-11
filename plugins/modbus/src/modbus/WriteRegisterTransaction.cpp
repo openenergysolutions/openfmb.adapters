@@ -14,7 +14,7 @@ namespace adapter
                 {
                     self->logger.warn("{} failed: {}", self->get_description(), response.get_exception<::modbus::IException>().get_message());
                 }
-                callback();
+                callback(response.is_valid());
             };
 
             session->send_request(

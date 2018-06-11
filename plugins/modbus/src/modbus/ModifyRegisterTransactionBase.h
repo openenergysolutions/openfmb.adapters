@@ -24,7 +24,7 @@ namespace adapter
 
             virtual ~ModifyRegisterTransactionBase() = default;
 
-            void start(std::shared_ptr<::modbus::ISession> session, const std::function<void()>& callback) final;
+            void start(std::shared_ptr<::modbus::ISession> session, const callback_t& callback) final;
 
         };
     }

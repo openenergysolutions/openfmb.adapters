@@ -24,7 +24,7 @@ namespace adapter
         {
             if(polls.requests.empty())
             {
-                session->start(std::chrono::seconds(0), callback);
+                session->start(std::chrono::seconds(0), [callback]() { callback(true); });
             }
             else
             {
@@ -50,13 +50,13 @@ namespace adapter
                     {
                         // we're done
                         self->handler->end(self->logger);
-                        callback();
+                        callback(true);
                     }
                 }
                 else
                 {
                     self->logger.warn("Poll failed: {}", response.get_exception<::modbus::IException>().get_message());
-                    callback();
+                    callback(false);
                 }
             };
 

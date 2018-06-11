@@ -30,7 +30,7 @@ namespace adapter
             void set_register(uint16_t index, uint32_t priority, uint16_t value) override;
             void modify_register(uint16_t index, uint32_t priority, modify_reg_op_t operation) override;
 
-            std::shared_ptr<ITransaction> get_transaction() const;
+            std::shared_ptr<ITransaction> get_transaction(std::string name, Logger logger) const;
         };
     }
 }
