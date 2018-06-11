@@ -140,7 +140,7 @@ namespace adapter
                 throw Exception("not implemented");
             }
 
-            void write_state_kind_keys() override
+            void write_enum_keys(const google::protobuf::EnumDescriptor& descriptor) override
             {
                 throw Exception("not implemented");
             }

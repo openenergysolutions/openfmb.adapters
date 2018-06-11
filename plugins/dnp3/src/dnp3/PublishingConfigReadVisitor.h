@@ -196,6 +196,11 @@ namespace adapter
                 throw NotImplemented(LOCATION);
             }
 
+            void handle(const std::string& field_name, PrimitiveAccessor<commonmodule::GridConnectModeKind, T> accessor) override
+            {
+                throw NotImplemented(LOCATION);
+            }
+
         private:
 
             static commonmodule::DbPosKind get_db_pos_kind(const YAML::Node& node, const std::string& key)

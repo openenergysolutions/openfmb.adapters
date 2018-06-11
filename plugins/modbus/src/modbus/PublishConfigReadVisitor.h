@@ -156,6 +156,11 @@ namespace adapter
                 this->configure_enum<commonmodule::StateKind>(this->get_config_node(field_name), accessor, commonmodule::StateKind_descriptor());
             }
 
+            void handle(const std::string& field_name, PrimitiveAccessor<commonmodule::GridConnectModeKind, T> accessor) override
+            {
+                this->configure_enum<commonmodule::GridConnectModeKind>(this->get_config_node(field_name), accessor, commonmodule::GridConnectModeKind_descriptor());
+            }
+
         private:
 
             template <class E>

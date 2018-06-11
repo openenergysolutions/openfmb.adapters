@@ -31,6 +31,15 @@ namespace adapter
             std::lock_guard<std::mutex> lock(mutex);
             this->is_running = false;
 
+            if(success)
+            {
+                logger.info("Finished transaction: {}", transaction->get_description());
+            }
+            else
+            {
+                logger.warn("Failed transaction: {}", transaction->get_description());
+            }
+
             if(transaction->is_periodic())
             {
                 this->session->start(transaction->get_period(), [self = shared_from_this(), transaction]()

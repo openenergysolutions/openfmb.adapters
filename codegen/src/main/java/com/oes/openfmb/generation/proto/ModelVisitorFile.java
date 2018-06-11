@@ -2,6 +2,7 @@ package com.oes.openfmb.generation.proto;
 
 import com.google.protobuf.Descriptors;
 import com.google.protobuf.FloatValue;
+import com.google.protobuf.StringValue;
 import com.oes.openfmb.generation.document.CppFilePair;
 import com.oes.openfmb.generation.document.Document;
 import com.oes.openfmb.generation.document.Documents;
@@ -34,6 +35,7 @@ public class ModelVisitorFile extends CppFilePair {
                 ControlDPC.getDescriptor(),
                 FloatValue.getDescriptor(),
                 StateKind.getDescriptor(),
+                GridConnectModeKind.getDescriptor(),
 
                 // generic meta-data stuff that appears in all profiles
                 MessageInfo.getDescriptor(),
@@ -43,7 +45,6 @@ public class ModelVisitorFile extends CppFilePair {
                 // stuff that appears in control profiles
                 CheckConditions.getDescriptor(),
                 SwitchCSG.getDescriptor(),
-                //ESSCSG.getDescriptor(),
                 ScheduleCSG.getDescriptor()
             )
     );
@@ -77,7 +78,6 @@ public class ModelVisitorFile extends CppFilePair {
         map.put(ConductingEquipmentTerminalReading.getDescriptor(), Ignore.always);
         map.put(ENG_CalcMethodKind.getDescriptor(), Ignore.always);
         map.put(ENG_PFSignKind.getDescriptor(), Ignore.always);
-        map.put(ENG_GridConnectModeKind.getDescriptor(), Ignore.always);
         map.put(ENS_BehaviourModeKind.getDescriptor(), Ignore.always);
         map.put(ENS_DynamicTestKind.getDescriptor(), Ignore.always);
         map.put(ENS_HealthKind.getDescriptor(), Ignore.always);
@@ -235,14 +235,7 @@ public class ModelVisitorFile extends CppFilePair {
             case ENUM:
                 return build(path, path.getInfo().field.getEnumType());
             case STRING:
-                if(path.getInfo().field.getName().equals("description"))
-                {
-                    return Documents.empty;
-                }
-                else
-                {
-                    throw new RuntimeException("Unknown string field: " + path);
-                }
+                return Documents.empty;
 
             default:
                 throw new RuntimeException("Unknown leaf node: " + path);

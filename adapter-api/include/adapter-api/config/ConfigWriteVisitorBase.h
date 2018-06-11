@@ -7,6 +7,7 @@
 
 #include "../ConfigStrings.h"
 #include "ProfileType.h"
+#include "../../../../../../.conan/data/boost_algorithm/1.66.0/bincrafters/stable/package/5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9/algorithm/include/boost/algorithm/string.hpp"
 
 #include <yaml-cpp/yaml.h>
 
@@ -119,9 +120,17 @@ namespace adapter
 
         void handle(const std::string& field_name, PrimitiveAccessor <commonmodule::StateKind, T> accessor) final
         {
-            this->out << YAML::Key << field_name << YAML::Comment("StateKind");
+            this->out << YAML::Key << field_name;
             this->out << YAML::BeginMap;
-            this->write_state_kind_keys();
+            this->write_enum_keys(*commonmodule::StateKind_descriptor());
+            this->out << YAML::EndMap;
+        }
+
+        void handle(const std::string& field_name, PrimitiveAccessor<commonmodule::GridConnectModeKind, T> accessor) final
+        {
+            this->out << YAML::Key << field_name;
+            this->out << YAML::BeginMap;
+            this->write_enum_keys(*commonmodule::GridConnectModeKind_descriptor());
             this->out << YAML::EndMap;
         }
 
@@ -211,7 +220,7 @@ namespace adapter
 
         virtual void write_float_value_keys() = 0;
 
-        virtual void write_state_kind_keys() = 0;
+        virtual void write_enum_keys(const google::protobuf::EnumDescriptor&) = 0;
 
         virtual void write_check_conditions_interlockCheck_keys() = 0;
 

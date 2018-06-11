@@ -21,7 +21,7 @@ namespace adapter
 
             bool operator<(const Entry& rhs) const
             {
-                return this->priority < rhs.priority;
+                return rhs.priority < this->priority;
             }
         };
 
@@ -35,36 +35,38 @@ namespace adapter
             this->modify_map[key_t(index, priority)].push_back(std::move(operation));
         }
 
-        std::shared_ptr<ITransaction> CommandSink::get_transaction(std::string name, Logger logger) const
+        std::shared_ptr<ITransaction> CommandSink::try_get_transaction(std::string name, Logger logger) const
         {
-            auto transaction = std::make_shared<OrderedTransaction>(std::move(name), logger);
-
-            std::priority_queue<Entry> queue;
+            std::vector<Entry> items;
 
             for(const auto& op : this->set_operations)
             {
-                queue.push(
-                    Entry(
-                        std::make_shared<WriteRegisterTransaction>(logger, op.index, op.value),
-                        op.priority
-                    )
+                items.emplace_back(
+                    std::make_shared<WriteRegisterTransaction>(logger, op.index, op.value),
+                    op.priority
                 );
             }
 
             for(const auto& op : this->modify_map)
             {
-                queue.push(
-                    Entry(
-                        std::make_shared<ModifyRegisterTransaction>(logger, op.first.first, operations::accumulate(op.second)),
-                        op.first.second // priority
-                    )
+                items.emplace_back(
+                    std::make_shared<ModifyRegisterTransaction>(logger, op.first.first, operations::accumulate(op.second)),
+                    op.first.second // priority
                 );
             }
 
-            while(!queue.empty())
+            if(items.empty())
             {
-                transaction->add(queue.top().transaction);
-                queue.pop();
+                return nullptr;
+            }
+
+            std::sort(items.begin(), items.end());
+
+            auto transaction = std::make_shared<OrderedTransaction>(std::move(name), logger);
+
+            for(const auto& item : items)
+            {
+                transaction->add(item.transaction);
             }
 
             return std::move(transaction);

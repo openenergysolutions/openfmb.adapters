@@ -23,6 +23,7 @@ namespace adapter
 
             struct FloatConfig
             {
+                bool enabled;
                 uint16_t index;
                 uint32_t priority;
                 double scale;
@@ -146,25 +147,12 @@ namespace adapter
 
             void handle(const std::string& field_name, PrimitiveAccessor <commonmodule::StateKind, T> accessor) override
             {
-                const auto node = this->get_config_node(field_name);
-                auto config = this->read_enum_config<commonmodule::StateKind>(node, *commonmodule::StateKind_descriptor());
+                this->handle_enum_config<commonmodule::StateKind>(field_name, accessor, *commonmodule::StateKind_descriptor());
+            }
 
-                this->config->add(
-                    [config = std::move(config), accessor](const T & profile, ICommandSink & sink, Logger & logger)
-                {
-                    accessor.if_present(
-                        profile,
-                        [&](commonmodule::StateKind value)
-                    {
-                        const auto entry = config.find(value);
-                        if(entry != config.end())
-                        {
-                            entry->second.apply(sink);
-                        }
-                    }
-                    );
-                }
-                );
+            void handle(const std::string& field_name, PrimitiveAccessor<commonmodule::GridConnectModeKind, T> accessor) override
+            {
+                this->handle_enum_config<commonmodule::GridConnectModeKind>(field_name, accessor, *commonmodule::GridConnectModeKind_descriptor());
             }
 
             void handle(const std::string& field_name, Accessor <switchmodule::SwitchCSG, T> accessor) override
@@ -177,23 +165,23 @@ namespace adapter
                 const auto node = this->get_config_node(field_name);
 
                 this->handle_interlock_check(yaml::require(node, ::adapter::keys::interlockCheck), accessor);
-                this->handle_interlock_check(yaml::require(node, ::adapter::keys::synchroCheck), accessor);
+                this->handle_synchro_check(yaml::require(node, ::adapter::keys::synchroCheck), accessor);
             }
 
             void handle_interlock_check(const YAML::Node& node, Accessor <commonmodule::CheckConditions, T> accessor)
             {
                 const auto config = read_binary_action_pair(node);
 
-                const auto builder = [=](const T & profile, ICommandSink & sink, Logger & logger)
+                const auto builder = [ = ](const T & profile, ICommandSink & sink, Logger & logger)
                 {
                     accessor.if_present(profile, [&](const commonmodule::CheckConditions & conditions)
                     {
                         if(conditions.has_interlockcheck())
                         {
-                                config.apply(
-                                        conditions.interlockcheck().value(),
-                                        sink
-                                 );
+                            config.apply(
+                                conditions.interlockcheck().value(),
+                                sink
+                            );
                         }
                     });
                 };
@@ -205,15 +193,15 @@ namespace adapter
             {
                 const auto config = read_binary_action_pair(node);
 
-                const auto builder = [=](const T & profile, ICommandSink & sink, Logger & logger)
+                const auto builder = [ = ](const T & profile, ICommandSink & sink, Logger & logger)
                 {
                     accessor.if_present(profile, [&](const commonmodule::CheckConditions & conditions)
                     {
                         if(conditions.has_synchrocheck())
                         {
                             config.apply(
-                                    conditions.synchrocheck().value(),
-                                    sink
+                                conditions.synchrocheck().value(),
+                                sink
                             );
                         }
                     });
@@ -224,10 +212,12 @@ namespace adapter
 
             void handle(const std::string& field_name, Accessor <commonmodule::ScheduleCSG, T> accessor) override
             {
-                const auto config = this->read_float_action(this->get_config_node(field_name));
+                const auto fconfig = this->read_float_action(this->get_config_node(field_name));
+
+                if(!fconfig.enabled) return;
 
                 this->config->add(
-                    [config, accessor](const T & profile, ICommandSink & sink, Logger & logger)
+                    [config = fconfig, accessor](const T & profile, ICommandSink & sink, Logger & logger)
                 {
                     accessor.if_present(
                         profile,
@@ -266,6 +256,30 @@ namespace adapter
         private:
 
             template <class E>
+            void handle_enum_config(const std::string& field_name, PrimitiveAccessor <E, T> accessor, const google::protobuf::EnumDescriptor& descriptor)
+            {
+                const auto node = this->get_config_node(field_name);
+                auto config = this->read_enum_config<E>(node, descriptor);
+
+                this->config->add(
+                    [config = std::move(config), accessor](const T & profile, ICommandSink & sink, Logger & logger)
+                {
+                    accessor.if_present(
+                        profile,
+                        [&](E value)
+                    {
+                        const auto entry = config.find(value);
+                        if(entry != config.end())
+                        {
+                            entry->second.apply(sink);
+                        }
+                    }
+                    );
+                }
+                );
+            }
+
+            template <class E>
             std::map<E, RegisterMaskAction> read_enum_config(const YAML::Node& node, const google::protobuf::EnumDescriptor& descriptor)
             {
                 std::map<E, RegisterMaskAction> map;
@@ -287,6 +301,7 @@ namespace adapter
             {
                 return FloatConfig
                 {
+                    .enabled = yaml::require(node, keys::enabled).as<bool>(),
                     .index = yaml::require_integer<uint16_t>(node, keys::index),
                     .priority = yaml::require_integer<uint32_t>(node, keys::priority),
                     .scale = yaml::require(node, keys::scale).as<double>()

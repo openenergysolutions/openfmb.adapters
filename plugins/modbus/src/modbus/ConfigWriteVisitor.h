@@ -89,38 +89,7 @@ namespace adapter
                 this->write_analogue_keys();
             }
 
-            void write_state_kind_keys() override
-            {
-                this->write_enum_keys(*commonmodule::StateKind_descriptor());
-            }
-
-        private:
-
-            void write_true_false_binary_control_config()
-            {
-                this->write_binary_control_keys(keys::when_true);
-                this->write_binary_control_keys(keys::when_false);
-            }
-
-            void write_binary_action()
-            {
-                this->out << YAML::Key << keys::action << YAML::Value << BinaryControlActionMeta::none << YAML::Comment("{none, clear_masked_bits, set_masked_bits}");
-                this->out << YAML::Key << keys::index << YAML::Value << 0;
-                this->out << YAML::Key << keys::mask << YAML::Value << YAML::Hex << 0x0001;
-                this->out << YAML::Key << keys::priority << YAML::Value << 0;
-            }
-
-            void write_binary_control_keys(const char* name)
-            {
-                this->out << YAML::Key << name;
-
-                this->out << YAML::BeginMap;
-                this->write_binary_action();
-                this->out << YAML::EndMap;
-            }
-
-
-            void write_enum_keys(const google::protobuf::EnumDescriptor& descriptor)
+            void write_enum_keys(const google::protobuf::EnumDescriptor& descriptor) override
             {
                 if(get_profile_type<T>() == ProfileType::control)
                 {
@@ -156,6 +125,31 @@ namespace adapter
                     this->out << YAML::EndSeq;
                 }
 
+            }
+
+        private:
+
+            void write_true_false_binary_control_config()
+            {
+                this->write_binary_control_keys(keys::when_true);
+                this->write_binary_control_keys(keys::when_false);
+            }
+
+            void write_binary_action()
+            {
+                this->out << YAML::Key << keys::action << YAML::Value << BinaryControlActionMeta::none << YAML::Comment("{none, clear_masked_bits, set_masked_bits}");
+                this->out << YAML::Key << keys::index << YAML::Value << 0;
+                this->out << YAML::Key << keys::mask << YAML::Value << YAML::Hex << 0x0001;
+                this->out << YAML::Key << keys::priority << YAML::Value << 0;
+            }
+
+            void write_binary_control_keys(const char* name)
+            {
+                this->out << YAML::Key << name;
+
+                this->out << YAML::BeginMap;
+                this->write_binary_action();
+                this->out << YAML::EndMap;
             }
 
             void write_boolean_keys(const char* name)

@@ -120,6 +120,11 @@ namespace adapter
                 throw NotImplemented(LOCATION);
             }
 
+            void handle(const std::string& field_name, PrimitiveAccessor<commonmodule::GridConnectModeKind, T> accessor) override
+            {
+                throw NotImplemented(LOCATION);
+            }
+
             // --- values to handle ---
 
             void handle(const std::string& field_name, Accessor<commonmodule::CheckConditions, T> accessor) override

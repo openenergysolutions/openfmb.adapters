@@ -3379,6 +3379,20 @@ void visit(IModelVisitor<essmodule::ESSStatusProfile>& visitor)
                     [context = const_context2](const essmodule::ESSStatusProfile& profile) { const auto temp = context(profile); return (temp && temp->has_batst()) ? &temp->batst() : nullptr; }
                 )
             );
+            visitor.start_message_field("GriMod");
+            {
+                const auto mutable_context3 = [context = mutable_context2](essmodule::ESSStatusProfile& profile) { return context(profile)->mutable_grimod(); };
+                const auto const_context3 = [context = const_context2](const essmodule::ESSStatusProfile& profile) { const auto temp = context(profile); return (temp && temp->has_grimod()) ? &temp->grimod() : nullptr; };
+                visitor.handle(
+                    "setVal",
+                    PrimitiveAccessorBuilder<commonmodule::GridConnectModeKind, essmodule::ESSStatusProfile>::build(
+                        [context = mutable_context3](essmodule::ESSStatusProfile& profile, commonmodule::GridConnectModeKind value) { return context(profile)->set_setval(value); },
+                        [context = const_context3](const essmodule::ESSStatusProfile& profile) { const auto temp = context(profile); return temp ? temp->setval() : throw Exception("Primitive value parent(s) not present: essStatus.essStatusZBAT.GriMod.setVal "); },
+                        [context = const_context3](const essmodule::ESSStatusProfile& profile) -> bool { return context(profile) != nullptr; }
+                    )
+                );
+            }
+            visitor.end_message_field();
             visitor.handle(
                 "Soc",
                 AccessorBuilder<commonmodule::MV, essmodule::ESSStatusProfile>::build(
@@ -3461,6 +3475,20 @@ void visit(IModelVisitor<essmodule::ESSStatusProfile>& visitor)
                             [context = const_context4](const essmodule::ESSStatusProfile& profile) { const auto temp = context(profile); return (temp && temp->has_frequencysetpointenabled()) ? &temp->frequencysetpointenabled() : nullptr; }
                         )
                     );
+                    visitor.start_message_field("mode");
+                    {
+                        const auto mutable_context5 = [context = mutable_context4](essmodule::ESSStatusProfile& profile) { return context(profile)->mutable_mode(); };
+                        const auto const_context5 = [context = const_context4](const essmodule::ESSStatusProfile& profile) { const auto temp = context(profile); return (temp && temp->has_mode()) ? &temp->mode() : nullptr; };
+                        visitor.handle(
+                            "setVal",
+                            PrimitiveAccessorBuilder<commonmodule::GridConnectModeKind, essmodule::ESSStatusProfile>::build(
+                                [context = mutable_context5](essmodule::ESSStatusProfile& profile, commonmodule::GridConnectModeKind value) { return context(profile)->set_setval(value); },
+                                [context = const_context5](const essmodule::ESSStatusProfile& profile) { const auto temp = context(profile); return temp ? temp->setval() : throw Exception("Primitive value parent(s) not present: essStatus.essStatusZGEN.eSSEventAndStatusZGEN.PointStatus.mode.setVal "); },
+                                [context = const_context5](const essmodule::ESSStatusProfile& profile) -> bool { return context(profile) != nullptr; }
+                            )
+                        );
+                    }
+                    visitor.end_message_field();
                     visitor.handle(
                         "pctHzDroop",
                         AccessorBuilder<google::protobuf::FloatValue, essmodule::ESSStatusProfile>::build(
@@ -3717,6 +3745,20 @@ void visit(IModelVisitor<essmodule::ESSControlProfile>& visitor)
                                 [context = const_context5](const essmodule::ESSControlProfile& profile) { const auto temp = context(profile); return (temp && temp->has_frequencysetpointenabled()) ? &temp->frequencysetpointenabled() : nullptr; }
                             )
                         );
+                        visitor.start_message_field("mode");
+                        {
+                            const auto mutable_context6 = [context = mutable_context5](essmodule::ESSControlProfile& profile) { return context(profile)->mutable_mode(); };
+                            const auto const_context6 = [context = const_context5](const essmodule::ESSControlProfile& profile) { const auto temp = context(profile); return (temp && temp->has_mode()) ? &temp->mode() : nullptr; };
+                            visitor.handle(
+                                "setVal",
+                                PrimitiveAccessorBuilder<commonmodule::GridConnectModeKind, essmodule::ESSControlProfile>::build(
+                                    [context = mutable_context6](essmodule::ESSControlProfile& profile, commonmodule::GridConnectModeKind value) { return context(profile)->set_setval(value); },
+                                    [context = const_context6](const essmodule::ESSControlProfile& profile) { const auto temp = context(profile); return temp ? temp->setval() : throw Exception("Primitive value parent(s) not present: essControl.essControlFSCC.essControlScheduleFSCH.ValDCSG.crvPts.mode.setVal "); },
+                                    [context = const_context6](const essmodule::ESSControlProfile& profile) -> bool { return context(profile) != nullptr; }
+                                )
+                            );
+                        }
+                        visitor.end_message_field();
                         visitor.handle(
                             "pctHzDroop",
                             AccessorBuilder<google::protobuf::FloatValue, essmodule::ESSControlProfile>::build(

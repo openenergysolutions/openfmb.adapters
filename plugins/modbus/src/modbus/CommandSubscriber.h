@@ -46,10 +46,14 @@ namespace adapter
             {
                 CommandSink sink;
                 this->config->process(message, sink, this->logger);
-                auto transaction = sink.get_transaction(T::descriptor()->name(), this->logger);
+                auto transaction = sink.try_get_transaction(T::descriptor()->name(), this->logger);
                 if(transaction)
                 {
                     this->tx_processor->add(std::move(transaction));
+                }
+                else
+                {
+                    logger.warn("received {} that did not generate any writes", T::descriptor()->name());
                 }
             }
 
