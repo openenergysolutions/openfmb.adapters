@@ -55,14 +55,12 @@ namespace adapter
 
             void write_check_conditions_interlockCheck_keys() override
             {
-                // TODO - not required yet
-                this->out << YAML::Key << "not" << YAML::Value << "implemented";
+                this->write_true_false_binary_control_config();
             }
 
             void write_check_conditions_synchroCheck_keys() override
             {
-                // TODO - not required yet
-                this->out << YAML::Key << "not" << YAML::Value << "implemented";
+                this->write_true_false_binary_control_config();
             }
 
             void write_schedule_csg_keys() override

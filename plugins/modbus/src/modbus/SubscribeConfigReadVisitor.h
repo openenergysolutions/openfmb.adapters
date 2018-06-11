@@ -174,7 +174,52 @@ namespace adapter
 
             void handle(const std::string& field_name, Accessor <commonmodule::CheckConditions, T> accessor) override
             {
+                const auto node = this->get_config_node(field_name);
 
+                this->handle_interlock_check(yaml::require(node, ::adapter::keys::interlockCheck), accessor);
+                this->handle_interlock_check(yaml::require(node, ::adapter::keys::synchroCheck), accessor);
+            }
+
+            void handle_interlock_check(const YAML::Node& node, Accessor <commonmodule::CheckConditions, T> accessor)
+            {
+                const auto config = read_binary_action_pair(node);
+
+                const auto builder = [=](const T & profile, ICommandSink & sink, Logger & logger)
+                {
+                    accessor.if_present(profile, [&](const commonmodule::CheckConditions & conditions)
+                    {
+                        if(conditions.has_interlockcheck())
+                        {
+                                config.apply(
+                                        conditions.interlockcheck().value(),
+                                        sink
+                                 );
+                        }
+                    });
+                };
+
+                this->config->add(builder);
+            }
+
+            void handle_synchro_check(const YAML::Node& node, Accessor <commonmodule::CheckConditions, T> accessor)
+            {
+                const auto config = read_binary_action_pair(node);
+
+                const auto builder = [=](const T & profile, ICommandSink & sink, Logger & logger)
+                {
+                    accessor.if_present(profile, [&](const commonmodule::CheckConditions & conditions)
+                    {
+                        if(conditions.has_synchrocheck())
+                        {
+                            config.apply(
+                                    conditions.synchrocheck().value(),
+                                    sink
+                            );
+                        }
+                    });
+                };
+
+                this->config->add(builder);
             }
 
             void handle(const std::string& field_name, Accessor <commonmodule::ScheduleCSG, T> accessor) override
