@@ -38,7 +38,9 @@ set(MODBUS_SOURCES
         src/modbus/PollTransaction.cpp
         src/modbus/BinaryControlAction.h
         src/modbus/BinaryControlAction.cpp
-        src/modbus/CommandSubscriber.h)
+        src/modbus/CommandSubscriber.h
+        src/modbus/CommandSink.cpp
+        src/modbus/CommandSink.h src/modbus/WriteRegisterTransaction.cpp src/modbus/WriteRegisterTransaction.h)
 
 set(CPP_FORMAT_DIRS
         ${CPP_FORMAT_DIRS}

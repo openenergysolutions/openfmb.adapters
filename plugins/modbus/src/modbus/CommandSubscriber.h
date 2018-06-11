@@ -7,6 +7,7 @@
 
 #include "ICommandConfigBuilder.h"
 #include "ITransactionProcessor.h"
+#include "CommandSink.h"
 
 namespace adapter
 {
@@ -24,26 +25,32 @@ namespace adapter
 
             CommandSubscriber(
                     Logger logger,
-                    const std::string& uuid,
+                    std::string uuid,
                     std::shared_ptr<const ICommandConfiguration<T>> config,
                     std::shared_ptr<ITransactionProcessor> tx_processor
             ) :
                     logger(std::move(logger)),
-                    uuid(uuid),
+                    uuid(std::move(uuid)),
                     config(std::move(config)),
                     tx_processor(std::move(tx_processor))
             {}
 
-            virtual bool matches(const T& message) const override
+            bool matches(const T& message) const override
             {
                 return get_conducting_equip(message).mrid() == this->uuid;
             }
 
         private:
 
-            virtual void process(const T& message) override
+            void process(const T& message) override
             {
-
+                CommandSink sink;
+                this->config->process(message, sink, this->logger);
+                auto transaction = sink.get_transaction();
+                if(transaction)
+                {
+                    this->tx_processor->add(std::move(transaction));
+                }
             }
 
         };
