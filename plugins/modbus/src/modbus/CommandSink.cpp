@@ -64,8 +64,11 @@ namespace adapter
 
             auto transaction = std::make_shared<OrderedTransaction>(std::move(name), logger);
 
+            logger.info("Creating transaction");
+
             for(const auto& item : items)
             {
+                logger.info("action = {}",item.transaction->get_description());
                 transaction->add(item.transaction);
             }
 

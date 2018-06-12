@@ -15,8 +15,11 @@ namespace adapter
         class ModifyRegisterTransactionBase : public ITransaction, public std::enable_shared_from_this<ModifyRegisterTransactionBase>
         {
             Logger logger;
+
+        protected:
+
             const uint16_t address;
-            modify_reg_op_t operation;
+            const modify_reg_op_t operation;
 
         public:
 

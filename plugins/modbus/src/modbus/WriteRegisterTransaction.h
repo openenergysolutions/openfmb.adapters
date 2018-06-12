@@ -6,6 +6,8 @@
 
 #include <adapter-api/Logger.h>
 
+#include <sstream>
+
 namespace adapter
 {
     namespace modbus
@@ -26,7 +28,9 @@ namespace adapter
 
             std::string get_description() const override
             {
-                return "write register";
+                std::ostringstream oss;
+                oss << "write register: " << this->index << " with value: " << this->value;
+                return oss.str();
             }
 
             void start(session_t session, const callback_t& callback) override;

@@ -5,6 +5,8 @@
 
 #include "ModifyRegisterTransactionBase.h"
 
+#include <sstream>
+
 namespace adapter
 {
     namespace modbus
@@ -20,7 +22,9 @@ namespace adapter
 
             std::string get_description() const override
             {
-                return "modify register";
+                std::ostringstream oss;
+                oss << "modify register: " << this->address;
+                return oss.str();
             }
         };
     }

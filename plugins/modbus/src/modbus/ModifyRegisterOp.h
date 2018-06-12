@@ -18,7 +18,7 @@ namespace adapter
             {
                 return [mask](uint16_t input)
                 {
-                    return input & !mask;
+                    return input & ~mask;
                 };
             }
 
