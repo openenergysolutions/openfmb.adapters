@@ -44,7 +44,7 @@ namespace adapter
                         sink.modify_register(index, priority, operations::clear(mask));
                         return true;
                     case(BinaryControlAction::set_masked_bits):
-                        sink.modify_register(index, priority, operations::clear(mask));
+                        sink.modify_register(index, priority, operations::set(mask));
                         return true;
                     default:
                         return false;
@@ -54,12 +54,19 @@ namespace adapter
 
             struct BinaryConfigPair
             {
-                RegisterMaskAction when_true;
-                RegisterMaskAction when_false;
+                std::vector<RegisterMaskAction> when_true;
+                std::vector<RegisterMaskAction> when_false;
 
                 bool apply(bool value, ICommandSink& sink) const
                 {
-                    return value ? when_true.apply(sink) : when_false.apply(sink);
+                    auto ret = false;
+                    for(const auto& action : value ? when_true : when_false)
+                    {
+
+                        action.apply(sink);
+                        ret = true;
+                    }
+                    return ret;
                 }
             };
 
@@ -271,7 +278,7 @@ namespace adapter
                         const auto entry = config.find(value);
                         if(entry != config.end())
                         {
-                            entry->second.apply(sink);
+                            for(const auto& action : entry->second) action.apply(sink);
                         }
                     }
                     );
@@ -280,16 +287,16 @@ namespace adapter
             }
 
             template <class E>
-            std::map<E, RegisterMaskAction> read_enum_config(const YAML::Node& node, const google::protobuf::EnumDescriptor& descriptor)
+            static std::map<E, std::vector<RegisterMaskAction>> read_enum_config(const YAML::Node& node, const google::protobuf::EnumDescriptor& descriptor)
             {
-                std::map<E, RegisterMaskAction> map;
+                std::map<E, std::vector<RegisterMaskAction>> map;
 
                 const auto add_entry = [&](const YAML::Node & node)
                 {
                     const auto name = yaml::require_string(node, keys::name);
                     const auto value = descriptor.FindValueByName(name);
                     if(!value) throw Exception("Unknown enum value: ", name);
-                    map[static_cast<E>(value->number())] = this->read_register_mask_action(node);
+                    map[static_cast<E>(value->number())] = std::move(read_register_mask_actions(node));
                 };
 
                 yaml::foreach(yaml::require(node, keys::mapping), add_entry);
@@ -297,7 +304,7 @@ namespace adapter
                 return std::move(map);
             }
 
-            FloatConfig read_float_action(const YAML::Node& node)
+            static FloatConfig read_float_action(const YAML::Node& node)
             {
                 return FloatConfig
                 {
@@ -308,16 +315,31 @@ namespace adapter
                 };
             }
 
-            BinaryConfigPair read_binary_action_pair(const YAML::Node& node)
+            static BinaryConfigPair read_binary_action_pair(const YAML::Node& node)
             {
                 return BinaryConfigPair
                 {
-                    .when_true = read_register_mask_action(yaml::require(node, keys::when_true)),
-                    .when_false = read_register_mask_action(yaml::require(node, keys::when_false))
+                    .when_true = std::move(read_register_mask_actions(yaml::require(node, keys::when_true))),
+                    .when_false = std::move(read_register_mask_actions(yaml::require(node, keys::when_false)))
                 };
             }
 
-            RegisterMaskAction read_register_mask_action(const YAML::Node& node)
+            static std::vector<RegisterMaskAction> read_register_mask_actions(const YAML::Node& node)
+            {
+                std::vector<RegisterMaskAction> actions;
+
+                yaml::foreach(
+                    yaml::require(node, keys::actions),
+                    [&actions](const YAML::Node& node)
+            {
+                actions.push_back(read_register_mask_action(node));
+                }
+                );
+
+                return std::move(actions);
+            }
+
+            static RegisterMaskAction read_register_mask_action(const YAML::Node& node)
             {
                 return RegisterMaskAction
                 {

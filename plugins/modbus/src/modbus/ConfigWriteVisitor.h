@@ -100,7 +100,7 @@ namespace adapter
                         const auto value = descriptor.value(i);
                         this->out << YAML::BeginMap;
                         this->out << YAML::Key << keys::name << YAML::Value << value->name();
-                        this->write_binary_action();
+                        this->write_binary_action_list();
                         this->out << YAML::EndMap;
                     }
                     this->out << YAML::EndSeq;
@@ -143,12 +143,22 @@ namespace adapter
                 this->out << YAML::Key << keys::priority << YAML::Value << 0;
             }
 
+            void write_binary_action_list()
+            {
+                this->out << YAML::Key << keys::actions;
+                this->out << YAML::BeginSeq;
+                this->out << YAML::BeginMap;
+                this->write_binary_action();
+                this->out << YAML::EndMap;
+                this->out << YAML::EndSeq;
+            }
+
             void write_binary_control_keys(const char* name)
             {
                 this->out << YAML::Key << name;
 
                 this->out << YAML::BeginMap;
-                this->write_binary_action();
+                this->write_binary_action_list();
                 this->out << YAML::EndMap;
             }
 
@@ -175,3 +185,4 @@ namespace adapter
 }
 
 #endif
+
