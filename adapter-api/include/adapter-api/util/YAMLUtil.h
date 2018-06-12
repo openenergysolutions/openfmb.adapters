@@ -33,7 +33,7 @@ namespace adapter
         template <typename T>
         T require_integer(const YAML::Node& parent, const std::string& key)
         {
-            static_assert(sizeof(T) < sizeof(int64_t));
+            static_assert(sizeof(T) < sizeof(int64_t), "type not smaller than int64");
 
             const auto node = require(parent, key);
 
