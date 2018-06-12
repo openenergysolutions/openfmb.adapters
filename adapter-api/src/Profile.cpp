@@ -1,4 +1,5 @@
 
+#include <proto-api/solarmodule/solarmodule.pb.h>
 #include "adapter-api/Profile.h"
 
 #include "adapter-api/util/Exception.h"
@@ -28,6 +29,12 @@ namespace adapter
             return essmodule::ESSStatusProfile::descriptor()->name();
         case(Profile::ess_control):
             return essmodule::ESSControlProfile::descriptor()->name();
+        case(Profile::solar_reading):
+            return solarmodule::SolarReadingProfile::descriptor()->name();
+        case(Profile::solar_status):
+            return solarmodule::SolarStatusProfile::descriptor()->name();
+        case(Profile::solar_control):
+            return solarmodule::SolarControlProfile::descriptor()->name();
         default:
             throw Exception("Unhandled profile enum: ", static_cast<int>(profile));
         }
@@ -62,6 +69,18 @@ namespace adapter
         else if(name == to_string(Profile::ess_control))
         {
             return Profile::ess_control;
+        }
+        else if(name == to_string(Profile::solar_reading))
+        {
+            return Profile::solar_reading;
+        }
+        else if(name == to_string(Profile::solar_status))
+        {
+            return Profile::solar_status;
+        }
+        else if(name == to_string(Profile::solar_control))
+        {
+            return Profile::solar_control;
         }
         else
         {

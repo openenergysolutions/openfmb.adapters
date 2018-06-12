@@ -41,6 +41,12 @@ namespace adapter
 
         void publish(const essmodule::ESSControlProfile& message) override;
 
+        void publish(const solarmodule::SolarReadingProfile &message) override;
+
+        void publish(const solarmodule::SolarStatusProfile &message) override;
+
+        void publish(const solarmodule::SolarControlProfile &message) override;
+
         // ---- subscribe ----
 
         void subscribe(subscriber_t<resourcemodule::ResourceReadingProfile> subscriber) override;
@@ -57,17 +63,29 @@ namespace adapter
 
         void subscribe(subscriber_t<essmodule::ESSControlProfile> subscriber) override;
 
+        void subscribe(subscriber_t<solarmodule::SolarReadingProfile> subscriber) override;
+
+        void subscribe(subscriber_t<solarmodule::SolarStatusProfile> subscriber) override;
+
+        void subscribe(subscriber_t<solarmodule::SolarControlProfile> subscriber) override;
+
     private:
 
         // ---- subscriber registries for the different types, these are the publishers that get handed out as well ----
 
         const std::shared_ptr<SubscriberRegistry<resourcemodule::ResourceReadingProfile>> resource_reading = std::make_shared<SubscriberRegistry<resourcemodule::ResourceReadingProfile>>();
+
         const std::shared_ptr<SubscriberRegistry<switchmodule::SwitchControlProfile>> switch_control = std::make_shared<SubscriberRegistry<switchmodule::SwitchControlProfile>>();
         const std::shared_ptr<SubscriberRegistry<switchmodule::SwitchReadingProfile>> switch_reading = std::make_shared<SubscriberRegistry<switchmodule::SwitchReadingProfile>>();
         const std::shared_ptr<SubscriberRegistry<switchmodule::SwitchStatusProfile>> switch_status = std::make_shared<SubscriberRegistry<switchmodule::SwitchStatusProfile>>();
+
         const std::shared_ptr<SubscriberRegistry<essmodule::ESSReadingProfile>> ess_reading = std::make_shared<SubscriberRegistry<essmodule::ESSReadingProfile>>();
         const std::shared_ptr<SubscriberRegistry<essmodule::ESSStatusProfile>> ess_status = std::make_shared<SubscriberRegistry<essmodule::ESSStatusProfile>>();
         const std::shared_ptr<SubscriberRegistry<essmodule::ESSControlProfile>> ess_control = std::make_shared<SubscriberRegistry<essmodule::ESSControlProfile>>();
+
+        const std::shared_ptr<SubscriberRegistry<solarmodule::SolarReadingProfile>> solar_reading = std::make_shared<SubscriberRegistry<solarmodule::SolarReadingProfile>>();
+        const std::shared_ptr<SubscriberRegistry<solarmodule::SolarStatusProfile>> solar_status = std::make_shared<SubscriberRegistry<solarmodule::SolarStatusProfile>>();
+        const std::shared_ptr<SubscriberRegistry<solarmodule::SolarControlProfile>> solar_control = std::make_shared<SubscriberRegistry<solarmodule::SolarControlProfile>>();
     };
 
 }

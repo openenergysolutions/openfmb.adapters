@@ -1,4 +1,5 @@
 
+#include <proto-api/solarmodule/solarmodule.pb.h>
 #include "adapter-api/config/ProfileType.h"
 
 #include "proto-api/resourcemodule/resourcemodule.pb.h"
@@ -45,6 +46,24 @@ namespace adapter
 
     template <>
     ProfileType get_profile_type<essmodule::ESSControlProfile>()
+    {
+        return ProfileType::control;
+    }
+
+    template <>
+    ProfileType get_profile_type<solarmodule::SolarReadingProfile>()
+    {
+        return ProfileType::reading;
+    }
+
+    template <>
+    ProfileType get_profile_type<solarmodule::SolarStatusProfile>()
+    {
+        return ProfileType::status;
+    }
+
+    template <>
+    ProfileType get_profile_type<solarmodule::SolarControlProfile>()
     {
         return ProfileType::control;
     }

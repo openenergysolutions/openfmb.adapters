@@ -16,7 +16,11 @@ namespace adapter
         // ess
         ess_reading,
         ess_status,
-        ess_control
+        ess_control,
+        // solar
+        solar_reading,
+        solar_status,
+        solar_control
     };
 
     struct ProfileMeta
@@ -39,6 +43,10 @@ namespace adapter
             handler(Profile::ess_reading);
             handler(Profile::ess_status);
             handler(Profile::ess_control);
+
+            handler(Profile::solar_reading);
+            handler(Profile::solar_status);
+            handler(Profile::solar_control);
         }
     };
 

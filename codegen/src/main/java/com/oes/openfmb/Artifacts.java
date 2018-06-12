@@ -12,6 +12,7 @@ import openfmb.essmodule.ESSControlProfile;
 import openfmb.essmodule.ESSReadingProfile;
 import openfmb.essmodule.ESSStatusProfile;
 import openfmb.resourcemodule.ResourceReadingProfile;
+import openfmb.solarmodule.SolarReadingProfile;
 import openfmb.switchmodule.SwitchControlProfile;
 import openfmb.switchmodule.SwitchReadingProfile;
 import openfmb.switchmodule.SwitchStatusProfile;
@@ -56,13 +57,16 @@ public class Artifacts {
                 // ess
                 ESSReadingProfile.getDescriptor(),
                 ESSStatusProfile.getDescriptor(),
-                ESSControlProfile.getDescriptor()
+                ESSControlProfile.getDescriptor(),
+                //solar
+                SolarReadingProfile.getDescriptor()
         );
 
         private static List<String> includes = Arrays.asList(
                 "resourcemodule/resourcemodule.pb.h",
                 "switchmodule/switchmodule.pb.h",
-                "essmodule/essmodule.pb.h"
+                "essmodule/essmodule.pb.h",
+                "solarmodule/solarmodule.pb.h"
         );
 
         private static final CppFilePair modelVisitors = new ModelVisitorFile(descriptors, includes);

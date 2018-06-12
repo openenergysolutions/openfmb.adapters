@@ -25,12 +25,18 @@ namespace adapter
          */
 
         virtual void subscribe(subscriber_t<resourcemodule::ResourceReadingProfile> subscriber) = 0;
+
         virtual void subscribe(subscriber_t<switchmodule::SwitchControlProfile> subscriber) = 0;
         virtual void subscribe(subscriber_t<switchmodule::SwitchReadingProfile> subscriber) = 0;
         virtual void subscribe(subscriber_t<switchmodule::SwitchStatusProfile> subscriber) = 0;
+
         virtual void subscribe(subscriber_t<essmodule::ESSReadingProfile> subscriber) = 0;
         virtual void subscribe(subscriber_t<essmodule::ESSStatusProfile> subscriber) = 0;
         virtual void subscribe(subscriber_t<essmodule::ESSControlProfile> subscriber) = 0;
+
+        virtual void subscribe(subscriber_t<solarmodule::SolarReadingProfile> subscriber) = 0;
+        virtual void subscribe(subscriber_t<solarmodule::SolarStatusProfile> subscriber) = 0;
+        virtual void subscribe(subscriber_t<solarmodule::SolarControlProfile> subscriber) = 0;
     };
 
     using message_bus_t = std::shared_ptr<IMessageBus>;
