@@ -51,6 +51,7 @@ namespace adapter
             out << YAML::Key << ::adapter::keys::name << YAML::Value << "" << YAML::Comment("conducting equipment name");
             out << YAML::Key << ::adapter::keys::path << YAML::Value << "values.txt" << YAML::Comment("file to which values will be appended");
             out << YAML::Key << keys::print_alias << YAML::Value << true;
+            out << YAML::Key << keys::log_all_values << YAML::Value << false;
             out << YAML::Key << keys::values;
             write_default_tag_list(out);
             out << YAML::EndMap;

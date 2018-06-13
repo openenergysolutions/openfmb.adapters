@@ -29,6 +29,9 @@ namespace adapter
 
             std::map<std::string, value_getter_t> values;
 
+            Logger logger;
+            const bool log_all_values;
+
             std::string get_tag_name(const std::string& field_name) const
             {
                 std::ostringstream oss;
@@ -46,6 +49,13 @@ namespace adapter
             void handle_value(const std::string& field_name, const value_getter_t& getter)
             {
                 const auto tag_name = this->get_tag_name(field_name);
+
+                if(this->log_all_values)
+                {
+                    logger.info("{} = {}", field_name, getter(3));
+                }
+
+
                 const auto iter = this->values.find(tag_name);
                 if(iter != this->values.end())
                 {
@@ -67,7 +77,9 @@ namespace adapter
 
         public:
 
-            explicit CachingVisitor(const ITagList& list)
+            CachingVisitor(const ITagList& list, Logger logger, bool log_all_values) :
+                    logger(std::move(logger)),
+                    log_all_values(log_all_values)
             {
                 // initialize the value map
                 for(size_t i = 0; i < list.count(); ++i)
@@ -165,6 +177,7 @@ namespace adapter
             Logger logger;
             const std::string name;
             const bool print_alias;
+            const bool log_all_values;
             std::ofstream log_file;
 
             std::mutex mutex;
@@ -176,6 +189,7 @@ namespace adapter
                 logger(std::move(logger)),
                 name(yaml::require_string(config, ::adapter::keys::name)),
                 print_alias(yaml::require(config, keys::print_alias).as<bool>()),
+                log_all_values(yaml::require(config, keys::log_all_values).as<bool>()),
                 log_file(yaml::require_string(config, ::adapter::keys::path), std::ios_base::app | std::ios_base::out)
             {
                 const auto values = yaml::require(config, keys::values);
@@ -204,7 +218,7 @@ namespace adapter
 
             void process(const Proto& message) override
             {
-                CachingVisitor visitor(*this);
+                CachingVisitor visitor(*this, this->logger, this->log_all_values);
                 visit(message, visitor);
 
                 std::unique_lock<std::mutex> lock(this->mutex);

@@ -14,6 +14,7 @@ namespace adapter
             static constexpr const char* const alias = "alias";
             static constexpr const char* const digits = "digits";
             static constexpr const char* const print_alias = "print_alias";
+            static constexpr const char* const log_all_values = "log_all_values";
         }
     }
 }
