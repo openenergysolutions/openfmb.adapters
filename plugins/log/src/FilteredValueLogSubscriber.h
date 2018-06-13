@@ -78,8 +78,8 @@ namespace adapter
         public:
 
             CachingVisitor(const ITagList& list, Logger logger, bool log_all_values) :
-                    logger(std::move(logger)),
-                    log_all_values(log_all_values)
+                logger(std::move(logger)),
+                log_all_values(log_all_values)
             {
                 // initialize the value map
                 for(size_t i = 0; i < list.count(); ++i)

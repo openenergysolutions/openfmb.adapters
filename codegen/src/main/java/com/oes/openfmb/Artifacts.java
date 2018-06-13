@@ -9,6 +9,9 @@ import com.oes.openfmb.generation.proto.MessageVisitorFile;
 import openfmb.essmodule.ESSControlProfile;
 import openfmb.essmodule.ESSReadingProfile;
 import openfmb.essmodule.ESSStatusProfile;
+import openfmb.loadmodule.LoadControlProfile;
+import openfmb.loadmodule.LoadReadingProfile;
+import openfmb.loadmodule.LoadStatusProfile;
 import openfmb.resourcemodule.ResourceReadingProfile;
 import openfmb.solarmodule.SolarControlProfile;
 import openfmb.solarmodule.SolarReadingProfile;
@@ -63,7 +66,11 @@ public class Artifacts {
                 //solar
                 SolarReadingProfile.getDescriptor(),
                 SolarStatusProfile.getDescriptor(),
-                SolarControlProfile.getDescriptor()
+                SolarControlProfile.getDescriptor(),
+                // load
+                LoadReadingProfile.getDescriptor(),
+                LoadStatusProfile.getDescriptor(),
+                LoadControlProfile.getDescriptor()
         );
 
         private static class Include
@@ -76,13 +83,15 @@ public class Artifacts {
             static final String switchModule = module("switch");
             static final String essModule = module("ess");
             static final String solarModule = module("solar");
+            static final String loadModule = module("load");
         }
 
         private static List<String> includes = Arrays.asList(
                 Include.resourceModule,
                 Include.switchModule,
                 Include.essModule,
-                Include.solarModule
+                Include.solarModule,
+                Include.loadModule
         );
 
         private static List<CppFilePair> cppFilePairs() {
@@ -101,7 +110,11 @@ public class Artifacts {
 
                     from(SolarReadingProfile.getDescriptor(), Include.solarModule),
                     from(SolarStatusProfile.getDescriptor(), Include.solarModule),
-                    from(SolarControlProfile.getDescriptor(), Include.solarModule)
+                    from(SolarControlProfile.getDescriptor(), Include.solarModule),
+
+                    from(LoadReadingProfile.getDescriptor(), Include.loadModule),
+                    from(LoadStatusProfile.getDescriptor(), Include.loadModule),
+                    from(LoadControlProfile.getDescriptor(), Include.loadModule)
             );
         }
 

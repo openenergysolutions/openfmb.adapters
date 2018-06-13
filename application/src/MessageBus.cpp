@@ -18,6 +18,9 @@ namespace adapter
         this->solar_reading->finalize();
         this->solar_status->finalize();
         this->solar_control->finalize();
+        this->load_reading->finalize();
+        this->load_status->finalize();
+        this->load_control->finalize();
     }
 
     void MessageBus::shutdown()
@@ -32,6 +35,9 @@ namespace adapter
         this->solar_reading->shutdown();
         this->solar_status->shutdown();
         this->solar_control->shutdown();
+        this->load_reading->shutdown();
+        this->load_status->shutdown();
+        this->load_control->shutdown();
     }
 
     // ---- implement IProtoSubscribers ----
@@ -86,6 +92,21 @@ namespace adapter
         this->solar_control->add(subscriber);
     }
 
+    void MessageBus::subscribe(subscriber_t<loadmodule::LoadReadingProfile> subscriber)
+    {
+        this->load_reading->add(subscriber);
+    }
+
+    void MessageBus::subscribe(subscriber_t<loadmodule::LoadStatusProfile> subscriber)
+    {
+        this->load_status->add(subscriber);
+    }
+
+    void MessageBus::subscribe(subscriber_t<loadmodule::LoadControlProfile> subscriber)
+    {
+        this->load_control->add(subscriber);
+    }
+
     void MessageBus::publish(const resourcemodule::ResourceReadingProfile& message)
     {
         this->resource_reading->publish(message);
@@ -135,6 +156,23 @@ namespace adapter
     {
         this->solar_control->publish(message);
     }
+
+    void MessageBus::publish(const loadmodule::LoadReadingProfile& message)
+    {
+        this->load_reading->publish(message);
+    }
+
+    void MessageBus::publish(const loadmodule::LoadStatusProfile& message)
+    {
+        this->load_status->publish(message);
+    }
+
+    void MessageBus::publish(const loadmodule::LoadControlProfile& message)
+    {
+        this->load_control->publish(message);
+    }
+
+
 
 }
 

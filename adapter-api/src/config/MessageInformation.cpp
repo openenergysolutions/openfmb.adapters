@@ -2,9 +2,10 @@
 #include <proto-api/solarmodule/solarmodule.pb.h>
 #include "adapter-api/config/MessageInformation.h"
 
-#include "proto-api/resourcemodule/resourcemodule.pb.h"
-#include "proto-api/switchmodule/switchmodule.pb.h"
-#include "proto-api/essmodule/essmodule.pb.h"
+#include <proto-api/resourcemodule/resourcemodule.pb.h>
+#include <proto-api/switchmodule/switchmodule.pb.h>
+#include <proto-api/essmodule/essmodule.pb.h>
+#include <proto-api/loadmodule/loadmodule.pb.h>
 
 namespace adapter
 {
@@ -147,6 +148,48 @@ namespace adapter
     const commonmodule::ConductingEquipment& get_conducting_equip(const solarmodule::SolarControlProfile& profile)
     {
         return profile.solarinverter().conductingequipment();
+    }
+
+    // load reading
+
+    template <>
+    const commonmodule::MessageInfo& get_message_info(const loadmodule::LoadReadingProfile& profile)
+    {
+        return profile.readingmessageinfo().messageinfo();
+    }
+
+    template <>
+    const commonmodule::ConductingEquipment& get_conducting_equip(const loadmodule::LoadReadingProfile& profile)
+    {
+        return profile.energyconsumer().conductingequipment();
+    }
+
+    // load status
+
+    template <>
+    const commonmodule::MessageInfo& get_message_info(const loadmodule::LoadStatusProfile& profile)
+    {
+        return profile.statusmessageinfo().messageinfo();
+    }
+
+    template <>
+    const commonmodule::ConductingEquipment& get_conducting_equip(const loadmodule::LoadStatusProfile& profile)
+    {
+        return profile.energyconsumer().conductingequipment();
+    }
+
+    // load control
+
+    template <>
+    const commonmodule::MessageInfo& get_message_info(const loadmodule::LoadControlProfile& profile)
+    {
+        return profile.controlmessageinfo().messageinfo();
+    }
+
+    template <>
+    const commonmodule::ConductingEquipment& get_conducting_equip(const loadmodule::LoadControlProfile& profile)
+    {
+        return profile.energyconsumer().conductingequipment();
     }
 }
 

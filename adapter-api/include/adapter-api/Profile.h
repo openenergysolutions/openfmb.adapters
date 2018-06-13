@@ -20,7 +20,11 @@ namespace adapter
         // solar
         solar_reading,
         solar_status,
-        solar_control
+        solar_control,
+        // load
+        load_reading,
+        load_status,
+        load_control
     };
 
     struct ProfileMeta
@@ -47,6 +51,10 @@ namespace adapter
             handler(Profile::solar_reading);
             handler(Profile::solar_status);
             handler(Profile::solar_control);
+
+            handler(Profile::load_reading);
+            handler(Profile::load_status);
+            handler(Profile::load_control);
         }
     };
 

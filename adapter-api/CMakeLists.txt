@@ -39,6 +39,9 @@ set(API_HEADERS
 	include/adapter-api/config/generated/SolarReadingProfileModelVisitor.h
 	include/adapter-api/config/generated/SolarStatusProfileModelVisitor.h
 	include/adapter-api/config/generated/SolarControlProfileModelVisitor.h
+	include/adapter-api/config/generated/LoadReadingProfileModelVisitor.h
+	include/adapter-api/config/generated/LoadStatusProfileModelVisitor.h
+	include/adapter-api/config/generated/LoadControlProfileModelVisitor.h
 )
 
 set(API_SOURCES
@@ -62,6 +65,9 @@ set(API_SOURCES
 	src/config/generated/SolarReadingProfileModelVisitor.cpp
 	src/config/generated/SolarStatusProfileModelVisitor.cpp
 	src/config/generated/SolarControlProfileModelVisitor.cpp
+	src/config/generated/LoadReadingProfileModelVisitor.cpp
+	src/config/generated/LoadStatusProfileModelVisitor.cpp
+	src/config/generated/LoadControlProfileModelVisitor.cpp
 )
 
 

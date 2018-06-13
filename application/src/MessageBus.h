@@ -47,6 +47,12 @@ namespace adapter
 
         void publish(const solarmodule::SolarControlProfile& message) override;
 
+        void publish(const loadmodule::LoadReadingProfile& message) override;
+
+        void publish(const loadmodule::LoadStatusProfile& message) override;
+
+        void publish(const loadmodule::LoadControlProfile& message) override;
+
         // ---- subscribe ----
 
         void subscribe(subscriber_t<resourcemodule::ResourceReadingProfile> subscriber) override;
@@ -69,6 +75,12 @@ namespace adapter
 
         void subscribe(subscriber_t<solarmodule::SolarControlProfile> subscriber) override;
 
+        void subscribe(subscriber_t<loadmodule::LoadReadingProfile> subscriber) override;
+
+        void subscribe(subscriber_t<loadmodule::LoadStatusProfile> subscriber) override;
+
+        void subscribe(subscriber_t<loadmodule::LoadControlProfile> subscriber) override;
+
     private:
 
         // ---- subscriber registries for the different types, these are the publishers that get handed out as well ----
@@ -86,6 +98,10 @@ namespace adapter
         const std::shared_ptr<SubscriberRegistry<solarmodule::SolarReadingProfile>> solar_reading = std::make_shared<SubscriberRegistry<solarmodule::SolarReadingProfile>>();
         const std::shared_ptr<SubscriberRegistry<solarmodule::SolarStatusProfile>> solar_status = std::make_shared<SubscriberRegistry<solarmodule::SolarStatusProfile>>();
         const std::shared_ptr<SubscriberRegistry<solarmodule::SolarControlProfile>> solar_control = std::make_shared<SubscriberRegistry<solarmodule::SolarControlProfile>>();
+
+        const std::shared_ptr<SubscriberRegistry<loadmodule::LoadReadingProfile>> load_reading = std::make_shared<SubscriberRegistry<loadmodule::LoadReadingProfile>>();
+        const std::shared_ptr<SubscriberRegistry<loadmodule::LoadStatusProfile>> load_status = std::make_shared<SubscriberRegistry<loadmodule::LoadStatusProfile>>();
+        const std::shared_ptr<SubscriberRegistry<loadmodule::LoadControlProfile>> load_control = std::make_shared<SubscriberRegistry<loadmodule::LoadControlProfile>>();
     };
 
 }

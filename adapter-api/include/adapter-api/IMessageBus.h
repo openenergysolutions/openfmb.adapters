@@ -37,6 +37,10 @@ namespace adapter
         virtual void subscribe(subscriber_t<solarmodule::SolarReadingProfile> subscriber) = 0;
         virtual void subscribe(subscriber_t<solarmodule::SolarStatusProfile> subscriber) = 0;
         virtual void subscribe(subscriber_t<solarmodule::SolarControlProfile> subscriber) = 0;
+
+        virtual void subscribe(subscriber_t<loadmodule::LoadReadingProfile> subscriber) = 0;
+        virtual void subscribe(subscriber_t<loadmodule::LoadStatusProfile> subscriber) = 0;
+        virtual void subscribe(subscriber_t<loadmodule::LoadControlProfile> subscriber) = 0;
     };
 
     using message_bus_t = std::shared_ptr<IMessageBus>;

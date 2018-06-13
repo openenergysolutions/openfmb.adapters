@@ -12,5 +12,8 @@
 #include "generated/SolarReadingProfileModelVisitor.h"
 #include "generated/SolarStatusProfileModelVisitor.h"
 #include "generated/SolarControlProfileModelVisitor.h"
+#include "generated/LoadReadingProfileModelVisitor.h"
+#include "generated/LoadStatusProfileModelVisitor.h"
+#include "generated/LoadControlProfileModelVisitor.h"
 
 #endif //OPENFMB_ADAPTER_MODELVISITORS_H

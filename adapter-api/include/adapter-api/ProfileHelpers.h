@@ -7,6 +7,7 @@
 #include <proto-api/resourcemodule/resourcemodule.pb.h>
 #include <proto-api/switchmodule/switchmodule.pb.h>
 #include <proto-api/essmodule/essmodule.pb.h>
+#include <proto-api/loadmodule/loadmodule.pb.h>
 
 namespace adapter
 {
@@ -49,6 +50,15 @@ namespace adapter
             case (Profile::solar_control):
                 T<solarmodule::SolarControlProfile>::handle(std::forward<Args>(args)...);
                 break;
+            case (Profile::load_reading):
+                T<loadmodule::LoadReadingProfile>::handle(std::forward<Args>(args)...);
+                break;
+            case (Profile::load_status):
+                T<loadmodule::LoadStatusProfile>::handle(std::forward<Args>(args)...);
+                break;
+            case (Profile::load_control):
+                T<loadmodule::LoadControlProfile>::handle(std::forward<Args>(args)...);
+                break;
             default:
                 throw Exception("Unhandled profile: ", ProfileMeta::to_string(profile));
             }
@@ -79,6 +89,12 @@ namespace adapter
                 return T<solarmodule::SolarStatusProfile>::get(std::forward<Args>(args)...);
             case (Profile::solar_control):
                 return T<solarmodule::SolarControlProfile>::get(std::forward<Args>(args)...);
+            case (Profile::load_reading):
+                return T<loadmodule::LoadReadingProfile>::get(std::forward<Args>(args)...);
+            case (Profile::load_status):
+                return T<loadmodule::LoadStatusProfile>::get(std::forward<Args>(args)...);
+            case (Profile::load_control):
+                return T<loadmodule::LoadControlProfile>::get(std::forward<Args>(args)...);
             default:
                 throw Exception("Unhandled profile: ", ProfileMeta::to_string(profile));
             }
@@ -109,6 +125,9 @@ namespace adapter
             T<solarmodule::SolarReadingProfile>::handle(std::forward<Args>(args)...);
             T<solarmodule::SolarStatusProfile>::handle(std::forward<Args>(args)...);
             T<solarmodule::SolarControlProfile>::handle(std::forward<Args>(args)...);
+            T<loadmodule::LoadReadingProfile>::handle(std::forward<Args>(args)...);
+            T<loadmodule::LoadStatusProfile>::handle(std::forward<Args>(args)...);
+            T<loadmodule::LoadControlProfile>::handle(std::forward<Args>(args)...);
         }
     }
 }

@@ -7,6 +7,7 @@
 #include "resourcemodule/resourcemodule.pb.h"
 #include "switchmodule/switchmodule.pb.h"
 #include "essmodule/essmodule.pb.h"
+#include "loadmodule/loadmodule.pb.h"
 
 namespace adapter
 {
@@ -35,6 +36,12 @@ namespace adapter
             return solarmodule::SolarStatusProfile::descriptor()->name();
         case(Profile::solar_control):
             return solarmodule::SolarControlProfile::descriptor()->name();
+        case(Profile::load_reading):
+            return loadmodule::LoadReadingProfile::descriptor()->name();
+        case(Profile::load_status):
+            return loadmodule::LoadStatusProfile::descriptor()->name();
+        case(Profile::load_control):
+            return loadmodule::LoadControlProfile::descriptor()->name();
         default:
             throw Exception("Unhandled profile enum: ", static_cast<int>(profile));
         }
@@ -81,6 +88,18 @@ namespace adapter
         else if(name == to_string(Profile::solar_control))
         {
             return Profile::solar_control;
+        }
+        else if(name == to_string(Profile::load_reading))
+        {
+            return Profile::load_reading;
+        }
+        else if(name == to_string(Profile::load_status))
+        {
+            return Profile::load_status;
+        }
+        else if(name == to_string(Profile::load_control))
+        {
+            return Profile::load_control;
         }
         else
         {

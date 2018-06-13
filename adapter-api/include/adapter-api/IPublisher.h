@@ -2,10 +2,11 @@
 #ifndef OPENFMB_ADAPTER_IPUBLISHER_H
 #define OPENFMB_ADAPTER_IPUBLISHER_H
 
-#include "proto-api/resourcemodule/resourcemodule.pb.h"
-#include "proto-api/switchmodule/switchmodule.pb.h"
-#include "proto-api/essmodule/essmodule.pb.h"
-#include "proto-api/solarmodule/solarmodule.pb.h"
+#include <proto-api/resourcemodule/resourcemodule.pb.h>
+#include <proto-api/switchmodule/switchmodule.pb.h>
+#include <proto-api/essmodule/essmodule.pb.h>
+#include <proto-api/solarmodule/solarmodule.pb.h>
+#include <proto-api/loadmodule/loadmodule.pb.h>
 
 #include <memory>
 
@@ -34,6 +35,9 @@ namespace adapter
         virtual void publish(const solarmodule::SolarStatusProfile& message) = 0;
         virtual void publish(const solarmodule::SolarControlProfile& message) = 0;
 
+        virtual void publish(const loadmodule::LoadReadingProfile& message) = 0;
+        virtual void publish(const loadmodule::LoadStatusProfile& message) = 0;
+        virtual void publish(const loadmodule::LoadControlProfile& message) = 0;
     };
 
     using publisher_t = std::shared_ptr<IPublisher>;

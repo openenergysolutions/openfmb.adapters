@@ -15,6 +15,7 @@
 #include "switchmodule/switchmodule.pb.h"
 #include "essmodule/essmodule.pb.h"
 #include "solarmodule/solarmodule.pb.h"
+#include "loadmodule/loadmodule.pb.h"
 #include "../IMessageVisitor.h"
 
 namespace adapter {
@@ -38,5 +39,11 @@ void visit(const solarmodule::SolarReadingProfile& message, IMessageVisitor& vis
 void visit(const solarmodule::SolarStatusProfile& message, IMessageVisitor& visitor);
 
 void visit(const solarmodule::SolarControlProfile& message, IMessageVisitor& visitor);
+
+void visit(const loadmodule::LoadReadingProfile& message, IMessageVisitor& visitor);
+
+void visit(const loadmodule::LoadStatusProfile& message, IMessageVisitor& visitor);
+
+void visit(const loadmodule::LoadControlProfile& message, IMessageVisitor& visitor);
 
 } // end namespace adapter

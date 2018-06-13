@@ -13,6 +13,7 @@ import openfmb.essmodule.ENG_ESSFunctionKind;
 import openfmb.essmodule.ENG_ESSFunctionParameter;
 import openfmb.essmodule.ESSCSG;
 import openfmb.essmodule.ESSPoint;
+import openfmb.loadmodule.LoadPoint;
 import openfmb.solarmodule.SolarPoint;
 import openfmb.switchmodule.SwitchCSG;
 
@@ -66,9 +67,9 @@ public class ModelVisitorFile extends CppFilePair {
             };
         }
 
-        static Ignore or(Ignore lhs, Ignore rhs)
+        static Ignore or(Ignore ... items)
         {
-            return field -> lhs.apply(field) | rhs.apply(field);
+            return field -> Stream.of(items).map(x -> x.apply(field)).reduce(false, (x,y) -> x || y);
         }
     }
 
@@ -94,7 +95,8 @@ public class ModelVisitorFile extends CppFilePair {
         map.put(Timestamp.getDescriptor(),
                 Ignore.or(
                         Ignore.whenParentIs(ESSPoint.getDescriptor()),
-                        Ignore.whenParentIs(SolarPoint.getDescriptor())
+                        Ignore.whenParentIs(SolarPoint.getDescriptor()),
+                        Ignore.whenParentIs(LoadPoint.getDescriptor())
                 )
         );
 
