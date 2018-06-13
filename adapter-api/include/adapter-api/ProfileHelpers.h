@@ -43,6 +43,12 @@ namespace adapter
             case (Profile::solar_reading):
                 T<solarmodule::SolarReadingProfile>::handle(std::forward<Args>(args)...);
                 break;
+            case (Profile::solar_status):
+                T<solarmodule::SolarStatusProfile>::handle(std::forward<Args>(args)...);
+                break;
+            case (Profile::solar_control):
+                T<solarmodule::SolarControlProfile>::handle(std::forward<Args>(args)...);
+                break;
             default:
                 throw Exception("Unhandled profile: ", ProfileMeta::to_string(profile));
             }
@@ -69,6 +75,10 @@ namespace adapter
                 return T<essmodule::ESSControlProfile>::get(std::forward<Args>(args)...);
             case (Profile::solar_reading):
                 return T<solarmodule::SolarReadingProfile>::get(std::forward<Args>(args)...);
+            case (Profile::solar_status):
+                return T<solarmodule::SolarStatusProfile>::get(std::forward<Args>(args)...);
+            case (Profile::solar_control):
+                return T<solarmodule::SolarControlProfile>::get(std::forward<Args>(args)...);
             default:
                 throw Exception("Unhandled profile: ", ProfileMeta::to_string(profile));
             }
@@ -97,6 +107,8 @@ namespace adapter
             T<essmodule::ESSStatusProfile>::handle(std::forward<Args>(args)...);
             T<essmodule::ESSControlProfile>::handle(std::forward<Args>(args)...);
             T<solarmodule::SolarReadingProfile>::handle(std::forward<Args>(args)...);
+            T<solarmodule::SolarStatusProfile>::handle(std::forward<Args>(args)...);
+            T<solarmodule::SolarControlProfile>::handle(std::forward<Args>(args)...);
         }
     }
 }

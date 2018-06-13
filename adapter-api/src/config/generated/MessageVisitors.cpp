@@ -30,6 +30,8 @@ void visit(const commonmodule::Terminal& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::BCR& message, IMessageVisitor& visitor);
 
+void visit(const solarmodule::SolarStatusZGEN& message, IMessageVisitor& visitor);
+
 void visit(const essmodule::EssControlFSCC& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::ENS_HealthKind& message, IMessageVisitor& visitor);
@@ -46,6 +48,8 @@ void visit(const commonmodule::AnalogueValue& message, IMessageVisitor& visitor)
 
 void visit(const commonmodule::SchedulePoint& message, IMessageVisitor& visitor);
 
+void visit(const solarmodule::SolarControlFSCC& message, IMessageVisitor& visitor);
+
 void visit(const commonmodule::MessageInfo& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::Vector& message, IMessageVisitor& visitor);
@@ -53,6 +57,8 @@ void visit(const commonmodule::Vector& message, IMessageVisitor& visitor);
 void visit(const commonmodule::ControlFSCC& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::ControlMessageInfo& message, IMessageVisitor& visitor);
+
+void visit(const solarmodule::SolarStatus& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::ENG_CalcMethodKind& message, IMessageVisitor& visitor);
 
@@ -66,11 +72,15 @@ void visit(const commonmodule::ControlValue& message, IMessageVisitor& visitor);
 
 void visit(const essmodule::ESSCSG& message, IMessageVisitor& visitor);
 
+void visit(const solarmodule::SolarEventAndStatusZGEN& message, IMessageVisitor& visitor);
+
 void visit(const commonmodule::ReadingMMTR& message, IMessageVisitor& visitor);
 
 void visit(const google::protobuf::StringValue& message, IMessageVisitor& visitor);
 
 void visit(const essmodule::ESSReading& message, IMessageVisitor& visitor);
+
+void visit(const solarmodule::SolarControl& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::IED& message, IMessageVisitor& visitor);
 
@@ -110,6 +120,8 @@ void visit(const commonmodule::NamedObject& message, IMessageVisitor& visitor);
 
 void visit(const switchmodule::SwitchControl& message, IMessageVisitor& visitor);
 
+void visit(const solarmodule::SolarPointStatus& message, IMessageVisitor& visitor);
+
 void visit(const commonmodule::LogicalNodeForEventAndStatus& message, IMessageVisitor& visitor);
 
 void visit(const switchmodule::SwitchStatusXSWI& message, IMessageVisitor& visitor);
@@ -128,7 +140,11 @@ void visit(const commonmodule::LogicalNode& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::ReadingMMTN& message, IMessageVisitor& visitor);
 
+void visit(const solarmodule::SolarPoint& message, IMessageVisitor& visitor);
+
 void visit(const commonmodule::MV& message, IMessageVisitor& visitor);
+
+void visit(const solarmodule::SolarCSG& message, IMessageVisitor& visitor);
 
 void visit(const solarmodule::SolarInverter& message, IMessageVisitor& visitor);
 
@@ -139,6 +155,8 @@ void visit(const essmodule::EssStatusZBAT& message, IMessageVisitor& visitor);
 void visit(const commonmodule::ScheduleCSG& message, IMessageVisitor& visitor);
 
 void visit(const switchmodule::SwitchStatus& message, IMessageVisitor& visitor);
+
+void visit(const solarmodule::SolarControlScheduleFSCH& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::DetailQual& message, IMessageVisitor& visitor);
 
@@ -427,6 +445,22 @@ void visit(const commonmodule::BCR& message, IMessageVisitor& visitor)
     visitor.handle("units", static_cast<int>(message.units()), *commonmodule::UnitSymbolKind_descriptor());
 }
 
+void visit(const solarmodule::SolarStatusZGEN& message, IMessageVisitor& visitor)
+{
+    if(message.has_solareventandstatuszgen())
+    {
+        visitor.start_message_field("solarEventAndStatusZGEN");
+        visit(message.solareventandstatuszgen(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_grimod())
+    {
+        visitor.start_message_field("GriMod");
+        visit(message.grimod(), visitor);
+        visitor.end_message_field();
+    }
+}
+
 void visit(const essmodule::EssControlFSCC& message, IMessageVisitor& visitor)
 {
     if(message.has_controlfscc())
@@ -636,6 +670,22 @@ void visit(const commonmodule::SchedulePoint& message, IMessageVisitor& visitor)
     }
 }
 
+void visit(const solarmodule::SolarControlFSCC& message, IMessageVisitor& visitor)
+{
+    if(message.has_controlfscc())
+    {
+        visitor.start_message_field("controlFSCC");
+        visit(message.controlfscc(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_solarcontrolschedulefsch())
+    {
+        visitor.start_message_field("SolarControlScheduleFSCH");
+        visit(message.solarcontrolschedulefsch(), visitor);
+        visitor.end_message_field();
+    }
+}
+
 void visit(const commonmodule::MessageInfo& message, IMessageVisitor& visitor)
 {
     if(message.has_identifiedobject())
@@ -692,6 +742,22 @@ void visit(const commonmodule::ControlMessageInfo& message, IMessageVisitor& vis
     {
         visitor.start_message_field("messageInfo");
         visit(message.messageinfo(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const solarmodule::SolarStatus& message, IMessageVisitor& visitor)
+{
+    if(message.has_statusvalue())
+    {
+        visitor.start_message_field("statusValue");
+        visit(message.statusvalue(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_solarstatuszgen())
+    {
+        visitor.start_message_field("solarStatusZGEN");
+        visit(message.solarstatuszgen(), visitor);
         visitor.end_message_field();
     }
 }
@@ -765,6 +831,40 @@ void visit(const essmodule::ESSCSG& message, IMessageVisitor& visitor)
         visitor.end_iteration();
     }
     visitor.end_message_field();
+}
+
+void visit(const solarmodule::SolarEventAndStatusZGEN& message, IMessageVisitor& visitor)
+{
+    if(message.has_logicalnodeforeventandstatus())
+    {
+        visitor.start_message_field("logicalNodeForEventAndStatus");
+        visit(message.logicalnodeforeventandstatus(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_auxpwrst())
+    {
+        visitor.start_message_field("AuxPwrSt");
+        visit(message.auxpwrst(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_dynamictest())
+    {
+        visitor.start_message_field("DynamicTest");
+        visit(message.dynamictest(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_emgstop())
+    {
+        visitor.start_message_field("EmgStop");
+        visit(message.emgstop(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_pointstatus())
+    {
+        visitor.start_message_field("PointStatus");
+        visit(message.pointstatus(), visitor);
+        visitor.end_message_field();
+    }
 }
 
 void visit(const commonmodule::ReadingMMTR& message, IMessageVisitor& visitor)
@@ -860,6 +960,28 @@ void visit(const essmodule::ESSReading& message, IMessageVisitor& visitor)
     {
         visitor.start_message_field("readingMMXU");
         visit(message.readingmmxu(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const solarmodule::SolarControl& message, IMessageVisitor& visitor)
+{
+    if(message.has_controlvalue())
+    {
+        visitor.start_message_field("controlValue");
+        visit(message.controlvalue(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_check())
+    {
+        visitor.start_message_field("check");
+        visit(message.check(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_solarcontrolfscc())
+    {
+        visitor.start_message_field("solarControlFSCC");
+        visit(message.solarcontrolfscc(), visitor);
         visitor.end_message_field();
     }
 }
@@ -1290,6 +1412,59 @@ void visit(const switchmodule::SwitchControl& message, IMessageVisitor& visitor)
     }
 }
 
+void visit(const solarmodule::SolarPointStatus& message, IMessageVisitor& visitor)
+{
+    if(message.has_frequencysetpointenabled())
+    {
+        visitor.start_message_field("frequencySetPointEnabled");
+        visit(message.frequencysetpointenabled(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_mode())
+    {
+        visitor.start_message_field("mode");
+        visit(message.mode(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_pcthzdroop())
+    {
+        visitor.start_message_field("pctHzDroop");
+        visit(message.pcthzdroop(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_pctvdroop())
+    {
+        visitor.start_message_field("pctVDroop");
+        visit(message.pctvdroop(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_ramprates())
+    {
+        visitor.start_message_field("rampRates");
+        visit(message.ramprates(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_reactivepwrsetpointenabled())
+    {
+        visitor.start_message_field("reactivePwrSetPointEnabled");
+        visit(message.reactivepwrsetpointenabled(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_realpwrsetpointenabled())
+    {
+        visitor.start_message_field("realPwrSetPointEnabled");
+        visit(message.realpwrsetpointenabled(), visitor);
+        visitor.end_message_field();
+    }
+    visitor.handle("state", static_cast<int>(message.state()), *commonmodule::StateKind_descriptor());
+    if(message.has_voltagesetpointenabled())
+    {
+        visitor.start_message_field("voltageSetPointEnabled");
+        visit(message.voltagesetpointenabled(), visitor);
+        visitor.end_message_field();
+    }
+}
+
 void visit(const commonmodule::LogicalNodeForEventAndStatus& message, IMessageVisitor& visitor)
 {
     if(message.has_logicalnode())
@@ -1455,6 +1630,71 @@ void visit(const commonmodule::ReadingMMTN& message, IMessageVisitor& visitor)
     }
 }
 
+void visit(const solarmodule::SolarPoint& message, IMessageVisitor& visitor)
+{
+    if(message.has_frequencysetpointenabled())
+    {
+        visitor.start_message_field("frequencySetPointEnabled");
+        visit(message.frequencysetpointenabled(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_mode())
+    {
+        visitor.start_message_field("mode");
+        visit(message.mode(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_pcthzdroop())
+    {
+        visitor.start_message_field("pctHzDroop");
+        visit(message.pcthzdroop(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_pctvdroop())
+    {
+        visitor.start_message_field("pctVDroop");
+        visit(message.pctvdroop(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_ramprates())
+    {
+        visitor.start_message_field("rampRates");
+        visit(message.ramprates(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_reactivepwrsetpointenabled())
+    {
+        visitor.start_message_field("reactivePwrSetPointEnabled");
+        visit(message.reactivepwrsetpointenabled(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_realpwrsetpointenabled())
+    {
+        visitor.start_message_field("realPwrSetPointEnabled");
+        visit(message.realpwrsetpointenabled(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_reset())
+    {
+        visitor.start_message_field("reset");
+        visit(message.reset(), visitor);
+        visitor.end_message_field();
+    }
+    visitor.handle("state", static_cast<int>(message.state()), *commonmodule::StateKind_descriptor());
+    if(message.has_voltagesetpointenabled())
+    {
+        visitor.start_message_field("voltageSetPointEnabled");
+        visit(message.voltagesetpointenabled(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_xval())
+    {
+        visitor.start_message_field("xVal");
+        visit(message.xval(), visitor);
+        visitor.end_message_field();
+    }
+}
+
 void visit(const commonmodule::MV& message, IMessageVisitor& visitor)
 {
     if(message.has_mag())
@@ -1481,6 +1721,18 @@ void visit(const commonmodule::MV& message, IMessageVisitor& visitor)
         visit(message.units(), visitor);
         visitor.end_message_field();
     }
+}
+
+void visit(const solarmodule::SolarCSG& message, IMessageVisitor& visitor)
+{
+    visitor.start_message_field("crvpts");
+    for(decltype(message.crvpts_size()) i = 0; i < message.crvpts_size(); ++i)
+    {
+        visitor.start_iteration(i);
+        visit(message.crvpts(i), visitor);
+        visitor.end_iteration();
+    }
+    visitor.end_message_field();
 }
 
 void visit(const solarmodule::SolarInverter& message, IMessageVisitor& visitor)
@@ -1610,6 +1862,16 @@ void visit(const switchmodule::SwitchStatus& message, IMessageVisitor& visitor)
     {
         visitor.start_message_field("switchStatusXSWI");
         visit(message.switchstatusxswi(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const solarmodule::SolarControlScheduleFSCH& message, IMessageVisitor& visitor)
+{
+    if(message.has_valdcsg())
+    {
+        visitor.start_message_field("ValDCSG");
+        visit(message.valdcsg(), visitor);
         visitor.end_message_field();
     }
 }
@@ -1956,6 +2218,62 @@ void visit(const solarmodule::SolarReadingProfile& message, IMessageVisitor& vis
     {
         visitor.start_message_field("solarReading");
         visit(message.solarreading(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const solarmodule::SolarStatusProfile& message, IMessageVisitor& visitor)
+{
+    if(message.has_statusmessageinfo())
+    {
+        visitor.start_message_field("statusMessageInfo");
+        visit(message.statusmessageinfo(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_ied())
+    {
+        visitor.start_message_field("ied");
+        visit(message.ied(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_solarinverter())
+    {
+        visitor.start_message_field("solarInverter");
+        visit(message.solarinverter(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_solarstatus())
+    {
+        visitor.start_message_field("solarStatus");
+        visit(message.solarstatus(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const solarmodule::SolarControlProfile& message, IMessageVisitor& visitor)
+{
+    if(message.has_controlmessageinfo())
+    {
+        visitor.start_message_field("controlMessageInfo");
+        visit(message.controlmessageinfo(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_ied())
+    {
+        visitor.start_message_field("ied");
+        visit(message.ied(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_solarcontrol())
+    {
+        visitor.start_message_field("solarControl");
+        visit(message.solarcontrol(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_solarinverter())
+    {
+        visitor.start_message_field("solarInverter");
+        visit(message.solarinverter(), visitor);
         visitor.end_message_field();
     }
 }

@@ -35,4 +35,8 @@ void visit(const essmodule::ESSControlProfile& message, IMessageVisitor& visitor
 
 void visit(const solarmodule::SolarReadingProfile& message, IMessageVisitor& visitor);
 
+void visit(const solarmodule::SolarStatusProfile& message, IMessageVisitor& visitor);
+
+void visit(const solarmodule::SolarControlProfile& message, IMessageVisitor& visitor);
+
 } // end namespace adapter

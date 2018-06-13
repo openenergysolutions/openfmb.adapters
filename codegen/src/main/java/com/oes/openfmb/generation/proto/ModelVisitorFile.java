@@ -13,6 +13,7 @@ import openfmb.essmodule.ENG_ESSFunctionKind;
 import openfmb.essmodule.ENG_ESSFunctionParameter;
 import openfmb.essmodule.ESSCSG;
 import openfmb.essmodule.ESSPoint;
+import openfmb.solarmodule.SolarPoint;
 import openfmb.switchmodule.SwitchCSG;
 
 import java.util.*;
@@ -65,6 +66,10 @@ public class ModelVisitorFile extends CppFilePair {
             };
         }
 
+        static Ignore or(Ignore lhs, Ignore rhs)
+        {
+            return field -> lhs.apply(field) | rhs.apply(field);
+        }
     }
 
     private final static Map<Descriptors.Descriptor, Ignore> ignoredTypes = getIgnoredTypes();
@@ -86,22 +91,32 @@ public class ModelVisitorFile extends CppFilePair {
         map.put(ENG_ESSFunctionParameter.getDescriptor(), Ignore.always);
 
         // conditional ignores
-        map.put(Timestamp.getDescriptor(), Ignore.whenParentIs(ESSPoint.getDescriptor()));
+        map.put(Timestamp.getDescriptor(),
+                Ignore.or(
+                        Ignore.whenParentIs(ESSPoint.getDescriptor()),
+                        Ignore.whenParentIs(SolarPoint.getDescriptor())
+                )
+        );
 
         return Collections.unmodifiableMap(map);
     }
 
-    private final Iterable<Descriptors.Descriptor> descriptors;
+    private final Descriptors.Descriptor descriptor;
     private final Iterable<String> includes;
 
-    public ModelVisitorFile(Iterable<Descriptors.Descriptor> descriptors, Iterable<String> includes) {
-        this.descriptors = descriptors;
+    public ModelVisitorFile(Descriptors.Descriptor descriptor, Iterable<String> includes) {
+        this.descriptor = descriptor;
         this.includes = includes;
+    }
+
+    public static CppFilePair from(Descriptors.Descriptor descriptor, String includes)
+    {
+        return new ModelVisitorFile(descriptor, Arrays.asList(includes));
     }
 
     @Override
     protected String baseFileName() {
-        return "ModelVisitors";
+        return descriptor.getName()+"ModelVisitor";
     }
 
     @Override
@@ -114,7 +129,7 @@ public class ModelVisitorFile extends CppFilePair {
                 namespace(
                         "adapter",
                         spaced(
-                                getDescriptorStream().map(d -> line(getVisitSignature(d)+";"))
+                                line(getVisitSignature(descriptor)+";")
                         )
                 )
         );
@@ -131,15 +146,10 @@ public class ModelVisitorFile extends CppFilePair {
                 namespace(
                 "adapter",
                         spaced(
-                                getDescriptorStream().map(this::visitImpl)
+                                visitImpl(this.descriptor)
                         )
                 )
         );
-    }
-
-    private Stream<Descriptors.Descriptor> getDescriptorStream()
-    {
-        return StreamSupport.stream(descriptors.spliterator(), false);
     }
 
     static private String cppMessageName(Descriptors.GenericDescriptor descriptor)

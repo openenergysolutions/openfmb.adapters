@@ -4,7 +4,7 @@
 #include <adapter-api/ProfileHelpers.h>
 #include <adapter-api/util/YAMLTemplate.h>
 #include <adapter-api/config/ProfileType.h>
-#include <adapter-api/config/generated/ModelVisitors.h>
+#include <adapter-api/config/ModelVisitors.h>
 
 #include "modbus/logging/LoggerFactory.h"
 #include "modbus/channel/IChannel.h"

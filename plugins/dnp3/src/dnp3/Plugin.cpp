@@ -7,7 +7,7 @@
 
 #include <adapter-api/util/YAMLUtil.h>
 #include <adapter-api/util/YAMLTemplate.h>
-#include <adapter-api/config/generated/ModelVisitors.h>
+#include <adapter-api/config/ModelVisitors.h>
 #include <adapter-api/ConfigStrings.h>
 #include <adapter-api/ProfileHelpers.h>
 #include <adapter-api/config/ProfileType.h>

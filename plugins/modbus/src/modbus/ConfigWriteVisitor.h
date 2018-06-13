@@ -7,7 +7,7 @@
 #include "ConfigStrings.h"
 #include "MappingType.h"
 #include "Source.h"
-#include "BinaryControlAction.h"
+#include "RegisterOperationType.h"
 
 namespace adapter
 {
@@ -137,7 +137,7 @@ namespace adapter
 
             void write_binary_action()
             {
-                this->out << YAML::Key << keys::action << YAML::Value << BinaryControlActionMeta::none << YAML::Comment("{none, clear_masked_bits, set_masked_bits}");
+                this->out << YAML::Key << keys::action << YAML::Value << RegisterOperationTypeMeta::none << YAML::Comment("{none, clear_masked_bits, set_masked_bits}");
                 this->out << YAML::Key << keys::index << YAML::Value << 0;
                 this->out << YAML::Key << keys::mask << YAML::Value << YAML::Hex << 0x0001;
                 this->out << YAML::Key << keys::priority << YAML::Value << 0;

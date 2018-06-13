@@ -11,28 +11,11 @@
 //  This file is auto-generated. Do not edit manually
 // 
 
-#include "resourcemodule/resourcemodule.pb.h"
-#include "switchmodule/switchmodule.pb.h"
 #include "essmodule/essmodule.pb.h"
-#include "solarmodule/solarmodule.pb.h"
 #include "../IModelVisitor.h"
 
 namespace adapter {
 
-void visit(IModelVisitor<resourcemodule::ResourceReadingProfile>& visitor);
-
-void visit(IModelVisitor<switchmodule::SwitchReadingProfile>& visitor);
-
-void visit(IModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
-
-void visit(IModelVisitor<switchmodule::SwitchControlProfile>& visitor);
-
-void visit(IModelVisitor<essmodule::ESSReadingProfile>& visitor);
-
-void visit(IModelVisitor<essmodule::ESSStatusProfile>& visitor);
-
 void visit(IModelVisitor<essmodule::ESSControlProfile>& visitor);
-
-void visit(IModelVisitor<solarmodule::SolarReadingProfile>& visitor);
 
 } // end namespace adapter

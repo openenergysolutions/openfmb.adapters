@@ -8,7 +8,7 @@
 #include "ITransactionProcessor.h"
 #include "ModifyRegisterTransaction.h"
 #include "CommandConfiguration.h"
-#include "BinaryControlAction.h"
+#include "RegisterOperationType.h"
 #include "CommandSubscriber.h"
 
 
@@ -31,7 +31,7 @@ namespace adapter
 
             struct RegisterMaskAction
             {
-                BinaryControlAction type;
+                RegisterOperationType type;
                 uint16_t index;
                 uint16_t mask;
                 uint32_t priority;
@@ -40,10 +40,10 @@ namespace adapter
                 {
                     switch(type)
                     {
-                    case(BinaryControlAction::clear_masked_bits):
+                    case(RegisterOperationType::clear_masked_bits):
                         sink.modify_register(index, priority, operations::clear(mask));
                         return true;
-                    case(BinaryControlAction::set_masked_bits):
+                    case(RegisterOperationType::set_masked_bits):
                         sink.modify_register(index, priority, operations::set(mask));
                         return true;
                     default:
@@ -343,7 +343,7 @@ namespace adapter
             {
                 return RegisterMaskAction
                 {
-                    .type = BinaryControlActionMeta::from_string(yaml::require_string(node, keys::action)),
+                    .type = RegisterOperationTypeMeta::from_string(yaml::require_string(node, keys::action)),
                     .index = yaml::require_integer<uint16_t>(node, keys::index),
                     .mask = yaml::require_integer<uint16_t>(node, keys::mask),
                     .priority = yaml::require_integer<uint32_t>(node, keys::priority)

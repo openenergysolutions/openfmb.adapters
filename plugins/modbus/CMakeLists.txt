@@ -36,8 +36,8 @@ set(MODBUS_SOURCES
         src/modbus/ITransaction.h
         src/modbus/PollTransaction.h
         src/modbus/PollTransaction.cpp
-        src/modbus/BinaryControlAction.h
-        src/modbus/BinaryControlAction.cpp
+        src/modbus/RegisterOperationType.h
+        src/modbus/RegisterOperationType.cpp
         src/modbus/CommandSubscriber.h
         src/modbus/CommandSink.cpp
         src/modbus/CommandSink.h src/modbus/WriteRegisterTransaction.cpp src/modbus/WriteRegisterTransaction.h src/modbus/OrderedTransaction.cpp src/modbus/OrderedTransaction.h)

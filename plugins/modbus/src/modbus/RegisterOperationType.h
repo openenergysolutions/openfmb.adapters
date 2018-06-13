@@ -1,6 +1,6 @@
 
-#ifndef OPENFMB_ADAPTER_MODBUS_BINARYCONTROLACTION_H
-#define OPENFMB_ADAPTER_MODBUS_BINARYCONTROLACTION_H
+#ifndef OPENFMB_ADAPTER_MODBUS_REGISTEROPERATIONTYPE_H
+#define OPENFMB_ADAPTER_MODBUS_REGISTEROPERATIONTYPE_H
 
 #include <string>
 
@@ -9,7 +9,7 @@ namespace adapter
     namespace modbus
     {
 
-        enum class BinaryControlAction
+        enum class RegisterOperationType
         {
             /// element is not mapped
             none,
@@ -19,15 +19,15 @@ namespace adapter
             set_masked_bits
         };
 
-        struct BinaryControlActionMeta
+        struct RegisterOperationTypeMeta
         {
-            BinaryControlActionMeta() = delete;
+            RegisterOperationTypeMeta() = delete;
 
             constexpr static const char* const none = "none";
             constexpr static const char* const clear_masked_bits = "clear_masked_bits";
             constexpr static const char* const set_masked_bits = "set_masked_bits";
 
-            static BinaryControlAction from_string(const std::string& value);
+            static RegisterOperationType from_string(const std::string& value);
         };
 
     }

@@ -21,13 +21,24 @@ set(API_HEADERS
 	include/adapter-api/config/PublishingConfigReadVisitorBase.h
 	include/adapter-api/config/ConfigReadVisitorBase.h
 	include/adapter-api/config/ConfigWriteVisitorBase.h
+	include/adapter-api/config/IAccessor.h
 	include/adapter-api/config/IMessageVisitor.h
 	include/adapter-api/config/IModelVisitor.h
+    include/adapter-api/config/ModelVisitors.h
 	include/adapter-api/config/ProfileType.h
 	include/adapter-api/config/PublishingConfigReadVisitorBase.h
 	include/adapter-api/config/MessageInformation.h
 	include/adapter-api/config/generated/MessageVisitors.h
-	include/adapter-api/config/generated/ModelVisitors.h
+	include/adapter-api/config/generated/ResourceReadingProfileModelVisitor.h
+	include/adapter-api/config/generated/SwitchReadingProfileModelVisitor.h
+	include/adapter-api/config/generated/SwitchStatusProfileModelVisitor.h
+	include/adapter-api/config/generated/SwitchControlProfileModelVisitor.h
+	include/adapter-api/config/generated/ESSReadingProfileModelVisitor.h
+	include/adapter-api/config/generated/ESSStatusProfileModelVisitor.h
+	include/adapter-api/config/generated/ESSControlProfileModelVisitor.h
+	include/adapter-api/config/generated/SolarReadingProfileModelVisitor.h
+	include/adapter-api/config/generated/SolarStatusProfileModelVisitor.h
+	include/adapter-api/config/generated/SolarControlProfileModelVisitor.h
 )
 
 set(API_SOURCES
@@ -38,11 +49,19 @@ set(API_SOURCES
 	src/util/YAMLUtil.cpp
 	src/util/YAMLTemplate.cpp
     src/config/AccessorImpl.h
-	src/config/generated/MessageVisitors.cpp
-	src/config/generated/ModelVisitors.cpp
 	src/config/MessageInformation.cpp
 	src/config/ProfileType.cpp
-	include/adapter-api/config/IAccessor.h
+	src/config/generated/MessageVisitors.cpp
+	src/config/generated/ResourceReadingProfileModelVisitor.cpp
+	src/config/generated/SwitchReadingProfileModelVisitor.cpp
+	src/config/generated/SwitchStatusProfileModelVisitor.cpp
+	src/config/generated/SwitchControlProfileModelVisitor.cpp
+	src/config/generated/ESSReadingProfileModelVisitor.cpp
+	src/config/generated/ESSStatusProfileModelVisitor.cpp
+	src/config/generated/ESSControlProfileModelVisitor.cpp
+	src/config/generated/SolarReadingProfileModelVisitor.cpp
+	src/config/generated/SolarStatusProfileModelVisitor.cpp
+	src/config/generated/SolarControlProfileModelVisitor.cpp
 )
 
 
