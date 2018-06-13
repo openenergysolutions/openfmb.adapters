@@ -52,7 +52,7 @@ namespace adapter
 
                 if(this->log_all_values)
                 {
-                    logger.info("{} = {}", field_name, getter(3));
+                    logger.info("{} = {}", tag_name, getter(3));
                 }
 
 

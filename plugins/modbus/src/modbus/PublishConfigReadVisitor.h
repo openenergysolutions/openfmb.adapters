@@ -195,11 +195,12 @@ namespace adapter
                     node,
                     [accessor, mask, mapping = std::move(mapping), descriptor](T & profile, const std::shared_ptr<Register16>& reg, Logger & logger)
                 {
-                    const auto masked_value = reg->to_uint16() & mask;
+                    const auto value = reg->to_uint16();
+                    const auto masked_value = value & mask;
                     const auto entry = mapping.find(masked_value);
                     if(entry == mapping.end())
                     {
-                        logger.warn("No mapping to ", descriptor->name(), " for masked value:  ", masked_value);
+                        logger.warn("No mapping to {} for value {} with mask {}", descriptor->name(), value, mask);
                     }
                     else
                     {
