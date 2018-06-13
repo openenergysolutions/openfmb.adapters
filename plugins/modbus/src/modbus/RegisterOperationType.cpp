@@ -23,6 +23,10 @@ namespace adapter
             {
                 return RegisterOperationType::set_masked_bits;
             }
+            else if(value == write_value)
+            {
+                return RegisterOperationType::write_value;
+            }
             else
             {
                 throw Exception("Unknown RegisterOperationType: ", value);

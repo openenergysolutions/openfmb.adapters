@@ -16,7 +16,9 @@ namespace adapter
             /// read the register, clear masked bits, and write it back
             clear_masked_bits,
             /// read the register, set masked bits, and write it back
-            set_masked_bits
+            set_masked_bits,
+            /// write the register with the specified value
+            write_value
         };
 
         struct RegisterOperationTypeMeta
@@ -26,6 +28,7 @@ namespace adapter
             constexpr static const char* const none = "none";
             constexpr static const char* const clear_masked_bits = "clear_masked_bits";
             constexpr static const char* const set_masked_bits = "set_masked_bits";
+            constexpr static const char* const write_value = "write_value";
 
             static RegisterOperationType from_string(const std::string& value);
         };

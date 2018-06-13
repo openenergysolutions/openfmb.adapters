@@ -339,6 +339,11 @@ namespace adapter
                     {
                         return sink.modify_register(index, priority, operations::set(mask));
                     };
+                case(RegisterOperationType::write_value):
+                    return [ =, value = yaml::require_integer<uint16_t>(node, keys::value)](ICommandSink & sink)
+                    {
+                        return sink.set_register(index, priority, value);
+                    };
                 default:
                     return nullptr;
                 }
