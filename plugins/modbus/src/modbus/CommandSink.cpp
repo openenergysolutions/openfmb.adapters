@@ -68,7 +68,7 @@ namespace adapter
 
             for(const auto& item : items)
             {
-                logger.info("action = {}",item.transaction->get_description());
+                logger.info("action = {}", item.transaction->get_description());
                 transaction->add(item.transaction);
             }
 

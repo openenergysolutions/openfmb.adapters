@@ -121,17 +121,17 @@ namespace adapter
         this->ess_control->publish(message);
     }
 
-    void MessageBus::publish(const solarmodule::SolarReadingProfile &message)
+    void MessageBus::publish(const solarmodule::SolarReadingProfile& message)
     {
         this->solar_reading->publish(message);
     }
 
-    void MessageBus::publish(const solarmodule::SolarStatusProfile &message)
+    void MessageBus::publish(const solarmodule::SolarStatusProfile& message)
     {
         this->solar_status->publish(message);
     }
 
-    void MessageBus::publish(const solarmodule::SolarControlProfile &message)
+    void MessageBus::publish(const solarmodule::SolarControlProfile& message)
     {
         this->solar_control->publish(message);
     }

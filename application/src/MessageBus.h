@@ -41,11 +41,11 @@ namespace adapter
 
         void publish(const essmodule::ESSControlProfile& message) override;
 
-        void publish(const solarmodule::SolarReadingProfile &message) override;
+        void publish(const solarmodule::SolarReadingProfile& message) override;
 
-        void publish(const solarmodule::SolarStatusProfile &message) override;
+        void publish(const solarmodule::SolarStatusProfile& message) override;
 
-        void publish(const solarmodule::SolarControlProfile &message) override;
+        void publish(const solarmodule::SolarControlProfile& message) override;
 
         // ---- subscribe ----
 

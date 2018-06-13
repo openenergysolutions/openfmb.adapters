@@ -29,33 +29,12 @@ namespace adapter
                 double scale;
             };
 
-            struct RegisterMaskAction
-            {
-                RegisterOperationType type;
-                uint16_t index;
-                uint16_t mask;
-                uint32_t priority;
-
-                bool apply(ICommandSink& sink) const
-                {
-                    switch(type)
-                    {
-                    case(RegisterOperationType::clear_masked_bits):
-                        sink.modify_register(index, priority, operations::clear(mask));
-                        return true;
-                    case(RegisterOperationType::set_masked_bits):
-                        sink.modify_register(index, priority, operations::set(mask));
-                        return true;
-                    default:
-                        return false;
-                    }
-                }
-            };
+            using sink_action_t = std::function<void (ICommandSink& sink)>;
 
             struct BinaryConfigPair
             {
-                std::vector<RegisterMaskAction> when_true;
-                std::vector<RegisterMaskAction> when_false;
+                std::vector<sink_action_t> when_true;
+                std::vector<sink_action_t> when_false;
 
                 bool apply(bool value, ICommandSink& sink) const
                 {
@@ -63,7 +42,7 @@ namespace adapter
                     for(const auto& action : value ? when_true : when_false)
                     {
 
-                        action.apply(sink);
+                        action(sink);
                         ret = true;
                     }
                     return ret;
@@ -278,7 +257,7 @@ namespace adapter
                         const auto entry = config.find(value);
                         if(entry != config.end())
                         {
-                            for(const auto& action : entry->second) action.apply(sink);
+                            for(const auto& action : entry->second) action(sink);
                         }
                     }
                     );
@@ -287,16 +266,16 @@ namespace adapter
             }
 
             template <class E>
-            static std::map<E, std::vector<RegisterMaskAction>> read_enum_config(const YAML::Node& node, const google::protobuf::EnumDescriptor& descriptor)
+            static std::map<E, std::vector<sink_action_t>> read_enum_config(const YAML::Node& node, const google::protobuf::EnumDescriptor& descriptor)
             {
-                std::map<E, std::vector<RegisterMaskAction>> map;
+                std::map<E, std::vector<sink_action_t>> map;
 
                 const auto add_entry = [&](const YAML::Node & node)
                 {
                     const auto name = yaml::require_string(node, keys::name);
                     const auto value = descriptor.FindValueByName(name);
                     if(!value) throw Exception("Unknown enum value: ", name);
-                    map[static_cast<E>(value->number())] = std::move(read_register_mask_actions(node));
+                    map[static_cast<E>(value->number())] = std::move(read_sink_actions(node));
                 };
 
                 yaml::foreach(yaml::require(node, keys::mapping), add_entry);
@@ -319,35 +298,50 @@ namespace adapter
             {
                 return BinaryConfigPair
                 {
-                    .when_true = std::move(read_register_mask_actions(yaml::require(node, keys::when_true))),
-                    .when_false = std::move(read_register_mask_actions(yaml::require(node, keys::when_false)))
+                    .when_true = std::move(read_sink_actions(yaml::require(node, keys::when_true))),
+                    .when_false = std::move(read_sink_actions(yaml::require(node, keys::when_false)))
                 };
             }
 
-            static std::vector<RegisterMaskAction> read_register_mask_actions(const YAML::Node& node)
+            static std::vector<sink_action_t> read_sink_actions(const YAML::Node& node)
             {
-                std::vector<RegisterMaskAction> actions;
+                std::vector<sink_action_t> actions;
 
                 yaml::foreach(
                     yaml::require(node, keys::actions),
                     [&actions](const YAML::Node& node)
             {
-                actions.push_back(read_register_mask_action(node));
+                auto action = read_sink_action(node);
+                    if(action)
+                    {
+                        actions.push_back(std::move(action));
+                    }
                 }
                 );
 
                 return std::move(actions);
             }
 
-            static RegisterMaskAction read_register_mask_action(const YAML::Node& node)
+            static sink_action_t read_sink_action(const YAML::Node& node)
             {
-                return RegisterMaskAction
+                const auto type = RegisterOperationTypeMeta::from_string(yaml::require_string(node, keys::action));
+                const auto index = yaml::require_integer<uint16_t>(node, keys::index);
+                const auto priority = yaml::require_integer<uint32_t>(node, keys::priority);
+                switch(type)
                 {
-                    .type = RegisterOperationTypeMeta::from_string(yaml::require_string(node, keys::action)),
-                    .index = yaml::require_integer<uint16_t>(node, keys::index),
-                    .mask = yaml::require_integer<uint16_t>(node, keys::mask),
-                    .priority = yaml::require_integer<uint32_t>(node, keys::priority)
-                };
+                case(RegisterOperationType::clear_masked_bits):
+                    return [ =, mask = yaml::require_integer<uint16_t>(node, keys::mask)](ICommandSink & sink)
+                    {
+                        return sink.modify_register(index, priority, operations::clear(mask));
+                    };
+                case(RegisterOperationType::set_masked_bits):
+                    return [ =, mask = yaml::require_integer<uint16_t>(node, keys::mask)](ICommandSink & sink)
+                    {
+                        return sink.modify_register(index, priority, operations::set(mask));
+                    };
+                default:
+                    return nullptr;
+                }
             }
 
 
