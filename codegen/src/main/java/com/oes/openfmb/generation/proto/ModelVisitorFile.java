@@ -37,6 +37,7 @@ public class ModelVisitorFile extends CppFilePair {
                 ControlDPC.getDescriptor(),
                 FloatValue.getDescriptor(),
                 StateKind.getDescriptor(),
+                DynamicTestKind.getDescriptor(),
                 GridConnectModeKind.getDescriptor(),
 
                 // generic meta-data stuff that appears in all profiles
@@ -85,8 +86,11 @@ public class ModelVisitorFile extends CppFilePair {
         map.put(ENG_CalcMethodKind.getDescriptor(), Ignore.always);
         map.put(ENG_PFSignKind.getDescriptor(), Ignore.always);
         map.put(ENS_BehaviourModeKind.getDescriptor(), Ignore.always);
-        map.put(ENS_DynamicTestKind.getDescriptor(), Ignore.always);
+
+        //map.put(ENS_DynamicTestKind.getDescriptor(), Ignore.always);
+
         map.put(ENS_HealthKind.getDescriptor(), Ignore.always);
+        map.put(Quality.getDescriptor(), Ignore.always);
 
         map.put(ENG_ESSFunctionKind.getDescriptor(), Ignore.always);
         map.put(ENG_ESSFunctionParameter.getDescriptor(), Ignore.always);
@@ -96,7 +100,8 @@ public class ModelVisitorFile extends CppFilePair {
                 Ignore.or(
                         Ignore.whenParentIs(ESSPoint.getDescriptor()),
                         Ignore.whenParentIs(SolarPoint.getDescriptor()),
-                        Ignore.whenParentIs(LoadPoint.getDescriptor())
+                        Ignore.whenParentIs(LoadPoint.getDescriptor()),
+                        Ignore.whenParentIs(ENS_DynamicTestKind.getDescriptor())
                 )
         );
 

@@ -98,6 +98,20 @@ void visit(IModelVisitor<solarmodule::SolarStatusProfile>& visitor)
                         [context = const_context3](const solarmodule::SolarStatusProfile& profile) { const auto temp = context(profile); return (temp && temp->has_auxpwrst()) ? &temp->auxpwrst() : nullptr; }
                     )
                 );
+                visitor.start_message_field("DynamicTest");
+                {
+                    const auto mutable_context4 = [context = mutable_context3](solarmodule::SolarStatusProfile& profile) { return context(profile)->mutable_dynamictest(); };
+                    const auto const_context4 = [context = const_context3](const solarmodule::SolarStatusProfile& profile) { const auto temp = context(profile); return (temp && temp->has_dynamictest()) ? &temp->dynamictest() : nullptr; };
+                    visitor.handle(
+                        "stVal",
+                        PrimitiveAccessorBuilder<commonmodule::DynamicTestKind, solarmodule::SolarStatusProfile>::build(
+                            [context = mutable_context4](solarmodule::SolarStatusProfile& profile, commonmodule::DynamicTestKind value) { return context(profile)->set_stval(value); },
+                            [context = const_context4](const solarmodule::SolarStatusProfile& profile) { const auto temp = context(profile); return temp ? temp->stval() : throw Exception("Primitive value parent(s) not present: solarStatus.solarStatusZGEN.solarEventAndStatusZGEN.DynamicTest.stVal "); },
+                            [context = const_context4](const solarmodule::SolarStatusProfile& profile) -> bool { return context(profile) != nullptr; }
+                        )
+                    );
+                }
+                visitor.end_message_field();
                 visitor.handle(
                     "EmgStop",
                     AccessorBuilder<commonmodule::StatusSPS, solarmodule::SolarStatusProfile>::build(

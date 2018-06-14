@@ -133,6 +133,14 @@ namespace adapter
             this->out << YAML::EndMap;
         }
 
+        void handle(const std::string& field_name, PrimitiveAccessor<commonmodule::DynamicTestKind, T> accessor) final
+        {
+            this->out << YAML::Key << field_name;
+            this->out << YAML::BeginMap;
+            this->write_enum_keys(*commonmodule::DynamicTestKind_descriptor());
+            this->out << YAML::EndMap;
+        }
+
         void handle(const std::string& field_name, Accessor <commonmodule::CheckConditions, T> accessor) final
         {
             this->out << YAML::Key << field_name;

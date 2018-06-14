@@ -145,6 +145,20 @@ void visit(IModelVisitor<essmodule::ESSStatusProfile>& visitor)
                         [context = const_context3](const essmodule::ESSStatusProfile& profile) { const auto temp = context(profile); return (temp && temp->has_auxpwrst()) ? &temp->auxpwrst() : nullptr; }
                     )
                 );
+                visitor.start_message_field("DynamicTest");
+                {
+                    const auto mutable_context4 = [context = mutable_context3](essmodule::ESSStatusProfile& profile) { return context(profile)->mutable_dynamictest(); };
+                    const auto const_context4 = [context = const_context3](const essmodule::ESSStatusProfile& profile) { const auto temp = context(profile); return (temp && temp->has_dynamictest()) ? &temp->dynamictest() : nullptr; };
+                    visitor.handle(
+                        "stVal",
+                        PrimitiveAccessorBuilder<commonmodule::DynamicTestKind, essmodule::ESSStatusProfile>::build(
+                            [context = mutable_context4](essmodule::ESSStatusProfile& profile, commonmodule::DynamicTestKind value) { return context(profile)->set_stval(value); },
+                            [context = const_context4](const essmodule::ESSStatusProfile& profile) { const auto temp = context(profile); return temp ? temp->stval() : throw Exception("Primitive value parent(s) not present: essStatus.essStatusZGEN.eSSEventAndStatusZGEN.DynamicTest.stVal "); },
+                            [context = const_context4](const essmodule::ESSStatusProfile& profile) -> bool { return context(profile) != nullptr; }
+                        )
+                    );
+                }
+                visitor.end_message_field();
                 visitor.handle(
                     "EmgStop",
                     AccessorBuilder<commonmodule::StatusSPS, essmodule::ESSStatusProfile>::build(

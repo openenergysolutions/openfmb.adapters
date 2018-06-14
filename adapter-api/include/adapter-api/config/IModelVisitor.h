@@ -6,6 +6,7 @@
 #include "switchmodule/switchmodule.pb.h"
 
 #include "IAccessor.h"
+#include "../../../../cmake-build-debug/proto-api/generated-sources/proto-api/commonmodule/commonmodule.pb.h"
 
 #include <string>
 
@@ -62,6 +63,7 @@ namespace adapter
         virtual void handle(const std::string& field_name, Accessor<google::protobuf::FloatValue, T> accessor) = 0;
         virtual void handle(const std::string& field_name, PrimitiveAccessor<commonmodule::StateKind, T> accessor) = 0;
         virtual void handle(const std::string& field_name, PrimitiveAccessor<commonmodule::GridConnectModeKind, T> accessor) = 0;
+        virtual void handle(const std::string& field_name, PrimitiveAccessor<commonmodule::DynamicTestKind, T> accessor) = 0;
 
         /// --- handlers for control types ---
         virtual void handle(const std::string& field_name, Accessor<commonmodule::CheckConditions, T> accessor) = 0;

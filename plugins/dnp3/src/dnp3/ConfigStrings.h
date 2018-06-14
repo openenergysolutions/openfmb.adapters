@@ -26,6 +26,11 @@ namespace adapter
             constexpr const char* const outstation_address = "outstation_address";
 
             // mapping
+            constexpr const char* const mapping = "mapping";
+            constexpr const char* const when_true = "when_true";
+            constexpr const char* const when_false = "when_false";
+            constexpr const char* const actions = "actions";
+            constexpr const char* const name = "name";
             constexpr const char* const profile = "profile";
             constexpr const char* const index = "index";
             constexpr const char* const scale = "scale";

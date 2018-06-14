@@ -141,6 +141,11 @@ namespace adapter
                 this->handle_enum_config<commonmodule::GridConnectModeKind>(field_name, accessor, *commonmodule::GridConnectModeKind_descriptor());
             }
 
+            void handle(const std::string& field_name, PrimitiveAccessor<commonmodule::DynamicTestKind, T> accessor) override
+            {
+                this->handle_enum_config<commonmodule::DynamicTestKind>(field_name, accessor, *commonmodule::DynamicTestKind_descriptor());
+            }
+
             void handle(const std::string& field_name, Accessor <switchmodule::SwitchCSG, T> accessor) override
             {
                 throw NotImplemented(LOCATION);

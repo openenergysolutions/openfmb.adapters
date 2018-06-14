@@ -91,6 +91,20 @@ void visit(IModelVisitor<loadmodule::LoadStatusProfile>& visitor)
                     visitor.end_message_field();
                 }
                 visitor.end_message_field();
+                visitor.start_message_field("DynamicTest");
+                {
+                    const auto mutable_context4 = [context = mutable_context3](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_dynamictest(); };
+                    const auto const_context4 = [context = const_context3](const loadmodule::LoadStatusProfile& profile) { const auto temp = context(profile); return (temp && temp->has_dynamictest()) ? &temp->dynamictest() : nullptr; };
+                    visitor.handle(
+                        "stVal",
+                        PrimitiveAccessorBuilder<commonmodule::DynamicTestKind, loadmodule::LoadStatusProfile>::build(
+                            [context = mutable_context4](loadmodule::LoadStatusProfile& profile, commonmodule::DynamicTestKind value) { return context(profile)->set_stval(value); },
+                            [context = const_context4](const loadmodule::LoadStatusProfile& profile) { const auto temp = context(profile); return temp ? temp->stval() : throw Exception("Primitive value parent(s) not present: loadStatus.loadStatusZGLD.loadEventAndStatusZGLD.DynamicTest.stVal "); },
+                            [context = const_context4](const loadmodule::LoadStatusProfile& profile) -> bool { return context(profile) != nullptr; }
+                        )
+                    );
+                }
+                visitor.end_message_field();
                 visitor.handle(
                     "EmgStop",
                     AccessorBuilder<commonmodule::StatusSPS, loadmodule::LoadStatusProfile>::build(

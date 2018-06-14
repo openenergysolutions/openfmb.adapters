@@ -87,6 +87,20 @@ void visit(IModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
                 visitor.end_message_field();
             }
             visitor.end_message_field();
+            visitor.start_message_field("DynamicTest");
+            {
+                const auto mutable_context3 = [context = mutable_context2](switchmodule::SwitchStatusProfile& profile) { return context(profile)->mutable_dynamictest(); };
+                const auto const_context3 = [context = const_context2](const switchmodule::SwitchStatusProfile& profile) { const auto temp = context(profile); return (temp && temp->has_dynamictest()) ? &temp->dynamictest() : nullptr; };
+                visitor.handle(
+                    "stVal",
+                    PrimitiveAccessorBuilder<commonmodule::DynamicTestKind, switchmodule::SwitchStatusProfile>::build(
+                        [context = mutable_context3](switchmodule::SwitchStatusProfile& profile, commonmodule::DynamicTestKind value) { return context(profile)->set_stval(value); },
+                        [context = const_context3](const switchmodule::SwitchStatusProfile& profile) { const auto temp = context(profile); return temp ? temp->stval() : throw Exception("Primitive value parent(s) not present: switchStatus.switchStatusXSWI.DynamicTest.stVal "); },
+                        [context = const_context3](const switchmodule::SwitchStatusProfile& profile) -> bool { return context(profile) != nullptr; }
+                    )
+                );
+            }
+            visitor.end_message_field();
             visitor.handle(
                 "Pos",
                 AccessorBuilder<commonmodule::StatusDPS, switchmodule::SwitchStatusProfile>::build(

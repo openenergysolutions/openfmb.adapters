@@ -70,7 +70,7 @@ namespace adapter
 
             void write_check_conditions_interlockCheck_keys() override
             {
-                this->out << YAML::BeginMap;
+                //this->out << YAML::BeginMap;
 
                 this->out << YAML::Key << keys::when_true_execute;
                 this->out << YAML::BeginSeq;
@@ -82,12 +82,12 @@ namespace adapter
                 this->write_crob_keys(0, 1, opendnp3::ControlCode::LATCH_OFF);
                 this->out << YAML::EndSeq;
 
-                this->out << YAML::EndMap;
+                //this->out << YAML::EndMap;
             }
 
             void write_check_conditions_synchroCheck_keys() override
             {
-                this->out << YAML::BeginMap;
+                //this->out << YAML::BeginMap;
 
                 this->out << YAML::Key << keys::when_true_execute;
                 this->out << YAML::BeginSeq;
@@ -99,7 +99,7 @@ namespace adapter
                 this->write_crob_keys(1, 3, opendnp3::ControlCode::LATCH_OFF);
                 this->out << YAML::EndSeq;
 
-                this->out << YAML::EndMap;
+                //this->out << YAML::EndMap;
             }
 
             void write_switch_csg_keys() override
@@ -139,10 +139,12 @@ namespace adapter
             {
                 throw Exception("not implemented");
             }
-
-            void write_enum_keys(const google::protobuf::EnumDescriptor& descriptor) override
+           void write_enum_keys(const google::protobuf::EnumDescriptor& descriptor) override
             {
-                throw Exception("not implemented");
+                this->out << YAML::Key << keys::input_type << InputTypeMeta::to_string(InputType::disabled) << YAML::Comment("set to binary");
+                this->out << YAML::Key << keys::index << YAML::Value << 0;
+                this->out << YAML::Key << keys::when_true << YAML::Value<< descriptor.value(0)->name();
+                this->out << YAML::Key << keys::when_false << YAML::Value << descriptor.value(1)->name();
             }
         };
     }
