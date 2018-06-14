@@ -35,7 +35,7 @@ namespace adapter
                             }
                             else
                             {
-                                self->logger.warn("{} write failed: ", self->get_description(), response.get_exception<::modbus::IException>().get_message());
+                                self->logger.warn("{} write failed: {}", self->get_description(), response.get_exception<::modbus::IException>().get_message());
                                 callback(false);
                             }
                         };
@@ -53,7 +53,7 @@ namespace adapter
                 }
                 else
                 {
-                    self->logger.warn("{} failed: {}", self->get_description(), response.get_exception<::modbus::IException>().get_message());
+                    self->logger.warn("{} read failed: {}", self->get_description(), response.get_exception<::modbus::IException>().get_message());
                     callback(false);
                 }
             };
