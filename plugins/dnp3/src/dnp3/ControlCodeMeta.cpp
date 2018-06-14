@@ -13,9 +13,11 @@ namespace adapter
             switch(code)
             {
             case(opendnp3::ControlCode::LATCH_ON):
-                return "LATCH_ON";
+                return latch_on;
             case(opendnp3::ControlCode::LATCH_OFF):
-                return "LATCH_OFF";
+                return latch_off;
+            case(opendnp3::ControlCode::TRIP_PULSE_ON):
+                return trip_pulse_on;
             default:
                 throw Exception("Unsupported control code");
             }
@@ -23,13 +25,17 @@ namespace adapter
 
         opendnp3::ControlCode ControlCodeMeta::from_string(const std::string& value)
         {
-            if(value == "LATCH_ON")
+            if(value == latch_on)
             {
                 return opendnp3::ControlCode::LATCH_ON;
             }
-            else if(value == "LATCH_OFF")
+            else if(value == latch_off)
             {
                 return opendnp3::ControlCode::LATCH_OFF;
+            }
+            else if(value == trip_pulse_on)
+            {
+                return opendnp3::ControlCode::TRIP_PULSE_ON;
             }
             else
             {

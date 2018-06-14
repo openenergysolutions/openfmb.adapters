@@ -104,8 +104,8 @@ namespace adapter
 
             void write_switch_csg_keys() override
             {
-                this->out << YAML::Comment("DNP3 adapter supports a SwitchCSG with a single value in schedule");
-                this->out << YAML::BeginMap;
+                //this->out << YAML::Comment("DNP3 adapter supports a SwitchCSG with a single value in schedule");
+                //this->out << YAML::BeginMap;
 
                 this->out << YAML::Key << keys::when_true_execute;
                 this->out << YAML::BeginSeq;
@@ -117,7 +117,7 @@ namespace adapter
                 this->write_crob_keys(2, 5, opendnp3::ControlCode::LATCH_OFF);
                 this->out << YAML::EndSeq;
 
-                this->out << YAML::EndMap;
+                //this->out << YAML::EndMap;
             }
 
             void write_schedule_csg_keys() override
