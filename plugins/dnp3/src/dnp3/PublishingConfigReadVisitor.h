@@ -203,10 +203,39 @@ namespace adapter
 
             void handle(const std::string& field_name, PrimitiveAccessor<commonmodule::DynamicTestKind, T> accessor) override
             {
-                throw NotImplemented(LOCATION);
+                const auto node = this->get_config_node(field_name);
+                const auto source = InputTypeMeta::from_string(yaml::require_string(node, keys::input_type));
+                if(source == InputType::binary)
+                {
+                    const auto index = yaml::require_integer<uint16_t>(node, keys::index);
+                    const auto true_value = get_enum_value<commonmodule::DynamicTestKind>(yaml::require_string(node, keys::when_true), commonmodule::DynamicTestKind_descriptor());
+                    const auto false_value = get_enum_value<commonmodule::DynamicTestKind>(yaml::require_string(node, keys::when_false), commonmodule::DynamicTestKind_descriptor());
+
+                    this->builder->add_measurement_handler(
+                            [accessor, profile = this->profile, true_value, false_value](const opendnp3::Binary & meas)
+                            {
+                                accessor.set(*profile, meas.value ? true_value : false_value);
+                            },
+                            get_index(node)
+                    );
+                }
             }
 
         private:
+
+            template <class E>
+            E get_enum_value(const std::string& name, google::protobuf::EnumDescriptor const* desc)
+            {
+                const auto value = desc->FindValueByName(name);
+                if(value)
+                {
+                    return static_cast<E>(value->number());
+                }
+                else
+                {
+                    throw Exception("Unknown enum name: ", name);
+                }
+            }
 
             static commonmodule::DbPosKind get_db_pos_kind(const YAML::Node& node, const std::string& key)
             {
