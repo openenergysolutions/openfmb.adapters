@@ -18,6 +18,8 @@ namespace adapter
                 return latch_off;
             case(opendnp3::ControlCode::TRIP_PULSE_ON):
                 return trip_pulse_on;
+            case(opendnp3::ControlCode::CLOSE_PULSE_ON):
+                return close_pulse_on;
             default:
                 throw Exception("Unsupported control code");
             }
@@ -36,6 +38,10 @@ namespace adapter
             else if(value == trip_pulse_on)
             {
                 return opendnp3::ControlCode::TRIP_PULSE_ON;
+            }
+            else if(value == close_pulse_on)
+            {
+                return opendnp3::ControlCode::CLOSE_PULSE_ON;
             }
             else
             {
