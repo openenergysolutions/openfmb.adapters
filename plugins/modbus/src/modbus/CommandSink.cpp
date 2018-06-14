@@ -21,7 +21,7 @@ namespace adapter
 
             bool operator<(const Entry& rhs) const
             {
-                return rhs.priority < this->priority;
+                return this->priority < rhs.priority;
             }
         };
 
