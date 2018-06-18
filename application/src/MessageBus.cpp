@@ -5,7 +5,7 @@
 
 namespace adapter
 {
-
+/*
     void MessageBus::finalize()
     {
         this->resource_reading->finalize();
@@ -171,7 +171,7 @@ namespace adapter
     {
         this->load_control->publish(message);
     }
-
+*/
 
 
 }

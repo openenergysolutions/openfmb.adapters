@@ -11,6 +11,7 @@ set(API_HEADERS
 	include/adapter-api/Profile.h
 	include/adapter-api/ProfileMode.h
 	include/adapter-api/ProfileHelpers.h
+	include/adapter-api/ProfileRegistry.h
 	include/adapter-api/Version.h
 	include/adapter-api/util/Time.h
 	include/adapter-api/util/Exception.h

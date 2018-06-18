@@ -4,6 +4,7 @@
 #include "adapter-api/util/YAMLUtil.h"
 #include "adapter-api/Profile.h"
 #include "adapter-api/Version.h"
+#include "adapter-api/ProfileRegistry.h"
 
 #include "PluginRegistry.h"
 #include "MessageBus.h"
