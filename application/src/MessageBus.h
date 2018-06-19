@@ -75,23 +75,12 @@ namespace adapter
         const std::shared_ptr<SubscriberRegistry<P>> registry = std::make_shared<SubscriberRegistry<P>>();
     };
 
-    class MessageBus : public SingleMessageBus
-    <
-            resourcemodule::ResourceReadingProfile,
-            switchmodule::SwitchReadingProfile,
-            switchmodule::SwitchStatusProfile,
-            switchmodule::SwitchControlProfile,
-            essmodule::ESSReadingProfile,
-            essmodule::ESSStatusProfile,
-            essmodule::ESSControlProfile,
-            solarmodule::SolarReadingProfile,
-            solarmodule::SolarStatusProfile,
-            solarmodule::SolarControlProfile,
-            loadmodule::LoadReadingProfile,
-            loadmodule::LoadStatusProfile,
-            loadmodule::LoadControlProfile
-    >
+    template <template <class...> class R, class...Ps>
+    class SingleMessageBus<R<Ps...>> : public SingleMessageBus<Ps...>
     {};
+
+    class MessageBus : public SingleMessageBus<ProfileRegistry> {};
+
 
 }
 

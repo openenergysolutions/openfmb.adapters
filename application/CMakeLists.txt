@@ -4,7 +4,6 @@ set(openfmb_adapter_src
     ./src/ArgumentParser.cpp
     ./src/main.cpp
     ./src/MessageBus.h
-    ./src/MessageBus.cpp
     ./src/PluginRegistry.h
     ./src/PluginRegistry.cpp
     ./src/Shutdown.h
