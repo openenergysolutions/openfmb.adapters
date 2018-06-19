@@ -229,14 +229,20 @@ void visit(IModelVisitor<essmodule::ESSControlProfile>& visitor)
                                 [context = const_context5](const essmodule::ESSControlProfile& profile) { const auto temp = context(profile); return (temp && temp->has_reset()) ? &temp->reset() : nullptr; }
                             )
                         );
-                        visitor.handle(
-                            "state",
-                            PrimitiveAccessorBuilder<commonmodule::StateKind, essmodule::ESSControlProfile>::build(
-                                [context = mutable_context5](essmodule::ESSControlProfile& profile, commonmodule::StateKind value) { return context(profile)->set_state(value); },
-                                [context = const_context5](const essmodule::ESSControlProfile& profile) { const auto temp = context(profile); return temp ? temp->state() : throw Exception("Primitive value parent(s) not present: essControl.essControlFSCC.essControlScheduleFSCH.ValDCSG.crvPts.state "); },
-                                [context = const_context5](const essmodule::ESSControlProfile& profile) -> bool { return context(profile) != nullptr; }
-                            )
-                        );
+                        visitor.start_message_field("state");
+                        {
+                            const auto mutable_context6 = [context = mutable_context5](essmodule::ESSControlProfile& profile) { return context(profile)->mutable_state(); };
+                            const auto const_context6 = [context = const_context5](const essmodule::ESSControlProfile& profile) { const auto temp = context(profile); return (temp && temp->has_state()) ? &temp->state() : nullptr; };
+                            visitor.handle(
+                                "value",
+                                PrimitiveAccessorBuilder<commonmodule::StateKind, essmodule::ESSControlProfile>::build(
+                                    [context = mutable_context6](essmodule::ESSControlProfile& profile, commonmodule::StateKind value) { return context(profile)->set_value(value); },
+                                    [context = const_context6](const essmodule::ESSControlProfile& profile) { const auto temp = context(profile); return temp ? temp->value() : throw Exception("Primitive value parent(s) not present: essControl.essControlFSCC.essControlScheduleFSCH.ValDCSG.crvPts.state.value "); },
+                                    [context = const_context6](const essmodule::ESSControlProfile& profile) -> bool { return context(profile) != nullptr; }
+                                )
+                            );
+                        }
+                        visitor.end_message_field();
                         visitor.handle(
                             "syncBackToGrid",
                             AccessorBuilder<commonmodule::ControlDPC, essmodule::ESSControlProfile>::build(

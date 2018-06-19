@@ -206,14 +206,20 @@ void visit(IModelVisitor<solarmodule::SolarStatusProfile>& visitor)
                             [context = const_context4](const solarmodule::SolarStatusProfile& profile) { const auto temp = context(profile); return (temp && temp->has_realpwrsetpointenabled()) ? &temp->realpwrsetpointenabled() : nullptr; }
                         )
                     );
-                    visitor.handle(
-                        "state",
-                        PrimitiveAccessorBuilder<commonmodule::StateKind, solarmodule::SolarStatusProfile>::build(
-                            [context = mutable_context4](solarmodule::SolarStatusProfile& profile, commonmodule::StateKind value) { return context(profile)->set_state(value); },
-                            [context = const_context4](const solarmodule::SolarStatusProfile& profile) { const auto temp = context(profile); return temp ? temp->state() : throw Exception("Primitive value parent(s) not present: solarStatus.solarStatusZGEN.solarEventAndStatusZGEN.PointStatus.state "); },
-                            [context = const_context4](const solarmodule::SolarStatusProfile& profile) -> bool { return context(profile) != nullptr; }
-                        )
-                    );
+                    visitor.start_message_field("state");
+                    {
+                        const auto mutable_context5 = [context = mutable_context4](solarmodule::SolarStatusProfile& profile) { return context(profile)->mutable_state(); };
+                        const auto const_context5 = [context = const_context4](const solarmodule::SolarStatusProfile& profile) { const auto temp = context(profile); return (temp && temp->has_state()) ? &temp->state() : nullptr; };
+                        visitor.handle(
+                            "value",
+                            PrimitiveAccessorBuilder<commonmodule::StateKind, solarmodule::SolarStatusProfile>::build(
+                                [context = mutable_context5](solarmodule::SolarStatusProfile& profile, commonmodule::StateKind value) { return context(profile)->set_value(value); },
+                                [context = const_context5](const solarmodule::SolarStatusProfile& profile) { const auto temp = context(profile); return temp ? temp->value() : throw Exception("Primitive value parent(s) not present: solarStatus.solarStatusZGEN.solarEventAndStatusZGEN.PointStatus.state.value "); },
+                                [context = const_context5](const solarmodule::SolarStatusProfile& profile) -> bool { return context(profile) != nullptr; }
+                            )
+                        );
+                    }
+                    visitor.end_message_field();
                     visitor.handle(
                         "voltageSetPointEnabled",
                         AccessorBuilder<commonmodule::ControlDPC, solarmodule::SolarStatusProfile>::build(

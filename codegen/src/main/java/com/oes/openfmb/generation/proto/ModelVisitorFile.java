@@ -86,8 +86,7 @@ public class ModelVisitorFile extends CppFilePair {
         map.put(ENG_CalcMethodKind.getDescriptor(), Ignore.always);
         map.put(ENG_PFSignKind.getDescriptor(), Ignore.always);
         map.put(ENS_BehaviourModeKind.getDescriptor(), Ignore.always);
-
-        //map.put(ENS_DynamicTestKind.getDescriptor(), Ignore.always);
+        map.put(ENG_ESSFunctionParameter.getDescriptor(), Ignore.always);
 
         map.put(ENS_HealthKind.getDescriptor(), Ignore.always);
         map.put(Quality.getDescriptor(), Ignore.always);
@@ -98,10 +97,15 @@ public class ModelVisitorFile extends CppFilePair {
         // conditional ignores
         map.put(Timestamp.getDescriptor(),
                 Ignore.or(
+                    Ignore.whenParentIs(ENS_DynamicTestKind.getDescriptor())
+                )
+        );
+
+        map.put(ControlTimestamp.getDescriptor(),
+                Ignore.or(
                         Ignore.whenParentIs(ESSPoint.getDescriptor()),
                         Ignore.whenParentIs(SolarPoint.getDescriptor()),
-                        Ignore.whenParentIs(LoadPoint.getDescriptor()),
-                        Ignore.whenParentIs(ENS_DynamicTestKind.getDescriptor())
+                        Ignore.whenParentIs(LoadPoint.getDescriptor())
                 )
         );
 
@@ -243,7 +247,14 @@ public class ModelVisitorFile extends CppFilePair {
             case MESSAGE:
                 if(path.getInfo().field.isRepeated())
                 {
-                    return startRepeatedMessageField(path, path.getInfo().field.getMessageType());
+                    if(ignoredTypes.getOrDefault(path.getInfo().field.getMessageType(), Ignore.never).apply(path.getInfo().field))
+                    {
+                        return Documents.empty;
+                    }
+                    else
+                    {
+                        return startRepeatedMessageField(path, path.getInfo().field.getMessageType());
+                    }
                 }
                 else
                 {
