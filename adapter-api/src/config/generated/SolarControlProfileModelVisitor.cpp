@@ -222,14 +222,20 @@ void visit(IModelVisitor<solarmodule::SolarControlProfile>& visitor)
                                 [context = const_context5](const solarmodule::SolarControlProfile& profile) { const auto temp = context(profile); return (temp && temp->has_reset()) ? &temp->reset() : nullptr; }
                             )
                         );
-                        visitor.handle(
-                            "state",
-                            PrimitiveAccessorBuilder<commonmodule::StateKind, solarmodule::SolarControlProfile>::build(
-                                [context = mutable_context5](solarmodule::SolarControlProfile& profile, commonmodule::StateKind value) { return context(profile)->set_state(value); },
-                                [context = const_context5](const solarmodule::SolarControlProfile& profile) { const auto temp = context(profile); return temp ? temp->state() : throw Exception("Primitive value parent(s) not present: solarControl.solarControlFSCC.SolarControlScheduleFSCH.ValDCSG.crvPts.state "); },
-                                [context = const_context5](const solarmodule::SolarControlProfile& profile) -> bool { return context(profile) != nullptr; }
-                            )
-                        );
+                        visitor.start_message_field("state");
+                        {
+                            const auto mutable_context6 = [context = mutable_context5](solarmodule::SolarControlProfile& profile) { return context(profile)->mutable_state(); };
+                            const auto const_context6 = [context = const_context5](const solarmodule::SolarControlProfile& profile) { const auto temp = context(profile); return (temp && temp->has_state()) ? &temp->state() : nullptr; };
+                            visitor.handle(
+                                "value",
+                                PrimitiveAccessorBuilder<commonmodule::StateKind, solarmodule::SolarControlProfile>::build(
+                                    [context = mutable_context6](solarmodule::SolarControlProfile& profile, commonmodule::StateKind value) { return context(profile)->set_value(value); },
+                                    [context = const_context6](const solarmodule::SolarControlProfile& profile) { const auto temp = context(profile); return temp ? temp->value() : throw Exception("Primitive value parent(s) not present: solarControl.solarControlFSCC.SolarControlScheduleFSCH.ValDCSG.crvPts.state.value "); },
+                                    [context = const_context6](const solarmodule::SolarControlProfile& profile) -> bool { return context(profile) != nullptr; }
+                                )
+                            );
+                        }
+                        visitor.end_message_field();
                         visitor.handle(
                             "voltageSetPointEnabled",
                             AccessorBuilder<commonmodule::ControlDPC, solarmodule::SolarControlProfile>::build(
