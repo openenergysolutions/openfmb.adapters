@@ -10,7 +10,7 @@ set(openfmb_adapter_src
     ./src/ConfigKeys.h
     ./src/LoggerConfig.h
     ./src/LoggerConfig.cpp
-    ./src/SubscriberRegistry.h
+        src/SubscriptionRegistry.h
     ./src/ArgumentParser.h
 )
 

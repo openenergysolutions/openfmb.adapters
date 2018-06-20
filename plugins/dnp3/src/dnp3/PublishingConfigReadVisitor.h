@@ -212,11 +212,11 @@ namespace adapter
                     const auto false_value = get_enum_value<commonmodule::DynamicTestKind>(yaml::require_string(node, keys::when_false), commonmodule::DynamicTestKind_descriptor());
 
                     this->builder->add_measurement_handler(
-                            [accessor, profile = this->profile, true_value, false_value](const opendnp3::Binary & meas)
-                            {
-                                accessor.set(*profile, meas.value ? true_value : false_value);
-                            },
-                            get_index(node)
+                        [accessor, profile = this->profile, true_value, false_value](const opendnp3::Binary & meas)
+                    {
+                        accessor.set(*profile, meas.value ? true_value : false_value);
+                    },
+                    get_index(node)
                     );
                 }
             }

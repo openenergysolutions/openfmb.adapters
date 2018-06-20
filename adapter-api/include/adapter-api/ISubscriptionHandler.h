@@ -41,7 +41,7 @@ namespace adapter
     };
 
     template <class T>
-    using subscriber_t = std::shared_ptr<ISubscriptionHandler<T>>;
+    using subscription_handler_t = std::shared_ptr<ISubscriptionHandler<T>>;
 }
 
 #endif

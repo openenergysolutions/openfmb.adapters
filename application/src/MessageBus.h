@@ -5,7 +5,7 @@
 #include "adapter-api/IMessageBus.h"
 #include "adapter-api/ProfileRegistry.h"
 
-#include "SubscriberRegistry.h"
+#include "SubscriptionRegistry.h"
 
 
 namespace adapter
@@ -16,16 +16,18 @@ namespace adapter
     template <class P>
     class SingleMessageBus<P> : public IMessageBus
     {
-        public:
+    public:
+
+        virtual ~SingleMessageBus() = default;
 
         void publish(const P& message) override
         {
             this->registry->publish(message);
         }
 
-        void subscribe(subscriber_t<P> subscriber) override
+        void subscribe(subscription_handler_t<P> handler) override
         {
-            this->registry->add(std::move(subscriber));
+            this->registry->add(std::move(handler));
         }
 
         void finalize()
@@ -38,9 +40,9 @@ namespace adapter
             this->registry->shutdown();
         }
 
-        private:
+    private:
 
-        const std::shared_ptr<SubscriberRegistry<P>> registry = std::make_shared<SubscriberRegistry<P>>();
+        const std::shared_ptr<SubscriptionRegistry<P>> registry = std::make_shared<SubscriptionRegistry<P>>();
     };
 
     template <class P, class... Ps>
@@ -48,14 +50,16 @@ namespace adapter
     {
     public:
 
+        virtual ~SingleMessageBus() = default;
+
         void publish(const P& message) override
         {
             this->registry->publish(message);
         }
 
-        void subscribe(subscriber_t<P> subscriber) override
+        void subscribe(subscription_handler_t<P> handler) override
         {
-            this->registry->add(std::move(subscriber));
+            this->registry->add(std::move(handler));
         }
 
         void finalize()
@@ -72,14 +76,25 @@ namespace adapter
 
     private:
 
-        const std::shared_ptr<SubscriberRegistry<P>> registry = std::make_shared<SubscriberRegistry<P>>();
+        const std::shared_ptr<SubscriptionRegistry<P>> registry = std::make_shared<SubscriptionRegistry<P>>();
     };
 
+    /**
+     * Specialization that allows us to use the ProfileRegistry
+     * @tparam R ProfileRegistry type
+     * @tparam Ps List of profiles to implement
+     */
     template <template <class...> class R, class...Ps>
     class SingleMessageBus<R<Ps...>> : public SingleMessageBus<Ps...>
-    {};
+    {
+    public:
+        virtual ~SingleMessageBus() = default;
+    };
 
-    class MessageBus : public SingleMessageBus<ProfileRegistry> {};
+    /**
+     * Concrete implementation based on the ProfileRegistry
+     */
+    class MessageBus final : public SingleMessageBus<ProfileRegistry> {};
 
 
 }

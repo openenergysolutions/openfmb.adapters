@@ -139,11 +139,11 @@ namespace adapter
             {
                 throw Exception("not implemented");
             }
-           void write_enum_keys(const google::protobuf::EnumDescriptor& descriptor) override
+            void write_enum_keys(const google::protobuf::EnumDescriptor& descriptor) override
             {
                 this->out << YAML::Key << keys::input_type << InputTypeMeta::to_string(InputType::disabled) << YAML::Comment("set to binary");
                 this->out << YAML::Key << keys::index << YAML::Value << 0;
-                this->out << YAML::Key << keys::when_true << YAML::Value<< descriptor.value(0)->name();
+                this->out << YAML::Key << keys::when_true << YAML::Value << descriptor.value(0)->name();
                 this->out << YAML::Key << keys::when_false << YAML::Value << descriptor.value(1)->name();
             }
         };

@@ -1,9 +1,9 @@
 
-#ifndef OPENFMB_ADAPTER_IEVENTSOURCE_H
-#define OPENFMB_ADAPTER_IEVENTSOURCE_H
+#ifndef OPENFMB_ADAPTER_ISUBSCRIBER_H
+#define OPENFMB_ADAPTER_ISUBSCRIBER_H
 
-#include "IPublisher.h"
 #include "ISubscriptionHandler.h"
+#include "ProfileRegistry.h"
 
 namespace adapter
 {
@@ -17,19 +17,19 @@ namespace adapter
     public:
         virtual ~ISubscribeOne() = default;
 
-        virtual void publish(const T& message) = 0;
+        virtual void subscribe(subscription_handler_t<T> handler) = 0;
     };
 
     template <class T, class ... Ts>
-    class IPublishOne<T, Ts...> : public IPublishOne<Ts...>
+    class ISubscribeOne<T, Ts...> : public ISubscribeOne<Ts...>
     {
     public:
-        virtual ~IPublishOne() = default;
+        virtual ~ISubscribeOne() = default;
 
         // don't hide implementation in base class
-        using IPublishOne<Ts...>::publish;
+        using ISubscribeOne<Ts...>::subscribe;
 
-        virtual void publish(const T& message) = 0;
+        virtual void subscribe(subscription_handler_t<T> handler) = 0;
     };
 
     /**
@@ -39,24 +39,22 @@ namespace adapter
      * @tparam Ts list of profiles to implement
      */
     template <template <class ...> class R, class ... Ts>
-    class IPublishOne<R<Ts...>> : public IPublishOne<Ts...>
+    class ISubscribeOne<R<Ts...>> : public ISubscribeOne<Ts...>
     {
     public:
-        virtual ~IPublishOne() = default;
+        virtual ~ISubscribeOne() = default;
     };
 
     /**
      * Interface used to publish profiles to the bus
      */
-    class IPublisher : public IPublishOne<ProfileRegistry>
+    class ISubscriber : public ISubscribeOne<ProfileRegistry>
     {
     public:
-        virtual ~IPublisher() = default;
+        virtual ~ISubscriber() = default;
     };
 
-    using publisher_t = std::shared_ptr<IPublisher>;
-
-    using message_bus_t = std::shared_ptr<IEventSource>;
+    using subscriber_t = std::shared_ptr<ISubscriber>;
 
 }
 

@@ -1,6 +1,6 @@
 
-#ifndef OPENFMB_ADAPTER_SUBSCRIBER_REGISTRY_H
-#define OPENFMB_ADAPTER_SUBSCRIBER_REGISTRY_H
+#ifndef OPENFMB_ADAPTER_SUBSCRIPTIONREGISTRY_H
+#define OPENFMB_ADAPTER_SUBSCRIPTIONREGISTRY_H
 
 #include "adapter-api/ISubscriptionHandler.h"
 #include "adapter-api/util/Exception.h"
@@ -11,12 +11,12 @@
 namespace adapter
 {
     template <class T>
-    class SubscriberRegistry final
+    class SubscriptionRegistry final
     {
 
     public:
 
-        SubscriberRegistry() = default;
+        SubscriptionRegistry() = default;
 
         void finalize()
         {
@@ -30,7 +30,7 @@ namespace adapter
         {
             std::lock_guard<std::mutex> lock(this->mutex);
 
-            this->subscribers.clear();
+            this->subscriptions.clear();
         }
 
         void publish(const T& message)
@@ -39,19 +39,19 @@ namespace adapter
 
             if(!this->finalized) throw Exception("Publish(..) called before finalization");
 
-            for(auto& sub : this->subscribers)
+            for(auto& sub : this->subscriptions)
             {
                 sub->receive(message);
             }
         }
 
-        void add(subscriber_t<T> subscriber)
+        void add(subscription_handler_t<T> handler)
         {
             std::lock_guard<std::mutex> lock(this->mutex);
 
             if(finalized) throw Exception("Subscribe(..) called after finalization");
 
-            this->subscribers.push_back(std::move(subscriber));
+            this->subscriptions.push_back(std::move(handler));
         }
 
     private:
@@ -61,7 +61,7 @@ namespace adapter
         bool finalized = false;
 
         // all of the subscribers for a particular type
-        std::vector<subscriber_t<T>> subscribers;
+        std::vector<subscription_handler_t<T>> subscriptions;
     };
 
 }

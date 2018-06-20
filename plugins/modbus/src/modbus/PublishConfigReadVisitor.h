@@ -161,7 +161,7 @@ namespace adapter
                 this->configure_enum<commonmodule::GridConnectModeKind>(this->get_config_node(field_name), accessor, commonmodule::GridConnectModeKind_descriptor());
             }
 
-            void handle(const std::string& field_name, PrimitiveAccessor<commonmodule::DynamicTestKind , T> accessor) override
+            void handle(const std::string& field_name, PrimitiveAccessor<commonmodule::DynamicTestKind, T> accessor) override
             {
                 this->configure_enum<commonmodule::DynamicTestKind>(this->get_config_node(field_name), accessor, commonmodule::DynamicTestKind_descriptor());
             }

@@ -10,23 +10,28 @@
 
 namespace adapter
 {
-template <class... T>
-class ProfileList {};
+    template <class... T>
+    class ProfileList {};
 
-using ProfileRegistry = ProfileList<
-            resourcemodule::ResourceReadingProfile,
-            switchmodule::SwitchReadingProfile,
-            switchmodule::SwitchStatusProfile,
-            switchmodule::SwitchControlProfile,
-            essmodule::ESSReadingProfile,
-            essmodule::ESSStatusProfile,
-            essmodule::ESSControlProfile,
-            solarmodule::SolarReadingProfile,
-            solarmodule::SolarStatusProfile,
-            solarmodule::SolarControlProfile,
-            loadmodule::LoadReadingProfile,
-            loadmodule::LoadStatusProfile,
-            loadmodule::LoadControlProfile>;
+    /**
+     * A list of profile types implemented as a variadic data structure.
+     *
+     * This list is used by other components to automatically add support for profiles.
+     */
+    using ProfileRegistry = ProfileList <
+                            resourcemodule::ResourceReadingProfile,
+                            switchmodule::SwitchReadingProfile,
+                            switchmodule::SwitchStatusProfile,
+                            switchmodule::SwitchControlProfile,
+                            essmodule::ESSReadingProfile,
+                            essmodule::ESSStatusProfile,
+                            essmodule::ESSControlProfile,
+                            solarmodule::SolarReadingProfile,
+                            solarmodule::SolarStatusProfile,
+                            solarmodule::SolarControlProfile,
+                            loadmodule::LoadReadingProfile,
+                            loadmodule::LoadStatusProfile,
+                            loadmodule::LoadControlProfile >;
 
 }
 
