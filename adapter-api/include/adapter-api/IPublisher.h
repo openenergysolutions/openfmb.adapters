@@ -9,35 +9,54 @@
 #include <proto-api/loadmodule/loadmodule.pb.h>
 
 #include <memory>
+#include "ProfileRegistry.h"
 
 namespace adapter
 {
+    template <class ... Ts>
+    class IPublishOne;
+
+    template <class T>
+    class IPublishOne<T>
+    {
+    public:
+        virtual ~IPublishOne() = default;
+
+        virtual void publish(const T& message) = 0;
+    };
+
+    template <class T, class ... Ts>
+    class IPublishOne<T, Ts...> : public IPublishOne<Ts...>
+    {
+    public:
+        virtual ~IPublishOne() = default;
+
+        // don't hide implementation in base class
+        using IPublishOne<Ts...>::publish;
+
+        virtual void publish(const T& message) = 0;
+    };
+
+    /**
+     * Specialization so that we can use this in conjunction with the ProfileRegistry list
+     *
+     * @tparam R ProfileList type
+     * @tparam Ts list of profiles to implement
+     */
+    template <template <class ...> class R, class ... Ts>
+    class IPublishOne<R<Ts...>> : public IPublishOne<Ts...>
+    {
+    public:
+        virtual ~IPublishOne() = default;
+    };
 
     /**
      * Interface used to publish profiles to the bus
      */
-    class IPublisher
+    class IPublisher : public IPublishOne<ProfileRegistry>
     {
     public:
         virtual ~IPublisher() = default;
-
-        virtual void publish(const resourcemodule::ResourceReadingProfile& message) = 0;
-
-        virtual void publish(const switchmodule::SwitchControlProfile& message) = 0;
-        virtual void publish(const switchmodule::SwitchReadingProfile& message) = 0;
-        virtual void publish(const switchmodule::SwitchStatusProfile& message) = 0;
-
-        virtual void publish(const essmodule::ESSReadingProfile& message) = 0;
-        virtual void publish(const essmodule::ESSStatusProfile& message) = 0;
-        virtual void publish(const essmodule::ESSControlProfile& message) = 0;
-
-        virtual void publish(const solarmodule::SolarReadingProfile& message) = 0;
-        virtual void publish(const solarmodule::SolarStatusProfile& message) = 0;
-        virtual void publish(const solarmodule::SolarControlProfile& message) = 0;
-
-        virtual void publish(const loadmodule::LoadReadingProfile& message) = 0;
-        virtual void publish(const loadmodule::LoadStatusProfile& message) = 0;
-        virtual void publish(const loadmodule::LoadControlProfile& message) = 0;
     };
 
     using publisher_t = std::shared_ptr<IPublisher>;
