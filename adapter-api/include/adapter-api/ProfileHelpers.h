@@ -2,12 +2,9 @@
 #define OPENFMB_ADAPTER_PROFILEHELPERS_H
 
 #include <adapter-api/util/Exception.h>
-#include <adapter-api/Profile.h>
 
-#include <proto-api/resourcemodule/resourcemodule.pb.h>
-#include <proto-api/switchmodule/switchmodule.pb.h>
-#include <proto-api/essmodule/essmodule.pb.h>
-#include <proto-api/loadmodule/loadmodule.pb.h>
+#include "ProfileRegistry.h"
+#include "Profile.h"
 
 namespace adapter
 {
@@ -112,23 +109,6 @@ namespace adapter
             return get_one<T, R>(ProfileMeta::from_string(profile), std::forward<Args>(args)...);
         }
 
-        template <template <typename P> class T, class ... Args>
-        void handle_all(Args&& ... args)
-        {
-            T<resourcemodule::ResourceReadingProfile>::handle(std::forward<Args>(args)...);
-            T<switchmodule::SwitchControlProfile>::handle(std::forward<Args>(args)...);
-            T<switchmodule::SwitchReadingProfile>::handle(std::forward<Args>(args)...);
-            T<switchmodule::SwitchStatusProfile>::handle(std::forward<Args>(args)...);
-            T<essmodule::ESSReadingProfile>::handle(std::forward<Args>(args)...);
-            T<essmodule::ESSStatusProfile>::handle(std::forward<Args>(args)...);
-            T<essmodule::ESSControlProfile>::handle(std::forward<Args>(args)...);
-            T<solarmodule::SolarReadingProfile>::handle(std::forward<Args>(args)...);
-            T<solarmodule::SolarStatusProfile>::handle(std::forward<Args>(args)...);
-            T<solarmodule::SolarControlProfile>::handle(std::forward<Args>(args)...);
-            T<loadmodule::LoadReadingProfile>::handle(std::forward<Args>(args)...);
-            T<loadmodule::LoadStatusProfile>::handle(std::forward<Args>(args)...);
-            T<loadmodule::LoadControlProfile>::handle(std::forward<Args>(args)...);
-        }
     }
 }
 

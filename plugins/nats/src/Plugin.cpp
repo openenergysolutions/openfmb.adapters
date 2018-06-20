@@ -78,7 +78,7 @@ namespace adapter
         {
             const auto profiles_map = yaml::require(node, ::adapter::keys::profiles);
 
-            profiles::handle_all<ProfileReader>(profiles_map, logger, bus, this->messages, this->subscriptions);
+            ProfileRegistry::handle_all<ProfileReader>(profiles_map, logger, bus, this->messages, this->subscriptions);
         }
 
         Plugin::Config::Config(const YAML::Node& node) :

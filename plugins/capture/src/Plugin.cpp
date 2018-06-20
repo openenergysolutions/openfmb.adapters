@@ -65,7 +65,7 @@ namespace adapter
         Plugin::Plugin(const YAML::Node& node, const Logger& logger, message_bus_t bus) :
             shared_log(std::make_shared<SharedLog>(yaml::require_string(node, keys::file), logger))
         {
-            profiles::handle_all<ProfileSubscriber>(this->shared_log, *bus);
+            ProfileRegistry::handle_all<ProfileSubscriber>(this->shared_log, *bus);
         }
 
         Plugin::~Plugin()

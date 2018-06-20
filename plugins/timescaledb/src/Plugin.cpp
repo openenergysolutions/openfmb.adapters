@@ -28,7 +28,7 @@ Plugin::Plugin(const YAML::Node& node, const Logger& logger, IMessageBus& bus)
                                                        yaml::require(node, keys::max_queued_messages).as<size_t>(),
                                                        std::chrono::seconds(yaml::require(node, keys::connect_retry_seconds).as<uint32_t>()))}
 {
-    profiles::handle_all<ProfileSubscriber>(logger, this->m_archiver, bus);
+    ProfileRegistry::handle_all<ProfileSubscriber>(logger, this->m_archiver, bus);
 }
 
 Plugin::~Plugin()
