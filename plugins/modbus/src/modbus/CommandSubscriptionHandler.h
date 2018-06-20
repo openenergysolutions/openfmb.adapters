@@ -1,8 +1,8 @@
 
-#ifndef OPENFMB_ADAPTER_COMMANDSUBSCRIBER_H
-#define OPENFMB_ADAPTER_COMMANDSUBSCRIBER_H
+#ifndef OPENFMB_ADAPTER_COMMANDSUBSCRIPTIONHANDLER_H
+#define OPENFMB_ADAPTER_COMMANDSUBSCRIPTIONHANDLER_H
 
-#include <adapter-api/ISubscriber.h>
+#include <adapter-api/ISubscriptionHandler.h>
 #include <adapter-api/config/MessageInformation.h>
 
 #include "ICommandConfigBuilder.h"
@@ -14,7 +14,7 @@ namespace adapter
     namespace modbus
     {
         template <class T>
-        class CommandSubscriber final : public ISubscriber<T>
+        class CommandSubscriptionHandler final : public ISubscriptionHandler<T>
         {
             Logger logger;
             const std::string uuid;
@@ -23,7 +23,7 @@ namespace adapter
 
         public:
 
-            CommandSubscriber(
+            CommandSubscriptionHandler(
                 Logger logger,
                 std::string uuid,
                 std::shared_ptr<const ICommandConfiguration<T>> config,

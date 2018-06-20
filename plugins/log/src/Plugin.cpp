@@ -23,7 +23,7 @@ namespace adapter
             static void handle(const Logger& logger, IMessageBus& bus)
             {
                 bus.subscribe(
-                    std::make_shared<DebugStringLogSubscriber<T>>(logger)
+                    std::make_shared<DebugStringLogSubscriptionHandler<T>>(logger)
                 );
             }
         };
@@ -34,7 +34,7 @@ namespace adapter
             static void handle(const YAML::Node& config, const Logger& logger, IMessageBus& bus)
             {
                 bus.subscribe(
-                    std::make_shared<FilteredValueLogSubscriber<T>>(logger, config)
+                    std::make_shared<FilteredValueLogSubscriptionHandler<T>>(logger, config)
                 );
             }
         };

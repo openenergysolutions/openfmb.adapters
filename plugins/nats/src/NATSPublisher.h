@@ -2,7 +2,7 @@
 #ifndef OPENFMB_ADAPTER_NATS_PUBLISHER_H
 #define OPENFMB_ADAPTER_NATS_PUBLISHER_H
 
-#include "adapter-api/ISubscriber.h"
+#include "adapter-api/ISubscriptionHandler.h"
 #include "adapter-api/Logger.h"
 
 #include "adapter-api/util/SynchronizedQueue.h"
@@ -17,7 +17,7 @@ namespace adapter
     namespace nats
     {
         template <class T>
-        class NATSPublisher final : public ISubscriber<T> // a NATS publisher subscribes to the internal bus
+        class NATSPublisher final : public ISubscriptionHandler<T> // a NATS publisher subscribes to the internal bus
         {
 
         public:

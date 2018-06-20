@@ -38,12 +38,12 @@ namespace adapter
         };
 
         template <class T>
-        class Subscriber final : public ISubscriber<T>
+        class SubscriptionHandler final : public ISubscriptionHandler<T>
         {
             const std::shared_ptr<SharedLog> log;
 
         public:
-            explicit Subscriber(std::shared_ptr<SharedLog> log) : log(std::move(log))
+            explicit SubscriptionHandler(std::shared_ptr<SharedLog> log) : log(std::move(log))
             {}
 
         private:
@@ -58,7 +58,7 @@ namespace adapter
         {
             static void handle(std::shared_ptr<SharedLog> log, IMessageBus& bus)
             {
-                bus.subscribe(std::make_shared<Subscriber<T>>(std::move(log)));
+                bus.subscribe(std::make_shared<SubscriptionHandler<T>>(std::move(log)));
             }
         };
 

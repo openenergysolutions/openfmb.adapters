@@ -5,7 +5,7 @@ set(API_HEADERS
 	include/adapter-api/IPluginFactory.h
 	include/adapter-api/IPublisher.h
 	include/adapter-api/IPublisher.h
-	include/adapter-api/ISubscriber.h
+		include/adapter-api/ISubscriptionHandler.h
 	include/adapter-api/IMessageBus.h
 	include/adapter-api/Logger.h
 	include/adapter-api/Profile.h

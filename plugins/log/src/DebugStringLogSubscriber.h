@@ -1,7 +1,7 @@
 #ifndef OPENFMB_ADAPTER_DEBUGSTRINGLOGSUBSCRIBER_H
 #define OPENFMB_ADAPTER_DEBUGSTRINGLOGSUBSCRIBER_H
 
-#include <adapter-api/ISubscriber.h>
+#include <adapter-api/ISubscriptionHandler.h>
 #include <adapter-api/Logger.h>
 
 namespace adapter
@@ -9,13 +9,13 @@ namespace adapter
     namespace log
     {
         template <class Proto>
-        class DebugStringLogSubscriber final : public ISubscriber<Proto>
+        class DebugStringLogSubscriptionHandler final : public ISubscriptionHandler<Proto>
         {
             Logger logger;
 
         public:
 
-            explicit DebugStringLogSubscriber(Logger logger) : logger(std::move(logger))
+            explicit DebugStringLogSubscriptionHandler(Logger logger) : logger(std::move(logger))
             {}
 
         private:

@@ -1,7 +1,7 @@
 #ifndef OPENFMB_ADAPTER_FILTEREDVALUELOGSUBSCRIBER_H
 #define OPENFMB_ADAPTER_FILTEREDVALUELOGSUBSCRIBER_H
 
-#include <adapter-api/ISubscriber.h>
+#include <adapter-api/ISubscriptionHandler.h>
 #include <adapter-api/Logger.h>
 #include <adapter-api/config/MessageInformation.h>
 #include <adapter-api/config/generated/MessageVisitors.h>
@@ -165,7 +165,7 @@ namespace adapter
         };
 
         template <class Proto>
-        class FilteredValueLogSubscriber final : public ISubscriber<Proto>, private ITagList
+        class FilteredValueLogSubscriptionHandler final : public ISubscriptionHandler<Proto>, private ITagList
         {
             struct TagPair
             {
@@ -185,7 +185,7 @@ namespace adapter
 
         public:
 
-            FilteredValueLogSubscriber(Logger logger, const YAML::Node& config) :
+            FilteredValueLogSubscriptionHandler(Logger logger, const YAML::Node& config) :
                 logger(std::move(logger)),
                 name(yaml::require_string(config, ::adapter::keys::name)),
                 print_alias(yaml::require(config, keys::print_alias).as<bool>()),

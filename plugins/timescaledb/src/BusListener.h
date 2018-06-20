@@ -6,7 +6,7 @@
 #include <string>
 #include <sstream>
 #include <boost/uuid/uuid_generators.hpp>
-#include "adapter-api/ISubscriber.h"
+#include "adapter-api/ISubscriptionHandler.h"
 #include "adapter-api/config/IMessageVisitor.h"
 #include "adapter-api/config/MessageInformation.h"
 #include "adapter-api/config/generated/MessageVisitors.h"
@@ -107,7 +107,7 @@ private:
 };
 
 template<typename Proto>
-class BusListener : public ISubscriber<Proto>
+class BusListener : public ISubscriptionHandler<Proto>
 {
 public:
     explicit BusListener(const Logger& logger, const std::shared_ptr<IArchiver>& archiver)

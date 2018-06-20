@@ -1,6 +1,6 @@
 
-#ifndef OPENFMB_ADAPTER_ISUBSCRIBER_H
-#define OPENFMB_ADAPTER_ISUBSCRIBER_H
+#ifndef OPENFMB_ADAPTER_ISUBSCRIPTIONHANDLER_H
+#define OPENFMB_ADAPTER_ISUBSCRIPTIONHANDLER_H
 
 
 namespace adapter
@@ -12,10 +12,10 @@ namespace adapter
      * @tparam T type of message the subscriber processes
      */
     template <class T>
-    class ISubscriber
+    class ISubscriptionHandler
     {
     public:
-        virtual ~ISubscriber() = default;
+        virtual ~ISubscriptionHandler() = default;
 
         void receive(const T& message)
         {
@@ -41,7 +41,7 @@ namespace adapter
     };
 
     template <class T>
-    using subscriber_t = std::shared_ptr<ISubscriber<T>>;
+    using subscriber_t = std::shared_ptr<ISubscriptionHandler<T>>;
 }
 
 #endif

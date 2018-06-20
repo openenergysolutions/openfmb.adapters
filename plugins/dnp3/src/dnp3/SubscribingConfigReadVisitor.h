@@ -20,7 +20,7 @@ namespace adapter
             const std::shared_ptr<CommandConfiguration<T>> configuration = std::make_shared<CommandConfiguration<T>>();
             std::string mRID;
 
-            class Subscriber : public ISubscriber<T>
+            class SubscriptionHandler : public ISubscriptionHandler<T>
             {
                 const std::string mRID;
                 Logger logger;
@@ -29,7 +29,7 @@ namespace adapter
 
             public:
 
-                Subscriber(std::string mRID, Logger logger, std::shared_ptr<CommandConfiguration<T>> configuration, std::shared_ptr<ICommandSequenceExecutor> executor) :
+                SubscriptionHandler(std::string mRID, Logger logger, std::shared_ptr<CommandConfiguration<T>> configuration, std::shared_ptr<ICommandSequenceExecutor> executor) :
                     mRID(std::move(mRID)),
                     logger(std::move(logger)),
                     configuration(std::move(configuration)),
@@ -74,7 +74,7 @@ namespace adapter
                 logger.info("Subscribing to {} w/ mRID {}", T::descriptor()->name(), this->mRID);
 
                 bus.subscribe(
-                    std::make_shared<Subscriber>(this->mRID, logger, this->configuration, std::move(executor))
+                    std::make_shared<SubscriptionHandler>(this->mRID, logger, this->configuration, std::move(executor))
                 );
             }
 

@@ -58,11 +58,11 @@ namespace adapter
             return present_accessor(value);
         }
 
-        virtual R get(const T &value) const {
+        R get(const T &value) const override {
             return this->const_accessor(value);
         }
 
-        virtual void set(T &value, R primitive) const {
+        void set(T &value, R primitive) const override {
             this->mutable_accessor(value, primitive);
         }
     };

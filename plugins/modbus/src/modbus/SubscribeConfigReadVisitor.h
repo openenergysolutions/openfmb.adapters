@@ -9,7 +9,7 @@
 #include "ModifyRegisterTransaction.h"
 #include "CommandConfiguration.h"
 #include "RegisterOperationType.h"
-#include "CommandSubscriber.h"
+#include "CommandSubscriptionHandler.h"
 
 
 namespace adapter
@@ -59,7 +59,7 @@ namespace adapter
             void subscribe(const Logger& logger, IMessageBus& bus, std::shared_ptr<ITransactionProcessor> tx_processor)
             {
                 bus.subscribe(
-                    std::make_shared<CommandSubscriber<T>>(logger, this->mRID, this->config, std::move(tx_processor))
+                    std::make_shared<CommandSubscriptionHandler<T>>(logger, this->mRID, this->config, std::move(tx_processor))
                 );
             }
 

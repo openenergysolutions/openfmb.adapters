@@ -2,7 +2,7 @@
 #ifndef OPENFMB_ADAPTER_SUBSCRIBER_REGISTRY_H
 #define OPENFMB_ADAPTER_SUBSCRIBER_REGISTRY_H
 
-#include "adapter-api/ISubscriber.h"
+#include "adapter-api/ISubscriptionHandler.h"
 #include "adapter-api/util/Exception.h"
 
 #include <vector>

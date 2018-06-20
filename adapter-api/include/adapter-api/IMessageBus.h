@@ -3,7 +3,7 @@
 #define OPENFMB_ADAPTER_IMESSAGEBUS_H
 
 #include "IPublisher.h"
-#include "ISubscriber.h"
+#include "ISubscriptionHandler.h"
 
 namespace adapter
 {

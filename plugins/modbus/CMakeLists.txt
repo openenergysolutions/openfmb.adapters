@@ -38,7 +38,7 @@ set(MODBUS_SOURCES
         src/modbus/PollTransaction.cpp
         src/modbus/RegisterOperationType.h
         src/modbus/RegisterOperationType.cpp
-        src/modbus/CommandSubscriber.h
+        src/modbus/CommandSubscriptionHandler.h
         src/modbus/CommandSink.cpp
         src/modbus/CommandSink.h src/modbus/WriteRegisterTransaction.cpp src/modbus/WriteRegisterTransaction.h src/modbus/OrderedTransaction.cpp src/modbus/OrderedTransaction.h)
 
