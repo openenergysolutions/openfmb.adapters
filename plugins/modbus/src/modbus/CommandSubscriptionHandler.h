@@ -3,7 +3,7 @@
 #define OPENFMB_ADAPTER_COMMANDSUBSCRIPTIONHANDLER_H
 
 #include <adapter-api/ISubscriptionHandler.h>
-#include <adapter-api/config/MessageInformation.h>
+#include <adapter-api/ProfileInfo.h>
 
 #include "ICommandConfigBuilder.h"
 #include "ITransactionProcessor.h"
@@ -37,7 +37,7 @@ namespace adapter
 
             bool matches(const T& message) const override
             {
-                return get_conducting_equip(message).mrid() == this->uuid;
+                return profile_info<T>::get_conducting_equip(message).mrid() == this->uuid;
             }
 
         private:

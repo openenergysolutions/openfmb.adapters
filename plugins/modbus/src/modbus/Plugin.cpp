@@ -2,8 +2,8 @@
 #include "Plugin.h"
 
 #include <adapter-api/ProfileHelpers.h>
+#include <adapter-api/ProfileRegistry.h>
 #include <adapter-api/util/YAMLTemplate.h>
-#include <adapter-api/config/ProfileType.h>
 #include <adapter-api/config/ModelVisitors.h>
 
 #include "modbus/logging/LoggerFactory.h"
@@ -23,34 +23,28 @@ namespace adapter
     {
 
         template <class T>
-        class ProfileReader
+        struct ProfileReader
         {
-        public:
-            static void handle(const YAML::Node& node, const Logger& logger, message_bus_t bus, std::shared_ptr<PollHandler> handler, std::shared_ptr<ITransactionProcessor> processor)
-            {
-                if(adapter::get_profile_type<T>() == ProfileType::control)
-                {
-                    handle_subscribe(node, logger, *bus, std::move(processor));
-                }
-                else
-                {
-                    handle_publish(node, std::move(bus), std::move(handler));
-                }
-            }
+            template<bool condition>
+            using return_t  = typename std::enable_if<condition, bool>::type;
 
-        private:
-
-            static void handle_publish(const YAML::Node& node, message_bus_t bus, std::shared_ptr<PollHandler> handler)
-            {
-                PublishConfigReadVisitor<T> visitor(node, std::move(bus), std::move(handler));
-                visit(visitor);
-            }
-
-            static void handle_subscribe(const YAML::Node& node, Logger logger, IMessageBus& bus, std::shared_ptr<ITransactionProcessor> processor)
+            /// use this implementation if profile type is a control
+            template <class U = T>
+            static return_t<profile_info<U>::is_control> handle(const YAML::Node& node, const Logger& logger, message_bus_t bus, std::shared_ptr<PollHandler> handler, std::shared_ptr<ITransactionProcessor> processor)
             {
                 SubscribeConfigReadVisitor<T> visitor(node);
                 visit(visitor);
-                visitor.subscribe(logger, bus, std::move(processor));
+                visitor.subscribe(logger, *bus, std::move(processor));
+                return true;
+            }
+
+            /// use this implementation if profile type is NOT a control
+            template <class U = T>
+            static return_t<!profile_info<U>::is_control> handle(const YAML::Node& node, const Logger& logger, message_bus_t bus, std::shared_ptr<PollHandler> handler, std::shared_ptr<ITransactionProcessor> processor)
+            {
+                PublishConfigReadVisitor<T> visitor(node, std::move(bus), std::move(handler));
+                visit(visitor);
+                return true;
             }
         };
 

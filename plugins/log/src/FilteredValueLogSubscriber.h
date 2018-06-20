@@ -3,7 +3,7 @@
 
 #include <adapter-api/ISubscriptionHandler.h>
 #include <adapter-api/Logger.h>
-#include <adapter-api/config/MessageInformation.h>
+#include <adapter-api/ProfileInfo.h>
 #include <adapter-api/config/generated/MessageVisitors.h>
 
 #include <fstream>
@@ -213,7 +213,7 @@ namespace adapter
 
             bool matches(const Proto& message) const override
             {
-                return get_conducting_equip(message).namedobject().name().value() == this->name;
+                return profile_info<Proto>::get_conducting_equip(message).namedobject().name().value() == this->name;
             }
 
             void process(const Proto& message) override

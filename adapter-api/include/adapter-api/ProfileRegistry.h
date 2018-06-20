@@ -25,11 +25,8 @@ namespace adapter
         }
 
         template <class... Ps>
-        class ProfileList
+        struct ProfileList
         {
-
-        public:
-
             template <template <typename T> class H, class ... Args>
             static void handle_all(Args&& ... args)
             {

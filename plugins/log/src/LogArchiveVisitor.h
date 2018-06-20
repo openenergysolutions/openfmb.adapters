@@ -5,7 +5,7 @@
 #include <adapter-api/ConfigStrings.h>
 #include <adapter-api/util/StringUtil.h>
 #include <adapter-api/config/generated/MessageVisitors.h>
-#include <adapter-api/config/MessageInformation.h>
+#include <adapter-api/ProfileInfo.h>
 
 #include "ITagFilter.h"
 

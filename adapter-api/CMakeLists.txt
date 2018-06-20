@@ -26,10 +26,8 @@ set(API_HEADERS
 	include/adapter-api/config/IMessageVisitor.h
 	include/adapter-api/config/IModelVisitor.h
     include/adapter-api/config/ModelVisitors.h
-	include/adapter-api/config/ProfileType.h
-	include/adapter-api/config/PublishingConfigReadVisitorBase.h
-	include/adapter-api/config/MessageInformation.h
-	include/adapter-api/config/generated/MessageVisitors.h
+        include/adapter-api/config/PublishingConfigReadVisitorBase.h
+        include/adapter-api/config/generated/MessageVisitors.h
 	include/adapter-api/config/generated/ResourceReadingProfileModelVisitor.h
 	include/adapter-api/config/generated/SwitchReadingProfileModelVisitor.h
 	include/adapter-api/config/generated/SwitchStatusProfileModelVisitor.h
@@ -53,9 +51,7 @@ set(API_SOURCES
 	src/util/YAMLUtil.cpp
 	src/util/YAMLTemplate.cpp
     src/config/AccessorImpl.h
-	src/config/MessageInformation.cpp
-	src/config/ProfileType.cpp
-	src/config/generated/MessageVisitors.cpp
+		src/config/generated/MessageVisitors.cpp
 	src/config/generated/ResourceReadingProfileModelVisitor.cpp
 	src/config/generated/SwitchReadingProfileModelVisitor.cpp
 	src/config/generated/SwitchStatusProfileModelVisitor.cpp

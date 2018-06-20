@@ -2,8 +2,9 @@
 #ifndef OPENFMB_ADAPTER_SUBJECTNAME_H
 #define OPENFMB_ADAPTER_SUBJECTNAME_H
 
+#include "adapter-api/ProfileInfo.h"
+
 #include <sstream>
-#include "adapter-api/config/MessageInformation.h"
 
 namespace adapter
 {
@@ -27,7 +28,7 @@ namespace adapter
         template <class T>
         std::string get_subject_key_mrid(const T& profile)
         {
-            return get_conducting_equip(profile).mrid();
+            return profile_info<T>::get_conducting_equip(profile).mrid();
         }
 
         template <class T>

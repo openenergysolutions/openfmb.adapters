@@ -8,7 +8,7 @@
 #include <boost/uuid/uuid_generators.hpp>
 #include "adapter-api/ISubscriptionHandler.h"
 #include "adapter-api/config/IMessageVisitor.h"
-#include "adapter-api/config/MessageInformation.h"
+#include "adapter-api/ProfileInfo.h"
 #include "adapter-api/config/generated/MessageVisitors.h"
 #include "IArchiver.h"
 #include "Message.h"
@@ -122,8 +122,8 @@ private:
     void process(const Proto& proto) override
     {
         // Extract message UUID, timestamp and device UUID
-        auto message_info = get_message_info(proto);
-        auto conducting_equipment = get_conducting_equip(proto);
+        const auto& message_info = profile_info<Proto>::get_message_info(proto);
+        const auto& conducting_equipment = profile_info<Proto>::get_conducting_equip(proto);
 
         boost::uuids::uuid message_uuid;
         try

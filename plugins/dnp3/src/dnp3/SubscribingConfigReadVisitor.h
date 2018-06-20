@@ -3,7 +3,7 @@
 #define OPENFMB_ADAPTER_DNP3_SUBSCRIBINGCONFIGREADVISITOR_H
 
 #include <adapter-api/config/ConfigReadVisitorBase.h>
-#include <adapter-api/config/MessageInformation.h>
+#include <adapter-api/ProfileInfo.h>
 
 #include "CommandConfiguration.h"
 #include "CommandSequence.h"
@@ -39,7 +39,7 @@ namespace adapter
             protected:
                 bool matches(const T& message) const override
                 {
-                    return this->mRID == get_conducting_equip<T>(message).mrid();
+                    return this->mRID == profile_info<T>::get_conducting_equip(message).mrid();
                 }
 
                 void process(const T& message) override

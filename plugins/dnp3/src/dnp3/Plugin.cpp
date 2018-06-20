@@ -10,7 +10,6 @@
 #include <adapter-api/config/ModelVisitors.h>
 #include <adapter-api/ConfigStrings.h>
 #include <adapter-api/ProfileHelpers.h>
-#include <adapter-api/config/ProfileType.h>
 
 #include "ConfigStrings.h"
 #include "PublishingConfigReadVisitor.h"
@@ -29,39 +28,26 @@ namespace adapter
     namespace dnp3
     {
         template <class T>
-        using visit_fun_t = void (*)(IModelVisitor<T>&);
-
-        template <class T>
-        class ProfileLoader
+        struct ProfileReader
         {
+            template<bool condition>
+            using return_t  = typename std::enable_if<condition, bool>::type;
 
-        public:
-
-            static void handle(const YAML::Node& node, const Logger& logger, message_bus_t bus, std::shared_ptr<IPublishConfigBuilder> builder, std::shared_ptr<ICommandSequenceExecutor> executor)
-            {
-                if(::adapter::get_profile_type<T>() == ProfileType::control)
-                {
-                    handle_subscribe(node, logger, *bus, std::move(executor));
-                }
-                else
-                {
-                    handle_publish(node, std::move(bus), std::move(builder));
-                }
-            }
-
-        private:
-
-            static void handle_publish(const YAML::Node& node, publisher_t publisher, std::shared_ptr<IPublishConfigBuilder> builder)
-            {
-                PublishingConfigReadVisitor<T> visitor(node, publisher, builder);
-                visit(visitor);
-            }
-
-            static void handle_subscribe(const YAML::Node& node, const Logger& logger, IMessageBus& bus, std::shared_ptr<ICommandSequenceExecutor> executor)
+            template <class U = T>
+            static return_t<profile_info<U>::is_control> handle(const YAML::Node& node, const Logger& logger, message_bus_t bus, std::shared_ptr<IPublishConfigBuilder>, std::shared_ptr<ICommandSequenceExecutor> executor)
             {
                 SubscribingConfigReadVisitor<T> visitor(node);
                 visit(visitor);
-                visitor.subscribe(logger, bus, std::move(executor));
+                visitor.subscribe(logger, *bus, std::move(executor));
+                return true;
+            }
+
+            template <class U = T>
+            static return_t<!profile_info<U>::is_control> handle(const YAML::Node& node, const Logger& logger, message_bus_t bus, std::shared_ptr<IPublishConfigBuilder> builder, std::shared_ptr<ICommandSequenceExecutor>)
+            {
+                PublishingConfigReadVisitor<T> visitor(node, std::move(bus), builder);
+                visit(visitor);
+                return true;
             }
         };
 
@@ -111,7 +97,7 @@ namespace adapter
                 profiles,
                 [&](const YAML::Node& node)
         {
-            profiles::handle_one<ProfileLoader>(
+            profiles::handle_one<ProfileReader>(
                 yaml::require_string(node, ::adapter::keys::name),
                 node,
                 logger,

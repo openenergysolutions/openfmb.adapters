@@ -1,7 +1,6 @@
 #ifndef OPENFMB_ADAPTER_MODBUS_CONFIGWRITEVISITOR_H
 #define OPENFMB_ADAPTER_MODBUS_CONFIGWRITEVISITOR_H
 
-#include <adapter-api/config/ProfileType.h>
 #include <adapter-api/config/ConfigWriteVisitorBase.h>
 
 #include "ConfigStrings.h"
@@ -32,6 +31,7 @@ namespace adapter
 
             void write_analogue_keys() override
             {
+                /*
                 if(get_profile_type<T>() == ProfileType::control)
                 {
                     this->out << YAML::Key << keys::enabled << YAML::Value <<  false << YAML::Comment("TODO: make this an enum, i.e. 'output type'");
@@ -46,6 +46,7 @@ namespace adapter
                     this->out << YAML::Key << keys::upper_index << 1;
                     this->out << YAML::Key << keys::scale << 1.0;
                 }
+                 */
             }
 
             void write_status_dps_keys() override
@@ -91,6 +92,7 @@ namespace adapter
 
             void write_enum_keys(const google::protobuf::EnumDescriptor& descriptor) override
             {
+                /*
                 if(get_profile_type<T>() == ProfileType::control)
                 {
                     this->out << YAML::Value << keys::mapping;
@@ -124,6 +126,7 @@ namespace adapter
                     }
                     this->out << YAML::EndSeq;
                 }
+                 */
 
             }
 
@@ -167,6 +170,7 @@ namespace adapter
                 this->out << YAML::Value << name;
                 this->out << YAML::BeginMap;
 
+                /*
                 if(get_profile_type<T>() == ProfileType::control)
                 {
                     this->write_true_false_binary_control_config();
@@ -177,6 +181,7 @@ namespace adapter
                     this->out << YAML::Key << keys::index << YAML::Value << 0;
                     this->out << YAML::Key << keys::mask << YAML::Value << "0x0001" << YAML::Comment("mask the register. true if masked value != 0");
                 }
+                 */
 
                 this->out << YAML::EndMap;
             }

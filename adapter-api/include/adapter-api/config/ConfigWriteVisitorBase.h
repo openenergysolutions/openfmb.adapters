@@ -6,7 +6,7 @@
 #include "IModelVisitor.h"
 
 #include "../ConfigStrings.h"
-#include "ProfileType.h"
+/*#include "ProfileType.h"*/
 
 #include <yaml-cpp/yaml.h>
 

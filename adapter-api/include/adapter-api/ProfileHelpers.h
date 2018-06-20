@@ -61,6 +61,12 @@ namespace adapter
             }
         }
 
+        template <template <typename P> class T, class ... Args>
+        void handle_one(const std::string& profile, Args&& ... args)
+        {
+            return handle_one<T>(ProfileMeta::from_string(profile), std::forward<Args>(args)...);
+        }
+
         template <template <class P> class T, typename R, class ... Args>
         R get_one(Profile profile, Args&& ... args)
         {
@@ -95,12 +101,6 @@ namespace adapter
             default:
                 throw Exception("Unhandled profile: ", ProfileMeta::to_string(profile));
             }
-        }
-
-        template <template <typename P> class T, class ... Args>
-        void handle_one(const std::string& profile, Args&& ... args)
-        {
-            return handle_one<T>(ProfileMeta::from_string(profile), std::forward<Args>(args)...);
         }
 
         template <template <typename P> class T, typename R, class ... Args>
