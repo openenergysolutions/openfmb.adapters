@@ -8,8 +8,7 @@ set(API_HEADERS
 		include/adapter-api/ISubscriptionHandler.h
 	include/adapter-api/IMessageBus.h
 	include/adapter-api/Logger.h
-	include/adapter-api/Profile.h
-	include/adapter-api/ProfileMode.h
+        include/adapter-api/ProfileMode.h
         include/adapter-api/ProfileRegistry.h
 	include/adapter-api/Version.h
 	include/adapter-api/util/Time.h
@@ -43,8 +42,7 @@ set(API_HEADERS
 )
 
 set(API_SOURCES
-    src/Profile.cpp
-	src/ProfileMode.cpp
+		src/ProfileMode.cpp
 	src/Version.cpp
 	src/util/Time.cpp
 	src/util/YAMLUtil.cpp

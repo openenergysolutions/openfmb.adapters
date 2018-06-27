@@ -7,7 +7,6 @@
 #include <adapter-api/Logger.h>
 #include <adapter-api/IPlugin.h>
 #include <adapter-api/IMessageBus.h>
-#include <adapter-api/Profile.h>
 
 #include <ios>
 #include <fstream>

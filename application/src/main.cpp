@@ -2,7 +2,6 @@
 #include "adapter-api/util/Exception.h"
 #include "adapter-api/IPlugin.h"
 #include "adapter-api/util/YAMLUtil.h"
-#include "adapter-api/Profile.h"
 #include "adapter-api/Version.h"
 #include "adapter-api/ProfileRegistry.h"
 

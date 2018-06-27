@@ -7,24 +7,30 @@
 #include <cppcodec/base64_default_rfc4648.hpp>
 
 #include <adapter-api/util/Exception.h>
-#include <adapter-api/Profile.h>
 
 #include <proto-api/resourcemodule/resourcemodule.pb.h>
 #include <proto-api/switchmodule/switchmodule.pb.h>
+#include <adapter-api/ProfileRegistry.h>
 
 using namespace adapter;
 
-template <class T>
-void get_profile_string(const uint8_t* data, size_t length)
-{
-    T message;
-    if(!message.ParseFromArray(data, length))
-    {
-        throw Exception("Error parsing message");
-    }
 
-    std::cout << message.DebugString() << std::endl;
-}
+
+template <class T>
+struct ProfilePrinter
+{
+    static void handle(const uint8_t* data, size_t length)
+    {
+        T message;
+        if(!message.ParseFromArray(data, length))
+        {
+            throw Exception("Error parsing message");
+        }
+
+        std::cout << message.DebugString() << std::endl;
+    }
+};
+
 
 
 int main(int argc, char** argv)
@@ -53,23 +59,10 @@ int main(int argc, char** argv)
             std::cerr << "Bad token count: " << tokens.size() << " on line: " << line_number << std::endl;
         }
 
-        const auto profile = ProfileMeta::from_string(tokens[1]);
+        const auto profile_name = tokens[1];
         const auto payload = base64::decode(tokens[2]);
 
-        switch(profile)
-        {
-        case(Profile::resource_reading):
-            get_profile_string<resourcemodule::ResourceReadingProfile>(payload.data(), payload.size());
-            break;
-        case(Profile::switch_status):
-            get_profile_string<switchmodule::SwitchStatusProfile>(payload.data(), payload.size());
-            break;
-        case(Profile::switch_reading):
-            get_profile_string<switchmodule::SwitchReadingProfile>(payload.data(), payload.size());
-            break;
-        default:
-            throw Exception("Unhandled profile: ", ProfileMeta::to_string(profile));
-        }
+        ProfileRegistry::handle_by_name<ProfilePrinter>(profile_name,payload.data(), payload.size());
 
         tokens.clear();
         ++line_number;
