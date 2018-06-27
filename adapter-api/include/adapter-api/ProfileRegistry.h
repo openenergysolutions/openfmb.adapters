@@ -8,6 +8,8 @@
 #include <proto-api/solarmodule/solarmodule.pb.h>
 #include <proto-api/loadmodule/loadmodule.pb.h>
 
+#include "util/Exception.h"
+
 #include <utility>
 
 namespace adapter
@@ -24,6 +26,25 @@ namespace adapter
             handle_one<H,Ts...>(std::forward<Args>(args)...);
         }
 
+        template <template <typename P> class H, class ... Args>
+        void handle_one_by_name(const std::string& name, Args&& ... )
+        {
+            throw Exception("Unknown profile: ", name);
+        }
+
+        template <template <typename P> class H, class T, class... Ts, class ... Args>
+        void handle_one_by_name(const std::string& name, Args&& ... args)
+        {
+            if(name == T::descriptor()->name())
+            {
+                H<T>::handle(std::forward<Args>(args)...);
+            }
+            else
+            {
+                handle_one_by_name<H,Ts...>(name, std::forward<Args>(args)...);
+            }
+        }
+
         template <class... Ps>
         struct ProfileList
         {
@@ -31,6 +52,12 @@ namespace adapter
             static void handle_all(Args&& ... args)
             {
                 handle_one<H, Ps...>(std::forward<Args>(args)...);
+            }
+
+            template <template <typename T> class H, class ... Args>
+            static void handle_by_name(const std::string& name, Args&& ... args)
+            {
+                handle_one_by_name<H, Ps...>(name, std::forward<Args>(args)...);
             }
         };
     }

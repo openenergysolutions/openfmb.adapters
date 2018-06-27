@@ -99,7 +99,7 @@ namespace adapter
 
             const auto add_profile = [&](const YAML::Node & node)
             {
-                profiles::handle_one<ProfileReader>(
+                ProfileRegistry::handle_by_name<ProfileReader>(
                     yaml::require_string(node, ::adapter::keys::name),
                     node,
                     this->logger,

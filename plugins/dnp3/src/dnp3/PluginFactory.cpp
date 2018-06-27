@@ -30,7 +30,7 @@ namespace adapter
             {
                 out << YAML::BeginMap;
                 out << YAML::Key << "name" << YAML::Value << ProfileMeta::to_string(profile);
-                profiles::handle_one<WriterHandler>(profile, out);
+                ProfileRegistry::handle_by_name<WriterHandler>(ProfileMeta::to_string(profile), out);
                 out << YAML::EndMap;
             }
         }

@@ -49,7 +49,7 @@ namespace adapter
 
             const auto add_filter = [&](const YAML::Node & config)
             {
-                profiles::handle_one<FilteredSubscriberHandler>(
+                ProfileRegistry::handle_by_name<FilteredSubscriberHandler>(
                     yaml::require_string(config, ::adapter::keys::profile),
                     config,
                     logger,

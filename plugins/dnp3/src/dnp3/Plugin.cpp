@@ -97,7 +97,7 @@ namespace adapter
                 profiles,
                 [&](const YAML::Node& node)
         {
-            profiles::handle_one<ProfileReader>(
+            ProfileRegistry::handle_by_name<ProfileReader>(
                 yaml::require_string(node, ::adapter::keys::name),
                 node,
                 logger,
