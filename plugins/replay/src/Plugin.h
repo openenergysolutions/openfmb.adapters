@@ -8,23 +8,20 @@
 #include <adapter-api/IPlugin.h>
 #include <adapter-api/IMessageBus.h>
 
+#include "PublishFactory.h"
+
 namespace adapter
 {
     namespace replay
     {
+
         class Plugin final : public IPlugin
         {
-
             struct LineInfo
             {
                 LineInfo() = default;
 
-                LineInfo(std::function<void()> publish, std::chrono::steady_clock::duration duration) :
-                    publish(std::move(publish)),
-                    duration(duration)
-                {}
-
-                std::function<void ()> publish;
+                publish_fun_t publish;
                 std::chrono::steady_clock::duration duration;
             };
 
@@ -59,6 +56,7 @@ namespace adapter
 
             const std::string file_path;
             const publisher_t publisher;
+            const PublishFactory factory;
         };
     }
 }

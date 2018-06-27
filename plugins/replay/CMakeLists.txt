@@ -8,7 +8,10 @@ set(SOURCES
         src/PluginFactory.cpp
         src/Plugin.h
         src/Plugin.cpp
-        src/ConfigStrings.h)
+        src/ConfigStrings.h
+        src/PublishFactory.h
+        src/PublishFactory.cpp
+)
 
 SET(CPP_FORMAT_DIRS
         ${CPP_FORMAT_DIRS}

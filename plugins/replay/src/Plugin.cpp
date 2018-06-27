@@ -5,7 +5,6 @@
 #include <adapter-api/util/YAMLUtil.h>
 
 #include <boost/algorithm/string.hpp>
-#include <boost/numeric/conversion/cast.hpp>
 #include <cppcodec/base64_default_rfc4648.hpp>
 
 #include <fstream>
@@ -16,34 +15,6 @@ namespace adapter
 {
     namespace replay
     {
-        template <class T>
-        class ActionHandler
-        {
-        public:
-
-            static std::function<void ()> get(const std::vector<uint8_t>& data, publisher_t publisher)
-            {
-                return [profile = parse_data_as(data), publisher = publisher]()
-                {
-                    publisher ->publish(*profile);
-                };
-            }
-
-        private:
-
-            static std::shared_ptr<T> parse_data_as(const std::vector<uint8_t>& data)
-            {
-                const auto profile = std::make_shared<T>();
-
-                if(!profile->ParseFromArray(data.data(), boost::numeric_cast<int>(data.size())))
-                {
-                    throw Exception("error parsing message of type: ", T::descriptor()->name());
-                }
-                return profile;
-            }
-        };
-
-
         Plugin::Plugin(const YAML::Node& node, const Logger& logger, message_bus_t bus) :
             logger(logger),
             file_path(yaml::require_string(node, keys::file)),
@@ -113,7 +84,7 @@ namespace adapter
             }
 
             // go ahead and publish the first item
-            info.publish();
+            info.publish(*this->publisher);
 
             // record the time the first message was published
             auto last_time = info.duration;
@@ -125,7 +96,7 @@ namespace adapter
                 last_time = info.duration;
                 if(this->sleep_for(delay))
                 {
-                    info.publish();
+                    info.publish(*this->publisher);
                 }
             }
         }
@@ -155,17 +126,6 @@ namespace adapter
             return true;
         }
 
-        template <class T>
-        std::shared_ptr<T> parse_data_as(const std::vector<uint8_t>& data)
-        {
-            const auto profile = std::make_shared<T>();
-            if(!profile->ParseFromArray(data.data(), boost::numeric_cast<int>(data.size())))
-            {
-                throw Exception("error parsing message of type: ", T::descriptor()->name());
-            }
-            return profile;
-        }
-
         bool Plugin::get_next_line(std::ifstream& file, LineInfo& next)
         {
             std::string line;
@@ -189,11 +149,10 @@ namespace adapter
 
             next.duration = std::chrono::milliseconds(std::stoull(tokens[0]));
 
-            next.publish = ProfileRegistry::get_by_name<ActionHandler, std::function<void ()>>(
-                               tokens[1],                   // profile name
-                               base64::decode(tokens[2]),   // decoded data
-                               this->publisher
-                           );
+            next.publish = this->factory.get(
+                    tokens[1],                   // profile name
+                    base64::decode(tokens[2])    // decoded data
+            );
 
             return true;
         }
