@@ -3,7 +3,6 @@
 #include "ConfigStrings.h"
 
 #include <adapter-api/util/YAMLUtil.h>
-#include <adapter-api/ProfileHelpers.h>
 
 #include <boost/algorithm/string.hpp>
 #include <boost/numeric/conversion/cast.hpp>
@@ -190,7 +189,7 @@ namespace adapter
 
             next.duration = std::chrono::milliseconds(std::stoull(tokens[0]));
 
-            next.publish = profiles::get_one<ActionHandler, std::function<void ()>>(
+            next.publish = ProfileRegistry::get_by_name<ActionHandler, std::function<void ()>>(
                                tokens[1],                   // profile name
                                base64::decode(tokens[2]),   // decoded data
                                this->publisher

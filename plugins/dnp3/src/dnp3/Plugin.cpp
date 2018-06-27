@@ -9,7 +9,6 @@
 #include <adapter-api/util/YAMLTemplate.h>
 #include <adapter-api/config/ModelVisitors.h>
 #include <adapter-api/ConfigStrings.h>
-#include <adapter-api/ProfileHelpers.h>
 
 #include "ConfigStrings.h"
 #include "PublishingConfigReadVisitor.h"

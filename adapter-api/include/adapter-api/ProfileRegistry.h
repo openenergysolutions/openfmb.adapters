@@ -45,6 +45,25 @@ namespace adapter
             }
         }
 
+        template <template <typename P> class H, class R, class ... Args>
+        R get_one_by_name(const std::string& name, Args&& ... )
+        {
+            throw Exception("Unknown profile: ", name);
+        }
+
+        template <template <typename P> class H, class R, class T, class... Ts, class ... Args>
+        R get_one_by_name(const std::string& name, Args&& ... args)
+        {
+            if(name == T::descriptor()->name())
+            {
+                return H<T>::get(std::forward<Args>(args)...);
+            }
+            else
+            {
+                return get_one_by_name<H, R, Ts...>(name, std::forward<Args>(args)...);
+            }
+        }
+
         template <class... Ps>
         struct ProfileList
         {
@@ -58,6 +77,12 @@ namespace adapter
             static void handle_by_name(const std::string& name, Args&& ... args)
             {
                 handle_one_by_name<H, Ps...>(name, std::forward<Args>(args)...);
+            }
+
+            template <template <typename T> class H, class R, class ... Args>
+            static R get_by_name(const std::string& name, Args&& ... args)
+            {
+                return get_one_by_name<H, R, Ps...>(name, std::forward<Args>(args)...);
             }
         };
     }

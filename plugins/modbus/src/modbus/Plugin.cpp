@@ -1,7 +1,6 @@
 
 #include "Plugin.h"
 
-#include <adapter-api/ProfileHelpers.h>
 #include <adapter-api/ProfileRegistry.h>
 #include <adapter-api/util/YAMLTemplate.h>
 #include <adapter-api/config/ModelVisitors.h>

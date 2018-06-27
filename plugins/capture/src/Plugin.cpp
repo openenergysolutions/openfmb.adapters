@@ -3,7 +3,6 @@
 #include "ConfigStrings.h"
 
 #include <adapter-api/util/YAMLUtil.h>
-#include <adapter-api/ProfileHelpers.h>
 
 #include <boost/numeric/conversion/cast.hpp>
 #include <cppcodec/base64_default_rfc4648.hpp>

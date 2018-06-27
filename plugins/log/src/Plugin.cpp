@@ -2,8 +2,6 @@
 #include "Plugin.h"
 
 #include <adapter-api/util/YAMLUtil.h>
-#include <adapter-api/Profile.h>
-#include <adapter-api/ProfileHelpers.h>
 
 #include "ConfigKeys.h"
 #include "LogArchiveVisitor.h"

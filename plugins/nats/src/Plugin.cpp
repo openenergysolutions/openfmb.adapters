@@ -7,7 +7,6 @@
 #include <adapter-api/util/YAMLUtil.h>
 #include <adapter-api/ProfileMode.h>
 #include <adapter-api/ConfigStrings.h>
-#include <adapter-api/ProfileHelpers.h>
 
 #include "ConfigStrings.h"
 #include "NATSSubscriber.h"
