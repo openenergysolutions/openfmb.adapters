@@ -47,7 +47,7 @@ namespace adapter
             out << YAML::BeginSeq;
 
             out << YAML::BeginMap;
-            out << YAML::Key << ::adapter::keys::profile << YAML::Value << ProfileMeta::to_string(Profile::resource_reading);
+            out << YAML::Key << ::adapter::keys::profile << YAML::Value << resourcemodule::ResourceReadingProfile::descriptor()->name();
             out << YAML::Key << ::adapter::keys::name << YAML::Value << "" << YAML::Comment("conducting equipment name");
             out << YAML::Key << ::adapter::keys::path << YAML::Value << "values.txt" << YAML::Comment("file to which values will be appended");
             out << YAML::Key << keys::print_alias << YAML::Value << true;

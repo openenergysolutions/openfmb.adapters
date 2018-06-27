@@ -21,9 +21,9 @@ namespace adapter
             out << YAML::Key << ::adapter::keys::profiles;
             out << YAML::BeginMap;
 
-            ProfileMeta::foreach_enum([&](Profile profile)
+            ProfileRegistry::foreach_descriptor([&](google::protobuf::Descriptor const* descriptor)
             {
-                out << YAML::Key << ProfileMeta::to_string(profile) << ::adapter::ProfileModeMeta::none;
+                out << YAML::Key << descriptor->name() << ::adapter::ProfileModeMeta::none;
             });
 
             out << YAML::EndMap;

@@ -28,8 +28,8 @@ namespace adapter
             for(auto profile : profiles)
             {
                 out << YAML::BeginMap;
-                out << YAML::Key << "name" << YAML::Value << ProfileMeta::to_string(profile);
-                ProfileRegistry::handle_by_name<WriterHandler>(ProfileMeta::to_string(profile), out);
+                out << YAML::Key << "name" << YAML::Value << profile;
+                ProfileRegistry::handle_by_name<WriterHandler>(profile, out);
                 out << YAML::EndMap;
             }
         }

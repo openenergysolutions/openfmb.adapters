@@ -70,8 +70,8 @@ namespace adapter
             for(const auto& profile : profiles)
             {
                 out << YAML::BeginMap;
-                out << YAML::Key << keys::name << YAML::Value << ProfileMeta::to_string(profile);
-                ProfileRegistry::handle_by_name<ProfileWriter>(ProfileMeta::to_string(profile), out);
+                out << YAML::Key << keys::name << YAML::Value << profile;
+                ProfileRegistry::handle_by_name<ProfileWriter>(profile, out);
                 out << YAML::EndMap;
             }
             out << YAML::EndSeq;

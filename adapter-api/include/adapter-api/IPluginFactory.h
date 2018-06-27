@@ -8,11 +8,11 @@
 #include "yaml-cpp/yaml.h"
 
 #include "Logger.h"
-#include "Profile.h"
+
 
 namespace adapter
 {
-    using profile_vec_t = std::vector<Profile>;
+    using profile_vec_t = std::vector<std::string>;
 
     /**
      * An adapter is something that can read a YAML configuration,

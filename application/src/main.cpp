@@ -24,9 +24,9 @@ int run_application(const std::string& config_file_path);
 
 int write_default_config(const std::string& config_file_path);
 
-int write_default_session_config(const std::string& config_file_path, const IPluginFactory& factory, const std::vector<Profile>& profiles);
+int write_default_session_config(const std::string& config_file_path, const IPluginFactory& factory, const profile_vec_t& profiles);
 
-std::vector<Profile> get_profiles(const argagg::parser_results& args);
+profile_vec_t get_profiles(const argagg::parser_results& args);
 
 std::shared_ptr<const adapter::IPluginFactory> get_factory(const argagg::parser_results& args);
 
@@ -92,12 +92,12 @@ int main(int argc, char** argv)
     }
 }
 
-std::vector<Profile> get_profiles(const argagg::parser_results& args)
+profile_vec_t get_profiles(const argagg::parser_results& args)
 {
-    std::vector<Profile> profiles;
+    profile_vec_t profiles;
     for(auto& profile : args[flags::profile].all)
     {
-        profiles.push_back(ProfileMeta::from_string(profile));
+        profiles.push_back(profile.arg);
     }
     return std::move(profiles);
 }
@@ -191,7 +191,7 @@ int write_default_config(const std::string& config_file_path)
     return 0;
 }
 
-int write_default_session_config(const std::string& config_file_path, const IPluginFactory& factory, const std::vector<Profile>& profiles)
+int write_default_session_config(const std::string& config_file_path, const IPluginFactory& factory, const profile_vec_t& profiles)
 {
     YAML::Emitter out;
     out << YAML::BeginDoc;

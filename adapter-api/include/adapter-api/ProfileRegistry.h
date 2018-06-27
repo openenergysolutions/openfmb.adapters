@@ -64,6 +64,16 @@ namespace adapter
             }
         }
 
+        template <class H>
+        static void foreach_next_descriptor(const H& handler) {}
+
+        template <class H, class T, class... Ts>
+        static void foreach_next_descriptor(const H& handler)
+        {
+            handler(T::descriptor());
+            foreach_next_descriptor<H,Ts...>(handler);
+        }
+
         template <class... Ps>
         struct ProfileList
         {
@@ -83,6 +93,12 @@ namespace adapter
             static R get_by_name(const std::string& name, Args&& ... args)
             {
                 return get_one_by_name<H, R, Ps...>(name, std::forward<Args>(args)...);
+            }
+
+            template <class H>
+            static void foreach_descriptor(const H& handler)
+            {
+                foreach_next_descriptor<H, Ps...>(handler);
             }
         };
     }
