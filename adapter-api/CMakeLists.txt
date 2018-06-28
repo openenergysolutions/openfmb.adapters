@@ -42,13 +42,14 @@ set(API_HEADERS
 )
 
 set(API_SOURCES
-		src/ProfileMode.cpp
+	src/ProfileMode.cpp
 	src/Version.cpp
 	src/util/Time.cpp
 	src/util/YAMLUtil.cpp
 	src/util/YAMLTemplate.cpp
     src/config/AccessorImpl.h
-		src/config/generated/MessageVisitors.cpp
+	src/config/generated/MessageVisitors.cpp
+# model visitors
 	src/config/generated/ResourceReadingProfileModelVisitor.cpp
 	src/config/generated/SwitchReadingProfileModelVisitor.cpp
 	src/config/generated/SwitchStatusProfileModelVisitor.cpp
@@ -62,6 +63,11 @@ set(API_SOURCES
 	src/config/generated/LoadReadingProfileModelVisitor.cpp
 	src/config/generated/LoadStatusProfileModelVisitor.cpp
 	src/config/generated/LoadControlProfileModelVisitor.cpp
+# mutable model visitors
+	src/config/generated/ResourceReadingProfileMutableModelVisitor.cpp
+
+    include/adapter-api/config/IMutableModelVisitor.h
+	include/adapter-api/config/DescriptorPathImpl.h
 )
 
 

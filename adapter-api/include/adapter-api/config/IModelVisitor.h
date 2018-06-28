@@ -6,7 +6,6 @@
 #include "switchmodule/switchmodule.pb.h"
 
 #include "IAccessor.h"
-#include "../../../../cmake-build-debug/proto-api/generated-sources/proto-api/commonmodule/commonmodule.pb.h"
 
 #include <string>
 

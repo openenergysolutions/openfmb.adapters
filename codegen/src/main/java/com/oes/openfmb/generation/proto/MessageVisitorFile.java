@@ -16,35 +16,6 @@ import static com.oes.openfmb.generation.document.Documents.*;
 
 public class MessageVisitorFile extends CppFilePair {
 
-    private static Set<Descriptors.Descriptor> getChildMessageDescriptorsForProfiles(Stream<Descriptors.Descriptor> descriptors)
-    {
-        return descriptors.map(MessageVisitorFile::getChildMessageDescriptorsForProfile).flatMap(Set::stream).collect(Collectors.toSet());
-    }
-
-    private static Set<Descriptors.Descriptor> getChildMessageDescriptorsForProfile(Descriptors.Descriptor descriptor)
-    {
-        return descriptor.getFields().stream().map(MessageVisitorFile::getChildMessageDescriptors).flatMap(Set::stream).collect(Collectors.toSet());
-    }
-
-    private static Set<Descriptors.Descriptor> getChildMessageDescriptors(Descriptors.Descriptor descriptor)
-    {
-        final Set<Descriptors.Descriptor> set = descriptor.getFields().stream().map(MessageVisitorFile::getChildMessageDescriptors).flatMap(Set::stream).collect(Collectors.toSet());
-        set.add(descriptor);
-        return set;
-    }
-
-    private static Set<Descriptors.Descriptor> getChildMessageDescriptors(Descriptors.FieldDescriptor field)
-    {
-        if(field.getType() == Descriptors.FieldDescriptor.Type.MESSAGE)
-        {
-            return getChildMessageDescriptors(field.getMessageType());
-        }
-        else
-        {
-            return Collections.emptySet();
-        }
-    }
-
     private final Iterable<Descriptors.Descriptor> descriptors;
     private final Iterable<String> includes;
     private final Set<Descriptors.Descriptor> childDescriptors;
@@ -52,7 +23,7 @@ public class MessageVisitorFile extends CppFilePair {
     public MessageVisitorFile(Iterable<Descriptors.Descriptor> descriptors, Iterable<String> includes) {
         this.descriptors = descriptors;
         this.includes = includes;
-        this.childDescriptors = getChildMessageDescriptorsForProfiles(StreamSupport.stream(descriptors.spliterator(), false));
+        this.childDescriptors = Helpers.getChildMessageDescriptors(descriptors);
     }
 
     @Override

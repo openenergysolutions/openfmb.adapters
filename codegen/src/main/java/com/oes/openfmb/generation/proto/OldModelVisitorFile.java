@@ -2,7 +2,6 @@ package com.oes.openfmb.generation.proto;
 
 import com.google.protobuf.Descriptors;
 import com.google.protobuf.FloatValue;
-import com.google.protobuf.StringValue;
 import com.oes.openfmb.generation.document.CppFilePair;
 import com.oes.openfmb.generation.document.Document;
 import com.oes.openfmb.generation.document.Documents;
@@ -11,20 +10,18 @@ import com.oes.openfmb.util.FieldPathImpl;
 import openfmb.commonmodule.*;
 import openfmb.essmodule.ENG_ESSFunctionKind;
 import openfmb.essmodule.ENG_ESSFunctionParameter;
-import openfmb.essmodule.ESSCSG;
 import openfmb.essmodule.ESSPoint;
 import openfmb.loadmodule.LoadPoint;
 import openfmb.solarmodule.SolarPoint;
 import openfmb.switchmodule.SwitchCSG;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import static com.oes.openfmb.generation.document.Documents.*;
 
-public class ModelVisitorFile extends CppFilePair {
+public class OldModelVisitorFile extends CppFilePair {
 
     private final static Set<Descriptors.GenericDescriptor> handledTypes = new HashSet<>(
             Arrays.asList(
@@ -115,14 +112,14 @@ public class ModelVisitorFile extends CppFilePair {
     private final Descriptors.Descriptor descriptor;
     private final Iterable<String> includes;
 
-    public ModelVisitorFile(Descriptors.Descriptor descriptor, Iterable<String> includes) {
+    private OldModelVisitorFile(Descriptors.Descriptor descriptor, Iterable<String> includes) {
         this.descriptor = descriptor;
         this.includes = includes;
     }
 
     public static CppFilePair from(Descriptors.Descriptor descriptor, String includes)
     {
-        return new ModelVisitorFile(descriptor, Arrays.asList(includes));
+        return new OldModelVisitorFile(descriptor, Collections.singletonList(includes));
     }
 
     @Override

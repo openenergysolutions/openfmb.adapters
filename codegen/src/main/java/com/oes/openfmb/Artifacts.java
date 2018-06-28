@@ -6,6 +6,8 @@ import com.oes.openfmb.generation.dds.ConvertFromProto;
 import com.oes.openfmb.generation.dds.ConvertToProto;
 import com.oes.openfmb.generation.document.CppFilePair;
 import com.oes.openfmb.generation.proto.MessageVisitorFile;
+import com.oes.openfmb.generation.proto.MutableModelVisitorFile;
+import com.oes.openfmb.generation.proto.MutableModelVisitorTemplatesFile;
 import openfmb.essmodule.ESSControlProfile;
 import openfmb.essmodule.ESSReadingProfile;
 import openfmb.essmodule.ESSStatusProfile;
@@ -26,7 +28,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.oes.openfmb.generation.proto.ModelVisitorFile.from;
+import static com.oes.openfmb.generation.proto.OldModelVisitorFile.from;
 
 public class Artifacts {
 
@@ -96,7 +98,11 @@ public class Artifacts {
 
         private static List<CppFilePair> cppFilePairs() {
             return Arrays.asList(
+
                     new MessageVisitorFile(descriptors, includes),
+                    new MutableModelVisitorTemplatesFile(descriptors, includes),
+
+                    MutableModelVisitorFile.from(ResourceReadingProfile.getDescriptor(), Include.resourceModule),
 
                     from(ResourceReadingProfile.getDescriptor(), Include.resourceModule),
 
