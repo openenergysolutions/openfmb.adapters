@@ -43,7 +43,11 @@ namespace adapter
          * @param path interface for retrieving information about the current field and its parents
          * @return number of times to traverse the repeated field
          */
-        virtual size_t start_repeated_message_field(const std::string &field_name, IDescriptorPath& path) = 0;
+        virtual int start_repeated_message_field(const std::string &field_name, IDescriptorPath& path) = 0;
+
+        virtual void start_iteration(int i) = 0;
+
+        virtual void end_iteration() = 0;
 
         /**
          * Called when a previously started message/repeated field iteration completes. Called even

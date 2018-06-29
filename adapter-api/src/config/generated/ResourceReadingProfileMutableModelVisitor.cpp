@@ -113,13 +113,13 @@ void visit(IMutableModelVisitor<resourcemodule::ResourceReadingProfile>& visitor
 {
     DescriptorPathImpl path;
 
+    // this is so that we can reuse the same generators for child visitors
+    const auto context = [](resourcemodule::ResourceReadingProfile& profile) { return &profile; };
+
     path.push(commonmodule::ReadingMessageInfo::descriptor());
     if(visitor.start_message_field("readingMessageInfo", path))
     {
-        visit_commonmodule_ReadingMessageInfo(
-            [](resourcemodule::ResourceReadingProfile& profile) { return profile.mutable_readingmessageinfo(); },
-            path, visitor
-        );
+        visit_commonmodule_ReadingMessageInfo([context](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_readingmessageinfo(); }, path, visitor);
     }
     visitor.end_message_field();
     path.pop();
@@ -127,10 +127,7 @@ void visit(IMutableModelVisitor<resourcemodule::ResourceReadingProfile>& visitor
     path.push(commonmodule::IED::descriptor());
     if(visitor.start_message_field("ied", path))
     {
-        visit_commonmodule_IED(
-            [](resourcemodule::ResourceReadingProfile& profile) { return profile.mutable_ied(); },
-            path, visitor
-        );
+        visit_commonmodule_IED([context](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_ied(); }, path, visitor);
     }
     visitor.end_message_field();
     path.pop();
@@ -138,10 +135,7 @@ void visit(IMutableModelVisitor<resourcemodule::ResourceReadingProfile>& visitor
     path.push(commonmodule::Meter::descriptor());
     if(visitor.start_message_field("meter", path))
     {
-        visit_commonmodule_Meter(
-            [](resourcemodule::ResourceReadingProfile& profile) { return profile.mutable_meter(); },
-            path, visitor
-        );
+        visit_commonmodule_Meter([context](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_meter(); }, path, visitor);
     }
     visitor.end_message_field();
     path.pop();
@@ -149,10 +143,7 @@ void visit(IMutableModelVisitor<resourcemodule::ResourceReadingProfile>& visitor
     path.push(resourcemodule::ResourceReading::descriptor());
     if(visitor.start_message_field("resourceReading", path))
     {
-        visit_resourcemodule_ResourceReading(
-            [](resourcemodule::ResourceReadingProfile& profile) { return profile.mutable_resourcereading(); },
-            path, visitor
-        );
+        visit_resourcemodule_ResourceReading([context](resourcemodule::ResourceReadingProfile& profile) { return context(profile)->mutable_resourcereading(); }, path, visitor);
     }
     visitor.end_message_field();
     path.pop();

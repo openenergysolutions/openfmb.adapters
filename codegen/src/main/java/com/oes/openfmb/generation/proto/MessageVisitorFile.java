@@ -17,13 +17,16 @@ import static com.oes.openfmb.generation.document.Documents.*;
 public class MessageVisitorFile extends CppFilePair {
 
     private final Iterable<Descriptors.Descriptor> descriptors;
-    private final Iterable<String> includes;
     private final Set<Descriptors.Descriptor> childDescriptors;
 
-    public MessageVisitorFile(Iterable<Descriptors.Descriptor> descriptors, Iterable<String> includes) {
+    private MessageVisitorFile(Iterable<Descriptors.Descriptor> descriptors) {
         this.descriptors = descriptors;
-        this.includes = includes;
         this.childDescriptors = Helpers.getChildMessageDescriptors(descriptors);
+    }
+
+    public static CppFilePair from(Iterable<Descriptors.Descriptor> descriptors)
+    {
+        return new MessageVisitorFile(descriptors);
     }
 
     @Override
@@ -35,7 +38,7 @@ public class MessageVisitorFile extends CppFilePair {
     public Document header() {
         return join(
                 FileHeader.lines,
-                join(StreamSupport.stream(includes.spliterator(), false).map(Documents::include)),
+                join(Helpers.getIncludeFiles(this.descriptors).stream().map(Documents::include)),
                 include("../IMessageVisitor.h"),
                 Documents.space,
                 namespace(

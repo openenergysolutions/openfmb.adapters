@@ -11,11 +11,11 @@
 //  This file is auto-generated. Do not edit manually
 // 
 
-#include "resourcemodule/resourcemodule.pb.h"
-#include "switchmodule/switchmodule.pb.h"
-#include "essmodule/essmodule.pb.h"
 #include "solarmodule/solarmodule.pb.h"
+#include "switchmodule/switchmodule.pb.h"
 #include "loadmodule/loadmodule.pb.h"
+#include "essmodule/essmodule.pb.h"
+#include "resourcemodule/resourcemodule.pb.h"
 #include "../IMessageVisitor.h"
 
 namespace adapter {

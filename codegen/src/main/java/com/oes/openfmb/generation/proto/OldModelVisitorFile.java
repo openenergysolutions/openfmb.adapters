@@ -110,28 +110,26 @@ public class OldModelVisitorFile extends CppFilePair {
     }
 
     private final Descriptors.Descriptor descriptor;
-    private final Iterable<String> includes;
 
-    private OldModelVisitorFile(Descriptors.Descriptor descriptor, Iterable<String> includes) {
+    private OldModelVisitorFile(Descriptors.Descriptor descriptor) {
         this.descriptor = descriptor;
-        this.includes = includes;
     }
 
-    public static CppFilePair from(Descriptors.Descriptor descriptor, String includes)
+    public static CppFilePair from(Descriptors.Descriptor descriptor)
     {
-        return new OldModelVisitorFile(descriptor, Collections.singletonList(includes));
+        return new OldModelVisitorFile(descriptor);
     }
 
     @Override
     protected String baseFileName() {
-        return descriptor.getName()+"ModelVisitor";
+        return this.descriptor.getName()+"ModelVisitor";
     }
 
     @Override
     public Document header() {
         return join(
                 FileHeader.lines,
-                join(StreamSupport.stream(includes.spliterator(), false).map(Documents::include)),
+                include(Helpers.getIncludeFile(this.descriptor)),
                 include("../IModelVisitor.h"),
                 Documents.space,
                 namespace(

@@ -24,8 +24,8 @@ set(API_HEADERS
 	include/adapter-api/config/IMessageVisitor.h
 	include/adapter-api/config/IModelVisitor.h
     include/adapter-api/config/ModelVisitors.h
-        include/adapter-api/config/PublishingConfigReadVisitorBase.h
-        include/adapter-api/config/generated/MessageVisitors.h
+    include/adapter-api/config/PublishingConfigReadVisitorBase.h
+    include/adapter-api/config/generated/MessageVisitors.h
 	include/adapter-api/config/generated/ResourceReadingProfileModelVisitor.h
 	include/adapter-api/config/generated/SwitchReadingProfileModelVisitor.h
 	include/adapter-api/config/generated/SwitchStatusProfileModelVisitor.h
@@ -65,9 +65,21 @@ set(API_SOURCES
 	src/config/generated/LoadControlProfileModelVisitor.cpp
 # mutable model visitors
 	src/config/generated/ResourceReadingProfileMutableModelVisitor.cpp
+	src/config/generated/SwitchReadingProfileMutableModelVisitor.cpp
+	src/config/generated/SwitchStatusProfileMutableModelVisitor.cpp
+	src/config/generated/SwitchControlProfileMutableModelVisitor.cpp
+	src/config/generated/ESSReadingProfileMutableModelVisitor.cpp
+	src/config/generated/ESSStatusProfileMutableModelVisitor.cpp
+	src/config/generated/ESSControlProfileMutableModelVisitor.cpp
+	src/config/generated/SolarReadingProfileMutableModelVisitor.cpp
+	src/config/generated/SolarStatusProfileMutableModelVisitor.cpp
+	src/config/generated/SolarControlProfileMutableModelVisitor.cpp
+	src/config/generated/LoadReadingProfileMutableModelVisitor.cpp
+	src/config/generated/LoadStatusProfileMutableModelVisitor.cpp
+	src/config/generated/LoadControlProfileMutableModelVisitor.cpp
 
     include/adapter-api/config/IMutableModelVisitor.h
-        src/config/DescriptorPathImpl.h
+    src/config/DescriptorPathImpl.h
 )
 
 

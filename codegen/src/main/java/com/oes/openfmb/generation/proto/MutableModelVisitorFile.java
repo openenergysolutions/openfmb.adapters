@@ -40,7 +40,7 @@ public class MutableModelVisitorFile extends CppFilePair {
                 namespace(
                         "adapter",
                         spaced(
-                                line(getChildVisitSignature(descriptor)+";")
+                                line(getVisitSignature(descriptor)+";")
                         )
                 )
         );
@@ -59,7 +59,7 @@ public class MutableModelVisitorFile extends CppFilePair {
                                 line("// ---- forward declare all the template method for child types ----"),
                                 spaced(this.children.stream().map(d -> getChildVisitSignature(d, true))),
                                 line("// ---- the exposed visit function ----"),
-                                visitImpl(this.descriptor),
+                                getVisitImpl(this.descriptor),
                                 line("// ---- template definitions for child types ----"),
                                 spaced(this.children.stream().map(this::getChildVisitImpl))
                         )
@@ -72,18 +72,23 @@ public class MutableModelVisitorFile extends CppFilePair {
         return descriptor.getFullName().replace(".", "::");
     }
 
-    private String getChildVisitSignature(Descriptors.Descriptor descriptor)
+    private String getVisitSignature(Descriptors.Descriptor descriptor)
     {
         return String.format("void visit(IMutableModelVisitor<%s>& visitor)", cppMessageName(descriptor));
     }
 
-    private Document visitImpl(Descriptors.Descriptor descriptor)
+    private Document getVisitImpl(Descriptors.Descriptor descriptor)
     {
-        return line(getChildVisitSignature(descriptor))
+        return line(getVisitSignature(descriptor))
                 .append("{")
                 .indent(line("DescriptorPathImpl path;"))
                 .space()
-                .indent(spaced(descriptor.getFields().stream().map(this::getFieldLines)))
+                .indent("// this is so that we can reuse the same generators for child visitors")
+                .indent(
+                        String.format("const auto context = [](%s& profile) { return &profile; };", Helpers.cppMessageName(descriptor))
+                )
+                .space()
+                .indent(spaced(descriptor.getFields().stream().map(this::getFieldHandler)))
                 .append("}");
 
     }
@@ -91,27 +96,6 @@ public class MutableModelVisitorFile extends CppFilePair {
     static private String getVisitFunctionName(Descriptors.GenericDescriptor descriptor)
     {
         return "visit_" + descriptor.getFullName().replace(".", "_");
-    }
-
-    private String getContext(Descriptors.FieldDescriptor field)
-    {
-        return String.format("[](%s& profile) { return profile.mutable_%s(); }", Helpers.cppMessageName(this.descriptor), field.getName().toLowerCase());
-    }
-
-    private Document getFieldLines(Descriptors.FieldDescriptor field)
-    {
-        return line(String.format("path.push(%s::descriptor());", Helpers.cppMessageName(field.getMessageType())))
-                        .append(String.format("if(visitor.start_message_field(%s, path))", Helpers.quoted(field.getName())))
-                        .append("{")
-                        .indent(
-                                line(String.format("%s(", getVisitFunctionName(field.getMessageType())))
-                                .indent(getContext(field)+",")
-                                .indent("path, visitor")
-                                .append(");")
-                        )
-                        .append("}")
-                        .append("visitor.end_message_field();")
-                        .append("path.pop();");
     }
 
     private Document getChildVisitSignature(Descriptors.Descriptor child, boolean isDeclaration)
@@ -156,7 +140,7 @@ public class MutableModelVisitorFile extends CppFilePair {
     {
         final String fieldName = field.getName().toLowerCase();
 
-        final Document loop = line("for(decltype(count) i = 0; i < count; ++i)")
+        final Document loop = line("for(int i = 0; i < count; ++i)")
                 .append("{")
                 .indent("visitor.start_iteration(i);")
                 .indent(String.format("%s(", getVisitFunctionName(field.getMessageType())))
@@ -174,7 +158,6 @@ public class MutableModelVisitorFile extends CppFilePair {
                 .indent("visitor.end_message_field();")
                 .indent("path.pop();")
                 .append("}");
-
     }
 
     private Document getFieldHandler(Descriptors.FieldDescriptor field)
@@ -199,7 +182,7 @@ public class MutableModelVisitorFile extends CppFilePair {
         );
     }
 
-    static private Document getRepeatedContext(Descriptors.FieldDescriptor field)
+    private Document getRepeatedContext(Descriptors.FieldDescriptor field)
     {
         final Document inner = line("repeated->Reserve(max);")
                 .append("// add items until we're at max requested capacity")
@@ -207,7 +190,7 @@ public class MutableModelVisitorFile extends CppFilePair {
                 .indent("repeated->Add();")
                 .append("}");
 
-        return line("[context, i, max = count](P& profile) {")
+        return line(String.format("[context, i, max = count](%s& profile) {", Helpers.cppMessageName(this.descriptor)))
                 .indent(String.format("const auto repeated = context(profile)->mutable_%s();", field.getName().toLowerCase()))
                 .indent("if(repeated->size() < max) {")
                 .indent(indent(inner))

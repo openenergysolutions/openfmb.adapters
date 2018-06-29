@@ -25,6 +25,11 @@ class Helpers {
         return "\"" + input + "\"";
     }
 
+    static Set<String> getIncludeFiles(Iterable<Descriptors.Descriptor> descriptors)
+    {
+        return StreamSupport.stream(descriptors.spliterator(), false).map(Helpers::getIncludeFile).collect(Collectors.toSet());
+    }
+
     static String getIncludeFile(Descriptors.Descriptor descriptor)
     {
         final String[] names = descriptor.getFullName().split("\\.");

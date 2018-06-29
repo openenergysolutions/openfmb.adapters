@@ -7,6 +7,7 @@ import com.oes.openfmb.generation.dds.ConvertToProto;
 import com.oes.openfmb.generation.document.CppFilePair;
 import com.oes.openfmb.generation.proto.MessageVisitorFile;
 import com.oes.openfmb.generation.proto.MutableModelVisitorFile;
+import com.oes.openfmb.generation.proto.OldModelVisitorFile;
 import openfmb.essmodule.ESSControlProfile;
 import openfmb.essmodule.ESSReadingProfile;
 import openfmb.essmodule.ESSStatusProfile;
@@ -54,72 +55,38 @@ public class Artifacts {
 
     public static class Visitors
     {
-        private static List<Descriptors.Descriptor> descriptors = Arrays.asList(
-                ResourceReadingProfile.getDescriptor(),
-                // switch
-                SwitchReadingProfile.getDescriptor(),
-                SwitchStatusProfile.getDescriptor(),
-                SwitchControlProfile.getDescriptor(),
-                // ess
-                ESSReadingProfile.getDescriptor(),
-                ESSStatusProfile.getDescriptor(),
-                ESSControlProfile.getDescriptor(),
-                //solar
-                SolarReadingProfile.getDescriptor(),
-                SolarStatusProfile.getDescriptor(),
-                SolarControlProfile.getDescriptor(),
-                // load
-                LoadReadingProfile.getDescriptor(),
-                LoadStatusProfile.getDescriptor(),
-                LoadControlProfile.getDescriptor()
-        );
-
-        private static class Include
+        private static List<Descriptors.Descriptor> descriptors()
         {
-            static String module(String name){
-                return String.format("%smodule/%smodule.pb.h", name, name);
-            }
-
-            static final String resourceModule = module("resource");
-            static final String switchModule = module("switch");
-            static final String essModule = module("ess");
-            static final String solarModule = module("solar");
-            static final String loadModule = module("load");
+            return Arrays.asList(
+                    ResourceReadingProfile.getDescriptor(),
+                    // switch
+                    SwitchReadingProfile.getDescriptor(),
+                    SwitchStatusProfile.getDescriptor(),
+                    SwitchControlProfile.getDescriptor(),
+                    // ess
+                    ESSReadingProfile.getDescriptor(),
+                    ESSStatusProfile.getDescriptor(),
+                    ESSControlProfile.getDescriptor(),
+                    //solar
+                    SolarReadingProfile.getDescriptor(),
+                    SolarStatusProfile.getDescriptor(),
+                    SolarControlProfile.getDescriptor(),
+                    // load
+                    LoadReadingProfile.getDescriptor(),
+                    LoadStatusProfile.getDescriptor(),
+                    LoadControlProfile.getDescriptor()
+            );
         }
 
-        private static List<String> includes = Arrays.asList(
-                Include.resourceModule,
-                Include.switchModule,
-                Include.essModule,
-                Include.solarModule,
-                Include.loadModule
-        );
-
         private static List<CppFilePair> cppFilePairs() {
-            return Arrays.asList(
 
-                    new MessageVisitorFile(descriptors, includes),
-
-                    MutableModelVisitorFile.from(ResourceReadingProfile.getDescriptor()),
-
-                    from(ResourceReadingProfile.getDescriptor(), Include.resourceModule),
-
-                    from(SwitchReadingProfile.getDescriptor(), Include.switchModule),
-                    from(SwitchStatusProfile.getDescriptor(), Include.switchModule),
-                    from(SwitchControlProfile.getDescriptor(), Include.switchModule),
-
-                    from(ESSReadingProfile.getDescriptor(), Include.essModule),
-                    from(ESSStatusProfile.getDescriptor(), Include.essModule),
-                    from(ESSControlProfile.getDescriptor(), Include.essModule),
-
-                    from(SolarReadingProfile.getDescriptor(), Include.solarModule),
-                    from(SolarStatusProfile.getDescriptor(), Include.solarModule),
-                    from(SolarControlProfile.getDescriptor(), Include.solarModule),
-
-                    from(LoadReadingProfile.getDescriptor(), Include.loadModule),
-                    from(LoadStatusProfile.getDescriptor(), Include.loadModule),
-                    from(LoadControlProfile.getDescriptor(), Include.loadModule)
-            );
+            return Stream.concat(
+                   Stream.of(MessageVisitorFile.from(descriptors())),
+                   Stream.concat(
+                           descriptors().stream().map(MutableModelVisitorFile::from),
+                           descriptors().stream().map(OldModelVisitorFile::from)
+                   )
+            ).collect(Collectors.toList());
         }
 
         public static Iterable<Artifact> get(Path includeDirectory, Path implDirectory)
