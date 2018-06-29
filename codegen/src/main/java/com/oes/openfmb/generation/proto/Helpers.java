@@ -25,6 +25,14 @@ class Helpers {
         return "\"" + input + "\"";
     }
 
+    static String getIncludeFile(Descriptors.Descriptor descriptor)
+    {
+        final String[] names = descriptor.getFullName().split("\\.");
+        if(names.length != 2) throw new RuntimeException("Descriptor name does not follow <module>.<name> syntax: " + descriptor.getFullName());
+        final String module = names[0];
+        return String.format("%s/%s.pb.h", module, module);
+    }
+
     static String cppType(Descriptors.FieldDescriptor fieldDescriptor)
     {
         switch(fieldDescriptor.getType())
@@ -53,6 +61,8 @@ class Helpers {
                 throw new RuntimeException("Unsupported type: " + fieldDescriptor.getType());
         }
     }
+
+    /// ----  private methods --- /
 
     private static Set<Descriptors.Descriptor> getChildMessageDescriptors(Stream<Descriptors.Descriptor> descriptors)
     {

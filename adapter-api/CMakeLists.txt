@@ -67,7 +67,7 @@ set(API_SOURCES
 	src/config/generated/ResourceReadingProfileMutableModelVisitor.cpp
 
     include/adapter-api/config/IMutableModelVisitor.h
-	include/adapter-api/config/DescriptorPathImpl.h
+        src/config/DescriptorPathImpl.h
 )
 
 
