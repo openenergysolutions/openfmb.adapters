@@ -7,16 +7,14 @@ public interface Document {
     void write(LinePrinter printer);
 
     // Append a single line to this document
-    Document append(String... lines);
+    Document then(String... lines);
 
     // Append a document to this document
-    Document append(Document other);
+    Document then(Document other);
 
-    // Prepend a single line to this document
-    Document prepend(String line);
+    Document bracket(Document... inner);
 
-    // Prepend a document to this document
-    Document prepend(Document other);
+    Document bracket(String... lines);
 
     Document indent(String line);
 
@@ -25,5 +23,7 @@ public interface Document {
     Document prefix(String prefix);
 
     Document space();
+
+    static Document start() { return Documents.empty; }
 
 }

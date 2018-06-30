@@ -5,14 +5,6 @@ import com.oes.openfmb.generation.document.CppFilePair;
 import com.oes.openfmb.generation.document.Document;
 import com.oes.openfmb.generation.document.Documents;
 import com.oes.openfmb.generation.document.FileHeader;
-import com.oes.openfmb.util.DescriptorUtil;
-import openfmb.breakermodule.BreakerReadingProfile;
-import openfmb.resourcemodule.ResourceReadingProfile;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import static com.oes.openfmb.generation.document.Documents.*;
 
@@ -67,7 +59,7 @@ public class ConvertFromProto extends CppFilePair {
        return join(
                    include("adapter-api/proto/resourcemodule/resourcemodule.pb.h"),
                    include("adapter-api/proto/breakermodule/breakermodule.pb.h")
-       ).append(
+       ).then(
                join(
                    space,
                    include("OpenFMB-3.0.0TypeSupport.hh")
@@ -124,7 +116,7 @@ public class ConvertFromProto extends CppFilePair {
     {
 
         return line(signature((d)))
-                .append("{")
+                .then("{")
                 .indent(
                         FieldInfo.omitConversion(d) ? line("// omitted via configuration") : join(
                                 line("out.clear();"),
@@ -132,7 +124,7 @@ public class ConvertFromProto extends CppFilePair {
                                 primitiveFieldConversions(d)
                         )
                 )
-                .append("}");
+                .then("}");
 
     }
 
@@ -142,7 +134,7 @@ public class ConvertFromProto extends CppFilePair {
           d.getFields().stream().map(this::messageFieldConversion)
         );
 
-        return conversions.isEmpty() ? conversions : line("// convert message fields").append(conversions);
+        return conversions.isEmpty() ? conversions : line("// convert message fields").then(conversions);
     }
 
     private Document primitiveFieldConversions(Descriptors.Descriptor d) {
@@ -151,7 +143,7 @@ public class ConvertFromProto extends CppFilePair {
                 d.getFields().stream().map(this::primitiveFieldConversion)
         );
 
-        return conversions.isEmpty() ? conversions : line("// convert primitive fields").append(conversions);
+        return conversions.isEmpty() ? conversions : line("// convert primitive fields").then(conversions);
     }
 
     private Document primitiveFieldConversion(Descriptors.FieldDescriptor field)

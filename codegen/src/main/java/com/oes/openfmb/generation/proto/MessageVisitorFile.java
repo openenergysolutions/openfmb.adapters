@@ -6,9 +6,7 @@ import com.oes.openfmb.generation.document.Document;
 import com.oes.openfmb.generation.document.Documents;
 import com.oes.openfmb.generation.document.FileHeader;
 
-import java.util.Collections;
 import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -94,9 +92,9 @@ public class MessageVisitorFile extends CppFilePair {
         final Document inner = join(descriptor.getFields().stream().map(this::getFieldHandler));
 
         return line(getVisitSignature(descriptor))
-                .append("{")
+                .then("{")
                 .indent(inner) // recursively build up the implementation
-                .append("}");
+                .then("}");
 
     }
 
@@ -104,11 +102,11 @@ public class MessageVisitorFile extends CppFilePair {
     {
         return
             line(String.format("if(message.has_%s())", field.getName().toLowerCase()))
-            .append("{")
+            .then("{")
             .indent(String.format("visitor.start_message_field(\"%s\");", field.getName()))
             .indent(String.format("visit(message.%s(), visitor);", field.getName().toLowerCase()))
             .indent("visitor.end_message_field();")
-            .append("}");
+            .then("}");
 
     }
 
@@ -117,13 +115,13 @@ public class MessageVisitorFile extends CppFilePair {
         final String fieldName = field.getName().toLowerCase();
 
         return line(String.format("visitor.start_message_field(\"%s\");", fieldName))
-                        .append(String.format("for(decltype(message.%s_size()) i = 0; i < message.%s_size(); ++i)", fieldName, fieldName))
-                        .append("{")
+                        .then(String.format("for(decltype(message.%s_size()) i = 0; i < message.%s_size(); ++i)", fieldName, fieldName))
+                        .then("{")
                         .indent("visitor.start_iteration(i);")
                         .indent(String.format("visit(message.%s(i), visitor);", fieldName))
                         .indent("visitor.end_iteration();")
-                        .append("}")
-                        .append("visitor.end_message_field();");
+                        .then("}")
+                        .then("visitor.end_message_field();");
     }
 
     private Document getFieldHandler(Descriptors.FieldDescriptor field)

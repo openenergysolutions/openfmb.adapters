@@ -3,26 +3,30 @@ package com.oes.openfmb.generation.document.impl;
 import com.oes.openfmb.generation.document.Document;
 import com.oes.openfmb.generation.document.Documents;
 
+import java.util.stream.Stream;
+
 abstract class DocumentBase implements Document {
 
     @Override
-    public final Document append(String... lines) {
-        return this.append(Documents.lines(lines));
+    public final Document then(String... lines) {
+        return this.then(Documents.lines(lines));
     }
 
     @Override
-    public final Document append(Document other) {
+    public final Document then(Document other) {
         return new ConcatenatedDocuments(this, other);
     }
 
     @Override
-    public Document prepend(String line) {
-        return this.prepend(Documents.line(line));
+    public Document bracket(Document... inner)
+    {
+        return then(Documents.line("{").indent(Documents.join(inner)).then("}"));
     }
 
     @Override
-    public Document prepend(Document other) {
-        return new ConcatenatedDocuments(other, this);
+    public Document bracket(String... lines)
+    {
+        return bracket(Documents.join(Stream.of(lines).map(Documents::line)));
     }
 
     @Override
@@ -32,7 +36,7 @@ abstract class DocumentBase implements Document {
 
     @Override
     public Document indent(Document other) {
-        return this.append(Documents.indent(other));
+        return this.then(Documents.indent(other));
     }
 
     @Override
@@ -42,6 +46,6 @@ abstract class DocumentBase implements Document {
 
     @Override
     public Document space() {
-        return this.append(Documents.space);
+        return this.then(Documents.space);
     }
 }

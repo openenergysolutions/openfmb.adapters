@@ -17,7 +17,6 @@ import openfmb.switchmodule.SwitchCSG;
 
 import java.util.*;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 import static com.oes.openfmb.generation.document.Documents.*;
 
@@ -171,7 +170,7 @@ public class OldModelVisitorFile extends CppFilePair {
     private Document visitImpl(Descriptors.Descriptor descriptor)
     {
         return line(getVisitSignature(descriptor))
-                .append("{")
+                .then("{")
                 .indent(
                         lines(
                                 String.format("const auto mutable_context0 = [](%s& profile) { return &profile; };", cppMessageName(descriptor)),
@@ -179,7 +178,7 @@ public class OldModelVisitorFile extends CppFilePair {
                         )
                 )
                 .indent(start(descriptor)) // recursively build up the implementation
-                .append("}");
+                .then("}");
 
     }
 
@@ -194,14 +193,14 @@ public class OldModelVisitorFile extends CppFilePair {
 
         return inner.isEmpty() ? inner :
             line(String.format("visitor.start_message_field(\"%s\");", path.getInfo().field.getName()))
-            .append("{")
+            .then("{")
             .indent(
                     getMutableContextDefinition(path)
-                    .append(getConstContextDefinition(path))
-                    .append(inner)
+                    .then(getConstContextDefinition(path))
+                    .then(inner)
             )
-            .append("}")
-            .append(line("visitor.end_message_field();"));
+            .then("}")
+            .then(line("visitor.end_message_field();"));
     }
 
     private Document startRepeatedMessageField(FieldPath path, Descriptors.Descriptor descriptor)
@@ -216,7 +215,7 @@ public class OldModelVisitorFile extends CppFilePair {
                                          path.getInfo().field.getName()
                                  )
                          )
-                        .append(
+                        .then(
                                 line(String.format(
                                         "for(auto count%d = 0; count%d < max_count%d; ++count%d)",
                                         path.getInfo().depth,
@@ -225,14 +224,14 @@ public class OldModelVisitorFile extends CppFilePair {
                                         path.getInfo().depth
                                 ))
                         )
-                        .append("{")
+                        .then("{")
                         .indent(String.format("visitor.start_iteration(count%d);", path.getInfo().depth))
                         .indent(getRepeatedMutableContextDefinition(path))
                         .indent(getRepeatedConstContextDefinition(path))
                         .indent(inner)
                         .indent("visitor.end_iteration();")
-                        .append("}")
-                        .append(line("visitor.end_repeated_message_field();"));
+                        .then("}")
+                        .then(line("visitor.end_repeated_message_field();"));
     }
 
     private Document build(FieldPath path)
@@ -303,9 +302,9 @@ public class OldModelVisitorFile extends CppFilePair {
         return line("visitor.handle(")
                 .indent(
                     line(quoted(path.getInfo().field.getName()) + ",")
-                    .append(getMessageAccessor(path))
+                    .then(getMessageAccessor(path))
                 )
-                .append(");");
+                .then(");");
     }
 
     private static Document getPrimitiveHandler(FieldPath path, String type)
@@ -313,9 +312,9 @@ public class OldModelVisitorFile extends CppFilePair {
         return line("visitor.handle(")
                 .indent(
                         line(quoted(path.getInfo().field.getName()) + ",")
-                                .append(getPrimitiveAccessor(path))
+                                .then(getPrimitiveAccessor(path))
                 )
-                .append(");");
+                .then(");");
     }
 
     private static String quoted(String input)
@@ -341,7 +340,7 @@ public class OldModelVisitorFile extends CppFilePair {
                         line(
                             String.format("const auto repeated = context(profile)->mutable_%s();", path.getInfo().field.getName().toLowerCase())
                         )
-                        .append("if(repeated->size() < max) {")
+                        .then("if(repeated->size() < max) {")
                         .indent(
                                 lines(
                                         "repeated->Reserve(max);",
@@ -351,17 +350,17 @@ public class OldModelVisitorFile extends CppFilePair {
                                 .indent(
                                         "repeated->Add();"
                                 )
-                                .append("}")
+                                .then("}")
 
                         )
-                        .append(
+                        .then(
                                 lines(
                                   "}",
                                   "return repeated->Mutable(i);"
                                 )
                         )
                 )
-                .append("};");
+                .then("};");
     }
 
     private static Document getRepeatedConstContextDefinition(FieldPath path)
@@ -387,7 +386,7 @@ public class OldModelVisitorFile extends CppFilePair {
                                 String.format("return i < temp->%s_size() ? &temp->%s(i) : nullptr;", fieldName, fieldName)
                         )
                 )
-                .append("};");
+                .then("};");
     }
 
     private static String getMutableContextLambda(FieldPath path)
@@ -472,7 +471,7 @@ public class OldModelVisitorFile extends CppFilePair {
                 )
                 .indent(getMutableContextLambda(path) + ",")
                 .indent(getConstContextLambda(path))
-                .append(")");
+                .then(")");
     }
 
     private static Document getPrimitiveAccessor(FieldPath path)
@@ -487,6 +486,6 @@ public class OldModelVisitorFile extends CppFilePair {
                 .indent(getPrimitiveSetterLambda(path) + ",")
                 .indent(getPrimitiveGetterLambda(path) + ",")
                 .indent(getPrimitivePresentLambda(path))
-                .append(")");
+                .then(")");
     }
 }

@@ -4,7 +4,8 @@ import static com.oes.openfmb.generation.document.Documents.space;
 
 public class FileHeader {
 
-    public static Document lines = Documents.lines(
+    public static Document lines = space.then(
+            Documents.lines(
                 "  _   _         ______    _ _ _   _             _ _ _",
                 " | \\ | |       |  ____|  | (_) | (_)           | | | |",
                 " |  \\| | ___   | |__   __| |_| |_ _ _ __   __ _| | | |",
@@ -15,6 +16,7 @@ public class FileHeader {
                 "                                          |___/",
                 "",
                 " This file is auto-generated. Do not edit manually"
-    ).prepend(space).append(space).prefix("// ").append(space);
+            )
+    ).then(space).prefix("// ").then(space);
 
 }

@@ -26,7 +26,23 @@ public class Documents {
     public static Document line(String line) {
         return new BasicDocument(line);
     }
+    public static Document line(String line, Object... args) {
+        return new BasicDocument(String.format(line, args));
+    }
 
+/*
+    public static Document bracketed(String... inner) {
+        return bracketed(join(Stream.of(inner).map(Documents::line)));
+    }
+
+    public static Document bracketed(Document... inner) {
+        return bracketed(join(inner));
+    }
+
+    public static Document bracketed(Document inner) {
+        return line("{").indent(join(inner)).then("}");
+    }
+*/
     public static Document lines(String... lines) {
         return new BasicDocument(Arrays.asList(lines));
     }
@@ -36,15 +52,15 @@ public class Documents {
     }
 
     public static Document join(Stream<Document> documents) {
-        return documents.reduce(Document::append).orElse(Documents.empty);
+        return documents.reduce(Document::then).orElse(Documents.empty);
     }
 
     public static Document spaced(Document... documents) {
-        return Arrays.stream(documents).reduce((lhs, rhs) -> lhs.append(space).append(rhs)).orElse(Documents.empty);
+        return Arrays.stream(documents).reduce((lhs, rhs) -> lhs.then(space).then(rhs)).orElse(Documents.empty);
     }
 
     public static Document spaced(Stream<Document> documents) {
-        return documents.reduce((lhs, rhs) -> lhs.append(space).append(rhs)).orElse(Documents.empty);
+        return documents.reduce((lhs, rhs) -> lhs.then(space).then(rhs)).orElse(Documents.empty);
     }
 
     public static Document indent(Document document) {
@@ -62,24 +78,24 @@ public class Documents {
                     String.format("#define OPENFMB_%s_H", className.toUpperCase())
                 )
                 .space()
-                .append(Documents.join(inner))
+                .then(Documents.join(inner))
                 .space()
-                .append("#endif")
+                .then("#endif")
                 .space();
     }
 
     public static Document namespace(String namespace, Document... inner)
     {
         return line("namespace " + namespace + " {")
-                .append(space)
-                .append(Documents.join(inner))
-                .append(space)
-                .append(String.format("} // end namespace %s", namespace));
+                .then(space)
+                .then(Documents.join(inner))
+                .then(space)
+                .then(String.format("} // end namespace %s", namespace));
     }
 
     public static Document clazz(String name, Document inner)
     {
-        return line("class " + name + " {").indent(inner).append("};");
+        return line("class " + name + " {").indent(inner).then("};");
     }
 
     public static Document include(String filename)

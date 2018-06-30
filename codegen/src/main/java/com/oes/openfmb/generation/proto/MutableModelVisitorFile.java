@@ -80,7 +80,7 @@ public class MutableModelVisitorFile extends CppFilePair {
     private Document getVisitImpl(Descriptors.Descriptor descriptor)
     {
         return line(getVisitSignature(descriptor))
-                .append("{")
+                .then("{")
                 .indent(line("DescriptorPathImpl path;"))
                 .space()
                 .indent("// this is so that we can reuse the same generators for child visitors")
@@ -89,7 +89,7 @@ public class MutableModelVisitorFile extends CppFilePair {
                 )
                 .space()
                 .indent(spaced(descriptor.getFields().stream().map(this::getFieldHandler)))
-                .append("}");
+                .then("}");
 
     }
 
@@ -101,7 +101,7 @@ public class MutableModelVisitorFile extends CppFilePair {
     private Document getChildVisitSignature(Descriptors.Descriptor child, boolean isDeclaration)
     {
         return line("template <class C>")
-                .append(
+                .then(
                         String.format("void %s(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<%s>& visitor)%s",
                                 getVisitFunctionName(child),
                                 Helpers.cppMessageName(this.descriptor),
@@ -115,9 +115,9 @@ public class MutableModelVisitorFile extends CppFilePair {
         final Document inner = spaced(child.getFields().stream().map(this::getFieldHandler));
 
         return getChildVisitSignature(child, false)
-                .append("{")
+                .then("{")
                 .indent(inner)
-                .append("}");
+                .then("}");
 
     }
 
@@ -125,14 +125,14 @@ public class MutableModelVisitorFile extends CppFilePair {
     {
         return
                 line(String.format("path.push(%s::descriptor());", Helpers.cppMessageName(field.getMessageType())))
-                        .append(String.format("if(visitor.start_message_field(%s, path))", Helpers.quoted(field.getName())))
-                        .append("{")
+                        .then(String.format("if(visitor.start_message_field(%s, path))", Helpers.quoted(field.getName())))
+                        .then("{")
                         .indent(
                                 String.format("%s(%s, path, visitor);", getVisitFunctionName(field.getMessageType()), getNewContext(field))
                         )
-                        .append("}")
-                        .append("visitor.end_message_field();")
-                        .append("path.pop();");
+                        .then("}")
+                        .then("visitor.end_message_field();")
+                        .then("path.pop();");
 
     }
 
@@ -141,23 +141,27 @@ public class MutableModelVisitorFile extends CppFilePair {
         final String fieldName = field.getName().toLowerCase();
 
         final Document loop = line("for(int i = 0; i < count; ++i)")
-                .append("{")
+                .then("{")
                 .indent("visitor.start_iteration(i);")
                 .indent(String.format("%s(", getVisitFunctionName(field.getMessageType())))
                 .indent(
-                        indent(getRepeatedContext(field).append("path, visitor"))
+                        indent(getRepeatedContext(field).then(", path, visitor"))
                 )
                 .indent(");")
                 .indent("visitor.end_iteration();")
-                .append("}");
+                .then("}");
 
-        return line("{")
-                .indent(String.format("path.push(%s::descriptor());", Helpers.cppMessageName(field.getMessageType())))
-                .indent(String.format("const auto count = visitor.start_repeated_message_field(%s, path);", Helpers.quoted(fieldName)))
-                .indent(loop)
-                .indent("visitor.end_message_field();")
-                .indent("path.pop();")
-                .append("}");
+        return Document.start().bracket(
+                Documents.lines(
+                        String.format("path.push(%s::descriptor());", Helpers.cppMessageName(field.getMessageType())),
+                        String.format("const auto count = visitor.start_repeated_message_field(%s, path);", Helpers.quoted(fieldName))
+                ),
+                loop,
+                Documents.lines(
+                        "visitor.end_message_field();",
+                        "path.pop();"
+                )
+        );
     }
 
     private Document getFieldHandler(Descriptors.FieldDescriptor field)
@@ -184,48 +188,43 @@ public class MutableModelVisitorFile extends CppFilePair {
 
     private Document getRepeatedContext(Descriptors.FieldDescriptor field)
     {
-        final Document inner = line("repeated->Reserve(max);")
-                .append("// add items until we're at max requested capacity")
-                .append("for(auto j = repeated->size(); j < max; ++j) {")
-                .indent("repeated->Add();")
-                .append("}");
-
-        return line(String.format("[context, i, max = count](%s& profile) {", Helpers.cppMessageName(this.descriptor)))
-                .indent(String.format("const auto repeated = context(profile)->mutable_%s();", field.getName().toLowerCase()))
-                .indent("if(repeated->size() < max) {")
-                .indent(indent(inner))
-                .indent("}")
-                .indent("return repeated->Mutable(i);")
-                .append("},");
+        return line("[context, i, max = count](%s& profile)", Helpers.cppMessageName(this.descriptor))
+                .bracket(
+                        line("const auto repeated = context(profile)->mutable_%s();", field.getName().toLowerCase())
+                        .then("if(repeated->size() < max)")
+                        .bracket(
+                                line("repeated->Reserve(max);")
+                                        .then("// add items until we're at max requested capacity")
+                                        .then("for(auto j = repeated->size(); j < max; ++j)")
+                                        .bracket(
+                                                "repeated->Add();"
+                                        )
+                        )
+                        .then("return repeated->Mutable(i);")
+                );
     }
 
     private Document getEnumHandler(Descriptors.FieldDescriptor field)
     {
-        final Document inner = line(
+        return Document.start().bracket(
                 String.format(
                         "const setter_t<%s, int> setter = [context](%s& profile, const int& value) { context(profile)->set_%s(static_cast<%s>(value)); };",
                         Helpers.cppMessageName(this.descriptor),
                         Helpers.cppMessageName(this.descriptor),
                         field.getName().toLowerCase(),
                         Helpers.cppMessageName(field.getEnumType())
-                )
-        ).append(
+                ),
                 String.format(
                         "visitor.handle(%s, setter, %s_descriptor());",
                         Helpers.quoted(field.getName()),
                         Helpers.cppMessageName(field.getEnumType())
                 )
         );
-
-
-        return line("{")
-                .indent(inner)
-                .append("}");
     }
 
     private Document getPrimitiveHandler(Descriptors.FieldDescriptor field)
     {
-        final Document inner = line(
+        return Document.start().bracket(
                 String.format(
                         "const setter_t<%s, %s> setter = [context](%s& profile, const %s& value) { context(profile)->set_%s(value); };",
                         Helpers.cppMessageName(this.descriptor),
@@ -233,15 +232,9 @@ public class MutableModelVisitorFile extends CppFilePair {
                         Helpers.cppMessageName(this.descriptor),
                         Helpers.cppType(field),
                         field.getName().toLowerCase()
-                )
-        ).append(
+                ),
                 String.format("visitor.handle(%s, setter);", Helpers.quoted(field.getName()))
         );
-
-
-        return line("{")
-                .indent(inner)
-                .append("}");
     }
 
 }
