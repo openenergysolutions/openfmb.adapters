@@ -5,6 +5,7 @@
 #include <adapter-api/Logger.h>
 #include <adapter-api/ProfileInfo.h>
 #include <adapter-api/config/generated/MessageVisitors.h>
+#include <adapter-api/ConfigStrings.h>
 
 #include <fstream>
 #include <iomanip>
