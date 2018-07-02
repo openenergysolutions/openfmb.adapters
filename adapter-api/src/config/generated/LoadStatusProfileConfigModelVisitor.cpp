@@ -1,149 +1,136 @@
 #include "adapter-api/config/generated/LoadStatusProfileConfigModelVisitor.h"
-#include "../DescriptorPathImpl.h"
 
 namespace adapter {
 
 // ---- forward declare all the template method for child types ----
 
 template <class C>
-void visit_commonmodule_StatusValue(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_commonmodule_StatusValue(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_google_protobuf_FloatValue(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_google_protobuf_FloatValue(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_LogicalNode(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_commonmodule_LogicalNode(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_EnergyConsumer(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_commonmodule_EnergyConsumer(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_IED(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_commonmodule_IED(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_ConductingEquipment(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_commonmodule_ConductingEquipment(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_RampRate(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_commonmodule_RampRate(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_MessageInfo(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_commonmodule_MessageInfo(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_StatusMessageInfo(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_commonmodule_StatusMessageInfo(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_StatusSPS(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_commonmodule_StatusSPS(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_ControlDPC(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_commonmodule_ControlDPC(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_loadmodule_LoadStatus(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_loadmodule_LoadStatus(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_Quality(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_commonmodule_Quality(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_loadmodule_LoadStatusZGLD(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_loadmodule_LoadStatusZGLD(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_loadmodule_LoadPointStatus(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_loadmodule_LoadPointStatus(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_google_protobuf_StringValue(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_google_protobuf_StringValue(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_Timestamp(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_commonmodule_Timestamp(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_ENS_HealthKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_commonmodule_ENS_HealthKind(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_Optional_StateKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_commonmodule_Optional_StateKind(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_DetailQual(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_commonmodule_DetailQual(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_LogicalNodeForEventAndStatus(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_commonmodule_LogicalNodeForEventAndStatus(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_ENS_BehaviourModeKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_commonmodule_ENS_BehaviourModeKind(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_loadmodule_LoadEventAndStatusZGLD(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_loadmodule_LoadEventAndStatusZGLD(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_NamedObject(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_commonmodule_NamedObject(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_IdentifiedObject(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_commonmodule_IdentifiedObject(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_ENS_DynamicTestKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_commonmodule_ENS_DynamicTestKind(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_TimeQuality(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_commonmodule_TimeQuality(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 // ---- the exposed visit function ----
 
 void visit(IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
-    DescriptorPathImpl path;
-
     // this is so that we can reuse the same generators for child visitors
     const auto context = [](loadmodule::LoadStatusProfile& profile) { return &profile; };
 
-    path.push(commonmodule::StatusMessageInfo::descriptor());
-    if(visitor.start_message_field("statusMessageInfo", path))
+    if(visitor.start_message_field("statusMessageInfo", commonmodule::StatusMessageInfo::descriptor()))
     {
-        visit_commonmodule_StatusMessageInfo([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_statusmessageinfo(); }, path, visitor);
+        visit_commonmodule_StatusMessageInfo([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_statusmessageinfo(); }, visitor);
     }
     visitor.end_message_field();
-    path.pop();
 
-    path.push(commonmodule::EnergyConsumer::descriptor());
-    if(visitor.start_message_field("energyConsumer", path))
+    if(visitor.start_message_field("energyConsumer", commonmodule::EnergyConsumer::descriptor()))
     {
-        visit_commonmodule_EnergyConsumer([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_energyconsumer(); }, path, visitor);
+        visit_commonmodule_EnergyConsumer([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_energyconsumer(); }, visitor);
     }
     visitor.end_message_field();
-    path.pop();
 
-    path.push(commonmodule::IED::descriptor());
-    if(visitor.start_message_field("ied", path))
+    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
     {
-        visit_commonmodule_IED([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_ied(); }, path, visitor);
+        visit_commonmodule_IED([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_ied(); }, visitor);
     }
     visitor.end_message_field();
-    path.pop();
 
-    path.push(loadmodule::LoadStatus::descriptor());
-    if(visitor.start_message_field("loadStatus", path))
+    if(visitor.start_message_field("loadStatus", loadmodule::LoadStatus::descriptor()))
     {
-        visit_loadmodule_LoadStatus([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_loadstatus(); }, path, visitor);
+        visit_loadmodule_LoadStatus([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_loadstatus(); }, visitor);
     }
     visitor.end_message_field();
-    path.pop();
 }
 
 // ---- template definitions for child types ----
 
 template <class C>
-void visit_commonmodule_StatusValue(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_commonmodule_StatusValue(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
-    path.push(commonmodule::IdentifiedObject::descriptor());
-    if(visitor.start_message_field("identifiedObject", path))
+    if(visitor.start_message_field("identifiedObject", commonmodule::IdentifiedObject::descriptor()))
     {
-        visit_commonmodule_IdentifiedObject([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_identifiedobject(); }, path, visitor);
+        visit_commonmodule_IdentifiedObject([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_identifiedobject(); }, visitor);
     }
     visitor.end_message_field();
-    path.pop();
 }
 
 template <class C>
-void visit_google_protobuf_FloatValue(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_google_protobuf_FloatValue(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
     {
         const setter_t<loadmodule::LoadStatusProfile, float> setter = [context](loadmodule::LoadStatusProfile& profile, const float& value) { context(profile)->set_value(value); };
@@ -152,59 +139,49 @@ void visit_google_protobuf_FloatValue(const C& context, DescriptorPathImpl& path
 }
 
 template <class C>
-void visit_commonmodule_LogicalNode(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_commonmodule_LogicalNode(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
-    path.push(commonmodule::IdentifiedObject::descriptor());
-    if(visitor.start_message_field("identifiedObject", path))
+    if(visitor.start_message_field("identifiedObject", commonmodule::IdentifiedObject::descriptor()))
     {
-        visit_commonmodule_IdentifiedObject([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_identifiedobject(); }, path, visitor);
+        visit_commonmodule_IdentifiedObject([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_identifiedobject(); }, visitor);
     }
     visitor.end_message_field();
-    path.pop();
 }
 
 template <class C>
-void visit_commonmodule_EnergyConsumer(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_commonmodule_EnergyConsumer(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
-    path.push(commonmodule::ConductingEquipment::descriptor());
-    if(visitor.start_message_field("conductingEquipment", path))
+    if(visitor.start_message_field("conductingEquipment", commonmodule::ConductingEquipment::descriptor()))
     {
-        visit_commonmodule_ConductingEquipment([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_conductingequipment(); }, path, visitor);
+        visit_commonmodule_ConductingEquipment([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_conductingequipment(); }, visitor);
     }
     visitor.end_message_field();
-    path.pop();
 
-    path.push(google::protobuf::StringValue::descriptor());
-    if(visitor.start_message_field("operatingLimit", path))
+    if(visitor.start_message_field("operatingLimit", google::protobuf::StringValue::descriptor()))
     {
-        visit_google_protobuf_StringValue([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_operatinglimit(); }, path, visitor);
+        visit_google_protobuf_StringValue([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_operatinglimit(); }, visitor);
     }
     visitor.end_message_field();
-    path.pop();
 }
 
 template <class C>
-void visit_commonmodule_IED(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_commonmodule_IED(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
-    path.push(commonmodule::IdentifiedObject::descriptor());
-    if(visitor.start_message_field("identifiedObject", path))
+    if(visitor.start_message_field("identifiedObject", commonmodule::IdentifiedObject::descriptor()))
     {
-        visit_commonmodule_IdentifiedObject([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_identifiedobject(); }, path, visitor);
+        visit_commonmodule_IdentifiedObject([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_identifiedobject(); }, visitor);
     }
     visitor.end_message_field();
-    path.pop();
 }
 
 template <class C>
-void visit_commonmodule_ConductingEquipment(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_commonmodule_ConductingEquipment(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
-    path.push(commonmodule::NamedObject::descriptor());
-    if(visitor.start_message_field("namedObject", path))
+    if(visitor.start_message_field("namedObject", commonmodule::NamedObject::descriptor()))
     {
-        visit_commonmodule_NamedObject([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_namedobject(); }, path, visitor);
+        visit_commonmodule_NamedObject([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_namedobject(); }, visitor);
     }
     visitor.end_message_field();
-    path.pop();
 
     {
         const setter_t<loadmodule::LoadStatusProfile, std::string> setter = [context](loadmodule::LoadStatusProfile& profile, const std::string& value) { context(profile)->set_mrid(value); };
@@ -213,100 +190,82 @@ void visit_commonmodule_ConductingEquipment(const C& context, DescriptorPathImpl
 }
 
 template <class C>
-void visit_commonmodule_RampRate(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_commonmodule_RampRate(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
-    path.push(google::protobuf::FloatValue::descriptor());
-    if(visitor.start_message_field("negativeReactivePowerKVArPerMin", path))
+    if(visitor.start_message_field("negativeReactivePowerKVArPerMin", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_negativereactivepowerkvarpermin(); }, path, visitor);
+        visit_google_protobuf_FloatValue([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_negativereactivepowerkvarpermin(); }, visitor);
     }
     visitor.end_message_field();
-    path.pop();
 
-    path.push(google::protobuf::FloatValue::descriptor());
-    if(visitor.start_message_field("negativeRealPowerKWPerMin", path))
+    if(visitor.start_message_field("negativeRealPowerKWPerMin", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_negativerealpowerkwpermin(); }, path, visitor);
+        visit_google_protobuf_FloatValue([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_negativerealpowerkwpermin(); }, visitor);
     }
     visitor.end_message_field();
-    path.pop();
 
-    path.push(google::protobuf::FloatValue::descriptor());
-    if(visitor.start_message_field("positiveReactivePowerKVArPerMin", path))
+    if(visitor.start_message_field("positiveReactivePowerKVArPerMin", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_positivereactivepowerkvarpermin(); }, path, visitor);
+        visit_google_protobuf_FloatValue([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_positivereactivepowerkvarpermin(); }, visitor);
     }
     visitor.end_message_field();
-    path.pop();
 
-    path.push(google::protobuf::FloatValue::descriptor());
-    if(visitor.start_message_field("positiveRealPowerKWPerMin", path))
+    if(visitor.start_message_field("positiveRealPowerKWPerMin", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_positiverealpowerkwpermin(); }, path, visitor);
+        visit_google_protobuf_FloatValue([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_positiverealpowerkwpermin(); }, visitor);
     }
     visitor.end_message_field();
-    path.pop();
 }
 
 template <class C>
-void visit_commonmodule_MessageInfo(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_commonmodule_MessageInfo(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
-    path.push(commonmodule::IdentifiedObject::descriptor());
-    if(visitor.start_message_field("identifiedObject", path))
+    if(visitor.start_message_field("identifiedObject", commonmodule::IdentifiedObject::descriptor()))
     {
-        visit_commonmodule_IdentifiedObject([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_identifiedobject(); }, path, visitor);
+        visit_commonmodule_IdentifiedObject([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_identifiedobject(); }, visitor);
     }
     visitor.end_message_field();
-    path.pop();
 
-    path.push(commonmodule::Timestamp::descriptor());
-    if(visitor.start_message_field("messageTimeStamp", path))
+    if(visitor.start_message_field("messageTimeStamp", commonmodule::Timestamp::descriptor()))
     {
-        visit_commonmodule_Timestamp([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_messagetimestamp(); }, path, visitor);
+        visit_commonmodule_Timestamp([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_messagetimestamp(); }, visitor);
     }
     visitor.end_message_field();
-    path.pop();
 }
 
 template <class C>
-void visit_commonmodule_StatusMessageInfo(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_commonmodule_StatusMessageInfo(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
-    path.push(commonmodule::MessageInfo::descriptor());
-    if(visitor.start_message_field("messageInfo", path))
+    if(visitor.start_message_field("messageInfo", commonmodule::MessageInfo::descriptor()))
     {
-        visit_commonmodule_MessageInfo([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_messageinfo(); }, path, visitor);
+        visit_commonmodule_MessageInfo([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_messageinfo(); }, visitor);
     }
     visitor.end_message_field();
-    path.pop();
 }
 
 template <class C>
-void visit_commonmodule_StatusSPS(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_commonmodule_StatusSPS(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
-    path.push(commonmodule::Quality::descriptor());
-    if(visitor.start_message_field("q", path))
+    if(visitor.start_message_field("q", commonmodule::Quality::descriptor()))
     {
-        visit_commonmodule_Quality([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_q(); }, path, visitor);
+        visit_commonmodule_Quality([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_q(); }, visitor);
     }
     visitor.end_message_field();
-    path.pop();
 
     {
         const setter_t<loadmodule::LoadStatusProfile, bool> setter = [context](loadmodule::LoadStatusProfile& profile, const bool& value) { context(profile)->set_stval(value); };
         visitor.handle("stVal", setter);
     }
 
-    path.push(commonmodule::Timestamp::descriptor());
-    if(visitor.start_message_field("t", path))
+    if(visitor.start_message_field("t", commonmodule::Timestamp::descriptor()))
     {
-        visit_commonmodule_Timestamp([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_t(); }, path, visitor);
+        visit_commonmodule_Timestamp([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_t(); }, visitor);
     }
     visitor.end_message_field();
-    path.pop();
 }
 
 template <class C>
-void visit_commonmodule_ControlDPC(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_commonmodule_ControlDPC(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
     {
         const setter_t<loadmodule::LoadStatusProfile, bool> setter = [context](loadmodule::LoadStatusProfile& profile, const bool& value) { context(profile)->set_ctlval(value); };
@@ -315,35 +274,29 @@ void visit_commonmodule_ControlDPC(const C& context, DescriptorPathImpl& path, I
 }
 
 template <class C>
-void visit_loadmodule_LoadStatus(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_loadmodule_LoadStatus(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
-    path.push(commonmodule::StatusValue::descriptor());
-    if(visitor.start_message_field("statusValue", path))
+    if(visitor.start_message_field("statusValue", commonmodule::StatusValue::descriptor()))
     {
-        visit_commonmodule_StatusValue([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_statusvalue(); }, path, visitor);
+        visit_commonmodule_StatusValue([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_statusvalue(); }, visitor);
     }
     visitor.end_message_field();
-    path.pop();
 
-    path.push(loadmodule::LoadStatusZGLD::descriptor());
-    if(visitor.start_message_field("loadStatusZGLD", path))
+    if(visitor.start_message_field("loadStatusZGLD", loadmodule::LoadStatusZGLD::descriptor()))
     {
-        visit_loadmodule_LoadStatusZGLD([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_loadstatuszgld(); }, path, visitor);
+        visit_loadmodule_LoadStatusZGLD([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_loadstatuszgld(); }, visitor);
     }
     visitor.end_message_field();
-    path.pop();
 }
 
 template <class C>
-void visit_commonmodule_Quality(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_commonmodule_Quality(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
-    path.push(commonmodule::DetailQual::descriptor());
-    if(visitor.start_message_field("detailQual", path))
+    if(visitor.start_message_field("detailQual", commonmodule::DetailQual::descriptor()))
     {
-        visit_commonmodule_DetailQual([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_detailqual(); }, path, visitor);
+        visit_commonmodule_DetailQual([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_detailqual(); }, visitor);
     }
     visitor.end_message_field();
-    path.pop();
 
     {
         const setter_t<loadmodule::LoadStatusProfile, bool> setter = [context](loadmodule::LoadStatusProfile& profile, const bool& value) { context(profile)->set_operatorblocked(value); };
@@ -367,63 +320,51 @@ void visit_commonmodule_Quality(const C& context, DescriptorPathImpl& path, ICon
 }
 
 template <class C>
-void visit_loadmodule_LoadStatusZGLD(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_loadmodule_LoadStatusZGLD(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
-    path.push(loadmodule::LoadEventAndStatusZGLD::descriptor());
-    if(visitor.start_message_field("loadEventAndStatusZGLD", path))
+    if(visitor.start_message_field("loadEventAndStatusZGLD", loadmodule::LoadEventAndStatusZGLD::descriptor()))
     {
-        visit_loadmodule_LoadEventAndStatusZGLD([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_loadeventandstatuszgld(); }, path, visitor);
+        visit_loadmodule_LoadEventAndStatusZGLD([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_loadeventandstatuszgld(); }, visitor);
     }
     visitor.end_message_field();
-    path.pop();
 }
 
 template <class C>
-void visit_loadmodule_LoadPointStatus(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_loadmodule_LoadPointStatus(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
-    path.push(commonmodule::RampRate::descriptor());
-    if(visitor.start_message_field("rampRates", path))
+    if(visitor.start_message_field("rampRates", commonmodule::RampRate::descriptor()))
     {
-        visit_commonmodule_RampRate([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_ramprates(); }, path, visitor);
+        visit_commonmodule_RampRate([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_ramprates(); }, visitor);
     }
     visitor.end_message_field();
-    path.pop();
 
-    path.push(commonmodule::ControlDPC::descriptor());
-    if(visitor.start_message_field("reactivePwrSetPointEnabled", path))
+    if(visitor.start_message_field("reactivePwrSetPointEnabled", commonmodule::ControlDPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_reactivepwrsetpointenabled(); }, path, visitor);
+        visit_commonmodule_ControlDPC([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_reactivepwrsetpointenabled(); }, visitor);
     }
     visitor.end_message_field();
-    path.pop();
 
-    path.push(commonmodule::ControlDPC::descriptor());
-    if(visitor.start_message_field("realPwrSetPointEnabled", path))
+    if(visitor.start_message_field("realPwrSetPointEnabled", commonmodule::ControlDPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_realpwrsetpointenabled(); }, path, visitor);
+        visit_commonmodule_ControlDPC([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_realpwrsetpointenabled(); }, visitor);
     }
     visitor.end_message_field();
-    path.pop();
 
-    path.push(commonmodule::ControlDPC::descriptor());
-    if(visitor.start_message_field("reset", path))
+    if(visitor.start_message_field("reset", commonmodule::ControlDPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_reset(); }, path, visitor);
+        visit_commonmodule_ControlDPC([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_reset(); }, visitor);
     }
     visitor.end_message_field();
-    path.pop();
 
-    path.push(commonmodule::Optional_StateKind::descriptor());
-    if(visitor.start_message_field("state", path))
+    if(visitor.start_message_field("state", commonmodule::Optional_StateKind::descriptor()))
     {
-        visit_commonmodule_Optional_StateKind([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_state(); }, path, visitor);
+        visit_commonmodule_Optional_StateKind([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_state(); }, visitor);
     }
     visitor.end_message_field();
-    path.pop();
 }
 
 template <class C>
-void visit_google_protobuf_StringValue(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_google_protobuf_StringValue(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
     {
         const setter_t<loadmodule::LoadStatusProfile, std::string> setter = [context](loadmodule::LoadStatusProfile& profile, const std::string& value) { context(profile)->set_value(value); };
@@ -432,7 +373,7 @@ void visit_google_protobuf_StringValue(const C& context, DescriptorPathImpl& pat
 }
 
 template <class C>
-void visit_commonmodule_Timestamp(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_commonmodule_Timestamp(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
     {
         const setter_t<loadmodule::LoadStatusProfile, uint32_t> setter = [context](loadmodule::LoadStatusProfile& profile, const uint32_t& value) { context(profile)->set_fraction(value); };
@@ -444,25 +385,21 @@ void visit_commonmodule_Timestamp(const C& context, DescriptorPathImpl& path, IC
         visitor.handle("seconds", setter);
     }
 
-    path.push(commonmodule::TimeQuality::descriptor());
-    if(visitor.start_message_field("tq", path))
+    if(visitor.start_message_field("tq", commonmodule::TimeQuality::descriptor()))
     {
-        visit_commonmodule_TimeQuality([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_tq(); }, path, visitor);
+        visit_commonmodule_TimeQuality([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_tq(); }, visitor);
     }
     visitor.end_message_field();
-    path.pop();
 }
 
 template <class C>
-void visit_commonmodule_ENS_HealthKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_commonmodule_ENS_HealthKind(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
-    path.push(google::protobuf::StringValue::descriptor());
-    if(visitor.start_message_field("d", path))
+    if(visitor.start_message_field("d", google::protobuf::StringValue::descriptor()))
     {
-        visit_google_protobuf_StringValue([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_d(); }, path, visitor);
+        visit_google_protobuf_StringValue([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_d(); }, visitor);
     }
     visitor.end_message_field();
-    path.pop();
 
     {
         const setter_t<loadmodule::LoadStatusProfile, int> setter = [context](loadmodule::LoadStatusProfile& profile, const int& value) { context(profile)->set_stval(static_cast<commonmodule::HealthKind>(value)); };
@@ -471,7 +408,7 @@ void visit_commonmodule_ENS_HealthKind(const C& context, DescriptorPathImpl& pat
 }
 
 template <class C>
-void visit_commonmodule_Optional_StateKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_commonmodule_Optional_StateKind(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
     {
         const setter_t<loadmodule::LoadStatusProfile, int> setter = [context](loadmodule::LoadStatusProfile& profile, const int& value) { context(profile)->set_value(static_cast<commonmodule::StateKind>(value)); };
@@ -480,7 +417,7 @@ void visit_commonmodule_Optional_StateKind(const C& context, DescriptorPathImpl&
 }
 
 template <class C>
-void visit_commonmodule_DetailQual(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_commonmodule_DetailQual(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
     {
         const setter_t<loadmodule::LoadStatusProfile, bool> setter = [context](loadmodule::LoadStatusProfile& profile, const bool& value) { context(profile)->set_badreference(value); };
@@ -524,169 +461,137 @@ void visit_commonmodule_DetailQual(const C& context, DescriptorPathImpl& path, I
 }
 
 template <class C>
-void visit_commonmodule_LogicalNodeForEventAndStatus(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_commonmodule_LogicalNodeForEventAndStatus(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
-    path.push(commonmodule::LogicalNode::descriptor());
-    if(visitor.start_message_field("logicalNode", path))
+    if(visitor.start_message_field("logicalNode", commonmodule::LogicalNode::descriptor()))
     {
-        visit_commonmodule_LogicalNode([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_logicalnode(); }, path, visitor);
+        visit_commonmodule_LogicalNode([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_logicalnode(); }, visitor);
     }
     visitor.end_message_field();
-    path.pop();
 
-    path.push(commonmodule::ENS_BehaviourModeKind::descriptor());
-    if(visitor.start_message_field("Beh", path))
+    if(visitor.start_message_field("Beh", commonmodule::ENS_BehaviourModeKind::descriptor()))
     {
-        visit_commonmodule_ENS_BehaviourModeKind([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_beh(); }, path, visitor);
+        visit_commonmodule_ENS_BehaviourModeKind([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_beh(); }, visitor);
     }
     visitor.end_message_field();
-    path.pop();
 
-    path.push(commonmodule::ENS_HealthKind::descriptor());
-    if(visitor.start_message_field("EEHealth", path))
+    if(visitor.start_message_field("EEHealth", commonmodule::ENS_HealthKind::descriptor()))
     {
-        visit_commonmodule_ENS_HealthKind([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_eehealth(); }, path, visitor);
+        visit_commonmodule_ENS_HealthKind([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_eehealth(); }, visitor);
     }
     visitor.end_message_field();
-    path.pop();
 }
 
 template <class C>
-void visit_commonmodule_ENS_BehaviourModeKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_commonmodule_ENS_BehaviourModeKind(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
-    path.push(commonmodule::Quality::descriptor());
-    if(visitor.start_message_field("q", path))
+    if(visitor.start_message_field("q", commonmodule::Quality::descriptor()))
     {
-        visit_commonmodule_Quality([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_q(); }, path, visitor);
+        visit_commonmodule_Quality([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_q(); }, visitor);
     }
     visitor.end_message_field();
-    path.pop();
 
     {
         const setter_t<loadmodule::LoadStatusProfile, int> setter = [context](loadmodule::LoadStatusProfile& profile, const int& value) { context(profile)->set_stval(static_cast<commonmodule::BehaviourModeKind>(value)); };
         visitor.handle("stVal", setter, commonmodule::BehaviourModeKind_descriptor());
     }
 
-    path.push(commonmodule::Timestamp::descriptor());
-    if(visitor.start_message_field("t", path))
+    if(visitor.start_message_field("t", commonmodule::Timestamp::descriptor()))
     {
-        visit_commonmodule_Timestamp([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_t(); }, path, visitor);
+        visit_commonmodule_Timestamp([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_t(); }, visitor);
     }
     visitor.end_message_field();
-    path.pop();
 }
 
 template <class C>
-void visit_loadmodule_LoadEventAndStatusZGLD(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_loadmodule_LoadEventAndStatusZGLD(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
-    path.push(commonmodule::LogicalNodeForEventAndStatus::descriptor());
-    if(visitor.start_message_field("logicalNodeForEventAndStatus", path))
+    if(visitor.start_message_field("logicalNodeForEventAndStatus", commonmodule::LogicalNodeForEventAndStatus::descriptor()))
     {
-        visit_commonmodule_LogicalNodeForEventAndStatus([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_logicalnodeforeventandstatus(); }, path, visitor);
+        visit_commonmodule_LogicalNodeForEventAndStatus([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_logicalnodeforeventandstatus(); }, visitor);
     }
     visitor.end_message_field();
-    path.pop();
 
-    path.push(commonmodule::ENS_DynamicTestKind::descriptor());
-    if(visitor.start_message_field("DynamicTest", path))
+    if(visitor.start_message_field("DynamicTest", commonmodule::ENS_DynamicTestKind::descriptor()))
     {
-        visit_commonmodule_ENS_DynamicTestKind([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_dynamictest(); }, path, visitor);
+        visit_commonmodule_ENS_DynamicTestKind([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_dynamictest(); }, visitor);
     }
     visitor.end_message_field();
-    path.pop();
 
-    path.push(commonmodule::StatusSPS::descriptor());
-    if(visitor.start_message_field("EmgStop", path))
+    if(visitor.start_message_field("EmgStop", commonmodule::StatusSPS::descriptor()))
     {
-        visit_commonmodule_StatusSPS([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_emgstop(); }, path, visitor);
+        visit_commonmodule_StatusSPS([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_emgstop(); }, visitor);
     }
     visitor.end_message_field();
-    path.pop();
 
-    path.push(loadmodule::LoadPointStatus::descriptor());
-    if(visitor.start_message_field("PointStatus", path))
+    if(visitor.start_message_field("PointStatus", loadmodule::LoadPointStatus::descriptor()))
     {
-        visit_loadmodule_LoadPointStatus([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_pointstatus(); }, path, visitor);
+        visit_loadmodule_LoadPointStatus([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_pointstatus(); }, visitor);
     }
     visitor.end_message_field();
-    path.pop();
 }
 
 template <class C>
-void visit_commonmodule_NamedObject(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_commonmodule_NamedObject(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
-    path.push(google::protobuf::StringValue::descriptor());
-    if(visitor.start_message_field("description", path))
+    if(visitor.start_message_field("description", google::protobuf::StringValue::descriptor()))
     {
-        visit_google_protobuf_StringValue([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_description(); }, path, visitor);
+        visit_google_protobuf_StringValue([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_description(); }, visitor);
     }
     visitor.end_message_field();
-    path.pop();
 
-    path.push(google::protobuf::StringValue::descriptor());
-    if(visitor.start_message_field("name", path))
+    if(visitor.start_message_field("name", google::protobuf::StringValue::descriptor()))
     {
-        visit_google_protobuf_StringValue([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_name(); }, path, visitor);
+        visit_google_protobuf_StringValue([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_name(); }, visitor);
     }
     visitor.end_message_field();
-    path.pop();
 }
 
 template <class C>
-void visit_commonmodule_IdentifiedObject(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_commonmodule_IdentifiedObject(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
-    path.push(google::protobuf::StringValue::descriptor());
-    if(visitor.start_message_field("description", path))
+    if(visitor.start_message_field("description", google::protobuf::StringValue::descriptor()))
     {
-        visit_google_protobuf_StringValue([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_description(); }, path, visitor);
+        visit_google_protobuf_StringValue([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_description(); }, visitor);
     }
     visitor.end_message_field();
-    path.pop();
 
-    path.push(google::protobuf::StringValue::descriptor());
-    if(visitor.start_message_field("mRID", path))
+    if(visitor.start_message_field("mRID", google::protobuf::StringValue::descriptor()))
     {
-        visit_google_protobuf_StringValue([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_mrid(); }, path, visitor);
+        visit_google_protobuf_StringValue([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_mrid(); }, visitor);
     }
     visitor.end_message_field();
-    path.pop();
 
-    path.push(google::protobuf::StringValue::descriptor());
-    if(visitor.start_message_field("name", path))
+    if(visitor.start_message_field("name", google::protobuf::StringValue::descriptor()))
     {
-        visit_google_protobuf_StringValue([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_name(); }, path, visitor);
+        visit_google_protobuf_StringValue([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_name(); }, visitor);
     }
     visitor.end_message_field();
-    path.pop();
 }
 
 template <class C>
-void visit_commonmodule_ENS_DynamicTestKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_commonmodule_ENS_DynamicTestKind(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
-    path.push(commonmodule::Quality::descriptor());
-    if(visitor.start_message_field("q", path))
+    if(visitor.start_message_field("q", commonmodule::Quality::descriptor()))
     {
-        visit_commonmodule_Quality([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_q(); }, path, visitor);
+        visit_commonmodule_Quality([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_q(); }, visitor);
     }
     visitor.end_message_field();
-    path.pop();
 
     {
         const setter_t<loadmodule::LoadStatusProfile, int> setter = [context](loadmodule::LoadStatusProfile& profile, const int& value) { context(profile)->set_stval(static_cast<commonmodule::DynamicTestKind>(value)); };
         visitor.handle("stVal", setter, commonmodule::DynamicTestKind_descriptor());
     }
 
-    path.push(commonmodule::Timestamp::descriptor());
-    if(visitor.start_message_field("t", path))
+    if(visitor.start_message_field("t", commonmodule::Timestamp::descriptor()))
     {
-        visit_commonmodule_Timestamp([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_t(); }, path, visitor);
+        visit_commonmodule_Timestamp([context](loadmodule::LoadStatusProfile& profile) { return context(profile)->mutable_t(); }, visitor);
     }
     visitor.end_message_field();
-    path.pop();
 }
 
 template <class C>
-void visit_commonmodule_TimeQuality(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_commonmodule_TimeQuality(const C& context, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
     {
         const setter_t<loadmodule::LoadStatusProfile, bool> setter = [context](loadmodule::LoadStatusProfile& profile, const bool& value) { context(profile)->set_clockfailure(value); };

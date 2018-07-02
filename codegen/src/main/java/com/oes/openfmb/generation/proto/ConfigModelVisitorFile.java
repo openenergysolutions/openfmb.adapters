@@ -51,7 +51,6 @@ public class ConfigModelVisitorFile extends CppFilePair {
 
         return join(
                 include("adapter-api/config/generated/" + headerFileName()),
-                include("../DescriptorPathImpl.h"),
                 space,
                 namespace(
                 "adapter",
@@ -80,17 +79,14 @@ public class ConfigModelVisitorFile extends CppFilePair {
     private Document getVisitImpl(Descriptors.Descriptor descriptor)
     {
         return line(getVisitSignature(descriptor))
-                .then("{")
-                .indent(line("DescriptorPathImpl path;"))
-                .space()
-                .indent("// this is so that we can reuse the same generators for child visitors")
-                .indent(
-                        String.format("const auto context = [](%s& profile) { return &profile; };", Helpers.cppMessageName(descriptor))
-                )
-                .space()
-                .indent(spaced(descriptor.getFields().stream().map(this::getFieldHandler)))
-                .then("}");
-
+                .bracket(
+                        line("// this is so that we can reuse the same generators for child visitors")
+                                .then(
+                                        String.format("const auto context = [](%s& profile) { return &profile; };", Helpers.cppMessageName(descriptor))
+                                )
+                                .space()
+                                .then(spaced(descriptor.getFields().stream().map(this::getFieldHandler)))
+                );
     }
 
     static private String getVisitFunctionName(Descriptors.GenericDescriptor descriptor)
@@ -102,7 +98,7 @@ public class ConfigModelVisitorFile extends CppFilePair {
     {
         return line("template <class C>")
                 .then(
-                        String.format("void %s(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<%s>& visitor)%s",
+                        String.format("void %s(const C& context, IConfigModelVisitor<%s>& visitor)%s",
                                 getVisitFunctionName(child),
                                 Helpers.cppMessageName(this.descriptor),
                                 isDeclaration ? ";" : ""
@@ -112,27 +108,18 @@ public class ConfigModelVisitorFile extends CppFilePair {
 
     private Document getChildVisitImpl(Descriptors.Descriptor child)
     {
-        final Document inner = spaced(child.getFields().stream().map(this::getFieldHandler));
-
-        return getChildVisitSignature(child, false)
-                .then("{")
-                .indent(inner)
-                .then("}");
-
+        return getChildVisitSignature(child, false).bracket(spaced(child.getFields().stream().map(this::getFieldHandler)));
     }
 
     private Document getMessageField(Descriptors.FieldDescriptor field)
     {
-        return
-                line(String.format("path.push(%s::descriptor());", Helpers.cppMessageName(field.getMessageType())))
-                        .then(String.format("if(visitor.start_message_field(%s, path))", Helpers.quoted(field.getName())))
+        return line("if(visitor.start_message_field(%s, %s::descriptor()))", Helpers.quoted(field.getName()), Helpers.cppMessageName(field.getMessageType()))
                         .then("{")
                         .indent(
-                                String.format("%s(%s, path, visitor);", getVisitFunctionName(field.getMessageType()), getNewContext(field))
+                                String.format("%s(%s, visitor);", getVisitFunctionName(field.getMessageType()), getNewContext(field))
                         )
                         .then("}")
-                        .then("visitor.end_message_field();")
-                        .then("path.pop();");
+                        .then("visitor.end_message_field();");
 
     }
 
@@ -140,27 +127,21 @@ public class ConfigModelVisitorFile extends CppFilePair {
     {
         final String fieldName = field.getName().toLowerCase();
 
-        final Document loop = line("for(int i = 0; i < count; ++i)")
-                .then("{")
-                .indent("visitor.start_iteration(i);")
+        final Document loop = line("for(int i = 0; i < count; ++i)").bracket(
+                line("visitor.start_iteration(i);")
                 .indent(String.format("%s(", getVisitFunctionName(field.getMessageType())))
                 .indent(
-                        indent(getRepeatedContext(field).then(", path, visitor"))
+                        indent(getRepeatedContext(field).then(", visitor"))
                 )
                 .indent(");")
                 .indent("visitor.end_iteration();")
-                .then("}");
+        );
+
 
         return Document.start().bracket(
-                Documents.lines(
-                        String.format("path.push(%s::descriptor());", Helpers.cppMessageName(field.getMessageType())),
-                        String.format("const auto count = visitor.start_repeated_message_field(%s, path);", Helpers.quoted(fieldName))
-                ),
+                Documents.line("const auto count = visitor.start_repeated_message_field(%s, %s::descriptor());", Helpers.quoted(fieldName), Helpers.cppMessageName(field.getMessageType())),
                 loop,
-                Documents.lines(
-                        "visitor.end_message_field();",
-                        "path.pop();"
-                )
+                Documents.line("visitor.end_message_field();")
         );
     }
 

@@ -7,16 +7,10 @@
 
 #include <google/protobuf/descriptor.h>
 
-namespace adapter {
-class IDescriptorPath {
-public:
-    virtual ~IDescriptorPath() = default;
-    virtual google::protobuf::Descriptor const* top() = 0;
-};
-
 template <class P, class T>
 using setter_t = std::function<void(P&, const T&)>;
 
+namespace adapter {
 template <class P>
 class IConfigModelVisitor {
 
@@ -25,20 +19,20 @@ public:
          * start traversing a message field
          *
          * @param field_name the name of the field inside the message
-         * @param path interface for retrieving information about the current field and its parents
+         * @param descriptor Protobuf message descriptor for the referenced field
          *
          * @return true if the field should be traversed, false to terminate traversal
          */
-    virtual bool start_message_field(const std::string& field_name, IDescriptorPath& path) = 0;
+    virtual bool start_message_field(const std::string& field_name, google::protobuf::Descriptor const* descriptor) = 0;
 
     /**
          * Start traversing a repeated message field
          *
          * @param field_name the name of the field inside the message
-         * @param path interface for retrieving information about the current field and its parents
+         * @param descriptor Protobuf message descriptor for the referenced field
          * @return number of times to traverse the repeated field
          */
-    virtual int start_repeated_message_field(const std::string& field_name, IDescriptorPath& path) = 0;
+    virtual int start_repeated_message_field(const std::string& field_name, google::protobuf::Descriptor const* descriptor) = 0;
 
     virtual void start_iteration(int i) = 0;
 
