@@ -1,11 +1,11 @@
 #ifndef OPENFMB_ADAPTER_FILTEREDVALUELOGSUBSCRIBER_H
 #define OPENFMB_ADAPTER_FILTEREDVALUELOGSUBSCRIBER_H
 
+#include <adapter-api/ConfigStrings.h>
 #include <adapter-api/ISubscriptionHandler.h>
 #include <adapter-api/Logger.h>
 #include <adapter-api/ProfileInfo.h>
 #include <adapter-api/config/generated/MessageVisitors.h>
-#include <adapter-api/ConfigStrings.h>
 
 #include <fstream>
 #include <iomanip>

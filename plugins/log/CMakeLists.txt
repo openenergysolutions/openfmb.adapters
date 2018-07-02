@@ -6,14 +6,9 @@ set(PROJECT_HEADERS
 
 set(PROJECT_SOURCES
         src/ConfigKeys.h
-        src/ITagFilter.h
-        src/LogArchiveVisitor.h
         src/PluginFactory.cpp
         src/Plugin.h
         src/Plugin.cpp
-        src/LogArchiveVisitor.h
-        src/TagFilter.h
-        src/TagFilter.cpp
         src/DebugStringLogSubscriber.h
         src/FilteredValueLogSubscriber.h
 )

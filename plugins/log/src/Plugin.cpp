@@ -6,8 +6,6 @@
 #include "ConfigKeys.h"
 #include "DebugStringLogSubscriber.h"
 #include "FilteredValueLogSubscriber.h"
-#include "LogArchiveVisitor.h"
-#include "TagFilter.h"
 
 #include <set>
 
