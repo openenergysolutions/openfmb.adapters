@@ -10,83 +10,73 @@
 
 #include <stack>
 
-namespace adapter
-{
+namespace adapter {
 
-    /**
+/**
      * Base class that can be used in plugins that need to read a configuration
      *
      * Automatically tracks the current configuration node
      *
      * @tparam T The OpenFMB profile type
      */
-    template <class T>
-    class ConfigReadVisitorBase : public IModelVisitor<T>
+template <class T>
+class ConfigReadVisitorBase : public IModelVisitor<T> {
+
+public:
+    void start_message_field(const std::string& field_name) final
     {
+        this->current.push(
+            yaml::require(this->current.top(), field_name));
+    }
 
-    public:
+    void end_message_field() final
+    {
+        this->current.pop();
+    }
 
-        void start_message_field(const std::string& field_name) final
-        {
-            this->current.push(
-                yaml::require(this->current.top(), field_name)
-            );
+    int start_repeated_message_field(const std::string& field_name) final
+    {
+        auto node = yaml::require(current.top(), field_name);
+        if (!node.IsSequence()) {
+            throw Exception("Node is not a sequence: ", field_name, " at line: ", node.Mark().line);
         }
+        this->current.push(node);
+        return boost::numeric_cast<int>(node.size());
+    }
 
-        void end_message_field() final
-        {
-            this->current.pop();
+    void start_iteration(int i) final
+    {
+        auto node = this->current.top()[i];
+        if (!node) {
+            throw Exception("no node at index: ", i);
         }
+        this->current.push(node);
+    }
 
-        int start_repeated_message_field(const std::string& field_name) final
-        {
-            auto node = yaml::require(current.top(), field_name);
-            if(!node.IsSequence())
-            {
-                throw Exception("Node is not a sequence: ", field_name, " at line: ", node.Mark().line);
-            }
-            this->current.push(node);
-            return boost::numeric_cast<int>(node.size());
-        }
+    void end_iteration() final
+    {
+        this->current.pop();
+    }
 
-        void start_iteration(int i) final
-        {
-            auto node = this->current.top()[i];
-            if(!node)
-            {
-                throw Exception("no node at index: ", i);
-            }
-            this->current.push(node);
-        }
+    void end_repeated_message_field() final
+    {
+        this->current.pop();
+    }
 
-        void end_iteration() final
-        {
-            this->current.pop();
-        }
+protected:
+    explicit ConfigReadVisitorBase(const YAML::Node& root)
+    {
+        current.push(root);
+    }
 
-        void end_repeated_message_field() final
-        {
-            this->current.pop();
-        }
+    YAML::Node get_config_node(const std::string& name)
+    {
+        return yaml::require(current.top(), name);
+    }
 
-    protected:
-
-        explicit ConfigReadVisitorBase(const YAML::Node& root)
-        {
-            current.push(root);
-        }
-
-        YAML::Node get_config_node(const std::string& name)
-        {
-            return yaml::require(current.top(), name);
-        }
-
-    private:
-
-
-        std::stack<YAML::Node> current;
-    };
-
+private:
+    std::stack<YAML::Node> current;
+};
 }
 
 #endif

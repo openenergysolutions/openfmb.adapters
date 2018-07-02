@@ -6,36 +6,29 @@
 
 #include <map>
 
-namespace adapter
-{
+namespace adapter {
 
-    class PluginRegistry
+class PluginRegistry {
+
+public:
+    PluginRegistry();
+
+    template <class Action>
+    void foreach_adapter(const Action& action) const
     {
-
-    public:
-
-        PluginRegistry();
-
-        template<class Action>
-        void foreach_adapter(const Action& action) const
-        {
-            for (auto& entry : lookup)
-            {
-                action(*entry.second);
-            }
+        for (auto& entry : lookup) {
+            action(*entry.second);
         }
+    }
 
-        std::shared_ptr<const IPluginFactory> find(const std::string& name);
+    std::shared_ptr<const IPluginFactory> find(const std::string& name);
 
-    private:
+private:
+    template <class T>
+    void add();
 
-        template<class T>
-        void add();
-
-        std::map<std::string, std::shared_ptr<IPluginFactory>> lookup;
-
-    };
-
+    std::map<std::string, std::shared_ptr<IPluginFactory>> lookup;
+};
 }
 
 #endif //OPENFMB_ADAPTER_ADAPTERREGISTRY_H

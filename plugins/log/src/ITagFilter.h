@@ -3,21 +3,17 @@
 
 #include <string>
 
-namespace adapter
-{
-    namespace log
-    {
-        class ITagFilter
-        {
-        public:
+namespace adapter {
+namespace log {
+    class ITagFilter {
+    public:
+        virtual ~ITagFilter() = default;
 
-            virtual ~ITagFilter() = default;
+        virtual bool matches(const std::string& tag, const std::string& mRID) const = 0;
 
-            virtual bool matches(const std::string& tag, const std::string& mRID) const = 0;
-
-            virtual bool is_empty() const = 0;
-        };
-    }
+        virtual bool is_empty() const = 0;
+    };
+}
 }
 
 #endif

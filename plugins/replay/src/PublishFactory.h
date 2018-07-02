@@ -6,28 +6,22 @@
 
 #include <functional>
 
-namespace adapter
-{
-    namespace replay
-    {
-        using publish_fun_t = std::function<void (IPublisher&)>;
-        using publish_factory_t = publish_fun_t (*)(const std::vector<uint8_t>& bytes);
-        using factory_map_t = std::map<std::string, publish_factory_t>;
+namespace adapter {
+namespace replay {
+    using publish_fun_t = std::function<void(IPublisher&)>;
+    using publish_factory_t = publish_fun_t (*)(const std::vector<uint8_t>& bytes);
+    using factory_map_t = std::map<std::string, publish_factory_t>;
 
-        class PublishFactory
-        {
-        public:
+    class PublishFactory {
+    public:
+        PublishFactory();
 
-            PublishFactory();
+        publish_fun_t get(const std::string& profile_name, const std::vector<uint8_t>& bytes) const;
 
-            publish_fun_t get(const std::string& profile_name, const std::vector<uint8_t>& bytes) const;
-
-        private:
-
-            factory_map_t mapping;
-        };
-
-    }
+    private:
+        factory_map_t mapping;
+    };
+}
 }
 
 #endif

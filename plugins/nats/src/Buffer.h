@@ -5,52 +5,45 @@
 #include <cstddef>
 #include <memory>
 
-namespace adapter
-{
-    namespace nats
-    {
-        class Buffer
+namespace adapter {
+namespace nats {
+    class Buffer {
+    public:
+        Buffer() = delete;
+        Buffer(const Buffer&) = delete;
+
+        explicit Buffer(size_t length)
+            : length_(length)
+            , buffer(std::make_unique<uint8_t[]>(length))
         {
-        public:
+        }
 
-            Buffer() = delete;
-            Buffer(const Buffer&) = delete;
+        Buffer(Buffer&& other)
+            : length_(other.length_)
+            , buffer(std::move(other.buffer))
+        {
+        }
 
-            explicit Buffer(size_t length) :
-                length_(length),
-                buffer(std::make_unique<uint8_t[]>(length))
-            {}
+        const uint8_t* data() const
+        {
+            return this->buffer.get();
+        }
 
-            Buffer(Buffer&& other) :
-                length_(other.length_),
-                buffer(std::move(other.buffer))
-            {
+        uint8_t* data()
+        {
+            return this->buffer.get();
+        }
 
-            }
+        size_t length() const
+        {
+            return this->length_;
+        }
 
-            const uint8_t* data() const
-            {
-                return this->buffer.get();
-            }
-
-            uint8_t* data()
-            {
-                return this->buffer.get();
-            }
-
-            size_t length() const
-            {
-                return this->length_;
-            }
-
-        private:
-
-            size_t length_;
-            std::unique_ptr<uint8_t[]> buffer;
-        };
-    }
-
+    private:
+        size_t length_;
+        std::unique_ptr<uint8_t[]> buffer;
+    };
 }
-
+}
 
 #endif

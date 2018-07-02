@@ -5,20 +5,17 @@
 #include "IPublisher.h"
 #include "ISubscriber.h"
 
-namespace adapter
-{
-    /**
+namespace adapter {
+/**
      * IMessageBus is both IPublisher and ISubscriber
      */
-    class IMessageBus : public IPublisher, public ISubscriber
-    {
+class IMessageBus : public IPublisher, public ISubscriber {
 
-    public:
+public:
+    virtual ~IMessageBus() = default;
+};
 
-        virtual ~IMessageBus() = default;
-    };
-
-    using message_bus_t = std::shared_ptr<IMessageBus>;
+using message_bus_t = std::shared_ptr<IMessageBus>;
 }
 
 #endif

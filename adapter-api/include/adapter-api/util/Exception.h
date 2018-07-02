@@ -8,36 +8,33 @@
 #define OPENFMB_MACRO_TOSTRING(x) OPENFMB_MACRO_STRINGIFY(x)
 #define LOCATION "line: " OPENFMB_MACRO_TOSTRING(__LINE__)
 
-namespace adapter
-{
-    /**
+namespace adapter {
+/**
     * Super class of std::runtime_error that allows
     * message to be built dynamically
     */
-    class Exception : public std::runtime_error
+class Exception : public std::runtime_error {
+
+public:
+    explicit Exception(const char* message)
+        : std::runtime_error(message)
     {
+    }
 
-    public:
-
-        explicit Exception(const char* message) : std::runtime_error(message)
-        {
-
-        }
-
-        template <class T, class... Args>
-        Exception(T t, Args... args) :
-            std::runtime_error(strings::join(t, args...))
-        {
-
-        }
-
-    };
-
-    class NotImplemented : public Exception
+    template <class T, class... Args>
+    Exception(T t, Args... args)
+        : std::runtime_error(strings::join(t, args...))
     {
-    public:
-        NotImplemented(const char* location) : Exception("not implemented: ", location) {}
-    };
+    }
+};
+
+class NotImplemented : public Exception {
+public:
+    NotImplemented(const char* location)
+        : Exception("not implemented: ", location)
+    {
+    }
+};
 }
 
 #endif //OPENFMB_ADAPTER_EXCEPTION_H

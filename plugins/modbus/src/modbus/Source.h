@@ -4,31 +4,26 @@
 
 #include <string>
 
-namespace adapter
-{
-    namespace modbus
-    {
+namespace adapter {
+namespace modbus {
 
-        enum class Source
-        {
-            /// element is not mapped
-            none,
-            /// modbus holding register
-            holding_register
-        };
+    enum class Source {
+        /// element is not mapped
+        none,
+        /// modbus holding register
+        holding_register
+    };
 
-        struct SourceMeta
-        {
-            SourceMeta() = delete;
+    struct SourceMeta {
+        SourceMeta() = delete;
 
-            constexpr static const char* const none = "none";
-            constexpr static const char* const holding_register = "holding_register";
+        constexpr static const char* const none = "none";
+        constexpr static const char* const holding_register = "holding_register";
 
-            static Source from_string(const std::string& value);
-            static std::string to_string(Source value);
-        };
-
-    }
+        static Source from_string(const std::string& value);
+        static std::string to_string(Source value);
+    };
+}
 }
 
 #endif

@@ -4,34 +4,27 @@
 
 #include <argagg/argagg.hpp>
 
-namespace adapter
-{
-    namespace flags
-    {
-        constexpr const char* help = "help";
-        constexpr const char* version = "version";
-        constexpr const char* config_file = "config_file";
-        constexpr const char* generate_config = "generate_config";
-        constexpr const char* plugin = "plugin";
-        constexpr const char* profile = "profile";
-    }
+namespace adapter {
+namespace flags {
+    constexpr const char* help = "help";
+    constexpr const char* version = "version";
+    constexpr const char* config_file = "config_file";
+    constexpr const char* generate_config = "generate_config";
+    constexpr const char* plugin = "plugin";
+    constexpr const char* profile = "profile";
+}
 
-    class ArgumentParser
-    {
-    public:
+class ArgumentParser {
+public:
+    ArgumentParser();
 
-        ArgumentParser();
+    argagg::parser_results parse(int argc, char** argv);
 
-        argagg::parser_results parse(int argc, char** argv);
+    void print_help();
 
-        void print_help();
-
-    private:
-
-        argagg::parser parser;
-    };
-
-
+private:
+    argagg::parser parser;
+};
 }
 
 #endif

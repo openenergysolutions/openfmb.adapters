@@ -3,20 +3,16 @@
 
 #include <cstdint>
 
-namespace adapter
-{
-    namespace modbus
-    {
+namespace adapter {
+namespace modbus {
 
-        class IRegister
-        {
-        public:
-            virtual ~IRegister() = default;
+    class IRegister {
+    public:
+        virtual ~IRegister() = default;
 
-            virtual void set(uint16_t value) = 0;
-        };
-
-    }
+        virtual void set(uint16_t value) = 0;
+    };
+}
 }
 
 #endif

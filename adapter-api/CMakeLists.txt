@@ -4,12 +4,14 @@ set(API_HEADERS
 	include/adapter-api/IPlugin.h
 	include/adapter-api/IPluginFactory.h
 	include/adapter-api/IPublisher.h
-	include/adapter-api/IPublisher.h
-		include/adapter-api/ISubscriptionHandler.h
+	include/adapter-api/ISubscriber.h
+	include/adapter-api/ISubscriptionHandler.h
 	include/adapter-api/IMessageBus.h
 	include/adapter-api/Logger.h
-        include/adapter-api/ProfileMode.h
-        include/adapter-api/ProfileRegistry.h
+	include/adapter-api/ISubscriber.h
+	include/adapter-api/ProfileInfo.h
+    include/adapter-api/ProfileMode.h
+    include/adapter-api/ProfileRegistry.h
 	include/adapter-api/Version.h
 	include/adapter-api/util/Time.h
 	include/adapter-api/util/Exception.h

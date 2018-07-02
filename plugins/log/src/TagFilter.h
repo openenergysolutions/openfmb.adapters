@@ -4,40 +4,35 @@
 
 #include "ITagFilter.h"
 
-#include <set>
 #include <map>
 #include <memory>
+#include <set>
 
-namespace adapter
-{
-    namespace log
-    {
-        class TagFilter : public ITagFilter
+namespace adapter {
+namespace log {
+    class TagFilter : public ITagFilter {
+        using mrid_set_t = std::set<std::string>;
+        using tag_map_t = std::map<std::string, std::unique_ptr<mrid_set_t>>;
+
+    public:
+        static std::shared_ptr<TagFilter> create()
         {
-            using mrid_set_t = std::set<std::string>;
-            using tag_map_t = std::map<std::string, std::unique_ptr<mrid_set_t>>;
+            return std::make_shared<TagFilter>();
+        }
 
-        public:
+        void add(const std::string& tag, const std::string& mRID);
 
-            static std::shared_ptr<TagFilter> create()
-            {
-                return std::make_shared<TagFilter>();
-            }
+        bool matches(const std::string& tag, const std::string& mRID) const override;
 
-            void add(const std::string& tag, const std::string& mRID);
+        bool is_empty() const override
+        {
+            return tag_map.empty();
+        }
 
-            bool matches(const std::string& tag, const std::string& mRID) const override;
-
-            bool is_empty() const override
-            {
-                return tag_map.empty();
-            }
-
-        private:
-
-            tag_map_t tag_map;
-        };
-    }
+    private:
+        tag_map_t tag_map;
+    };
+}
 }
 
 #endif

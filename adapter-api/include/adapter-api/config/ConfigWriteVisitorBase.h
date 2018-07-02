@@ -10,252 +10,245 @@
 
 #include <yaml-cpp/yaml.h>
 
-namespace adapter
-{
+namespace adapter {
 
-    template<class T>
-    class ConfigWriteVisitorBase : public IModelVisitor<T>
+template <class T>
+class ConfigWriteVisitorBase : public IModelVisitor<T> {
+
+protected:
+    YAML::Emitter& out;
+
+public:
+    explicit ConfigWriteVisitorBase(YAML::Emitter& out)
+        : out(out)
     {
+    }
 
-    protected:
+    void start_message_field(const std::string& field_name) final
+    {
+        out << YAML::Key << field_name;
+        out << YAML::BeginMap;
+    }
 
-        YAML::Emitter& out;
+    void end_message_field() final
+    {
+        out << YAML::EndMap;
+    }
 
-    public:
+    virtual int start_repeated_message_field(const std::string& field_name) final
+    {
+        out << YAML::Key << field_name;
+        out << YAML::BeginSeq;
+        return 1;
+    }
 
-        explicit ConfigWriteVisitorBase(YAML::Emitter& out) : out(out) {}
+    virtual void start_iteration(int i) final
+    {
+        out << YAML::BeginMap;
+    }
 
-        void start_message_field(const std::string& field_name) final
-        {
-            out << YAML::Key << field_name;
-            out << YAML::BeginMap;
-        }
+    virtual void end_iteration() final
+    {
+        out << YAML::EndMap;
+    }
 
-        void end_message_field() final
-        {
-            out << YAML::EndMap;
-        }
+    virtual void end_repeated_message_field() final
+    {
+        out << YAML::EndSeq;
+    }
 
-        virtual int start_repeated_message_field(const std::string& field_name) final
-        {
-            out << YAML::Key << field_name;
-            out << YAML::BeginSeq;
-            return 1;
-        }
+    void handle(const std::string& field_name, Accessor<commonmodule::MV, T> accessor) final
+    {
+        this->out << YAML::Key << field_name << YAML::Comment("MV");
+        this->out << YAML::BeginMap;
+        this->write_analogue_config(keys::mag);
+        this->out << YAML::EndMap;
+    }
 
-        virtual void start_iteration(int i) final
-        {
-            out << YAML::BeginMap;
-        }
+    void handle(const std::string& field_name, Accessor<commonmodule::CMV, T> accessor) final
+    {
+        this->out << YAML::Key << field_name << YAML::Comment("CMV");
+        this->out << YAML::BeginMap << keys::cVal;
+        this->out << YAML::BeginMap;
+        this->write_analogue_config(keys::ang);
+        this->write_analogue_config(keys::mag);
+        this->out << YAML::EndMap;
+        this->out << YAML::EndMap;
+    }
 
-        virtual void end_iteration() final
-        {
-            out << YAML::EndMap;
-        }
+    void handle(const std::string& field_name, Accessor<commonmodule::BCR, T> accessor) final
+    {
+        this->out << YAML::Key << field_name << YAML::Comment("BCR");
+        this->out << YAML::BeginMap;
+        this->write_bcr_keys();
+        this->out << YAML::EndMap;
+    }
 
-        virtual void end_repeated_message_field() final
-        {
-            out << YAML::EndSeq;
-        }
+    void handle(const std::string& field_name, Accessor<commonmodule::StatusDPS, T> accessor) final
+    {
+        this->out << YAML::Key << field_name << YAML::Comment("StatusDPS");
+        this->out << YAML::BeginMap;
+        this->write_status_dps_keys();
+        this->out << YAML::EndMap;
+    }
 
-        void handle(const std::string& field_name, Accessor<commonmodule::MV, T> accessor) final
-        {
-            this->out << YAML::Key << field_name << YAML::Comment("MV");
-            this->out << YAML::BeginMap;
-            this->write_analogue_config(keys::mag);
-            this->out << YAML::EndMap;
-        }
+    void handle(const std::string& field_name, Accessor<commonmodule::StatusSPS, T> accessor) final
+    {
+        this->out << YAML::Key << field_name << YAML::Comment("StatusSPS");
+        this->out << YAML::BeginMap;
+        this->write_status_sps_keys();
+        this->out << YAML::EndMap;
+    }
 
-        void handle(const std::string& field_name, Accessor<commonmodule::CMV, T> accessor) final
-        {
-            this->out << YAML::Key << field_name << YAML::Comment("CMV");
-            this->out << YAML::BeginMap << keys::cVal;
-            this->out << YAML::BeginMap;
-            this->write_analogue_config(keys::ang);
-            this->write_analogue_config(keys::mag);
-            this->out << YAML::EndMap;
-            this->out << YAML::EndMap;
-        }
+    void handle(const std::string& field_name, Accessor<commonmodule::ControlDPC, T> accessor) final
+    {
+        this->out << YAML::Key << field_name << YAML::Comment("ControlDPC");
+        this->out << YAML::BeginMap;
+        this->write_control_dpc_keys();
+        this->out << YAML::EndMap;
+    }
 
-        void handle(const std::string& field_name, Accessor<commonmodule::BCR, T> accessor) final
-        {
-            this->out << YAML::Key << field_name << YAML::Comment("BCR");
-            this->out << YAML::BeginMap;
-            this->write_bcr_keys();
-            this->out << YAML::EndMap;
-        }
+    void handle(const std::string& field_name, Accessor<google::protobuf::FloatValue, T> accessor) final
+    {
+        this->out << YAML::Key << field_name << YAML::Comment("FloatValue");
+        this->out << YAML::BeginMap;
+        this->write_float_value_keys();
+        this->out << YAML::EndMap;
+    }
 
-        void handle(const std::string& field_name, Accessor<commonmodule::StatusDPS, T> accessor) final
-        {
-            this->out << YAML::Key << field_name << YAML::Comment("StatusDPS");
-            this->out << YAML::BeginMap;
-            this->write_status_dps_keys();
-            this->out << YAML::EndMap;
-        }
+    void handle(const std::string& field_name, PrimitiveAccessor<commonmodule::StateKind, T> accessor) final
+    {
+        this->out << YAML::Key << field_name;
+        this->out << YAML::BeginMap;
+        this->write_enum_keys(*commonmodule::StateKind_descriptor());
+        this->out << YAML::EndMap;
+    }
 
-        void handle(const std::string& field_name, Accessor <commonmodule::StatusSPS, T> accessor) final
-        {
-            this->out << YAML::Key << field_name << YAML::Comment("StatusSPS");
-            this->out << YAML::BeginMap;
-            this->write_status_sps_keys();
-            this->out << YAML::EndMap;
-        }
+    void handle(const std::string& field_name, PrimitiveAccessor<commonmodule::GridConnectModeKind, T> accessor) final
+    {
+        this->out << YAML::Key << field_name;
+        this->out << YAML::BeginMap;
+        this->write_enum_keys(*commonmodule::GridConnectModeKind_descriptor());
+        this->out << YAML::EndMap;
+    }
 
-        void handle(const std::string& field_name, Accessor <commonmodule::ControlDPC, T> accessor) final
-        {
-            this->out << YAML::Key << field_name << YAML::Comment("ControlDPC");
-            this->out << YAML::BeginMap;
-            this->write_control_dpc_keys();
-            this->out << YAML::EndMap;
-        }
+    void handle(const std::string& field_name, PrimitiveAccessor<commonmodule::DynamicTestKind, T> accessor) final
+    {
+        this->out << YAML::Key << field_name;
+        this->out << YAML::BeginMap;
+        this->write_enum_keys(*commonmodule::DynamicTestKind_descriptor());
+        this->out << YAML::EndMap;
+    }
 
-        void handle(const std::string& field_name, Accessor <google::protobuf::FloatValue, T> accessor) final
-        {
-            this->out << YAML::Key << field_name << YAML::Comment("FloatValue");
-            this->out << YAML::BeginMap;
-            this->write_float_value_keys();
-            this->out << YAML::EndMap;
-        }
+    void handle(const std::string& field_name, Accessor<commonmodule::CheckConditions, T> accessor) final
+    {
+        this->out << YAML::Key << field_name;
+        this->out << YAML::BeginMap;
 
-        void handle(const std::string& field_name, PrimitiveAccessor <commonmodule::StateKind, T> accessor) final
-        {
-            this->out << YAML::Key << field_name;
-            this->out << YAML::BeginMap;
-            this->write_enum_keys(*commonmodule::StateKind_descriptor());
-            this->out << YAML::EndMap;
-        }
+        this->out << YAML::Value << keys::interlockCheck;
+        this->out << YAML::BeginMap;
+        this->write_check_conditions_interlockCheck_keys();
+        this->out << YAML::EndMap;
 
-        void handle(const std::string& field_name, PrimitiveAccessor<commonmodule::GridConnectModeKind, T> accessor) final
-        {
-            this->out << YAML::Key << field_name;
-            this->out << YAML::BeginMap;
-            this->write_enum_keys(*commonmodule::GridConnectModeKind_descriptor());
-            this->out << YAML::EndMap;
-        }
+        this->out << YAML::Value << keys::synchroCheck;
+        this->out << YAML::BeginMap;
+        this->write_check_conditions_synchroCheck_keys();
+        this->out << YAML::EndMap;
 
-        void handle(const std::string& field_name, PrimitiveAccessor<commonmodule::DynamicTestKind, T> accessor) final
-        {
-            this->out << YAML::Key << field_name;
-            this->out << YAML::BeginMap;
-            this->write_enum_keys(*commonmodule::DynamicTestKind_descriptor());
-            this->out << YAML::EndMap;
-        }
+        this->out << YAML::EndMap;
+    }
 
-        void handle(const std::string& field_name, Accessor <commonmodule::CheckConditions, T> accessor) final
-        {
-            this->out << YAML::Key << field_name;
-            this->out << YAML::BeginMap;
+    void handle(const std::string& field_name, Accessor<commonmodule::ScheduleCSG, T> accessor) override
+    {
+        this->out << YAML::Key << field_name;
+        this->out << YAML::BeginMap;
+        this->write_schedule_csg_keys();
+        this->out << YAML::EndMap;
+    }
 
-            this->out << YAML::Value << keys::interlockCheck;
-            this->out << YAML::BeginMap;
-            this->write_check_conditions_interlockCheck_keys();
-            this->out << YAML::EndMap;
+    void handle(const std::string& field_name, Accessor<switchmodule::SwitchCSG, T> accessor) final
+    {
+        this->out << YAML::Key << field_name;
+        this->out << YAML::BeginMap;
+        this->write_switch_csg_keys();
+        this->out << YAML::EndMap;
+    }
 
-            this->out << YAML::Value << keys::synchroCheck;
-            this->out << YAML::BeginMap;
-            this->write_check_conditions_synchroCheck_keys();
-            this->out << YAML::EndMap;
+    void handle(const std::string& field_name, Accessor<commonmodule::ConductingEquipment, T> accessor) final
+    {
+        this->out << YAML::Key << field_name;
+        this->out << YAML::BeginMap;
 
-            this->out << YAML::EndMap;
-        }
+        this->out << YAML::Key << keys::named_object;
+        this->out << YAML::BeginMap;
+        this->out << YAML::Value << keys::description << YAML::Value << "";
+        this->out << YAML::Value << keys::name << YAML::Value << "";
+        this->out << YAML::EndMap;
 
-        void handle(const std::string& field_name, Accessor <commonmodule::ScheduleCSG, T> accessor) override
-        {
-            this->out << YAML::Key << field_name;
-            this->out << YAML::BeginMap;
-            this->write_schedule_csg_keys();
-            this->out << YAML::EndMap;
-        }
+        this->write_static_mrid();
 
-        void handle(const std::string& field_name, Accessor <switchmodule::SwitchCSG, T> accessor) final
-        {
-            this->out << YAML::Key << field_name;
-            this->out << YAML::BeginMap;
-            this->write_switch_csg_keys();
-            this->out << YAML::EndMap;
-        }
+        this->out << YAML::EndMap;
+    }
 
-        void handle(const std::string& field_name, Accessor<commonmodule::ConductingEquipment, T> accessor) final
-        {
-            this->out << YAML::Key << field_name;
-            this->out << YAML::BeginMap;
+    void handle(const std::string& field_name, Accessor<commonmodule::IdentifiedObject, T> accessor) final
+    {
+        this->out << YAML::Key << field_name;
+        this->out << YAML::BeginMap;
+        this->out << YAML::Value << keys::description << YAML::Value << "";
+        this->write_static_mrid();
+        this->out << YAML::Value << keys::name << YAML::Value << "";
+        this->out << YAML::EndMap;
+    }
 
-            this->out << YAML::Key << keys::named_object;
-            this->out << YAML::BeginMap;
-            this->out << YAML::Value << keys::description << YAML::Value << "";
-            this->out << YAML::Value << keys::name << YAML::Value << "";
-            this->out << YAML::EndMap;
+    void handle(const std::string& field_name, Accessor<commonmodule::MessageInfo, T> accessor) final
+    {
+        this->out << YAML::Key << field_name << YAML::Comment("mRID set dynamically");
+        this->out << YAML::BeginMap;
+        this->out << YAML::Key << keys::identified_object;
+        this->out << YAML::BeginMap;
+        this->out << YAML::Value << keys::description << YAML::Value << "";
+        this->out << YAML::Value << keys::name << YAML::Value << "";
+        this->out << YAML::EndMap;
+        this->out << YAML::EndMap;
+    }
 
-            this->write_static_mrid();
+protected:
+    virtual void write_analogue_keys() = 0;
 
-            this->out << YAML::EndMap;
-        }
+    virtual void write_bcr_keys() = 0;
 
-        void handle(const std::string& field_name, Accessor<commonmodule::IdentifiedObject, T> accessor) final
-        {
-            this->out << YAML::Key << field_name;
-            this->out << YAML::BeginMap;
-            this->out << YAML::Value << keys::description << YAML::Value << "";
-            this->write_static_mrid();
-            this->out << YAML::Value << keys::name << YAML::Value << "";
-            this->out << YAML::EndMap;
-        }
+    virtual void write_status_dps_keys() = 0;
 
-        void handle(const std::string& field_name, Accessor<commonmodule::MessageInfo, T> accessor) final
-        {
-            this->out << YAML::Key << field_name << YAML::Comment("mRID set dynamically");
-            this->out << YAML::BeginMap;
-            this->out << YAML::Key << keys::identified_object;
-            this->out << YAML::BeginMap;
-            this->out << YAML::Value << keys::description << YAML::Value << "";
-            this->out << YAML::Value << keys::name << YAML::Value << "";
-            this->out << YAML::EndMap;
-            this->out << YAML::EndMap;
-        }
+    virtual void write_status_sps_keys() = 0;
 
-    protected:
+    virtual void write_control_dpc_keys() = 0;
 
-        virtual void write_analogue_keys() = 0;
+    virtual void write_float_value_keys() = 0;
 
-        virtual void write_bcr_keys() = 0;
+    virtual void write_enum_keys(const google::protobuf::EnumDescriptor&) = 0;
 
-        virtual void write_status_dps_keys() = 0;
+    virtual void write_check_conditions_interlockCheck_keys() = 0;
 
-        virtual void write_status_sps_keys() = 0;
+    virtual void write_check_conditions_synchroCheck_keys() = 0;
 
-        virtual void write_control_dpc_keys() = 0;
+    virtual void write_schedule_csg_keys() = 0;
 
-        virtual void write_float_value_keys() = 0;
+    virtual void write_switch_csg_keys() = 0;
 
-        virtual void write_enum_keys(const google::protobuf::EnumDescriptor&) = 0;
+private:
+    void write_static_mrid()
+    {
+        this->out << YAML::Value << keys::mRID << YAML::Value << "" << YAML::Comment("can be empty or a valid UUID");
+    }
 
-        virtual void write_check_conditions_interlockCheck_keys() = 0;
-
-        virtual void write_check_conditions_synchroCheck_keys() = 0;
-
-        virtual void write_schedule_csg_keys() = 0;
-
-        virtual void write_switch_csg_keys() = 0;
-
-    private:
-
-        void write_static_mrid()
-        {
-            this->out << YAML::Value << keys::mRID << YAML::Value << "" << YAML::Comment("can be empty or a valid UUID");
-        }
-
-        void write_analogue_config(const std::string& name)
-        {
-            this->out << YAML::Key << name;
-            this->out << YAML::BeginMap;
-            this->write_analogue_keys();
-            this->out << YAML::EndMap;
-        }
-
-
-
-    };
-
+    void write_analogue_config(const std::string& name)
+    {
+        this->out << YAML::Key << name;
+        this->out << YAML::BeginMap;
+        this->write_analogue_keys();
+        this->out << YAML::EndMap;
+    }
+};
 }
 
 #endif

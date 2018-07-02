@@ -8,31 +8,31 @@
 
 #include <stack>
 
-namespace adapter
-{
-    class DescriptorPathImpl final : public IDescriptorPath
+namespace adapter {
+class DescriptorPathImpl final : public IDescriptorPath {
+public:
+    const google::protobuf::Descriptor* top() override
     {
-    public:
+        if (descriptors.empty())
+            throw Exception("Path is empty");
+        return descriptors.top();
+    }
 
-        const google::protobuf::Descriptor *top() override {
-            if(descriptors.empty()) throw Exception("Path is empty");
-            return descriptors.top();
-        }
+    void push(google::protobuf::Descriptor const* descriptor)
+    {
+        this->descriptors.push(descriptor);
+    }
 
-        void push(google::protobuf::Descriptor const* descriptor)
-        {
-            this->descriptors.push(descriptor);
-        }
+    void pop()
+    {
+        if (descriptors.empty())
+            throw Exception("Path is empty");
+        this->descriptors.pop();
+    }
 
-        void pop()
-        {
-            if(descriptors.empty()) throw Exception("Path is empty");
-            this->descriptors.pop();
-        }
-
-    private:
-        std::stack<google::protobuf::Descriptor const *> descriptors;
-    };
+private:
+    std::stack<google::protobuf::Descriptor const*> descriptors;
+};
 }
 
 #endif //OPENFMB_ADAPTER_DESCRIPTORPATHIMPL_H

@@ -6,23 +6,16 @@
 
 #include <memory>
 
-namespace adapter
-{
-    namespace modbus
-    {
-        /**
+namespace adapter {
+namespace modbus {
+    /**
          * Something that can asynchronously process Modbus transactions
          */
-        class ITransactionProcessor
-        {
-        public:
-
-
-            virtual void add(std::shared_ptr<ITransaction> transaction) = 0;
-
-        };
-
-    }
+    class ITransactionProcessor {
+    public:
+        virtual void add(std::shared_ptr<ITransaction> transaction) = 0;
+    };
+}
 }
 
 #endif

@@ -7,96 +7,86 @@
 
 #include "SubscriptionRegistry.h"
 
+namespace adapter {
+template <class... Ps>
+class SingleMessageBus;
 
-namespace adapter
-{
-    template <class... Ps>
-    class SingleMessageBus;
+template <class P>
+class SingleMessageBus<P> : public IMessageBus {
+public:
+    virtual ~SingleMessageBus() = default;
 
-    template <class P>
-    class SingleMessageBus<P> : public IMessageBus
+    void publish(const P& message) override
     {
-    public:
+        this->registry->publish(message);
+    }
 
-        virtual ~SingleMessageBus() = default;
-
-        void publish(const P& message) override
-        {
-            this->registry->publish(message);
-        }
-
-        void subscribe(subscription_handler_t<P> handler) override
-        {
-            this->registry->add(std::move(handler));
-        }
-
-        void finalize()
-        {
-            this->registry->finalize();
-        }
-
-        void shutdown()
-        {
-            this->registry->shutdown();
-        }
-
-    private:
-
-        const std::shared_ptr<SubscriptionRegistry<P>> registry = std::make_shared<SubscriptionRegistry<P>>();
-    };
-
-    template <class P, class... Ps>
-    class SingleMessageBus<P, Ps...> : public SingleMessageBus<Ps...>
+    void subscribe(subscription_handler_t<P> handler) override
     {
-    public:
+        this->registry->add(std::move(handler));
+    }
 
-        virtual ~SingleMessageBus() = default;
+    void finalize()
+    {
+        this->registry->finalize();
+    }
 
-        void publish(const P& message) override
-        {
-            this->registry->publish(message);
-        }
+    void shutdown()
+    {
+        this->registry->shutdown();
+    }
 
-        void subscribe(subscription_handler_t<P> handler) override
-        {
-            this->registry->add(std::move(handler));
-        }
+private:
+    const std::shared_ptr<SubscriptionRegistry<P>> registry = std::make_shared<SubscriptionRegistry<P>>();
+};
 
-        void finalize()
-        {
-            this->registry->finalize();
-            SingleMessageBus<Ps...>::finalize();
-        }
+template <class P, class... Ps>
+class SingleMessageBus<P, Ps...> : public SingleMessageBus<Ps...> {
+public:
+    virtual ~SingleMessageBus() = default;
 
-        void shutdown()
-        {
-            this->registry->shutdown();
-            SingleMessageBus<Ps...>::shutdown();
-        }
+    void publish(const P& message) override
+    {
+        this->registry->publish(message);
+    }
 
-    private:
+    void subscribe(subscription_handler_t<P> handler) override
+    {
+        this->registry->add(std::move(handler));
+    }
 
-        const std::shared_ptr<SubscriptionRegistry<P>> registry = std::make_shared<SubscriptionRegistry<P>>();
-    };
+    void finalize()
+    {
+        this->registry->finalize();
+        SingleMessageBus<Ps...>::finalize();
+    }
 
-    /**
+    void shutdown()
+    {
+        this->registry->shutdown();
+        SingleMessageBus<Ps...>::shutdown();
+    }
+
+private:
+    const std::shared_ptr<SubscriptionRegistry<P>> registry = std::make_shared<SubscriptionRegistry<P>>();
+};
+
+/**
      * Specialization that allows us to use the ProfileRegistry
      * @tparam R ProfileRegistry type
      * @tparam Ps List of profiles to implement
      */
-    template <template <class...> class R, class...Ps>
-    class SingleMessageBus<R<Ps...>> : public SingleMessageBus<Ps...>
-    {
-    public:
-        virtual ~SingleMessageBus() = default;
-    };
+template <template <class...> class R, class... Ps>
+class SingleMessageBus<R<Ps...>> : public SingleMessageBus<Ps...> {
+public:
+    virtual ~SingleMessageBus() = default;
+};
 
-    /**
+/**
      * Concrete implementation based on the ProfileRegistry
      */
-    class MessageBus final : public SingleMessageBus<ProfileRegistry> {};
-
-
+class MessageBus final : public SingleMessageBus<ProfileRegistry> {
+};
 }
 
 #endif

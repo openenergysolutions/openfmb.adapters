@@ -1,12 +1,11 @@
 #include "catch.hpp"
 
-#include "modbus/PollHandler.h"
 #include "modbus/IRequestBuilder.h"
+#include "modbus/PollHandler.h"
 
 using namespace adapter::modbus;
 
-class RequestBuilderMock : public IRequestBuilder
-{
+class RequestBuilderMock : public IRequestBuilder {
 public:
     std::vector<::modbus::ReadHoldingRegistersRequest> read_holding_register_requests;
 
@@ -42,8 +41,7 @@ TEST_CASE("Auto-polling")
 
             SECTION("Split poll in two when the request is too big")
             {
-                for (uint16_t i = 0; i <= 125; ++i)
-                {
+                for (uint16_t i = 0; i <= 125; ++i) {
                     handler.add_holding_register(i, nullptr);
                 }
 
@@ -169,4 +167,3 @@ TEST_CASE("Auto-polling")
         }
     }
 }
-

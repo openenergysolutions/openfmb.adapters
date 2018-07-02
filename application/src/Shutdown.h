@@ -3,15 +3,13 @@
 #ifndef OPENFMB_ADAPTER_SHUTDOWN_H
 #define OPENFMB_ADAPTER_SHUTDOWN_H
 
+#include <condition_variable>
 #include <csignal>
 #include <mutex>
-#include <condition_variable>
 
-class Shutdown
-{
+class Shutdown {
 
 public:
-
     static void await(int signum)
     {
         auto is_shutdown = []() -> bool { return shutdown; };
@@ -32,7 +30,6 @@ public:
     }
 
 private:
-
     Shutdown() = delete;
 
     static std::mutex mutex;

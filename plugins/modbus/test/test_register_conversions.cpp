@@ -5,7 +5,7 @@
 
 using namespace adapter::modbus;
 
-TEST_CASE( "16-bit registers function as expected" )
+TEST_CASE("16-bit registers function as expected")
 {
     SECTION("Not set until value is set")
     {
@@ -23,7 +23,7 @@ TEST_CASE( "16-bit registers function as expected" )
     }
 }
 
-TEST_CASE( "32-bit registers function as expected" )
+TEST_CASE("32-bit registers function as expected")
 {
     SECTION("Not set until both values set")
     {

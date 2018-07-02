@@ -6,31 +6,25 @@
 
 #include "IRegister.h"
 
-#include <memory>
 #include <functional>
+#include <memory>
 
-namespace adapter
-{
-    namespace modbus
-    {
-        using logger_action_t = std::function<void (Logger&)>;
+namespace adapter {
+namespace modbus {
+    using logger_action_t = std::function<void(Logger&)>;
 
-        class IConfigurationBuilder
-        {
+    class IConfigurationBuilder {
 
-        public:
+    public:
+        virtual ~IConfigurationBuilder() = default;
 
-            virtual ~IConfigurationBuilder() = default;
+        virtual void add_begin_action(logger_action_t action) = 0;
 
-            virtual void add_begin_action(logger_action_t action) = 0;
+        virtual void add_holding_register(uint16_t index, std::shared_ptr<IRegister> reg) = 0;
 
-            virtual void add_holding_register(uint16_t index, std::shared_ptr<IRegister> reg) = 0;
-
-            virtual void add_end_action(logger_action_t action) = 0;
-        };
-
-
-    }
+        virtual void add_end_action(logger_action_t action) = 0;
+    };
+}
 }
 
 #endif

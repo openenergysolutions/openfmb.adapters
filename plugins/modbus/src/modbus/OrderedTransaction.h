@@ -2,48 +2,44 @@
 #ifndef OPENFMB_ADAPTER_ORDEREDTRANSACTION_H
 #define OPENFMB_ADAPTER_ORDEREDTRANSACTION_H
 
-#include  "ITransaction.h"
+#include "ITransaction.h"
 
 #include <adapter-api/Logger.h>
 
 #include <queue>
 
-namespace adapter
-{
-    namespace modbus
-    {
-        class OrderedTransaction : public ITransaction, public std::enable_shared_from_this<OrderedTransaction>
+namespace adapter {
+namespace modbus {
+    class OrderedTransaction : public ITransaction, public std::enable_shared_from_this<OrderedTransaction> {
+
+        std::vector<std::shared_ptr<ITransaction>> transactions;
+
+        const std::string description;
+        Logger logger;
+
+    public:
+        OrderedTransaction(std::string description, Logger logger)
+            : description(std::move(description))
+            , logger(std::move(logger))
         {
+        }
 
-            std::vector<std::shared_ptr<ITransaction>> transactions;
+        void add(std::shared_ptr<ITransaction> transaction)
+        {
+            this->transactions.push_back(std::move(transaction));
+        }
 
-            const std::string description;
-            Logger logger;
+        std::string get_description() const override
+        {
+            return this->description;
+        }
 
-        public:
+        void start(session_t session, const callback_t& callback) override;
 
-            OrderedTransaction(std::string description, Logger logger) :
-                description(std::move(description)),
-                logger(std::move(logger))
-            {}
-
-            void add(std::shared_ptr<ITransaction> transaction)
-            {
-                this->transactions.push_back(std::move(transaction));
-            }
-
-            std::string get_description() const override
-            {
-                return this->description;
-            }
-
-            void start(session_t session, const callback_t& callback) override;
-
-        private:
-
-            void start_next(size_t index, session_t session, const callback_t& callback);
-        };
-    }
+    private:
+        void start_next(size_t index, session_t session, const callback_t& callback);
+    };
+}
 }
 
 #endif
