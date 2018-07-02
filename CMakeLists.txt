@@ -17,6 +17,10 @@ option(OPENFMB_USE_TWINOAKS_DDS "Build the Twin Oaks DDS plugin" OFF)
 option(OPENFMB_USE_TIMESCALEDB "Build the historian using TimescaleDB" ON)
 option(OPENFMB_LINK_STATIC "Link dependencies statically where possible" OFF)
 
+#if(OPENFMB_LINK_STATIC)
+#  set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
+#endif()
+
 set(CMAKE_CXX_STANDARD 14)
 
 enable_testing()

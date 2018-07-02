@@ -1,6 +1,7 @@
 
 if(OPENFMB_LINK_STATIC)
 	find_library(LIBNATS nats_static)
+	find_package(OpenSSL REQUIRED)
 else()
 	find_library(LIBNATS nats)
 endif()
@@ -36,7 +37,10 @@ set(CPP_FORMAT_DIRS
 )
 
 add_library(nats-plugin STATIC ${NATS_PUBLIC_HEADERS} ${NATS_SOURCES})
-target_link_libraries(nats-plugin PUBLIC adapter-api ${LIBNATS})
 target_include_directories(nats-plugin PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_link_libraries(nats-plugin PUBLIC adapter-api PRIVATE ${LIBNATS})
+if(OPENFMB_LINK_STATIC)
+	target_link_libraries(nats-plugin PRIVATE ${OPENSSL_LIBRARIES})
+endif()
 
 add_subdirectory(./test)

@@ -32,3 +32,12 @@ Options include:
 * **-DOPENFMB_USE_TWINOAKS_DDS=OFF** - Don't build support for TwinOaks DDS
 
 You can then run your build using the build file created by cmake
+
+# Docker image
+To generate a Docker image, run the following `docker build -t openfmb .` (this takes quite some time)
+
+Afterwards, you will have access to a production-ready Docker image. To run it, follow these steps:
+- `docker run -it --rm -v <PATH_TO_CONFIG_FILES>:/openfmb openfmb -g /openfmb/config.yaml` to generate the default config file.
+- `docker run -it --rm -v <PATH_TO_CONFIG_FILES>:/openfmb openfmb -g /openfmb/<FILENAME>.yaml -p <PLUGIN> -f <PROFILE>` to generate profile configurations for the required plugins.
+- Modify the `config.yaml` file and the required profiles.
+- `docker run -d -v <PATH_TO_CONFIG_FILES>:/openfmb openfmb -c /openfmb/config.yaml` to run OpenFMB as a daemeon.

@@ -1,10 +1,8 @@
-find_program(PROTOBUF_COMPILER protoc)
-
-if(NOT PROTOBUF_COMPILER)
-	message(FATAL_ERROR "could not find protoc (protobuf compiler). Is it installed on your system?")
-else()
-	message("Protobuf compiler is: ${PROTOBUF_COMPILER}")
+if(OPENFMB_LINK_STATIC)
+	set(Protobuf_USE_STATIC_LIBS TRUE)
 endif()
+find_package(Protobuf REQUIRED)
+message("Protobuf compiler is: ${Protobuf_PROTOC_EXECUTABLE}")
 
 # the base directory where the protos live
 set(PROTO_INPUT_DIR ${CMAKE_SOURCE_DIR}/deps/openfmb-protobuf/proto/openfmb)
@@ -55,7 +53,7 @@ file(GLOB PROTO_FILES ${PROTO_INPUT_DIR}/*.proto ${PROTO_INPUT_DIR}/**/*.proto)
 add_custom_command(
     OUTPUT ${PROTO_HEADERS} ${PROTO_SOURCES}
     COMMAND ${CMAKE_COMMAND} -E make_directory ${PROTO_OUTPUT_DIR}
-    COMMAND ${PROTOBUF_COMPILER} --cpp_out=${PROTO_OUTPUT_DIR} --proto_path=${PROTO_INPUT_DIR} ${PROTO_FILES}
+    COMMAND ${Protobuf_PROTOC_EXECUTABLE} --cpp_out=${PROTO_OUTPUT_DIR} --proto_path=${PROTO_INPUT_DIR} ${PROTO_FILES}
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     DEPENDS ${PROTO_INPUTS_FILES}
     COMMENT "Generating openfmb protos..."
@@ -69,7 +67,7 @@ execute_process(
 )
 
 add_library(proto-api ${PROTO_SOURCES} ${PROTO_HEADERS})
-target_link_libraries(proto-api PUBLIC CONAN_PKG::protobuf)
+target_link_libraries(proto-api PUBLIC protobuf::libprotobuf)
 target_include_directories(proto-api PUBLIC ${GENERATED_SOURCES_BASE_DIR})
 # TODO: see if this can be made private or even removed. Right now the proto headers include themselves without any relative paths
 target_include_directories(proto-api PUBLIC ${PROTO_OUTPUT_DIR})
