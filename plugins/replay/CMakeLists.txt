@@ -13,14 +13,6 @@ set(SOURCES
         src/PublishFactory.cpp
 )
 
-SET(CPP_FORMAT_DIRS
-        ${CPP_FORMAT_DIRS}
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/replay/*.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/*.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
-        PARENT_SCOPE
-)
-
 add_library(replay-plugin STATIC ${PUBLIC_HEADERS} ${PROJECT_HEADERS} ${SOURCES})
 target_link_libraries(replay-plugin PUBLIC adapter-api)
 target_include_directories(
@@ -28,5 +20,5 @@ target_include_directories(
         PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
         PRIVATE ${CMAKE_SOURCE_DIR}/deps/cppcodec/
 )
-
-
+clang_tidy(replay-plugin)
+clang_format(replay-plugin)

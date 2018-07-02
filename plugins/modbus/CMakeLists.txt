@@ -42,16 +42,10 @@ set(MODBUS_SOURCES
         src/modbus/CommandSink.cpp
         src/modbus/CommandSink.h src/modbus/WriteRegisterTransaction.cpp src/modbus/WriteRegisterTransaction.h src/modbus/OrderedTransaction.cpp src/modbus/OrderedTransaction.h)
 
-set(CPP_FORMAT_DIRS
-        ${CPP_FORMAT_DIRS}
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/modbus/*.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/modbus/*.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/modbus/*.cpp
-        PARENT_SCOPE
-)
-
 add_library(modbus-plugin STATIC ${MODBUS_PUBLIC_HEADERS} ${MODBUS_SOURCES})
 target_link_libraries(modbus-plugin PUBLIC adapter-api modbus-cpp)
 target_include_directories(modbus-plugin PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+clang_tidy(modbus-plugin)
+clang_format(modbus-plugin)
 
 add_subdirectory(./test)
