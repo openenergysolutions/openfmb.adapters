@@ -123,5 +123,6 @@ target_include_directories(adapter-api PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/includ
 target_include_directories(adapter-api PUBLIC ${CMAKE_SOURCE_DIR}/deps/spdlog/include)
 target_compile_definitions(adapter-api PRIVATE MACRO_GIT_COMMIT_HASH=${GIT_COMMIT_HASH} MACRO_GIT_COMMIT_DATE=${GIT_COMMIT_DATE})
 clang_tidy(adapter-api)
+clang_format(adapter-api EXCLUDES "generated")
 
 add_subdirectory(./test)
