@@ -1,4 +1,4 @@
-#include "adapter-api/config/generated/LoadReadingProfileMutableModelVisitor.h"
+#include "adapter-api/config/generated/LoadReadingProfileConfigModelVisitor.h"
 #include "../DescriptorPathImpl.h"
 
 namespace adapter {
@@ -6,110 +6,110 @@ namespace adapter {
 // ---- forward declare all the template method for child types ----
 
 template <class C>
-void visit_google_protobuf_FloatValue(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor);
+void visit_google_protobuf_FloatValue(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor);
 
 template <class C>
-void visit_loadmodule_LoadReading(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor);
+void visit_loadmodule_LoadReading(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_LogicalNode(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor);
+void visit_commonmodule_LogicalNode(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_DEL(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor);
+void visit_commonmodule_DEL(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_EnergyConsumer(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor);
+void visit_commonmodule_EnergyConsumer(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_IED(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor);
+void visit_commonmodule_IED(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_ConductingEquipment(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor);
+void visit_commonmodule_ConductingEquipment(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_MessageInfo(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor);
+void visit_commonmodule_MessageInfo(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_BCR(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor);
+void visit_commonmodule_BCR(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_Quality(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor);
+void visit_commonmodule_Quality(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_CMV(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor);
+void visit_commonmodule_CMV(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_MV(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor);
+void visit_commonmodule_MV(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor);
 
 template <class C>
-void visit_google_protobuf_Int32Value(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor);
+void visit_google_protobuf_Int32Value(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_PhaseMMTN(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor);
+void visit_commonmodule_PhaseMMTN(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor);
 
 template <class C>
-void visit_google_protobuf_BoolValue(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor);
+void visit_google_protobuf_BoolValue(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_ReadingMMTR(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor);
+void visit_commonmodule_ReadingMMTR(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_ACDCTerminal(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor);
+void visit_commonmodule_ACDCTerminal(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor);
 
 template <class C>
-void visit_google_protobuf_StringValue(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor);
+void visit_google_protobuf_StringValue(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_Timestamp(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor);
+void visit_commonmodule_Timestamp(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_Terminal(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor);
+void visit_commonmodule_Terminal(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_ConductingEquipmentTerminalReading(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor);
+void visit_commonmodule_ConductingEquipmentTerminalReading(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_ReadingMessageInfo(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor);
+void visit_commonmodule_ReadingMessageInfo(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_DetailQual(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor);
+void visit_commonmodule_DetailQual(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_ReadingMMXU(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor);
+void visit_commonmodule_ReadingMMXU(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_Vector(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor);
+void visit_commonmodule_Vector(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_ENG_CalcMethodKind(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor);
+void visit_commonmodule_ENG_CalcMethodKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_WYE(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor);
+void visit_commonmodule_WYE(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_NamedObject(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor);
+void visit_commonmodule_NamedObject(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_IdentifiedObject(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor);
+void visit_commonmodule_IdentifiedObject(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_ReadingMMTN(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor);
+void visit_commonmodule_ReadingMMTN(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_AnalogueValue(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor);
+void visit_commonmodule_AnalogueValue(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_ENG_PFSignKind(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor);
+void visit_commonmodule_ENG_PFSignKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_Unit(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor);
+void visit_commonmodule_Unit(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_TimeQuality(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor);
+void visit_commonmodule_TimeQuality(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor);
 
 // ---- the exposed visit function ----
 
-void visit(IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor)
+void visit(IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor)
 {
     DescriptorPathImpl path;
 
@@ -152,7 +152,7 @@ void visit(IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor)
 // ---- template definitions for child types ----
 
 template <class C>
-void visit_google_protobuf_FloatValue(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor)
+void visit_google_protobuf_FloatValue(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor)
 {
     {
         const setter_t<loadmodule::LoadReadingProfile, float> setter = [context](loadmodule::LoadReadingProfile& profile, const float& value) { context(profile)->set_value(value); };
@@ -161,7 +161,7 @@ void visit_google_protobuf_FloatValue(const C& context, DescriptorPathImpl& path
 }
 
 template <class C>
-void visit_loadmodule_LoadReading(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor)
+void visit_loadmodule_LoadReading(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor)
 {
     path.push(commonmodule::ConductingEquipmentTerminalReading::descriptor());
     if(visitor.start_message_field("conductingEquipmentTerminalReading", path))
@@ -197,7 +197,7 @@ void visit_loadmodule_LoadReading(const C& context, DescriptorPathImpl& path, IM
 }
 
 template <class C>
-void visit_commonmodule_LogicalNode(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor)
+void visit_commonmodule_LogicalNode(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor)
 {
     path.push(commonmodule::IdentifiedObject::descriptor());
     if(visitor.start_message_field("identifiedObject", path))
@@ -209,7 +209,7 @@ void visit_commonmodule_LogicalNode(const C& context, DescriptorPathImpl& path, 
 }
 
 template <class C>
-void visit_commonmodule_DEL(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor)
+void visit_commonmodule_DEL(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor)
 {
     path.push(commonmodule::CMV::descriptor());
     if(visitor.start_message_field("phsAB", path))
@@ -237,7 +237,7 @@ void visit_commonmodule_DEL(const C& context, DescriptorPathImpl& path, IMutable
 }
 
 template <class C>
-void visit_commonmodule_EnergyConsumer(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor)
+void visit_commonmodule_EnergyConsumer(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor)
 {
     path.push(commonmodule::ConductingEquipment::descriptor());
     if(visitor.start_message_field("conductingEquipment", path))
@@ -257,7 +257,7 @@ void visit_commonmodule_EnergyConsumer(const C& context, DescriptorPathImpl& pat
 }
 
 template <class C>
-void visit_commonmodule_IED(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor)
+void visit_commonmodule_IED(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor)
 {
     path.push(commonmodule::IdentifiedObject::descriptor());
     if(visitor.start_message_field("identifiedObject", path))
@@ -269,7 +269,7 @@ void visit_commonmodule_IED(const C& context, DescriptorPathImpl& path, IMutable
 }
 
 template <class C>
-void visit_commonmodule_ConductingEquipment(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor)
+void visit_commonmodule_ConductingEquipment(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor)
 {
     path.push(commonmodule::NamedObject::descriptor());
     if(visitor.start_message_field("namedObject", path))
@@ -286,7 +286,7 @@ void visit_commonmodule_ConductingEquipment(const C& context, DescriptorPathImpl
 }
 
 template <class C>
-void visit_commonmodule_MessageInfo(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor)
+void visit_commonmodule_MessageInfo(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor)
 {
     path.push(commonmodule::IdentifiedObject::descriptor());
     if(visitor.start_message_field("identifiedObject", path))
@@ -306,7 +306,7 @@ void visit_commonmodule_MessageInfo(const C& context, DescriptorPathImpl& path, 
 }
 
 template <class C>
-void visit_commonmodule_BCR(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor)
+void visit_commonmodule_BCR(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor)
 {
     {
         const setter_t<loadmodule::LoadReadingProfile, int64_t> setter = [context](loadmodule::LoadReadingProfile& profile, const int64_t& value) { context(profile)->set_actval(value); };
@@ -336,7 +336,7 @@ void visit_commonmodule_BCR(const C& context, DescriptorPathImpl& path, IMutable
 }
 
 template <class C>
-void visit_commonmodule_Quality(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor)
+void visit_commonmodule_Quality(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor)
 {
     path.push(commonmodule::DetailQual::descriptor());
     if(visitor.start_message_field("detailQual", path))
@@ -368,7 +368,7 @@ void visit_commonmodule_Quality(const C& context, DescriptorPathImpl& path, IMut
 }
 
 template <class C>
-void visit_commonmodule_CMV(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor)
+void visit_commonmodule_CMV(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor)
 {
     path.push(commonmodule::Vector::descriptor());
     if(visitor.start_message_field("cVal", path))
@@ -404,7 +404,7 @@ void visit_commonmodule_CMV(const C& context, DescriptorPathImpl& path, IMutable
 }
 
 template <class C>
-void visit_commonmodule_MV(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor)
+void visit_commonmodule_MV(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor)
 {
     path.push(commonmodule::AnalogueValue::descriptor());
     if(visitor.start_message_field("mag", path))
@@ -440,7 +440,7 @@ void visit_commonmodule_MV(const C& context, DescriptorPathImpl& path, IMutableM
 }
 
 template <class C>
-void visit_google_protobuf_Int32Value(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor)
+void visit_google_protobuf_Int32Value(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor)
 {
     {
         const setter_t<loadmodule::LoadReadingProfile, int32_t> setter = [context](loadmodule::LoadReadingProfile& profile, const int32_t& value) { context(profile)->set_value(value); };
@@ -449,7 +449,7 @@ void visit_google_protobuf_Int32Value(const C& context, DescriptorPathImpl& path
 }
 
 template <class C>
-void visit_commonmodule_PhaseMMTN(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor)
+void visit_commonmodule_PhaseMMTN(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor)
 {
     path.push(commonmodule::ReadingMMTN::descriptor());
     if(visitor.start_message_field("phsA", path))
@@ -501,7 +501,7 @@ void visit_commonmodule_PhaseMMTN(const C& context, DescriptorPathImpl& path, IM
 }
 
 template <class C>
-void visit_google_protobuf_BoolValue(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor)
+void visit_google_protobuf_BoolValue(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor)
 {
     {
         const setter_t<loadmodule::LoadReadingProfile, bool> setter = [context](loadmodule::LoadReadingProfile& profile, const bool& value) { context(profile)->set_value(value); };
@@ -510,7 +510,7 @@ void visit_google_protobuf_BoolValue(const C& context, DescriptorPathImpl& path,
 }
 
 template <class C>
-void visit_commonmodule_ReadingMMTR(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor)
+void visit_commonmodule_ReadingMMTR(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor)
 {
     path.push(commonmodule::LogicalNode::descriptor());
     if(visitor.start_message_field("logicalNode", path))
@@ -594,7 +594,7 @@ void visit_commonmodule_ReadingMMTR(const C& context, DescriptorPathImpl& path, 
 }
 
 template <class C>
-void visit_commonmodule_ACDCTerminal(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor)
+void visit_commonmodule_ACDCTerminal(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor)
 {
     path.push(commonmodule::IdentifiedObject::descriptor());
     if(visitor.start_message_field("identifiedObject", path))
@@ -622,7 +622,7 @@ void visit_commonmodule_ACDCTerminal(const C& context, DescriptorPathImpl& path,
 }
 
 template <class C>
-void visit_google_protobuf_StringValue(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor)
+void visit_google_protobuf_StringValue(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor)
 {
     {
         const setter_t<loadmodule::LoadReadingProfile, std::string> setter = [context](loadmodule::LoadReadingProfile& profile, const std::string& value) { context(profile)->set_value(value); };
@@ -631,7 +631,7 @@ void visit_google_protobuf_StringValue(const C& context, DescriptorPathImpl& pat
 }
 
 template <class C>
-void visit_commonmodule_Timestamp(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor)
+void visit_commonmodule_Timestamp(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor)
 {
     {
         const setter_t<loadmodule::LoadReadingProfile, uint32_t> setter = [context](loadmodule::LoadReadingProfile& profile, const uint32_t& value) { context(profile)->set_fraction(value); };
@@ -653,7 +653,7 @@ void visit_commonmodule_Timestamp(const C& context, DescriptorPathImpl& path, IM
 }
 
 template <class C>
-void visit_commonmodule_Terminal(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor)
+void visit_commonmodule_Terminal(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor)
 {
     path.push(commonmodule::ACDCTerminal::descriptor());
     if(visitor.start_message_field("aCDCTerminal", path))
@@ -670,7 +670,7 @@ void visit_commonmodule_Terminal(const C& context, DescriptorPathImpl& path, IMu
 }
 
 template <class C>
-void visit_commonmodule_ConductingEquipmentTerminalReading(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor)
+void visit_commonmodule_ConductingEquipmentTerminalReading(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor)
 {
     path.push(commonmodule::Terminal::descriptor());
     if(visitor.start_message_field("terminal", path))
@@ -682,7 +682,7 @@ void visit_commonmodule_ConductingEquipmentTerminalReading(const C& context, Des
 }
 
 template <class C>
-void visit_commonmodule_ReadingMessageInfo(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor)
+void visit_commonmodule_ReadingMessageInfo(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor)
 {
     path.push(commonmodule::MessageInfo::descriptor());
     if(visitor.start_message_field("messageInfo", path))
@@ -694,7 +694,7 @@ void visit_commonmodule_ReadingMessageInfo(const C& context, DescriptorPathImpl&
 }
 
 template <class C>
-void visit_commonmodule_DetailQual(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor)
+void visit_commonmodule_DetailQual(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor)
 {
     {
         const setter_t<loadmodule::LoadReadingProfile, bool> setter = [context](loadmodule::LoadReadingProfile& profile, const bool& value) { context(profile)->set_badreference(value); };
@@ -738,7 +738,7 @@ void visit_commonmodule_DetailQual(const C& context, DescriptorPathImpl& path, I
 }
 
 template <class C>
-void visit_commonmodule_ReadingMMXU(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor)
+void visit_commonmodule_ReadingMMXU(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor)
 {
     path.push(commonmodule::LogicalNode::descriptor());
     if(visitor.start_message_field("logicalNode", path))
@@ -830,7 +830,7 @@ void visit_commonmodule_ReadingMMXU(const C& context, DescriptorPathImpl& path, 
 }
 
 template <class C>
-void visit_commonmodule_Vector(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor)
+void visit_commonmodule_Vector(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor)
 {
     path.push(commonmodule::AnalogueValue::descriptor());
     if(visitor.start_message_field("ang", path))
@@ -850,7 +850,7 @@ void visit_commonmodule_Vector(const C& context, DescriptorPathImpl& path, IMuta
 }
 
 template <class C>
-void visit_commonmodule_ENG_CalcMethodKind(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor)
+void visit_commonmodule_ENG_CalcMethodKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor)
 {
     {
         const setter_t<loadmodule::LoadReadingProfile, int> setter = [context](loadmodule::LoadReadingProfile& profile, const int& value) { context(profile)->set_setval(static_cast<commonmodule::CalcMethodKind>(value)); };
@@ -859,7 +859,7 @@ void visit_commonmodule_ENG_CalcMethodKind(const C& context, DescriptorPathImpl&
 }
 
 template <class C>
-void visit_commonmodule_WYE(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor)
+void visit_commonmodule_WYE(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor)
 {
     path.push(commonmodule::CMV::descriptor());
     if(visitor.start_message_field("net", path))
@@ -903,7 +903,7 @@ void visit_commonmodule_WYE(const C& context, DescriptorPathImpl& path, IMutable
 }
 
 template <class C>
-void visit_commonmodule_NamedObject(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor)
+void visit_commonmodule_NamedObject(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor)
 {
     path.push(google::protobuf::StringValue::descriptor());
     if(visitor.start_message_field("description", path))
@@ -923,7 +923,7 @@ void visit_commonmodule_NamedObject(const C& context, DescriptorPathImpl& path, 
 }
 
 template <class C>
-void visit_commonmodule_IdentifiedObject(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor)
+void visit_commonmodule_IdentifiedObject(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor)
 {
     path.push(google::protobuf::StringValue::descriptor());
     if(visitor.start_message_field("description", path))
@@ -951,7 +951,7 @@ void visit_commonmodule_IdentifiedObject(const C& context, DescriptorPathImpl& p
 }
 
 template <class C>
-void visit_commonmodule_ReadingMMTN(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor)
+void visit_commonmodule_ReadingMMTN(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor)
 {
     path.push(commonmodule::LogicalNode::descriptor());
     if(visitor.start_message_field("logicalNode", path))
@@ -1035,7 +1035,7 @@ void visit_commonmodule_ReadingMMTN(const C& context, DescriptorPathImpl& path, 
 }
 
 template <class C>
-void visit_commonmodule_AnalogueValue(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor)
+void visit_commonmodule_AnalogueValue(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor)
 {
     path.push(google::protobuf::FloatValue::descriptor());
     if(visitor.start_message_field("f", path))
@@ -1055,7 +1055,7 @@ void visit_commonmodule_AnalogueValue(const C& context, DescriptorPathImpl& path
 }
 
 template <class C>
-void visit_commonmodule_ENG_PFSignKind(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor)
+void visit_commonmodule_ENG_PFSignKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor)
 {
     {
         const setter_t<loadmodule::LoadReadingProfile, int> setter = [context](loadmodule::LoadReadingProfile& profile, const int& value) { context(profile)->set_setval(static_cast<commonmodule::PFSignKind>(value)); };
@@ -1064,7 +1064,7 @@ void visit_commonmodule_ENG_PFSignKind(const C& context, DescriptorPathImpl& pat
 }
 
 template <class C>
-void visit_commonmodule_Unit(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor)
+void visit_commonmodule_Unit(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor)
 {
     {
         const setter_t<loadmodule::LoadReadingProfile, int> setter = [context](loadmodule::LoadReadingProfile& profile, const int& value) { context(profile)->set_multiplier(static_cast<commonmodule::UnitMultiplierKind>(value)); };
@@ -1078,7 +1078,7 @@ void visit_commonmodule_Unit(const C& context, DescriptorPathImpl& path, IMutabl
 }
 
 template <class C>
-void visit_commonmodule_TimeQuality(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadReadingProfile>& visitor)
+void visit_commonmodule_TimeQuality(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadReadingProfile>& visitor)
 {
     {
         const setter_t<loadmodule::LoadReadingProfile, bool> setter = [context](loadmodule::LoadReadingProfile& profile, const bool& value) { context(profile)->set_clockfailure(value); };

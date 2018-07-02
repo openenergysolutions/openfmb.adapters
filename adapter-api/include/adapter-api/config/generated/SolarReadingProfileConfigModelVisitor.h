@@ -11,11 +11,11 @@
 //  This file is auto-generated. Do not edit manually
 // 
 
-#include "essmodule/essmodule.pb.h"
-#include "../IMutableModelVisitor.h"
+#include "solarmodule/solarmodule.pb.h"
+#include "../IConfigModelVisitor.h"
 
 namespace adapter {
 
-void visit(IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor);
+void visit(IConfigModelVisitor<solarmodule::SolarReadingProfile>& visitor);
 
 } // end namespace adapter

@@ -1,4 +1,4 @@
-#include "adapter-api/config/generated/SolarControlProfileMutableModelVisitor.h"
+#include "adapter-api/config/generated/SolarControlProfileConfigModelVisitor.h"
 #include "../DescriptorPathImpl.h"
 
 namespace adapter {
@@ -6,101 +6,101 @@ namespace adapter {
 // ---- forward declare all the template method for child types ----
 
 template <class C>
-void visit_solarmodule_SolarCSG(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor);
+void visit_solarmodule_SolarCSG(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
 template <class C>
-void visit_google_protobuf_FloatValue(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor);
+void visit_google_protobuf_FloatValue(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_LogicalNode(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor);
+void visit_commonmodule_LogicalNode(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_ControlValue(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor);
+void visit_commonmodule_ControlValue(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_IED(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor);
+void visit_commonmodule_IED(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_ConductingEquipment(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor);
+void visit_commonmodule_ConductingEquipment(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_RampRate(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor);
+void visit_commonmodule_RampRate(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_MessageInfo(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor);
+void visit_commonmodule_MessageInfo(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_ScheduleCSG(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor);
+void visit_commonmodule_ScheduleCSG(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_CheckConditions(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor);
+void visit_commonmodule_CheckConditions(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
 template <class C>
-void visit_solarmodule_SolarControlScheduleFSCH(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor);
+void visit_solarmodule_SolarControlScheduleFSCH(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_ControlDPC(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor);
+void visit_commonmodule_ControlDPC(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
 template <class C>
-void visit_google_protobuf_BoolValue(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor);
+void visit_google_protobuf_BoolValue(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_ControlMessageInfo(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor);
+void visit_commonmodule_ControlMessageInfo(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
 template <class C>
-void visit_solarmodule_SolarControl(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor);
+void visit_solarmodule_SolarControl(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
 template <class C>
-void visit_solarmodule_SolarControlFSCC(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor);
+void visit_solarmodule_SolarControlFSCC(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
 template <class C>
-void visit_solarmodule_SolarPoint(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor);
+void visit_solarmodule_SolarPoint(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
 template <class C>
-void visit_google_protobuf_StringValue(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor);
+void visit_google_protobuf_StringValue(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_Timestamp(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor);
+void visit_commonmodule_Timestamp(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_ControlTimestamp(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor);
+void visit_commonmodule_ControlTimestamp(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_Optional_StateKind(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor);
+void visit_commonmodule_Optional_StateKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_SchedulePoint(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor);
+void visit_commonmodule_SchedulePoint(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_ControlScheduleFSCH(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor);
+void visit_commonmodule_ControlScheduleFSCH(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_LogicalNodeForControl(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor);
+void visit_commonmodule_LogicalNodeForControl(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_NamedObject(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor);
+void visit_commonmodule_NamedObject(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_IdentifiedObject(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor);
+void visit_commonmodule_IdentifiedObject(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_ENG_GridConnectModeKind(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor);
+void visit_commonmodule_ENG_GridConnectModeKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
 template <class C>
-void visit_solarmodule_SolarInverter(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor);
+void visit_solarmodule_SolarInverter(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_ControlFSCC(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor);
+void visit_commonmodule_ControlFSCC(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_Unit(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor);
+void visit_commonmodule_Unit(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_TimeQuality(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor);
+void visit_commonmodule_TimeQuality(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
 // ---- the exposed visit function ----
 
-void visit(IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor)
+void visit(IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor)
 {
     DescriptorPathImpl path;
 
@@ -143,7 +143,7 @@ void visit(IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor)
 // ---- template definitions for child types ----
 
 template <class C>
-void visit_solarmodule_SolarCSG(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor)
+void visit_solarmodule_SolarCSG(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor)
 {
     {
         path.push(solarmodule::SolarPoint::descriptor());
@@ -176,7 +176,7 @@ void visit_solarmodule_SolarCSG(const C& context, DescriptorPathImpl& path, IMut
 }
 
 template <class C>
-void visit_google_protobuf_FloatValue(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor)
+void visit_google_protobuf_FloatValue(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor)
 {
     {
         const setter_t<solarmodule::SolarControlProfile, float> setter = [context](solarmodule::SolarControlProfile& profile, const float& value) { context(profile)->set_value(value); };
@@ -185,7 +185,7 @@ void visit_google_protobuf_FloatValue(const C& context, DescriptorPathImpl& path
 }
 
 template <class C>
-void visit_commonmodule_LogicalNode(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor)
+void visit_commonmodule_LogicalNode(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor)
 {
     path.push(commonmodule::IdentifiedObject::descriptor());
     if(visitor.start_message_field("identifiedObject", path))
@@ -197,7 +197,7 @@ void visit_commonmodule_LogicalNode(const C& context, DescriptorPathImpl& path, 
 }
 
 template <class C>
-void visit_commonmodule_ControlValue(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor)
+void visit_commonmodule_ControlValue(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor)
 {
     path.push(commonmodule::IdentifiedObject::descriptor());
     if(visitor.start_message_field("identifiedObject", path))
@@ -217,7 +217,7 @@ void visit_commonmodule_ControlValue(const C& context, DescriptorPathImpl& path,
 }
 
 template <class C>
-void visit_commonmodule_IED(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor)
+void visit_commonmodule_IED(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor)
 {
     path.push(commonmodule::IdentifiedObject::descriptor());
     if(visitor.start_message_field("identifiedObject", path))
@@ -229,7 +229,7 @@ void visit_commonmodule_IED(const C& context, DescriptorPathImpl& path, IMutable
 }
 
 template <class C>
-void visit_commonmodule_ConductingEquipment(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor)
+void visit_commonmodule_ConductingEquipment(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor)
 {
     path.push(commonmodule::NamedObject::descriptor());
     if(visitor.start_message_field("namedObject", path))
@@ -246,7 +246,7 @@ void visit_commonmodule_ConductingEquipment(const C& context, DescriptorPathImpl
 }
 
 template <class C>
-void visit_commonmodule_RampRate(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor)
+void visit_commonmodule_RampRate(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor)
 {
     path.push(google::protobuf::FloatValue::descriptor());
     if(visitor.start_message_field("negativeReactivePowerKVArPerMin", path))
@@ -282,7 +282,7 @@ void visit_commonmodule_RampRate(const C& context, DescriptorPathImpl& path, IMu
 }
 
 template <class C>
-void visit_commonmodule_MessageInfo(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor)
+void visit_commonmodule_MessageInfo(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor)
 {
     path.push(commonmodule::IdentifiedObject::descriptor());
     if(visitor.start_message_field("identifiedObject", path))
@@ -302,7 +302,7 @@ void visit_commonmodule_MessageInfo(const C& context, DescriptorPathImpl& path, 
 }
 
 template <class C>
-void visit_commonmodule_ScheduleCSG(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor)
+void visit_commonmodule_ScheduleCSG(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor)
 {
     {
         path.push(commonmodule::SchedulePoint::descriptor());
@@ -399,7 +399,7 @@ void visit_commonmodule_ScheduleCSG(const C& context, DescriptorPathImpl& path, 
 }
 
 template <class C>
-void visit_commonmodule_CheckConditions(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor)
+void visit_commonmodule_CheckConditions(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor)
 {
     path.push(google::protobuf::BoolValue::descriptor());
     if(visitor.start_message_field("interlockCheck", path))
@@ -419,7 +419,7 @@ void visit_commonmodule_CheckConditions(const C& context, DescriptorPathImpl& pa
 }
 
 template <class C>
-void visit_solarmodule_SolarControlScheduleFSCH(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor)
+void visit_solarmodule_SolarControlScheduleFSCH(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor)
 {
     path.push(solarmodule::SolarCSG::descriptor());
     if(visitor.start_message_field("ValDCSG", path))
@@ -431,7 +431,7 @@ void visit_solarmodule_SolarControlScheduleFSCH(const C& context, DescriptorPath
 }
 
 template <class C>
-void visit_commonmodule_ControlDPC(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor)
+void visit_commonmodule_ControlDPC(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor)
 {
     {
         const setter_t<solarmodule::SolarControlProfile, bool> setter = [context](solarmodule::SolarControlProfile& profile, const bool& value) { context(profile)->set_ctlval(value); };
@@ -440,7 +440,7 @@ void visit_commonmodule_ControlDPC(const C& context, DescriptorPathImpl& path, I
 }
 
 template <class C>
-void visit_google_protobuf_BoolValue(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor)
+void visit_google_protobuf_BoolValue(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor)
 {
     {
         const setter_t<solarmodule::SolarControlProfile, bool> setter = [context](solarmodule::SolarControlProfile& profile, const bool& value) { context(profile)->set_value(value); };
@@ -449,7 +449,7 @@ void visit_google_protobuf_BoolValue(const C& context, DescriptorPathImpl& path,
 }
 
 template <class C>
-void visit_commonmodule_ControlMessageInfo(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor)
+void visit_commonmodule_ControlMessageInfo(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor)
 {
     path.push(commonmodule::MessageInfo::descriptor());
     if(visitor.start_message_field("messageInfo", path))
@@ -461,7 +461,7 @@ void visit_commonmodule_ControlMessageInfo(const C& context, DescriptorPathImpl&
 }
 
 template <class C>
-void visit_solarmodule_SolarControl(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor)
+void visit_solarmodule_SolarControl(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor)
 {
     path.push(commonmodule::ControlValue::descriptor());
     if(visitor.start_message_field("controlValue", path))
@@ -489,7 +489,7 @@ void visit_solarmodule_SolarControl(const C& context, DescriptorPathImpl& path, 
 }
 
 template <class C>
-void visit_solarmodule_SolarControlFSCC(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor)
+void visit_solarmodule_SolarControlFSCC(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor)
 {
     path.push(commonmodule::ControlFSCC::descriptor());
     if(visitor.start_message_field("controlFSCC", path))
@@ -509,7 +509,7 @@ void visit_solarmodule_SolarControlFSCC(const C& context, DescriptorPathImpl& pa
 }
 
 template <class C>
-void visit_solarmodule_SolarPoint(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor)
+void visit_solarmodule_SolarPoint(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor)
 {
     path.push(commonmodule::ControlDPC::descriptor());
     if(visitor.start_message_field("frequencySetPointEnabled", path))
@@ -601,7 +601,7 @@ void visit_solarmodule_SolarPoint(const C& context, DescriptorPathImpl& path, IM
 }
 
 template <class C>
-void visit_google_protobuf_StringValue(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor)
+void visit_google_protobuf_StringValue(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor)
 {
     {
         const setter_t<solarmodule::SolarControlProfile, std::string> setter = [context](solarmodule::SolarControlProfile& profile, const std::string& value) { context(profile)->set_value(value); };
@@ -610,7 +610,7 @@ void visit_google_protobuf_StringValue(const C& context, DescriptorPathImpl& pat
 }
 
 template <class C>
-void visit_commonmodule_Timestamp(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor)
+void visit_commonmodule_Timestamp(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor)
 {
     {
         const setter_t<solarmodule::SolarControlProfile, uint32_t> setter = [context](solarmodule::SolarControlProfile& profile, const uint32_t& value) { context(profile)->set_fraction(value); };
@@ -632,7 +632,7 @@ void visit_commonmodule_Timestamp(const C& context, DescriptorPathImpl& path, IM
 }
 
 template <class C>
-void visit_commonmodule_ControlTimestamp(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor)
+void visit_commonmodule_ControlTimestamp(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor)
 {
     {
         const setter_t<solarmodule::SolarControlProfile, uint32_t> setter = [context](solarmodule::SolarControlProfile& profile, const uint32_t& value) { context(profile)->set_fraction(value); };
@@ -646,7 +646,7 @@ void visit_commonmodule_ControlTimestamp(const C& context, DescriptorPathImpl& p
 }
 
 template <class C>
-void visit_commonmodule_Optional_StateKind(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor)
+void visit_commonmodule_Optional_StateKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor)
 {
     {
         const setter_t<solarmodule::SolarControlProfile, int> setter = [context](solarmodule::SolarControlProfile& profile, const int& value) { context(profile)->set_value(static_cast<commonmodule::StateKind>(value)); };
@@ -655,7 +655,7 @@ void visit_commonmodule_Optional_StateKind(const C& context, DescriptorPathImpl&
 }
 
 template <class C>
-void visit_commonmodule_SchedulePoint(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor)
+void visit_commonmodule_SchedulePoint(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor)
 {
     path.push(commonmodule::ControlTimestamp::descriptor());
     if(visitor.start_message_field("xVal", path))
@@ -680,7 +680,7 @@ void visit_commonmodule_SchedulePoint(const C& context, DescriptorPathImpl& path
 }
 
 template <class C>
-void visit_commonmodule_ControlScheduleFSCH(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor)
+void visit_commonmodule_ControlScheduleFSCH(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor)
 {
     path.push(commonmodule::ScheduleCSG::descriptor());
     if(visitor.start_message_field("ValACSG", path))
@@ -692,7 +692,7 @@ void visit_commonmodule_ControlScheduleFSCH(const C& context, DescriptorPathImpl
 }
 
 template <class C>
-void visit_commonmodule_LogicalNodeForControl(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor)
+void visit_commonmodule_LogicalNodeForControl(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor)
 {
     path.push(commonmodule::LogicalNode::descriptor());
     if(visitor.start_message_field("logicalNode", path))
@@ -704,7 +704,7 @@ void visit_commonmodule_LogicalNodeForControl(const C& context, DescriptorPathIm
 }
 
 template <class C>
-void visit_commonmodule_NamedObject(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor)
+void visit_commonmodule_NamedObject(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor)
 {
     path.push(google::protobuf::StringValue::descriptor());
     if(visitor.start_message_field("description", path))
@@ -724,7 +724,7 @@ void visit_commonmodule_NamedObject(const C& context, DescriptorPathImpl& path, 
 }
 
 template <class C>
-void visit_commonmodule_IdentifiedObject(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor)
+void visit_commonmodule_IdentifiedObject(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor)
 {
     path.push(google::protobuf::StringValue::descriptor());
     if(visitor.start_message_field("description", path))
@@ -752,7 +752,7 @@ void visit_commonmodule_IdentifiedObject(const C& context, DescriptorPathImpl& p
 }
 
 template <class C>
-void visit_commonmodule_ENG_GridConnectModeKind(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor)
+void visit_commonmodule_ENG_GridConnectModeKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor)
 {
     {
         const setter_t<solarmodule::SolarControlProfile, int> setter = [context](solarmodule::SolarControlProfile& profile, const int& value) { context(profile)->set_setval(static_cast<commonmodule::GridConnectModeKind>(value)); };
@@ -769,7 +769,7 @@ void visit_commonmodule_ENG_GridConnectModeKind(const C& context, DescriptorPath
 }
 
 template <class C>
-void visit_solarmodule_SolarInverter(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor)
+void visit_solarmodule_SolarInverter(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor)
 {
     path.push(commonmodule::ConductingEquipment::descriptor());
     if(visitor.start_message_field("conductingEquipment", path))
@@ -781,7 +781,7 @@ void visit_solarmodule_SolarInverter(const C& context, DescriptorPathImpl& path,
 }
 
 template <class C>
-void visit_commonmodule_ControlFSCC(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor)
+void visit_commonmodule_ControlFSCC(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor)
 {
     path.push(commonmodule::LogicalNodeForControl::descriptor());
     if(visitor.start_message_field("logicalNodeForControl", path))
@@ -822,7 +822,7 @@ void visit_commonmodule_ControlFSCC(const C& context, DescriptorPathImpl& path, 
 }
 
 template <class C>
-void visit_commonmodule_Unit(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor)
+void visit_commonmodule_Unit(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor)
 {
     {
         const setter_t<solarmodule::SolarControlProfile, int> setter = [context](solarmodule::SolarControlProfile& profile, const int& value) { context(profile)->set_multiplier(static_cast<commonmodule::UnitMultiplierKind>(value)); };
@@ -836,7 +836,7 @@ void visit_commonmodule_Unit(const C& context, DescriptorPathImpl& path, IMutabl
 }
 
 template <class C>
-void visit_commonmodule_TimeQuality(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarControlProfile>& visitor)
+void visit_commonmodule_TimeQuality(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor)
 {
     {
         const setter_t<solarmodule::SolarControlProfile, bool> setter = [context](solarmodule::SolarControlProfile& profile, const bool& value) { context(profile)->set_clockfailure(value); };

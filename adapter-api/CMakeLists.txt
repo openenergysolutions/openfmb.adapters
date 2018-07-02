@@ -24,7 +24,7 @@ set(API_HEADERS
 	include/adapter-api/config/ConfigWriteVisitorBase.h
 	include/adapter-api/config/IAccessor.h
 	include/adapter-api/config/IMessageVisitor.h
-	include/adapter-api/config/IModelVisitor.h
+	include/adapter-api/config/IConfigModelVisitor.h
     include/adapter-api/config/ModelVisitors.h
     include/adapter-api/config/PublishingConfigReadVisitorBase.h
     include/adapter-api/config/generated/MessageVisitors.h
@@ -65,23 +65,20 @@ set(API_SOURCES
 	src/config/generated/LoadReadingProfileModelVisitor.cpp
 	src/config/generated/LoadStatusProfileModelVisitor.cpp
 	src/config/generated/LoadControlProfileModelVisitor.cpp
-# mutable model visitors
-	src/config/generated/ResourceReadingProfileMutableModelVisitor.cpp
-	src/config/generated/SwitchReadingProfileMutableModelVisitor.cpp
-	src/config/generated/SwitchStatusProfileMutableModelVisitor.cpp
-	src/config/generated/SwitchControlProfileMutableModelVisitor.cpp
-	src/config/generated/ESSReadingProfileMutableModelVisitor.cpp
-	src/config/generated/ESSStatusProfileMutableModelVisitor.cpp
-	src/config/generated/ESSControlProfileMutableModelVisitor.cpp
-	src/config/generated/SolarReadingProfileMutableModelVisitor.cpp
-	src/config/generated/SolarStatusProfileMutableModelVisitor.cpp
-	src/config/generated/SolarControlProfileMutableModelVisitor.cpp
-	src/config/generated/LoadReadingProfileMutableModelVisitor.cpp
-	src/config/generated/LoadStatusProfileMutableModelVisitor.cpp
-	src/config/generated/LoadControlProfileMutableModelVisitor.cpp
-
-    include/adapter-api/config/IMutableModelVisitor.h
-    src/config/DescriptorPathImpl.h
+# config model visitors
+	src/config/generated/ResourceReadingProfileConfigModelVisitor.cpp
+	src/config/generated/SwitchReadingProfileConfigModelVisitor.cpp
+	src/config/generated/SwitchStatusProfileConfigModelVisitor.cpp
+	src/config/generated/SwitchControlProfileConfigModelVisitor.cpp
+	src/config/generated/ESSReadingProfileConfigModelVisitor.cpp
+	src/config/generated/ESSStatusProfileConfigModelVisitor.cpp
+	src/config/generated/ESSControlProfileConfigModelVisitor.cpp
+	src/config/generated/SolarReadingProfileConfigModelVisitor.cpp
+	src/config/generated/SolarStatusProfileConfigModelVisitor.cpp
+	src/config/generated/SolarControlProfileConfigModelVisitor.cpp
+	src/config/generated/LoadReadingProfileConfigModelVisitor.cpp
+	src/config/generated/LoadStatusProfileConfigModelVisitor.cpp
+	src/config/generated/LoadControlProfileConfigModelVisitor.cpp
 )
 
 

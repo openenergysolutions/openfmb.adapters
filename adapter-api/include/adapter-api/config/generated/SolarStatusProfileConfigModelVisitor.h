@@ -11,11 +11,11 @@
 //  This file is auto-generated. Do not edit manually
 // 
 
-#include "loadmodule/loadmodule.pb.h"
-#include "../IMutableModelVisitor.h"
+#include "solarmodule/solarmodule.pb.h"
+#include "../IConfigModelVisitor.h"
 
 namespace adapter {
 
-void visit(IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit(IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor);
 
 } // end namespace adapter

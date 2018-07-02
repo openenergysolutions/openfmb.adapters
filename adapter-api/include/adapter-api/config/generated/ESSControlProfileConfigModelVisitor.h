@@ -11,11 +11,11 @@
 //  This file is auto-generated. Do not edit manually
 // 
 
-#include "switchmodule/switchmodule.pb.h"
-#include "../IMutableModelVisitor.h"
+#include "essmodule/essmodule.pb.h"
+#include "../IConfigModelVisitor.h"
 
 namespace adapter {
 
-void visit(IMutableModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
+void visit(IConfigModelVisitor<essmodule::ESSControlProfile>& visitor);
 
 } // end namespace adapter

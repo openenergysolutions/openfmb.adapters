@@ -18,7 +18,7 @@ template <class P, class T>
 using setter_t = std::function<void(P&, const T&)>;
 
 template <class P>
-class IMutableModelVisitor {
+class IConfigModelVisitor {
 
 public:
     /**

@@ -1,4 +1,4 @@
-#include "adapter-api/config/generated/LoadStatusProfileMutableModelVisitor.h"
+#include "adapter-api/config/generated/LoadStatusProfileConfigModelVisitor.h"
 #include "../DescriptorPathImpl.h"
 
 namespace adapter {
@@ -6,89 +6,89 @@ namespace adapter {
 // ---- forward declare all the template method for child types ----
 
 template <class C>
-void visit_commonmodule_StatusValue(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_commonmodule_StatusValue(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_google_protobuf_FloatValue(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_google_protobuf_FloatValue(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_LogicalNode(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_commonmodule_LogicalNode(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_EnergyConsumer(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_commonmodule_EnergyConsumer(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_IED(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_commonmodule_IED(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_ConductingEquipment(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_commonmodule_ConductingEquipment(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_RampRate(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_commonmodule_RampRate(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_MessageInfo(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_commonmodule_MessageInfo(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_StatusMessageInfo(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_commonmodule_StatusMessageInfo(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_StatusSPS(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_commonmodule_StatusSPS(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_ControlDPC(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_commonmodule_ControlDPC(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_loadmodule_LoadStatus(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_loadmodule_LoadStatus(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_Quality(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_commonmodule_Quality(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_loadmodule_LoadStatusZGLD(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_loadmodule_LoadStatusZGLD(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_loadmodule_LoadPointStatus(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_loadmodule_LoadPointStatus(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_google_protobuf_StringValue(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_google_protobuf_StringValue(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_Timestamp(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_commonmodule_Timestamp(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_ENS_HealthKind(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_commonmodule_ENS_HealthKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_Optional_StateKind(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_commonmodule_Optional_StateKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_DetailQual(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_commonmodule_DetailQual(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_LogicalNodeForEventAndStatus(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_commonmodule_LogicalNodeForEventAndStatus(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_ENS_BehaviourModeKind(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_commonmodule_ENS_BehaviourModeKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_loadmodule_LoadEventAndStatusZGLD(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_loadmodule_LoadEventAndStatusZGLD(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_NamedObject(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_commonmodule_NamedObject(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_IdentifiedObject(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_commonmodule_IdentifiedObject(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_ENS_DynamicTestKind(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_commonmodule_ENS_DynamicTestKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_TimeQuality(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit_commonmodule_TimeQuality(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 // ---- the exposed visit function ----
 
-void visit(IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit(IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
     DescriptorPathImpl path;
 
@@ -131,7 +131,7 @@ void visit(IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 // ---- template definitions for child types ----
 
 template <class C>
-void visit_commonmodule_StatusValue(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_commonmodule_StatusValue(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
     path.push(commonmodule::IdentifiedObject::descriptor());
     if(visitor.start_message_field("identifiedObject", path))
@@ -143,7 +143,7 @@ void visit_commonmodule_StatusValue(const C& context, DescriptorPathImpl& path, 
 }
 
 template <class C>
-void visit_google_protobuf_FloatValue(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_google_protobuf_FloatValue(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
     {
         const setter_t<loadmodule::LoadStatusProfile, float> setter = [context](loadmodule::LoadStatusProfile& profile, const float& value) { context(profile)->set_value(value); };
@@ -152,7 +152,7 @@ void visit_google_protobuf_FloatValue(const C& context, DescriptorPathImpl& path
 }
 
 template <class C>
-void visit_commonmodule_LogicalNode(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_commonmodule_LogicalNode(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
     path.push(commonmodule::IdentifiedObject::descriptor());
     if(visitor.start_message_field("identifiedObject", path))
@@ -164,7 +164,7 @@ void visit_commonmodule_LogicalNode(const C& context, DescriptorPathImpl& path, 
 }
 
 template <class C>
-void visit_commonmodule_EnergyConsumer(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_commonmodule_EnergyConsumer(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
     path.push(commonmodule::ConductingEquipment::descriptor());
     if(visitor.start_message_field("conductingEquipment", path))
@@ -184,7 +184,7 @@ void visit_commonmodule_EnergyConsumer(const C& context, DescriptorPathImpl& pat
 }
 
 template <class C>
-void visit_commonmodule_IED(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_commonmodule_IED(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
     path.push(commonmodule::IdentifiedObject::descriptor());
     if(visitor.start_message_field("identifiedObject", path))
@@ -196,7 +196,7 @@ void visit_commonmodule_IED(const C& context, DescriptorPathImpl& path, IMutable
 }
 
 template <class C>
-void visit_commonmodule_ConductingEquipment(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_commonmodule_ConductingEquipment(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
     path.push(commonmodule::NamedObject::descriptor());
     if(visitor.start_message_field("namedObject", path))
@@ -213,7 +213,7 @@ void visit_commonmodule_ConductingEquipment(const C& context, DescriptorPathImpl
 }
 
 template <class C>
-void visit_commonmodule_RampRate(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_commonmodule_RampRate(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
     path.push(google::protobuf::FloatValue::descriptor());
     if(visitor.start_message_field("negativeReactivePowerKVArPerMin", path))
@@ -249,7 +249,7 @@ void visit_commonmodule_RampRate(const C& context, DescriptorPathImpl& path, IMu
 }
 
 template <class C>
-void visit_commonmodule_MessageInfo(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_commonmodule_MessageInfo(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
     path.push(commonmodule::IdentifiedObject::descriptor());
     if(visitor.start_message_field("identifiedObject", path))
@@ -269,7 +269,7 @@ void visit_commonmodule_MessageInfo(const C& context, DescriptorPathImpl& path, 
 }
 
 template <class C>
-void visit_commonmodule_StatusMessageInfo(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_commonmodule_StatusMessageInfo(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
     path.push(commonmodule::MessageInfo::descriptor());
     if(visitor.start_message_field("messageInfo", path))
@@ -281,7 +281,7 @@ void visit_commonmodule_StatusMessageInfo(const C& context, DescriptorPathImpl& 
 }
 
 template <class C>
-void visit_commonmodule_StatusSPS(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_commonmodule_StatusSPS(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
     path.push(commonmodule::Quality::descriptor());
     if(visitor.start_message_field("q", path))
@@ -306,7 +306,7 @@ void visit_commonmodule_StatusSPS(const C& context, DescriptorPathImpl& path, IM
 }
 
 template <class C>
-void visit_commonmodule_ControlDPC(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_commonmodule_ControlDPC(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
     {
         const setter_t<loadmodule::LoadStatusProfile, bool> setter = [context](loadmodule::LoadStatusProfile& profile, const bool& value) { context(profile)->set_ctlval(value); };
@@ -315,7 +315,7 @@ void visit_commonmodule_ControlDPC(const C& context, DescriptorPathImpl& path, I
 }
 
 template <class C>
-void visit_loadmodule_LoadStatus(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_loadmodule_LoadStatus(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
     path.push(commonmodule::StatusValue::descriptor());
     if(visitor.start_message_field("statusValue", path))
@@ -335,7 +335,7 @@ void visit_loadmodule_LoadStatus(const C& context, DescriptorPathImpl& path, IMu
 }
 
 template <class C>
-void visit_commonmodule_Quality(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_commonmodule_Quality(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
     path.push(commonmodule::DetailQual::descriptor());
     if(visitor.start_message_field("detailQual", path))
@@ -367,7 +367,7 @@ void visit_commonmodule_Quality(const C& context, DescriptorPathImpl& path, IMut
 }
 
 template <class C>
-void visit_loadmodule_LoadStatusZGLD(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_loadmodule_LoadStatusZGLD(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
     path.push(loadmodule::LoadEventAndStatusZGLD::descriptor());
     if(visitor.start_message_field("loadEventAndStatusZGLD", path))
@@ -379,7 +379,7 @@ void visit_loadmodule_LoadStatusZGLD(const C& context, DescriptorPathImpl& path,
 }
 
 template <class C>
-void visit_loadmodule_LoadPointStatus(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_loadmodule_LoadPointStatus(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
     path.push(commonmodule::RampRate::descriptor());
     if(visitor.start_message_field("rampRates", path))
@@ -423,7 +423,7 @@ void visit_loadmodule_LoadPointStatus(const C& context, DescriptorPathImpl& path
 }
 
 template <class C>
-void visit_google_protobuf_StringValue(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_google_protobuf_StringValue(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
     {
         const setter_t<loadmodule::LoadStatusProfile, std::string> setter = [context](loadmodule::LoadStatusProfile& profile, const std::string& value) { context(profile)->set_value(value); };
@@ -432,7 +432,7 @@ void visit_google_protobuf_StringValue(const C& context, DescriptorPathImpl& pat
 }
 
 template <class C>
-void visit_commonmodule_Timestamp(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_commonmodule_Timestamp(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
     {
         const setter_t<loadmodule::LoadStatusProfile, uint32_t> setter = [context](loadmodule::LoadStatusProfile& profile, const uint32_t& value) { context(profile)->set_fraction(value); };
@@ -454,7 +454,7 @@ void visit_commonmodule_Timestamp(const C& context, DescriptorPathImpl& path, IM
 }
 
 template <class C>
-void visit_commonmodule_ENS_HealthKind(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_commonmodule_ENS_HealthKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
     path.push(google::protobuf::StringValue::descriptor());
     if(visitor.start_message_field("d", path))
@@ -471,7 +471,7 @@ void visit_commonmodule_ENS_HealthKind(const C& context, DescriptorPathImpl& pat
 }
 
 template <class C>
-void visit_commonmodule_Optional_StateKind(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_commonmodule_Optional_StateKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
     {
         const setter_t<loadmodule::LoadStatusProfile, int> setter = [context](loadmodule::LoadStatusProfile& profile, const int& value) { context(profile)->set_value(static_cast<commonmodule::StateKind>(value)); };
@@ -480,7 +480,7 @@ void visit_commonmodule_Optional_StateKind(const C& context, DescriptorPathImpl&
 }
 
 template <class C>
-void visit_commonmodule_DetailQual(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_commonmodule_DetailQual(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
     {
         const setter_t<loadmodule::LoadStatusProfile, bool> setter = [context](loadmodule::LoadStatusProfile& profile, const bool& value) { context(profile)->set_badreference(value); };
@@ -524,7 +524,7 @@ void visit_commonmodule_DetailQual(const C& context, DescriptorPathImpl& path, I
 }
 
 template <class C>
-void visit_commonmodule_LogicalNodeForEventAndStatus(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_commonmodule_LogicalNodeForEventAndStatus(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
     path.push(commonmodule::LogicalNode::descriptor());
     if(visitor.start_message_field("logicalNode", path))
@@ -552,7 +552,7 @@ void visit_commonmodule_LogicalNodeForEventAndStatus(const C& context, Descripto
 }
 
 template <class C>
-void visit_commonmodule_ENS_BehaviourModeKind(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_commonmodule_ENS_BehaviourModeKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
     path.push(commonmodule::Quality::descriptor());
     if(visitor.start_message_field("q", path))
@@ -577,7 +577,7 @@ void visit_commonmodule_ENS_BehaviourModeKind(const C& context, DescriptorPathIm
 }
 
 template <class C>
-void visit_loadmodule_LoadEventAndStatusZGLD(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_loadmodule_LoadEventAndStatusZGLD(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
     path.push(commonmodule::LogicalNodeForEventAndStatus::descriptor());
     if(visitor.start_message_field("logicalNodeForEventAndStatus", path))
@@ -613,7 +613,7 @@ void visit_loadmodule_LoadEventAndStatusZGLD(const C& context, DescriptorPathImp
 }
 
 template <class C>
-void visit_commonmodule_NamedObject(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_commonmodule_NamedObject(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
     path.push(google::protobuf::StringValue::descriptor());
     if(visitor.start_message_field("description", path))
@@ -633,7 +633,7 @@ void visit_commonmodule_NamedObject(const C& context, DescriptorPathImpl& path, 
 }
 
 template <class C>
-void visit_commonmodule_IdentifiedObject(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_commonmodule_IdentifiedObject(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
     path.push(google::protobuf::StringValue::descriptor());
     if(visitor.start_message_field("description", path))
@@ -661,7 +661,7 @@ void visit_commonmodule_IdentifiedObject(const C& context, DescriptorPathImpl& p
 }
 
 template <class C>
-void visit_commonmodule_ENS_DynamicTestKind(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_commonmodule_ENS_DynamicTestKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
     path.push(commonmodule::Quality::descriptor());
     if(visitor.start_message_field("q", path))
@@ -686,7 +686,7 @@ void visit_commonmodule_ENS_DynamicTestKind(const C& context, DescriptorPathImpl
 }
 
 template <class C>
-void visit_commonmodule_TimeQuality(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_commonmodule_TimeQuality(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
     {
         const setter_t<loadmodule::LoadStatusProfile, bool> setter = [context](loadmodule::LoadStatusProfile& profile, const bool& value) { context(profile)->set_clockfailure(value); };

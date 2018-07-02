@@ -10,24 +10,24 @@ import java.util.*;
 
 import static com.oes.openfmb.generation.document.Documents.*;
 
-public class MutableModelVisitorFile extends CppFilePair {
+public class ConfigModelVisitorFile extends CppFilePair {
 
     private final Descriptors.Descriptor descriptor;
     private final Set<Descriptors.Descriptor> children;
 
-    private MutableModelVisitorFile(Descriptors.Descriptor descriptor) {
+    private ConfigModelVisitorFile(Descriptors.Descriptor descriptor) {
         this.descriptor = descriptor;
         this.children = Helpers.getChildMessageDescriptors(Collections.singletonList(descriptor));
     }
 
     public static CppFilePair from(Descriptors.Descriptor descriptor)
     {
-        return new MutableModelVisitorFile(descriptor);
+        return new ConfigModelVisitorFile(descriptor);
     }
 
     @Override
     protected String baseFileName() {
-        return descriptor.getName()+"MutableModelVisitor";
+        return descriptor.getName()+"ConfigModelVisitor";
     }
 
     @Override
@@ -35,7 +35,7 @@ public class MutableModelVisitorFile extends CppFilePair {
         return join(
                 FileHeader.lines,
                 Documents.include(Helpers.getIncludeFile(this.descriptor)),
-                include("../IMutableModelVisitor.h"),
+                include("../IConfigModelVisitor.h"),
                 Documents.space,
                 namespace(
                         "adapter",
@@ -74,7 +74,7 @@ public class MutableModelVisitorFile extends CppFilePair {
 
     private String getVisitSignature(Descriptors.Descriptor descriptor)
     {
-        return String.format("void visit(IMutableModelVisitor<%s>& visitor)", cppMessageName(descriptor));
+        return String.format("void visit(IConfigModelVisitor<%s>& visitor)", cppMessageName(descriptor));
     }
 
     private Document getVisitImpl(Descriptors.Descriptor descriptor)
@@ -102,7 +102,7 @@ public class MutableModelVisitorFile extends CppFilePair {
     {
         return line("template <class C>")
                 .then(
-                        String.format("void %s(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<%s>& visitor)%s",
+                        String.format("void %s(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<%s>& visitor)%s",
                                 getVisitFunctionName(child),
                                 Helpers.cppMessageName(this.descriptor),
                                 isDeclaration ? ";" : ""

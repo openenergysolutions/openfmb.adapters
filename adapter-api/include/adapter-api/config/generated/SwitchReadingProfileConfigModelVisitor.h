@@ -11,11 +11,11 @@
 //  This file is auto-generated. Do not edit manually
 // 
 
-#include "loadmodule/loadmodule.pb.h"
-#include "../IMutableModelVisitor.h"
+#include "switchmodule/switchmodule.pb.h"
+#include "../IConfigModelVisitor.h"
 
 namespace adapter {
 
-void visit(IMutableModelVisitor<loadmodule::LoadControlProfile>& visitor);
+void visit(IConfigModelVisitor<switchmodule::SwitchReadingProfile>& visitor);
 
 } // end namespace adapter

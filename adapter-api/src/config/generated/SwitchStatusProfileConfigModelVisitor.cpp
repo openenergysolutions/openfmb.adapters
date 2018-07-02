@@ -1,4 +1,4 @@
-#include "adapter-api/config/generated/SwitchStatusProfileMutableModelVisitor.h"
+#include "adapter-api/config/generated/SwitchStatusProfileConfigModelVisitor.h"
 #include "../DescriptorPathImpl.h"
 
 namespace adapter {
@@ -6,71 +6,71 @@ namespace adapter {
 // ---- forward declare all the template method for child types ----
 
 template <class C>
-void visit_commonmodule_StatusValue(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
+void visit_commonmodule_StatusValue(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_StatusDPS(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
+void visit_commonmodule_StatusDPS(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_LogicalNode(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
+void visit_commonmodule_LogicalNode(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
 
 template <class C>
-void visit_google_protobuf_StringValue(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
+void visit_google_protobuf_StringValue(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_Timestamp(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
+void visit_commonmodule_Timestamp(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_ENS_HealthKind(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
+void visit_commonmodule_ENS_HealthKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_IED(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
+void visit_commonmodule_IED(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_DetailQual(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
+void visit_commonmodule_DetailQual(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_ConductingEquipment(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
+void visit_commonmodule_ConductingEquipment(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_LogicalNodeForEventAndStatus(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
+void visit_commonmodule_LogicalNodeForEventAndStatus(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_ENS_BehaviourModeKind(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
+void visit_commonmodule_ENS_BehaviourModeKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_MessageInfo(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
+void visit_commonmodule_MessageInfo(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_StatusMessageInfo(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
+void visit_commonmodule_StatusMessageInfo(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_NamedObject(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
+void visit_commonmodule_NamedObject(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_IdentifiedObject(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
+void visit_commonmodule_IdentifiedObject(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
 
 template <class C>
-void visit_switchmodule_SwitchStatusXSWI(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
+void visit_switchmodule_SwitchStatusXSWI(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_Quality(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
+void visit_commonmodule_Quality(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
 
 template <class C>
-void visit_switchmodule_ProtectedSwitch(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
+void visit_switchmodule_ProtectedSwitch(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
 
 template <class C>
-void visit_switchmodule_SwitchStatus(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
+void visit_switchmodule_SwitchStatus(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_ENS_DynamicTestKind(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
+void visit_commonmodule_ENS_DynamicTestKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_TimeQuality(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
+void visit_commonmodule_TimeQuality(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
 
 // ---- the exposed visit function ----
 
-void visit(IMutableModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
+void visit(IConfigModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
 {
     DescriptorPathImpl path;
 
@@ -113,7 +113,7 @@ void visit(IMutableModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
 // ---- template definitions for child types ----
 
 template <class C>
-void visit_commonmodule_StatusValue(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
+void visit_commonmodule_StatusValue(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
 {
     path.push(commonmodule::IdentifiedObject::descriptor());
     if(visitor.start_message_field("identifiedObject", path))
@@ -125,7 +125,7 @@ void visit_commonmodule_StatusValue(const C& context, DescriptorPathImpl& path, 
 }
 
 template <class C>
-void visit_commonmodule_StatusDPS(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
+void visit_commonmodule_StatusDPS(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
 {
     path.push(commonmodule::Quality::descriptor());
     if(visitor.start_message_field("q", path))
@@ -150,7 +150,7 @@ void visit_commonmodule_StatusDPS(const C& context, DescriptorPathImpl& path, IM
 }
 
 template <class C>
-void visit_commonmodule_LogicalNode(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
+void visit_commonmodule_LogicalNode(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
 {
     path.push(commonmodule::IdentifiedObject::descriptor());
     if(visitor.start_message_field("identifiedObject", path))
@@ -162,7 +162,7 @@ void visit_commonmodule_LogicalNode(const C& context, DescriptorPathImpl& path, 
 }
 
 template <class C>
-void visit_google_protobuf_StringValue(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
+void visit_google_protobuf_StringValue(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
 {
     {
         const setter_t<switchmodule::SwitchStatusProfile, std::string> setter = [context](switchmodule::SwitchStatusProfile& profile, const std::string& value) { context(profile)->set_value(value); };
@@ -171,7 +171,7 @@ void visit_google_protobuf_StringValue(const C& context, DescriptorPathImpl& pat
 }
 
 template <class C>
-void visit_commonmodule_Timestamp(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
+void visit_commonmodule_Timestamp(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
 {
     {
         const setter_t<switchmodule::SwitchStatusProfile, uint32_t> setter = [context](switchmodule::SwitchStatusProfile& profile, const uint32_t& value) { context(profile)->set_fraction(value); };
@@ -193,7 +193,7 @@ void visit_commonmodule_Timestamp(const C& context, DescriptorPathImpl& path, IM
 }
 
 template <class C>
-void visit_commonmodule_ENS_HealthKind(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
+void visit_commonmodule_ENS_HealthKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
 {
     path.push(google::protobuf::StringValue::descriptor());
     if(visitor.start_message_field("d", path))
@@ -210,7 +210,7 @@ void visit_commonmodule_ENS_HealthKind(const C& context, DescriptorPathImpl& pat
 }
 
 template <class C>
-void visit_commonmodule_IED(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
+void visit_commonmodule_IED(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
 {
     path.push(commonmodule::IdentifiedObject::descriptor());
     if(visitor.start_message_field("identifiedObject", path))
@@ -222,7 +222,7 @@ void visit_commonmodule_IED(const C& context, DescriptorPathImpl& path, IMutable
 }
 
 template <class C>
-void visit_commonmodule_DetailQual(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
+void visit_commonmodule_DetailQual(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
 {
     {
         const setter_t<switchmodule::SwitchStatusProfile, bool> setter = [context](switchmodule::SwitchStatusProfile& profile, const bool& value) { context(profile)->set_badreference(value); };
@@ -266,7 +266,7 @@ void visit_commonmodule_DetailQual(const C& context, DescriptorPathImpl& path, I
 }
 
 template <class C>
-void visit_commonmodule_ConductingEquipment(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
+void visit_commonmodule_ConductingEquipment(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
 {
     path.push(commonmodule::NamedObject::descriptor());
     if(visitor.start_message_field("namedObject", path))
@@ -283,7 +283,7 @@ void visit_commonmodule_ConductingEquipment(const C& context, DescriptorPathImpl
 }
 
 template <class C>
-void visit_commonmodule_LogicalNodeForEventAndStatus(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
+void visit_commonmodule_LogicalNodeForEventAndStatus(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
 {
     path.push(commonmodule::LogicalNode::descriptor());
     if(visitor.start_message_field("logicalNode", path))
@@ -311,7 +311,7 @@ void visit_commonmodule_LogicalNodeForEventAndStatus(const C& context, Descripto
 }
 
 template <class C>
-void visit_commonmodule_ENS_BehaviourModeKind(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
+void visit_commonmodule_ENS_BehaviourModeKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
 {
     path.push(commonmodule::Quality::descriptor());
     if(visitor.start_message_field("q", path))
@@ -336,7 +336,7 @@ void visit_commonmodule_ENS_BehaviourModeKind(const C& context, DescriptorPathIm
 }
 
 template <class C>
-void visit_commonmodule_MessageInfo(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
+void visit_commonmodule_MessageInfo(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
 {
     path.push(commonmodule::IdentifiedObject::descriptor());
     if(visitor.start_message_field("identifiedObject", path))
@@ -356,7 +356,7 @@ void visit_commonmodule_MessageInfo(const C& context, DescriptorPathImpl& path, 
 }
 
 template <class C>
-void visit_commonmodule_StatusMessageInfo(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
+void visit_commonmodule_StatusMessageInfo(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
 {
     path.push(commonmodule::MessageInfo::descriptor());
     if(visitor.start_message_field("messageInfo", path))
@@ -368,7 +368,7 @@ void visit_commonmodule_StatusMessageInfo(const C& context, DescriptorPathImpl& 
 }
 
 template <class C>
-void visit_commonmodule_NamedObject(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
+void visit_commonmodule_NamedObject(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
 {
     path.push(google::protobuf::StringValue::descriptor());
     if(visitor.start_message_field("description", path))
@@ -388,7 +388,7 @@ void visit_commonmodule_NamedObject(const C& context, DescriptorPathImpl& path, 
 }
 
 template <class C>
-void visit_commonmodule_IdentifiedObject(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
+void visit_commonmodule_IdentifiedObject(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
 {
     path.push(google::protobuf::StringValue::descriptor());
     if(visitor.start_message_field("description", path))
@@ -416,7 +416,7 @@ void visit_commonmodule_IdentifiedObject(const C& context, DescriptorPathImpl& p
 }
 
 template <class C>
-void visit_switchmodule_SwitchStatusXSWI(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
+void visit_switchmodule_SwitchStatusXSWI(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
 {
     path.push(commonmodule::LogicalNodeForEventAndStatus::descriptor());
     if(visitor.start_message_field("logicalNodeForEventAndStatus", path))
@@ -444,7 +444,7 @@ void visit_switchmodule_SwitchStatusXSWI(const C& context, DescriptorPathImpl& p
 }
 
 template <class C>
-void visit_commonmodule_Quality(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
+void visit_commonmodule_Quality(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
 {
     path.push(commonmodule::DetailQual::descriptor());
     if(visitor.start_message_field("detailQual", path))
@@ -476,7 +476,7 @@ void visit_commonmodule_Quality(const C& context, DescriptorPathImpl& path, IMut
 }
 
 template <class C>
-void visit_switchmodule_ProtectedSwitch(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
+void visit_switchmodule_ProtectedSwitch(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
 {
     path.push(commonmodule::ConductingEquipment::descriptor());
     if(visitor.start_message_field("conductingEquipment", path))
@@ -488,7 +488,7 @@ void visit_switchmodule_ProtectedSwitch(const C& context, DescriptorPathImpl& pa
 }
 
 template <class C>
-void visit_switchmodule_SwitchStatus(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
+void visit_switchmodule_SwitchStatus(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
 {
     path.push(commonmodule::StatusValue::descriptor());
     if(visitor.start_message_field("statusValue", path))
@@ -508,7 +508,7 @@ void visit_switchmodule_SwitchStatus(const C& context, DescriptorPathImpl& path,
 }
 
 template <class C>
-void visit_commonmodule_ENS_DynamicTestKind(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
+void visit_commonmodule_ENS_DynamicTestKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
 {
     path.push(commonmodule::Quality::descriptor());
     if(visitor.start_message_field("q", path))
@@ -533,7 +533,7 @@ void visit_commonmodule_ENS_DynamicTestKind(const C& context, DescriptorPathImpl
 }
 
 template <class C>
-void visit_commonmodule_TimeQuality(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
+void visit_commonmodule_TimeQuality(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
 {
     {
         const setter_t<switchmodule::SwitchStatusProfile, bool> setter = [context](switchmodule::SwitchStatusProfile& profile, const bool& value) { context(profile)->set_clockfailure(value); };

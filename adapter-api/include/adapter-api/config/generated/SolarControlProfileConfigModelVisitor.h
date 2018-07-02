@@ -12,10 +12,10 @@
 // 
 
 #include "solarmodule/solarmodule.pb.h"
-#include "../IMutableModelVisitor.h"
+#include "../IConfigModelVisitor.h"
 
 namespace adapter {
 
-void visit(IMutableModelVisitor<solarmodule::SolarReadingProfile>& visitor);
+void visit(IConfigModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
 } // end namespace adapter

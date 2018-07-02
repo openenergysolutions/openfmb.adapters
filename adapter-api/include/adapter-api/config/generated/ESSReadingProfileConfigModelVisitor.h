@@ -12,10 +12,10 @@
 // 
 
 #include "essmodule/essmodule.pb.h"
-#include "../IMutableModelVisitor.h"
+#include "../IConfigModelVisitor.h"
 
 namespace adapter {
 
-void visit(IMutableModelVisitor<essmodule::ESSReadingProfile>& visitor);
+void visit(IConfigModelVisitor<essmodule::ESSReadingProfile>& visitor);
 
 } // end namespace adapter

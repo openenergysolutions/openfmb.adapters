@@ -11,11 +11,11 @@
 //  This file is auto-generated. Do not edit manually
 // 
 
-#include "resourcemodule/resourcemodule.pb.h"
-#include "../IMutableModelVisitor.h"
+#include "switchmodule/switchmodule.pb.h"
+#include "../IConfigModelVisitor.h"
 
 namespace adapter {
 
-void visit(IMutableModelVisitor<resourcemodule::ResourceReadingProfile>& visitor);
+void visit(IConfigModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
 
 } // end namespace adapter

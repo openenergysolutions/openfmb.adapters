@@ -1,4 +1,4 @@
-#include "adapter-api/config/generated/ESSStatusProfileMutableModelVisitor.h"
+#include "adapter-api/config/generated/ESSStatusProfileConfigModelVisitor.h"
 #include "../DescriptorPathImpl.h"
 
 namespace adapter {
@@ -6,113 +6,113 @@ namespace adapter {
 // ---- forward declare all the template method for child types ----
 
 template <class C>
-void visit_commonmodule_StatusValue(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor);
+void visit_commonmodule_StatusValue(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 template <class C>
-void visit_google_protobuf_FloatValue(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor);
+void visit_google_protobuf_FloatValue(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 template <class C>
-void visit_essmodule_ESSPointStatus(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor);
+void visit_essmodule_ESSPointStatus(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_LogicalNode(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor);
+void visit_commonmodule_LogicalNode(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_ESS(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor);
+void visit_commonmodule_ESS(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_IED(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor);
+void visit_commonmodule_IED(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_ConductingEquipment(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor);
+void visit_commonmodule_ConductingEquipment(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_RampRate(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor);
+void visit_commonmodule_RampRate(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_MessageInfo(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor);
+void visit_commonmodule_MessageInfo(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_StatusMessageInfo(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor);
+void visit_commonmodule_StatusMessageInfo(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_StatusSPS(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor);
+void visit_commonmodule_StatusSPS(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 template <class C>
-void visit_essmodule_EssStatusZBAT(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor);
+void visit_essmodule_EssStatusZBAT(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_ControlDPC(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor);
+void visit_commonmodule_ControlDPC(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_Quality(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor);
+void visit_commonmodule_Quality(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_MV(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor);
+void visit_commonmodule_MV(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 template <class C>
-void visit_essmodule_ENG_ESSFunctionKind(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor);
+void visit_essmodule_ENG_ESSFunctionKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 template <class C>
-void visit_google_protobuf_Int32Value(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor);
+void visit_google_protobuf_Int32Value(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 template <class C>
-void visit_essmodule_ESSStatus(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor);
+void visit_essmodule_ESSStatus(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 template <class C>
-void visit_essmodule_ESSEventAndStatusZGEN(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor);
+void visit_essmodule_ESSEventAndStatusZGEN(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 template <class C>
-void visit_essmodule_ESSStatusZGEN(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor);
+void visit_essmodule_ESSStatusZGEN(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 template <class C>
-void visit_google_protobuf_StringValue(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor);
+void visit_google_protobuf_StringValue(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_Timestamp(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor);
+void visit_commonmodule_Timestamp(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_ENS_HealthKind(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor);
+void visit_commonmodule_ENS_HealthKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_Optional_StateKind(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor);
+void visit_commonmodule_Optional_StateKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_DetailQual(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor);
+void visit_commonmodule_DetailQual(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_LogicalNodeForEventAndStatus(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor);
+void visit_commonmodule_LogicalNodeForEventAndStatus(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_ENS_BehaviourModeKind(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor);
+void visit_commonmodule_ENS_BehaviourModeKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_NamedObject(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor);
+void visit_commonmodule_NamedObject(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_IdentifiedObject(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor);
+void visit_commonmodule_IdentifiedObject(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 template <class C>
-void visit_essmodule_ENG_ESSFunctionParameter(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor);
+void visit_essmodule_ENG_ESSFunctionParameter(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_AnalogueValue(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor);
+void visit_commonmodule_AnalogueValue(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_ENG_GridConnectModeKind(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor);
+void visit_commonmodule_ENG_GridConnectModeKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_ENS_DynamicTestKind(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor);
+void visit_commonmodule_ENS_DynamicTestKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_Unit(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor);
+void visit_commonmodule_Unit(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_TimeQuality(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor);
+void visit_commonmodule_TimeQuality(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 // ---- the exposed visit function ----
 
-void visit(IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor)
+void visit(IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
     DescriptorPathImpl path;
 
@@ -155,7 +155,7 @@ void visit(IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor)
 // ---- template definitions for child types ----
 
 template <class C>
-void visit_commonmodule_StatusValue(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor)
+void visit_commonmodule_StatusValue(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
     path.push(commonmodule::IdentifiedObject::descriptor());
     if(visitor.start_message_field("identifiedObject", path))
@@ -167,7 +167,7 @@ void visit_commonmodule_StatusValue(const C& context, DescriptorPathImpl& path, 
 }
 
 template <class C>
-void visit_google_protobuf_FloatValue(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor)
+void visit_google_protobuf_FloatValue(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
     {
         const setter_t<essmodule::ESSStatusProfile, float> setter = [context](essmodule::ESSStatusProfile& profile, const float& value) { context(profile)->set_value(value); };
@@ -176,7 +176,7 @@ void visit_google_protobuf_FloatValue(const C& context, DescriptorPathImpl& path
 }
 
 template <class C>
-void visit_essmodule_ESSPointStatus(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor)
+void visit_essmodule_ESSPointStatus(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
     path.push(commonmodule::ControlDPC::descriptor());
     if(visitor.start_message_field("blackStartEnabled", path))
@@ -292,7 +292,7 @@ void visit_essmodule_ESSPointStatus(const C& context, DescriptorPathImpl& path, 
 }
 
 template <class C>
-void visit_commonmodule_LogicalNode(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor)
+void visit_commonmodule_LogicalNode(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
     path.push(commonmodule::IdentifiedObject::descriptor());
     if(visitor.start_message_field("identifiedObject", path))
@@ -304,7 +304,7 @@ void visit_commonmodule_LogicalNode(const C& context, DescriptorPathImpl& path, 
 }
 
 template <class C>
-void visit_commonmodule_ESS(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor)
+void visit_commonmodule_ESS(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
     path.push(commonmodule::ConductingEquipment::descriptor());
     if(visitor.start_message_field("conductingEquipment", path))
@@ -316,7 +316,7 @@ void visit_commonmodule_ESS(const C& context, DescriptorPathImpl& path, IMutable
 }
 
 template <class C>
-void visit_commonmodule_IED(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor)
+void visit_commonmodule_IED(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
     path.push(commonmodule::IdentifiedObject::descriptor());
     if(visitor.start_message_field("identifiedObject", path))
@@ -328,7 +328,7 @@ void visit_commonmodule_IED(const C& context, DescriptorPathImpl& path, IMutable
 }
 
 template <class C>
-void visit_commonmodule_ConductingEquipment(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor)
+void visit_commonmodule_ConductingEquipment(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
     path.push(commonmodule::NamedObject::descriptor());
     if(visitor.start_message_field("namedObject", path))
@@ -345,7 +345,7 @@ void visit_commonmodule_ConductingEquipment(const C& context, DescriptorPathImpl
 }
 
 template <class C>
-void visit_commonmodule_RampRate(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor)
+void visit_commonmodule_RampRate(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
     path.push(google::protobuf::FloatValue::descriptor());
     if(visitor.start_message_field("negativeReactivePowerKVArPerMin", path))
@@ -381,7 +381,7 @@ void visit_commonmodule_RampRate(const C& context, DescriptorPathImpl& path, IMu
 }
 
 template <class C>
-void visit_commonmodule_MessageInfo(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor)
+void visit_commonmodule_MessageInfo(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
     path.push(commonmodule::IdentifiedObject::descriptor());
     if(visitor.start_message_field("identifiedObject", path))
@@ -401,7 +401,7 @@ void visit_commonmodule_MessageInfo(const C& context, DescriptorPathImpl& path, 
 }
 
 template <class C>
-void visit_commonmodule_StatusMessageInfo(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor)
+void visit_commonmodule_StatusMessageInfo(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
     path.push(commonmodule::MessageInfo::descriptor());
     if(visitor.start_message_field("messageInfo", path))
@@ -413,7 +413,7 @@ void visit_commonmodule_StatusMessageInfo(const C& context, DescriptorPathImpl& 
 }
 
 template <class C>
-void visit_commonmodule_StatusSPS(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor)
+void visit_commonmodule_StatusSPS(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
     path.push(commonmodule::Quality::descriptor());
     if(visitor.start_message_field("q", path))
@@ -438,7 +438,7 @@ void visit_commonmodule_StatusSPS(const C& context, DescriptorPathImpl& path, IM
 }
 
 template <class C>
-void visit_essmodule_EssStatusZBAT(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor)
+void visit_essmodule_EssStatusZBAT(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
     path.push(commonmodule::LogicalNodeForEventAndStatus::descriptor());
     if(visitor.start_message_field("logicalNodeForEventAndStatus", path))
@@ -482,7 +482,7 @@ void visit_essmodule_EssStatusZBAT(const C& context, DescriptorPathImpl& path, I
 }
 
 template <class C>
-void visit_commonmodule_ControlDPC(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor)
+void visit_commonmodule_ControlDPC(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
     {
         const setter_t<essmodule::ESSStatusProfile, bool> setter = [context](essmodule::ESSStatusProfile& profile, const bool& value) { context(profile)->set_ctlval(value); };
@@ -491,7 +491,7 @@ void visit_commonmodule_ControlDPC(const C& context, DescriptorPathImpl& path, I
 }
 
 template <class C>
-void visit_commonmodule_Quality(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor)
+void visit_commonmodule_Quality(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
     path.push(commonmodule::DetailQual::descriptor());
     if(visitor.start_message_field("detailQual", path))
@@ -523,7 +523,7 @@ void visit_commonmodule_Quality(const C& context, DescriptorPathImpl& path, IMut
 }
 
 template <class C>
-void visit_commonmodule_MV(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor)
+void visit_commonmodule_MV(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
     path.push(commonmodule::AnalogueValue::descriptor());
     if(visitor.start_message_field("mag", path))
@@ -559,7 +559,7 @@ void visit_commonmodule_MV(const C& context, DescriptorPathImpl& path, IMutableM
 }
 
 template <class C>
-void visit_essmodule_ENG_ESSFunctionKind(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor)
+void visit_essmodule_ENG_ESSFunctionKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
     {
         const setter_t<essmodule::ESSStatusProfile, int> setter = [context](essmodule::ESSStatusProfile& profile, const int& value) { context(profile)->set_setval(static_cast<essmodule::ESSFunctionKind>(value)); };
@@ -576,7 +576,7 @@ void visit_essmodule_ENG_ESSFunctionKind(const C& context, DescriptorPathImpl& p
 }
 
 template <class C>
-void visit_google_protobuf_Int32Value(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor)
+void visit_google_protobuf_Int32Value(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
     {
         const setter_t<essmodule::ESSStatusProfile, int32_t> setter = [context](essmodule::ESSStatusProfile& profile, const int32_t& value) { context(profile)->set_value(value); };
@@ -585,7 +585,7 @@ void visit_google_protobuf_Int32Value(const C& context, DescriptorPathImpl& path
 }
 
 template <class C>
-void visit_essmodule_ESSStatus(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor)
+void visit_essmodule_ESSStatus(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
     path.push(commonmodule::StatusValue::descriptor());
     if(visitor.start_message_field("statusValue", path))
@@ -613,7 +613,7 @@ void visit_essmodule_ESSStatus(const C& context, DescriptorPathImpl& path, IMuta
 }
 
 template <class C>
-void visit_essmodule_ESSEventAndStatusZGEN(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor)
+void visit_essmodule_ESSEventAndStatusZGEN(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
     path.push(commonmodule::LogicalNodeForEventAndStatus::descriptor());
     if(visitor.start_message_field("logicalNodeForEventAndStatus", path))
@@ -665,7 +665,7 @@ void visit_essmodule_ESSEventAndStatusZGEN(const C& context, DescriptorPathImpl&
 }
 
 template <class C>
-void visit_essmodule_ESSStatusZGEN(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor)
+void visit_essmodule_ESSStatusZGEN(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
     path.push(essmodule::ESSEventAndStatusZGEN::descriptor());
     if(visitor.start_message_field("eSSEventAndStatusZGEN", path))
@@ -677,7 +677,7 @@ void visit_essmodule_ESSStatusZGEN(const C& context, DescriptorPathImpl& path, I
 }
 
 template <class C>
-void visit_google_protobuf_StringValue(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor)
+void visit_google_protobuf_StringValue(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
     {
         const setter_t<essmodule::ESSStatusProfile, std::string> setter = [context](essmodule::ESSStatusProfile& profile, const std::string& value) { context(profile)->set_value(value); };
@@ -686,7 +686,7 @@ void visit_google_protobuf_StringValue(const C& context, DescriptorPathImpl& pat
 }
 
 template <class C>
-void visit_commonmodule_Timestamp(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor)
+void visit_commonmodule_Timestamp(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
     {
         const setter_t<essmodule::ESSStatusProfile, uint32_t> setter = [context](essmodule::ESSStatusProfile& profile, const uint32_t& value) { context(profile)->set_fraction(value); };
@@ -708,7 +708,7 @@ void visit_commonmodule_Timestamp(const C& context, DescriptorPathImpl& path, IM
 }
 
 template <class C>
-void visit_commonmodule_ENS_HealthKind(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor)
+void visit_commonmodule_ENS_HealthKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
     path.push(google::protobuf::StringValue::descriptor());
     if(visitor.start_message_field("d", path))
@@ -725,7 +725,7 @@ void visit_commonmodule_ENS_HealthKind(const C& context, DescriptorPathImpl& pat
 }
 
 template <class C>
-void visit_commonmodule_Optional_StateKind(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor)
+void visit_commonmodule_Optional_StateKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
     {
         const setter_t<essmodule::ESSStatusProfile, int> setter = [context](essmodule::ESSStatusProfile& profile, const int& value) { context(profile)->set_value(static_cast<commonmodule::StateKind>(value)); };
@@ -734,7 +734,7 @@ void visit_commonmodule_Optional_StateKind(const C& context, DescriptorPathImpl&
 }
 
 template <class C>
-void visit_commonmodule_DetailQual(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor)
+void visit_commonmodule_DetailQual(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
     {
         const setter_t<essmodule::ESSStatusProfile, bool> setter = [context](essmodule::ESSStatusProfile& profile, const bool& value) { context(profile)->set_badreference(value); };
@@ -778,7 +778,7 @@ void visit_commonmodule_DetailQual(const C& context, DescriptorPathImpl& path, I
 }
 
 template <class C>
-void visit_commonmodule_LogicalNodeForEventAndStatus(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor)
+void visit_commonmodule_LogicalNodeForEventAndStatus(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
     path.push(commonmodule::LogicalNode::descriptor());
     if(visitor.start_message_field("logicalNode", path))
@@ -806,7 +806,7 @@ void visit_commonmodule_LogicalNodeForEventAndStatus(const C& context, Descripto
 }
 
 template <class C>
-void visit_commonmodule_ENS_BehaviourModeKind(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor)
+void visit_commonmodule_ENS_BehaviourModeKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
     path.push(commonmodule::Quality::descriptor());
     if(visitor.start_message_field("q", path))
@@ -831,7 +831,7 @@ void visit_commonmodule_ENS_BehaviourModeKind(const C& context, DescriptorPathIm
 }
 
 template <class C>
-void visit_commonmodule_NamedObject(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor)
+void visit_commonmodule_NamedObject(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
     path.push(google::protobuf::StringValue::descriptor());
     if(visitor.start_message_field("description", path))
@@ -851,7 +851,7 @@ void visit_commonmodule_NamedObject(const C& context, DescriptorPathImpl& path, 
 }
 
 template <class C>
-void visit_commonmodule_IdentifiedObject(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor)
+void visit_commonmodule_IdentifiedObject(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
     path.push(google::protobuf::StringValue::descriptor());
     if(visitor.start_message_field("description", path))
@@ -879,7 +879,7 @@ void visit_commonmodule_IdentifiedObject(const C& context, DescriptorPathImpl& p
 }
 
 template <class C>
-void visit_essmodule_ENG_ESSFunctionParameter(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor)
+void visit_essmodule_ENG_ESSFunctionParameter(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
     {
         const setter_t<essmodule::ESSStatusProfile, int> setter = [context](essmodule::ESSStatusProfile& profile, const int& value) { context(profile)->set_name(static_cast<essmodule::ESSFunctionParameterKind>(value)); };
@@ -901,7 +901,7 @@ void visit_essmodule_ENG_ESSFunctionParameter(const C& context, DescriptorPathIm
 }
 
 template <class C>
-void visit_commonmodule_AnalogueValue(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor)
+void visit_commonmodule_AnalogueValue(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
     path.push(google::protobuf::FloatValue::descriptor());
     if(visitor.start_message_field("f", path))
@@ -921,7 +921,7 @@ void visit_commonmodule_AnalogueValue(const C& context, DescriptorPathImpl& path
 }
 
 template <class C>
-void visit_commonmodule_ENG_GridConnectModeKind(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor)
+void visit_commonmodule_ENG_GridConnectModeKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
     {
         const setter_t<essmodule::ESSStatusProfile, int> setter = [context](essmodule::ESSStatusProfile& profile, const int& value) { context(profile)->set_setval(static_cast<commonmodule::GridConnectModeKind>(value)); };
@@ -938,7 +938,7 @@ void visit_commonmodule_ENG_GridConnectModeKind(const C& context, DescriptorPath
 }
 
 template <class C>
-void visit_commonmodule_ENS_DynamicTestKind(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor)
+void visit_commonmodule_ENS_DynamicTestKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
     path.push(commonmodule::Quality::descriptor());
     if(visitor.start_message_field("q", path))
@@ -963,7 +963,7 @@ void visit_commonmodule_ENS_DynamicTestKind(const C& context, DescriptorPathImpl
 }
 
 template <class C>
-void visit_commonmodule_Unit(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor)
+void visit_commonmodule_Unit(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
     {
         const setter_t<essmodule::ESSStatusProfile, int> setter = [context](essmodule::ESSStatusProfile& profile, const int& value) { context(profile)->set_multiplier(static_cast<commonmodule::UnitMultiplierKind>(value)); };
@@ -977,7 +977,7 @@ void visit_commonmodule_Unit(const C& context, DescriptorPathImpl& path, IMutabl
 }
 
 template <class C>
-void visit_commonmodule_TimeQuality(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<essmodule::ESSStatusProfile>& visitor)
+void visit_commonmodule_TimeQuality(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
     {
         const setter_t<essmodule::ESSStatusProfile, bool> setter = [context](essmodule::ESSStatusProfile& profile, const bool& value) { context(profile)->set_clockfailure(value); };

@@ -1,4 +1,4 @@
-#include "adapter-api/config/generated/SolarStatusProfileMutableModelVisitor.h"
+#include "adapter-api/config/generated/SolarStatusProfileConfigModelVisitor.h"
 #include "../DescriptorPathImpl.h"
 
 namespace adapter {
@@ -6,92 +6,92 @@ namespace adapter {
 // ---- forward declare all the template method for child types ----
 
 template <class C>
-void visit_solarmodule_SolarStatusZGEN(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor);
+void visit_solarmodule_SolarStatusZGEN(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_StatusValue(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor);
+void visit_commonmodule_StatusValue(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor);
 
 template <class C>
-void visit_google_protobuf_FloatValue(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor);
+void visit_google_protobuf_FloatValue(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_LogicalNode(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor);
+void visit_commonmodule_LogicalNode(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor);
 
 template <class C>
-void visit_solarmodule_SolarPointStatus(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor);
+void visit_solarmodule_SolarPointStatus(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_IED(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor);
+void visit_commonmodule_IED(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_ConductingEquipment(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor);
+void visit_commonmodule_ConductingEquipment(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_RampRate(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor);
+void visit_commonmodule_RampRate(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_MessageInfo(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor);
+void visit_commonmodule_MessageInfo(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_StatusMessageInfo(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor);
+void visit_commonmodule_StatusMessageInfo(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_StatusSPS(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor);
+void visit_commonmodule_StatusSPS(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_ControlDPC(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor);
+void visit_commonmodule_ControlDPC(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_Quality(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor);
+void visit_commonmodule_Quality(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor);
 
 template <class C>
-void visit_solarmodule_SolarStatus(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor);
+void visit_solarmodule_SolarStatus(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor);
 
 template <class C>
-void visit_google_protobuf_StringValue(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor);
+void visit_google_protobuf_StringValue(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_Timestamp(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor);
+void visit_commonmodule_Timestamp(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_ENS_HealthKind(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor);
+void visit_commonmodule_ENS_HealthKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_Optional_StateKind(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor);
+void visit_commonmodule_Optional_StateKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor);
 
 template <class C>
-void visit_solarmodule_SolarEventAndStatusZGEN(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor);
+void visit_solarmodule_SolarEventAndStatusZGEN(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_DetailQual(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor);
+void visit_commonmodule_DetailQual(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_LogicalNodeForEventAndStatus(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor);
+void visit_commonmodule_LogicalNodeForEventAndStatus(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_ENS_BehaviourModeKind(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor);
+void visit_commonmodule_ENS_BehaviourModeKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_NamedObject(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor);
+void visit_commonmodule_NamedObject(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_IdentifiedObject(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor);
+void visit_commonmodule_IdentifiedObject(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor);
 
 template <class C>
-void visit_solarmodule_SolarInverter(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor);
+void visit_solarmodule_SolarInverter(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_ENG_GridConnectModeKind(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor);
+void visit_commonmodule_ENG_GridConnectModeKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_ENS_DynamicTestKind(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor);
+void visit_commonmodule_ENS_DynamicTestKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor);
 
 template <class C>
-void visit_commonmodule_TimeQuality(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor);
+void visit_commonmodule_TimeQuality(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor);
 
 // ---- the exposed visit function ----
 
-void visit(IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor)
+void visit(IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor)
 {
     DescriptorPathImpl path;
 
@@ -134,7 +134,7 @@ void visit(IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor)
 // ---- template definitions for child types ----
 
 template <class C>
-void visit_solarmodule_SolarStatusZGEN(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor)
+void visit_solarmodule_SolarStatusZGEN(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor)
 {
     path.push(solarmodule::SolarEventAndStatusZGEN::descriptor());
     if(visitor.start_message_field("solarEventAndStatusZGEN", path))
@@ -154,7 +154,7 @@ void visit_solarmodule_SolarStatusZGEN(const C& context, DescriptorPathImpl& pat
 }
 
 template <class C>
-void visit_commonmodule_StatusValue(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor)
+void visit_commonmodule_StatusValue(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor)
 {
     path.push(commonmodule::IdentifiedObject::descriptor());
     if(visitor.start_message_field("identifiedObject", path))
@@ -166,7 +166,7 @@ void visit_commonmodule_StatusValue(const C& context, DescriptorPathImpl& path, 
 }
 
 template <class C>
-void visit_google_protobuf_FloatValue(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor)
+void visit_google_protobuf_FloatValue(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor)
 {
     {
         const setter_t<solarmodule::SolarStatusProfile, float> setter = [context](solarmodule::SolarStatusProfile& profile, const float& value) { context(profile)->set_value(value); };
@@ -175,7 +175,7 @@ void visit_google_protobuf_FloatValue(const C& context, DescriptorPathImpl& path
 }
 
 template <class C>
-void visit_commonmodule_LogicalNode(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor)
+void visit_commonmodule_LogicalNode(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor)
 {
     path.push(commonmodule::IdentifiedObject::descriptor());
     if(visitor.start_message_field("identifiedObject", path))
@@ -187,7 +187,7 @@ void visit_commonmodule_LogicalNode(const C& context, DescriptorPathImpl& path, 
 }
 
 template <class C>
-void visit_solarmodule_SolarPointStatus(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor)
+void visit_solarmodule_SolarPointStatus(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor)
 {
     path.push(commonmodule::ControlDPC::descriptor());
     if(visitor.start_message_field("frequencySetPointEnabled", path))
@@ -263,7 +263,7 @@ void visit_solarmodule_SolarPointStatus(const C& context, DescriptorPathImpl& pa
 }
 
 template <class C>
-void visit_commonmodule_IED(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor)
+void visit_commonmodule_IED(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor)
 {
     path.push(commonmodule::IdentifiedObject::descriptor());
     if(visitor.start_message_field("identifiedObject", path))
@@ -275,7 +275,7 @@ void visit_commonmodule_IED(const C& context, DescriptorPathImpl& path, IMutable
 }
 
 template <class C>
-void visit_commonmodule_ConductingEquipment(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor)
+void visit_commonmodule_ConductingEquipment(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor)
 {
     path.push(commonmodule::NamedObject::descriptor());
     if(visitor.start_message_field("namedObject", path))
@@ -292,7 +292,7 @@ void visit_commonmodule_ConductingEquipment(const C& context, DescriptorPathImpl
 }
 
 template <class C>
-void visit_commonmodule_RampRate(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor)
+void visit_commonmodule_RampRate(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor)
 {
     path.push(google::protobuf::FloatValue::descriptor());
     if(visitor.start_message_field("negativeReactivePowerKVArPerMin", path))
@@ -328,7 +328,7 @@ void visit_commonmodule_RampRate(const C& context, DescriptorPathImpl& path, IMu
 }
 
 template <class C>
-void visit_commonmodule_MessageInfo(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor)
+void visit_commonmodule_MessageInfo(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor)
 {
     path.push(commonmodule::IdentifiedObject::descriptor());
     if(visitor.start_message_field("identifiedObject", path))
@@ -348,7 +348,7 @@ void visit_commonmodule_MessageInfo(const C& context, DescriptorPathImpl& path, 
 }
 
 template <class C>
-void visit_commonmodule_StatusMessageInfo(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor)
+void visit_commonmodule_StatusMessageInfo(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor)
 {
     path.push(commonmodule::MessageInfo::descriptor());
     if(visitor.start_message_field("messageInfo", path))
@@ -360,7 +360,7 @@ void visit_commonmodule_StatusMessageInfo(const C& context, DescriptorPathImpl& 
 }
 
 template <class C>
-void visit_commonmodule_StatusSPS(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor)
+void visit_commonmodule_StatusSPS(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor)
 {
     path.push(commonmodule::Quality::descriptor());
     if(visitor.start_message_field("q", path))
@@ -385,7 +385,7 @@ void visit_commonmodule_StatusSPS(const C& context, DescriptorPathImpl& path, IM
 }
 
 template <class C>
-void visit_commonmodule_ControlDPC(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor)
+void visit_commonmodule_ControlDPC(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor)
 {
     {
         const setter_t<solarmodule::SolarStatusProfile, bool> setter = [context](solarmodule::SolarStatusProfile& profile, const bool& value) { context(profile)->set_ctlval(value); };
@@ -394,7 +394,7 @@ void visit_commonmodule_ControlDPC(const C& context, DescriptorPathImpl& path, I
 }
 
 template <class C>
-void visit_commonmodule_Quality(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor)
+void visit_commonmodule_Quality(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor)
 {
     path.push(commonmodule::DetailQual::descriptor());
     if(visitor.start_message_field("detailQual", path))
@@ -426,7 +426,7 @@ void visit_commonmodule_Quality(const C& context, DescriptorPathImpl& path, IMut
 }
 
 template <class C>
-void visit_solarmodule_SolarStatus(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor)
+void visit_solarmodule_SolarStatus(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor)
 {
     path.push(commonmodule::StatusValue::descriptor());
     if(visitor.start_message_field("statusValue", path))
@@ -446,7 +446,7 @@ void visit_solarmodule_SolarStatus(const C& context, DescriptorPathImpl& path, I
 }
 
 template <class C>
-void visit_google_protobuf_StringValue(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor)
+void visit_google_protobuf_StringValue(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor)
 {
     {
         const setter_t<solarmodule::SolarStatusProfile, std::string> setter = [context](solarmodule::SolarStatusProfile& profile, const std::string& value) { context(profile)->set_value(value); };
@@ -455,7 +455,7 @@ void visit_google_protobuf_StringValue(const C& context, DescriptorPathImpl& pat
 }
 
 template <class C>
-void visit_commonmodule_Timestamp(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor)
+void visit_commonmodule_Timestamp(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor)
 {
     {
         const setter_t<solarmodule::SolarStatusProfile, uint32_t> setter = [context](solarmodule::SolarStatusProfile& profile, const uint32_t& value) { context(profile)->set_fraction(value); };
@@ -477,7 +477,7 @@ void visit_commonmodule_Timestamp(const C& context, DescriptorPathImpl& path, IM
 }
 
 template <class C>
-void visit_commonmodule_ENS_HealthKind(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor)
+void visit_commonmodule_ENS_HealthKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor)
 {
     path.push(google::protobuf::StringValue::descriptor());
     if(visitor.start_message_field("d", path))
@@ -494,7 +494,7 @@ void visit_commonmodule_ENS_HealthKind(const C& context, DescriptorPathImpl& pat
 }
 
 template <class C>
-void visit_commonmodule_Optional_StateKind(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor)
+void visit_commonmodule_Optional_StateKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor)
 {
     {
         const setter_t<solarmodule::SolarStatusProfile, int> setter = [context](solarmodule::SolarStatusProfile& profile, const int& value) { context(profile)->set_value(static_cast<commonmodule::StateKind>(value)); };
@@ -503,7 +503,7 @@ void visit_commonmodule_Optional_StateKind(const C& context, DescriptorPathImpl&
 }
 
 template <class C>
-void visit_solarmodule_SolarEventAndStatusZGEN(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor)
+void visit_solarmodule_SolarEventAndStatusZGEN(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor)
 {
     path.push(commonmodule::LogicalNodeForEventAndStatus::descriptor());
     if(visitor.start_message_field("logicalNodeForEventAndStatus", path))
@@ -547,7 +547,7 @@ void visit_solarmodule_SolarEventAndStatusZGEN(const C& context, DescriptorPathI
 }
 
 template <class C>
-void visit_commonmodule_DetailQual(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor)
+void visit_commonmodule_DetailQual(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor)
 {
     {
         const setter_t<solarmodule::SolarStatusProfile, bool> setter = [context](solarmodule::SolarStatusProfile& profile, const bool& value) { context(profile)->set_badreference(value); };
@@ -591,7 +591,7 @@ void visit_commonmodule_DetailQual(const C& context, DescriptorPathImpl& path, I
 }
 
 template <class C>
-void visit_commonmodule_LogicalNodeForEventAndStatus(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor)
+void visit_commonmodule_LogicalNodeForEventAndStatus(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor)
 {
     path.push(commonmodule::LogicalNode::descriptor());
     if(visitor.start_message_field("logicalNode", path))
@@ -619,7 +619,7 @@ void visit_commonmodule_LogicalNodeForEventAndStatus(const C& context, Descripto
 }
 
 template <class C>
-void visit_commonmodule_ENS_BehaviourModeKind(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor)
+void visit_commonmodule_ENS_BehaviourModeKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor)
 {
     path.push(commonmodule::Quality::descriptor());
     if(visitor.start_message_field("q", path))
@@ -644,7 +644,7 @@ void visit_commonmodule_ENS_BehaviourModeKind(const C& context, DescriptorPathIm
 }
 
 template <class C>
-void visit_commonmodule_NamedObject(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor)
+void visit_commonmodule_NamedObject(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor)
 {
     path.push(google::protobuf::StringValue::descriptor());
     if(visitor.start_message_field("description", path))
@@ -664,7 +664,7 @@ void visit_commonmodule_NamedObject(const C& context, DescriptorPathImpl& path, 
 }
 
 template <class C>
-void visit_commonmodule_IdentifiedObject(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor)
+void visit_commonmodule_IdentifiedObject(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor)
 {
     path.push(google::protobuf::StringValue::descriptor());
     if(visitor.start_message_field("description", path))
@@ -692,7 +692,7 @@ void visit_commonmodule_IdentifiedObject(const C& context, DescriptorPathImpl& p
 }
 
 template <class C>
-void visit_solarmodule_SolarInverter(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor)
+void visit_solarmodule_SolarInverter(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor)
 {
     path.push(commonmodule::ConductingEquipment::descriptor());
     if(visitor.start_message_field("conductingEquipment", path))
@@ -704,7 +704,7 @@ void visit_solarmodule_SolarInverter(const C& context, DescriptorPathImpl& path,
 }
 
 template <class C>
-void visit_commonmodule_ENG_GridConnectModeKind(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor)
+void visit_commonmodule_ENG_GridConnectModeKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor)
 {
     {
         const setter_t<solarmodule::SolarStatusProfile, int> setter = [context](solarmodule::SolarStatusProfile& profile, const int& value) { context(profile)->set_setval(static_cast<commonmodule::GridConnectModeKind>(value)); };
@@ -721,7 +721,7 @@ void visit_commonmodule_ENG_GridConnectModeKind(const C& context, DescriptorPath
 }
 
 template <class C>
-void visit_commonmodule_ENS_DynamicTestKind(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor)
+void visit_commonmodule_ENS_DynamicTestKind(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor)
 {
     path.push(commonmodule::Quality::descriptor());
     if(visitor.start_message_field("q", path))
@@ -746,7 +746,7 @@ void visit_commonmodule_ENS_DynamicTestKind(const C& context, DescriptorPathImpl
 }
 
 template <class C>
-void visit_commonmodule_TimeQuality(const C& context, DescriptorPathImpl& path, IMutableModelVisitor<solarmodule::SolarStatusProfile>& visitor)
+void visit_commonmodule_TimeQuality(const C& context, DescriptorPathImpl& path, IConfigModelVisitor<solarmodule::SolarStatusProfile>& visitor)
 {
     {
         const setter_t<solarmodule::SolarStatusProfile, bool> setter = [context](solarmodule::SolarStatusProfile& profile, const bool& value) { context(profile)->set_clockfailure(value); };
