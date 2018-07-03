@@ -18,14 +18,14 @@ public:
     {
     }
 
-    virtual V const* get(const P& message) const
-    {
-        return this->getter(message);
-    }
-
-    virtual void set(P& message, const V& value) const
+    void set(P& message, const V& value) const override
     {
         return this->setter(message, value);
+    }
+
+    bool if_present(const P& message, const handler_t<V>& handler) const override
+    {
+        return this->getter(message, handler);
     }
 };
 
@@ -38,7 +38,6 @@ struct AccessorBuilder {
         return std::make_shared<AccessorImpl<P, V, Setter, Getter>>(setter, getter);
     }
 };
-
 }
 
 #endif

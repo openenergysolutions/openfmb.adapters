@@ -7,11 +7,12 @@ TEST_CASE( "accessor implementation" )
 {
     using profile_t = resourcemodule::ResourceReadingProfile;
 
-    const auto get_mrid = [](const profile_t& profile) -> const std::string* {
+    const auto get_mrid = [](const profile_t& profile, const adapter::handler_t<std::string>& handler) -> bool {
         if (profile.has_meter() && profile.meter().has_conductingequipment()) {
-            return &profile.meter().conductingequipment().mrid();
+            handler(profile.meter().conductingequipment().mrid());
+            return true;
         } else {
-            return nullptr;
+            return false;
         }
     };
 

@@ -51,11 +51,18 @@ public class ConfigModelVisitorFile extends CppFilePair {
 
         return join(
                 include("adapter-api/config/generated/" + headerFileName()),
+                include("../AccessorImpl.h"),
                 space,
                 namespace(
                 "adapter",
+                        line("template <class V>"),
+                        line("using set_t = setter_t<%s, V>;", Helpers.cppMessageName(this.descriptor)),
+                        space,
+                        line("template <class V>"),
+                        line("using get_t = getter_t<%s, V>;", Helpers.cppMessageName(this.descriptor)),
+                        space,
                         spaced(
-                                line("// ---- forward declare all the template method for child types ----"),
+                                line("// ---- forward declare all the child visit method names ----"),
                                 spaced(this.children.stream().map(d -> getChildVisitSignature(d, true))),
                                 line("// ---- the exposed visit function ----"),
                                 getVisitImpl(this.descriptor),
@@ -82,7 +89,10 @@ public class ConfigModelVisitorFile extends CppFilePair {
                 .bracket(
                         line("// this is so that we can reuse the same generators for child visitors")
                                 .then(
-                                        String.format("const auto context = [](%s& profile) { return &profile; };", Helpers.cppMessageName(descriptor))
+                                        String.format("const auto setter = [](%s& profile) { return &profile; };", Helpers.cppMessageName(descriptor))
+                                )
+                                .then(
+                                        String.format("const auto getter = [](const %s& profile) { return &profile; };", Helpers.cppMessageName(descriptor))
                                 )
                                 .space()
                                 .then(spaced(descriptor.getFields().stream().map(this::getFieldHandler)))
@@ -96,13 +106,13 @@ public class ConfigModelVisitorFile extends CppFilePair {
 
     private Document getChildVisitSignature(Descriptors.Descriptor child, boolean isDeclaration)
     {
-        return line("template <class C>")
-                .then(
-                        String.format("void %s(const C& context, IConfigModelVisitor<%s>& visitor)%s",
-                                getVisitFunctionName(child),
-                                Helpers.cppMessageName(this.descriptor),
-                                isDeclaration ? ";" : ""
-                        )
+        return line(
+                "void %s(const set_t<%s>& setter, const get_t<%s>& getter, IConfigModelVisitor<%s>& visitor)%s",
+                     getVisitFunctionName(child),
+                     Helpers.cppMessageName(child),
+                     Helpers.cppMessageName(child),
+                     Helpers.cppMessageName(this.descriptor),
+                     isDeclaration ? ";" : ""
                 );
     }
 
@@ -113,10 +123,31 @@ public class ConfigModelVisitorFile extends CppFilePair {
 
     private Document getMessageField(Descriptors.FieldDescriptor field)
     {
+        final Document setter = line("[setter](%s& profile)", Helpers.cppMessageName(this.descriptor)).bracketWithSuffix(
+                line("return setter(profile)->mutable_%s();", field.getName().toLowerCase()), ","
+        );
+
+
+        final Document getter =  line("[getter](const %s& profile) -> %s const *", Helpers.cppMessageName(this.descriptor), Helpers.cppMessageName(field.getMessageType())).bracketWithSuffix(
+          line("const auto value = getter(profile);")
+                .then("if(value)") .bracket(
+                        line("return value->has_%s() ? &value->%s() : nullptr;", field.getName().toLowerCase(), field.getName().toLowerCase())
+                )
+                .then("else").bracket(
+                        line("return nullptr;")
+                ),
+          ","
+        );
+
         return line("if(visitor.start_message_field(%s, %s::descriptor()))", Helpers.quoted(field.getName()), Helpers.cppMessageName(field.getMessageType()))
                         .bracket(
-                                line("%s(%s, visitor);", getVisitFunctionName(field.getMessageType()), getNewContext(field))
-                        ).then("visitor.end_message_field();");
+                                line("%s(", getVisitFunctionName(field.getMessageType()))
+                                .indent(setter)
+                                .indent(getter)
+                                .indent("visitor")
+                                .then(");")
+                                .then("visitor.end_message_field();")
+                        );
     }
 
     private Document getRepeatedMessageField(Descriptors.FieldDescriptor field)
@@ -125,11 +156,9 @@ public class ConfigModelVisitorFile extends CppFilePair {
 
         final Document loop = line("for(int i = 0; i < count; ++i)").bracket(
                 line("visitor.start_iteration(i);")
-                .then(String.format("%s(", getVisitFunctionName(field.getMessageType())))
-                .then(
-                        indent(getRepeatedContext(field).then(", visitor"))
-                )
-                .then(");")
+                .then(getRepeatedSetter(field))
+                .then(getRepeatedGetter(field))
+                .then(String.format("%s(set, get, visitor);", getVisitFunctionName(field.getMessageType())))
                 .then("visitor.end_iteration();")
         );
 
@@ -154,64 +183,87 @@ public class ConfigModelVisitorFile extends CppFilePair {
         }
     }
 
-    private String getNewContext(Descriptors.FieldDescriptor field)
+    private Document getRepeatedSetter(Descriptors.FieldDescriptor field)
     {
-        return String.format(
-                "[context](%s& profile) { return context(profile)->mutable_%s(); }",
-                Helpers.cppMessageName(this.descriptor),
-                field.getName().toLowerCase()
-        );
-    }
-
-    private Document getRepeatedContext(Descriptors.FieldDescriptor field)
-    {
-        return line("[context, i, max = count](%s& profile)", Helpers.cppMessageName(this.descriptor))
-                .bracket(
-                        line("const auto repeated = context(profile)->mutable_%s();", field.getName().toLowerCase())
+        return line("const auto set = [setter, i, max = count](%s& profile)", Helpers.cppMessageName(this.descriptor))
+                .bracketSemicolon(
+                        line("const auto repeated = setter(profile)->mutable_%s();", field.getName().toLowerCase())
                         .then("if(repeated->size() < max)")
                         .bracket(
                                 line("repeated->Reserve(max);")
                                         .then("// add items until we're at max requested capacity")
                                         .then("for(auto j = repeated->size(); j < max; ++j)")
                                         .bracket(
-                                                "repeated->Add();"
+                                                line("repeated->Add();")
                                         )
                         )
                         .then("return repeated->Mutable(i);")
                 );
     }
 
+    private Document getRepeatedGetter(Descriptors.FieldDescriptor field)
+    {
+        return line("const auto get = [getter, i](const %s& profile) -> %s const*", Helpers.cppMessageName(this.descriptor), Helpers.cppMessageName(field.getMessageType()))
+                .bracketSemicolon(
+                        line("const auto value = getter(profile);")
+                                .then("if(value)")
+                                .bracket(
+                                        line("return (i < value->%s_size()) ? &value->%s(i) : nullptr;", field.getName().toLowerCase(), field.getName().toLowerCase())
+                                )
+                                .then("else").bracket(line("return nullptr;"))
+                        );
+    }
+
     private Document getEnumHandler(Descriptors.FieldDescriptor field)
     {
-        return Document.start().bracket(
-                String.format(
-                        "const setter_t<%s, int> setter = [context](%s& profile, const int& value) { context(profile)->set_%s(static_cast<%s>(value)); };",
-                        Helpers.cppMessageName(this.descriptor),
-                        Helpers.cppMessageName(this.descriptor),
-                        field.getName().toLowerCase(),
-                        Helpers.cppMessageName(field.getEnumType())
-                ),
-                String.format(
-                        "visitor.handle(%s, setter, %s_descriptor());",
-                        Helpers.quoted(field.getName()),
-                        Helpers.cppMessageName(field.getEnumType())
-                )
+        final String setter =  String.format(
+                "[setter](%s& profile, const int& value) { setter(profile)->set_%s(static_cast<%s>(value)); }",
+                Helpers.cppMessageName(this.descriptor),
+                field.getName().toLowerCase(),
+                Helpers.cppMessageName(field.getEnumType())
         );
+
+        final String getter = String.format(
+                "[getter](const %s& profile, const handler_t<int>& handler) { return false; }",
+                Helpers.cppMessageName(this.descriptor)
+        );
+
+        final Document accessor = line("AccessorBuilder<%s,int>::build(", Helpers.cppMessageName(this.descriptor))
+                .indent(setter + ",")
+                .indent(getter)
+                .then("),");
+
+        return line("visitor.handle(")
+                .indent(line("%s,",Helpers.quoted(field.getName())))
+                .indent(accessor)
+                .indent(line("%s_descriptor()", Helpers.cppMessageName(field.getEnumType())))
+                .then(");");
     }
 
     private Document getPrimitiveHandler(Descriptors.FieldDescriptor field)
     {
-        return Document.start().bracket(
-                String.format(
-                        "const setter_t<%s, %s> setter = [context](%s& profile, const %s& value) { context(profile)->set_%s(value); };",
-                        Helpers.cppMessageName(this.descriptor),
-                        Helpers.cppType(field),
-                        Helpers.cppMessageName(this.descriptor),
-                        Helpers.cppType(field),
-                        field.getName().toLowerCase()
-                ),
-                String.format("visitor.handle(%s, setter);", Helpers.quoted(field.getName()))
+        final String setter = String.format(
+                "[setter](%s& profile, const %s& value) { setter(profile)->set_%s(value); }",
+                Helpers.cppMessageName(this.descriptor),
+                Helpers.cppType(field),
+                field.getName().toLowerCase()
         );
+
+        final String getter = String.format(
+                "[getter](const %s& profile, const handler_t<%s>& handler) { return false; }",
+                Helpers.cppMessageName(this.descriptor),
+                Helpers.cppType(field)
+        );
+
+        final Document accessor = line("AccessorBuilder<%s,%s>::build(", Helpers.cppMessageName(this.descriptor), Helpers.cppType(field))
+                .indent(setter + ",")
+                .indent(getter)
+                .then(")");
+
+        return line("visitor.handle(")
+                .indent(line("%s,", Helpers.quoted(field.getName())))
+                .indent(accessor)
+                .then(");");
     }
 
 }

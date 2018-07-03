@@ -5,6 +5,8 @@ import com.oes.openfmb.generation.document.Documents;
 
 import java.util.stream.Stream;
 
+import static com.oes.openfmb.generation.document.Documents.join;
+
 abstract class DocumentBase implements Document {
 
     @Override
@@ -20,13 +22,18 @@ abstract class DocumentBase implements Document {
     @Override
     public Document bracket(Document... inner)
     {
-        return then(Documents.line("{").indent(Documents.join(inner)).then("}"));
+        return bracketWithSuffix(join(inner), "");
     }
 
     @Override
-    public Document bracket(String... lines)
+    public Document bracketSemicolon(Document... inner)
     {
-        return bracket(Documents.join(Stream.of(lines).map(Documents::line)));
+        return bracketWithSuffix(join(inner), ";");
+    }
+
+    @Override
+    public Document bracketWithSuffix(Document inner, String suffix) {
+        return then(Documents.line("{").indent(inner).then("}"+suffix));
     }
 
     @Override

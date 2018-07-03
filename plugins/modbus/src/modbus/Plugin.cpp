@@ -17,8 +17,8 @@
 #include "PublishConfigReadVisitor.h"
 #include "SubscribeConfigReadVisitor.h"
 */
-#include "TransactionProcessor.h"
 #include "ConfigStrings.h"
+#include "TransactionProcessor.h"
 
 namespace adapter {
 namespace modbus {

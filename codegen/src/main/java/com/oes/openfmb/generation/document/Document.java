@@ -14,7 +14,9 @@ public interface Document {
 
     Document bracket(Document... inner);
 
-    Document bracket(String... lines);
+    Document bracketSemicolon(Document... inner);
+
+    Document bracketWithSuffix(Document document, String suffix);
 
     Document indent(String line);
 

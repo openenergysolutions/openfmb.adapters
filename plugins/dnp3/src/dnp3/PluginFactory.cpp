@@ -6,8 +6,8 @@
 #include <adapter-api/util/YAMLTemplate.h>
 
 //#include "ConfigWriteVisitor.h"
-#include "Plugin.h"
 #include "ConfigStrings.h"
+#include "Plugin.h"
 
 namespace adapter {
 namespace dnp3 {
