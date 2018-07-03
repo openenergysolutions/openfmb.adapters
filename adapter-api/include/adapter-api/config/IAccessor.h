@@ -6,123 +6,59 @@
 #include <memory>
 
 namespace adapter {
-template <class R, class T>
-using const_getter_t = std::function<R*(const T&)>;
+template <class V, class P>
+using getter_t = std::function<V* (const P&)>;
 
-template <class R, class T>
-using mutable_getter_t = std::function<R*(T&)>;
+template <class P, class V>
+using setter_t = std::function<void(P&, const V&)>;
 
-template <class R, class T>
+template <class V, class P>
 class IAccessor {
 public:
     virtual ~IAccessor() = default;
 
     /**
-         * A getter that does not mutate the value. The return value may not be present.
-         *
-         * @param value The value which to extract the return value
-         * @return A pointer to the value if present, otherwise nullptr
-         */
-    virtual R const* get(const T& value) const = 0;
+     * A getter that may mutate the value in order to create the return type.
+     *
+     * @param message The message on which to set the value
+     * @param value The value to set on the message
+     */
+    virtual void set(P& message, V value) const = 0;
 
     /**
-         * A getter that may mutate the value in order to create the return type.
-         *
-         * @param value The value which to extract the return value
-         * @return A pointer to the value (always valid)
-         */
-    virtual R* create(T& value) const = 0;
-};
-
-template <class R, class T>
-class IPrimitiveAccessor {
-public:
-    virtual ~IPrimitiveAccessor() = default;
-
-    /**
-         * Test if the value is present. Must be checked before calling get().
-         */
-    virtual bool is_present(const T& value) const = 0;
-
-    /**
-         * A getter that does not mutate the value. Throws an exception if the value isn't present.
-         *
-         * @param value The value which to extract the return value
-         * @return A pointer to the value if present, otherwise nullptr
-         */
-    virtual R get(const T& value) const = 0;
-
-    /**
-         * A getter that may mutate the value in order to create the return type.
-         *
-         * @param value The value which to extract the return value
-         * @param primitive The value to set on the message
-         */
-    virtual void set(T& value, R primitive) const = 0;
-};
-
-template <class R, class T>
-class Accessor {
-public:
-    explicit Accessor(const std::shared_ptr<IAccessor<R, T>>& accessor)
-        : accessor(accessor)
+     * A safe accessor that only invokes a handler if the value is present
+     *
+     * @tparam H callback handler invoked with the value
+     * @param message
+     * @param handler
+     */
+    template <class H>
+    bool if_present(const P& message, const H& handler)
     {
-    }
-
-    template <class U>
-    void if_present(const T& value, const U& handler) const
-    {
-        const auto temp = accessor->get(value);
-        if (temp) {
-            handler(*temp);
+        const auto value = this->get(message);
+        if(value)
+        {
+            handler(*value);
+            return true;
         }
+
+        return false;
     }
 
-    R* create(T& value) const
-    {
-        return accessor->create(value);
-    }
+protected:
 
-    inline mutable_getter_t<R, T> to_mutable_getter() const
-    {
-        return [accessor = this->accessor](T& value) {
-            return accessor->create(value);
-        };
-    };
-
-private:
-    R const* get(const T& value) const
-    {
-        return accessor->get(value);
-    }
-
-    const std::shared_ptr<const IAccessor<R, T>> accessor;
+    /**
+     * return a pointer to the value or nullptr
+     *
+     * @param message The message from which to extract the primitive value
+     * @return pointer to the value or nullptr if not present
+     */
+    virtual const V* get(const P& message) const = 0;
 };
 
-template <class R, class T>
-class PrimitiveAccessor {
-public:
-    explicit PrimitiveAccessor(const std::shared_ptr<IPrimitiveAccessor<R, T>>& accessor)
-        : accessor(accessor)
-    {
-    }
+template <class V, class P>
+using accessor_t = std::shared_ptr<IAccessor<V, P>>;
 
-    template <class U>
-    void if_present(const T& value, const U& handler) const
-    {
-        if (accessor->is_present(value)) {
-            handler(accessor->get(value));
-        }
-    }
-
-    void set(T& value, R primitive) const
-    {
-        return accessor->set(value, primitive);
-    }
-
-private:
-    const std::shared_ptr<const IPrimitiveAccessor<R, T>> accessor;
-};
 }
 
 #endif

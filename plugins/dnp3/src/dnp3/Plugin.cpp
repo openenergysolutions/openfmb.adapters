@@ -13,8 +13,10 @@
 #include "CommandSequenceExecutor.h"
 #include "ConfigStrings.h"
 #include "LogAdapter.h"
+/*
 #include "PublishingConfigReadVisitor.h"
 #include "SubscribingConfigReadVisitor.h"
+ */
 
 #include <stdexcept>
 

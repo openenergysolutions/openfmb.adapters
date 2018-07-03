@@ -2,13 +2,10 @@
 #ifndef OPENFMB_ADAPTER_IMUTABLEMODELVISITOR_H
 #define OPENFMB_ADAPTER_IMUTABLEMODELVISITOR_H
 
-#include <functional>
-#include <string>
+#include "IAccessor.h"
 
 #include <google/protobuf/descriptor.h>
-
-template <class P, class T>
-using setter_t = std::function<void(P&, const T&)>;
+#include <string>
 
 namespace adapter {
 template <class P>

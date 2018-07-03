@@ -4,6 +4,7 @@
 #include <adapter-api/ProfileRegistry.h>
 #include <adapter-api/config/ModelVisitors.h>
 #include <adapter-api/util/YAMLTemplate.h>
+#include <adapter-api/util/YAMLUtil.h>
 
 #include "modbus/channel/IChannel.h"
 #include "modbus/channel/Ipv4Endpoint.h"
@@ -12,9 +13,12 @@
 #include "HeartbeatTransaction.h"
 #include "PollHandler.h"
 #include "PollTransaction.h"
+/*
 #include "PublishConfigReadVisitor.h"
 #include "SubscribeConfigReadVisitor.h"
+*/
 #include "TransactionProcessor.h"
+#include "ConfigStrings.h"
 
 namespace adapter {
 namespace modbus {
