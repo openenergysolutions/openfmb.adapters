@@ -145,24 +145,24 @@ void visit_essmodule_ESSCSG(const C& context, IConfigModelVisitor<essmodule::ESS
         for(int i = 0; i < count; ++i)
         {
             visitor.start_iteration(i);
-                visit_essmodule_ESSPoint(
-                    [context, i, max = count](essmodule::ESSControlProfile& profile)
+            visit_essmodule_ESSPoint(
+                [context, i, max = count](essmodule::ESSControlProfile& profile)
+                {
+                    const auto repeated = context(profile)->mutable_crvpts();
+                    if(repeated->size() < max)
                     {
-                        const auto repeated = context(profile)->mutable_crvpts();
-                        if(repeated->size() < max)
+                        repeated->Reserve(max);
+                        // add items until we're at max requested capacity
+                        for(auto j = repeated->size(); j < max; ++j)
                         {
-                            repeated->Reserve(max);
-                            // add items until we're at max requested capacity
-                            for(auto j = repeated->size(); j < max; ++j)
-                            {
-                                repeated->Add();
-                            }
+                            repeated->Add();
                         }
-                        return repeated->Mutable(i);
                     }
-                    , visitor
-                );
-                visitor.end_iteration();
+                    return repeated->Mutable(i);
+                }
+                , visitor
+            );
+            visitor.end_iteration();
         }
         visitor.end_message_field();
     }
@@ -290,24 +290,24 @@ void visit_commonmodule_ScheduleCSG(const C& context, IConfigModelVisitor<essmod
         for(int i = 0; i < count; ++i)
         {
             visitor.start_iteration(i);
-                visit_commonmodule_SchedulePoint(
-                    [context, i, max = count](essmodule::ESSControlProfile& profile)
+            visit_commonmodule_SchedulePoint(
+                [context, i, max = count](essmodule::ESSControlProfile& profile)
+                {
+                    const auto repeated = context(profile)->mutable_crvpts();
+                    if(repeated->size() < max)
                     {
-                        const auto repeated = context(profile)->mutable_crvpts();
-                        if(repeated->size() < max)
+                        repeated->Reserve(max);
+                        // add items until we're at max requested capacity
+                        for(auto j = repeated->size(); j < max; ++j)
                         {
-                            repeated->Reserve(max);
-                            // add items until we're at max requested capacity
-                            for(auto j = repeated->size(); j < max; ++j)
-                            {
-                                repeated->Add();
-                            }
+                            repeated->Add();
                         }
-                        return repeated->Mutable(i);
                     }
-                    , visitor
-                );
-                visitor.end_iteration();
+                    return repeated->Mutable(i);
+                }
+                , visitor
+            );
+            visitor.end_iteration();
         }
         visitor.end_message_field();
     }
@@ -478,24 +478,24 @@ void visit_essmodule_ESSPoint(const C& context, IConfigModelVisitor<essmodule::E
         for(int i = 0; i < count; ++i)
         {
             visitor.start_iteration(i);
-                visit_essmodule_ENG_ESSFunctionParameter(
-                    [context, i, max = count](essmodule::ESSControlProfile& profile)
+            visit_essmodule_ENG_ESSFunctionParameter(
+                [context, i, max = count](essmodule::ESSControlProfile& profile)
+                {
+                    const auto repeated = context(profile)->mutable_functionparameter();
+                    if(repeated->size() < max)
                     {
-                        const auto repeated = context(profile)->mutable_functionparameter();
-                        if(repeated->size() < max)
+                        repeated->Reserve(max);
+                        // add items until we're at max requested capacity
+                        for(auto j = repeated->size(); j < max; ++j)
                         {
-                            repeated->Reserve(max);
-                            // add items until we're at max requested capacity
-                            for(auto j = repeated->size(); j < max; ++j)
-                            {
-                                repeated->Add();
-                            }
+                            repeated->Add();
                         }
-                        return repeated->Mutable(i);
                     }
-                    , visitor
-                );
-                visitor.end_iteration();
+                    return repeated->Mutable(i);
+                }
+                , visitor
+            );
+            visitor.end_iteration();
         }
         visitor.end_message_field();
     }
@@ -753,24 +753,24 @@ void visit_commonmodule_ControlFSCC(const C& context, IConfigModelVisitor<essmod
         for(int i = 0; i < count; ++i)
         {
             visitor.start_iteration(i);
-                visit_commonmodule_ControlScheduleFSCH(
-                    [context, i, max = count](essmodule::ESSControlProfile& profile)
+            visit_commonmodule_ControlScheduleFSCH(
+                [context, i, max = count](essmodule::ESSControlProfile& profile)
+                {
+                    const auto repeated = context(profile)->mutable_controlschedulefsch();
+                    if(repeated->size() < max)
                     {
-                        const auto repeated = context(profile)->mutable_controlschedulefsch();
-                        if(repeated->size() < max)
+                        repeated->Reserve(max);
+                        // add items until we're at max requested capacity
+                        for(auto j = repeated->size(); j < max; ++j)
                         {
-                            repeated->Reserve(max);
-                            // add items until we're at max requested capacity
-                            for(auto j = repeated->size(); j < max; ++j)
-                            {
-                                repeated->Add();
-                            }
+                            repeated->Add();
                         }
-                        return repeated->Mutable(i);
                     }
-                    , visitor
-                );
-                visitor.end_iteration();
+                    return repeated->Mutable(i);
+                }
+                , visitor
+            );
+            visitor.end_iteration();
         }
         visitor.end_message_field();
     }

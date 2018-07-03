@@ -136,24 +136,24 @@ void visit(IConfigModelVisitor<switchmodule::SwitchReadingProfile>& visitor)
         for(int i = 0; i < count; ++i)
         {
             visitor.start_iteration(i);
-                visit_switchmodule_SwitchReading(
-                    [context, i, max = count](switchmodule::SwitchReadingProfile& profile)
+            visit_switchmodule_SwitchReading(
+                [context, i, max = count](switchmodule::SwitchReadingProfile& profile)
+                {
+                    const auto repeated = context(profile)->mutable_switchreading();
+                    if(repeated->size() < max)
                     {
-                        const auto repeated = context(profile)->mutable_switchreading();
-                        if(repeated->size() < max)
+                        repeated->Reserve(max);
+                        // add items until we're at max requested capacity
+                        for(auto j = repeated->size(); j < max; ++j)
                         {
-                            repeated->Reserve(max);
-                            // add items until we're at max requested capacity
-                            for(auto j = repeated->size(); j < max; ++j)
-                            {
-                                repeated->Add();
-                            }
+                            repeated->Add();
                         }
-                        return repeated->Mutable(i);
                     }
-                    , visitor
-                );
-                visitor.end_iteration();
+                    return repeated->Mutable(i);
+                }
+                , visitor
+            );
+            visitor.end_iteration();
         }
         visitor.end_message_field();
     }

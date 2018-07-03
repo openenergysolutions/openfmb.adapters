@@ -294,24 +294,24 @@ void visit_commonmodule_ScheduleCSG(const C& context, IConfigModelVisitor<loadmo
         for(int i = 0; i < count; ++i)
         {
             visitor.start_iteration(i);
-                visit_commonmodule_SchedulePoint(
-                    [context, i, max = count](loadmodule::LoadControlProfile& profile)
+            visit_commonmodule_SchedulePoint(
+                [context, i, max = count](loadmodule::LoadControlProfile& profile)
+                {
+                    const auto repeated = context(profile)->mutable_crvpts();
+                    if(repeated->size() < max)
                     {
-                        const auto repeated = context(profile)->mutable_crvpts();
-                        if(repeated->size() < max)
+                        repeated->Reserve(max);
+                        // add items until we're at max requested capacity
+                        for(auto j = repeated->size(); j < max; ++j)
                         {
-                            repeated->Reserve(max);
-                            // add items until we're at max requested capacity
-                            for(auto j = repeated->size(); j < max; ++j)
-                            {
-                                repeated->Add();
-                            }
+                            repeated->Add();
                         }
-                        return repeated->Mutable(i);
                     }
-                    , visitor
-                );
-                visitor.end_iteration();
+                    return repeated->Mutable(i);
+                }
+                , visitor
+            );
+            visitor.end_iteration();
         }
         visitor.end_message_field();
     }
@@ -417,24 +417,24 @@ void visit_loadmodule_LoadCSG(const C& context, IConfigModelVisitor<loadmodule::
         for(int i = 0; i < count; ++i)
         {
             visitor.start_iteration(i);
-                visit_loadmodule_LoadPoint(
-                    [context, i, max = count](loadmodule::LoadControlProfile& profile)
+            visit_loadmodule_LoadPoint(
+                [context, i, max = count](loadmodule::LoadControlProfile& profile)
+                {
+                    const auto repeated = context(profile)->mutable_crvpts();
+                    if(repeated->size() < max)
                     {
-                        const auto repeated = context(profile)->mutable_crvpts();
-                        if(repeated->size() < max)
+                        repeated->Reserve(max);
+                        // add items until we're at max requested capacity
+                        for(auto j = repeated->size(); j < max; ++j)
                         {
-                            repeated->Reserve(max);
-                            // add items until we're at max requested capacity
-                            for(auto j = repeated->size(); j < max; ++j)
-                            {
-                                repeated->Add();
-                            }
+                            repeated->Add();
                         }
-                        return repeated->Mutable(i);
                     }
-                    , visitor
-                );
-                visitor.end_iteration();
+                    return repeated->Mutable(i);
+                }
+                , visitor
+            );
+            visitor.end_iteration();
         }
         visitor.end_message_field();
     }
@@ -635,24 +635,24 @@ void visit_commonmodule_ControlFSCC(const C& context, IConfigModelVisitor<loadmo
         for(int i = 0; i < count; ++i)
         {
             visitor.start_iteration(i);
-                visit_commonmodule_ControlScheduleFSCH(
-                    [context, i, max = count](loadmodule::LoadControlProfile& profile)
+            visit_commonmodule_ControlScheduleFSCH(
+                [context, i, max = count](loadmodule::LoadControlProfile& profile)
+                {
+                    const auto repeated = context(profile)->mutable_controlschedulefsch();
+                    if(repeated->size() < max)
                     {
-                        const auto repeated = context(profile)->mutable_controlschedulefsch();
-                        if(repeated->size() < max)
+                        repeated->Reserve(max);
+                        // add items until we're at max requested capacity
+                        for(auto j = repeated->size(); j < max; ++j)
                         {
-                            repeated->Reserve(max);
-                            // add items until we're at max requested capacity
-                            for(auto j = repeated->size(); j < max; ++j)
-                            {
-                                repeated->Add();
-                            }
+                            repeated->Add();
                         }
-                        return repeated->Mutable(i);
                     }
-                    , visitor
-                );
-                visitor.end_iteration();
+                    return repeated->Mutable(i);
+                }
+                , visitor
+            );
+            visitor.end_iteration();
         }
         visitor.end_message_field();
     }

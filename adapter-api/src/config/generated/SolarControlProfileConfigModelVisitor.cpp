@@ -139,24 +139,24 @@ void visit_solarmodule_SolarCSG(const C& context, IConfigModelVisitor<solarmodul
         for(int i = 0; i < count; ++i)
         {
             visitor.start_iteration(i);
-                visit_solarmodule_SolarPoint(
-                    [context, i, max = count](solarmodule::SolarControlProfile& profile)
+            visit_solarmodule_SolarPoint(
+                [context, i, max = count](solarmodule::SolarControlProfile& profile)
+                {
+                    const auto repeated = context(profile)->mutable_crvpts();
+                    if(repeated->size() < max)
                     {
-                        const auto repeated = context(profile)->mutable_crvpts();
-                        if(repeated->size() < max)
+                        repeated->Reserve(max);
+                        // add items until we're at max requested capacity
+                        for(auto j = repeated->size(); j < max; ++j)
                         {
-                            repeated->Reserve(max);
-                            // add items until we're at max requested capacity
-                            for(auto j = repeated->size(); j < max; ++j)
-                            {
-                                repeated->Add();
-                            }
+                            repeated->Add();
                         }
-                        return repeated->Mutable(i);
                     }
-                    , visitor
-                );
-                visitor.end_iteration();
+                    return repeated->Mutable(i);
+                }
+                , visitor
+            );
+            visitor.end_iteration();
         }
         visitor.end_message_field();
     }
@@ -274,24 +274,24 @@ void visit_commonmodule_ScheduleCSG(const C& context, IConfigModelVisitor<solarm
         for(int i = 0; i < count; ++i)
         {
             visitor.start_iteration(i);
-                visit_commonmodule_SchedulePoint(
-                    [context, i, max = count](solarmodule::SolarControlProfile& profile)
+            visit_commonmodule_SchedulePoint(
+                [context, i, max = count](solarmodule::SolarControlProfile& profile)
+                {
+                    const auto repeated = context(profile)->mutable_crvpts();
+                    if(repeated->size() < max)
                     {
-                        const auto repeated = context(profile)->mutable_crvpts();
-                        if(repeated->size() < max)
+                        repeated->Reserve(max);
+                        // add items until we're at max requested capacity
+                        for(auto j = repeated->size(); j < max; ++j)
                         {
-                            repeated->Reserve(max);
-                            // add items until we're at max requested capacity
-                            for(auto j = repeated->size(); j < max; ++j)
-                            {
-                                repeated->Add();
-                            }
+                            repeated->Add();
                         }
-                        return repeated->Mutable(i);
                     }
-                    , visitor
-                );
-                visitor.end_iteration();
+                    return repeated->Mutable(i);
+                }
+                , visitor
+            );
+            visitor.end_iteration();
         }
         visitor.end_message_field();
     }
@@ -677,24 +677,24 @@ void visit_commonmodule_ControlFSCC(const C& context, IConfigModelVisitor<solarm
         for(int i = 0; i < count; ++i)
         {
             visitor.start_iteration(i);
-                visit_commonmodule_ControlScheduleFSCH(
-                    [context, i, max = count](solarmodule::SolarControlProfile& profile)
+            visit_commonmodule_ControlScheduleFSCH(
+                [context, i, max = count](solarmodule::SolarControlProfile& profile)
+                {
+                    const auto repeated = context(profile)->mutable_controlschedulefsch();
+                    if(repeated->size() < max)
                     {
-                        const auto repeated = context(profile)->mutable_controlschedulefsch();
-                        if(repeated->size() < max)
+                        repeated->Reserve(max);
+                        // add items until we're at max requested capacity
+                        for(auto j = repeated->size(); j < max; ++j)
                         {
-                            repeated->Reserve(max);
-                            // add items until we're at max requested capacity
-                            for(auto j = repeated->size(); j < max; ++j)
-                            {
-                                repeated->Add();
-                            }
+                            repeated->Add();
                         }
-                        return repeated->Mutable(i);
                     }
-                    , visitor
-                );
-                visitor.end_iteration();
+                    return repeated->Mutable(i);
+                }
+                , visitor
+            );
+            visitor.end_iteration();
         }
         visitor.end_message_field();
     }

@@ -114,13 +114,9 @@ public class ConfigModelVisitorFile extends CppFilePair {
     private Document getMessageField(Descriptors.FieldDescriptor field)
     {
         return line("if(visitor.start_message_field(%s, %s::descriptor()))", Helpers.quoted(field.getName()), Helpers.cppMessageName(field.getMessageType()))
-                        .then("{")
-                        .indent(
-                                String.format("%s(%s, visitor);", getVisitFunctionName(field.getMessageType()), getNewContext(field))
-                        )
-                        .then("}")
-                        .then("visitor.end_message_field();");
-
+                        .bracket(
+                                line("%s(%s, visitor);", getVisitFunctionName(field.getMessageType()), getNewContext(field))
+                        ).then("visitor.end_message_field();");
     }
 
     private Document getRepeatedMessageField(Descriptors.FieldDescriptor field)
@@ -129,19 +125,19 @@ public class ConfigModelVisitorFile extends CppFilePair {
 
         final Document loop = line("for(int i = 0; i < count; ++i)").bracket(
                 line("visitor.start_iteration(i);")
-                .indent(String.format("%s(", getVisitFunctionName(field.getMessageType())))
-                .indent(
+                .then(String.format("%s(", getVisitFunctionName(field.getMessageType())))
+                .then(
                         indent(getRepeatedContext(field).then(", visitor"))
                 )
-                .indent(");")
-                .indent("visitor.end_iteration();")
+                .then(");")
+                .then("visitor.end_iteration();")
         );
 
 
         return Document.start().bracket(
-                Documents.line("const auto count = visitor.start_repeated_message_field(%s, %s::descriptor());", Helpers.quoted(fieldName), Helpers.cppMessageName(field.getMessageType())),
+                line("const auto count = visitor.start_repeated_message_field(%s, %s::descriptor());", Helpers.quoted(fieldName), Helpers.cppMessageName(field.getMessageType())),
                 loop,
-                Documents.line("visitor.end_message_field();")
+                line("visitor.end_message_field();")
         );
     }
 
