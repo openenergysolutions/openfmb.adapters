@@ -120,6 +120,18 @@ public class ConfigModelVisitorFile extends CppFilePair {
         return getChildVisitSignature(child, false).bracket(spaced(child.getFields().stream().map(this::getFieldHandler)));
     }
 
+    private Document getFieldHandler(Descriptors.FieldDescriptor field)
+    {
+        switch(field.getType())
+        {
+            case MESSAGE:
+                return field.isRepeated() ? getRepeatedMessageField(field) :  getMessageField(field);
+            case ENUM:
+                return getEnumHandler(field);
+            default:
+                return getPrimitiveHandler(field);
+        }
+    }
     private Document getMessageField(Descriptors.FieldDescriptor field)
     {
         final Document setter = line("[setter](%s& profile)", Helpers.cppMessageName(this.descriptor)).bracketWithSuffix(
@@ -153,10 +165,35 @@ public class ConfigModelVisitorFile extends CppFilePair {
     {
         final String fieldName = field.getName().toLowerCase();
 
+        final Document setter = line("const auto set = [setter, i, max = count](%s& profile)", Helpers.cppMessageName(this.descriptor))
+                .bracketSemicolon(
+                        line("const auto repeated = setter(profile)->mutable_%s();", field.getName().toLowerCase())
+                                .then("if(repeated->size() < max)")
+                                .bracket(
+                                        line("repeated->Reserve(max);")
+                                                .then("// add items until we're at max requested capacity")
+                                                .then("for(auto j = repeated->size(); j < max; ++j)")
+                                                .bracket(
+                                                        line("repeated->Add();")
+                                                )
+                                )
+                                .then("return repeated->Mutable(i);")
+                );
+
+        final Document getter = line("const auto get = [getter, i](const %s& profile) -> %s const*", Helpers.cppMessageName(this.descriptor), Helpers.cppMessageName(field.getMessageType()))
+                .bracketSemicolon(
+                        line("const auto value = getter(profile);")
+                                .then("if(value)")
+                                .bracket(
+                                        line("return (i < value->%s_size()) ? &value->%s(i) : nullptr;", field.getName().toLowerCase(), field.getName().toLowerCase())
+                                )
+                                .then("else").bracket(line("return nullptr;"))
+                );
+
         final Document loop = line("for(int i = 0; i < count; ++i)").bracket(
                 line("visitor.start_iteration(i);")
-                .then(getRepeatedSetter(field))
-                .then(getRepeatedGetter(field))
+                .then(setter)
+                .then(getter)
                 .then(String.format("%s(set, get, visitor);", getVisitFunctionName(field.getMessageType())))
                 .then("visitor.end_iteration();")
         );
@@ -169,49 +206,7 @@ public class ConfigModelVisitorFile extends CppFilePair {
         );
     }
 
-    private Document getFieldHandler(Descriptors.FieldDescriptor field)
-    {
-        switch(field.getType())
-        {
-            case MESSAGE:
-                return field.isRepeated() ? getRepeatedMessageField(field) :  getMessageField(field);
-            case ENUM:
-                return getEnumHandler(field);
-            default:
-                return getPrimitiveHandler(field);
-        }
-    }
 
-    private Document getRepeatedSetter(Descriptors.FieldDescriptor field)
-    {
-        return line("const auto set = [setter, i, max = count](%s& profile)", Helpers.cppMessageName(this.descriptor))
-                .bracketSemicolon(
-                        line("const auto repeated = setter(profile)->mutable_%s();", field.getName().toLowerCase())
-                        .then("if(repeated->size() < max)")
-                        .bracket(
-                                line("repeated->Reserve(max);")
-                                        .then("// add items until we're at max requested capacity")
-                                        .then("for(auto j = repeated->size(); j < max; ++j)")
-                                        .bracket(
-                                                line("repeated->Add();")
-                                        )
-                        )
-                        .then("return repeated->Mutable(i);")
-                );
-    }
-
-    private Document getRepeatedGetter(Descriptors.FieldDescriptor field)
-    {
-        return line("const auto get = [getter, i](const %s& profile) -> %s const*", Helpers.cppMessageName(this.descriptor), Helpers.cppMessageName(field.getMessageType()))
-                .bracketSemicolon(
-                        line("const auto value = getter(profile);")
-                                .then("if(value)")
-                                .bracket(
-                                        line("return (i < value->%s_size()) ? &value->%s(i) : nullptr;", field.getName().toLowerCase(), field.getName().toLowerCase())
-                                )
-                                .then("else").bracket(line("return nullptr;"))
-                        );
-    }
 
     private Document getEnumHandler(Descriptors.FieldDescriptor field)
     {
