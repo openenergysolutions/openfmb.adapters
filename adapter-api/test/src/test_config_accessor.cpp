@@ -19,7 +19,7 @@ TEST_CASE( "accessor implementation" )
         profile.mutable_meter()->mutable_conductingequipment()->set_mrid(value);
     };
 
-    const adapter::accessor_t<std::string,profile_t> accessor = adapter::AccessorBuilder<std::string, profile_t>::build(set_mrid, get_mrid);
+    const adapter::accessor_t<profile_t, std::string> accessor = adapter::AccessorBuilder<profile_t, std::string>::build(set_mrid, get_mrid);
 
     SECTION("if_present not invoked if value absent")
     {

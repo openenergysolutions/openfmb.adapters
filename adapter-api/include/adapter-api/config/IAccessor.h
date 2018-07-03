@@ -6,13 +6,13 @@
 #include <memory>
 
 namespace adapter {
-template <class V, class P>
+template <class P, class V>
 using getter_t = std::function<V* (const P&)>;
 
 template <class P, class V>
 using setter_t = std::function<void(P&, const V&)>;
 
-template <class V, class P>
+template <class P, class V>
 class IAccessor {
 public:
     virtual ~IAccessor() = default;
@@ -23,7 +23,7 @@ public:
      * @param message The message on which to set the value
      * @param value The value to set on the message
      */
-    virtual void set(P& message, V value) const = 0;
+    virtual void set(P& message, const V& value) const = 0;
 
     /**
      * A safe accessor that only invokes a handler if the value is present
@@ -56,8 +56,8 @@ protected:
     virtual const V* get(const P& message) const = 0;
 };
 
-template <class V, class P>
-using accessor_t = std::shared_ptr<IAccessor<V, P>>;
+template <class P, class V>
+using accessor_t = std::shared_ptr<IAccessor<P, V>>;
 
 }
 

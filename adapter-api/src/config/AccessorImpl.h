@@ -6,8 +6,8 @@
 
 namespace adapter {
 
-template <class R, class T, class Setter, class Getter>
-class AccessorImpl : public IAccessor<R, T> {
+template <class P, class V, class Setter, class Getter>
+class AccessorImpl : public IAccessor<P, V> {
     const Setter setter;
     const Getter getter;
 
@@ -18,24 +18,24 @@ public:
     {
     }
 
-    virtual R const* get(const T& message) const
+    virtual V const* get(const P& message) const
     {
         return this->getter(message);
     }
 
-    virtual void set(T& message, R value) const
+    virtual void set(P& message, const V& value) const
     {
         return this->setter(message, value);
     }
 };
 
-template <class R, class T>
+template <class P, class V>
 struct AccessorBuilder {
 
     template <class Setter, class Getter>
-    static accessor_t<R, T> build(const Setter& setter, const Getter& getter)
+    static accessor_t<P, V> build(const Setter& setter, const Getter& getter)
     {
-        return std::make_shared<AccessorImpl<R, T, Setter, Getter>>(setter, getter);
+        return std::make_shared<AccessorImpl<P, V, Setter, Getter>>(setter, getter);
     }
 };
 
