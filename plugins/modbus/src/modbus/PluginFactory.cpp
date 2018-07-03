@@ -5,11 +5,13 @@
 #include <adapter-api/util/Exception.h>
 #include <adapter-api/util/YAMLTemplate.h>
 
-#include "ConfigWriteVisitor.h"
 #include "Plugin.h"
+#include "ConfigStrings.h"
 
 namespace adapter {
 namespace modbus {
+
+    /*
     template <class T>
     struct ProfileWriter {
         static void handle(YAML::Emitter& out)
@@ -18,6 +20,7 @@ namespace modbus {
             visit(visitor);
         }
     };
+    */
 
     void PluginFactory::write_default_config(YAML::Emitter& out) const
     {
@@ -60,6 +63,8 @@ namespace modbus {
         out << YAML::EndMap;
         out << YAML::EndSeq;
 
+        throw NotImplemented(LOCATION);
+        /*
         out << YAML::Key << ::adapter::keys::profiles;
         out << YAML::BeginSeq;
         for (const auto& profile : profiles) {
@@ -69,6 +74,7 @@ namespace modbus {
             out << YAML::EndMap;
         }
         out << YAML::EndSeq;
+        */
 
         out << YAML::EndMap;
     }

@@ -19,6 +19,7 @@
 namespace adapter {
 namespace modbus {
 
+    /*
     template <class T>
     struct ProfileReader {
         template <bool condition>
@@ -43,6 +44,7 @@ namespace modbus {
             return true;
         }
     };
+     */
 
     Plugin::Plugin(const YAML::Node& node, const Logger& logger, message_bus_t bus)
         : logger(logger)
@@ -87,6 +89,8 @@ namespace modbus {
 
         yaml::foreach (yaml::require(node, keys::heartbeats), add_heartbeat);
 
+        throw NotImplemented(LOCATION);
+        /*
         const auto add_profile = [&](const YAML::Node& node) {
             ProfileRegistry::handle_by_name<ProfileReader>(
                 yaml::require_string(node, ::adapter::keys::name),
@@ -115,6 +119,7 @@ namespace modbus {
         this->start_actions.emplace_back([tx_handler, session]() {
             tx_handler->start(session);
         });
+        */
     }
 
     std::shared_ptr<::modbus::ISession> Plugin::get_session(const std::string& name, const YAML::Node& node)

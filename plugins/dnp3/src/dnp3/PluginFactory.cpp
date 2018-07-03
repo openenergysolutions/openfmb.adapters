@@ -5,11 +5,14 @@
 #include <adapter-api/config/ModelVisitors.h>
 #include <adapter-api/util/YAMLTemplate.h>
 
-#include "ConfigWriteVisitor.h"
+//#include "ConfigWriteVisitor.h"
 #include "Plugin.h"
+#include "ConfigStrings.h"
 
 namespace adapter {
 namespace dnp3 {
+
+    /*
     template <class T>
     struct WriterHandler {
         static void handle(YAML::Emitter& out)
@@ -29,6 +32,7 @@ namespace dnp3 {
             out << YAML::EndMap;
         }
     }
+     */
 
     void PluginFactory::write_default_config(YAML::Emitter& out) const
     {
@@ -72,9 +76,12 @@ namespace dnp3 {
         out << YAML::EndMap;
 
         out << YAML::Key << "profiles";
+        throw NotImplemented(LOCATION);
+        /*
         out << YAML::BeginSeq;
         write_profile_configs(out, profiles);
         out << YAML::EndSeq;
+         */
 
         out << YAML::EndMap;
     }

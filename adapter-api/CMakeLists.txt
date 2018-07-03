@@ -28,19 +28,20 @@ set(API_HEADERS
     include/adapter-api/config/ModelVisitors.h
     include/adapter-api/config/PublishingConfigReadVisitorBase.h
     include/adapter-api/config/generated/MessageVisitors.h
-	include/adapter-api/config/generated/ResourceReadingProfileModelVisitor.h
-	include/adapter-api/config/generated/SwitchReadingProfileModelVisitor.h
-	include/adapter-api/config/generated/SwitchStatusProfileModelVisitor.h
-	include/adapter-api/config/generated/SwitchControlProfileModelVisitor.h
-	include/adapter-api/config/generated/ESSReadingProfileModelVisitor.h
-	include/adapter-api/config/generated/ESSStatusProfileModelVisitor.h
-	include/adapter-api/config/generated/ESSControlProfileModelVisitor.h
-	include/adapter-api/config/generated/SolarReadingProfileModelVisitor.h
-	include/adapter-api/config/generated/SolarStatusProfileModelVisitor.h
-	include/adapter-api/config/generated/SolarControlProfileModelVisitor.h
-	include/adapter-api/config/generated/LoadReadingProfileModelVisitor.h
-	include/adapter-api/config/generated/LoadStatusProfileModelVisitor.h
-	include/adapter-api/config/generated/LoadControlProfileModelVisitor.h
+# model visitors
+	include/adapter-api/config/generated/ResourceReadingProfileConfigModelVisitor.h
+	include/adapter-api/config/generated/SwitchReadingProfileConfigModelVisitor.h
+	include/adapter-api/config/generated/SwitchStatusProfileConfigModelVisitor.h
+	include/adapter-api/config/generated/SwitchControlProfileConfigModelVisitor.h
+	include/adapter-api/config/generated/ESSReadingProfileConfigModelVisitor.h
+	include/adapter-api/config/generated/ESSStatusProfileConfigModelVisitor.h
+	include/adapter-api/config/generated/ESSControlProfileConfigModelVisitor.h
+	include/adapter-api/config/generated/SolarReadingProfileConfigModelVisitor.h
+	include/adapter-api/config/generated/SolarStatusProfileConfigModelVisitor.h
+	include/adapter-api/config/generated/SolarControlProfileConfigModelVisitor.h
+	include/adapter-api/config/generated/LoadReadingProfileConfigModelVisitor.h
+	include/adapter-api/config/generated/LoadStatusProfileConfigModelVisitor.h
+	include/adapter-api/config/generated/LoadControlProfileConfigModelVisitor.h
 )
 
 set(API_SOURCES
@@ -52,20 +53,6 @@ set(API_SOURCES
     src/config/AccessorImpl.h
 	src/config/generated/MessageVisitors.cpp
 # model visitors
-	src/config/generated/ResourceReadingProfileModelVisitor.cpp
-	src/config/generated/SwitchReadingProfileModelVisitor.cpp
-	src/config/generated/SwitchStatusProfileModelVisitor.cpp
-	src/config/generated/SwitchControlProfileModelVisitor.cpp
-	src/config/generated/ESSReadingProfileModelVisitor.cpp
-	src/config/generated/ESSStatusProfileModelVisitor.cpp
-	src/config/generated/ESSControlProfileModelVisitor.cpp
-	src/config/generated/SolarReadingProfileModelVisitor.cpp
-	src/config/generated/SolarStatusProfileModelVisitor.cpp
-	src/config/generated/SolarControlProfileModelVisitor.cpp
-	src/config/generated/LoadReadingProfileModelVisitor.cpp
-	src/config/generated/LoadStatusProfileModelVisitor.cpp
-	src/config/generated/LoadControlProfileModelVisitor.cpp
-# config model visitors
 	src/config/generated/ResourceReadingProfileConfigModelVisitor.cpp
 	src/config/generated/SwitchReadingProfileConfigModelVisitor.cpp
 	src/config/generated/SwitchStatusProfileConfigModelVisitor.cpp

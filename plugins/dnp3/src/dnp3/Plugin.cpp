@@ -24,6 +24,8 @@ using namespace asiodnp3;
 
 namespace adapter {
 namespace dnp3 {
+
+    /*
     template <class T>
     struct ProfileReader {
         template <bool condition>
@@ -46,6 +48,7 @@ namespace dnp3 {
             return true;
         }
     };
+     */
 
     Plugin::Plugin(
         const Logger& logger,
@@ -84,6 +87,9 @@ namespace dnp3 {
 
         const auto profiles = yaml::require(node, ::adapter::keys::profiles);
 
+        throw NotImplemented(LOCATION);
+
+        /*
         yaml::foreach (
             profiles,
             [&](const YAML::Node& node) {
@@ -121,6 +127,7 @@ namespace dnp3 {
         executor->start(master);
 
         this->masters.push_back(master);
+         */
     }
 
     void Plugin::start()

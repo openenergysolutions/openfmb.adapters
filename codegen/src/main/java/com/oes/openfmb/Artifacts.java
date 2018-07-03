@@ -7,7 +7,6 @@ import com.oes.openfmb.generation.dds.ConvertToProto;
 import com.oes.openfmb.generation.document.CppFilePair;
 import com.oes.openfmb.generation.proto.MessageVisitorFile;
 import com.oes.openfmb.generation.proto.ConfigModelVisitorFile;
-import com.oes.openfmb.generation.proto.OldModelVisitorFile;
 import openfmb.essmodule.ESSControlProfile;
 import openfmb.essmodule.ESSReadingProfile;
 import openfmb.essmodule.ESSStatusProfile;
@@ -80,10 +79,7 @@ public class Artifacts {
 
             return Stream.concat(
                    Stream.of(MessageVisitorFile.from(descriptors())),
-                   Stream.concat(
-                           descriptors().stream().map(ConfigModelVisitorFile::from),
-                           descriptors().stream().map(OldModelVisitorFile::from)
-                   )
+                   descriptors().stream().map(ConfigModelVisitorFile::from)
             ).collect(Collectors.toList());
         }
 
