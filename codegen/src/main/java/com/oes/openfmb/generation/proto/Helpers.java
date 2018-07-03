@@ -4,15 +4,20 @@ import com.google.protobuf.Descriptors;
 
 import java.util.Collections;
 import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 class Helpers {
 
-    static Set<Descriptors.Descriptor> getChildMessageDescriptors(Iterable<Descriptors.Descriptor> descriptors)
+    static SortedMap<String, Descriptors.Descriptor> getChildMessageDescriptors(Iterable<Descriptors.Descriptor> descriptors)
     {
-        return getChildMessageDescriptors(StreamSupport.stream(descriptors.spliterator(), false));
+        final Set<Descriptors.Descriptor> set = getChildMessageDescriptors(StreamSupport.stream(descriptors.spliterator(), false));
+        SortedMap<String, Descriptors.Descriptor> map = new TreeMap<>();
+        set.forEach(d -> map.put(d.getFullName(), d));
+        return map;
     }
 
     static String cppMessageName(Descriptors.GenericDescriptor descriptor)

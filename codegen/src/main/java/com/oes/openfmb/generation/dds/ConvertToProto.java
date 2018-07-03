@@ -3,10 +3,9 @@ package com.oes.openfmb.generation.dds;
 import com.google.protobuf.Descriptors;
 import com.oes.openfmb.generation.document.CppFilePair;
 import com.oes.openfmb.generation.document.Document;
-import com.oes.openfmb.generation.document.Documents;
 import com.oes.openfmb.generation.document.FileHeader;
 
-import static com.oes.openfmb.generation.document.Documents.*;
+import static com.oes.openfmb.generation.document.Document.*;
 
 public class ConvertToProto extends CppFilePair {
 
@@ -21,12 +20,12 @@ public class ConvertToProto extends CppFilePair {
 
     @Override
     public Document header() {
-        return Documents.join(
+        return join(
                 FileHeader.lines,
                 guards(this.baseFileName(),
                         headerIncludes(),
                         space,
-                        Documents.namespace(
+                        namespace(
                                 "adapter",
                                 namespace("dds",
                                     signatures()
@@ -38,7 +37,7 @@ public class ConvertToProto extends CppFilePair {
 
     @Override
     public Document implementation() {
-        return Documents.join(
+        return join(
                 FileHeader.lines,
                 include(this.baseFileName() + ".h"),
                 space,
@@ -93,7 +92,7 @@ public class ConvertToProto extends CppFilePair {
 
     private Document primitiveFieldConversion(Descriptors.FieldDescriptor field)
     {
-        if(field.getType() == Descriptors.FieldDescriptor.Type.MESSAGE) return Documents.empty;
+        if(field.getType() == Descriptors.FieldDescriptor.Type.MESSAGE) return Document.empty;
 
         if(field.getType() == Descriptors.FieldDescriptor.Type.BYTES)
         {
@@ -155,7 +154,7 @@ public class ConvertToProto extends CppFilePair {
 
     private Document messageFieldConversion(Descriptors.FieldDescriptor field)
     {
-        if(field.getType() != Descriptors.FieldDescriptor.Type.MESSAGE) return Documents.empty;
+        if(field.getType() != Descriptors.FieldDescriptor.Type.MESSAGE) return Document.empty;
 
         if(FieldInfo.isInherited(field))
         {

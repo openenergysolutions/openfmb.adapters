@@ -3,10 +3,9 @@ package com.oes.openfmb.generation.dds;
 import com.google.protobuf.Descriptors;
 import com.oes.openfmb.generation.document.CppFilePair;
 import com.oes.openfmb.generation.document.Document;
-import com.oes.openfmb.generation.document.Documents;
 import com.oes.openfmb.generation.document.FileHeader;
 
-import static com.oes.openfmb.generation.document.Documents.*;
+import static com.oes.openfmb.generation.document.Document.*;
 
 public class ConvertFromProto extends CppFilePair {
 
@@ -21,12 +20,12 @@ public class ConvertFromProto extends CppFilePair {
 
     @Override
     public Document header() {
-        return Documents.join(
+        return Document.join(
                 FileHeader.lines,
                 guards(this.baseFileName(),
                         headerIncludes(),
                         space,
-                        Documents.namespace(
+                        namespace(
                                 "adapter",
                                 namespace("dds",
                                     signatures()
@@ -38,7 +37,7 @@ public class ConvertFromProto extends CppFilePair {
 
     @Override
     public Document implementation() {
-        return Documents.join(
+        return join(
                 FileHeader.lines,
                 include(this.baseFileName() + ".h"),
                 space,
@@ -78,12 +77,12 @@ public class ConvertFromProto extends CppFilePair {
 
     private Document enumAssertions()
     {
-        return Documents.spaced(Profiles.getEnums().map(ed -> assertion(ed)));
+        return spaced(Profiles.getEnums().map(ed -> assertion(ed)));
     }
 
     private static Document assertion(Descriptors.EnumDescriptor descriptor)
     {
-        return Documents.join(
+        return join(
                 descriptor.getValues().stream().map(v -> assertion(v))
         );
     }
@@ -94,7 +93,7 @@ public class ConvertFromProto extends CppFilePair {
         // some enum values don't actually exist in the UML
         if(d.getNumber() == 0 &&  d.getName().endsWith("_UNDEFINED"))
         {
-            return Documents.empty;
+            return Document.empty;
         }
 
         return line(
@@ -148,7 +147,7 @@ public class ConvertFromProto extends CppFilePair {
 
     private Document primitiveFieldConversion(Descriptors.FieldDescriptor field)
     {
-        if(field.getType() == Descriptors.FieldDescriptor.Type.MESSAGE) return Documents.empty;
+        if(field.getType() == Descriptors.FieldDescriptor.Type.MESSAGE) return Document.empty;
 
         if(FieldInfo.isRequired(field))
         {
@@ -176,7 +175,7 @@ public class ConvertFromProto extends CppFilePair {
 
     private Document messageFieldConversion(Descriptors.FieldDescriptor field)
     {
-        if(field.getType() != Descriptors.FieldDescriptor.Type.MESSAGE) return Documents.empty;
+        if(field.getType() != Descriptors.FieldDescriptor.Type.MESSAGE) return Document.empty;
 
 
         if(FieldInfo.isInherited(field))

@@ -11,59 +11,59 @@ using get_t = getter_t<loadmodule::LoadStatusProfile, V>;
 
 // ---- forward declare all the child visit method names ----
 
+void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::ConductingEquipment>& setter, const get_t<commonmodule::ConductingEquipment>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+
+void visit_commonmodule_ControlDPC(const set_t<commonmodule::ControlDPC>& setter, const get_t<commonmodule::ControlDPC>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+
+void visit_commonmodule_DetailQual(const set_t<commonmodule::DetailQual>& setter, const get_t<commonmodule::DetailQual>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+
+void visit_commonmodule_ENS_BehaviourModeKind(const set_t<commonmodule::ENS_BehaviourModeKind>& setter, const get_t<commonmodule::ENS_BehaviourModeKind>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+
+void visit_commonmodule_ENS_DynamicTestKind(const set_t<commonmodule::ENS_DynamicTestKind>& setter, const get_t<commonmodule::ENS_DynamicTestKind>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+
+void visit_commonmodule_ENS_HealthKind(const set_t<commonmodule::ENS_HealthKind>& setter, const get_t<commonmodule::ENS_HealthKind>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+
 void visit_commonmodule_EnergyConsumer(const set_t<commonmodule::EnergyConsumer>& setter, const get_t<commonmodule::EnergyConsumer>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 void visit_commonmodule_IED(const set_t<commonmodule::IED>& setter, const get_t<commonmodule::IED>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
-void visit_commonmodule_LogicalNodeForEventAndStatus(const set_t<commonmodule::LogicalNodeForEventAndStatus>& setter, const get_t<commonmodule::LogicalNodeForEventAndStatus>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
-
-void visit_google_protobuf_StringValue(const set_t<google::protobuf::StringValue>& setter, const get_t<google::protobuf::StringValue>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
-
-void visit_commonmodule_ENS_HealthKind(const set_t<commonmodule::ENS_HealthKind>& setter, const get_t<commonmodule::ENS_HealthKind>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
-
-void visit_commonmodule_Quality(const set_t<commonmodule::Quality>& setter, const get_t<commonmodule::Quality>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
-
-void visit_commonmodule_DetailQual(const set_t<commonmodule::DetailQual>& setter, const get_t<commonmodule::DetailQual>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
-
-void visit_loadmodule_LoadStatus(const set_t<loadmodule::LoadStatus>& setter, const get_t<loadmodule::LoadStatus>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
-
-void visit_commonmodule_StatusMessageInfo(const set_t<commonmodule::StatusMessageInfo>& setter, const get_t<commonmodule::StatusMessageInfo>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
-
-void visit_loadmodule_LoadStatusZGLD(const set_t<loadmodule::LoadStatusZGLD>& setter, const get_t<loadmodule::LoadStatusZGLD>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
-
-void visit_commonmodule_StatusSPS(const set_t<commonmodule::StatusSPS>& setter, const get_t<commonmodule::StatusSPS>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
-
-void visit_commonmodule_Optional_StateKind(const set_t<commonmodule::Optional_StateKind>& setter, const get_t<commonmodule::Optional_StateKind>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
-
-void visit_commonmodule_MessageInfo(const set_t<commonmodule::MessageInfo>& setter, const get_t<commonmodule::MessageInfo>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
-
-void visit_google_protobuf_FloatValue(const set_t<google::protobuf::FloatValue>& setter, const get_t<google::protobuf::FloatValue>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
-
 void visit_commonmodule_IdentifiedObject(const set_t<commonmodule::IdentifiedObject>& setter, const get_t<commonmodule::IdentifiedObject>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
-
-void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& setter, const get_t<commonmodule::TimeQuality>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
-
-void visit_commonmodule_ControlDPC(const set_t<commonmodule::ControlDPC>& setter, const get_t<commonmodule::ControlDPC>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
-
-void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::ConductingEquipment>& setter, const get_t<commonmodule::ConductingEquipment>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
-
-void visit_commonmodule_ENS_BehaviourModeKind(const set_t<commonmodule::ENS_BehaviourModeKind>& setter, const get_t<commonmodule::ENS_BehaviourModeKind>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
-
-void visit_commonmodule_RampRate(const set_t<commonmodule::RampRate>& setter, const get_t<commonmodule::RampRate>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
-
-void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& setter, const get_t<commonmodule::NamedObject>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
-
-void visit_commonmodule_ENS_DynamicTestKind(const set_t<commonmodule::ENS_DynamicTestKind>& setter, const get_t<commonmodule::ENS_DynamicTestKind>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
-
-void visit_loadmodule_LoadPointStatus(const set_t<loadmodule::LoadPointStatus>& setter, const get_t<loadmodule::LoadPointStatus>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
-
-void visit_loadmodule_LoadEventAndStatusZGLD(const set_t<loadmodule::LoadEventAndStatusZGLD>& setter, const get_t<loadmodule::LoadEventAndStatusZGLD>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
-
-void visit_commonmodule_StatusValue(const set_t<commonmodule::StatusValue>& setter, const get_t<commonmodule::StatusValue>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 void visit_commonmodule_LogicalNode(const set_t<commonmodule::LogicalNode>& setter, const get_t<commonmodule::LogicalNode>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
+void visit_commonmodule_LogicalNodeForEventAndStatus(const set_t<commonmodule::LogicalNodeForEventAndStatus>& setter, const get_t<commonmodule::LogicalNodeForEventAndStatus>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+
+void visit_commonmodule_MessageInfo(const set_t<commonmodule::MessageInfo>& setter, const get_t<commonmodule::MessageInfo>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+
+void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& setter, const get_t<commonmodule::NamedObject>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+
+void visit_commonmodule_Optional_StateKind(const set_t<commonmodule::Optional_StateKind>& setter, const get_t<commonmodule::Optional_StateKind>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+
+void visit_commonmodule_Quality(const set_t<commonmodule::Quality>& setter, const get_t<commonmodule::Quality>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+
+void visit_commonmodule_RampRate(const set_t<commonmodule::RampRate>& setter, const get_t<commonmodule::RampRate>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+
+void visit_commonmodule_StatusMessageInfo(const set_t<commonmodule::StatusMessageInfo>& setter, const get_t<commonmodule::StatusMessageInfo>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+
+void visit_commonmodule_StatusSPS(const set_t<commonmodule::StatusSPS>& setter, const get_t<commonmodule::StatusSPS>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+
+void visit_commonmodule_StatusValue(const set_t<commonmodule::StatusValue>& setter, const get_t<commonmodule::StatusValue>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+
+void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& setter, const get_t<commonmodule::TimeQuality>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+
 void visit_commonmodule_Timestamp(const set_t<commonmodule::Timestamp>& setter, const get_t<commonmodule::Timestamp>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+
+void visit_google_protobuf_FloatValue(const set_t<google::protobuf::FloatValue>& setter, const get_t<google::protobuf::FloatValue>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+
+void visit_google_protobuf_StringValue(const set_t<google::protobuf::StringValue>& setter, const get_t<google::protobuf::StringValue>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+
+void visit_loadmodule_LoadEventAndStatusZGLD(const set_t<loadmodule::LoadEventAndStatusZGLD>& setter, const get_t<loadmodule::LoadEventAndStatusZGLD>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+
+void visit_loadmodule_LoadPointStatus(const set_t<loadmodule::LoadPointStatus>& setter, const get_t<loadmodule::LoadPointStatus>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+
+void visit_loadmodule_LoadStatus(const set_t<loadmodule::LoadStatus>& setter, const get_t<loadmodule::LoadStatus>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+
+void visit_loadmodule_LoadStatusZGLD(const set_t<loadmodule::LoadStatusZGLD>& setter, const get_t<loadmodule::LoadStatusZGLD>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 // ---- the exposed visit function ----
 
@@ -172,6 +172,275 @@ void visit(IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 
 // ---- template definitions for child types ----
 
+void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::ConductingEquipment>& setter, const get_t<commonmodule::ConductingEquipment>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+{
+    if(visitor.start_message_field("namedObject", commonmodule::NamedObject::descriptor()))
+    {
+        visit_commonmodule_NamedObject(
+            [setter](loadmodule::LoadStatusProfile& profile)
+            {
+                return setter(profile)->mutable_namedobject();
+            },
+            [getter](const loadmodule::LoadStatusProfile& profile) -> commonmodule::NamedObject const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_namedobject() ? &value->namedobject() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    visitor.handle(
+        "mRID",
+        AccessorBuilder<loadmodule::LoadStatusProfile,std::string>::build(
+            [setter](loadmodule::LoadStatusProfile& profile, const std::string& value) { setter(profile)->set_mrid(value); },
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<std::string>& handler) { return false; }
+        )
+    );
+}
+
+void visit_commonmodule_ControlDPC(const set_t<commonmodule::ControlDPC>& setter, const get_t<commonmodule::ControlDPC>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+{
+    visitor.handle(
+        "ctlVal",
+        AccessorBuilder<loadmodule::LoadStatusProfile,bool>::build(
+            [setter](loadmodule::LoadStatusProfile& profile, const bool& value) { setter(profile)->set_ctlval(value); },
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+        )
+    );
+}
+
+void visit_commonmodule_DetailQual(const set_t<commonmodule::DetailQual>& setter, const get_t<commonmodule::DetailQual>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+{
+    visitor.handle(
+        "badReference",
+        AccessorBuilder<loadmodule::LoadStatusProfile,bool>::build(
+            [setter](loadmodule::LoadStatusProfile& profile, const bool& value) { setter(profile)->set_badreference(value); },
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+        )
+    );
+
+    visitor.handle(
+        "failure",
+        AccessorBuilder<loadmodule::LoadStatusProfile,bool>::build(
+            [setter](loadmodule::LoadStatusProfile& profile, const bool& value) { setter(profile)->set_failure(value); },
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+        )
+    );
+
+    visitor.handle(
+        "inaccurate",
+        AccessorBuilder<loadmodule::LoadStatusProfile,bool>::build(
+            [setter](loadmodule::LoadStatusProfile& profile, const bool& value) { setter(profile)->set_inaccurate(value); },
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+        )
+    );
+
+    visitor.handle(
+        "inconsistent",
+        AccessorBuilder<loadmodule::LoadStatusProfile,bool>::build(
+            [setter](loadmodule::LoadStatusProfile& profile, const bool& value) { setter(profile)->set_inconsistent(value); },
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+        )
+    );
+
+    visitor.handle(
+        "oldData",
+        AccessorBuilder<loadmodule::LoadStatusProfile,bool>::build(
+            [setter](loadmodule::LoadStatusProfile& profile, const bool& value) { setter(profile)->set_olddata(value); },
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+        )
+    );
+
+    visitor.handle(
+        "oscillatory",
+        AccessorBuilder<loadmodule::LoadStatusProfile,bool>::build(
+            [setter](loadmodule::LoadStatusProfile& profile, const bool& value) { setter(profile)->set_oscillatory(value); },
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+        )
+    );
+
+    visitor.handle(
+        "outOfRange",
+        AccessorBuilder<loadmodule::LoadStatusProfile,bool>::build(
+            [setter](loadmodule::LoadStatusProfile& profile, const bool& value) { setter(profile)->set_outofrange(value); },
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+        )
+    );
+
+    visitor.handle(
+        "overflow",
+        AccessorBuilder<loadmodule::LoadStatusProfile,bool>::build(
+            [setter](loadmodule::LoadStatusProfile& profile, const bool& value) { setter(profile)->set_overflow(value); },
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+        )
+    );
+}
+
+void visit_commonmodule_ENS_BehaviourModeKind(const set_t<commonmodule::ENS_BehaviourModeKind>& setter, const get_t<commonmodule::ENS_BehaviourModeKind>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+{
+    if(visitor.start_message_field("q", commonmodule::Quality::descriptor()))
+    {
+        visit_commonmodule_Quality(
+            [setter](loadmodule::LoadStatusProfile& profile)
+            {
+                return setter(profile)->mutable_q();
+            },
+            [getter](const loadmodule::LoadStatusProfile& profile) -> commonmodule::Quality const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_q() ? &value->q() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    visitor.handle(
+        "stVal",
+        AccessorBuilder<loadmodule::LoadStatusProfile,int>::build(
+            [setter](loadmodule::LoadStatusProfile& profile, const int& value) { setter(profile)->set_stval(static_cast<commonmodule::BehaviourModeKind>(value)); },
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<int>& handler) { return false; }
+        ),
+        commonmodule::BehaviourModeKind_descriptor()
+    );
+
+    if(visitor.start_message_field("t", commonmodule::Timestamp::descriptor()))
+    {
+        visit_commonmodule_Timestamp(
+            [setter](loadmodule::LoadStatusProfile& profile)
+            {
+                return setter(profile)->mutable_t();
+            },
+            [getter](const loadmodule::LoadStatusProfile& profile) -> commonmodule::Timestamp const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_t() ? &value->t() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+}
+
+void visit_commonmodule_ENS_DynamicTestKind(const set_t<commonmodule::ENS_DynamicTestKind>& setter, const get_t<commonmodule::ENS_DynamicTestKind>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+{
+    if(visitor.start_message_field("q", commonmodule::Quality::descriptor()))
+    {
+        visit_commonmodule_Quality(
+            [setter](loadmodule::LoadStatusProfile& profile)
+            {
+                return setter(profile)->mutable_q();
+            },
+            [getter](const loadmodule::LoadStatusProfile& profile) -> commonmodule::Quality const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_q() ? &value->q() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    visitor.handle(
+        "stVal",
+        AccessorBuilder<loadmodule::LoadStatusProfile,int>::build(
+            [setter](loadmodule::LoadStatusProfile& profile, const int& value) { setter(profile)->set_stval(static_cast<commonmodule::DynamicTestKind>(value)); },
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<int>& handler) { return false; }
+        ),
+        commonmodule::DynamicTestKind_descriptor()
+    );
+
+    if(visitor.start_message_field("t", commonmodule::Timestamp::descriptor()))
+    {
+        visit_commonmodule_Timestamp(
+            [setter](loadmodule::LoadStatusProfile& profile)
+            {
+                return setter(profile)->mutable_t();
+            },
+            [getter](const loadmodule::LoadStatusProfile& profile) -> commonmodule::Timestamp const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_t() ? &value->t() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+}
+
+void visit_commonmodule_ENS_HealthKind(const set_t<commonmodule::ENS_HealthKind>& setter, const get_t<commonmodule::ENS_HealthKind>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+{
+    if(visitor.start_message_field("d", google::protobuf::StringValue::descriptor()))
+    {
+        visit_google_protobuf_StringValue(
+            [setter](loadmodule::LoadStatusProfile& profile)
+            {
+                return setter(profile)->mutable_d();
+            },
+            [getter](const loadmodule::LoadStatusProfile& profile) -> google::protobuf::StringValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_d() ? &value->d() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    visitor.handle(
+        "stVal",
+        AccessorBuilder<loadmodule::LoadStatusProfile,int>::build(
+            [setter](loadmodule::LoadStatusProfile& profile, const int& value) { setter(profile)->set_stval(static_cast<commonmodule::HealthKind>(value)); },
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<int>& handler) { return false; }
+        ),
+        commonmodule::HealthKind_descriptor()
+    );
+}
+
 void visit_commonmodule_EnergyConsumer(const set_t<commonmodule::EnergyConsumer>& setter, const get_t<commonmodule::EnergyConsumer>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
     if(visitor.start_message_field("conductingEquipment", commonmodule::ConductingEquipment::descriptor()))
@@ -224,6 +493,108 @@ void visit_commonmodule_EnergyConsumer(const set_t<commonmodule::EnergyConsumer>
 }
 
 void visit_commonmodule_IED(const set_t<commonmodule::IED>& setter, const get_t<commonmodule::IED>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+{
+    if(visitor.start_message_field("identifiedObject", commonmodule::IdentifiedObject::descriptor()))
+    {
+        visit_commonmodule_IdentifiedObject(
+            [setter](loadmodule::LoadStatusProfile& profile)
+            {
+                return setter(profile)->mutable_identifiedobject();
+            },
+            [getter](const loadmodule::LoadStatusProfile& profile) -> commonmodule::IdentifiedObject const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_identifiedobject() ? &value->identifiedobject() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+}
+
+void visit_commonmodule_IdentifiedObject(const set_t<commonmodule::IdentifiedObject>& setter, const get_t<commonmodule::IdentifiedObject>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+{
+    if(visitor.start_message_field("description", google::protobuf::StringValue::descriptor()))
+    {
+        visit_google_protobuf_StringValue(
+            [setter](loadmodule::LoadStatusProfile& profile)
+            {
+                return setter(profile)->mutable_description();
+            },
+            [getter](const loadmodule::LoadStatusProfile& profile) -> google::protobuf::StringValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_description() ? &value->description() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("mRID", google::protobuf::StringValue::descriptor()))
+    {
+        visit_google_protobuf_StringValue(
+            [setter](loadmodule::LoadStatusProfile& profile)
+            {
+                return setter(profile)->mutable_mrid();
+            },
+            [getter](const loadmodule::LoadStatusProfile& profile) -> google::protobuf::StringValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_mrid() ? &value->mrid() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("name", google::protobuf::StringValue::descriptor()))
+    {
+        visit_google_protobuf_StringValue(
+            [setter](loadmodule::LoadStatusProfile& profile)
+            {
+                return setter(profile)->mutable_name();
+            },
+            [getter](const loadmodule::LoadStatusProfile& profile) -> google::protobuf::StringValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_name() ? &value->name() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+}
+
+void visit_commonmodule_LogicalNode(const set_t<commonmodule::LogicalNode>& setter, const get_t<commonmodule::LogicalNode>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
     if(visitor.start_message_field("identifiedObject", commonmodule::IdentifiedObject::descriptor()))
     {
@@ -325,32 +696,21 @@ void visit_commonmodule_LogicalNodeForEventAndStatus(const set_t<commonmodule::L
     }
 }
 
-void visit_google_protobuf_StringValue(const set_t<google::protobuf::StringValue>& setter, const get_t<google::protobuf::StringValue>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_commonmodule_MessageInfo(const set_t<commonmodule::MessageInfo>& setter, const get_t<commonmodule::MessageInfo>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
-    visitor.handle(
-        "value",
-        AccessorBuilder<loadmodule::LoadStatusProfile,std::string>::build(
-            [setter](loadmodule::LoadStatusProfile& profile, const std::string& value) { setter(profile)->set_value(value); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<std::string>& handler) { return false; }
-        )
-    );
-}
-
-void visit_commonmodule_ENS_HealthKind(const set_t<commonmodule::ENS_HealthKind>& setter, const get_t<commonmodule::ENS_HealthKind>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
-{
-    if(visitor.start_message_field("d", google::protobuf::StringValue::descriptor()))
+    if(visitor.start_message_field("identifiedObject", commonmodule::IdentifiedObject::descriptor()))
     {
-        visit_google_protobuf_StringValue(
+        visit_commonmodule_IdentifiedObject(
             [setter](loadmodule::LoadStatusProfile& profile)
             {
-                return setter(profile)->mutable_d();
+                return setter(profile)->mutable_identifiedobject();
             },
-            [getter](const loadmodule::LoadStatusProfile& profile) -> google::protobuf::StringValue const *
+            [getter](const loadmodule::LoadStatusProfile& profile) -> commonmodule::IdentifiedObject const *
             {
                 const auto value = getter(profile);
                 if(value)
                 {
-                    return value->has_d() ? &value->d() : nullptr;
+                    return value->has_identifiedobject() ? &value->identifiedobject() : nullptr;
                 }
                 else
                 {
@@ -362,13 +722,91 @@ void visit_commonmodule_ENS_HealthKind(const set_t<commonmodule::ENS_HealthKind>
         visitor.end_message_field();
     }
 
+    if(visitor.start_message_field("messageTimeStamp", commonmodule::Timestamp::descriptor()))
+    {
+        visit_commonmodule_Timestamp(
+            [setter](loadmodule::LoadStatusProfile& profile)
+            {
+                return setter(profile)->mutable_messagetimestamp();
+            },
+            [getter](const loadmodule::LoadStatusProfile& profile) -> commonmodule::Timestamp const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_messagetimestamp() ? &value->messagetimestamp() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+}
+
+void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& setter, const get_t<commonmodule::NamedObject>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+{
+    if(visitor.start_message_field("description", google::protobuf::StringValue::descriptor()))
+    {
+        visit_google_protobuf_StringValue(
+            [setter](loadmodule::LoadStatusProfile& profile)
+            {
+                return setter(profile)->mutable_description();
+            },
+            [getter](const loadmodule::LoadStatusProfile& profile) -> google::protobuf::StringValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_description() ? &value->description() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("name", google::protobuf::StringValue::descriptor()))
+    {
+        visit_google_protobuf_StringValue(
+            [setter](loadmodule::LoadStatusProfile& profile)
+            {
+                return setter(profile)->mutable_name();
+            },
+            [getter](const loadmodule::LoadStatusProfile& profile) -> google::protobuf::StringValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_name() ? &value->name() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+}
+
+void visit_commonmodule_Optional_StateKind(const set_t<commonmodule::Optional_StateKind>& setter, const get_t<commonmodule::Optional_StateKind>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+{
     visitor.handle(
-        "stVal",
+        "value",
         AccessorBuilder<loadmodule::LoadStatusProfile,int>::build(
-            [setter](loadmodule::LoadStatusProfile& profile, const int& value) { setter(profile)->set_stval(static_cast<commonmodule::HealthKind>(value)); },
+            [setter](loadmodule::LoadStatusProfile& profile, const int& value) { setter(profile)->set_value(static_cast<commonmodule::StateKind>(value)); },
             [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<int>& handler) { return false; }
         ),
-        commonmodule::HealthKind_descriptor()
+        commonmodule::StateKind_descriptor()
     );
 }
 
@@ -431,528 +869,6 @@ void visit_commonmodule_Quality(const set_t<commonmodule::Quality>& setter, cons
         ),
         commonmodule::ValidityKind_descriptor()
     );
-}
-
-void visit_commonmodule_DetailQual(const set_t<commonmodule::DetailQual>& setter, const get_t<commonmodule::DetailQual>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
-{
-    visitor.handle(
-        "badReference",
-        AccessorBuilder<loadmodule::LoadStatusProfile,bool>::build(
-            [setter](loadmodule::LoadStatusProfile& profile, const bool& value) { setter(profile)->set_badreference(value); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler) { return false; }
-        )
-    );
-
-    visitor.handle(
-        "failure",
-        AccessorBuilder<loadmodule::LoadStatusProfile,bool>::build(
-            [setter](loadmodule::LoadStatusProfile& profile, const bool& value) { setter(profile)->set_failure(value); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler) { return false; }
-        )
-    );
-
-    visitor.handle(
-        "inaccurate",
-        AccessorBuilder<loadmodule::LoadStatusProfile,bool>::build(
-            [setter](loadmodule::LoadStatusProfile& profile, const bool& value) { setter(profile)->set_inaccurate(value); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler) { return false; }
-        )
-    );
-
-    visitor.handle(
-        "inconsistent",
-        AccessorBuilder<loadmodule::LoadStatusProfile,bool>::build(
-            [setter](loadmodule::LoadStatusProfile& profile, const bool& value) { setter(profile)->set_inconsistent(value); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler) { return false; }
-        )
-    );
-
-    visitor.handle(
-        "oldData",
-        AccessorBuilder<loadmodule::LoadStatusProfile,bool>::build(
-            [setter](loadmodule::LoadStatusProfile& profile, const bool& value) { setter(profile)->set_olddata(value); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler) { return false; }
-        )
-    );
-
-    visitor.handle(
-        "oscillatory",
-        AccessorBuilder<loadmodule::LoadStatusProfile,bool>::build(
-            [setter](loadmodule::LoadStatusProfile& profile, const bool& value) { setter(profile)->set_oscillatory(value); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler) { return false; }
-        )
-    );
-
-    visitor.handle(
-        "outOfRange",
-        AccessorBuilder<loadmodule::LoadStatusProfile,bool>::build(
-            [setter](loadmodule::LoadStatusProfile& profile, const bool& value) { setter(profile)->set_outofrange(value); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler) { return false; }
-        )
-    );
-
-    visitor.handle(
-        "overflow",
-        AccessorBuilder<loadmodule::LoadStatusProfile,bool>::build(
-            [setter](loadmodule::LoadStatusProfile& profile, const bool& value) { setter(profile)->set_overflow(value); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler) { return false; }
-        )
-    );
-}
-
-void visit_loadmodule_LoadStatus(const set_t<loadmodule::LoadStatus>& setter, const get_t<loadmodule::LoadStatus>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
-{
-    if(visitor.start_message_field("statusValue", commonmodule::StatusValue::descriptor()))
-    {
-        visit_commonmodule_StatusValue(
-            [setter](loadmodule::LoadStatusProfile& profile)
-            {
-                return setter(profile)->mutable_statusvalue();
-            },
-            [getter](const loadmodule::LoadStatusProfile& profile) -> commonmodule::StatusValue const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_statusvalue() ? &value->statusvalue() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("loadStatusZGLD", loadmodule::LoadStatusZGLD::descriptor()))
-    {
-        visit_loadmodule_LoadStatusZGLD(
-            [setter](loadmodule::LoadStatusProfile& profile)
-            {
-                return setter(profile)->mutable_loadstatuszgld();
-            },
-            [getter](const loadmodule::LoadStatusProfile& profile) -> loadmodule::LoadStatusZGLD const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_loadstatuszgld() ? &value->loadstatuszgld() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-}
-
-void visit_commonmodule_StatusMessageInfo(const set_t<commonmodule::StatusMessageInfo>& setter, const get_t<commonmodule::StatusMessageInfo>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
-{
-    if(visitor.start_message_field("messageInfo", commonmodule::MessageInfo::descriptor()))
-    {
-        visit_commonmodule_MessageInfo(
-            [setter](loadmodule::LoadStatusProfile& profile)
-            {
-                return setter(profile)->mutable_messageinfo();
-            },
-            [getter](const loadmodule::LoadStatusProfile& profile) -> commonmodule::MessageInfo const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_messageinfo() ? &value->messageinfo() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-}
-
-void visit_loadmodule_LoadStatusZGLD(const set_t<loadmodule::LoadStatusZGLD>& setter, const get_t<loadmodule::LoadStatusZGLD>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
-{
-    if(visitor.start_message_field("loadEventAndStatusZGLD", loadmodule::LoadEventAndStatusZGLD::descriptor()))
-    {
-        visit_loadmodule_LoadEventAndStatusZGLD(
-            [setter](loadmodule::LoadStatusProfile& profile)
-            {
-                return setter(profile)->mutable_loadeventandstatuszgld();
-            },
-            [getter](const loadmodule::LoadStatusProfile& profile) -> loadmodule::LoadEventAndStatusZGLD const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_loadeventandstatuszgld() ? &value->loadeventandstatuszgld() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-}
-
-void visit_commonmodule_StatusSPS(const set_t<commonmodule::StatusSPS>& setter, const get_t<commonmodule::StatusSPS>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
-{
-    if(visitor.start_message_field("q", commonmodule::Quality::descriptor()))
-    {
-        visit_commonmodule_Quality(
-            [setter](loadmodule::LoadStatusProfile& profile)
-            {
-                return setter(profile)->mutable_q();
-            },
-            [getter](const loadmodule::LoadStatusProfile& profile) -> commonmodule::Quality const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_q() ? &value->q() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    visitor.handle(
-        "stVal",
-        AccessorBuilder<loadmodule::LoadStatusProfile,bool>::build(
-            [setter](loadmodule::LoadStatusProfile& profile, const bool& value) { setter(profile)->set_stval(value); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler) { return false; }
-        )
-    );
-
-    if(visitor.start_message_field("t", commonmodule::Timestamp::descriptor()))
-    {
-        visit_commonmodule_Timestamp(
-            [setter](loadmodule::LoadStatusProfile& profile)
-            {
-                return setter(profile)->mutable_t();
-            },
-            [getter](const loadmodule::LoadStatusProfile& profile) -> commonmodule::Timestamp const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_t() ? &value->t() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-}
-
-void visit_commonmodule_Optional_StateKind(const set_t<commonmodule::Optional_StateKind>& setter, const get_t<commonmodule::Optional_StateKind>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
-{
-    visitor.handle(
-        "value",
-        AccessorBuilder<loadmodule::LoadStatusProfile,int>::build(
-            [setter](loadmodule::LoadStatusProfile& profile, const int& value) { setter(profile)->set_value(static_cast<commonmodule::StateKind>(value)); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<int>& handler) { return false; }
-        ),
-        commonmodule::StateKind_descriptor()
-    );
-}
-
-void visit_commonmodule_MessageInfo(const set_t<commonmodule::MessageInfo>& setter, const get_t<commonmodule::MessageInfo>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
-{
-    if(visitor.start_message_field("identifiedObject", commonmodule::IdentifiedObject::descriptor()))
-    {
-        visit_commonmodule_IdentifiedObject(
-            [setter](loadmodule::LoadStatusProfile& profile)
-            {
-                return setter(profile)->mutable_identifiedobject();
-            },
-            [getter](const loadmodule::LoadStatusProfile& profile) -> commonmodule::IdentifiedObject const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_identifiedobject() ? &value->identifiedobject() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("messageTimeStamp", commonmodule::Timestamp::descriptor()))
-    {
-        visit_commonmodule_Timestamp(
-            [setter](loadmodule::LoadStatusProfile& profile)
-            {
-                return setter(profile)->mutable_messagetimestamp();
-            },
-            [getter](const loadmodule::LoadStatusProfile& profile) -> commonmodule::Timestamp const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_messagetimestamp() ? &value->messagetimestamp() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-}
-
-void visit_google_protobuf_FloatValue(const set_t<google::protobuf::FloatValue>& setter, const get_t<google::protobuf::FloatValue>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
-{
-    visitor.handle(
-        "value",
-        AccessorBuilder<loadmodule::LoadStatusProfile,float>::build(
-            [setter](loadmodule::LoadStatusProfile& profile, const float& value) { setter(profile)->set_value(value); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<float>& handler) { return false; }
-        )
-    );
-}
-
-void visit_commonmodule_IdentifiedObject(const set_t<commonmodule::IdentifiedObject>& setter, const get_t<commonmodule::IdentifiedObject>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
-{
-    if(visitor.start_message_field("description", google::protobuf::StringValue::descriptor()))
-    {
-        visit_google_protobuf_StringValue(
-            [setter](loadmodule::LoadStatusProfile& profile)
-            {
-                return setter(profile)->mutable_description();
-            },
-            [getter](const loadmodule::LoadStatusProfile& profile) -> google::protobuf::StringValue const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_description() ? &value->description() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("mRID", google::protobuf::StringValue::descriptor()))
-    {
-        visit_google_protobuf_StringValue(
-            [setter](loadmodule::LoadStatusProfile& profile)
-            {
-                return setter(profile)->mutable_mrid();
-            },
-            [getter](const loadmodule::LoadStatusProfile& profile) -> google::protobuf::StringValue const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_mrid() ? &value->mrid() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("name", google::protobuf::StringValue::descriptor()))
-    {
-        visit_google_protobuf_StringValue(
-            [setter](loadmodule::LoadStatusProfile& profile)
-            {
-                return setter(profile)->mutable_name();
-            },
-            [getter](const loadmodule::LoadStatusProfile& profile) -> google::protobuf::StringValue const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_name() ? &value->name() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-}
-
-void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& setter, const get_t<commonmodule::TimeQuality>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
-{
-    visitor.handle(
-        "clockFailure",
-        AccessorBuilder<loadmodule::LoadStatusProfile,bool>::build(
-            [setter](loadmodule::LoadStatusProfile& profile, const bool& value) { setter(profile)->set_clockfailure(value); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler) { return false; }
-        )
-    );
-
-    visitor.handle(
-        "clockNotSynchronized",
-        AccessorBuilder<loadmodule::LoadStatusProfile,bool>::build(
-            [setter](loadmodule::LoadStatusProfile& profile, const bool& value) { setter(profile)->set_clocknotsynchronized(value); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler) { return false; }
-        )
-    );
-
-    visitor.handle(
-        "leapSecondsKnown",
-        AccessorBuilder<loadmodule::LoadStatusProfile,bool>::build(
-            [setter](loadmodule::LoadStatusProfile& profile, const bool& value) { setter(profile)->set_leapsecondsknown(value); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler) { return false; }
-        )
-    );
-
-    visitor.handle(
-        "timeAccuracy",
-        AccessorBuilder<loadmodule::LoadStatusProfile,int>::build(
-            [setter](loadmodule::LoadStatusProfile& profile, const int& value) { setter(profile)->set_timeaccuracy(static_cast<commonmodule::TimeAccuracyKind>(value)); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<int>& handler) { return false; }
-        ),
-        commonmodule::TimeAccuracyKind_descriptor()
-    );
-}
-
-void visit_commonmodule_ControlDPC(const set_t<commonmodule::ControlDPC>& setter, const get_t<commonmodule::ControlDPC>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
-{
-    visitor.handle(
-        "ctlVal",
-        AccessorBuilder<loadmodule::LoadStatusProfile,bool>::build(
-            [setter](loadmodule::LoadStatusProfile& profile, const bool& value) { setter(profile)->set_ctlval(value); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler) { return false; }
-        )
-    );
-}
-
-void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::ConductingEquipment>& setter, const get_t<commonmodule::ConductingEquipment>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
-{
-    if(visitor.start_message_field("namedObject", commonmodule::NamedObject::descriptor()))
-    {
-        visit_commonmodule_NamedObject(
-            [setter](loadmodule::LoadStatusProfile& profile)
-            {
-                return setter(profile)->mutable_namedobject();
-            },
-            [getter](const loadmodule::LoadStatusProfile& profile) -> commonmodule::NamedObject const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_namedobject() ? &value->namedobject() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    visitor.handle(
-        "mRID",
-        AccessorBuilder<loadmodule::LoadStatusProfile,std::string>::build(
-            [setter](loadmodule::LoadStatusProfile& profile, const std::string& value) { setter(profile)->set_mrid(value); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<std::string>& handler) { return false; }
-        )
-    );
-}
-
-void visit_commonmodule_ENS_BehaviourModeKind(const set_t<commonmodule::ENS_BehaviourModeKind>& setter, const get_t<commonmodule::ENS_BehaviourModeKind>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
-{
-    if(visitor.start_message_field("q", commonmodule::Quality::descriptor()))
-    {
-        visit_commonmodule_Quality(
-            [setter](loadmodule::LoadStatusProfile& profile)
-            {
-                return setter(profile)->mutable_q();
-            },
-            [getter](const loadmodule::LoadStatusProfile& profile) -> commonmodule::Quality const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_q() ? &value->q() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    visitor.handle(
-        "stVal",
-        AccessorBuilder<loadmodule::LoadStatusProfile,int>::build(
-            [setter](loadmodule::LoadStatusProfile& profile, const int& value) { setter(profile)->set_stval(static_cast<commonmodule::BehaviourModeKind>(value)); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<int>& handler) { return false; }
-        ),
-        commonmodule::BehaviourModeKind_descriptor()
-    );
-
-    if(visitor.start_message_field("t", commonmodule::Timestamp::descriptor()))
-    {
-        visit_commonmodule_Timestamp(
-            [setter](loadmodule::LoadStatusProfile& profile)
-            {
-                return setter(profile)->mutable_t();
-            },
-            [getter](const loadmodule::LoadStatusProfile& profile) -> commonmodule::Timestamp const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_t() ? &value->t() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
 }
 
 void visit_commonmodule_RampRate(const set_t<commonmodule::RampRate>& setter, const get_t<commonmodule::RampRate>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
@@ -1054,45 +970,21 @@ void visit_commonmodule_RampRate(const set_t<commonmodule::RampRate>& setter, co
     }
 }
 
-void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& setter, const get_t<commonmodule::NamedObject>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_commonmodule_StatusMessageInfo(const set_t<commonmodule::StatusMessageInfo>& setter, const get_t<commonmodule::StatusMessageInfo>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
-    if(visitor.start_message_field("description", google::protobuf::StringValue::descriptor()))
+    if(visitor.start_message_field("messageInfo", commonmodule::MessageInfo::descriptor()))
     {
-        visit_google_protobuf_StringValue(
+        visit_commonmodule_MessageInfo(
             [setter](loadmodule::LoadStatusProfile& profile)
             {
-                return setter(profile)->mutable_description();
+                return setter(profile)->mutable_messageinfo();
             },
-            [getter](const loadmodule::LoadStatusProfile& profile) -> google::protobuf::StringValue const *
+            [getter](const loadmodule::LoadStatusProfile& profile) -> commonmodule::MessageInfo const *
             {
                 const auto value = getter(profile);
                 if(value)
                 {
-                    return value->has_description() ? &value->description() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("name", google::protobuf::StringValue::descriptor()))
-    {
-        visit_google_protobuf_StringValue(
-            [setter](loadmodule::LoadStatusProfile& profile)
-            {
-                return setter(profile)->mutable_name();
-            },
-            [getter](const loadmodule::LoadStatusProfile& profile) -> google::protobuf::StringValue const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_name() ? &value->name() : nullptr;
+                    return value->has_messageinfo() ? &value->messageinfo() : nullptr;
                 }
                 else
                 {
@@ -1105,7 +997,7 @@ void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& sett
     }
 }
 
-void visit_commonmodule_ENS_DynamicTestKind(const set_t<commonmodule::ENS_DynamicTestKind>& setter, const get_t<commonmodule::ENS_DynamicTestKind>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_commonmodule_StatusSPS(const set_t<commonmodule::StatusSPS>& setter, const get_t<commonmodule::StatusSPS>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
     if(visitor.start_message_field("q", commonmodule::Quality::descriptor()))
     {
@@ -1133,11 +1025,10 @@ void visit_commonmodule_ENS_DynamicTestKind(const set_t<commonmodule::ENS_Dynami
 
     visitor.handle(
         "stVal",
-        AccessorBuilder<loadmodule::LoadStatusProfile,int>::build(
-            [setter](loadmodule::LoadStatusProfile& profile, const int& value) { setter(profile)->set_stval(static_cast<commonmodule::DynamicTestKind>(value)); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<int>& handler) { return false; }
-        ),
-        commonmodule::DynamicTestKind_descriptor()
+        AccessorBuilder<loadmodule::LoadStatusProfile,bool>::build(
+            [setter](loadmodule::LoadStatusProfile& profile, const bool& value) { setter(profile)->set_stval(value); },
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+        )
     );
 
     if(visitor.start_message_field("t", commonmodule::Timestamp::descriptor()))
@@ -1153,6 +1044,233 @@ void visit_commonmodule_ENS_DynamicTestKind(const set_t<commonmodule::ENS_Dynami
                 if(value)
                 {
                     return value->has_t() ? &value->t() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+}
+
+void visit_commonmodule_StatusValue(const set_t<commonmodule::StatusValue>& setter, const get_t<commonmodule::StatusValue>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+{
+    if(visitor.start_message_field("identifiedObject", commonmodule::IdentifiedObject::descriptor()))
+    {
+        visit_commonmodule_IdentifiedObject(
+            [setter](loadmodule::LoadStatusProfile& profile)
+            {
+                return setter(profile)->mutable_identifiedobject();
+            },
+            [getter](const loadmodule::LoadStatusProfile& profile) -> commonmodule::IdentifiedObject const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_identifiedobject() ? &value->identifiedobject() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+}
+
+void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& setter, const get_t<commonmodule::TimeQuality>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+{
+    visitor.handle(
+        "clockFailure",
+        AccessorBuilder<loadmodule::LoadStatusProfile,bool>::build(
+            [setter](loadmodule::LoadStatusProfile& profile, const bool& value) { setter(profile)->set_clockfailure(value); },
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+        )
+    );
+
+    visitor.handle(
+        "clockNotSynchronized",
+        AccessorBuilder<loadmodule::LoadStatusProfile,bool>::build(
+            [setter](loadmodule::LoadStatusProfile& profile, const bool& value) { setter(profile)->set_clocknotsynchronized(value); },
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+        )
+    );
+
+    visitor.handle(
+        "leapSecondsKnown",
+        AccessorBuilder<loadmodule::LoadStatusProfile,bool>::build(
+            [setter](loadmodule::LoadStatusProfile& profile, const bool& value) { setter(profile)->set_leapsecondsknown(value); },
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+        )
+    );
+
+    visitor.handle(
+        "timeAccuracy",
+        AccessorBuilder<loadmodule::LoadStatusProfile,int>::build(
+            [setter](loadmodule::LoadStatusProfile& profile, const int& value) { setter(profile)->set_timeaccuracy(static_cast<commonmodule::TimeAccuracyKind>(value)); },
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<int>& handler) { return false; }
+        ),
+        commonmodule::TimeAccuracyKind_descriptor()
+    );
+}
+
+void visit_commonmodule_Timestamp(const set_t<commonmodule::Timestamp>& setter, const get_t<commonmodule::Timestamp>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+{
+    visitor.handle(
+        "fraction",
+        AccessorBuilder<loadmodule::LoadStatusProfile,uint32_t>::build(
+            [setter](loadmodule::LoadStatusProfile& profile, const uint32_t& value) { setter(profile)->set_fraction(value); },
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<uint32_t>& handler) { return false; }
+        )
+    );
+
+    visitor.handle(
+        "seconds",
+        AccessorBuilder<loadmodule::LoadStatusProfile,uint64_t>::build(
+            [setter](loadmodule::LoadStatusProfile& profile, const uint64_t& value) { setter(profile)->set_seconds(value); },
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<uint64_t>& handler) { return false; }
+        )
+    );
+
+    if(visitor.start_message_field("tq", commonmodule::TimeQuality::descriptor()))
+    {
+        visit_commonmodule_TimeQuality(
+            [setter](loadmodule::LoadStatusProfile& profile)
+            {
+                return setter(profile)->mutable_tq();
+            },
+            [getter](const loadmodule::LoadStatusProfile& profile) -> commonmodule::TimeQuality const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_tq() ? &value->tq() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+}
+
+void visit_google_protobuf_FloatValue(const set_t<google::protobuf::FloatValue>& setter, const get_t<google::protobuf::FloatValue>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+{
+    visitor.handle(
+        "value",
+        AccessorBuilder<loadmodule::LoadStatusProfile,float>::build(
+            [setter](loadmodule::LoadStatusProfile& profile, const float& value) { setter(profile)->set_value(value); },
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<float>& handler) { return false; }
+        )
+    );
+}
+
+void visit_google_protobuf_StringValue(const set_t<google::protobuf::StringValue>& setter, const get_t<google::protobuf::StringValue>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+{
+    visitor.handle(
+        "value",
+        AccessorBuilder<loadmodule::LoadStatusProfile,std::string>::build(
+            [setter](loadmodule::LoadStatusProfile& profile, const std::string& value) { setter(profile)->set_value(value); },
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<std::string>& handler) { return false; }
+        )
+    );
+}
+
+void visit_loadmodule_LoadEventAndStatusZGLD(const set_t<loadmodule::LoadEventAndStatusZGLD>& setter, const get_t<loadmodule::LoadEventAndStatusZGLD>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+{
+    if(visitor.start_message_field("logicalNodeForEventAndStatus", commonmodule::LogicalNodeForEventAndStatus::descriptor()))
+    {
+        visit_commonmodule_LogicalNodeForEventAndStatus(
+            [setter](loadmodule::LoadStatusProfile& profile)
+            {
+                return setter(profile)->mutable_logicalnodeforeventandstatus();
+            },
+            [getter](const loadmodule::LoadStatusProfile& profile) -> commonmodule::LogicalNodeForEventAndStatus const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_logicalnodeforeventandstatus() ? &value->logicalnodeforeventandstatus() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("DynamicTest", commonmodule::ENS_DynamicTestKind::descriptor()))
+    {
+        visit_commonmodule_ENS_DynamicTestKind(
+            [setter](loadmodule::LoadStatusProfile& profile)
+            {
+                return setter(profile)->mutable_dynamictest();
+            },
+            [getter](const loadmodule::LoadStatusProfile& profile) -> commonmodule::ENS_DynamicTestKind const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_dynamictest() ? &value->dynamictest() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("EmgStop", commonmodule::StatusSPS::descriptor()))
+    {
+        visit_commonmodule_StatusSPS(
+            [setter](loadmodule::LoadStatusProfile& profile)
+            {
+                return setter(profile)->mutable_emgstop();
+            },
+            [getter](const loadmodule::LoadStatusProfile& profile) -> commonmodule::StatusSPS const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_emgstop() ? &value->emgstop() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("PointStatus", loadmodule::LoadPointStatus::descriptor()))
+    {
+        visit_loadmodule_LoadPointStatus(
+            [setter](loadmodule::LoadStatusProfile& profile)
+            {
+                return setter(profile)->mutable_pointstatus();
+            },
+            [getter](const loadmodule::LoadStatusProfile& profile) -> loadmodule::LoadPointStatus const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_pointstatus() ? &value->pointstatus() : nullptr;
                 }
                 else
                 {
@@ -1288,21 +1406,21 @@ void visit_loadmodule_LoadPointStatus(const set_t<loadmodule::LoadPointStatus>& 
     }
 }
 
-void visit_loadmodule_LoadEventAndStatusZGLD(const set_t<loadmodule::LoadEventAndStatusZGLD>& setter, const get_t<loadmodule::LoadEventAndStatusZGLD>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_loadmodule_LoadStatus(const set_t<loadmodule::LoadStatus>& setter, const get_t<loadmodule::LoadStatus>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
-    if(visitor.start_message_field("logicalNodeForEventAndStatus", commonmodule::LogicalNodeForEventAndStatus::descriptor()))
+    if(visitor.start_message_field("statusValue", commonmodule::StatusValue::descriptor()))
     {
-        visit_commonmodule_LogicalNodeForEventAndStatus(
+        visit_commonmodule_StatusValue(
             [setter](loadmodule::LoadStatusProfile& profile)
             {
-                return setter(profile)->mutable_logicalnodeforeventandstatus();
+                return setter(profile)->mutable_statusvalue();
             },
-            [getter](const loadmodule::LoadStatusProfile& profile) -> commonmodule::LogicalNodeForEventAndStatus const *
+            [getter](const loadmodule::LoadStatusProfile& profile) -> commonmodule::StatusValue const *
             {
                 const auto value = getter(profile);
                 if(value)
                 {
-                    return value->has_logicalnodeforeventandstatus() ? &value->logicalnodeforeventandstatus() : nullptr;
+                    return value->has_statusvalue() ? &value->statusvalue() : nullptr;
                 }
                 else
                 {
@@ -1314,67 +1432,19 @@ void visit_loadmodule_LoadEventAndStatusZGLD(const set_t<loadmodule::LoadEventAn
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("DynamicTest", commonmodule::ENS_DynamicTestKind::descriptor()))
+    if(visitor.start_message_field("loadStatusZGLD", loadmodule::LoadStatusZGLD::descriptor()))
     {
-        visit_commonmodule_ENS_DynamicTestKind(
+        visit_loadmodule_LoadStatusZGLD(
             [setter](loadmodule::LoadStatusProfile& profile)
             {
-                return setter(profile)->mutable_dynamictest();
+                return setter(profile)->mutable_loadstatuszgld();
             },
-            [getter](const loadmodule::LoadStatusProfile& profile) -> commonmodule::ENS_DynamicTestKind const *
+            [getter](const loadmodule::LoadStatusProfile& profile) -> loadmodule::LoadStatusZGLD const *
             {
                 const auto value = getter(profile);
                 if(value)
                 {
-                    return value->has_dynamictest() ? &value->dynamictest() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("EmgStop", commonmodule::StatusSPS::descriptor()))
-    {
-        visit_commonmodule_StatusSPS(
-            [setter](loadmodule::LoadStatusProfile& profile)
-            {
-                return setter(profile)->mutable_emgstop();
-            },
-            [getter](const loadmodule::LoadStatusProfile& profile) -> commonmodule::StatusSPS const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_emgstop() ? &value->emgstop() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("PointStatus", loadmodule::LoadPointStatus::descriptor()))
-    {
-        visit_loadmodule_LoadPointStatus(
-            [setter](loadmodule::LoadStatusProfile& profile)
-            {
-                return setter(profile)->mutable_pointstatus();
-            },
-            [getter](const loadmodule::LoadStatusProfile& profile) -> loadmodule::LoadPointStatus const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_pointstatus() ? &value->pointstatus() : nullptr;
+                    return value->has_loadstatuszgld() ? &value->loadstatuszgld() : nullptr;
                 }
                 else
                 {
@@ -1387,91 +1457,21 @@ void visit_loadmodule_LoadEventAndStatusZGLD(const set_t<loadmodule::LoadEventAn
     }
 }
 
-void visit_commonmodule_StatusValue(const set_t<commonmodule::StatusValue>& setter, const get_t<commonmodule::StatusValue>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+void visit_loadmodule_LoadStatusZGLD(const set_t<loadmodule::LoadStatusZGLD>& setter, const get_t<loadmodule::LoadStatusZGLD>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
-    if(visitor.start_message_field("identifiedObject", commonmodule::IdentifiedObject::descriptor()))
+    if(visitor.start_message_field("loadEventAndStatusZGLD", loadmodule::LoadEventAndStatusZGLD::descriptor()))
     {
-        visit_commonmodule_IdentifiedObject(
+        visit_loadmodule_LoadEventAndStatusZGLD(
             [setter](loadmodule::LoadStatusProfile& profile)
             {
-                return setter(profile)->mutable_identifiedobject();
+                return setter(profile)->mutable_loadeventandstatuszgld();
             },
-            [getter](const loadmodule::LoadStatusProfile& profile) -> commonmodule::IdentifiedObject const *
+            [getter](const loadmodule::LoadStatusProfile& profile) -> loadmodule::LoadEventAndStatusZGLD const *
             {
                 const auto value = getter(profile);
                 if(value)
                 {
-                    return value->has_identifiedobject() ? &value->identifiedobject() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-}
-
-void visit_commonmodule_LogicalNode(const set_t<commonmodule::LogicalNode>& setter, const get_t<commonmodule::LogicalNode>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
-{
-    if(visitor.start_message_field("identifiedObject", commonmodule::IdentifiedObject::descriptor()))
-    {
-        visit_commonmodule_IdentifiedObject(
-            [setter](loadmodule::LoadStatusProfile& profile)
-            {
-                return setter(profile)->mutable_identifiedobject();
-            },
-            [getter](const loadmodule::LoadStatusProfile& profile) -> commonmodule::IdentifiedObject const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_identifiedobject() ? &value->identifiedobject() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-}
-
-void visit_commonmodule_Timestamp(const set_t<commonmodule::Timestamp>& setter, const get_t<commonmodule::Timestamp>& getter, IConfigModelVisitor<loadmodule::LoadStatusProfile>& visitor)
-{
-    visitor.handle(
-        "fraction",
-        AccessorBuilder<loadmodule::LoadStatusProfile,uint32_t>::build(
-            [setter](loadmodule::LoadStatusProfile& profile, const uint32_t& value) { setter(profile)->set_fraction(value); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<uint32_t>& handler) { return false; }
-        )
-    );
-
-    visitor.handle(
-        "seconds",
-        AccessorBuilder<loadmodule::LoadStatusProfile,uint64_t>::build(
-            [setter](loadmodule::LoadStatusProfile& profile, const uint64_t& value) { setter(profile)->set_seconds(value); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<uint64_t>& handler) { return false; }
-        )
-    );
-
-    if(visitor.start_message_field("tq", commonmodule::TimeQuality::descriptor()))
-    {
-        visit_commonmodule_TimeQuality(
-            [setter](loadmodule::LoadStatusProfile& profile)
-            {
-                return setter(profile)->mutable_tq();
-            },
-            [getter](const loadmodule::LoadStatusProfile& profile) -> commonmodule::TimeQuality const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_tq() ? &value->tq() : nullptr;
+                    return value->has_loadeventandstatuszgld() ? &value->loadeventandstatuszgld() : nullptr;
                 }
                 else
                 {

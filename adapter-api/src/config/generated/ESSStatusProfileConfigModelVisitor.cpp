@@ -11,75 +11,75 @@ using get_t = getter_t<essmodule::ESSStatusProfile, V>;
 
 // ---- forward declare all the child visit method names ----
 
-void visit_essmodule_ENG_ESSFunctionParameter(const set_t<essmodule::ENG_ESSFunctionParameter>& setter, const get_t<essmodule::ENG_ESSFunctionParameter>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
-
-void visit_commonmodule_MV(const set_t<commonmodule::MV>& setter, const get_t<commonmodule::MV>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
-
-void visit_commonmodule_IED(const set_t<commonmodule::IED>& setter, const get_t<commonmodule::IED>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
-
-void visit_commonmodule_LogicalNodeForEventAndStatus(const set_t<commonmodule::LogicalNodeForEventAndStatus>& setter, const get_t<commonmodule::LogicalNodeForEventAndStatus>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
-
-void visit_google_protobuf_StringValue(const set_t<google::protobuf::StringValue>& setter, const get_t<google::protobuf::StringValue>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
-
-void visit_commonmodule_ENS_HealthKind(const set_t<commonmodule::ENS_HealthKind>& setter, const get_t<commonmodule::ENS_HealthKind>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
-
-void visit_commonmodule_Quality(const set_t<commonmodule::Quality>& setter, const get_t<commonmodule::Quality>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
-
-void visit_commonmodule_DetailQual(const set_t<commonmodule::DetailQual>& setter, const get_t<commonmodule::DetailQual>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
-
-void visit_commonmodule_ESS(const set_t<commonmodule::ESS>& setter, const get_t<commonmodule::ESS>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
-
-void visit_essmodule_ESSStatus(const set_t<essmodule::ESSStatus>& setter, const get_t<essmodule::ESSStatus>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
-
-void visit_commonmodule_StatusMessageInfo(const set_t<commonmodule::StatusMessageInfo>& setter, const get_t<commonmodule::StatusMessageInfo>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
-
-void visit_essmodule_ENG_ESSFunctionKind(const set_t<essmodule::ENG_ESSFunctionKind>& setter, const get_t<essmodule::ENG_ESSFunctionKind>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
-
-void visit_google_protobuf_Int32Value(const set_t<google::protobuf::Int32Value>& setter, const get_t<google::protobuf::Int32Value>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
-
-void visit_commonmodule_Unit(const set_t<commonmodule::Unit>& setter, const get_t<commonmodule::Unit>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
-
-void visit_essmodule_ESSStatusZGEN(const set_t<essmodule::ESSStatusZGEN>& setter, const get_t<essmodule::ESSStatusZGEN>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
-
-void visit_commonmodule_StatusSPS(const set_t<commonmodule::StatusSPS>& setter, const get_t<commonmodule::StatusSPS>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
-
-void visit_commonmodule_Optional_StateKind(const set_t<commonmodule::Optional_StateKind>& setter, const get_t<commonmodule::Optional_StateKind>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
-
-void visit_essmodule_ESSPointStatus(const set_t<essmodule::ESSPointStatus>& setter, const get_t<essmodule::ESSPointStatus>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
-
-void visit_commonmodule_ENG_GridConnectModeKind(const set_t<commonmodule::ENG_GridConnectModeKind>& setter, const get_t<commonmodule::ENG_GridConnectModeKind>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
-
-void visit_essmodule_EssStatusZBAT(const set_t<essmodule::EssStatusZBAT>& setter, const get_t<essmodule::EssStatusZBAT>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
-
-void visit_commonmodule_MessageInfo(const set_t<commonmodule::MessageInfo>& setter, const get_t<commonmodule::MessageInfo>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
-
-void visit_google_protobuf_FloatValue(const set_t<google::protobuf::FloatValue>& setter, const get_t<google::protobuf::FloatValue>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
-
-void visit_commonmodule_IdentifiedObject(const set_t<commonmodule::IdentifiedObject>& setter, const get_t<commonmodule::IdentifiedObject>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
-
 void visit_commonmodule_AnalogueValue(const set_t<commonmodule::AnalogueValue>& setter, const get_t<commonmodule::AnalogueValue>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
-
-void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& setter, const get_t<commonmodule::TimeQuality>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
-
-void visit_commonmodule_ControlDPC(const set_t<commonmodule::ControlDPC>& setter, const get_t<commonmodule::ControlDPC>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::ConductingEquipment>& setter, const get_t<commonmodule::ConductingEquipment>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
+void visit_commonmodule_ControlDPC(const set_t<commonmodule::ControlDPC>& setter, const get_t<commonmodule::ControlDPC>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
+
+void visit_commonmodule_DetailQual(const set_t<commonmodule::DetailQual>& setter, const get_t<commonmodule::DetailQual>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
+
+void visit_commonmodule_ENG_GridConnectModeKind(const set_t<commonmodule::ENG_GridConnectModeKind>& setter, const get_t<commonmodule::ENG_GridConnectModeKind>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
+
 void visit_commonmodule_ENS_BehaviourModeKind(const set_t<commonmodule::ENS_BehaviourModeKind>& setter, const get_t<commonmodule::ENS_BehaviourModeKind>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
-
-void visit_commonmodule_RampRate(const set_t<commonmodule::RampRate>& setter, const get_t<commonmodule::RampRate>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
-
-void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& setter, const get_t<commonmodule::NamedObject>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 void visit_commonmodule_ENS_DynamicTestKind(const set_t<commonmodule::ENS_DynamicTestKind>& setter, const get_t<commonmodule::ENS_DynamicTestKind>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
-void visit_commonmodule_StatusValue(const set_t<commonmodule::StatusValue>& setter, const get_t<commonmodule::StatusValue>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
+void visit_commonmodule_ENS_HealthKind(const set_t<commonmodule::ENS_HealthKind>& setter, const get_t<commonmodule::ENS_HealthKind>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
-void visit_essmodule_ESSEventAndStatusZGEN(const set_t<essmodule::ESSEventAndStatusZGEN>& setter, const get_t<essmodule::ESSEventAndStatusZGEN>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
+void visit_commonmodule_ESS(const set_t<commonmodule::ESS>& setter, const get_t<commonmodule::ESS>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
+
+void visit_commonmodule_IED(const set_t<commonmodule::IED>& setter, const get_t<commonmodule::IED>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
+
+void visit_commonmodule_IdentifiedObject(const set_t<commonmodule::IdentifiedObject>& setter, const get_t<commonmodule::IdentifiedObject>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 void visit_commonmodule_LogicalNode(const set_t<commonmodule::LogicalNode>& setter, const get_t<commonmodule::LogicalNode>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
+void visit_commonmodule_LogicalNodeForEventAndStatus(const set_t<commonmodule::LogicalNodeForEventAndStatus>& setter, const get_t<commonmodule::LogicalNodeForEventAndStatus>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
+
+void visit_commonmodule_MV(const set_t<commonmodule::MV>& setter, const get_t<commonmodule::MV>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
+
+void visit_commonmodule_MessageInfo(const set_t<commonmodule::MessageInfo>& setter, const get_t<commonmodule::MessageInfo>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
+
+void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& setter, const get_t<commonmodule::NamedObject>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
+
+void visit_commonmodule_Optional_StateKind(const set_t<commonmodule::Optional_StateKind>& setter, const get_t<commonmodule::Optional_StateKind>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
+
+void visit_commonmodule_Quality(const set_t<commonmodule::Quality>& setter, const get_t<commonmodule::Quality>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
+
+void visit_commonmodule_RampRate(const set_t<commonmodule::RampRate>& setter, const get_t<commonmodule::RampRate>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
+
+void visit_commonmodule_StatusMessageInfo(const set_t<commonmodule::StatusMessageInfo>& setter, const get_t<commonmodule::StatusMessageInfo>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
+
+void visit_commonmodule_StatusSPS(const set_t<commonmodule::StatusSPS>& setter, const get_t<commonmodule::StatusSPS>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
+
+void visit_commonmodule_StatusValue(const set_t<commonmodule::StatusValue>& setter, const get_t<commonmodule::StatusValue>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
+
+void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& setter, const get_t<commonmodule::TimeQuality>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
+
 void visit_commonmodule_Timestamp(const set_t<commonmodule::Timestamp>& setter, const get_t<commonmodule::Timestamp>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
+
+void visit_commonmodule_Unit(const set_t<commonmodule::Unit>& setter, const get_t<commonmodule::Unit>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
+
+void visit_essmodule_ENG_ESSFunctionKind(const set_t<essmodule::ENG_ESSFunctionKind>& setter, const get_t<essmodule::ENG_ESSFunctionKind>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
+
+void visit_essmodule_ENG_ESSFunctionParameter(const set_t<essmodule::ENG_ESSFunctionParameter>& setter, const get_t<essmodule::ENG_ESSFunctionParameter>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
+
+void visit_essmodule_ESSEventAndStatusZGEN(const set_t<essmodule::ESSEventAndStatusZGEN>& setter, const get_t<essmodule::ESSEventAndStatusZGEN>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
+
+void visit_essmodule_ESSPointStatus(const set_t<essmodule::ESSPointStatus>& setter, const get_t<essmodule::ESSPointStatus>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
+
+void visit_essmodule_ESSStatus(const set_t<essmodule::ESSStatus>& setter, const get_t<essmodule::ESSStatus>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
+
+void visit_essmodule_ESSStatusZGEN(const set_t<essmodule::ESSStatusZGEN>& setter, const get_t<essmodule::ESSStatusZGEN>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
+
+void visit_essmodule_EssStatusZBAT(const set_t<essmodule::EssStatusZBAT>& setter, const get_t<essmodule::EssStatusZBAT>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
+
+void visit_google_protobuf_FloatValue(const set_t<google::protobuf::FloatValue>& setter, const get_t<google::protobuf::FloatValue>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
+
+void visit_google_protobuf_Int32Value(const set_t<google::protobuf::Int32Value>& setter, const get_t<google::protobuf::Int32Value>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
+
+void visit_google_protobuf_StringValue(const set_t<google::protobuf::StringValue>& setter, const get_t<google::protobuf::StringValue>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 // ---- the exposed visit function ----
 
@@ -188,30 +188,72 @@ void visit(IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
 
 // ---- template definitions for child types ----
 
-void visit_essmodule_ENG_ESSFunctionParameter(const set_t<essmodule::ENG_ESSFunctionParameter>& setter, const get_t<essmodule::ENG_ESSFunctionParameter>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
+void visit_commonmodule_AnalogueValue(const set_t<commonmodule::AnalogueValue>& setter, const get_t<commonmodule::AnalogueValue>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
-    visitor.handle(
-        "name",
-        AccessorBuilder<essmodule::ESSStatusProfile,int>::build(
-            [setter](essmodule::ESSStatusProfile& profile, const int& value) { setter(profile)->set_name(static_cast<essmodule::ESSFunctionParameterKind>(value)); },
-            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<int>& handler) { return false; }
-        ),
-        essmodule::ESSFunctionParameterKind_descriptor()
-    );
-
-    if(visitor.start_message_field("unit", commonmodule::Unit::descriptor()))
+    if(visitor.start_message_field("f", google::protobuf::FloatValue::descriptor()))
     {
-        visit_commonmodule_Unit(
+        visit_google_protobuf_FloatValue(
             [setter](essmodule::ESSStatusProfile& profile)
             {
-                return setter(profile)->mutable_unit();
+                return setter(profile)->mutable_f();
             },
-            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::Unit const *
+            [getter](const essmodule::ESSStatusProfile& profile) -> google::protobuf::FloatValue const *
             {
                 const auto value = getter(profile);
                 if(value)
                 {
-                    return value->has_unit() ? &value->unit() : nullptr;
+                    return value->has_f() ? &value->f() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("i", google::protobuf::Int32Value::descriptor()))
+    {
+        visit_google_protobuf_Int32Value(
+            [setter](essmodule::ESSStatusProfile& profile)
+            {
+                return setter(profile)->mutable_i();
+            },
+            [getter](const essmodule::ESSStatusProfile& profile) -> google::protobuf::Int32Value const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_i() ? &value->i() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+}
+
+void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::ConductingEquipment>& setter, const get_t<commonmodule::ConductingEquipment>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
+{
+    if(visitor.start_message_field("namedObject", commonmodule::NamedObject::descriptor()))
+    {
+        visit_commonmodule_NamedObject(
+            [setter](essmodule::ESSStatusProfile& profile)
+            {
+                return setter(profile)->mutable_namedobject();
+            },
+            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::NamedObject const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_namedobject() ? &value->namedobject() : nullptr;
                 }
                 else
                 {
@@ -224,29 +266,116 @@ void visit_essmodule_ENG_ESSFunctionParameter(const set_t<essmodule::ENG_ESSFunc
     }
 
     visitor.handle(
-        "value",
-        AccessorBuilder<essmodule::ESSStatusProfile,int32_t>::build(
-            [setter](essmodule::ESSStatusProfile& profile, const int32_t& value) { setter(profile)->set_value(value); },
-            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<int32_t>& handler) { return false; }
+        "mRID",
+        AccessorBuilder<essmodule::ESSStatusProfile,std::string>::build(
+            [setter](essmodule::ESSStatusProfile& profile, const std::string& value) { setter(profile)->set_mrid(value); },
+            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<std::string>& handler) { return false; }
         )
     );
 }
 
-void visit_commonmodule_MV(const set_t<commonmodule::MV>& setter, const get_t<commonmodule::MV>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
+void visit_commonmodule_ControlDPC(const set_t<commonmodule::ControlDPC>& setter, const get_t<commonmodule::ControlDPC>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
-    if(visitor.start_message_field("mag", commonmodule::AnalogueValue::descriptor()))
+    visitor.handle(
+        "ctlVal",
+        AccessorBuilder<essmodule::ESSStatusProfile,bool>::build(
+            [setter](essmodule::ESSStatusProfile& profile, const bool& value) { setter(profile)->set_ctlval(value); },
+            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+        )
+    );
+}
+
+void visit_commonmodule_DetailQual(const set_t<commonmodule::DetailQual>& setter, const get_t<commonmodule::DetailQual>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
+{
+    visitor.handle(
+        "badReference",
+        AccessorBuilder<essmodule::ESSStatusProfile,bool>::build(
+            [setter](essmodule::ESSStatusProfile& profile, const bool& value) { setter(profile)->set_badreference(value); },
+            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+        )
+    );
+
+    visitor.handle(
+        "failure",
+        AccessorBuilder<essmodule::ESSStatusProfile,bool>::build(
+            [setter](essmodule::ESSStatusProfile& profile, const bool& value) { setter(profile)->set_failure(value); },
+            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+        )
+    );
+
+    visitor.handle(
+        "inaccurate",
+        AccessorBuilder<essmodule::ESSStatusProfile,bool>::build(
+            [setter](essmodule::ESSStatusProfile& profile, const bool& value) { setter(profile)->set_inaccurate(value); },
+            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+        )
+    );
+
+    visitor.handle(
+        "inconsistent",
+        AccessorBuilder<essmodule::ESSStatusProfile,bool>::build(
+            [setter](essmodule::ESSStatusProfile& profile, const bool& value) { setter(profile)->set_inconsistent(value); },
+            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+        )
+    );
+
+    visitor.handle(
+        "oldData",
+        AccessorBuilder<essmodule::ESSStatusProfile,bool>::build(
+            [setter](essmodule::ESSStatusProfile& profile, const bool& value) { setter(profile)->set_olddata(value); },
+            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+        )
+    );
+
+    visitor.handle(
+        "oscillatory",
+        AccessorBuilder<essmodule::ESSStatusProfile,bool>::build(
+            [setter](essmodule::ESSStatusProfile& profile, const bool& value) { setter(profile)->set_oscillatory(value); },
+            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+        )
+    );
+
+    visitor.handle(
+        "outOfRange",
+        AccessorBuilder<essmodule::ESSStatusProfile,bool>::build(
+            [setter](essmodule::ESSStatusProfile& profile, const bool& value) { setter(profile)->set_outofrange(value); },
+            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+        )
+    );
+
+    visitor.handle(
+        "overflow",
+        AccessorBuilder<essmodule::ESSStatusProfile,bool>::build(
+            [setter](essmodule::ESSStatusProfile& profile, const bool& value) { setter(profile)->set_overflow(value); },
+            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+        )
+    );
+}
+
+void visit_commonmodule_ENG_GridConnectModeKind(const set_t<commonmodule::ENG_GridConnectModeKind>& setter, const get_t<commonmodule::ENG_GridConnectModeKind>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
+{
+    visitor.handle(
+        "setVal",
+        AccessorBuilder<essmodule::ESSStatusProfile,int>::build(
+            [setter](essmodule::ESSStatusProfile& profile, const int& value) { setter(profile)->set_setval(static_cast<commonmodule::GridConnectModeKind>(value)); },
+            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<int>& handler) { return false; }
+        ),
+        commonmodule::GridConnectModeKind_descriptor()
+    );
+
+    if(visitor.start_message_field("setValExtension", google::protobuf::StringValue::descriptor()))
     {
-        visit_commonmodule_AnalogueValue(
+        visit_google_protobuf_StringValue(
             [setter](essmodule::ESSStatusProfile& profile)
             {
-                return setter(profile)->mutable_mag();
+                return setter(profile)->mutable_setvalextension();
             },
-            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::AnalogueValue const *
+            [getter](const essmodule::ESSStatusProfile& profile) -> google::protobuf::StringValue const *
             {
                 const auto value = getter(profile);
                 if(value)
                 {
-                    return value->has_mag() ? &value->mag() : nullptr;
+                    return value->has_setvalextension() ? &value->setvalextension() : nullptr;
                 }
                 else
                 {
@@ -257,7 +386,10 @@ void visit_commonmodule_MV(const set_t<commonmodule::MV>& setter, const get_t<co
         );
         visitor.end_message_field();
     }
+}
 
+void visit_commonmodule_ENS_BehaviourModeKind(const set_t<commonmodule::ENS_BehaviourModeKind>& setter, const get_t<commonmodule::ENS_BehaviourModeKind>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
+{
     if(visitor.start_message_field("q", commonmodule::Quality::descriptor()))
     {
         visit_commonmodule_Quality(
@@ -282,6 +414,15 @@ void visit_commonmodule_MV(const set_t<commonmodule::MV>& setter, const get_t<co
         visitor.end_message_field();
     }
 
+    visitor.handle(
+        "stVal",
+        AccessorBuilder<essmodule::ESSStatusProfile,int>::build(
+            [setter](essmodule::ESSStatusProfile& profile, const int& value) { setter(profile)->set_stval(static_cast<commonmodule::BehaviourModeKind>(value)); },
+            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<int>& handler) { return false; }
+        ),
+        commonmodule::BehaviourModeKind_descriptor()
+    );
+
     if(visitor.start_message_field("t", commonmodule::Timestamp::descriptor()))
     {
         visit_commonmodule_Timestamp(
@@ -305,20 +446,119 @@ void visit_commonmodule_MV(const set_t<commonmodule::MV>& setter, const get_t<co
         );
         visitor.end_message_field();
     }
+}
 
-    if(visitor.start_message_field("units", commonmodule::Unit::descriptor()))
+void visit_commonmodule_ENS_DynamicTestKind(const set_t<commonmodule::ENS_DynamicTestKind>& setter, const get_t<commonmodule::ENS_DynamicTestKind>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
+{
+    if(visitor.start_message_field("q", commonmodule::Quality::descriptor()))
     {
-        visit_commonmodule_Unit(
+        visit_commonmodule_Quality(
             [setter](essmodule::ESSStatusProfile& profile)
             {
-                return setter(profile)->mutable_units();
+                return setter(profile)->mutable_q();
             },
-            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::Unit const *
+            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::Quality const *
             {
                 const auto value = getter(profile);
                 if(value)
                 {
-                    return value->has_units() ? &value->units() : nullptr;
+                    return value->has_q() ? &value->q() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    visitor.handle(
+        "stVal",
+        AccessorBuilder<essmodule::ESSStatusProfile,int>::build(
+            [setter](essmodule::ESSStatusProfile& profile, const int& value) { setter(profile)->set_stval(static_cast<commonmodule::DynamicTestKind>(value)); },
+            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<int>& handler) { return false; }
+        ),
+        commonmodule::DynamicTestKind_descriptor()
+    );
+
+    if(visitor.start_message_field("t", commonmodule::Timestamp::descriptor()))
+    {
+        visit_commonmodule_Timestamp(
+            [setter](essmodule::ESSStatusProfile& profile)
+            {
+                return setter(profile)->mutable_t();
+            },
+            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::Timestamp const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_t() ? &value->t() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+}
+
+void visit_commonmodule_ENS_HealthKind(const set_t<commonmodule::ENS_HealthKind>& setter, const get_t<commonmodule::ENS_HealthKind>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
+{
+    if(visitor.start_message_field("d", google::protobuf::StringValue::descriptor()))
+    {
+        visit_google_protobuf_StringValue(
+            [setter](essmodule::ESSStatusProfile& profile)
+            {
+                return setter(profile)->mutable_d();
+            },
+            [getter](const essmodule::ESSStatusProfile& profile) -> google::protobuf::StringValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_d() ? &value->d() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    visitor.handle(
+        "stVal",
+        AccessorBuilder<essmodule::ESSStatusProfile,int>::build(
+            [setter](essmodule::ESSStatusProfile& profile, const int& value) { setter(profile)->set_stval(static_cast<commonmodule::HealthKind>(value)); },
+            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<int>& handler) { return false; }
+        ),
+        commonmodule::HealthKind_descriptor()
+    );
+}
+
+void visit_commonmodule_ESS(const set_t<commonmodule::ESS>& setter, const get_t<commonmodule::ESS>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
+{
+    if(visitor.start_message_field("conductingEquipment", commonmodule::ConductingEquipment::descriptor()))
+    {
+        visit_commonmodule_ConductingEquipment(
+            [setter](essmodule::ESSStatusProfile& profile)
+            {
+                return setter(profile)->mutable_conductingequipment();
+            },
+            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::ConductingEquipment const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_conductingequipment() ? &value->conductingequipment() : nullptr;
                 }
                 else
                 {
@@ -332,6 +572,108 @@ void visit_commonmodule_MV(const set_t<commonmodule::MV>& setter, const get_t<co
 }
 
 void visit_commonmodule_IED(const set_t<commonmodule::IED>& setter, const get_t<commonmodule::IED>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
+{
+    if(visitor.start_message_field("identifiedObject", commonmodule::IdentifiedObject::descriptor()))
+    {
+        visit_commonmodule_IdentifiedObject(
+            [setter](essmodule::ESSStatusProfile& profile)
+            {
+                return setter(profile)->mutable_identifiedobject();
+            },
+            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::IdentifiedObject const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_identifiedobject() ? &value->identifiedobject() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+}
+
+void visit_commonmodule_IdentifiedObject(const set_t<commonmodule::IdentifiedObject>& setter, const get_t<commonmodule::IdentifiedObject>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
+{
+    if(visitor.start_message_field("description", google::protobuf::StringValue::descriptor()))
+    {
+        visit_google_protobuf_StringValue(
+            [setter](essmodule::ESSStatusProfile& profile)
+            {
+                return setter(profile)->mutable_description();
+            },
+            [getter](const essmodule::ESSStatusProfile& profile) -> google::protobuf::StringValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_description() ? &value->description() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("mRID", google::protobuf::StringValue::descriptor()))
+    {
+        visit_google_protobuf_StringValue(
+            [setter](essmodule::ESSStatusProfile& profile)
+            {
+                return setter(profile)->mutable_mrid();
+            },
+            [getter](const essmodule::ESSStatusProfile& profile) -> google::protobuf::StringValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_mrid() ? &value->mrid() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("name", google::protobuf::StringValue::descriptor()))
+    {
+        visit_google_protobuf_StringValue(
+            [setter](essmodule::ESSStatusProfile& profile)
+            {
+                return setter(profile)->mutable_name();
+            },
+            [getter](const essmodule::ESSStatusProfile& profile) -> google::protobuf::StringValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_name() ? &value->name() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+}
+
+void visit_commonmodule_LogicalNode(const set_t<commonmodule::LogicalNode>& setter, const get_t<commonmodule::LogicalNode>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
     if(visitor.start_message_field("identifiedObject", commonmodule::IdentifiedObject::descriptor()))
     {
@@ -433,32 +775,21 @@ void visit_commonmodule_LogicalNodeForEventAndStatus(const set_t<commonmodule::L
     }
 }
 
-void visit_google_protobuf_StringValue(const set_t<google::protobuf::StringValue>& setter, const get_t<google::protobuf::StringValue>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
+void visit_commonmodule_MV(const set_t<commonmodule::MV>& setter, const get_t<commonmodule::MV>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
-    visitor.handle(
-        "value",
-        AccessorBuilder<essmodule::ESSStatusProfile,std::string>::build(
-            [setter](essmodule::ESSStatusProfile& profile, const std::string& value) { setter(profile)->set_value(value); },
-            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<std::string>& handler) { return false; }
-        )
-    );
-}
-
-void visit_commonmodule_ENS_HealthKind(const set_t<commonmodule::ENS_HealthKind>& setter, const get_t<commonmodule::ENS_HealthKind>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
-{
-    if(visitor.start_message_field("d", google::protobuf::StringValue::descriptor()))
+    if(visitor.start_message_field("mag", commonmodule::AnalogueValue::descriptor()))
     {
-        visit_google_protobuf_StringValue(
+        visit_commonmodule_AnalogueValue(
             [setter](essmodule::ESSStatusProfile& profile)
             {
-                return setter(profile)->mutable_d();
+                return setter(profile)->mutable_mag();
             },
-            [getter](const essmodule::ESSStatusProfile& profile) -> google::protobuf::StringValue const *
+            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::AnalogueValue const *
             {
                 const auto value = getter(profile);
                 if(value)
                 {
-                    return value->has_d() ? &value->d() : nullptr;
+                    return value->has_mag() ? &value->mag() : nullptr;
                 }
                 else
                 {
@@ -470,13 +801,190 @@ void visit_commonmodule_ENS_HealthKind(const set_t<commonmodule::ENS_HealthKind>
         visitor.end_message_field();
     }
 
+    if(visitor.start_message_field("q", commonmodule::Quality::descriptor()))
+    {
+        visit_commonmodule_Quality(
+            [setter](essmodule::ESSStatusProfile& profile)
+            {
+                return setter(profile)->mutable_q();
+            },
+            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::Quality const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_q() ? &value->q() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("t", commonmodule::Timestamp::descriptor()))
+    {
+        visit_commonmodule_Timestamp(
+            [setter](essmodule::ESSStatusProfile& profile)
+            {
+                return setter(profile)->mutable_t();
+            },
+            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::Timestamp const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_t() ? &value->t() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("units", commonmodule::Unit::descriptor()))
+    {
+        visit_commonmodule_Unit(
+            [setter](essmodule::ESSStatusProfile& profile)
+            {
+                return setter(profile)->mutable_units();
+            },
+            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::Unit const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_units() ? &value->units() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+}
+
+void visit_commonmodule_MessageInfo(const set_t<commonmodule::MessageInfo>& setter, const get_t<commonmodule::MessageInfo>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
+{
+    if(visitor.start_message_field("identifiedObject", commonmodule::IdentifiedObject::descriptor()))
+    {
+        visit_commonmodule_IdentifiedObject(
+            [setter](essmodule::ESSStatusProfile& profile)
+            {
+                return setter(profile)->mutable_identifiedobject();
+            },
+            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::IdentifiedObject const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_identifiedobject() ? &value->identifiedobject() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("messageTimeStamp", commonmodule::Timestamp::descriptor()))
+    {
+        visit_commonmodule_Timestamp(
+            [setter](essmodule::ESSStatusProfile& profile)
+            {
+                return setter(profile)->mutable_messagetimestamp();
+            },
+            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::Timestamp const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_messagetimestamp() ? &value->messagetimestamp() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+}
+
+void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& setter, const get_t<commonmodule::NamedObject>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
+{
+    if(visitor.start_message_field("description", google::protobuf::StringValue::descriptor()))
+    {
+        visit_google_protobuf_StringValue(
+            [setter](essmodule::ESSStatusProfile& profile)
+            {
+                return setter(profile)->mutable_description();
+            },
+            [getter](const essmodule::ESSStatusProfile& profile) -> google::protobuf::StringValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_description() ? &value->description() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("name", google::protobuf::StringValue::descriptor()))
+    {
+        visit_google_protobuf_StringValue(
+            [setter](essmodule::ESSStatusProfile& profile)
+            {
+                return setter(profile)->mutable_name();
+            },
+            [getter](const essmodule::ESSStatusProfile& profile) -> google::protobuf::StringValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_name() ? &value->name() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+}
+
+void visit_commonmodule_Optional_StateKind(const set_t<commonmodule::Optional_StateKind>& setter, const get_t<commonmodule::Optional_StateKind>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
+{
     visitor.handle(
-        "stVal",
+        "value",
         AccessorBuilder<essmodule::ESSStatusProfile,int>::build(
-            [setter](essmodule::ESSStatusProfile& profile, const int& value) { setter(profile)->set_stval(static_cast<commonmodule::HealthKind>(value)); },
+            [setter](essmodule::ESSStatusProfile& profile, const int& value) { setter(profile)->set_value(static_cast<commonmodule::StateKind>(value)); },
             [getter](const essmodule::ESSStatusProfile& profile, const handler_t<int>& handler) { return false; }
         ),
-        commonmodule::HealthKind_descriptor()
+        commonmodule::StateKind_descriptor()
     );
 }
 
@@ -541,115 +1049,21 @@ void visit_commonmodule_Quality(const set_t<commonmodule::Quality>& setter, cons
     );
 }
 
-void visit_commonmodule_DetailQual(const set_t<commonmodule::DetailQual>& setter, const get_t<commonmodule::DetailQual>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
+void visit_commonmodule_RampRate(const set_t<commonmodule::RampRate>& setter, const get_t<commonmodule::RampRate>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
-    visitor.handle(
-        "badReference",
-        AccessorBuilder<essmodule::ESSStatusProfile,bool>::build(
-            [setter](essmodule::ESSStatusProfile& profile, const bool& value) { setter(profile)->set_badreference(value); },
-            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<bool>& handler) { return false; }
-        )
-    );
-
-    visitor.handle(
-        "failure",
-        AccessorBuilder<essmodule::ESSStatusProfile,bool>::build(
-            [setter](essmodule::ESSStatusProfile& profile, const bool& value) { setter(profile)->set_failure(value); },
-            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<bool>& handler) { return false; }
-        )
-    );
-
-    visitor.handle(
-        "inaccurate",
-        AccessorBuilder<essmodule::ESSStatusProfile,bool>::build(
-            [setter](essmodule::ESSStatusProfile& profile, const bool& value) { setter(profile)->set_inaccurate(value); },
-            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<bool>& handler) { return false; }
-        )
-    );
-
-    visitor.handle(
-        "inconsistent",
-        AccessorBuilder<essmodule::ESSStatusProfile,bool>::build(
-            [setter](essmodule::ESSStatusProfile& profile, const bool& value) { setter(profile)->set_inconsistent(value); },
-            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<bool>& handler) { return false; }
-        )
-    );
-
-    visitor.handle(
-        "oldData",
-        AccessorBuilder<essmodule::ESSStatusProfile,bool>::build(
-            [setter](essmodule::ESSStatusProfile& profile, const bool& value) { setter(profile)->set_olddata(value); },
-            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<bool>& handler) { return false; }
-        )
-    );
-
-    visitor.handle(
-        "oscillatory",
-        AccessorBuilder<essmodule::ESSStatusProfile,bool>::build(
-            [setter](essmodule::ESSStatusProfile& profile, const bool& value) { setter(profile)->set_oscillatory(value); },
-            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<bool>& handler) { return false; }
-        )
-    );
-
-    visitor.handle(
-        "outOfRange",
-        AccessorBuilder<essmodule::ESSStatusProfile,bool>::build(
-            [setter](essmodule::ESSStatusProfile& profile, const bool& value) { setter(profile)->set_outofrange(value); },
-            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<bool>& handler) { return false; }
-        )
-    );
-
-    visitor.handle(
-        "overflow",
-        AccessorBuilder<essmodule::ESSStatusProfile,bool>::build(
-            [setter](essmodule::ESSStatusProfile& profile, const bool& value) { setter(profile)->set_overflow(value); },
-            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<bool>& handler) { return false; }
-        )
-    );
-}
-
-void visit_commonmodule_ESS(const set_t<commonmodule::ESS>& setter, const get_t<commonmodule::ESS>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
-{
-    if(visitor.start_message_field("conductingEquipment", commonmodule::ConductingEquipment::descriptor()))
+    if(visitor.start_message_field("negativeReactivePowerKVArPerMin", google::protobuf::FloatValue::descriptor()))
     {
-        visit_commonmodule_ConductingEquipment(
+        visit_google_protobuf_FloatValue(
             [setter](essmodule::ESSStatusProfile& profile)
             {
-                return setter(profile)->mutable_conductingequipment();
+                return setter(profile)->mutable_negativereactivepowerkvarpermin();
             },
-            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::ConductingEquipment const *
+            [getter](const essmodule::ESSStatusProfile& profile) -> google::protobuf::FloatValue const *
             {
                 const auto value = getter(profile);
                 if(value)
                 {
-                    return value->has_conductingequipment() ? &value->conductingequipment() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-}
-
-void visit_essmodule_ESSStatus(const set_t<essmodule::ESSStatus>& setter, const get_t<essmodule::ESSStatus>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
-{
-    if(visitor.start_message_field("statusValue", commonmodule::StatusValue::descriptor()))
-    {
-        visit_commonmodule_StatusValue(
-            [setter](essmodule::ESSStatusProfile& profile)
-            {
-                return setter(profile)->mutable_statusvalue();
-            },
-            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::StatusValue const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_statusvalue() ? &value->statusvalue() : nullptr;
+                    return value->has_negativereactivepowerkvarpermin() ? &value->negativereactivepowerkvarpermin() : nullptr;
                 }
                 else
                 {
@@ -661,19 +1075,19 @@ void visit_essmodule_ESSStatus(const set_t<essmodule::ESSStatus>& setter, const 
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("essStatusZBAT", essmodule::EssStatusZBAT::descriptor()))
+    if(visitor.start_message_field("negativeRealPowerKWPerMin", google::protobuf::FloatValue::descriptor()))
     {
-        visit_essmodule_EssStatusZBAT(
+        visit_google_protobuf_FloatValue(
             [setter](essmodule::ESSStatusProfile& profile)
             {
-                return setter(profile)->mutable_essstatuszbat();
+                return setter(profile)->mutable_negativerealpowerkwpermin();
             },
-            [getter](const essmodule::ESSStatusProfile& profile) -> essmodule::EssStatusZBAT const *
+            [getter](const essmodule::ESSStatusProfile& profile) -> google::protobuf::FloatValue const *
             {
                 const auto value = getter(profile);
                 if(value)
                 {
-                    return value->has_essstatuszbat() ? &value->essstatuszbat() : nullptr;
+                    return value->has_negativerealpowerkwpermin() ? &value->negativerealpowerkwpermin() : nullptr;
                 }
                 else
                 {
@@ -685,19 +1099,43 @@ void visit_essmodule_ESSStatus(const set_t<essmodule::ESSStatus>& setter, const 
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("essStatusZGEN", essmodule::ESSStatusZGEN::descriptor()))
+    if(visitor.start_message_field("positiveReactivePowerKVArPerMin", google::protobuf::FloatValue::descriptor()))
     {
-        visit_essmodule_ESSStatusZGEN(
+        visit_google_protobuf_FloatValue(
             [setter](essmodule::ESSStatusProfile& profile)
             {
-                return setter(profile)->mutable_essstatuszgen();
+                return setter(profile)->mutable_positivereactivepowerkvarpermin();
             },
-            [getter](const essmodule::ESSStatusProfile& profile) -> essmodule::ESSStatusZGEN const *
+            [getter](const essmodule::ESSStatusProfile& profile) -> google::protobuf::FloatValue const *
             {
                 const auto value = getter(profile);
                 if(value)
                 {
-                    return value->has_essstatuszgen() ? &value->essstatuszgen() : nullptr;
+                    return value->has_positivereactivepowerkvarpermin() ? &value->positivereactivepowerkvarpermin() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("positiveRealPowerKWPerMin", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(
+            [setter](essmodule::ESSStatusProfile& profile)
+            {
+                return setter(profile)->mutable_positiverealpowerkwpermin();
+            },
+            [getter](const essmodule::ESSStatusProfile& profile) -> google::protobuf::FloatValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_positiverealpowerkwpermin() ? &value->positiverealpowerkwpermin() : nullptr;
                 }
                 else
                 {
@@ -725,101 +1163,6 @@ void visit_commonmodule_StatusMessageInfo(const set_t<commonmodule::StatusMessag
                 if(value)
                 {
                     return value->has_messageinfo() ? &value->messageinfo() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-}
-
-void visit_essmodule_ENG_ESSFunctionKind(const set_t<essmodule::ENG_ESSFunctionKind>& setter, const get_t<essmodule::ENG_ESSFunctionKind>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
-{
-    visitor.handle(
-        "setVal",
-        AccessorBuilder<essmodule::ESSStatusProfile,int>::build(
-            [setter](essmodule::ESSStatusProfile& profile, const int& value) { setter(profile)->set_setval(static_cast<essmodule::ESSFunctionKind>(value)); },
-            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<int>& handler) { return false; }
-        ),
-        essmodule::ESSFunctionKind_descriptor()
-    );
-
-    if(visitor.start_message_field("setValExtension", google::protobuf::StringValue::descriptor()))
-    {
-        visit_google_protobuf_StringValue(
-            [setter](essmodule::ESSStatusProfile& profile)
-            {
-                return setter(profile)->mutable_setvalextension();
-            },
-            [getter](const essmodule::ESSStatusProfile& profile) -> google::protobuf::StringValue const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_setvalextension() ? &value->setvalextension() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-}
-
-void visit_google_protobuf_Int32Value(const set_t<google::protobuf::Int32Value>& setter, const get_t<google::protobuf::Int32Value>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
-{
-    visitor.handle(
-        "value",
-        AccessorBuilder<essmodule::ESSStatusProfile,int32_t>::build(
-            [setter](essmodule::ESSStatusProfile& profile, const int32_t& value) { setter(profile)->set_value(value); },
-            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<int32_t>& handler) { return false; }
-        )
-    );
-}
-
-void visit_commonmodule_Unit(const set_t<commonmodule::Unit>& setter, const get_t<commonmodule::Unit>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
-{
-    visitor.handle(
-        "multiplier",
-        AccessorBuilder<essmodule::ESSStatusProfile,int>::build(
-            [setter](essmodule::ESSStatusProfile& profile, const int& value) { setter(profile)->set_multiplier(static_cast<commonmodule::UnitMultiplierKind>(value)); },
-            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<int>& handler) { return false; }
-        ),
-        commonmodule::UnitMultiplierKind_descriptor()
-    );
-
-    visitor.handle(
-        "SIUnit",
-        AccessorBuilder<essmodule::ESSStatusProfile,int>::build(
-            [setter](essmodule::ESSStatusProfile& profile, const int& value) { setter(profile)->set_siunit(static_cast<commonmodule::UnitSymbolKind>(value)); },
-            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<int>& handler) { return false; }
-        ),
-        commonmodule::UnitSymbolKind_descriptor()
-    );
-}
-
-void visit_essmodule_ESSStatusZGEN(const set_t<essmodule::ESSStatusZGEN>& setter, const get_t<essmodule::ESSStatusZGEN>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
-{
-    if(visitor.start_message_field("eSSEventAndStatusZGEN", essmodule::ESSEventAndStatusZGEN::descriptor()))
-    {
-        visit_essmodule_ESSEventAndStatusZGEN(
-            [setter](essmodule::ESSStatusProfile& profile)
-            {
-                return setter(profile)->mutable_esseventandstatuszgen();
-            },
-            [getter](const essmodule::ESSStatusProfile& profile) -> essmodule::ESSEventAndStatusZGEN const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_esseventandstatuszgen() ? &value->esseventandstatuszgen() : nullptr;
                 }
                 else
                 {
@@ -891,16 +1234,358 @@ void visit_commonmodule_StatusSPS(const set_t<commonmodule::StatusSPS>& setter, 
     }
 }
 
-void visit_commonmodule_Optional_StateKind(const set_t<commonmodule::Optional_StateKind>& setter, const get_t<commonmodule::Optional_StateKind>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
+void visit_commonmodule_StatusValue(const set_t<commonmodule::StatusValue>& setter, const get_t<commonmodule::StatusValue>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
+{
+    if(visitor.start_message_field("identifiedObject", commonmodule::IdentifiedObject::descriptor()))
+    {
+        visit_commonmodule_IdentifiedObject(
+            [setter](essmodule::ESSStatusProfile& profile)
+            {
+                return setter(profile)->mutable_identifiedobject();
+            },
+            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::IdentifiedObject const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_identifiedobject() ? &value->identifiedobject() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+}
+
+void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& setter, const get_t<commonmodule::TimeQuality>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
     visitor.handle(
-        "value",
+        "clockFailure",
+        AccessorBuilder<essmodule::ESSStatusProfile,bool>::build(
+            [setter](essmodule::ESSStatusProfile& profile, const bool& value) { setter(profile)->set_clockfailure(value); },
+            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+        )
+    );
+
+    visitor.handle(
+        "clockNotSynchronized",
+        AccessorBuilder<essmodule::ESSStatusProfile,bool>::build(
+            [setter](essmodule::ESSStatusProfile& profile, const bool& value) { setter(profile)->set_clocknotsynchronized(value); },
+            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+        )
+    );
+
+    visitor.handle(
+        "leapSecondsKnown",
+        AccessorBuilder<essmodule::ESSStatusProfile,bool>::build(
+            [setter](essmodule::ESSStatusProfile& profile, const bool& value) { setter(profile)->set_leapsecondsknown(value); },
+            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+        )
+    );
+
+    visitor.handle(
+        "timeAccuracy",
         AccessorBuilder<essmodule::ESSStatusProfile,int>::build(
-            [setter](essmodule::ESSStatusProfile& profile, const int& value) { setter(profile)->set_value(static_cast<commonmodule::StateKind>(value)); },
+            [setter](essmodule::ESSStatusProfile& profile, const int& value) { setter(profile)->set_timeaccuracy(static_cast<commonmodule::TimeAccuracyKind>(value)); },
             [getter](const essmodule::ESSStatusProfile& profile, const handler_t<int>& handler) { return false; }
         ),
-        commonmodule::StateKind_descriptor()
+        commonmodule::TimeAccuracyKind_descriptor()
     );
+}
+
+void visit_commonmodule_Timestamp(const set_t<commonmodule::Timestamp>& setter, const get_t<commonmodule::Timestamp>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
+{
+    visitor.handle(
+        "fraction",
+        AccessorBuilder<essmodule::ESSStatusProfile,uint32_t>::build(
+            [setter](essmodule::ESSStatusProfile& profile, const uint32_t& value) { setter(profile)->set_fraction(value); },
+            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<uint32_t>& handler) { return false; }
+        )
+    );
+
+    visitor.handle(
+        "seconds",
+        AccessorBuilder<essmodule::ESSStatusProfile,uint64_t>::build(
+            [setter](essmodule::ESSStatusProfile& profile, const uint64_t& value) { setter(profile)->set_seconds(value); },
+            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<uint64_t>& handler) { return false; }
+        )
+    );
+
+    if(visitor.start_message_field("tq", commonmodule::TimeQuality::descriptor()))
+    {
+        visit_commonmodule_TimeQuality(
+            [setter](essmodule::ESSStatusProfile& profile)
+            {
+                return setter(profile)->mutable_tq();
+            },
+            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::TimeQuality const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_tq() ? &value->tq() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+}
+
+void visit_commonmodule_Unit(const set_t<commonmodule::Unit>& setter, const get_t<commonmodule::Unit>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
+{
+    visitor.handle(
+        "multiplier",
+        AccessorBuilder<essmodule::ESSStatusProfile,int>::build(
+            [setter](essmodule::ESSStatusProfile& profile, const int& value) { setter(profile)->set_multiplier(static_cast<commonmodule::UnitMultiplierKind>(value)); },
+            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<int>& handler) { return false; }
+        ),
+        commonmodule::UnitMultiplierKind_descriptor()
+    );
+
+    visitor.handle(
+        "SIUnit",
+        AccessorBuilder<essmodule::ESSStatusProfile,int>::build(
+            [setter](essmodule::ESSStatusProfile& profile, const int& value) { setter(profile)->set_siunit(static_cast<commonmodule::UnitSymbolKind>(value)); },
+            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<int>& handler) { return false; }
+        ),
+        commonmodule::UnitSymbolKind_descriptor()
+    );
+}
+
+void visit_essmodule_ENG_ESSFunctionKind(const set_t<essmodule::ENG_ESSFunctionKind>& setter, const get_t<essmodule::ENG_ESSFunctionKind>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
+{
+    visitor.handle(
+        "setVal",
+        AccessorBuilder<essmodule::ESSStatusProfile,int>::build(
+            [setter](essmodule::ESSStatusProfile& profile, const int& value) { setter(profile)->set_setval(static_cast<essmodule::ESSFunctionKind>(value)); },
+            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<int>& handler) { return false; }
+        ),
+        essmodule::ESSFunctionKind_descriptor()
+    );
+
+    if(visitor.start_message_field("setValExtension", google::protobuf::StringValue::descriptor()))
+    {
+        visit_google_protobuf_StringValue(
+            [setter](essmodule::ESSStatusProfile& profile)
+            {
+                return setter(profile)->mutable_setvalextension();
+            },
+            [getter](const essmodule::ESSStatusProfile& profile) -> google::protobuf::StringValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_setvalextension() ? &value->setvalextension() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+}
+
+void visit_essmodule_ENG_ESSFunctionParameter(const set_t<essmodule::ENG_ESSFunctionParameter>& setter, const get_t<essmodule::ENG_ESSFunctionParameter>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
+{
+    visitor.handle(
+        "name",
+        AccessorBuilder<essmodule::ESSStatusProfile,int>::build(
+            [setter](essmodule::ESSStatusProfile& profile, const int& value) { setter(profile)->set_name(static_cast<essmodule::ESSFunctionParameterKind>(value)); },
+            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<int>& handler) { return false; }
+        ),
+        essmodule::ESSFunctionParameterKind_descriptor()
+    );
+
+    if(visitor.start_message_field("unit", commonmodule::Unit::descriptor()))
+    {
+        visit_commonmodule_Unit(
+            [setter](essmodule::ESSStatusProfile& profile)
+            {
+                return setter(profile)->mutable_unit();
+            },
+            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::Unit const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_unit() ? &value->unit() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    visitor.handle(
+        "value",
+        AccessorBuilder<essmodule::ESSStatusProfile,int32_t>::build(
+            [setter](essmodule::ESSStatusProfile& profile, const int32_t& value) { setter(profile)->set_value(value); },
+            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<int32_t>& handler) { return false; }
+        )
+    );
+}
+
+void visit_essmodule_ESSEventAndStatusZGEN(const set_t<essmodule::ESSEventAndStatusZGEN>& setter, const get_t<essmodule::ESSEventAndStatusZGEN>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
+{
+    if(visitor.start_message_field("logicalNodeForEventAndStatus", commonmodule::LogicalNodeForEventAndStatus::descriptor()))
+    {
+        visit_commonmodule_LogicalNodeForEventAndStatus(
+            [setter](essmodule::ESSStatusProfile& profile)
+            {
+                return setter(profile)->mutable_logicalnodeforeventandstatus();
+            },
+            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::LogicalNodeForEventAndStatus const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_logicalnodeforeventandstatus() ? &value->logicalnodeforeventandstatus() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("AuxPwrSt", commonmodule::StatusSPS::descriptor()))
+    {
+        visit_commonmodule_StatusSPS(
+            [setter](essmodule::ESSStatusProfile& profile)
+            {
+                return setter(profile)->mutable_auxpwrst();
+            },
+            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::StatusSPS const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_auxpwrst() ? &value->auxpwrst() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("DynamicTest", commonmodule::ENS_DynamicTestKind::descriptor()))
+    {
+        visit_commonmodule_ENS_DynamicTestKind(
+            [setter](essmodule::ESSStatusProfile& profile)
+            {
+                return setter(profile)->mutable_dynamictest();
+            },
+            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::ENS_DynamicTestKind const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_dynamictest() ? &value->dynamictest() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("EmgStop", commonmodule::StatusSPS::descriptor()))
+    {
+        visit_commonmodule_StatusSPS(
+            [setter](essmodule::ESSStatusProfile& profile)
+            {
+                return setter(profile)->mutable_emgstop();
+            },
+            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::StatusSPS const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_emgstop() ? &value->emgstop() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("GnSynSt", commonmodule::StatusSPS::descriptor()))
+    {
+        visit_commonmodule_StatusSPS(
+            [setter](essmodule::ESSStatusProfile& profile)
+            {
+                return setter(profile)->mutable_gnsynst();
+            },
+            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::StatusSPS const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_gnsynst() ? &value->gnsynst() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("PointStatus", essmodule::ESSPointStatus::descriptor()))
+    {
+        visit_essmodule_ESSPointStatus(
+            [setter](essmodule::ESSStatusProfile& profile)
+            {
+                return setter(profile)->mutable_pointstatus();
+            },
+            [getter](const essmodule::ESSStatusProfile& profile) -> essmodule::ESSPointStatus const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_pointstatus() ? &value->pointstatus() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
 }
 
 void visit_essmodule_ESSPointStatus(const set_t<essmodule::ESSPointStatus>& setter, const get_t<essmodule::ESSPointStatus>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
@@ -1242,30 +1927,96 @@ void visit_essmodule_ESSPointStatus(const set_t<essmodule::ESSPointStatus>& sett
     }
 }
 
-void visit_commonmodule_ENG_GridConnectModeKind(const set_t<commonmodule::ENG_GridConnectModeKind>& setter, const get_t<commonmodule::ENG_GridConnectModeKind>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
+void visit_essmodule_ESSStatus(const set_t<essmodule::ESSStatus>& setter, const get_t<essmodule::ESSStatus>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
-    visitor.handle(
-        "setVal",
-        AccessorBuilder<essmodule::ESSStatusProfile,int>::build(
-            [setter](essmodule::ESSStatusProfile& profile, const int& value) { setter(profile)->set_setval(static_cast<commonmodule::GridConnectModeKind>(value)); },
-            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<int>& handler) { return false; }
-        ),
-        commonmodule::GridConnectModeKind_descriptor()
-    );
-
-    if(visitor.start_message_field("setValExtension", google::protobuf::StringValue::descriptor()))
+    if(visitor.start_message_field("statusValue", commonmodule::StatusValue::descriptor()))
     {
-        visit_google_protobuf_StringValue(
+        visit_commonmodule_StatusValue(
             [setter](essmodule::ESSStatusProfile& profile)
             {
-                return setter(profile)->mutable_setvalextension();
+                return setter(profile)->mutable_statusvalue();
             },
-            [getter](const essmodule::ESSStatusProfile& profile) -> google::protobuf::StringValue const *
+            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::StatusValue const *
             {
                 const auto value = getter(profile);
                 if(value)
                 {
-                    return value->has_setvalextension() ? &value->setvalextension() : nullptr;
+                    return value->has_statusvalue() ? &value->statusvalue() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("essStatusZBAT", essmodule::EssStatusZBAT::descriptor()))
+    {
+        visit_essmodule_EssStatusZBAT(
+            [setter](essmodule::ESSStatusProfile& profile)
+            {
+                return setter(profile)->mutable_essstatuszbat();
+            },
+            [getter](const essmodule::ESSStatusProfile& profile) -> essmodule::EssStatusZBAT const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_essstatuszbat() ? &value->essstatuszbat() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("essStatusZGEN", essmodule::ESSStatusZGEN::descriptor()))
+    {
+        visit_essmodule_ESSStatusZGEN(
+            [setter](essmodule::ESSStatusProfile& profile)
+            {
+                return setter(profile)->mutable_essstatuszgen();
+            },
+            [getter](const essmodule::ESSStatusProfile& profile) -> essmodule::ESSStatusZGEN const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_essstatuszgen() ? &value->essstatuszgen() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+}
+
+void visit_essmodule_ESSStatusZGEN(const set_t<essmodule::ESSStatusZGEN>& setter, const get_t<essmodule::ESSStatusZGEN>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
+{
+    if(visitor.start_message_field("eSSEventAndStatusZGEN", essmodule::ESSEventAndStatusZGEN::descriptor()))
+    {
+        visit_essmodule_ESSEventAndStatusZGEN(
+            [setter](essmodule::ESSStatusProfile& profile)
+            {
+                return setter(profile)->mutable_esseventandstatuszgen();
+            },
+            [getter](const essmodule::ESSStatusProfile& profile) -> essmodule::ESSEventAndStatusZGEN const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_esseventandstatuszgen() ? &value->esseventandstatuszgen() : nullptr;
                 }
                 else
                 {
@@ -1401,57 +2152,6 @@ void visit_essmodule_EssStatusZBAT(const set_t<essmodule::EssStatusZBAT>& setter
     }
 }
 
-void visit_commonmodule_MessageInfo(const set_t<commonmodule::MessageInfo>& setter, const get_t<commonmodule::MessageInfo>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
-{
-    if(visitor.start_message_field("identifiedObject", commonmodule::IdentifiedObject::descriptor()))
-    {
-        visit_commonmodule_IdentifiedObject(
-            [setter](essmodule::ESSStatusProfile& profile)
-            {
-                return setter(profile)->mutable_identifiedobject();
-            },
-            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::IdentifiedObject const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_identifiedobject() ? &value->identifiedobject() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("messageTimeStamp", commonmodule::Timestamp::descriptor()))
-    {
-        visit_commonmodule_Timestamp(
-            [setter](essmodule::ESSStatusProfile& profile)
-            {
-                return setter(profile)->mutable_messagetimestamp();
-            },
-            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::Timestamp const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_messagetimestamp() ? &value->messagetimestamp() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-}
-
 void visit_google_protobuf_FloatValue(const set_t<google::protobuf::FloatValue>& setter, const get_t<google::protobuf::FloatValue>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
     visitor.handle(
@@ -1463,726 +2163,26 @@ void visit_google_protobuf_FloatValue(const set_t<google::protobuf::FloatValue>&
     );
 }
 
-void visit_commonmodule_IdentifiedObject(const set_t<commonmodule::IdentifiedObject>& setter, const get_t<commonmodule::IdentifiedObject>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
-{
-    if(visitor.start_message_field("description", google::protobuf::StringValue::descriptor()))
-    {
-        visit_google_protobuf_StringValue(
-            [setter](essmodule::ESSStatusProfile& profile)
-            {
-                return setter(profile)->mutable_description();
-            },
-            [getter](const essmodule::ESSStatusProfile& profile) -> google::protobuf::StringValue const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_description() ? &value->description() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("mRID", google::protobuf::StringValue::descriptor()))
-    {
-        visit_google_protobuf_StringValue(
-            [setter](essmodule::ESSStatusProfile& profile)
-            {
-                return setter(profile)->mutable_mrid();
-            },
-            [getter](const essmodule::ESSStatusProfile& profile) -> google::protobuf::StringValue const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_mrid() ? &value->mrid() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("name", google::protobuf::StringValue::descriptor()))
-    {
-        visit_google_protobuf_StringValue(
-            [setter](essmodule::ESSStatusProfile& profile)
-            {
-                return setter(profile)->mutable_name();
-            },
-            [getter](const essmodule::ESSStatusProfile& profile) -> google::protobuf::StringValue const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_name() ? &value->name() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-}
-
-void visit_commonmodule_AnalogueValue(const set_t<commonmodule::AnalogueValue>& setter, const get_t<commonmodule::AnalogueValue>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
-{
-    if(visitor.start_message_field("f", google::protobuf::FloatValue::descriptor()))
-    {
-        visit_google_protobuf_FloatValue(
-            [setter](essmodule::ESSStatusProfile& profile)
-            {
-                return setter(profile)->mutable_f();
-            },
-            [getter](const essmodule::ESSStatusProfile& profile) -> google::protobuf::FloatValue const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_f() ? &value->f() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("i", google::protobuf::Int32Value::descriptor()))
-    {
-        visit_google_protobuf_Int32Value(
-            [setter](essmodule::ESSStatusProfile& profile)
-            {
-                return setter(profile)->mutable_i();
-            },
-            [getter](const essmodule::ESSStatusProfile& profile) -> google::protobuf::Int32Value const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_i() ? &value->i() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-}
-
-void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& setter, const get_t<commonmodule::TimeQuality>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
+void visit_google_protobuf_Int32Value(const set_t<google::protobuf::Int32Value>& setter, const get_t<google::protobuf::Int32Value>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
     visitor.handle(
-        "clockFailure",
-        AccessorBuilder<essmodule::ESSStatusProfile,bool>::build(
-            [setter](essmodule::ESSStatusProfile& profile, const bool& value) { setter(profile)->set_clockfailure(value); },
-            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<bool>& handler) { return false; }
-        )
-    );
-
-    visitor.handle(
-        "clockNotSynchronized",
-        AccessorBuilder<essmodule::ESSStatusProfile,bool>::build(
-            [setter](essmodule::ESSStatusProfile& profile, const bool& value) { setter(profile)->set_clocknotsynchronized(value); },
-            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<bool>& handler) { return false; }
-        )
-    );
-
-    visitor.handle(
-        "leapSecondsKnown",
-        AccessorBuilder<essmodule::ESSStatusProfile,bool>::build(
-            [setter](essmodule::ESSStatusProfile& profile, const bool& value) { setter(profile)->set_leapsecondsknown(value); },
-            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<bool>& handler) { return false; }
-        )
-    );
-
-    visitor.handle(
-        "timeAccuracy",
-        AccessorBuilder<essmodule::ESSStatusProfile,int>::build(
-            [setter](essmodule::ESSStatusProfile& profile, const int& value) { setter(profile)->set_timeaccuracy(static_cast<commonmodule::TimeAccuracyKind>(value)); },
-            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<int>& handler) { return false; }
-        ),
-        commonmodule::TimeAccuracyKind_descriptor()
-    );
-}
-
-void visit_commonmodule_ControlDPC(const set_t<commonmodule::ControlDPC>& setter, const get_t<commonmodule::ControlDPC>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
-{
-    visitor.handle(
-        "ctlVal",
-        AccessorBuilder<essmodule::ESSStatusProfile,bool>::build(
-            [setter](essmodule::ESSStatusProfile& profile, const bool& value) { setter(profile)->set_ctlval(value); },
-            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+        "value",
+        AccessorBuilder<essmodule::ESSStatusProfile,int32_t>::build(
+            [setter](essmodule::ESSStatusProfile& profile, const int32_t& value) { setter(profile)->set_value(value); },
+            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<int32_t>& handler) { return false; }
         )
     );
 }
 
-void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::ConductingEquipment>& setter, const get_t<commonmodule::ConductingEquipment>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
+void visit_google_protobuf_StringValue(const set_t<google::protobuf::StringValue>& setter, const get_t<google::protobuf::StringValue>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
-    if(visitor.start_message_field("namedObject", commonmodule::NamedObject::descriptor()))
-    {
-        visit_commonmodule_NamedObject(
-            [setter](essmodule::ESSStatusProfile& profile)
-            {
-                return setter(profile)->mutable_namedobject();
-            },
-            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::NamedObject const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_namedobject() ? &value->namedobject() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
     visitor.handle(
-        "mRID",
+        "value",
         AccessorBuilder<essmodule::ESSStatusProfile,std::string>::build(
-            [setter](essmodule::ESSStatusProfile& profile, const std::string& value) { setter(profile)->set_mrid(value); },
+            [setter](essmodule::ESSStatusProfile& profile, const std::string& value) { setter(profile)->set_value(value); },
             [getter](const essmodule::ESSStatusProfile& profile, const handler_t<std::string>& handler) { return false; }
         )
     );
-}
-
-void visit_commonmodule_ENS_BehaviourModeKind(const set_t<commonmodule::ENS_BehaviourModeKind>& setter, const get_t<commonmodule::ENS_BehaviourModeKind>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
-{
-    if(visitor.start_message_field("q", commonmodule::Quality::descriptor()))
-    {
-        visit_commonmodule_Quality(
-            [setter](essmodule::ESSStatusProfile& profile)
-            {
-                return setter(profile)->mutable_q();
-            },
-            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::Quality const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_q() ? &value->q() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    visitor.handle(
-        "stVal",
-        AccessorBuilder<essmodule::ESSStatusProfile,int>::build(
-            [setter](essmodule::ESSStatusProfile& profile, const int& value) { setter(profile)->set_stval(static_cast<commonmodule::BehaviourModeKind>(value)); },
-            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<int>& handler) { return false; }
-        ),
-        commonmodule::BehaviourModeKind_descriptor()
-    );
-
-    if(visitor.start_message_field("t", commonmodule::Timestamp::descriptor()))
-    {
-        visit_commonmodule_Timestamp(
-            [setter](essmodule::ESSStatusProfile& profile)
-            {
-                return setter(profile)->mutable_t();
-            },
-            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::Timestamp const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_t() ? &value->t() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-}
-
-void visit_commonmodule_RampRate(const set_t<commonmodule::RampRate>& setter, const get_t<commonmodule::RampRate>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
-{
-    if(visitor.start_message_field("negativeReactivePowerKVArPerMin", google::protobuf::FloatValue::descriptor()))
-    {
-        visit_google_protobuf_FloatValue(
-            [setter](essmodule::ESSStatusProfile& profile)
-            {
-                return setter(profile)->mutable_negativereactivepowerkvarpermin();
-            },
-            [getter](const essmodule::ESSStatusProfile& profile) -> google::protobuf::FloatValue const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_negativereactivepowerkvarpermin() ? &value->negativereactivepowerkvarpermin() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("negativeRealPowerKWPerMin", google::protobuf::FloatValue::descriptor()))
-    {
-        visit_google_protobuf_FloatValue(
-            [setter](essmodule::ESSStatusProfile& profile)
-            {
-                return setter(profile)->mutable_negativerealpowerkwpermin();
-            },
-            [getter](const essmodule::ESSStatusProfile& profile) -> google::protobuf::FloatValue const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_negativerealpowerkwpermin() ? &value->negativerealpowerkwpermin() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("positiveReactivePowerKVArPerMin", google::protobuf::FloatValue::descriptor()))
-    {
-        visit_google_protobuf_FloatValue(
-            [setter](essmodule::ESSStatusProfile& profile)
-            {
-                return setter(profile)->mutable_positivereactivepowerkvarpermin();
-            },
-            [getter](const essmodule::ESSStatusProfile& profile) -> google::protobuf::FloatValue const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_positivereactivepowerkvarpermin() ? &value->positivereactivepowerkvarpermin() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("positiveRealPowerKWPerMin", google::protobuf::FloatValue::descriptor()))
-    {
-        visit_google_protobuf_FloatValue(
-            [setter](essmodule::ESSStatusProfile& profile)
-            {
-                return setter(profile)->mutable_positiverealpowerkwpermin();
-            },
-            [getter](const essmodule::ESSStatusProfile& profile) -> google::protobuf::FloatValue const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_positiverealpowerkwpermin() ? &value->positiverealpowerkwpermin() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-}
-
-void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& setter, const get_t<commonmodule::NamedObject>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
-{
-    if(visitor.start_message_field("description", google::protobuf::StringValue::descriptor()))
-    {
-        visit_google_protobuf_StringValue(
-            [setter](essmodule::ESSStatusProfile& profile)
-            {
-                return setter(profile)->mutable_description();
-            },
-            [getter](const essmodule::ESSStatusProfile& profile) -> google::protobuf::StringValue const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_description() ? &value->description() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("name", google::protobuf::StringValue::descriptor()))
-    {
-        visit_google_protobuf_StringValue(
-            [setter](essmodule::ESSStatusProfile& profile)
-            {
-                return setter(profile)->mutable_name();
-            },
-            [getter](const essmodule::ESSStatusProfile& profile) -> google::protobuf::StringValue const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_name() ? &value->name() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-}
-
-void visit_commonmodule_ENS_DynamicTestKind(const set_t<commonmodule::ENS_DynamicTestKind>& setter, const get_t<commonmodule::ENS_DynamicTestKind>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
-{
-    if(visitor.start_message_field("q", commonmodule::Quality::descriptor()))
-    {
-        visit_commonmodule_Quality(
-            [setter](essmodule::ESSStatusProfile& profile)
-            {
-                return setter(profile)->mutable_q();
-            },
-            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::Quality const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_q() ? &value->q() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    visitor.handle(
-        "stVal",
-        AccessorBuilder<essmodule::ESSStatusProfile,int>::build(
-            [setter](essmodule::ESSStatusProfile& profile, const int& value) { setter(profile)->set_stval(static_cast<commonmodule::DynamicTestKind>(value)); },
-            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<int>& handler) { return false; }
-        ),
-        commonmodule::DynamicTestKind_descriptor()
-    );
-
-    if(visitor.start_message_field("t", commonmodule::Timestamp::descriptor()))
-    {
-        visit_commonmodule_Timestamp(
-            [setter](essmodule::ESSStatusProfile& profile)
-            {
-                return setter(profile)->mutable_t();
-            },
-            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::Timestamp const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_t() ? &value->t() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-}
-
-void visit_commonmodule_StatusValue(const set_t<commonmodule::StatusValue>& setter, const get_t<commonmodule::StatusValue>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
-{
-    if(visitor.start_message_field("identifiedObject", commonmodule::IdentifiedObject::descriptor()))
-    {
-        visit_commonmodule_IdentifiedObject(
-            [setter](essmodule::ESSStatusProfile& profile)
-            {
-                return setter(profile)->mutable_identifiedobject();
-            },
-            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::IdentifiedObject const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_identifiedobject() ? &value->identifiedobject() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-}
-
-void visit_essmodule_ESSEventAndStatusZGEN(const set_t<essmodule::ESSEventAndStatusZGEN>& setter, const get_t<essmodule::ESSEventAndStatusZGEN>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
-{
-    if(visitor.start_message_field("logicalNodeForEventAndStatus", commonmodule::LogicalNodeForEventAndStatus::descriptor()))
-    {
-        visit_commonmodule_LogicalNodeForEventAndStatus(
-            [setter](essmodule::ESSStatusProfile& profile)
-            {
-                return setter(profile)->mutable_logicalnodeforeventandstatus();
-            },
-            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::LogicalNodeForEventAndStatus const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_logicalnodeforeventandstatus() ? &value->logicalnodeforeventandstatus() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("AuxPwrSt", commonmodule::StatusSPS::descriptor()))
-    {
-        visit_commonmodule_StatusSPS(
-            [setter](essmodule::ESSStatusProfile& profile)
-            {
-                return setter(profile)->mutable_auxpwrst();
-            },
-            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::StatusSPS const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_auxpwrst() ? &value->auxpwrst() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("DynamicTest", commonmodule::ENS_DynamicTestKind::descriptor()))
-    {
-        visit_commonmodule_ENS_DynamicTestKind(
-            [setter](essmodule::ESSStatusProfile& profile)
-            {
-                return setter(profile)->mutable_dynamictest();
-            },
-            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::ENS_DynamicTestKind const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_dynamictest() ? &value->dynamictest() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("EmgStop", commonmodule::StatusSPS::descriptor()))
-    {
-        visit_commonmodule_StatusSPS(
-            [setter](essmodule::ESSStatusProfile& profile)
-            {
-                return setter(profile)->mutable_emgstop();
-            },
-            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::StatusSPS const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_emgstop() ? &value->emgstop() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("GnSynSt", commonmodule::StatusSPS::descriptor()))
-    {
-        visit_commonmodule_StatusSPS(
-            [setter](essmodule::ESSStatusProfile& profile)
-            {
-                return setter(profile)->mutable_gnsynst();
-            },
-            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::StatusSPS const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_gnsynst() ? &value->gnsynst() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("PointStatus", essmodule::ESSPointStatus::descriptor()))
-    {
-        visit_essmodule_ESSPointStatus(
-            [setter](essmodule::ESSStatusProfile& profile)
-            {
-                return setter(profile)->mutable_pointstatus();
-            },
-            [getter](const essmodule::ESSStatusProfile& profile) -> essmodule::ESSPointStatus const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_pointstatus() ? &value->pointstatus() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-}
-
-void visit_commonmodule_LogicalNode(const set_t<commonmodule::LogicalNode>& setter, const get_t<commonmodule::LogicalNode>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
-{
-    if(visitor.start_message_field("identifiedObject", commonmodule::IdentifiedObject::descriptor()))
-    {
-        visit_commonmodule_IdentifiedObject(
-            [setter](essmodule::ESSStatusProfile& profile)
-            {
-                return setter(profile)->mutable_identifiedobject();
-            },
-            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::IdentifiedObject const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_identifiedobject() ? &value->identifiedobject() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-}
-
-void visit_commonmodule_Timestamp(const set_t<commonmodule::Timestamp>& setter, const get_t<commonmodule::Timestamp>& getter, IConfigModelVisitor<essmodule::ESSStatusProfile>& visitor)
-{
-    visitor.handle(
-        "fraction",
-        AccessorBuilder<essmodule::ESSStatusProfile,uint32_t>::build(
-            [setter](essmodule::ESSStatusProfile& profile, const uint32_t& value) { setter(profile)->set_fraction(value); },
-            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<uint32_t>& handler) { return false; }
-        )
-    );
-
-    visitor.handle(
-        "seconds",
-        AccessorBuilder<essmodule::ESSStatusProfile,uint64_t>::build(
-            [setter](essmodule::ESSStatusProfile& profile, const uint64_t& value) { setter(profile)->set_seconds(value); },
-            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<uint64_t>& handler) { return false; }
-        )
-    );
-
-    if(visitor.start_message_field("tq", commonmodule::TimeQuality::descriptor()))
-    {
-        visit_commonmodule_TimeQuality(
-            [setter](essmodule::ESSStatusProfile& profile)
-            {
-                return setter(profile)->mutable_tq();
-            },
-            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::TimeQuality const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_tq() ? &value->tq() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
 }
 
 } // end namespace adapter

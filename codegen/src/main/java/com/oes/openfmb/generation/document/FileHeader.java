@@ -1,11 +1,11 @@
 package com.oes.openfmb.generation.document;
 
-import static com.oes.openfmb.generation.document.Documents.space;
+import static com.oes.openfmb.generation.document.Document.space;
 
 public class FileHeader {
 
     public static Document lines = space.then(
-            Documents.lines(
+            Document.lines(
                 "  _   _         ______    _ _ _   _             _ _ _",
                 " | \\ | |       |  ____|  | (_) | (_)           | | | |",
                 " |  \\| | ___   | |__   __| |_| |_ _ _ __   __ _| | | |",

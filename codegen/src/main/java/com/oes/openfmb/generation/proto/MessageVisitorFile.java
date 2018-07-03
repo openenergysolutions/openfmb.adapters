@@ -3,19 +3,18 @@ package com.oes.openfmb.generation.proto;
 import com.google.protobuf.Descriptors;
 import com.oes.openfmb.generation.document.CppFilePair;
 import com.oes.openfmb.generation.document.Document;
-import com.oes.openfmb.generation.document.Documents;
 import com.oes.openfmb.generation.document.FileHeader;
 
-import java.util.Set;
+import java.util.SortedMap;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-import static com.oes.openfmb.generation.document.Documents.*;
+import static com.oes.openfmb.generation.document.Document.*;
 
 public class MessageVisitorFile extends CppFilePair {
 
     private final Iterable<Descriptors.Descriptor> descriptors;
-    private final Set<Descriptors.Descriptor> childDescriptors;
+    private final SortedMap<String, Descriptors.Descriptor> childDescriptors;
 
     private MessageVisitorFile(Iterable<Descriptors.Descriptor> descriptors) {
         this.descriptors = descriptors;
@@ -36,9 +35,9 @@ public class MessageVisitorFile extends CppFilePair {
     public Document header() {
         return join(
                 FileHeader.lines,
-                join(Helpers.getIncludeFiles(this.descriptors).stream().map(Documents::include)),
+                join(Helpers.getIncludeFiles(this.descriptors).stream().map(Document::include)),
                 include("../IMessageVisitor.h"),
-                Documents.space,
+                Document.space,
                 namespace(
                         "adapter",
                         spaced(
@@ -58,11 +57,11 @@ public class MessageVisitorFile extends CppFilePair {
                 "adapter",
                         join(
                             spaced(
-                                    this.childDescriptors.stream().map(d -> line(getVisitSignature(d) + ";"))
+                                    this.childDescriptors.values().stream().map(d -> line(getVisitSignature(d) + ";"))
                             ),
                             space,
                             spaced(
-                                this.childDescriptors.stream().map(this::visitImpl)
+                                this.childDescriptors.values().stream().map(this::visitImpl)
                             ),
                             spaced(
                                 this.getDescriptorStream().map(this::visitImpl)

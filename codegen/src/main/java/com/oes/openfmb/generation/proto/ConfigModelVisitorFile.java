@@ -3,17 +3,16 @@ package com.oes.openfmb.generation.proto;
 import com.google.protobuf.Descriptors;
 import com.oes.openfmb.generation.document.CppFilePair;
 import com.oes.openfmb.generation.document.Document;
-import com.oes.openfmb.generation.document.Documents;
 import com.oes.openfmb.generation.document.FileHeader;
 
 import java.util.*;
 
-import static com.oes.openfmb.generation.document.Documents.*;
+import static com.oes.openfmb.generation.document.Document.*;
 
 public class ConfigModelVisitorFile extends CppFilePair {
 
     private final Descriptors.Descriptor descriptor;
-    private final Set<Descriptors.Descriptor> children;
+    private final SortedMap<String, Descriptors.Descriptor> children;
 
     private ConfigModelVisitorFile(Descriptors.Descriptor descriptor) {
         this.descriptor = descriptor;
@@ -34,9 +33,9 @@ public class ConfigModelVisitorFile extends CppFilePair {
     public Document header() {
         return join(
                 FileHeader.lines,
-                Documents.include(Helpers.getIncludeFile(this.descriptor)),
+                Document.include(Helpers.getIncludeFile(this.descriptor)),
                 include("../IConfigModelVisitor.h"),
-                Documents.space,
+                Document.space,
                 namespace(
                         "adapter",
                         spaced(
@@ -63,11 +62,11 @@ public class ConfigModelVisitorFile extends CppFilePair {
                         space,
                         spaced(
                                 line("// ---- forward declare all the child visit method names ----"),
-                                spaced(this.children.stream().map(d -> getChildVisitSignature(d, true))),
+                                spaced(this.children.values().stream().map(d -> getChildVisitSignature(d, true))),
                                 line("// ---- the exposed visit function ----"),
                                 getVisitImpl(this.descriptor),
                                 line("// ---- template definitions for child types ----"),
-                                spaced(this.children.stream().map(this::getChildVisitImpl))
+                                spaced(this.children.values().stream().map(this::getChildVisitImpl))
                         )
                 )
         );
@@ -163,7 +162,7 @@ public class ConfigModelVisitorFile extends CppFilePair {
         );
 
 
-        return Document.start().bracket(
+        return Document.empty.bracket(
                 line("const auto count = visitor.start_repeated_message_field(%s, %s::descriptor());", Helpers.quoted(fieldName), Helpers.cppMessageName(field.getMessageType())),
                 loop,
                 line("visitor.end_message_field();")
