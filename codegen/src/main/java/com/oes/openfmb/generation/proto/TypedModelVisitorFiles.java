@@ -12,20 +12,20 @@ import java.util.SortedMap;
 
 import static com.oes.openfmb.generation.document.Document.*;
 
-public class TypedModelVisitorFile implements CppFileCollection {
+public class TypedModelVisitorFiles implements CppFileCollection {
 
     private final Descriptors.Descriptor descriptor;
     private final SortedMap<String, Descriptors.Descriptor> children;
     private final FileName name;
 
-    private TypedModelVisitorFile(Descriptors.Descriptor descriptor) {
+    private TypedModelVisitorFiles(Descriptors.Descriptor descriptor) {
         this.descriptor = descriptor;
         this.children = Helpers.getChildMessageDescriptors(Collections.singletonList(descriptor));
         this.name = new FileName(descriptor.getName() + "TypedModelVisitor");
     }
 
     public static CppFileCollection from(Descriptors.Descriptor descriptor) {
-        return new TypedModelVisitorFile(descriptor);
+        return new TypedModelVisitorFiles(descriptor);
     }
 
     @Override

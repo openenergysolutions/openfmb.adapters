@@ -13,20 +13,20 @@ import java.util.stream.StreamSupport;
 
 import static com.oes.openfmb.generation.document.Document.*;
 
-public class MessageVisitorFile implements CppFileCollection {
+public class MessageVisitorFiles implements CppFileCollection {
 
     private final Iterable<Descriptors.Descriptor> descriptors;
     private final SortedMap<String, Descriptors.Descriptor> childDescriptors;
     private final FileName name;
 
-    private MessageVisitorFile(Iterable<Descriptors.Descriptor> descriptors) {
+    private MessageVisitorFiles(Iterable<Descriptors.Descriptor> descriptors) {
         this.descriptors = descriptors;
         this.childDescriptors = Helpers.getChildMessageDescriptors(descriptors);
         this.name = new FileName("MessageVisitors");
     }
 
     public static CppFileCollection from(Iterable<Descriptors.Descriptor> descriptors) {
-        return new MessageVisitorFile(descriptors);
+        return new MessageVisitorFiles(descriptors);
     }
 
     @Override
