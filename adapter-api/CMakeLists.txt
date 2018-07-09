@@ -24,6 +24,8 @@ set(API_HEADERS
 	include/adapter-api/config/ConfigWriteVisitorBase.h
 	include/adapter-api/config/IAccessor.h
 	include/adapter-api/config/IMessageVisitor.h
+	include/adapter-api/config/IMessageFieldHandler.h
+	include/adapter-api/config/IModelVisitor.h
     include/adapter-api/config/ITypedModelVisitor.h
     include/adapter-api/config/ModelVisitors.h
     include/adapter-api/config/PublishingConfigReadVisitorBase.h
