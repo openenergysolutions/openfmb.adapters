@@ -2,8 +2,8 @@ package com.oes.openfmb.generation.dds;
 
 
 import com.google.protobuf.Descriptors;
-import openfmb.commonmodule.Quality;
 import openfmb.Uml;
+import openfmb.commonmodule.Quality;
 
 /**
  * Additional type info to account for inheritance/optional differences between protos and UML

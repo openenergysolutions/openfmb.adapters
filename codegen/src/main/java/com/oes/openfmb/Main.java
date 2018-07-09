@@ -1,12 +1,8 @@
 package com.oes.openfmb;
 
 import com.oes.openfmb.generation.Artifact;
-import com.oes.openfmb.generation.document.Document;
-import com.oes.openfmb.generation.document.impl.ConsolePrinter;
-import com.oes.openfmb.generation.document.impl.FilePrinter;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 

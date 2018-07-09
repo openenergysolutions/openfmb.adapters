@@ -6,7 +6,9 @@ import com.oes.openfmb.generation.document.CppFileCollection;
 import com.oes.openfmb.generation.document.Document;
 import com.oes.openfmb.generation.document.FileHeader;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.SortedMap;
 
 import static com.oes.openfmb.generation.document.Document.*;
 

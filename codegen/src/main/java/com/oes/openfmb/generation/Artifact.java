@@ -1,7 +1,6 @@
 package com.oes.openfmb.generation;
 
 import com.oes.openfmb.generation.document.Document;
-import com.oes.openfmb.generation.document.LinePrinter;
 import com.oes.openfmb.generation.document.impl.FilePrinter;
 
 import java.io.IOException;
