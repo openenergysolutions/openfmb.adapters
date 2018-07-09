@@ -9,24 +9,24 @@ import java.util.*;
 
 import static com.oes.openfmb.generation.document.Document.*;
 
-public class ConfigModelVisitorFile extends CppFilePair {
+public class TypedModelVisitorFile extends CppFilePair {
 
     private final Descriptors.Descriptor descriptor;
     private final SortedMap<String, Descriptors.Descriptor> children;
 
-    private ConfigModelVisitorFile(Descriptors.Descriptor descriptor) {
+    private TypedModelVisitorFile(Descriptors.Descriptor descriptor) {
         this.descriptor = descriptor;
         this.children = Helpers.getChildMessageDescriptors(Collections.singletonList(descriptor));
     }
 
     public static CppFilePair from(Descriptors.Descriptor descriptor)
     {
-        return new ConfigModelVisitorFile(descriptor);
+        return new TypedModelVisitorFile(descriptor);
     }
 
     @Override
     protected String baseFileName() {
-        return descriptor.getName()+"ConfigModelVisitor";
+        return descriptor.getName()+"TypedModelVisitor";
     }
 
     @Override
@@ -34,7 +34,7 @@ public class ConfigModelVisitorFile extends CppFilePair {
         return join(
                 FileHeader.lines,
                 Document.include(Helpers.getIncludeFile(this.descriptor)),
-                include("../IConfigModelVisitor.h"),
+                include("../ITypedModelVisitor.h"),
                 Document.space,
                 namespace(
                         "adapter",
@@ -79,7 +79,7 @@ public class ConfigModelVisitorFile extends CppFilePair {
 
     private String getVisitSignature(Descriptors.Descriptor descriptor)
     {
-        return String.format("void visit(IConfigModelVisitor<%s>& visitor)", cppMessageName(descriptor));
+        return String.format("void visit(ITypedModelVisitor<%s>& visitor)", cppMessageName(descriptor));
     }
 
     private Document getVisitImpl(Descriptors.Descriptor descriptor)
@@ -106,7 +106,7 @@ public class ConfigModelVisitorFile extends CppFilePair {
     private Document getChildVisitSignature(Descriptors.Descriptor child, boolean isDeclaration)
     {
         return line(
-                "void %s(const set_t<%s>& setter, const get_t<%s>& getter, IConfigModelVisitor<%s>& visitor)%s",
+                "void %s(const set_t<%s>& setter, const get_t<%s>& getter, ITypedModelVisitor<%s>& visitor)%s",
                      getVisitFunctionName(child),
                      Helpers.cppMessageName(child),
                      Helpers.cppMessageName(child),

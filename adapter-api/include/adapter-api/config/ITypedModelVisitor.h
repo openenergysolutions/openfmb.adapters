@@ -1,6 +1,6 @@
 
-#ifndef OPENFMB_ADAPTER_IMUTABLEMODELVISITOR_H
-#define OPENFMB_ADAPTER_IMUTABLEMODELVISITOR_H
+#ifndef OPENFMB_ADAPTER_ITYPEDMODELVISITOR_H
+#define OPENFMB_ADAPTER_ITYPEDMODELVISITOR_H
 
 #include "IAccessor.h"
 
@@ -9,7 +9,7 @@
 
 namespace adapter {
 template <class P>
-class IConfigModelVisitor {
+class ITypedModelVisitor {
 
 public:
     /**
