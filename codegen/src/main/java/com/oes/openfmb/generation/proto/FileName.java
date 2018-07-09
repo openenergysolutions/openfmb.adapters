@@ -1,20 +1,41 @@
 package com.oes.openfmb.generation.proto;
 
-public class FileName {
+import com.oes.openfmb.generation.document.CppFile;
+import com.oes.openfmb.generation.document.Document;
 
-    public final String baseName;
+import java.util.Collections;
+import java.util.List;
+import java.util.function.Supplier;
 
-    public FileName(String baseName) {
+class FileName {
+
+    final String baseName;
+
+    FileName(String baseName) {
         this.baseName = baseName;
     }
 
-    public String getHeader()
-    {
+    String getHeaderName() {
         return baseName + ".h";
     }
 
-    public String getImplementation()
-    {
+    String getImplementationName() {
         return baseName + ".cpp";
+    }
+
+    CppFile getHeader(Supplier<Document> supplier) {
+        return new CppFile(getHeaderName(), supplier);
+    }
+
+    CppFile getImplementation(Supplier<Document> supplier) {
+        return new CppFile(getImplementationName(), supplier);
+    }
+
+    List<CppFile> createHeaderList(Supplier<Document> supplier) {
+        return Collections.singletonList(getHeader(supplier));
+    }
+
+    List<CppFile> createImplementationList(Supplier<Document> supplier) {
+        return Collections.singletonList(getImplementation(supplier));
     }
 }

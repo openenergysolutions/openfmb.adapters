@@ -18,84 +18,78 @@ public class MessageVisitorFile implements CppFileCollection {
 
     private final Iterable<Descriptors.Descriptor> descriptors;
     private final SortedMap<String, Descriptors.Descriptor> childDescriptors;
+    private final FileName name;
 
     private MessageVisitorFile(Iterable<Descriptors.Descriptor> descriptors) {
         this.descriptors = descriptors;
         this.childDescriptors = Helpers.getChildMessageDescriptors(descriptors);
+        this.name = new FileName("MessageVisitors");
     }
 
-    public static CppFileCollection from(Iterable<Descriptors.Descriptor> descriptors)
-    {
+    public static CppFileCollection from(Iterable<Descriptors.Descriptor> descriptors) {
         return new MessageVisitorFile(descriptors);
     }
 
     @Override
     public List<CppFile> headers() {
-        return Collections.singletonList(
-                new CppFile(
-                        "MessageVisitors.h",
-                        () -> join(
-                                FileHeader.lines,
-                                join(Helpers.getIncludeFiles(this.descriptors).stream().map(Document::include)),
-                                include("../IMessageVisitor.h"),
-                                Document.space,
-                                namespace(
-                                        "adapter",
-                                        spaced(
-                                                getDescriptorStream().map(d -> line(getVisitSignature(d)+";"))
-                                        )
+
+        return this.name.createHeaderList(
+                () -> join(
+                        FileHeader.lines,
+                        join(Helpers.getIncludeFiles(this.descriptors).stream().map(Document::include)),
+                        include("../IMessageVisitor.h"),
+                        Document.space,
+                        namespace(
+                                "adapter",
+                                spaced(
+                                        getDescriptorStream().map(d -> line(getVisitSignature(d) + ";"))
                                 )
                         )
                 )
         );
+
     }
 
     @Override
     public List<CppFile> implementations() {
 
-        return Collections.singletonList(
-                new CppFile(
-                        "MessageVisitors.cpp",
-                        () -> join(
-                                include("adapter-api/config/generated/MessageVisitors.h"),
-                                space,
-                                namespace(
-                                        "adapter",
-                                        join(
-                                                spaced(
-                                                        this.childDescriptors.values().stream().map(d -> line(getVisitSignature(d) + ";"))
-                                                ),
-                                                space,
-                                                spaced(
-                                                        this.childDescriptors.values().stream().map(this::visitImpl)
-                                                ),
-                                                spaced(
-                                                        this.getDescriptorStream().map(this::visitImpl)
-                                                )
+        return this.name.createImplementationList(
+                () -> join(
+                        include("adapter-api/config/generated/MessageVisitors.h"),
+                        space,
+                        namespace(
+                                "adapter",
+                                join(
+                                        spaced(
+                                                this.childDescriptors.values().stream().map(d -> line(getVisitSignature(d) + ";"))
+                                        ),
+                                        space,
+                                        spaced(
+                                                this.childDescriptors.values().stream().map(this::visitImpl)
+                                        ),
+                                        spaced(
+                                                this.getDescriptorStream().map(this::visitImpl)
                                         )
                                 )
                         )
                 )
         );
+
     }
 
-    private Stream<Descriptors.Descriptor> getDescriptorStream()
-    {
+    private Stream<Descriptors.Descriptor> getDescriptorStream() {
         return StreamSupport.stream(descriptors.spliterator(), false);
     }
 
-    static private String cppMessageName(Descriptors.GenericDescriptor descriptor)
-    {
+    static private String cppMessageName(Descriptors.GenericDescriptor descriptor) {
         return descriptor.getFullName().replace(".", "::");
     }
 
-    private String getVisitSignature(Descriptors.Descriptor descriptor)
-    {
+    private String getVisitSignature(Descriptors.Descriptor descriptor) {
         return String.format("void visit(const %s& message, IMessageVisitor& visitor)", cppMessageName(descriptor));
     }
 
-    private Document visitImpl(Descriptors.Descriptor descriptor)
-    {
+    private Document visitImpl(Descriptors.Descriptor descriptor) {
         final Document inner = join(descriptor.getFields().stream().map(this::getFieldHandler));
 
         return line(getVisitSignature(descriptor))
@@ -105,38 +99,34 @@ public class MessageVisitorFile implements CppFileCollection {
 
     }
 
-    private Document getMessageField(Descriptors.FieldDescriptor field)
-    {
+    private Document getMessageField(Descriptors.FieldDescriptor field) {
         return
-            line(String.format("if(message.has_%s())", field.getName().toLowerCase()))
-            .then("{")
-            .indent(String.format("visitor.start_message_field(\"%s\");", field.getName()))
-            .indent(String.format("visit(message.%s(), visitor);", field.getName().toLowerCase()))
-            .indent("visitor.end_message_field();")
-            .then("}");
+                line(String.format("if(message.has_%s())", field.getName().toLowerCase()))
+                        .then("{")
+                        .indent(String.format("visitor.start_message_field(\"%s\");", field.getName()))
+                        .indent(String.format("visit(message.%s(), visitor);", field.getName().toLowerCase()))
+                        .indent("visitor.end_message_field();")
+                        .then("}");
 
     }
 
-    private Document getRepeatedMessageField(Descriptors.FieldDescriptor field)
-    {
+    private Document getRepeatedMessageField(Descriptors.FieldDescriptor field) {
         final String fieldName = field.getName().toLowerCase();
 
         return line(String.format("visitor.start_message_field(\"%s\");", fieldName))
-                        .then(String.format("for(decltype(message.%s_size()) i = 0; i < message.%s_size(); ++i)", fieldName, fieldName))
-                        .then("{")
-                        .indent("visitor.start_iteration(i);")
-                        .indent(String.format("visit(message.%s(i), visitor);", fieldName))
-                        .indent("visitor.end_iteration();")
-                        .then("}")
-                        .then("visitor.end_message_field();");
+                .then(String.format("for(decltype(message.%s_size()) i = 0; i < message.%s_size(); ++i)", fieldName, fieldName))
+                .then("{")
+                .indent("visitor.start_iteration(i);")
+                .indent(String.format("visit(message.%s(i), visitor);", fieldName))
+                .indent("visitor.end_iteration();")
+                .then("}")
+                .then("visitor.end_message_field();");
     }
 
-    private Document getFieldHandler(Descriptors.FieldDescriptor field)
-    {
-        switch(field.getType())
-        {
+    private Document getFieldHandler(Descriptors.FieldDescriptor field) {
+        switch (field.getType()) {
             case MESSAGE:
-                return field.isRepeated() ? getRepeatedMessageField(field) :  getMessageField(field);
+                return field.isRepeated() ? getRepeatedMessageField(field) : getMessageField(field);
             case ENUM:
                 return getEnumHandler(field);
             default:
@@ -144,8 +134,7 @@ public class MessageVisitorFile implements CppFileCollection {
         }
     }
 
-    private static Document getEnumHandler(Descriptors.FieldDescriptor field)
-    {
+    private static Document getEnumHandler(Descriptors.FieldDescriptor field) {
         return line(
                 String.format(
                         "visitor.handle(%s, static_cast<int>(message.%s()), *%s);",
@@ -156,19 +145,17 @@ public class MessageVisitorFile implements CppFileCollection {
         );
     }
 
-    private static Document getPrimitiveHandler(Descriptors.FieldDescriptor field)
-    {
+    private static Document getPrimitiveHandler(Descriptors.FieldDescriptor field) {
         return line(
-                        String.format(
-                                "visitor.handle(%s, message.%s());",
-                                quoted(field.getName()),
-                                field.getName().toLowerCase()
-                        )
-                );
+                String.format(
+                        "visitor.handle(%s, message.%s());",
+                        quoted(field.getName()),
+                        field.getName().toLowerCase()
+                )
+        );
     }
 
-    private static String quoted(String input)
-    {
+    private static String quoted(String input) {
         return "\"" + input + "\"";
     }
 

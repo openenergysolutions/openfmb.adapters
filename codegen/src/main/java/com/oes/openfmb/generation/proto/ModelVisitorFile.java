@@ -16,35 +16,33 @@ public class ModelVisitorFile implements CppFileCollection {
 
     private final List<Descriptors.Descriptor> descriptors;
     private final SortedMap<String, Descriptors.Descriptor> children;
+    private final FileName name;
 
     private ModelVisitorFile(List<Descriptors.Descriptor> descriptors) {
         this.descriptors = descriptors;
         this.children = Helpers.getChildMessageDescriptors(descriptors);
+        this.name = new FileName("ModelVisitors");
     }
 
-    public static CppFileCollection from(List<Descriptors.Descriptor> descriptors)
-    {
+    public static CppFileCollection from(List<Descriptors.Descriptor> descriptors) {
         return new ModelVisitorFile(descriptors);
     }
 
     @Override
     public List<CppFile> headers() {
 
-        return Collections.singletonList(
-                new CppFile(
-                        "ModelVisitors.h",
-                        () -> join(
-                                FileHeader.lines,
-                                space,
-                                include("../IModelVisitor.h"),
-                                Document.space,
-                                namespace(
-                                        "adapter",
-                                        lines(
-                                                "// specializations for each profile type in the implementation file",
-                                                "template <class T>",
-                                                "void visit(IModelVisitor& visitor);"
-                                        )
+        return this.name.createHeaderList(
+                () -> join(
+                        FileHeader.lines,
+                        space,
+                        include("../IModelVisitor.h"),
+                        Document.space,
+                        namespace(
+                                "adapter",
+                                lines(
+                                        "// specializations for each profile type in the implementation file",
+                                        "template <class T>",
+                                        "void visit(IModelVisitor& visitor);"
                                 )
                         )
                 )
@@ -53,32 +51,29 @@ public class ModelVisitorFile implements CppFileCollection {
 
     @Override
     public List<CppFile> implementations() {
-        return Collections.singletonList(
-                new CppFile(
-                        "ModelVisitors.cpp",
-                        () -> join(
-                                include("adapter-api/config/generated/ModelVisitors.h"),
-                                space,
-                                join(Helpers.getIncludeFiles(this.descriptors).stream().map(Document::include)),
-                                space,
-                                namespace(
-                                        "adapter",
-                                        spaced(
-                                                line("// ---- forward declare all the child visit method names ----"),
-                                                spaced(this.children.values().stream().map(d -> getChildVisitSignature(d, true))),
-                                                line("// ---- specializations for profile types ----"),
-                                                spaced(this.descriptors.stream().map(this::getVisitImpl)),
-                                                line("// ---- template definitions for child types ----"),
-                                                spaced(this.children.values().stream().map(this::getChildVisitImpl))
-                                        )
+        return this.name.createImplementationList(
+
+                () -> join(
+                        include("adapter-api/config/generated/" + name.getHeaderName()),
+                        space,
+                        join(Helpers.getIncludeFiles(this.descriptors).stream().map(Document::include)),
+                        space,
+                        namespace(
+                                "adapter",
+                                spaced(
+                                        line("// ---- forward declare all the child visit method names ----"),
+                                        spaced(this.children.values().stream().map(d -> getChildVisitSignature(d, true))),
+                                        line("// ---- specializations for profile types ----"),
+                                        spaced(this.descriptors.stream().map(this::getVisitImpl)),
+                                        line("// ---- template definitions for child types ----"),
+                                        spaced(this.children.values().stream().map(this::getChildVisitImpl))
                                 )
                         )
                 )
         );
     }
 
-    private Document getVisitImpl(Descriptors.Descriptor descriptor)
-    {
+    private Document getVisitImpl(Descriptors.Descriptor descriptor) {
         return lines(
                 "template <>",
                 String.format("void visit<%s>(IModelVisitor& visitor)", Helpers.cppMessageName(descriptor))
@@ -88,54 +83,48 @@ public class ModelVisitorFile implements CppFileCollection {
                 );
     }
 
-    static private String getVisitFunctionName(Descriptors.GenericDescriptor descriptor)
-    {
+    static private String getVisitFunctionName(Descriptors.GenericDescriptor descriptor) {
         return "visit_" + descriptor.getFullName().replace(".", "_");
     }
 
-    private Document getChildVisitSignature(Descriptors.Descriptor child, boolean isDeclaration)
-    {
+    private Document getChildVisitSignature(Descriptors.Descriptor child, boolean isDeclaration) {
         return line(
                 "void %s(IModelVisitor& visitor)%s",
-                     getVisitFunctionName(child),
-                     isDeclaration ? ";" : ""
-                );
+                getVisitFunctionName(child),
+                isDeclaration ? ";" : ""
+        );
     }
 
-    private Document getChildVisitImpl(Descriptors.Descriptor child)
-    {
+    private Document getChildVisitImpl(Descriptors.Descriptor child) {
         return getChildVisitSignature(child, false).bracket(spaced(child.getFields().stream().map(this::getFieldHandler)));
     }
 
-    private Document getFieldHandler(Descriptors.FieldDescriptor field)
-    {
-        switch(field.getType())
-        {
+    private Document getFieldHandler(Descriptors.FieldDescriptor field) {
+        switch (field.getType()) {
             case MESSAGE:
-                return field.isRepeated() ? getRepeatedMessageField(field) :  getMessageField(field);
+                return field.isRepeated() ? getRepeatedMessageField(field) : getMessageField(field);
             case ENUM:
                 return getEnumHandler(field);
             default:
                 return getPrimitiveHandler(field);
         }
     }
-    private Document getMessageField(Descriptors.FieldDescriptor field)
-    {
+
+    private Document getMessageField(Descriptors.FieldDescriptor field) {
         return line("if(visitor.start_message_field(%s, %s::descriptor()))", Helpers.quoted(field.getName()), Helpers.cppMessageName(field.getMessageType()))
-                        .bracket(
-                                line("%s(visitor);", getVisitFunctionName(field.getMessageType()))
+                .bracket(
+                        line("%s(visitor);", getVisitFunctionName(field.getMessageType()))
                                 .then("visitor.end_message_field();")
-                        );
+                );
     }
 
-    private Document getRepeatedMessageField(Descriptors.FieldDescriptor field)
-    {
+    private Document getRepeatedMessageField(Descriptors.FieldDescriptor field) {
         final String fieldName = field.getName().toLowerCase();
 
         final Document loop = line("for(int i = 0; i < count; ++i)").bracket(
                 line("visitor.start_iteration(i);")
-                .then(String.format("%s(visitor);", getVisitFunctionName(field.getMessageType())))
-                .then("visitor.end_iteration();")
+                        .then(String.format("%s(visitor);", getVisitFunctionName(field.getMessageType())))
+                        .then("visitor.end_iteration();")
         );
 
 
@@ -146,20 +135,16 @@ public class ModelVisitorFile implements CppFileCollection {
         );
     }
 
-    private Document getEnumHandler(Descriptors.FieldDescriptor field)
-    {
+    private Document getEnumHandler(Descriptors.FieldDescriptor field) {
         return line("visitor.handle_enum(%s, %s_descriptor());", Helpers.quoted(field.getName()), Helpers.cppMessageName(field.getEnumType()));
     }
 
-    private Document getPrimitiveHandler(Descriptors.FieldDescriptor field)
-    {
+    private Document getPrimitiveHandler(Descriptors.FieldDescriptor field) {
         return line("visitor.handle_%s(%s);", getPrimitiveHandlerSuffix(field), Helpers.quoted(field.getName()));
     }
 
-    static String getPrimitiveHandlerSuffix(Descriptors.FieldDescriptor fieldDescriptor)
-    {
-        switch(fieldDescriptor.getType())
-        {
+    static String getPrimitiveHandlerSuffix(Descriptors.FieldDescriptor fieldDescriptor) {
+        switch (fieldDescriptor.getType()) {
             case DOUBLE:
                 return "double";
             case FLOAT:
