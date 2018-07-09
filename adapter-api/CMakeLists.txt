@@ -30,7 +30,7 @@ set(API_HEADERS
     include/adapter-api/config/ModelVisitors.h
     include/adapter-api/config/PublishingConfigReadVisitorBase.h
     include/adapter-api/config/generated/MessageVisitors.h
-# model visitors
+# typed model visitors
 	include/adapter-api/config/generated/ResourceReadingProfileTypedModelVisitor.h
 	include/adapter-api/config/generated/SwitchReadingProfileTypedModelVisitor.h
 	include/adapter-api/config/generated/SwitchStatusProfileTypedModelVisitor.h
@@ -54,7 +54,8 @@ set(API_SOURCES
 	src/util/YAMLTemplate.cpp
     src/config/AccessorImpl.h
 	src/config/generated/MessageVisitors.cpp
-# model visitors
+	src/config/generated/ModelVisitors.cpp
+# typed model visitors
 	src/config/generated/ResourceReadingProfileTypedModelVisitor.cpp
 	src/config/generated/SwitchReadingProfileTypedModelVisitor.cpp
 	src/config/generated/SwitchStatusProfileTypedModelVisitor.cpp
