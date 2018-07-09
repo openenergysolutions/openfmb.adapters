@@ -1,57 +1,66 @@
 package com.oes.openfmb.generation.dds;
 
 import com.google.protobuf.Descriptors;
-import com.oes.openfmb.generation.document.CppFilePair;
+import com.oes.openfmb.generation.document.CppFile;
+import com.oes.openfmb.generation.document.CppFileCollection;
 import com.oes.openfmb.generation.document.Document;
 import com.oes.openfmb.generation.document.FileHeader;
 
+import java.util.Collections;
+import java.util.List;
+
 import static com.oes.openfmb.generation.document.Document.*;
 
-public class ConvertToProto extends CppFilePair {
+public class ConvertToProto implements CppFileCollection {
 
     public ConvertToProto() {
 
     }
 
     @Override
-    protected String baseFileName() {
-        return "ConvertToProto";
+    public List<CppFile> headers() {
+        return Collections.singletonList(
+               new CppFile(
+                       "ConvertToProto.h",
+                       () -> join(
+                               FileHeader.lines,
+                               guards("ConvertToProto",
+                                       headerIncludes(),
+                                       space,
+                                       namespace(
+                                               "adapter",
+                                               namespace("dds",
+                                                       signatures()
+                                               )
+                                       )
+                               )
+                       )
+               )
+        );
     }
 
     @Override
-    public Document header() {
-        return join(
-                FileHeader.lines,
-                guards(this.baseFileName(),
-                        headerIncludes(),
-                        space,
-                        namespace(
-                                "adapter",
-                                namespace("dds",
-                                    signatures()
+    public List<CppFile> implementations() {
+        return Collections.singletonList(
+                new CppFile(
+                        "ConvertToProto.cpp",
+                        () -> join(
+                                FileHeader.lines,
+                                include("ConvertToProto.h"),
+                                space,
+                                include("../ConvertToProtoHelpers.h"),
+                                space,
+                                namespace("adapter",
+                                        namespace("dds",
+                                                convertImplementations()
+                                        )
                                 )
                         )
                 )
         );
     }
 
-    @Override
-    public Document implementation() {
-        return join(
-                FileHeader.lines,
-                include(this.baseFileName() + ".h"),
-                space,
-                include("../ConvertToProtoHelpers.h"),
-                space,
-                namespace("adapter",
-                        namespace("dds",
-                                implementations()
-                        )
-                )
-        );
-    }
-
-    private Document implementations()
+    private Document convertImplementations()
     {
         return spaced(Profiles.getDescriptors().map(this::implementation));
     }

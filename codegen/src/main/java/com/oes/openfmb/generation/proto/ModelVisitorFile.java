@@ -1,7 +1,8 @@
 package com.oes.openfmb.generation.proto;
 
 import com.google.protobuf.Descriptors;
-import com.oes.openfmb.generation.document.CppFilePair;
+import com.oes.openfmb.generation.document.CppFile;
+import com.oes.openfmb.generation.document.CppFileCollection;
 import com.oes.openfmb.generation.document.Document;
 import com.oes.openfmb.generation.document.FileHeader;
 
@@ -11,7 +12,7 @@ import java.util.SortedMap;
 
 import static com.oes.openfmb.generation.document.Document.*;
 
-public class ModelVisitorFile extends CppFilePair {
+public class ModelVisitorFile implements CppFileCollection {
 
     private final List<Descriptors.Descriptor> descriptors;
     private final SortedMap<String, Descriptors.Descriptor> children;
@@ -21,64 +22,59 @@ public class ModelVisitorFile extends CppFilePair {
         this.children = Helpers.getChildMessageDescriptors(descriptors);
     }
 
-    public static CppFilePair from(List<Descriptors.Descriptor> descriptors)
+    public static CppFileCollection from(List<Descriptors.Descriptor> descriptors)
     {
         return new ModelVisitorFile(descriptors);
     }
 
     @Override
-    protected String baseFileName() {
-        return "ModelVisitors";
-    }
+    public List<CppFile> headers() {
 
-    @Override
-    public Document header() {
-        return join(
-                FileHeader.lines,
-                space,
-                include("../IModelVisitor.h"),
-                Document.space,
-                namespace(
-                        "adapter",
-                        lines(
-                                "// specializations for each profile type in the implementation file",
-                                "template <class T>",
-                                "void visit(IModelVisitor& visitor);"
+        return Collections.singletonList(
+                new CppFile(
+                        "ModelVisitors.h",
+                        () -> join(
+                                FileHeader.lines,
+                                space,
+                                include("../IModelVisitor.h"),
+                                Document.space,
+                                namespace(
+                                        "adapter",
+                                        lines(
+                                                "// specializations for each profile type in the implementation file",
+                                                "template <class T>",
+                                                "void visit(IModelVisitor& visitor);"
+                                        )
+                                )
                         )
                 )
         );
     }
 
     @Override
-    public Document implementation() {
-
-        return join(
-                include("adapter-api/config/generated/" + headerFileName()),
-                space,
-                join(Helpers.getIncludeFiles(this.descriptors).stream().map(Document::include)),
-                space,
-                namespace(
-                "adapter",
-                        spaced(
-                                line("// ---- forward declare all the child visit method names ----"),
-                                spaced(this.children.values().stream().map(d -> getChildVisitSignature(d, true))),
-                                line("// ---- specializations for profile types ----"),
-                                spaced(this.descriptors.stream().map(this::getVisitImpl)),
-                                line("// ---- template definitions for child types ----"),
-                                spaced(this.children.values().stream().map(this::getChildVisitImpl))
+    public List<CppFile> implementations() {
+        return Collections.singletonList(
+                new CppFile(
+                        "ModelVisitors.cpp",
+                        () -> join(
+                                include("adapter-api/config/generated/ModelVisitors.h"),
+                                space,
+                                join(Helpers.getIncludeFiles(this.descriptors).stream().map(Document::include)),
+                                space,
+                                namespace(
+                                        "adapter",
+                                        spaced(
+                                                line("// ---- forward declare all the child visit method names ----"),
+                                                spaced(this.children.values().stream().map(d -> getChildVisitSignature(d, true))),
+                                                line("// ---- specializations for profile types ----"),
+                                                spaced(this.descriptors.stream().map(this::getVisitImpl)),
+                                                line("// ---- template definitions for child types ----"),
+                                                spaced(this.children.values().stream().map(this::getChildVisitImpl))
+                                        )
+                                )
                         )
                 )
         );
-    }
-
-    static private String cppMessageName(Descriptors.GenericDescriptor descriptor)
-    {
-        return descriptor.getFullName().replace(".", "::");
-    }
-
-    private String getVisitSignature(Descriptors.Descriptor descriptor)
-    {
-        return "void visit(IModelVisitor& visitor)";
     }
 
     private Document getVisitImpl(Descriptors.Descriptor descriptor)

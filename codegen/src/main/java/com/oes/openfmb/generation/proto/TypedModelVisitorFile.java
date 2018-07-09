@@ -1,7 +1,8 @@
 package com.oes.openfmb.generation.proto;
 
 import com.google.protobuf.Descriptors;
-import com.oes.openfmb.generation.document.CppFilePair;
+import com.oes.openfmb.generation.document.CppFile;
+import com.oes.openfmb.generation.document.CppFileCollection;
 import com.oes.openfmb.generation.document.Document;
 import com.oes.openfmb.generation.document.FileHeader;
 
@@ -9,64 +10,70 @@ import java.util.*;
 
 import static com.oes.openfmb.generation.document.Document.*;
 
-public class TypedModelVisitorFile extends CppFilePair {
+public class TypedModelVisitorFile implements CppFileCollection {
 
     private final Descriptors.Descriptor descriptor;
     private final SortedMap<String, Descriptors.Descriptor> children;
+    private final FileName name;
 
     private TypedModelVisitorFile(Descriptors.Descriptor descriptor) {
         this.descriptor = descriptor;
         this.children = Helpers.getChildMessageDescriptors(Collections.singletonList(descriptor));
+        this.name = new FileName(descriptor.getName() + "TypedModelVisitor");
     }
 
-    public static CppFilePair from(Descriptors.Descriptor descriptor)
+    public static CppFileCollection from(Descriptors.Descriptor descriptor)
     {
         return new TypedModelVisitorFile(descriptor);
     }
 
     @Override
-    protected String baseFileName() {
-        return descriptor.getName()+"TypedModelVisitor";
-    }
-
-    @Override
-    public Document header() {
-        return join(
-                FileHeader.lines,
-                Document.include(Helpers.getIncludeFile(this.descriptor)),
-                include("../ITypedModelVisitor.h"),
-                Document.space,
-                namespace(
-                        "adapter",
-                        spaced(
-                                line(getVisitSignature(descriptor)+";")
-                        )
-                )
+    public List<CppFile> headers() {
+        return Collections.singletonList(
+               new CppFile(
+                       this.name.getHeader(),
+                       () -> join(
+                               FileHeader.lines,
+                               Document.include(Helpers.getIncludeFile(this.descriptor)),
+                               include("../ITypedModelVisitor.h"),
+                               Document.space,
+                               namespace(
+                                       "adapter",
+                                       spaced(
+                                               line(getVisitSignature(descriptor)+";")
+                                       )
+                               )
+                       )
+               )
         );
     }
 
     @Override
-    public Document implementation() {
-
-        return join(
-                include("adapter-api/config/generated/" + headerFileName()),
-                include("../AccessorImpl.h"),
-                space,
-                namespace(
-                "adapter",
-                        line("template <class V>"),
-                        line("using set_t = setter_t<%s, V>;", Helpers.cppMessageName(this.descriptor)),
-                        space,
-                        line("template <class V>"),
-                        line("using get_t = getter_t<%s, V>;", Helpers.cppMessageName(this.descriptor)),
-                        space,
-                        spaced(
-                                line("// ---- forward declare all the child visit method names ----"),
-                                spaced(this.children.values().stream().map(d -> getChildVisitSignature(d, true))),
-                                line("// ---- the exposed visit function ----"),
-                                getVisitImpl(this.descriptor),
-                                line("// ---- template definitions for child types ----"),
-                                spaced(this.children.values().stream().map(this::getChildVisitImpl))
+    public List<CppFile> implementations() {
+        return Collections.singletonList(
+                new CppFile(
+                        this.name.getImplementation(),
+                        () -> join(
+                                include("adapter-api/config/generated/" + this.name.getHeader()),
+                                include("../AccessorImpl.h"),
+                                space,
+                                namespace(
+                                        "adapter",
+                                        line("template <class V>"),
+                                        line("using set_t = setter_t<%s, V>;", Helpers.cppMessageName(this.descriptor)),
+                                        space,
+                                        line("template <class V>"),
+                                        line("using get_t = getter_t<%s, V>;", Helpers.cppMessageName(this.descriptor)),
+                                        space,
+                                        spaced(
+                                                line("// ---- forward declare all the child visit method names ----"),
+                                                spaced(this.children.values().stream().map(d -> getChildVisitSignature(d, true))),
+                                                line("// ---- the exposed visit function ----"),
+                                                getVisitImpl(this.descriptor),
+                                                line("// ---- template definitions for child types ----"),
+                                                spaced(this.children.values().stream().map(this::getChildVisitImpl))
+                                        )
+                                )
                         )
                 )
         );

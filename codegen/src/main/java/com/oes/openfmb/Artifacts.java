@@ -4,7 +4,7 @@ import com.google.protobuf.Descriptors;
 import com.oes.openfmb.generation.Artifact;
 import com.oes.openfmb.generation.dds.ConvertFromProto;
 import com.oes.openfmb.generation.dds.ConvertToProto;
-import com.oes.openfmb.generation.document.CppFilePair;
+import com.oes.openfmb.generation.document.CppFileCollection;
 import com.oes.openfmb.generation.proto.MessageVisitorFile;
 import com.oes.openfmb.generation.proto.ModelVisitorFile;
 import com.oes.openfmb.generation.proto.TypedModelVisitorFile;
@@ -30,12 +30,12 @@ import java.util.stream.Stream;
 
 public class Artifacts {
 
-    private static Iterable<Artifact> convert(Path includeDirectory, Path implDirectory, List<CppFilePair> files)
+    private static Iterable<Artifact> convert(Path includeDirectory, Path implDirectory, List<CppFileCollection> collections)
     {
-        return files.stream().flatMap(pair ->
-                Stream.of(
-                        Artifact.create(includeDirectory.resolve(pair.headerFileName()), pair::header),
-                        Artifact.create(implDirectory.resolve(pair.implementationFileName()), pair::implementation)
+        return collections.stream().flatMap(collection ->
+                Stream.concat(
+                        collection.headers().stream().map(f -> Artifact.create(includeDirectory.resolve(f.getFileName()), f.getSupplier())),
+                        collection.implementations().stream().map(f -> Artifact.create(implDirectory.resolve(f.getFileName()), f.getSupplier()))
                 )
         ).collect(Collectors.toList());
     }
@@ -43,8 +43,8 @@ public class Artifacts {
     public static class Conversions
     {
 
-        private static CppFilePair fromProto = new ConvertFromProto();
-        private static CppFilePair toProto = new ConvertToProto();
+        private static CppFileCollection fromProto = new ConvertFromProto();
+        private static CppFileCollection toProto = new ConvertToProto();
 
         public static Iterable<Artifact> get(Path directory) {
             return convert(directory, directory, Arrays.asList(fromProto, toProto));
@@ -76,7 +76,7 @@ public class Artifacts {
             );
         }
 
-        private static List<CppFilePair> cppFilePairs() {
+        private static List<CppFileCollection> cppFilePairs() {
 
             return Stream.concat(
                     Stream.of(MessageVisitorFile.from(descriptors()), ModelVisitorFile.from(descriptors())),

@@ -1,17 +1,20 @@
 package com.oes.openfmb.generation.proto;
 
 import com.google.protobuf.Descriptors;
-import com.oes.openfmb.generation.document.CppFilePair;
+import com.oes.openfmb.generation.document.CppFile;
+import com.oes.openfmb.generation.document.CppFileCollection;
 import com.oes.openfmb.generation.document.Document;
 import com.oes.openfmb.generation.document.FileHeader;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.SortedMap;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import static com.oes.openfmb.generation.document.Document.*;
 
-public class MessageVisitorFile extends CppFilePair {
+public class MessageVisitorFile implements CppFileCollection {
 
     private final Iterable<Descriptors.Descriptor> descriptors;
     private final SortedMap<String, Descriptors.Descriptor> childDescriptors;
@@ -21,51 +24,56 @@ public class MessageVisitorFile extends CppFilePair {
         this.childDescriptors = Helpers.getChildMessageDescriptors(descriptors);
     }
 
-    public static CppFilePair from(Iterable<Descriptors.Descriptor> descriptors)
+    public static CppFileCollection from(Iterable<Descriptors.Descriptor> descriptors)
     {
         return new MessageVisitorFile(descriptors);
     }
 
     @Override
-    protected String baseFileName() {
-        return "MessageVisitors";
-    }
-
-    @Override
-    public Document header() {
-        return join(
-                FileHeader.lines,
-                join(Helpers.getIncludeFiles(this.descriptors).stream().map(Document::include)),
-                include("../IMessageVisitor.h"),
-                Document.space,
-                namespace(
-                        "adapter",
-                        spaced(
-                                getDescriptorStream().map(d -> line(getVisitSignature(d)+";"))
+    public List<CppFile> headers() {
+        return Collections.singletonList(
+                new CppFile(
+                        "MessageVisitors.h",
+                        () -> join(
+                                FileHeader.lines,
+                                join(Helpers.getIncludeFiles(this.descriptors).stream().map(Document::include)),
+                                include("../IMessageVisitor.h"),
+                                Document.space,
+                                namespace(
+                                        "adapter",
+                                        spaced(
+                                                getDescriptorStream().map(d -> line(getVisitSignature(d)+";"))
+                                        )
+                                )
                         )
                 )
         );
     }
 
     @Override
-    public Document implementation() {
+    public List<CppFile> implementations() {
 
-        return join(
-                include("adapter-api/config/generated/" + headerFileName()),
-                space,
-                namespace(
-                "adapter",
-                        join(
-                            spaced(
-                                    this.childDescriptors.values().stream().map(d -> line(getVisitSignature(d) + ";"))
-                            ),
-                            space,
-                            spaced(
-                                this.childDescriptors.values().stream().map(this::visitImpl)
-                            ),
-                            spaced(
-                                this.getDescriptorStream().map(this::visitImpl)
-                            )
+        return Collections.singletonList(
+                new CppFile(
+                        "MessageVisitors.cpp",
+                        () -> join(
+                                include("adapter-api/config/generated/MessageVisitors.h"),
+                                space,
+                                namespace(
+                                        "adapter",
+                                        join(
+                                                spaced(
+                                                        this.childDescriptors.values().stream().map(d -> line(getVisitSignature(d) + ";"))
+                                                ),
+                                                space,
+                                                spaced(
+                                                        this.childDescriptors.values().stream().map(this::visitImpl)
+                                                ),
+                                                spaced(
+                                                        this.getDescriptorStream().map(this::visitImpl)
+                                                )
+                                        )
+                                )
                         )
                 )
         );

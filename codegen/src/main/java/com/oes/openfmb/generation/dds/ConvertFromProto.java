@@ -1,34 +1,38 @@
 package com.oes.openfmb.generation.dds;
 
 import com.google.protobuf.Descriptors;
-import com.oes.openfmb.generation.document.CppFilePair;
+import com.oes.openfmb.generation.document.CppFile;
+import com.oes.openfmb.generation.document.CppFileCollection;
 import com.oes.openfmb.generation.document.Document;
 import com.oes.openfmb.generation.document.FileHeader;
 
+import java.util.Collections;
+import java.util.List;
+
 import static com.oes.openfmb.generation.document.Document.*;
 
-public class ConvertFromProto extends CppFilePair {
+public class ConvertFromProto implements CppFileCollection {
 
     public ConvertFromProto() {
 
     }
 
     @Override
-    protected String baseFileName() {
-        return "ConvertFromProto";
-    }
-
-    @Override
-    public Document header() {
-        return Document.join(
-                FileHeader.lines,
-                guards(this.baseFileName(),
-                        headerIncludes(),
-                        space,
-                        namespace(
-                                "adapter",
-                                namespace("dds",
-                                    signatures()
+    public List<CppFile> headers() {
+        return Collections.singletonList(
+                new CppFile(
+                        "ConvertFromProto.h",
+                        () -> Document.join(
+                                FileHeader.lines,
+                                guards("ConvertFromProto",
+                                        headerIncludes(),
+                                        space,
+                                        namespace(
+                                                "adapter",
+                                                namespace("dds",
+                                                        signatures()
+                                                )
+                                        )
                                 )
                         )
                 )
@@ -36,18 +40,23 @@ public class ConvertFromProto extends CppFilePair {
     }
 
     @Override
-    public Document implementation() {
-        return join(
-                FileHeader.lines,
-                include(this.baseFileName() + ".h"),
-                space,
-                include("../ConvertFromProtoHelpers.h"),
-                space,
-                namespace("adapter",
-                        namespace("dds",
-                            implementations(),
-                            space,
-                            enumAssertions()
+    public List<CppFile> implementations() {
+        return Collections.singletonList(
+                new CppFile(
+                        "ConvertFromProto.cpp",
+                        () -> join(
+                                FileHeader.lines,
+                                include("ConvertFromProto.h"),
+                                space,
+                                include("../ConvertFromProtoHelpers.h"),
+                                space,
+                                namespace("adapter",
+                                        namespace("dds",
+                                                convertImplementations(),
+                                                space,
+                                                enumAssertions()
+                                        )
+                                )
                         )
                 )
         );
@@ -106,7 +115,7 @@ public class ConvertFromProto extends CppFilePair {
         );
     }
 
-    private Document implementations()
+    private Document convertImplementations()
     {
         return spaced(Profiles.getDescriptors().map(d -> implementation(d)));
     }
