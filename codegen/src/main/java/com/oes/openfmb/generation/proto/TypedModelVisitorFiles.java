@@ -9,80 +9,94 @@ import com.oes.openfmb.generation.document.FileHeader;
 import java.util.Collections;
 import java.util.List;
 import java.util.SortedMap;
+import java.util.stream.Collectors;
 
 import static com.oes.openfmb.generation.document.Document.*;
 
 public class TypedModelVisitorFiles implements CppFileCollection {
 
-    private final Descriptors.Descriptor descriptor;
-    private final SortedMap<String, Descriptors.Descriptor> children;
-    private final FileName name;
+    private final List<Descriptors.Descriptor> descriptors;
 
-    private TypedModelVisitorFiles(Descriptors.Descriptor descriptor) {
-        this.descriptor = descriptor;
-        this.children = Helpers.getChildMessageDescriptors(Collections.singletonList(descriptor));
-        this.name = new FileName(descriptor.getName() + "TypedModelVisitor");
+    private TypedModelVisitorFiles(List<Descriptors.Descriptor> descriptors) {
+        this.descriptors = descriptors;
     }
 
-    public static CppFileCollection from(Descriptors.Descriptor descriptor) {
-        return new TypedModelVisitorFiles(descriptor);
+    public static CppFileCollection from(List<Descriptors.Descriptor> descriptors) {
+        return new TypedModelVisitorFiles(descriptors);
     }
 
     @Override
     public List<CppFile> headers() {
-        return this.name.createHeaderList(
+        final FileName header = new FileName("TypedModelVisitors");
+        return header.createHeaderList(
                 () -> join(
                         FileHeader.lines,
-                        Document.include(Helpers.getIncludeFile(this.descriptor)),
-                        include("../ITypedModelVisitor.h"),
-                        Document.space,
-                        namespace(
-                                "adapter",
-                                spaced(
-                                        line(getVisitSignature(descriptor) + ";")
+                        guards(
+                                header.baseName,
+                                join(Helpers.getIncludeFiles(this.descriptors).stream().map(Document::include)),
+                                space,
+                                include("../ITypedModelVisitor.h"),
+                                Document.space,
+                                namespace(
+                                        "adapter",
+                                        spaced(
+                                                this.descriptors.stream().map(d -> line(getVisitSignature(d) + ";"))
+                                        )
                                 )
                         )
+
                 )
         );
     }
 
     @Override
     public List<CppFile> implementations() {
-        return this.name.createImplementationList(
-                () -> join(
-                        include("adapter-api/config/generated/" + this.name.getHeaderName()),
-                        include("../AccessorImpl.h"),
-                        space,
-                        namespace(
-                                "adapter",
-                                line("template <class V>"),
-                                line("using set_t = setter_t<%s, V>;", Helpers.cppMessageName(this.descriptor)),
-                                space,
-                                line("template <class V>"),
-                                line("using get_t = getter_t<%s, V>;", Helpers.cppMessageName(this.descriptor)),
-                                space,
-                                spaced(
-                                        line("// ---- forward declare all the child visit method names ----"),
-                                        spaced(this.children.values().stream().map(d -> getChildVisitSignature(d, true))),
-                                        line("// ---- the exposed visit function ----"),
-                                        getVisitImpl(this.descriptor),
-                                        line("// ---- template definitions for child types ----"),
-                                        spaced(this.children.values().stream().map(this::getChildVisitImpl))
-                                )
-                        )
-                )
-        );
+        return this.descriptors.stream().map(descriptor -> {
+
+            final SortedMap<String, Descriptors.Descriptor> children = Helpers.getChildMessageDescriptors(Collections.singletonList(descriptor));
+
+            final FileName name = new FileName(descriptor.getName() + "TypedModelVisitor");
+
+            return new CppFile(
+                    name.getImplementationName(),
+                    () -> join(
+                            FileHeader.lines,
+                            include("adapter-api/config/generated/TypedModelVisitors.h"),
+                            include("../AccessorImpl.h"),
+                            space,
+                            namespace(
+                                    "adapter",
+                                    line("template <class V>"),
+                                    line("using set_t = setter_t<%s, V>;", Helpers.cppMessageName(descriptor)),
+                                    space,
+                                    line("template <class V>"),
+                                    line("using get_t = getter_t<%s, V>;", Helpers.cppMessageName(descriptor)),
+                                    space,
+                                    spaced(
+                                            line("// ---- forward declare all the child visit method names ----"),
+                                            spaced(children.values().stream().map(child -> getChildVisitSignature(descriptor, child, true))),
+                                            line("// ---- the exposed visit function ----"),
+                                            getVisitImpl(descriptor),
+                                            line("// ---- template definitions for child types ----"),
+                                            spaced(children.values().stream().map(child -> getChildVisitImpl(descriptor, child)))
+                                    )
+                            )
+
+
+                    )
+            );
+        }).collect(Collectors.toList());
     }
 
-    static private String cppMessageName(Descriptors.GenericDescriptor descriptor) {
+    private static String cppMessageName(Descriptors.GenericDescriptor descriptor) {
         return descriptor.getFullName().replace(".", "::");
     }
 
-    private String getVisitSignature(Descriptors.Descriptor descriptor) {
+    private static String getVisitSignature(Descriptors.Descriptor descriptor) {
         return String.format("void visit(ITypedModelVisitor<%s>& visitor)", cppMessageName(descriptor));
     }
 
-    private Document getVisitImpl(Descriptors.Descriptor descriptor) {
+    private static Document getVisitImpl(Descriptors.Descriptor descriptor) {
         return line(getVisitSignature(descriptor))
                 .bracket(
                         line("// this is so that we can reuse the same generators for child visitors")
@@ -93,47 +107,47 @@ public class TypedModelVisitorFiles implements CppFileCollection {
                                         String.format("const auto getter = [](const %s& profile) { return &profile; };", Helpers.cppMessageName(descriptor))
                                 )
                                 .space()
-                                .then(spaced(descriptor.getFields().stream().map(this::getFieldHandler)))
+                                .then(spaced(descriptor.getFields().stream().map(field -> getFieldHandler(descriptor, field))))
                 );
     }
 
-    static private String getVisitFunctionName(Descriptors.GenericDescriptor descriptor) {
+    private static String getVisitFunctionName(Descriptors.GenericDescriptor descriptor) {
         return "visit_" + descriptor.getFullName().replace(".", "_");
     }
 
-    private Document getChildVisitSignature(Descriptors.Descriptor child, boolean isDeclaration) {
+    private static Document getChildVisitSignature(Descriptors.Descriptor parent, Descriptors.Descriptor child, boolean isDeclaration) {
         return line(
                 "void %s(const set_t<%s>& setter, const get_t<%s>& getter, ITypedModelVisitor<%s>& visitor)%s",
                 getVisitFunctionName(child),
                 Helpers.cppMessageName(child),
                 Helpers.cppMessageName(child),
-                Helpers.cppMessageName(this.descriptor),
+                Helpers.cppMessageName(parent),
                 isDeclaration ? ";" : ""
         );
     }
 
-    private Document getChildVisitImpl(Descriptors.Descriptor child) {
-        return getChildVisitSignature(child, false).bracket(spaced(child.getFields().stream().map(this::getFieldHandler)));
+    private static Document getChildVisitImpl(Descriptors.Descriptor parent, Descriptors.Descriptor child) {
+        return getChildVisitSignature(parent, child, false).bracket(spaced(child.getFields().stream().map(field -> getFieldHandler(parent, field))));
     }
 
-    private Document getFieldHandler(Descriptors.FieldDescriptor field) {
+    private static Document getFieldHandler(Descriptors.Descriptor parent, Descriptors.FieldDescriptor field) {
         switch (field.getType()) {
             case MESSAGE:
-                return field.isRepeated() ? getRepeatedMessageField(field) : getMessageField(field);
+                return field.isRepeated() ? getRepeatedMessageField(parent, field) : getMessageField(parent, field);
             case ENUM:
-                return getEnumHandler(field);
+                return getEnumHandler(parent, field);
             default:
-                return getPrimitiveHandler(field);
+                return getPrimitiveHandler(parent, field);
         }
     }
 
-    private Document getMessageField(Descriptors.FieldDescriptor field) {
-        final Document setter = line("[setter](%s& profile)", Helpers.cppMessageName(this.descriptor)).bracketWithSuffix(
+    private static Document getMessageField(Descriptors.Descriptor parent, Descriptors.FieldDescriptor field) {
+        final Document setter = line("[setter](%s& profile)", Helpers.cppMessageName(parent)).bracketWithSuffix(
                 line("return setter(profile)->mutable_%s();", field.getName().toLowerCase()), ","
         );
 
 
-        final Document getter = line("[getter](const %s& profile) -> %s const *", Helpers.cppMessageName(this.descriptor), Helpers.cppMessageName(field.getMessageType())).bracketWithSuffix(
+        final Document getter = line("[getter](const %s& profile) -> %s const *", Helpers.cppMessageName(parent), Helpers.cppMessageName(field.getMessageType())).bracketWithSuffix(
                 line("const auto value = getter(profile);")
                         .then("if(value)").bracket(
                         line("return value->has_%s() ? &value->%s() : nullptr;", field.getName().toLowerCase(), field.getName().toLowerCase())
@@ -155,10 +169,10 @@ public class TypedModelVisitorFiles implements CppFileCollection {
                 );
     }
 
-    private Document getRepeatedMessageField(Descriptors.FieldDescriptor field) {
+    private static Document getRepeatedMessageField(Descriptors.Descriptor parent, Descriptors.FieldDescriptor field) {
         final String fieldName = field.getName().toLowerCase();
 
-        final Document setter = line("const auto set = [setter, i, max = count](%s& profile)", Helpers.cppMessageName(this.descriptor))
+        final Document setter = line("const auto set = [setter, i, max = count](%s& profile)", Helpers.cppMessageName(parent))
                 .bracketSemicolon(
                         line("const auto repeated = setter(profile)->mutable_%s();", field.getName().toLowerCase())
                                 .then("if(repeated->size() < max)")
@@ -173,7 +187,7 @@ public class TypedModelVisitorFiles implements CppFileCollection {
                                 .then("return repeated->Mutable(i);")
                 );
 
-        final Document getter = line("const auto get = [getter, i](const %s& profile) -> %s const*", Helpers.cppMessageName(this.descriptor), Helpers.cppMessageName(field.getMessageType()))
+        final Document getter = line("const auto get = [getter, i](const %s& profile) -> %s const*", Helpers.cppMessageName(parent), Helpers.cppMessageName(field.getMessageType()))
                 .bracketSemicolon(
                         line("const auto value = getter(profile);")
                                 .then("if(value)")
@@ -200,20 +214,20 @@ public class TypedModelVisitorFiles implements CppFileCollection {
     }
 
 
-    private Document getEnumHandler(Descriptors.FieldDescriptor field) {
+    private static Document getEnumHandler(Descriptors.Descriptor parent, Descriptors.FieldDescriptor field) {
         final String setter = String.format(
                 "[setter](%s& profile, const int& value) { setter(profile)->set_%s(static_cast<%s>(value)); }",
-                Helpers.cppMessageName(this.descriptor),
+                Helpers.cppMessageName(parent),
                 field.getName().toLowerCase(),
                 Helpers.cppMessageName(field.getEnumType())
         );
 
         final String getter = String.format(
                 "[getter](const %s& profile, const handler_t<int>& handler) { return false; }",
-                Helpers.cppMessageName(this.descriptor)
+                Helpers.cppMessageName(parent)
         );
 
-        final Document accessor = line("AccessorBuilder<%s,int>::build(", Helpers.cppMessageName(this.descriptor))
+        final Document accessor = line("AccessorBuilder<%s,int>::build(", Helpers.cppMessageName(parent))
                 .indent(setter + ",")
                 .indent(getter)
                 .then("),");
@@ -225,21 +239,21 @@ public class TypedModelVisitorFiles implements CppFileCollection {
                 .then(");");
     }
 
-    private Document getPrimitiveHandler(Descriptors.FieldDescriptor field) {
+    private static Document getPrimitiveHandler(Descriptors.Descriptor parent, Descriptors.FieldDescriptor field) {
         final String setter = String.format(
                 "[setter](%s& profile, const %s& value) { setter(profile)->set_%s(value); }",
-                Helpers.cppMessageName(this.descriptor),
+                Helpers.cppMessageName(parent),
                 Helpers.cppType(field),
                 field.getName().toLowerCase()
         );
 
         final String getter = String.format(
                 "[getter](const %s& profile, const handler_t<%s>& handler) { return false; }",
-                Helpers.cppMessageName(this.descriptor),
+                Helpers.cppMessageName(parent),
                 Helpers.cppType(field)
         );
 
-        final Document accessor = line("AccessorBuilder<%s,%s>::build(", Helpers.cppMessageName(this.descriptor), Helpers.cppType(field))
+        final Document accessor = line("AccessorBuilder<%s,%s>::build(", Helpers.cppMessageName(parent), Helpers.cppType(field))
                 .indent(setter + ",")
                 .indent(getter)
                 .then(")");

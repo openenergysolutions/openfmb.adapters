@@ -78,10 +78,11 @@ public class Artifacts {
 
         private static List<CppFileCollection> cppFilePairs() {
 
-            return Stream.concat(
-                    Stream.of(MessageVisitorFiles.from(descriptors()), ModelVisitorFiles.from(descriptors())),
-                    descriptors().stream().map(TypedModelVisitorFiles::from)
-            ).collect(Collectors.toList());
+            return Arrays.asList(
+                    MessageVisitorFiles.from(descriptors()),
+                    ModelVisitorFiles.from(descriptors()),
+                    TypedModelVisitorFiles.from(descriptors())
+            );
         }
 
         public static Iterable<Artifact> get(Path includeDirectory, Path implDirectory)

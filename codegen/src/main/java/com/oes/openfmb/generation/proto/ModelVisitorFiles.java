@@ -33,15 +33,18 @@ public class ModelVisitorFiles implements CppFileCollection {
         return this.name.createHeaderList(
                 () -> join(
                         FileHeader.lines,
-                        space,
-                        include("../IModelVisitor.h"),
-                        Document.space,
-                        namespace(
-                                "adapter",
-                                lines(
-                                        "// specializations for each profile type in the implementation file",
-                                        "template <class T>",
-                                        "void visit(IModelVisitor& visitor);"
+                        guards(
+                                this.name.baseName,
+                                space,
+                                include("../IModelVisitor.h"),
+                                Document.space,
+                                namespace(
+                                        "adapter",
+                                        lines(
+                                                "// specializations for each profile type in the implementation file",
+                                                "template <class T>",
+                                                "void visit(IModelVisitor& visitor);"
+                                        )
                                 )
                         )
                 )

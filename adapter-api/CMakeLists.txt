@@ -27,23 +27,11 @@ set(API_HEADERS
 	include/adapter-api/config/IMessageFieldHandler.h
 	include/adapter-api/config/IModelVisitor.h
     include/adapter-api/config/ITypedModelVisitor.h
-    include/adapter-api/config/ModelVisitors.h
-    include/adapter-api/config/PublishingConfigReadVisitorBase.h
+		include/adapter-api/config/PublishingConfigReadVisitorBase.h
     include/adapter-api/config/generated/MessageVisitors.h
-# typed model visitors
-	include/adapter-api/config/generated/ResourceReadingProfileTypedModelVisitor.h
-	include/adapter-api/config/generated/SwitchReadingProfileTypedModelVisitor.h
-	include/adapter-api/config/generated/SwitchStatusProfileTypedModelVisitor.h
-	include/adapter-api/config/generated/SwitchControlProfileTypedModelVisitor.h
-	include/adapter-api/config/generated/ESSReadingProfileTypedModelVisitor.h
-	include/adapter-api/config/generated/ESSStatusProfileTypedModelVisitor.h
-	include/adapter-api/config/generated/ESSControlProfileTypedModelVisitor.h
-	include/adapter-api/config/generated/SolarReadingProfileTypedModelVisitor.h
-	include/adapter-api/config/generated/SolarStatusProfileTypedModelVisitor.h
-	include/adapter-api/config/generated/SolarControlProfileTypedModelVisitor.h
-	include/adapter-api/config/generated/LoadReadingProfileTypedModelVisitor.h
-	include/adapter-api/config/generated/LoadStatusProfileTypedModelVisitor.h
-	include/adapter-api/config/generated/LoadControlProfileTypedModelVisitor.h
+	include/adapter-api/config/generated/ModelVisitors.h
+	include/adapter-api/config/generated/TypedModelVisitors.h
+
 )
 
 set(API_SOURCES

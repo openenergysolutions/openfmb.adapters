@@ -11,6 +11,9 @@
 //  This file is auto-generated. Do not edit manually
 // 
 
+#ifndef OPENFMB_MESSAGEVISITORS_H
+#define OPENFMB_MESSAGEVISITORS_H
+
 #include "solarmodule/solarmodule.pb.h"
 #include "switchmodule/switchmodule.pb.h"
 #include "loadmodule/loadmodule.pb.h"
@@ -47,3 +50,6 @@ void visit(const loadmodule::LoadStatusProfile& message, IMessageVisitor& visito
 void visit(const loadmodule::LoadControlProfile& message, IMessageVisitor& visitor);
 
 } // end namespace adapter
+
+#endif
+

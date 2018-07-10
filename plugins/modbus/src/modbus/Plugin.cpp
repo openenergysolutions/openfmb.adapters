@@ -2,7 +2,6 @@
 #include "Plugin.h"
 
 #include <adapter-api/ProfileRegistry.h>
-#include <adapter-api/config/ModelVisitors.h>
 #include <adapter-api/util/YAMLTemplate.h>
 #include <adapter-api/util/YAMLUtil.h>
 
@@ -13,10 +12,7 @@
 #include "HeartbeatTransaction.h"
 #include "PollHandler.h"
 #include "PollTransaction.h"
-/*
-#include "PublishConfigReadVisitor.h"
-#include "SubscribeConfigReadVisitor.h"
-*/
+
 #include "ConfigStrings.h"
 #include "TransactionProcessor.h"
 

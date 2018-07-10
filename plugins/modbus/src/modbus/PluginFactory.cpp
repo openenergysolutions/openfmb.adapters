@@ -1,7 +1,6 @@
 
 #include "modbus/PluginFactory.h"
 
-#include <adapter-api/config/ModelVisitors.h>
 #include <adapter-api/util/Exception.h>
 #include <adapter-api/util/YAMLTemplate.h>
 

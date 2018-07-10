@@ -11,6 +11,9 @@
 //  This file is auto-generated. Do not edit manually
 // 
 
+#ifndef OPENFMB_MODELVISITORS_H
+#define OPENFMB_MODELVISITORS_H
+
 
 #include "../IModelVisitor.h"
 
@@ -21,3 +24,6 @@ template <class T>
 void visit(IModelVisitor& visitor);
 
 } // end namespace adapter
+
+#endif
+

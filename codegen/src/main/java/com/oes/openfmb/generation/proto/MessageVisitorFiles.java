@@ -35,13 +35,16 @@ public class MessageVisitorFiles implements CppFileCollection {
         return this.name.createHeaderList(
                 () -> join(
                         FileHeader.lines,
-                        join(Helpers.getIncludeFiles(this.descriptors).stream().map(Document::include)),
-                        include("../IMessageVisitor.h"),
-                        Document.space,
-                        namespace(
-                                "adapter",
-                                spaced(
-                                        getDescriptorStream().map(d -> line(getVisitSignature(d) + ";"))
+                        guards(
+                                this.name.baseName,
+                                join(Helpers.getIncludeFiles(this.descriptors).stream().map(Document::include)),
+                                include("../IMessageVisitor.h"),
+                                Document.space,
+                                namespace(
+                                        "adapter",
+                                        spaced(
+                                                getDescriptorStream().map(d -> line(getVisitSignature(d) + ";"))
+                                        )
                                 )
                         )
                 )
