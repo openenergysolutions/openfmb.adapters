@@ -350,7 +350,7 @@ void visit_commonmodule_ControlFSCC(const set_t<commonmodule::ControlFSCC>& sett
             visit_commonmodule_ControlScheduleFSCH(set, get, visitor);
             visitor.end_iteration();
         }
-        visitor.end_message_field();
+        visitor.end_repeated_message_field();
     }
 }
 
@@ -919,7 +919,7 @@ void visit_commonmodule_ScheduleCSG(const set_t<commonmodule::ScheduleCSG>& sett
             visit_commonmodule_SchedulePoint(set, get, visitor);
             visitor.end_iteration();
         }
-        visitor.end_message_field();
+        visitor.end_repeated_message_field();
     }
 
     if(visitor.start_message_field("xD", google::protobuf::StringValue::descriptor()))
@@ -1343,7 +1343,7 @@ void visit_solarmodule_SolarCSG(const set_t<solarmodule::SolarCSG>& setter, cons
             visit_solarmodule_SolarPoint(set, get, visitor);
             visitor.end_iteration();
         }
-        visitor.end_message_field();
+        visitor.end_repeated_message_field();
     }
 }
 

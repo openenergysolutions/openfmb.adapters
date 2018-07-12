@@ -348,7 +348,7 @@ void visit_commonmodule_ControlFSCC(const set_t<commonmodule::ControlFSCC>& sett
             visit_commonmodule_ControlScheduleFSCH(set, get, visitor);
             visitor.end_iteration();
         }
-        visitor.end_message_field();
+        visitor.end_repeated_message_field();
     }
 }
 
@@ -932,7 +932,7 @@ void visit_commonmodule_ScheduleCSG(const set_t<commonmodule::ScheduleCSG>& sett
             visit_commonmodule_SchedulePoint(set, get, visitor);
             visitor.end_iteration();
         }
-        visitor.end_message_field();
+        visitor.end_repeated_message_field();
     }
 
     if(visitor.start_message_field("xD", google::protobuf::StringValue::descriptor()))
@@ -1356,7 +1356,7 @@ void visit_loadmodule_LoadCSG(const set_t<loadmodule::LoadCSG>& setter, const ge
             visit_loadmodule_LoadPoint(set, get, visitor);
             visitor.end_iteration();
         }
-        visitor.end_message_field();
+        visitor.end_repeated_message_field();
     }
 }
 

@@ -14,16 +14,16 @@ namespace adapter {
 
 namespace dnp3 {
 
-    template <class T>
-    class ConfigWriteVisitor final : public ConfigWriteVisitorBase<T> {
+    class ConfigWriteVisitor final : public ConfigWriteVisitorBase {
 
     public:
         explicit ConfigWriteVisitor(YAML::Emitter& out)
-            : ConfigWriteVisitorBase<T>(out)
+            : ConfigWriteVisitorBase(out)
         {
         }
 
     protected:
+        /*
         void write_crob_keys(uint16_t index, uint32_t priority, opendnp3::ControlCode code)
         {
             this->out << YAML::BeginMap;
@@ -144,6 +144,7 @@ namespace dnp3 {
             this->out << YAML::Key << keys::when_true << YAML::Value << descriptor.value(0)->name();
             this->out << YAML::Key << keys::when_false << YAML::Value << descriptor.value(1)->name();
         }
+         */
     };
 }
 }

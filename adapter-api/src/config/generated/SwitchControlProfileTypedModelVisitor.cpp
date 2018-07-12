@@ -791,7 +791,7 @@ void visit_switchmodule_SwitchCSG(const set_t<switchmodule::SwitchCSG>& setter, 
             visit_switchmodule_SwitchPoint(set, get, visitor);
             visitor.end_iteration();
         }
-        visitor.end_message_field();
+        visitor.end_repeated_message_field();
     }
 }
 

@@ -2,24 +2,24 @@
 #include "dnp3/PluginFactory.h"
 
 #include <adapter-api/ConfigStrings.h>
-#include <adapter-api/config/generated/TypedModelVisitors.h>
+#include <adapter-api/config/generated/ModelVisitors.h>
 #include <adapter-api/util/YAMLTemplate.h>
 
-//#include "ConfigWriteVisitor.h"
+#include "ConfigWriteVisitor.h"
+
 #include "ConfigStrings.h"
 #include "Plugin.h"
 
 namespace adapter {
 namespace dnp3 {
 
-    /*
     template <class T>
     struct WriterHandler {
         static void handle(YAML::Emitter& out)
         {
             std::cout << "Generating: " << T::descriptor()->name() << std::endl;
-            ConfigWriteVisitor<T> visitor(out);
-            visit(visitor);
+            ConfigWriteVisitor visitor(out);
+            visit<T>(visitor);
         }
     };
 
@@ -32,7 +32,6 @@ namespace dnp3 {
             out << YAML::EndMap;
         }
     }
-     */
 
     void PluginFactory::write_default_config(YAML::Emitter& out) const
     {
@@ -76,12 +75,9 @@ namespace dnp3 {
         out << YAML::EndMap;
 
         out << YAML::Key << "profiles";
-        throw NotImplemented(LOCATION);
-        /*
         out << YAML::BeginSeq;
         write_profile_configs(out, profiles);
         out << YAML::EndSeq;
-         */
 
         out << YAML::EndMap;
     }

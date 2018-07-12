@@ -269,7 +269,7 @@ void visit<switchmodule::SwitchReadingProfile>(IModelVisitor& visitor)
             visit_switchmodule_SwitchReading(visitor);
             visitor.end_iteration();
         }
-        visitor.end_message_field();
+        visitor.end_repeated_message_field();
     }
 }
 
@@ -721,7 +721,7 @@ void visit_commonmodule_ControlFSCC(IModelVisitor& visitor)
             visit_commonmodule_ControlScheduleFSCH(visitor);
             visitor.end_iteration();
         }
-        visitor.end_message_field();
+        visitor.end_repeated_message_field();
     }
 }
 
@@ -1332,7 +1332,7 @@ void visit_commonmodule_ScheduleCSG(IModelVisitor& visitor)
             visit_commonmodule_SchedulePoint(visitor);
             visitor.end_iteration();
         }
-        visitor.end_message_field();
+        visitor.end_repeated_message_field();
     }
 
     if(visitor.start_message_field("xD", google::protobuf::StringValue::descriptor()))
@@ -1577,7 +1577,7 @@ void visit_essmodule_ESSCSG(IModelVisitor& visitor)
             visit_essmodule_ESSPoint(visitor);
             visitor.end_iteration();
         }
-        visitor.end_message_field();
+        visitor.end_repeated_message_field();
     }
 }
 
@@ -1678,7 +1678,7 @@ void visit_essmodule_ESSPoint(IModelVisitor& visitor)
             visit_essmodule_ENG_ESSFunctionParameter(visitor);
             visitor.end_iteration();
         }
-        visitor.end_message_field();
+        visitor.end_repeated_message_field();
     }
 
     if(visitor.start_message_field("mode", commonmodule::ENG_GridConnectModeKind::descriptor()))
@@ -1976,7 +1976,7 @@ void visit_loadmodule_LoadCSG(IModelVisitor& visitor)
             visit_loadmodule_LoadPoint(visitor);
             visitor.end_iteration();
         }
-        visitor.end_message_field();
+        visitor.end_repeated_message_field();
     }
 }
 
@@ -2212,7 +2212,7 @@ void visit_solarmodule_SolarCSG(IModelVisitor& visitor)
             visit_solarmodule_SolarPoint(visitor);
             visitor.end_iteration();
         }
-        visitor.end_message_field();
+        visitor.end_repeated_message_field();
     }
 }
 
@@ -2505,7 +2505,7 @@ void visit_switchmodule_SwitchCSG(IModelVisitor& visitor)
             visit_switchmodule_SwitchPoint(visitor);
             visitor.end_iteration();
         }
-        visitor.end_message_field();
+        visitor.end_repeated_message_field();
     }
 }
 

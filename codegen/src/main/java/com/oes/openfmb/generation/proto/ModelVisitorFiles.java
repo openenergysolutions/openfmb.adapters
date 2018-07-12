@@ -133,7 +133,7 @@ public class ModelVisitorFiles implements CppFileCollection {
         return Document.empty.bracket(
                 line("const auto count = visitor.start_repeated_message_field(%s, %s::descriptor());", Helpers.quoted(fieldName), Helpers.cppMessageName(field.getMessageType())),
                 loop,
-                line("visitor.end_message_field();")
+                line("visitor.end_repeated_message_field();")
         );
     }
 

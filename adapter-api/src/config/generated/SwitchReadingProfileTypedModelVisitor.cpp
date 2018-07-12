@@ -206,7 +206,7 @@ void visit(ITypedModelVisitor<switchmodule::SwitchReadingProfile>& visitor)
             visit_switchmodule_SwitchReading(set, get, visitor);
             visitor.end_iteration();
         }
-        visitor.end_message_field();
+        visitor.end_repeated_message_field();
     }
 }
 

@@ -354,7 +354,7 @@ void visit_commonmodule_ControlFSCC(const set_t<commonmodule::ControlFSCC>& sett
             visit_commonmodule_ControlScheduleFSCH(set, get, visitor);
             visitor.end_iteration();
         }
-        visitor.end_message_field();
+        visitor.end_repeated_message_field();
     }
 }
 
@@ -950,7 +950,7 @@ void visit_commonmodule_ScheduleCSG(const set_t<commonmodule::ScheduleCSG>& sett
             visit_commonmodule_SchedulePoint(set, get, visitor);
             visitor.end_iteration();
         }
-        visitor.end_message_field();
+        visitor.end_repeated_message_field();
     }
 
     if(visitor.start_message_field("xD", google::protobuf::StringValue::descriptor()))
@@ -1421,7 +1421,7 @@ void visit_essmodule_ESSCSG(const set_t<essmodule::ESSCSG>& setter, const get_t<
             visit_essmodule_ESSPoint(set, get, visitor);
             visitor.end_iteration();
         }
-        visitor.end_message_field();
+        visitor.end_repeated_message_field();
     }
 }
 
@@ -1635,7 +1635,7 @@ void visit_essmodule_ESSPoint(const set_t<essmodule::ESSPoint>& setter, const ge
             visit_essmodule_ENG_ESSFunctionParameter(set, get, visitor);
             visitor.end_iteration();
         }
-        visitor.end_message_field();
+        visitor.end_repeated_message_field();
     }
 
     if(visitor.start_message_field("mode", commonmodule::ENG_GridConnectModeKind::descriptor()))
