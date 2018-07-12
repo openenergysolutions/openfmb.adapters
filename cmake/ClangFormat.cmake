@@ -44,7 +44,7 @@ function(define_clang_format)
         message(STATUS "Using clang-format: ${CLANG_FORMAT_EXE}")
         get_property(all_files GLOBAL PROPERTY CLANG_FORMAT_FILES)
         add_custom_target(clang-format
-            COMMAND "${CLANG_FORMAT_EXE}" -i -style=WebKit ${all_files}
+            COMMAND "${CLANG_FORMAT_EXE}" -i -style=file -fallback-style=none ${all_files}
             COMMENT "Format source files"
         )
     else()
