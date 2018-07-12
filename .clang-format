@@ -2,12 +2,12 @@
 Language:        Cpp
 # BasedOnStyle:  WebKit
 AccessModifierOffset: -4
-AlignAfterOpenBracket: DontAlign
+AlignAfterOpenBracket: Align
 AlignConsecutiveAssignments: false
 AlignConsecutiveDeclarations: false
 AlignEscapedNewlines: Right
 AlignOperands:   false
-AlignTrailingComments: false
+AlignTrailingComments: true
 AllowAllParametersOfDeclarationOnNextLine: true
 AllowShortBlocksOnASingleLine: false
 AllowShortCaseLabelsOnASingleLine: false
@@ -22,7 +22,7 @@ BinPackArguments: true
 BinPackParameters: true
 BraceWrapping:   
   AfterClass:      false
-  AfterControlStatement: false
+  AfterControlStatement: true
   AfterEnum:       false
   AfterFunction:   true
   AfterNamespace:  false

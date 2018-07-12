@@ -27,7 +27,7 @@ enum class EnumType {
 namespace fields {
 
     bool is_message_ignored(const std::string& field_name, google::protobuf::Descriptor const* descriptor,
-        IDescriptorPath& path);
+                            IDescriptorPath& path);
 
     StringType get_string_type(const std::string& field_name, IDescriptorPath& path);
 

@@ -25,9 +25,9 @@ namespace modbus {
 
     public:
         PollTransaction(Logger logger,
-            const AutoPollConfig& config,
-            std::chrono::steady_clock::duration period,
-            std::shared_ptr<IPollHandler> handler);
+                        const AutoPollConfig& config,
+                        std::chrono::steady_clock::duration period,
+                        std::shared_ptr<IPollHandler> handler);
 
         std::string get_description() const override
         {

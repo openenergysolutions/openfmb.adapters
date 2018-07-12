@@ -61,7 +61,7 @@ namespace modbus {
         auto begin = this->holding_registers.begin()->first;
         auto end = begin;
         for (auto& reg : this->holding_registers) {
-            if (reg.first > end + config.max_register_gaps + 1 || // There is a discontinuity
+            if (reg.first > end + config.max_register_gaps + 1 ||                             // There is a discontinuity
                 reg.first - begin + 1 > ::modbus::ReadHoldingRegistersRequest::max_registers) //
             {
                 // Add the request

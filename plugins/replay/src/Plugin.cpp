@@ -131,7 +131,7 @@ namespace replay {
         next.duration = std::chrono::milliseconds(std::stoull(tokens[0]));
 
         next.publish = this->factory.get(
-            tokens[1], // profile name
+            tokens[1],                // profile name
             base64::decode(tokens[2]) // decoded data
         );
 

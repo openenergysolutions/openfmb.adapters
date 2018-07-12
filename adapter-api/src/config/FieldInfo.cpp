@@ -41,26 +41,44 @@ namespace fields {
         using pair_t = std::pair<match_fun_t, StringType>;
         using match_map_t = std::map<std::string, std::vector<pair_t>>;
 
+        // clang-format off
         const static match_map_t map = {
-            { keys::mRID,
-                { { [](IDescriptorPath& path) -> bool {
-                       return path.has_parents({ commonmodule::ConductingEquipment::descriptor() });
-                   },
-                    StringType::required_static_mrid } } },
-            { keys::value,
-                { { [](IDescriptorPath& path) -> bool {
-                       return path.has_parents(
-                           { { keys::mRID, google::protobuf::StringValue::descriptor() },
-                               { keys::identified_object, commonmodule::IdentifiedObject::descriptor() },
-                               { keys::messageInfo, commonmodule::MessageInfo::descriptor() } });
-                   },
-                      StringType::message_mrid },
-                    { [](IDescriptorPath& path) -> bool {
-                         return path.has_parents(
-                             { { keys::mRID, google::protobuf::StringValue::descriptor() } });
-                     },
-                        StringType::optional_static_mrid } } }
+                {
+                    keys::mRID,
+                    {
+                        {
+                            [](IDescriptorPath &path) -> bool {
+                                return path.has_parents({commonmodule::ConductingEquipment::descriptor()});
+                            },
+                            StringType::required_static_mrid
+                        }
+                    }
+                },
+                {
+                    keys::value,
+                    {
+                        {
+                            [](IDescriptorPath &path) -> bool {
+                                return path.has_parents(
+                                        {
+                                                {keys::mRID,              google::protobuf::StringValue::descriptor()},
+                                                {keys::identified_object, commonmodule::IdentifiedObject::descriptor()},
+                                                {keys::messageInfo,       commonmodule::MessageInfo::descriptor()}
+                                        });
+                            },
+                            StringType::message_mrid
+                    },
+                    {
+                            [](IDescriptorPath &path) -> bool {
+                                return path.has_parents(
+                                        {{keys::mRID, google::protobuf::StringValue::descriptor()}});
+                            },
+                            StringType::optional_static_mrid
+                        }
+                    }
+                }
         };
+        // clang-format on
 
         // look up the field name
         const auto elem = map.find(field_name);
