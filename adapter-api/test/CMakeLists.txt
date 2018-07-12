@@ -2,6 +2,7 @@
 set(TEST_SOURCES
         src/main.cpp
         src/test_config_accessor.cpp
+        src/test_field_handlers.cpp
         src/test_yaml_override_parsing.cpp
 )
 

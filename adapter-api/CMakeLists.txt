@@ -43,7 +43,7 @@ set(API_SOURCES
 	src/util/YAMLTemplate.cpp
     src/config/AccessorImpl.h
 	src/config/ConfigWriteVisitorBase.cpp
-	src/config/FieldInfo.h
+        include/adapter-api/config/FieldInfo.h
 	src/config/FieldInfo.cpp
 	src/config/DescriptorPath.cpp
 	src/config/generated/MessageVisitors.cpp

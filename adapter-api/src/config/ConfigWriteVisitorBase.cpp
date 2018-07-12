@@ -2,7 +2,7 @@
 #include "adapter-api/config/ConfigWriteVisitorBase.h"
 #include <proto-api/commonmodule/commonmodule.pb.h>
 
-#include "FieldInfo.h"
+#include "adapter-api/config/FieldInfo.h"
 
 #include "adapter-api/ConfigStrings.h"
 
@@ -38,7 +38,7 @@ ConfigWriteVisitorBase::ConfigWriteVisitorBase(YAML::Emitter& out)
 
 bool ConfigWriteVisitorBase::start_message_field(const std::string& field_name, google::protobuf::Descriptor const* descriptor)
 {
-    if (FieldInfo::is_message_ignored(field_name, descriptor, this->path))
+    if (fields::is_message_ignored(field_name, descriptor, this->path))
         return false;
 
     this->path.push(field_name, descriptor);
@@ -122,7 +122,7 @@ void ConfigWriteVisitorBase::handle_float(const std::string& field_name)
 
 void ConfigWriteVisitorBase::handle_string(const std::string& field_name)
 {
-    switch (FieldInfo::get_string_type(field_name, path)) {
+    switch (fields::get_string_type(field_name, path)) {
     case (StringType::optional_static_mrid):
         this->writer.write([&](YAML::Emitter& out) { out << YAML::Key << field_name << YAML::Value << "" << YAML::Comment("optional valid UUID"); });
         break;
@@ -139,6 +139,14 @@ void ConfigWriteVisitorBase::handle_string(const std::string& field_name)
 
 void ConfigWriteVisitorBase::handle_enum(const std::string& field_name, google::protobuf::EnumDescriptor const* descriptor)
 {
-    this->writer.write([&](YAML::Emitter& out) { out << YAML::Key << field_name << YAML::Value << "TODO - enum"; });
+    const auto type = fields::get_enum_type(descriptor);
+    switch (type) {
+    case (EnumType::optional_static_enum):
+        this->writer.write([&](YAML::Emitter& out) { out << YAML::Key << field_name << YAML::Value << descriptor->value(0)->name(); });
+        break;
+    default:
+        this->writer.write([&](YAML::Emitter& out) { out << YAML::Key << field_name << YAML::Value << "TODO - mapped enum"; });
+        break;
+    }
 }
 }
