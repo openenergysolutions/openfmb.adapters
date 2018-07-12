@@ -4,31 +4,43 @@
 
 namespace adapter {
 
-bool DescriptorPath::has_parent(google::protobuf::Descriptor const* descriptor) const
+bool DescriptorPath::has_parents(const std::initializer_list<descriptor_ptr_t> parents) const
 {
-    for (const auto& parent : this->descriptors) {
-        if (descriptor == parent)
-            return true;
+    auto iter = this->fields.rbegin();
+
+    for (const auto& parent : parents) {
+        if (iter == this->fields.rend())
+            return false;
+        if ((iter->descriptor != parent))
+            return false;
+        ++iter;
     }
 
-    return false;
+    return true;
 }
 
-bool DescriptorPath::has_immediate_parent(google::protobuf::Descriptor const* descriptor) const
+bool DescriptorPath::has_parents(const std::initializer_list<Field>& parents) const
 {
-    if (this->descriptors.empty())
-        return false;
+    auto iter = this->fields.rbegin();
 
-    return descriptor == this->descriptors.back();
+    for (const auto& parent : parents) {
+        if (iter == this->fields.rend())
+            return false;
+        if ((iter->descriptor != parent.descriptor) || (iter->name != parent.name))
+            return false;
+        ++iter;
+    }
+
+    return true;
 }
 
-void DescriptorPath::push(google::protobuf::Descriptor const* descriptor)
+void DescriptorPath::push(const std::string& field_name, google::protobuf::Descriptor const* descriptor)
 {
-    this->descriptors.push_back(descriptor);
+    this->fields.emplace_back(Field{ field_name, descriptor });
 }
 
 void DescriptorPath::pop()
 {
-    this->descriptors.pop_back();
+    this->fields.pop_back();
 }
 }

@@ -15,10 +15,12 @@ namespace keys {
 
     constexpr const char* const name = "name";
     constexpr const char* const identified_object = "identifiedObject";
+    constexpr const char* const messageInfo = "messageInfo";
     constexpr const char* const named_object = "namedObject";
     constexpr const char* const description = "description";
     constexpr const char* const mRID = "mRID";
 
+    constexpr const char* const value = "value";
     constexpr const char* const mag = "mag";
     constexpr const char* const ang = "ang";
     constexpr const char* const cVal = "cVal";

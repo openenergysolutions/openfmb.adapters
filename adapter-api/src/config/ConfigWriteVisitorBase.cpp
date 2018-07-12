@@ -1,7 +1,10 @@
 
 #include "adapter-api/config/ConfigWriteVisitorBase.h"
+#include <proto-api/commonmodule/commonmodule.pb.h>
 
 #include "FieldInfo.h"
+
+#include "adapter-api/ConfigStrings.h"
 
 namespace adapter {
 
@@ -38,7 +41,7 @@ bool ConfigWriteVisitorBase::start_message_field(const std::string& field_name, 
     if (FieldInfo::is_message_ignored(field_name, descriptor, this->path))
         return false;
 
-    this->path.push(descriptor);
+    this->path.push(field_name, descriptor);
 
     this->writer.push(
         [field_name](YAML::Emitter& out) {
@@ -57,7 +60,7 @@ void ConfigWriteVisitorBase::end_message_field()
 
 int ConfigWriteVisitorBase::start_repeated_message_field(const std::string& field_name, google::protobuf::Descriptor const* descriptor)
 {
-    this->path.push(descriptor);
+    this->path.push(field_name, descriptor);
 
     this->writer.push(
         [field_name](YAML::Emitter& out) {
@@ -119,7 +122,19 @@ void ConfigWriteVisitorBase::handle_float(const std::string& field_name)
 
 void ConfigWriteVisitorBase::handle_string(const std::string& field_name)
 {
-    this->writer.write([&](YAML::Emitter& out) { out << YAML::Key << field_name << YAML::Value << "TODO - string"; });
+    switch (FieldInfo::get_string_type(field_name, path)) {
+    case (StringType::optional_static_mrid):
+        this->writer.write([&](YAML::Emitter& out) { out << YAML::Key << field_name << YAML::Value << "" << YAML::Comment("optional valid UUID"); });
+        break;
+    case (StringType::required_static_mrid):
+        this->writer.write([&](YAML::Emitter& out) { out << YAML::Key << field_name << YAML::Value << "" << YAML::Comment("required valid UUID"); });
+        break;
+    case (StringType::optional):
+        this->writer.write([&](YAML::Emitter& out) { out << YAML::Key << field_name << YAML::Value << "" << YAML::Comment("optional string"); });
+        break;
+    default:
+        break;
+    }
 }
 
 void ConfigWriteVisitorBase::handle_enum(const std::string& field_name, google::protobuf::EnumDescriptor const* descriptor)

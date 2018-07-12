@@ -6,16 +6,17 @@
 
 namespace adapter {
 class DescriptorPath final : public IDescriptorPath {
-    using descriptor_vec_t = std::vector<google::protobuf::Descriptor const*>;
 
-    descriptor_vec_t descriptors;
+    using field_vec_t = std::vector<Field>;
+
+    field_vec_t fields;
 
 public:
-    bool has_parent(google::protobuf::Descriptor const* descriptor) const final;
+    bool has_parents(const std::initializer_list<descriptor_ptr_t> parents) const final;
 
-    bool has_immediate_parent(google::protobuf::Descriptor const* descriptor) const final;
+    bool has_parents(const std::initializer_list<Field>& field) const final;
 
-    void push(google::protobuf::Descriptor const* descriptor);
+    void push(const std::string& field_name, google::protobuf::Descriptor const* descriptor);
 
     void pop();
 };
