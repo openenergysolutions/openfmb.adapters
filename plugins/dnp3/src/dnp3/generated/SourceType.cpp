@@ -23,14 +23,13 @@ namespace dnp3 {
 
 std::string SourceType::to_string(SourceType::Value value)
 {
-    static const std::map<Value, std::string> map = 
+    switch(value)
     {
-        {Value::none, none},
-        {Value::binary, binary},
-        {Value::analog, analog},
-        {Value::counter, counter},
-    };
-    return map.find(value)->second;
+        case(Value::none): return none;
+        case(Value::binary): return binary;
+        case(Value::analog): return analog;
+        default: return counter;
+    }
 }
 
 SourceType::Value SourceType::from_string(const std::string& name)

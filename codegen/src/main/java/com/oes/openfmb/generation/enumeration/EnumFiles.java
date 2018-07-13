@@ -3,6 +3,7 @@ package com.oes.openfmb.generation.enumeration;
 import com.oes.openfmb.generation.document.*;
 import jdk.nashorn.internal.ir.annotations.Immutable;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -70,11 +71,22 @@ public class EnumFiles implements CppFileCollection {
 
     private Document getToStringMethod()
     {
+        final List<Document> switchLines = new ArrayList<>();
+        for(int i = 0; i < this.enumeration.values.size(); ++i)
+        {
+            final String value = this.enumeration.values.get(i);
+            if((i + 1) < this.enumeration.values.size()) {
+                switchLines.add(line("case(Value::%s): return %s;", value, value));
+            }
+            else
+            {
+                switchLines.add(line("default: return %s;", value));
+            }
+        }
+
         return line("std::string %s::to_string(%s::Value value)", this.name.baseName, this.name.baseName).bracket(
-                line("static const std::map<Value, std::string> map = ").bracketSemicolon(
-                        join(this.enumeration.values.stream().map(v -> line("{Value::%s, %s},", v, v)))
-                ).then(
-                        "return map.find(value)->second;"
+                line("switch(value)").bracket(
+                        join(switchLines.stream())
                 )
         );
     }
