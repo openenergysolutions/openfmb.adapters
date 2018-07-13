@@ -1,10 +1,7 @@
 package com.oes.openfmb.generation.proto;
 
 import com.google.protobuf.Descriptors;
-import com.oes.openfmb.generation.document.CppFile;
-import com.oes.openfmb.generation.document.CppFileCollection;
-import com.oes.openfmb.generation.document.Document;
-import com.oes.openfmb.generation.document.FileHeader;
+import com.oes.openfmb.generation.document.*;
 
 import java.util.List;
 import java.util.SortedMap;
