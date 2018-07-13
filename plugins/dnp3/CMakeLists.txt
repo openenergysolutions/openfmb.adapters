@@ -23,6 +23,9 @@ set(DNP3_SOURCES
         src/dnp3/ICommandSequence.h
         src/dnp3/CommandSequenceExecutor.h
         src/dnp3/ICommandSequenceExecutor.h
+        #generated enums
+        src/dnp3/generated/SourceType.h
+        src/dnp3/generated/SourceType.cpp
 )
 
 set(DNP3_LIBS asiodnp3 asiopal opendnp3 openpal)
@@ -32,4 +35,4 @@ target_link_libraries(dnp3-plugin PUBLIC adapter-api ${DNP3_LIBS})
 target_include_directories(dnp3-plugin PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_include_directories(dnp3-plugin PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 clang_tidy(dnp3-plugin)
-clang_format(dnp3-plugin)
+clang_format(dnp3-plugin EXCLUDES "/generated/")

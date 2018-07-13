@@ -69,16 +69,6 @@ public interface Document {
         return documents.reduce((lhs, rhs) -> lhs.then(space).then(rhs)).orElse(Document.empty);
     }
 
-/*
-    static Document indent(Document document) {
-        return new IndentedDocument(document);
-    }
-
-    static Document indent(String line) {
-        return indent(line(line));
-    }
-*/
-
     static Document guards(String className, Document...inner)
     {
         return lines(

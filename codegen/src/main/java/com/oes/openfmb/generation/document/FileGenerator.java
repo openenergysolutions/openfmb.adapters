@@ -34,7 +34,7 @@ public class FileGenerator {
         this.document = document;
     }
 
-    public boolean write()
+    boolean write()
     {
         final Document doc = document.get();
         if(doc == null) return false;
