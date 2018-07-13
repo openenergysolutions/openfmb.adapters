@@ -145,7 +145,13 @@ void ConfigWriteVisitorBase::handle_enum(const std::string& field_name, google::
         this->writer.write([&](YAML::Emitter& out) { out << YAML::Key << field_name << YAML::Value << descriptor->value(0)->name(); });
         break;
     default:
-        this->writer.write([&](YAML::Emitter& out) { out << YAML::Key << field_name << YAML::Value << "TODO - mapped enum"; });
+        this->writer.write(
+            [&](YAML::Emitter& out) {
+                out << YAML::Key << field_name;
+                out << YAML::BeginMap;
+                this->write_mapped_enum_keys(descriptor, out);
+                out << YAML::EndMap;
+            });
         break;
     }
 }

@@ -33,6 +33,8 @@ protected:
         void write(const write_fun_t& fun);
     };
 
+    virtual void write_mapped_enum_keys(google::protobuf::EnumDescriptor const* descriptor, YAML::Emitter& out) = 0;
+
 private:
     DescriptorPath path;
     DelayedWriter writer;

@@ -17,12 +17,22 @@ namespace dnp3 {
     class ConfigWriteVisitor final : public ConfigWriteVisitorBase {
 
     public:
+
         explicit ConfigWriteVisitor(YAML::Emitter& out)
             : ConfigWriteVisitorBase(out)
         {
         }
 
     protected:
+
+        void write_mapped_enum_keys(google::protobuf::EnumDescriptor const* descriptor, YAML::Emitter& out) override
+        {
+            out << YAML::Key << keys::input_type << InputTypeMeta::to_string(InputType::disabled) << YAML::Comment("set to binary");
+            out << YAML::Key << keys::index << YAML::Value << 0;
+            out << YAML::Key << keys::when_true << YAML::Value << descriptor->value(0)->name();
+            out << YAML::Key << keys::when_false << YAML::Value << descriptor->value(1)->name();
+        }
+
         /*
         void write_crob_keys(uint16_t index, uint32_t priority, opendnp3::ControlCode code)
         {
