@@ -14,6 +14,7 @@ set(API_HEADERS
     include/adapter-api/ProfileRegistry.h
 	include/adapter-api/Version.h
 	include/adapter-api/util/Time.h
+	include/adapter-api/util/EnumUtil.h
 	include/adapter-api/util/Exception.h
 	include/adapter-api/util/StringUtil.h
 	include/adapter-api/util/SynchronizedQueue.h
@@ -43,7 +44,7 @@ set(API_SOURCES
 	src/util/YAMLTemplate.cpp
     src/config/AccessorImpl.h
 	src/config/ConfigWriteVisitorBase.cpp
-        include/adapter-api/config/FieldInfo.h
+    include/adapter-api/config/FieldInfo.h
 	src/config/FieldInfo.cpp
 	src/config/DescriptorPath.cpp
 	src/config/generated/MessageVisitors.cpp

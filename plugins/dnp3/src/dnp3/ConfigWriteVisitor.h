@@ -4,11 +4,12 @@
 
 #include "adapter-api/ConfigStrings.h"
 #include "adapter-api/config/ConfigWriteVisitorBase.h"
+#include "adapter-api/util/EnumUtil.h"
 #include "adapter-api/util/Exception.h"
 
 #include "ConfigStrings.h"
 #include "ControlCodeMeta.h"
-#include "InputType.h"
+#include "generated/SourceType.h"
 
 namespace adapter {
 
@@ -25,7 +26,7 @@ namespace dnp3 {
     protected:
         void write_mapped_enum_keys(google::protobuf::EnumDescriptor const* descriptor, YAML::Emitter& out) override
         {
-            out << YAML::Key << keys::input_type << InputTypeMeta::to_string(InputType::disabled) << YAML::Comment("set to binary");
+            out << YAML::Key << keys::source_type << SourceType::none << YAML::Comment(enumeration::get_value_set_as_string<SourceType>());
             out << YAML::Key << keys::index << YAML::Value << 0;
             out << YAML::Key << keys::when_true << YAML::Value << descriptor->value(0)->name();
             out << YAML::Key << keys::when_false << YAML::Value << descriptor->value(1)->name();

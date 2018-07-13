@@ -21,6 +21,19 @@ namespace adapter {
 
 namespace dnp3 {
 
+const char SourceType::none[] = "none";
+const char SourceType::binary[] = "binary";
+const char SourceType::analog[] = "analog";
+const char SourceType::counter[] = "counter";
+
+const std::array<SourceType::Value, 4> SourceType::values =
+{
+    SourceType::Value::none,
+    SourceType::Value::binary,
+    SourceType::Value::analog,
+    SourceType::Value::counter,
+};
+
 std::string SourceType::to_string(SourceType::Value value)
 {
     switch(value)

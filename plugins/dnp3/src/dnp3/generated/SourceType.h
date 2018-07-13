@@ -15,6 +15,7 @@
 #define OPENFMB_SOURCETYPE_H
 
 #include <string>
+#include <array>
 
 namespace adapter {
 
@@ -30,10 +31,12 @@ struct SourceType
         counter,
     };
 
-    static constexpr const char* const none = "none";
-    static constexpr const char* const binary = "binary";
-    static constexpr const char* const analog = "analog";
-    static constexpr const char* const counter = "counter";
+    static const char none[];
+    static const char binary[];
+    static const char analog[];
+    static const char counter[];
+
+    static const std::array<Value, 4> values;
 
     static std::string to_string(Value value);
     static Value from_string(const std::string& name);

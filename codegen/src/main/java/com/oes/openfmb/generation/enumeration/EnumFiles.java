@@ -31,12 +31,15 @@ public class EnumFiles implements CppFileCollection {
                         guards(
                              enumeration.name,
                              line("#include <string>"),
+                             line("#include <array>"),
                              space,
                              namespaced(
                                      line("struct %s", enumeration.name).bracketSemicolon(
                                              getEnumDefinition(),
                                              space,
-                                             join(enumeration.values.stream().map(v -> line("static constexpr const char* const %s = \"%s\";", v, v))),
+                                             join(enumeration.values.stream().map(v -> line("static const char %s[];", v))),
+                                             space,
+                                             line("static const std::array<Value, %d> values;", this.enumeration.values.size()),
                                              space,
                                              line("static std::string to_string(Value value);"),
                                              line("static Value from_string(const std::string& name);")
@@ -60,12 +63,21 @@ public class EnumFiles implements CppFileCollection {
                         space,
                         namespaced(
                                 spaced(
+                                        join(this.enumeration.values.stream().map(v -> line("const char %s::%s[] = \"%s\";", this.enumeration.name, v, v))),
+                                        getValuesDefinitions(),
                                         getToStringMethod(),
                                         getFromStringMethod()
                                 )
                         )
 
                 )
+        );
+    }
+
+    private Document getValuesDefinitions()
+    {
+        return line("const std::array<%s::Value, %d> %s::values =", this.enumeration.name, this.enumeration.values.size(), this.enumeration.name).bracketSemicolon(
+                join(this.enumeration.values.stream().map(v -> line("%s::Value::%s,", this.enumeration.name, v)))
         );
     }
 
