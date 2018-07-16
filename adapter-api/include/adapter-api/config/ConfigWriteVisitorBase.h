@@ -15,14 +15,13 @@ using write_fun_t = std::function<void(YAML::Emitter&)>;
 
 class ConfigWriteVisitorBase : public IModelVisitor {
 
-protected:
     class DelayedWriter {
         YAML::Emitter& out;
         std::vector<write_fun_t> delayed_writes;
 
     public:
         explicit DelayedWriter(YAML::Emitter& out)
-            : out(out)
+                : out(out)
         {
         }
 
@@ -33,11 +32,12 @@ protected:
         void write(const write_fun_t& fun);
     };
 
-    virtual void write_mapped_enum_keys(google::protobuf::EnumDescriptor const* descriptor, YAML::Emitter& out) = 0;
-
-private:
     DescriptorPath path;
     DelayedWriter writer;
+
+protected:
+
+    virtual void write_mapped_enum_keys(google::protobuf::EnumDescriptor const* descriptor, YAML::Emitter& out) = 0;
 
 public:
     explicit ConfigWriteVisitorBase(YAML::Emitter& out);

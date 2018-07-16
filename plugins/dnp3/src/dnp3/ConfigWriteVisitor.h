@@ -2,14 +2,12 @@
 #ifndef OPENFMB_ADAPTER_DNP3_CONFIGWRITEVISITOR_H
 #define OPENFMB_ADAPTER_DNP3_CONFIGWRITEVISITOR_H
 
-#include "adapter-api/ConfigStrings.h"
+
 #include "adapter-api/config/ConfigWriteVisitorBase.h"
 #include "adapter-api/util/EnumUtil.h"
 #include "adapter-api/util/Exception.h"
 
-#include "ConfigStrings.h"
-#include "ControlCodeMeta.h"
-#include "generated/SourceType.h"
+
 
 namespace adapter {
 
@@ -18,19 +16,12 @@ namespace dnp3 {
     class ConfigWriteVisitor final : public ConfigWriteVisitorBase {
 
     public:
-        explicit ConfigWriteVisitor(YAML::Emitter& out)
-            : ConfigWriteVisitorBase(out)
-        {
-        }
+
+        explicit ConfigWriteVisitor(YAML::Emitter& out);
 
     protected:
-        void write_mapped_enum_keys(google::protobuf::EnumDescriptor const* descriptor, YAML::Emitter& out) override
-        {
-            out << YAML::Key << keys::source_type << SourceType::none << YAML::Comment(enumeration::get_value_set_as_string<SourceType>());
-            out << YAML::Key << keys::index << YAML::Value << 0;
-            out << YAML::Key << keys::when_true << YAML::Value << descriptor->value(0)->name();
-            out << YAML::Key << keys::when_false << YAML::Value << descriptor->value(1)->name();
-        }
+
+        void write_mapped_enum_keys(google::protobuf::EnumDescriptor const* descriptor, YAML::Emitter& out) override;
 
         /*
         void write_crob_keys(uint16_t index, uint32_t priority, opendnp3::ControlCode code)
