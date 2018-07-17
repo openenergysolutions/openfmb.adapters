@@ -19,6 +19,8 @@ namespace keys {
     constexpr const char* const named_object = "namedObject";
     constexpr const char* const description = "description";
     constexpr const char* const mRID = "mRID";
+    constexpr const char* const mod_blk = "modBlk";
+    constexpr const char* const control_value = "controlValue";
 
     constexpr const char* const value = "value";
     constexpr const char* const mag = "mag";

@@ -31,8 +31,9 @@ void ConfigWriteVisitorBase::DelayedWriter::write(const write_fun_t& fun)
     fun(this->out);
 }
 
-ConfigWriteVisitorBase::ConfigWriteVisitorBase(YAML::Emitter& out)
-    : writer(out)
+ConfigWriteVisitorBase::ConfigWriteVisitorBase(bool is_control, YAML::Emitter& out)
+    : is_control(is_control)
+    , writer(out)
 {
 }
 
@@ -92,7 +93,20 @@ void ConfigWriteVisitorBase::end_repeated_message_field()
 
 void ConfigWriteVisitorBase::handle_bool(const std::string& field_name)
 {
-    this->writer.write([&](YAML::Emitter& out) { out << YAML::Key << field_name << YAML::Value << "TODO - bool"; });
+    switch (fields::get_bool_type(field_name, path)) {
+    case (BoolType::mapped_value):
+        this->writer.write(
+            [&](YAML::Emitter& out) {
+                out << YAML::Key << field_name;
+                out << YAML::BeginMap;
+                this->write_mapped_bool_keys(out);
+                out << YAML::EndMap;
+            });
+        break;
+        // we ignore everything that isn't a mapped value right now
+    default:
+        break;
+    }
 }
 
 void ConfigWriteVisitorBase::handle_int32(const std::string& field_name)
@@ -122,18 +136,27 @@ void ConfigWriteVisitorBase::handle_float(const std::string& field_name)
 
 void ConfigWriteVisitorBase::handle_string(const std::string& field_name)
 {
-    switch (fields::get_string_type(field_name, path)) {
-    case (StringType::optional_static_mrid):
-        this->writer.write([&](YAML::Emitter& out) { out << YAML::Key << field_name << YAML::Value << "" << YAML::Comment("optional valid UUID"); });
-        break;
-    case (StringType::required_static_mrid):
-        this->writer.write([&](YAML::Emitter& out) { out << YAML::Key << field_name << YAML::Value << "" << YAML::Comment("required valid UUID"); });
-        break;
-    case (StringType::optional):
-        this->writer.write([&](YAML::Emitter& out) { out << YAML::Key << field_name << YAML::Value << "" << YAML::Comment("optional string"); });
-        break;
-    default:
-        break;
+    const auto type = fields::get_string_type(field_name, path);
+
+    if (this->is_control) {
+        // the main mRID is the only thing that needs to be configurable for controls
+        if (type == StringType::conducting_equipment_mrid) {
+            this->writer.write([&](YAML::Emitter& out) { out << YAML::Key << field_name << YAML::Value << "" << YAML::Comment("required UUID to match against"); });
+        }
+    } else {
+        switch (fields::get_string_type(field_name, path)) {
+        case (StringType::optional_static_mrid):
+            this->writer.write([&](YAML::Emitter& out) { out << YAML::Key << field_name << YAML::Value << "" << YAML::Comment("optional valid UUID"); });
+            break;
+        case (StringType::conducting_equipment_mrid):
+            this->writer.write([&](YAML::Emitter& out) { out << YAML::Key << field_name << YAML::Value << "" << YAML::Comment("required UUID"); });
+            break;
+        case (StringType::optional):
+            this->writer.write([&](YAML::Emitter& out) { out << YAML::Key << field_name << YAML::Value << "" << YAML::Comment("optional string"); });
+            break;
+        default:
+            break;
+        }
     }
 }
 
@@ -142,7 +165,7 @@ void ConfigWriteVisitorBase::handle_enum(const std::string& field_name, google::
     const auto type = fields::get_enum_type(descriptor);
     switch (type) {
     case (EnumType::optional_static_enum):
-        this->writer.write([&](YAML::Emitter& out) { out << YAML::Key << field_name << YAML::Value << descriptor->value(0)->name(); });
+        this->writer.write([&](YAML::Emitter& out) { out << YAML::Key << field_name << YAML::Value << "" << YAML::Comment("optional static enum"); });
         break;
     default:
         this->writer.write(

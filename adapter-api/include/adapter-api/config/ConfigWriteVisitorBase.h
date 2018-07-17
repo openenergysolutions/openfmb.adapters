@@ -21,7 +21,7 @@ class ConfigWriteVisitorBase : public IModelVisitor {
 
     public:
         explicit DelayedWriter(YAML::Emitter& out)
-                : out(out)
+            : out(out)
         {
         }
 
@@ -36,11 +36,14 @@ class ConfigWriteVisitorBase : public IModelVisitor {
     DelayedWriter writer;
 
 protected:
+    bool is_control;
 
     virtual void write_mapped_enum_keys(google::protobuf::EnumDescriptor const* descriptor, YAML::Emitter& out) = 0;
 
+    virtual void write_mapped_bool_keys(YAML::Emitter& out) = 0;
+
 public:
-    explicit ConfigWriteVisitorBase(YAML::Emitter& out);
+    explicit ConfigWriteVisitorBase(bool is_control, YAML::Emitter& out);
 
     // --- final handlers for message fields ---
 

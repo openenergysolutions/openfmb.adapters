@@ -11,8 +11,8 @@ enum class StringType {
     message_mrid,
     /// an optional string that must be either ""  or a valid UUID. present or not present on every message.
     optional_static_mrid,
-    /// a required string that must be a valid UUID
-    required_static_mrid,
+    /// primary identifier -  must be a valid UUID
+    conducting_equipment_mrid,
     /// an optional string
     optional
 };
@@ -24,14 +24,22 @@ enum class EnumType {
     mapped_enum
 };
 
+enum class BoolType {
+    /// a special boolean field found in control messages
+    mod_blk,
+    /// a mapped boolean field
+    mapped_value
+};
+
 namespace fields {
 
-    bool is_message_ignored(const std::string& field_name, google::protobuf::Descriptor const* descriptor,
-                            IDescriptorPath& path);
+    bool is_message_ignored(const std::string& field_name, google::protobuf::Descriptor const* descriptor, IDescriptorPath& path);
 
     StringType get_string_type(const std::string& field_name, IDescriptorPath& path);
 
     EnumType get_enum_type(google::protobuf::EnumDescriptor const* descriptor);
+
+    BoolType get_bool_type(const std::string& field_name, IDescriptorPath& path);
 }
 }
 

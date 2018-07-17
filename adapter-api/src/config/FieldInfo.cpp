@@ -22,7 +22,8 @@ namespace fields {
 
         const static std::map<google::protobuf::Descriptor const*, message_filter_t> ignore_when = {
             { commonmodule::Quality::descriptor(), always },
-            { commonmodule::Timestamp::descriptor(), always }
+            { commonmodule::Timestamp::descriptor(), always },
+            { commonmodule::ControlTimestamp::descriptor(), always }
         };
 
         const auto elem = ignore_when.find(descriptor);
@@ -50,7 +51,7 @@ namespace fields {
                             [](IDescriptorPath &path) -> bool {
                                 return path.has_parents({commonmodule::ConductingEquipment::descriptor()});
                             },
-                            StringType::required_static_mrid
+                            StringType::conducting_equipment_mrid
                         }
                     }
                 },
@@ -125,6 +126,45 @@ namespace fields {
             throw Exception("Unknown type for enum: ", descriptor->full_name());
         }
         return elem->second;
+    }
+
+    BoolType get_bool_type(const std::string& field_name, IDescriptorPath& path)
+    {
+        using match_fun_t = std::function<bool(IDescriptorPath&)>;
+        using pair_t = std::pair<match_fun_t, BoolType>;
+        using match_map_t = std::map<std::string, std::vector<pair_t>>;
+
+        // clang-format off
+        const static match_map_t map = {
+                {
+                    keys::value,
+                    {
+                            {
+                                    [](IDescriptorPath& path) -> bool {
+                                        return path.has_parents({
+                                                                        { keys::mod_blk, google::protobuf::StringValue::descriptor()},
+                                                                        { keys::control_value, commonmodule::ControlValue::descriptor()},
+                                                                });
+                                    },
+                                    BoolType::mod_blk
+                            }
+                    }
+                }
+        };
+        // clang-format on
+
+        // default to mapped value
+        const auto elem = map.find(field_name);
+        if (elem == map.end())
+            return BoolType::mapped_value;
+
+        // find a matching filter
+        const auto match = std::find_if(elem->second.begin(), elem->second.end(), [&](const pair_t& pair) -> bool { return pair.first(path); });
+        // no matching filter for field name
+        if (match == elem->second.end())
+            return BoolType::mapped_value;
+
+        return match->second;
     }
 }
 }

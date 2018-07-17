@@ -2,12 +2,11 @@
 #ifndef OPENFMB_ADAPTER_DNP3_CONFIGWRITEVISITOR_H
 #define OPENFMB_ADAPTER_DNP3_CONFIGWRITEVISITOR_H
 
-
 #include "adapter-api/config/ConfigWriteVisitorBase.h"
 #include "adapter-api/util/EnumUtil.h"
 #include "adapter-api/util/Exception.h"
 
-
+#include <opendnp3/gen/ControlCode.h>
 
 namespace adapter {
 
@@ -16,32 +15,21 @@ namespace dnp3 {
     class ConfigWriteVisitor final : public ConfigWriteVisitorBase {
 
     public:
-
-        explicit ConfigWriteVisitor(YAML::Emitter& out);
+        explicit ConfigWriteVisitor(bool is_control, YAML::Emitter& out);
 
     protected:
+        // --- implement pure virtual methods from base class ---
 
         void write_mapped_enum_keys(google::protobuf::EnumDescriptor const* descriptor, YAML::Emitter& out) override;
 
+        void write_mapped_bool_keys(YAML::Emitter& out) override;
+
+    private:
+        // --- various helpers ---
+
+        void write_crob_keys(YAML::Emitter& out, uint16_t index, opendnp3::ControlCode code);
+
         /*
-        void write_crob_keys(uint16_t index, uint32_t priority, opendnp3::ControlCode code)
-        {
-            this->out << YAML::BeginMap;
-
-            this->out << YAML::Key << keys::index << YAML::Value << index;
-            this->out << YAML::Key << keys::priority << YAML::Value << priority;
-            this->out << YAML::Key << keys::g12v1;
-
-            this->out << YAML::BeginMap;
-            this->out << YAML::Key << keys::control_code << YAML::Value << ControlCodeMeta::to_string(code);
-            this->out << YAML::Key << keys::count << YAML::Value << 1;
-            this->out << YAML::Key << keys::on_time_ms << YAML::Value << 1000;
-            this->out << YAML::Key << keys::off_time_ms << YAML::Value << 1000;
-            this->out << YAML::EndMap;
-
-            this->out << YAML::EndMap;
-        }
-
         void write_bcr_keys() override
         {
 

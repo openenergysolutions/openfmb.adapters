@@ -2,6 +2,8 @@
 #include "dnp3/PluginFactory.h"
 
 #include <adapter-api/ConfigStrings.h>
+#include <adapter-api/ProfileInfo.h>
+
 #include <adapter-api/config/generated/ModelVisitors.h>
 #include <adapter-api/util/YAMLTemplate.h>
 
@@ -18,7 +20,7 @@ namespace dnp3 {
         static void handle(YAML::Emitter& out)
         {
             std::cout << "Generating: " << T::descriptor()->name() << std::endl;
-            ConfigWriteVisitor visitor(out);
+            ConfigWriteVisitor visitor(profile_info<T>::is_control, out);
             visit<T>(visitor);
         }
     };
