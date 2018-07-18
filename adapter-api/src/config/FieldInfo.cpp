@@ -142,7 +142,7 @@ namespace fields {
                             {
                                     [](IDescriptorPath& path) -> bool {
                                         return path.has_parents({
-                                                                        { keys::mod_blk, google::protobuf::StringValue::descriptor()},
+                                                                        { keys::mod_blk, google::protobuf::BoolValue::descriptor()},
                                                                         { keys::control_value, commonmodule::ControlValue::descriptor()},
                                                                 });
                                     },
