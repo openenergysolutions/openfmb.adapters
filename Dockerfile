@@ -15,13 +15,13 @@ RUN apk update && apk add --no-cache \
 WORKDIR /home
 RUN git clone --depth 1 --single-branch --recursive --shallow-submodules -b 2.2.0 https://github.com/automatak/dnp3.git
 WORKDIR /home/dnp3
-RUN cmake -DSTATICLIBS=ON . && cmake --build . --target install
+RUN cmake -DCMAKE_BUILD_TYPE=Release -DSTATICLIBS=ON . && cmake --build . --target install
 
 # Install CNATS
 WORKDIR /home
 RUN git clone --depth 1 --single-branch -b v1.7.6 https://github.com/nats-io/cnats.git
 WORKDIR /home/cnats
-RUN cmake . && cmake --build . --target install
+RUN cmake -DCMAKE_BUILD_TYPE=Release . && cmake --build . --target install
 
 # Setup conan
 RUN pip3 install conan && \
@@ -37,7 +37,7 @@ RUN conan install .
 # Build the project
 RUN rm -rf ~/.conan/data/protobuf
 COPY . /home/openfmb/
-RUN cmake -DOPENFMB_LINK_STATIC=ON . && cmake --build .
+RUN cmake -DCMAKE_BUILD_TYPE=Release -DOPENFMB_LINK_STATIC=ON . && cmake --build .
 
 # Build running image
 FROM alpine:3.7
