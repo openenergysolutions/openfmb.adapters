@@ -94,7 +94,7 @@ void ConfigWriteVisitorBase::end_repeated_message_field()
 void ConfigWriteVisitorBase::handle_bool(const std::string& field_name)
 {
     switch (fields::get_bool_type(field_name, path)) {
-    case (BoolType::mapped_value):
+    case (BoolType::mapped):
         this->writer.write(
             [&](YAML::Emitter& out) {
                 out << YAML::Key << field_name;
@@ -111,27 +111,63 @@ void ConfigWriteVisitorBase::handle_bool(const std::string& field_name)
 
 void ConfigWriteVisitorBase::handle_int32(const std::string& field_name)
 {
-    this->writer.write([&](YAML::Emitter& out) { out << YAML::Key << field_name << YAML::Value << "TODO - int32"; });
+    switch (fields::get_int32_type(field_name, path)) {
+    case (Int32Type::mapped):
+        this->writer.write(
+            [&](YAML::Emitter& out) {
+                out << YAML::Key << field_name;
+                out << YAML::BeginMap;
+                this->write_mapped_int32_keys(out);
+                out << YAML::EndMap;
+            });
+        break;
+    default:
+        break;
+    }
 }
 
 void ConfigWriteVisitorBase::handle_uint32(const std::string& field_name)
 {
-    this->writer.write([&](YAML::Emitter& out) { out << YAML::Key << field_name << YAML::Value << "TODO - uint32"; });
+    this->writer.write(
+        [&](YAML::Emitter& out) {
+            out << YAML::Key << field_name;
+            out << YAML::BeginMap;
+            this->write_mapped_uint32_keys(out);
+            out << YAML::EndMap;
+        });
 }
 
 void ConfigWriteVisitorBase::handle_int64(const std::string& field_name)
 {
-    this->writer.write([&](YAML::Emitter& out) { out << YAML::Key << field_name << YAML::Value << "TODO - int64"; });
+    this->writer.write(
+        [&](YAML::Emitter& out) {
+            out << YAML::Key << field_name;
+            out << YAML::BeginMap;
+            this->write_mapped_int64_keys(out);
+            out << YAML::EndMap;
+        });
 }
 
 void ConfigWriteVisitorBase::handle_uint64(const std::string& field_name)
 {
-    this->writer.write([&](YAML::Emitter& out) { out << YAML::Key << field_name << YAML::Value << "TODO - uint64"; });
+    this->writer.write(
+        [&](YAML::Emitter& out) {
+            out << YAML::Key << field_name;
+            out << YAML::BeginMap;
+            this->write_mapped_uint64_keys(out);
+            out << YAML::EndMap;
+        });
 }
 
 void ConfigWriteVisitorBase::handle_float(const std::string& field_name)
 {
-    this->writer.write([&](YAML::Emitter& out) { out << YAML::Key << field_name << YAML::Value << "TODO - float"; });
+    this->writer.write(
+        [&](YAML::Emitter& out) {
+            out << YAML::Key << field_name;
+            out << YAML::BeginMap;
+            this->write_mapped_float_keys(out);
+            out << YAML::EndMap;
+        });
 }
 
 void ConfigWriteVisitorBase::handle_string(const std::string& field_name)
@@ -172,7 +208,7 @@ void ConfigWriteVisitorBase::handle_enum(const std::string& field_name, google::
             [&](YAML::Emitter& out) {
                 out << YAML::Key << field_name;
                 out << YAML::BeginMap;
-                this->write_mapped_enum_keys(descriptor, out);
+                this->write_mapped_enum_keys(out, descriptor);
                 out << YAML::EndMap;
             });
         break;

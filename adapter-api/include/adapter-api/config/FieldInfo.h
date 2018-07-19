@@ -21,14 +21,23 @@ enum class EnumType {
     /// an optional enum that is the same value in every message
     optional_static_enum,
     /// an enum that is mapped from values in the underlying protocol
-    mapped_enum
+    mapped
 };
 
 enum class BoolType {
     /// a special boolean field found in control messages
     mod_blk,
+    /// bools that are ignored (at the moment)
+    ignored,
     /// a mapped boolean field
-    mapped_value
+    mapped
+};
+
+enum class Int32Type {
+    /// ignored (at the moment)
+    ignored,
+    /// mapped from the underlying protocol
+    mapped
 };
 
 namespace fields {
@@ -40,6 +49,8 @@ namespace fields {
     EnumType get_enum_type(google::protobuf::EnumDescriptor const* descriptor);
 
     BoolType get_bool_type(const std::string& field_name, IDescriptorPath& path);
+
+    Int32Type get_int32_type(const std::string& field_name, IDescriptorPath& path);
 }
 }
 

@@ -21,6 +21,8 @@ namespace keys {
     constexpr const char* const mRID = "mRID";
     constexpr const char* const mod_blk = "modBlk";
     constexpr const char* const control_value = "controlValue";
+    constexpr const char* const connected = "connected";
+    constexpr const char* const aCDCTerminal = "aCDCTerminal";
 
     constexpr const char* const value = "value";
     constexpr const char* const mag = "mag";

@@ -38,9 +38,19 @@ class ConfigWriteVisitorBase : public IModelVisitor {
 protected:
     bool is_control;
 
-    virtual void write_mapped_enum_keys(google::protobuf::EnumDescriptor const* descriptor, YAML::Emitter& out) = 0;
-
     virtual void write_mapped_bool_keys(YAML::Emitter& out) = 0;
+
+    virtual void write_mapped_int32_keys(YAML::Emitter& out) = 0;
+
+    virtual void write_mapped_uint32_keys(YAML::Emitter& out) = 0;
+
+    virtual void write_mapped_int64_keys(YAML::Emitter& out) = 0;
+
+    virtual void write_mapped_uint64_keys(YAML::Emitter& out) = 0;
+
+    virtual void write_mapped_float_keys(YAML::Emitter& out) = 0;
+
+    virtual void write_mapped_enum_keys(YAML::Emitter& out, google::protobuf::EnumDescriptor const* descriptor) = 0;
 
 public:
     explicit ConfigWriteVisitorBase(bool is_control, YAML::Emitter& out);

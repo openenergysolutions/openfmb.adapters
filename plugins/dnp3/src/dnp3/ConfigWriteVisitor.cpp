@@ -19,19 +19,6 @@ namespace dnp3 {
 
     // --- implement pure virtual methods from base class ---
 
-    void ConfigWriteVisitor::write_mapped_enum_keys(google::protobuf::EnumDescriptor const* descriptor, YAML::Emitter& out)
-    {
-        if (this->is_control) {
-            // TODO - support control mappings for enums
-            throw Exception("control mappings not supported for type enum");
-        } else {
-            out << YAML::Key << keys::source_type << SourceType::none << YAML::Comment(enumeration::get_value_set_as_string<SourceType>());
-            out << YAML::Key << keys::index << YAML::Value << 0;
-            out << YAML::Key << keys::when_true << YAML::Value << descriptor->value(0)->name();
-            out << YAML::Key << keys::when_false << YAML::Value << descriptor->value(1)->name();
-        }
-    }
-
     void ConfigWriteVisitor::write_mapped_bool_keys(YAML::Emitter& out)
     {
         if (this->is_control) {
@@ -46,7 +33,46 @@ namespace dnp3 {
             out << YAML::EndSeq;
         } else {
             // TODO - support mapping booleans in measurement direction?
-            throw Exception("measurement mappings not supported for type bool");
+            //throw Exception("measurement mappings not supported for type bool");
+            out << YAML::Key << "some" << YAML::Value << "bool";
+        }
+    }
+
+    void ConfigWriteVisitor::write_mapped_int32_keys(YAML::Emitter& out)
+    {
+        out << YAML::Key << "some" << YAML::Value << "int32";
+    }
+
+    void ConfigWriteVisitor::write_mapped_uint32_keys(YAML::Emitter& out)
+    {
+        throw NotImplemented(LOCATION);
+    }
+
+    void ConfigWriteVisitor::write_mapped_int64_keys(YAML::Emitter& out)
+    {
+        out << YAML::Key << "some" << YAML::Value << "int64";
+    }
+
+    void ConfigWriteVisitor::write_mapped_uint64_keys(YAML::Emitter& out)
+    {
+        throw NotImplemented(LOCATION);
+    }
+
+    void ConfigWriteVisitor::write_mapped_float_keys(YAML::Emitter& out)
+    {
+        out << YAML::Key << "some" << YAML::Value << "float";
+    }
+
+    void ConfigWriteVisitor::write_mapped_enum_keys(YAML::Emitter& out, google::protobuf::EnumDescriptor const* descriptor)
+    {
+        if (this->is_control) {
+            // TODO - support control mappings for enums
+            throw NotImplemented(LOCATION);
+        } else {
+            out << YAML::Key << keys::source_type << SourceType::none << YAML::Comment(enumeration::get_value_set_as_string<SourceType>());
+            out << YAML::Key << keys::index << YAML::Value << 0;
+            out << YAML::Key << keys::when_true << YAML::Value << descriptor->value(0)->name();
+            out << YAML::Key << keys::when_false << YAML::Value << descriptor->value(1)->name();
         }
     }
 

@@ -14,6 +14,7 @@
 namespace adapter {
 namespace fields {
 
+    using match_fun_t = std::function<bool(IDescriptorPath&)>;
     using message_filter_t = std::function<bool(const std::string& name, IDescriptorPath& path)>;
 
     bool is_message_ignored(const std::string& field_name, google::protobuf::Descriptor const* descriptor, IDescriptorPath& path)
@@ -38,7 +39,6 @@ namespace fields {
 
     StringType get_string_type(const std::string& field_name, IDescriptorPath& path)
     {
-        using match_fun_t = std::function<bool(IDescriptorPath&)>;
         using pair_t = std::pair<match_fun_t, StringType>;
         using match_map_t = std::map<std::string, std::vector<pair_t>>;
 
@@ -113,12 +113,12 @@ namespace fields {
             { commonmodule::HealthKind_descriptor(), EnumType::optional_static_enum },
 
             // enums mapped to the protocol
-            { commonmodule::DynamicTestKind_descriptor(), EnumType::mapped_enum },
-            { commonmodule::DbPosKind_descriptor(), EnumType::mapped_enum },
-            { commonmodule::GridConnectModeKind_descriptor(), EnumType::mapped_enum },
-            { commonmodule::StateKind_descriptor(), EnumType::mapped_enum },
-            { essmodule::ESSFunctionKind_descriptor(), EnumType::mapped_enum },
-            { essmodule::ESSFunctionParameterKind_descriptor(), EnumType::mapped_enum },
+            { commonmodule::DynamicTestKind_descriptor(), EnumType::mapped },
+            { commonmodule::DbPosKind_descriptor(), EnumType::mapped },
+            { commonmodule::GridConnectModeKind_descriptor(), EnumType::mapped },
+            { commonmodule::StateKind_descriptor(), EnumType::mapped },
+            { essmodule::ESSFunctionKind_descriptor(), EnumType::mapped },
+            { essmodule::ESSFunctionParameterKind_descriptor(), EnumType::mapped },
         };
 
         const auto elem = map.find(descriptor);
@@ -130,7 +130,6 @@ namespace fields {
 
     BoolType get_bool_type(const std::string& field_name, IDescriptorPath& path)
     {
-        using match_fun_t = std::function<bool(IDescriptorPath&)>;
         using pair_t = std::pair<match_fun_t, BoolType>;
         using match_map_t = std::map<std::string, std::vector<pair_t>>;
 
@@ -147,6 +146,15 @@ namespace fields {
                                                                 });
                                     },
                                     BoolType::mod_blk
+                            },
+                            {
+                                    [](IDescriptorPath& path) -> bool {
+                                        return path.has_parents({
+                                                                        { keys::connected, google::protobuf::BoolValue::descriptor()},
+                                                                        { keys::aCDCTerminal, commonmodule::ACDCTerminal::descriptor()},
+                                                                });
+                                    },
+                                    BoolType::ignored
                             }
                     }
                 }
@@ -156,13 +164,41 @@ namespace fields {
         // default to mapped value
         const auto elem = map.find(field_name);
         if (elem == map.end())
-            return BoolType::mapped_value;
+            return BoolType::mapped;
 
         // find a matching filter
         const auto match = std::find_if(elem->second.begin(), elem->second.end(), [&](const pair_t& pair) -> bool { return pair.first(path); });
         // no matching filter for field name
         if (match == elem->second.end())
-            return BoolType::mapped_value;
+            return BoolType::mapped;
+
+        return match->second;
+    }
+
+    Int32Type get_int32_type(const std::string& field_name, IDescriptorPath& path)
+    {
+        using pair_t = std::pair<match_fun_t, Int32Type>;
+        using match_map_t = std::map<std::string, std::vector<pair_t>>;
+
+        const static match_map_t map = {
+            { keys::value,
+              { { [](IDescriptorPath& path) -> bool {
+                     return path.has_parents({ google::protobuf::Int32Value::descriptor(),
+                                               commonmodule::ACDCTerminal::descriptor() });
+                 },
+                  Int32Type::ignored } } }
+        };
+
+        // default to mapped value
+        const auto elem = map.find(field_name);
+        if (elem == map.end())
+            return Int32Type::mapped;
+
+        // find a matching filter
+        const auto match = std::find_if(elem->second.begin(), elem->second.end(), [&](const pair_t& pair) -> bool { return pair.first(path); });
+        // no matching filter for field name
+        if (match == elem->second.end())
+            return Int32Type::mapped;
 
         return match->second;
     }
