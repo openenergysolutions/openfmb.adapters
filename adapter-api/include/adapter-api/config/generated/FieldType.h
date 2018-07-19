@@ -11,8 +11,8 @@
 //  This file is auto-generated. Do not edit manually
 // 
 
-#ifndef OPENFMB_SOURCETYPE_H
-#define OPENFMB_SOURCETYPE_H
+#ifndef OPENFMB_FIELDTYPE_H
+#define OPENFMB_FIELDTYPE_H
 
 #include <string>
 #include <array>
@@ -21,26 +21,20 @@ namespace adapter {
 
 namespace dnp3 {
 
-struct SourceType
+struct FieldType
 {
     enum class Value
     {
-        // the field is disabled
-        none,
-        // the field value is derived from a DNP3 binary
-        binary,
-        // the field value is derived from a DNP3 analog
-        analog,
-        // the field value is derived from a DNP3 counter
-        counter,
+        // the field value is always the same, fixed in configuration
+        constant,
+        // the field value is mapped dynamically from the downstream protocol
+        mapped,
     };
 
-    static const char none[];
-    static const char binary[];
-    static const char analog[];
-    static const char counter[];
+    static const char constant[];
+    static const char mapped[];
 
-    static const std::array<Value, 4> values;
+    static const std::array<Value, 2> values;
 
     static std::string to_string(Value value);
     static Value from_string(const std::string& name);

@@ -3,24 +3,32 @@ package com.oes.openfmb.generation.enumeration;
 import com.oes.openfmb.generation.document.*;
 import jdk.nashorn.internal.ir.annotations.Immutable;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static com.oes.openfmb.generation.document.Document.*;
 
 public class EnumFiles implements CppFileCollection {
 
     private final Enumeration enumeration;
+    private final Path includePath;
     private final FileName name;
     private final List<String> namespaces;
 
 
-    EnumFiles(Enumeration enumeration, List<String> namespaces) {
+    EnumFiles(Enumeration enumeration, Path includePath, List<String> namespaces) {
         this.enumeration = enumeration;
+        this.includePath = includePath;
         this.name = new FileName(enumeration.name);
         this.namespaces = namespaces;
         Collections.reverse(namespaces);
+    }
+
+    EnumFiles(Enumeration enumeration, List<String> namespaces) {
+        this(enumeration, null, namespaces);
     }
 
     @Override
@@ -37,7 +45,7 @@ public class EnumFiles implements CppFileCollection {
                                      line("struct %s", enumeration.name).bracketSemicolon(
                                              getEnumDefinition(),
                                              space,
-                                             join(enumeration.values.stream().map(v -> line("static const char %s[];", v))),
+                                             join(enumeration.values.stream().map(entry -> line("static const char %s[];", entry.label))),
                                              space,
                                              line("static const std::array<Value, %d> values;", this.enumeration.values.size()),
                                              space,
@@ -55,7 +63,7 @@ public class EnumFiles implements CppFileCollection {
         return name.createImplementationList(
                 () -> join(
                         FileHeader.lines,
-                        include(this.name.getHeaderName()),
+                        (this.includePath == null) ? include(this.name.getHeaderName()) : include(this.includePath.resolve(this.name.getHeaderName()).toString()),
                         space,
                         include("adapter-api/util/Exception.h"),
                         space,
@@ -63,7 +71,7 @@ public class EnumFiles implements CppFileCollection {
                         space,
                         namespaced(
                                 spaced(
-                                        join(this.enumeration.values.stream().map(v -> line("const char %s::%s[] = \"%s\";", this.enumeration.name, v, v))),
+                                        join(this.enumeration.values.stream().map(entry -> line("const char %s::%s[] = \"%s\";", this.enumeration.name, entry.label, entry.label))),
                                         getValuesDefinitions(),
                                         getToStringMethod(),
                                         getFromStringMethod()
@@ -77,7 +85,7 @@ public class EnumFiles implements CppFileCollection {
     private Document getValuesDefinitions()
     {
         return line("const std::array<%s::Value, %d> %s::values =", this.enumeration.name, this.enumeration.values.size(), this.enumeration.name).bracketSemicolon(
-                join(this.enumeration.values.stream().map(v -> line("%s::Value::%s,", this.enumeration.name, v)))
+                join(this.enumeration.values.stream().map(entry -> line("%s::Value::%s,", this.enumeration.name, entry.label)))
         );
     }
 
@@ -86,13 +94,13 @@ public class EnumFiles implements CppFileCollection {
         final List<Document> switchLines = new ArrayList<>();
         for(int i = 0; i < this.enumeration.values.size(); ++i)
         {
-            final String value = this.enumeration.values.get(i);
+            final String name = this.enumeration.values.get(i).label;
             if((i + 1) < this.enumeration.values.size()) {
-                switchLines.add(line("case(Value::%s): return %s;", value, value));
+                switchLines.add(line("case(Value::%s): return %s;", name, name));
             }
             else
             {
-                switchLines.add(line("default: return %s;", value));
+                switchLines.add(line("default: return %s;", name));
             }
         }
 
@@ -107,7 +115,7 @@ public class EnumFiles implements CppFileCollection {
     {
         return line("%s::Value %s::from_string(const std::string& name)", this.name.baseName, this.name.baseName).bracket(
                 line("static const std::map<std::string, Value> map = ").bracketSemicolon(
-                        join(this.enumeration.values.stream().map(v -> line("{%s, Value::%s},", v, v)))
+                        join(this.enumeration.values.stream().map(entry -> line("{%s, Value::%s},", entry.label, entry.label)))
                 ).then(
                         join(
                                 line("const auto elem = map.find(name);"),
@@ -121,7 +129,12 @@ public class EnumFiles implements CppFileCollection {
     private Document getEnumDefinition()
     {
         return line("enum class Value").bracketSemicolon(
-                join(enumeration.values.stream().map(v -> line(v+",")))
+                join(enumeration.values.stream().map(
+                        entry -> lines(
+                                "// " + entry.comment,
+                                entry.label + ","
+                        )
+                ))
         );
     }
 

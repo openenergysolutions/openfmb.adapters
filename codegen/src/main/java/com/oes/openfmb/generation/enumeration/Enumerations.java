@@ -12,17 +12,43 @@ import java.util.stream.Collectors;
 
 public class Enumerations {
 
-    public static final List<GeneratedFileSet> sets = Collections.singletonList(DNP3.set);
+    public static final List<GeneratedFileSet> sets = Arrays.asList(API.set, DNP3.set);
+
+    private static class API {
+
+        private final static Enumeration fieldType = new Enumeration(
+                "FieldType",
+                Arrays.asList(
+                        Enumeration.entry("constant", "the field value is always the same, fixed in configuration"),
+                        Enumeration.entry("mapped", "the field value is mapped dynamically from the downstream protocol")
+                )
+        );
+
+        private static List<Enumeration> enums() {
+            return Collections.singletonList(fieldType);
+        }
+
+        private static final Path includePath = Paths.get("../adapter-api/include/adapter-api/config/generated");
+        private static final Path implPath = Paths.get("../adapter-api/src/config/generated");
+        private static final Path implIncludePath = Paths.get("adapter-api/config/generated");
+
+        private static final List<String> namespaces = Arrays.asList("adapter", "dnp3");
+
+        public static final GeneratedFileSet set = new GeneratedFileSet(
+                Arrays.asList(includePath, implPath),
+                FileGenerator.convert(includePath, implPath, enums().stream().map(e -> new EnumFiles(e, implIncludePath, namespaces)).collect(Collectors.toList()))
+        );
+    }
 
     private static class DNP3 {
 
         private final static Enumeration source = new Enumeration(
                 "SourceType",
                 Arrays.asList(
-                        "none",
-                        "binary",
-                        "analog",
-                        "counter"
+                        Enumeration.entry("none", "the field is disabled"),
+                        Enumeration.entry("binary", "the field value is derived from a DNP3 binary"),
+                        Enumeration.entry("analog", "the field value is derived from a DNP3 analog"),
+                        Enumeration.entry("counter", "the field value is derived from a DNP3 counter")
                 )
         );
 

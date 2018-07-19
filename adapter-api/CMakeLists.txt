@@ -31,6 +31,7 @@ set(API_HEADERS
 	include/adapter-api/config/IModelVisitor.h
     include/adapter-api/config/ITypedModelVisitor.h
 	include/adapter-api/config/PublishingConfigReadVisitorBase.h
+	include/adapter-api/config/generated/FieldType.h
     include/adapter-api/config/generated/MessageVisitors.h
 	include/adapter-api/config/generated/ModelVisitors.h
 	include/adapter-api/config/generated/TypedModelVisitors.h
@@ -47,6 +48,7 @@ set(API_SOURCES
     include/adapter-api/config/FieldInfo.h
 	src/config/FieldInfo.cpp
 	src/config/DescriptorPath.cpp
+	src/config/generated/FieldType.cpp
 	src/config/generated/MessageVisitors.cpp
 	src/config/generated/ModelVisitors.cpp
 # typed model visitors

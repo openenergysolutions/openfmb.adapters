@@ -4,10 +4,25 @@ import java.util.List;
 
 class Enumeration {
 
-    public final String name;
-    public final List<String> values;
+    static class Entry {
+        final String label;
+        final String comment;
 
-    Enumeration(String name, List<String> values) {
+        Entry(String label, String comment) {
+            this.label = label;
+            this.comment = comment;
+        }
+    }
+
+    public static Entry entry(String label, String comment)
+    {
+        return new Entry(label, comment);
+    }
+
+    public final String name;
+    public final List<Entry> values;
+
+    Enumeration(String name, List<Entry> values) {
         this.name = name;
         this.values = values;
     }

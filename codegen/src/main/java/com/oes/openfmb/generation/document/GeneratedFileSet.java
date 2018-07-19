@@ -13,9 +13,13 @@ public class GeneratedFileSet {
         this.generators = generators;
     }
 
-    public void generate()
+    public void deleteFolders()
     {
         directories.forEach(d -> deleteFolderContents(d.toFile()));
+    }
+
+    public void generate()
+    {
         generators.forEach(FileGenerator::write);
     }
 
