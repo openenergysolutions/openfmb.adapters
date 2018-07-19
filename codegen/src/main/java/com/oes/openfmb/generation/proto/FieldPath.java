@@ -16,6 +16,15 @@ public interface FieldPath {
             this.depth = depth;
             this.field = field;
         }
+
+        Descriptors.GenericDescriptor getGenericDescriptor()
+        {
+            if(field.getType() == Descriptors.FieldDescriptor.Type.MESSAGE) {
+                return field.getMessageType();
+            } else {
+                return field.getEnumType();
+            }
+        }
     }
 
     FieldPath build(Descriptors.FieldDescriptor field);

@@ -8,6 +8,7 @@ namespace adapter
     {
         // ---- generic strings used all over the place ----
 
+        constexpr const char* const profile = "profile";
         constexpr const char* const profiles = "profiles";
         constexpr const char* const path = "path";
         constexpr const char* const overrides = "overrides";
@@ -26,6 +27,11 @@ namespace adapter
         constexpr const char* const cVal = "cVal";
         constexpr const char* const actVal = "actVal";
         constexpr const char* const stVal = "stVal";
+        constexpr const char* const ctlVal = "ctlVal";
+        constexpr const char* const interlockCheck = "interlockCheck";
+        constexpr const char* const synchroCheck = "synchroCheck";
+        constexpr const char* const controlScheduleFSCH = "controlScheduleFSCH";
+        constexpr const char* const ValACSG = "ValACSG";
     }
 }
 

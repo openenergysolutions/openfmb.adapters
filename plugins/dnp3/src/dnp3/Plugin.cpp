@@ -7,15 +7,18 @@
 
 #include <adapter-api/util/YAMLUtil.h>
 #include <adapter-api/util/YAMLTemplate.h>
-#include <adapter-api/config/generated/MessageVisitors.h>
+#include <adapter-api/config/ModelVisitors.h>
 #include <adapter-api/ConfigStrings.h>
+#include <adapter-api/ProfileHelpers.h>
+#include <adapter-api/config/ProfileType.h>
 
 #include "ConfigStrings.h"
-#include "ConfigReadVisitor.h"
+#include "PublishingConfigReadVisitor.h"
+#include "SubscribingConfigReadVisitor.h"
 #include "LogAdapter.h"
+#include "CommandSequenceExecutor.h"
 
 #include <stdexcept>
-
 
 using namespace openpal;
 using namespace opendnp3;
@@ -26,60 +29,47 @@ namespace adapter
     namespace dnp3
     {
         template <class T>
-        using visit_fun_t = void (*)(IProtoVisitor<T>&);
+        using visit_fun_t = void (*)(IModelVisitor<T>&);
 
-        class ProfileLoader : public IProfileReader
+        template <class T>
+        class ProfileLoader
         {
-            const std::shared_ptr<IConfigurationBuilder> builder;
 
         public:
-            ProfileLoader(const std::shared_ptr<IConfigurationBuilder>& builder) : builder(builder) {}
 
-
-        protected:
-            void read_resource_reading(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override
+            static void handle(const YAML::Node& node, const Logger& logger, message_bus_t bus, std::shared_ptr<IPublishConfigBuilder> builder, std::shared_ptr<ICommandSequenceExecutor> executor)
             {
-                load_typed_mapping<resourcemodule::ResourceReadingProfile>(node, bus, this->builder);
-            }
-
-            void read_switch_reading(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override
-            {
-                load_typed_mapping<switchmodule::SwitchReadingProfile>(node, bus, this->builder);
-            }
-
-            void read_switch_status(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override
-            {
-                load_typed_mapping<switchmodule::SwitchStatusProfile>(node, bus, this->builder);
+                if(::adapter::get_profile_type<T>() == ProfileType::control)
+                {
+                    handle_subscribe(node, logger, *bus, std::move(executor));
+                }
+                else
+                {
+                    handle_publish(node, std::move(bus), std::move(builder));
+                }
             }
 
         private:
 
-            template <class T>
-            void load_typed_mapping(const YAML::Node& node, IMessageBus& bus, const std::shared_ptr<IConfigurationBuilder>& builder)
+            static void handle_publish(const YAML::Node& node, publisher_t publisher, std::shared_ptr<IPublishConfigBuilder> builder)
             {
-                const auto profile = std::make_shared<T>();
+                PublishingConfigReadVisitor<T> visitor(node, publisher, builder);
+                visit(visitor);
+            }
 
-                // clear the profile before processing measurements
-                builder->add_start_action([profile]()
-                {
-                    profile->Clear();
-                });
-
-                ConfigReadVisitor<T> reader(node, profile, builder);
-                visit(reader);
-
-                // publish the profile when the response completes
-                builder->add_end_action([profile, publisher = bus.get_publisher<T>()]()
-                {
-                    publisher->publish(*profile);
-                });
+            static void handle_subscribe(const YAML::Node& node, const Logger& logger, IMessageBus& bus, std::shared_ptr<ICommandSequenceExecutor> executor)
+            {
+                SubscribingConfigReadVisitor<T> visitor(node);
+                visit(visitor);
+                visitor.subscribe(logger, bus, std::move(executor));
             }
         };
+
 
         Plugin::Plugin(
             const Logger& logger,
             const YAML::Node& node,
-            IMessageBus& bus
+            message_bus_t bus
         ) :
             logger(logger),
             manager(
@@ -97,26 +87,23 @@ namespace adapter
             );
         }
 
-        void Plugin::add_master(const YAML::Node& node, IMessageBus& bus)
+        void Plugin::add_master(const YAML::Node& node, message_bus_t bus)
         {
             const auto channel = this->create_channel(node);
 
             MasterStackConfig config;
 
-
             const auto protocol = yaml::require(node, keys::protocol);
 
-            config.link.LocalAddr = yaml::require(protocol, keys::master_address).as<std::uint16_t>();
-            config.link.RemoteAddr = yaml::require(protocol, keys::outstation_address).as<std::uint16_t>();
-
+            config.link.LocalAddr = yaml::require_integer<uint16_t>(protocol, keys::master_address);
+            config.link.RemoteAddr = yaml::require_integer<uint16_t>(protocol, keys::outstation_address);
 
             // actively disable unsolicited mode, and don't re-enable it after integrity scan
             config.master.disableUnsolOnStartup = true;
             config.master.unsolClassMask = ClassField::None();
 
             const auto handler = std::make_shared<SOEHandler>();
-
-            ProfileLoader loader(handler);
+            const auto executor = std::make_shared<CommandSequenceExecutor>(this->logger);
 
             const auto profiles = yaml::require(node, ::adapter::keys::profiles);
 
@@ -124,11 +111,13 @@ namespace adapter
                 profiles,
                 [&](const YAML::Node& node)
         {
-            loader.read_one_profile(
+            profiles::handle_one<ProfileLoader>(
                 yaml::require_string(node, ::adapter::keys::name),
                 node,
                 logger,
-                bus
+                bus,
+                handler,
+                executor
             );
             }
             );
@@ -147,11 +136,21 @@ namespace adapter
                               config
                           );
 
-            // configure the integrity scan
-            master->AddClassScan(
-                ClassField::AllClasses(),
-                TimeDuration::Milliseconds(yaml::require(protocol, keys::integrity_poll_ms).as<uint32_t>())
-            );
+            if(handler->empty())
+            {
+                logger.info("No measurement handlers: ignoring poll configuration");
+            }
+            else
+            {
+                // configure the integrity scan
+                master->AddClassScan(
+                    ClassField::AllClasses(),
+                    TimeDuration::Milliseconds(yaml::require(protocol, keys::integrity_poll_ms).as<uint32_t>())
+                );
+            }
+
+            // start allowing the executor to dispatch controls
+            executor->start(master);
 
             this->masters.push_back(master);
         }

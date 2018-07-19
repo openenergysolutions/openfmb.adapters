@@ -7,6 +7,7 @@
 #include <adapter-api/util/YAMLUtil.h>
 #include <adapter-api/ProfileMode.h>
 #include <adapter-api/ConfigStrings.h>
+#include <adapter-api/ProfileHelpers.h>
 
 #include "ConfigStrings.h"
 #include "NATSSubscriber.h"
@@ -17,16 +18,67 @@ namespace adapter
     namespace nats
     {
 
-        Plugin::Plugin(const Logger& logger, const YAML::Node& node, IMessageBus& bus) :
+        template <class T>
+        class ProfileReader
+        {
+
+        public:
+
+            static void handle(const YAML::Node& node, Logger logger, message_bus_t bus, const message_queue_t& message_queue, subscription_vec_t& subscriptions)
+            {
+                // get the mode for the profile
+                const auto mode = ProfileModeMeta::parse(yaml::require_string(node, T::descriptor()->name()));
+                switch(mode)
+                {
+                case(ProfileMode::publish):
+                    add_publisher(logger, *bus, message_queue);
+                    break;
+                case(ProfileMode::subscribe):
+                    subscriptions.push_back(create_subscription(logger, bus, message_queue));
+                    break;
+                default:
+                    break;
+                }
+            }
+
+        private:
+            static void add_publisher(Logger& logger, IMessageBus& bus, const message_queue_t& message_queue)
+            {
+                logger.info("Registering subscriber for: {}", T::descriptor()->name());
+
+                bus.subscribe(
+                    std::make_shared<NATSPublisher<T>>(
+                        logger,
+                        message_queue
+                    )
+                );
+            }
+
+            static std::unique_ptr<INATSSubscription> create_subscription(Logger& logger, publisher_t publisher, const std::shared_ptr<util::SynchronizedQueue<Message>>& message_queue)
+            {
+                const auto subject =  get_subscribe_all_subject_name<T>();
+
+                logger.info("{} will be read from subject: {}", T::descriptor()->name(), subject);
+
+                return std::make_unique<NATSSubscriber<T>>(
+                           logger,
+                           subject,
+                           std::move(publisher)
+                       );
+            }
+        };
+
+
+        Plugin::Plugin(const Logger& logger, const YAML::Node& node, message_bus_t bus) :
             config(node),
             logger(logger),
             messages(
                 std::make_shared<util::SynchronizedQueue<Message>>(config.max_queued_messages)
             )
         {
-            const auto profiles = yaml::require(node, ::adapter::keys::profiles);
+            const auto profiles_map = yaml::require(node, ::adapter::keys::profiles);
 
-            this->read_all_profiles(profiles, logger, bus);
+            profiles::handle_all<ProfileReader>(profiles_map, logger, bus, this->messages, this->subscriptions);
         }
 
         Plugin::Config::Config(const YAML::Node& node) :
@@ -104,68 +156,6 @@ namespace adapter
 
                 }
             }
-        }
-
-        void Plugin::read_resource_reading(const YAML::Node& node, const Logger& logger, IMessageBus& bus)
-        {
-            this->configure_profile<resourcemodule::ResourceReadingProfile>(node, bus);
-        }
-
-        void Plugin::read_switch_reading(const YAML::Node& node, const Logger& logger, IMessageBus& bus)
-        {
-            this->configure_profile<switchmodule::SwitchReadingProfile>(node, bus);
-        }
-
-        void Plugin::read_switch_status(const YAML::Node& node, const Logger& logger, IMessageBus& bus)
-        {
-            this->configure_profile<switchmodule::SwitchStatusProfile>(node, bus);
-        }
-
-        template <class T>
-        void Plugin::configure_profile(const YAML::Node& node, IMessageBus& bus)
-        {
-            // get the mode for the profile
-            const auto mode = ProfileModeMeta::parse(yaml::require_string(node, T::descriptor()->name()));
-            switch(mode)
-            {
-            case(ProfileMode::publish):
-                this->add_publisher<T>(bus);
-                break;
-            case(ProfileMode::subscribe):
-                this->add_subscriber<T>(bus);
-                break;
-            default:
-                break;
-            }
-        }
-
-        template <class T>
-        void Plugin::add_publisher(IMessageBus& bus)
-        {
-            logger.info("Registering subscriber for: {}", T::descriptor()->name());
-
-            bus.subscribe(
-                std::make_shared<NATSPublisher<T>>(
-                    this->logger,
-                    this->messages
-                )
-            );
-        }
-
-        template <class T>
-        void Plugin::add_subscriber(IMessageBus& bus)
-        {
-            const auto subject =  get_subscribe_all_subject_name<T>();
-
-            logger.info("{} will be read from subject: {}", T::descriptor()->name(), subject);
-
-            this->subscriptions.push_back(
-                std::make_unique<NATSSubscriber<T>>(
-                    this->logger,
-                    subject,
-                    bus.get_publisher<T>()
-                )
-            );
         }
 
     }

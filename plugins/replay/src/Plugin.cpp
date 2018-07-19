@@ -3,6 +3,7 @@
 #include "ConfigStrings.h"
 
 #include <adapter-api/util/YAMLUtil.h>
+#include <adapter-api/ProfileHelpers.h>
 
 #include <boost/algorithm/string.hpp>
 #include <boost/numeric/conversion/cast.hpp>
@@ -12,18 +13,42 @@
 
 using namespace std::chrono;
 
-
 namespace adapter
 {
     namespace replay
     {
+        template <class T>
+        class ActionHandler
+        {
+        public:
 
-        Plugin::Plugin(const YAML::Node& node, const Logger& logger, IMessageBus& bus) :
+            static std::function<void ()> get(const std::vector<uint8_t>& data, publisher_t publisher)
+            {
+                return [profile = parse_data_as(data), publisher = publisher]()
+                {
+                    publisher ->publish(*profile);
+                };
+            }
+
+        private:
+
+            static std::shared_ptr<T> parse_data_as(const std::vector<uint8_t>& data)
+            {
+                const auto profile = std::make_shared<T>();
+
+                if(!profile->ParseFromArray(data.data(), boost::numeric_cast<int>(data.size())))
+                {
+                    throw Exception("error parsing message of type: ", T::descriptor()->name());
+                }
+                return profile;
+            }
+        };
+
+
+        Plugin::Plugin(const YAML::Node& node, const Logger& logger, message_bus_t bus) :
             logger(logger),
             file_path(yaml::require_string(node, keys::file)),
-            resource_reading_publisher(bus.get_publisher<resourcemodule::ResourceReadingProfile>()),
-            switch_reading_publisher(bus.get_publisher<switchmodule::SwitchReadingProfile>()),
-            switch_status_publisher(bus.get_publisher<switchmodule::SwitchStatusProfile>())
+            publisher(std::move(bus))
         {
 
         }
@@ -142,31 +167,6 @@ namespace adapter
             return profile;
         }
 
-        std::function<void ()> Plugin::get_publish_action(Profile profile, const std::vector<uint8_t>& data)
-        {
-            switch(profile)
-            {
-
-            case(Profile::resource_reading):
-                return [profile = parse_data_as<resourcemodule::ResourceReadingProfile>(data), publisher = this->resource_reading_publisher]()
-                {
-                    publisher ->publish(*profile);
-                };
-            case(Profile::switch_reading):
-                return [profile = parse_data_as<switchmodule::SwitchReadingProfile>(data), publisher = this->switch_reading_publisher]()
-                {
-                    publisher ->publish(*profile);
-                };
-            case(Profile::switch_status):
-                return [profile = parse_data_as<switchmodule::SwitchStatusProfile>(data), publisher = this->switch_status_publisher]()
-                {
-                    publisher ->publish(*profile);
-                };
-            default:
-                throw Exception("Unsupported profile: ", ProfileMeta::to_string(profile));
-            }
-        }
-
         bool Plugin::get_next_line(std::ifstream& file, LineInfo& next)
         {
             std::string line;
@@ -190,9 +190,10 @@ namespace adapter
 
             next.duration = std::chrono::milliseconds(std::stoull(tokens[0]));
 
-            next.publish = this->get_publish_action(
-                               ProfileMeta::from_string(tokens[1]),
-                               base64::decode(tokens[2])
+            next.publish = profiles::get_one<ActionHandler, std::function<void ()>>(
+                               tokens[1],                   // profile name
+                               base64::decode(tokens[2]),   // decoded data
+                               this->publisher
                            );
 
             return true;

@@ -3,9 +3,10 @@
 #ifndef OPENFMB_ADAPTER_CONFIGWRITEVISITORBASE_H
 #define OPENFMB_ADAPTER_CONFIGWRITEVISITORBASE_H
 
-#include "IProtoVisitor.h"
+#include "IModelVisitor.h"
 
 #include "../ConfigStrings.h"
+#include "ProfileType.h"
 
 #include <yaml-cpp/yaml.h>
 
@@ -13,7 +14,7 @@ namespace adapter
 {
 
     template<class T>
-    class ConfigWriteVisitorBase : public IProtoVisitor<T>
+    class ConfigWriteVisitorBase : public IModelVisitor<T>
     {
 
     protected:
@@ -22,7 +23,7 @@ namespace adapter
 
     public:
 
-        ConfigWriteVisitorBase(YAML::Emitter& out) : out(out) {}
+        explicit ConfigWriteVisitorBase(YAML::Emitter& out) : out(out) {}
 
         void start_message_field(const std::string& field_name) final
         {
@@ -57,7 +58,7 @@ namespace adapter
             out << YAML::EndSeq;
         }
 
-        void handle(const std::string& field_name, getter_t<commonmodule::MV, T> getter) final
+        void handle(const std::string& field_name, Accessor<commonmodule::MV, T> accessor) final
         {
             this->out << YAML::Key << field_name << YAML::Comment("MV");
             this->out << YAML::BeginMap;
@@ -65,7 +66,7 @@ namespace adapter
             this->out << YAML::EndMap;
         }
 
-        void handle(const std::string& field_name, getter_t<commonmodule::CMV, T> getter) final
+        void handle(const std::string& field_name, Accessor<commonmodule::CMV, T> accessor) final
         {
             this->out << YAML::Key << field_name << YAML::Comment("CMV");
             this->out << YAML::BeginMap << keys::cVal;
@@ -76,7 +77,7 @@ namespace adapter
             this->out << YAML::EndMap;
         }
 
-        void handle(const std::string& field_name, getter_t<commonmodule::BCR, T> getter) final
+        void handle(const std::string& field_name, Accessor<commonmodule::BCR, T> accessor) final
         {
             this->out << YAML::Key << field_name << YAML::Comment("BCR");
             this->out << YAML::BeginMap;
@@ -84,7 +85,7 @@ namespace adapter
             this->out << YAML::EndMap;
         }
 
-        void handle(const std::string& field_name, getter_t<commonmodule::StatusDPS, T> getter) final
+        void handle(const std::string& field_name, Accessor<commonmodule::StatusDPS, T> accessor) final
         {
             this->out << YAML::Key << field_name << YAML::Comment("StatusDPS");
             this->out << YAML::BeginMap;
@@ -92,7 +93,89 @@ namespace adapter
             this->out << YAML::EndMap;
         }
 
-        void handle(const std::string& field_name, getter_t<commonmodule::ConductingEquipment, T> getter) final
+        void handle(const std::string& field_name, Accessor <commonmodule::StatusSPS, T> accessor) final
+        {
+            this->out << YAML::Key << field_name << YAML::Comment("StatusSPS");
+            this->out << YAML::BeginMap;
+            this->write_status_sps_keys();
+            this->out << YAML::EndMap;
+        }
+
+        void handle(const std::string& field_name, Accessor <commonmodule::ControlDPC, T> accessor) final
+        {
+            this->out << YAML::Key << field_name << YAML::Comment("ControlDPC");
+            this->out << YAML::BeginMap;
+            this->write_control_dpc_keys();
+            this->out << YAML::EndMap;
+        }
+
+        void handle(const std::string& field_name, Accessor <google::protobuf::FloatValue, T> accessor) final
+        {
+            this->out << YAML::Key << field_name << YAML::Comment("FloatValue");
+            this->out << YAML::BeginMap;
+            this->write_float_value_keys();
+            this->out << YAML::EndMap;
+        }
+
+        void handle(const std::string& field_name, PrimitiveAccessor <commonmodule::StateKind, T> accessor) final
+        {
+            this->out << YAML::Key << field_name;
+            this->out << YAML::BeginMap;
+            this->write_enum_keys(*commonmodule::StateKind_descriptor());
+            this->out << YAML::EndMap;
+        }
+
+        void handle(const std::string& field_name, PrimitiveAccessor<commonmodule::GridConnectModeKind, T> accessor) final
+        {
+            this->out << YAML::Key << field_name;
+            this->out << YAML::BeginMap;
+            this->write_enum_keys(*commonmodule::GridConnectModeKind_descriptor());
+            this->out << YAML::EndMap;
+        }
+
+        void handle(const std::string& field_name, PrimitiveAccessor<commonmodule::DynamicTestKind, T> accessor) final
+        {
+            this->out << YAML::Key << field_name;
+            this->out << YAML::BeginMap;
+            this->write_enum_keys(*commonmodule::DynamicTestKind_descriptor());
+            this->out << YAML::EndMap;
+        }
+
+        void handle(const std::string& field_name, Accessor <commonmodule::CheckConditions, T> accessor) final
+        {
+            this->out << YAML::Key << field_name;
+            this->out << YAML::BeginMap;
+
+            this->out << YAML::Value << keys::interlockCheck;
+            this->out << YAML::BeginMap;
+            this->write_check_conditions_interlockCheck_keys();
+            this->out << YAML::EndMap;
+
+            this->out << YAML::Value << keys::synchroCheck;
+            this->out << YAML::BeginMap;
+            this->write_check_conditions_synchroCheck_keys();
+            this->out << YAML::EndMap;
+
+            this->out << YAML::EndMap;
+        }
+
+        void handle(const std::string& field_name, Accessor <commonmodule::ScheduleCSG, T> accessor) override
+        {
+            this->out << YAML::Key << field_name;
+            this->out << YAML::BeginMap;
+            this->write_schedule_csg_keys();
+            this->out << YAML::EndMap;
+        }
+
+        void handle(const std::string& field_name, Accessor <switchmodule::SwitchCSG, T> accessor) final
+        {
+            this->out << YAML::Key << field_name;
+            this->out << YAML::BeginMap;
+            this->write_switch_csg_keys();
+            this->out << YAML::EndMap;
+        }
+
+        void handle(const std::string& field_name, Accessor<commonmodule::ConductingEquipment, T> accessor) final
         {
             this->out << YAML::Key << field_name;
             this->out << YAML::BeginMap;
@@ -108,7 +191,7 @@ namespace adapter
             this->out << YAML::EndMap;
         }
 
-        void handle(const std::string& field_name, getter_t <commonmodule::IdentifiedObject, T> getter) final
+        void handle(const std::string& field_name, Accessor<commonmodule::IdentifiedObject, T> accessor) final
         {
             this->out << YAML::Key << field_name;
             this->out << YAML::BeginMap;
@@ -118,7 +201,7 @@ namespace adapter
             this->out << YAML::EndMap;
         }
 
-        void handle(const std::string& field_name, getter_t<commonmodule::MessageInfo, T> getter) final
+        void handle(const std::string& field_name, Accessor<commonmodule::MessageInfo, T> accessor) final
         {
             this->out << YAML::Key << field_name << YAML::Comment("mRID set dynamically");
             this->out << YAML::BeginMap;
@@ -130,14 +213,6 @@ namespace adapter
             this->out << YAML::EndMap;
         }
 
-        // TODO - ignore these for now
-
-        void handle(const std::string& field_name, getter_t<commonmodule::ConductingEquipmentTerminalReading, T> getter) final {}
-
-        void handle(const std::string& field_name, getter_t<commonmodule::ENG_CalcMethodKind, T> getter) final {}
-
-        void handle(const std::string& field_name, getter_t<commonmodule::ENG_PFSignKind, T> getter) final {}
-
     protected:
 
         virtual void write_analogue_keys() = 0;
@@ -145,6 +220,22 @@ namespace adapter
         virtual void write_bcr_keys() = 0;
 
         virtual void write_status_dps_keys() = 0;
+
+        virtual void write_status_sps_keys() = 0;
+
+        virtual void write_control_dpc_keys() = 0;
+
+        virtual void write_float_value_keys() = 0;
+
+        virtual void write_enum_keys(const google::protobuf::EnumDescriptor&) = 0;
+
+        virtual void write_check_conditions_interlockCheck_keys() = 0;
+
+        virtual void write_check_conditions_synchroCheck_keys() = 0;
+
+        virtual void write_schedule_csg_keys() = 0;
+
+        virtual void write_switch_csg_keys() = 0;
 
     private:
 
@@ -167,4 +258,4 @@ namespace adapter
 
 }
 
-#endif //OPENFMB_ADAPTER_CONFIGWRITEVISITORBASE_H
+#endif

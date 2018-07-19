@@ -6,7 +6,6 @@
 #include "SOEHandler.h"
 
 #include <asiodnp3/DNP3Manager.h>
-#include <adapter-api/IProfileReader.h>
 
 namespace adapter
 {
@@ -23,7 +22,7 @@ namespace adapter
 
             Plugin() = delete;
 
-            Plugin(const Logger& logger, const YAML::Node& node, IMessageBus& bus);
+            Plugin(const Logger& logger, const YAML::Node& node, message_bus_t bus);
 
             virtual std::string name() const override
             {
@@ -37,7 +36,7 @@ namespace adapter
             Logger logger;
             asiodnp3::DNP3Manager manager;
 
-            void add_master(const YAML::Node& node, IMessageBus& bus);
+            void add_master(const YAML::Node& node, message_bus_t bus);
 
             std::vector<master_t> masters;
 

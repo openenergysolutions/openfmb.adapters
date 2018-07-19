@@ -6,16 +6,24 @@ set(DNP3_SOURCES
         src/dnp3/ConfigStrings.h
         src/dnp3/ConfigWriteVisitor.h
         src/dnp3/Plugin.h
-        src/dnp3/IConfigurationBuilder.h
+        src/dnp3/IPublishConfigBuilder.h
         src/dnp3/InputType.h
         src/dnp3/InputType.cpp
         src/dnp3/LogAdapter.h
-        src/dnp3/ConfigReadVisitor.h
+        src/dnp3/PublishingConfigReadVisitor.h
+        src/dnp3/SubscribingConfigReadVisitor.h
         src/dnp3/SOEHandler.h
         src/dnp3/SOEHandler.cpp
         src/dnp3/PluginFactory.cpp
         src/dnp3/Plugin.cpp
-        src/dnp3/IConfigurationBuilder.h src/dnp3/InputType.h)
+        src/dnp3/ControlCodeMeta.h
+        src/dnp3/ControlCodeMeta.cpp
+        src/dnp3/CommandConfiguration.h
+        src/dnp3/CommandSequence.h
+        src/dnp3/ICommandSequence.h
+        src/dnp3/CommandSequenceExecutor.h
+        src/dnp3/ICommandSequenceExecutor.h
+)
 
 set(DNP3_LIBS asiodnp3 asiopal opendnp3 openpal)
 

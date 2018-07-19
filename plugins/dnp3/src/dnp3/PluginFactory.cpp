@@ -1,10 +1,10 @@
 
 #include "dnp3/PluginFactory.h"
 
-#include <adapter-api/IProfileWriter.h>
-#include <adapter-api/config/generated/MessageVisitors.h>
+#include <adapter-api/config/ModelVisitors.h>
 #include <adapter-api/ConfigStrings.h>
 #include <adapter-api/util/YAMLTemplate.h>
+#include <adapter-api/ProfileHelpers.h>
 
 #include "ConfigWriteVisitor.h"
 #include "Plugin.h"
@@ -13,29 +13,12 @@ namespace adapter
 {
     namespace dnp3
     {
-        struct ProfileWriter : public IProfileWriter
+        template <class T>
+        struct WriterHandler
         {
-        protected:
-            void write_resource_reading(YAML::Emitter& out) override
+            static void handle(YAML::Emitter& out)
             {
-                this->write_any<resourcemodule::ResourceReadingProfile>(out);
-            }
-
-            void write_switch_reading(YAML::Emitter& out) override
-            {
-                this->write_any<switchmodule::SwitchReadingProfile>(out);
-            }
-
-            void write_switch_status(YAML::Emitter& out) override
-            {
-                this->write_any<switchmodule::SwitchStatusProfile>(out);
-            }
-
-        private:
-
-            template <class T>
-            void write_any(YAML::Emitter& out)
-            {
+                std::cout << "Generating: " << T::descriptor()->name() << std::endl;
                 ConfigWriteVisitor<T> visitor(out);
                 visit(visitor);
             }
@@ -43,12 +26,11 @@ namespace adapter
 
         void write_profile_configs(YAML::Emitter& out, const profile_vec_t& profiles)
         {
-            ProfileWriter writer;
             for(auto profile : profiles)
             {
                 out << YAML::BeginMap;
                 out << YAML::Key << "name" << YAML::Value << ProfileMeta::to_string(profile);
-                writer.write_one_profile(profile, out);
+                profiles::handle_one<WriterHandler>(profile, out);
                 out << YAML::EndMap;
             }
         }
@@ -61,12 +43,12 @@ namespace adapter
             yaml::write_default_template_config(out, "dnp3-master-template.yaml");
         }
 
-        std::unique_ptr<IPlugin> PluginFactory::create(const YAML::Node& node, const Logger& logger, IMessageBus& bus)
+        std::unique_ptr<IPlugin> PluginFactory::create(const YAML::Node& node, const Logger& logger, message_bus_t bus)
         {
             return std::make_unique<Plugin>(
                        logger,
                        node,
-                       bus
+                       std::move(bus)
                    );
         }
 

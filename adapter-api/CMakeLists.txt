@@ -3,8 +3,6 @@ set(API_HEADERS
 	include/adapter-api/ConfigStrings.h
 	include/adapter-api/IPlugin.h
 	include/adapter-api/IPluginFactory.h
-	include/adapter-api/IProfileReader.h
-	include/adapter-api/IProfileWriter.h
 	include/adapter-api/IPublisher.h
 	include/adapter-api/IPublisher.h
 	include/adapter-api/ISubscriber.h
@@ -12,32 +10,64 @@ set(API_HEADERS
 	include/adapter-api/Logger.h
 	include/adapter-api/Profile.h
 	include/adapter-api/ProfileMode.h
+	include/adapter-api/ProfileHelpers.h
 	include/adapter-api/Version.h
+	include/adapter-api/util/Time.h
 	include/adapter-api/util/Exception.h
 	include/adapter-api/util/StringUtil.h
 	include/adapter-api/util/SynchronizedQueue.h
 	include/adapter-api/util/YAMLUtil.h
 	include/adapter-api/util/YAMLTemplate.h
+	include/adapter-api/config/PublishingConfigReadVisitorBase.h
 	include/adapter-api/config/ConfigReadVisitorBase.h
 	include/adapter-api/config/ConfigWriteVisitorBase.h
-	include/adapter-api/config/IArchiveVisitor.h
-	include/adapter-api/config/IProtoVisitor.h
-	include/adapter-api/config/ConfigReadVisitorBase.h
+	include/adapter-api/config/IAccessor.h
+	include/adapter-api/config/IMessageVisitor.h
+	include/adapter-api/config/IModelVisitor.h
+    include/adapter-api/config/ModelVisitors.h
+	include/adapter-api/config/ProfileType.h
+	include/adapter-api/config/PublishingConfigReadVisitorBase.h
 	include/adapter-api/config/MessageInformation.h
 	include/adapter-api/config/generated/MessageVisitors.h
-	include/adapter-api/config/generated/ArchiveVisitors.h
+	include/adapter-api/config/generated/ResourceReadingProfileModelVisitor.h
+	include/adapter-api/config/generated/SwitchReadingProfileModelVisitor.h
+	include/adapter-api/config/generated/SwitchStatusProfileModelVisitor.h
+	include/adapter-api/config/generated/SwitchControlProfileModelVisitor.h
+	include/adapter-api/config/generated/ESSReadingProfileModelVisitor.h
+	include/adapter-api/config/generated/ESSStatusProfileModelVisitor.h
+	include/adapter-api/config/generated/ESSControlProfileModelVisitor.h
+	include/adapter-api/config/generated/SolarReadingProfileModelVisitor.h
+	include/adapter-api/config/generated/SolarStatusProfileModelVisitor.h
+	include/adapter-api/config/generated/SolarControlProfileModelVisitor.h
+	include/adapter-api/config/generated/LoadReadingProfileModelVisitor.h
+	include/adapter-api/config/generated/LoadStatusProfileModelVisitor.h
+	include/adapter-api/config/generated/LoadControlProfileModelVisitor.h
 )
 
 set(API_SOURCES
-	src/IMessageBus.cpp
-	src/Profile.cpp
+    src/Profile.cpp
 	src/ProfileMode.cpp
 	src/Version.cpp
+	src/util/Time.cpp
 	src/util/YAMLUtil.cpp
 	src/util/YAMLTemplate.cpp
-	src/config/generated/MessageVisitors.cpp
-	src/config/generated/ArchiveVisitors.cpp
+    src/config/AccessorImpl.h
 	src/config/MessageInformation.cpp
+	src/config/ProfileType.cpp
+	src/config/generated/MessageVisitors.cpp
+	src/config/generated/ResourceReadingProfileModelVisitor.cpp
+	src/config/generated/SwitchReadingProfileModelVisitor.cpp
+	src/config/generated/SwitchStatusProfileModelVisitor.cpp
+	src/config/generated/SwitchControlProfileModelVisitor.cpp
+	src/config/generated/ESSReadingProfileModelVisitor.cpp
+	src/config/generated/ESSStatusProfileModelVisitor.cpp
+	src/config/generated/ESSControlProfileModelVisitor.cpp
+	src/config/generated/SolarReadingProfileModelVisitor.cpp
+	src/config/generated/SolarStatusProfileModelVisitor.cpp
+	src/config/generated/SolarControlProfileModelVisitor.cpp
+	src/config/generated/LoadReadingProfileModelVisitor.cpp
+	src/config/generated/LoadStatusProfileModelVisitor.cpp
+	src/config/generated/LoadControlProfileModelVisitor.cpp
 )
 
 

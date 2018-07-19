@@ -4,7 +4,6 @@
 #include <adapter-api/IPlugin.h>
 #include <adapter-api/Logger.h>
 #include <adapter-api/IMessageBus.h>
-#include <adapter-api/IProfileReader.h>
 #include <adapter-api/util/SynchronizedQueue.h>
 
 #include <yaml-cpp/yaml.h>
@@ -28,7 +27,10 @@ namespace adapter
         };
 
 
-        class Plugin final : public IPlugin, public IProfileReader
+        using message_queue_t = std::shared_ptr<util::SynchronizedQueue<Message>>;
+        using subscription_vec_t = std::vector<std::unique_ptr<INATSSubscription>>;
+
+        class Plugin final : public IPlugin
         {
             struct Config
             {
@@ -46,7 +48,7 @@ namespace adapter
 
             ~Plugin();
 
-            Plugin(const Logger& logger, const YAML::Node& node, IMessageBus& bus);
+            Plugin(const Logger& logger, const YAML::Node& node, message_bus_t bus);
 
             virtual std::string name() const override
             {
@@ -55,17 +57,10 @@ namespace adapter
 
             virtual void start() override;
 
-        protected:
-
-            void read_resource_reading(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override;
-
-            void read_switch_reading(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override;
-
-            void read_switch_status(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override;
-
         private:
 
-            std::vector<std::unique_ptr<INATSSubscription>> subscriptions;
+
+            subscription_vec_t subscriptions;
 
             const Config config;
 
@@ -73,19 +68,10 @@ namespace adapter
             std::unique_ptr<std::thread> background_thread;
             bool shutdown = false;
 
-            const std::shared_ptr<util::SynchronizedQueue<Message>> messages;
+            const message_queue_t messages;
 
             void run();
             void run(natsConnection& connection);
-
-            template <class T>
-            void configure_profile(const YAML::Node& node, IMessageBus& bus);
-
-            template <class T>
-            void add_publisher(IMessageBus& bus);
-
-            template <class T>
-            void add_subscriber(IMessageBus& bus);
         };
     }
 

@@ -17,12 +17,27 @@ namespace adapter
     public:
         virtual ~ISubscriber() = default;
 
+        void receive(const T& message)
+        {
+            if(this->matches(message))
+            {
+                this->process(message);
+            }
+        }
+
+    protected:
+
+        virtual bool matches(const T& message) const
+        {
+            return true;
+        }
+
         /**
          * Callback method invoked when a message of this type is published
          *
          * @param message The message received from the internal bus
          */
-        virtual void receive(const T& message) = 0;
+        virtual void process(const T& message) = 0;
     };
 
     template <class T>

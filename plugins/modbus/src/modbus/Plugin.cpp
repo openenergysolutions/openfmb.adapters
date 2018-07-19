@@ -1,68 +1,60 @@
 
 #include "Plugin.h"
 
-#include "ConfigReadVisitor.h"
-#include "PollHandler.h"
-#include "PollManager.h"
-
-#include <adapter-api/config/generated/MessageVisitors.h>
-#include <adapter-api/IProfileReader.h>
+#include <adapter-api/ProfileHelpers.h>
 #include <adapter-api/util/YAMLTemplate.h>
+#include <adapter-api/config/ProfileType.h>
+#include <adapter-api/config/ModelVisitors.h>
 
 #include "modbus/logging/LoggerFactory.h"
 #include "modbus/channel/IChannel.h"
 #include "modbus/channel/Ipv4Endpoint.h"
 
+#include "PublishConfigReadVisitor.h"
+#include "SubscribeConfigReadVisitor.h"
+#include "PollHandler.h"
+#include "TransactionProcessor.h"
+#include "PollTransaction.h"
+#include "HeartbeatTransaction.h"
 
 namespace adapter
 {
     namespace modbus
     {
 
-        class ProfileReader : public IProfileReader
+        template <class T>
+        class ProfileReader
         {
-            const std::shared_ptr<PollHandler> handler;
-
         public:
-            ProfileReader(const std::shared_ptr<PollHandler>& handler) : handler(handler) {}
-
-        protected:
-            void read_resource_reading(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override
+            static void handle(const YAML::Node& node, const Logger& logger, message_bus_t bus, std::shared_ptr<PollHandler> handler, std::shared_ptr<ITransactionProcessor> processor)
             {
-                this->read_any<resourcemodule::ResourceReadingProfile>(node, bus);
-            }
-
-            void read_switch_reading(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override
-            {
-                this->read_any<switchmodule::SwitchReadingProfile>(node, bus);
-            }
-
-            void read_switch_status(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override
-            {
-                this->read_any<switchmodule::SwitchStatusProfile>(node, bus);
+                if(adapter::get_profile_type<T>() == ProfileType::control)
+                {
+                    handle_subscribe(node, logger, *bus, std::move(processor));
+                }
+                else
+                {
+                    handle_publish(node, std::move(bus), std::move(handler));
+                }
             }
 
         private:
 
-            template <class T>
-            void read_any(const YAML::Node& node, IMessageBus& bus)
+            static void handle_publish(const YAML::Node& node, message_bus_t bus, std::shared_ptr<PollHandler> handler)
             {
-                const auto profile = std::make_shared<T>();
-
-                ConfigReadVisitor<T> visitor(node, profile, this->handler);
+                PublishConfigReadVisitor<T> visitor(node, std::move(bus), std::move(handler));
                 visit(visitor);
+            }
 
-                this->handler->add_end_action(
-                    [profile, publisher = bus.get_publisher<T>()] ()
-                {
-                    publisher->publish(*profile);
-                }
-                );
-
+            static void handle_subscribe(const YAML::Node& node, Logger logger, IMessageBus& bus, std::shared_ptr<ITransactionProcessor> processor)
+            {
+                SubscribeConfigReadVisitor<T> visitor(node);
+                visit(visitor);
+                visitor.subscribe(logger, bus, std::move(processor));
             }
         };
 
-        Plugin::Plugin(const YAML::Node& node, const Logger& logger, IMessageBus& bus) : logger(logger)
+        Plugin::Plugin(const YAML::Node& node, const Logger& logger, message_bus_t bus) : logger(logger)
         {
             // initialize the Modbus manager
             this->manager = ::modbus::IModbusManager::create(
@@ -79,39 +71,71 @@ namespace adapter
             );
         }
 
-        void Plugin::configure_session(const YAML::Node& node, IMessageBus& bus)
+        AutoPollConfig read_auto_poll_config(const YAML::Node& node)
+        {
+            const auto config_node = yaml::require(node, keys::auto_polling);
+            return AutoPollConfig(
+                       yaml::require_integer<uint16_t>(config_node, keys::max_register_gaps)
+                   );
+        }
+
+        void Plugin::configure_session(const YAML::Node& node, message_bus_t bus)
         {
             const auto name = yaml::require_string(node, keys::name);
-            const auto profile_node = yaml::require(node, keys::profile);
-            const auto profile_name = yaml::require_string(profile_node, ::adapter::keys::name);
 
-            const auto handler = std::make_shared<PollHandler>();
+            const auto poll_handler = std::make_shared<PollHandler>();
+            const auto tx_handler = std::make_shared<TransactionProcessor>(this->logger);
 
-            ProfileReader reader(handler);
-            reader.read_one_profile(
-                profile_name,
-                profile_node,
-                this->logger,
-                bus
-            );
-
-
-            this->logger.info("Session {} has {} mapped values", name, handler->num_mapped_values());
-
-            auto poller = PollManager::create(
-                              this->logger,
-                              handler,
-                              std::chrono::milliseconds(yaml::require(node, keys::poll_period_ms).as<int64_t>()),
-                              this->get_session(name, node)
-                          );
-
-            // Configure polls
-            handler->add_necessary_byte_polls(poller, yaml::require(node, keys::allowed_byte_discontinuities).as<int>());
-            handler->add_necessary_bit_polls(poller, yaml::require(node, keys::allowed_bit_discontinuities).as<int>());
-
-            this->start_actions.push_back([poller]()
+            const auto add_heartbeat = [&](const YAML::Node & node)
             {
-                poller->start();
+                tx_handler->add(
+                    std::make_shared<HeartbeatTransaction>(
+                        this->logger,
+                        yaml::require_integer<uint16_t>(node, keys::index),
+                        std::chrono::milliseconds(yaml::require_integer<uint32_t>(node, keys::period_ms)),
+                        // ATM, we only support inverting masked bits
+                        operations::invert(
+                            yaml::require_integer<uint16_t>(node, keys::mask)
+                        )
+                    )
+                );
+            };
+
+            yaml::foreach(yaml::require(node, keys::heartbeats), add_heartbeat);
+
+            const auto add_profile = [&](const YAML::Node & node)
+            {
+                profiles::handle_one<ProfileReader>(
+                    yaml::require_string(node, ::adapter::keys::name),
+                    node,
+                    this->logger,
+                    bus,
+                    poll_handler,
+                    tx_handler
+                );
+            };
+
+            yaml::foreach(yaml::require(node, ::adapter::keys::profiles), add_profile);
+
+            this->logger.info("Session {} has {} mapped values", name, poll_handler->num_mapped_values());
+
+            if(poll_handler->num_mapped_values() > 0)
+            {
+                tx_handler->add(
+                    std::make_shared<PollTransaction>(
+                        this->logger,
+                        read_auto_poll_config(node),
+                        std::chrono::milliseconds(yaml::require_integer<uint32_t>(node, keys::poll_period_ms)),
+                        poll_handler
+                    )
+                );
+            }
+
+            const auto session = this->get_session(name, node);
+
+            this->start_actions.emplace_back([tx_handler, session]()
+            {
+                tx_handler->start(session);
             });
         }
 
@@ -121,16 +145,16 @@ namespace adapter
                                name,
                                ::modbus::Ipv4Endpoint(
                                    yaml::require_string(node, keys::remote_ip),
-                                   yaml::require(node, keys::port).as<uint16_t>()
+                                   yaml::require_integer<uint16_t>(node, keys::port)
                                )
                            );
 
             return channel->create_session(
                        ::modbus::UnitIdentifier(
-                           yaml::require(node, keys::unit_identifier).as<int>()
+                           yaml::require_integer<uint8_t>(node, keys::unit_identifier)
                        ),
                        std::chrono::milliseconds(
-                           yaml::require(node, keys::response_timeout_ms).as<int>()
+                           yaml::require_integer<int32_t>(node, keys::response_timeout_ms)
                        )
                    );
         }

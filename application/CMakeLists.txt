@@ -3,8 +3,8 @@ set(openfmb_adapter_src
     ./src/ArgumentParser.h
     ./src/ArgumentParser.cpp
     ./src/main.cpp
-    ./src/ProtoBus.h
-    ./src/ProtoBus.cpp
+    ./src/MessageBus.h
+    ./src/MessageBus.cpp
     ./src/PluginRegistry.h
     ./src/PluginRegistry.cpp
     ./src/Shutdown.h
@@ -59,3 +59,4 @@ add_executable(openfmb-adapter ${openfmb_adapter_src})
 target_link_libraries(openfmb-adapter PRIVATE ${plugins} Threads::Threads)
 target_include_directories(openfmb-adapter PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../deps/argagg/include)
 target_compile_definitions(openfmb-adapter PRIVATE ${plugin_definitions})
+install(TARGETS openfmb-adapter DESTINATION bin)

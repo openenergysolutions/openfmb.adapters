@@ -4,10 +4,22 @@
 
 #include "modbus/messages/ReadHoldingRegistersResponse.h"
 
+#include <adapter-api/Logger.h>
+
+#include "IRequestBuilder.h"
+
 namespace adapter
 {
     namespace modbus
     {
+        struct AutoPollConfig
+        {
+            explicit AutoPollConfig(uint16_t max_register_gaps) : max_register_gaps(max_register_gaps)
+            {}
+
+            const uint16_t max_register_gaps;
+        };
+
         class IPollHandler
         {
 
@@ -16,10 +28,12 @@ namespace adapter
 
             virtual ~IPollHandler() = default;
 
+            // --- poll lifecycle ----
+
             /**
              * called prior to beginning a sequence of polls
              */
-            virtual void begin() = 0;
+            virtual void begin(Logger& logger) = 0;
 
             /**
              * called after receiving a response to record some state
@@ -29,7 +43,18 @@ namespace adapter
             /**
              * called after polls are complete to fill and publish a message
              */
-            virtual void end() = 0;
+            virtual void end(Logger& logger) = 0;
+
+
+            // --- helpers ----
+
+            /**
+             * Configure poll requests
+             *
+             * @param config Configuration parameters for auto polling
+             * @param builder Callback interface to specify polls
+             */
+            virtual void configure(const AutoPollConfig& config, IRequestBuilder& builder) = 0;
 
             /**
              *

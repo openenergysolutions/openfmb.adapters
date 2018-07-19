@@ -6,7 +6,7 @@
 #include "adapter-api/Version.h"
 
 #include "PluginRegistry.h"
-#include "ProtoBus.h"
+#include "MessageBus.h"
 #include "Shutdown.h"
 #include "ConfigKeys.h"
 #include "LoggerConfig.h"
@@ -17,7 +17,7 @@
 
 using namespace adapter;
 
-std::vector<std::unique_ptr<IPlugin>> initialize(const std::string& yaml_path, PluginRegistry& registry, IMessageBus& bus);
+std::vector<std::unique_ptr<IPlugin>> initialize(const std::string& yaml_path, PluginRegistry& registry, message_bus_t bus);
 
 int run_application(const std::string& config_file_path);
 
@@ -114,10 +114,10 @@ std::shared_ptr<const adapter::IPluginFactory> get_factory(const argagg::parser_
 int run_application(const std::string& config_file_path)
 {
     // plugins publish and subscribe to this common bus
-    const auto bus = std::make_shared<ProtoBus>();
+    const auto bus = std::make_shared<MessageBus>();
 
     // load the logger & plugins from the yaml configuration
-    const auto plugins = initialize(config_file_path, registry, *bus);
+    const auto plugins = initialize(config_file_path, registry, bus);
 
     if(plugins.empty())
     {
@@ -136,6 +136,9 @@ int run_application(const std::string& config_file_path)
 
     // wait for ctrl-c
     Shutdown::await(SIGINT);
+
+    // stop delivering messages
+    bus->shutdown();
 
     return 0;
 }
@@ -200,7 +203,7 @@ int write_default_session_config(const std::string& config_file_path, const IPlu
     return 0;
 }
 
-std::vector<std::unique_ptr<IPlugin>> initialize(const std::string& yaml_path, PluginRegistry& registry, IMessageBus& bus)
+std::vector<std::unique_ptr<IPlugin>> initialize(const std::string& yaml_path, PluginRegistry& registry, message_bus_t bus)
 {
     const auto yaml_root = YAML::LoadFile(yaml_path);
 

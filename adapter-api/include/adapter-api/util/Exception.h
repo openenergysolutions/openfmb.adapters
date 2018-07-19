@@ -4,6 +4,10 @@
 
 #include "StringUtil.h"
 
+#define OPENFMB_MACRO_STRINGIFY(x) #x
+#define OPENFMB_MACRO_TOSTRING(x) OPENFMB_MACRO_STRINGIFY(x)
+#define LOCATION "line: " OPENFMB_MACRO_TOSTRING(__LINE__)
+
 namespace adapter
 {
     /**
@@ -27,6 +31,12 @@ namespace adapter
 
         }
 
+    };
+
+    class NotImplemented : public Exception
+    {
+    public:
+        NotImplemented(const char* location) : Exception("not implemented: ", location) {}
     };
 }
 

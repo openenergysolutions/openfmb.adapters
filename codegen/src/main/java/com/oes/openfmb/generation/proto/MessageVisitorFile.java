@@ -5,44 +5,54 @@ import com.oes.openfmb.generation.document.CppFilePair;
 import com.oes.openfmb.generation.document.Document;
 import com.oes.openfmb.generation.document.Documents;
 import com.oes.openfmb.generation.document.FileHeader;
-import com.oes.openfmb.util.FieldPathImpl;
-import openfmb.commonmodule.*;
-import openfmb.switchmodule.SwitchStatus;
-import openfmb.switchmodule.SwitchStatusXSWI;
 
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.Collections;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
-import java.util.Set;
 
 import static com.oes.openfmb.generation.document.Documents.*;
 
 public class MessageVisitorFile extends CppFilePair {
 
-    private final static Set<Descriptors.Descriptor> terminalMessages = new HashSet<>(
-            Arrays.asList(
-                CMV.getDescriptor(),
-                MV.getDescriptor(),
-                BCR.getDescriptor(),
-                MessageInfo.getDescriptor(),
-                ConductingEquipmentTerminalReading.getDescriptor(),
-                ENG_CalcMethodKind.getDescriptor(),
-                IdentifiedObject.getDescriptor(),
-                ConductingEquipment.getDescriptor(),
-                ENG_PFSignKind.getDescriptor(),
-                StatusDPS.getDescriptor(),
-                ENS_BehaviourModeKind.getDescriptor(),
-                ENS_DynamicTestKind.getDescriptor()
-            )
-    );
+    private static Set<Descriptors.Descriptor> getChildMessageDescriptorsForProfiles(Stream<Descriptors.Descriptor> descriptors)
+    {
+        return descriptors.map(MessageVisitorFile::getChildMessageDescriptorsForProfile).flatMap(Set::stream).collect(Collectors.toSet());
+    }
+
+    private static Set<Descriptors.Descriptor> getChildMessageDescriptorsForProfile(Descriptors.Descriptor descriptor)
+    {
+        return descriptor.getFields().stream().map(MessageVisitorFile::getChildMessageDescriptors).flatMap(Set::stream).collect(Collectors.toSet());
+    }
+
+    private static Set<Descriptors.Descriptor> getChildMessageDescriptors(Descriptors.Descriptor descriptor)
+    {
+        final Set<Descriptors.Descriptor> set = descriptor.getFields().stream().map(MessageVisitorFile::getChildMessageDescriptors).flatMap(Set::stream).collect(Collectors.toSet());
+        set.add(descriptor);
+        return set;
+    }
+
+    private static Set<Descriptors.Descriptor> getChildMessageDescriptors(Descriptors.FieldDescriptor field)
+    {
+        if(field.getType() == Descriptors.FieldDescriptor.Type.MESSAGE)
+        {
+            return getChildMessageDescriptors(field.getMessageType());
+        }
+        else
+        {
+            return Collections.emptySet();
+        }
+    }
 
     private final Iterable<Descriptors.Descriptor> descriptors;
     private final Iterable<String> includes;
+    private final Set<Descriptors.Descriptor> childDescriptors;
 
     public MessageVisitorFile(Iterable<Descriptors.Descriptor> descriptors, Iterable<String> includes) {
         this.descriptors = descriptors;
         this.includes = includes;
+        this.childDescriptors = getChildMessageDescriptorsForProfiles(StreamSupport.stream(descriptors.spliterator(), false));
     }
 
     @Override
@@ -55,7 +65,7 @@ public class MessageVisitorFile extends CppFilePair {
         return join(
                 FileHeader.lines,
                 join(StreamSupport.stream(includes.spliterator(), false).map(Documents::include)),
-                include("../IProtoVisitor.h"),
+                include("../IMessageVisitor.h"),
                 Documents.space,
                 namespace(
                         "adapter",
@@ -74,8 +84,17 @@ public class MessageVisitorFile extends CppFilePair {
                 space,
                 namespace(
                 "adapter",
-                        spaced(
-                                getDescriptorStream().map(d -> visitImpl(d))
+                        join(
+                            spaced(
+                                    this.childDescriptors.stream().map(d -> line(getVisitSignature(d) + ";"))
+                            ),
+                            space,
+                            spaced(
+                                this.childDescriptors.stream().map(this::visitImpl)
+                            ),
+                            spaced(
+                                this.getDescriptorStream().map(this::visitImpl)
+                            )
                         )
                 )
         );
@@ -86,203 +105,92 @@ public class MessageVisitorFile extends CppFilePair {
         return StreamSupport.stream(descriptors.spliterator(), false);
     }
 
-    static private String cppMessageName(Descriptors.Descriptor descriptor)
+    static private String cppMessageName(Descriptors.GenericDescriptor descriptor)
     {
         return descriptor.getFullName().replace(".", "::");
     }
 
     private String getVisitSignature(Descriptors.Descriptor descriptor)
     {
-        return String.format("void visit(IProtoVisitor<%s>& visitor)", cppMessageName(descriptor));
+        return String.format("void visit(const %s& message, IMessageVisitor& visitor)", cppMessageName(descriptor));
     }
 
     private Document visitImpl(Descriptors.Descriptor descriptor)
     {
+        final Document inner = join(descriptor.getFields().stream().map(this::getFieldHandler));
+
         return line(getVisitSignature(descriptor))
                 .append("{")
-                .indent(
-                        line(
-                                String.format("const auto context0 = [](%s& profile) { return &profile; };", cppMessageName(descriptor))
-                        )
-                )
-                .indent(start(descriptor)) // recursively build up the implementation
+                .indent(inner) // recursively build up the implementation
                 .append("}");
 
     }
 
-    private Document start(Descriptors.Descriptor descriptor)
+    private Document getMessageField(Descriptors.FieldDescriptor field)
     {
-        return join(descriptor.getFields().stream().map(f -> this.build(FieldPathImpl.create(descriptor, f))));
-    }
-
-    private Document startMessageField(FieldPath path, Descriptors.Descriptor descriptor)
-    {
-        final Document inner = join(descriptor.getFields().stream().map(f -> this.build(path.build(f))));
-
-        return inner.isEmpty() ? inner :
-            line(String.format("visitor.start_message_field(\"%s\");", path.getInfo().field.getName()))
+        return
+            line(String.format("if(message.has_%s())", field.getName().toLowerCase()))
             .append("{")
-            .indent(
-                    line(getContextDefinition(path))
-                    .append(inner)
-            )
-            .append("}")
-            .append(line("visitor.end_message_field();"));
+            .indent(String.format("visitor.start_message_field(\"%s\");", field.getName()))
+            .indent(String.format("visit(message.%s(), visitor);", field.getName().toLowerCase()))
+            .indent("visitor.end_message_field();")
+            .append("}");
+
     }
 
-    private Document startRepeatedMessageField(FieldPath path, Descriptors.Descriptor descriptor)
+    private Document getRepeatedMessageField(Descriptors.FieldDescriptor field)
     {
-        final Document inner = join(descriptor.getFields().stream().map(f -> this.build(path.build(f))));
+        final String fieldName = field.getName().toLowerCase();
 
-        return inner.isEmpty() ? inner :
-                         line(
-                                 String.format(
-                                         "const auto max_count%d = visitor.start_repeated_message_field(\"%s\");",
-                                         path.getInfo().depth,
-                                         path.getInfo().field.getName()
-                                 )
-                         )
-                        .append(
-                                line(String.format(
-                                        "for(auto count%d = 0; count%d < max_count%d; ++count%d)",
-                                        path.getInfo().depth,
-                                        path.getInfo().depth,
-                                        path.getInfo().depth,
-                                        path.getInfo().depth
-                                ))
-                        )
+        return line(String.format("visitor.start_message_field(\"%s\");", fieldName))
+                        .append(String.format("for(decltype(message.%s_size()) i = 0; i < message.%s_size(); ++i)", fieldName, fieldName))
                         .append("{")
-                        .indent(String.format("visitor.start_iteration(count%d);", path.getInfo().depth))
-                        .indent(getRepeatedContextDefinition(path))
-                        .indent(inner)
+                        .indent("visitor.start_iteration(i);")
+                        .indent(String.format("visit(message.%s(i), visitor);", fieldName))
                         .indent("visitor.end_iteration();")
                         .append("}")
-                        .append(line("visitor.end_repeated_message_field();"));
+                        .append("visitor.end_message_field();");
     }
 
-    private Document build(FieldPath path)
+    private Document getFieldHandler(Descriptors.FieldDescriptor field)
     {
-        switch (path.getInfo().field.getType())
+        switch(field.getType())
         {
             case MESSAGE:
-                if(path.getInfo().field.isRepeated())
-                {
-                    return startRepeatedMessageField(path, path.getInfo().field.getMessageType());
-                }
-                else
-                {
-                    return build(path, path.getInfo().field.getMessageType());
-                }
-            case STRING:
-                if(path.getInfo().field.getName().equals("description"))
-                {
-                    return Documents.empty;
-                }
-                else
-                {
-                    throw new RuntimeException("Unknown string field: " + path);
-                }
-
+                return field.isRepeated() ? getRepeatedMessageField(field) :  getMessageField(field);
+            case ENUM:
+                return getEnumHandler(field);
             default:
-                throw new RuntimeException("Unknown leaf node: " + path);
+                return getPrimitiveHandler(field);
         }
     }
 
-    private Document build(FieldPath path, Descriptors.Descriptor message)
+    private static Document getEnumHandler(Descriptors.FieldDescriptor field)
     {
-        if(terminalMessages.contains(message))
-        {
-            return handler(path, message.getName());
-        }
-        else
-        {
-            return startMessageField(path, message);
-        }
-    }
-
-    private static Document handler(FieldPath path, String type)
-    {
-        return line("visitor.handle(")
-                .indent(
-                    lines(
-                        quoted(path.getInfo().field.getName()) + ",",
-                        getContextLambda(path)
-                    )
+        return line(
+                String.format(
+                        "visitor.handle(%s, static_cast<int>(message.%s()), *%s);",
+                        quoted(field.getName()),
+                        field.getName().toLowerCase(),
+                        cppMessageName(field.getEnumType()) + "_descriptor()"
                 )
-                .append(");");
+        );
+    }
+
+    private static Document getPrimitiveHandler(Descriptors.FieldDescriptor field)
+    {
+        return line(
+                        String.format(
+                                "visitor.handle(%s, message.%s());",
+                                quoted(field.getName()),
+                                field.getName().toLowerCase()
+                        )
+                );
     }
 
     private static String quoted(String input)
     {
         return "\"" + input + "\"";
-    }
-
-    private static Document getRepeatedContextDefinition(FieldPath path)
-    {
-        final int d = path.getInfo().depth;
-
-        return line(
-                    String.format(
-                    "const auto context%d = [context = context%d, i = count%d, max = max_count%d](%s& profile) {",
-                       d + 1,
-                        d,
-                        d,
-                        d,
-                        cppMessageName(path.getRoot())
-                    )
-                )
-                .indent(
-                        line(
-                            String.format("const auto repeated = context(profile)->mutable_%s();", path.getInfo().field.getName().toLowerCase())
-                        )
-                        .append("if(repeated->size() < max) {")
-                        .indent(
-                                lines(
-                                        "repeated->Reserve(max);",
-                                        "// add items until we're at max requested capacity",
-                                        "for(auto j = repeated->size(); j < max; ++j) {"
-                                )
-                                .indent(
-                                        "repeated->Add();"
-                                )
-                                .append("}")
-
-                        )
-                        .append(
-                                lines(
-                                  "}",
-                                  "return repeated->Mutable(i);"
-                                )
-                        )
-                )
-                .append("};");
-    }
-
-    private static String getContextLambda(FieldPath path)
-    {
-        return String.format(
-                "[context = context%d](%s& profile) { return %s; }",
-                path.getInfo().depth,
-                cppMessageName(path.getRoot()),
-                accessor(path)
-        );
-    }
-
-    private static String getContextDefinition(FieldPath path)
-    {
-        return String.format(
-                "const auto context%d = %s;",
-                path.getInfo().depth + 1,
-                getContextLambda(path)
-        );
-    }
-
-    private static String accessor(FieldPath path) {
-
-        return String.format(
-                "context(profile)->mutable_%s()",
-                path.getInfo().field.getName().toLowerCase()
-        );
     }
 
 

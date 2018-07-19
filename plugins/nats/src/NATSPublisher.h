@@ -29,7 +29,8 @@ namespace adapter
                 sink(std::move(sink))
             {}
 
-            void receive(const T& proto) override
+        private:
+            void process(const T& proto) override
             {
                 try
                 {
@@ -54,8 +55,6 @@ namespace adapter
                 }
 
             }
-
-        private:
 
             Logger logger;
             const std::shared_ptr<message_queue_t> sink;
