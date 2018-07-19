@@ -71,10 +71,49 @@ namespace fields {
                         },
                         {
                             [](IDescriptorPath &path) -> bool {
-                                return path.has_parents(
-                                        {{keys::mRID, google::protobuf::StringValue::descriptor()}});
+                                return path.has_parents({{keys::mRID, google::protobuf::StringValue::descriptor()}});
                             },
                             StringFieldType::Value::optional_constant_uuid
+                        },
+                        {
+                            // all descriptions are optional constants
+                            [](IDescriptorPath &path) -> bool {
+                                return path.has_parents({{keys::description, google::protobuf::StringValue::descriptor()}});
+                            },
+                            StringFieldType::Value::optional_constant_uuid
+                        },
+                        {
+                            // all names are optional constants
+                            [](IDescriptorPath &path) -> bool {
+                                return path.has_parents({{keys::name, google::protobuf::StringValue::descriptor()}});
+                            },
+                            StringFieldType::Value::optional_constant_uuid
+                        },
+                        {
+                            // these labels are all optional descriptions
+                            [](IDescriptorPath &path) -> bool {
+                                std::initializer_list<const char *> names = {
+                                        "setValExtension", "d", "xD", "xDU", "yD",  "yDU", "zD", "zDU"
+                                };
+                                for(const auto& name : names) {
+                                    if(path.has_parents({{name, google::protobuf::StringValue::descriptor()}})) return true;
+                                }
+                                return false;
+                            },
+                            StringFieldType::Value::optional_constant_uuid
+                        },
+                        {
+                                // not sure what these are so
+                                [](IDescriptorPath &path) -> bool {
+                                    std::initializer_list<const char *> names = {
+                                            "operatingLimit"
+                                    };
+                                    for(const auto& name : names) {
+                                        if(path.has_parents({{name, google::protobuf::StringValue::descriptor()}})) return true;
+                                    }
+                                    return false;
+                                },
+                                StringFieldType::Value::ignored
                         }
                     }
                 }
@@ -85,13 +124,13 @@ namespace fields {
         const auto elem = map.find(field_name);
         // not matching field name
         if (elem == map.end())
-            return StringFieldType::Value::optional_string;
+            throw Exception("Unknown field name for string field: ", path.as_string(), ".", field_name);
 
         // find a matching filter
         const auto match = std::find_if(elem->second.begin(), elem->second.end(), [&](const pair_t& pair) -> bool { return pair.first(path); });
         // no matching filter for field name
         if (match == elem->second.end())
-            return StringFieldType::Value::optional_string;
+            throw Exception("No mapping for string field: ", path.as_string(), ".", field_name);
 
         return match->second;
     }

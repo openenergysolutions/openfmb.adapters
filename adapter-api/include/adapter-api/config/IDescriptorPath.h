@@ -25,9 +25,11 @@ public:
 
     virtual ~IDescriptorPath() = default;
 
-    virtual bool has_parents(const std::initializer_list<descriptor_ptr_t> parents) const = 0;
+    virtual bool has_parents(const std::initializer_list<descriptor_ptr_t>& parents) const = 0;
 
     virtual bool has_parents(const std::initializer_list<Field>& parents) const = 0;
+
+    virtual std::string as_string() const = 0;
 };
 }
 

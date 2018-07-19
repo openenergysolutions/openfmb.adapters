@@ -31,7 +31,8 @@ public class Enumerations {
                         Enumeration.entry("generated_uuid", "the value is randomly generated UUID"),
                         Enumeration.entry("optional_constant_uuid", "the value is an optional constant UUID"),
                         Enumeration.entry("primary_uuid", "the value is a required primary UUID (conducting equipment)"),
-                        Enumeration.entry("optional_string", "the value is an optional constant string")
+                        Enumeration.entry("optional_string", "the value is an optional constant string"),
+                        Enumeration.entry("ignored", "the field is ignored")
                 )
         );
 

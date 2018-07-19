@@ -3,25 +3,32 @@
 #include <adapter-api/config/FieldInfo.h>
 #include <adapter-api/ProfileRegistry.h>
 #include <adapter-api/config/generated/ModelVisitors.h>
+#include <adapter-api/config/DescriptorPath.h>
 
 class TestModelVisitor : public adapter::IModelVisitor {
 
+    adapter::DescriptorPath path;
+
 public:
     bool start_message_field(const std::string &field_name, google::protobuf::Descriptor const *descriptor) override {
+        if(::adapter::fields::is_message_ignored(field_name, descriptor, path)) return false;
+
+        path.push(field_name, descriptor);
         return true;
     }
 
     void end_message_field() override {
-
+        path.pop();
     }
 
     int start_repeated_message_field(const std::string &field_name,
                                      google::protobuf::Descriptor const *descriptor) override {
+        path.push(field_name, descriptor);
         return 1;
     }
 
     void end_repeated_message_field() override {
-
+        path.pop();
     }
 
     void start_iteration(int i) override {
@@ -33,11 +40,11 @@ public:
     }
 
     void handle_bool(const std::string &field_name) override {
-
+        adapter::fields::get_bool_type(field_name, path);
     }
 
     void handle_int32(const std::string &field_name) override {
-
+        adapter::fields::get_int32_type(field_name, path);
     }
 
     void handle_uint32(const std::string &field_name) override {
@@ -57,7 +64,7 @@ public:
     }
 
     void handle_string(const std::string &field_name) override {
-
+        adapter::fields::get_string_type(field_name, path);
     }
 
     void handle_enum(const std::string &field_name, google::protobuf::EnumDescriptor const *descriptor) override {

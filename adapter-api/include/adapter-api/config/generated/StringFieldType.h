@@ -31,14 +31,17 @@ struct StringFieldType
         primary_uuid,
         // the value is an optional constant string
         optional_string,
+        // the field is ignored
+        ignored,
     };
 
     static const char generated_uuid[];
     static const char optional_constant_uuid[];
     static const char primary_uuid[];
     static const char optional_string[];
+    static const char ignored[];
 
-    static const std::array<Value, 4> values;
+    static const std::array<Value, 5> values;
 
     static std::string to_string(Value value);
     static Value from_string(const std::string& name);
