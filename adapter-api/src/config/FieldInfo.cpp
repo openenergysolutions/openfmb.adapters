@@ -74,7 +74,34 @@ namespace fields {
     using pair_t = std::pair<match_fun_t, E>;
 
     template <class E>
+    constexpr pair_t<E> always(E value)
+    {
+        return pair_t<E> {
+                [](IDescriptorPath&) -> bool { return true; },
+                value
+        };
+    }
+
+    template <class E>
     using field_map_t = std::map<std::string, std::vector<pair_t<E>>>;
+
+    template <class E>
+    E find_mapping_or_throw(const field_map_t<E>& map, const std::string& field_name, IDescriptorPath& path)
+    {
+        // look up the field name
+        const auto elem = map.find(field_name);
+        // not matching field name
+        if (elem == map.end())
+            throw Exception("Unknown field name: ", path.as_string(), ".", field_name);
+
+        // find a matching filter
+        const auto match = std::find_if(elem->second.begin(), elem->second.end(), [&](const pair_t<E>& pair) -> bool { return pair.first(path); });
+        // no matching filter for field name
+        if (match == elem->second.end())
+            throw Exception("No mapping for field: ", path.as_string(), ".", field_name);
+
+        return match->second;
+    }
 
     StringFieldType::Value get_string_type(const std::string& field_name, IDescriptorPath& path)
     {
@@ -139,36 +166,24 @@ namespace fields {
                             StringFieldType::Value::optional_constant_uuid
                         },
                         {
-                                // not sure what these are so
-                                [](IDescriptorPath &path) -> bool {
-                                    std::initializer_list<const char *> names = {
-                                            "operatingLimit"
-                                    };
-                                    for(const auto& name : names) {
-                                        if(path.has_parents({{name, google::protobuf::StringValue::descriptor()}})) return true;
-                                    }
-                                    return false;
-                                },
-                                StringFieldType::Value::ignored
+                            // not sure what these are so
+                            [](IDescriptorPath &path) -> bool {
+                                std::initializer_list<const char *> names = {
+                                        "operatingLimit"
+                                };
+                                for(const auto& name : names) {
+                                    if(path.has_parents({{name, google::protobuf::StringValue::descriptor()}})) return true;
+                                }
+                                return false;
+                            },
+                            StringFieldType::Value::ignored
                         }
                     }
                 }
         };
         // clang-format on
 
-        // look up the field name
-        const auto elem = map.find(field_name);
-        // not matching field name
-        if (elem == map.end())
-            throw Exception("Unknown field name for string field: ", path.as_string(), ".", field_name);
-
-        // find a matching filter
-        const auto match = std::find_if(elem->second.begin(), elem->second.end(), [&](const pair_t<StringFieldType::Value>& pair) -> bool { return pair.first(path); });
-        // no matching filter for field name
-        if (match == elem->second.end())
-            throw Exception("No mapping for string field: ", path.as_string(), ".", field_name);
-
-        return match->second;
+        return find_mapping_or_throw(map, field_name, path);
     }
 
     FieldType::Value get_bool_type(const std::string& field_name, IDescriptorPath& path)
@@ -178,41 +193,53 @@ namespace fields {
                 {
                     keys::value,
                     {
-                            {
-                                    [](IDescriptorPath& path) -> bool {
-                                        return path.has_parents({
-                                                                        { keys::mod_blk, google::protobuf::BoolValue::descriptor()},
-                                                                        { keys::control_value, commonmodule::ControlValue::descriptor()},
-                                                                });
-                                    },
-                                    FieldType::Value::ignored
+                        {
+                            [](IDescriptorPath& path) -> bool {
+                                return path.has_parents({
+                                                                { keys::mod_blk, google::protobuf::BoolValue::descriptor()},
+                                                                { keys::control_value, commonmodule::ControlValue::descriptor()},
+                                                        });
                             },
-                            {
-                                    [](IDescriptorPath& path) -> bool {
-                                        return path.has_parents({
-                                                                        { keys::connected, google::protobuf::BoolValue::descriptor()},
-                                                                        { keys::aCDCTerminal, commonmodule::ACDCTerminal::descriptor()},
-                                                                });
-                                    },
-                                    FieldType::Value::ignored
-                            }
+                            FieldType::Value::ignored
+                        },
+                        {
+                            [](IDescriptorPath& path) -> bool {
+                                return path.has_parents({
+                                                                { keys::connected, google::protobuf::BoolValue::descriptor()},
+                                                                { keys::aCDCTerminal, commonmodule::ACDCTerminal::descriptor()},
+                                                        });
+                            },
+                            FieldType::Value::ignored
+                        },
+                        {
+                            [](IDescriptorPath& path) -> bool {
+                                const std::initializer_list<const char*> names = {
+                                        keys::interlockCheck,
+                                        keys::synchroCheck
+                                };
+                                for(const auto& name : names) {
+                                    if(path.has_parents({
+                                                                { name, google::protobuf::BoolValue::descriptor()}
+                                                        })) return true;
+                                }
+                                return false;
+                            },
+                            FieldType::Value::mapped
+                        }
                     }
+                },
+                {
+                    // any bool w/ this name is a control value
+                    keys::ctlVal, { always(FieldType::Value::mapped) }
+                },
+                {
+                    // any bool w/ this name is a status value
+                    keys::stVal, { always(FieldType::Value::mapped) }
                 }
         };
         // clang-format on
 
-        // default to mapped value
-        const auto elem = map.find(field_name);
-        if (elem == map.end())
-            return FieldType::Value::mapped;
-
-        // find a matching filter
-        const auto match = std::find_if(elem->second.begin(), elem->second.end(), [&](const pair_t<FieldType::Value>& pair) -> bool { return pair.first(path); });
-        // no matching filter for field name
-        if (match == elem->second.end())
-            return FieldType::Value::mapped;
-
-        return match->second;
+        return find_mapping_or_throw(map, field_name, path);
     }
 
     FieldType::Value get_int32_type(const std::string& field_name, IDescriptorPath& path)
