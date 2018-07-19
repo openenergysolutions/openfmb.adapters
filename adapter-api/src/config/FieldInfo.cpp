@@ -128,9 +128,9 @@ namespace fields {
         return elem->second;
     }
 
-    BoolType get_bool_type(const std::string& field_name, IDescriptorPath& path)
+    FieldType::Value get_bool_type(const std::string& field_name, IDescriptorPath& path)
     {
-        using pair_t = std::pair<match_fun_t, BoolType>;
+        using pair_t = std::pair<match_fun_t, FieldType::Value>;
         using match_map_t = std::map<std::string, std::vector<pair_t>>;
 
         // clang-format off
@@ -145,7 +145,7 @@ namespace fields {
                                                                         { keys::control_value, commonmodule::ControlValue::descriptor()},
                                                                 });
                                     },
-                                    BoolType::mod_blk
+                                    FieldType::Value::ignored
                             },
                             {
                                     [](IDescriptorPath& path) -> bool {
@@ -154,7 +154,7 @@ namespace fields {
                                                                         { keys::aCDCTerminal, commonmodule::ACDCTerminal::descriptor()},
                                                                 });
                                     },
-                                    BoolType::ignored
+                                    FieldType::Value::ignored
                             }
                     }
                 }
@@ -164,13 +164,13 @@ namespace fields {
         // default to mapped value
         const auto elem = map.find(field_name);
         if (elem == map.end())
-            return BoolType::mapped;
+            return FieldType::Value::mapped;
 
         // find a matching filter
         const auto match = std::find_if(elem->second.begin(), elem->second.end(), [&](const pair_t& pair) -> bool { return pair.first(path); });
         // no matching filter for field name
         if (match == elem->second.end())
-            return BoolType::mapped;
+            return FieldType::Value::mapped;
 
         return match->second;
     }

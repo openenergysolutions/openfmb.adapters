@@ -94,7 +94,7 @@ void ConfigWriteVisitorBase::end_repeated_message_field()
 void ConfigWriteVisitorBase::handle_bool(const std::string& field_name)
 {
     switch (fields::get_bool_type(field_name, path)) {
-    case (BoolType::mapped):
+    case (FieldType::Value::mapped):
         this->writer.write(
             [&](YAML::Emitter& out) {
                 out << YAML::Key << field_name;
