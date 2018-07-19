@@ -4,18 +4,10 @@
 
 #include "IDescriptorPath.h"
 
-namespace adapter {
+#include "generated/FieldType.h"
+#include "generated/StringFieldType.h"
 
-enum class StringType {
-    /// a dynamic UUID generated for each message
-    message_mrid,
-    /// an optional string that must be either ""  or a valid UUID. present or not present on every message.
-    optional_static_mrid,
-    /// primary identifier -  must be a valid UUID
-    conducting_equipment_mrid,
-    /// an optional string
-    optional
-};
+namespace adapter {
 
 enum class EnumType {
     /// an optional enum that is the same value in every message
@@ -33,24 +25,17 @@ enum class BoolType {
     mapped
 };
 
-enum class Int32Type {
-    /// ignored (at the moment)
-    ignored,
-    /// mapped from the underlying protocol
-    mapped
-};
-
 namespace fields {
 
     bool is_message_ignored(const std::string& field_name, google::protobuf::Descriptor const* descriptor, IDescriptorPath& path);
 
-    StringType get_string_type(const std::string& field_name, IDescriptorPath& path);
+    StringFieldType::Value get_string_type(const std::string& field_name, IDescriptorPath& path);
 
     EnumType get_enum_type(google::protobuf::EnumDescriptor const* descriptor);
 
     BoolType get_bool_type(const std::string& field_name, IDescriptorPath& path);
 
-    Int32Type get_int32_type(const std::string& field_name, IDescriptorPath& path);
+    FieldType::Value get_int32_type(const std::string& field_name, IDescriptorPath& path);
 }
 }
 

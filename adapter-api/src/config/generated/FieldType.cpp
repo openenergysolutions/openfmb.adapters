@@ -19,15 +19,15 @@
 
 namespace adapter {
 
-namespace dnp3 {
-
 const char FieldType::constant[] = "constant";
 const char FieldType::mapped[] = "mapped";
+const char FieldType::ignored[] = "ignored";
 
-const std::array<FieldType::Value, 2> FieldType::values =
+const std::array<FieldType::Value, 3> FieldType::values =
 {
     FieldType::Value::constant,
     FieldType::Value::mapped,
+    FieldType::Value::ignored,
 };
 
 std::string FieldType::to_string(FieldType::Value value)
@@ -35,7 +35,8 @@ std::string FieldType::to_string(FieldType::Value value)
     switch(value)
     {
         case(Value::constant): return constant;
-        default: return mapped;
+        case(Value::mapped): return mapped;
+        default: return ignored;
     }
 }
 
@@ -45,12 +46,11 @@ FieldType::Value FieldType::from_string(const std::string& name)
     {
         {constant, Value::constant},
         {mapped, Value::mapped},
+        {ignored, Value::ignored},
     };
     const auto elem = map.find(name);
     if(elem == map.end()) throw Exception("Unknown value name '", name, "' for enum FieldType");
     return elem->second;
 }
-
-} // end namespace dnp3
 
 } // end namespace adapter

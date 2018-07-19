@@ -37,9 +37,9 @@ namespace fields {
         return elem->second(field_name, path);
     }
 
-    StringType get_string_type(const std::string& field_name, IDescriptorPath& path)
+    StringFieldType::Value get_string_type(const std::string& field_name, IDescriptorPath& path)
     {
-        using pair_t = std::pair<match_fun_t, StringType>;
+        using pair_t = std::pair<match_fun_t, StringFieldType::Value>;
         using match_map_t = std::map<std::string, std::vector<pair_t>>;
 
         // clang-format off
@@ -51,7 +51,7 @@ namespace fields {
                             [](IDescriptorPath &path) -> bool {
                                 return path.has_parents({commonmodule::ConductingEquipment::descriptor()});
                             },
-                            StringType::conducting_equipment_mrid
+                            StringFieldType::Value::primary_uuid
                         }
                     }
                 },
@@ -67,14 +67,14 @@ namespace fields {
                                                 {keys::messageInfo,       commonmodule::MessageInfo::descriptor()}
                                         });
                             },
-                            StringType::message_mrid
-                    },
-                    {
+                            StringFieldType::Value::generated_uuid
+                        },
+                        {
                             [](IDescriptorPath &path) -> bool {
                                 return path.has_parents(
                                         {{keys::mRID, google::protobuf::StringValue::descriptor()}});
                             },
-                            StringType::optional_static_mrid
+                            StringFieldType::Value::optional_constant_uuid
                         }
                     }
                 }
@@ -85,13 +85,13 @@ namespace fields {
         const auto elem = map.find(field_name);
         // not matching field name
         if (elem == map.end())
-            return StringType::optional;
+            return StringFieldType::Value::optional_string;
 
         // find a matching filter
         const auto match = std::find_if(elem->second.begin(), elem->second.end(), [&](const pair_t& pair) -> bool { return pair.first(path); });
         // no matching filter for field name
         if (match == elem->second.end())
-            return StringType::optional;
+            return StringFieldType::Value::optional_string;
 
         return match->second;
     }
@@ -175,30 +175,37 @@ namespace fields {
         return match->second;
     }
 
-    Int32Type get_int32_type(const std::string& field_name, IDescriptorPath& path)
+    FieldType::Value get_int32_type(const std::string& field_name, IDescriptorPath& path)
     {
-        using pair_t = std::pair<match_fun_t, Int32Type>;
+        using pair_t = std::pair<match_fun_t, FieldType::Value>;
         using match_map_t = std::map<std::string, std::vector<pair_t>>;
 
+        // clang-format off
         const static match_map_t map = {
-            { keys::value,
-              { { [](IDescriptorPath& path) -> bool {
-                     return path.has_parents({ google::protobuf::Int32Value::descriptor(),
-                                               commonmodule::ACDCTerminal::descriptor() });
-                 },
-                  Int32Type::ignored } } }
+            {
+                keys::value,
+                {
+                    {
+                        [](IDescriptorPath& path) -> bool {
+                               return path.has_parents({ google::protobuf::Int32Value::descriptor(), commonmodule::ACDCTerminal::descriptor() });
+                        },
+                        FieldType::Value::ignored
+                    }
+                }
+            }
         };
+        // clang-format on
 
         // default to mapped value
         const auto elem = map.find(field_name);
         if (elem == map.end())
-            return Int32Type::mapped;
+            return FieldType::Value::mapped;
 
         // find a matching filter
         const auto match = std::find_if(elem->second.begin(), elem->second.end(), [&](const pair_t& pair) -> bool { return pair.first(path); });
         // no matching filter for field name
         if (match == elem->second.end())
-            return Int32Type::mapped;
+            return FieldType::Value::mapped;
 
         return match->second;
     }

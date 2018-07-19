@@ -112,7 +112,7 @@ void ConfigWriteVisitorBase::handle_bool(const std::string& field_name)
 void ConfigWriteVisitorBase::handle_int32(const std::string& field_name)
 {
     switch (fields::get_int32_type(field_name, path)) {
-    case (Int32Type::mapped):
+    case (FieldType::Value::mapped):
         this->writer.write(
             [&](YAML::Emitter& out) {
                 out << YAML::Key << field_name;
@@ -176,18 +176,19 @@ void ConfigWriteVisitorBase::handle_string(const std::string& field_name)
 
     if (this->is_control) {
         // the main mRID is the only thing that needs to be configurable for controls
-        if (type == StringType::conducting_equipment_mrid) {
+        if (type == StringFieldType::Value::primary_uuid) {
             this->writer.write([&](YAML::Emitter& out) { out << YAML::Key << field_name << YAML::Value << "" << YAML::Comment("required UUID to match against"); });
         }
+
     } else {
         switch (fields::get_string_type(field_name, path)) {
-        case (StringType::optional_static_mrid):
+        case (StringFieldType::Value::optional_constant_uuid):
             this->writer.write([&](YAML::Emitter& out) { out << YAML::Key << field_name << YAML::Value << "" << YAML::Comment("optional valid UUID"); });
             break;
-        case (StringType::conducting_equipment_mrid):
+        case (StringFieldType::Value::primary_uuid):
             this->writer.write([&](YAML::Emitter& out) { out << YAML::Key << field_name << YAML::Value << "" << YAML::Comment("required UUID"); });
             break;
-        case (StringType::optional):
+        case (StringFieldType::Value::optional_string):
             this->writer.write([&](YAML::Emitter& out) { out << YAML::Key << field_name << YAML::Value << "" << YAML::Comment("optional string"); });
             break;
         default:

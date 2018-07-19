@@ -20,19 +20,30 @@ public class Enumerations {
                 "FieldType",
                 Arrays.asList(
                         Enumeration.entry("constant", "the field value is always the same, fixed in configuration"),
-                        Enumeration.entry("mapped", "the field value is mapped dynamically from the downstream protocol")
+                        Enumeration.entry("mapped", "the field value is mapped dynamically from the downstream protocol"),
+                        Enumeration.entry("ignored", "the field is ignored")
+                )
+        );
+
+        private final static Enumeration stringFieldType = new Enumeration(
+                "StringFieldType",
+                Arrays.asList(
+                        Enumeration.entry("generated_uuid", "the value is randomly generated UUID"),
+                        Enumeration.entry("optional_constant_uuid", "the value is an optional constant UUID"),
+                        Enumeration.entry("primary_uuid", "the value is a required primary UUID (conducting equipment)"),
+                        Enumeration.entry("optional_string", "the value is an optional constant string")
                 )
         );
 
         private static List<Enumeration> enums() {
-            return Collections.singletonList(fieldType);
+            return Arrays.asList(fieldType, stringFieldType);
         }
 
         private static final Path includePath = Paths.get("../adapter-api/include/adapter-api/config/generated");
         private static final Path implPath = Paths.get("../adapter-api/src/config/generated");
         private static final Path implIncludePath = Paths.get("adapter-api/config/generated");
 
-        private static final List<String> namespaces = Arrays.asList("adapter", "dnp3");
+        private static final List<String> namespaces = Collections.singletonList("adapter");
 
         public static final GeneratedFileSet set = new GeneratedFileSet(
                 Arrays.asList(includePath, implPath),
