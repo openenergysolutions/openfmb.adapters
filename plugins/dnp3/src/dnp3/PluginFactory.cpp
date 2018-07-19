@@ -27,10 +27,15 @@ namespace dnp3 {
 
     void write_profile_configs(YAML::Emitter& out, const profile_vec_t& profiles)
     {
-        for (auto profile : profiles) {
+        for (const auto& profile : profiles) {
             out << YAML::BeginMap;
             out << YAML::Key << "name" << YAML::Value << profile;
+
+            out << YAML::Key << keys::mapping << YAML::Comment("profile model starts here");
+            out << YAML::BeginMap;
             ProfileRegistry::handle_by_name<WriterHandler>(profile, out);
+            out << YAML::EndMap;
+
             out << YAML::EndMap;
         }
     }
