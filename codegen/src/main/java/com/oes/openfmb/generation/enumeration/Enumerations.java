@@ -20,7 +20,7 @@ public class Enumerations {
                 "FieldType",
                 Arrays.asList(
                         Enumeration.entry("constant", "the field value is always the same, fixed in configuration"),
-                        Enumeration.entry("mapped", "the field value is mapped dynamically from the downstream protocol"),
+                        Enumeration.entry("mapped", "the field value is mapped dynamically from the underlying protocol"),
                         Enumeration.entry("ignored", "the field is ignored")
                 )
         );
@@ -35,8 +35,16 @@ public class Enumerations {
                 )
         );
 
+        private final static Enumeration enumFieldType = new Enumeration(
+                "EnumFieldType",
+                Arrays.asList(
+                        Enumeration.entry("optional_constant", "an optional enum that is the same value in every message"),
+                        Enumeration.entry("mapped", "an enum that is mapped from values in the underlying protocol")
+                )
+        );
+
         private static List<Enumeration> enums() {
-            return Arrays.asList(fieldType, stringFieldType);
+            return Arrays.asList(fieldType, stringFieldType, enumFieldType);
         }
 
         private static final Path includePath = Paths.get("../adapter-api/include/adapter-api/config/generated");

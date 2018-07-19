@@ -96,29 +96,29 @@ namespace fields {
         return match->second;
     }
 
-    EnumType get_enum_type(google::protobuf::EnumDescriptor const* descriptor)
+    EnumFieldType::Value get_enum_type(google::protobuf::EnumDescriptor const* descriptor)
     {
-        const static std::map<google::protobuf::EnumDescriptor const*, EnumType> map = {
+        const static std::map<google::protobuf::EnumDescriptor const*, EnumFieldType::Value> map = {
 
             // static enums
-            { commonmodule::TimeAccuracyKind_descriptor(), EnumType::optional_static_enum },
-            { commonmodule::PhaseCodeKind_descriptor(), EnumType::optional_static_enum },
-            { commonmodule::SourceKind_descriptor(), EnumType::optional_static_enum },
-            { commonmodule::ValidityKind_descriptor(), EnumType::optional_static_enum },
-            { commonmodule::UnitSymbolKind_descriptor(), EnumType::optional_static_enum },
-            { commonmodule::UnitMultiplierKind_descriptor(), EnumType::optional_static_enum },
-            { commonmodule::CalcMethodKind_descriptor(), EnumType::optional_static_enum },
-            { commonmodule::PFSignKind_descriptor(), EnumType::optional_static_enum },
-            { commonmodule::BehaviourModeKind_descriptor(), EnumType::optional_static_enum },
-            { commonmodule::HealthKind_descriptor(), EnumType::optional_static_enum },
+            { commonmodule::TimeAccuracyKind_descriptor(), EnumFieldType::Value::optional_constant },
+            { commonmodule::PhaseCodeKind_descriptor(), EnumFieldType::Value::optional_constant },
+            { commonmodule::SourceKind_descriptor(), EnumFieldType::Value::optional_constant },
+            { commonmodule::ValidityKind_descriptor(), EnumFieldType::Value::optional_constant },
+            { commonmodule::UnitSymbolKind_descriptor(), EnumFieldType::Value::optional_constant },
+            { commonmodule::UnitMultiplierKind_descriptor(), EnumFieldType::Value::optional_constant },
+            { commonmodule::CalcMethodKind_descriptor(), EnumFieldType::Value::optional_constant },
+            { commonmodule::PFSignKind_descriptor(), EnumFieldType::Value::optional_constant },
+            { commonmodule::BehaviourModeKind_descriptor(), EnumFieldType::Value::optional_constant },
+            { commonmodule::HealthKind_descriptor(), EnumFieldType::Value::optional_constant },
 
             // enums mapped to the protocol
-            { commonmodule::DynamicTestKind_descriptor(), EnumType::mapped },
-            { commonmodule::DbPosKind_descriptor(), EnumType::mapped },
-            { commonmodule::GridConnectModeKind_descriptor(), EnumType::mapped },
-            { commonmodule::StateKind_descriptor(), EnumType::mapped },
-            { essmodule::ESSFunctionKind_descriptor(), EnumType::mapped },
-            { essmodule::ESSFunctionParameterKind_descriptor(), EnumType::mapped },
+            { commonmodule::DynamicTestKind_descriptor(), EnumFieldType::Value::mapped },
+            { commonmodule::DbPosKind_descriptor(), EnumFieldType::Value::mapped },
+            { commonmodule::GridConnectModeKind_descriptor(), EnumFieldType::Value::mapped },
+            { commonmodule::StateKind_descriptor(), EnumFieldType::Value::mapped },
+            { essmodule::ESSFunctionKind_descriptor(), EnumFieldType::Value::mapped },
+            { essmodule::ESSFunctionParameterKind_descriptor(), EnumFieldType::Value::mapped },
         };
 
         const auto elem = map.find(descriptor);

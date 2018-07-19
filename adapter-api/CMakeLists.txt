@@ -32,6 +32,7 @@ set(API_HEADERS
     include/adapter-api/config/ITypedModelVisitor.h
 	include/adapter-api/config/PublishingConfigReadVisitorBase.h
 	include/adapter-api/config/generated/FieldType.h
+	include/adapter-api/config/generated/EnumFieldType.h
 	include/adapter-api/config/generated/StringFieldType.h
     include/adapter-api/config/generated/MessageVisitors.h
 	include/adapter-api/config/generated/ModelVisitors.h
@@ -50,6 +51,7 @@ set(API_SOURCES
 	src/config/FieldInfo.cpp
 	src/config/DescriptorPath.cpp
 	src/config/generated/FieldType.cpp
+	src/config/generated/EnumFieldType.cpp
 	src/config/generated/StringFieldType.cpp
 	src/config/generated/MessageVisitors.cpp
 	src/config/generated/ModelVisitors.cpp

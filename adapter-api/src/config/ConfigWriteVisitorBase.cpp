@@ -201,7 +201,7 @@ void ConfigWriteVisitorBase::handle_enum(const std::string& field_name, google::
 {
     const auto type = fields::get_enum_type(descriptor);
     switch (type) {
-    case (EnumType::optional_static_enum):
+    case (EnumFieldType::Value::optional_constant):
         this->writer.write([&](YAML::Emitter& out) { out << YAML::Key << field_name << YAML::Value << "" << YAML::Comment("optional static enum"); });
         break;
     default:

@@ -11,31 +11,28 @@
 //  This file is auto-generated. Do not edit manually
 // 
 
-#ifndef OPENFMB_FIELDTYPE_H
-#define OPENFMB_FIELDTYPE_H
+#ifndef OPENFMB_ENUMFIELDTYPE_H
+#define OPENFMB_ENUMFIELDTYPE_H
 
 #include <string>
 #include <array>
 
 namespace adapter {
 
-struct FieldType
+struct EnumFieldType
 {
     enum class Value
     {
-        // the field value is always the same, fixed in configuration
-        constant,
-        // the field value is mapped dynamically from the underlying protocol
+        // an optional enum that is the same value in every message
+        optional_constant,
+        // an enum that is mapped from values in the underlying protocol
         mapped,
-        // the field is ignored
-        ignored,
     };
 
-    static const char constant[];
+    static const char optional_constant[];
     static const char mapped[];
-    static const char ignored[];
 
-    static const std::array<Value, 3> values;
+    static const std::array<Value, 2> values;
 
     static std::string to_string(Value value);
     static Value from_string(const std::string& name);
