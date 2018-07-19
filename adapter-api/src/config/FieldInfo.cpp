@@ -14,7 +14,6 @@
 namespace adapter {
 namespace fields {
 
-    using match_fun_t = std::function<bool(IDescriptorPath&)>;
     using message_filter_t = std::function<bool(const std::string& name, IDescriptorPath& path)>;
 
     bool is_message_ignored(const std::string& field_name, google::protobuf::Descriptor const* descriptor, IDescriptorPath& path)
@@ -37,13 +36,50 @@ namespace fields {
         return elem->second(field_name, path);
     }
 
+    EnumFieldType::Value get_enum_type(google::protobuf::EnumDescriptor const* descriptor)
+    {
+        const static std::map<google::protobuf::EnumDescriptor const*, EnumFieldType::Value> map = {
+
+            // static enums
+            { commonmodule::TimeAccuracyKind_descriptor(), EnumFieldType::Value::optional_constant },
+            { commonmodule::PhaseCodeKind_descriptor(), EnumFieldType::Value::optional_constant },
+            { commonmodule::SourceKind_descriptor(), EnumFieldType::Value::optional_constant },
+            { commonmodule::ValidityKind_descriptor(), EnumFieldType::Value::optional_constant },
+            { commonmodule::UnitSymbolKind_descriptor(), EnumFieldType::Value::optional_constant },
+            { commonmodule::UnitMultiplierKind_descriptor(), EnumFieldType::Value::optional_constant },
+            { commonmodule::CalcMethodKind_descriptor(), EnumFieldType::Value::optional_constant },
+            { commonmodule::PFSignKind_descriptor(), EnumFieldType::Value::optional_constant },
+            { commonmodule::BehaviourModeKind_descriptor(), EnumFieldType::Value::optional_constant },
+            { commonmodule::HealthKind_descriptor(), EnumFieldType::Value::optional_constant },
+
+            // enums mapped to the protocol
+            { commonmodule::DynamicTestKind_descriptor(), EnumFieldType::Value::mapped },
+            { commonmodule::DbPosKind_descriptor(), EnumFieldType::Value::mapped },
+            { commonmodule::GridConnectModeKind_descriptor(), EnumFieldType::Value::mapped },
+            { commonmodule::StateKind_descriptor(), EnumFieldType::Value::mapped },
+            { essmodule::ESSFunctionKind_descriptor(), EnumFieldType::Value::mapped },
+            { essmodule::ESSFunctionParameterKind_descriptor(), EnumFieldType::Value::mapped },
+        };
+
+        const auto elem = map.find(descriptor);
+        if (elem == map.end()) {
+            throw Exception("Unknown type for enum: ", descriptor->full_name());
+        }
+        return elem->second;
+    }
+
+    using match_fun_t = std::function<bool(IDescriptorPath&)>;
+
+    template <class E>
+    using pair_t = std::pair<match_fun_t, E>;
+
+    template <class E>
+    using field_map_t = std::map<std::string, std::vector<pair_t<E>>>;
+
     StringFieldType::Value get_string_type(const std::string& field_name, IDescriptorPath& path)
     {
-        using pair_t = std::pair<match_fun_t, StringFieldType::Value>;
-        using match_map_t = std::map<std::string, std::vector<pair_t>>;
-
         // clang-format off
-        const static match_map_t map = {
+        const static field_map_t<StringFieldType::Value> map = {
                 {
                     keys::mRID,
                     {
@@ -127,7 +163,7 @@ namespace fields {
             throw Exception("Unknown field name for string field: ", path.as_string(), ".", field_name);
 
         // find a matching filter
-        const auto match = std::find_if(elem->second.begin(), elem->second.end(), [&](const pair_t& pair) -> bool { return pair.first(path); });
+        const auto match = std::find_if(elem->second.begin(), elem->second.end(), [&](const pair_t<StringFieldType::Value>& pair) -> bool { return pair.first(path); });
         // no matching filter for field name
         if (match == elem->second.end())
             throw Exception("No mapping for string field: ", path.as_string(), ".", field_name);
@@ -135,45 +171,10 @@ namespace fields {
         return match->second;
     }
 
-    EnumFieldType::Value get_enum_type(google::protobuf::EnumDescriptor const* descriptor)
-    {
-        const static std::map<google::protobuf::EnumDescriptor const*, EnumFieldType::Value> map = {
-
-            // static enums
-            { commonmodule::TimeAccuracyKind_descriptor(), EnumFieldType::Value::optional_constant },
-            { commonmodule::PhaseCodeKind_descriptor(), EnumFieldType::Value::optional_constant },
-            { commonmodule::SourceKind_descriptor(), EnumFieldType::Value::optional_constant },
-            { commonmodule::ValidityKind_descriptor(), EnumFieldType::Value::optional_constant },
-            { commonmodule::UnitSymbolKind_descriptor(), EnumFieldType::Value::optional_constant },
-            { commonmodule::UnitMultiplierKind_descriptor(), EnumFieldType::Value::optional_constant },
-            { commonmodule::CalcMethodKind_descriptor(), EnumFieldType::Value::optional_constant },
-            { commonmodule::PFSignKind_descriptor(), EnumFieldType::Value::optional_constant },
-            { commonmodule::BehaviourModeKind_descriptor(), EnumFieldType::Value::optional_constant },
-            { commonmodule::HealthKind_descriptor(), EnumFieldType::Value::optional_constant },
-
-            // enums mapped to the protocol
-            { commonmodule::DynamicTestKind_descriptor(), EnumFieldType::Value::mapped },
-            { commonmodule::DbPosKind_descriptor(), EnumFieldType::Value::mapped },
-            { commonmodule::GridConnectModeKind_descriptor(), EnumFieldType::Value::mapped },
-            { commonmodule::StateKind_descriptor(), EnumFieldType::Value::mapped },
-            { essmodule::ESSFunctionKind_descriptor(), EnumFieldType::Value::mapped },
-            { essmodule::ESSFunctionParameterKind_descriptor(), EnumFieldType::Value::mapped },
-        };
-
-        const auto elem = map.find(descriptor);
-        if (elem == map.end()) {
-            throw Exception("Unknown type for enum: ", descriptor->full_name());
-        }
-        return elem->second;
-    }
-
     FieldType::Value get_bool_type(const std::string& field_name, IDescriptorPath& path)
     {
-        using pair_t = std::pair<match_fun_t, FieldType::Value>;
-        using match_map_t = std::map<std::string, std::vector<pair_t>>;
-
         // clang-format off
-        const static match_map_t map = {
+        const static field_map_t<FieldType::Value> map = {
                 {
                     keys::value,
                     {
@@ -206,7 +207,7 @@ namespace fields {
             return FieldType::Value::mapped;
 
         // find a matching filter
-        const auto match = std::find_if(elem->second.begin(), elem->second.end(), [&](const pair_t& pair) -> bool { return pair.first(path); });
+        const auto match = std::find_if(elem->second.begin(), elem->second.end(), [&](const pair_t<FieldType::Value>& pair) -> bool { return pair.first(path); });
         // no matching filter for field name
         if (match == elem->second.end())
             return FieldType::Value::mapped;
@@ -216,11 +217,8 @@ namespace fields {
 
     FieldType::Value get_int32_type(const std::string& field_name, IDescriptorPath& path)
     {
-        using pair_t = std::pair<match_fun_t, FieldType::Value>;
-        using match_map_t = std::map<std::string, std::vector<pair_t>>;
-
         // clang-format off
-        const static match_map_t map = {
+        const static field_map_t<FieldType::Value> map = {
             {
                 keys::value,
                 {
@@ -241,7 +239,7 @@ namespace fields {
             return FieldType::Value::mapped;
 
         // find a matching filter
-        const auto match = std::find_if(elem->second.begin(), elem->second.end(), [&](const pair_t& pair) -> bool { return pair.first(path); });
+        const auto match = std::find_if(elem->second.begin(), elem->second.end(), [&](const pair_t<FieldType::Value>& pair) -> bool { return pair.first(path); });
         // no matching filter for field name
         if (match == elem->second.end())
             return FieldType::Value::mapped;
