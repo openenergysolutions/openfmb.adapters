@@ -68,7 +68,9 @@ namespace fields {
         return elem->second;
     }
 
-    using match_fun_t = std::function<bool(IDescriptorPath&)>;
+    //using match_fun_t = std::function<bool(IDescriptorPath&)>;
+
+    using match_fun_t = bool (*)(IDescriptorPath&);
 
     template <class E>
     using pair_t = std::pair<match_fun_t, E>;
@@ -76,9 +78,9 @@ namespace fields {
     template <class E>
     constexpr pair_t<E> always(E value)
     {
-        return pair_t<E> {
-                [](IDescriptorPath&) -> bool { return true; },
-                value
+        return pair_t<E>{
+            [](IDescriptorPath&) -> bool { return true; },
+            value
         };
     }
 
@@ -254,24 +256,27 @@ namespace fields {
                                return path.has_parents({ google::protobuf::Int32Value::descriptor(), commonmodule::ACDCTerminal::descriptor() });
                         },
                         FieldType::Value::ignored
+                    },
+                    {
+                        // we're only using the float inside AnalogueValue for now
+                        [](IDescriptorPath& path) -> bool {
+                            return path.has_parents({ google::protobuf::Int32Value::descriptor(), commonmodule::AnalogueValue::descriptor() });
+                        },
+                        FieldType::Value::ignored
+                    },
+                    {
+                        // not sure what this even is
+                        [](IDescriptorPath& path) -> bool {
+                            return path.has_parents({ essmodule::ENG_ESSFunctionParameter::descriptor() });
+                        },
+                        FieldType::Value::ignored
                     }
                 }
             }
         };
         // clang-format on
 
-        // default to mapped value
-        const auto elem = map.find(field_name);
-        if (elem == map.end())
-            return FieldType::Value::mapped;
-
-        // find a matching filter
-        const auto match = std::find_if(elem->second.begin(), elem->second.end(), [&](const pair_t<FieldType::Value>& pair) -> bool { return pair.first(path); });
-        // no matching filter for field name
-        if (match == elem->second.end())
-            return FieldType::Value::mapped;
-
-        return match->second;
+        return find_mapping_or_throw(map, field_name, path);
     }
 }
 }
