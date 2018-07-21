@@ -15,7 +15,7 @@ namespace modbus {
     struct ProfileWriter {
         static void handle(YAML::Emitter& out)
         {
-            ConfigWriteVisitor<T> visitor(out);
+            MeasurementConfigWriteVisitor<T> visitor(out);
             visit(visitor);
         }
     };

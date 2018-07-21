@@ -5,11 +5,11 @@
 
 #include "IModelVisitor.h"
 
-#include <yaml-cpp/yaml.h>
 #include <adapter-api/config/generated/BoolFieldType.h>
-#include <adapter-api/config/generated/Int32FieldType.h>
 #include <adapter-api/config/generated/EnumFieldType.h>
+#include <adapter-api/config/generated/Int32FieldType.h>
 #include <adapter-api/config/generated/StringFieldType.h>
+#include <yaml-cpp/yaml.h>
 
 #include "DescriptorPath.h"
 
@@ -23,12 +23,11 @@ class ConfigWriteVisitorBase : public IModelVisitor {
     DescriptorPath path;
 
 protected:
-
     /// ---- methods that give base classes a change to remap support for a type ----
 
     virtual BoolFieldType::Value remap(BoolFieldType::Value type) = 0;
 
-    virtual Int32FieldType::Value remap(Int32FieldType::Value  type) = 0;
+    virtual Int32FieldType::Value remap(Int32FieldType::Value type) = 0;
 
     virtual EnumFieldType::Value remap(EnumFieldType::Value type) = 0;
 

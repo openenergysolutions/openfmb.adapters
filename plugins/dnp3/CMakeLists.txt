@@ -4,8 +4,10 @@ set(DNP3_PUBLIC_HEADERS
 
 set(DNP3_SOURCES
         src/dnp3/ConfigStrings.h
-        src/dnp3/ConfigWriteVisitor.h
-        src/dnp3/ConfigWriteVisitor.cpp
+        src/dnp3/ControlConfigWriteVisitor.h
+        src/dnp3/ControlConfigWriteVisitor.cpp
+        src/dnp3/MeasurementConfigWriteVisitor.h
+        src/dnp3/MeasurementConfigWriteVisitor.cpp
         src/dnp3/Plugin.h
         src/dnp3/IPublishConfigBuilder.h
         src/dnp3/LogAdapter.h

@@ -8,9 +8,9 @@
 
 namespace adapter {
 
-ConfigWriteVisitorBase::ConfigWriteVisitorBase(YAML::Emitter& out) : out(out)
+ConfigWriteVisitorBase::ConfigWriteVisitorBase(YAML::Emitter& out)
+    : out(out)
 {
-
 }
 
 bool ConfigWriteVisitorBase::start_message_field(const std::string& field_name, google::protobuf::Descriptor const* descriptor)
@@ -123,15 +123,14 @@ void ConfigWriteVisitorBase::handle_string(const std::string& field_name)
     out << YAML::BeginMap;
     out << YAML::Key << keys::field_type << StringFieldType::to_string(type);
 
-
-    switch (fields::get_string_type(field_name, path)) {
-        case (StringFieldType::Value::optional_const_uuid):
-        case (StringFieldType::Value::primary_uuid):
-        case (StringFieldType::Value::optional_string):
-            out << YAML::Key << field_name << YAML::Value << "";
-            break;
-        default:
-            break;
+    switch (type) {
+    case (StringFieldType::Value::optional_const_uuid):
+    case (StringFieldType::Value::primary_uuid):
+    case (StringFieldType::Value::optional_string):
+        out << YAML::Key << field_name << YAML::Value << "";
+        break;
+    default:
+        break;
     }
 
     out << YAML::EndMap;

@@ -7,7 +7,8 @@
 #include <adapter-api/config/generated/ModelVisitors.h>
 #include <adapter-api/util/YAMLTemplate.h>
 
-#include "ConfigWriteVisitor.h"
+#include "ControlConfigWriteVisitor.h"
+#include "MeasurementConfigWriteVisitor.h"
 
 #include "ConfigStrings.h"
 #include "Plugin.h"
@@ -20,8 +21,13 @@ namespace dnp3 {
         static void handle(YAML::Emitter& out)
         {
             std::cout << "Generating: " << T::descriptor()->name() << std::endl;
-            ConfigWriteVisitor visitor(profile_info<T>::is_control, out);
-            visit<T>(visitor);
+            if (profile_info<T>::is_control) {
+                ControlConfigWriteVisitor visitor(out);
+                visit<T>(visitor);
+            } else {
+                MeasurementConfigWriteVisitor visitor(out);
+                visit<T>(visitor);
+            }
         }
     };
 

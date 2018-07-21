@@ -1,6 +1,6 @@
 
-#ifndef OPENFMB_ADAPTER_DNP3_CONFIGWRITEVISITOR_H
-#define OPENFMB_ADAPTER_DNP3_CONFIGWRITEVISITOR_H
+#ifndef OPENFMB_ADAPTER_DNP3_MEASUREMENTCONFIGWRITEVISITOR_H
+#define OPENFMB_ADAPTER_DNP3_MEASUREMENTCONFIGWRITEVISITOR_H
 
 #include "adapter-api/config/ConfigWriteVisitorBase.h"
 #include "adapter-api/util/EnumUtil.h"
@@ -12,18 +12,15 @@ namespace adapter {
 
 namespace dnp3 {
 
-    class ConfigWriteVisitor final : public ConfigWriteVisitorBase {
-
-        const bool is_control;
+    class MeasurementConfigWriteVisitor final : public ConfigWriteVisitorBase {
 
     public:
-        explicit ConfigWriteVisitor(bool is_control, YAML::Emitter& out);
+        explicit MeasurementConfigWriteVisitor(YAML::Emitter& out);
 
     protected:
-
         BoolFieldType::Value remap(BoolFieldType::Value type) override;
 
-        Int32FieldType::Value remap(Int32FieldType::Value  type) override;
+        Int32FieldType::Value remap(Int32FieldType::Value type) override;
 
         EnumFieldType::Value remap(EnumFieldType::Value type) override;
 
@@ -46,10 +43,6 @@ namespace dnp3 {
         void write_mapped_enum_keys(YAML::Emitter& out, google::protobuf::EnumDescriptor const* descriptor) override;
 
     private:
-        // --- various helpers ---
-
-        void write_crob_keys(YAML::Emitter& out, uint16_t index, opendnp3::ControlCode code);
-
         /*
         void write_bcr_keys() override
         {
