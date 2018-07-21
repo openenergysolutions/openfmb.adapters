@@ -4,10 +4,11 @@
 #include <adapter-api/ProfileRegistry.h>
 #include <adapter-api/config/generated/ModelVisitors.h>
 #include <adapter-api/config/DescriptorPath.h>
+#include <adapter-api/util/Exception.h>
 
 class TestModelVisitor : public adapter::IModelVisitor {
 
-    adapter::DescriptorPath path;
+    ::adapter::DescriptorPath path;
 
 public:
     bool start_message_field(const std::string &field_name, google::protobuf::Descriptor const *descriptor) override {
@@ -48,19 +49,19 @@ public:
     }
 
     void handle_uint32(const std::string &field_name) override {
-
+        throw ::adapter::Exception("No mapping for uint32 field: ", path.as_string(), ".", field_name);
     }
 
     void handle_int64(const std::string &field_name) override {
-
+        adapter::fields::get_int64_type(field_name, path);
     }
 
     void handle_uint64(const std::string &field_name) override {
-
+        throw ::adapter::Exception("No mapping for uint64 field: ", path.as_string(), ".", field_name);
     }
 
     void handle_float(const std::string &field_name) override {
-
+        adapter::fields::get_float_type(field_name, path);
     }
 
     void handle_string(const std::string &field_name) override {
@@ -68,7 +69,6 @@ public:
     }
 
     void handle_enum(const std::string &field_name, google::protobuf::EnumDescriptor const *descriptor) override {
-        // this throws if the enum is mapped to an EnumType
         adapter::fields::get_enum_type(descriptor);
     }
 };

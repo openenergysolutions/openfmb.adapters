@@ -19,11 +19,6 @@ namespace dnp3 {
 
     // --- remapping methods from base class ---
 
-    BoolFieldType::Value ControlConfigWriteVisitor::remap(BoolFieldType::Value type)
-    {
-        return type;
-    }
-
     Int32FieldType::Value ControlConfigWriteVisitor::remap(Int32FieldType::Value type)
     {
         return (type == Int32FieldType::Value::mapped_int32) ? Int32FieldType::Value::ignored_int32 : type;
@@ -32,6 +27,11 @@ namespace dnp3 {
     EnumFieldType::Value ControlConfigWriteVisitor::remap(EnumFieldType::Value type)
     {
         return (type == EnumFieldType::Value::mapped_enum) ? EnumFieldType::Value::ignored_enum : type;
+    }
+
+    FloatFieldType::Value ControlConfigWriteVisitor::remap(FloatFieldType::Value type)
+    {
+        return (type == FloatFieldType::Value::mapped_float) ? FloatFieldType::Value::ignored_float : type;
     }
 
     StringFieldType::Value ControlConfigWriteVisitor::remap(StringFieldType::Value type)
@@ -66,17 +66,7 @@ namespace dnp3 {
         throw NotImplemented(LOCATION);
     }
 
-    void ControlConfigWriteVisitor::write_mapped_uint32_keys(YAML::Emitter& out)
-    {
-        throw NotImplemented(LOCATION);
-    }
-
     void ControlConfigWriteVisitor::write_mapped_int64_keys(YAML::Emitter& out)
-    {
-        throw NotImplemented(LOCATION);
-    }
-
-    void ControlConfigWriteVisitor::write_mapped_uint64_keys(YAML::Emitter& out)
     {
         throw NotImplemented(LOCATION);
     }

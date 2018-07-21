@@ -278,5 +278,67 @@ namespace fields {
 
         return find_mapping_or_throw(map, field_name, path);
     }
+
+    Int64FieldType::Value get_int64_type(const std::string& field_name, IDescriptorPath& path)
+    {
+        // clang-format off
+        const static field_map_t<Int64FieldType::Value> map = {
+                {
+                        keys::actVal,
+                        {
+                                {
+                                        [](IDescriptorPath& path) -> bool {
+                                            return path.has_parents({commonmodule::BCR::descriptor() });
+                                        },
+                                        Int64FieldType::Value::mapped_int64
+                                }
+                        }
+                }
+        };
+        // clang-format on
+
+        return find_mapping_or_throw(map, field_name, path);
+    }
+
+    FloatFieldType::Value get_float_type(const std::string& field_name, IDescriptorPath& path)
+    {
+        // clang-format off
+        const static field_map_t<FloatFieldType::Value> map = {
+                {
+                        keys::value,
+                        {
+                                {
+                                        [](IDescriptorPath& path) -> bool {
+                                            // this is the optional zVal inside of a schedule point
+                                            return path.has_parents({ google::protobuf::FloatValue::descriptor(), commonmodule::SchedulePoint::descriptor() });
+                                        },
+                                        FloatFieldType::Value::ignored_float
+                                },
+                                {
+                                        // all other float values default to mapped
+                                        [](IDescriptorPath& path) -> bool {
+                                            return path.has_parents({ google::protobuf::FloatValue::descriptor() });
+                                        },
+                                        FloatFieldType::Value::mapped_float
+                                },
+                        }
+
+                },
+                {
+                        "yVal",
+                        {
+                                {
+                                        [](IDescriptorPath& path) -> bool {
+                                            return path.has_parents({ commonmodule::SchedulePoint::descriptor() });
+                                        },
+                                        FloatFieldType::Value::mapped_float
+                                }
+                        }
+                }
+        };
+        // clang-format on
+
+        return find_mapping_or_throw(map, field_name, path);
+    }
 }
 }

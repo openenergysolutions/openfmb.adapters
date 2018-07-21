@@ -28,11 +28,6 @@ public class Enumerations {
             );
         }
 
-
-        private final static Enumeration Int32FieldType = getBasicFieldType("Int32");
-
-        private final static Enumeration boolFieldType = getBasicFieldType("Bool");
-
         private final static Enumeration stringFieldType = new Enumeration(
                 "StringFieldType",
                 Arrays.asList(
@@ -54,7 +49,14 @@ public class Enumerations {
         );
 
         private static List<Enumeration> enums() {
-            return Arrays.asList(Int32FieldType, boolFieldType, stringFieldType, enumFieldType);
+            return Arrays.asList(
+                    getBasicFieldType("Int32"),
+                    getBasicFieldType("Int64"),
+                    getBasicFieldType("Float"),
+                    getBasicFieldType("Bool"),
+                    stringFieldType,
+                    enumFieldType
+            );
         }
 
         private static final Path includePath = Paths.get("../adapter-api/include/adapter-api/config/generated");

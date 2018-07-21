@@ -12,31 +12,16 @@ namespace adapter {
 
 namespace dnp3 {
 
+    void write_scaled_keys(YAML::Emitter& out, const std::initializer_list<SourceType::Value>& supported_sources)
+    {
+        out << YAML::Key << keys::source_type << YAML::Value << SourceType::none << YAML::Comment(enumeration::get_value_set_from_list<SourceType>(supported_sources));
+        out << YAML::Key << keys::index << YAML::Value << 0;
+        out << YAML::Key << keys::scale << YAML::Value << 1.0;
+    }
+
     MeasurementConfigWriteVisitor::MeasurementConfigWriteVisitor(YAML::Emitter& out)
         : ConfigWriteVisitorBase(out)
     {
-    }
-
-    // --- remapping methods from base class ---
-
-    BoolFieldType::Value MeasurementConfigWriteVisitor::remap(BoolFieldType::Value type)
-    {
-        return type;
-    }
-
-    Int32FieldType::Value MeasurementConfigWriteVisitor::remap(Int32FieldType::Value type)
-    {
-        return type;
-    }
-
-    EnumFieldType::Value MeasurementConfigWriteVisitor::remap(EnumFieldType::Value type)
-    {
-        return type;
-    }
-
-    StringFieldType::Value MeasurementConfigWriteVisitor::remap(StringFieldType::Value type)
-    {
-        return type;
     }
 
     // --- map write function from base class ---
@@ -51,29 +36,23 @@ namespace dnp3 {
         throw Exception("no int32 mapping for DNP3 measurements");
     }
 
-    void MeasurementConfigWriteVisitor::write_mapped_uint32_keys(YAML::Emitter& out)
-    {
-        throw Exception("no uint32 mapping for DNP3 measurements");
-    }
-
     void MeasurementConfigWriteVisitor::write_mapped_int64_keys(YAML::Emitter& out)
     {
-        throw Exception("no int64 mapping for DNP3 measurements");
-    }
-
-    void MeasurementConfigWriteVisitor::write_mapped_uint64_keys(YAML::Emitter& out)
-    {
-        throw Exception("no uint64 mapping for DNP3 measurements");
+        write_scaled_keys(
+            out,
+            { SourceType::Value::none, SourceType::Value::analog, SourceType::Value::counter });
     }
 
     void MeasurementConfigWriteVisitor::write_mapped_float_keys(YAML::Emitter& out)
     {
-        throw Exception("no float mapping for DNP3 measurements");
+        write_scaled_keys(
+            out,
+            { SourceType::Value::none, SourceType::Value::analog });
     }
 
     void MeasurementConfigWriteVisitor::write_mapped_enum_keys(YAML::Emitter& out, google::protobuf::EnumDescriptor const* descriptor)
     {
-        out << YAML::Key << keys::source_type << SourceType::none << YAML::Comment(enumeration::get_value_set_as_string<SourceType>());
+        out << YAML::Key << keys::source_type << YAML::Value << SourceType::none << YAML::Comment(enumeration::get_value_set_as_string<SourceType>());
         out << YAML::Key << keys::index << YAML::Value << 0;
         out << YAML::Key << keys::when_true << YAML::Value << descriptor->value(0)->name();
         out << YAML::Key << keys::when_false << YAML::Value << descriptor->value(1)->name();

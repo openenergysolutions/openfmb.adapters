@@ -18,25 +18,13 @@ namespace dnp3 {
         explicit MeasurementConfigWriteVisitor(YAML::Emitter& out);
 
     protected:
-        BoolFieldType::Value remap(BoolFieldType::Value type) override;
-
-        Int32FieldType::Value remap(Int32FieldType::Value type) override;
-
-        EnumFieldType::Value remap(EnumFieldType::Value type) override;
-
-        StringFieldType::Value remap(StringFieldType::Value type) override;
-
         // --- mapping functions from base class  ---
 
         void write_mapped_bool_keys(YAML::Emitter& out) override;
 
         void write_mapped_int32_keys(YAML::Emitter& out) override;
 
-        void write_mapped_uint32_keys(YAML::Emitter& out) override;
-
         void write_mapped_int64_keys(YAML::Emitter& out) override;
-
-        void write_mapped_uint64_keys(YAML::Emitter& out) override;
 
         void write_mapped_float_keys(YAML::Emitter& out) override;
 

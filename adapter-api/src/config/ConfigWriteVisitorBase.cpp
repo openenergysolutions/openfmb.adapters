@@ -1,7 +1,7 @@
 
 #include "adapter-api/config/ConfigWriteVisitorBase.h"
-#include <proto-api/commonmodule/commonmodule.pb.h>
 #include <adapter-api/util/Exception.h>
+#include <proto-api/commonmodule/commonmodule.pb.h>
 
 #include "adapter-api/config/FieldInfo.h"
 
@@ -66,7 +66,7 @@ void handle_mapped_field(YAML::Emitter& out, const std::string& field_name, type
     out << YAML::BeginMap;
     out << YAML::Key << keys::field_type << E::to_string(type);
 
-    if(type == mapped) {
+    if (type == mapped) {
         writer();
     }
 
@@ -76,23 +76,21 @@ void handle_mapped_field(YAML::Emitter& out, const std::string& field_name, type
 void ConfigWriteVisitorBase::handle_bool(const std::string& field_name)
 {
     handle_mapped_field<BoolFieldType>(
-            this->out,
-            field_name,
-            this->remap(fields::get_bool_type(field_name, path)),
-            BoolFieldType::Value::mapped_bool,
-            [&]() { this->write_mapped_bool_keys(out); }
-    );
+        this->out,
+        field_name,
+        this->remap(fields::get_bool_type(field_name, path)),
+        BoolFieldType::Value::mapped_bool,
+        [&]() { this->write_mapped_bool_keys(out); });
 }
 
 void ConfigWriteVisitorBase::handle_int32(const std::string& field_name)
 {
     handle_mapped_field<Int32FieldType>(
-            this->out,
-            field_name,
-            this->remap(fields::get_int32_type(field_name, path)),
-            Int32FieldType::Value::mapped_int32,
-            [&]() { this->write_mapped_int32_keys(out); }
-    );
+        this->out,
+        field_name,
+        this->remap(fields::get_int32_type(field_name, path)),
+        Int32FieldType::Value::mapped_int32,
+        [&]() { this->write_mapped_int32_keys(out); });
 }
 
 void ConfigWriteVisitorBase::handle_uint32(const std::string& field_name)
@@ -102,7 +100,12 @@ void ConfigWriteVisitorBase::handle_uint32(const std::string& field_name)
 
 void ConfigWriteVisitorBase::handle_int64(const std::string& field_name)
 {
-    throw Exception("no int64 handler: ", path.as_string(), ".", field_name);
+    handle_mapped_field<Int64FieldType>(
+        this->out,
+        field_name,
+        this->remap(fields::get_int64_type(field_name, path)),
+        Int64FieldType::Value::mapped_int64,
+        [&]() { this->write_mapped_int64_keys(out); });
 }
 
 void ConfigWriteVisitorBase::handle_uint64(const std::string& field_name)
@@ -112,7 +115,12 @@ void ConfigWriteVisitorBase::handle_uint64(const std::string& field_name)
 
 void ConfigWriteVisitorBase::handle_float(const std::string& field_name)
 {
-    throw Exception("no float handler: ", path.as_string(), ".", field_name);
+    handle_mapped_field<FloatFieldType>(
+        this->out,
+        field_name,
+        this->remap(fields::get_float_type(field_name, path)),
+        FloatFieldType::Value::mapped_float,
+        [&]() { this->write_mapped_float_keys(out); });
 }
 
 void ConfigWriteVisitorBase::handle_string(const std::string& field_name)

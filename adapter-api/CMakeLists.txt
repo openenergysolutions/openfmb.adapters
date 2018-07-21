@@ -33,6 +33,8 @@ set(API_HEADERS
 	include/adapter-api/config/PublishingConfigReadVisitorBase.h
 	include/adapter-api/config/generated/BoolFieldType.h
 	include/adapter-api/config/generated/Int32FieldType.h
+	include/adapter-api/config/generated/Int64FieldType.h
+	include/adapter-api/config/generated/FloatFieldType.h
 	include/adapter-api/config/generated/EnumFieldType.h
 	include/adapter-api/config/generated/StringFieldType.h
     include/adapter-api/config/generated/MessageVisitors.h
@@ -53,6 +55,8 @@ set(API_SOURCES
 	src/config/DescriptorPath.cpp
 	src/config/generated/BoolFieldType.cpp
 	src/config/generated/Int32FieldType.cpp
+	src/config/generated/Int64FieldType.cpp
+	src/config/generated/FloatFieldType.cpp
 	src/config/generated/EnumFieldType.cpp
 	src/config/generated/StringFieldType.cpp
 	src/config/generated/MessageVisitors.cpp

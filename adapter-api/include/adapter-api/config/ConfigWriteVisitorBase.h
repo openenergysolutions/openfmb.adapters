@@ -7,8 +7,11 @@
 
 #include <adapter-api/config/generated/BoolFieldType.h>
 #include <adapter-api/config/generated/EnumFieldType.h>
+#include <adapter-api/config/generated/FloatFieldType.h>
 #include <adapter-api/config/generated/Int32FieldType.h>
+#include <adapter-api/config/generated/Int64FieldType.h>
 #include <adapter-api/config/generated/StringFieldType.h>
+
 #include <yaml-cpp/yaml.h>
 
 #include "DescriptorPath.h"
@@ -25,13 +28,17 @@ class ConfigWriteVisitorBase : public IModelVisitor {
 protected:
     /// ---- methods that give base classes a change to remap support for a type ----
 
-    virtual BoolFieldType::Value remap(BoolFieldType::Value type) = 0;
+    virtual BoolFieldType::Value remap(BoolFieldType::Value type) { return type; }
 
-    virtual Int32FieldType::Value remap(Int32FieldType::Value type) = 0;
+    virtual Int32FieldType::Value remap(Int32FieldType::Value type) { return type; }
 
-    virtual EnumFieldType::Value remap(EnumFieldType::Value type) = 0;
+    virtual Int64FieldType::Value remap(Int64FieldType::Value type) { return type; }
 
-    virtual StringFieldType::Value remap(StringFieldType::Value type) = 0;
+    virtual FloatFieldType::Value remap(FloatFieldType::Value type) { return type; }
+
+    virtual EnumFieldType::Value remap(EnumFieldType::Value type) { return type; }
+
+    virtual StringFieldType::Value remap(StringFieldType::Value type) { return type; }
 
     /// ---- handlers for writing protocol specific mappings ----
 
@@ -39,11 +46,7 @@ protected:
 
     virtual void write_mapped_int32_keys(YAML::Emitter& out) = 0;
 
-    virtual void write_mapped_uint32_keys(YAML::Emitter& out) = 0;
-
     virtual void write_mapped_int64_keys(YAML::Emitter& out) = 0;
-
-    virtual void write_mapped_uint64_keys(YAML::Emitter& out) = 0;
 
     virtual void write_mapped_float_keys(YAML::Emitter& out) = 0;
 
