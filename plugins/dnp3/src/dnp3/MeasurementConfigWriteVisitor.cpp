@@ -43,32 +43,32 @@ namespace dnp3 {
 
     void MeasurementConfigWriteVisitor::write_mapped_bool_keys(YAML::Emitter& out)
     {
-        throw NotImplemented(LOCATION);
+        throw Exception("no bool mapping for DNP3 measurements");
     }
 
     void MeasurementConfigWriteVisitor::write_mapped_int32_keys(YAML::Emitter& out)
     {
-        out << YAML::Key << "some" << YAML::Value << "int32";
+        throw Exception("no int32 mapping for DNP3 measurements");
     }
 
     void MeasurementConfigWriteVisitor::write_mapped_uint32_keys(YAML::Emitter& out)
     {
-        throw NotImplemented(LOCATION);
+        throw Exception("no uint32 mapping for DNP3 measurements");
     }
 
     void MeasurementConfigWriteVisitor::write_mapped_int64_keys(YAML::Emitter& out)
     {
-        out << YAML::Key << "some" << YAML::Value << "int64";
+        throw Exception("no int64 mapping for DNP3 measurements");
     }
 
     void MeasurementConfigWriteVisitor::write_mapped_uint64_keys(YAML::Emitter& out)
     {
-        throw NotImplemented(LOCATION);
+        throw Exception("no uint64 mapping for DNP3 measurements");
     }
 
     void MeasurementConfigWriteVisitor::write_mapped_float_keys(YAML::Emitter& out)
     {
-        out << YAML::Key << "some" << YAML::Value << "float";
+        throw Exception("no float mapping for DNP3 measurements");
     }
 
     void MeasurementConfigWriteVisitor::write_mapped_enum_keys(YAML::Emitter& out, google::protobuf::EnumDescriptor const* descriptor)

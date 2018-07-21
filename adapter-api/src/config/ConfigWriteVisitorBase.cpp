@@ -1,6 +1,7 @@
 
 #include "adapter-api/config/ConfigWriteVisitorBase.h"
 #include <proto-api/commonmodule/commonmodule.pb.h>
+#include <adapter-api/util/Exception.h>
 
 #include "adapter-api/config/FieldInfo.h"
 
@@ -58,61 +59,60 @@ void ConfigWriteVisitorBase::end_repeated_message_field()
     out << YAML::EndSeq;
 }
 
-void ConfigWriteVisitorBase::handle_bool(const std::string& field_name)
+template <class E, class W>
+void handle_mapped_field(YAML::Emitter& out, const std::string& field_name, typename E::Value type, typename E::Value mapped, const W& writer)
 {
-    const auto type = this->remap(fields::get_bool_type(field_name, path));
-
     out << YAML::Key << field_name;
     out << YAML::BeginMap;
-    out << YAML::Key << "type" << BoolFieldType::to_string(type);
+    out << YAML::Key << keys::field_type << E::to_string(type);
 
-    switch (type) {
-    case (BoolFieldType::Value::mapped_bool):
-        this->write_mapped_bool_keys(out);
-        break;
-    default:
-        break;
+    if(type == mapped) {
+        writer();
     }
 
     out << YAML::EndMap;
+};
+
+void ConfigWriteVisitorBase::handle_bool(const std::string& field_name)
+{
+    handle_mapped_field<BoolFieldType>(
+            this->out,
+            field_name,
+            this->remap(fields::get_bool_type(field_name, path)),
+            BoolFieldType::Value::mapped_bool,
+            [&]() { this->write_mapped_bool_keys(out); }
+    );
 }
 
 void ConfigWriteVisitorBase::handle_int32(const std::string& field_name)
 {
-    const auto type = this->remap(fields::get_int32_type(field_name, path));
-    out << YAML::Key << field_name;
-    out << YAML::BeginMap;
-    out << YAML::Key << "type" << Int32FieldType::to_string(type);
-
-    switch (type) {
-    case (Int32FieldType::Value::mapped_int32):
-        this->write_mapped_int32_keys(out);
-        break;
-    default:
-        break;
-    }
-
-    out << YAML::EndMap;
+    handle_mapped_field<Int32FieldType>(
+            this->out,
+            field_name,
+            this->remap(fields::get_int32_type(field_name, path)),
+            Int32FieldType::Value::mapped_int32,
+            [&]() { this->write_mapped_int32_keys(out); }
+    );
 }
 
 void ConfigWriteVisitorBase::handle_uint32(const std::string& field_name)
 {
-    out << YAML::Key << field_name << YAML::Value << "uint32";
+    throw Exception("no uint32 handler: ", path.as_string(), ".", field_name);
 }
 
 void ConfigWriteVisitorBase::handle_int64(const std::string& field_name)
 {
-    out << YAML::Key << field_name << YAML::Value << "int64";
+    throw Exception("no int64 handler: ", path.as_string(), ".", field_name);
 }
 
 void ConfigWriteVisitorBase::handle_uint64(const std::string& field_name)
 {
-    out << YAML::Key << field_name << YAML::Value << "uint64";
+    throw Exception("no uint64 handler: ", path.as_string(), ".", field_name);
 }
 
 void ConfigWriteVisitorBase::handle_float(const std::string& field_name)
 {
-    out << YAML::Key << field_name << YAML::Value << "float";
+    throw Exception("no float handler: ", path.as_string(), ".", field_name);
 }
 
 void ConfigWriteVisitorBase::handle_string(const std::string& field_name)
