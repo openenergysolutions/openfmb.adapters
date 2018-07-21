@@ -14,11 +14,22 @@ namespace dnp3 {
 
     class ConfigWriteVisitor final : public ConfigWriteVisitorBase {
 
+        const bool is_control;
+
     public:
         explicit ConfigWriteVisitor(bool is_control, YAML::Emitter& out);
 
     protected:
-        // --- implement pure virtual methods from base class ---
+
+        BoolFieldType::Value remap(BoolFieldType::Value type) override;
+
+        Int32FieldType::Value remap(Int32FieldType::Value  type) override;
+
+        EnumFieldType::Value remap(EnumFieldType::Value type) override;
+
+        StringFieldType::Value remap(StringFieldType::Value type) override;
+
+        // --- mapping functions from base class  ---
 
         void write_mapped_bool_keys(YAML::Emitter& out) override;
 

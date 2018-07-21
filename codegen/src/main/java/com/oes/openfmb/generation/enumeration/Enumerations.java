@@ -48,7 +48,8 @@ public class Enumerations {
                 "EnumFieldType",
                 Arrays.asList(
                         Enumeration.entry("optional_const_enum", "an optional enum that is the same value in every message"),
-                        Enumeration.entry("mapped_enum", "an enum that is mapped from values in the underlying protocol")
+                        Enumeration.entry("mapped_enum", "an enum that is mapped from values in the underlying protocol"),
+                        Enumeration.entry("ignored_enum", "the enum is ignored in this configuration")
                 )
         );
 

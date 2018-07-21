@@ -27,12 +27,15 @@ struct EnumFieldType
         optional_const_enum,
         // an enum that is mapped from values in the underlying protocol
         mapped_enum,
+        // the enum is ignored in this configuration
+        ignored_enum,
     };
 
     static const char optional_const_enum[];
     static const char mapped_enum[];
+    static const char ignored_enum[];
 
-    static const std::array<Value, 2> values;
+    static const std::array<Value, 3> values;
 
     static std::string to_string(Value value);
     static Value from_string(const std::string& name);

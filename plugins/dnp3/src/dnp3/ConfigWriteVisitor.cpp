@@ -13,11 +13,33 @@ namespace adapter {
 namespace dnp3 {
 
     ConfigWriteVisitor::ConfigWriteVisitor(bool is_control, YAML::Emitter& out)
-        : ConfigWriteVisitorBase(is_control, out)
+        : ConfigWriteVisitorBase(out), is_control(is_control)
     {
     }
 
-    // --- implement pure virtual methods from base class ---
+    // --- remapping methods from base class ---
+
+    BoolFieldType::Value ConfigWriteVisitor::remap(BoolFieldType::Value type)
+    {
+        return type;
+    }
+
+    Int32FieldType::Value ConfigWriteVisitor::remap(Int32FieldType::Value  type)
+    {
+        return type;
+    }
+
+    EnumFieldType::Value ConfigWriteVisitor::remap(EnumFieldType::Value type)
+    {
+        return type;
+    }
+
+    StringFieldType::Value ConfigWriteVisitor::remap(StringFieldType::Value type)
+    {
+        return type;
+    }
+
+    // --- map write function from base class ---
 
     void ConfigWriteVisitor::write_mapped_bool_keys(YAML::Emitter& out)
     {

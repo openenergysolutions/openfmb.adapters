@@ -6,6 +6,10 @@
 #include "IModelVisitor.h"
 
 #include <yaml-cpp/yaml.h>
+#include <adapter-api/config/generated/BoolFieldType.h>
+#include <adapter-api/config/generated/Int32FieldType.h>
+#include <adapter-api/config/generated/EnumFieldType.h>
+#include <adapter-api/config/generated/StringFieldType.h>
 
 #include "DescriptorPath.h"
 
@@ -15,31 +19,22 @@ namespace adapter {
 
 class ConfigWriteVisitorBase : public IModelVisitor {
 
-    /*
-    class DelayedWriter {
-        YAML::Emitter& out;
-        std::vector<write_fun_t> delayed_writes;
-
-    public:
-        explicit DelayedWriter(YAML::Emitter& out)
-            : out(out)
-        {
-        }
-
-        void push(const write_fun_t& fun);
-
-        void pop(const write_fun_t& fun);
-
-        void write(const write_fun_t& fun);
-    };
-     */
-
     YAML::Emitter& out;
     DescriptorPath path;
-    //DelayedWriter writer;
 
 protected:
-    bool is_control;
+
+    /// ---- methods that give base classes a change to remap support for a type ----
+
+    virtual BoolFieldType::Value remap(BoolFieldType::Value type) = 0;
+
+    virtual Int32FieldType::Value remap(Int32FieldType::Value  type) = 0;
+
+    virtual EnumFieldType::Value remap(EnumFieldType::Value type) = 0;
+
+    virtual StringFieldType::Value remap(StringFieldType::Value type) = 0;
+
+    /// ---- handlers for writing protocol specific mappings ----
 
     virtual void write_mapped_bool_keys(YAML::Emitter& out) = 0;
 
@@ -56,7 +51,7 @@ protected:
     virtual void write_mapped_enum_keys(YAML::Emitter& out, google::protobuf::EnumDescriptor const* descriptor) = 0;
 
 public:
-    explicit ConfigWriteVisitorBase(bool is_control, YAML::Emitter& out);
+    explicit ConfigWriteVisitorBase(YAML::Emitter& out);
 
     // --- final handlers for message fields ---
 

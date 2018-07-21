@@ -8,35 +8,9 @@
 
 namespace adapter {
 
-/*
-void ConfigWriteVisitorBase::DelayedWriter::push(const write_fun_t& fun)
+ConfigWriteVisitorBase::ConfigWriteVisitorBase(YAML::Emitter& out) : out(out)
 {
-    this->delayed_writes.emplace_back(fun);
-}
 
-void ConfigWriteVisitorBase::DelayedWriter::pop(const write_fun_t& fun)
-{
-    if (this->delayed_writes.empty()) {
-        fun(this->out);
-    } else {
-        this->delayed_writes.pop_back();
-    }
-}
-
-void ConfigWriteVisitorBase::DelayedWriter::write(const write_fun_t& fun)
-{
-    for (const auto& write : this->delayed_writes) {
-        write(this->out);
-    }
-    this->delayed_writes.clear();
-    fun(this->out);
-}
-     */
-
-ConfigWriteVisitorBase::ConfigWriteVisitorBase(bool is_control, YAML::Emitter& out)
-    : out(out)
-    , is_control(is_control)
-{
 }
 
 bool ConfigWriteVisitorBase::start_message_field(const std::string& field_name, google::protobuf::Descriptor const* descriptor)
@@ -86,7 +60,8 @@ void ConfigWriteVisitorBase::end_repeated_message_field()
 
 void ConfigWriteVisitorBase::handle_bool(const std::string& field_name)
 {
-    const auto type = fields::get_bool_type(field_name, path);
+    const auto type = this->remap(fields::get_bool_type(field_name, path));
+
     out << YAML::Key << field_name;
     out << YAML::BeginMap;
     out << YAML::Key << "type" << BoolFieldType::to_string(type);
@@ -104,7 +79,7 @@ void ConfigWriteVisitorBase::handle_bool(const std::string& field_name)
 
 void ConfigWriteVisitorBase::handle_int32(const std::string& field_name)
 {
-    const auto type = fields::get_int32_type(field_name, path);
+    const auto type = this->remap(fields::get_int32_type(field_name, path));
     out << YAML::Key << field_name;
     out << YAML::BeginMap;
     out << YAML::Key << "type" << Int32FieldType::to_string(type);
@@ -142,23 +117,14 @@ void ConfigWriteVisitorBase::handle_float(const std::string& field_name)
 
 void ConfigWriteVisitorBase::handle_string(const std::string& field_name)
 {
-    const auto type = fields::get_string_type(field_name, path);
+    const auto type = this->remap(fields::get_string_type(field_name, path));
 
     out << YAML::Key << field_name;
     out << YAML::BeginMap;
     out << YAML::Key << keys::field_type << StringFieldType::to_string(type);
 
-    if (this->is_control) {
-        // the main mRID is the only thing that needs to be configurable for controls
-        if (type == StringFieldType::Value::primary_uuid) {
-            out << YAML::Comment("only process this mRID");
-            out << YAML::Key << keys::value << YAML::Value << "";
-        } else {
-            out << YAML::Comment("ignored in control profile");
-        }
 
-    } else {
-        switch (fields::get_string_type(field_name, path)) {
+    switch (fields::get_string_type(field_name, path)) {
         case (StringFieldType::Value::optional_const_uuid):
         case (StringFieldType::Value::primary_uuid):
         case (StringFieldType::Value::optional_string):
@@ -166,7 +132,6 @@ void ConfigWriteVisitorBase::handle_string(const std::string& field_name)
             break;
         default:
             break;
-        }
     }
 
     out << YAML::EndMap;
@@ -174,7 +139,7 @@ void ConfigWriteVisitorBase::handle_string(const std::string& field_name)
 
 void ConfigWriteVisitorBase::handle_enum(const std::string& field_name, google::protobuf::EnumDescriptor const* descriptor)
 {
-    const auto type = fields::get_enum_type(descriptor);
+    const auto type = this->remap(fields::get_enum_type(descriptor));
 
     out << YAML::Key << field_name;
     out << YAML::BeginMap;
