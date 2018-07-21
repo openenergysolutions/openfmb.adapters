@@ -26,12 +26,12 @@ namespace dnp3 {
 
     Int32FieldType::Value ControlConfigWriteVisitor::remap(Int32FieldType::Value type)
     {
-        return type;
+        return (type == Int32FieldType::Value::mapped_int32) ? Int32FieldType::Value::ignored_int32 : type;
     }
 
     EnumFieldType::Value ControlConfigWriteVisitor::remap(EnumFieldType::Value type)
     {
-        return type;
+        return (type == EnumFieldType::Value::mapped_enum) ? EnumFieldType::Value::ignored_enum : type;
     }
 
     StringFieldType::Value ControlConfigWriteVisitor::remap(StringFieldType::Value type)
@@ -63,7 +63,6 @@ namespace dnp3 {
 
     void ControlConfigWriteVisitor::write_mapped_int32_keys(YAML::Emitter& out)
     {
-        //out << YAML::Key << "some" << YAML::Value << "int32";
         throw NotImplemented(LOCATION);
     }
 
@@ -74,7 +73,7 @@ namespace dnp3 {
 
     void ControlConfigWriteVisitor::write_mapped_int64_keys(YAML::Emitter& out)
     {
-        out << YAML::Key << "some" << YAML::Value << "int64";
+        throw NotImplemented(LOCATION);
     }
 
     void ControlConfigWriteVisitor::write_mapped_uint64_keys(YAML::Emitter& out)
@@ -84,7 +83,7 @@ namespace dnp3 {
 
     void ControlConfigWriteVisitor::write_mapped_float_keys(YAML::Emitter& out)
     {
-        out << YAML::Key << "some" << YAML::Value << "float";
+        throw NotImplemented(LOCATION);
     }
 
     void ControlConfigWriteVisitor::write_mapped_enum_keys(YAML::Emitter& out, google::protobuf::EnumDescriptor const* descriptor)
