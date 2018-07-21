@@ -8,6 +8,7 @@
 
 namespace adapter {
 
+/*
 void ConfigWriteVisitorBase::DelayedWriter::push(const write_fun_t& fun)
 {
     this->delayed_writes.emplace_back(fun);
@@ -30,10 +31,11 @@ void ConfigWriteVisitorBase::DelayedWriter::write(const write_fun_t& fun)
     this->delayed_writes.clear();
     fun(this->out);
 }
+     */
 
 ConfigWriteVisitorBase::ConfigWriteVisitorBase(bool is_control, YAML::Emitter& out)
-    : is_control(is_control)
-    , writer(out)
+    : out(out)
+    , is_control(is_control)
 {
 }
 
@@ -44,11 +46,8 @@ bool ConfigWriteVisitorBase::start_message_field(const std::string& field_name, 
 
     this->path.push(field_name, descriptor);
 
-    this->writer.push(
-        [field_name](YAML::Emitter& out) {
-            out << YAML::Key << field_name;
-            out << YAML::BeginMap;
-        });
+    out << YAML::Key << field_name;
+    out << YAML::BeginMap;
 
     return true;
 }
@@ -56,163 +55,140 @@ bool ConfigWriteVisitorBase::start_message_field(const std::string& field_name, 
 void ConfigWriteVisitorBase::end_message_field()
 {
     this->path.pop();
-    this->writer.pop([](YAML::Emitter& out) { out << YAML::EndMap; });
+    out << YAML::EndMap;
 }
 
 int ConfigWriteVisitorBase::start_repeated_message_field(const std::string& field_name, google::protobuf::Descriptor const* descriptor)
 {
     this->path.push(field_name, descriptor);
 
-    this->writer.push(
-        [field_name](YAML::Emitter& out) {
-            out << YAML::Key << field_name;
-            out << YAML::BeginSeq;
-        });
+    out << YAML::Key << field_name;
+    out << YAML::BeginSeq;
 
     return 1;
 }
 
 void ConfigWriteVisitorBase::start_iteration(int i)
 {
-    this->writer.push(
-        [](YAML::Emitter& out) {
-            out << YAML::BeginMap;
-        });
+    out << YAML::BeginMap;
 }
 
 void ConfigWriteVisitorBase::end_iteration()
 {
-    this->writer.pop([](YAML::Emitter& out) { out << YAML::EndMap; });
+    out << YAML::EndMap;
 }
 
 void ConfigWriteVisitorBase::end_repeated_message_field()
 {
     this->path.pop();
-    this->writer.pop([](YAML::Emitter& out) { out << YAML::EndSeq; });
+    out << YAML::EndSeq;
 }
 
 void ConfigWriteVisitorBase::handle_bool(const std::string& field_name)
 {
-    switch (fields::get_bool_type(field_name, path)) {
-    case (FieldType::Value::mapped):
-        this->writer.write(
-            [&](YAML::Emitter& out) {
-                out << YAML::Key << field_name;
-                out << YAML::BeginMap;
-                this->write_mapped_bool_keys(out);
-                out << YAML::EndMap;
-            });
+    const auto type = fields::get_bool_type(field_name, path);
+    out << YAML::Key << field_name;
+    out << YAML::BeginMap;
+    out << YAML::Key << "type" << BoolFieldType::to_string(type);
+
+    switch (type) {
+    case (BoolFieldType::Value::mapped_bool):
+        this->write_mapped_bool_keys(out);
         break;
-        // we ignore everything that isn't a mapped value right now
     default:
         break;
     }
+
+    out << YAML::EndMap;
 }
 
 void ConfigWriteVisitorBase::handle_int32(const std::string& field_name)
 {
-    switch (fields::get_int32_type(field_name, path)) {
-    case (FieldType::Value::mapped):
-        this->writer.write(
-            [&](YAML::Emitter& out) {
-                out << YAML::Key << field_name;
-                out << YAML::BeginMap;
-                this->write_mapped_int32_keys(out);
-                out << YAML::EndMap;
-            });
+    const auto type = fields::get_int32_type(field_name, path);
+    out << YAML::Key << field_name;
+    out << YAML::BeginMap;
+    out << YAML::Key << "type" << Int32FieldType::to_string(type);
+
+    switch (type) {
+    case (Int32FieldType::Value::mapped_int32):
+        this->write_mapped_int32_keys(out);
         break;
     default:
         break;
     }
+
+    out << YAML::EndMap;
 }
 
 void ConfigWriteVisitorBase::handle_uint32(const std::string& field_name)
 {
-    this->writer.write(
-        [&](YAML::Emitter& out) {
-            out << YAML::Key << field_name;
-            out << YAML::BeginMap;
-            this->write_mapped_uint32_keys(out);
-            out << YAML::EndMap;
-        });
+    out << YAML::Key << field_name << YAML::Value << "uint32";
 }
 
 void ConfigWriteVisitorBase::handle_int64(const std::string& field_name)
 {
-    this->writer.write(
-        [&](YAML::Emitter& out) {
-            out << YAML::Key << field_name;
-            out << YAML::BeginMap;
-            this->write_mapped_int64_keys(out);
-            out << YAML::EndMap;
-        });
+    out << YAML::Key << field_name << YAML::Value << "int64";
 }
 
 void ConfigWriteVisitorBase::handle_uint64(const std::string& field_name)
 {
-    this->writer.write(
-        [&](YAML::Emitter& out) {
-            out << YAML::Key << field_name;
-            out << YAML::BeginMap;
-            this->write_mapped_uint64_keys(out);
-            out << YAML::EndMap;
-        });
+    out << YAML::Key << field_name << YAML::Value << "uint64";
 }
 
 void ConfigWriteVisitorBase::handle_float(const std::string& field_name)
 {
-    this->writer.write(
-        [&](YAML::Emitter& out) {
-            out << YAML::Key << field_name;
-            out << YAML::BeginMap;
-            this->write_mapped_float_keys(out);
-            out << YAML::EndMap;
-        });
+    out << YAML::Key << field_name << YAML::Value << "float";
 }
 
 void ConfigWriteVisitorBase::handle_string(const std::string& field_name)
 {
     const auto type = fields::get_string_type(field_name, path);
 
+    out << YAML::Key << field_name;
+    out << YAML::BeginMap;
+    out << YAML::Key << keys::field_type << StringFieldType::to_string(type);
+
     if (this->is_control) {
         // the main mRID is the only thing that needs to be configurable for controls
         if (type == StringFieldType::Value::primary_uuid) {
-            this->writer.write([&](YAML::Emitter& out) { out << YAML::Key << field_name << YAML::Value << "" << YAML::Comment("required UUID to match against"); });
+            out << YAML::Comment("only process this mRID");
+            out << YAML::Key << keys::value << YAML::Value << "";
+        } else {
+            out << YAML::Comment("ignored in control profile");
         }
 
     } else {
         switch (fields::get_string_type(field_name, path)) {
-        case (StringFieldType::Value::optional_constant_uuid):
-            this->writer.write([&](YAML::Emitter& out) { out << YAML::Key << field_name << YAML::Value << "" << YAML::Comment("optional valid UUID"); });
-            break;
+        case (StringFieldType::Value::optional_const_uuid):
         case (StringFieldType::Value::primary_uuid):
-            this->writer.write([&](YAML::Emitter& out) { out << YAML::Key << field_name << YAML::Value << "" << YAML::Comment("required UUID"); });
-            break;
         case (StringFieldType::Value::optional_string):
-            this->writer.write([&](YAML::Emitter& out) { out << YAML::Key << field_name << YAML::Value << "" << YAML::Comment("optional string"); });
+            out << YAML::Key << field_name << YAML::Value << "";
             break;
         default:
             break;
         }
     }
+
+    out << YAML::EndMap;
 }
 
 void ConfigWriteVisitorBase::handle_enum(const std::string& field_name, google::protobuf::EnumDescriptor const* descriptor)
 {
     const auto type = fields::get_enum_type(descriptor);
+
+    out << YAML::Key << field_name;
+    out << YAML::BeginMap;
+    out << YAML::Key << "type" << EnumFieldType::to_string(type);
+
     switch (type) {
-    case (EnumFieldType::Value::optional_constant):
-        this->writer.write([&](YAML::Emitter& out) { out << YAML::Key << field_name << YAML::Value << "" << YAML::Comment("optional static enum"); });
+    case (EnumFieldType::Value::optional_const_enum):
+        out << YAML::Key << keys::value << YAML::Value << "";
         break;
     default:
-        this->writer.write(
-            [&](YAML::Emitter& out) {
-                out << YAML::Key << field_name;
-                out << YAML::BeginMap;
-                this->write_mapped_enum_keys(out, descriptor);
-                out << YAML::EndMap;
-            });
+        this->write_mapped_enum_keys(out, descriptor);
         break;
     }
+
+    out << YAML::EndMap;
 }
 }

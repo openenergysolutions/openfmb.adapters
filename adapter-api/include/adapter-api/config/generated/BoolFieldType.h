@@ -11,37 +11,31 @@
 //  This file is auto-generated. Do not edit manually
 // 
 
-#ifndef OPENFMB_STRINGFIELDTYPE_H
-#define OPENFMB_STRINGFIELDTYPE_H
+#ifndef OPENFMB_BOOLFIELDTYPE_H
+#define OPENFMB_BOOLFIELDTYPE_H
 
 #include <string>
 #include <array>
 
 namespace adapter {
 
-struct StringFieldType
+struct BoolFieldType
 {
     enum class Value
     {
-        // the value is randomly generated UUID
-        generated_uuid,
-        // the value is an optional constant UUID
-        optional_const_uuid,
-        // the value is a required primary UUID (conducting equipment)
-        primary_uuid,
-        // the value is an optional constant string
-        optional_string,
-        // the field is ignored in this configuration
-        ignored_string,
+        // the value is always the same, set in configuration
+        const_bool,
+        // the value is mapped dynamically from the underlying protocol
+        mapped_bool,
+        // the value is ignored in the current configuration
+        ignored_bool,
     };
 
-    static const char generated_uuid[];
-    static const char optional_const_uuid[];
-    static const char primary_uuid[];
-    static const char optional_string[];
-    static const char ignored_string[];
+    static const char const_bool[];
+    static const char mapped_bool[];
+    static const char ignored_bool[];
 
-    static const std::array<Value, 5> values;
+    static const std::array<Value, 3> values;
 
     static std::string to_string(Value value);
     static Value from_string(const std::string& name);

@@ -16,36 +16,44 @@ public class Enumerations {
 
     private static class API {
 
-        private final static Enumeration fieldType = new Enumeration(
-                "FieldType",
-                Arrays.asList(
-                        Enumeration.entry("constant", "the field value is always the same, fixed in configuration"),
-                        Enumeration.entry("mapped", "the field value is mapped dynamically from the underlying protocol"),
-                        Enumeration.entry("ignored", "the field is ignored")
-                )
-        );
+        private static Enumeration getBasicFieldType(String name)
+        {
+            return new Enumeration(
+                    name+"FieldType",
+                    Arrays.asList(
+                            Enumeration.entry("const_"+name.toLowerCase(), "the value is always the same, set in configuration"),
+                            Enumeration.entry("mapped_"+name.toLowerCase(), "the value is mapped dynamically from the underlying protocol"),
+                            Enumeration.entry("ignored_"+name.toLowerCase(), "the value is ignored in the current configuration")
+                    )
+            );
+        }
+
+
+        private final static Enumeration Int32FieldType = getBasicFieldType("Int32");
+
+        private final static Enumeration boolFieldType = getBasicFieldType("Bool");
 
         private final static Enumeration stringFieldType = new Enumeration(
                 "StringFieldType",
                 Arrays.asList(
                         Enumeration.entry("generated_uuid", "the value is randomly generated UUID"),
-                        Enumeration.entry("optional_constant_uuid", "the value is an optional constant UUID"),
+                        Enumeration.entry("optional_const_uuid", "the value is an optional constant UUID"),
                         Enumeration.entry("primary_uuid", "the value is a required primary UUID (conducting equipment)"),
                         Enumeration.entry("optional_string", "the value is an optional constant string"),
-                        Enumeration.entry("ignored", "the field is ignored")
+                        Enumeration.entry("ignored_string", "the field is ignored in this configuration")
                 )
         );
 
         private final static Enumeration enumFieldType = new Enumeration(
                 "EnumFieldType",
                 Arrays.asList(
-                        Enumeration.entry("optional_constant", "an optional enum that is the same value in every message"),
-                        Enumeration.entry("mapped", "an enum that is mapped from values in the underlying protocol")
+                        Enumeration.entry("optional_const_enum", "an optional enum that is the same value in every message"),
+                        Enumeration.entry("mapped_enum", "an enum that is mapped from values in the underlying protocol")
                 )
         );
 
         private static List<Enumeration> enums() {
-            return Arrays.asList(fieldType, stringFieldType, enumFieldType);
+            return Arrays.asList(Int32FieldType, boolFieldType, stringFieldType, enumFieldType);
         }
 
         private static final Path includePath = Paths.get("../adapter-api/include/adapter-api/config/generated");

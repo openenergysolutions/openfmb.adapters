@@ -4,8 +4,9 @@
 
 #include "IDescriptorPath.h"
 
+#include "generated/BoolFieldType.h"
 #include "generated/EnumFieldType.h"
-#include "generated/FieldType.h"
+#include "generated/Int32FieldType.h"
 #include "generated/StringFieldType.h"
 
 namespace adapter {
@@ -18,9 +19,9 @@ namespace fields {
 
     StringFieldType::Value get_string_type(const std::string& field_name, IDescriptorPath& path);
 
-    FieldType::Value get_bool_type(const std::string& field_name, IDescriptorPath& path);
+    BoolFieldType::Value get_bool_type(const std::string& field_name, IDescriptorPath& path);
 
-    FieldType::Value get_int32_type(const std::string& field_name, IDescriptorPath& path);
+    Int32FieldType::Value get_int32_type(const std::string& field_name, IDescriptorPath& path);
 }
 }
 

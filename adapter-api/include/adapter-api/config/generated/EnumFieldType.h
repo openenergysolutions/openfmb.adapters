@@ -24,13 +24,13 @@ struct EnumFieldType
     enum class Value
     {
         // an optional enum that is the same value in every message
-        optional_constant,
+        optional_const_enum,
         // an enum that is mapped from values in the underlying protocol
-        mapped,
+        mapped_enum,
     };
 
-    static const char optional_constant[];
-    static const char mapped[];
+    static const char optional_const_enum[];
+    static const char mapped_enum[];
 
     static const std::array<Value, 2> values;
 

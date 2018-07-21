@@ -11,29 +11,29 @@
 //  This file is auto-generated. Do not edit manually
 // 
 
-#ifndef OPENFMB_FIELDTYPE_H
-#define OPENFMB_FIELDTYPE_H
+#ifndef OPENFMB_INT32FIELDTYPE_H
+#define OPENFMB_INT32FIELDTYPE_H
 
 #include <string>
 #include <array>
 
 namespace adapter {
 
-struct FieldType
+struct Int32FieldType
 {
     enum class Value
     {
-        // the field value is always the same, fixed in configuration
-        constant,
-        // the field value is mapped dynamically from the underlying protocol
-        mapped,
-        // the field is ignored
-        ignored,
+        // the value is always the same, set in configuration
+        const_int32,
+        // the value is mapped dynamically from the underlying protocol
+        mapped_int32,
+        // the value is ignored in the current configuration
+        ignored_int32,
     };
 
-    static const char constant[];
-    static const char mapped[];
-    static const char ignored[];
+    static const char const_int32[];
+    static const char mapped_int32[];
+    static const char ignored_int32[];
 
     static const std::array<Value, 3> values;
 

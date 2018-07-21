@@ -11,10 +11,11 @@
 
 namespace adapter {
 
-using write_fun_t = std::function<void(YAML::Emitter&)>;
+//using write_fun_t = std::function<void(YAML::Emitter&)>;
 
 class ConfigWriteVisitorBase : public IModelVisitor {
 
+    /*
     class DelayedWriter {
         YAML::Emitter& out;
         std::vector<write_fun_t> delayed_writes;
@@ -31,9 +32,11 @@ class ConfigWriteVisitorBase : public IModelVisitor {
 
         void write(const write_fun_t& fun);
     };
+     */
 
+    YAML::Emitter& out;
     DescriptorPath path;
-    DelayedWriter writer;
+    //DelayedWriter writer;
 
 protected:
     bool is_control;

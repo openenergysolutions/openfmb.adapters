@@ -19,21 +19,21 @@
 
 namespace adapter {
 
-const char EnumFieldType::optional_constant[] = "optional_constant";
-const char EnumFieldType::mapped[] = "mapped";
+const char EnumFieldType::optional_const_enum[] = "optional_const_enum";
+const char EnumFieldType::mapped_enum[] = "mapped_enum";
 
 const std::array<EnumFieldType::Value, 2> EnumFieldType::values =
 {
-    EnumFieldType::Value::optional_constant,
-    EnumFieldType::Value::mapped,
+    EnumFieldType::Value::optional_const_enum,
+    EnumFieldType::Value::mapped_enum,
 };
 
 std::string EnumFieldType::to_string(EnumFieldType::Value value)
 {
     switch(value)
     {
-        case(Value::optional_constant): return optional_constant;
-        default: return mapped;
+        case(Value::optional_const_enum): return optional_const_enum;
+        default: return mapped_enum;
     }
 }
 
@@ -41,8 +41,8 @@ EnumFieldType::Value EnumFieldType::from_string(const std::string& name)
 {
     static const std::map<std::string, Value> map = 
     {
-        {optional_constant, Value::optional_constant},
-        {mapped, Value::mapped},
+        {optional_const_enum, Value::optional_const_enum},
+        {mapped_enum, Value::mapped_enum},
     };
     const auto elem = map.find(name);
     if(elem == map.end()) throw Exception("Unknown value name '", name, "' for enum EnumFieldType");

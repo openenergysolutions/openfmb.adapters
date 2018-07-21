@@ -41,24 +41,24 @@ namespace fields {
         const static std::map<google::protobuf::EnumDescriptor const*, EnumFieldType::Value> map = {
 
             // static enums
-            { commonmodule::TimeAccuracyKind_descriptor(), EnumFieldType::Value::optional_constant },
-            { commonmodule::PhaseCodeKind_descriptor(), EnumFieldType::Value::optional_constant },
-            { commonmodule::SourceKind_descriptor(), EnumFieldType::Value::optional_constant },
-            { commonmodule::ValidityKind_descriptor(), EnumFieldType::Value::optional_constant },
-            { commonmodule::UnitSymbolKind_descriptor(), EnumFieldType::Value::optional_constant },
-            { commonmodule::UnitMultiplierKind_descriptor(), EnumFieldType::Value::optional_constant },
-            { commonmodule::CalcMethodKind_descriptor(), EnumFieldType::Value::optional_constant },
-            { commonmodule::PFSignKind_descriptor(), EnumFieldType::Value::optional_constant },
-            { commonmodule::BehaviourModeKind_descriptor(), EnumFieldType::Value::optional_constant },
-            { commonmodule::HealthKind_descriptor(), EnumFieldType::Value::optional_constant },
+            { commonmodule::TimeAccuracyKind_descriptor(), EnumFieldType::Value::optional_const_enum },
+            { commonmodule::PhaseCodeKind_descriptor(), EnumFieldType::Value::optional_const_enum },
+            { commonmodule::SourceKind_descriptor(), EnumFieldType::Value::optional_const_enum },
+            { commonmodule::ValidityKind_descriptor(), EnumFieldType::Value::optional_const_enum },
+            { commonmodule::UnitSymbolKind_descriptor(), EnumFieldType::Value::optional_const_enum },
+            { commonmodule::UnitMultiplierKind_descriptor(), EnumFieldType::Value::optional_const_enum },
+            { commonmodule::CalcMethodKind_descriptor(), EnumFieldType::Value::optional_const_enum },
+            { commonmodule::PFSignKind_descriptor(), EnumFieldType::Value::optional_const_enum },
+            { commonmodule::BehaviourModeKind_descriptor(), EnumFieldType::Value::optional_const_enum },
+            { commonmodule::HealthKind_descriptor(), EnumFieldType::Value::optional_const_enum },
 
             // enums mapped to the protocol
-            { commonmodule::DynamicTestKind_descriptor(), EnumFieldType::Value::mapped },
-            { commonmodule::DbPosKind_descriptor(), EnumFieldType::Value::mapped },
-            { commonmodule::GridConnectModeKind_descriptor(), EnumFieldType::Value::mapped },
-            { commonmodule::StateKind_descriptor(), EnumFieldType::Value::mapped },
-            { essmodule::ESSFunctionKind_descriptor(), EnumFieldType::Value::mapped },
-            { essmodule::ESSFunctionParameterKind_descriptor(), EnumFieldType::Value::mapped },
+            { commonmodule::DynamicTestKind_descriptor(), EnumFieldType::Value::mapped_enum },
+            { commonmodule::DbPosKind_descriptor(), EnumFieldType::Value::mapped_enum },
+            { commonmodule::GridConnectModeKind_descriptor(), EnumFieldType::Value::mapped_enum },
+            { commonmodule::StateKind_descriptor(), EnumFieldType::Value::mapped_enum },
+            { essmodule::ESSFunctionKind_descriptor(), EnumFieldType::Value::mapped_enum },
+            { essmodule::ESSFunctionParameterKind_descriptor(), EnumFieldType::Value::mapped_enum },
         };
 
         const auto elem = map.find(descriptor);
@@ -138,21 +138,21 @@ namespace fields {
                             [](IDescriptorPath &path) -> bool {
                                 return path.has_parents({{keys::mRID, google::protobuf::StringValue::descriptor()}});
                             },
-                            StringFieldType::Value::optional_constant_uuid
+                            StringFieldType::Value::optional_const_uuid
                         },
                         {
                             // all descriptions are optional constants
                             [](IDescriptorPath &path) -> bool {
                                 return path.has_parents({{keys::description, google::protobuf::StringValue::descriptor()}});
                             },
-                            StringFieldType::Value::optional_constant_uuid
+                            StringFieldType::Value::optional_const_uuid
                         },
                         {
                             // all names are optional constants
                             [](IDescriptorPath &path) -> bool {
                                 return path.has_parents({{keys::name, google::protobuf::StringValue::descriptor()}});
                             },
-                            StringFieldType::Value::optional_constant_uuid
+                            StringFieldType::Value::optional_const_uuid
                         },
                         {
                             // these labels are all optional descriptions
@@ -165,7 +165,7 @@ namespace fields {
                                 }
                                 return false;
                             },
-                            StringFieldType::Value::optional_constant_uuid
+                            StringFieldType::Value::optional_string
                         },
                         {
                             // not sure what these are so
@@ -178,7 +178,7 @@ namespace fields {
                                 }
                                 return false;
                             },
-                            StringFieldType::Value::ignored
+                            StringFieldType::Value::ignored_string
                         }
                     }
                 }
@@ -188,10 +188,10 @@ namespace fields {
         return find_mapping_or_throw(map, field_name, path);
     }
 
-    FieldType::Value get_bool_type(const std::string& field_name, IDescriptorPath& path)
+    BoolFieldType::Value get_bool_type(const std::string& field_name, IDescriptorPath& path)
     {
         // clang-format off
-        const static field_map_t<FieldType::Value> map = {
+        const static field_map_t<BoolFieldType::Value> map = {
                 {
                     keys::value,
                     {
@@ -202,7 +202,7 @@ namespace fields {
                                                                 { keys::control_value, commonmodule::ControlValue::descriptor()},
                                                         });
                             },
-                            FieldType::Value::ignored
+                            BoolFieldType::Value::ignored_bool
                         },
                         {
                             [](IDescriptorPath& path) -> bool {
@@ -211,7 +211,7 @@ namespace fields {
                                                                 { keys::aCDCTerminal, commonmodule::ACDCTerminal::descriptor()},
                                                         });
                             },
-                            FieldType::Value::ignored
+                            BoolFieldType::Value::ignored_bool
                         },
                         {
                             [](IDescriptorPath& path) -> bool {
@@ -226,17 +226,17 @@ namespace fields {
                                 }
                                 return false;
                             },
-                            FieldType::Value::mapped
+                            BoolFieldType::Value::mapped_bool
                         }
                     }
                 },
                 {
                     // any bool w/ this name is a control value
-                    keys::ctlVal, { always(FieldType::Value::mapped) }
+                    keys::ctlVal, { always(BoolFieldType::Value::mapped_bool) }
                 },
                 {
                     // any bool w/ this name is a status value
-                    keys::stVal, { always(FieldType::Value::mapped) }
+                    keys::stVal, { always(BoolFieldType::Value::mapped_bool) }
                 }
         };
         // clang-format on
@@ -244,10 +244,10 @@ namespace fields {
         return find_mapping_or_throw(map, field_name, path);
     }
 
-    FieldType::Value get_int32_type(const std::string& field_name, IDescriptorPath& path)
+    Int32FieldType::Value get_int32_type(const std::string& field_name, IDescriptorPath& path)
     {
         // clang-format off
-        const static field_map_t<FieldType::Value> map = {
+        const static field_map_t<Int32FieldType::Value> map = {
             {
                 keys::value,
                 {
@@ -255,21 +255,21 @@ namespace fields {
                         [](IDescriptorPath& path) -> bool {
                                return path.has_parents({ google::protobuf::Int32Value::descriptor(), commonmodule::ACDCTerminal::descriptor() });
                         },
-                        FieldType::Value::ignored
+                        Int32FieldType::Value::ignored_int32
                     },
                     {
                         // we're only using the float inside AnalogueValue for now
                         [](IDescriptorPath& path) -> bool {
                             return path.has_parents({ google::protobuf::Int32Value::descriptor(), commonmodule::AnalogueValue::descriptor() });
                         },
-                        FieldType::Value::ignored
+                        Int32FieldType::Value::ignored_int32
                     },
                     {
                         // not sure what this even is
                         [](IDescriptorPath& path) -> bool {
                             return path.has_parents({ essmodule::ENG_ESSFunctionParameter::descriptor() });
                         },
-                        FieldType::Value::ignored
+                        Int32FieldType::Value::ignored_int32
                     }
                 }
             }
