@@ -32,6 +32,8 @@ struct TimestampFieldType
     static const char message_timestamp[];
     static const char ignored_timestamp[];
 
+    static constexpr const char* label = "timestamp-field-type";
+
     static const std::array<Value, 2> values;
 
     static std::string to_string(Value value);

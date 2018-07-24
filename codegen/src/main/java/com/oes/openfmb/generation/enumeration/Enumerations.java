@@ -5,6 +5,7 @@ import com.oes.openfmb.generation.document.GeneratedFileSet;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -16,10 +17,19 @@ public class Enumerations {
 
     private static class API {
 
+        private static List<String> getFieldName(String... names)
+        {
+            final List<String> ret = new ArrayList<>();
+            Collections.addAll(ret, names);
+            ret.add("Field");
+            ret.add("Type");
+            return ret;
+        }
+
         private static Enumeration getBasicFieldType(String name)
         {
             return new Enumeration(
-                    name+"FieldType",
+                    getFieldName(name),
                     Arrays.asList(
                             Enumeration.entry("const_"+name.toLowerCase(), "the value is always the same, set in configuration"),
                             Enumeration.entry("mapped_"+name.toLowerCase(), "the value is mapped dynamically from the underlying protocol"),
@@ -29,7 +39,7 @@ public class Enumerations {
         }
 
         private final static Enumeration stringFieldType = new Enumeration(
-                "StringFieldType",
+                getFieldName("String"),
                 Arrays.asList(
                         Enumeration.entry("generated_uuid", "the value is randomly generated UUID"),
                         Enumeration.entry("optional_const_uuid", "the value is an optional constant UUID"),
@@ -40,7 +50,7 @@ public class Enumerations {
         );
 
         private final static Enumeration enumFieldType = new Enumeration(
-                "EnumFieldType",
+                getFieldName("Enum"),
                 Arrays.asList(
                         Enumeration.entry("optional_const_enum", "an optional enum that is the same value in every message"),
                         Enumeration.entry("mapped_enum", "an enum that is mapped from values in the underlying protocol"),
@@ -49,10 +59,24 @@ public class Enumerations {
         );
 
         private final static Enumeration timestampFieldType = new Enumeration(
-                "TimestampFieldType",
+                getFieldName("Timestamp"),
                 Arrays.asList(
                         Enumeration.entry("message_timestamp", "the main timestamp for the message"),
                         Enumeration.entry("ignored_timestamp", "the timestamp is ignored in this configuration")
+                )
+        );
+
+        private final static Enumeration qualityFieldType = new Enumeration(
+                getFieldName("Quality"),
+                Collections.singletonList(
+                        Enumeration.entry("ignored", "the quality field is ignored in this configuration")
+                )
+        );
+
+        private final static Enumeration controlTimestampFieldType = new Enumeration(
+                getFieldName("Control","Timestamp"),
+                Collections.singletonList(
+                        Enumeration.entry("ignored", "the timestamp field is ignored in this configuration")
                 )
         );
 
@@ -64,7 +88,9 @@ public class Enumerations {
                     getBasicFieldType("Bool"),
                     stringFieldType,
                     enumFieldType,
-                    timestampFieldType
+                    timestampFieldType,
+                    qualityFieldType,
+                    controlTimestampFieldType
             );
         }
 
@@ -83,7 +109,7 @@ public class Enumerations {
     private static class DNP3 {
 
         private final static Enumeration source = new Enumeration(
-                "SourceType",
+                Arrays.asList("Source", "Type"),
                 Arrays.asList(
                         Enumeration.entry("none", "the field is disabled"),
                         Enumeration.entry("binary", "the field value is derived from a DNP3 binary"),

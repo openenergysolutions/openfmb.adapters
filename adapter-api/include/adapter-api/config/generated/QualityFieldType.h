@@ -11,33 +11,27 @@
 //  This file is auto-generated. Do not edit manually
 // 
 
-#ifndef OPENFMB_INT64FIELDTYPE_H
-#define OPENFMB_INT64FIELDTYPE_H
+#ifndef OPENFMB_QUALITYFIELDTYPE_H
+#define OPENFMB_QUALITYFIELDTYPE_H
 
 #include <string>
 #include <array>
 
 namespace adapter {
 
-struct Int64FieldType
+struct QualityFieldType
 {
     enum class Value
     {
-        // the value is always the same, set in configuration
-        const_int64,
-        // the value is mapped dynamically from the underlying protocol
-        mapped_int64,
-        // the value is ignored in the current configuration
-        ignored_int64,
+        // the quality field is ignored in this configuration
+        ignored,
     };
 
-    static const char const_int64[];
-    static const char mapped_int64[];
-    static const char ignored_int64[];
+    static const char ignored[];
 
-    static constexpr const char* label = "int64-field-type";
+    static constexpr const char* label = "quality-field-type";
 
-    static const std::array<Value, 3> values;
+    static const std::array<Value, 1> values;
 
     static std::string to_string(Value value);
     static Value from_string(const std::string& name);

@@ -1,6 +1,7 @@
 package com.oes.openfmb.generation.enumeration;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 class Enumeration {
 
@@ -14,16 +15,26 @@ class Enumeration {
         }
     }
 
-    public static Entry entry(String label, String comment)
+    static Entry entry(String name, String comment)
     {
-        return new Entry(label, comment);
+        return new Entry(name, comment);
     }
 
     public final String name;
+    public final String configLabel;
     public final List<Entry> values;
 
-    Enumeration(String name, List<Entry> values) {
-        this.name = name;
+    private static String getName(List<String> names) {
+        return String.join("", names);
+    }
+
+    private static String getConfigLabel(List<String> names) {
+        return names.stream().map(String::toLowerCase).collect(Collectors.joining("-"));
+    }
+
+    Enumeration(List<String> names, List<Entry> values) {
+        this.name = getName(names);
+        this.configLabel = getConfigLabel(names);
         this.values = values;
     }
 }

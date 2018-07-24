@@ -5,10 +5,12 @@
 #include "IDescriptorPath.h"
 
 #include "generated/BoolFieldType.h"
+#include "generated/ControlTimestampFieldType.h"
 #include "generated/EnumFieldType.h"
 #include "generated/FloatFieldType.h"
 #include "generated/Int32FieldType.h"
 #include "generated/Int64FieldType.h"
+#include "generated/QualityFieldType.h"
 #include "generated/StringFieldType.h"
 #include "generated/TimestampFieldType.h"
 

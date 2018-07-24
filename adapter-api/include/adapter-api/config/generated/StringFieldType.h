@@ -41,6 +41,8 @@ struct StringFieldType
     static const char optional_string[];
     static const char ignored_string[];
 
+    static constexpr const char* label = "string-field-type";
+
     static const std::array<Value, 5> values;
 
     static std::string to_string(Value value);

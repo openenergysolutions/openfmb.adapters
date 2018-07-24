@@ -35,6 +35,8 @@ struct Int32FieldType
     static const char mapped_int32[];
     static const char ignored_int32[];
 
+    static constexpr const char* label = "int32-field-type";
+
     static const std::array<Value, 3> values;
 
     static std::string to_string(Value value);

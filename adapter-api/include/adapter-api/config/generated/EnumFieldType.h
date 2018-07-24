@@ -35,6 +35,8 @@ struct EnumFieldType
     static const char mapped_enum[];
     static const char ignored_enum[];
 
+    static constexpr const char* label = "enum-field-type";
+
     static const std::array<Value, 3> values;
 
     static std::string to_string(Value value);

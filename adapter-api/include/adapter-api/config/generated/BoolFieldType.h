@@ -35,6 +35,8 @@ struct BoolFieldType
     static const char mapped_bool[];
     static const char ignored_bool[];
 
+    static constexpr const char* label = "bool-field-type";
+
     static const std::array<Value, 3> values;
 
     static std::string to_string(Value value);

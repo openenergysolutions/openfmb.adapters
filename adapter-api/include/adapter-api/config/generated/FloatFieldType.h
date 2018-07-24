@@ -35,6 +35,8 @@ struct FloatFieldType
     static const char mapped_float[];
     static const char ignored_float[];
 
+    static constexpr const char* label = "float-field-type";
+
     static const std::array<Value, 3> values;
 
     static std::string to_string(Value value);
