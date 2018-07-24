@@ -16,7 +16,7 @@ public class ModelVisitorFiles implements CppFileCollection {
 
     private ModelVisitorFiles(List<Descriptors.Descriptor> descriptors) {
         this.descriptors = descriptors;
-        this.children = Helpers.getChildMessageDescriptors(descriptors);
+        this.children = Helpers.getFilteredChildMessageDescriptors(descriptors);
         this.name = new FileName("ModelVisitors");
     }
 
@@ -101,7 +101,14 @@ public class ModelVisitorFiles implements CppFileCollection {
     private Document getFieldHandler(Descriptors.FieldDescriptor field) {
         switch (field.getType()) {
             case MESSAGE:
-                return field.isRepeated() ? getRepeatedMessageField(field) : getMessageField(field);
+                if(Helpers.terminalMessages.contains(field.getMessageType()))
+                {
+                    return line("// TODO - handle terminal message %s", field.getMessageType().getName());
+                }
+                else
+                {
+                    return field.isRepeated() ? getRepeatedMessageField(field) : getMessageField(field);
+                }
             case ENUM:
                 return getEnumHandler(field);
             default:

@@ -93,11 +93,6 @@ void ConfigWriteVisitorBase::handle_int32(const std::string& field_name)
         [&]() { this->write_mapped_int32_keys(out); });
 }
 
-void ConfigWriteVisitorBase::handle_uint32(const std::string& field_name)
-{
-    throw Exception("no uint32 handler: ", path.as_string(), ".", field_name);
-}
-
 void ConfigWriteVisitorBase::handle_int64(const std::string& field_name)
 {
     handle_mapped_field<Int64FieldType>(
@@ -106,11 +101,6 @@ void ConfigWriteVisitorBase::handle_int64(const std::string& field_name)
         this->remap(fields::get_int64_type(field_name, path)),
         Int64FieldType::Value::mapped_int64,
         [&]() { this->write_mapped_int64_keys(out); });
-}
-
-void ConfigWriteVisitorBase::handle_uint64(const std::string& field_name)
-{
-    throw Exception("no uint64 handler: ", path.as_string(), ".", field_name);
 }
 
 void ConfigWriteVisitorBase::handle_float(const std::string& field_name)

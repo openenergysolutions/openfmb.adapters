@@ -58,8 +58,6 @@ void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& sett
 
 void visit_commonmodule_Optional_StateKind(const set_t<commonmodule::Optional_StateKind>& setter, const get_t<commonmodule::Optional_StateKind>& getter, ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
-void visit_commonmodule_Quality(const set_t<commonmodule::Quality>& setter, const get_t<commonmodule::Quality>& getter, ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor);
-
 void visit_commonmodule_RampRate(const set_t<commonmodule::RampRate>& setter, const get_t<commonmodule::RampRate>& getter, ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 void visit_commonmodule_StatusMessageInfo(const set_t<commonmodule::StatusMessageInfo>& setter, const get_t<commonmodule::StatusMessageInfo>& getter, ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor);
@@ -69,8 +67,6 @@ void visit_commonmodule_StatusSPS(const set_t<commonmodule::StatusSPS>& setter, 
 void visit_commonmodule_StatusValue(const set_t<commonmodule::StatusValue>& setter, const get_t<commonmodule::StatusValue>& getter, ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& setter, const get_t<commonmodule::TimeQuality>& getter, ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor);
-
-void visit_commonmodule_Timestamp(const set_t<commonmodule::Timestamp>& setter, const get_t<commonmodule::Timestamp>& getter, ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 void visit_commonmodule_Unit(const set_t<commonmodule::Unit>& setter, const get_t<commonmodule::Unit>& getter, ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
@@ -403,29 +399,7 @@ void visit_commonmodule_ENG_GridConnectModeKind(const set_t<commonmodule::ENG_Gr
 
 void visit_commonmodule_ENS_BehaviourModeKind(const set_t<commonmodule::ENS_BehaviourModeKind>& setter, const get_t<commonmodule::ENS_BehaviourModeKind>& getter, ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
-    if(visitor.start_message_field("q", commonmodule::Quality::descriptor()))
-    {
-        visit_commonmodule_Quality(
-            [setter](essmodule::ESSStatusProfile& profile)
-            {
-                return setter(profile)->mutable_q();
-            },
-            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::Quality const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_q() ? &value->q() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
+    // TODO - create handler for message type Quality
 
     visitor.handle(
         "stVal",
@@ -436,56 +410,12 @@ void visit_commonmodule_ENS_BehaviourModeKind(const set_t<commonmodule::ENS_Beha
         commonmodule::BehaviourModeKind_descriptor()
     );
 
-    if(visitor.start_message_field("t", commonmodule::Timestamp::descriptor()))
-    {
-        visit_commonmodule_Timestamp(
-            [setter](essmodule::ESSStatusProfile& profile)
-            {
-                return setter(profile)->mutable_t();
-            },
-            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::Timestamp const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_t() ? &value->t() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
+    // TODO - create handler for message type Timestamp
 }
 
 void visit_commonmodule_ENS_DynamicTestKind(const set_t<commonmodule::ENS_DynamicTestKind>& setter, const get_t<commonmodule::ENS_DynamicTestKind>& getter, ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
-    if(visitor.start_message_field("q", commonmodule::Quality::descriptor()))
-    {
-        visit_commonmodule_Quality(
-            [setter](essmodule::ESSStatusProfile& profile)
-            {
-                return setter(profile)->mutable_q();
-            },
-            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::Quality const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_q() ? &value->q() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
+    // TODO - create handler for message type Quality
 
     visitor.handle(
         "stVal",
@@ -496,29 +426,7 @@ void visit_commonmodule_ENS_DynamicTestKind(const set_t<commonmodule::ENS_Dynami
         commonmodule::DynamicTestKind_descriptor()
     );
 
-    if(visitor.start_message_field("t", commonmodule::Timestamp::descriptor()))
-    {
-        visit_commonmodule_Timestamp(
-            [setter](essmodule::ESSStatusProfile& profile)
-            {
-                return setter(profile)->mutable_t();
-            },
-            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::Timestamp const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_t() ? &value->t() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
+    // TODO - create handler for message type Timestamp
 }
 
 void visit_commonmodule_ENS_HealthKind(const set_t<commonmodule::ENS_HealthKind>& setter, const get_t<commonmodule::ENS_HealthKind>& getter, ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor)
@@ -814,53 +722,9 @@ void visit_commonmodule_MV(const set_t<commonmodule::MV>& setter, const get_t<co
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("q", commonmodule::Quality::descriptor()))
-    {
-        visit_commonmodule_Quality(
-            [setter](essmodule::ESSStatusProfile& profile)
-            {
-                return setter(profile)->mutable_q();
-            },
-            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::Quality const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_q() ? &value->q() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
+    // TODO - create handler for message type Quality
 
-    if(visitor.start_message_field("t", commonmodule::Timestamp::descriptor()))
-    {
-        visit_commonmodule_Timestamp(
-            [setter](essmodule::ESSStatusProfile& profile)
-            {
-                return setter(profile)->mutable_t();
-            },
-            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::Timestamp const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_t() ? &value->t() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
+    // TODO - create handler for message type Timestamp
 
     if(visitor.start_message_field("units", commonmodule::Unit::descriptor()))
     {
@@ -913,29 +777,7 @@ void visit_commonmodule_MessageInfo(const set_t<commonmodule::MessageInfo>& sett
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("messageTimeStamp", commonmodule::Timestamp::descriptor()))
-    {
-        visit_commonmodule_Timestamp(
-            [setter](essmodule::ESSStatusProfile& profile)
-            {
-                return setter(profile)->mutable_messagetimestamp();
-            },
-            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::Timestamp const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_messagetimestamp() ? &value->messagetimestamp() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
+    // TODO - create handler for message type Timestamp
 }
 
 void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& setter, const get_t<commonmodule::NamedObject>& getter, ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor)
@@ -998,67 +840,6 @@ void visit_commonmodule_Optional_StateKind(const set_t<commonmodule::Optional_St
             [getter](const essmodule::ESSStatusProfile& profile, const handler_t<int>& handler) { return false; }
         ),
         commonmodule::StateKind_descriptor()
-    );
-}
-
-void visit_commonmodule_Quality(const set_t<commonmodule::Quality>& setter, const get_t<commonmodule::Quality>& getter, ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor)
-{
-    if(visitor.start_message_field("detailQual", commonmodule::DetailQual::descriptor()))
-    {
-        visit_commonmodule_DetailQual(
-            [setter](essmodule::ESSStatusProfile& profile)
-            {
-                return setter(profile)->mutable_detailqual();
-            },
-            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::DetailQual const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_detailqual() ? &value->detailqual() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    visitor.handle(
-        "operatorBlocked",
-        AccessorBuilder<essmodule::ESSStatusProfile,bool>::build(
-            [setter](essmodule::ESSStatusProfile& profile, const bool& value) { setter(profile)->set_operatorblocked(value); },
-            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<bool>& handler) { return false; }
-        )
-    );
-
-    visitor.handle(
-        "source",
-        AccessorBuilder<essmodule::ESSStatusProfile,int>::build(
-            [setter](essmodule::ESSStatusProfile& profile, const int& value) { setter(profile)->set_source(static_cast<commonmodule::SourceKind>(value)); },
-            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<int>& handler) { return false; }
-        ),
-        commonmodule::SourceKind_descriptor()
-    );
-
-    visitor.handle(
-        "test",
-        AccessorBuilder<essmodule::ESSStatusProfile,bool>::build(
-            [setter](essmodule::ESSStatusProfile& profile, const bool& value) { setter(profile)->set_test(value); },
-            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<bool>& handler) { return false; }
-        )
-    );
-
-    visitor.handle(
-        "validity",
-        AccessorBuilder<essmodule::ESSStatusProfile,int>::build(
-            [setter](essmodule::ESSStatusProfile& profile, const int& value) { setter(profile)->set_validity(static_cast<commonmodule::ValidityKind>(value)); },
-            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<int>& handler) { return false; }
-        ),
-        commonmodule::ValidityKind_descriptor()
     );
 }
 
@@ -1190,29 +971,7 @@ void visit_commonmodule_StatusMessageInfo(const set_t<commonmodule::StatusMessag
 
 void visit_commonmodule_StatusSPS(const set_t<commonmodule::StatusSPS>& setter, const get_t<commonmodule::StatusSPS>& getter, ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
-    if(visitor.start_message_field("q", commonmodule::Quality::descriptor()))
-    {
-        visit_commonmodule_Quality(
-            [setter](essmodule::ESSStatusProfile& profile)
-            {
-                return setter(profile)->mutable_q();
-            },
-            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::Quality const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_q() ? &value->q() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
+    // TODO - create handler for message type Quality
 
     visitor.handle(
         "stVal",
@@ -1222,29 +981,7 @@ void visit_commonmodule_StatusSPS(const set_t<commonmodule::StatusSPS>& setter, 
         )
     );
 
-    if(visitor.start_message_field("t", commonmodule::Timestamp::descriptor()))
-    {
-        visit_commonmodule_Timestamp(
-            [setter](essmodule::ESSStatusProfile& profile)
-            {
-                return setter(profile)->mutable_t();
-            },
-            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::Timestamp const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_t() ? &value->t() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
+    // TODO - create handler for message type Timestamp
 }
 
 void visit_commonmodule_StatusValue(const set_t<commonmodule::StatusValue>& setter, const get_t<commonmodule::StatusValue>& getter, ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor)
@@ -1308,49 +1045,6 @@ void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& sett
         ),
         commonmodule::TimeAccuracyKind_descriptor()
     );
-}
-
-void visit_commonmodule_Timestamp(const set_t<commonmodule::Timestamp>& setter, const get_t<commonmodule::Timestamp>& getter, ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor)
-{
-    visitor.handle(
-        "fraction",
-        AccessorBuilder<essmodule::ESSStatusProfile,uint32_t>::build(
-            [setter](essmodule::ESSStatusProfile& profile, const uint32_t& value) { setter(profile)->set_fraction(value); },
-            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<uint32_t>& handler) { return false; }
-        )
-    );
-
-    visitor.handle(
-        "seconds",
-        AccessorBuilder<essmodule::ESSStatusProfile,uint64_t>::build(
-            [setter](essmodule::ESSStatusProfile& profile, const uint64_t& value) { setter(profile)->set_seconds(value); },
-            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<uint64_t>& handler) { return false; }
-        )
-    );
-
-    if(visitor.start_message_field("tq", commonmodule::TimeQuality::descriptor()))
-    {
-        visit_commonmodule_TimeQuality(
-            [setter](essmodule::ESSStatusProfile& profile)
-            {
-                return setter(profile)->mutable_tq();
-            },
-            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::TimeQuality const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_tq() ? &value->tq() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
 }
 
 void visit_commonmodule_Unit(const set_t<commonmodule::Unit>& setter, const get_t<commonmodule::Unit>& getter, ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor)

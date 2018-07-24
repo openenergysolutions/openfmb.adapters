@@ -32,8 +32,6 @@ void visit_commonmodule_ControlDPC(const set_t<commonmodule::ControlDPC>& setter
 
 void visit_commonmodule_ControlMessageInfo(const set_t<commonmodule::ControlMessageInfo>& setter, const get_t<commonmodule::ControlMessageInfo>& getter, ITypedModelVisitor<switchmodule::SwitchControlProfile>& visitor);
 
-void visit_commonmodule_ControlTimestamp(const set_t<commonmodule::ControlTimestamp>& setter, const get_t<commonmodule::ControlTimestamp>& getter, ITypedModelVisitor<switchmodule::SwitchControlProfile>& visitor);
-
 void visit_commonmodule_ControlValue(const set_t<commonmodule::ControlValue>& setter, const get_t<commonmodule::ControlValue>& getter, ITypedModelVisitor<switchmodule::SwitchControlProfile>& visitor);
 
 void visit_commonmodule_IED(const set_t<commonmodule::IED>& setter, const get_t<commonmodule::IED>& getter, ITypedModelVisitor<switchmodule::SwitchControlProfile>& visitor);
@@ -49,8 +47,6 @@ void visit_commonmodule_MessageInfo(const set_t<commonmodule::MessageInfo>& sett
 void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& setter, const get_t<commonmodule::NamedObject>& getter, ITypedModelVisitor<switchmodule::SwitchControlProfile>& visitor);
 
 void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& setter, const get_t<commonmodule::TimeQuality>& getter, ITypedModelVisitor<switchmodule::SwitchControlProfile>& visitor);
-
-void visit_commonmodule_Timestamp(const set_t<commonmodule::Timestamp>& setter, const get_t<commonmodule::Timestamp>& getter, ITypedModelVisitor<switchmodule::SwitchControlProfile>& visitor);
 
 void visit_google_protobuf_BoolValue(const set_t<google::protobuf::BoolValue>& setter, const get_t<google::protobuf::BoolValue>& getter, ITypedModelVisitor<switchmodule::SwitchControlProfile>& visitor);
 
@@ -299,25 +295,6 @@ void visit_commonmodule_ControlMessageInfo(const set_t<commonmodule::ControlMess
     }
 }
 
-void visit_commonmodule_ControlTimestamp(const set_t<commonmodule::ControlTimestamp>& setter, const get_t<commonmodule::ControlTimestamp>& getter, ITypedModelVisitor<switchmodule::SwitchControlProfile>& visitor)
-{
-    visitor.handle(
-        "fraction",
-        AccessorBuilder<switchmodule::SwitchControlProfile,uint32_t>::build(
-            [setter](switchmodule::SwitchControlProfile& profile, const uint32_t& value) { setter(profile)->set_fraction(value); },
-            [getter](const switchmodule::SwitchControlProfile& profile, const handler_t<uint32_t>& handler) { return false; }
-        )
-    );
-
-    visitor.handle(
-        "seconds",
-        AccessorBuilder<switchmodule::SwitchControlProfile,uint64_t>::build(
-            [setter](switchmodule::SwitchControlProfile& profile, const uint64_t& value) { setter(profile)->set_seconds(value); },
-            [getter](const switchmodule::SwitchControlProfile& profile, const handler_t<uint64_t>& handler) { return false; }
-        )
-    );
-}
-
 void visit_commonmodule_ControlValue(const set_t<commonmodule::ControlValue>& setter, const get_t<commonmodule::ControlValue>& getter, ITypedModelVisitor<switchmodule::SwitchControlProfile>& visitor)
 {
     if(visitor.start_message_field("identifiedObject", commonmodule::IdentifiedObject::descriptor()))
@@ -551,29 +528,7 @@ void visit_commonmodule_MessageInfo(const set_t<commonmodule::MessageInfo>& sett
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("messageTimeStamp", commonmodule::Timestamp::descriptor()))
-    {
-        visit_commonmodule_Timestamp(
-            [setter](switchmodule::SwitchControlProfile& profile)
-            {
-                return setter(profile)->mutable_messagetimestamp();
-            },
-            [getter](const switchmodule::SwitchControlProfile& profile) -> commonmodule::Timestamp const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_messagetimestamp() ? &value->messagetimestamp() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
+    // TODO - create handler for message type Timestamp
 }
 
 void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& setter, const get_t<commonmodule::NamedObject>& getter, ITypedModelVisitor<switchmodule::SwitchControlProfile>& visitor)
@@ -661,49 +616,6 @@ void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& sett
         ),
         commonmodule::TimeAccuracyKind_descriptor()
     );
-}
-
-void visit_commonmodule_Timestamp(const set_t<commonmodule::Timestamp>& setter, const get_t<commonmodule::Timestamp>& getter, ITypedModelVisitor<switchmodule::SwitchControlProfile>& visitor)
-{
-    visitor.handle(
-        "fraction",
-        AccessorBuilder<switchmodule::SwitchControlProfile,uint32_t>::build(
-            [setter](switchmodule::SwitchControlProfile& profile, const uint32_t& value) { setter(profile)->set_fraction(value); },
-            [getter](const switchmodule::SwitchControlProfile& profile, const handler_t<uint32_t>& handler) { return false; }
-        )
-    );
-
-    visitor.handle(
-        "seconds",
-        AccessorBuilder<switchmodule::SwitchControlProfile,uint64_t>::build(
-            [setter](switchmodule::SwitchControlProfile& profile, const uint64_t& value) { setter(profile)->set_seconds(value); },
-            [getter](const switchmodule::SwitchControlProfile& profile, const handler_t<uint64_t>& handler) { return false; }
-        )
-    );
-
-    if(visitor.start_message_field("tq", commonmodule::TimeQuality::descriptor()))
-    {
-        visit_commonmodule_TimeQuality(
-            [setter](switchmodule::SwitchControlProfile& profile)
-            {
-                return setter(profile)->mutable_tq();
-            },
-            [getter](const switchmodule::SwitchControlProfile& profile) -> commonmodule::TimeQuality const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_tq() ? &value->tq() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
 }
 
 void visit_google_protobuf_BoolValue(const set_t<google::protobuf::BoolValue>& setter, const get_t<google::protobuf::BoolValue>& getter, ITypedModelVisitor<switchmodule::SwitchControlProfile>& visitor)
@@ -974,29 +886,7 @@ void visit_switchmodule_SwitchPoint(const set_t<switchmodule::SwitchPoint>& sett
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("xVal", commonmodule::ControlTimestamp::descriptor()))
-    {
-        visit_commonmodule_ControlTimestamp(
-            [setter](switchmodule::SwitchControlProfile& profile)
-            {
-                return setter(profile)->mutable_xval();
-            },
-            [getter](const switchmodule::SwitchControlProfile& profile) -> commonmodule::ControlTimestamp const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_xval() ? &value->xval() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
+    // TODO - create handler for message type ControlTimestamp
 }
 
 } // end namespace adapter

@@ -75,11 +75,7 @@ public:
 
     void handle_int32(const std::string& field_name) final;
 
-    void handle_uint32(const std::string& field_name) final;
-
     void handle_int64(const std::string& field_name) final;
-
-    void handle_uint64(const std::string& field_name) final;
 
     void handle_float(const std::string& field_name) final;
 

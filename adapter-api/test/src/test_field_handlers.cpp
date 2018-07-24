@@ -48,16 +48,8 @@ public:
         adapter::fields::get_int32_type(field_name, path);
     }
 
-    void handle_uint32(const std::string &field_name) override {
-        throw ::adapter::Exception("No mapping for uint32 field: ", path.as_string(), ".", field_name);
-    }
-
     void handle_int64(const std::string &field_name) override {
         adapter::fields::get_int64_type(field_name, path);
-    }
-
-    void handle_uint64(const std::string &field_name) override {
-        throw ::adapter::Exception("No mapping for uint64 field: ", path.as_string(), ".", field_name);
     }
 
     void handle_float(const std::string &field_name) override {

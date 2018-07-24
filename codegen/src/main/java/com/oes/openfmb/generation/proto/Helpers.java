@@ -1,16 +1,31 @@
 package com.oes.openfmb.generation.proto;
 
 import com.google.protobuf.Descriptors;
+import openfmb.commonmodule.ControlTimestamp;
+import openfmb.commonmodule.Quality;
+import openfmb.commonmodule.Timestamp;
 
-import java.util.Collections;
-import java.util.Set;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 class Helpers {
+
+    static final Set<Descriptors.Descriptor> terminalMessages = new HashSet<>(
+            Arrays.asList(
+                    Quality.getDescriptor(),
+                    Timestamp.getDescriptor(),
+                    ControlTimestamp.getDescriptor()
+            )
+    );
+
+    static SortedMap<String, Descriptors.Descriptor> getFilteredChildMessageDescriptors(Iterable<Descriptors.Descriptor> descriptors)
+    {
+        final SortedMap<String, Descriptors.Descriptor> map = getChildMessageDescriptors(descriptors);
+        terminalMessages.forEach(d -> map.remove(d.getFullName()));
+        return map;
+    }
 
     static SortedMap<String, Descriptors.Descriptor> getChildMessageDescriptors(Iterable<Descriptors.Descriptor> descriptors)
     {

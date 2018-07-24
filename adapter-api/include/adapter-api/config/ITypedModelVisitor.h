@@ -18,9 +18,7 @@ public:
 
     virtual void handle(const std::string& field_name, const accessor_t<P, bool>& accessor) = 0;
     virtual void handle(const std::string& field_name, const accessor_t<P, int32_t>& accessor) = 0;
-    virtual void handle(const std::string& field_name, const accessor_t<P, uint32_t>& accessor) = 0;
     virtual void handle(const std::string& field_name, const accessor_t<P, int64_t>& accessor) = 0;
-    virtual void handle(const std::string& field_name, const accessor_t<P, uint64_t>& accessor) = 0;
     virtual void handle(const std::string& field_name, const accessor_t<P, float>& accessor) = 0;
     virtual void handle(const std::string& field_name, const accessor_t<P, std::string>& accessor) = 0;
     virtual void handle(const std::string& field_name, const accessor_t<P, int>& accessor, google::protobuf::EnumDescriptor const* descriptor) = 0;

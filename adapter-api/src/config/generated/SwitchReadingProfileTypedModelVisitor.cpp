@@ -58,8 +58,6 @@ void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& sett
 
 void visit_commonmodule_PhaseMMTN(const set_t<commonmodule::PhaseMMTN>& setter, const get_t<commonmodule::PhaseMMTN>& getter, ITypedModelVisitor<switchmodule::SwitchReadingProfile>& visitor);
 
-void visit_commonmodule_Quality(const set_t<commonmodule::Quality>& setter, const get_t<commonmodule::Quality>& getter, ITypedModelVisitor<switchmodule::SwitchReadingProfile>& visitor);
-
 void visit_commonmodule_ReadingMMTN(const set_t<commonmodule::ReadingMMTN>& setter, const get_t<commonmodule::ReadingMMTN>& getter, ITypedModelVisitor<switchmodule::SwitchReadingProfile>& visitor);
 
 void visit_commonmodule_ReadingMMTR(const set_t<commonmodule::ReadingMMTR>& setter, const get_t<commonmodule::ReadingMMTR>& getter, ITypedModelVisitor<switchmodule::SwitchReadingProfile>& visitor);
@@ -71,8 +69,6 @@ void visit_commonmodule_ReadingMessageInfo(const set_t<commonmodule::ReadingMess
 void visit_commonmodule_Terminal(const set_t<commonmodule::Terminal>& setter, const get_t<commonmodule::Terminal>& getter, ITypedModelVisitor<switchmodule::SwitchReadingProfile>& visitor);
 
 void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& setter, const get_t<commonmodule::TimeQuality>& getter, ITypedModelVisitor<switchmodule::SwitchReadingProfile>& visitor);
-
-void visit_commonmodule_Timestamp(const set_t<commonmodule::Timestamp>& setter, const get_t<commonmodule::Timestamp>& getter, ITypedModelVisitor<switchmodule::SwitchReadingProfile>& visitor);
 
 void visit_commonmodule_Unit(const set_t<commonmodule::Unit>& setter, const get_t<commonmodule::Unit>& getter, ITypedModelVisitor<switchmodule::SwitchReadingProfile>& visitor);
 
@@ -348,53 +344,9 @@ void visit_commonmodule_BCR(const set_t<commonmodule::BCR>& setter, const get_t<
         )
     );
 
-    if(visitor.start_message_field("q", commonmodule::Quality::descriptor()))
-    {
-        visit_commonmodule_Quality(
-            [setter](switchmodule::SwitchReadingProfile& profile)
-            {
-                return setter(profile)->mutable_q();
-            },
-            [getter](const switchmodule::SwitchReadingProfile& profile) -> commonmodule::Quality const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_q() ? &value->q() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
+    // TODO - create handler for message type Quality
 
-    if(visitor.start_message_field("t", commonmodule::Timestamp::descriptor()))
-    {
-        visit_commonmodule_Timestamp(
-            [setter](switchmodule::SwitchReadingProfile& profile)
-            {
-                return setter(profile)->mutable_t();
-            },
-            [getter](const switchmodule::SwitchReadingProfile& profile) -> commonmodule::Timestamp const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_t() ? &value->t() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
+    // TODO - create handler for message type Timestamp
 
     visitor.handle(
         "units",
@@ -432,53 +384,9 @@ void visit_commonmodule_CMV(const set_t<commonmodule::CMV>& setter, const get_t<
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("q", commonmodule::Quality::descriptor()))
-    {
-        visit_commonmodule_Quality(
-            [setter](switchmodule::SwitchReadingProfile& profile)
-            {
-                return setter(profile)->mutable_q();
-            },
-            [getter](const switchmodule::SwitchReadingProfile& profile) -> commonmodule::Quality const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_q() ? &value->q() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
+    // TODO - create handler for message type Quality
 
-    if(visitor.start_message_field("t", commonmodule::Timestamp::descriptor()))
-    {
-        visit_commonmodule_Timestamp(
-            [setter](switchmodule::SwitchReadingProfile& profile)
-            {
-                return setter(profile)->mutable_t();
-            },
-            [getter](const switchmodule::SwitchReadingProfile& profile) -> commonmodule::Timestamp const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_t() ? &value->t() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
+    // TODO - create handler for message type Timestamp
 
     if(visitor.start_message_field("units", commonmodule::Unit::descriptor()))
     {
@@ -888,53 +796,9 @@ void visit_commonmodule_MV(const set_t<commonmodule::MV>& setter, const get_t<co
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("q", commonmodule::Quality::descriptor()))
-    {
-        visit_commonmodule_Quality(
-            [setter](switchmodule::SwitchReadingProfile& profile)
-            {
-                return setter(profile)->mutable_q();
-            },
-            [getter](const switchmodule::SwitchReadingProfile& profile) -> commonmodule::Quality const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_q() ? &value->q() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
+    // TODO - create handler for message type Quality
 
-    if(visitor.start_message_field("t", commonmodule::Timestamp::descriptor()))
-    {
-        visit_commonmodule_Timestamp(
-            [setter](switchmodule::SwitchReadingProfile& profile)
-            {
-                return setter(profile)->mutable_t();
-            },
-            [getter](const switchmodule::SwitchReadingProfile& profile) -> commonmodule::Timestamp const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_t() ? &value->t() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
+    // TODO - create handler for message type Timestamp
 
     if(visitor.start_message_field("units", commonmodule::Unit::descriptor()))
     {
@@ -987,29 +851,7 @@ void visit_commonmodule_MessageInfo(const set_t<commonmodule::MessageInfo>& sett
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("messageTimeStamp", commonmodule::Timestamp::descriptor()))
-    {
-        visit_commonmodule_Timestamp(
-            [setter](switchmodule::SwitchReadingProfile& profile)
-            {
-                return setter(profile)->mutable_messagetimestamp();
-            },
-            [getter](const switchmodule::SwitchReadingProfile& profile) -> commonmodule::Timestamp const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_messagetimestamp() ? &value->messagetimestamp() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
+    // TODO - create handler for message type Timestamp
 }
 
 void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& setter, const get_t<commonmodule::NamedObject>& getter, ITypedModelVisitor<switchmodule::SwitchReadingProfile>& visitor)
@@ -1208,67 +1050,6 @@ void visit_commonmodule_PhaseMMTN(const set_t<commonmodule::PhaseMMTN>& setter, 
         );
         visitor.end_message_field();
     }
-}
-
-void visit_commonmodule_Quality(const set_t<commonmodule::Quality>& setter, const get_t<commonmodule::Quality>& getter, ITypedModelVisitor<switchmodule::SwitchReadingProfile>& visitor)
-{
-    if(visitor.start_message_field("detailQual", commonmodule::DetailQual::descriptor()))
-    {
-        visit_commonmodule_DetailQual(
-            [setter](switchmodule::SwitchReadingProfile& profile)
-            {
-                return setter(profile)->mutable_detailqual();
-            },
-            [getter](const switchmodule::SwitchReadingProfile& profile) -> commonmodule::DetailQual const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_detailqual() ? &value->detailqual() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    visitor.handle(
-        "operatorBlocked",
-        AccessorBuilder<switchmodule::SwitchReadingProfile,bool>::build(
-            [setter](switchmodule::SwitchReadingProfile& profile, const bool& value) { setter(profile)->set_operatorblocked(value); },
-            [getter](const switchmodule::SwitchReadingProfile& profile, const handler_t<bool>& handler) { return false; }
-        )
-    );
-
-    visitor.handle(
-        "source",
-        AccessorBuilder<switchmodule::SwitchReadingProfile,int>::build(
-            [setter](switchmodule::SwitchReadingProfile& profile, const int& value) { setter(profile)->set_source(static_cast<commonmodule::SourceKind>(value)); },
-            [getter](const switchmodule::SwitchReadingProfile& profile, const handler_t<int>& handler) { return false; }
-        ),
-        commonmodule::SourceKind_descriptor()
-    );
-
-    visitor.handle(
-        "test",
-        AccessorBuilder<switchmodule::SwitchReadingProfile,bool>::build(
-            [setter](switchmodule::SwitchReadingProfile& profile, const bool& value) { setter(profile)->set_test(value); },
-            [getter](const switchmodule::SwitchReadingProfile& profile, const handler_t<bool>& handler) { return false; }
-        )
-    );
-
-    visitor.handle(
-        "validity",
-        AccessorBuilder<switchmodule::SwitchReadingProfile,int>::build(
-            [setter](switchmodule::SwitchReadingProfile& profile, const int& value) { setter(profile)->set_validity(static_cast<commonmodule::ValidityKind>(value)); },
-            [getter](const switchmodule::SwitchReadingProfile& profile, const handler_t<int>& handler) { return false; }
-        ),
-        commonmodule::ValidityKind_descriptor()
-    );
 }
 
 void visit_commonmodule_ReadingMMTN(const set_t<commonmodule::ReadingMMTN>& setter, const get_t<commonmodule::ReadingMMTN>& getter, ITypedModelVisitor<switchmodule::SwitchReadingProfile>& visitor)
@@ -2121,49 +1902,6 @@ void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& sett
         ),
         commonmodule::TimeAccuracyKind_descriptor()
     );
-}
-
-void visit_commonmodule_Timestamp(const set_t<commonmodule::Timestamp>& setter, const get_t<commonmodule::Timestamp>& getter, ITypedModelVisitor<switchmodule::SwitchReadingProfile>& visitor)
-{
-    visitor.handle(
-        "fraction",
-        AccessorBuilder<switchmodule::SwitchReadingProfile,uint32_t>::build(
-            [setter](switchmodule::SwitchReadingProfile& profile, const uint32_t& value) { setter(profile)->set_fraction(value); },
-            [getter](const switchmodule::SwitchReadingProfile& profile, const handler_t<uint32_t>& handler) { return false; }
-        )
-    );
-
-    visitor.handle(
-        "seconds",
-        AccessorBuilder<switchmodule::SwitchReadingProfile,uint64_t>::build(
-            [setter](switchmodule::SwitchReadingProfile& profile, const uint64_t& value) { setter(profile)->set_seconds(value); },
-            [getter](const switchmodule::SwitchReadingProfile& profile, const handler_t<uint64_t>& handler) { return false; }
-        )
-    );
-
-    if(visitor.start_message_field("tq", commonmodule::TimeQuality::descriptor()))
-    {
-        visit_commonmodule_TimeQuality(
-            [setter](switchmodule::SwitchReadingProfile& profile)
-            {
-                return setter(profile)->mutable_tq();
-            },
-            [getter](const switchmodule::SwitchReadingProfile& profile) -> commonmodule::TimeQuality const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_tq() ? &value->tq() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
 }
 
 void visit_commonmodule_Unit(const set_t<commonmodule::Unit>& setter, const get_t<commonmodule::Unit>& getter, ITypedModelVisitor<switchmodule::SwitchReadingProfile>& visitor)

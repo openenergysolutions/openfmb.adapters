@@ -52,8 +52,6 @@ void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& sett
 
 void visit_commonmodule_Optional_StateKind(const set_t<commonmodule::Optional_StateKind>& setter, const get_t<commonmodule::Optional_StateKind>& getter, ITypedModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
-void visit_commonmodule_Quality(const set_t<commonmodule::Quality>& setter, const get_t<commonmodule::Quality>& getter, ITypedModelVisitor<loadmodule::LoadStatusProfile>& visitor);
-
 void visit_commonmodule_RampRate(const set_t<commonmodule::RampRate>& setter, const get_t<commonmodule::RampRate>& getter, ITypedModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 void visit_commonmodule_StatusMessageInfo(const set_t<commonmodule::StatusMessageInfo>& setter, const get_t<commonmodule::StatusMessageInfo>& getter, ITypedModelVisitor<loadmodule::LoadStatusProfile>& visitor);
@@ -63,8 +61,6 @@ void visit_commonmodule_StatusSPS(const set_t<commonmodule::StatusSPS>& setter, 
 void visit_commonmodule_StatusValue(const set_t<commonmodule::StatusValue>& setter, const get_t<commonmodule::StatusValue>& getter, ITypedModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& setter, const get_t<commonmodule::TimeQuality>& getter, ITypedModelVisitor<loadmodule::LoadStatusProfile>& visitor);
-
-void visit_commonmodule_Timestamp(const set_t<commonmodule::Timestamp>& setter, const get_t<commonmodule::Timestamp>& getter, ITypedModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 void visit_google_protobuf_FloatValue(const set_t<google::protobuf::FloatValue>& setter, const get_t<google::protobuf::FloatValue>& getter, ITypedModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
@@ -300,29 +296,7 @@ void visit_commonmodule_DetailQual(const set_t<commonmodule::DetailQual>& setter
 
 void visit_commonmodule_ENS_BehaviourModeKind(const set_t<commonmodule::ENS_BehaviourModeKind>& setter, const get_t<commonmodule::ENS_BehaviourModeKind>& getter, ITypedModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
-    if(visitor.start_message_field("q", commonmodule::Quality::descriptor()))
-    {
-        visit_commonmodule_Quality(
-            [setter](loadmodule::LoadStatusProfile& profile)
-            {
-                return setter(profile)->mutable_q();
-            },
-            [getter](const loadmodule::LoadStatusProfile& profile) -> commonmodule::Quality const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_q() ? &value->q() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
+    // TODO - create handler for message type Quality
 
     visitor.handle(
         "stVal",
@@ -333,56 +307,12 @@ void visit_commonmodule_ENS_BehaviourModeKind(const set_t<commonmodule::ENS_Beha
         commonmodule::BehaviourModeKind_descriptor()
     );
 
-    if(visitor.start_message_field("t", commonmodule::Timestamp::descriptor()))
-    {
-        visit_commonmodule_Timestamp(
-            [setter](loadmodule::LoadStatusProfile& profile)
-            {
-                return setter(profile)->mutable_t();
-            },
-            [getter](const loadmodule::LoadStatusProfile& profile) -> commonmodule::Timestamp const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_t() ? &value->t() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
+    // TODO - create handler for message type Timestamp
 }
 
 void visit_commonmodule_ENS_DynamicTestKind(const set_t<commonmodule::ENS_DynamicTestKind>& setter, const get_t<commonmodule::ENS_DynamicTestKind>& getter, ITypedModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
-    if(visitor.start_message_field("q", commonmodule::Quality::descriptor()))
-    {
-        visit_commonmodule_Quality(
-            [setter](loadmodule::LoadStatusProfile& profile)
-            {
-                return setter(profile)->mutable_q();
-            },
-            [getter](const loadmodule::LoadStatusProfile& profile) -> commonmodule::Quality const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_q() ? &value->q() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
+    // TODO - create handler for message type Quality
 
     visitor.handle(
         "stVal",
@@ -393,29 +323,7 @@ void visit_commonmodule_ENS_DynamicTestKind(const set_t<commonmodule::ENS_Dynami
         commonmodule::DynamicTestKind_descriptor()
     );
 
-    if(visitor.start_message_field("t", commonmodule::Timestamp::descriptor()))
-    {
-        visit_commonmodule_Timestamp(
-            [setter](loadmodule::LoadStatusProfile& profile)
-            {
-                return setter(profile)->mutable_t();
-            },
-            [getter](const loadmodule::LoadStatusProfile& profile) -> commonmodule::Timestamp const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_t() ? &value->t() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
+    // TODO - create handler for message type Timestamp
 }
 
 void visit_commonmodule_ENS_HealthKind(const set_t<commonmodule::ENS_HealthKind>& setter, const get_t<commonmodule::ENS_HealthKind>& getter, ITypedModelVisitor<loadmodule::LoadStatusProfile>& visitor)
@@ -735,29 +643,7 @@ void visit_commonmodule_MessageInfo(const set_t<commonmodule::MessageInfo>& sett
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("messageTimeStamp", commonmodule::Timestamp::descriptor()))
-    {
-        visit_commonmodule_Timestamp(
-            [setter](loadmodule::LoadStatusProfile& profile)
-            {
-                return setter(profile)->mutable_messagetimestamp();
-            },
-            [getter](const loadmodule::LoadStatusProfile& profile) -> commonmodule::Timestamp const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_messagetimestamp() ? &value->messagetimestamp() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
+    // TODO - create handler for message type Timestamp
 }
 
 void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& setter, const get_t<commonmodule::NamedObject>& getter, ITypedModelVisitor<loadmodule::LoadStatusProfile>& visitor)
@@ -820,67 +706,6 @@ void visit_commonmodule_Optional_StateKind(const set_t<commonmodule::Optional_St
             [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<int>& handler) { return false; }
         ),
         commonmodule::StateKind_descriptor()
-    );
-}
-
-void visit_commonmodule_Quality(const set_t<commonmodule::Quality>& setter, const get_t<commonmodule::Quality>& getter, ITypedModelVisitor<loadmodule::LoadStatusProfile>& visitor)
-{
-    if(visitor.start_message_field("detailQual", commonmodule::DetailQual::descriptor()))
-    {
-        visit_commonmodule_DetailQual(
-            [setter](loadmodule::LoadStatusProfile& profile)
-            {
-                return setter(profile)->mutable_detailqual();
-            },
-            [getter](const loadmodule::LoadStatusProfile& profile) -> commonmodule::DetailQual const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_detailqual() ? &value->detailqual() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    visitor.handle(
-        "operatorBlocked",
-        AccessorBuilder<loadmodule::LoadStatusProfile,bool>::build(
-            [setter](loadmodule::LoadStatusProfile& profile, const bool& value) { setter(profile)->set_operatorblocked(value); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler) { return false; }
-        )
-    );
-
-    visitor.handle(
-        "source",
-        AccessorBuilder<loadmodule::LoadStatusProfile,int>::build(
-            [setter](loadmodule::LoadStatusProfile& profile, const int& value) { setter(profile)->set_source(static_cast<commonmodule::SourceKind>(value)); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<int>& handler) { return false; }
-        ),
-        commonmodule::SourceKind_descriptor()
-    );
-
-    visitor.handle(
-        "test",
-        AccessorBuilder<loadmodule::LoadStatusProfile,bool>::build(
-            [setter](loadmodule::LoadStatusProfile& profile, const bool& value) { setter(profile)->set_test(value); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler) { return false; }
-        )
-    );
-
-    visitor.handle(
-        "validity",
-        AccessorBuilder<loadmodule::LoadStatusProfile,int>::build(
-            [setter](loadmodule::LoadStatusProfile& profile, const int& value) { setter(profile)->set_validity(static_cast<commonmodule::ValidityKind>(value)); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<int>& handler) { return false; }
-        ),
-        commonmodule::ValidityKind_descriptor()
     );
 }
 
@@ -1012,29 +837,7 @@ void visit_commonmodule_StatusMessageInfo(const set_t<commonmodule::StatusMessag
 
 void visit_commonmodule_StatusSPS(const set_t<commonmodule::StatusSPS>& setter, const get_t<commonmodule::StatusSPS>& getter, ITypedModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
-    if(visitor.start_message_field("q", commonmodule::Quality::descriptor()))
-    {
-        visit_commonmodule_Quality(
-            [setter](loadmodule::LoadStatusProfile& profile)
-            {
-                return setter(profile)->mutable_q();
-            },
-            [getter](const loadmodule::LoadStatusProfile& profile) -> commonmodule::Quality const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_q() ? &value->q() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
+    // TODO - create handler for message type Quality
 
     visitor.handle(
         "stVal",
@@ -1044,29 +847,7 @@ void visit_commonmodule_StatusSPS(const set_t<commonmodule::StatusSPS>& setter, 
         )
     );
 
-    if(visitor.start_message_field("t", commonmodule::Timestamp::descriptor()))
-    {
-        visit_commonmodule_Timestamp(
-            [setter](loadmodule::LoadStatusProfile& profile)
-            {
-                return setter(profile)->mutable_t();
-            },
-            [getter](const loadmodule::LoadStatusProfile& profile) -> commonmodule::Timestamp const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_t() ? &value->t() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
+    // TODO - create handler for message type Timestamp
 }
 
 void visit_commonmodule_StatusValue(const set_t<commonmodule::StatusValue>& setter, const get_t<commonmodule::StatusValue>& getter, ITypedModelVisitor<loadmodule::LoadStatusProfile>& visitor)
@@ -1130,49 +911,6 @@ void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& sett
         ),
         commonmodule::TimeAccuracyKind_descriptor()
     );
-}
-
-void visit_commonmodule_Timestamp(const set_t<commonmodule::Timestamp>& setter, const get_t<commonmodule::Timestamp>& getter, ITypedModelVisitor<loadmodule::LoadStatusProfile>& visitor)
-{
-    visitor.handle(
-        "fraction",
-        AccessorBuilder<loadmodule::LoadStatusProfile,uint32_t>::build(
-            [setter](loadmodule::LoadStatusProfile& profile, const uint32_t& value) { setter(profile)->set_fraction(value); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<uint32_t>& handler) { return false; }
-        )
-    );
-
-    visitor.handle(
-        "seconds",
-        AccessorBuilder<loadmodule::LoadStatusProfile,uint64_t>::build(
-            [setter](loadmodule::LoadStatusProfile& profile, const uint64_t& value) { setter(profile)->set_seconds(value); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<uint64_t>& handler) { return false; }
-        )
-    );
-
-    if(visitor.start_message_field("tq", commonmodule::TimeQuality::descriptor()))
-    {
-        visit_commonmodule_TimeQuality(
-            [setter](loadmodule::LoadStatusProfile& profile)
-            {
-                return setter(profile)->mutable_tq();
-            },
-            [getter](const loadmodule::LoadStatusProfile& profile) -> commonmodule::TimeQuality const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_tq() ? &value->tq() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
 }
 
 void visit_google_protobuf_FloatValue(const set_t<google::protobuf::FloatValue>& setter, const get_t<google::protobuf::FloatValue>& getter, ITypedModelVisitor<loadmodule::LoadStatusProfile>& visitor)

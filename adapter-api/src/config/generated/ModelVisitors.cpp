@@ -32,8 +32,6 @@ void visit_commonmodule_ControlMessageInfo(IModelVisitor& visitor);
 
 void visit_commonmodule_ControlScheduleFSCH(IModelVisitor& visitor);
 
-void visit_commonmodule_ControlTimestamp(IModelVisitor& visitor);
-
 void visit_commonmodule_ControlValue(IModelVisitor& visitor);
 
 void visit_commonmodule_DEL(IModelVisitor& visitor);
@@ -78,8 +76,6 @@ void visit_commonmodule_Optional_StateKind(IModelVisitor& visitor);
 
 void visit_commonmodule_PhaseMMTN(IModelVisitor& visitor);
 
-void visit_commonmodule_Quality(IModelVisitor& visitor);
-
 void visit_commonmodule_RampRate(IModelVisitor& visitor);
 
 void visit_commonmodule_ReadingMMTN(IModelVisitor& visitor);
@@ -105,8 +101,6 @@ void visit_commonmodule_StatusValue(IModelVisitor& visitor);
 void visit_commonmodule_Terminal(IModelVisitor& visitor);
 
 void visit_commonmodule_TimeQuality(IModelVisitor& visitor);
-
-void visit_commonmodule_Timestamp(IModelVisitor& visitor);
 
 void visit_commonmodule_Unit(IModelVisitor& visitor);
 
@@ -623,17 +617,9 @@ void visit_commonmodule_BCR(IModelVisitor& visitor)
 {
     visitor.handle_int64("actVal");
 
-    if(visitor.start_message_field("q", commonmodule::Quality::descriptor()))
-    {
-        visit_commonmodule_Quality(visitor);
-        visitor.end_message_field();
-    }
+    // TODO - handle terminal message Quality
 
-    if(visitor.start_message_field("t", commonmodule::Timestamp::descriptor()))
-    {
-        visit_commonmodule_Timestamp(visitor);
-        visitor.end_message_field();
-    }
+    // TODO - handle terminal message Timestamp
 
     visitor.handle_enum("units", commonmodule::UnitSymbolKind_descriptor());
 }
@@ -646,17 +632,9 @@ void visit_commonmodule_CMV(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("q", commonmodule::Quality::descriptor()))
-    {
-        visit_commonmodule_Quality(visitor);
-        visitor.end_message_field();
-    }
+    // TODO - handle terminal message Quality
 
-    if(visitor.start_message_field("t", commonmodule::Timestamp::descriptor()))
-    {
-        visit_commonmodule_Timestamp(visitor);
-        visitor.end_message_field();
-    }
+    // TODO - handle terminal message Timestamp
 
     if(visitor.start_message_field("units", commonmodule::Unit::descriptor()))
     {
@@ -743,13 +721,6 @@ void visit_commonmodule_ControlScheduleFSCH(IModelVisitor& visitor)
     }
 }
 
-void visit_commonmodule_ControlTimestamp(IModelVisitor& visitor)
-{
-    visitor.handle_uint32("fraction");
-
-    visitor.handle_uint64("seconds");
-}
-
 void visit_commonmodule_ControlValue(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("identifiedObject", commonmodule::IdentifiedObject::descriptor()))
@@ -828,36 +799,20 @@ void visit_commonmodule_ENG_PFSignKind(IModelVisitor& visitor)
 
 void visit_commonmodule_ENS_BehaviourModeKind(IModelVisitor& visitor)
 {
-    if(visitor.start_message_field("q", commonmodule::Quality::descriptor()))
-    {
-        visit_commonmodule_Quality(visitor);
-        visitor.end_message_field();
-    }
+    // TODO - handle terminal message Quality
 
     visitor.handle_enum("stVal", commonmodule::BehaviourModeKind_descriptor());
 
-    if(visitor.start_message_field("t", commonmodule::Timestamp::descriptor()))
-    {
-        visit_commonmodule_Timestamp(visitor);
-        visitor.end_message_field();
-    }
+    // TODO - handle terminal message Timestamp
 }
 
 void visit_commonmodule_ENS_DynamicTestKind(IModelVisitor& visitor)
 {
-    if(visitor.start_message_field("q", commonmodule::Quality::descriptor()))
-    {
-        visit_commonmodule_Quality(visitor);
-        visitor.end_message_field();
-    }
+    // TODO - handle terminal message Quality
 
     visitor.handle_enum("stVal", commonmodule::DynamicTestKind_descriptor());
 
-    if(visitor.start_message_field("t", commonmodule::Timestamp::descriptor()))
-    {
-        visit_commonmodule_Timestamp(visitor);
-        visitor.end_message_field();
-    }
+    // TODO - handle terminal message Timestamp
 }
 
 void visit_commonmodule_ENS_HealthKind(IModelVisitor& visitor)
@@ -972,17 +927,9 @@ void visit_commonmodule_MV(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("q", commonmodule::Quality::descriptor()))
-    {
-        visit_commonmodule_Quality(visitor);
-        visitor.end_message_field();
-    }
+    // TODO - handle terminal message Quality
 
-    if(visitor.start_message_field("t", commonmodule::Timestamp::descriptor()))
-    {
-        visit_commonmodule_Timestamp(visitor);
-        visitor.end_message_field();
-    }
+    // TODO - handle terminal message Timestamp
 
     if(visitor.start_message_field("units", commonmodule::Unit::descriptor()))
     {
@@ -999,11 +946,7 @@ void visit_commonmodule_MessageInfo(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("messageTimeStamp", commonmodule::Timestamp::descriptor()))
-    {
-        visit_commonmodule_Timestamp(visitor);
-        visitor.end_message_field();
-    }
+    // TODO - handle terminal message Timestamp
 }
 
 void visit_commonmodule_Meter(IModelVisitor& visitor)
@@ -1072,23 +1015,6 @@ void visit_commonmodule_PhaseMMTN(IModelVisitor& visitor)
         visit_commonmodule_ReadingMMTN(visitor);
         visitor.end_message_field();
     }
-}
-
-void visit_commonmodule_Quality(IModelVisitor& visitor)
-{
-    if(visitor.start_message_field("detailQual", commonmodule::DetailQual::descriptor()))
-    {
-        visit_commonmodule_DetailQual(visitor);
-        visitor.end_message_field();
-    }
-
-    visitor.handle_bool("operatorBlocked");
-
-    visitor.handle_enum("source", commonmodule::SourceKind_descriptor());
-
-    visitor.handle_bool("test");
-
-    visitor.handle_enum("validity", commonmodule::ValidityKind_descriptor());
 }
 
 void visit_commonmodule_RampRate(IModelVisitor& visitor)
@@ -1386,11 +1312,7 @@ void visit_commonmodule_ScheduleCSG(IModelVisitor& visitor)
 
 void visit_commonmodule_SchedulePoint(IModelVisitor& visitor)
 {
-    if(visitor.start_message_field("xVal", commonmodule::ControlTimestamp::descriptor()))
-    {
-        visit_commonmodule_ControlTimestamp(visitor);
-        visitor.end_message_field();
-    }
+    // TODO - handle terminal message ControlTimestamp
 
     visitor.handle_float("yVal");
 
@@ -1403,19 +1325,11 @@ void visit_commonmodule_SchedulePoint(IModelVisitor& visitor)
 
 void visit_commonmodule_StatusDPS(IModelVisitor& visitor)
 {
-    if(visitor.start_message_field("q", commonmodule::Quality::descriptor()))
-    {
-        visit_commonmodule_Quality(visitor);
-        visitor.end_message_field();
-    }
+    // TODO - handle terminal message Quality
 
     visitor.handle_enum("stVal", commonmodule::DbPosKind_descriptor());
 
-    if(visitor.start_message_field("t", commonmodule::Timestamp::descriptor()))
-    {
-        visit_commonmodule_Timestamp(visitor);
-        visitor.end_message_field();
-    }
+    // TODO - handle terminal message Timestamp
 }
 
 void visit_commonmodule_StatusMessageInfo(IModelVisitor& visitor)
@@ -1429,19 +1343,11 @@ void visit_commonmodule_StatusMessageInfo(IModelVisitor& visitor)
 
 void visit_commonmodule_StatusSPS(IModelVisitor& visitor)
 {
-    if(visitor.start_message_field("q", commonmodule::Quality::descriptor()))
-    {
-        visit_commonmodule_Quality(visitor);
-        visitor.end_message_field();
-    }
+    // TODO - handle terminal message Quality
 
     visitor.handle_bool("stVal");
 
-    if(visitor.start_message_field("t", commonmodule::Timestamp::descriptor()))
-    {
-        visit_commonmodule_Timestamp(visitor);
-        visitor.end_message_field();
-    }
+    // TODO - handle terminal message Timestamp
 }
 
 void visit_commonmodule_StatusValue(IModelVisitor& visitor)
@@ -1473,19 +1379,6 @@ void visit_commonmodule_TimeQuality(IModelVisitor& visitor)
     visitor.handle_bool("leapSecondsKnown");
 
     visitor.handle_enum("timeAccuracy", commonmodule::TimeAccuracyKind_descriptor());
-}
-
-void visit_commonmodule_Timestamp(IModelVisitor& visitor)
-{
-    visitor.handle_uint32("fraction");
-
-    visitor.handle_uint64("seconds");
-
-    if(visitor.start_message_field("tq", commonmodule::TimeQuality::descriptor()))
-    {
-        visit_commonmodule_TimeQuality(visitor);
-        visitor.end_message_field();
-    }
 }
 
 void visit_commonmodule_Unit(IModelVisitor& visitor)
@@ -1747,11 +1640,7 @@ void visit_essmodule_ESSPoint(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("xVal", commonmodule::ControlTimestamp::descriptor()))
-    {
-        visit_commonmodule_ControlTimestamp(visitor);
-        visitor.end_message_field();
-    }
+    // TODO - handle terminal message ControlTimestamp
 }
 
 void visit_essmodule_ESSPointStatus(IModelVisitor& visitor)
@@ -2084,11 +1973,7 @@ void visit_loadmodule_LoadPoint(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("xVal", commonmodule::ControlTimestamp::descriptor()))
-    {
-        visit_commonmodule_ControlTimestamp(visitor);
-        visitor.end_message_field();
-    }
+    // TODO - handle terminal message ControlTimestamp
 }
 
 void visit_loadmodule_LoadPointStatus(IModelVisitor& visitor)
@@ -2365,11 +2250,7 @@ void visit_solarmodule_SolarPoint(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("xVal", commonmodule::ControlTimestamp::descriptor()))
-    {
-        visit_commonmodule_ControlTimestamp(visitor);
-        visitor.end_message_field();
-    }
+    // TODO - handle terminal message ControlTimestamp
 }
 
 void visit_solarmodule_SolarPointStatus(IModelVisitor& visitor)
@@ -2562,11 +2443,7 @@ void visit_switchmodule_SwitchPoint(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("xVal", commonmodule::ControlTimestamp::descriptor()))
-    {
-        visit_commonmodule_ControlTimestamp(visitor);
-        visitor.end_message_field();
-    }
+    // TODO - handle terminal message ControlTimestamp
 }
 
 void visit_switchmodule_SwitchReading(IModelVisitor& visitor)

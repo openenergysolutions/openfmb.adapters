@@ -36,8 +36,6 @@ void visit_commonmodule_ControlMessageInfo(const set_t<commonmodule::ControlMess
 
 void visit_commonmodule_ControlScheduleFSCH(const set_t<commonmodule::ControlScheduleFSCH>& setter, const get_t<commonmodule::ControlScheduleFSCH>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
-void visit_commonmodule_ControlTimestamp(const set_t<commonmodule::ControlTimestamp>& setter, const get_t<commonmodule::ControlTimestamp>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor);
-
 void visit_commonmodule_ControlValue(const set_t<commonmodule::ControlValue>& setter, const get_t<commonmodule::ControlValue>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
 void visit_commonmodule_ENG_GridConnectModeKind(const set_t<commonmodule::ENG_GridConnectModeKind>& setter, const get_t<commonmodule::ENG_GridConnectModeKind>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor);
@@ -63,8 +61,6 @@ void visit_commonmodule_ScheduleCSG(const set_t<commonmodule::ScheduleCSG>& sett
 void visit_commonmodule_SchedulePoint(const set_t<commonmodule::SchedulePoint>& setter, const get_t<commonmodule::SchedulePoint>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
 void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& setter, const get_t<commonmodule::TimeQuality>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor);
-
-void visit_commonmodule_Timestamp(const set_t<commonmodule::Timestamp>& setter, const get_t<commonmodule::Timestamp>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
 void visit_commonmodule_Unit(const set_t<commonmodule::Unit>& setter, const get_t<commonmodule::Unit>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
@@ -408,25 +404,6 @@ void visit_commonmodule_ControlScheduleFSCH(const set_t<commonmodule::ControlSch
     }
 }
 
-void visit_commonmodule_ControlTimestamp(const set_t<commonmodule::ControlTimestamp>& setter, const get_t<commonmodule::ControlTimestamp>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor)
-{
-    visitor.handle(
-        "fraction",
-        AccessorBuilder<solarmodule::SolarControlProfile,uint32_t>::build(
-            [setter](solarmodule::SolarControlProfile& profile, const uint32_t& value) { setter(profile)->set_fraction(value); },
-            [getter](const solarmodule::SolarControlProfile& profile, const handler_t<uint32_t>& handler) { return false; }
-        )
-    );
-
-    visitor.handle(
-        "seconds",
-        AccessorBuilder<solarmodule::SolarControlProfile,uint64_t>::build(
-            [setter](solarmodule::SolarControlProfile& profile, const uint64_t& value) { setter(profile)->set_seconds(value); },
-            [getter](const solarmodule::SolarControlProfile& profile, const handler_t<uint64_t>& handler) { return false; }
-        )
-    );
-}
-
 void visit_commonmodule_ControlValue(const set_t<commonmodule::ControlValue>& setter, const get_t<commonmodule::ControlValue>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor)
 {
     if(visitor.start_message_field("identifiedObject", commonmodule::IdentifiedObject::descriptor()))
@@ -696,29 +673,7 @@ void visit_commonmodule_MessageInfo(const set_t<commonmodule::MessageInfo>& sett
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("messageTimeStamp", commonmodule::Timestamp::descriptor()))
-    {
-        visit_commonmodule_Timestamp(
-            [setter](solarmodule::SolarControlProfile& profile)
-            {
-                return setter(profile)->mutable_messagetimestamp();
-            },
-            [getter](const solarmodule::SolarControlProfile& profile) -> commonmodule::Timestamp const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_messagetimestamp() ? &value->messagetimestamp() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
+    // TODO - create handler for message type Timestamp
 }
 
 void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& setter, const get_t<commonmodule::NamedObject>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor)
@@ -1117,29 +1072,7 @@ void visit_commonmodule_ScheduleCSG(const set_t<commonmodule::ScheduleCSG>& sett
 
 void visit_commonmodule_SchedulePoint(const set_t<commonmodule::SchedulePoint>& setter, const get_t<commonmodule::SchedulePoint>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor)
 {
-    if(visitor.start_message_field("xVal", commonmodule::ControlTimestamp::descriptor()))
-    {
-        visit_commonmodule_ControlTimestamp(
-            [setter](solarmodule::SolarControlProfile& profile)
-            {
-                return setter(profile)->mutable_xval();
-            },
-            [getter](const solarmodule::SolarControlProfile& profile) -> commonmodule::ControlTimestamp const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_xval() ? &value->xval() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
+    // TODO - create handler for message type ControlTimestamp
 
     visitor.handle(
         "yVal",
@@ -1208,49 +1141,6 @@ void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& sett
         ),
         commonmodule::TimeAccuracyKind_descriptor()
     );
-}
-
-void visit_commonmodule_Timestamp(const set_t<commonmodule::Timestamp>& setter, const get_t<commonmodule::Timestamp>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor)
-{
-    visitor.handle(
-        "fraction",
-        AccessorBuilder<solarmodule::SolarControlProfile,uint32_t>::build(
-            [setter](solarmodule::SolarControlProfile& profile, const uint32_t& value) { setter(profile)->set_fraction(value); },
-            [getter](const solarmodule::SolarControlProfile& profile, const handler_t<uint32_t>& handler) { return false; }
-        )
-    );
-
-    visitor.handle(
-        "seconds",
-        AccessorBuilder<solarmodule::SolarControlProfile,uint64_t>::build(
-            [setter](solarmodule::SolarControlProfile& profile, const uint64_t& value) { setter(profile)->set_seconds(value); },
-            [getter](const solarmodule::SolarControlProfile& profile, const handler_t<uint64_t>& handler) { return false; }
-        )
-    );
-
-    if(visitor.start_message_field("tq", commonmodule::TimeQuality::descriptor()))
-    {
-        visit_commonmodule_TimeQuality(
-            [setter](solarmodule::SolarControlProfile& profile)
-            {
-                return setter(profile)->mutable_tq();
-            },
-            [getter](const solarmodule::SolarControlProfile& profile) -> commonmodule::TimeQuality const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_tq() ? &value->tq() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
 }
 
 void visit_commonmodule_Unit(const set_t<commonmodule::Unit>& setter, const get_t<commonmodule::Unit>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor)
@@ -1769,29 +1659,7 @@ void visit_solarmodule_SolarPoint(const set_t<solarmodule::SolarPoint>& setter, 
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("xVal", commonmodule::ControlTimestamp::descriptor()))
-    {
-        visit_commonmodule_ControlTimestamp(
-            [setter](solarmodule::SolarControlProfile& profile)
-            {
-                return setter(profile)->mutable_xval();
-            },
-            [getter](const solarmodule::SolarControlProfile& profile) -> commonmodule::ControlTimestamp const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_xval() ? &value->xval() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
+    // TODO - create handler for message type ControlTimestamp
 }
 
 } // end namespace adapter

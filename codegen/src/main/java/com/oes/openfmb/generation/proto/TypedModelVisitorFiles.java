@@ -3,9 +3,7 @@ package com.oes.openfmb.generation.proto;
 import com.google.protobuf.Descriptors;
 import com.oes.openfmb.generation.document.*;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.SortedMap;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.oes.openfmb.generation.document.Document.*;
@@ -21,6 +19,7 @@ public class TypedModelVisitorFiles implements CppFileCollection {
     public static CppFileCollection from(List<Descriptors.Descriptor> descriptors) {
         return new TypedModelVisitorFiles(descriptors);
     }
+
 
     @Override
     public List<CppFile> headers() {
@@ -50,7 +49,7 @@ public class TypedModelVisitorFiles implements CppFileCollection {
     public List<CppFile> implementations() {
         return this.descriptors.stream().map(descriptor -> {
 
-            final SortedMap<String, Descriptors.Descriptor> children = Helpers.getChildMessageDescriptors(Collections.singletonList(descriptor));
+            final SortedMap<String, Descriptors.Descriptor> children = Helpers.getFilteredChildMessageDescriptors(Collections.singletonList(descriptor));
 
             final FileName name = new FileName(descriptor.getName() + "TypedModelVisitor");
 
@@ -130,7 +129,14 @@ public class TypedModelVisitorFiles implements CppFileCollection {
     private static Document getFieldHandler(Descriptors.Descriptor parent, Descriptors.FieldDescriptor field) {
         switch (field.getType()) {
             case MESSAGE:
-                return field.isRepeated() ? getRepeatedMessageField(parent, field) : getMessageField(parent, field);
+                if(Helpers.terminalMessages.contains(field.getMessageType()))
+                {
+                    return line("// TODO - create handler for message type %s", field.getMessageType().getName());
+                }
+                else
+                {
+                    return field.isRepeated() ? getRepeatedMessageField(parent, field) : getMessageField(parent, field);
+                }
             case ENUM:
                 return getEnumHandler(parent, field);
             default:
