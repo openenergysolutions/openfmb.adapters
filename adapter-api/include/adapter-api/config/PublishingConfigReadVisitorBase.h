@@ -105,10 +105,10 @@ void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, c
     const auto node = this->get_config_node(field_name);
     const auto field_type = yaml::require_enum<BoolFieldType>(node);
     switch (field_type) {
-    case (BoolFieldType::Value::mapped_bool):
+    case (BoolFieldType::Value::mapped):
         this->handle_mapped_bool(node, accessor);
         break;
-    case (BoolFieldType::Value::const_bool):
+    case (BoolFieldType::Value::constant):
         this->handle_optional_const_bool(node, accessor);
         break;
     default:
@@ -123,10 +123,10 @@ void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, c
     const auto node = this->get_config_node(field_name);
     const auto field_type = yaml::require_enum<Int32FieldType>(node);
     switch (field_type) {
-    case (Int32FieldType::Value::mapped_int32):
+    case (Int32FieldType::Value::mapped):
         this->handle_mapped_int32(node, accessor);
         break;
-    case (Int32FieldType::Value::const_int32):
+    case (Int32FieldType::Value::constant):
         this->handle_optional_const_int<int32_t>(node, accessor);
     default:
         // ignored
@@ -140,10 +140,10 @@ void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, c
     const auto node = this->get_config_node(field_name);
     const auto field_type = yaml::require_enum<Int64FieldType>(node);
     switch (field_type) {
-    case (Int64FieldType::Value::mapped_int64):
+    case (Int64FieldType::Value::mapped):
         this->handle_mapped_int64(node, accessor);
         break;
-    case (Int64FieldType::Value::const_int64):
+    case (Int64FieldType::Value::constant):
         this->handle_optional_const_int<int64_t>(node, accessor);
     default:
         // ignored
@@ -157,10 +157,10 @@ void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, c
     const auto node = this->get_config_node(field_name);
     const auto field_type = yaml::require_enum<FloatFieldType>(node);
     switch (field_type) {
-    case (FloatFieldType::Value::mapped_float):
+    case (FloatFieldType::Value::mapped):
         this->handle_mapped_float(node, accessor);
         break;
-    case (FloatFieldType::Value::const_float):
+    case (FloatFieldType::Value::constant):
         this->handle_optional_const_float(node, accessor);
     default:
         // ignored
@@ -175,10 +175,10 @@ void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, c
     const auto field_type = yaml::require_enum<StringFieldType>(node);
     switch (field_type) {
     case (StringFieldType::Value::primary_uuid):
-    case (StringFieldType::Value::optional_const_uuid):
+    case (StringFieldType::Value::constant_uuid):
         this->handle_const_uuid(node, accessor);
         break;
-    case (StringFieldType::Value::optional_string):
+    case (StringFieldType::Value::constant):
         this->handle_const_string(node, accessor);
         break;
     case (StringFieldType::Value::generated_uuid):
@@ -196,10 +196,10 @@ void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, c
     const auto node = this->get_config_node(field_name);
     const auto field_type = yaml::require_enum<EnumFieldType>(node);
     switch (field_type) {
-    case (EnumFieldType::Value::mapped_enum):
+    case (EnumFieldType::Value::mapped):
         this->handle_mapped_enum(node, accessor, descriptor);
         break;
-    case (EnumFieldType::Value::optional_const_enum):
+    case (EnumFieldType::Value::constant):
         this->handle_const_enum(node, accessor, descriptor);
         break;
     default:
@@ -219,7 +219,7 @@ void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, c
 {
     const auto node = this->get_config_node(field_name);
     const auto field_type = yaml::require_enum<TimestampFieldType>(node);
-    if (field_type == TimestampFieldType::Value::message_timestamp) {
+    if (field_type == TimestampFieldType::Value::message) {
         this->add_message_complete_action(
             [accessor](T& profile) {
                 time::set(std::chrono::system_clock::now(), *accessor->mutable_get(profile));

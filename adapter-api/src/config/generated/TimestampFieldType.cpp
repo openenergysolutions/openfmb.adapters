@@ -19,21 +19,21 @@
 
 namespace adapter {
 
-const char TimestampFieldType::message_timestamp[] = "message_timestamp";
-const char TimestampFieldType::ignored_timestamp[] = "ignored_timestamp";
+const char TimestampFieldType::message[] = "message";
+const char TimestampFieldType::ignored[] = "ignored";
 
 const std::array<TimestampFieldType::Value, 2> TimestampFieldType::values =
 {
-    TimestampFieldType::Value::message_timestamp,
-    TimestampFieldType::Value::ignored_timestamp,
+    TimestampFieldType::Value::message,
+    TimestampFieldType::Value::ignored,
 };
 
 std::string TimestampFieldType::to_string(TimestampFieldType::Value value)
 {
     switch(value)
     {
-        case(Value::message_timestamp): return message_timestamp;
-        default: return ignored_timestamp;
+        case(Value::message): return message;
+        default: return ignored;
     }
 }
 
@@ -41,8 +41,8 @@ TimestampFieldType::Value TimestampFieldType::from_string(const std::string& nam
 {
     static const std::map<std::string, Value> map = 
     {
-        {message_timestamp, Value::message_timestamp},
-        {ignored_timestamp, Value::ignored_timestamp},
+        {message, Value::message},
+        {ignored, Value::ignored},
     };
     const auto elem = map.find(name);
     if(elem == map.end()) throw Exception("Unknown value name '", name, "' for enum TimestampFieldType");

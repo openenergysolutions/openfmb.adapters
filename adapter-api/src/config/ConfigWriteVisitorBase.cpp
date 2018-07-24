@@ -79,7 +79,7 @@ void ConfigWriteVisitorBase::handle_bool(const std::string& field_name)
         this->out,
         field_name,
         this->remap(fields::get_bool_type(field_name, path)),
-        BoolFieldType::Value::mapped_bool,
+        BoolFieldType::Value::mapped,
         [&]() { this->write_mapped_bool_keys(out); });
 }
 
@@ -89,7 +89,7 @@ void ConfigWriteVisitorBase::handle_int32(const std::string& field_name)
         this->out,
         field_name,
         this->remap(fields::get_int32_type(field_name, path)),
-        Int32FieldType::Value::mapped_int32,
+        Int32FieldType::Value::mapped,
         [&]() { this->write_mapped_int32_keys(out); });
 }
 
@@ -99,7 +99,7 @@ void ConfigWriteVisitorBase::handle_int64(const std::string& field_name)
         this->out,
         field_name,
         this->remap(fields::get_int64_type(field_name, path)),
-        Int64FieldType::Value::mapped_int64,
+        Int64FieldType::Value::mapped,
         [&]() { this->write_mapped_int64_keys(out); });
 }
 
@@ -109,7 +109,7 @@ void ConfigWriteVisitorBase::handle_float(const std::string& field_name)
         this->out,
         field_name,
         this->remap(fields::get_float_type(field_name, path)),
-        FloatFieldType::Value::mapped_float,
+        FloatFieldType::Value::mapped,
         [&]() { this->write_mapped_float_keys(out); });
 }
 
@@ -122,9 +122,9 @@ void ConfigWriteVisitorBase::handle_string(const std::string& field_name)
     out << YAML::Key << StringFieldType::label << StringFieldType::to_string(type);
 
     switch (type) {
-    case (StringFieldType::Value::optional_const_uuid):
+    case (StringFieldType::Value::constant_uuid):
     case (StringFieldType::Value::primary_uuid):
-    case (StringFieldType::Value::optional_string):
+    case (StringFieldType::Value::constant):
         out << YAML::Key << keys::value << YAML::Value << "";
         break;
     default:
@@ -143,7 +143,7 @@ void ConfigWriteVisitorBase::handle_enum(const std::string& field_name, google::
     out << YAML::Key << EnumFieldType::label << YAML::Value << EnumFieldType::to_string(type);
 
     switch (type) {
-    case (EnumFieldType::Value::optional_const_enum):
+    case (EnumFieldType::Value::constant):
         out << YAML::Key << keys::value << YAML::Value << "";
         break;
     default:

@@ -24,16 +24,16 @@ struct Int64FieldType
     enum class Value
     {
         // the value is always the same, set in configuration
-        const_int64,
+        constant,
         // the value is mapped dynamically from the underlying protocol
-        mapped_int64,
+        mapped,
         // the value is ignored in the current configuration
-        ignored_int64,
+        ignored,
     };
 
-    static const char const_int64[];
-    static const char mapped_int64[];
-    static const char ignored_int64[];
+    static const char constant[];
+    static const char mapped[];
+    static const char ignored[];
 
     static constexpr const char* label = "int64-field-type";
 

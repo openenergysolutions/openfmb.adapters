@@ -24,13 +24,13 @@ struct TimestampFieldType
     enum class Value
     {
         // the main timestamp for the message
-        message_timestamp,
+        message,
         // the timestamp is ignored in this configuration
-        ignored_timestamp,
+        ignored,
     };
 
-    static const char message_timestamp[];
-    static const char ignored_timestamp[];
+    static const char message[];
+    static const char ignored[];
 
     static constexpr const char* label = "timestamp-field-type";
 

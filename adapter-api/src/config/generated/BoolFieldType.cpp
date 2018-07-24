@@ -19,24 +19,24 @@
 
 namespace adapter {
 
-const char BoolFieldType::const_bool[] = "const_bool";
-const char BoolFieldType::mapped_bool[] = "mapped_bool";
-const char BoolFieldType::ignored_bool[] = "ignored_bool";
+const char BoolFieldType::constant[] = "constant";
+const char BoolFieldType::mapped[] = "mapped";
+const char BoolFieldType::ignored[] = "ignored";
 
 const std::array<BoolFieldType::Value, 3> BoolFieldType::values =
 {
-    BoolFieldType::Value::const_bool,
-    BoolFieldType::Value::mapped_bool,
-    BoolFieldType::Value::ignored_bool,
+    BoolFieldType::Value::constant,
+    BoolFieldType::Value::mapped,
+    BoolFieldType::Value::ignored,
 };
 
 std::string BoolFieldType::to_string(BoolFieldType::Value value)
 {
     switch(value)
     {
-        case(Value::const_bool): return const_bool;
-        case(Value::mapped_bool): return mapped_bool;
-        default: return ignored_bool;
+        case(Value::constant): return constant;
+        case(Value::mapped): return mapped;
+        default: return ignored;
     }
 }
 
@@ -44,9 +44,9 @@ BoolFieldType::Value BoolFieldType::from_string(const std::string& name)
 {
     static const std::map<std::string, Value> map = 
     {
-        {const_bool, Value::const_bool},
-        {mapped_bool, Value::mapped_bool},
-        {ignored_bool, Value::ignored_bool},
+        {constant, Value::constant},
+        {mapped, Value::mapped},
+        {ignored, Value::ignored},
     };
     const auto elem = map.find(name);
     if(elem == map.end()) throw Exception("Unknown value name '", name, "' for enum BoolFieldType");

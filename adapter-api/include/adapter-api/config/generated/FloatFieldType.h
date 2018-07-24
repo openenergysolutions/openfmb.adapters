@@ -24,16 +24,16 @@ struct FloatFieldType
     enum class Value
     {
         // the value is always the same, set in configuration
-        const_float,
+        constant,
         // the value is mapped dynamically from the underlying protocol
-        mapped_float,
+        mapped,
         // the value is ignored in the current configuration
-        ignored_float,
+        ignored,
     };
 
-    static const char const_float[];
-    static const char mapped_float[];
-    static const char ignored_float[];
+    static const char constant[];
+    static const char mapped[];
+    static const char ignored[];
 
     static constexpr const char* label = "float-field-type";
 

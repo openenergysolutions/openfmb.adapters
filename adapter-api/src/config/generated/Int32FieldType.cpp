@@ -19,24 +19,24 @@
 
 namespace adapter {
 
-const char Int32FieldType::const_int32[] = "const_int32";
-const char Int32FieldType::mapped_int32[] = "mapped_int32";
-const char Int32FieldType::ignored_int32[] = "ignored_int32";
+const char Int32FieldType::constant[] = "constant";
+const char Int32FieldType::mapped[] = "mapped";
+const char Int32FieldType::ignored[] = "ignored";
 
 const std::array<Int32FieldType::Value, 3> Int32FieldType::values =
 {
-    Int32FieldType::Value::const_int32,
-    Int32FieldType::Value::mapped_int32,
-    Int32FieldType::Value::ignored_int32,
+    Int32FieldType::Value::constant,
+    Int32FieldType::Value::mapped,
+    Int32FieldType::Value::ignored,
 };
 
 std::string Int32FieldType::to_string(Int32FieldType::Value value)
 {
     switch(value)
     {
-        case(Value::const_int32): return const_int32;
-        case(Value::mapped_int32): return mapped_int32;
-        default: return ignored_int32;
+        case(Value::constant): return constant;
+        case(Value::mapped): return mapped;
+        default: return ignored;
     }
 }
 
@@ -44,9 +44,9 @@ Int32FieldType::Value Int32FieldType::from_string(const std::string& name)
 {
     static const std::map<std::string, Value> map = 
     {
-        {const_int32, Value::const_int32},
-        {mapped_int32, Value::mapped_int32},
-        {ignored_int32, Value::ignored_int32},
+        {constant, Value::constant},
+        {mapped, Value::mapped},
+        {ignored, Value::ignored},
     };
     const auto elem = map.find(name);
     if(elem == map.end()) throw Exception("Unknown value name '", name, "' for enum Int32FieldType");

@@ -31,9 +31,9 @@ public class Enumerations {
             return new Enumeration(
                     getFieldName(name),
                     Arrays.asList(
-                            Enumeration.entry("const_"+name.toLowerCase(), "the value is always the same, set in configuration"),
-                            Enumeration.entry("mapped_"+name.toLowerCase(), "the value is mapped dynamically from the underlying protocol"),
-                            Enumeration.entry("ignored_"+name.toLowerCase(), "the value is ignored in the current configuration")
+                            Enumeration.entry("constant", "the value is always the same, set in configuration"),
+                            Enumeration.entry("mapped", "the value is mapped dynamically from the underlying protocol"),
+                            Enumeration.entry("ignored", "the value is ignored in the current configuration")
                     )
             );
         }
@@ -42,27 +42,20 @@ public class Enumerations {
                 getFieldName("String"),
                 Arrays.asList(
                         Enumeration.entry("generated_uuid", "the value is randomly generated UUID"),
-                        Enumeration.entry("optional_const_uuid", "the value is an optional constant UUID"),
+                        Enumeration.entry("constant_uuid", "the value is an optional constant UUID"),
                         Enumeration.entry("primary_uuid", "the value is a required primary UUID (conducting equipment)"),
-                        Enumeration.entry("optional_string", "the value is an optional constant string"),
-                        Enumeration.entry("ignored_string", "the field is ignored in this configuration")
+                        Enumeration.entry("constant", "the value is an optional constant string"),
+                        Enumeration.entry("ignored", "the field is ignored in this configuration")
                 )
         );
 
-        private final static Enumeration enumFieldType = new Enumeration(
-                getFieldName("Enum"),
-                Arrays.asList(
-                        Enumeration.entry("optional_const_enum", "an optional enum that is the same value in every message"),
-                        Enumeration.entry("mapped_enum", "an enum that is mapped from values in the underlying protocol"),
-                        Enumeration.entry("ignored_enum", "the enum is ignored in this configuration")
-                )
-        );
+        private final static Enumeration enumFieldType = getBasicFieldType("Enum");
 
         private final static Enumeration timestampFieldType = new Enumeration(
                 getFieldName("Timestamp"),
                 Arrays.asList(
-                        Enumeration.entry("message_timestamp", "the main timestamp for the message"),
-                        Enumeration.entry("ignored_timestamp", "the timestamp is ignored in this configuration")
+                        Enumeration.entry("message", "the main timestamp for the message"),
+                        Enumeration.entry("ignored", "the timestamp is ignored in this configuration")
                 )
         );
 

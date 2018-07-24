@@ -23,17 +23,17 @@ struct EnumFieldType
 {
     enum class Value
     {
-        // an optional enum that is the same value in every message
-        optional_const_enum,
-        // an enum that is mapped from values in the underlying protocol
-        mapped_enum,
-        // the enum is ignored in this configuration
-        ignored_enum,
+        // the value is always the same, set in configuration
+        constant,
+        // the value is mapped dynamically from the underlying protocol
+        mapped,
+        // the value is ignored in the current configuration
+        ignored,
     };
 
-    static const char optional_const_enum[];
-    static const char mapped_enum[];
-    static const char ignored_enum[];
+    static const char constant[];
+    static const char mapped[];
+    static const char ignored[];
 
     static constexpr const char* label = "enum-field-type";
 

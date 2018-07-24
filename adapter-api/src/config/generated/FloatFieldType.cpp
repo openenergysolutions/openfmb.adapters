@@ -19,24 +19,24 @@
 
 namespace adapter {
 
-const char FloatFieldType::const_float[] = "const_float";
-const char FloatFieldType::mapped_float[] = "mapped_float";
-const char FloatFieldType::ignored_float[] = "ignored_float";
+const char FloatFieldType::constant[] = "constant";
+const char FloatFieldType::mapped[] = "mapped";
+const char FloatFieldType::ignored[] = "ignored";
 
 const std::array<FloatFieldType::Value, 3> FloatFieldType::values =
 {
-    FloatFieldType::Value::const_float,
-    FloatFieldType::Value::mapped_float,
-    FloatFieldType::Value::ignored_float,
+    FloatFieldType::Value::constant,
+    FloatFieldType::Value::mapped,
+    FloatFieldType::Value::ignored,
 };
 
 std::string FloatFieldType::to_string(FloatFieldType::Value value)
 {
     switch(value)
     {
-        case(Value::const_float): return const_float;
-        case(Value::mapped_float): return mapped_float;
-        default: return ignored_float;
+        case(Value::constant): return constant;
+        case(Value::mapped): return mapped;
+        default: return ignored;
     }
 }
 
@@ -44,9 +44,9 @@ FloatFieldType::Value FloatFieldType::from_string(const std::string& name)
 {
     static const std::map<std::string, Value> map = 
     {
-        {const_float, Value::const_float},
-        {mapped_float, Value::mapped_float},
-        {ignored_float, Value::ignored_float},
+        {constant, Value::constant},
+        {mapped, Value::mapped},
+        {ignored, Value::ignored},
     };
     const auto elem = map.find(name);
     if(elem == map.end()) throw Exception("Unknown value name '", name, "' for enum FloatFieldType");
