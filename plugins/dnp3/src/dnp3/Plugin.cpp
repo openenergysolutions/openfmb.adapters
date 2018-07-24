@@ -6,6 +6,7 @@
 #include <opendnp3/LogLevels.h>
 
 #include <adapter-api/ConfigStrings.h>
+#include <adapter-api/ProfileInfo.h>
 #include <adapter-api/config/generated/TypedModelVisitors.h>
 #include <adapter-api/util/YAMLTemplate.h>
 #include <adapter-api/util/YAMLUtil.h>
@@ -28,7 +29,6 @@ using namespace asiodnp3;
 namespace adapter {
 namespace dnp3 {
 
-    /*
     template <class T>
     struct ProfileReader {
         template <bool condition>
@@ -37,9 +37,12 @@ namespace dnp3 {
         template <class U = T>
         static return_t<profile_info<U>::is_control> handle(const YAML::Node& node, const Logger& logger, message_bus_t bus, std::shared_ptr<IPublishConfigBuilder>, std::shared_ptr<ICommandSequenceExecutor> executor)
         {
+            /*
             SubscribingConfigReadVisitor<T> visitor(node);
             visit(visitor);
             visitor.subscribe(logger, *bus, std::move(executor));
+            */
+            throw Exception("control profiles not supported");
             return true;
         }
 
@@ -51,7 +54,6 @@ namespace dnp3 {
             return true;
         }
     };
-     */
 
     Plugin::Plugin(
         const Logger& logger,
@@ -90,9 +92,6 @@ namespace dnp3 {
 
         const auto profiles = yaml::require(node, ::adapter::keys::profiles);
 
-        throw NotImplemented(LOCATION);
-
-        /*
         yaml::foreach (
             profiles,
             [&](const YAML::Node& node) {
@@ -130,7 +129,6 @@ namespace dnp3 {
         executor->start(master);
 
         this->masters.push_back(master);
-         */
     }
 
     void Plugin::start()
@@ -150,7 +148,7 @@ namespace dnp3 {
             asiopal::ChannelRetry::Default(),
             yaml::require_string(channel, keys::outstation_ip),
             yaml::require_string(channel, keys::adapter),
-            yaml::require(channel, keys::port).as<std::uint16_t>(),
+            yaml::require_integer<uint16_t>(channel, keys::port),
             nullptr // no channel listener
         );
     }

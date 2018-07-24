@@ -6,7 +6,6 @@
 #include "IMessageFieldHandler.h"
 
 #include <proto-api/commonmodule/commonmodule.pb.h>
-#include <string>
 
 namespace adapter {
 
