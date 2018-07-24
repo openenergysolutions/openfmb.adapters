@@ -82,6 +82,12 @@ public:
     void handle_string(const std::string& field_name) final;
 
     void handle_enum(const std::string& field_name, google::protobuf::EnumDescriptor const* descriptor) final;
+
+    void handle_commonmodule_Quality(const std::string& field_name) final;
+
+    void handle_commonmodule_Timestamp(const std::string& field_name) final;
+
+    void handle_commonmodule_ControlTimestamp(const std::string& field_name) final;
 };
 }
 

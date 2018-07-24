@@ -17,6 +17,11 @@ public:
     virtual void handle_float(const std::string& field_name) = 0;
     virtual void handle_string(const std::string& field_name) = 0;
     virtual void handle_enum(const std::string& field_name, google::protobuf::EnumDescriptor const* descriptor) = 0;
+
+    // --- handlers for a small number of terminal messages ---
+    virtual void handle_commonmodule_Quality(const std::string& field_name) = 0;
+    virtual void handle_commonmodule_Timestamp(const std::string& field_name) = 0;
+    virtual void handle_commonmodule_ControlTimestamp(const std::string& field_name) = 0;
 };
 }
 

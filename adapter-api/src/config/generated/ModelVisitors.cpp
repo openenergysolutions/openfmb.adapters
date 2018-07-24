@@ -617,9 +617,9 @@ void visit_commonmodule_BCR(IModelVisitor& visitor)
 {
     visitor.handle_int64("actVal");
 
-    // TODO - handle terminal message Quality
+    visitor.handle_commonmodule_Quality("q");
 
-    // TODO - handle terminal message Timestamp
+    visitor.handle_commonmodule_Timestamp("t");
 
     visitor.handle_enum("units", commonmodule::UnitSymbolKind_descriptor());
 }
@@ -632,9 +632,9 @@ void visit_commonmodule_CMV(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    // TODO - handle terminal message Quality
+    visitor.handle_commonmodule_Quality("q");
 
-    // TODO - handle terminal message Timestamp
+    visitor.handle_commonmodule_Timestamp("t");
 
     if(visitor.start_message_field("units", commonmodule::Unit::descriptor()))
     {
@@ -799,20 +799,20 @@ void visit_commonmodule_ENG_PFSignKind(IModelVisitor& visitor)
 
 void visit_commonmodule_ENS_BehaviourModeKind(IModelVisitor& visitor)
 {
-    // TODO - handle terminal message Quality
+    visitor.handle_commonmodule_Quality("q");
 
     visitor.handle_enum("stVal", commonmodule::BehaviourModeKind_descriptor());
 
-    // TODO - handle terminal message Timestamp
+    visitor.handle_commonmodule_Timestamp("t");
 }
 
 void visit_commonmodule_ENS_DynamicTestKind(IModelVisitor& visitor)
 {
-    // TODO - handle terminal message Quality
+    visitor.handle_commonmodule_Quality("q");
 
     visitor.handle_enum("stVal", commonmodule::DynamicTestKind_descriptor());
 
-    // TODO - handle terminal message Timestamp
+    visitor.handle_commonmodule_Timestamp("t");
 }
 
 void visit_commonmodule_ENS_HealthKind(IModelVisitor& visitor)
@@ -927,9 +927,9 @@ void visit_commonmodule_MV(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    // TODO - handle terminal message Quality
+    visitor.handle_commonmodule_Quality("q");
 
-    // TODO - handle terminal message Timestamp
+    visitor.handle_commonmodule_Timestamp("t");
 
     if(visitor.start_message_field("units", commonmodule::Unit::descriptor()))
     {
@@ -946,7 +946,7 @@ void visit_commonmodule_MessageInfo(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    // TODO - handle terminal message Timestamp
+    visitor.handle_commonmodule_Timestamp("messageTimeStamp");
 }
 
 void visit_commonmodule_Meter(IModelVisitor& visitor)
@@ -1312,7 +1312,7 @@ void visit_commonmodule_ScheduleCSG(IModelVisitor& visitor)
 
 void visit_commonmodule_SchedulePoint(IModelVisitor& visitor)
 {
-    // TODO - handle terminal message ControlTimestamp
+    visitor.handle_commonmodule_ControlTimestamp("xVal");
 
     visitor.handle_float("yVal");
 
@@ -1325,11 +1325,11 @@ void visit_commonmodule_SchedulePoint(IModelVisitor& visitor)
 
 void visit_commonmodule_StatusDPS(IModelVisitor& visitor)
 {
-    // TODO - handle terminal message Quality
+    visitor.handle_commonmodule_Quality("q");
 
     visitor.handle_enum("stVal", commonmodule::DbPosKind_descriptor());
 
-    // TODO - handle terminal message Timestamp
+    visitor.handle_commonmodule_Timestamp("t");
 }
 
 void visit_commonmodule_StatusMessageInfo(IModelVisitor& visitor)
@@ -1343,11 +1343,11 @@ void visit_commonmodule_StatusMessageInfo(IModelVisitor& visitor)
 
 void visit_commonmodule_StatusSPS(IModelVisitor& visitor)
 {
-    // TODO - handle terminal message Quality
+    visitor.handle_commonmodule_Quality("q");
 
     visitor.handle_bool("stVal");
 
-    // TODO - handle terminal message Timestamp
+    visitor.handle_commonmodule_Timestamp("t");
 }
 
 void visit_commonmodule_StatusValue(IModelVisitor& visitor)
@@ -1640,7 +1640,7 @@ void visit_essmodule_ESSPoint(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    // TODO - handle terminal message ControlTimestamp
+    visitor.handle_commonmodule_ControlTimestamp("xVal");
 }
 
 void visit_essmodule_ESSPointStatus(IModelVisitor& visitor)
@@ -1973,7 +1973,7 @@ void visit_loadmodule_LoadPoint(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    // TODO - handle terminal message ControlTimestamp
+    visitor.handle_commonmodule_ControlTimestamp("xVal");
 }
 
 void visit_loadmodule_LoadPointStatus(IModelVisitor& visitor)
@@ -2250,7 +2250,7 @@ void visit_solarmodule_SolarPoint(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    // TODO - handle terminal message ControlTimestamp
+    visitor.handle_commonmodule_ControlTimestamp("xVal");
 }
 
 void visit_solarmodule_SolarPointStatus(IModelVisitor& visitor)
@@ -2443,7 +2443,7 @@ void visit_switchmodule_SwitchPoint(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    // TODO - handle terminal message ControlTimestamp
+    visitor.handle_commonmodule_ControlTimestamp("xVal");
 }
 
 void visit_switchmodule_SwitchReading(IModelVisitor& visitor)

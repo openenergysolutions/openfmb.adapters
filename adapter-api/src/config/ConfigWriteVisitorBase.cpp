@@ -140,7 +140,7 @@ void ConfigWriteVisitorBase::handle_enum(const std::string& field_name, google::
 
     out << YAML::Key << field_name;
     out << YAML::BeginMap;
-    out << YAML::Key << "type" << EnumFieldType::to_string(type);
+    out << YAML::Key << keys::field_type << YAML::Value << EnumFieldType::to_string(type);
 
     switch (type) {
     case (EnumFieldType::Value::optional_const_enum):
@@ -151,6 +151,30 @@ void ConfigWriteVisitorBase::handle_enum(const std::string& field_name, google::
         break;
     }
 
+    out << YAML::EndMap;
+}
+
+void ConfigWriteVisitorBase::handle_commonmodule_Quality(const std::string& field_name)
+{
+    out << YAML::Key << field_name;
+    out << YAML::BeginMap;
+    out << YAML::Key << keys::field_type << YAML::Value << "ignored";
+    out << YAML::EndMap;
+}
+
+void ConfigWriteVisitorBase::handle_commonmodule_Timestamp(const std::string& field_name)
+{
+    out << YAML::Key << field_name;
+    out << YAML::BeginMap;
+    out << YAML::Key << keys::field_type << YAML::Value << "ignored";
+    out << YAML::EndMap;
+}
+
+void ConfigWriteVisitorBase::handle_commonmodule_ControlTimestamp(const std::string& field_name)
+{
+    out << YAML::Key << field_name;
+    out << YAML::BeginMap;
+    out << YAML::Key << keys::field_type << YAML::Value << "ignored";
     out << YAML::EndMap;
 }
 }

@@ -63,6 +63,18 @@ public:
     void handle_enum(const std::string &field_name, google::protobuf::EnumDescriptor const *descriptor) override {
         adapter::fields::get_enum_type(descriptor);
     }
+
+    void handle_commonmodule_Quality(const std::string &field_name) override {
+
+    }
+
+    void handle_commonmodule_Timestamp(const std::string &field_name) override {
+
+    }
+
+    void handle_commonmodule_ControlTimestamp(const std::string &field_name) override {
+
+    }
 };
 
 template <class P>

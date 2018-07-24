@@ -103,7 +103,10 @@ public class ModelVisitorFiles implements CppFileCollection {
             case MESSAGE:
                 if(Helpers.terminalMessages.contains(field.getMessageType()))
                 {
-                    return line("// TODO - handle terminal message %s", field.getMessageType().getName());
+                    if(field.isRepeated()) {
+                        throw new RuntimeException(String.format("Terminal repeated messages not supported: %s", field.getMessageType().getName()));
+                    }
+                    return getTerminalMessageHandler(field);
                 }
                 else
                 {
@@ -147,6 +150,15 @@ public class ModelVisitorFiles implements CppFileCollection {
 
     private Document getPrimitiveHandler(Descriptors.FieldDescriptor field) {
         return line("visitor.handle_%s(%s);", getPrimitiveHandlerSuffix(field), Helpers.quoted(field.getName()));
+    }
+
+    private Document getTerminalMessageHandler(Descriptors.FieldDescriptor field) {
+        return line(
+                "visitor.handle_%s(%s);",
+                Helpers.cppMessageName(field.getMessageType()).replace("::", "_"),
+                Helpers.quoted(field.getName())
+
+        );
     }
 
     static String getPrimitiveHandlerSuffix(Descriptors.FieldDescriptor fieldDescriptor) {
