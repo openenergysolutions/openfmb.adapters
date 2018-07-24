@@ -296,7 +296,13 @@ void visit_commonmodule_DetailQual(const set_t<commonmodule::DetailQual>& setter
 
 void visit_commonmodule_ENS_BehaviourModeKind(const set_t<commonmodule::ENS_BehaviourModeKind>& setter, const get_t<commonmodule::ENS_BehaviourModeKind>& getter, ITypedModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
-    // TODO - create handler for message type Quality
+    visitor.handle(
+        "q",
+        MessageAccessorBuilder<loadmodule::LoadStatusProfile,commonmodule::Quality>::build(
+            [setter](loadmodule::LoadStatusProfile& profile) { return setter(profile)->mutable_q(); },
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<commonmodule::Quality>& handler) { return false; }
+        )
+    );
 
     visitor.handle(
         "stVal",
@@ -307,12 +313,24 @@ void visit_commonmodule_ENS_BehaviourModeKind(const set_t<commonmodule::ENS_Beha
         commonmodule::BehaviourModeKind_descriptor()
     );
 
-    // TODO - create handler for message type Timestamp
+    visitor.handle(
+        "t",
+        MessageAccessorBuilder<loadmodule::LoadStatusProfile,commonmodule::Timestamp>::build(
+            [setter](loadmodule::LoadStatusProfile& profile) { return setter(profile)->mutable_t(); },
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<commonmodule::Timestamp>& handler) { return false; }
+        )
+    );
 }
 
 void visit_commonmodule_ENS_DynamicTestKind(const set_t<commonmodule::ENS_DynamicTestKind>& setter, const get_t<commonmodule::ENS_DynamicTestKind>& getter, ITypedModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
-    // TODO - create handler for message type Quality
+    visitor.handle(
+        "q",
+        MessageAccessorBuilder<loadmodule::LoadStatusProfile,commonmodule::Quality>::build(
+            [setter](loadmodule::LoadStatusProfile& profile) { return setter(profile)->mutable_q(); },
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<commonmodule::Quality>& handler) { return false; }
+        )
+    );
 
     visitor.handle(
         "stVal",
@@ -323,7 +341,13 @@ void visit_commonmodule_ENS_DynamicTestKind(const set_t<commonmodule::ENS_Dynami
         commonmodule::DynamicTestKind_descriptor()
     );
 
-    // TODO - create handler for message type Timestamp
+    visitor.handle(
+        "t",
+        MessageAccessorBuilder<loadmodule::LoadStatusProfile,commonmodule::Timestamp>::build(
+            [setter](loadmodule::LoadStatusProfile& profile) { return setter(profile)->mutable_t(); },
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<commonmodule::Timestamp>& handler) { return false; }
+        )
+    );
 }
 
 void visit_commonmodule_ENS_HealthKind(const set_t<commonmodule::ENS_HealthKind>& setter, const get_t<commonmodule::ENS_HealthKind>& getter, ITypedModelVisitor<loadmodule::LoadStatusProfile>& visitor)
@@ -643,7 +667,13 @@ void visit_commonmodule_MessageInfo(const set_t<commonmodule::MessageInfo>& sett
         visitor.end_message_field();
     }
 
-    // TODO - create handler for message type Timestamp
+    visitor.handle(
+        "messageTimeStamp",
+        MessageAccessorBuilder<loadmodule::LoadStatusProfile,commonmodule::Timestamp>::build(
+            [setter](loadmodule::LoadStatusProfile& profile) { return setter(profile)->mutable_messagetimestamp(); },
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<commonmodule::Timestamp>& handler) { return false; }
+        )
+    );
 }
 
 void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& setter, const get_t<commonmodule::NamedObject>& getter, ITypedModelVisitor<loadmodule::LoadStatusProfile>& visitor)
@@ -837,7 +867,13 @@ void visit_commonmodule_StatusMessageInfo(const set_t<commonmodule::StatusMessag
 
 void visit_commonmodule_StatusSPS(const set_t<commonmodule::StatusSPS>& setter, const get_t<commonmodule::StatusSPS>& getter, ITypedModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
-    // TODO - create handler for message type Quality
+    visitor.handle(
+        "q",
+        MessageAccessorBuilder<loadmodule::LoadStatusProfile,commonmodule::Quality>::build(
+            [setter](loadmodule::LoadStatusProfile& profile) { return setter(profile)->mutable_q(); },
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<commonmodule::Quality>& handler) { return false; }
+        )
+    );
 
     visitor.handle(
         "stVal",
@@ -847,7 +883,13 @@ void visit_commonmodule_StatusSPS(const set_t<commonmodule::StatusSPS>& setter, 
         )
     );
 
-    // TODO - create handler for message type Timestamp
+    visitor.handle(
+        "t",
+        MessageAccessorBuilder<loadmodule::LoadStatusProfile,commonmodule::Timestamp>::build(
+            [setter](loadmodule::LoadStatusProfile& profile) { return setter(profile)->mutable_t(); },
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<commonmodule::Timestamp>& handler) { return false; }
+        )
+    );
 }
 
 void visit_commonmodule_StatusValue(const set_t<commonmodule::StatusValue>& setter, const get_t<commonmodule::StatusValue>& getter, ITypedModelVisitor<loadmodule::LoadStatusProfile>& visitor)

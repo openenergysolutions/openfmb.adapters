@@ -704,7 +704,13 @@ void visit_commonmodule_MessageInfo(const set_t<commonmodule::MessageInfo>& sett
         visitor.end_message_field();
     }
 
-    // TODO - create handler for message type Timestamp
+    visitor.handle(
+        "messageTimeStamp",
+        MessageAccessorBuilder<essmodule::ESSControlProfile,commonmodule::Timestamp>::build(
+            [setter](essmodule::ESSControlProfile& profile) { return setter(profile)->mutable_messagetimestamp(); },
+            [getter](const essmodule::ESSControlProfile& profile, const handler_t<commonmodule::Timestamp>& handler) { return false; }
+        )
+    );
 }
 
 void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& setter, const get_t<commonmodule::NamedObject>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor)
@@ -1103,7 +1109,13 @@ void visit_commonmodule_ScheduleCSG(const set_t<commonmodule::ScheduleCSG>& sett
 
 void visit_commonmodule_SchedulePoint(const set_t<commonmodule::SchedulePoint>& setter, const get_t<commonmodule::SchedulePoint>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor)
 {
-    // TODO - create handler for message type ControlTimestamp
+    visitor.handle(
+        "xVal",
+        MessageAccessorBuilder<essmodule::ESSControlProfile,commonmodule::ControlTimestamp>::build(
+            [setter](essmodule::ESSControlProfile& profile) { return setter(profile)->mutable_xval(); },
+            [getter](const essmodule::ESSControlProfile& profile, const handler_t<commonmodule::ControlTimestamp>& handler) { return false; }
+        )
+    );
 
     visitor.handle(
         "yVal",
@@ -1792,7 +1804,13 @@ void visit_essmodule_ESSPoint(const set_t<essmodule::ESSPoint>& setter, const ge
         visitor.end_message_field();
     }
 
-    // TODO - create handler for message type ControlTimestamp
+    visitor.handle(
+        "xVal",
+        MessageAccessorBuilder<essmodule::ESSControlProfile,commonmodule::ControlTimestamp>::build(
+            [setter](essmodule::ESSControlProfile& profile) { return setter(profile)->mutable_xval(); },
+            [getter](const essmodule::ESSControlProfile& profile, const handler_t<commonmodule::ControlTimestamp>& handler) { return false; }
+        )
+    );
 }
 
 void visit_essmodule_EssControlFSCC(const set_t<essmodule::EssControlFSCC>& setter, const get_t<essmodule::EssControlFSCC>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor)

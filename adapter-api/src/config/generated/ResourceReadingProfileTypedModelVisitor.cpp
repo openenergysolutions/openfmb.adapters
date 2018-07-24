@@ -331,9 +331,21 @@ void visit_commonmodule_BCR(const set_t<commonmodule::BCR>& setter, const get_t<
         )
     );
 
-    // TODO - create handler for message type Quality
+    visitor.handle(
+        "q",
+        MessageAccessorBuilder<resourcemodule::ResourceReadingProfile,commonmodule::Quality>::build(
+            [setter](resourcemodule::ResourceReadingProfile& profile) { return setter(profile)->mutable_q(); },
+            [getter](const resourcemodule::ResourceReadingProfile& profile, const handler_t<commonmodule::Quality>& handler) { return false; }
+        )
+    );
 
-    // TODO - create handler for message type Timestamp
+    visitor.handle(
+        "t",
+        MessageAccessorBuilder<resourcemodule::ResourceReadingProfile,commonmodule::Timestamp>::build(
+            [setter](resourcemodule::ResourceReadingProfile& profile) { return setter(profile)->mutable_t(); },
+            [getter](const resourcemodule::ResourceReadingProfile& profile, const handler_t<commonmodule::Timestamp>& handler) { return false; }
+        )
+    );
 
     visitor.handle(
         "units",
@@ -371,9 +383,21 @@ void visit_commonmodule_CMV(const set_t<commonmodule::CMV>& setter, const get_t<
         visitor.end_message_field();
     }
 
-    // TODO - create handler for message type Quality
+    visitor.handle(
+        "q",
+        MessageAccessorBuilder<resourcemodule::ResourceReadingProfile,commonmodule::Quality>::build(
+            [setter](resourcemodule::ResourceReadingProfile& profile) { return setter(profile)->mutable_q(); },
+            [getter](const resourcemodule::ResourceReadingProfile& profile, const handler_t<commonmodule::Quality>& handler) { return false; }
+        )
+    );
 
-    // TODO - create handler for message type Timestamp
+    visitor.handle(
+        "t",
+        MessageAccessorBuilder<resourcemodule::ResourceReadingProfile,commonmodule::Timestamp>::build(
+            [setter](resourcemodule::ResourceReadingProfile& profile) { return setter(profile)->mutable_t(); },
+            [getter](const resourcemodule::ResourceReadingProfile& profile, const handler_t<commonmodule::Timestamp>& handler) { return false; }
+        )
+    );
 
     if(visitor.start_message_field("units", commonmodule::Unit::descriptor()))
     {
@@ -783,9 +807,21 @@ void visit_commonmodule_MV(const set_t<commonmodule::MV>& setter, const get_t<co
         visitor.end_message_field();
     }
 
-    // TODO - create handler for message type Quality
+    visitor.handle(
+        "q",
+        MessageAccessorBuilder<resourcemodule::ResourceReadingProfile,commonmodule::Quality>::build(
+            [setter](resourcemodule::ResourceReadingProfile& profile) { return setter(profile)->mutable_q(); },
+            [getter](const resourcemodule::ResourceReadingProfile& profile, const handler_t<commonmodule::Quality>& handler) { return false; }
+        )
+    );
 
-    // TODO - create handler for message type Timestamp
+    visitor.handle(
+        "t",
+        MessageAccessorBuilder<resourcemodule::ResourceReadingProfile,commonmodule::Timestamp>::build(
+            [setter](resourcemodule::ResourceReadingProfile& profile) { return setter(profile)->mutable_t(); },
+            [getter](const resourcemodule::ResourceReadingProfile& profile, const handler_t<commonmodule::Timestamp>& handler) { return false; }
+        )
+    );
 
     if(visitor.start_message_field("units", commonmodule::Unit::descriptor()))
     {
@@ -838,7 +874,13 @@ void visit_commonmodule_MessageInfo(const set_t<commonmodule::MessageInfo>& sett
         visitor.end_message_field();
     }
 
-    // TODO - create handler for message type Timestamp
+    visitor.handle(
+        "messageTimeStamp",
+        MessageAccessorBuilder<resourcemodule::ResourceReadingProfile,commonmodule::Timestamp>::build(
+            [setter](resourcemodule::ResourceReadingProfile& profile) { return setter(profile)->mutable_messagetimestamp(); },
+            [getter](const resourcemodule::ResourceReadingProfile& profile, const handler_t<commonmodule::Timestamp>& handler) { return false; }
+        )
+    );
 }
 
 void visit_commonmodule_Meter(const set_t<commonmodule::Meter>& setter, const get_t<commonmodule::Meter>& getter, ITypedModelVisitor<resourcemodule::ResourceReadingProfile>& visitor)

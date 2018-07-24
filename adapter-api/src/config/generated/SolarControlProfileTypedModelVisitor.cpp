@@ -673,7 +673,13 @@ void visit_commonmodule_MessageInfo(const set_t<commonmodule::MessageInfo>& sett
         visitor.end_message_field();
     }
 
-    // TODO - create handler for message type Timestamp
+    visitor.handle(
+        "messageTimeStamp",
+        MessageAccessorBuilder<solarmodule::SolarControlProfile,commonmodule::Timestamp>::build(
+            [setter](solarmodule::SolarControlProfile& profile) { return setter(profile)->mutable_messagetimestamp(); },
+            [getter](const solarmodule::SolarControlProfile& profile, const handler_t<commonmodule::Timestamp>& handler) { return false; }
+        )
+    );
 }
 
 void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& setter, const get_t<commonmodule::NamedObject>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor)
@@ -1072,7 +1078,13 @@ void visit_commonmodule_ScheduleCSG(const set_t<commonmodule::ScheduleCSG>& sett
 
 void visit_commonmodule_SchedulePoint(const set_t<commonmodule::SchedulePoint>& setter, const get_t<commonmodule::SchedulePoint>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor)
 {
-    // TODO - create handler for message type ControlTimestamp
+    visitor.handle(
+        "xVal",
+        MessageAccessorBuilder<solarmodule::SolarControlProfile,commonmodule::ControlTimestamp>::build(
+            [setter](solarmodule::SolarControlProfile& profile) { return setter(profile)->mutable_xval(); },
+            [getter](const solarmodule::SolarControlProfile& profile, const handler_t<commonmodule::ControlTimestamp>& handler) { return false; }
+        )
+    );
 
     visitor.handle(
         "yVal",
@@ -1659,7 +1671,13 @@ void visit_solarmodule_SolarPoint(const set_t<solarmodule::SolarPoint>& setter, 
         visitor.end_message_field();
     }
 
-    // TODO - create handler for message type ControlTimestamp
+    visitor.handle(
+        "xVal",
+        MessageAccessorBuilder<solarmodule::SolarControlProfile,commonmodule::ControlTimestamp>::build(
+            [setter](solarmodule::SolarControlProfile& profile) { return setter(profile)->mutable_xval(); },
+            [getter](const solarmodule::SolarControlProfile& profile, const handler_t<commonmodule::ControlTimestamp>& handler) { return false; }
+        )
+    );
 }
 
 } // end namespace adapter

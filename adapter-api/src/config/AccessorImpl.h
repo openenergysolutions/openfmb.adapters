@@ -7,7 +7,7 @@
 namespace adapter {
 
 template <class P, class V, class Setter, class Getter>
-class AccessorImpl : public IAccessor<P, V> {
+class AccessorImpl final : public IAccessor<P, V> {
     const Setter setter;
     const Getter getter;
 
@@ -36,6 +36,40 @@ struct AccessorBuilder {
     static accessor_t<P, V> build(const Setter& setter, const Getter& getter)
     {
         return std::make_shared<AccessorImpl<P, V, Setter, Getter>>(setter, getter);
+    }
+};
+
+template <class P, class V, class Setter, class Getter>
+class MessageAccessorImpl final : public IMessageAccessor<P, V> {
+
+    const Setter setter;
+    const Getter getter;
+
+public:
+    MessageAccessorImpl(const Setter& setter, const Getter& getter)
+        : setter(setter)
+        , getter(getter)
+    {
+    }
+
+    V* mutable_get(P& message) const override
+    {
+        return this->setter(message);
+    }
+
+    bool if_present(const P& message, const handler_t<V>& handler) const override
+    {
+        return this->getter(message, handler);
+    }
+};
+
+template <class P, class V>
+struct MessageAccessorBuilder {
+
+    template <class Setter, class Getter>
+    static message_accessor_t<P, V> build(const Setter& setter, const Getter& getter)
+    {
+        return std::make_shared<MessageAccessorImpl<P, V, Setter, Getter>>(setter, getter);
     }
 };
 }

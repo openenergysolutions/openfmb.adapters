@@ -686,7 +686,13 @@ void visit_commonmodule_MessageInfo(const set_t<commonmodule::MessageInfo>& sett
         visitor.end_message_field();
     }
 
-    // TODO - create handler for message type Timestamp
+    visitor.handle(
+        "messageTimeStamp",
+        MessageAccessorBuilder<loadmodule::LoadControlProfile,commonmodule::Timestamp>::build(
+            [setter](loadmodule::LoadControlProfile& profile) { return setter(profile)->mutable_messagetimestamp(); },
+            [getter](const loadmodule::LoadControlProfile& profile, const handler_t<commonmodule::Timestamp>& handler) { return false; }
+        )
+    );
 }
 
 void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& setter, const get_t<commonmodule::NamedObject>& getter, ITypedModelVisitor<loadmodule::LoadControlProfile>& visitor)
@@ -1085,7 +1091,13 @@ void visit_commonmodule_ScheduleCSG(const set_t<commonmodule::ScheduleCSG>& sett
 
 void visit_commonmodule_SchedulePoint(const set_t<commonmodule::SchedulePoint>& setter, const get_t<commonmodule::SchedulePoint>& getter, ITypedModelVisitor<loadmodule::LoadControlProfile>& visitor)
 {
-    // TODO - create handler for message type ControlTimestamp
+    visitor.handle(
+        "xVal",
+        MessageAccessorBuilder<loadmodule::LoadControlProfile,commonmodule::ControlTimestamp>::build(
+            [setter](loadmodule::LoadControlProfile& profile) { return setter(profile)->mutable_xval(); },
+            [getter](const loadmodule::LoadControlProfile& profile, const handler_t<commonmodule::ControlTimestamp>& handler) { return false; }
+        )
+    );
 
     visitor.handle(
         "yVal",
@@ -1525,7 +1537,13 @@ void visit_loadmodule_LoadPoint(const set_t<loadmodule::LoadPoint>& setter, cons
         visitor.end_message_field();
     }
 
-    // TODO - create handler for message type ControlTimestamp
+    visitor.handle(
+        "xVal",
+        MessageAccessorBuilder<loadmodule::LoadControlProfile,commonmodule::ControlTimestamp>::build(
+            [setter](loadmodule::LoadControlProfile& profile) { return setter(profile)->mutable_xval(); },
+            [getter](const loadmodule::LoadControlProfile& profile, const handler_t<commonmodule::ControlTimestamp>& handler) { return false; }
+        )
+    );
 }
 
 } // end namespace adapter

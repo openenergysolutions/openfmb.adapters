@@ -528,7 +528,13 @@ void visit_commonmodule_MessageInfo(const set_t<commonmodule::MessageInfo>& sett
         visitor.end_message_field();
     }
 
-    // TODO - create handler for message type Timestamp
+    visitor.handle(
+        "messageTimeStamp",
+        MessageAccessorBuilder<switchmodule::SwitchControlProfile,commonmodule::Timestamp>::build(
+            [setter](switchmodule::SwitchControlProfile& profile) { return setter(profile)->mutable_messagetimestamp(); },
+            [getter](const switchmodule::SwitchControlProfile& profile, const handler_t<commonmodule::Timestamp>& handler) { return false; }
+        )
+    );
 }
 
 void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& setter, const get_t<commonmodule::NamedObject>& getter, ITypedModelVisitor<switchmodule::SwitchControlProfile>& visitor)
@@ -886,7 +892,13 @@ void visit_switchmodule_SwitchPoint(const set_t<switchmodule::SwitchPoint>& sett
         visitor.end_message_field();
     }
 
-    // TODO - create handler for message type ControlTimestamp
+    visitor.handle(
+        "xVal",
+        MessageAccessorBuilder<switchmodule::SwitchControlProfile,commonmodule::ControlTimestamp>::build(
+            [setter](switchmodule::SwitchControlProfile& profile) { return setter(profile)->mutable_xval(); },
+            [getter](const switchmodule::SwitchControlProfile& profile, const handler_t<commonmodule::ControlTimestamp>& handler) { return false; }
+        )
+    );
 }
 
 } // end namespace adapter

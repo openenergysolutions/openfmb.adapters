@@ -40,6 +40,31 @@ public:
 
 template <class P, class V>
 using accessor_t = std::shared_ptr<IAccessor<P, V>>;
+
+template <class P, class V>
+class IMessageAccessor {
+public:
+    virtual ~IMessageAccessor() = default;
+
+    /**
+     * A getter that may mutate the value in order to create the return type.
+     *
+     * @param message The message on which to obtain or create the mutable value
+     * @return The obtained or created value to be mutated
+     */
+    virtual V* mutable_get(P& message) const = 0;
+
+    /**
+     * A safe accessor that only invokes a handler if the value is present
+     *
+     * @param message
+     * @param handler
+     */
+    virtual bool if_present(const P& message, const handler_t<V>& handler) const = 0;
+};
+
+template <class P, class V>
+using message_accessor_t = std::shared_ptr<IMessageAccessor<P, V>>;
 }
 
 #endif
