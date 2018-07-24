@@ -135,7 +135,7 @@ void ConfigWriteVisitorBase::handle_string(const std::string& field_name)
     case (StringFieldType::Value::optional_const_uuid):
     case (StringFieldType::Value::primary_uuid):
     case (StringFieldType::Value::optional_string):
-        out << YAML::Key << field_name << YAML::Value << "";
+        out << YAML::Key << keys::value << YAML::Value << "";
         break;
     default:
         break;

@@ -75,7 +75,7 @@ set(API_SOURCES
 	src/config/generated/LoadReadingProfileTypedModelVisitor.cpp
 	src/config/generated/LoadStatusProfileTypedModelVisitor.cpp
 	src/config/generated/LoadControlProfileTypedModelVisitor.cpp
-)
+		)
 
 
 # directories to be automatically formatted by astyle

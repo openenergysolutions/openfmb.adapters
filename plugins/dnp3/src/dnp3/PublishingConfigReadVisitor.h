@@ -6,7 +6,6 @@
 #include "adapter-api/config/PublishingConfigReadVisitorBase.h"
 
 #include "IPublishConfigBuilder.h"
-#include "InputType.h"
 
 #include <cstdint>
 #include <deque>
@@ -16,6 +15,7 @@
 
 namespace adapter {
 namespace dnp3 {
+    /*
     template <class T>
     class PublishingConfigReadVisitor final : public PublishingConfigReadVisitorBase<T> {
         const std::shared_ptr<T> profile = std::make_shared<T>();
@@ -278,6 +278,7 @@ namespace dnp3 {
             });
         }
     };
+     */
 }
 }
 
