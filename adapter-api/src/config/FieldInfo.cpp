@@ -340,5 +340,83 @@ namespace fields {
 
         return find_mapping_or_throw(map, field_name, path);
     }
+
+    TimestampFieldType::Value get_timestamp_type(const std::string& field_name, IDescriptorPath& path)
+    {
+        // clang-format off
+        const static field_map_t<TimestampFieldType::Value> map = {
+                {
+                        keys::messageTimeStamp,
+                        {
+                                {
+                                        [](IDescriptorPath& path) -> bool {
+                                            // this is the optional zVal inside of a schedule point
+                                            return path.has_parents({ commonmodule::MessageInfo::descriptor() });
+                                        },
+                                        TimestampFieldType::Value::message_timestamp
+                                }
+                        }
+
+                },
+                {
+                        keys::t,
+                        {
+                                {
+                                        [](IDescriptorPath& path) -> bool {
+                                            // this is the optional zVal inside of a schedule point
+                                            return path.has_parents({ commonmodule::BCR::descriptor() });
+                                        },
+                                        TimestampFieldType::Value::ignored_timestamp
+                                },
+                                {
+                                        [](IDescriptorPath& path) -> bool {
+                                            // this is the optional zVal inside of a schedule point
+                                            return path.has_parents({ commonmodule::CMV::descriptor() });
+                                        },
+                                        TimestampFieldType::Value::ignored_timestamp
+                                },
+                                {
+                                        [](IDescriptorPath& path) -> bool {
+                                            // this is the optional zVal inside of a schedule point
+                                            return path.has_parents({ commonmodule::MV::descriptor() });
+                                        },
+                                        TimestampFieldType::Value::ignored_timestamp
+                                },
+                                {
+                                        [](IDescriptorPath& path) -> bool {
+                                            // this is the optional zVal inside of a schedule point
+                                            return path.has_parents({ commonmodule::ENS_BehaviourModeKind::descriptor() });
+                                        },
+                                        TimestampFieldType::Value::ignored_timestamp
+                                },
+                                {
+                                        [](IDescriptorPath& path) -> bool {
+                                            // this is the optional zVal inside of a schedule point
+                                            return path.has_parents({ commonmodule::ENS_DynamicTestKind::descriptor() });
+                                        },
+                                        TimestampFieldType::Value::ignored_timestamp
+                                },
+                                {
+                                        [](IDescriptorPath& path) -> bool {
+                                            // this is the optional zVal inside of a schedule point
+                                            return path.has_parents({ commonmodule::StatusDPS::descriptor() });
+                                        },
+                                        TimestampFieldType::Value::ignored_timestamp
+                                },
+                                {
+                                        [](IDescriptorPath& path) -> bool {
+                                            // this is the optional zVal inside of a schedule point
+                                            return path.has_parents({ commonmodule::StatusSPS::descriptor() });
+                                        },
+                                        TimestampFieldType::Value::ignored_timestamp
+                                }
+                        }
+
+                }
+        };
+        // clang-format on
+
+        return find_mapping_or_throw(map, field_name, path);
+    }
 }
 }

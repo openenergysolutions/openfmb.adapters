@@ -48,6 +48,14 @@ public class Enumerations {
                 )
         );
 
+        private final static Enumeration timestampFieldType = new Enumeration(
+                "TimestampFieldType",
+                Arrays.asList(
+                        Enumeration.entry("message_timestamp", "the main timestamp for the message"),
+                        Enumeration.entry("ignored_timestamp", "the timestamp is ignored in this configuration")
+                )
+        );
+
         private static List<Enumeration> enums() {
             return Arrays.asList(
                     getBasicFieldType("Int32"),
@@ -55,7 +63,8 @@ public class Enumerations {
                     getBasicFieldType("Float"),
                     getBasicFieldType("Bool"),
                     stringFieldType,
-                    enumFieldType
+                    enumFieldType,
+                    timestampFieldType
             );
         }
 

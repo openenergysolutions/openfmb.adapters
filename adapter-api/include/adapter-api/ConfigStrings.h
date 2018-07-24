@@ -36,6 +36,8 @@ namespace keys {
     constexpr const char* const synchroCheck = "synchroCheck";
     constexpr const char* const controlScheduleFSCH = "controlScheduleFSCH";
     constexpr const char* const ValACSG = "ValACSG";
+    constexpr const char* const messageTimeStamp = "messageTimeStamp";
+    constexpr const char* const t = "t";
 }
 }
 

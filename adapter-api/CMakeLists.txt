@@ -37,6 +37,7 @@ set(API_HEADERS
 	include/adapter-api/config/generated/FloatFieldType.h
 	include/adapter-api/config/generated/EnumFieldType.h
 	include/adapter-api/config/generated/StringFieldType.h
+	include/adapter-api/config/generated/TimestampFieldType.h
     include/adapter-api/config/generated/MessageVisitors.h
 	include/adapter-api/config/generated/ModelVisitors.h
 	include/adapter-api/config/generated/TypedModelVisitors.h
@@ -59,6 +60,7 @@ set(API_SOURCES
 	src/config/generated/FloatFieldType.cpp
 	src/config/generated/EnumFieldType.cpp
 	src/config/generated/StringFieldType.cpp
+	src/config/generated/TimestampFieldType.cpp
 	src/config/generated/MessageVisitors.cpp
 	src/config/generated/ModelVisitors.cpp
 # typed model visitors
