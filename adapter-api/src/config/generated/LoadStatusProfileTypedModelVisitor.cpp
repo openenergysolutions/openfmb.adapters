@@ -211,7 +211,13 @@ void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::Conducting
         "mRID",
         AccessorBuilder<loadmodule::LoadStatusProfile,std::string>::build(
             [setter](loadmodule::LoadStatusProfile& profile, const std::string& value) { setter(profile)->set_mrid(value); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<std::string>& handler) { return false; }
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<std::string>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->mrid());
+                return true;
+            }
         )
     );
 }
@@ -222,7 +228,13 @@ void visit_commonmodule_ControlDPC(const set_t<commonmodule::ControlDPC>& setter
         "ctlVal",
         AccessorBuilder<loadmodule::LoadStatusProfile,bool>::build(
             [setter](loadmodule::LoadStatusProfile& profile, const bool& value) { setter(profile)->set_ctlval(value); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->ctlval());
+                return true;
+            }
         )
     );
 }
@@ -233,7 +245,13 @@ void visit_commonmodule_DetailQual(const set_t<commonmodule::DetailQual>& setter
         "badReference",
         AccessorBuilder<loadmodule::LoadStatusProfile,bool>::build(
             [setter](loadmodule::LoadStatusProfile& profile, const bool& value) { setter(profile)->set_badreference(value); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->badreference());
+                return true;
+            }
         )
     );
 
@@ -241,7 +259,13 @@ void visit_commonmodule_DetailQual(const set_t<commonmodule::DetailQual>& setter
         "failure",
         AccessorBuilder<loadmodule::LoadStatusProfile,bool>::build(
             [setter](loadmodule::LoadStatusProfile& profile, const bool& value) { setter(profile)->set_failure(value); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->failure());
+                return true;
+            }
         )
     );
 
@@ -249,7 +273,13 @@ void visit_commonmodule_DetailQual(const set_t<commonmodule::DetailQual>& setter
         "inaccurate",
         AccessorBuilder<loadmodule::LoadStatusProfile,bool>::build(
             [setter](loadmodule::LoadStatusProfile& profile, const bool& value) { setter(profile)->set_inaccurate(value); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->inaccurate());
+                return true;
+            }
         )
     );
 
@@ -257,7 +287,13 @@ void visit_commonmodule_DetailQual(const set_t<commonmodule::DetailQual>& setter
         "inconsistent",
         AccessorBuilder<loadmodule::LoadStatusProfile,bool>::build(
             [setter](loadmodule::LoadStatusProfile& profile, const bool& value) { setter(profile)->set_inconsistent(value); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->inconsistent());
+                return true;
+            }
         )
     );
 
@@ -265,7 +301,13 @@ void visit_commonmodule_DetailQual(const set_t<commonmodule::DetailQual>& setter
         "oldData",
         AccessorBuilder<loadmodule::LoadStatusProfile,bool>::build(
             [setter](loadmodule::LoadStatusProfile& profile, const bool& value) { setter(profile)->set_olddata(value); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->olddata());
+                return true;
+            }
         )
     );
 
@@ -273,7 +315,13 @@ void visit_commonmodule_DetailQual(const set_t<commonmodule::DetailQual>& setter
         "oscillatory",
         AccessorBuilder<loadmodule::LoadStatusProfile,bool>::build(
             [setter](loadmodule::LoadStatusProfile& profile, const bool& value) { setter(profile)->set_oscillatory(value); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->oscillatory());
+                return true;
+            }
         )
     );
 
@@ -281,7 +329,13 @@ void visit_commonmodule_DetailQual(const set_t<commonmodule::DetailQual>& setter
         "outOfRange",
         AccessorBuilder<loadmodule::LoadStatusProfile,bool>::build(
             [setter](loadmodule::LoadStatusProfile& profile, const bool& value) { setter(profile)->set_outofrange(value); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->outofrange());
+                return true;
+            }
         )
     );
 
@@ -289,7 +343,13 @@ void visit_commonmodule_DetailQual(const set_t<commonmodule::DetailQual>& setter
         "overflow",
         AccessorBuilder<loadmodule::LoadStatusProfile,bool>::build(
             [setter](loadmodule::LoadStatusProfile& profile, const bool& value) { setter(profile)->set_overflow(value); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->overflow());
+                return true;
+            }
         )
     );
 }
@@ -300,7 +360,13 @@ void visit_commonmodule_ENS_BehaviourModeKind(const set_t<commonmodule::ENS_Beha
         "q",
         MessageAccessorBuilder<loadmodule::LoadStatusProfile,commonmodule::Quality>::build(
             [setter](loadmodule::LoadStatusProfile& profile) { return setter(profile)->mutable_q(); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<commonmodule::Quality>& handler) { return false; }
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<commonmodule::Quality>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent || !parent->has_q()) return false;
+                handler(parent->q());
+                return true;
+            }
         )
     );
 
@@ -308,7 +374,13 @@ void visit_commonmodule_ENS_BehaviourModeKind(const set_t<commonmodule::ENS_Beha
         "stVal",
         AccessorBuilder<loadmodule::LoadStatusProfile,int>::build(
             [setter](loadmodule::LoadStatusProfile& profile, const int& value) { setter(profile)->set_stval(static_cast<commonmodule::BehaviourModeKind>(value)); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<int>& handler) { return false; }
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<int>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->stval());
+                return true;
+            }
         ),
         commonmodule::BehaviourModeKind_descriptor()
     );
@@ -317,7 +389,13 @@ void visit_commonmodule_ENS_BehaviourModeKind(const set_t<commonmodule::ENS_Beha
         "t",
         MessageAccessorBuilder<loadmodule::LoadStatusProfile,commonmodule::Timestamp>::build(
             [setter](loadmodule::LoadStatusProfile& profile) { return setter(profile)->mutable_t(); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<commonmodule::Timestamp>& handler) { return false; }
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<commonmodule::Timestamp>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent || !parent->has_t()) return false;
+                handler(parent->t());
+                return true;
+            }
         )
     );
 }
@@ -328,7 +406,13 @@ void visit_commonmodule_ENS_DynamicTestKind(const set_t<commonmodule::ENS_Dynami
         "q",
         MessageAccessorBuilder<loadmodule::LoadStatusProfile,commonmodule::Quality>::build(
             [setter](loadmodule::LoadStatusProfile& profile) { return setter(profile)->mutable_q(); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<commonmodule::Quality>& handler) { return false; }
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<commonmodule::Quality>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent || !parent->has_q()) return false;
+                handler(parent->q());
+                return true;
+            }
         )
     );
 
@@ -336,7 +420,13 @@ void visit_commonmodule_ENS_DynamicTestKind(const set_t<commonmodule::ENS_Dynami
         "stVal",
         AccessorBuilder<loadmodule::LoadStatusProfile,int>::build(
             [setter](loadmodule::LoadStatusProfile& profile, const int& value) { setter(profile)->set_stval(static_cast<commonmodule::DynamicTestKind>(value)); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<int>& handler) { return false; }
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<int>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->stval());
+                return true;
+            }
         ),
         commonmodule::DynamicTestKind_descriptor()
     );
@@ -345,7 +435,13 @@ void visit_commonmodule_ENS_DynamicTestKind(const set_t<commonmodule::ENS_Dynami
         "t",
         MessageAccessorBuilder<loadmodule::LoadStatusProfile,commonmodule::Timestamp>::build(
             [setter](loadmodule::LoadStatusProfile& profile) { return setter(profile)->mutable_t(); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<commonmodule::Timestamp>& handler) { return false; }
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<commonmodule::Timestamp>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent || !parent->has_t()) return false;
+                handler(parent->t());
+                return true;
+            }
         )
     );
 }
@@ -380,7 +476,13 @@ void visit_commonmodule_ENS_HealthKind(const set_t<commonmodule::ENS_HealthKind>
         "stVal",
         AccessorBuilder<loadmodule::LoadStatusProfile,int>::build(
             [setter](loadmodule::LoadStatusProfile& profile, const int& value) { setter(profile)->set_stval(static_cast<commonmodule::HealthKind>(value)); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<int>& handler) { return false; }
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<int>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->stval());
+                return true;
+            }
         ),
         commonmodule::HealthKind_descriptor()
     );
@@ -671,7 +773,13 @@ void visit_commonmodule_MessageInfo(const set_t<commonmodule::MessageInfo>& sett
         "messageTimeStamp",
         MessageAccessorBuilder<loadmodule::LoadStatusProfile,commonmodule::Timestamp>::build(
             [setter](loadmodule::LoadStatusProfile& profile) { return setter(profile)->mutable_messagetimestamp(); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<commonmodule::Timestamp>& handler) { return false; }
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<commonmodule::Timestamp>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent || !parent->has_messagetimestamp()) return false;
+                handler(parent->messagetimestamp());
+                return true;
+            }
         )
     );
 }
@@ -733,7 +841,13 @@ void visit_commonmodule_Optional_StateKind(const set_t<commonmodule::Optional_St
         "value",
         AccessorBuilder<loadmodule::LoadStatusProfile,int>::build(
             [setter](loadmodule::LoadStatusProfile& profile, const int& value) { setter(profile)->set_value(static_cast<commonmodule::StateKind>(value)); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<int>& handler) { return false; }
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<int>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->value());
+                return true;
+            }
         ),
         commonmodule::StateKind_descriptor()
     );
@@ -871,7 +985,13 @@ void visit_commonmodule_StatusSPS(const set_t<commonmodule::StatusSPS>& setter, 
         "q",
         MessageAccessorBuilder<loadmodule::LoadStatusProfile,commonmodule::Quality>::build(
             [setter](loadmodule::LoadStatusProfile& profile) { return setter(profile)->mutable_q(); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<commonmodule::Quality>& handler) { return false; }
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<commonmodule::Quality>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent || !parent->has_q()) return false;
+                handler(parent->q());
+                return true;
+            }
         )
     );
 
@@ -879,7 +999,13 @@ void visit_commonmodule_StatusSPS(const set_t<commonmodule::StatusSPS>& setter, 
         "stVal",
         AccessorBuilder<loadmodule::LoadStatusProfile,bool>::build(
             [setter](loadmodule::LoadStatusProfile& profile, const bool& value) { setter(profile)->set_stval(value); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->stval());
+                return true;
+            }
         )
     );
 
@@ -887,7 +1013,13 @@ void visit_commonmodule_StatusSPS(const set_t<commonmodule::StatusSPS>& setter, 
         "t",
         MessageAccessorBuilder<loadmodule::LoadStatusProfile,commonmodule::Timestamp>::build(
             [setter](loadmodule::LoadStatusProfile& profile) { return setter(profile)->mutable_t(); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<commonmodule::Timestamp>& handler) { return false; }
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<commonmodule::Timestamp>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent || !parent->has_t()) return false;
+                handler(parent->t());
+                return true;
+            }
         )
     );
 }
@@ -925,7 +1057,13 @@ void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& sett
         "clockFailure",
         AccessorBuilder<loadmodule::LoadStatusProfile,bool>::build(
             [setter](loadmodule::LoadStatusProfile& profile, const bool& value) { setter(profile)->set_clockfailure(value); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->clockfailure());
+                return true;
+            }
         )
     );
 
@@ -933,7 +1071,13 @@ void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& sett
         "clockNotSynchronized",
         AccessorBuilder<loadmodule::LoadStatusProfile,bool>::build(
             [setter](loadmodule::LoadStatusProfile& profile, const bool& value) { setter(profile)->set_clocknotsynchronized(value); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->clocknotsynchronized());
+                return true;
+            }
         )
     );
 
@@ -941,7 +1085,13 @@ void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& sett
         "leapSecondsKnown",
         AccessorBuilder<loadmodule::LoadStatusProfile,bool>::build(
             [setter](loadmodule::LoadStatusProfile& profile, const bool& value) { setter(profile)->set_leapsecondsknown(value); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->leapsecondsknown());
+                return true;
+            }
         )
     );
 
@@ -949,7 +1099,13 @@ void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& sett
         "timeAccuracy",
         AccessorBuilder<loadmodule::LoadStatusProfile,int>::build(
             [setter](loadmodule::LoadStatusProfile& profile, const int& value) { setter(profile)->set_timeaccuracy(static_cast<commonmodule::TimeAccuracyKind>(value)); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<int>& handler) { return false; }
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<int>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->timeaccuracy());
+                return true;
+            }
         ),
         commonmodule::TimeAccuracyKind_descriptor()
     );
@@ -961,7 +1117,13 @@ void visit_google_protobuf_FloatValue(const set_t<google::protobuf::FloatValue>&
         "value",
         AccessorBuilder<loadmodule::LoadStatusProfile,float>::build(
             [setter](loadmodule::LoadStatusProfile& profile, const float& value) { setter(profile)->set_value(value); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<float>& handler) { return false; }
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<float>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->value());
+                return true;
+            }
         )
     );
 }
@@ -972,7 +1134,13 @@ void visit_google_protobuf_StringValue(const set_t<google::protobuf::StringValue
         "value",
         AccessorBuilder<loadmodule::LoadStatusProfile,std::string>::build(
             [setter](loadmodule::LoadStatusProfile& profile, const std::string& value) { setter(profile)->set_value(value); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<std::string>& handler) { return false; }
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<std::string>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->value());
+                return true;
+            }
         )
     );
 }

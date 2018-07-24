@@ -268,7 +268,13 @@ void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::Conducting
         "mRID",
         AccessorBuilder<loadmodule::LoadControlProfile,std::string>::build(
             [setter](loadmodule::LoadControlProfile& profile, const std::string& value) { setter(profile)->set_mrid(value); },
-            [getter](const loadmodule::LoadControlProfile& profile, const handler_t<std::string>& handler) { return false; }
+            [getter](const loadmodule::LoadControlProfile& profile, const handler_t<std::string>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->mrid());
+                return true;
+            }
         )
     );
 }
@@ -279,7 +285,13 @@ void visit_commonmodule_ControlDPC(const set_t<commonmodule::ControlDPC>& setter
         "ctlVal",
         AccessorBuilder<loadmodule::LoadControlProfile,bool>::build(
             [setter](loadmodule::LoadControlProfile& profile, const bool& value) { setter(profile)->set_ctlval(value); },
-            [getter](const loadmodule::LoadControlProfile& profile, const handler_t<bool>& handler) { return false; }
+            [getter](const loadmodule::LoadControlProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->ctlval());
+                return true;
+            }
         )
     );
 }
@@ -690,7 +702,13 @@ void visit_commonmodule_MessageInfo(const set_t<commonmodule::MessageInfo>& sett
         "messageTimeStamp",
         MessageAccessorBuilder<loadmodule::LoadControlProfile,commonmodule::Timestamp>::build(
             [setter](loadmodule::LoadControlProfile& profile) { return setter(profile)->mutable_messagetimestamp(); },
-            [getter](const loadmodule::LoadControlProfile& profile, const handler_t<commonmodule::Timestamp>& handler) { return false; }
+            [getter](const loadmodule::LoadControlProfile& profile, const handler_t<commonmodule::Timestamp>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent || !parent->has_messagetimestamp()) return false;
+                handler(parent->messagetimestamp());
+                return true;
+            }
         )
     );
 }
@@ -752,7 +770,13 @@ void visit_commonmodule_Optional_StateKind(const set_t<commonmodule::Optional_St
         "value",
         AccessorBuilder<loadmodule::LoadControlProfile,int>::build(
             [setter](loadmodule::LoadControlProfile& profile, const int& value) { setter(profile)->set_value(static_cast<commonmodule::StateKind>(value)); },
-            [getter](const loadmodule::LoadControlProfile& profile, const handler_t<int>& handler) { return false; }
+            [getter](const loadmodule::LoadControlProfile& profile, const handler_t<int>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->value());
+                return true;
+            }
         ),
         commonmodule::StateKind_descriptor()
     );
@@ -1095,7 +1119,13 @@ void visit_commonmodule_SchedulePoint(const set_t<commonmodule::SchedulePoint>& 
         "xVal",
         MessageAccessorBuilder<loadmodule::LoadControlProfile,commonmodule::ControlTimestamp>::build(
             [setter](loadmodule::LoadControlProfile& profile) { return setter(profile)->mutable_xval(); },
-            [getter](const loadmodule::LoadControlProfile& profile, const handler_t<commonmodule::ControlTimestamp>& handler) { return false; }
+            [getter](const loadmodule::LoadControlProfile& profile, const handler_t<commonmodule::ControlTimestamp>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent || !parent->has_xval()) return false;
+                handler(parent->xval());
+                return true;
+            }
         )
     );
 
@@ -1103,7 +1133,13 @@ void visit_commonmodule_SchedulePoint(const set_t<commonmodule::SchedulePoint>& 
         "yVal",
         AccessorBuilder<loadmodule::LoadControlProfile,float>::build(
             [setter](loadmodule::LoadControlProfile& profile, const float& value) { setter(profile)->set_yval(value); },
-            [getter](const loadmodule::LoadControlProfile& profile, const handler_t<float>& handler) { return false; }
+            [getter](const loadmodule::LoadControlProfile& profile, const handler_t<float>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->yval());
+                return true;
+            }
         )
     );
 
@@ -1138,7 +1174,13 @@ void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& sett
         "clockFailure",
         AccessorBuilder<loadmodule::LoadControlProfile,bool>::build(
             [setter](loadmodule::LoadControlProfile& profile, const bool& value) { setter(profile)->set_clockfailure(value); },
-            [getter](const loadmodule::LoadControlProfile& profile, const handler_t<bool>& handler) { return false; }
+            [getter](const loadmodule::LoadControlProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->clockfailure());
+                return true;
+            }
         )
     );
 
@@ -1146,7 +1188,13 @@ void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& sett
         "clockNotSynchronized",
         AccessorBuilder<loadmodule::LoadControlProfile,bool>::build(
             [setter](loadmodule::LoadControlProfile& profile, const bool& value) { setter(profile)->set_clocknotsynchronized(value); },
-            [getter](const loadmodule::LoadControlProfile& profile, const handler_t<bool>& handler) { return false; }
+            [getter](const loadmodule::LoadControlProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->clocknotsynchronized());
+                return true;
+            }
         )
     );
 
@@ -1154,7 +1202,13 @@ void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& sett
         "leapSecondsKnown",
         AccessorBuilder<loadmodule::LoadControlProfile,bool>::build(
             [setter](loadmodule::LoadControlProfile& profile, const bool& value) { setter(profile)->set_leapsecondsknown(value); },
-            [getter](const loadmodule::LoadControlProfile& profile, const handler_t<bool>& handler) { return false; }
+            [getter](const loadmodule::LoadControlProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->leapsecondsknown());
+                return true;
+            }
         )
     );
 
@@ -1162,7 +1216,13 @@ void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& sett
         "timeAccuracy",
         AccessorBuilder<loadmodule::LoadControlProfile,int>::build(
             [setter](loadmodule::LoadControlProfile& profile, const int& value) { setter(profile)->set_timeaccuracy(static_cast<commonmodule::TimeAccuracyKind>(value)); },
-            [getter](const loadmodule::LoadControlProfile& profile, const handler_t<int>& handler) { return false; }
+            [getter](const loadmodule::LoadControlProfile& profile, const handler_t<int>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->timeaccuracy());
+                return true;
+            }
         ),
         commonmodule::TimeAccuracyKind_descriptor()
     );
@@ -1174,7 +1234,13 @@ void visit_commonmodule_Unit(const set_t<commonmodule::Unit>& setter, const get_
         "multiplier",
         AccessorBuilder<loadmodule::LoadControlProfile,int>::build(
             [setter](loadmodule::LoadControlProfile& profile, const int& value) { setter(profile)->set_multiplier(static_cast<commonmodule::UnitMultiplierKind>(value)); },
-            [getter](const loadmodule::LoadControlProfile& profile, const handler_t<int>& handler) { return false; }
+            [getter](const loadmodule::LoadControlProfile& profile, const handler_t<int>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->multiplier());
+                return true;
+            }
         ),
         commonmodule::UnitMultiplierKind_descriptor()
     );
@@ -1183,7 +1249,13 @@ void visit_commonmodule_Unit(const set_t<commonmodule::Unit>& setter, const get_
         "SIUnit",
         AccessorBuilder<loadmodule::LoadControlProfile,int>::build(
             [setter](loadmodule::LoadControlProfile& profile, const int& value) { setter(profile)->set_siunit(static_cast<commonmodule::UnitSymbolKind>(value)); },
-            [getter](const loadmodule::LoadControlProfile& profile, const handler_t<int>& handler) { return false; }
+            [getter](const loadmodule::LoadControlProfile& profile, const handler_t<int>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->siunit());
+                return true;
+            }
         ),
         commonmodule::UnitSymbolKind_descriptor()
     );
@@ -1195,7 +1267,13 @@ void visit_google_protobuf_BoolValue(const set_t<google::protobuf::BoolValue>& s
         "value",
         AccessorBuilder<loadmodule::LoadControlProfile,bool>::build(
             [setter](loadmodule::LoadControlProfile& profile, const bool& value) { setter(profile)->set_value(value); },
-            [getter](const loadmodule::LoadControlProfile& profile, const handler_t<bool>& handler) { return false; }
+            [getter](const loadmodule::LoadControlProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->value());
+                return true;
+            }
         )
     );
 }
@@ -1206,7 +1284,13 @@ void visit_google_protobuf_FloatValue(const set_t<google::protobuf::FloatValue>&
         "value",
         AccessorBuilder<loadmodule::LoadControlProfile,float>::build(
             [setter](loadmodule::LoadControlProfile& profile, const float& value) { setter(profile)->set_value(value); },
-            [getter](const loadmodule::LoadControlProfile& profile, const handler_t<float>& handler) { return false; }
+            [getter](const loadmodule::LoadControlProfile& profile, const handler_t<float>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->value());
+                return true;
+            }
         )
     );
 }
@@ -1217,7 +1301,13 @@ void visit_google_protobuf_StringValue(const set_t<google::protobuf::StringValue
         "value",
         AccessorBuilder<loadmodule::LoadControlProfile,std::string>::build(
             [setter](loadmodule::LoadControlProfile& profile, const std::string& value) { setter(profile)->set_value(value); },
-            [getter](const loadmodule::LoadControlProfile& profile, const handler_t<std::string>& handler) { return false; }
+            [getter](const loadmodule::LoadControlProfile& profile, const handler_t<std::string>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->value());
+                return true;
+            }
         )
     );
 }
@@ -1541,7 +1631,13 @@ void visit_loadmodule_LoadPoint(const set_t<loadmodule::LoadPoint>& setter, cons
         "xVal",
         MessageAccessorBuilder<loadmodule::LoadControlProfile,commonmodule::ControlTimestamp>::build(
             [setter](loadmodule::LoadControlProfile& profile) { return setter(profile)->mutable_xval(); },
-            [getter](const loadmodule::LoadControlProfile& profile, const handler_t<commonmodule::ControlTimestamp>& handler) { return false; }
+            [getter](const loadmodule::LoadControlProfile& profile, const handler_t<commonmodule::ControlTimestamp>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent || !parent->has_xval()) return false;
+                handler(parent->xval());
+                return true;
+            }
         )
     );
 }

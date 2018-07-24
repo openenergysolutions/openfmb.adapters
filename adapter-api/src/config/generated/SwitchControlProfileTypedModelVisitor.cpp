@@ -252,7 +252,13 @@ void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::Conducting
         "mRID",
         AccessorBuilder<switchmodule::SwitchControlProfile,std::string>::build(
             [setter](switchmodule::SwitchControlProfile& profile, const std::string& value) { setter(profile)->set_mrid(value); },
-            [getter](const switchmodule::SwitchControlProfile& profile, const handler_t<std::string>& handler) { return false; }
+            [getter](const switchmodule::SwitchControlProfile& profile, const handler_t<std::string>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->mrid());
+                return true;
+            }
         )
     );
 }
@@ -263,7 +269,13 @@ void visit_commonmodule_ControlDPC(const set_t<commonmodule::ControlDPC>& setter
         "ctlVal",
         AccessorBuilder<switchmodule::SwitchControlProfile,bool>::build(
             [setter](switchmodule::SwitchControlProfile& profile, const bool& value) { setter(profile)->set_ctlval(value); },
-            [getter](const switchmodule::SwitchControlProfile& profile, const handler_t<bool>& handler) { return false; }
+            [getter](const switchmodule::SwitchControlProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->ctlval());
+                return true;
+            }
         )
     );
 }
@@ -532,7 +544,13 @@ void visit_commonmodule_MessageInfo(const set_t<commonmodule::MessageInfo>& sett
         "messageTimeStamp",
         MessageAccessorBuilder<switchmodule::SwitchControlProfile,commonmodule::Timestamp>::build(
             [setter](switchmodule::SwitchControlProfile& profile) { return setter(profile)->mutable_messagetimestamp(); },
-            [getter](const switchmodule::SwitchControlProfile& profile, const handler_t<commonmodule::Timestamp>& handler) { return false; }
+            [getter](const switchmodule::SwitchControlProfile& profile, const handler_t<commonmodule::Timestamp>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent || !parent->has_messagetimestamp()) return false;
+                handler(parent->messagetimestamp());
+                return true;
+            }
         )
     );
 }
@@ -594,7 +612,13 @@ void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& sett
         "clockFailure",
         AccessorBuilder<switchmodule::SwitchControlProfile,bool>::build(
             [setter](switchmodule::SwitchControlProfile& profile, const bool& value) { setter(profile)->set_clockfailure(value); },
-            [getter](const switchmodule::SwitchControlProfile& profile, const handler_t<bool>& handler) { return false; }
+            [getter](const switchmodule::SwitchControlProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->clockfailure());
+                return true;
+            }
         )
     );
 
@@ -602,7 +626,13 @@ void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& sett
         "clockNotSynchronized",
         AccessorBuilder<switchmodule::SwitchControlProfile,bool>::build(
             [setter](switchmodule::SwitchControlProfile& profile, const bool& value) { setter(profile)->set_clocknotsynchronized(value); },
-            [getter](const switchmodule::SwitchControlProfile& profile, const handler_t<bool>& handler) { return false; }
+            [getter](const switchmodule::SwitchControlProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->clocknotsynchronized());
+                return true;
+            }
         )
     );
 
@@ -610,7 +640,13 @@ void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& sett
         "leapSecondsKnown",
         AccessorBuilder<switchmodule::SwitchControlProfile,bool>::build(
             [setter](switchmodule::SwitchControlProfile& profile, const bool& value) { setter(profile)->set_leapsecondsknown(value); },
-            [getter](const switchmodule::SwitchControlProfile& profile, const handler_t<bool>& handler) { return false; }
+            [getter](const switchmodule::SwitchControlProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->leapsecondsknown());
+                return true;
+            }
         )
     );
 
@@ -618,7 +654,13 @@ void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& sett
         "timeAccuracy",
         AccessorBuilder<switchmodule::SwitchControlProfile,int>::build(
             [setter](switchmodule::SwitchControlProfile& profile, const int& value) { setter(profile)->set_timeaccuracy(static_cast<commonmodule::TimeAccuracyKind>(value)); },
-            [getter](const switchmodule::SwitchControlProfile& profile, const handler_t<int>& handler) { return false; }
+            [getter](const switchmodule::SwitchControlProfile& profile, const handler_t<int>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->timeaccuracy());
+                return true;
+            }
         ),
         commonmodule::TimeAccuracyKind_descriptor()
     );
@@ -630,7 +672,13 @@ void visit_google_protobuf_BoolValue(const set_t<google::protobuf::BoolValue>& s
         "value",
         AccessorBuilder<switchmodule::SwitchControlProfile,bool>::build(
             [setter](switchmodule::SwitchControlProfile& profile, const bool& value) { setter(profile)->set_value(value); },
-            [getter](const switchmodule::SwitchControlProfile& profile, const handler_t<bool>& handler) { return false; }
+            [getter](const switchmodule::SwitchControlProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->value());
+                return true;
+            }
         )
     );
 }
@@ -641,7 +689,13 @@ void visit_google_protobuf_StringValue(const set_t<google::protobuf::StringValue
         "value",
         AccessorBuilder<switchmodule::SwitchControlProfile,std::string>::build(
             [setter](switchmodule::SwitchControlProfile& profile, const std::string& value) { setter(profile)->set_value(value); },
-            [getter](const switchmodule::SwitchControlProfile& profile, const handler_t<std::string>& handler) { return false; }
+            [getter](const switchmodule::SwitchControlProfile& profile, const handler_t<std::string>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->value());
+                return true;
+            }
         )
     );
 }
@@ -896,7 +950,13 @@ void visit_switchmodule_SwitchPoint(const set_t<switchmodule::SwitchPoint>& sett
         "xVal",
         MessageAccessorBuilder<switchmodule::SwitchControlProfile,commonmodule::ControlTimestamp>::build(
             [setter](switchmodule::SwitchControlProfile& profile) { return setter(profile)->mutable_xval(); },
-            [getter](const switchmodule::SwitchControlProfile& profile, const handler_t<commonmodule::ControlTimestamp>& handler) { return false; }
+            [getter](const switchmodule::SwitchControlProfile& profile, const handler_t<commonmodule::ControlTimestamp>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent || !parent->has_xval()) return false;
+                handler(parent->xval());
+                return true;
+            }
         )
     );
 }
