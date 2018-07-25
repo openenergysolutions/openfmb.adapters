@@ -40,8 +40,8 @@ namespace dnp3 {
     };
 
     /**
-         * Something that accepts prioritized commands
-         */
+     * Something that accepts prioritized commands
+     */
     class ICommandSink {
     public:
         virtual ~ICommandSink() = default;
@@ -50,8 +50,8 @@ namespace dnp3 {
     };
 
     /**
-         * Something that can send command actions to a sink given an instance of the prorfile
-         */
+     * Something that can send command actions to a sink given an instance of the profile
+     */
     template <class T>
     using command_action_builder_t = std::function<void(const T& profile, Logger& logger, ICommandSink& sink)>;
 

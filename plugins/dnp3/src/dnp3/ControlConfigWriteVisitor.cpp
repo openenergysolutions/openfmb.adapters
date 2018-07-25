@@ -4,7 +4,7 @@
 #include "adapter-api/ConfigStrings.h"
 
 #include "ConfigStrings.h"
-#include "ControlCodeMeta.h"
+#include "Control.h"
 #include "generated/SourceType.h"
 
 namespace adapter {
@@ -57,15 +57,12 @@ namespace dnp3 {
     {
         out << YAML::BeginMap;
 
-        out << YAML::Key << keys::index << YAML::Value << index;
-        out << YAML::Key << keys::g12v1;
+        const Control control{
+            index,
+            opendnp3::ControlRelayOutputBlock(code, 1, 1000, 1000)
+        };
 
-        out << YAML::BeginMap;
-        out << YAML::Key << keys::control_code << YAML::Value << ControlCodeMeta::to_string(code);
-        out << YAML::Key << keys::count << YAML::Value << 1;
-        out << YAML::Key << keys::on_time_ms << YAML::Value << 1000;
-        out << YAML::Key << keys::off_time_ms << YAML::Value << 1000;
-        out << YAML::EndMap;
+        Control::write(control, out);
 
         out << YAML::EndMap;
     }
