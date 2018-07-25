@@ -95,9 +95,11 @@ namespace dnp3 {
         yaml::foreach (
             profiles,
             [&](const YAML::Node& node) {
+                const auto mapping = yaml::require(node, keys::mapping);
+
                 ProfileRegistry::handle_by_name<ProfileReader>(
                     yaml::require_string(node, ::adapter::keys::name),
-                    node,
+                    mapping,
                     logger,
                     bus,
                     handler,
