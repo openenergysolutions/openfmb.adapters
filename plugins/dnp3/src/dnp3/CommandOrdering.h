@@ -4,7 +4,7 @@
 
 #include "generated/CommandType.h"
 #include <cstdint>
-#include <yaml-cpp/node/node.h>
+#include <yaml-cpp/yaml.h>
 
 namespace adapter {
 namespace dnp3 {
@@ -21,6 +21,9 @@ namespace dnp3 {
 
         static CommandOrdering read(const YAML::Node& node);
         static std::vector<CommandOrdering> read_sequence(const YAML::Node& node);
+
+        static void write(const CommandOrdering& ordering, YAML::Emitter& out);
+        static void write(const std::initializer_list<CommandOrdering>& orderings, YAML::Emitter& out);
     };
 }
 }

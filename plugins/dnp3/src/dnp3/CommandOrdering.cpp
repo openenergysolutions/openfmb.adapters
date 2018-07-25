@@ -1,5 +1,6 @@
 
 #include "CommandOrdering.h"
+#include <adapter-api/ConfigStrings.h>
 
 #include "adapter-api/config/YAMLGetters.h"
 #include "adapter-api/util/YAMLUtil.h"
@@ -42,6 +43,25 @@ namespace dnp3 {
             [&list](const YAML::Node& node) { list.push_back(read(node)); });
 
         return std::move(list);
+    }
+
+    void CommandOrdering::write(const CommandOrdering& ordering, YAML::Emitter& out)
+    {
+        out << YAML::Key << ::adapter::keys::index << YAML::Value << ordering.index;
+        out << YAML::Key << CommandType::label << YAML::Value << CommandType::to_string(ordering.type);
+    }
+
+    void CommandOrdering::write(const std::initializer_list<CommandOrdering>& orderings, YAML::Emitter& out)
+    {
+        out << YAML::BeginSeq;
+
+        for (const auto& ordering : orderings) {
+            out << YAML::BeginMap;
+            write(ordering, out);
+            out << YAML::EndMap;
+        }
+
+        out << YAML::EndSeq;
     }
 }
 }

@@ -31,7 +31,7 @@ namespace dnp3 {
         constexpr const char* const profile = "profile";
         constexpr const char* const high = "high";
         constexpr const char* const low = "low";
-        constexpr const char* const priority = "priority";
+        constexpr const char* const command_order = "command-order";
         constexpr const char* const when_true_execute = "when-true-execute";
         constexpr const char* const when_false_execute = "when-false-execute";
     }

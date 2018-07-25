@@ -10,6 +10,7 @@
 #include "ControlConfigWriteVisitor.h"
 #include "MeasurementConfigWriteVisitor.h"
 
+#include "CommandOrdering.h"
 #include "ConfigStrings.h"
 #include "Plugin.h"
 
@@ -21,13 +22,32 @@ namespace dnp3 {
         static void handle(YAML::Emitter& out)
         {
             std::cout << "Generating: " << T::descriptor()->name() << std::endl;
+
+            if (profile_info<T>::is_control) {
+                out << YAML::Key << keys::command_order << YAML::Comment("order of commands - first == highest priority, last == lowest priority");
+
+                // provide an example of the two types
+                CommandOrdering::write(
+                    {
+                        { 0, CommandType::Value::crob },
+                        { 1, CommandType::Value::analog_output },
+                    },
+                    out);
+            }
+
+            out << YAML::Key << keys::mapping << YAML::Comment("profile model starts here");
+            out << YAML::BeginMap;
+
             if (profile_info<T>::is_control) {
                 ControlConfigWriteVisitor visitor(out);
                 visit<T>(visitor);
+
             } else {
                 MeasurementConfigWriteVisitor visitor(out);
                 visit<T>(visitor);
             }
+
+            out << YAML::EndMap;
         }
     };
 
@@ -35,14 +55,16 @@ namespace dnp3 {
     {
         for (const auto& profile : profiles) {
             out << YAML::BeginMap;
-            out << YAML::Key << "name" << YAML::Value << profile;
+            out << YAML::Key << keys::name << YAML::Value << profile;
 
-            out << YAML::Key << keys::mapping << YAML::Comment("profile model starts here");
-            out << YAML::BeginMap;
+            /*
+            out << YAML::Key << keys::command_priority;
+            out << YAML::BeginSeq;
+            // TODO - write an example ordering
+            out << YAML::EndSeq;
+            */
+
             ProfileRegistry::handle_by_name<WriterHandler>(profile, out);
-            out << YAML::EndMap;
-
-            out << YAML::EndMap;
         }
     }
 
