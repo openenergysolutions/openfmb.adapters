@@ -19,24 +19,24 @@
 
 namespace adapter {
 
-const char EnumFieldType::optional_const_enum[] = "optional_const_enum";
-const char EnumFieldType::mapped_enum[] = "mapped_enum";
-const char EnumFieldType::ignored_enum[] = "ignored_enum";
+const char EnumFieldType::constant[] = "constant";
+const char EnumFieldType::mapped[] = "mapped";
+const char EnumFieldType::ignored[] = "ignored";
 
 const std::array<EnumFieldType::Value, 3> EnumFieldType::values =
 {
-    EnumFieldType::Value::optional_const_enum,
-    EnumFieldType::Value::mapped_enum,
-    EnumFieldType::Value::ignored_enum,
+    EnumFieldType::Value::constant,
+    EnumFieldType::Value::mapped,
+    EnumFieldType::Value::ignored,
 };
 
 std::string EnumFieldType::to_string(EnumFieldType::Value value)
 {
     switch(value)
     {
-        case(Value::optional_const_enum): return optional_const_enum;
-        case(Value::mapped_enum): return mapped_enum;
-        default: return ignored_enum;
+        case(Value::constant): return constant;
+        case(Value::mapped): return mapped;
+        default: return ignored;
     }
 }
 
@@ -44,9 +44,9 @@ EnumFieldType::Value EnumFieldType::from_string(const std::string& name)
 {
     static const std::map<std::string, Value> map = 
     {
-        {optional_const_enum, Value::optional_const_enum},
-        {mapped_enum, Value::mapped_enum},
-        {ignored_enum, Value::ignored_enum},
+        {constant, Value::constant},
+        {mapped, Value::mapped},
+        {ignored, Value::ignored},
     };
     const auto elem = map.find(name);
     if(elem == map.end()) throw Exception("Unknown value name '", name, "' for enum EnumFieldType");

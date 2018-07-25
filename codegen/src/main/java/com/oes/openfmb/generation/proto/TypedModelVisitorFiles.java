@@ -131,7 +131,11 @@ public class TypedModelVisitorFiles implements CppFileCollection {
             case MESSAGE:
                 if(Helpers.terminalMessages.contains(field.getMessageType()))
                 {
-                    return line("// TODO - create handler for message type %s", field.getMessageType().getName());
+                    if(field.isRepeated()) {
+                        throw new RuntimeException("Terminal repeated fields not supported: " + field.getMessageType().getName());
+                    }
+
+                    return getTerminalMessageHandler(parent, field);
                 }
                 else
                 {
@@ -225,9 +229,14 @@ public class TypedModelVisitorFiles implements CppFileCollection {
                 Helpers.cppMessageName(field.getEnumType())
         );
 
-        final String getter = String.format(
-                "[getter](const %s& profile, const handler_t<int>& handler) { return false; }",
+        final Document getter = line(
+                "[getter](const %s& profile, const handler_t<int>& handler)",
                 Helpers.cppMessageName(parent)
+        ).bracket(
+            line("const auto parent = getter(profile);")
+                    .then("if(!parent) return false;")
+                    .then(line("handler(parent->%s());", field.getName().toLowerCase()))
+                    .then("return true;")
         );
 
         final Document accessor = line("AccessorBuilder<%s,int>::build(", Helpers.cppMessageName(parent))
@@ -250,10 +259,15 @@ public class TypedModelVisitorFiles implements CppFileCollection {
                 field.getName().toLowerCase()
         );
 
-        final String getter = String.format(
-                "[getter](const %s& profile, const handler_t<%s>& handler) { return false; }",
+        final Document getter = line(
+                "[getter](const %s& profile, const handler_t<%s>& handler)",
                 Helpers.cppMessageName(parent),
                 Helpers.cppType(field)
+        ).bracket(
+                line("const auto parent = getter(profile);")
+                .then("if(!parent) return false;")
+                .then(line("handler(parent->%s());", field.getName().toLowerCase()))
+                .then("return true;")
         );
 
         final Document accessor = line("AccessorBuilder<%s,%s>::build(", Helpers.cppMessageName(parent), Helpers.cppType(field))
@@ -267,4 +281,34 @@ public class TypedModelVisitorFiles implements CppFileCollection {
                 .then(");");
     }
 
+    private static Document getTerminalMessageHandler(Descriptors.Descriptor parent, Descriptors.FieldDescriptor field) {
+        final Descriptors.Descriptor child = field.getMessageType();
+
+        final String setter = String.format(
+                "[setter](%s& profile) { return setter(profile)->mutable_%s(); }",
+                Helpers.cppMessageName(parent),
+                field.getName().toLowerCase()
+        );
+
+        final Document getter = line(
+                "[getter](const %s& profile, const handler_t<%s>& handler)",
+                Helpers.cppMessageName(parent),
+                Helpers.cppMessageName(child)
+        ).bracket(
+                line("const auto parent = getter(profile);")
+                .then(line("if(!parent || !parent->has_%s()) return false;", field.getName().toLowerCase()))
+                .then(line("handler(parent->%s());", field.getName().toLowerCase()))
+                .then("return true;")
+        );
+
+        final Document accessor = line("MessageAccessorBuilder<%s,%s>::build(", Helpers.cppMessageName(parent), Helpers.cppMessageName(child))
+                .indent(setter + ",")
+                .indent(getter)
+                .then(")");
+
+        return line("visitor.handle(")
+                .indent(line("%s,", Helpers.quoted(field.getName())))
+                .indent(accessor)
+                .then(");");
+    }
 }

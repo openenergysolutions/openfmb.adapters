@@ -69,7 +69,7 @@ public:
     }
 
     void handle_commonmodule_Timestamp(const std::string &field_name) override {
-
+        adapter::fields::get_timestamp_type(field_name, path);
     }
 
     void handle_commonmodule_ControlTimestamp(const std::string &field_name) override {

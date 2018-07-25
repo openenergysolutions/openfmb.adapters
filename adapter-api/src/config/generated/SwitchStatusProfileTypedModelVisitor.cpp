@@ -199,7 +199,13 @@ void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::Conducting
         "mRID",
         AccessorBuilder<switchmodule::SwitchStatusProfile,std::string>::build(
             [setter](switchmodule::SwitchStatusProfile& profile, const std::string& value) { setter(profile)->set_mrid(value); },
-            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<std::string>& handler) { return false; }
+            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<std::string>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->mrid());
+                return true;
+            }
         )
     );
 }
@@ -210,7 +216,13 @@ void visit_commonmodule_DetailQual(const set_t<commonmodule::DetailQual>& setter
         "badReference",
         AccessorBuilder<switchmodule::SwitchStatusProfile,bool>::build(
             [setter](switchmodule::SwitchStatusProfile& profile, const bool& value) { setter(profile)->set_badreference(value); },
-            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->badreference());
+                return true;
+            }
         )
     );
 
@@ -218,7 +230,13 @@ void visit_commonmodule_DetailQual(const set_t<commonmodule::DetailQual>& setter
         "failure",
         AccessorBuilder<switchmodule::SwitchStatusProfile,bool>::build(
             [setter](switchmodule::SwitchStatusProfile& profile, const bool& value) { setter(profile)->set_failure(value); },
-            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->failure());
+                return true;
+            }
         )
     );
 
@@ -226,7 +244,13 @@ void visit_commonmodule_DetailQual(const set_t<commonmodule::DetailQual>& setter
         "inaccurate",
         AccessorBuilder<switchmodule::SwitchStatusProfile,bool>::build(
             [setter](switchmodule::SwitchStatusProfile& profile, const bool& value) { setter(profile)->set_inaccurate(value); },
-            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->inaccurate());
+                return true;
+            }
         )
     );
 
@@ -234,7 +258,13 @@ void visit_commonmodule_DetailQual(const set_t<commonmodule::DetailQual>& setter
         "inconsistent",
         AccessorBuilder<switchmodule::SwitchStatusProfile,bool>::build(
             [setter](switchmodule::SwitchStatusProfile& profile, const bool& value) { setter(profile)->set_inconsistent(value); },
-            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->inconsistent());
+                return true;
+            }
         )
     );
 
@@ -242,7 +272,13 @@ void visit_commonmodule_DetailQual(const set_t<commonmodule::DetailQual>& setter
         "oldData",
         AccessorBuilder<switchmodule::SwitchStatusProfile,bool>::build(
             [setter](switchmodule::SwitchStatusProfile& profile, const bool& value) { setter(profile)->set_olddata(value); },
-            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->olddata());
+                return true;
+            }
         )
     );
 
@@ -250,7 +286,13 @@ void visit_commonmodule_DetailQual(const set_t<commonmodule::DetailQual>& setter
         "oscillatory",
         AccessorBuilder<switchmodule::SwitchStatusProfile,bool>::build(
             [setter](switchmodule::SwitchStatusProfile& profile, const bool& value) { setter(profile)->set_oscillatory(value); },
-            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->oscillatory());
+                return true;
+            }
         )
     );
 
@@ -258,7 +300,13 @@ void visit_commonmodule_DetailQual(const set_t<commonmodule::DetailQual>& setter
         "outOfRange",
         AccessorBuilder<switchmodule::SwitchStatusProfile,bool>::build(
             [setter](switchmodule::SwitchStatusProfile& profile, const bool& value) { setter(profile)->set_outofrange(value); },
-            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->outofrange());
+                return true;
+            }
         )
     );
 
@@ -266,41 +314,107 @@ void visit_commonmodule_DetailQual(const set_t<commonmodule::DetailQual>& setter
         "overflow",
         AccessorBuilder<switchmodule::SwitchStatusProfile,bool>::build(
             [setter](switchmodule::SwitchStatusProfile& profile, const bool& value) { setter(profile)->set_overflow(value); },
-            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->overflow());
+                return true;
+            }
         )
     );
 }
 
 void visit_commonmodule_ENS_BehaviourModeKind(const set_t<commonmodule::ENS_BehaviourModeKind>& setter, const get_t<commonmodule::ENS_BehaviourModeKind>& getter, ITypedModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
 {
-    // TODO - create handler for message type Quality
+    visitor.handle(
+        "q",
+        MessageAccessorBuilder<switchmodule::SwitchStatusProfile,commonmodule::Quality>::build(
+            [setter](switchmodule::SwitchStatusProfile& profile) { return setter(profile)->mutable_q(); },
+            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<commonmodule::Quality>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent || !parent->has_q()) return false;
+                handler(parent->q());
+                return true;
+            }
+        )
+    );
 
     visitor.handle(
         "stVal",
         AccessorBuilder<switchmodule::SwitchStatusProfile,int>::build(
             [setter](switchmodule::SwitchStatusProfile& profile, const int& value) { setter(profile)->set_stval(static_cast<commonmodule::BehaviourModeKind>(value)); },
-            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<int>& handler) { return false; }
+            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<int>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->stval());
+                return true;
+            }
         ),
         commonmodule::BehaviourModeKind_descriptor()
     );
 
-    // TODO - create handler for message type Timestamp
+    visitor.handle(
+        "t",
+        MessageAccessorBuilder<switchmodule::SwitchStatusProfile,commonmodule::Timestamp>::build(
+            [setter](switchmodule::SwitchStatusProfile& profile) { return setter(profile)->mutable_t(); },
+            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<commonmodule::Timestamp>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent || !parent->has_t()) return false;
+                handler(parent->t());
+                return true;
+            }
+        )
+    );
 }
 
 void visit_commonmodule_ENS_DynamicTestKind(const set_t<commonmodule::ENS_DynamicTestKind>& setter, const get_t<commonmodule::ENS_DynamicTestKind>& getter, ITypedModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
 {
-    // TODO - create handler for message type Quality
+    visitor.handle(
+        "q",
+        MessageAccessorBuilder<switchmodule::SwitchStatusProfile,commonmodule::Quality>::build(
+            [setter](switchmodule::SwitchStatusProfile& profile) { return setter(profile)->mutable_q(); },
+            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<commonmodule::Quality>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent || !parent->has_q()) return false;
+                handler(parent->q());
+                return true;
+            }
+        )
+    );
 
     visitor.handle(
         "stVal",
         AccessorBuilder<switchmodule::SwitchStatusProfile,int>::build(
             [setter](switchmodule::SwitchStatusProfile& profile, const int& value) { setter(profile)->set_stval(static_cast<commonmodule::DynamicTestKind>(value)); },
-            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<int>& handler) { return false; }
+            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<int>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->stval());
+                return true;
+            }
         ),
         commonmodule::DynamicTestKind_descriptor()
     );
 
-    // TODO - create handler for message type Timestamp
+    visitor.handle(
+        "t",
+        MessageAccessorBuilder<switchmodule::SwitchStatusProfile,commonmodule::Timestamp>::build(
+            [setter](switchmodule::SwitchStatusProfile& profile) { return setter(profile)->mutable_t(); },
+            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<commonmodule::Timestamp>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent || !parent->has_t()) return false;
+                handler(parent->t());
+                return true;
+            }
+        )
+    );
 }
 
 void visit_commonmodule_ENS_HealthKind(const set_t<commonmodule::ENS_HealthKind>& setter, const get_t<commonmodule::ENS_HealthKind>& getter, ITypedModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
@@ -333,7 +447,13 @@ void visit_commonmodule_ENS_HealthKind(const set_t<commonmodule::ENS_HealthKind>
         "stVal",
         AccessorBuilder<switchmodule::SwitchStatusProfile,int>::build(
             [setter](switchmodule::SwitchStatusProfile& profile, const int& value) { setter(profile)->set_stval(static_cast<commonmodule::HealthKind>(value)); },
-            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<int>& handler) { return false; }
+            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<int>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->stval());
+                return true;
+            }
         ),
         commonmodule::HealthKind_descriptor()
     );
@@ -569,7 +689,19 @@ void visit_commonmodule_MessageInfo(const set_t<commonmodule::MessageInfo>& sett
         visitor.end_message_field();
     }
 
-    // TODO - create handler for message type Timestamp
+    visitor.handle(
+        "messageTimeStamp",
+        MessageAccessorBuilder<switchmodule::SwitchStatusProfile,commonmodule::Timestamp>::build(
+            [setter](switchmodule::SwitchStatusProfile& profile) { return setter(profile)->mutable_messagetimestamp(); },
+            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<commonmodule::Timestamp>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent || !parent->has_messagetimestamp()) return false;
+                handler(parent->messagetimestamp());
+                return true;
+            }
+        )
+    );
 }
 
 void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& setter, const get_t<commonmodule::NamedObject>& getter, ITypedModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
@@ -625,18 +757,48 @@ void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& sett
 
 void visit_commonmodule_StatusDPS(const set_t<commonmodule::StatusDPS>& setter, const get_t<commonmodule::StatusDPS>& getter, ITypedModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
 {
-    // TODO - create handler for message type Quality
+    visitor.handle(
+        "q",
+        MessageAccessorBuilder<switchmodule::SwitchStatusProfile,commonmodule::Quality>::build(
+            [setter](switchmodule::SwitchStatusProfile& profile) { return setter(profile)->mutable_q(); },
+            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<commonmodule::Quality>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent || !parent->has_q()) return false;
+                handler(parent->q());
+                return true;
+            }
+        )
+    );
 
     visitor.handle(
         "stVal",
         AccessorBuilder<switchmodule::SwitchStatusProfile,int>::build(
             [setter](switchmodule::SwitchStatusProfile& profile, const int& value) { setter(profile)->set_stval(static_cast<commonmodule::DbPosKind>(value)); },
-            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<int>& handler) { return false; }
+            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<int>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->stval());
+                return true;
+            }
         ),
         commonmodule::DbPosKind_descriptor()
     );
 
-    // TODO - create handler for message type Timestamp
+    visitor.handle(
+        "t",
+        MessageAccessorBuilder<switchmodule::SwitchStatusProfile,commonmodule::Timestamp>::build(
+            [setter](switchmodule::SwitchStatusProfile& profile) { return setter(profile)->mutable_t(); },
+            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<commonmodule::Timestamp>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent || !parent->has_t()) return false;
+                handler(parent->t());
+                return true;
+            }
+        )
+    );
 }
 
 void visit_commonmodule_StatusMessageInfo(const set_t<commonmodule::StatusMessageInfo>& setter, const get_t<commonmodule::StatusMessageInfo>& getter, ITypedModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
@@ -699,7 +861,13 @@ void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& sett
         "clockFailure",
         AccessorBuilder<switchmodule::SwitchStatusProfile,bool>::build(
             [setter](switchmodule::SwitchStatusProfile& profile, const bool& value) { setter(profile)->set_clockfailure(value); },
-            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->clockfailure());
+                return true;
+            }
         )
     );
 
@@ -707,7 +875,13 @@ void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& sett
         "clockNotSynchronized",
         AccessorBuilder<switchmodule::SwitchStatusProfile,bool>::build(
             [setter](switchmodule::SwitchStatusProfile& profile, const bool& value) { setter(profile)->set_clocknotsynchronized(value); },
-            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->clocknotsynchronized());
+                return true;
+            }
         )
     );
 
@@ -715,7 +889,13 @@ void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& sett
         "leapSecondsKnown",
         AccessorBuilder<switchmodule::SwitchStatusProfile,bool>::build(
             [setter](switchmodule::SwitchStatusProfile& profile, const bool& value) { setter(profile)->set_leapsecondsknown(value); },
-            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->leapsecondsknown());
+                return true;
+            }
         )
     );
 
@@ -723,7 +903,13 @@ void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& sett
         "timeAccuracy",
         AccessorBuilder<switchmodule::SwitchStatusProfile,int>::build(
             [setter](switchmodule::SwitchStatusProfile& profile, const int& value) { setter(profile)->set_timeaccuracy(static_cast<commonmodule::TimeAccuracyKind>(value)); },
-            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<int>& handler) { return false; }
+            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<int>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->timeaccuracy());
+                return true;
+            }
         ),
         commonmodule::TimeAccuracyKind_descriptor()
     );
@@ -735,7 +921,13 @@ void visit_google_protobuf_StringValue(const set_t<google::protobuf::StringValue
         "value",
         AccessorBuilder<switchmodule::SwitchStatusProfile,std::string>::build(
             [setter](switchmodule::SwitchStatusProfile& profile, const std::string& value) { setter(profile)->set_value(value); },
-            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<std::string>& handler) { return false; }
+            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<std::string>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->value());
+                return true;
+            }
         )
     );
 }

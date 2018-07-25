@@ -26,20 +26,22 @@ struct StringFieldType
         // the value is randomly generated UUID
         generated_uuid,
         // the value is an optional constant UUID
-        optional_const_uuid,
+        constant_uuid,
         // the value is a required primary UUID (conducting equipment)
         primary_uuid,
         // the value is an optional constant string
-        optional_string,
+        constant,
         // the field is ignored in this configuration
-        ignored_string,
+        ignored,
     };
 
     static const char generated_uuid[];
-    static const char optional_const_uuid[];
+    static const char constant_uuid[];
     static const char primary_uuid[];
-    static const char optional_string[];
-    static const char ignored_string[];
+    static const char constant[];
+    static const char ignored[];
+
+    static constexpr const char* label = "string-field-type";
 
     static const std::array<Value, 5> values;
 

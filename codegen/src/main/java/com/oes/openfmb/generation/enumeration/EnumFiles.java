@@ -1,13 +1,12 @@
 package com.oes.openfmb.generation.enumeration;
 
 import com.oes.openfmb.generation.document.*;
-import jdk.nashorn.internal.ir.annotations.Immutable;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
+
 
 import static com.oes.openfmb.generation.document.Document.*;
 
@@ -46,6 +45,8 @@ public class EnumFiles implements CppFileCollection {
                                              getEnumDefinition(),
                                              space,
                                              join(enumeration.values.stream().map(entry -> line("static const char %s[];", entry.label))),
+                                             space,
+                                             line("static constexpr const char* label = \"%s\";", this.enumeration.configLabel),
                                              space,
                                              line("static const std::array<Value, %d> values;", this.enumeration.values.size()),
                                              space,

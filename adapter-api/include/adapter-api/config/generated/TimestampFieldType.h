@@ -11,33 +11,30 @@
 //  This file is auto-generated. Do not edit manually
 // 
 
-#ifndef OPENFMB_FLOATFIELDTYPE_H
-#define OPENFMB_FLOATFIELDTYPE_H
+#ifndef OPENFMB_TIMESTAMPFIELDTYPE_H
+#define OPENFMB_TIMESTAMPFIELDTYPE_H
 
 #include <string>
 #include <array>
 
 namespace adapter {
 
-struct FloatFieldType
+struct TimestampFieldType
 {
     enum class Value
     {
-        // the value is always the same, set in configuration
-        constant,
-        // the value is mapped dynamically from the underlying protocol
-        mapped,
-        // the value is ignored in the current configuration
+        // the main timestamp for the message
+        message,
+        // the timestamp is ignored in this configuration
         ignored,
     };
 
-    static const char constant[];
-    static const char mapped[];
+    static const char message[];
     static const char ignored[];
 
-    static constexpr const char* label = "float-field-type";
+    static constexpr const char* label = "timestamp-field-type";
 
-    static const std::array<Value, 3> values;
+    static const std::array<Value, 2> values;
 
     static std::string to_string(Value value);
     static Value from_string(const std::string& name);

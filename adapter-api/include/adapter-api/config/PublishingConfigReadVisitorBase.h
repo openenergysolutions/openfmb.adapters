@@ -30,17 +30,21 @@ public:
 
     void handle(const std::string& field_name, const accessor_t<T, int32_t>& accessor) final;
 
-    void handle(const std::string& field_name, const accessor_t<T, uint32_t>& accessor) final;
-
     void handle(const std::string& field_name, const accessor_t<T, int64_t>& accessor) final;
-
-    void handle(const std::string& field_name, const accessor_t<T, uint64_t>& accessor) final;
 
     void handle(const std::string& field_name, const accessor_t<T, float>& accessor) final;
 
     void handle(const std::string& field_name, const accessor_t<T, std::string>& accessor) final;
 
     void handle(const std::string& field_name, const accessor_t<T, int>& setter, google::protobuf::EnumDescriptor const* descriptor) final;
+
+    /* --- final handlers for terminal messages --- */
+
+    void handle(const std::string& field_name, const message_accessor_t<T, commonmodule::Quality>& accessor) override;
+
+    void handle(const std::string& field_name, const message_accessor_t<T, commonmodule::Timestamp>& accessor) override;
+
+    void handle(const std::string& field_name, const message_accessor_t<T, commonmodule::ControlTimestamp>& accessor) override;
 
 protected:
     explicit PublishingConfigReadVisitorBase(const YAML::Node& root)
@@ -72,15 +76,16 @@ protected:
 
     virtual void handle_mapped_int64(const YAML::Node& node, const accessor_t<T, int64_t>& accessor) = 0;
 
-    virtual void handle_mapped_float(const YAML::Node& node, const accessor_t<T, int64_t>& accessor) = 0;
+    virtual void handle_mapped_float(const YAML::Node& node, const accessor_t<T, float>& accessor) = 0;
 
     virtual void handle_mapped_enum(const YAML::Node& node, const accessor_t<T, int>& accessor, google::protobuf::EnumDescriptor const* descriptor) = 0;
 
 private:
     void handle_optional_const_bool(const YAML::Node& node, const accessor_t<T, bool>& accessor);
 
-    template <class I>
-    void handle_optional_const_int(const YAML::Node& node, const accessor_t<T, I>& accessor);
+    void handle_constant_int32(const YAML::Node& node, const accessor_t<T, int32_t>& accessor);
+
+    void handle_constant_int64(const YAML::Node& node, const accessor_t<T, int64_t>& accessor);
 
     void handle_optional_const_float(const YAML::Node& node, const accessor_t<T, float>& accessor);
 
@@ -99,12 +104,12 @@ template <class T>
 void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, const accessor_t<T, bool>& accessor)
 {
     const auto node = this->get_config_node(field_name);
-    const auto field_type = BoolFieldType::from_string(yaml::require_string(node, keys::field_type));
+    const auto field_type = yaml::require_enum<BoolFieldType>(node);
     switch (field_type) {
-    case (BoolFieldType::Value::mapped_bool):
+    case (BoolFieldType::Value::mapped):
         this->handle_mapped_bool(node, accessor);
         break;
-    case (BoolFieldType::Value::const_bool):
+    case (BoolFieldType::Value::constant):
         this->handle_optional_const_bool(node, accessor);
         break;
     default:
@@ -117,36 +122,30 @@ template <class T>
 void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, const accessor_t<T, int32_t>& accessor)
 {
     const auto node = this->get_config_node(field_name);
-    const auto field_type = Int32FieldType::from_string(yaml::require_string(node, keys::field_type));
+    const auto field_type = yaml::require_enum<Int32FieldType>(node);
     switch (field_type) {
-    case (Int32FieldType::Value::mapped_int32):
+    case (Int32FieldType::Value::mapped):
         this->handle_mapped_int32(node, accessor);
         break;
-    case (Int32FieldType::Value::const_int32):
-        this->handle_optional_const_int<int32_t>(node, accessor);
+    case (Int32FieldType::Value::constant):
+        this->handle_constant_int32(node, accessor);
     default:
         // ignored
         break;
     }
-}
-
-template <class T>
-void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, const accessor_t<T, uint32_t>& accessor)
-{
-    throw Exception("no uint32 handler: ", this->path.as_string(), ".", field_name);
 }
 
 template <class T>
 void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, const accessor_t<T, int64_t>& accessor)
 {
     const auto node = this->get_config_node(field_name);
-    const auto field_type = Int64FieldType::from_string(yaml::require_string(node, keys::field_type));
+    const auto field_type = yaml::require_enum<Int64FieldType>(node);
     switch (field_type) {
-    case (Int64FieldType::Value::mapped_int64):
+    case (Int64FieldType::Value::mapped):
         this->handle_mapped_int64(node, accessor);
         break;
-    case (Int64FieldType::Value::const_int64):
-        this->handle_optional_const_int<int64_t>(node, accessor);
+    case (Int64FieldType::Value::constant):
+        this->handle_constant_int64(node, accessor);
     default:
         // ignored
         break;
@@ -154,21 +153,15 @@ void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, c
 }
 
 template <class T>
-void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, const accessor_t<T, uint64_t>& accessor)
-{
-    throw Exception("no uint64 handler: ", this->path.as_string(), ".", field_name);
-}
-
-template <class T>
 void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, const accessor_t<T, float>& accessor)
 {
     const auto node = this->get_config_node(field_name);
-    const auto field_type = FloatFieldType::from_string(yaml::require_string(node, keys::field_type));
+    const auto field_type = yaml::require_enum<FloatFieldType>(node);
     switch (field_type) {
-    case (FloatFieldType::Value::mapped_float):
+    case (FloatFieldType::Value::mapped):
         this->handle_mapped_float(node, accessor);
         break;
-    case (FloatFieldType::Value::const_float):
+    case (FloatFieldType::Value::constant):
         this->handle_optional_const_float(node, accessor);
     default:
         // ignored
@@ -180,13 +173,13 @@ template <class T>
 void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, const accessor_t<T, std::string>& accessor)
 {
     const auto node = this->get_config_node(field_name);
-    const auto field_type = StringFieldType::from_string(yaml::require_string(node, keys::field_type));
+    const auto field_type = yaml::require_enum<StringFieldType>(node);
     switch (field_type) {
     case (StringFieldType::Value::primary_uuid):
-    case (StringFieldType::Value::optional_const_uuid):
+    case (StringFieldType::Value::constant_uuid):
         this->handle_const_uuid(node, accessor);
         break;
-    case (StringFieldType::Value::optional_string):
+    case (StringFieldType::Value::constant):
         this->handle_const_string(node, accessor);
         break;
     case (StringFieldType::Value::generated_uuid):
@@ -202,18 +195,43 @@ template <class T>
 void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, const accessor_t<T, int>& accessor, google::protobuf::EnumDescriptor const* descriptor)
 {
     const auto node = this->get_config_node(field_name);
-    const auto field_type = EnumFieldType::from_string(yaml::require_string(node, keys::field_type));
+    const auto field_type = yaml::require_enum<EnumFieldType>(node);
     switch (field_type) {
-    case (EnumFieldType::Value::mapped_enum):
+    case (EnumFieldType::Value::mapped):
         this->handle_mapped_enum(node, accessor, descriptor);
         break;
-    case (EnumFieldType::Value::optional_const_enum):
+    case (EnumFieldType::Value::constant):
         this->handle_const_enum(node, accessor, descriptor);
         break;
     default:
         // ignored
         break;
     }
+}
+
+template <class T>
+void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, const message_accessor_t<T, commonmodule::Quality>& accessor)
+{
+    // ignore for now
+}
+
+template <class T>
+void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, const message_accessor_t<T, commonmodule::Timestamp>& accessor)
+{
+    const auto node = this->get_config_node(field_name);
+    const auto field_type = yaml::require_enum<TimestampFieldType>(node);
+    if (field_type == TimestampFieldType::Value::message) {
+        this->add_message_complete_action(
+            [accessor](T& profile) {
+                time::set(std::chrono::system_clock::now(), *accessor->mutable_get(profile));
+            });
+    }
+}
+
+template <class T>
+void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, const message_accessor_t<T, commonmodule::ControlTimestamp>& accessor)
+{
+    // ignore for now
 }
 
 template <class T>
@@ -226,11 +244,19 @@ void PublishingConfigReadVisitorBase<T>::handle_optional_const_bool(const YAML::
 }
 
 template <class T>
-template <class I>
-void PublishingConfigReadVisitorBase<T>::handle_optional_const_int(const YAML::Node& node, const accessor_t<T, I>& accessor)
+void PublishingConfigReadVisitorBase<T>::handle_constant_int32(const YAML::Node& node, const accessor_t<T, int32_t>& accessor)
 {
     this->add_message_init_action(
-        [accessor, value = yaml::require_integer<I>(node, keys::value)](T& profile) {
+        [accessor, value = yaml::require_integer<int32_t>(node, keys::value)](T& profile) {
+            accessor->set(profile, value);
+        });
+}
+
+template <class T>
+void PublishingConfigReadVisitorBase<T>::handle_constant_int64(const YAML::Node& node, const accessor_t<T, int64_t>& accessor)
+{
+    this->add_message_init_action(
+        [accessor, value = yaml::require(node, keys::value).as<int64_t>()](T& profile) {
             accessor->set(profile, value);
         });
 }

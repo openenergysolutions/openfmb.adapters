@@ -5,11 +5,14 @@
 #include "IDescriptorPath.h"
 
 #include "generated/BoolFieldType.h"
+#include "generated/ControlTimestampFieldType.h"
 #include "generated/EnumFieldType.h"
 #include "generated/FloatFieldType.h"
 #include "generated/Int32FieldType.h"
 #include "generated/Int64FieldType.h"
+#include "generated/QualityFieldType.h"
 #include "generated/StringFieldType.h"
+#include "generated/TimestampFieldType.h"
 
 namespace adapter {
 
@@ -28,6 +31,8 @@ namespace fields {
     EnumFieldType::Value get_enum_type(google::protobuf::EnumDescriptor const* descriptor);
 
     StringFieldType::Value get_string_type(const std::string& field_name, IDescriptorPath& path);
+
+    TimestampFieldType::Value get_timestamp_type(const std::string& field_name, IDescriptorPath& path);
 }
 }
 

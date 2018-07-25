@@ -40,6 +40,8 @@ struct SourceType
     static const char analog[];
     static const char counter[];
 
+    static constexpr const char* label = "source-type";
+
     static const std::array<Value, 4> values;
 
     static std::string to_string(Value value);

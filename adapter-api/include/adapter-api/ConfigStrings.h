@@ -10,7 +10,6 @@ namespace keys {
     constexpr const char* const profiles = "profiles";
     constexpr const char* const path = "path";
     constexpr const char* const overrides = "overrides";
-    constexpr const char* const field_type = "field-type";
 
     // ---- model related strings ----
 
@@ -36,6 +35,8 @@ namespace keys {
     constexpr const char* const synchroCheck = "synchroCheck";
     constexpr const char* const controlScheduleFSCH = "controlScheduleFSCH";
     constexpr const char* const ValACSG = "ValACSG";
+    constexpr const char* const messageTimeStamp = "messageTimeStamp";
+    constexpr const char* const t = "t";
 }
 }
 

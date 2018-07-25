@@ -24,16 +24,18 @@ struct BoolFieldType
     enum class Value
     {
         // the value is always the same, set in configuration
-        const_bool,
+        constant,
         // the value is mapped dynamically from the underlying protocol
-        mapped_bool,
+        mapped,
         // the value is ignored in the current configuration
-        ignored_bool,
+        ignored,
     };
 
-    static const char const_bool[];
-    static const char mapped_bool[];
-    static const char ignored_bool[];
+    static const char constant[];
+    static const char mapped[];
+    static const char ignored[];
+
+    static constexpr const char* label = "bool-field-type";
 
     static const std::array<Value, 3> values;
 

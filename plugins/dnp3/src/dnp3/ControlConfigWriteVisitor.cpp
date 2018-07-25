@@ -21,26 +21,26 @@ namespace dnp3 {
 
     Int32FieldType::Value ControlConfigWriteVisitor::remap(Int32FieldType::Value type)
     {
-        return (type == Int32FieldType::Value::mapped_int32) ? Int32FieldType::Value::ignored_int32 : type;
+        return (type == Int32FieldType::Value::mapped) ? Int32FieldType::Value::ignored : type;
     }
 
     EnumFieldType::Value ControlConfigWriteVisitor::remap(EnumFieldType::Value type)
     {
-        return (type == EnumFieldType::Value::mapped_enum) ? EnumFieldType::Value::ignored_enum : type;
+        return (type == EnumFieldType::Value::mapped) ? EnumFieldType::Value::ignored : type;
     }
 
     FloatFieldType::Value ControlConfigWriteVisitor::remap(FloatFieldType::Value type)
     {
-        return (type == FloatFieldType::Value::mapped_float) ? FloatFieldType::Value::ignored_float : type;
+        return (type == FloatFieldType::Value::mapped) ? FloatFieldType::Value::ignored : type;
     }
 
     StringFieldType::Value ControlConfigWriteVisitor::remap(StringFieldType::Value type)
     {
         switch (type) {
         // these types aren't useful in a control profile
-        case (StringFieldType::Value::optional_string):
-        case (StringFieldType::Value::optional_const_uuid):
-            return StringFieldType::Value::ignored_string;
+        case (StringFieldType::Value::constant):
+        case (StringFieldType::Value::constant_uuid):
+            return StringFieldType::Value::ignored;
         default:
             return type;
         }

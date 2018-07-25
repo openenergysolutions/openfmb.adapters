@@ -11,7 +11,7 @@
 //  This file is auto-generated. Do not edit manually
 // 
 
-#include "adapter-api/config/generated/FloatFieldType.h"
+#include "adapter-api/config/generated/QualityFieldType.h"
 
 #include "adapter-api/util/Exception.h"
 
@@ -19,37 +19,29 @@
 
 namespace adapter {
 
-const char FloatFieldType::constant[] = "constant";
-const char FloatFieldType::mapped[] = "mapped";
-const char FloatFieldType::ignored[] = "ignored";
+const char QualityFieldType::ignored[] = "ignored";
 
-const std::array<FloatFieldType::Value, 3> FloatFieldType::values =
+const std::array<QualityFieldType::Value, 1> QualityFieldType::values =
 {
-    FloatFieldType::Value::constant,
-    FloatFieldType::Value::mapped,
-    FloatFieldType::Value::ignored,
+    QualityFieldType::Value::ignored,
 };
 
-std::string FloatFieldType::to_string(FloatFieldType::Value value)
+std::string QualityFieldType::to_string(QualityFieldType::Value value)
 {
     switch(value)
     {
-        case(Value::constant): return constant;
-        case(Value::mapped): return mapped;
         default: return ignored;
     }
 }
 
-FloatFieldType::Value FloatFieldType::from_string(const std::string& name)
+QualityFieldType::Value QualityFieldType::from_string(const std::string& name)
 {
     static const std::map<std::string, Value> map = 
     {
-        {constant, Value::constant},
-        {mapped, Value::mapped},
         {ignored, Value::ignored},
     };
     const auto elem = map.find(name);
-    if(elem == map.end()) throw Exception("Unknown value name '", name, "' for enum FloatFieldType");
+    if(elem == map.end()) throw Exception("Unknown value name '", name, "' for enum QualityFieldType");
     return elem->second;
 }
 

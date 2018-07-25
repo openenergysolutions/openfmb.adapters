@@ -213,7 +213,13 @@ void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::Conducting
         "mRID",
         AccessorBuilder<solarmodule::SolarStatusProfile,std::string>::build(
             [setter](solarmodule::SolarStatusProfile& profile, const std::string& value) { setter(profile)->set_mrid(value); },
-            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<std::string>& handler) { return false; }
+            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<std::string>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->mrid());
+                return true;
+            }
         )
     );
 }
@@ -224,7 +230,13 @@ void visit_commonmodule_ControlDPC(const set_t<commonmodule::ControlDPC>& setter
         "ctlVal",
         AccessorBuilder<solarmodule::SolarStatusProfile,bool>::build(
             [setter](solarmodule::SolarStatusProfile& profile, const bool& value) { setter(profile)->set_ctlval(value); },
-            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->ctlval());
+                return true;
+            }
         )
     );
 }
@@ -235,7 +247,13 @@ void visit_commonmodule_DetailQual(const set_t<commonmodule::DetailQual>& setter
         "badReference",
         AccessorBuilder<solarmodule::SolarStatusProfile,bool>::build(
             [setter](solarmodule::SolarStatusProfile& profile, const bool& value) { setter(profile)->set_badreference(value); },
-            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->badreference());
+                return true;
+            }
         )
     );
 
@@ -243,7 +261,13 @@ void visit_commonmodule_DetailQual(const set_t<commonmodule::DetailQual>& setter
         "failure",
         AccessorBuilder<solarmodule::SolarStatusProfile,bool>::build(
             [setter](solarmodule::SolarStatusProfile& profile, const bool& value) { setter(profile)->set_failure(value); },
-            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->failure());
+                return true;
+            }
         )
     );
 
@@ -251,7 +275,13 @@ void visit_commonmodule_DetailQual(const set_t<commonmodule::DetailQual>& setter
         "inaccurate",
         AccessorBuilder<solarmodule::SolarStatusProfile,bool>::build(
             [setter](solarmodule::SolarStatusProfile& profile, const bool& value) { setter(profile)->set_inaccurate(value); },
-            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->inaccurate());
+                return true;
+            }
         )
     );
 
@@ -259,7 +289,13 @@ void visit_commonmodule_DetailQual(const set_t<commonmodule::DetailQual>& setter
         "inconsistent",
         AccessorBuilder<solarmodule::SolarStatusProfile,bool>::build(
             [setter](solarmodule::SolarStatusProfile& profile, const bool& value) { setter(profile)->set_inconsistent(value); },
-            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->inconsistent());
+                return true;
+            }
         )
     );
 
@@ -267,7 +303,13 @@ void visit_commonmodule_DetailQual(const set_t<commonmodule::DetailQual>& setter
         "oldData",
         AccessorBuilder<solarmodule::SolarStatusProfile,bool>::build(
             [setter](solarmodule::SolarStatusProfile& profile, const bool& value) { setter(profile)->set_olddata(value); },
-            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->olddata());
+                return true;
+            }
         )
     );
 
@@ -275,7 +317,13 @@ void visit_commonmodule_DetailQual(const set_t<commonmodule::DetailQual>& setter
         "oscillatory",
         AccessorBuilder<solarmodule::SolarStatusProfile,bool>::build(
             [setter](solarmodule::SolarStatusProfile& profile, const bool& value) { setter(profile)->set_oscillatory(value); },
-            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->oscillatory());
+                return true;
+            }
         )
     );
 
@@ -283,7 +331,13 @@ void visit_commonmodule_DetailQual(const set_t<commonmodule::DetailQual>& setter
         "outOfRange",
         AccessorBuilder<solarmodule::SolarStatusProfile,bool>::build(
             [setter](solarmodule::SolarStatusProfile& profile, const bool& value) { setter(profile)->set_outofrange(value); },
-            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->outofrange());
+                return true;
+            }
         )
     );
 
@@ -291,7 +345,13 @@ void visit_commonmodule_DetailQual(const set_t<commonmodule::DetailQual>& setter
         "overflow",
         AccessorBuilder<solarmodule::SolarStatusProfile,bool>::build(
             [setter](solarmodule::SolarStatusProfile& profile, const bool& value) { setter(profile)->set_overflow(value); },
-            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->overflow());
+                return true;
+            }
         )
     );
 }
@@ -302,7 +362,13 @@ void visit_commonmodule_ENG_GridConnectModeKind(const set_t<commonmodule::ENG_Gr
         "setVal",
         AccessorBuilder<solarmodule::SolarStatusProfile,int>::build(
             [setter](solarmodule::SolarStatusProfile& profile, const int& value) { setter(profile)->set_setval(static_cast<commonmodule::GridConnectModeKind>(value)); },
-            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<int>& handler) { return false; }
+            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<int>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->setval());
+                return true;
+            }
         ),
         commonmodule::GridConnectModeKind_descriptor()
     );
@@ -334,34 +400,94 @@ void visit_commonmodule_ENG_GridConnectModeKind(const set_t<commonmodule::ENG_Gr
 
 void visit_commonmodule_ENS_BehaviourModeKind(const set_t<commonmodule::ENS_BehaviourModeKind>& setter, const get_t<commonmodule::ENS_BehaviourModeKind>& getter, ITypedModelVisitor<solarmodule::SolarStatusProfile>& visitor)
 {
-    // TODO - create handler for message type Quality
+    visitor.handle(
+        "q",
+        MessageAccessorBuilder<solarmodule::SolarStatusProfile,commonmodule::Quality>::build(
+            [setter](solarmodule::SolarStatusProfile& profile) { return setter(profile)->mutable_q(); },
+            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<commonmodule::Quality>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent || !parent->has_q()) return false;
+                handler(parent->q());
+                return true;
+            }
+        )
+    );
 
     visitor.handle(
         "stVal",
         AccessorBuilder<solarmodule::SolarStatusProfile,int>::build(
             [setter](solarmodule::SolarStatusProfile& profile, const int& value) { setter(profile)->set_stval(static_cast<commonmodule::BehaviourModeKind>(value)); },
-            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<int>& handler) { return false; }
+            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<int>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->stval());
+                return true;
+            }
         ),
         commonmodule::BehaviourModeKind_descriptor()
     );
 
-    // TODO - create handler for message type Timestamp
+    visitor.handle(
+        "t",
+        MessageAccessorBuilder<solarmodule::SolarStatusProfile,commonmodule::Timestamp>::build(
+            [setter](solarmodule::SolarStatusProfile& profile) { return setter(profile)->mutable_t(); },
+            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<commonmodule::Timestamp>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent || !parent->has_t()) return false;
+                handler(parent->t());
+                return true;
+            }
+        )
+    );
 }
 
 void visit_commonmodule_ENS_DynamicTestKind(const set_t<commonmodule::ENS_DynamicTestKind>& setter, const get_t<commonmodule::ENS_DynamicTestKind>& getter, ITypedModelVisitor<solarmodule::SolarStatusProfile>& visitor)
 {
-    // TODO - create handler for message type Quality
+    visitor.handle(
+        "q",
+        MessageAccessorBuilder<solarmodule::SolarStatusProfile,commonmodule::Quality>::build(
+            [setter](solarmodule::SolarStatusProfile& profile) { return setter(profile)->mutable_q(); },
+            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<commonmodule::Quality>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent || !parent->has_q()) return false;
+                handler(parent->q());
+                return true;
+            }
+        )
+    );
 
     visitor.handle(
         "stVal",
         AccessorBuilder<solarmodule::SolarStatusProfile,int>::build(
             [setter](solarmodule::SolarStatusProfile& profile, const int& value) { setter(profile)->set_stval(static_cast<commonmodule::DynamicTestKind>(value)); },
-            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<int>& handler) { return false; }
+            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<int>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->stval());
+                return true;
+            }
         ),
         commonmodule::DynamicTestKind_descriptor()
     );
 
-    // TODO - create handler for message type Timestamp
+    visitor.handle(
+        "t",
+        MessageAccessorBuilder<solarmodule::SolarStatusProfile,commonmodule::Timestamp>::build(
+            [setter](solarmodule::SolarStatusProfile& profile) { return setter(profile)->mutable_t(); },
+            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<commonmodule::Timestamp>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent || !parent->has_t()) return false;
+                handler(parent->t());
+                return true;
+            }
+        )
+    );
 }
 
 void visit_commonmodule_ENS_HealthKind(const set_t<commonmodule::ENS_HealthKind>& setter, const get_t<commonmodule::ENS_HealthKind>& getter, ITypedModelVisitor<solarmodule::SolarStatusProfile>& visitor)
@@ -394,7 +520,13 @@ void visit_commonmodule_ENS_HealthKind(const set_t<commonmodule::ENS_HealthKind>
         "stVal",
         AccessorBuilder<solarmodule::SolarStatusProfile,int>::build(
             [setter](solarmodule::SolarStatusProfile& profile, const int& value) { setter(profile)->set_stval(static_cast<commonmodule::HealthKind>(value)); },
-            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<int>& handler) { return false; }
+            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<int>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->stval());
+                return true;
+            }
         ),
         commonmodule::HealthKind_descriptor()
     );
@@ -630,7 +762,19 @@ void visit_commonmodule_MessageInfo(const set_t<commonmodule::MessageInfo>& sett
         visitor.end_message_field();
     }
 
-    // TODO - create handler for message type Timestamp
+    visitor.handle(
+        "messageTimeStamp",
+        MessageAccessorBuilder<solarmodule::SolarStatusProfile,commonmodule::Timestamp>::build(
+            [setter](solarmodule::SolarStatusProfile& profile) { return setter(profile)->mutable_messagetimestamp(); },
+            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<commonmodule::Timestamp>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent || !parent->has_messagetimestamp()) return false;
+                handler(parent->messagetimestamp());
+                return true;
+            }
+        )
+    );
 }
 
 void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& setter, const get_t<commonmodule::NamedObject>& getter, ITypedModelVisitor<solarmodule::SolarStatusProfile>& visitor)
@@ -690,7 +834,13 @@ void visit_commonmodule_Optional_StateKind(const set_t<commonmodule::Optional_St
         "value",
         AccessorBuilder<solarmodule::SolarStatusProfile,int>::build(
             [setter](solarmodule::SolarStatusProfile& profile, const int& value) { setter(profile)->set_value(static_cast<commonmodule::StateKind>(value)); },
-            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<int>& handler) { return false; }
+            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<int>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->value());
+                return true;
+            }
         ),
         commonmodule::StateKind_descriptor()
     );
@@ -824,17 +974,47 @@ void visit_commonmodule_StatusMessageInfo(const set_t<commonmodule::StatusMessag
 
 void visit_commonmodule_StatusSPS(const set_t<commonmodule::StatusSPS>& setter, const get_t<commonmodule::StatusSPS>& getter, ITypedModelVisitor<solarmodule::SolarStatusProfile>& visitor)
 {
-    // TODO - create handler for message type Quality
+    visitor.handle(
+        "q",
+        MessageAccessorBuilder<solarmodule::SolarStatusProfile,commonmodule::Quality>::build(
+            [setter](solarmodule::SolarStatusProfile& profile) { return setter(profile)->mutable_q(); },
+            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<commonmodule::Quality>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent || !parent->has_q()) return false;
+                handler(parent->q());
+                return true;
+            }
+        )
+    );
 
     visitor.handle(
         "stVal",
         AccessorBuilder<solarmodule::SolarStatusProfile,bool>::build(
             [setter](solarmodule::SolarStatusProfile& profile, const bool& value) { setter(profile)->set_stval(value); },
-            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->stval());
+                return true;
+            }
         )
     );
 
-    // TODO - create handler for message type Timestamp
+    visitor.handle(
+        "t",
+        MessageAccessorBuilder<solarmodule::SolarStatusProfile,commonmodule::Timestamp>::build(
+            [setter](solarmodule::SolarStatusProfile& profile) { return setter(profile)->mutable_t(); },
+            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<commonmodule::Timestamp>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent || !parent->has_t()) return false;
+                handler(parent->t());
+                return true;
+            }
+        )
+    );
 }
 
 void visit_commonmodule_StatusValue(const set_t<commonmodule::StatusValue>& setter, const get_t<commonmodule::StatusValue>& getter, ITypedModelVisitor<solarmodule::SolarStatusProfile>& visitor)
@@ -870,7 +1050,13 @@ void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& sett
         "clockFailure",
         AccessorBuilder<solarmodule::SolarStatusProfile,bool>::build(
             [setter](solarmodule::SolarStatusProfile& profile, const bool& value) { setter(profile)->set_clockfailure(value); },
-            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->clockfailure());
+                return true;
+            }
         )
     );
 
@@ -878,7 +1064,13 @@ void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& sett
         "clockNotSynchronized",
         AccessorBuilder<solarmodule::SolarStatusProfile,bool>::build(
             [setter](solarmodule::SolarStatusProfile& profile, const bool& value) { setter(profile)->set_clocknotsynchronized(value); },
-            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->clocknotsynchronized());
+                return true;
+            }
         )
     );
 
@@ -886,7 +1078,13 @@ void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& sett
         "leapSecondsKnown",
         AccessorBuilder<solarmodule::SolarStatusProfile,bool>::build(
             [setter](solarmodule::SolarStatusProfile& profile, const bool& value) { setter(profile)->set_leapsecondsknown(value); },
-            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<bool>& handler) { return false; }
+            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->leapsecondsknown());
+                return true;
+            }
         )
     );
 
@@ -894,7 +1092,13 @@ void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& sett
         "timeAccuracy",
         AccessorBuilder<solarmodule::SolarStatusProfile,int>::build(
             [setter](solarmodule::SolarStatusProfile& profile, const int& value) { setter(profile)->set_timeaccuracy(static_cast<commonmodule::TimeAccuracyKind>(value)); },
-            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<int>& handler) { return false; }
+            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<int>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->timeaccuracy());
+                return true;
+            }
         ),
         commonmodule::TimeAccuracyKind_descriptor()
     );
@@ -906,7 +1110,13 @@ void visit_google_protobuf_FloatValue(const set_t<google::protobuf::FloatValue>&
         "value",
         AccessorBuilder<solarmodule::SolarStatusProfile,float>::build(
             [setter](solarmodule::SolarStatusProfile& profile, const float& value) { setter(profile)->set_value(value); },
-            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<float>& handler) { return false; }
+            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<float>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->value());
+                return true;
+            }
         )
     );
 }
@@ -917,7 +1127,13 @@ void visit_google_protobuf_StringValue(const set_t<google::protobuf::StringValue
         "value",
         AccessorBuilder<solarmodule::SolarStatusProfile,std::string>::build(
             [setter](solarmodule::SolarStatusProfile& profile, const std::string& value) { setter(profile)->set_value(value); },
-            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<std::string>& handler) { return false; }
+            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<std::string>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->value());
+                return true;
+            }
         )
     );
 }

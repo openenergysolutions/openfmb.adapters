@@ -14,7 +14,7 @@ namespace dnp3 {
 
     void write_scaled_keys(YAML::Emitter& out, const std::initializer_list<SourceType::Value>& supported_sources)
     {
-        out << YAML::Key << keys::source_type << YAML::Value << SourceType::none << YAML::Comment(enumeration::get_value_set_from_list<SourceType>(supported_sources));
+        out << YAML::Key << SourceType::label << YAML::Value << SourceType::none << YAML::Comment(enumeration::get_value_set_from_list<SourceType>(supported_sources));
         out << YAML::Key << keys::index << YAML::Value << 0;
         out << YAML::Key << keys::scale << YAML::Value << 1.0;
     }
@@ -52,7 +52,7 @@ namespace dnp3 {
 
     void MeasurementConfigWriteVisitor::write_mapped_enum_keys(YAML::Emitter& out, google::protobuf::EnumDescriptor const* descriptor)
     {
-        out << YAML::Key << keys::source_type << YAML::Value << SourceType::none << YAML::Comment(enumeration::get_value_set_as_string<SourceType>());
+        out << YAML::Key << SourceType::label << YAML::Value << SourceType::none << YAML::Comment(enumeration::get_value_set_from_list<SourceType>({ SourceType::Value::none, SourceType::Value::binary }));
         out << YAML::Key << keys::index << YAML::Value << 0;
         out << YAML::Key << keys::when_true << YAML::Value << descriptor->value(0)->name();
         out << YAML::Key << keys::when_false << YAML::Value << descriptor->value(1)->name();

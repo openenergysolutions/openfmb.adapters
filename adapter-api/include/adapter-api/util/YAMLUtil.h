@@ -42,6 +42,12 @@ namespace yaml {
         }
     }
 
+    template <typename E>
+    typename E::Value require_enum(const YAML::Node& parent)
+    {
+        return E::from_string(require_string(parent, E::label));
+    }
+
     template <class T>
     T optionally(const YAML::Node& node, const T& default_value)
     {
