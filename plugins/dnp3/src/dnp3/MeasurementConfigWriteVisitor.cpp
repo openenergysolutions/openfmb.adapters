@@ -2,7 +2,6 @@
 #include "MeasurementConfigWriteVisitor.h"
 
 #include "adapter-api/ConfigStrings.h"
-#include "adapter-api/util/Exception.h"
 
 #include "ConfigStrings.h"
 #include "ControlCodeMeta.h"
@@ -28,12 +27,12 @@ namespace dnp3 {
 
     void MeasurementConfigWriteVisitor::write_mapped_bool_keys(YAML::Emitter& out)
     {
-        throw Exception("no bool mapping for DNP3 measurements");
+        out << YAML::Comment("bool mapping not supported for measurements");
     }
 
     void MeasurementConfigWriteVisitor::write_mapped_int32_keys(YAML::Emitter& out)
     {
-        throw Exception("no int32 mapping for DNP3 measurements");
+        out << YAML::Comment("int32 mapping not supported for measurements");
     }
 
     void MeasurementConfigWriteVisitor::write_mapped_int64_keys(YAML::Emitter& out)

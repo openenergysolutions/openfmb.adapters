@@ -2,7 +2,6 @@
 #include "ControlConfigWriteVisitor.h"
 
 #include "adapter-api/ConfigStrings.h"
-#include "adapter-api/util/Exception.h"
 
 #include "ConfigStrings.h"
 #include "ControlCodeMeta.h"
@@ -34,22 +33,22 @@ namespace dnp3 {
 
     void ControlConfigWriteVisitor::write_mapped_int32_keys(YAML::Emitter& out)
     {
-        throw NotImplemented(LOCATION);
+        out << YAML::Comment("int32 mapping not supported for controls");
     }
 
     void ControlConfigWriteVisitor::write_mapped_int64_keys(YAML::Emitter& out)
     {
-        throw NotImplemented(LOCATION);
+        out << YAML::Comment("int64 mapping not supported for controls");
     }
 
     void ControlConfigWriteVisitor::write_mapped_float_keys(YAML::Emitter& out)
     {
-        throw NotImplemented(LOCATION);
+        out << YAML::Comment("float mapping not supported for controls");
     }
 
     void ControlConfigWriteVisitor::write_mapped_enum_keys(YAML::Emitter& out, google::protobuf::EnumDescriptor const* descriptor)
     {
-        throw NotImplemented(LOCATION);
+        out << YAML::Comment("enum mapping not supported for controls");
     }
 
     // --- various helpers ---
