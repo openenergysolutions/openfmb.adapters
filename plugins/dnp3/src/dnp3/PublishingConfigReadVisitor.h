@@ -3,7 +3,10 @@
 #define OPENFMB_ADAPTER_DNP3_PUBLISHINGCONFIGREADVISITOR_H
 
 #include "adapter-api/ConfigStrings.h"
+
 #include "adapter-api/config/PublishingConfigReadVisitorBase.h"
+#include "adapter-api/config/YAMLGetters.h"
+
 #include "adapter-api/util/EnumUtil.h"
 
 #include "IPublishConfigBuilder.h"
@@ -48,17 +51,6 @@ namespace dnp3 {
         void add_message_init_action(const std::function<void(T&)>& action) override;
 
         void add_message_complete_action(const std::function<void(T&)>& action) override;
-
-    private:
-        static double get_scale(const YAML::Node& node)
-        {
-            return yaml::require(node, keys::scale).as<double>();
-        }
-
-        static uint16_t get_index(const YAML::Node& node)
-        {
-            return yaml::require_integer<uint16_t>(node, keys::index);
-        }
     };
 
     template <class T>
@@ -103,17 +95,17 @@ namespace dnp3 {
             break;
         case (SourceType::Value::analog):
             this->builder->add_measurement_handler(
-                [accessor, profile = this->profile, scale = this->get_scale(node)](const opendnp3::Analog& meas) {
+                [accessor, profile = this->profile, scale = yaml::get::scale(node)](const opendnp3::Analog& meas) {
                     accessor->set(*profile, static_cast<int64_t>(meas.value * scale));
                 },
-                get_index(node));
+                yaml::get::index(node));
             break;
         case (SourceType::Value::counter):
             this->builder->add_measurement_handler(
-                [accessor, profile = this->profile, scale = this->get_scale(node)](const opendnp3::Counter& meas) {
+                [accessor, profile = this->profile, scale = yaml::get::scale(node)](const opendnp3::Counter& meas) {
                     accessor->set(*profile, static_cast<int64_t>(meas.value * scale));
                 },
-                get_index(node));
+                yaml::get::index(node));
             break;
         default:
             throw Exception("int64 cannot be mapped to DNP3 type: ", SourceType::to_string(source));
@@ -129,10 +121,10 @@ namespace dnp3 {
             break;
         case (SourceType::Value::analog):
             this->builder->add_measurement_handler(
-                [accessor, profile = this->profile, scale = this->get_scale(node)](const opendnp3::Analog& meas) {
+                [accessor, profile = this->profile, scale = yaml::get::scale(node)](const opendnp3::Analog& meas) {
                     accessor->set(*profile, static_cast<float>(meas.value * scale));
                 },
-                get_index(node));
+                yaml::get::index(node));
             break;
         default:
             throw Exception("float cannot be mapped to DNP3 type: ", SourceType::to_string(source));
@@ -154,7 +146,7 @@ namespace dnp3 {
                 [accessor, profile = this->profile, true_value, false_value](const opendnp3::Binary& meas) {
                     accessor->set(*profile, meas.value ? true_value : false_value);
                 },
-                get_index(node));
+                yaml::get::index(node));
             break;
         }
         default:
