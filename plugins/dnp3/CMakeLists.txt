@@ -6,6 +6,7 @@ set(DNP3_SOURCES
         src/dnp3/ConfigStrings.h
         src/dnp3/ControlConfigWriteVisitor.h
         src/dnp3/ControlConfigWriteVisitor.cpp
+        src/dnp3/ControlSubscriptionHandler.h
         src/dnp3/MeasurementConfigWriteVisitor.h
         src/dnp3/MeasurementConfigWriteVisitor.cpp
         src/dnp3/Plugin.h
@@ -26,8 +27,7 @@ set(DNP3_SOURCES
         src/dnp3/ICommandSequenceExecutor.h
         #generated enums
         src/dnp3/generated/SourceType.h
-        src/dnp3/generated/SourceType.cpp
-)
+        src/dnp3/generated/SourceType.cpp)
 
 set(DNP3_LIBS asiodnp3 asiopal opendnp3 openpal)
 

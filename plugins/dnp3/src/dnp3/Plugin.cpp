@@ -16,9 +16,7 @@
 #include "LogAdapter.h"
 
 #include "PublishingConfigReadVisitor.h"
-/*
 #include "SubscribingConfigReadVisitor.h"
- */
 
 #include <stdexcept>
 
@@ -37,12 +35,9 @@ namespace dnp3 {
         template <class U = T>
         static return_t<profile_info<U>::is_control> handle(const YAML::Node& node, const Logger& logger, message_bus_t bus, std::shared_ptr<IPublishConfigBuilder>, std::shared_ptr<ICommandSequenceExecutor> executor)
         {
-            /*
             SubscribingConfigReadVisitor<T> visitor(node);
             visit(visitor);
             visitor.subscribe(logger, *bus, std::move(executor));
-            */
-            throw Exception("control profiles not supported");
             return true;
         }
 
