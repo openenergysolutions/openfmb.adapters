@@ -77,13 +77,13 @@ namespace dnp3 {
     template <class T>
     void PublishingConfigReadVisitor<T>::handle_mapped_bool(const YAML::Node& node, const accessor_t<T, bool>& accessor)
     {
-        throw Exception("mapped bool not implemented");
+        // ignore - not supported
     }
 
     template <class T>
     void PublishingConfigReadVisitor<T>::handle_mapped_int32(const YAML::Node& node, const accessor_t<T, int32_t>& accessor)
     {
-        throw Exception("mapped int32 not implemented");
+        // ignore - not supported
     }
 
     template <class T>
