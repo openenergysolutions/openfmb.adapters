@@ -4,11 +4,22 @@ set(goose_public_headers
 
 set(goose_private_headers
     ./src/ConfigStrings.h
+    ./src/ControlBlockListener.h
+    ./src/GooseMessageVisitor.h
+    ./src/GoosePath.h
+    ./src/IPublishConfigBuilder.h
+    ./src/Mappings.h
     ./src/MeasurementConfigWriteVisitor.h
+    ./src/NetworkAdapter.h
     ./src/Plugin.h
+    ./src/ProfileReader.h
+    ./src/PublishingConfigReadVisitor.h
 )
 
 set(goose_src
+    ./src/ControlBlockListener.cpp
+    ./src/GooseMessageVisitor.cpp
+    ./src/GoosePath.cpp
     ./src/MeasurementConfigWriteVisitor.cpp
     ./src/Plugin.cpp
     ./src/PluginFactory.cpp

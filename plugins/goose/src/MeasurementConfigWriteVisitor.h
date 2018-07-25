@@ -14,11 +14,14 @@ public:
     explicit MeasurementConfigWriteVisitor(YAML::Emitter& out);
 
 protected:
-    void write_mapped_bool_keys(YAML::Emitter& out) override;
-    void write_mapped_int32_keys(YAML::Emitter& out) override;
-    void write_mapped_int64_keys(YAML::Emitter& out) override;
-    void write_mapped_float_keys(YAML::Emitter& out) override;
-    void write_mapped_enum_keys(YAML::Emitter& out, google::protobuf::EnumDescriptor const* descriptor) override;
+    void write_mapped_bool_keys(YAML::Emitter& out) final;
+    void write_mapped_int32_keys(YAML::Emitter& out) final;
+    void write_mapped_int64_keys(YAML::Emitter& out) final;
+    void write_mapped_float_keys(YAML::Emitter& out) final;
+    void write_mapped_enum_keys(YAML::Emitter& out, google::protobuf::EnumDescriptor const* descriptor) final;
+
+private:
+    void write_path(YAML::Emitter& out);
 };
 
 } // namespace goose
