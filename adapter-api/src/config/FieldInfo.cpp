@@ -145,14 +145,14 @@ namespace fields {
                             [](IDescriptorPath &path) -> bool {
                                 return path.has_parents({{keys::description, google::protobuf::StringValue::descriptor()}});
                             },
-                            StringFieldType::Value::constant_uuid
+                            StringFieldType::Value::constant
                         },
                         {
                             // all names are optional constants
                             [](IDescriptorPath &path) -> bool {
                                 return path.has_parents({{keys::name, google::protobuf::StringValue::descriptor()}});
                             },
-                            StringFieldType::Value::constant_uuid
+                            StringFieldType::Value::constant
                         },
                         {
                             // these labels are all optional descriptions

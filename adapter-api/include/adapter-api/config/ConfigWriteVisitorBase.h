@@ -18,8 +18,6 @@
 
 namespace adapter {
 
-//using write_fun_t = std::function<void(YAML::Emitter&)>;
-
 class ConfigWriteVisitorBase : public IModelVisitor {
 
     YAML::Emitter& out;

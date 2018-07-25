@@ -4,6 +4,8 @@
 
 #include <yaml-cpp/yaml.h>
 
+#include <google/protobuf/descriptor.h>
+
 namespace adapter {
 namespace yaml {
     namespace get {
@@ -13,6 +15,8 @@ namespace yaml {
         double scale(const YAML::Node& node);
 
         uint16_t index(const YAML::Node& node);
+
+        int enum_value(const YAML::Node& node, const std::string& key, const ::google::protobuf::EnumDescriptor& desc);
     }
 }
 }

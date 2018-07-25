@@ -17,6 +17,10 @@ namespace dnp3 {
     public:
         explicit MeasurementConfigWriteVisitor(YAML::Emitter& out);
 
+        StringFieldType::Value remap(StringFieldType::Value type) override;
+
+        EnumFieldType::Value remap(EnumFieldType::Value type) override;
+
     protected:
         // --- mapping functions from base class  ---
 
