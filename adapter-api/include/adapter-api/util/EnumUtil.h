@@ -3,9 +3,14 @@
 
 #include <sstream>
 
+#include <google/protobuf/descriptor.h>
+
 namespace adapter {
 namespace enumeration {
 
+    int try_get_value(const std::string& name, const ::google::protobuf::EnumDescriptor& desc);
+
+    /*
     template <class E>
     std::string get_value_set_as_string()
     {
@@ -20,6 +25,7 @@ namespace enumeration {
         oss << "}";
         return oss.str();
     }
+    */
 
     template <class E>
     std::string get_value_set_from_list(const std::initializer_list<typename E::Value>& values)

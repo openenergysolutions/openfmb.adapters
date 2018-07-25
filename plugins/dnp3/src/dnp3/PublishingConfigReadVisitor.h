@@ -4,6 +4,7 @@
 
 #include "adapter-api/ConfigStrings.h"
 #include "adapter-api/config/PublishingConfigReadVisitorBase.h"
+#include "adapter-api/util/EnumUtil.h"
 
 #include "IPublishConfigBuilder.h"
 
@@ -25,24 +26,9 @@ namespace dnp3 {
         const std::shared_ptr<IPublishConfigBuilder> builder;
 
     public:
-        PublishingConfigReadVisitor(const YAML::Node& root, publisher_t publisher, std::shared_ptr<IPublishConfigBuilder> builder)
-            : PublishingConfigReadVisitorBase<T>(root)
-            , publisher(std::move(publisher))
-            , builder(std::move(builder))
-        {
-            this->builder->add_start_action(
-                [profile = this->profile]() {
-                    profile->Clear();
-                });
-        }
+        PublishingConfigReadVisitor(const YAML::Node& root, publisher_t publisher, std::shared_ptr<IPublishConfigBuilder> builder);
 
-        ~PublishingConfigReadVisitor()
-        {
-            this->builder->add_end_action(
-                [profile = this->profile, publisher = this->publisher]() {
-                    publisher->publish(*profile);
-                });
-        }
+        ~PublishingConfigReadVisitor();
 
     protected:
         /// ----  handlers for mapped types ----
@@ -59,19 +45,9 @@ namespace dnp3 {
 
         /// ----  generic message init/complete handlers ----
 
-        void add_message_init_action(const std::function<void(T&)>& action) override
-        {
-            this->builder->add_start_action([action, profile = this->profile]() {
-                action(*profile);
-            });
-        }
+        void add_message_init_action(const std::function<void(T&)>& action) override;
 
-        void add_message_complete_action(const std::function<void(T&)>& action) override
-        {
-            this->builder->add_end_action([action, profile = this->profile]() {
-                action(*profile);
-            });
-        }
+        void add_message_complete_action(const std::function<void(T&)>& action) override;
 
     private:
         static double get_scale(const YAML::Node& node)
@@ -83,17 +59,28 @@ namespace dnp3 {
         {
             return yaml::require_integer<uint16_t>(node, keys::index);
         }
-
-        static int get_enum_value(const std::string& name, google::protobuf::EnumDescriptor const* desc)
-        {
-            const auto value = desc->FindValueByName(name);
-            if (value) {
-                return value->number();
-            } else {
-                throw Exception("Unknown enum name: ", name);
-            }
-        }
     };
+
+    template <class T>
+    PublishingConfigReadVisitor<T>::PublishingConfigReadVisitor(const YAML::Node& root, publisher_t publisher, std::shared_ptr<IPublishConfigBuilder> builder)
+        : PublishingConfigReadVisitorBase<T>(root)
+        , publisher(std::move(publisher))
+        , builder(std::move(builder))
+    {
+        this->builder->add_start_action(
+            [profile = this->profile]() {
+                profile->Clear();
+            });
+    }
+
+    template <class T>
+    PublishingConfigReadVisitor<T>::~PublishingConfigReadVisitor()
+    {
+        this->builder->add_end_action(
+            [profile = this->profile, publisher = this->publisher]() {
+                publisher->publish(*profile);
+            });
+    }
 
     template <class T>
     void PublishingConfigReadVisitor<T>::handle_mapped_bool(const YAML::Node& node, const accessor_t<T, bool>& accessor)
@@ -160,8 +147,8 @@ namespace dnp3 {
         case (SourceType::Value::none):
             break;
         case (SourceType::Value::binary): {
-            const auto true_value = get_enum_value(yaml::require_string(node, keys::when_true), commonmodule::DynamicTestKind_descriptor());
-            const auto false_value = get_enum_value(yaml::require_string(node, keys::when_false), commonmodule::DynamicTestKind_descriptor());
+            const auto true_value = enumeration::try_get_value(yaml::require_string(node, keys::when_true), *commonmodule::DynamicTestKind_descriptor());
+            const auto false_value = enumeration::try_get_value(yaml::require_string(node, keys::when_false), *commonmodule::DynamicTestKind_descriptor());
 
             this->builder->add_measurement_handler(
                 [accessor, profile = this->profile, true_value, false_value](const opendnp3::Binary& meas) {
@@ -173,6 +160,22 @@ namespace dnp3 {
         default:
             throw Exception("enums cannot be mapped to DNP3 type: ", SourceType::to_string(source));
         }
+    }
+
+    template <class T>
+    void PublishingConfigReadVisitor<T>::add_message_init_action(const std::function<void(T&)>& action)
+    {
+        this->builder->add_start_action([action, profile = this->profile]() {
+            action(*profile);
+        });
+    }
+
+    template <class T>
+    void PublishingConfigReadVisitor<T>::add_message_complete_action(const std::function<void(T&)>& action)
+    {
+        this->builder->add_end_action([action, profile = this->profile]() {
+            action(*profile);
+        });
     }
 }
 }
