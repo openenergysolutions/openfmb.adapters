@@ -7,15 +7,16 @@
 
 namespace adapter {
 namespace dnp3 {
+
     class CommandSequence final : public ICommandSink, public ICommandSequence {
         const std::string name;
 
         class Compare {
         public:
-            bool operator()(const PrioritizedCommand& lhs, const PrioritizedCommand& rhs)
+            bool operator()(const CommandInfo& lhs, const CommandInfo& rhs)
             {
                 // lower number is higher priority
-                return lhs.get_priority() > rhs.get_priority();
+                return lhs.index > rhs.index;
             }
         };
 
@@ -27,9 +28,9 @@ namespace dnp3 {
 
         /// --- implement ICommandSink ---
 
-        void add(const PrioritizedCommand& command) override
+        void add(const Control& control) override
         {
-            queue.push(command);
+            queue.push(CommandInfo::direct_operate(control));
         }
 
         /// --- implement ICommandSequence ---
@@ -43,7 +44,7 @@ namespace dnp3 {
         {
             if (queue.empty())
                 return false;
-            queue.top().begin_execute(processor, callback);
+            queue.top().action(processor, callback);
             queue.pop();
             return true;
         }
@@ -57,11 +58,11 @@ namespace dnp3 {
 
         bool is_empty() const
         {
-            return queue.empty();
+            return true;
         }
 
     private:
-        std::priority_queue<PrioritizedCommand, std::vector<PrioritizedCommand>, Compare> queue;
+        std::priority_queue<CommandInfo, std::vector<CommandInfo>, Compare> queue;
     };
 }
 }

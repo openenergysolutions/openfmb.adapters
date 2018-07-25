@@ -111,13 +111,21 @@ public class Enumerations {
                 )
         );
 
+        private final static Enumeration commandType = new Enumeration(
+                Arrays.asList("Command", "Type"),
+                Arrays.asList(
+                        Enumeration.entry("crob", "the command is a ControlRelayOutputBlock"),
+                        Enumeration.entry("analog_output", "the command is an AnalogOutout")
+                )
+        );
+
         private static List<Enumeration> enums() {
-            return Collections.singletonList(source);
+            return Arrays.asList(source, commandType);
         }
 
         private static final Path path = Paths.get("../plugins/dnp3/src/dnp3/generated");
 
-        private static final List<String> namespaces = Arrays.asList("adapter", "dnp3");
+        private static final List<String> namespaces = Arrays.asList("dnp3", "adapter");
 
         public static final GeneratedFileSet set = new GeneratedFileSet(
                 Collections.singletonList(path),
