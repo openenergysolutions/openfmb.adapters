@@ -24,29 +24,6 @@ namespace dnp3 {
     {
     }
 
-    StringFieldType::Value MeasurementConfigWriteVisitor::remap(StringFieldType::Value type)
-    {
-        switch (type) {
-        // we can't supply an intelligent default for these constants so it to ignored and let the user change it
-        case (StringFieldType::Value::constant):
-        case (StringFieldType::Value::constant_uuid):
-            return StringFieldType::Value::ignored;
-        default:
-            return type;
-        }
-    }
-
-    EnumFieldType::Value MeasurementConfigWriteVisitor::remap(EnumFieldType::Value type)
-    {
-        switch (type) {
-        // we can't supply an intelligent default for these constants so it to ignored and let the user change it
-        case (EnumFieldType::Value::constant):
-            return EnumFieldType::Value::ignored;
-        default:
-            return type;
-        }
-    }
-
     // --- map write function from base class ---
 
     void MeasurementConfigWriteVisitor::write_mapped_bool_keys(YAML::Emitter& out)

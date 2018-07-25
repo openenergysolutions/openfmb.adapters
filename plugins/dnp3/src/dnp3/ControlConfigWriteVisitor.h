@@ -18,14 +18,6 @@ namespace dnp3 {
         explicit ControlConfigWriteVisitor(YAML::Emitter& out);
 
     protected:
-        Int32FieldType::Value remap(Int32FieldType::Value type) override;
-
-        FloatFieldType::Value remap(FloatFieldType::Value type) override;
-
-        EnumFieldType::Value remap(EnumFieldType::Value type) override;
-
-        StringFieldType::Value remap(StringFieldType::Value type) override;
-
         // --- mapping functions from base class  ---
 
         void write_mapped_bool_keys(YAML::Emitter& out) override;

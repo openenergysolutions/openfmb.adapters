@@ -17,35 +17,6 @@ namespace dnp3 {
     {
     }
 
-    // --- remapping methods from base class ---
-
-    Int32FieldType::Value ControlConfigWriteVisitor::remap(Int32FieldType::Value type)
-    {
-        return (type == Int32FieldType::Value::mapped) ? Int32FieldType::Value::ignored : type;
-    }
-
-    EnumFieldType::Value ControlConfigWriteVisitor::remap(EnumFieldType::Value type)
-    {
-        return (type == EnumFieldType::Value::mapped) ? EnumFieldType::Value::ignored : type;
-    }
-
-    FloatFieldType::Value ControlConfigWriteVisitor::remap(FloatFieldType::Value type)
-    {
-        return (type == FloatFieldType::Value::mapped) ? FloatFieldType::Value::ignored : type;
-    }
-
-    StringFieldType::Value ControlConfigWriteVisitor::remap(StringFieldType::Value type)
-    {
-        switch (type) {
-        // these types aren't useful in a control profile
-        case (StringFieldType::Value::constant):
-        case (StringFieldType::Value::constant_uuid):
-            return StringFieldType::Value::ignored;
-        default:
-            return type;
-        }
-    }
-
     // --- map write function from base class ---
 
     void ControlConfigWriteVisitor::write_mapped_bool_keys(YAML::Emitter& out)
