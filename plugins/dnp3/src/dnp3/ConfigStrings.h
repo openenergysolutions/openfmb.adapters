@@ -31,7 +31,6 @@ namespace dnp3 {
         constexpr const char* const profile = "profile";
         constexpr const char* const index = "index";
         constexpr const char* const scale = "scale";
-        constexpr const char* const source_type = "source-type";
         constexpr const char* const high = "high";
         constexpr const char* const low = "low";
         constexpr const char* const priority = "priority";
