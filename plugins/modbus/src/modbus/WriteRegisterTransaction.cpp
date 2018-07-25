@@ -14,7 +14,7 @@ namespace modbus {
         };
 
         session->send_request(
-            ::modbus::WriteSingleRegisterRequest{ .value = ::modbus::RegisterValue{ .address = this->index, .value = this->value } },
+            ::modbus::WriteSingleRegisterRequest{::modbus::RegisterValue{this->index, this->value } },
             write_callback);
     }
 }

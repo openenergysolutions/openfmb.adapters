@@ -25,7 +25,7 @@ namespace modbus {
 
     void CommandSink::set_register(uint16_t index, uint32_t priority, uint16_t value)
     {
-        this->set_operations.push_back(SetOp{ .index = index, .value = value, .priority = priority });
+        this->set_operations.push_back(SetOp{index, value, priority});
     }
 
     void CommandSink::modify_register(uint16_t index, uint32_t priority, modify_reg_op_t operation)

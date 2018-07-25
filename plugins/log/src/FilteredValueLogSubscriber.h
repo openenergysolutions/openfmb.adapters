@@ -179,14 +179,14 @@ namespace log {
             const auto values = yaml::require(config, keys::values);
 
             const auto add_tag = [&](const YAML::Node& node) {
-                this->tags.push_back(
-                    TagPair{
-                        .name = yaml::require_string(node, keys::tag),
-                        .alias = yaml::require_string(node, keys::alias),
-                        .digits = yaml::require(node, keys::digits).as<int>() });
+                this->tags.push_back(TagPair{
+                    yaml::require_string(node, keys::tag),
+                    yaml::require_string(node, keys::alias),
+                    yaml::require(node, keys::digits).as<int>()
+                });
             };
 
-            yaml::foreach (values, add_tag);
+            yaml::foreach(values, add_tag);
         }
 
     private:

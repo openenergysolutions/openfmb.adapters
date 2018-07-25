@@ -16,3 +16,6 @@
 [submodule "deps/cppcodec"]
 	path = deps/cppcodec
 	url = https://github.com/tplgy/cppcodec.git
+[submodule "deps/goose-cpp"]
+	path = deps/goose-cpp
+	url = git@github.com:openenergysolutions/goose-cpp.git
