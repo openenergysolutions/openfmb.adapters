@@ -43,7 +43,7 @@ namespace dnp3 {
 
         out << YAML::BeginMap;
         out << YAML::Key << control_code << YAML::Value << ControlCodeMeta::to_string(control.crob.functionCode);
-        out << YAML::Key << count << YAML::Value << control.crob.count;
+        out << YAML::Key << count << YAML::Value << static_cast<int>(control.crob.count);
         out << YAML::Key << on_time_ms << YAML::Value << control.crob.onTimeMS;
         out << YAML::Key << off_time_ms << YAML::Value << control.crob.offTimeMS;
         out << YAML::EndMap;
