@@ -167,8 +167,8 @@ public class Enumerations {
         private final static Enumeration registerOperation = new Enumeration(
                 Arrays.asList("Register","Operation"),
                 Arrays.asList(
-                        Enumeration.entry("read_clear_masked_bits", "read the register, clear masked bits, and write it back"),
-                        Enumeration.entry("read_set_masked_bits", "read the register, set masked bits, and write it back"),
+                        Enumeration.entry("clear_masked_bits", "read the register, clear masked bits, and write it back"),
+                        Enumeration.entry("set_masked_bits", "read the register, set masked bits, and write it back"),
                         Enumeration.entry("write_value", "write the register with the specified value")
                 )
         );

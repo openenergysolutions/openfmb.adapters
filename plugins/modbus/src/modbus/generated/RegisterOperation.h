@@ -26,15 +26,15 @@ struct RegisterOperation
     enum class Value
     {
         // read the register, clear masked bits, and write it back
-        read_clear_masked_bits,
+        clear_masked_bits,
         // read the register, set masked bits, and write it back
-        read_set_masked_bits,
+        set_masked_bits,
         // write the register with the specified value
         write_value,
     };
 
-    static const char read_clear_masked_bits[];
-    static const char read_set_masked_bits[];
+    static const char clear_masked_bits[];
+    static const char set_masked_bits[];
     static const char write_value[];
 
     static constexpr const char* label = "register-operation";

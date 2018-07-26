@@ -17,7 +17,7 @@ namespace modbus {
     void write_output_action(YAML::Emitter& out)
     {
         out << YAML::Key << OutputType::label << YAML::Value << OutputType::none << YAML::Comment(enumeration::get_value_set<OutputType>());
-        out << YAML::Key << RegisterOperation::label << YAML::Value << RegisterOperation::read_set_masked_bits << YAML::Comment(enumeration::get_value_set<RegisterOperation>());
+        out << YAML::Key << RegisterOperation::label << YAML::Value << RegisterOperation::set_masked_bits << YAML::Comment(enumeration::get_value_set<RegisterOperation>());
         out << YAML::Key << ::adapter::keys::index << YAML::Value << 0;
         out << YAML::Key << keys::mask << YAML::Value << YAML::Hex << 0x0001;
     }

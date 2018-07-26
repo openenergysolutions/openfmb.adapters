@@ -21,14 +21,14 @@ namespace adapter {
 
 namespace modbus {
 
-const char RegisterOperation::read_clear_masked_bits[] = "read_clear_masked_bits";
-const char RegisterOperation::read_set_masked_bits[] = "read_set_masked_bits";
+const char RegisterOperation::clear_masked_bits[] = "clear_masked_bits";
+const char RegisterOperation::set_masked_bits[] = "set_masked_bits";
 const char RegisterOperation::write_value[] = "write_value";
 
 const std::array<RegisterOperation::Value, 3> RegisterOperation::values =
 {
-    RegisterOperation::Value::read_clear_masked_bits,
-    RegisterOperation::Value::read_set_masked_bits,
+    RegisterOperation::Value::clear_masked_bits,
+    RegisterOperation::Value::set_masked_bits,
     RegisterOperation::Value::write_value,
 };
 
@@ -36,8 +36,8 @@ std::string RegisterOperation::to_string(RegisterOperation::Value value)
 {
     switch(value)
     {
-        case(Value::read_clear_masked_bits): return read_clear_masked_bits;
-        case(Value::read_set_masked_bits): return read_set_masked_bits;
+        case(Value::clear_masked_bits): return clear_masked_bits;
+        case(Value::set_masked_bits): return set_masked_bits;
         default: return write_value;
     }
 }
@@ -46,8 +46,8 @@ RegisterOperation::Value RegisterOperation::from_string(const std::string& name)
 {
     static const std::map<std::string, Value> map = 
     {
-        {read_clear_masked_bits, Value::read_clear_masked_bits},
-        {read_set_masked_bits, Value::read_set_masked_bits},
+        {clear_masked_bits, Value::clear_masked_bits},
+        {set_masked_bits, Value::set_masked_bits},
         {write_value, Value::write_value},
     };
     const auto elem = map.find(name);
