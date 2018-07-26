@@ -4,6 +4,9 @@ set(MODBUS_PUBLIC_HEADERS
 
 set(MODBUS_SOURCES
         src/modbus/CommandOrdering.h
+        src/modbus/ICommandPrioritySource.h
+        src/modbus/CommandPriorityMap.h
+        src/modbus/CommandPriorityMap.cpp
         src/modbus/PublishConfigReadVisitor.h
         src/modbus/SubscribeConfigReadVisitor.h
         src/modbus/ConfigStrings.h

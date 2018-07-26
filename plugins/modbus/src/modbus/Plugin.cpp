@@ -17,8 +17,10 @@
 #include "PollHandler.h"
 #include "PollTransaction.h"
 
+#include "CommandPriorityMap.h"
 #include "ConfigStrings.h"
 #include "PublishConfigReadVisitor.h"
+#include "SubscribeConfigReadVisitor.h"
 #include "TransactionProcessor.h"
 
 namespace adapter {
@@ -33,12 +35,18 @@ namespace modbus {
         template <class U = T>
         static return_t<profile_info<U>::is_control> handle(const YAML::Node& node, const Logger& logger, message_bus_t bus, std::shared_ptr<PollHandler> handler, std::shared_ptr<ITransactionProcessor> processor)
         {
-            /*
-            SubscribeConfigReadVisitor<T> visitor(node);
+            CommandPriorityMap priority_map(
+                    command_ordering_t::read_sequence(yaml::require(node, ::adapter::keys::command_order))
+            );
+
+
+            SubscribeConfigReadVisitor<T> visitor(
+                    yaml::require(node, ::adapter::keys::mapping),
+                    priority_map
+            );
+            
             visit(visitor);
             visitor.subscribe(logger, *bus, std::move(processor));
-             */
-            throw Exception("Control profiles not supported");
             return true;
         }
 
