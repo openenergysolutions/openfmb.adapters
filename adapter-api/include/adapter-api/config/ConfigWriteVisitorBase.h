@@ -18,28 +18,12 @@
 
 namespace adapter {
 
-//using write_fun_t = std::function<void(YAML::Emitter&)>;
-
 class ConfigWriteVisitorBase : public IModelVisitor {
 
     YAML::Emitter& out;
     DescriptorPath path;
 
 protected:
-    /// ---- methods that give base classes a change to remap support for a type ----
-
-    virtual BoolFieldType::Value remap(BoolFieldType::Value type) { return type; }
-
-    virtual Int32FieldType::Value remap(Int32FieldType::Value type) { return type; }
-
-    virtual Int64FieldType::Value remap(Int64FieldType::Value type) { return type; }
-
-    virtual FloatFieldType::Value remap(FloatFieldType::Value type) { return type; }
-
-    virtual EnumFieldType::Value remap(EnumFieldType::Value type) { return type; }
-
-    virtual StringFieldType::Value remap(StringFieldType::Value type) { return type; }
-
     /// ---- handlers for writing protocol specific mappings ----
 
     virtual void write_mapped_bool_keys(YAML::Emitter& out) = 0;
@@ -88,6 +72,19 @@ public:
     void handle_commonmodule_Timestamp(const std::string& field_name) final;
 
     void handle_commonmodule_ControlTimestamp(const std::string& field_name) final;
+
+private:
+    static BoolFieldType::Value remap(BoolFieldType::Value type);
+
+    static Int32FieldType::Value remap(Int32FieldType::Value type);
+
+    static Int64FieldType::Value remap(Int64FieldType::Value type);
+
+    static FloatFieldType::Value remap(FloatFieldType::Value type);
+
+    static StringFieldType::Value remap(StringFieldType::Value type);
+
+    static EnumFieldType::Value remap(EnumFieldType::Value type);
 };
 }
 

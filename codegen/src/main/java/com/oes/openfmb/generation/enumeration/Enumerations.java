@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 public class Enumerations {
 
-    public static final List<GeneratedFileSet> sets = Arrays.asList(API.set, DNP3.set);
+    public static final List<GeneratedFileSet> sets = Arrays.asList(API.set, DNP3.set, Modbus.set);
 
     private static class API {
 
@@ -111,13 +111,21 @@ public class Enumerations {
                 )
         );
 
+        private final static Enumeration commandType = new Enumeration(
+                Arrays.asList("Command", "Type"),
+                Arrays.asList(
+                        Enumeration.entry("crob", "the command is a ControlRelayOutputBlock"),
+                        Enumeration.entry("analog_output", "the command is an AnalogOutout")
+                )
+        );
+
         private static List<Enumeration> enums() {
-            return Collections.singletonList(source);
+            return Arrays.asList(source, commandType);
         }
 
         private static final Path path = Paths.get("../plugins/dnp3/src/dnp3/generated");
 
-        private static final List<String> namespaces = Arrays.asList("adapter", "dnp3");
+        private static final List<String> namespaces = Arrays.asList("dnp3", "adapter");
 
         public static final GeneratedFileSet set = new GeneratedFileSet(
                 Collections.singletonList(path),
@@ -125,4 +133,56 @@ public class Enumerations {
         );
     }
 
+    private static class Modbus {
+
+        private final static Enumeration registerMapping = new Enumeration(
+                Arrays.asList("Register", "Mapping"),
+                Arrays.asList(
+                        Enumeration.entry("sint16", "single signed register"),
+                        Enumeration.entry("uint16", "single unsigned register"),
+                        Enumeration.entry("sint32", "32-bit signed register, formed from two modbus 16-bit registers"),
+                        Enumeration.entry("uint32", "32-bit unsigned register, formed from two modbus 16-bit registers"),
+                        Enumeration.entry("sint32_with_modulus", "32-bit signed register, formed from two modbus 16-bit registers, custom modulus"),
+                        Enumeration.entry("uint32_with_modulus", "32-bit unsigned register, formed from two modbus 16-bit registers, custom modulus")
+                )
+        );
+
+        private final static Enumeration sourceType = new Enumeration(
+                Arrays.asList("Source","Type"),
+                Arrays.asList(
+                        Enumeration.entry("none", "field is not mapped"),
+                        Enumeration.entry("holding_register", "field is mapped out of a holding register")
+                )
+        );
+
+        private final static Enumeration outputType = new Enumeration(
+                Arrays.asList("Output","Type"),
+                Arrays.asList(
+                        Enumeration.entry("none", "output is not mapped"),
+                        Enumeration.entry("write_holding_register", "output is a write to a single holding register")
+                )
+        );
+
+        private final static Enumeration registerOperation = new Enumeration(
+                Arrays.asList("Register","Operation"),
+                Arrays.asList(
+                        Enumeration.entry("clear_masked_bits", "read the register, clear masked bits, and write it back"),
+                        Enumeration.entry("set_masked_bits", "read the register, set masked bits, and write it back"),
+                        Enumeration.entry("write_value", "write the register with the specified value")
+                )
+        );
+
+        private static List<Enumeration> enums() {
+            return Arrays.asList(registerMapping, sourceType, outputType, registerOperation);
+        }
+
+        private static final Path path = Paths.get("../plugins/modbus/src/modbus/generated");
+
+        private static final List<String> namespaces = Arrays.asList("modbus", "adapter");
+
+        public static final GeneratedFileSet set = new GeneratedFileSet(
+                Collections.singletonList(path),
+                FileGenerator.convert(path, path, enums().stream().map(e -> new EnumFiles(e, namespaces)).collect(Collectors.toList()))
+        );
+    }
 }

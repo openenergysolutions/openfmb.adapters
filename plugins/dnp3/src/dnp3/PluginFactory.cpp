@@ -10,6 +10,7 @@
 #include "ControlConfigWriteVisitor.h"
 #include "MeasurementConfigWriteVisitor.h"
 
+#include "CommandOrdering.h"
 #include "ConfigStrings.h"
 #include "Plugin.h"
 
@@ -21,28 +22,43 @@ namespace dnp3 {
         static void handle(YAML::Emitter& out)
         {
             std::cout << "Generating: " << T::descriptor()->name() << std::endl;
+
+            if (profile_info<T>::is_control) {
+                out << YAML::Key << ::adapter::keys::command_order << YAML::Comment("order of commands - first == highest priority, last == lowest priority");
+
+                // provide an example of the two types
+                CommandOrdering::write_sequence(
+                    {
+                        { 0, CommandType::Value::crob },
+                        { 1, CommandType::Value::analog_output },
+                    },
+                    out);
+            }
+
+            out << YAML::Key << ::adapter::keys::mapping << YAML::Comment("profile model starts here");
+            out << YAML::BeginMap;
+
             if (profile_info<T>::is_control) {
                 ControlConfigWriteVisitor visitor(out);
                 visit<T>(visitor);
+
             } else {
                 MeasurementConfigWriteVisitor visitor(out);
                 visit<T>(visitor);
             }
+
+            out << YAML::EndMap;
         }
     };
 
     void write_profile_configs(YAML::Emitter& out, const profile_vec_t& profiles)
     {
         for (const auto& profile : profiles) {
-            out << YAML::BeginMap;
-            out << YAML::Key << "name" << YAML::Value << profile;
 
-            out << YAML::Key << keys::mapping << YAML::Comment("profile model starts here");
             out << YAML::BeginMap;
+            out << YAML::Key << ::adapter::keys::name << YAML::Value << profile;
+
             ProfileRegistry::handle_by_name<WriterHandler>(profile, out);
-            out << YAML::EndMap;
-
-            out << YAML::EndMap;
         }
     }
 

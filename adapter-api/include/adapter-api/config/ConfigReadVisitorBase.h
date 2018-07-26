@@ -31,10 +31,7 @@ private:
 public:
     bool start_message_field(const std::string& field_name, google::protobuf::Descriptor const* descriptor) final
     {
-        if (fields::is_message_ignored(field_name, descriptor, path))
-            return false;
-
-        auto node = this->get_config_node(field_name);
+        const auto node = this->get_config_node(field_name);
 
         this->path.push(field_name, descriptor);
         this->current_node.push(node);
@@ -49,7 +46,7 @@ public:
 
     int start_repeated_message_field(const std::string& field_name, google::protobuf::Descriptor const* descriptor) final
     {
-        auto node = get_config_node(field_name);
+        const auto node = get_config_node(field_name);
 
         if (!node.IsSequence()) {
             throw Exception("Node is not a sequence: ", field_name, " at line: ", node.Mark().line);

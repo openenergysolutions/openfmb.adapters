@@ -4,6 +4,9 @@
 
 #include <opendnp3/master/ICommandProcessor.h>
 
+#include "CommandOrdering.h"
+#include "Control.h"
+
 #include <adapter-api/util/Exception.h>
 #include <functional>
 #include <map>
@@ -11,20 +14,21 @@
 
 namespace adapter {
 namespace dnp3 {
+
     /**
-         * Something that can start a DNP3 command operation given the interface and the callback
-         */
+         Something that can start a DNP3 command operation given the interface and the callback
+    */
     using command_action_t = std::function<void(opendnp3::ICommandProcessor&, const opendnp3::CommandCallbackT& callback)>;
 
     class PrioritizedCommand {
     public:
-        PrioritizedCommand(command_action_t action, const uint32_t priority)
+        PrioritizedCommand(command_action_t action, int priority)
             : action(std::move(action))
             , priority(priority)
         {
         }
 
-        inline uint32_t get_priority() const
+        inline int get_priority() const
         {
             return this->priority;
         }
@@ -36,12 +40,12 @@ namespace dnp3 {
 
     private:
         command_action_t action;
-        uint32_t priority;
+        int priority;
     };
 
     /**
-         * Something that accepts prioritized commands
-         */
+     * Something that accepts prioritized commands
+     */
     class ICommandSink {
     public:
         virtual ~ICommandSink() = default;
@@ -50,8 +54,8 @@ namespace dnp3 {
     };
 
     /**
-         * Something that can send command actions to a sink given an instance of the prorfile
-         */
+     * Something that can send command actions to a sink given an instance of the profile
+     */
     template <class T>
     using command_action_builder_t = std::function<void(const T& profile, Logger& logger, ICommandSink& sink)>;
 

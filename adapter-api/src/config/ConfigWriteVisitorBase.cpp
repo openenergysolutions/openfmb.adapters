@@ -16,9 +16,6 @@ ConfigWriteVisitorBase::ConfigWriteVisitorBase(YAML::Emitter& out)
 
 bool ConfigWriteVisitorBase::start_message_field(const std::string& field_name, google::protobuf::Descriptor const* descriptor)
 {
-    if (fields::is_message_ignored(field_name, descriptor, this->path))
-        return false;
-
     this->path.push(field_name, descriptor);
 
     out << YAML::Key << field_name;
@@ -136,19 +133,14 @@ void ConfigWriteVisitorBase::handle_string(const std::string& field_name)
 
 void ConfigWriteVisitorBase::handle_enum(const std::string& field_name, google::protobuf::EnumDescriptor const* descriptor)
 {
-    const auto type = this->remap(fields::get_enum_type(descriptor));
+    const auto type = remap(fields::get_enum_type(descriptor));
 
     out << YAML::Key << field_name;
     out << YAML::BeginMap;
     out << YAML::Key << EnumFieldType::label << YAML::Value << EnumFieldType::to_string(type);
 
-    switch (type) {
-    case (EnumFieldType::Value::constant):
-        out << YAML::Key << keys::value << YAML::Value << "";
-        break;
-    default:
+    if (type == EnumFieldType::Value::mapped) {
         this->write_mapped_enum_keys(out, descriptor);
-        break;
     }
 
     out << YAML::EndMap;
@@ -178,5 +170,72 @@ void ConfigWriteVisitorBase::handle_commonmodule_ControlTimestamp(const std::str
     out << YAML::BeginMap;
     out << YAML::Key << ControlTimestampFieldType::label << YAML::Value << ControlTimestampFieldType::ignored;
     out << YAML::EndMap;
+}
+
+BoolFieldType::Value ConfigWriteVisitorBase::remap(BoolFieldType::Value type)
+{
+    switch (type) {
+    // it's impossible to provide intelligent defaults for constants, so let the user override it if they want a constant
+    case (BoolFieldType::Value::constant):
+        return BoolFieldType::Value::ignored;
+    default:
+        return type;
+    }
+}
+
+Int32FieldType::Value ConfigWriteVisitorBase::remap(Int32FieldType::Value type)
+{
+    switch (type) {
+    // it's impossible to provide intelligent defaults for constants, so let the user override it if they want a constant
+    case (Int32FieldType::Value::constant):
+        return Int32FieldType::Value::ignored;
+    default:
+        return type;
+    }
+}
+
+Int64FieldType::Value ConfigWriteVisitorBase::remap(Int64FieldType::Value type)
+{
+    switch (type) {
+    // it's impossible to provide intelligent defaults for constants, so let the user override it if they want a constant
+    case (Int64FieldType::Value::constant):
+        return Int64FieldType::Value::ignored;
+    default:
+        return type;
+    }
+}
+
+FloatFieldType::Value ConfigWriteVisitorBase::remap(FloatFieldType::Value type)
+{
+    switch (type) {
+    // it's impossible to provide intelligent defaults for constants, so let the user override it if they want a constant
+    case (FloatFieldType::Value::constant):
+        return FloatFieldType::Value::ignored;
+    default:
+        return type;
+    }
+}
+
+StringFieldType::Value ConfigWriteVisitorBase::remap(StringFieldType::Value type)
+{
+    switch (type) {
+    // it's impossible to provide intelligent defaults for constants, so let the user override it if they want a constant
+    case (StringFieldType::Value::constant):
+    case (StringFieldType::Value::constant_uuid):
+        return StringFieldType::Value::ignored;
+    default:
+        return type;
+    }
+}
+
+EnumFieldType::Value ConfigWriteVisitorBase::remap(EnumFieldType::Value type)
+{
+    switch (type) {
+    // it's impossible to provide intelligent defaults for constants, so let the user override it if they want a constant
+    case (EnumFieldType::Value::constant):
+        return EnumFieldType::Value::ignored;
+    default:
+        return type;
+    }
 }
 }

@@ -4,22 +4,47 @@
 #include <adapter-api/util/Exception.h>
 #include <adapter-api/util/YAMLTemplate.h>
 
+#include <adapter-api/ConfigStrings.h>
+#include <adapter-api/ProfileInfo.h>
+#include <adapter-api/config/generated/ModelVisitors.h>
+
+#include "ControlConfigWriteVisitor.h"
+#include "MeasurementConfigWriteVisitor.h"
+
 #include "ConfigStrings.h"
 #include "Plugin.h"
 
 namespace adapter {
 namespace modbus {
 
-    /*
     template <class T>
     struct ProfileWriter {
         static void handle(YAML::Emitter& out)
         {
-            MeasurementConfigWriteVisitor<T> visitor(out);
-            visit(visitor);
+            std::cout << "Generating: " << T::descriptor()->name() << std::endl;
+
+            if (profile_info<T>::is_control) {
+                out << YAML::Key << "command-order" << YAML::Comment("order of commands - first == highest priority, last == lowest priority");
+                out << YAML::BeginSeq;
+                out << 0;
+                out << 1;
+                out << YAML::EndSeq;
+            }
+
+            out << YAML::Key << ::adapter::keys::mapping << YAML::Comment("profile model starts here");
+            out << YAML::BeginMap;
+
+            if (profile_info<T>::is_control) {
+                ControlConfigWriteVisitor visitor(out);
+                visit<T>(visitor);
+            } else {
+                MeasurementConfigWriteVisitor visitor(out);
+                visit<T>(visitor);
+            }
+
+            out << YAML::EndMap;
         }
     };
-    */
 
     void PluginFactory::write_default_config(YAML::Emitter& out) const
     {
@@ -39,7 +64,7 @@ namespace modbus {
     {
         out << YAML::BeginMap;
 
-        out << YAML::Key << keys::name << YAML::Value << "session1";
+        out << YAML::Key << ::adapter::keys::name << YAML::Value << "session1";
         out << YAML::Comment("name for logging purposes");
         out << YAML::Key << keys::remote_ip << YAML::Value << "127.0.0.1";
         out << YAML::Key << keys::port << YAML::Value << 502;
@@ -56,24 +81,21 @@ namespace modbus {
         out << YAML::Key << keys::heartbeats;
         out << YAML::BeginSeq;
         out << YAML::BeginMap;
-        out << YAML::Key << keys::index << YAML::Value << 7 << YAML::Comment("Read the specified register, invert the masked bits, and write it back");
+        out << YAML::Key << ::adapter::keys::index << YAML::Value << 7 << YAML::Comment("Read the specified register, invert the masked bits, and write it back");
         out << YAML::Key << keys::period_ms << YAML::Value << 1000 << YAML::Comment("Heartbeat period in milliseconds");
         out << YAML::Key << keys::mask << YAML::Value << YAML::Hex << 0x01 << YAML::Comment("Mask specifying the bits to invert");
         out << YAML::EndMap;
         out << YAML::EndSeq;
 
-        throw NotImplemented(LOCATION);
-        /*
         out << YAML::Key << ::adapter::keys::profiles;
         out << YAML::BeginSeq;
         for (const auto& profile : profiles) {
             out << YAML::BeginMap;
-            out << YAML::Key << keys::name << YAML::Value << profile;
+            out << YAML::Key << ::adapter::keys::name << YAML::Value << profile;
             ProfileRegistry::handle_by_name<ProfileWriter>(profile, out);
             out << YAML::EndMap;
         }
         out << YAML::EndSeq;
-        */
 
         out << YAML::EndMap;
     }

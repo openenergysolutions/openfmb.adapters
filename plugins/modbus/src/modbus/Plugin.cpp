@@ -1,7 +1,11 @@
 
 #include "Plugin.h"
 
+#include <adapter-api/ConfigStrings.h>
+#include <adapter-api/ProfileInfo.h>
 #include <adapter-api/ProfileRegistry.h>
+#include <adapter-api/config/YAMLGetters.h>
+#include <adapter-api/config/generated/TypedModelVisitors.h>
 #include <adapter-api/util/YAMLTemplate.h>
 #include <adapter-api/util/YAMLUtil.h>
 
@@ -14,12 +18,12 @@
 #include "PollTransaction.h"
 
 #include "ConfigStrings.h"
+#include "PublishConfigReadVisitor.h"
 #include "TransactionProcessor.h"
 
 namespace adapter {
 namespace modbus {
 
-    /*
     template <class T>
     struct ProfileReader {
         template <bool condition>
@@ -29,9 +33,12 @@ namespace modbus {
         template <class U = T>
         static return_t<profile_info<U>::is_control> handle(const YAML::Node& node, const Logger& logger, message_bus_t bus, std::shared_ptr<PollHandler> handler, std::shared_ptr<ITransactionProcessor> processor)
         {
+            /*
             SubscribeConfigReadVisitor<T> visitor(node);
             visit(visitor);
             visitor.subscribe(logger, *bus, std::move(processor));
+             */
+            throw Exception("Control profiles not supported");
             return true;
         }
 
@@ -44,7 +51,6 @@ namespace modbus {
             return true;
         }
     };
-     */
 
     Plugin::Plugin(const YAML::Node& node, const Logger& logger, message_bus_t bus)
         : logger(logger)
@@ -71,7 +77,7 @@ namespace modbus {
 
     void Plugin::configure_session(const YAML::Node& node, message_bus_t bus)
     {
-        const auto name = yaml::require_string(node, keys::name);
+        const auto name = yaml::require_string(node, ::adapter::keys::name);
 
         const auto poll_handler = std::make_shared<PollHandler>();
         const auto tx_handler = std::make_shared<TransactionProcessor>(this->logger);
@@ -80,7 +86,7 @@ namespace modbus {
             tx_handler->add(
                 std::make_shared<HeartbeatTransaction>(
                     this->logger,
-                    yaml::require_integer<uint16_t>(node, keys::index),
+                    yaml::get::index(node),
                     std::chrono::milliseconds(yaml::require_integer<uint32_t>(node, keys::period_ms)),
                     // ATM, we only support inverting masked bits
                     operations::invert(
@@ -89,8 +95,6 @@ namespace modbus {
 
         yaml::foreach (yaml::require(node, keys::heartbeats), add_heartbeat);
 
-        throw NotImplemented(LOCATION);
-        /*
         const auto add_profile = [&](const YAML::Node& node) {
             ProfileRegistry::handle_by_name<ProfileReader>(
                 yaml::require_string(node, ::adapter::keys::name),
@@ -119,7 +123,6 @@ namespace modbus {
         this->start_actions.emplace_back([tx_handler, session]() {
             tx_handler->start(session);
         });
-        */
     }
 
     std::shared_ptr<::modbus::ISession> Plugin::get_session(const std::string& name, const YAML::Node& node)

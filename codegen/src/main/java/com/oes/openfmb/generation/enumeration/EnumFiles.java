@@ -23,7 +23,6 @@ public class EnumFiles implements CppFileCollection {
         this.includePath = includePath;
         this.name = new FileName(enumeration.name);
         this.namespaces = namespaces;
-        Collections.reverse(namespaces);
     }
 
     EnumFiles(Enumeration enumeration, List<String> namespaces) {

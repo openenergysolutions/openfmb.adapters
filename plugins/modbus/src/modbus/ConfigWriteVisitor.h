@@ -4,9 +4,9 @@
 #include <adapter-api/config/ConfigWriteVisitorBase.h>
 
 #include "ConfigStrings.h"
-#include "MappingType.h"
 #include "RegisterOperationType.h"
 #include "Source.h"
+#include "generated/RegisterMapping.h"
 
 namespace adapter {
 namespace modbus {

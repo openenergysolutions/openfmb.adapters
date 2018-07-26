@@ -5,6 +5,7 @@
 #include "ConfigReadVisitorBase.h"
 
 #include "adapter-api/ConfigStrings.h"
+#include "adapter-api/config/YAMLGetters.h"
 #include "adapter-api/util/Time.h"
 
 #include <boost/lexical_cast.hpp>
@@ -300,15 +301,11 @@ void PublishingConfigReadVisitorBase<T>::handle_generated_uuid(const YAML::Node&
 template <class T>
 void PublishingConfigReadVisitorBase<T>::handle_const_enum(const YAML::Node& node, const accessor_t<T, int>& accessor, google::protobuf::EnumDescriptor const* descriptor)
 {
-    const auto name = yaml::require_string(node, keys::value);
-    const auto value = descriptor->FindValueByName(yaml::require_string(node, keys::value));
-    if (!value) {
-        throw Exception("Unknown value name '", name, "'  for enum: ", descriptor->name());
-    }
+    const auto value = yaml::get::enum_value(node, keys::value, *descriptor);
 
     this->add_message_init_action(
-        [accessor, number = value->number()](T& profile) {
-            accessor->set(profile, number);
+        [accessor, value](T& profile) {
+            accessor->set(profile, value);
         });
 }
 }

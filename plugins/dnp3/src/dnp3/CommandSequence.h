@@ -7,6 +7,7 @@
 
 namespace adapter {
 namespace dnp3 {
+
     class CommandSequence final : public ICommandSink, public ICommandSequence {
         const std::string name;
 
@@ -20,7 +21,7 @@ namespace dnp3 {
         };
 
     public:
-        CommandSequence(std::string name)
+        explicit CommandSequence(std::string name)
             : name(std::move(name))
         {
         }

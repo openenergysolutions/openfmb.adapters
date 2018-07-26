@@ -30,6 +30,7 @@ set(API_HEADERS
 	include/adapter-api/config/IMessageFieldHandler.h
 	include/adapter-api/config/IModelVisitor.h
     include/adapter-api/config/ITypedModelVisitor.h
+    include/adapter-api/config/YAMLGetters.h
 	include/adapter-api/config/PublishingConfigReadVisitorBase.h
 	include/adapter-api/config/generated/BoolFieldType.h
 	include/adapter-api/config/generated/Int32FieldType.h
@@ -56,6 +57,7 @@ set(API_SOURCES
     include/adapter-api/config/FieldInfo.h
 	src/config/FieldInfo.cpp
 	src/config/DescriptorPath.cpp
+    src/config/YAMLGetters.cpp
 	src/config/generated/BoolFieldType.cpp
 	src/config/generated/Int32FieldType.cpp
 	src/config/generated/Int64FieldType.cpp

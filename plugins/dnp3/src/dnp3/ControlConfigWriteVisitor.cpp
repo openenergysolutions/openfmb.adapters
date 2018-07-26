@@ -2,10 +2,9 @@
 #include "ControlConfigWriteVisitor.h"
 
 #include "adapter-api/ConfigStrings.h"
-#include "adapter-api/util/Exception.h"
 
 #include "ConfigStrings.h"
-#include "ControlCodeMeta.h"
+#include "Control.h"
 #include "generated/SourceType.h"
 
 namespace adapter {
@@ -17,45 +16,16 @@ namespace dnp3 {
     {
     }
 
-    // --- remapping methods from base class ---
-
-    Int32FieldType::Value ControlConfigWriteVisitor::remap(Int32FieldType::Value type)
-    {
-        return (type == Int32FieldType::Value::mapped) ? Int32FieldType::Value::ignored : type;
-    }
-
-    EnumFieldType::Value ControlConfigWriteVisitor::remap(EnumFieldType::Value type)
-    {
-        return (type == EnumFieldType::Value::mapped) ? EnumFieldType::Value::ignored : type;
-    }
-
-    FloatFieldType::Value ControlConfigWriteVisitor::remap(FloatFieldType::Value type)
-    {
-        return (type == FloatFieldType::Value::mapped) ? FloatFieldType::Value::ignored : type;
-    }
-
-    StringFieldType::Value ControlConfigWriteVisitor::remap(StringFieldType::Value type)
-    {
-        switch (type) {
-        // these types aren't useful in a control profile
-        case (StringFieldType::Value::constant):
-        case (StringFieldType::Value::constant_uuid):
-            return StringFieldType::Value::ignored;
-        default:
-            return type;
-        }
-    }
-
     // --- map write function from base class ---
 
     void ControlConfigWriteVisitor::write_mapped_bool_keys(YAML::Emitter& out)
     {
-        out << YAML::Key << keys::when_true_execute;
+        out << YAML::Key << ::adapter::keys::when_true;
         out << YAML::BeginSeq;
         write_crob_keys(out, 0, opendnp3::ControlCode::LATCH_ON);
         out << YAML::EndSeq;
 
-        out << YAML::Key << keys::when_false_execute;
+        out << YAML::Key << ::adapter::keys::when_false;
         out << YAML::BeginSeq;
         write_crob_keys(out, 0, opendnp3::ControlCode::LATCH_OFF);
         out << YAML::EndSeq;
@@ -63,22 +33,22 @@ namespace dnp3 {
 
     void ControlConfigWriteVisitor::write_mapped_int32_keys(YAML::Emitter& out)
     {
-        throw NotImplemented(LOCATION);
+        out << YAML::Comment("int32 mapping not supported for controls");
     }
 
     void ControlConfigWriteVisitor::write_mapped_int64_keys(YAML::Emitter& out)
     {
-        throw NotImplemented(LOCATION);
+        out << YAML::Comment("int64 mapping not supported for controls");
     }
 
     void ControlConfigWriteVisitor::write_mapped_float_keys(YAML::Emitter& out)
     {
-        throw NotImplemented(LOCATION);
+        out << YAML::Comment("float mapping not supported for controls");
     }
 
     void ControlConfigWriteVisitor::write_mapped_enum_keys(YAML::Emitter& out, google::protobuf::EnumDescriptor const* descriptor)
     {
-        throw NotImplemented(LOCATION);
+        out << YAML::Comment("enum mapping not supported for controls");
     }
 
     // --- various helpers ---
@@ -87,15 +57,12 @@ namespace dnp3 {
     {
         out << YAML::BeginMap;
 
-        out << YAML::Key << keys::index << YAML::Value << index;
-        out << YAML::Key << keys::g12v1;
+        const Control control{
+            index,
+            opendnp3::ControlRelayOutputBlock(code, 1, 1000, 1000)
+        };
 
-        out << YAML::BeginMap;
-        out << YAML::Key << keys::control_code << YAML::Value << ControlCodeMeta::to_string(code);
-        out << YAML::Key << keys::count << YAML::Value << 1;
-        out << YAML::Key << keys::on_time_ms << YAML::Value << 1000;
-        out << YAML::Key << keys::off_time_ms << YAML::Value << 1000;
-        out << YAML::EndMap;
+        Control::write(control, out);
 
         out << YAML::EndMap;
     }
