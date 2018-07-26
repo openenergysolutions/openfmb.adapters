@@ -35,10 +35,6 @@ namespace modbus {
 
         // controls
         constexpr const char* const action = "action";
-        constexpr const char* const actions = "actions";
-        constexpr const char* const priority = "priority";
-        constexpr const char* const when_true = "when-true";
-        constexpr const char* const when_false = "when-false";
     }
 }
 }

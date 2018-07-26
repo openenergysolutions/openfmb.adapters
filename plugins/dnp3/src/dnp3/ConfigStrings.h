@@ -23,8 +23,6 @@ namespace dnp3 {
         constexpr const char* const outstation_address = "outstation-address";
 
         // mapping
-        constexpr const char* const when_true = "when-true";
-        constexpr const char* const when_false = "when-false";
         constexpr const char* const command_order = "command-order";
     }
 }

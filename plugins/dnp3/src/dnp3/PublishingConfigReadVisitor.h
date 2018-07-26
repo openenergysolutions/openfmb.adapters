@@ -139,8 +139,8 @@ namespace dnp3 {
         case (SourceType::Value::none):
             break;
         case (SourceType::Value::binary): {
-            const auto true_value = yaml::get::enum_value(node, keys::when_true, *descriptor);
-            const auto false_value = yaml::get::enum_value(node, keys::when_false, *descriptor);
+            const auto true_value = yaml::get::enum_value(node, ::adapter::keys::when_true, *descriptor);
+            const auto false_value = yaml::get::enum_value(node, ::adapter::keys::when_false, *descriptor);
 
             this->builder->add_measurement_handler(
                 [accessor, profile = this->profile, true_value, false_value](const opendnp3::Binary& meas) {

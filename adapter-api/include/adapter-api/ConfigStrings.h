@@ -4,7 +4,8 @@
 
 namespace adapter {
 namespace keys {
-    // ---- generic strings used all over the place ----
+
+    // ---- strings used in API and plugins ----
 
     constexpr const char* const profile = "profile";
     constexpr const char* const profiles = "profiles";
@@ -15,6 +16,9 @@ namespace keys {
     constexpr const char* const mapping = "mapping";
     constexpr const char* const name = "name";
     constexpr const char* const value = "value";
+    constexpr const char* const when_true = "when-true";
+    constexpr const char* const when_false = "when-false";
+    constexpr const char* const outputs = "outputs";
 }
 }
 

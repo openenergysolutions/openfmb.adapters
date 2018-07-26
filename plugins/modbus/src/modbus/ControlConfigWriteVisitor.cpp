@@ -3,7 +3,8 @@
 #include "ControlConfigWriteVisitor.h"
 
 #include "ConfigStrings.h"
-#include "generated/RegisterOpType.h"
+#include "generated/OutputType.h"
+#include "generated/RegisterOperation.h"
 
 #include <adapter-api/ConfigStrings.h>
 #include <adapter-api/util/EnumUtil.h>
@@ -11,23 +12,32 @@
 namespace adapter {
 namespace modbus {
 
-    void write_binary_action(YAML::Emitter& out)
+    // ---- helpers ----
+
+    void write_output_action(YAML::Emitter& out)
     {
-        out << YAML::Key << RegisterOpType::label << YAML::Value << RegisterOpType::label << YAML::Comment(enumeration::get_value_set<RegisterOpType>());
+        out << YAML::Key << OutputType::label << YAML::Value << OutputType::none << YAML::Comment(enumeration::get_value_set<OutputType>());
+        out << YAML::Key << RegisterOperation::label << YAML::Value << RegisterOperation::read_set_masked_bits << YAML::Comment(enumeration::get_value_set<RegisterOperation>());
         out << YAML::Key << ::adapter::keys::index << YAML::Value << 0;
         out << YAML::Key << keys::mask << YAML::Value << YAML::Hex << 0x0001;
-        out << YAML::Key << keys::priority << YAML::Value << 0;
     }
 
-    void write_binary_action_list(YAML::Emitter& out)
+    void write_output_action_list(YAML::Emitter& out)
     {
-        out << YAML::Key << keys::actions;
         out << YAML::BeginSeq;
         out << YAML::BeginMap;
-        write_binary_action(out);
+        write_output_action(out);
         out << YAML::EndMap;
         out << YAML::EndSeq;
     }
+
+    void write_binary_control_keys(YAML::Emitter& out, const char* name)
+    {
+        out << YAML::Key << name;
+        write_output_action_list(out);
+    }
+
+    // ---- class implementation ----
 
     ControlConfigWriteVisitor::ControlConfigWriteVisitor(YAML::Emitter& out)
         : ConfigWriteVisitorBase(out)
@@ -36,18 +46,25 @@ namespace modbus {
 
     void ControlConfigWriteVisitor::write_mapped_bool_keys(YAML::Emitter& out)
     {
+        write_binary_control_keys(out, ::adapter::keys::when_true);
+        write_binary_control_keys(out, ::adapter::keys::when_false);
     }
 
     void ControlConfigWriteVisitor::write_mapped_int32_keys(YAML::Emitter& out)
     {
+        out << YAML::Comment("int32 mapping not supported for Modbus control profiles");
     }
 
     void ControlConfigWriteVisitor::write_mapped_int64_keys(YAML::Emitter& out)
     {
+        out << YAML::Comment("int65 mapping not supported for Modbus control profiles");
     }
 
     void ControlConfigWriteVisitor::write_mapped_float_keys(YAML::Emitter& out)
     {
+        out << YAML::Key << OutputType::label << YAML::Value << OutputType::none << YAML::Comment(enumeration::get_value_set<OutputType>());
+        out << YAML::Key << ::adapter::keys::index << YAML::Value << 0;
+        out << YAML::Key << ::adapter::keys::scale << YAML::Value << 1.0;
     }
 
     void ControlConfigWriteVisitor::write_mapped_enum_keys(YAML::Emitter& out, google::protobuf::EnumDescriptor const* descriptor)
@@ -58,7 +75,8 @@ namespace modbus {
             const auto value = descriptor->value(i);
             out << YAML::BeginMap;
             out << YAML::Key << ::adapter::keys::name << YAML::Value << value->name();
-            write_binary_action_list(out);
+            out << YAML::Key << ::adapter::keys::outputs;
+            write_output_action_list(out);
             out << YAML::EndMap;
         }
         out << YAML::EndSeq;

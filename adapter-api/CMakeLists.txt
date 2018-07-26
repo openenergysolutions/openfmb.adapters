@@ -52,7 +52,7 @@ set(API_SOURCES
 	src/util/Time.cpp
 	src/util/YAMLUtil.cpp
 	src/util/YAMLTemplate.cpp
-        src/config/AccessorImpl.h
+    src/config/AccessorImpl.h
 	src/config/ConfigWriteVisitorBase.cpp
     include/adapter-api/config/FieldInfo.h
 	src/config/FieldInfo.cpp

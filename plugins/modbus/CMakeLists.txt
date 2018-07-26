@@ -44,8 +44,10 @@ set(MODBUS_SOURCES
         src/modbus/OrderedTransaction.cpp
         src/modbus/OrderedTransaction.h
         # generated enums
-        src/modbus/generated/RegisterOpType.h
-        src/modbus/generated/RegisterOpType.cpp
+        src/modbus/generated/OutputType.h
+        src/modbus/generated/OutputType.cpp
+        src/modbus/generated/RegisterOperation.h
+        src/modbus/generated/RegisterOperation.cpp
         src/modbus/generated/RegisterMapping.h
         src/modbus/generated/RegisterMapping.cpp
         src/modbus/generated/SourceType.h

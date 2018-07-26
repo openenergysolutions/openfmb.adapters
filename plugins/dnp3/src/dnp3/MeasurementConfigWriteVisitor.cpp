@@ -53,8 +53,8 @@ namespace dnp3 {
     {
         out << YAML::Key << SourceType::label << YAML::Value << SourceType::none << YAML::Comment(enumeration::get_value_set_from_list<SourceType>({ SourceType::Value::none, SourceType::Value::binary }));
         out << YAML::Key << ::adapter::keys::index << YAML::Value << 0;
-        out << YAML::Key << keys::when_true << YAML::Value << descriptor->value(0)->name();
-        out << YAML::Key << keys::when_false << YAML::Value << descriptor->value(1)->name();
+        out << YAML::Key << ::adapter::keys::when_true << YAML::Value << descriptor->value(0)->name();
+        out << YAML::Key << ::adapter::keys::when_false << YAML::Value << descriptor->value(1)->name();
     }
 }
 }
