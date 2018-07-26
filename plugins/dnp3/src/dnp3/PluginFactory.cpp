@@ -27,7 +27,7 @@ namespace dnp3 {
                 out << YAML::Key << keys::command_order << YAML::Comment("order of commands - first == highest priority, last == lowest priority");
 
                 // provide an example of the two types
-                CommandOrdering::write(
+                CommandOrdering::write_sequence(
                     {
                         { 0, CommandType::Value::crob },
                         { 1, CommandType::Value::analog_output },

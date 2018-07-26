@@ -23,7 +23,7 @@ namespace dnp3 {
         static std::vector<CommandOrdering> read_sequence(const YAML::Node& node);
 
         static void write(const CommandOrdering& ordering, YAML::Emitter& out);
-        static void write(const std::initializer_list<CommandOrdering>& orderings, YAML::Emitter& out);
+        static void write_sequence(const std::initializer_list<CommandOrdering>& orderings, YAML::Emitter& out);
     };
 }
 }

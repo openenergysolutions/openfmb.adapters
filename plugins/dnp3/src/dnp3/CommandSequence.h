@@ -13,24 +13,24 @@ namespace dnp3 {
 
         class Compare {
         public:
-            bool operator()(const CommandInfo& lhs, const CommandInfo& rhs)
+            bool operator()(const PrioritizedCommand& lhs, const PrioritizedCommand& rhs)
             {
                 // lower number is higher priority
-                return lhs.index > rhs.index;
+                return lhs.get_priority() > rhs.get_priority();
             }
         };
 
     public:
-        CommandSequence(std::string name)
+        explicit CommandSequence(std::string name)
             : name(std::move(name))
         {
         }
 
         /// --- implement ICommandSink ---
 
-        void add(const Control& control) override
+        void add(const PrioritizedCommand& command) override
         {
-            queue.push(CommandInfo::direct_operate(control));
+            queue.push(command);
         }
 
         /// --- implement ICommandSequence ---
@@ -44,7 +44,7 @@ namespace dnp3 {
         {
             if (queue.empty())
                 return false;
-            queue.top().action(processor, callback);
+            queue.top().begin_execute(processor, callback);
             queue.pop();
             return true;
         }
@@ -58,11 +58,11 @@ namespace dnp3 {
 
         bool is_empty() const
         {
-            return true;
+            return queue.empty();
         }
 
     private:
-        std::priority_queue<CommandInfo, std::vector<CommandInfo>, Compare> queue;
+        std::priority_queue<PrioritizedCommand, std::vector<PrioritizedCommand>, Compare> queue;
     };
 }
 }

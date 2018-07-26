@@ -51,7 +51,7 @@ namespace dnp3 {
         out << YAML::Key << CommandType::label << YAML::Value << CommandType::to_string(ordering.type);
     }
 
-    void CommandOrdering::write(const std::initializer_list<CommandOrdering>& orderings, YAML::Emitter& out)
+    void CommandOrdering::write_sequence(const std::initializer_list<CommandOrdering>& orderings, YAML::Emitter& out)
     {
         out << YAML::BeginSeq;
 

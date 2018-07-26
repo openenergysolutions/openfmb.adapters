@@ -20,30 +20,27 @@ namespace dnp3 {
     */
     using command_action_t = std::function<void(opendnp3::ICommandProcessor&, const opendnp3::CommandCallbackT& callback)>;
 
-    class CommandInfo {
+    class PrioritizedCommand {
+    public:
+        PrioritizedCommand(command_action_t action, int priority)
+            : action(std::move(action))
+            , priority(priority)
+        {
+        }
+
+        inline int get_priority() const
+        {
+            return this->priority;
+        }
+
+        void begin_execute(opendnp3::ICommandProcessor& processor, const opendnp3::CommandCallbackT& callback) const
+        {
+            action(processor, callback);
+        }
 
     private:
-        CommandInfo(command_action_t action, uint16_t index, CommandType::Value type)
-            : action(std::move(action))
-            , index(index)
-            , type(type)
-        {
-        }
-
-    public:
-        static CommandInfo direct_operate(Control control)
-        {
-            return CommandInfo(
-                [control](opendnp3::ICommandProcessor& processor, const opendnp3::CommandCallbackT& callback) {
-                    processor.DirectOperate(control.crob, control.index, callback);
-                },
-                control.index,
-                CommandType::Value::crob);
-        }
-
         command_action_t action;
-        uint16_t index;
-        CommandType::Value type;
+        int priority;
     };
 
     /**
@@ -53,7 +50,7 @@ namespace dnp3 {
     public:
         virtual ~ICommandSink() = default;
 
-        virtual void add(const Control& control) = 0;
+        virtual void add(const PrioritizedCommand& command) = 0;
     };
 
     /**
