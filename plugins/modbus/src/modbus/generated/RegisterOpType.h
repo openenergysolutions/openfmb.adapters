@@ -11,8 +11,8 @@
 //  This file is auto-generated. Do not edit manually
 // 
 
-#ifndef OPENFMB_SOURCETYPE_H
-#define OPENFMB_SOURCETYPE_H
+#ifndef OPENFMB_REGISTEROPTYPE_H
+#define OPENFMB_REGISTEROPTYPE_H
 
 #include <string>
 #include <array>
@@ -21,22 +21,28 @@ namespace adapter {
 
 namespace modbus {
 
-struct SourceType
+struct RegisterOpType
 {
     enum class Value
     {
         // field is not mapped
         none,
-        // field is mapped out of a holding register
-        holding_register,
+        // read the register, clear masked bits, and write it back
+        read_clear_masked_bits,
+        // read the register, set masked bits, and write it back
+        read_set_masked_bits,
+        // write the register with the specified value
+        write_value,
     };
 
     static const char none[];
-    static const char holding_register[];
+    static const char read_clear_masked_bits[];
+    static const char read_set_masked_bits[];
+    static const char write_value[];
 
-    static constexpr const char* label = "source-type";
+    static constexpr const char* label = "register-op-type";
 
-    static const std::array<Value, 2> values;
+    static const std::array<Value, 4> values;
 
     static std::string to_string(Value value);
     static Value from_string(const std::string& name);

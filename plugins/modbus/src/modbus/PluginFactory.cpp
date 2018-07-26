@@ -8,6 +8,7 @@
 #include <adapter-api/ProfileInfo.h>
 #include <adapter-api/config/generated/ModelVisitors.h>
 
+#include "ControlConfigWriteVisitor.h"
 #include "MeasurementConfigWriteVisitor.h"
 
 #include "ConfigStrings.h"
@@ -21,7 +22,8 @@ namespace modbus {
         static void handle(YAML::Emitter& out)
         {
             if (profile_info<T>::is_control) {
-                throw Exception("controls not supported");
+                ControlConfigWriteVisitor visitor(out);
+                visit<T>(visitor);
             } else {
                 MeasurementConfigWriteVisitor visitor(out);
                 visit<T>(visitor);
