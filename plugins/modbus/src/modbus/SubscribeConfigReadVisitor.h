@@ -11,6 +11,8 @@
 #include "ITransactionProcessor.h"
 #include "ModifyRegisterTransaction.h"
 
+#include "generated/OutputType.h"
+
 namespace adapter {
 namespace modbus {
 
@@ -77,6 +79,28 @@ namespace modbus {
     template <class T>
     void SubscribeConfigReadVisitor<T>::handle(const std::string& field_name, const accessor_t<T, float>& accessor)
     {
+        const YAML::Node node = this->get_config_node(field_name);
+        const auto output_type = yaml::require_enum<OutputType>(node);
+        switch (output_type) {
+        case (OutputType::Value::none):
+            break;
+        case (OutputType::Value::write_single_register): {
+            const auto index = ::adapter::yaml::get::index(node);
+            const auto scale = ::adapter::yaml::get::scale(node);
+            const auto priority = this->priority_source.get_priority(CommandType::Value::write_single_register, index);
+            this->config->add(
+                [index, scale, priority, accessor](const T& profile, ICommandSink& sink, Logger& logger) {
+                    accessor->if_present(
+                        profile,
+                        [&](const float& fv) {
+                            sink.set_register(index, priority, static_cast<uint16_t>(fv * scale));
+                        });
+                });
+            break;
+        }
+        default:
+            throw Exception("unsupported output type for float: ", OutputType::to_string(output_type));
+        }
     }
 
     template <class T>
