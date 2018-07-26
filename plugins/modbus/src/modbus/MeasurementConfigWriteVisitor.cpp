@@ -14,7 +14,8 @@ namespace modbus {
 
     void write_scaled_register_mapping(YAML::Emitter& out)
     {
-        out << YAML::Key << RegisterMapping::label << YAML::Value << RegisterMapping::none << YAML::Comment(enumeration::get_value_set<RegisterMapping>());
+        out << YAML::Key << SourceType::label << YAML::Value << SourceType::none << YAML::Comment(enumeration::get_value_set<SourceType>());
+        out << YAML::Key << RegisterMapping::label << YAML::Value << RegisterMapping::sint32 << YAML::Comment(enumeration::get_value_set<RegisterMapping>());
         out << YAML::Key << keys::lower_index << 0;
         out << YAML::Key << keys::upper_index << 1;
         out << YAML::Key << ::adapter::keys::scale << 1;

@@ -138,7 +138,6 @@ public class Enumerations {
         private final static Enumeration registerMapping = new Enumeration(
                 Arrays.asList("Register", "Mapping"),
                 Arrays.asList(
-                        Enumeration.entry("none", "field is not mapped"),
                         Enumeration.entry("sint16", "single signed register"),
                         Enumeration.entry("uint16", "single unsigned register"),
                         Enumeration.entry("sint32", "32-bit signed register, formed from two modbus 16-bit registers"),

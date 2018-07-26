@@ -21,7 +21,6 @@ namespace adapter {
 
 namespace modbus {
 
-const char RegisterMapping::none[] = "none";
 const char RegisterMapping::sint16[] = "sint16";
 const char RegisterMapping::uint16[] = "uint16";
 const char RegisterMapping::sint32[] = "sint32";
@@ -29,9 +28,8 @@ const char RegisterMapping::uint32[] = "uint32";
 const char RegisterMapping::sint32_with_modulus[] = "sint32_with_modulus";
 const char RegisterMapping::uint32_with_modulus[] = "uint32_with_modulus";
 
-const std::array<RegisterMapping::Value, 7> RegisterMapping::values =
+const std::array<RegisterMapping::Value, 6> RegisterMapping::values =
 {
-    RegisterMapping::Value::none,
     RegisterMapping::Value::sint16,
     RegisterMapping::Value::uint16,
     RegisterMapping::Value::sint32,
@@ -44,7 +42,6 @@ std::string RegisterMapping::to_string(RegisterMapping::Value value)
 {
     switch(value)
     {
-        case(Value::none): return none;
         case(Value::sint16): return sint16;
         case(Value::uint16): return uint16;
         case(Value::sint32): return sint32;
@@ -58,7 +55,6 @@ RegisterMapping::Value RegisterMapping::from_string(const std::string& name)
 {
     static const std::map<std::string, Value> map = 
     {
-        {none, Value::none},
         {sint16, Value::sint16},
         {uint16, Value::uint16},
         {sint32, Value::sint32},

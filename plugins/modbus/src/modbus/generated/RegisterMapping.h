@@ -25,8 +25,6 @@ struct RegisterMapping
 {
     enum class Value
     {
-        // field is not mapped
-        none,
         // single signed register
         sint16,
         // single unsigned register
@@ -41,7 +39,6 @@ struct RegisterMapping
         uint32_with_modulus,
     };
 
-    static const char none[];
     static const char sint16[];
     static const char uint16[];
     static const char sint32[];
@@ -51,7 +48,7 @@ struct RegisterMapping
 
     static constexpr const char* label = "register-mapping";
 
-    static const std::array<Value, 7> values;
+    static const std::array<Value, 6> values;
 
     static std::string to_string(Value value);
     static Value from_string(const std::string& name);
