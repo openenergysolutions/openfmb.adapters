@@ -113,13 +113,13 @@ namespace modbus {
     }
 
     template <class T>
-    void PublishConfigReadVisitor<T>::handle_mapped_int32(const YAML::Node& node, const accessor_t<T, int>& accessor)
+    void PublishConfigReadVisitor<T>::handle_mapped_int32(const YAML::Node& node, const accessor_t<T, int32_t>& accessor)
     {
         // ignored
     }
 
     template <class T>
-    void PublishConfigReadVisitor<T>::handle_mapped_int64(const YAML::Node& node, const accessor_t<T, long>& accessor)
+    void PublishConfigReadVisitor<T>::handle_mapped_int64(const YAML::Node& node, const accessor_t<T, int64_t>& accessor)
     {
         const auto source_type = yaml::require_enum<SourceType>(node);
 
