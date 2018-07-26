@@ -27,8 +27,6 @@ set(MODBUS_SOURCES
         src/modbus/PluginFactory.cpp
         src/modbus/Register16.h
         src/modbus/Register32.h
-        src/modbus/Source.h
-        src/modbus/Source.cpp
         src/modbus/ICachedValue.h
         src/modbus/ITransactionProcessor.h
         src/modbus/TransactionProcessor.h
@@ -48,6 +46,8 @@ set(MODBUS_SOURCES
         # generated enums
         src/modbus/generated/RegisterMapping.h
         src/modbus/generated/RegisterMapping.cpp
+        src/modbus/generated/SourceType.h
+        src/modbus/generated/SourceType.cpp
 )
 
 add_library(modbus-plugin STATIC ${MODBUS_PUBLIC_HEADERS} ${MODBUS_SOURCES})

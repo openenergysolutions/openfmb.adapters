@@ -23,6 +23,24 @@ namespace enumeration {
         oss << "}";
         return oss.str();
     }
+
+    template <class E>
+    std::string get_value_set()
+    {
+        const auto size = E::values.size();
+        std::ostringstream oss;
+        oss << "{";
+
+        size_t i = 0;
+        for (auto value : E::values) {
+            oss << E::to_string(value);
+            if ((i + 1) < size)
+                oss << ", ";
+            ++i;
+        }
+        oss << "}";
+        return oss.str();
+    }
 }
 }
 

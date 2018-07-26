@@ -148,8 +148,16 @@ public class Enumerations {
                 )
         );
 
+        private final static Enumeration sourceType = new Enumeration(
+                Arrays.asList("Source","Type"),
+                Arrays.asList(
+                        Enumeration.entry("none", "field is not mapped"),
+                        Enumeration.entry("holding_register", "field is mapped out of a holding register")
+                )
+        );
+
         private static List<Enumeration> enums() {
-            return Collections.singletonList(registerMapping);
+            return Arrays.asList(registerMapping, sourceType);
         }
 
         private static final Path path = Paths.get("../plugins/modbus/src/modbus/generated");

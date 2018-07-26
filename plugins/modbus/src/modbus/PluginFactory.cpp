@@ -47,7 +47,7 @@ namespace modbus {
     {
         out << YAML::BeginMap;
 
-        out << YAML::Key << keys::name << YAML::Value << "session1";
+        out << YAML::Key << ::adapter::keys::name << YAML::Value << "session1";
         out << YAML::Comment("name for logging purposes");
         out << YAML::Key << keys::remote_ip << YAML::Value << "127.0.0.1";
         out << YAML::Key << keys::port << YAML::Value << 502;
@@ -64,7 +64,7 @@ namespace modbus {
         out << YAML::Key << keys::heartbeats;
         out << YAML::BeginSeq;
         out << YAML::BeginMap;
-        out << YAML::Key << keys::index << YAML::Value << 7 << YAML::Comment("Read the specified register, invert the masked bits, and write it back");
+        out << YAML::Key << ::adapter::keys::index << YAML::Value << 7 << YAML::Comment("Read the specified register, invert the masked bits, and write it back");
         out << YAML::Key << keys::period_ms << YAML::Value << 1000 << YAML::Comment("Heartbeat period in milliseconds");
         out << YAML::Key << keys::mask << YAML::Value << YAML::Hex << 0x01 << YAML::Comment("Mask specifying the bits to invert");
         out << YAML::EndMap;
@@ -74,7 +74,7 @@ namespace modbus {
         out << YAML::BeginSeq;
         for (const auto& profile : profiles) {
             out << YAML::BeginMap;
-            out << YAML::Key << keys::name << YAML::Value << profile;
+            out << YAML::Key << ::adapter::keys::name << YAML::Value << profile;
             ProfileRegistry::handle_by_name<ProfileWriter>(profile, out);
             out << YAML::EndMap;
         }

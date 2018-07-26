@@ -1,7 +1,9 @@
 
 #include "Plugin.h"
 
+#include <adapter-api/ConfigStrings.h>
 #include <adapter-api/ProfileRegistry.h>
+#include <adapter-api/config/YAMLGetters.h>
 #include <adapter-api/util/YAMLTemplate.h>
 #include <adapter-api/util/YAMLUtil.h>
 
@@ -71,7 +73,7 @@ namespace modbus {
 
     void Plugin::configure_session(const YAML::Node& node, message_bus_t bus)
     {
-        const auto name = yaml::require_string(node, keys::name);
+        const auto name = yaml::require_string(node, ::adapter::keys::name);
 
         const auto poll_handler = std::make_shared<PollHandler>();
         const auto tx_handler = std::make_shared<TransactionProcessor>(this->logger);
@@ -80,7 +82,7 @@ namespace modbus {
             tx_handler->add(
                 std::make_shared<HeartbeatTransaction>(
                     this->logger,
-                    yaml::require_integer<uint16_t>(node, keys::index),
+                    yaml::get::index(node),
                     std::chrono::milliseconds(yaml::require_integer<uint32_t>(node, keys::period_ms)),
                     // ATM, we only support inverting masked bits
                     operations::invert(
