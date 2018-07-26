@@ -24,7 +24,7 @@ namespace dnp3 {
             std::cout << "Generating: " << T::descriptor()->name() << std::endl;
 
             if (profile_info<T>::is_control) {
-                out << YAML::Key << keys::command_order << YAML::Comment("order of commands - first == highest priority, last == lowest priority");
+                out << YAML::Key << ::adapter::keys::command_order << YAML::Comment("order of commands - first == highest priority, last == lowest priority");
 
                 // provide an example of the two types
                 CommandOrdering::write_sequence(

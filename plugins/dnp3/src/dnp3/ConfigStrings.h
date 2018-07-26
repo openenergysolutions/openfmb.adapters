@@ -21,9 +21,6 @@ namespace dnp3 {
         // link layer
         constexpr const char* const master_address = "master-address";
         constexpr const char* const outstation_address = "outstation-address";
-
-        // mapping
-        constexpr const char* const command_order = "command-order";
     }
 }
 }

@@ -21,6 +21,19 @@ namespace modbus {
     struct ProfileWriter {
         static void handle(YAML::Emitter& out)
         {
+            std::cout << "Generating: " << T::descriptor()->name() << std::endl;
+
+            if (profile_info<T>::is_control) {
+                out << YAML::Key << "command-order" << YAML::Comment("order of commands - first == highest priority, last == lowest priority");
+                out << YAML::BeginSeq;
+                out << 0;
+                out << 1;
+                out << YAML::EndSeq;
+            }
+
+            out << YAML::Key << ::adapter::keys::mapping << YAML::Comment("profile model starts here");
+            out << YAML::BeginMap;
+
             if (profile_info<T>::is_control) {
                 ControlConfigWriteVisitor visitor(out);
                 visit<T>(visitor);
@@ -28,6 +41,8 @@ namespace modbus {
                 MeasurementConfigWriteVisitor visitor(out);
                 visit<T>(visitor);
             }
+
+            out << YAML::EndMap;
         }
     };
 
