@@ -17,8 +17,6 @@ set(MODBUS_SOURCES
         src/modbus/IRegister.h
         src/modbus/IPollHandler.h
         src/modbus/IRequestBuilder.h
-        src/modbus/MappingType.h
-        src/modbus/MappingType.cpp
         src/modbus/MeasurementConfigWriteVisitor.h
         src/modbus/MeasurementConfigWriteVisitor.cpp
         src/modbus/ConfigWriteVisitor.h
@@ -46,7 +44,11 @@ set(MODBUS_SOURCES
         src/modbus/WriteRegisterTransaction.cpp
         src/modbus/WriteRegisterTransaction.h
         src/modbus/OrderedTransaction.cpp
-        src/modbus/OrderedTransaction.h)
+        src/modbus/OrderedTransaction.h
+        # generated enums
+        src/modbus/generated/RegisterMapping.h
+        src/modbus/generated/RegisterMapping.cpp
+)
 
 add_library(modbus-plugin STATIC ${MODBUS_PUBLIC_HEADERS} ${MODBUS_SOURCES})
 target_link_libraries(modbus-plugin PUBLIC adapter-api modbus-cpp)

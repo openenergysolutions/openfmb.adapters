@@ -4,7 +4,7 @@
 #include <adapter-api/config/ConfigWriteVisitorBase.h>
 
 #include "ConfigStrings.h"
-#include "MappingType.h"
+#include "generated/RegisterMapping.h"
 #include "RegisterOperationType.h"
 #include "Source.h"
 
