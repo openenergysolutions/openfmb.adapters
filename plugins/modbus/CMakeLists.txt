@@ -19,6 +19,8 @@ set(MODBUS_SOURCES
         src/modbus/IRequestBuilder.h
         src/modbus/MappingType.h
         src/modbus/MappingType.cpp
+        src/modbus/MeasurementConfigWriteVisitor.h
+        src/modbus/MeasurementConfigWriteVisitor.cpp
         src/modbus/ConfigWriteVisitor.h
         src/modbus/PollHandler.h
         src/modbus/PollHandler.cpp
@@ -40,7 +42,11 @@ set(MODBUS_SOURCES
         src/modbus/RegisterOperationType.cpp
         src/modbus/CommandSubscriptionHandler.h
         src/modbus/CommandSink.cpp
-        src/modbus/CommandSink.h src/modbus/WriteRegisterTransaction.cpp src/modbus/WriteRegisterTransaction.h src/modbus/OrderedTransaction.cpp src/modbus/OrderedTransaction.h)
+        src/modbus/CommandSink.h
+        src/modbus/WriteRegisterTransaction.cpp
+        src/modbus/WriteRegisterTransaction.h
+        src/modbus/OrderedTransaction.cpp
+        src/modbus/OrderedTransaction.h)
 
 add_library(modbus-plugin STATIC ${MODBUS_PUBLIC_HEADERS} ${MODBUS_SOURCES})
 target_link_libraries(modbus-plugin PUBLIC adapter-api modbus-cpp)

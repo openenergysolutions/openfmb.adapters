@@ -4,22 +4,30 @@
 #include <adapter-api/util/Exception.h>
 #include <adapter-api/util/YAMLTemplate.h>
 
+#include <adapter-api/ConfigStrings.h>
+#include <adapter-api/ProfileInfo.h>
+#include <adapter-api/config/generated/ModelVisitors.h>
+
+#include "MeasurementConfigWriteVisitor.h"
+
 #include "ConfigStrings.h"
 #include "Plugin.h"
 
 namespace adapter {
 namespace modbus {
 
-    /*
     template <class T>
     struct ProfileWriter {
         static void handle(YAML::Emitter& out)
         {
-            MeasurementConfigWriteVisitor<T> visitor(out);
-            visit(visitor);
+            if (profile_info<T>::is_control) {
+                throw Exception("controls not supported");
+            } else {
+                MeasurementConfigWriteVisitor visitor(out);
+                visit<T>(visitor);
+            }
         }
     };
-    */
 
     void PluginFactory::write_default_config(YAML::Emitter& out) const
     {
@@ -62,8 +70,6 @@ namespace modbus {
         out << YAML::EndMap;
         out << YAML::EndSeq;
 
-        throw NotImplemented(LOCATION);
-        /*
         out << YAML::Key << ::adapter::keys::profiles;
         out << YAML::BeginSeq;
         for (const auto& profile : profiles) {
@@ -73,7 +79,6 @@ namespace modbus {
             out << YAML::EndMap;
         }
         out << YAML::EndSeq;
-        */
 
         out << YAML::EndMap;
     }
