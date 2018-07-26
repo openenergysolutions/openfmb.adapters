@@ -16,17 +16,13 @@
 namespace adapter {
 namespace modbus {
 
+    // keep these helpers outside the template
     namespace get {
         uint32_t modulus(const YAML::Node& node)
         {
             return yaml::require_integer<uint32_t>(node, keys::modulus);
         }
     }
-
-    /*
-    template <class U>
-    using setter_t = std::function<void(U&)>;
-     */
 
     template <class T>
     class PublishConfigReadVisitor final : public PublishingConfigReadVisitorBase<T> {
@@ -101,11 +97,25 @@ namespace modbus {
     template <class T>
     void PublishConfigReadVisitor<T>::handle_mapped_bool(const YAML::Node& node, const accessor_t<T, bool>& accessor)
     {
+        const auto source_type = yaml::require_enum<SourceType>(node);
+
+        // ATM, there are only two source types
+        if (source_type == SourceType::Value::none) {
+            return;
+        }
+
+        const auto mask = yaml::require_integer<uint16_t>(node, keys::mask);
+        this->map_register16(
+            node,
+            [accessor, mask](T& profile, const std::shared_ptr<Register16>& reg, Logger&) {
+                accessor->set(profile, (reg->to_uint16() & mask) != 0);
+            });
     }
 
     template <class T>
     void PublishConfigReadVisitor<T>::handle_mapped_int32(const YAML::Node& node, const accessor_t<T, int>& accessor)
     {
+        // ignored
     }
 
     template <class T>
@@ -114,8 +124,9 @@ namespace modbus {
         const auto source_type = yaml::require_enum<SourceType>(node);
 
         // ATM, there are only two source types
-        if (source_type == SourceType::Value::none)
+        if (source_type == SourceType::Value::none) {
             return;
+        }
 
         const auto mapping = yaml::require_enum<RegisterMapping>(node);
 
@@ -162,8 +173,9 @@ namespace modbus {
         const auto source_type = yaml::require_enum<SourceType>(node);
 
         // ATM, there are only two source types
-        if (source_type == SourceType::Value::none)
+        if (source_type == SourceType::Value::none) {
             return;
+        }
 
         const auto mapping = yaml::require_enum<RegisterMapping>(node);
 
@@ -206,6 +218,41 @@ namespace modbus {
     template <class T>
     void PublishConfigReadVisitor<T>::handle_mapped_enum(const YAML::Node& node, const accessor_t<T, int>& accessor, google::protobuf::EnumDescriptor const* descriptor)
     {
+        const auto source = yaml::require_enum<SourceType>(node);
+
+        // ATM, there are only two source types
+        if (source == SourceType::Value::none) {
+            return;
+        }
+
+        const auto mask = yaml::require_integer<uint16_t>(node, keys::mask);
+        std::map<uint16_t, int> mapping;
+
+        yaml::foreach (
+            yaml::require(node, ::adapter::keys::mapping),
+            [&mapping, &descriptor](const YAML::Node& item) {
+                const auto name = yaml::require_string(item, ::adapter::keys::name);
+                const auto value = yaml::require_integer<uint16_t>(item, ::adapter::keys::value);
+
+                const auto value_descriptor = descriptor->FindValueByName(name);
+                if (!value_descriptor) {
+                    throw Exception("Bad ", descriptor->name(), " enum name: ", name);
+                }
+                mapping[value] = value_descriptor->number();
+            });
+
+        this->map_register16(
+            node,
+            [accessor, mask, mapping = std::move(mapping), descriptor](T& profile, const std::shared_ptr<Register16>& reg, Logger& logger) {
+                const auto value = reg->to_uint16();
+                const auto masked_value = value & mask;
+                const auto entry = mapping.find(masked_value);
+                if (entry == mapping.end()) {
+                    logger.warn("No mapping to {} for value {} with mask {}", descriptor->name(), value, mask);
+                } else {
+                    accessor->set(profile, entry->second);
+                }
+            });
     }
 
     // --- private helpers ---
