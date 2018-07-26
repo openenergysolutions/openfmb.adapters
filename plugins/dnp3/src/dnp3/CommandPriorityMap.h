@@ -13,7 +13,7 @@ namespace dnp3 {
 
     class CommandPriorityMap final : public ICommandPrioritySource {
     public:
-        explicit CommandPriorityMap(const std::vector<CommandOrdering>& ordering);
+        explicit CommandPriorityMap(const std::vector<command_ordering_t>& ordering);
 
         int get_binary_output_priority(uint16_t index) const override;
 
@@ -22,7 +22,7 @@ namespace dnp3 {
     private:
         int get_priority(uint16_t index, CommandType::Value type) const;
 
-        std::map<CommandOrdering, int> priority_map;
+        std::map<command_ordering_t, int> priority_map;
     };
 }
 }

@@ -4,7 +4,6 @@ set(DNP3_PUBLIC_HEADERS
 
 set(DNP3_SOURCES
         src/dnp3/CommandOrdering.h
-        src/dnp3/CommandOrdering.cpp
         src/dnp3/CommandPriorityMap.h
         src/dnp3/CommandPriorityMap.cpp
         src/dnp3/ConfigStrings.h

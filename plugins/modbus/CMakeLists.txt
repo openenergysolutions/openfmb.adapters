@@ -3,6 +3,7 @@ set(MODBUS_PUBLIC_HEADERS
 )
 
 set(MODBUS_SOURCES
+        src/modbus/CommandOrdering.h
         src/modbus/PublishConfigReadVisitor.h
         src/modbus/SubscribeConfigReadVisitor.h
         src/modbus/ConfigStrings.h
@@ -44,6 +45,8 @@ set(MODBUS_SOURCES
         src/modbus/OrderedTransaction.cpp
         src/modbus/OrderedTransaction.h
         # generated enums
+        src/modbus/generated/CommandType.h
+        src/modbus/generated/CommandType.cpp
         src/modbus/generated/OutputType.h
         src/modbus/generated/OutputType.cpp
         src/modbus/generated/RegisterOperation.h

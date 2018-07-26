@@ -6,9 +6,9 @@
 
 using namespace adapter::dnp3;
 
-TEST_CASE("CommandOrdering")
+TEST_CASE("IndexedEnumOrdering")
 {
-    std::set<CommandOrdering> set;
+    std::set<command_ordering_t> set;
 
     SECTION("set allows same index with different types")
     {

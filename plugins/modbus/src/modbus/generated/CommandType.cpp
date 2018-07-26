@@ -11,7 +11,7 @@
 //  This file is auto-generated. Do not edit manually
 // 
 
-#include "OutputType.h"
+#include "CommandType.h"
 
 #include "adapter-api/util/Exception.h"
 
@@ -21,33 +21,33 @@ namespace adapter {
 
 namespace modbus {
 
-const char OutputType::none[] = "none";
-const char OutputType::write_single_register[] = "write_single_register";
+const char CommandType::write_single_register[] = "write_single_register";
+const char CommandType::write_multiple_register[] = "write_multiple_register";
 
-const std::array<OutputType::Value, 2> OutputType::values =
+const std::array<CommandType::Value, 2> CommandType::values =
 {
-    OutputType::Value::none,
-    OutputType::Value::write_single_register,
+    CommandType::Value::write_single_register,
+    CommandType::Value::write_multiple_register,
 };
 
-std::string OutputType::to_string(OutputType::Value value)
+std::string CommandType::to_string(CommandType::Value value)
 {
     switch(value)
     {
-        case(Value::none): return none;
-        default: return write_single_register;
+        case(Value::write_single_register): return write_single_register;
+        default: return write_multiple_register;
     }
 }
 
-OutputType::Value OutputType::from_string(const std::string& name)
+CommandType::Value CommandType::from_string(const std::string& name)
 {
     static const std::map<std::string, Value> map = 
     {
-        {none, Value::none},
         {write_single_register, Value::write_single_register},
+        {write_multiple_register, Value::write_multiple_register},
     };
     const auto elem = map.find(name);
-    if(elem == map.end()) throw Exception("Unknown value name '", name, "' for enum OutputType");
+    if(elem == map.end()) throw Exception("Unknown value name '", name, "' for enum CommandType");
     return elem->second;
 }
 

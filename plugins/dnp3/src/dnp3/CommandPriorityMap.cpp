@@ -6,7 +6,7 @@
 namespace adapter {
 namespace dnp3 {
 
-    CommandPriorityMap::CommandPriorityMap(const std::vector<CommandOrdering>& orderings)
+    CommandPriorityMap::CommandPriorityMap(const std::vector<command_ordering_t>& orderings)
     {
         int priority = 0;
         for (const auto& ordering : orderings) {
@@ -31,7 +31,7 @@ namespace dnp3 {
 
     int CommandPriorityMap::get_priority(uint16_t index, CommandType::Value type) const
     {
-        const auto elem = this->priority_map.find(CommandOrdering{ index, type });
+        const auto elem = this->priority_map.find(command_ordering_t{ index, type });
         if (elem == this->priority_map.end()) {
             throw Exception("No priority specified for index: ", index, " and type: ", CommandType::to_string(type));
         }

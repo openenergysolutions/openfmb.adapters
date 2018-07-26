@@ -25,6 +25,7 @@ set(API_HEADERS
 	include/adapter-api/config/ConfigWriteVisitorBase.h
 	include/adapter-api/config/IAccessor.h
 	include/adapter-api/config/IDescriptorPath.h
+	include/adapter-api/config/IndexedEnumOrdering.h
 	include/adapter-api/config/DescriptorPath.h
 	include/adapter-api/config/IMessageVisitor.h
 	include/adapter-api/config/IMessageFieldHandler.h

@@ -11,8 +11,8 @@
 //  This file is auto-generated. Do not edit manually
 // 
 
-#ifndef OPENFMB_OUTPUTTYPE_H
-#define OPENFMB_OUTPUTTYPE_H
+#ifndef OPENFMB_COMMANDTYPE_H
+#define OPENFMB_COMMANDTYPE_H
 
 #include <string>
 #include <array>
@@ -21,20 +21,20 @@ namespace adapter {
 
 namespace modbus {
 
-struct OutputType
+struct CommandType
 {
     enum class Value
     {
-        // output is not mapped
-        none,
-        // output is a write to a single holding register
+        // write a single holding register value
         write_single_register,
+        // write multiple holding register values starting a particular index
+        write_multiple_register,
     };
 
-    static const char none[];
     static const char write_single_register[];
+    static const char write_multiple_register[];
 
-    static constexpr const char* label = "output-type";
+    static constexpr const char* label = "command-type";
 
     static const std::array<Value, 2> values;
 

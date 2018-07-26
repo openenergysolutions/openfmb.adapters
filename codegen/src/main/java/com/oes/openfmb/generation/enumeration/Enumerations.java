@@ -159,7 +159,15 @@ public class Enumerations {
                 Arrays.asList("Output","Type"),
                 Arrays.asList(
                         Enumeration.entry("none", "output is not mapped"),
-                        Enumeration.entry("write_holding_register", "output is a write to a single holding register")
+                        Enumeration.entry("write_single_register", "output is a write to a single holding register")
+                )
+        );
+
+        private final static Enumeration commandType = new Enumeration(
+                Arrays.asList("Command","Type"),
+                Arrays.asList(
+                        Enumeration.entry("write_single_register", "write a single holding register value"),
+                        Enumeration.entry("write_multiple_register", "write multiple holding register values starting a particular index")
                 )
         );
 
@@ -173,7 +181,7 @@ public class Enumerations {
         );
 
         private static List<Enumeration> enums() {
-            return Arrays.asList(registerMapping, sourceType, outputType, registerOperation);
+            return Arrays.asList(registerMapping, sourceType, outputType, registerOperation, commandType);
         }
 
         private static final Path path = Paths.get("../plugins/modbus/src/modbus/generated");
