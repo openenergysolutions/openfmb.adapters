@@ -3,7 +3,7 @@
 #define OPENFMB_ADAPTER_DNP3_SUBSCRIBINGCONFIGREADVISITOR_H
 
 #include <adapter-api/ProfileInfo.h>
-#include <adapter-api/config/ConfigReadVisitorBase.h>
+#include <adapter-api/config/SubscribingConfigReadVisitorBase.h>
 
 #include "ControlSubscriptionHandler.h"
 #include "ICommandPrioritySource.h"
@@ -11,57 +11,10 @@
 namespace adapter {
 namespace dnp3 {
 
-    template <class T>
-    class SubscribingConfigReadVisitor final : public ConfigReadVisitorBase<T> {
+    // keep these helpers out of the template
+    namespace read {
 
-        const std::shared_ptr<CommandConfiguration<T>> configuration = std::make_shared<CommandConfiguration<T>>();
-        std::string mRID;
-        ICommandPrioritySource& priority;
-
-    public:
-        explicit SubscribingConfigReadVisitor(const YAML::Node& root, ICommandPrioritySource& priority)
-            : ConfigReadVisitorBase<T>(root)
-            , priority(priority)
-        {
-        }
-
-        void subscribe(Logger logger, IMessageBus& bus, std::shared_ptr<ICommandSequenceExecutor> executor)
-        {
-            if (configuration->is_empty()) {
-                throw Exception("command configuration is empty!");
-            }
-
-            if (this->mRID.empty()) {
-                throw Exception("primary mRID for control profile was not specified");
-            }
-
-            logger.info("Subscribing to {} w/ mRID {}", T::descriptor()->name(), this->mRID);
-
-            bus.subscribe(
-                std::make_shared<ControlSubscriptionHandler<T>>(this->mRID, logger, this->configuration, std::move(executor)));
-        }
-
-        void handle(const std::string& field_name, const accessor_t<T, bool>& accessor) override;
-
-        void handle(const std::string& field_name, const accessor_t<T, int>& accessor) override;
-
-        void handle(const std::string& field_name, const accessor_t<T, long>& accessor) override;
-
-        void handle(const std::string& field_name, const accessor_t<T, float>& accessor) override;
-
-        void handle(const std::string& field_name, const accessor_t<T, std::string>& accessor) override;
-
-        void handle(const std::string& field_name, const accessor_t<T, int>& accessor, google::protobuf::EnumDescriptor const* descriptor) override;
-
-        void handle(const std::string& field_name, const message_accessor_t<T, commonmodule::Quality>& accessor) override;
-
-        void handle(const std::string& field_name, const message_accessor_t<T, commonmodule::Timestamp>& accessor) override;
-
-        void handle(const std::string& field_name, const message_accessor_t<T, commonmodule::ControlTimestamp>& accessor) override;
-
-    private:
-        // TODO - move this outside the template to a helper class
-        std::vector<PrioritizedCommand> read_control_list(const YAML::Node& node)
+        std::vector<PrioritizedCommand> control_list(const YAML::Node& node, const ICommandPrioritySource& priority_source)
         {
             std::vector<PrioritizedCommand> commands;
 
@@ -73,26 +26,60 @@ namespace dnp3 {
                     processor.DirectOperate(crob, index, callback);
                 };
 
-                commands.emplace_back(action, this->priority.get_binary_output_priority(control.index));
+                commands.emplace_back(action, priority_source.get_binary_output_priority(control.index));
             };
 
             yaml::foreach (node, read_one);
 
             return commands;
         }
+    }
+
+    template <class T>
+    class SubscribingConfigReadVisitor final : public SubscribingConfigReadVisitorBase<T> {
+
+        const std::shared_ptr<CommandConfiguration<T>> configuration = std::make_shared<CommandConfiguration<T>>();
+        const ICommandPrioritySource& priority;
+
+    public:
+        explicit SubscribingConfigReadVisitor(const YAML::Node& root, const ICommandPrioritySource& priority)
+            : SubscribingConfigReadVisitorBase<T>(root)
+            , priority(priority)
+        {
+        }
+
+        void subscribe(Logger logger, IMessageBus& bus, std::shared_ptr<ICommandSequenceExecutor> executor)
+        {
+            if (configuration->is_empty()) {
+                throw Exception("command configuration is empty!");
+            }
+
+            logger.info("Subscribing to {} w/ mRID {}", T::descriptor()->name(), this->get_primary_mrid());
+
+            bus.subscribe(
+                std::make_shared<ControlSubscriptionHandler<T>>(this->get_primary_mrid(), logger, this->configuration, std::move(executor)));
+        }
+
+        void handle_mapped_field(const YAML::Node& node, const accessor_t<T, bool>& accessor) override;
+
+        void handle_mapped_field(const YAML::Node& node, const accessor_t<T, int32_t>& accessor) override;
+
+        void handle_mapped_field(const YAML::Node& node, const accessor_t<T, int64_t>& accessor) override;
+
+        void handle_mapped_field(const YAML::Node& node, const accessor_t<T, float>& accessor) override;
+
+        void handle_mapped_field(const YAML::Node& node, const accessor_t<T, int>& accessor, google::protobuf::EnumDescriptor const* descriptor) override;
     };
 
     template <class T>
-    void SubscribingConfigReadVisitor<T>::handle(const std::string& field_name, const accessor_t<T, bool>& accessor)
+    void SubscribingConfigReadVisitor<T>::handle_mapped_field(const YAML::Node& node, const accessor_t<T, bool>& accessor)
     {
-        // only do anything for mapped fields ATM
-        if (fields::get_bool_type(field_name, this->path) != BoolFieldType::Value::mapped)
+        const auto when_true = read::control_list(yaml::require(node, ::adapter::keys::when_true), this->priority);
+        const auto when_false = read::control_list(yaml::require(node, ::adapter::keys::when_false), this->priority);
+
+        if (when_true.empty() && when_false.empty()) {
             return;
-
-        const auto node = this->get_config_node(field_name);
-
-        const auto when_true = read_control_list(yaml::require(node, ::adapter::keys::when_true));
-        const auto when_false = read_control_list(yaml::require(node, ::adapter::keys::when_false));
+        }
 
         const auto builder = [=](const T& profile, Logger& logger, ICommandSink& sink) {
             accessor->if_present(profile, [&](const bool& value) {
@@ -110,59 +97,25 @@ namespace dnp3 {
     }
 
     template <class T>
-    void SubscribingConfigReadVisitor<T>::handle(const std::string& field_name, const accessor_t<T, int>& accessor)
+    void SubscribingConfigReadVisitor<T>::handle_mapped_field(const YAML::Node& node, const accessor_t<T, int>& accessor)
     {
         // ignored
     }
 
     template <class T>
-    void SubscribingConfigReadVisitor<T>::handle(const std::string& field_name, const accessor_t<T, long>& accessor)
+    void SubscribingConfigReadVisitor<T>::handle_mapped_field(const YAML::Node& node, const accessor_t<T, long>& accessor)
     {
         // ignored
     }
 
     template <class T>
-    void SubscribingConfigReadVisitor<T>::handle(const std::string& field_name, const accessor_t<T, float>& accessor)
+    void SubscribingConfigReadVisitor<T>::handle_mapped_field(const YAML::Node& node, const accessor_t<T, float>& accessor)
     {
         // ignored
     }
 
     template <class T>
-    void SubscribingConfigReadVisitor<T>::handle(const std::string& field_name, const accessor_t<T, std::string>& accessor)
-    {
-        const auto type = fields::get_string_type(field_name, this->path);
-
-        if (type == StringFieldType::Value::primary_uuid) {
-            if (!this->mRID.empty()) {
-                throw Exception("the primary mRID may only be specified once");
-            }
-
-            const auto node = this->get_config_node(field_name);
-
-            this->mRID = yaml::require_uuid(node, ::adapter::keys::value);
-        }
-    }
-
-    template <class T>
-    void SubscribingConfigReadVisitor<T>::handle(const std::string& field_name, const accessor_t<T, int>& accessor, google::protobuf::EnumDescriptor const* descriptor)
-    {
-        // ignored
-    }
-
-    template <class T>
-    void SubscribingConfigReadVisitor<T>::handle(const std::string& field_name, const message_accessor_t<T, commonmodule::Quality>& accessor)
-    {
-        // ignored
-    }
-
-    template <class T>
-    void SubscribingConfigReadVisitor<T>::handle(const std::string& field_name, const message_accessor_t<T, commonmodule::Timestamp>& accessor)
-    {
-        // ignored
-    }
-
-    template <class T>
-    void SubscribingConfigReadVisitor<T>::handle(const std::string& field_name, const message_accessor_t<T, commonmodule::ControlTimestamp>& accessor)
+    void SubscribingConfigReadVisitor<T>::handle_mapped_field(const YAML::Node& node, const accessor_t<T, int>& accessor, google::protobuf::EnumDescriptor const* descriptor)
     {
         // ignored
     }
