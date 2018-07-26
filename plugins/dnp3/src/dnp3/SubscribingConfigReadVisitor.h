@@ -31,6 +31,10 @@ namespace dnp3 {
                 throw Exception("command configuration is empty!");
             }
 
+            if(this->mRID.empty()) {
+                throw Exception("primary mRID for control profile was not specified");
+            }
+
             logger.info("Subscribing to {} w/ mRID {}", T::descriptor()->name(), this->mRID);
 
             bus.subscribe(
@@ -126,7 +130,18 @@ namespace dnp3 {
     template <class T>
     void SubscribingConfigReadVisitor<T>::handle(const std::string& field_name, const accessor_t<T, std::string>& accessor)
     {
-        // ignored
+        const auto type = fields::get_string_type(field_name, this->path);
+
+        if(type == StringFieldType::Value::primary_uuid)
+        {
+            if(!this->mRID.empty()) {
+                throw Exception("the primary mRID may only be specified once");
+            }
+
+            const auto node = this->get_config_node(field_name);
+
+            this->mRID = yaml::require_uuid(node, ::adapter::keys::value);
+        }
     }
 
     template <class T>
