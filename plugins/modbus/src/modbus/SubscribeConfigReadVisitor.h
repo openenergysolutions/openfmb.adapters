@@ -7,11 +7,12 @@
 
 #include "CommandConfiguration.h"
 #include "CommandSubscriptionHandler.h"
-#include "ICommandPrioritySource.h"
+
 #include "ITransactionProcessor.h"
 #include "ModifyRegisterTransaction.h"
-
+#include "CommandSinkActions.h"
 #include "generated/OutputType.h"
+
 
 namespace adapter {
 namespace modbus {
@@ -64,6 +65,24 @@ namespace modbus {
     template <class T>
     void SubscribeConfigReadVisitor<T>::handle(const std::string& field_name, const accessor_t<T, bool>& accessor)
     {
+        const YAML::Node node = this->get_config_node(field_name);
+        const auto binary_config = read::binary_action_pair(node, this->priority_source);
+
+        if(!binary_config.is_empty())
+        {
+            this->config->add(
+                    [binary_config, accessor](const T & profile, ICommandSink & sink, Logger & logger)
+                    {
+                        accessor->if_present(
+                                profile,
+                                [&](const bool& value)
+                                {
+                                    binary_config.apply(value, sink);
+                                }
+                        );
+                    }
+            );
+        }
     }
 
     template <class T>
