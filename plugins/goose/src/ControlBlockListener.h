@@ -1,7 +1,9 @@
 #ifndef OPENFMB_ADAPTER_GOOSE_CONTROLBLOCKLISTENER_H
 #define OPENFMB_ADAPTER_GOOSE_CONTROLBLOCKLISTENER_H
 
+#include <string>
 #include <vector>
+#include "adapter-api/Logger.h"
 #include "goose-cpp/control_block/IControlBlockListener.h"
 #include "IPublishConfigBuilder.h"
 #include "Mappings.h"
@@ -14,7 +16,7 @@ namespace goose
 class ControlBlockListener final : public goose_cpp::IControlBlockListener, public IPublishConfigBuilder
 {
 public:
-    ControlBlockListener() = default;
+    ControlBlockListener(std::string name, Logger& logger);
     ~ControlBlockListener() = default;
 
     // IControlBlockListener
@@ -23,14 +25,19 @@ public:
 
     // IPublishConfigBuilder
     void add_start_action(const action_t& action) final;
+    void add_bool_handler(const meas_handler_t<bool>& handler, const GoosePath& path) final;
+    void add_int32_handler(const meas_handler_t<int32_t>& handler, const GoosePath& path) final;
     void add_int64_handler(const meas_handler_t<int64_t>& handler, const GoosePath& path) final;
     void add_float_handler(const meas_handler_t<float>& handler, const GoosePath& path) final;
     void add_end_action(const action_t& action) final;
 
 private:
+    std::string m_name;
+    Logger m_logger;
+
+    Mappings m_mappings;
     std::vector<action_t> m_start_actions;
     std::vector<action_t> m_end_actions;
-    Mappings m_mappings;
 };
 
 } // namespace goose

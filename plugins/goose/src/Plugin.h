@@ -23,7 +23,7 @@ public:
     void start() override;
 
 private:
-    void add_control_block(const YAML::Node& node, message_bus_t bus);
+    void add_control_block(const YAML::Node& node, message_bus_t bus, Logger logger);
     NetworkAdapter get_adapter(const std::string& network_adapter);
 
     Logger m_logger;

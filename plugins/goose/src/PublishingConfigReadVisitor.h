@@ -37,12 +37,16 @@ public:
 protected:
     void handle_mapped_bool(const YAML::Node& node, const accessor_t<T, bool>& accessor) final
     {
-        throw Exception("mapped bool not implemented");
+        m_builder->add_bool_handler([accessor, profile = m_profile](const bool& value) {
+            accessor->set(*profile, value);
+        }, get_path(node));
     }
 
     void handle_mapped_int32(const YAML::Node& node, const accessor_t<T, int32_t>& accessor) final
     {
-        throw Exception("mapped int32 not implemented");
+        m_builder->add_int32_handler([accessor, profile = m_profile](const int32_t& value) {
+            accessor->set(*profile, value);
+        }, get_path(node));
     }
 
     void handle_mapped_int64(const YAML::Node& node, const accessor_t<T, int64_t>& accessor) final
@@ -61,7 +65,7 @@ protected:
 
     void handle_mapped_enum(const YAML::Node& node, const accessor_t<T, int>& accessor, google::protobuf::EnumDescriptor const* descriptor) final
     {
-        throw Exception("mapped enum not implemented");
+        throw Exception("GOOSE adapter does not support mapped enum");
     }
 
     void add_message_init_action(const std::function<void(T&)>& action) final
@@ -81,7 +85,7 @@ protected:
 private:
     GoosePath get_path(const YAML::Node& node) const
     {
-        auto path_str = yaml::require(node, keys::path).as<std::string>();
+        auto path_str = yaml::require_string(node, keys::path);
         return GoosePath::from_string(path_str);
     }
 

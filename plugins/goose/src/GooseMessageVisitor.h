@@ -32,6 +32,9 @@ public:
     void handle_utctime(std::chrono::system_clock::time_point item) final;
 
 private:
+    template<typename T>
+    void handle_int(T value);
+
     const Mappings& m_mappings;
     GoosePath m_path;
 };

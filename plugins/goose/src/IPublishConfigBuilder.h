@@ -19,6 +19,8 @@ public:
     virtual ~IPublishConfigBuilder() = default;
 
     virtual void add_start_action(const action_t& action) = 0;
+    virtual void add_bool_handler(const meas_handler_t<bool>& handler, const GoosePath& path) = 0;
+    virtual void add_int32_handler(const meas_handler_t<int32_t>& handler, const GoosePath& path) = 0;
     virtual void add_int64_handler(const meas_handler_t<int64_t>& handler, const GoosePath& path) = 0;
     virtual void add_float_handler(const meas_handler_t<float>& handler, const GoosePath& path) = 0;
     virtual void add_end_action(const action_t& action) = 0;

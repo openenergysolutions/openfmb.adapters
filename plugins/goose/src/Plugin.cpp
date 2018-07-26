@@ -21,7 +21,7 @@ Plugin::Plugin(const YAML::Node& node, const Logger& logger, message_bus_t bus)
         yaml::require(node, keys::goCb),
         m_logger,
         [&](const YAML::Node& config) {
-            this->add_control_block(config, std::move(bus));
+            this->add_control_block(config, std::move(bus), logger);
         }
     );
 }
@@ -44,9 +44,14 @@ void Plugin::start()
     }
 }
 
-void Plugin::add_control_block(const YAML::Node& node, message_bus_t bus)
+void Plugin::add_control_block(const YAML::Node& node, message_bus_t bus, Logger logger)
 {
-    auto handler = std::make_shared<ControlBlockListener>();
+    auto adapter = get_adapter(yaml::require_string(node, keys::networkAdapter));
+    auto app_id = yaml::require(node, keys::appId).as<uint16_t>();
+    auto go_cb_ref = yaml::require_string(node, keys::goCbRef);
+
+    auto handler = std::make_shared<ControlBlockListener>(go_cb_ref, logger);
+
     const auto profiles = yaml::require(node, ::adapter::keys::profiles);
     yaml::foreach(
         profiles,
@@ -59,10 +64,6 @@ void Plugin::add_control_block(const YAML::Node& node, message_bus_t bus)
                 handler);
         }
     );
-
-    auto adapter = get_adapter(yaml::require(node, keys::networkAdapter).as<std::string>());
-    auto app_id = yaml::require(node, keys::appId).as<uint16_t>();
-    auto go_cb_ref = yaml::require(node, keys::goCbRef).as<std::string>();
 
     adapter.sink->add_control_block(app_id, go_cb_ref, handler);
 }

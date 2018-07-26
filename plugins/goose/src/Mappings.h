@@ -11,6 +11,8 @@ namespace goose
 
 struct Mappings
 {
+    std::unordered_map<GoosePath, IPublishConfigBuilder::meas_handler_t<bool>> bool_handlers;
+    std::unordered_map<GoosePath, IPublishConfigBuilder::meas_handler_t<int32_t>> int32_handlers;
     std::unordered_map<GoosePath, IPublishConfigBuilder::meas_handler_t<int64_t>> int64_handlers;
     std::unordered_map<GoosePath, IPublishConfigBuilder::meas_handler_t<float>> float_handlers;
 };

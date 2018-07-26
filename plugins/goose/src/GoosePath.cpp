@@ -1,6 +1,7 @@
 #include "GoosePath.h"
 
 #include <sstream>
+#include "adapter-api/util/Exception.h"
 
 namespace adapter
 {
@@ -11,23 +12,30 @@ GoosePath GoosePath::from_string(const std::string& path)
 {
     GoosePath result;
 
-    const std::string delim{"."};
-    std::string copy{path};
-    size_t pos;
-    while(pos = copy.find(delim) != std::string::npos)
+    try
     {
-        auto num_str = copy.substr(0, pos);
-        auto num = std::stoul(num_str);
+        const std::string delim{"."};
+        std::string copy{path};
+        size_t pos;
+        while(pos = copy.find(delim) != std::string::npos)
+        {
+            auto count = pos + 1;
+            auto num_str = copy.substr(0, count);
+            auto num = std::stoul(num_str);
+            result.set(num);
+            result.push();
+
+            copy.erase(0, count + delim.length());
+        }
+
+        auto num = std::stoul(copy);
         result.set(num);
-        result.push();
-
-        copy.erase(0, pos + delim.length());
+        return result;
     }
-
-    auto num = std::stoul(copy);
-    result.set(num);
-
-    return result;
+    catch(std::exception& e)
+    {
+        throw Exception{"Invalid GOOSE path."};
+    }
 }
 
 GoosePath::GoosePath()
