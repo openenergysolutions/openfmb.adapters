@@ -46,7 +46,7 @@ namespace modbus {
         template <class U = T>
         static return_t<!profile_info<U>::is_control> handle(const YAML::Node& node, const Logger& logger, message_bus_t bus, std::shared_ptr<PollHandler> handler, std::shared_ptr<ITransactionProcessor> processor)
         {
-            PublishConfigReadVisitor<T> visitor(node, std::move(bus), std::move(handler));
+            PublishConfigReadVisitor<T> visitor(yaml::require(node, ::adapter::keys::mapping), std::move(bus), std::move(handler));
             visit(visitor);
             return true;
         }
