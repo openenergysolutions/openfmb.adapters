@@ -21,6 +21,7 @@ set(API_HEADERS
 	include/adapter-api/util/YAMLUtil.h
 	include/adapter-api/util/YAMLTemplate.h
 	include/adapter-api/config/PublishingConfigReadVisitorBase.h
+	include/adapter-api/config/SubscribingConfigReadVisitorBase.h
 	include/adapter-api/config/ConfigReadVisitorBase.h
 	include/adapter-api/config/ConfigWriteVisitorBase.h
 	include/adapter-api/config/IAccessor.h
