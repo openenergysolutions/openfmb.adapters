@@ -12,8 +12,6 @@ class TestModelVisitor : public adapter::IModelVisitor {
 
 public:
     bool start_message_field(const std::string &field_name, google::protobuf::Descriptor const *descriptor) override {
-        if(::adapter::fields::is_message_ignored(field_name, descriptor, path)) return false;
-
         path.push(field_name, descriptor);
         return true;
     }

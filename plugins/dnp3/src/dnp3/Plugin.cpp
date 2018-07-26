@@ -37,8 +37,7 @@ namespace dnp3 {
         static return_t<profile_info<U>::is_control> handle(const YAML::Node& node, const Logger& logger, message_bus_t bus, std::shared_ptr<IPublishConfigBuilder>, std::shared_ptr<ICommandSequenceExecutor> executor)
         {
             CommandPriorityMap priority_map(
-                    CommandOrdering::read_sequence(yaml::require(node, keys::command_order))
-            );
+                CommandOrdering::read_sequence(yaml::require(node, keys::command_order)));
             SubscribingConfigReadVisitor<T> visitor(yaml::require(node, ::adapter::keys::mapping), priority_map);
             visit(visitor);
             visitor.subscribe(logger, *bus, std::move(executor));

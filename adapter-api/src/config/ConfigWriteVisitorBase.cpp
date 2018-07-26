@@ -16,9 +16,6 @@ ConfigWriteVisitorBase::ConfigWriteVisitorBase(YAML::Emitter& out)
 
 bool ConfigWriteVisitorBase::start_message_field(const std::string& field_name, google::protobuf::Descriptor const* descriptor)
 {
-    if (fields::is_message_ignored(field_name, descriptor, this->path))
-        return false;
-
     this->path.push(field_name, descriptor);
 
     out << YAML::Key << field_name;

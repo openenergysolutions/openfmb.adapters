@@ -14,26 +14,31 @@
 namespace adapter {
 namespace fields {
 
-    using message_filter_t = std::function<bool(const std::string& name, IDescriptorPath& path)>;
-
-    bool is_message_ignored(const std::string& field_name, google::protobuf::Descriptor const* descriptor, IDescriptorPath& path)
-    {
-        const auto static always = [](const std::string& name, IDescriptorPath& path) -> bool { return true; };
-
-        const static std::map<google::protobuf::Descriptor const*, message_filter_t> ignore_when = {
-            { commonmodule::Quality::descriptor(), always },
-            { commonmodule::Timestamp::descriptor(), always },
-            { commonmodule::ControlTimestamp::descriptor(), always }
-        };
-
-        const auto elem = ignore_when.find(descriptor);
-
-        // no entry, never ignored
-        if (elem == ignore_when.end())
-            return false;
-
-        //  invoke the filter
-        return elem->second(field_name, path);
+    namespace names {
+        constexpr const char* const t = "t";
+        constexpr const char* const identified_object = "identifiedObject";
+        constexpr const char* const messageInfo = "messageInfo";
+        constexpr const char* const description = "description";
+        constexpr const char* const mod_blk = "modBlk";
+        constexpr const char* const control_value = "controlValue";
+        constexpr const char* const connected = "connected";
+        constexpr const char* const aCDCTerminal = "aCDCTerminal";
+        constexpr const char* const interlockCheck = "interlockCheck";
+        constexpr const char* const synchroCheck = "synchroCheck";
+        constexpr const char* const stVal = "stVal";
+        constexpr const char* const ctlVal = "ctlVal";
+        constexpr const char* const actVal = "actVal";
+        constexpr const char* const messageTimeStamp = "messageTimeStamp";
+        constexpr const char* const mRID = "mRID";
+        constexpr const char* const setValExtension = "setValExtension";
+        constexpr const char* const d = "d";
+        constexpr const char* const xD = "xD";
+        constexpr const char* const xDU = "xDU";
+        constexpr const char* const yD = "yD";
+        constexpr const char* const yDU = "yDU";
+        constexpr const char* const zD = "zD";
+        constexpr const char* const zDU = "zDU";
+        constexpr const char* const operatingLimit = "operatingLimit";
     }
 
     EnumFieldType::Value get_enum_type(google::protobuf::EnumDescriptor const* descriptor)
@@ -110,7 +115,7 @@ namespace fields {
         // clang-format off
         const static field_map_t<StringFieldType::Value> map = {
                 {
-                    keys::mRID,
+                    names::mRID,
                     {
                         {
                             [](IDescriptorPath &path) -> bool {
@@ -127,23 +132,23 @@ namespace fields {
                             [](IDescriptorPath &path) -> bool {
                                 return path.has_parents(
                                         {
-                                                {keys::mRID,              google::protobuf::StringValue::descriptor()},
-                                                {keys::identified_object, commonmodule::IdentifiedObject::descriptor()},
-                                                {keys::messageInfo,       commonmodule::MessageInfo::descriptor()}
+                                                {names::mRID,              google::protobuf::StringValue::descriptor()},
+                                                {names::identified_object, commonmodule::IdentifiedObject::descriptor()},
+                                                {names::messageInfo,       commonmodule::MessageInfo::descriptor()}
                                         });
                             },
                             StringFieldType::Value::generated_uuid
                         },
                         {
                             [](IDescriptorPath &path) -> bool {
-                                return path.has_parents({{keys::mRID, google::protobuf::StringValue::descriptor()}});
+                                return path.has_parents({{names::mRID, google::protobuf::StringValue::descriptor()}});
                             },
                             StringFieldType::Value::constant_uuid
                         },
                         {
                             // all descriptions are optional constants
                             [](IDescriptorPath &path) -> bool {
-                                return path.has_parents({{keys::description, google::protobuf::StringValue::descriptor()}});
+                                return path.has_parents({{names::description, google::protobuf::StringValue::descriptor()}});
                             },
                             StringFieldType::Value::constant
                         },
@@ -158,7 +163,7 @@ namespace fields {
                             // these labels are all optional descriptions
                             [](IDescriptorPath &path) -> bool {
                                 std::initializer_list<const char *> names = {
-                                        "setValExtension", "d", "xD", "xDU", "yD",  "yDU", "zD", "zDU"
+                                        names::setValExtension, names::d, names::xD, names::xDU, names::yD, names::yDU, names::zD, names::zDU
                                 };
                                 for(const auto& name : names) {
                                     if(path.has_parents({{name, google::protobuf::StringValue::descriptor()}})) return true;
@@ -170,13 +175,7 @@ namespace fields {
                         {
                             // not sure what these are so
                             [](IDescriptorPath &path) -> bool {
-                                std::initializer_list<const char *> names = {
-                                        "operatingLimit"
-                                };
-                                for(const auto& name : names) {
-                                    if(path.has_parents({{name, google::protobuf::StringValue::descriptor()}})) return true;
-                                }
-                                return false;
+                                return path.has_parents({{names::operatingLimit, google::protobuf::StringValue::descriptor()}});
                             },
                             StringFieldType::Value::ignored
                         }
@@ -198,8 +197,8 @@ namespace fields {
                         {
                             [](IDescriptorPath& path) -> bool {
                                 return path.has_parents({
-                                                                { keys::mod_blk, google::protobuf::BoolValue::descriptor()},
-                                                                { keys::control_value, commonmodule::ControlValue::descriptor()},
+                                                                { names::mod_blk, google::protobuf::BoolValue::descriptor()},
+                                                                { names::control_value, commonmodule::ControlValue::descriptor()},
                                                         });
                             },
                             BoolFieldType::Value::ignored
@@ -207,8 +206,8 @@ namespace fields {
                         {
                             [](IDescriptorPath& path) -> bool {
                                 return path.has_parents({
-                                                                { keys::connected, google::protobuf::BoolValue::descriptor()},
-                                                                { keys::aCDCTerminal, commonmodule::ACDCTerminal::descriptor()},
+                                                                { names::connected, google::protobuf::BoolValue::descriptor()},
+                                                                { names::aCDCTerminal, commonmodule::ACDCTerminal::descriptor()},
                                                         });
                             },
                             BoolFieldType::Value::ignored
@@ -216,8 +215,8 @@ namespace fields {
                         {
                             [](IDescriptorPath& path) -> bool {
                                 const std::initializer_list<const char*> names = {
-                                        keys::interlockCheck,
-                                        keys::synchroCheck
+                                        names::interlockCheck,
+                                        names::synchroCheck
                                 };
                                 for(const auto& name : names) {
                                     if(path.has_parents({
@@ -232,11 +231,11 @@ namespace fields {
                 },
                 {
                     // any bool w/ this name is a control value
-                    keys::ctlVal, { always(BoolFieldType::Value::mapped) }
+                    names::ctlVal, { always(BoolFieldType::Value::mapped) }
                 },
                 {
                     // any bool w/ this name is a status value
-                    keys::stVal, { always(BoolFieldType::Value::mapped) }
+                    names::stVal, { always(BoolFieldType::Value::mapped) }
                 }
         };
         // clang-format on
@@ -284,7 +283,7 @@ namespace fields {
         // clang-format off
         const static field_map_t<Int64FieldType::Value> map = {
                 {
-                        keys::actVal,
+                        names::actVal,
                         {
                                 {
                                         [](IDescriptorPath& path) -> bool {
@@ -346,7 +345,7 @@ namespace fields {
         // clang-format off
         const static field_map_t<TimestampFieldType::Value> map = {
                 {
-                        keys::messageTimeStamp,
+                        names::messageTimeStamp,
                         {
                                 {
                                         [](IDescriptorPath& path) -> bool {
@@ -359,7 +358,7 @@ namespace fields {
 
                 },
                 {
-                        keys::t,
+                        names::t,
                         {
                                 {
                                         [](IDescriptorPath& path) -> bool {

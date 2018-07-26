@@ -31,7 +31,7 @@ namespace dnp3 {
                 throw Exception("command configuration is empty!");
             }
 
-            if(this->mRID.empty()) {
+            if (this->mRID.empty()) {
                 throw Exception("primary mRID for control profile was not specified");
             }
 
@@ -132,9 +132,8 @@ namespace dnp3 {
     {
         const auto type = fields::get_string_type(field_name, this->path);
 
-        if(type == StringFieldType::Value::primary_uuid)
-        {
-            if(!this->mRID.empty()) {
+        if (type == StringFieldType::Value::primary_uuid) {
+            if (!this->mRID.empty()) {
                 throw Exception("the primary mRID may only be specified once");
             }
 
