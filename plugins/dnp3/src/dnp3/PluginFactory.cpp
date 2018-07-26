@@ -35,7 +35,7 @@ namespace dnp3 {
                     out);
             }
 
-            out << YAML::Key << keys::mapping << YAML::Comment("profile model starts here");
+            out << YAML::Key << ::adapter::keys::mapping << YAML::Comment("profile model starts here");
             out << YAML::BeginMap;
 
             if (profile_info<T>::is_control) {
@@ -54,15 +54,9 @@ namespace dnp3 {
     void write_profile_configs(YAML::Emitter& out, const profile_vec_t& profiles)
     {
         for (const auto& profile : profiles) {
-            out << YAML::BeginMap;
-            out << YAML::Key << keys::name << YAML::Value << profile;
 
-            /*
-            out << YAML::Key << keys::command_priority;
-            out << YAML::BeginSeq;
-            // TODO - write an example ordering
-            out << YAML::EndSeq;
-            */
+            out << YAML::BeginMap;
+            out << YAML::Key << ::adapter::keys::name << YAML::Value << profile;
 
             ProfileRegistry::handle_by_name<WriterHandler>(profile, out);
         }

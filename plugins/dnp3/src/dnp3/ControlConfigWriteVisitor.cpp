@@ -20,12 +20,12 @@ namespace dnp3 {
 
     void ControlConfigWriteVisitor::write_mapped_bool_keys(YAML::Emitter& out)
     {
-        out << YAML::Key << keys::when_true_execute;
+        out << YAML::Key << keys::when_true;
         out << YAML::BeginSeq;
         write_crob_keys(out, 0, opendnp3::ControlCode::LATCH_ON);
         out << YAML::EndSeq;
 
-        out << YAML::Key << keys::when_false_execute;
+        out << YAML::Key << keys::when_false;
         out << YAML::BeginSeq;
         write_crob_keys(out, 0, opendnp3::ControlCode::LATCH_OFF);
         out << YAML::EndSeq;

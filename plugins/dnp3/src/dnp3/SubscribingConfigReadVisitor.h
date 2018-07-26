@@ -91,8 +91,8 @@ namespace dnp3 {
 
         const auto node = this->get_config_node(field_name);
 
-        const auto when_true = read_control_list(yaml::require(node, keys::when_true_execute));
-        const auto when_false = read_control_list(yaml::require(node, keys::when_false_execute));
+        const auto when_true = read_control_list(yaml::require(node, keys::when_true));
+        const auto when_false = read_control_list(yaml::require(node, keys::when_false));
 
         const auto builder = [=](const T& profile, Logger& logger, ICommandSink& sink) {
             accessor->if_present(profile, [&](const bool& value) {

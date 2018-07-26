@@ -12,6 +12,7 @@ namespace keys {
     constexpr const char* const overrides = "overrides";
     constexpr const char* const scale = "scale";
     constexpr const char* const index = "index";
+    constexpr const char* const mapping = "mapping";
 
     // ---- model related strings ----
 
