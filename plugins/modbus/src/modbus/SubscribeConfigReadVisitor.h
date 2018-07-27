@@ -80,7 +80,7 @@ namespace modbus {
     }
 
     template <class T>
-    void SubscribeConfigReadVisitor<T>::handle_mapped_field(const YAML::Node& nod, const accessor_t<T, int64_t>& accessor)
+    void SubscribeConfigReadVisitor<T>::handle_mapped_field(const YAML::Node& node, const accessor_t<T, int64_t>& accessor)
     {
         // ignored
     }
@@ -100,8 +100,8 @@ namespace modbus {
                 [index, scale, priority, accessor](const T& profile, ICommandSink& sink, Logger& logger) {
                     accessor->if_present(
                         profile,
-                        [&](const float& fv) {
-                            sink.set_register(index, priority, static_cast<uint16_t>(fv * scale));
+                        [&](float value) {
+                            sink.write_single_register(index, priority, static_cast<uint16_t>(value * scale));
                         });
                 });
             break;

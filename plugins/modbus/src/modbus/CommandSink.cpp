@@ -23,12 +23,12 @@ namespace modbus {
         }
     };
 
-    void CommandSink::set_register(uint16_t index, int priority, uint16_t value)
+    void CommandSink::write_single_register(uint16_t index, int priority, uint16_t value)
     {
         this->set_operations.push_back(SetOp{index, value, priority});
     }
 
-    void CommandSink::modify_register(uint16_t index, int priority, modify_reg_op_t operation)
+    void CommandSink::modify_single_register(uint16_t index, int priority, modify_reg_op_t operation)
     {
         this->modify_map[key_t(index, priority)].push_back(std::move(operation));
     }

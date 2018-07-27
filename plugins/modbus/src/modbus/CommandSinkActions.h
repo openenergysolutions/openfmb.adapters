@@ -55,15 +55,15 @@ namespace modbus {
             switch (operation) {
             case (RegisterOperation::Value::clear_masked_bits):
                 return [=, mask = yaml::require_integer<uint16_t>(node, keys::mask)](ICommandSink& sink) {
-                    return sink.modify_register(index, priority, operations::clear(mask));
+                    return sink.modify_single_register(index, priority, operations::clear(mask));
                 };
             case (RegisterOperation::Value::set_masked_bits):
                 return [=, mask = yaml::require_integer<uint16_t>(node, keys::mask)](ICommandSink& sink) {
-                    return sink.modify_register(index, priority, operations::set(mask));
+                    return sink.modify_single_register(index, priority, operations::set(mask));
                 };
             case (RegisterOperation::Value::write_value):
                 return [=, value = yaml::require_integer<uint16_t>(node, ::adapter::keys::value)](ICommandSink& sink) {
-                    return sink.set_register(index, priority, value);
+                    return sink.write_single_register(index, priority, value);
                 };
             default:
                 throw Exception("Unsupported register operation type: ", RegisterOperation::to_string(operation));

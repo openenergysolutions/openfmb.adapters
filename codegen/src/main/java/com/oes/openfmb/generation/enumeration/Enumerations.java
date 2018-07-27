@@ -159,7 +159,8 @@ public class Enumerations {
                 Arrays.asList("Output","Type"),
                 Arrays.asList(
                         Enumeration.entry("none", "output is not mapped"),
-                        Enumeration.entry("write_single_register", "output is a write to a single holding register")
+                        Enumeration.entry("write_single_register", "write to a single holding register"),
+                        Enumeration.entry("write_multiple_registers", "write multiple holding registers")
                 )
         );
 

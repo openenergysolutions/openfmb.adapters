@@ -23,11 +23,13 @@ namespace modbus {
 
 const char OutputType::none[] = "none";
 const char OutputType::write_single_register[] = "write_single_register";
+const char OutputType::write_multiple_registers[] = "write_multiple_registers";
 
-const std::array<OutputType::Value, 2> OutputType::values =
+const std::array<OutputType::Value, 3> OutputType::values =
 {
     OutputType::Value::none,
     OutputType::Value::write_single_register,
+    OutputType::Value::write_multiple_registers,
 };
 
 std::string OutputType::to_string(OutputType::Value value)
@@ -35,7 +37,8 @@ std::string OutputType::to_string(OutputType::Value value)
     switch(value)
     {
         case(Value::none): return none;
-        default: return write_single_register;
+        case(Value::write_single_register): return write_single_register;
+        default: return write_multiple_registers;
     }
 }
 
@@ -45,6 +48,7 @@ OutputType::Value OutputType::from_string(const std::string& name)
     {
         {none, Value::none},
         {write_single_register, Value::write_single_register},
+        {write_multiple_registers, Value::write_multiple_registers},
     };
     const auto elem = map.find(name);
     if(elem == map.end()) throw Exception("Unknown value name '", name, "' for enum OutputType");

@@ -22,8 +22,8 @@ namespace modbus {
         std::vector<SetOp> set_operations;
 
     public:
-        void set_register(uint16_t index, int priority, uint16_t value) override;
-        void modify_register(uint16_t index, int priority, modify_reg_op_t operation) override;
+        void write_single_register(uint16_t index, int priority, uint16_t value) override;
+        void modify_single_register(uint16_t index, int priority, modify_reg_op_t operation) override;
 
         std::shared_ptr<ITransaction> try_get_transaction(std::string name, Logger logger) const;
     };

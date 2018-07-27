@@ -27,16 +27,19 @@ struct OutputType
     {
         // output is not mapped
         none,
-        // output is a write to a single holding register
+        // write to a single holding register
         write_single_register,
+        // write multiple holding registers
+        write_multiple_registers,
     };
 
     static const char none[];
     static const char write_single_register[];
+    static const char write_multiple_registers[];
 
     static constexpr const char* label = "output-type";
 
-    static const std::array<Value, 2> values;
+    static const std::array<Value, 3> values;
 
     static std::string to_string(Value value);
     static Value from_string(const std::string& name);

@@ -10,8 +10,8 @@ namespace adapter {
 namespace modbus {
     class ICommandSink {
     public:
-        virtual void set_register(uint16_t index, int priority, uint16_t value) = 0;
-        virtual void modify_register(uint16_t index, int priority, modify_reg_op_t operation) = 0;
+        virtual void write_single_register(uint16_t index, int priority, uint16_t value) = 0;
+        virtual void modify_single_register(uint16_t index, int priority, modify_reg_op_t operation) = 0;
     };
 
     /**
