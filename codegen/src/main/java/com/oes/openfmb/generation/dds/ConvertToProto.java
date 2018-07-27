@@ -1,66 +1,66 @@
 package com.oes.openfmb.generation.dds;
 
 import com.google.protobuf.Descriptors;
-import com.oes.openfmb.generation.document.CppFilePair;
+import com.oes.openfmb.generation.document.CppFile;
+import com.oes.openfmb.generation.document.CppFileCollection;
 import com.oes.openfmb.generation.document.Document;
-import com.oes.openfmb.generation.document.Documents;
 import com.oes.openfmb.generation.document.FileHeader;
-import com.oes.openfmb.util.DescriptorUtil;
-import openfmb.breakermodule.BreakerReadingProfile;
-import openfmb.resourcemodule.ResourceReadingProfile;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
-import static com.oes.openfmb.generation.document.Documents.*;
+import static com.oes.openfmb.generation.document.Document.*;
 
-public class ConvertToProto extends CppFilePair {
+public class ConvertToProto implements CppFileCollection {
 
     public ConvertToProto() {
 
     }
 
     @Override
-    protected String baseFileName() {
-        return "ConvertToProto";
+    public List<CppFile> headers() {
+        return Collections.singletonList(
+               new CppFile(
+                       "ConvertToProto.h",
+                       () -> join(
+                               FileHeader.lines,
+                               guards("ConvertToProto",
+                                       headerIncludes(),
+                                       space,
+                                       namespace(
+                                               "adapter",
+                                               namespace("dds",
+                                                       signatures()
+                                               )
+                                       )
+                               )
+                       )
+               )
+        );
     }
 
     @Override
-    public Document header() {
-        return Documents.join(
-                FileHeader.lines,
-                guards(this.baseFileName(),
-                        headerIncludes(),
-                        space,
-                        Documents.namespace(
-                                "adapter",
-                                namespace("dds",
-                                    signatures()
+    public List<CppFile> implementations() {
+        return Collections.singletonList(
+                new CppFile(
+                        "ConvertToProto.cpp",
+                        () -> join(
+                                FileHeader.lines,
+                                include("ConvertToProto.h"),
+                                space,
+                                include("../ConvertToProtoHelpers.h"),
+                                space,
+                                namespace("adapter",
+                                        namespace("dds",
+                                                convertImplementations()
+                                        )
                                 )
                         )
                 )
         );
     }
 
-    @Override
-    public Document implementation() {
-        return Documents.join(
-                FileHeader.lines,
-                include(this.baseFileName() + ".h"),
-                space,
-                include("../ConvertToProtoHelpers.h"),
-                space,
-                namespace("adapter",
-                        namespace("dds",
-                                implementations()
-                        )
-                )
-        );
-    }
-
-    private Document implementations()
+    private Document convertImplementations()
     {
         return spaced(Profiles.getDescriptors().map(this::implementation));
     }
@@ -68,7 +68,7 @@ public class ConvertToProto extends CppFilePair {
     private Document implementation(Descriptors.Descriptor d)
     {
         return line(signature((d)))
-                .append("{")
+                .then("{")
                 .indent(
                         FieldInfo.omitConversion(d) ? line("// omitted via configuration") : join(
                                 line("out.Clear();"),
@@ -76,7 +76,7 @@ public class ConvertToProto extends CppFilePair {
                                 primitiveFieldConversions(d)
                         )
                 )
-                .append("}");
+                .then("}");
 
     }
 
@@ -87,7 +87,7 @@ public class ConvertToProto extends CppFilePair {
                 d.getFields().stream().map(this::messageFieldConversion)
         );
 
-        return conversions.isEmpty() ? conversions : line("// convert message fields").append(conversions);
+        return conversions.isEmpty() ? conversions : line("// convert message fields").then(conversions);
     }
 
     private Document primitiveFieldConversions(Descriptors.Descriptor d) {
@@ -96,12 +96,12 @@ public class ConvertToProto extends CppFilePair {
                 d.getFields().stream().map(this::primitiveFieldConversion)
         );
 
-        return conversions.isEmpty() ? conversions : line("// convert primitive fields").append(conversions);
+        return conversions.isEmpty() ? conversions : line("// convert primitive fields").then(conversions);
     }
 
     private Document primitiveFieldConversion(Descriptors.FieldDescriptor field)
     {
-        if(field.getType() == Descriptors.FieldDescriptor.Type.MESSAGE) return Documents.empty;
+        if(field.getType() == Descriptors.FieldDescriptor.Type.MESSAGE) return Document.empty;
 
         if(field.getType() == Descriptors.FieldDescriptor.Type.BYTES)
         {
@@ -163,7 +163,7 @@ public class ConvertToProto extends CppFilePair {
 
     private Document messageFieldConversion(Descriptors.FieldDescriptor field)
     {
-        if(field.getType() != Descriptors.FieldDescriptor.Type.MESSAGE) return Documents.empty;
+        if(field.getType() != Descriptors.FieldDescriptor.Type.MESSAGE) return Document.empty;
 
         if(FieldInfo.isInherited(field))
         {
@@ -219,7 +219,7 @@ public class ConvertToProto extends CppFilePair {
        return join(
                    include("adapter-api/proto/resourcemodule/resourcemodule.pb.h"),
                    include("adapter-api/proto/breakermodule/breakermodule.pb.h")
-       ).append(
+       ).then(
                join(
                    space,
                    include("OpenFMB-3.0.0TypeSupport.hh")

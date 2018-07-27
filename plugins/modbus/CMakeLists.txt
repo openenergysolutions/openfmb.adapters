@@ -3,6 +3,11 @@ set(MODBUS_PUBLIC_HEADERS
 )
 
 set(MODBUS_SOURCES
+        src/modbus/CommandOrdering.h
+        src/modbus/ICommandPrioritySource.h
+        src/modbus/CommandPriorityMap.h
+        src/modbus/CommandPriorityMap.cpp
+        src/modbus/CommandSinkActions.h
         src/modbus/PublishConfigReadVisitor.h
         src/modbus/SubscribeConfigReadVisitor.h
         src/modbus/ConfigStrings.h
@@ -17,8 +22,10 @@ set(MODBUS_SOURCES
         src/modbus/IRegister.h
         src/modbus/IPollHandler.h
         src/modbus/IRequestBuilder.h
-        src/modbus/MappingType.h
-        src/modbus/MappingType.cpp
+        src/modbus/MeasurementConfigWriteVisitor.h
+        src/modbus/MeasurementConfigWriteVisitor.cpp
+        src/modbus/ControlConfigWriteVisitor.h
+        src/modbus/ControlConfigWriteVisitor.cpp
         src/modbus/ConfigWriteVisitor.h
         src/modbus/PollHandler.h
         src/modbus/PollHandler.cpp
@@ -27,8 +34,6 @@ set(MODBUS_SOURCES
         src/modbus/PluginFactory.cpp
         src/modbus/Register16.h
         src/modbus/Register32.h
-        src/modbus/Source.h
-        src/modbus/Source.cpp
         src/modbus/ICachedValue.h
         src/modbus/ITransactionProcessor.h
         src/modbus/TransactionProcessor.h
@@ -36,22 +41,30 @@ set(MODBUS_SOURCES
         src/modbus/ITransaction.h
         src/modbus/PollTransaction.h
         src/modbus/PollTransaction.cpp
-        src/modbus/RegisterOperationType.h
-        src/modbus/RegisterOperationType.cpp
-        src/modbus/CommandSubscriber.h
+        src/modbus/CommandSubscriptionHandler.h
         src/modbus/CommandSink.cpp
-        src/modbus/CommandSink.h src/modbus/WriteRegisterTransaction.cpp src/modbus/WriteRegisterTransaction.h src/modbus/OrderedTransaction.cpp src/modbus/OrderedTransaction.h)
-
-set(CPP_FORMAT_DIRS
-        ${CPP_FORMAT_DIRS}
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/modbus/*.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/modbus/*.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/modbus/*.cpp
-        PARENT_SCOPE
-)
+        src/modbus/CommandSink.h
+        src/modbus/WriteRegisterTransaction.cpp
+        src/modbus/WriteRegisterTransaction.h
+        src/modbus/OrderedTransaction.cpp
+        src/modbus/OrderedTransaction.h
+        # generated enums
+        src/modbus/generated/CommandType.h
+        src/modbus/generated/CommandType.cpp
+        src/modbus/generated/OutputType.h
+        src/modbus/generated/OutputType.cpp
+        src/modbus/generated/RegisterOperation.h
+        src/modbus/generated/RegisterOperation.cpp
+        src/modbus/generated/RegisterMapping.h
+        src/modbus/generated/RegisterMapping.cpp
+        src/modbus/generated/SourceType.h
+        src/modbus/generated/SourceType.cpp
+        src/modbus/CommandSinkActions.h)
 
 add_library(modbus-plugin STATIC ${MODBUS_PUBLIC_HEADERS} ${MODBUS_SOURCES})
 target_link_libraries(modbus-plugin PUBLIC adapter-api modbus-cpp)
 target_include_directories(modbus-plugin PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+clang_tidy(modbus-plugin)
+clang_format(modbus-plugin EXCLUDES "/generated/")
 
 add_subdirectory(./test)

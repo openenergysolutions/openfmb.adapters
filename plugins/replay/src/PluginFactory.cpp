@@ -1,30 +1,26 @@
 
 #include "replay/PluginFactory.h"
 
-#include "Plugin.h"
 #include "ConfigStrings.h"
+#include "Plugin.h"
 
 #include <adapter-api/util/Exception.h>
 
-namespace adapter
-{
-    namespace replay
+namespace adapter {
+namespace replay {
+    void PluginFactory::write_default_config(YAML::Emitter& emitter) const
     {
-        void PluginFactory::write_default_config(YAML::Emitter& emitter) const
-        {
-            emitter << YAML::Key << keys::file << YAML::Value << "capture.txt";
-        }
+        emitter << YAML::Key << keys::file << YAML::Value << "capture.txt";
+    }
 
-        std::unique_ptr<IPlugin> PluginFactory::create(const YAML::Node& node, const Logger& logger, message_bus_t bus)
-        {
-            return std::make_unique<Plugin>(node, logger, std::move(bus));
-        }
+    std::unique_ptr<IPlugin> PluginFactory::create(const YAML::Node& node, const Logger& logger, message_bus_t bus)
+    {
+        return std::make_unique<Plugin>(node, logger, std::move(bus));
+    }
 
-        void PluginFactory::write_session_config(YAML::Emitter& out, const profile_vec_t& profiles) const
-        {
-            throw Exception("Capture plugin does not support writing session configuration");
-        }
+    void PluginFactory::write_session_config(YAML::Emitter& out, const profile_vec_t& profiles) const
+    {
+        throw Exception("Capture plugin does not support writing session configuration");
     }
 }
-
-
+}

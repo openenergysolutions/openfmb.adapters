@@ -4,202 +4,310 @@
 
 #include "ConfigReadVisitorBase.h"
 
-#include "adapter-api/util/Time.h"
 #include "adapter-api/ConfigStrings.h"
+#include "adapter-api/config/YAMLGetters.h"
+#include "adapter-api/util/Time.h"
 
+#include <boost/lexical_cast.hpp>
 #include <boost/uuid/random_generator.hpp>
 #include <boost/uuid/uuid_io.hpp>
-#include <boost/lexical_cast.hpp>
 
-namespace adapter
-{
+namespace adapter {
 
-    /**
+/**
      * Base class that can be used in plugins that need to read a configuration and publish a profile
      *
      * Automatically handles message mRID, timestamp, etc
      *
      * @tparam T
      */
-    template <class T>
-    class PublishingConfigReadVisitorBase : public ConfigReadVisitorBase<T>
+template <class T>
+class PublishingConfigReadVisitorBase : public ConfigReadVisitorBase<T> {
+
+public:
+    /* --- final handlers for primitives --- */
+
+    void handle(const std::string& field_name, const accessor_t<T, bool>& accessor) final;
+
+    void handle(const std::string& field_name, const accessor_t<T, int32_t>& accessor) final;
+
+    void handle(const std::string& field_name, const accessor_t<T, int64_t>& accessor) final;
+
+    void handle(const std::string& field_name, const accessor_t<T, float>& accessor) final;
+
+    void handle(const std::string& field_name, const accessor_t<T, std::string>& accessor) final;
+
+    void handle(const std::string& field_name, const accessor_t<T, int>& setter, google::protobuf::EnumDescriptor const* descriptor) final;
+
+    /* --- final handlers for terminal messages --- */
+
+    void handle(const std::string& field_name, const message_accessor_t<T, commonmodule::Quality>& accessor) override;
+
+    void handle(const std::string& field_name, const message_accessor_t<T, commonmodule::Timestamp>& accessor) override;
+
+    void handle(const std::string& field_name, const message_accessor_t<T, commonmodule::ControlTimestamp>& accessor) override;
+
+protected:
+    explicit PublishingConfigReadVisitorBase(const YAML::Node& root)
+        : ConfigReadVisitorBase<T>(root)
     {
+    }
 
-    public:
+    // --- inherited classes implement these methods ---
 
-        // ---- final handlers for OpenFMB identity related things ----
+    /**
+     * Add an action that should be performed on the profile prior to applying any values
+     *
+     * @param init functor to be applied to the profile
+     */
+    virtual void add_message_init_action(const std::function<void(T&)>& init) = 0;
 
-        void handle(const std::string& field_name, Accessor<commonmodule::MessageInfo, T> accessor) final;
+    /**
+     * Add an action that should be performed on the profile prior to publishing the profile
+     *
+     * @param init functor to be applied to the profile
+     */
+    virtual void add_message_complete_action(const std::function<void(T&)>& init) = 0;
 
-        void handle(const std::string& field_name, Accessor<commonmodule::ConductingEquipment, T> accessor) final;
+    // --- handlers for mapped fields ---
 
-        void handle(const std::string& field_name, Accessor<commonmodule::IdentifiedObject, T> accessor) final;
+    virtual void handle_mapped_bool(const YAML::Node& node, const accessor_t<T, bool>& accessor) = 0;
 
-    protected:
+    virtual void handle_mapped_int32(const YAML::Node& node, const accessor_t<T, int32_t>& accessor) = 0;
 
-        explicit PublishingConfigReadVisitorBase(const YAML::Node& root) : ConfigReadVisitorBase<T>(root)
-        {}
+    virtual void handle_mapped_int64(const YAML::Node& node, const accessor_t<T, int64_t>& accessor) = 0;
 
-        // --- helper methods for configuring static information ---
+    virtual void handle_mapped_float(const YAML::Node& node, const accessor_t<T, float>& accessor) = 0;
 
-        template <class S>
-        void configure_static_mrid(const YAML::Node& node, const S& setter);
+    virtual void handle_mapped_enum(const YAML::Node& node, const accessor_t<T, int>& accessor, google::protobuf::EnumDescriptor const* descriptor) = 0;
 
-        template <class R>
-        void configure_static_name(const YAML::Node& node, mutable_getter_t<R, T> getter);
+private:
+    void handle_optional_const_bool(const YAML::Node& node, const accessor_t<T, bool>& accessor);
 
-        template <class R>
-        void configure_static_description(const YAML::Node& node, mutable_getter_t<R, T> getter);
+    void handle_constant_int32(const YAML::Node& node, const accessor_t<T, int32_t>& accessor);
 
-        // --- inherited classes implement these methods ---
+    void handle_constant_int64(const YAML::Node& node, const accessor_t<T, int64_t>& accessor);
 
-        /**
-         * Add an action that should be performed on the profile prior to applying any values
-         *
-         * @param init functor to be applied to the profile
-         */
-        virtual void add_message_init_action(const std::function<void (T&)>& init) = 0;
+    void handle_optional_const_float(const YAML::Node& node, const accessor_t<T, float>& accessor);
 
-        /**
-         * Add an action that should be performed on the profile prior to publishing the profile
-         *
-         * @param init functor to be applied to the profile
-         */
-        virtual void add_message_complete_action(const std::function<void (T&)>& init) = 0;
+    void handle_const_uuid(const YAML::Node& node, const accessor_t<T, std::string>& accessor);
 
-    private:
+    void handle_const_string(const YAML::Node& node, const accessor_t<T, std::string>& accessor);
 
-        const std::shared_ptr<boost::uuids::random_generator> generator = std::make_shared<boost::uuids::random_generator>();
+    void handle_generated_uuid(const YAML::Node& node, const accessor_t<T, std::string>& accessor);
 
-    };
+    void handle_const_enum(const YAML::Node& node, const accessor_t<T, int>& accessor, google::protobuf::EnumDescriptor const* descriptor);
 
-    template<class T>
-    void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, Accessor<commonmodule::MessageInfo, T> accessor)
-    {
-        const auto node = this->get_config_node(field_name);
+    const std::shared_ptr<boost::uuids::random_generator> generator = std::make_shared<boost::uuids::random_generator>();
+};
 
-        // MessageInfo classes are just inherited from IdentifiedObject
-        // but the difference is that the mRID is new for every message
-        {
-            const auto io_node = yaml::require(node, ::adapter::keys::identified_object);
-            const auto io_getter = [accessor](T & profile) -> commonmodule::IdentifiedObject* { return accessor.create(profile)->mutable_identifiedobject(); };
-            this->configure_static_name<commonmodule::IdentifiedObject>(io_node, io_getter);
-            this->configure_static_description<commonmodule::IdentifiedObject>(io_node, io_getter);
-        }
+template <class T>
+void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, const accessor_t<T, bool>& accessor)
+{
+    const auto node = this->get_config_node(field_name);
+    const auto field_type = yaml::require_enum<BoolFieldType>(node);
+    switch (field_type) {
+    case (BoolFieldType::Value::mapped):
+        this->handle_mapped_bool(node, accessor);
+        break;
+    case (BoolFieldType::Value::constant):
+        this->handle_optional_const_bool(node, accessor);
+        break;
+    default:
+        // ignored
+        break;
+    }
+}
 
-        // put a fresh UUID onto every message
-        this->add_message_init_action(
-            [accessor, generator = this->generator](T & profile)
-        {
-            accessor.create(profile)->mutable_identifiedobject()->mutable_mrid()->set_value(boost::uuids::to_string((*generator)()));
-        }
-        );
+template <class T>
+void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, const accessor_t<T, int32_t>& accessor)
+{
+    const auto node = this->get_config_node(field_name);
+    const auto field_type = yaml::require_enum<Int32FieldType>(node);
+    switch (field_type) {
+    case (Int32FieldType::Value::mapped):
+        this->handle_mapped_int32(node, accessor);
+        break;
+    case (Int32FieldType::Value::constant):
+        this->handle_constant_int32(node, accessor);
+    default:
+        // ignored
+        break;
+    }
+}
 
+template <class T>
+void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, const accessor_t<T, int64_t>& accessor)
+{
+    const auto node = this->get_config_node(field_name);
+    const auto field_type = yaml::require_enum<Int64FieldType>(node);
+    switch (field_type) {
+    case (Int64FieldType::Value::mapped):
+        this->handle_mapped_int64(node, accessor);
+        break;
+    case (Int64FieldType::Value::constant):
+        this->handle_constant_int64(node, accessor);
+    default:
+        // ignored
+        break;
+    }
+}
+
+template <class T>
+void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, const accessor_t<T, float>& accessor)
+{
+    const auto node = this->get_config_node(field_name);
+    const auto field_type = yaml::require_enum<FloatFieldType>(node);
+    switch (field_type) {
+    case (FloatFieldType::Value::mapped):
+        this->handle_mapped_float(node, accessor);
+        break;
+    case (FloatFieldType::Value::constant):
+        this->handle_optional_const_float(node, accessor);
+    default:
+        // ignored
+        break;
+    }
+}
+
+template <class T>
+void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, const accessor_t<T, std::string>& accessor)
+{
+    const auto node = this->get_config_node(field_name);
+    const auto field_type = yaml::require_enum<StringFieldType>(node);
+    switch (field_type) {
+    case (StringFieldType::Value::primary_uuid):
+    case (StringFieldType::Value::constant_uuid):
+        this->handle_const_uuid(node, accessor);
+        break;
+    case (StringFieldType::Value::constant):
+        this->handle_const_string(node, accessor);
+        break;
+    case (StringFieldType::Value::generated_uuid):
+        this->handle_generated_uuid(node, accessor);
+        break;
+    default:
+        // ignored
+        break;
+    }
+}
+
+template <class T>
+void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, const accessor_t<T, int>& accessor, google::protobuf::EnumDescriptor const* descriptor)
+{
+    const auto node = this->get_config_node(field_name);
+    const auto field_type = yaml::require_enum<EnumFieldType>(node);
+    switch (field_type) {
+    case (EnumFieldType::Value::mapped):
+        this->handle_mapped_enum(node, accessor, descriptor);
+        break;
+    case (EnumFieldType::Value::constant):
+        this->handle_const_enum(node, accessor, descriptor);
+        break;
+    default:
+        // ignored
+        break;
+    }
+}
+
+template <class T>
+void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, const message_accessor_t<T, commonmodule::Quality>& accessor)
+{
+    // ignore for now
+}
+
+template <class T>
+void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, const message_accessor_t<T, commonmodule::Timestamp>& accessor)
+{
+    const auto node = this->get_config_node(field_name);
+    const auto field_type = yaml::require_enum<TimestampFieldType>(node);
+    if (field_type == TimestampFieldType::Value::message) {
         this->add_message_complete_action(
-            [accessor](T & profile)
-        {
-            time::set(std::chrono::system_clock::now(), *accessor.create(profile)->mutable_messagetimestamp());
-        }
-        );
+            [accessor](T& profile) {
+                time::set(std::chrono::system_clock::now(), *accessor->mutable_get(profile));
+            });
     }
+}
 
-    template<class T>
-    void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, Accessor<commonmodule::ConductingEquipment, T> accessor)
-    {
-        const auto node = this->get_config_node(field_name);
+template <class T>
+void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, const message_accessor_t<T, commonmodule::ControlTimestamp>& accessor)
+{
+    // ignore for now
+}
 
-        this->configure_static_mrid(node, [accessor](T & profile, const std::string & uuid)
-        {
-            accessor.create(profile)->set_mrid(uuid);
+template <class T>
+void PublishingConfigReadVisitorBase<T>::handle_optional_const_bool(const YAML::Node& node, const accessor_t<T, bool>& accessor)
+{
+    this->add_message_init_action(
+        [accessor, value = yaml::require(node, keys::value).as<bool>()](T& profile) {
+            accessor->set(profile, value);
         });
+}
 
-
-        const auto named_object_node = yaml::require(node, keys::named_object);
-        const auto named_object_getter = [accessor](T & profile)
-        {
-            return accessor.create(profile)->mutable_namedobject();
-        };
-
-        this->configure_static_name<commonmodule::NamedObject>(named_object_node, named_object_getter);
-        this->configure_static_description<commonmodule::NamedObject>(named_object_node, named_object_getter);
-    }
-
-    template <class T>
-    void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, Accessor<commonmodule::IdentifiedObject, T> accessor)
-    {
-        const auto node = this->get_config_node(field_name);
-
-        this->configure_static_mrid(node, [accessor](T & profile, const std::string & uuid)
-        {
-            accessor.create(profile)->mutable_mrid()->set_value(uuid);
+template <class T>
+void PublishingConfigReadVisitorBase<T>::handle_constant_int32(const YAML::Node& node, const accessor_t<T, int32_t>& accessor)
+{
+    this->add_message_init_action(
+        [accessor, value = yaml::require_integer<int32_t>(node, keys::value)](T& profile) {
+            accessor->set(profile, value);
         });
+}
 
-        this->configure_static_name<commonmodule::IdentifiedObject>(node, accessor.to_mutable_getter());
-        this->configure_static_description<commonmodule::IdentifiedObject>(node, accessor.to_mutable_getter());
-    }
+template <class T>
+void PublishingConfigReadVisitorBase<T>::handle_constant_int64(const YAML::Node& node, const accessor_t<T, int64_t>& accessor)
+{
+    this->add_message_init_action(
+        [accessor, value = yaml::require(node, keys::value).as<int64_t>()](T& profile) {
+            accessor->set(profile, value);
+        });
+}
 
-    template <class T>
-    template <class S>
-    void PublishingConfigReadVisitorBase<T>::configure_static_mrid(const YAML::Node& node, const S& setter)
-    {
-        const auto uuid_node = yaml::require(node, ::adapter::keys::mRID);
-        const auto uuid = uuid_node.as<std::string>();
+template <class T>
+void PublishingConfigReadVisitorBase<T>::handle_optional_const_float(const YAML::Node& node, const accessor_t<T, float>& accessor)
+{
+    this->add_message_init_action(
+        [accessor, value = yaml::require(node, keys::value).as<float>()](T& profile) {
+            accessor->set(profile, value);
+        });
+}
 
-        if(!uuid.empty())
-        {
-            try
-            {
-                // throws bad_lexical_cast if not a valid UUID
-                boost::lexical_cast<boost::uuids::uuid>(uuid);
-            }
-            catch (...)
-            {
-                throw Exception("Not a valid UUID: ", uuid, ", line: ", uuid_node.Mark().line);
-            }
+template <class T>
+void PublishingConfigReadVisitorBase<T>::handle_const_uuid(const YAML::Node& node, const accessor_t<T, std::string>& accessor)
+{
+    this->add_message_init_action(
+        [accessor, value = yaml::require_uuid(node, keys::value)](T& profile) {
+            accessor->set(profile, value);
+        });
+}
 
-            this->add_message_init_action(
-                [setter, uuid](T & profile) -> void { setter(profile, uuid); }
-            );
-        }
-    }
+template <class T>
+void PublishingConfigReadVisitorBase<T>::handle_const_string(const YAML::Node& node, const accessor_t<T, std::string>& accessor)
+{
+    this->add_message_init_action(
+        [accessor, value = yaml::require_string(node, keys::value)](T& profile) {
+            accessor->set(profile, value);
+        });
+}
 
-    template<class T>
-    template<class R>
-    void PublishingConfigReadVisitorBase<T>::configure_static_name(const YAML::Node& node, mutable_getter_t<R, T> getter)
-    {
-        const auto name = yaml::require_string(node, ::adapter::keys::name);
+template <class T>
+void PublishingConfigReadVisitorBase<T>::handle_generated_uuid(const YAML::Node& node, const accessor_t<T, std::string>& accessor)
+{
+    this->add_message_init_action(
+        [accessor, generator = this->generator](T& profile) {
+            accessor->set(profile, boost::uuids::to_string((*generator)()));
+        });
+}
 
-        if(!name.empty())
-        {
-            if(!name.empty())
-            {
-                this->add_message_init_action(
-                    [getter, name](T & profile)
-                {
-                    getter(profile)->mutable_name()->set_value(name);
-                }
-                );
-            }
-        }
-    }
+template <class T>
+void PublishingConfigReadVisitorBase<T>::handle_const_enum(const YAML::Node& node, const accessor_t<T, int>& accessor, google::protobuf::EnumDescriptor const* descriptor)
+{
+    const auto value = yaml::get::enum_value(node, keys::value, *descriptor);
 
-    template<class T>
-    template<class U>
-    void PublishingConfigReadVisitorBase<T>::configure_static_description(const YAML::Node& node, mutable_getter_t<U, T> getter)
-    {
-        const auto description = yaml::require_string(node, ::adapter::keys::description);
-
-        if(!description.empty())
-        {
-            this->add_message_init_action(
-                [getter, description](T & profile)
-            {
-                getter(profile)->mutable_description()->set_value(description);
-            }
-            );
-        }
-    }
-
+    this->add_message_init_action(
+        [accessor, value](T& profile) {
+            accessor->set(profile, value);
+        });
+}
 }
 
 #endif

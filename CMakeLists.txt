@@ -25,6 +25,10 @@ set(CMAKE_CXX_STANDARD 14)
 
 enable_testing()
 
+# clang-tidy and clang-format
+include(./cmake/ClangFormat.cmake)
+include(./cmake/ClangTidy.cmake)
+
 # Protobuf C++ objects, used by adapter-api and transitively by all plugins
 add_subdirectory(./proto-api)
 
@@ -68,8 +72,5 @@ add_subdirectory(./application)
 # capture decoder
 add_subdirectory(./util/decode-capture)
 
-add_custom_target(
-        format
-        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-        COMMAND astyle ${CPP_FORMAT_DIRS} --options=./astyle.cfg
-)
+# Clang format
+define_clang_format()

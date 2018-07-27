@@ -11,11 +11,14 @@
 //  This file is auto-generated. Do not edit manually
 // 
 
-#include "resourcemodule/resourcemodule.pb.h"
-#include "switchmodule/switchmodule.pb.h"
-#include "essmodule/essmodule.pb.h"
+#ifndef OPENFMB_MESSAGEVISITORS_H
+#define OPENFMB_MESSAGEVISITORS_H
+
 #include "solarmodule/solarmodule.pb.h"
+#include "switchmodule/switchmodule.pb.h"
 #include "loadmodule/loadmodule.pb.h"
+#include "essmodule/essmodule.pb.h"
+#include "resourcemodule/resourcemodule.pb.h"
 #include "../IMessageVisitor.h"
 
 namespace adapter {
@@ -47,3 +50,6 @@ void visit(const loadmodule::LoadStatusProfile& message, IMessageVisitor& visito
 void visit(const loadmodule::LoadControlProfile& message, IMessageVisitor& visitor);
 
 } // end namespace adapter
+
+#endif
+

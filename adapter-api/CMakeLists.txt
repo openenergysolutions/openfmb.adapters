@@ -4,71 +4,88 @@ set(API_HEADERS
 	include/adapter-api/IPlugin.h
 	include/adapter-api/IPluginFactory.h
 	include/adapter-api/IPublisher.h
-	include/adapter-api/IPublisher.h
 	include/adapter-api/ISubscriber.h
+	include/adapter-api/ISubscriptionHandler.h
 	include/adapter-api/IMessageBus.h
 	include/adapter-api/Logger.h
-	include/adapter-api/Profile.h
-	include/adapter-api/ProfileMode.h
-	include/adapter-api/ProfileHelpers.h
+	include/adapter-api/ISubscriber.h
+	include/adapter-api/ProfileInfo.h
+    include/adapter-api/ProfileMode.h
+    include/adapter-api/ProfileRegistry.h
 	include/adapter-api/Version.h
 	include/adapter-api/util/Time.h
+	include/adapter-api/util/EnumUtil.h
 	include/adapter-api/util/Exception.h
 	include/adapter-api/util/StringUtil.h
 	include/adapter-api/util/SynchronizedQueue.h
 	include/adapter-api/util/YAMLUtil.h
 	include/adapter-api/util/YAMLTemplate.h
 	include/adapter-api/config/PublishingConfigReadVisitorBase.h
+	include/adapter-api/config/SubscribingConfigReadVisitorBase.h
 	include/adapter-api/config/ConfigReadVisitorBase.h
 	include/adapter-api/config/ConfigWriteVisitorBase.h
 	include/adapter-api/config/IAccessor.h
+	include/adapter-api/config/IDescriptorPath.h
+	include/adapter-api/config/IndexedEnumOrdering.h
+	include/adapter-api/config/DescriptorPath.h
 	include/adapter-api/config/IMessageVisitor.h
+	include/adapter-api/config/IMessageFieldHandler.h
 	include/adapter-api/config/IModelVisitor.h
-    include/adapter-api/config/ModelVisitors.h
-	include/adapter-api/config/ProfileType.h
+    include/adapter-api/config/ITypedModelVisitor.h
+    include/adapter-api/config/YAMLGetters.h
 	include/adapter-api/config/PublishingConfigReadVisitorBase.h
-	include/adapter-api/config/MessageInformation.h
-	include/adapter-api/config/generated/MessageVisitors.h
-	include/adapter-api/config/generated/ResourceReadingProfileModelVisitor.h
-	include/adapter-api/config/generated/SwitchReadingProfileModelVisitor.h
-	include/adapter-api/config/generated/SwitchStatusProfileModelVisitor.h
-	include/adapter-api/config/generated/SwitchControlProfileModelVisitor.h
-	include/adapter-api/config/generated/ESSReadingProfileModelVisitor.h
-	include/adapter-api/config/generated/ESSStatusProfileModelVisitor.h
-	include/adapter-api/config/generated/ESSControlProfileModelVisitor.h
-	include/adapter-api/config/generated/SolarReadingProfileModelVisitor.h
-	include/adapter-api/config/generated/SolarStatusProfileModelVisitor.h
-	include/adapter-api/config/generated/SolarControlProfileModelVisitor.h
-	include/adapter-api/config/generated/LoadReadingProfileModelVisitor.h
-	include/adapter-api/config/generated/LoadStatusProfileModelVisitor.h
-	include/adapter-api/config/generated/LoadControlProfileModelVisitor.h
+	include/adapter-api/config/generated/BoolFieldType.h
+	include/adapter-api/config/generated/Int32FieldType.h
+	include/adapter-api/config/generated/Int64FieldType.h
+	include/adapter-api/config/generated/FloatFieldType.h
+	include/adapter-api/config/generated/EnumFieldType.h
+	include/adapter-api/config/generated/StringFieldType.h
+	include/adapter-api/config/generated/TimestampFieldType.h
+	include/adapter-api/config/generated/ControlTimestampFieldType.h
+	include/adapter-api/config/generated/QualityFieldType.h
+    include/adapter-api/config/generated/MessageVisitors.h
+	include/adapter-api/config/generated/ModelVisitors.h
+	include/adapter-api/config/generated/TypedModelVisitors.h
 )
 
 set(API_SOURCES
-    src/Profile.cpp
 	src/ProfileMode.cpp
 	src/Version.cpp
 	src/util/Time.cpp
 	src/util/YAMLUtil.cpp
 	src/util/YAMLTemplate.cpp
     src/config/AccessorImpl.h
-	src/config/MessageInformation.cpp
-	src/config/ProfileType.cpp
+	src/config/ConfigWriteVisitorBase.cpp
+    include/adapter-api/config/FieldInfo.h
+	src/config/FieldInfo.cpp
+	src/config/DescriptorPath.cpp
+    src/config/YAMLGetters.cpp
+	src/config/generated/BoolFieldType.cpp
+	src/config/generated/Int32FieldType.cpp
+	src/config/generated/Int64FieldType.cpp
+	src/config/generated/FloatFieldType.cpp
+	src/config/generated/EnumFieldType.cpp
+	src/config/generated/StringFieldType.cpp
+	src/config/generated/TimestampFieldType.cpp
+	src/config/generated/ControlTimestampFieldType.cpp
+	src/config/generated/QualityFieldType.cpp
 	src/config/generated/MessageVisitors.cpp
-	src/config/generated/ResourceReadingProfileModelVisitor.cpp
-	src/config/generated/SwitchReadingProfileModelVisitor.cpp
-	src/config/generated/SwitchStatusProfileModelVisitor.cpp
-	src/config/generated/SwitchControlProfileModelVisitor.cpp
-	src/config/generated/ESSReadingProfileModelVisitor.cpp
-	src/config/generated/ESSStatusProfileModelVisitor.cpp
-	src/config/generated/ESSControlProfileModelVisitor.cpp
-	src/config/generated/SolarReadingProfileModelVisitor.cpp
-	src/config/generated/SolarStatusProfileModelVisitor.cpp
-	src/config/generated/SolarControlProfileModelVisitor.cpp
-	src/config/generated/LoadReadingProfileModelVisitor.cpp
-	src/config/generated/LoadStatusProfileModelVisitor.cpp
-	src/config/generated/LoadControlProfileModelVisitor.cpp
-)
+	src/config/generated/ModelVisitors.cpp
+# typed model visitors
+	src/config/generated/ResourceReadingProfileTypedModelVisitor.cpp
+	src/config/generated/SwitchReadingProfileTypedModelVisitor.cpp
+	src/config/generated/SwitchStatusProfileTypedModelVisitor.cpp
+	src/config/generated/SwitchControlProfileTypedModelVisitor.cpp
+	src/config/generated/ESSReadingProfileTypedModelVisitor.cpp
+	src/config/generated/ESSStatusProfileTypedModelVisitor.cpp
+	src/config/generated/ESSControlProfileTypedModelVisitor.cpp
+	src/config/generated/SolarReadingProfileTypedModelVisitor.cpp
+	src/config/generated/SolarStatusProfileTypedModelVisitor.cpp
+	src/config/generated/SolarControlProfileTypedModelVisitor.cpp
+	src/config/generated/LoadReadingProfileTypedModelVisitor.cpp
+	src/config/generated/LoadStatusProfileTypedModelVisitor.cpp
+	src/config/generated/LoadControlProfileTypedModelVisitor.cpp
+		)
 
 
 # directories to be automatically formatted by astyle
@@ -110,5 +127,7 @@ target_link_libraries(adapter-api PUBLIC
 target_include_directories(adapter-api PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_include_directories(adapter-api PUBLIC ${CMAKE_SOURCE_DIR}/deps/spdlog/include)
 target_compile_definitions(adapter-api PRIVATE MACRO_GIT_COMMIT_HASH=${GIT_COMMIT_HASH} MACRO_GIT_COMMIT_DATE=${GIT_COMMIT_DATE})
+clang_tidy(adapter-api)
+clang_format(adapter-api EXCLUDES "/config/generated/")
 
 add_subdirectory(./test)

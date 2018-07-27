@@ -1,32 +1,28 @@
 #ifndef OPENFMB_PLUGIN_TIMESCALEDB_PLUGIN_H
 #define OPENFMB_PLUGIN_TIMESCALEDB_PLUGIN_H
 
-#include <memory>
+#include "TimescaleDBArchiver.h"
 #include "adapter-api/IMessageBus.h"
 #include "adapter-api/IPlugin.h"
 #include "adapter-api/Logger.h"
 #include "yaml-cpp/yaml.h"
-#include "TimescaleDBArchiver.h"
+#include <memory>
 
-namespace adapter
-{
-namespace timescaledb
-{
+namespace adapter {
+namespace timescaledb {
 
-class Plugin final : public IPlugin
-{
-public:
-    Plugin(const YAML::Node& node, const Logger& logger, IMessageBus& bus);
-    virtual ~Plugin();
+    class Plugin final : public IPlugin {
+    public:
+        Plugin(const YAML::Node& node, const Logger& logger, IMessageBus& bus);
+        virtual ~Plugin();
 
-    std::string name() const override;
-    void start() override;
+        std::string name() const override;
+        void start() override;
 
-private:
-    Logger m_logger;
-    std::shared_ptr<TimescaleDBArchiver> m_archiver;
-};
-
+    private:
+        Logger m_logger;
+        std::shared_ptr<TimescaleDBArchiver> m_archiver;
+    };
 }
 }
 

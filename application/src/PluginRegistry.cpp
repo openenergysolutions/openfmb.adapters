@@ -2,8 +2,8 @@
 
 #include "PluginRegistry.h"
 
-#include "log/PluginFactory.h"
 #include "capture/PluginFactory.h"
+#include "log/PluginFactory.h"
 #include "replay/PluginFactory.h"
 
 #include <adapter-api/util/Exception.h>
@@ -28,52 +28,48 @@
 #include "timescaledb/PluginFactory.h"
 #endif
 
-namespace adapter
-{
+namespace adapter {
 
-    PluginRegistry::PluginRegistry()
-    {
-        this->add<log::PluginFactory>();
-        this->add<capture::PluginFactory>();
-        this->add<replay::PluginFactory>();
+PluginRegistry::PluginRegistry()
+{
+    this->add<log::PluginFactory>();
+    this->add<capture::PluginFactory>();
+    this->add<replay::PluginFactory>();
 
 #ifdef OPENFMB_USE_DNP3
-        this->add<dnp3::PluginFactory>();
+    this->add<dnp3::PluginFactory>();
 #endif
 
 #ifdef OPENFMB_USE_MODBUS
-        this->add<modbus::PluginFactory>();
+    this->add<modbus::PluginFactory>();
 #endif
 
 #ifdef OPENFMB_USE_NATS
-        this->add<nats::PluginFactory>();
+    this->add<nats::PluginFactory>();
 #endif
 
 #ifdef OPENFMB_USE_TWINOAKS_DDS
-        this->add<adapter::DDSPluginFactory>();
+    this->add<adapter::DDSPluginFactory>();
 #endif
 
 #ifdef OPENFMB_USE_TIMESCALEDB
-        this->add<timescaledb::PluginFactory>();
+    this->add<timescaledb::PluginFactory>();
 #endif
+}
 
+std::shared_ptr<const IPluginFactory> PluginRegistry::find(const std::string& name)
+{
+    const auto result = this->lookup.find(name);
+    if (result == this->lookup.end()) {
+        throw Exception("No plugin with name: ", name);
     }
+    return result->second;
+}
 
-    std::shared_ptr<const IPluginFactory> PluginRegistry::find(const std::string& name)
-    {
-        const auto result = this->lookup.find(name);
-        if(result == this->lookup.end())
-        {
-            throw Exception("No plugin with name: ", name);
-        }
-        return result->second;
-    }
-
-    template<class T>
-    void PluginRegistry::add()
-    {
-        auto factory = std::make_shared<T>();
-        this->lookup[factory->name()] = factory;
-    }
-
+template <class T>
+void PluginRegistry::add()
+{
+    auto factory = std::make_shared<T>();
+    this->lookup[factory->name()] = factory;
+}
 }

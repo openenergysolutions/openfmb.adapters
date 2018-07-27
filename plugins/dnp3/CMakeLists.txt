@@ -3,12 +3,20 @@ set(DNP3_PUBLIC_HEADERS
 )
 
 set(DNP3_SOURCES
+        src/dnp3/CommandOrdering.h
+        src/dnp3/CommandPriorityMap.h
+        src/dnp3/CommandPriorityMap.cpp
         src/dnp3/ConfigStrings.h
-        src/dnp3/ConfigWriteVisitor.h
+        src/dnp3/Control.h
+        src/dnp3/Control.cpp
+        src/dnp3/ControlConfigWriteVisitor.h
+        src/dnp3/ControlConfigWriteVisitor.cpp
+        src/dnp3/ControlSubscriptionHandler.h
+        src/dnp3/MeasurementConfigWriteVisitor.h
+        src/dnp3/MeasurementConfigWriteVisitor.cpp
         src/dnp3/Plugin.h
+        src/dnp3/ICommandPrioritySource.h
         src/dnp3/IPublishConfigBuilder.h
-        src/dnp3/InputType.h
-        src/dnp3/InputType.cpp
         src/dnp3/LogAdapter.h
         src/dnp3/PublishingConfigReadVisitor.h
         src/dnp3/SubscribingConfigReadVisitor.h
@@ -23,21 +31,19 @@ set(DNP3_SOURCES
         src/dnp3/ICommandSequence.h
         src/dnp3/CommandSequenceExecutor.h
         src/dnp3/ICommandSequenceExecutor.h
-)
+        #generated enums
+        src/dnp3/generated/SourceType.h
+        src/dnp3/generated/SourceType.cpp
+        src/dnp3/generated/CommandType.h
+        src/dnp3/generated/CommandType.cpp)
 
 set(DNP3_LIBS asiodnp3 asiopal opendnp3 openpal)
-
-set(CPP_FORMAT_DIRS
-        ${CPP_FORMAT_DIRS}
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/dnp3/*.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/dnp3/*.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/dnp3/*.cpp
-        PARENT_SCOPE
-)
 
 add_library(dnp3-plugin STATIC ${DNP3_SOURCES} ${DNP3_PUBLIC_HEADERS})
 target_link_libraries(dnp3-plugin PUBLIC adapter-api ${DNP3_LIBS})
 target_include_directories(dnp3-plugin PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_include_directories(dnp3-plugin PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
+clang_tidy(dnp3-plugin)
+clang_format(dnp3-plugin EXCLUDES "/generated/")
 
-
+add_subdirectory(./test)

@@ -1,43 +1,38 @@
 package com.oes.openfmb.generation.dds;
 
 import com.google.protobuf.Descriptors;
-import com.oes.openfmb.generation.document.CppFilePair;
+import com.oes.openfmb.generation.document.CppFile;
+import com.oes.openfmb.generation.document.CppFileCollection;
 import com.oes.openfmb.generation.document.Document;
-import com.oes.openfmb.generation.document.Documents;
 import com.oes.openfmb.generation.document.FileHeader;
-import com.oes.openfmb.util.DescriptorUtil;
-import openfmb.breakermodule.BreakerReadingProfile;
-import openfmb.resourcemodule.ResourceReadingProfile;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
-import static com.oes.openfmb.generation.document.Documents.*;
+import static com.oes.openfmb.generation.document.Document.*;
 
-public class ConvertFromProto extends CppFilePair {
+public class ConvertFromProto implements CppFileCollection {
 
     public ConvertFromProto() {
 
     }
 
     @Override
-    protected String baseFileName() {
-        return "ConvertFromProto";
-    }
-
-    @Override
-    public Document header() {
-        return Documents.join(
-                FileHeader.lines,
-                guards(this.baseFileName(),
-                        headerIncludes(),
-                        space,
-                        Documents.namespace(
-                                "adapter",
-                                namespace("dds",
-                                    signatures()
+    public List<CppFile> headers() {
+        return Collections.singletonList(
+                new CppFile(
+                        "ConvertFromProto.h",
+                        () -> Document.join(
+                                FileHeader.lines,
+                                guards("ConvertFromProto",
+                                        headerIncludes(),
+                                        space,
+                                        namespace(
+                                                "adapter",
+                                                namespace("dds",
+                                                        signatures()
+                                                )
+                                        )
                                 )
                         )
                 )
@@ -45,18 +40,23 @@ public class ConvertFromProto extends CppFilePair {
     }
 
     @Override
-    public Document implementation() {
-        return Documents.join(
-                FileHeader.lines,
-                include(this.baseFileName() + ".h"),
-                space,
-                include("../ConvertFromProtoHelpers.h"),
-                space,
-                namespace("adapter",
-                        namespace("dds",
-                            implementations(),
-                            space,
-                            enumAssertions()
+    public List<CppFile> implementations() {
+        return Collections.singletonList(
+                new CppFile(
+                        "ConvertFromProto.cpp",
+                        () -> join(
+                                FileHeader.lines,
+                                include("ConvertFromProto.h"),
+                                space,
+                                include("../ConvertFromProtoHelpers.h"),
+                                space,
+                                namespace("adapter",
+                                        namespace("dds",
+                                                convertImplementations(),
+                                                space,
+                                                enumAssertions()
+                                        )
+                                )
                         )
                 )
         );
@@ -67,7 +67,7 @@ public class ConvertFromProto extends CppFilePair {
        return join(
                    include("adapter-api/proto/resourcemodule/resourcemodule.pb.h"),
                    include("adapter-api/proto/breakermodule/breakermodule.pb.h")
-       ).append(
+       ).then(
                join(
                    space,
                    include("OpenFMB-3.0.0TypeSupport.hh")
@@ -86,12 +86,12 @@ public class ConvertFromProto extends CppFilePair {
 
     private Document enumAssertions()
     {
-        return Documents.spaced(Profiles.getEnums().map(ed -> assertion(ed)));
+        return spaced(Profiles.getEnums().map(ed -> assertion(ed)));
     }
 
     private static Document assertion(Descriptors.EnumDescriptor descriptor)
     {
-        return Documents.join(
+        return join(
                 descriptor.getValues().stream().map(v -> assertion(v))
         );
     }
@@ -102,7 +102,7 @@ public class ConvertFromProto extends CppFilePair {
         // some enum values don't actually exist in the UML
         if(d.getNumber() == 0 &&  d.getName().endsWith("_UNDEFINED"))
         {
-            return Documents.empty;
+            return Document.empty;
         }
 
         return line(
@@ -115,7 +115,7 @@ public class ConvertFromProto extends CppFilePair {
         );
     }
 
-    private Document implementations()
+    private Document convertImplementations()
     {
         return spaced(Profiles.getDescriptors().map(d -> implementation(d)));
     }
@@ -124,7 +124,7 @@ public class ConvertFromProto extends CppFilePair {
     {
 
         return line(signature((d)))
-                .append("{")
+                .then("{")
                 .indent(
                         FieldInfo.omitConversion(d) ? line("// omitted via configuration") : join(
                                 line("out.clear();"),
@@ -132,7 +132,7 @@ public class ConvertFromProto extends CppFilePair {
                                 primitiveFieldConversions(d)
                         )
                 )
-                .append("}");
+                .then("}");
 
     }
 
@@ -142,7 +142,7 @@ public class ConvertFromProto extends CppFilePair {
           d.getFields().stream().map(this::messageFieldConversion)
         );
 
-        return conversions.isEmpty() ? conversions : line("// convert message fields").append(conversions);
+        return conversions.isEmpty() ? conversions : line("// convert message fields").then(conversions);
     }
 
     private Document primitiveFieldConversions(Descriptors.Descriptor d) {
@@ -151,12 +151,12 @@ public class ConvertFromProto extends CppFilePair {
                 d.getFields().stream().map(this::primitiveFieldConversion)
         );
 
-        return conversions.isEmpty() ? conversions : line("// convert primitive fields").append(conversions);
+        return conversions.isEmpty() ? conversions : line("// convert primitive fields").then(conversions);
     }
 
     private Document primitiveFieldConversion(Descriptors.FieldDescriptor field)
     {
-        if(field.getType() == Descriptors.FieldDescriptor.Type.MESSAGE) return Documents.empty;
+        if(field.getType() == Descriptors.FieldDescriptor.Type.MESSAGE) return Document.empty;
 
         if(FieldInfo.isRequired(field))
         {
@@ -184,7 +184,7 @@ public class ConvertFromProto extends CppFilePair {
 
     private Document messageFieldConversion(Descriptors.FieldDescriptor field)
     {
-        if(field.getType() != Descriptors.FieldDescriptor.Type.MESSAGE) return Documents.empty;
+        if(field.getType() != Descriptors.FieldDescriptor.Type.MESSAGE) return Document.empty;
 
 
         if(FieldInfo.isInherited(field))

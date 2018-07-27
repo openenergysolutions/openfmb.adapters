@@ -4,32 +4,28 @@
 
 #include "ICommandConfigBuilder.h"
 
-#include  <vector>
+#include <vector>
 
-namespace adapter
-{
-    namespace modbus
-    {
-        template <class T>
-        class CommandConfiguration final : public ICommandConfiguration<T>, public ICommandConfigBuilder<T>
+namespace adapter {
+namespace modbus {
+    template <class T>
+    class CommandConfiguration final : public ICommandConfiguration<T>, public ICommandConfigBuilder<T> {
+        std::vector<command_builder_t<T>> builders;
+
+    public:
+        void add(const command_builder_t<T>& builder) override
         {
-            std::vector<command_builder_t<T>> builders;
+            this->builders.push_back(builder);
+        }
 
-        public:
-            void add(const command_builder_t<T>& builder) override
-            {
-                this->builders.push_back(builder);
+        void process(const T& profile, ICommandSink& sink, Logger& logger) const override
+        {
+            for (const auto& builder : this->builders) {
+                builder(profile, sink, logger);
             }
-
-            void process(const T& profile, ICommandSink& sink, Logger& logger) const override
-            {
-                for(const auto& builder : this->builders)
-                {
-                    builder(profile, sink, logger);
-                }
-            }
-        };
-    }
+        }
+    };
+}
 }
 
 #endif

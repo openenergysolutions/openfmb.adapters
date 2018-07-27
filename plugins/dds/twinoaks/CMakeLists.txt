@@ -34,16 +34,10 @@ set(HEADERS
         src/twinoaks/ConvertToProtoHelpers.h
 )
 
-# directories to be automatically formatted by astyle
-set(CPP_FORMAT_DIRS
-        ${CPP_FORMAT_DIRS}
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/twinoaks/*.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/twinoaks/*.cpp
-        PARENT_SCOPE
-)
-
 add_library(twinoaks-dds-plugin STATIC ${SOURCES} ${HEADERS} ${DDS_SOURCES})
 target_include_directories(twinoaks-dds-plugin PRIVATE ${COREDX_INCLUDE})
 target_include_directories(twinoaks-dds-plugin INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/src")
 target_include_directories(twinoaks-dds-plugin PRIVATE ${DDS_PATH})
 target_link_libraries(twinoaks-dds-plugin adapter-api ${DDS} ${DDS_CPP} dl)
+clang_tidy(twinoaks-dds-plugin)
+clang_format(twinoaks-dds-plugin)

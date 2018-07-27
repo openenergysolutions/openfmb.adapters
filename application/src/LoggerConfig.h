@@ -6,18 +6,14 @@
 
 #include <yaml-cpp/yaml.h>
 
-namespace adapter
-{
+namespace adapter {
 
-    namespace logging
-    {
+namespace logging {
 
-        Logger create_logger_from_yaml(const YAML::Node& root);
+    Logger create_logger_from_yaml(const YAML::Node& root);
 
-        void write_default_logging_config(YAML::Emitter& out);
-
-    }
-
+    void write_default_logging_config(YAML::Emitter& out);
+}
 }
 
 #endif //OPENFMB_ADAPTER_LOGGERCONFIG_H

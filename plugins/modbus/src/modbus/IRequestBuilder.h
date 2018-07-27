@@ -4,18 +4,15 @@
 
 #include "modbus/messages/ReadHoldingRegistersRequest.h"
 
-namespace adapter
-{
-    namespace modbus
-    {
-        class IRequestBuilder
-        {
-        public:
-            virtual ~IRequestBuilder() = default;
+namespace adapter {
+namespace modbus {
+    class IRequestBuilder {
+    public:
+        virtual ~IRequestBuilder() = default;
 
-            virtual void add(const ::modbus::ReadHoldingRegistersRequest& request) = 0;
-        };
-    }
+        virtual void add(const ::modbus::ReadHoldingRegistersRequest& request) = 0;
+    };
+}
 }
 
 #endif

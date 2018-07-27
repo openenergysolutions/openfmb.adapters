@@ -28,19 +28,13 @@ set(NATS_SOURCES
         src/SubjectName.h
 )
 
-set(CPP_FORMAT_DIRS
-        ${CPP_FORMAT_DIRS}
-		${CMAKE_CURRENT_SOURCE_DIR}/include/nats/*.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/*.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
-        PARENT_SCOPE
-)
-
 add_library(nats-plugin STATIC ${NATS_PUBLIC_HEADERS} ${NATS_SOURCES})
 target_include_directories(nats-plugin PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_link_libraries(nats-plugin PUBLIC adapter-api PRIVATE ${LIBNATS})
 if(OPENFMB_LINK_STATIC)
 	target_link_libraries(nats-plugin PRIVATE ${OPENSSL_LIBRARIES})
 endif()
+clang_tidy(nats-plugin)
+clang_format(nats-plugin)
 
 add_subdirectory(./test)
