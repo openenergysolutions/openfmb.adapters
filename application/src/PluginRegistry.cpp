@@ -16,6 +16,10 @@
 #include "modbus/PluginFactory.h"
 #endif
 
+#ifdef OPENFMB_USE_GOOSE
+#include "goose/PluginFactory.h"
+#endif
+
 #ifdef OPENFMB_USE_NATS
 #include "nats/PluginFactory.h"
 #endif
@@ -42,6 +46,10 @@ PluginRegistry::PluginRegistry()
 
 #ifdef OPENFMB_USE_MODBUS
     this->add<modbus::PluginFactory>();
+#endif
+
+#ifdef OPENFMB_USE_GOOSE
+    this->add<goose::PluginFactory>();
 #endif
 
 #ifdef OPENFMB_USE_NATS

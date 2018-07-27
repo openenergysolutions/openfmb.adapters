@@ -33,7 +33,7 @@ namespace modbus {
                     };
 
                     session->send_request(
-                        ::modbus::WriteSingleRegisterRequest{ .value = ::modbus::RegisterValue{ .address = self->address, .value = write_value } },
+                        ::modbus::WriteSingleRegisterRequest{::modbus::RegisterValue{self->address, write_value } },
                         write_handler);
                 } else {
                     self->logger.warn("response does not contain a single value: {}", response.get().values.size());
@@ -46,7 +46,7 @@ namespace modbus {
         };
 
         session->send_request(
-            ::modbus::ReadHoldingRegistersRequest{ .starting_address = this->address, .qty_of_registers = 1 },
+            ::modbus::ReadHoldingRegistersRequest{this->address, 1},
             read_handler);
     }
 }

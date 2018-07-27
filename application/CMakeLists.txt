@@ -35,6 +35,11 @@ if(OPENFMB_USE_MODBUS)
     list(APPEND plugin_definitions OPENFMB_USE_MODBUS)
 endif()
 
+if(OPENFMB_USE_GOOSE)
+    list(APPEND plugins goose-plugin)
+    list(APPEND plugin_definitions OPENFMB_USE_GOOSE)
+endif()
+
 if(OPENFMB_USE_NATS)
     list(APPEND plugins nats-plugin)
     list(APPEND plugin_definitions OPENFMB_USE_NATS)
