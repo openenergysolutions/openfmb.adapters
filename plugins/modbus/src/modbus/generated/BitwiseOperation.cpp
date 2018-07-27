@@ -11,7 +11,7 @@
 //  This file is auto-generated. Do not edit manually
 // 
 
-#include "RegisterOperation.h"
+#include "BitwiseOperation.h"
 
 #include "adapter-api/util/Exception.h"
 
@@ -21,37 +21,33 @@ namespace adapter {
 
 namespace modbus {
 
-const char RegisterOperation::clear_masked_bits[] = "clear_masked_bits";
-const char RegisterOperation::set_masked_bits[] = "set_masked_bits";
-const char RegisterOperation::write_value[] = "write_value";
+const char BitwiseOperation::clear_masked_bits[] = "clear_masked_bits";
+const char BitwiseOperation::set_masked_bits[] = "set_masked_bits";
 
-const std::array<RegisterOperation::Value, 3> RegisterOperation::values =
+const std::array<BitwiseOperation::Value, 2> BitwiseOperation::values =
 {
-    RegisterOperation::Value::clear_masked_bits,
-    RegisterOperation::Value::set_masked_bits,
-    RegisterOperation::Value::write_value,
+    BitwiseOperation::Value::clear_masked_bits,
+    BitwiseOperation::Value::set_masked_bits,
 };
 
-std::string RegisterOperation::to_string(RegisterOperation::Value value)
+std::string BitwiseOperation::to_string(BitwiseOperation::Value value)
 {
     switch(value)
     {
         case(Value::clear_masked_bits): return clear_masked_bits;
-        case(Value::set_masked_bits): return set_masked_bits;
-        default: return write_value;
+        default: return set_masked_bits;
     }
 }
 
-RegisterOperation::Value RegisterOperation::from_string(const std::string& name)
+BitwiseOperation::Value BitwiseOperation::from_string(const std::string& name)
 {
     static const std::map<std::string, Value> map = 
     {
         {clear_masked_bits, Value::clear_masked_bits},
         {set_masked_bits, Value::set_masked_bits},
-        {write_value, Value::write_value},
     };
     const auto elem = map.find(name);
-    if(elem == map.end()) throw Exception("Unknown value name '", name, "' for enum RegisterOperation");
+    if(elem == map.end()) throw Exception("Unknown value name '", name, "' for enum BitwiseOperation");
     return elem->second;
 }
 

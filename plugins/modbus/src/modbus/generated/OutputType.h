@@ -27,19 +27,22 @@ struct OutputType
     {
         // output is not mapped
         none,
-        // write to a single holding register
-        write_single_register,
+        // write a value to a single holding register
+        write_register,
+        // read a holding register and write a modified value
+        read_and_modify_register,
         // write multiple holding registers
         write_multiple_registers,
     };
 
     static const char none[];
-    static const char write_single_register[];
+    static const char write_register[];
+    static const char read_and_modify_register[];
     static const char write_multiple_registers[];
 
     static constexpr const char* label = "output-type";
 
-    static const std::array<Value, 3> values;
+    static const std::array<Value, 4> values;
 
     static std::string to_string(Value value);
     static Value from_string(const std::string& name);

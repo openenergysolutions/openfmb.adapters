@@ -159,7 +159,8 @@ public class Enumerations {
                 Arrays.asList("Output","Type"),
                 Arrays.asList(
                         Enumeration.entry("none", "output is not mapped"),
-                        Enumeration.entry("write_single_register", "write to a single holding register"),
+                        Enumeration.entry("write_register", "write a value to a single holding register"),
+                        Enumeration.entry("read_and_modify_register", "read a holding register and write a modified value"),
                         Enumeration.entry("write_multiple_registers", "write multiple holding registers")
                 )
         );
@@ -172,17 +173,16 @@ public class Enumerations {
                 )
         );
 
-        private final static Enumeration registerOperation = new Enumeration(
-                Arrays.asList("Register","Operation"),
+        private final static Enumeration bitwiseOperation = new Enumeration(
+                Arrays.asList("Bitwise","Operation"),
                 Arrays.asList(
-                        Enumeration.entry("clear_masked_bits", "read the register, clear masked bits, and write it back"),
-                        Enumeration.entry("set_masked_bits", "read the register, set masked bits, and write it back"),
-                        Enumeration.entry("write_value", "write the register with the specified value")
+                        Enumeration.entry("clear_masked_bits", "clear the bits in the mask"),
+                        Enumeration.entry("set_masked_bits", "set the bits in the mask")
                 )
         );
 
         private static List<Enumeration> enums() {
-            return Arrays.asList(registerMapping, sourceType, outputType, registerOperation, commandType);
+            return Arrays.asList(registerMapping, sourceType, outputType, bitwiseOperation, commandType);
         }
 
         private static final Path path = Paths.get("../plugins/modbus/src/modbus/generated");

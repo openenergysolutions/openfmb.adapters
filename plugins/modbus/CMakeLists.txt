@@ -50,18 +50,20 @@ set(MODBUS_SOURCES
         src/modbus/WriteMultipleRegistersTransaction.cpp
         src/modbus/OrderedTransaction.cpp
         src/modbus/OrderedTransaction.h
+        src/modbus/CommandSinkActions.h
         # generated enums
         src/modbus/generated/CommandType.h
         src/modbus/generated/CommandType.cpp
         src/modbus/generated/OutputType.h
         src/modbus/generated/OutputType.cpp
-        src/modbus/generated/RegisterOperation.h
-        src/modbus/generated/RegisterOperation.cpp
+        src/modbus/generated/BitwiseOperation.h
+        src/modbus/generated/BitwiseOperation.cpp
         src/modbus/generated/RegisterMapping.h
         src/modbus/generated/RegisterMapping.cpp
         src/modbus/generated/SourceType.h
         src/modbus/generated/SourceType.cpp
-        src/modbus/CommandSinkActions.h)
+
+)
 
 add_library(modbus-plugin STATIC ${MODBUS_PUBLIC_HEADERS} ${MODBUS_SOURCES})
 target_link_libraries(modbus-plugin PUBLIC adapter-api modbus-cpp)

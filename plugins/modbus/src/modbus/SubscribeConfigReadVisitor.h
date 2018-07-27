@@ -92,7 +92,7 @@ namespace modbus {
         switch (output_type) {
         case (OutputType::Value::none):
             break;
-        case (OutputType::Value::write_single_register): {
+        case (OutputType::Value::write_register): {
             const auto index = ::adapter::yaml::get::index(node);
             const auto scale = ::adapter::yaml::get::scale(node);
             const auto priority = this->priority_source.get_priority(CommandType::Value::write_single_register, index);

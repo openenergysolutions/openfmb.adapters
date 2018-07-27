@@ -7,7 +7,7 @@
 #include "ICommandPrioritySource.h"
 
 #include "generated/OutputType.h"
-#include "generated/RegisterOperation.h"
+#include "generated/BitwiseOperation.h"
 
 #include <yaml-cpp/yaml.h>
 
@@ -47,26 +47,22 @@ namespace modbus {
 
     namespace read {
 
-        sink_action_t single_register_command_sink_action(const YAML::Node& node, const ICommandPrioritySource& priority_source)
+        sink_action_t register_read_modify_action(const YAML::Node& node, const ICommandPrioritySource& priority_source)
         {
-            const auto operation = yaml::require_enum<RegisterOperation>(node);
+            const auto operation = yaml::require_enum<BitwiseOperation>(node);
             const auto index = ::adapter::yaml::get::index(node);
             const auto priority = priority_source.get_priority(CommandType::Value::write_single_register, index);
             switch (operation) {
-            case (RegisterOperation::Value::clear_masked_bits):
+            case (BitwiseOperation::Value::clear_masked_bits):
                 return [=, mask = yaml::require_integer<uint16_t>(node, keys::mask)](ICommandSink& sink) {
                     return sink.modify_single_register(index, priority, operations::clear(mask));
                 };
-            case (RegisterOperation::Value::set_masked_bits):
+            case (BitwiseOperation::Value::set_masked_bits):
                 return [=, mask = yaml::require_integer<uint16_t>(node, keys::mask)](ICommandSink& sink) {
                     return sink.modify_single_register(index, priority, operations::set(mask));
                 };
-            case (RegisterOperation::Value::write_value):
-                return [=, value = yaml::require_integer<uint16_t>(node, ::adapter::keys::value)](ICommandSink& sink) {
-                    return sink.write_single_register(index, priority, value);
-                };
             default:
-                throw Exception("Unsupported register operation type: ", RegisterOperation::to_string(operation));
+                throw Exception("Unsupported bitwise operation: ", BitwiseOperation::to_string(operation));
             }
         }
 
@@ -81,9 +77,17 @@ namespace modbus {
                     switch (output_type) {
                     case (OutputType::Value::none):
                         break;
-                    case (OutputType::Value::write_single_register):
-                        actions.push_back(single_register_command_sink_action(node, priority_source));
+                    case (OutputType::Value::read_and_modify_register):
+                        actions.push_back(register_read_modify_action(node, priority_source));
                         break;
+                    case (OutputType::Value::write_register): {
+                        const auto index = ::adapter::yaml::get::index(node);
+                        const auto priority = priority_source.get_priority(CommandType::Value::write_single_register, index);
+                        const auto value = yaml::require_integer<uint16_t>(node, ::adapter::keys::value);
+                        return [index, priority, value](ICommandSink &sink) {
+                            sink.write_single_register(index, priority, value);
+                        };
+                    }
                     default:
                         throw Exception("Unsupported output type: ", OutputType::to_string(output_type));
                     }
