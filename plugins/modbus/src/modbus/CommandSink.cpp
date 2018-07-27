@@ -28,9 +28,16 @@ namespace modbus {
     void CommandSink::write_single_register(uint16_t index, int priority, uint16_t value)
     {
         this->transactions.emplace_back(
-                        [index, value](Logger logger)
+                        [index, value, multiple = this->always_write_multiple_registers](Logger logger) -> std::shared_ptr<ITransaction>
                         {
-                            return std::make_shared<WriteRegisterTransaction>(logger, index, value);
+                            if(multiple)
+                            {
+                                return std::make_shared<WriteMultipleRegistersTransaction>(logger, index, value);
+                            }
+                            else
+                            {
+                                return std::make_shared<WriteRegisterTransaction>(logger, index, value);
+                            }
                         },
                         priority
         );
@@ -39,17 +46,6 @@ namespace modbus {
     void CommandSink::modify_single_register(uint16_t index, int priority, modify_reg_op_t operation)
     {
         this->modify_map[key_t(index, priority)].push_back(std::move(operation));
-    }
-
-    void CommandSink::write_multiple_registers(uint16_t start_index, int priority, std::vector<uint16_t> values)
-    {
-        this->transactions.emplace_back(
-                [start_index, values = std::move(values)](Logger logger)
-                {
-                    return std::make_shared<WriteMultipleRegistersTransaction>(logger, start_index, values);
-                },
-                priority
-        );
     }
 
     std::shared_ptr<ITransaction> CommandSink::try_get_transaction(std::string name, Logger logger) const
@@ -66,7 +62,7 @@ namespace modbus {
 
         for (const auto& op : this->modify_map) {
             items.emplace_back(
-                std::make_shared<ModifyRegisterTransaction>(logger, op.first.first, operations::accumulate(op.second)),
+                std::make_shared<ModifyRegisterTransaction>(logger, op.first.first, operations::accumulate(op.second), this->always_write_multiple_registers),
                 op.first.second // priority
             );
         }
@@ -88,7 +84,6 @@ namespace modbus {
 
         return std::move(transaction);
     }
-
 
 
 }

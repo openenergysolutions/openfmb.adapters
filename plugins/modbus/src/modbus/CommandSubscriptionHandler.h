@@ -8,6 +8,7 @@
 #include "CommandSink.h"
 #include "ICommandConfigBuilder.h"
 #include "ITransactionProcessor.h"
+#include "CommandOptions.h"
 
 namespace adapter {
 namespace modbus {
@@ -17,17 +18,20 @@ namespace modbus {
         const std::string uuid;
         const std::shared_ptr<const ICommandConfiguration<T>> config;
         const std::shared_ptr<ITransactionProcessor> tx_processor;
+        const CommandOptions options;
 
     public:
         CommandSubscriptionHandler(
             Logger logger,
             std::string uuid,
             std::shared_ptr<const ICommandConfiguration<T>> config,
-            std::shared_ptr<ITransactionProcessor> tx_processor)
+            std::shared_ptr<ITransactionProcessor> tx_processor,
+            const CommandOptions& options)
             : logger(std::move(logger))
             , uuid(std::move(uuid))
             , config(std::move(config))
             , tx_processor(std::move(tx_processor))
+            , options(options)
         {
         }
 
@@ -39,7 +43,7 @@ namespace modbus {
     private:
         void process(const T& message) override
         {
-            CommandSink sink;
+            CommandSink sink(options.always_write_multiple_registers);
             this->config->process(message, sink, this->logger);
             auto transaction = sink.try_get_transaction(T::descriptor()->name(), this->logger);
             if (transaction) {

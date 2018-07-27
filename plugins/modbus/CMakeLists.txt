@@ -3,6 +3,7 @@ set(MODBUS_PUBLIC_HEADERS
 )
 
 set(MODBUS_SOURCES
+        src/modbus/CommandOptions.h
         src/modbus/CommandOrdering.h
         src/modbus/ICommandPrioritySource.h
         src/modbus/CommandPriorityMap.h
@@ -63,7 +64,7 @@ set(MODBUS_SOURCES
         src/modbus/generated/SourceType.h
         src/modbus/generated/SourceType.cpp
 
-)
+        src/modbus/CommandOptions.h)
 
 add_library(modbus-plugin STATIC ${MODBUS_PUBLIC_HEADERS} ${MODBUS_SOURCES})
 target_link_libraries(modbus-plugin PUBLIC adapter-api modbus-cpp)

@@ -13,6 +13,7 @@ namespace modbus {
         constexpr const char* const remote_ip = "remote-ip";
         constexpr const char* const port = "port";
         constexpr const char* const unit_identifier = "unit-identifier";
+        constexpr const char* const always_write_multiple_registers = "always-write-multiple-registers";
 
         // heartbeat
         constexpr const char* const heartbeats = "heartbeats";

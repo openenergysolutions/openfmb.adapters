@@ -47,7 +47,7 @@ namespace modbus {
 
     namespace read {
 
-        sink_action_t register_read_modify_action(const YAML::Node& node, const ICommandPrioritySource& priority_source)
+        sink_action_t register_read_and_modify_action(const YAML::Node& node, const ICommandPrioritySource& priority_source)
         {
             const auto operation = yaml::require_enum<BitwiseOperation>(node);
             const auto index = ::adapter::yaml::get::index(node);
@@ -66,7 +66,7 @@ namespace modbus {
             }
         }
 
-        std::vector<sink_action_t> sink_actions(const YAML::Node& node, const ICommandPrioritySource& priority_source)
+        std::vector<sink_action_t> command_actions(const YAML::Node& node, const ICommandPrioritySource& priority_source)
         {
             std::vector<sink_action_t> actions;
 
@@ -78,7 +78,7 @@ namespace modbus {
                     case (OutputType::Value::none):
                         break;
                     case (OutputType::Value::read_and_modify_register):
-                        actions.push_back(register_read_modify_action(node, priority_source));
+                        actions.push_back(register_read_and_modify_action(node, priority_source));
                         break;
                     case (OutputType::Value::write_register): {
                         const auto index = ::adapter::yaml::get::index(node);
@@ -100,9 +100,9 @@ namespace modbus {
         {
             return BinaryConfigPair{
                 std::move(
-                    sink_actions(yaml::require(node, ::adapter::keys::when_true), priority_source)),
+                    command_actions(yaml::require(node, ::adapter::keys::when_true), priority_source)),
                 std::move(
-                    sink_actions(yaml::require(node, ::adapter::keys::when_false), priority_source))
+                    command_actions(yaml::require(node, ::adapter::keys::when_false), priority_source))
             };
         }
 
@@ -115,7 +115,7 @@ namespace modbus {
                 const auto value = descriptor.FindValueByName(name);
                 if (!value)
                     throw Exception("Unknown enum value: ", name);
-                map[value->number()] = std::move(sink_actions(node, priority_source));
+                map[value->number()] = std::move(command_actions(node, priority_source));
             };
 
             yaml::foreach (yaml::require(node, ::adapter::keys::mapping), add_entry);

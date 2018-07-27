@@ -8,6 +8,12 @@
 namespace adapter {
 namespace modbus {
 
+    WriteMultipleRegistersTransaction::WriteMultipleRegistersTransaction(Logger logger, uint16_t start_index, uint16_t value)
+            : logger(std::move(logger))
+            , start_index(start_index)
+            , values({value})
+    {}
+
     WriteMultipleRegistersTransaction::WriteMultipleRegistersTransaction(Logger logger, uint16_t start_index, std::vector<uint16_t> values)
             : logger(std::move(logger))
             , start_index(start_index)
