@@ -8,10 +8,10 @@ namespace adapter {
 namespace timescaledb {
 
     TimescaleDBArchiver::TimescaleDBArchiver(const Logger& logger,
-                                             const std::string& database_url,
-                                             const std::string& table_name,
-                                             size_t max_queued_messages,
-                                             std::chrono::steady_clock::duration connection_retry)
+        const std::string& database_url,
+        const std::string& table_name,
+        size_t max_queued_messages,
+        std::chrono::steady_clock::duration connection_retry)
         : m_logger{ logger }
         , m_database_url{ database_url }
         , m_table_name{ table_name }
@@ -55,7 +55,7 @@ namespace timescaledb {
                     m_logger.info("Connected to PostgreSQL database");
                 } else {
                     m_logger.info("Unable to connect to PostgreSQL database, retry in {} seconds",
-                                  std::chrono::duration_cast<std::chrono::seconds>(m_connection_retry).count());
+                        std::chrono::duration_cast<std::chrono::seconds>(m_connection_retry).count());
                     std::this_thread::sleep_for(m_connection_retry);
                 }
 

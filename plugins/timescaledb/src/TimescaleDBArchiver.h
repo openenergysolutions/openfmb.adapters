@@ -12,10 +12,10 @@ namespace timescaledb {
     class TimescaleDBArchiver : public IArchiver {
     public:
         TimescaleDBArchiver(const Logger& logger,
-                            const std::string& database_url,
-                            const std::string& table_name,
-                            size_t max_queued_messages,
-                            std::chrono::steady_clock::duration connection_retry);
+            const std::string& database_url,
+            const std::string& table_name,
+            size_t max_queued_messages,
+            std::chrono::steady_clock::duration connection_retry);
         virtual ~TimescaleDBArchiver();
 
         void save(std::unique_ptr<Message> message) override;
