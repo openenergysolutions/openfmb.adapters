@@ -6,12 +6,19 @@
 
 #include <adapter-api/Logger.h>
 
+#include <vector>
+
 namespace adapter {
 namespace modbus {
+
     class ICommandSink {
     public:
+
         virtual void write_single_register(uint16_t index, int priority, uint16_t value) = 0;
+
         virtual void modify_single_register(uint16_t index, int priority, modify_reg_op_t operation) = 0;
+
+        virtual void write_multiple_registers(uint16_t start_index, int priority, std::vector<uint16_t> values) = 0;
     };
 
     /**

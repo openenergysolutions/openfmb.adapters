@@ -44,8 +44,10 @@ set(MODBUS_SOURCES
         src/modbus/CommandSubscriptionHandler.h
         src/modbus/CommandSink.cpp
         src/modbus/CommandSink.h
-        src/modbus/WriteRegisterTransaction.cpp
         src/modbus/WriteRegisterTransaction.h
+        src/modbus/WriteRegisterTransaction.cpp
+        src/modbus/WriteMultipleRegistersTransaction.h
+        src/modbus/WriteMultipleRegistersTransaction.cpp
         src/modbus/OrderedTransaction.cpp
         src/modbus/OrderedTransaction.h
         # generated enums
