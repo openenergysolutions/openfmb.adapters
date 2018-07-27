@@ -4,6 +4,7 @@
 #include "ModifyRegisterTransaction.h"
 #include "OrderedTransaction.h"
 #include "WriteRegisterTransaction.h"
+#include "WriteMultipleRegistersTransaction.h"
 
 namespace adapter {
 namespace modbus {
@@ -42,14 +43,20 @@ namespace modbus {
 
     void CommandSink::write_multiple_registers(uint16_t start_index, int priority, std::vector<uint16_t> values)
     {
-
+        this->transactions.emplace_back(
+                [start_index, values = std::move(values)](Logger logger)
+                {
+                    return std::make_shared<WriteMultipleRegistersTransaction>(logger, start_index, values);
+                },
+                priority
+        );
     }
 
     std::shared_ptr<ITransaction> CommandSink::try_get_transaction(std::string name, Logger logger) const
     {
         std::vector<Entry> items;
 
-        // create transactions from
+        // create transactions from transaction generators
         for (const auto& transaction : this->transactions) {
             items.emplace_back(
                     transaction.first(logger),
