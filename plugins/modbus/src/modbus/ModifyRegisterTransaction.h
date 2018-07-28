@@ -12,8 +12,8 @@ namespace modbus {
     class ModifyRegisterTransaction final : public ModifyRegisterTransactionBase {
 
     public:
-        ModifyRegisterTransaction(Logger logger, uint16_t address, modify_reg_op_t operation, bool always_write_multiple_registers)
-            : ModifyRegisterTransactionBase(std::move(logger), address, std::move(operation), always_write_multiple_registers)
+        ModifyRegisterTransaction(Logger logger, uint16_t address, modify_reg_op_t operation)
+            : ModifyRegisterTransactionBase(std::move(logger), address, std::move(operation))
         {
         }
 

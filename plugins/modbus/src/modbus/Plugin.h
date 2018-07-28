@@ -7,6 +7,7 @@
 #include "modbus/session/ISession.h"
 
 #include "PollHandler.h"
+#include "CommandOptions.h"
 
 namespace adapter {
 namespace modbus {
@@ -27,7 +28,7 @@ namespace modbus {
     private:
         void configure_session(const YAML::Node& node, message_bus_t bus);
 
-        std::shared_ptr<::modbus::ISession> get_session(const std::string& name, const YAML::Node& node);
+        std::shared_ptr<::modbus::ISession> get_session(const std::string& name, const YAML::Node& node, const CommandOptions& options);
 
         Logger logger;
         std::unique_ptr<::modbus::IModbusManager> manager;

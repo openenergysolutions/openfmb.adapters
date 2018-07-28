@@ -19,10 +19,6 @@ namespace modbus {
 
         std::map<key_t, std::vector<modify_reg_op_t>> modify_map;
         std::vector<transaction_priority_t> transactions;
-        const bool always_write_multiple_registers;
-
-    public:
-        CommandSink(bool always_write_multiple_registers) : always_write_multiple_registers(always_write_multiple_registers) {}
 
     public:
 

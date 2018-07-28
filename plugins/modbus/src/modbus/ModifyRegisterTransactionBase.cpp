@@ -3,8 +3,6 @@
 #include "ModifyRegisterTransactionBase.h"
 
 #include "WriteRegisterTransaction.h"
-#include "WriteMultipleRegistersTransaction.h"
-
 
 #include <modbus/exceptions/IException.h>
 
@@ -13,23 +11,10 @@
 namespace adapter {
 namespace modbus {
 
-    std::shared_ptr<ITransaction> create_write_transaction(uint16_t address, Logger logger, uint16_t value, bool write_multiple)
-    {
-        if(write_multiple)
-        {
-            return std::make_shared<WriteMultipleRegistersTransaction>(logger, address, value);
-        }
-        else
-        {
-            return std::make_shared<WriteRegisterTransaction>(logger, address, value);
-        }
-    }
-
-    ModifyRegisterTransactionBase::ModifyRegisterTransactionBase(Logger logger, uint16_t address, modify_reg_op_t operation, bool always_write_multiple_registers)
+    ModifyRegisterTransactionBase::ModifyRegisterTransactionBase(Logger logger, uint16_t address, modify_reg_op_t operation)
         : logger(std::move(logger))
         , address(address)
         , operation(std::move(operation))
-        , always_write_multiple_registers(always_write_multiple_registers)
     {
     }
 
@@ -42,8 +27,8 @@ namespace modbus {
                     // process all of the operations on the read value
                     const uint16_t write_value = self->operation(response.get().values[0].value);
 
-                    // create the appropriate write transaction and start it
-                    create_write_transaction(self->address, self->logger, write_value, self->always_write_multiple_registers)->start(session, callback);
+                    std::make_shared<WriteRegisterTransaction>(self->logger, self->address, write_value)->start(session, callback);
+
 
                 } else {
                     self->logger.warn("response does not contain a single value: {}", response.get().values.size());

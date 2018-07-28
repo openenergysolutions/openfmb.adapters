@@ -22,10 +22,9 @@ namespace modbus {
 
         const std::shared_ptr<CommandConfiguration<T>> config = std::make_shared<CommandConfiguration<T>>();
         const ICommandPrioritySource& priority_source;
-        const CommandOptions options;
 
     public:
-        SubscribeConfigReadVisitor(const YAML::Node& root, const CommandOptions& options, const ICommandPrioritySource& priority_source);
+        SubscribeConfigReadVisitor(const YAML::Node& root, const ICommandPrioritySource& priority_source);
 
         void subscribe(const Logger& logger, IMessageBus& bus, std::shared_ptr<ITransactionProcessor> tx_processor);
 
@@ -44,10 +43,9 @@ namespace modbus {
     };
 
     template <class T>
-    SubscribeConfigReadVisitor<T>::SubscribeConfigReadVisitor(const YAML::Node& root, const CommandOptions& options, const ICommandPrioritySource& priority_source)
+    SubscribeConfigReadVisitor<T>::SubscribeConfigReadVisitor(const YAML::Node& root, const ICommandPrioritySource& priority_source)
         : SubscribingConfigReadVisitorBase<T>(root)
         , priority_source(priority_source)
-        , options(options)
     {
     }
 
@@ -56,7 +54,7 @@ namespace modbus {
     {
 
         bus.subscribe(
-            std::make_shared<CommandSubscriptionHandler<T>>(logger, this->get_primary_mrid(), this->config, std::move(tx_processor), options));
+            std::make_shared<CommandSubscriptionHandler<T>>(logger, this->get_primary_mrid(), this->config, std::move(tx_processor)));
     }
 
     template <class T>

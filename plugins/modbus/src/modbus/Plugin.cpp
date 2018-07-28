@@ -22,6 +22,7 @@
 #include "PublishConfigReadVisitor.h"
 #include "SubscribeConfigReadVisitor.h"
 #include "TransactionProcessor.h"
+#include "SessionWrapper.h"
 
 namespace adapter {
 namespace modbus {
@@ -33,14 +34,13 @@ namespace modbus {
 
         /// use this implementation if profile type is a control
         template <class U = T>
-        static return_t<profile_info<U>::is_control> handle(const YAML::Node& node, const Logger& logger, message_bus_t bus, std::shared_ptr<PollHandler> handler, std::shared_ptr<ITransactionProcessor> processor, const CommandOptions& options)
+        static return_t<profile_info<U>::is_control> handle(const YAML::Node& node, const Logger& logger, message_bus_t bus, std::shared_ptr<PollHandler> handler, std::shared_ptr<ITransactionProcessor> processor)
         {
             CommandPriorityMap priority_map(
                 command_ordering_t::read_sequence(yaml::require(node, ::adapter::keys::command_order)));
 
             SubscribeConfigReadVisitor<T> visitor(
                 yaml::require(node, ::adapter::keys::mapping),
-                options,
                 priority_map
             );
 
@@ -51,7 +51,7 @@ namespace modbus {
 
         /// use this implementation if profile type is NOT a control
         template <class U = T>
-        static return_t<!profile_info<U>::is_control> handle(const YAML::Node& node, const Logger& logger, message_bus_t bus, std::shared_ptr<PollHandler> handler, std::shared_ptr<ITransactionProcessor> processor, const CommandOptions& options)
+        static return_t<!profile_info<U>::is_control> handle(const YAML::Node& node, const Logger& logger, message_bus_t bus, std::shared_ptr<PollHandler> handler, std::shared_ptr<ITransactionProcessor> processor)
         {
             PublishConfigReadVisitor<T> visitor(yaml::require(node, ::adapter::keys::mapping), std::move(bus), std::move(handler));
             visit(visitor);
@@ -100,8 +100,7 @@ namespace modbus {
                     yaml::get::index(node),
                     std::chrono::milliseconds(yaml::require_integer<uint32_t>(node, keys::period_ms)),
                     // ATM, we only support inverting masked bits
-                    operations::invert(yaml::require_integer<uint16_t>(node, keys::mask)),
-                    options.always_write_multiple_registers));
+                    operations::invert(yaml::require_integer<uint16_t>(node, keys::mask))));
         };
 
         yaml::foreach (yaml::require(node, keys::heartbeats), add_heartbeat);
@@ -113,8 +112,7 @@ namespace modbus {
                 this->logger,
                 bus,
                 poll_handler,
-                tx_handler,
-                options
+                tx_handler
             );
         };
 
@@ -131,14 +129,14 @@ namespace modbus {
                     poll_handler));
         }
 
-        const auto session = this->get_session(name, node);
+        const auto session = this->get_session(name, node, options);
 
         this->start_actions.emplace_back([tx_handler, session]() {
             tx_handler->start(session);
         });
     }
 
-    std::shared_ptr<::modbus::ISession> Plugin::get_session(const std::string& name, const YAML::Node& node)
+    std::shared_ptr<::modbus::ISession> Plugin::get_session(const std::string& name, const YAML::Node& node, const CommandOptions& options)
     {
         auto channel = this->manager->create_tcp_channel(
             name,
@@ -146,11 +144,13 @@ namespace modbus {
                 yaml::require_string(node, keys::remote_ip),
                 yaml::require_integer<uint16_t>(node, keys::port)));
 
-        return channel->create_session(
+        const auto session = channel->create_session(
             ::modbus::UnitIdentifier(
                 yaml::require_integer<uint8_t>(node, keys::unit_identifier)),
             std::chrono::milliseconds(
                 yaml::require_integer<int32_t>(node, keys::response_timeout_ms)));
+
+        return options.always_write_multiple_registers ? std::make_shared<SessionWrapper>(session) : session;
     }
 
     void Plugin::start()

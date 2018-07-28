@@ -45,6 +45,7 @@ set(MODBUS_SOURCES
         src/modbus/CommandSubscriptionHandler.h
         src/modbus/CommandSink.cpp
         src/modbus/CommandSink.h
+        src/modbus/SessionWrapper.h
         src/modbus/WriteRegisterTransaction.h
         src/modbus/WriteRegisterTransaction.cpp
         src/modbus/WriteMultipleRegistersTransaction.h
@@ -64,7 +65,7 @@ set(MODBUS_SOURCES
         src/modbus/generated/SourceType.h
         src/modbus/generated/SourceType.cpp
 
-        src/modbus/CommandOptions.h)
+        src/modbus/CommandOptions.h src/modbus/SessionWrapper.h)
 
 add_library(modbus-plugin STATIC ${MODBUS_PUBLIC_HEADERS} ${MODBUS_SOURCES})
 target_link_libraries(modbus-plugin PUBLIC adapter-api modbus-cpp)

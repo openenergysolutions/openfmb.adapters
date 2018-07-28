@@ -28,16 +28,9 @@ namespace modbus {
     void CommandSink::write_single_register(uint16_t index, int priority, uint16_t value)
     {
         this->transactions.emplace_back(
-                        [index, value, multiple = this->always_write_multiple_registers](Logger logger) -> std::shared_ptr<ITransaction>
+                        [index, value](Logger logger) -> std::shared_ptr<ITransaction>
                         {
-                            if(multiple)
-                            {
-                                return std::make_shared<WriteMultipleRegistersTransaction>(logger, index, value);
-                            }
-                            else
-                            {
-                                return std::make_shared<WriteRegisterTransaction>(logger, index, value);
-                            }
+                            return std::make_shared<WriteRegisterTransaction>(logger, index, value);
                         },
                         priority
         );
@@ -62,7 +55,7 @@ namespace modbus {
 
         for (const auto& op : this->modify_map) {
             items.emplace_back(
-                std::make_shared<ModifyRegisterTransaction>(logger, op.first.first, operations::accumulate(op.second), this->always_write_multiple_registers),
+                std::make_shared<ModifyRegisterTransaction>(logger, op.first.first, operations::accumulate(op.second)),
                 op.first.second // priority
             );
         }
