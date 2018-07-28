@@ -19,6 +19,8 @@ namespace modbus {
     public:
         WriteMultipleRegistersTransaction(Logger logger, uint16_t start_index, std::vector<uint16_t> values);
 
+        WriteMultipleRegistersTransaction(Logger logger, uint16_t start_index, uint16_t value);
+
         std::string get_description() const override;
 
         void start(session_t session, const callback_t& callback) override;

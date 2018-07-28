@@ -33,14 +33,16 @@ namespace modbus {
 
         /// use this implementation if profile type is a control
         template <class U = T>
-        static return_t<profile_info<U>::is_control> handle(const YAML::Node& node, const Logger& logger, message_bus_t bus, std::shared_ptr<PollHandler> handler, std::shared_ptr<ITransactionProcessor> processor)
+        static return_t<profile_info<U>::is_control> handle(const YAML::Node& node, const Logger& logger, message_bus_t bus, std::shared_ptr<PollHandler> handler, std::shared_ptr<ITransactionProcessor> processor, const CommandOptions& options)
         {
             CommandPriorityMap priority_map(
                 command_ordering_t::read_sequence(yaml::require(node, ::adapter::keys::command_order)));
 
             SubscribeConfigReadVisitor<T> visitor(
                 yaml::require(node, ::adapter::keys::mapping),
-                priority_map);
+                options,
+                priority_map
+            );
 
             visit(visitor);
             visitor.subscribe(logger, *bus, std::move(processor));
@@ -49,7 +51,7 @@ namespace modbus {
 
         /// use this implementation if profile type is NOT a control
         template <class U = T>
-        static return_t<!profile_info<U>::is_control> handle(const YAML::Node& node, const Logger& logger, message_bus_t bus, std::shared_ptr<PollHandler> handler, std::shared_ptr<ITransactionProcessor> processor)
+        static return_t<!profile_info<U>::is_control> handle(const YAML::Node& node, const Logger& logger, message_bus_t bus, std::shared_ptr<PollHandler> handler, std::shared_ptr<ITransactionProcessor> processor, const CommandOptions& options)
         {
             PublishConfigReadVisitor<T> visitor(yaml::require(node, ::adapter::keys::mapping), std::move(bus), std::move(handler));
             visit(visitor);
@@ -87,6 +89,10 @@ namespace modbus {
         const auto poll_handler = std::make_shared<PollHandler>();
         const auto tx_handler = std::make_shared<TransactionProcessor>(this->logger);
 
+        const CommandOptions options {
+            yaml::require(node, keys::always_write_multiple_registers).as<bool>()
+        };
+
         const auto add_heartbeat = [&](const YAML::Node& node) {
             tx_handler->add(
                 std::make_shared<HeartbeatTransaction>(
@@ -94,8 +100,8 @@ namespace modbus {
                     yaml::get::index(node),
                     std::chrono::milliseconds(yaml::require_integer<uint32_t>(node, keys::period_ms)),
                     // ATM, we only support inverting masked bits
-                    operations::invert(
-                        yaml::require_integer<uint16_t>(node, keys::mask))));
+                    operations::invert(yaml::require_integer<uint16_t>(node, keys::mask)),
+                    options.always_write_multiple_registers));
         };
 
         yaml::foreach (yaml::require(node, keys::heartbeats), add_heartbeat);
@@ -107,7 +113,9 @@ namespace modbus {
                 this->logger,
                 bus,
                 poll_handler,
-                tx_handler);
+                tx_handler,
+                options
+            );
         };
 
         yaml::foreach (yaml::require(node, ::adapter::keys::profiles), add_profile);

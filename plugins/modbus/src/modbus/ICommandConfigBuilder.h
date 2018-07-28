@@ -18,7 +18,6 @@ namespace modbus {
 
         virtual void modify_single_register(uint16_t index, int priority, modify_reg_op_t operation) = 0;
 
-        virtual void write_multiple_registers(uint16_t start_index, int priority, std::vector<uint16_t> values) = 0;
     };
 
     /**

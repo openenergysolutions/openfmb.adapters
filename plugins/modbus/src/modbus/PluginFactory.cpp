@@ -77,6 +77,7 @@ namespace modbus {
 
         out << YAML::Key << keys::poll_period_ms << YAML::Value << 1000 << YAML::Comment("perform polls once per second");
         out << YAML::Key << keys::response_timeout_ms << YAML::Value << 1000 << YAML::Comment("response timeout");
+        out << YAML::Key << keys::always_write_multiple_registers << YAML::Value << false << YAML::Comment("if true, translate single register writes to multiple register write w/ single value ");
 
         out << YAML::Key << keys::auto_polling << YAML::Comment("configuration parameters for auto-polling");
         out << YAML::BeginMap;

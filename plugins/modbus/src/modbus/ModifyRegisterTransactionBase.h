@@ -16,9 +16,10 @@ namespace modbus {
     protected:
         const uint16_t address;
         const modify_reg_op_t operation;
+        const bool always_write_multiple_registers;
 
     public:
-        ModifyRegisterTransactionBase(Logger logger, uint16_t address, modify_reg_op_t operation);
+        ModifyRegisterTransactionBase(Logger logger, uint16_t address, modify_reg_op_t operation, bool always_write_multiple_registers);
 
         virtual ~ModifyRegisterTransactionBase() = default;
 

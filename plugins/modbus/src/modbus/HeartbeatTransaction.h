@@ -11,11 +11,12 @@ namespace modbus {
         const std::chrono::steady_clock::duration period;
 
     public:
-        HeartbeatTransaction(Logger logger, uint16_t address, std::chrono::steady_clock::duration period, modify_reg_op_t op)
+        HeartbeatTransaction(Logger logger, uint16_t address, std::chrono::steady_clock::duration period, modify_reg_op_t op, bool always_write_multiple_registers)
             : ModifyRegisterTransactionBase(
                   std::move(logger),
                   address,
-                  std::move(op))
+                  std::move(op),
+                  always_write_multiple_registers)
             , period(period)
         {
         }
