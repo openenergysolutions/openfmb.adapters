@@ -58,6 +58,8 @@ const std::string& SubscribingConfigReadVisitorBase<T>::get_primary_mrid() const
     if (this->mRID.empty()) {
         throw Exception("primary mRID for control profile was not specified");
     }
+
+    return this->mRID;
 }
 
 template <class T>

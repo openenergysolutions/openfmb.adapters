@@ -71,7 +71,7 @@ namespace modbus {
             std::vector<sink_action_t> actions;
 
             yaml::foreach (
-                yaml::require(node, ::adapter::keys::outputs),
+                node,
                 [&actions, &priority_source](const YAML::Node& node) {
                     const auto output_type = yaml::require_enum<OutputType>(node);
                     switch (output_type) {
@@ -115,7 +115,8 @@ namespace modbus {
                 const auto value = descriptor.FindValueByName(name);
                 if (!value)
                     throw Exception("Unknown enum value: ", name);
-                map[value->number()] = std::move(sink_actions(node, priority_source));
+                const auto outputs = yaml::require(node, ::adapter::keys::outputs);
+                map[value->number()] = std::move(sink_actions(outputs, priority_source));
             };
 
             yaml::foreach (yaml::require(node, ::adapter::keys::mapping), add_entry);
