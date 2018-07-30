@@ -138,11 +138,13 @@ namespace modbus {
 
     std::shared_ptr<::modbus::ISession> Plugin::get_session(const std::string& name, const YAML::Node& node, const CommandOptions& options)
     {
+        auto log_level = get_modbus_logging_level(LogLevel::from_string(yaml::require_string(node, keys::log_level)));
         auto channel = this->manager->create_tcp_channel(
             name,
             ::modbus::Ipv4Endpoint(
                 yaml::require_string(node, keys::remote_ip),
-                yaml::require_integer<uint16_t>(node, keys::port)));
+                yaml::require_integer<uint16_t>(node, keys::port)),
+            log_level);
 
         const auto session = channel->create_session(
             ::modbus::UnitIdentifier(
@@ -151,6 +153,19 @@ namespace modbus {
                 yaml::require_integer<int32_t>(node, keys::response_timeout_ms)));
 
         return options.always_write_multiple_registers ? std::make_shared<SessionWrapper>(session) : session;
+    }
+
+    ::modbus::LoggingLevel Plugin::get_modbus_logging_level(const LogLevel::Value level) const
+    {
+        switch(level)
+        {
+            case LogLevel::Value::Trace: return ::modbus::LoggingLevel::Trace;
+            case LogLevel::Value::Debug: return ::modbus::LoggingLevel::Debug;
+            case LogLevel::Value::Info: return ::modbus::LoggingLevel::Info;
+            case LogLevel::Value::Warn: return ::modbus::LoggingLevel::Warn;
+            case LogLevel::Value::Error: return ::modbus::LoggingLevel::Error;
+            case LogLevel::Value::Critical: return ::modbus::LoggingLevel::Critical;
+        }
     }
 
     void Plugin::start()

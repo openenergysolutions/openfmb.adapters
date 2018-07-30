@@ -8,6 +8,7 @@
 
 #include "PollHandler.h"
 #include "CommandOptions.h"
+#include "generated/LogLevel.h"
 
 namespace adapter {
 namespace modbus {
@@ -29,6 +30,7 @@ namespace modbus {
         void configure_session(const YAML::Node& node, message_bus_t bus);
 
         std::shared_ptr<::modbus::ISession> get_session(const std::string& name, const YAML::Node& node, const CommandOptions& options);
+        ::modbus::LoggingLevel get_modbus_logging_level(const LogLevel::Value level) const;
 
         Logger logger;
         std::unique_ptr<::modbus::IModbusManager> manager;

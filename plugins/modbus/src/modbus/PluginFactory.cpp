@@ -1,6 +1,7 @@
 
 #include "modbus/PluginFactory.h"
 
+#include <adapter-api/util/EnumUtil.h>
 #include <adapter-api/util/Exception.h>
 #include <adapter-api/util/YAMLTemplate.h>
 
@@ -71,6 +72,7 @@ namespace modbus {
 
         out << YAML::Key << ::adapter::keys::name << YAML::Value << "session1";
         out << YAML::Comment("name for logging purposes");
+        out << YAML::Key << keys::log_level << YAML::Value << "Info" << YAML::Comment(enumeration::get_value_set<LogLevel>());
         out << YAML::Key << keys::remote_ip << YAML::Value << "127.0.0.1";
         out << YAML::Key << keys::port << YAML::Value << 502;
         out << YAML::Key << keys::unit_identifier << YAML::Value << 1 << YAML::Comment("aka 'slave address'");

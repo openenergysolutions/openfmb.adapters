@@ -10,6 +10,7 @@ namespace modbus {
 
         // channel & session
         constexpr const char* const sessions = "sessions";
+        constexpr const char* const log_level = "log-level";
         constexpr const char* const remote_ip = "remote-ip";
         constexpr const char* const port = "port";
         constexpr const char* const unit_identifier = "unit-identifier";

@@ -180,8 +180,20 @@ public class Enumerations {
                 )
         );
 
+        private final static Enumeration logLevel = new Enumeration(
+                Arrays.asList("Log", "Level"),
+                Arrays.asList(
+                        Enumeration.entry("Trace", "Trace"),
+                        Enumeration.entry("Debug", "Debug"),
+                        Enumeration.entry("Info", "Info"),
+                        Enumeration.entry("Warn", "Warn"),
+                        Enumeration.entry("Error", "Error"),
+                        Enumeration.entry("Critical", "Critical")
+                )
+        );
+
         private static List<Enumeration> enums() {
-            return Arrays.asList(registerMapping, sourceType, outputType, bitwiseOperation, commandType);
+            return Arrays.asList(registerMapping, sourceType, outputType, bitwiseOperation, commandType, logLevel);
         }
 
         private static final Path path = Paths.get("../plugins/modbus/src/modbus/generated");

@@ -60,6 +60,8 @@ set(MODBUS_SOURCES
         src/modbus/generated/OutputType.cpp
         src/modbus/generated/BitwiseOperation.h
         src/modbus/generated/BitwiseOperation.cpp
+        src/modbus/generated/LogLevel.h
+        src/modbus/generated/LogLevel.cpp
         src/modbus/generated/RegisterMapping.h
         src/modbus/generated/RegisterMapping.cpp
         src/modbus/generated/SourceType.h
