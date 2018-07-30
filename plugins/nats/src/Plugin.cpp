@@ -127,7 +127,7 @@ namespace nats {
                 if (err) {
                     this->logger.warn("publish to subject {} failed: {}", msg->subject, nats_GetLastError(nullptr));
                 } else {
-                    this->logger.info("published {} bytes to subject: {}", msg->buffer.length(), msg->subject);
+                    this->logger.debug("published {} bytes to subject: {}", msg->buffer.length(), msg->subject);
                 }
             }
         }
