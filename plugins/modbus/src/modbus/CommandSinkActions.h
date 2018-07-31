@@ -84,9 +84,12 @@ namespace modbus {
                         const auto index = ::adapter::yaml::get::index(node);
                         const auto priority = priority_source.get_priority(CommandType::Value::write_single_register, index);
                         const auto value = yaml::require_integer<uint16_t>(node, ::adapter::keys::value);
-                        return [index, priority, value](ICommandSink &sink) {
-                            sink.write_single_register(index, priority, value);
-                        };
+                        actions.push_back(
+                                [index, priority, value](ICommandSink &sink) {
+                                    sink.write_single_register(index, priority, value);
+                                }
+                        );
+                        break;
                     }
                     default:
                         throw Exception("Unsupported output type: ", OutputType::to_string(output_type));
