@@ -1,8 +1,8 @@
-#include "Plugin.h"
+#include "pub/PublishingPlugin.h"
 
 #include "ConfigStrings.h"
-#include "ControlBlockListener.h"
-#include "ProfileReader.h"
+#include "pub/ControlBlockListener.h"
+#include "pub/ProfileReader.h"
 #include "adapter-api/ConfigStrings.h"
 #include "adapter-api/util/YAMLTemplate.h"
 #include "adapter-api/util/YAMLUtil.h"
@@ -12,7 +12,7 @@
 namespace adapter {
 namespace goose {
 
-    Plugin::Plugin(const YAML::Node& node, const Logger& logger, message_bus_t bus)
+    PublishingPlugin::PublishingPlugin(const YAML::Node& node, const Logger& logger, message_bus_t bus)
         : m_logger{ logger }
     {
         yaml::load_template_configs(
@@ -23,23 +23,23 @@ namespace goose {
             });
     }
 
-    Plugin::~Plugin()
+    PublishingPlugin::~PublishingPlugin()
     {
     }
 
-    std::string Plugin::name() const
+    std::string PublishingPlugin::name() const
     {
-        return "goose";
+        return "goose-pub";
     }
 
-    void Plugin::start()
+    void PublishingPlugin::start()
     {
         for (auto it : m_adapters) {
             it.second.network_interface->start();
         }
     }
 
-    void Plugin::add_control_block(const YAML::Node& node, message_bus_t bus, Logger logger)
+    void PublishingPlugin::add_control_block(const YAML::Node& node, message_bus_t bus, Logger logger)
     {
         auto adapter = get_adapter(yaml::require_string(node, keys::networkAdapter));
         auto app_id = yaml::require(node, keys::appId).as<uint16_t>();
@@ -62,7 +62,7 @@ namespace goose {
         adapter.sink->add_control_block(app_id, go_cb_ref, handler);
     }
 
-    NetworkAdapter Plugin::get_adapter(const std::string& network_adapter)
+    NetworkAdapter PublishingPlugin::get_adapter(const std::string& network_adapter)
     {
         // Check if the network adapter is already there
         auto it = m_adapters.find(network_adapter);

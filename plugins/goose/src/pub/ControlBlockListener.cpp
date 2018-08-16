@@ -1,6 +1,6 @@
-#include "ControlBlockListener.h"
+#include "pub/ControlBlockListener.h"
 
-#include "GooseMessageVisitor.h"
+#include "pub/GooseMessageVisitor.h"
 
 namespace adapter {
 namespace goose {

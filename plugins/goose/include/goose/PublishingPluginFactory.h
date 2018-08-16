@@ -1,5 +1,5 @@
-#ifndef OPENFMB_ADAPTER_GOOSE_PLUGINFACTORY_H
-#define OPENFMB_ADAPTER_GOOSE_PLUGINFACTORY_H
+#ifndef OPENFMB_ADAPTER_GOOSE_PUBLISHPLUGINFACTORY_H
+#define OPENFMB_ADAPTER_GOOSE_PUBLISHPLUGINFACTORY_H
 
 #include "adapter-api/IPluginFactory.h"
 
@@ -7,9 +7,9 @@ namespace adapter {
 
 namespace goose {
 
-    class PluginFactory final : public IPluginFactory {
+    class PublishingPluginFactory final : public IPluginFactory {
     public:
-        PluginFactory() = default;
+        PublishingPluginFactory() = default;
 
         std::string name() const final;
         std::string description() const final;
@@ -25,4 +25,4 @@ namespace goose {
 } // namespace goose
 } // namespace adapter
 
-#endif //OPENFMB_ADAPTER_GOOSE_PLUGINFACTORY_H
+#endif //OPENFMB_ADAPTER_GOOSE_PUBLISHPLUGINFACTORY_H

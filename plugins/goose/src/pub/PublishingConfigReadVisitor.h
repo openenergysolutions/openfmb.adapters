@@ -1,8 +1,8 @@
-#ifndef OPENFMB_ADAPTER_GOOSE_PUBLISHINGCONFIGREADVISITOR_H
-#define OPENFMB_ADAPTER_GOOSE_PUBLISHINGCONFIGREADVISITOR_H
+#ifndef OPENFMB_ADAPTER_GOOSE_PUB_PUBLISHINGCONFIGREADVISITOR_H
+#define OPENFMB_ADAPTER_GOOSE_PUB_PUBLISHINGCONFIGREADVISITOR_H
 
 #include "ConfigStrings.h"
-#include "IPublishConfigBuilder.h"
+#include "pub/IPublishConfigBuilder.h"
 #include "adapter-api/IPublisher.h"
 #include "adapter-api/config/PublishingConfigReadVisitorBase.h"
 #include <string>
@@ -98,4 +98,4 @@ namespace goose {
 } // namespace goose
 } // namespace adapter
 
-#endif //OPENFMB_ADAPTER_GOOSE_PUBLISHINGCONFIGREADVISITOR_H
+#endif //OPENFMB_ADAPTER_GOOSE_PUB_PUBLISHINGCONFIGREADVISITOR_H

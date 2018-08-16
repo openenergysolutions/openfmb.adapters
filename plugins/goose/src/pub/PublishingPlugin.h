@@ -1,5 +1,5 @@
-#ifndef OPENFMB_ADAPTER_GOOSE_PLUGIN_H
-#define OPENFMB_ADAPTER_GOOSE_PLUGIN_H
+#ifndef OPENFMB_ADAPTER_GOOSE_PUB_PLUGIN_H
+#define OPENFMB_ADAPTER_GOOSE_PUB_PLUGIN_H
 
 #include "NetworkAdapter.h"
 #include "adapter-api/IMessageBus.h"
@@ -11,10 +11,10 @@
 namespace adapter {
 namespace goose {
 
-    class Plugin final : public IPlugin {
+    class PublishingPlugin final : public IPlugin {
     public:
-        Plugin(const YAML::Node& node, const Logger& logger, message_bus_t bus);
-        virtual ~Plugin();
+        PublishingPlugin(const YAML::Node& node, const Logger& logger, message_bus_t bus);
+        virtual ~PublishingPlugin();
 
         std::string name() const override;
         void start() override;
@@ -30,4 +30,4 @@ namespace goose {
 } // namespace goose
 } // namespace adapter
 
-#endif //OPENFMB_ADAPTER_GOOSE_PLUGIN_H
+#endif //OPENFMB_ADAPTER_GOOSE_PUB_PLUGIN_H

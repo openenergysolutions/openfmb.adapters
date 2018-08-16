@@ -1,7 +1,7 @@
-#ifndef OPENFMB_ADAPTER_GOOSE_MAPPINGS_H
-#define OPENFMB_ADAPTER_GOOSE_MAPPINGS_H
+#ifndef OPENFMB_ADAPTER_GOOSE_PUB_MAPPINGS_H
+#define OPENFMB_ADAPTER_GOOSE_PUB_MAPPINGS_H
 
-#include "IPublishConfigBuilder.h"
+#include "pub/IPublishConfigBuilder.h"
 #include <unordered_map>
 
 namespace adapter {
@@ -17,4 +17,4 @@ namespace goose {
 } // namespace goose
 } // namespace adapter
 
-#endif //OPENFMB_ADAPTER_GOOSE_MAPPINGS_H
+#endif //OPENFMB_ADAPTER_GOOSE_PUB_MAPPINGS_H

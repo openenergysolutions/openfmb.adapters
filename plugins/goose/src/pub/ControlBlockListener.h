@@ -1,8 +1,8 @@
-#ifndef OPENFMB_ADAPTER_GOOSE_CONTROLBLOCKLISTENER_H
-#define OPENFMB_ADAPTER_GOOSE_CONTROLBLOCKLISTENER_H
+#ifndef OPENFMB_ADAPTER_GOOSE_PUB_CONTROLBLOCKLISTENER_H
+#define OPENFMB_ADAPTER_GOOSE_PUB_CONTROLBLOCKLISTENER_H
 
-#include "IPublishConfigBuilder.h"
-#include "Mappings.h"
+#include "pub/IPublishConfigBuilder.h"
+#include "pub/Mappings.h"
 #include "adapter-api/Logger.h"
 #include "goose-cpp/control_block/IControlBlockListener.h"
 #include <string>
@@ -40,4 +40,4 @@ namespace goose {
 } // namespace goose
 } // namespace adapter
 
-#endif //OPENFMB_ADAPTER_GOOSE_CONTROLBLOCKLISTENER_H
+#endif //OPENFMB_ADAPTER_GOOSE_PUB_CONTROLBLOCKLISTENER_H

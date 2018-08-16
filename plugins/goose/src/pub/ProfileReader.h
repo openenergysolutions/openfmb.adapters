@@ -1,8 +1,8 @@
-#ifndef OPENFMB_ADAPTER_GOOSE_PROFILEREADER_H
-#define OPENFMB_ADAPTER_GOOSE_PROFILEREADER_H
+#ifndef OPENFMB_ADAPTER_GOOSE_PUB_PROFILEREADER_H
+#define OPENFMB_ADAPTER_GOOSE_PUB_PROFILEREADER_H
 
-#include "IPublishConfigBuilder.h"
-#include "PublishingConfigReadVisitor.h"
+#include "pub/IPublishConfigBuilder.h"
+#include "pub/PublishingConfigReadVisitor.h"
 #include "adapter-api/IMessageBus.h"
 #include "adapter-api/config/generated/TypedModelVisitors.h"
 #include "yaml-cpp/yaml.h"
@@ -23,4 +23,4 @@ namespace goose {
 } // namespace goose
 } // namespace adapter
 
-#endif //OPENFMB_ADAPTER_GOOSE_PROFILEREADER_H
+#endif //OPENFMB_ADAPTER_GOOSE_PUB_PROFILEREADER_H

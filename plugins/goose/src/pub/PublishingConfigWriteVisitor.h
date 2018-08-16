@@ -1,15 +1,15 @@
-#ifndef OPENFMB_ADAPTER_GOOSE_MEASUREMENTCONFIGWRITEVISITOR_H
-#define OPENFMB_ADAPTER_GOOSE_MEASUREMENTCONFIGWRITEVISITOR_H
+#ifndef OPENFMB_ADAPTER_GOOSE_PUB_MEASUREMENTCONFIGWRITEVISITOR_H
+#define OPENFMB_ADAPTER_GOOSE_PUB_MEASUREMENTCONFIGWRITEVISITOR_H
 
 #include "adapter-api/config/ConfigWriteVisitorBase.h"
 
 namespace adapter {
 namespace goose {
 
-    class MeasurementConfigWriteVisitor final : public ConfigWriteVisitorBase {
+    class PublishingConfigWriteVisitor final : public ConfigWriteVisitorBase {
 
     public:
-        explicit MeasurementConfigWriteVisitor(YAML::Emitter& out);
+        explicit PublishingConfigWriteVisitor(YAML::Emitter& out);
 
     protected:
         void write_mapped_bool_keys(YAML::Emitter& out) final;
@@ -25,4 +25,4 @@ namespace goose {
 } // namespace goose
 } // namespace adapter
 
-#endif //OPENFMB_ADAPTER_GOOSE_MEASUREMENTCONFIGWRITEVISITOR_H
+#endif //OPENFMB_ADAPTER_GOOSE_PUB_MEASUREMENTCONFIGWRITEVISITOR_H

@@ -1,7 +1,7 @@
-#ifndef OPENFMB_ADAPTER_GOOSE_GOOSEMESSAGEVISITOR_H
-#define OPENFMB_ADAPTER_GOOSE_GOOSEMESSAGEVISITOR_H
+#ifndef OPENFMB_ADAPTER_GOOSE_PUB_GOOSEMESSAGEVISITOR_H
+#define OPENFMB_ADAPTER_GOOSE_PUB_GOOSEMESSAGEVISITOR_H
 
-#include "Mappings.h"
+#include "pub/Mappings.h"
 #include "goose-cpp/messages/IDatasetVisitor.h"
 
 namespace adapter {
@@ -39,4 +39,4 @@ namespace goose {
 } // namespace goose
 } // namespace adapter
 
-#endif //OPENFMB_ADAPTER_GOOSE_GOOSEMESSAGEVISITOR_H
+#endif //OPENFMB_ADAPTER_GOOSE_PUB_GOOSEMESSAGEVISITOR_H

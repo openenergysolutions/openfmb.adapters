@@ -1,32 +1,36 @@
 set(goose_public_headers
-    ./include/goose/PluginFactory.h
+    ./include/goose/PublishingPluginFactory.h
 )
 
 set(goose_private_headers
     ./src/ConfigStrings.h
-    ./src/ControlBlockListener.h
-    ./src/GooseMessageVisitor.h
     ./src/GoosePath.h
-    ./src/IPublishConfigBuilder.h
-    ./src/Mappings.h
-    ./src/MeasurementConfigWriteVisitor.h
-    ./src/NetworkAdapter.h
-    ./src/Plugin.h
-    ./src/ProfileReader.h
-    ./src/PublishingConfigReadVisitor.h
+
+    ./src/pub/ControlBlockListener.h
+    ./src/pub/GooseMessageVisitor.h
+    ./src/pub/IPublishConfigBuilder.h
+    ./src/pub/Mappings.h
+    ./src/pub/NetworkAdapter.h
+    ./src/pub/ProfileReader.h
+    ./src/pub/PublishingConfigReadVisitor.h
+    ./src/pub/PublishingPlugin.h
+    ./src/pub/PublishingConfigWriteVisitor.h
 )
 
 set(goose_src
-    ./src/ControlBlockListener.cpp
-    ./src/GooseMessageVisitor.cpp
     ./src/GoosePath.cpp
-    ./src/MeasurementConfigWriteVisitor.cpp
-    ./src/Plugin.cpp
-    ./src/PluginFactory.cpp
+
+    ./src/pub/ControlBlockListener.cpp
+    ./src/pub/GooseMessageVisitor.cpp
+    ./src/pub/PublishingConfigWriteVisitor.cpp
+    ./src/pub/PublishingPlugin.cpp
+    ./src/pub/PublishingPluginFactory.cpp
 )
 
 add_library(goose-plugin STATIC ${goose_public_headers} ${goose_private_headers} ${goose_src})
 target_link_libraries(goose-plugin PUBLIC adapter-api goose-cpp)
-target_include_directories(goose-plugin PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_include_directories(goose-plugin
+        PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
+        PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 clang_tidy(goose-plugin)
 clang_format(goose-plugin)

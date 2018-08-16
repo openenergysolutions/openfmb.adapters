@@ -1,4 +1,4 @@
-#include "GooseMessageVisitor.h"
+#include "pub/GooseMessageVisitor.h"
 
 namespace adapter {
 namespace goose {

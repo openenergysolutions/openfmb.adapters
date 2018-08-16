@@ -1,8 +1,8 @@
-#include "goose/PluginFactory.h"
+#include "goose/PublishingPluginFactory.h"
 
 #include "ConfigStrings.h"
-#include "MeasurementConfigWriteVisitor.h"
-#include "Plugin.h"
+#include "pub/PublishingConfigWriteVisitor.h"
+#include "pub/PublishingPlugin.h"
 #include "adapter-api/ConfigStrings.h"
 #include "adapter-api/config/generated/ModelVisitors.h"
 #include "adapter-api/util/YAMLTemplate.h"
@@ -15,33 +15,33 @@ namespace goose {
         static void handle(YAML::Emitter& out)
         {
             std::cout << "Generating: " << T::descriptor()->name() << std::endl;
-            MeasurementConfigWriteVisitor visitor(out);
+            PublishingConfigWriteVisitor visitor(out);
             visit<T>(visitor);
         }
     };
 
-    std::string PluginFactory::name() const
+    std::string PublishingPluginFactory::name() const
     {
-        return "goose";
+        return "goose-pub";
     }
 
-    std::string PluginFactory::description() const
+    std::string PublishingPluginFactory::description() const
     {
-        return "maps openFMB to the GOOSE protocol";
+        return "maps OpenFMB to the GOOSE protocol";
     }
 
-    std::unique_ptr<IPlugin> PluginFactory::create(const YAML::Node& node, const Logger& logger, message_bus_t bus)
+    std::unique_ptr<IPlugin> PublishingPluginFactory::create(const YAML::Node& node, const Logger& logger, message_bus_t bus)
     {
-        return std::make_unique<Plugin>(node, logger, bus);
+        return std::make_unique<PublishingPlugin>(node, logger, bus);
     }
 
-    void PluginFactory::write_default_config(YAML::Emitter& out) const
+    void PublishingPluginFactory::write_default_config(YAML::Emitter& out) const
     {
         out << YAML::Key << keys::goCb;
         yaml::write_default_template_config(out, "goCb-template.yaml");
     }
 
-    void PluginFactory::write_session_config(YAML::Emitter& out, const profile_vec_t& profiles) const
+    void PublishingPluginFactory::write_session_config(YAML::Emitter& out, const profile_vec_t& profiles) const
     {
         if (profiles.empty()) {
             throw Exception("You must specify at least one profile when generating GOOSE session configuration");
@@ -61,7 +61,7 @@ namespace goose {
         out << YAML::EndMap;
     }
 
-    void PluginFactory::write_profile_configs(YAML::Emitter& out, const profile_vec_t& profiles) const
+    void PublishingPluginFactory::write_profile_configs(YAML::Emitter& out, const profile_vec_t& profiles) const
     {
         for (const auto& profile : profiles) {
             out << YAML::BeginMap;
