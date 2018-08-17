@@ -13,6 +13,12 @@ namespace goose {
         constexpr const char* const mapping = "mapping";
         constexpr const char* const path = "path";
 
+        constexpr const char* const src_mac = "src-mac";
+        constexpr const char* const dest_mac = "dest-mac";
+        constexpr const char* const datSet = "datSet";
+        constexpr const char* const goID = "goID";
+        constexpr const char* const confRev = "confRev";
+        constexpr const char* const ttl = "ttl";
     } // namespace keys
 } // namespace goose
 } // namespace adapter

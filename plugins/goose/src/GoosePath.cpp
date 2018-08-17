@@ -15,19 +15,19 @@ namespace goose {
             std::string copy{ path };
             size_t pos;
             while (pos = copy.find(delim) != std::string::npos) {
-                auto count = pos + 1;
+                auto count = pos + delim.length();
                 auto num_str = copy.substr(0, count);
                 auto num = std::stoul(num_str);
                 result.set(num);
                 result.push();
 
-                copy.erase(0, count + delim.length());
+                copy.erase(0, count);
             }
 
             auto num = std::stoul(copy);
             result.set(num);
             return result;
-        } catch (std::exception& e) {
+        } catch (std::exception&) {
             throw Exception{ "Invalid GOOSE path." };
         }
     }
@@ -57,6 +57,11 @@ namespace goose {
         m_stack.back() = idx;
     }
 
+    size_t GoosePath::get_level() const
+    {
+        return m_stack.size();
+    }
+
     std::string GoosePath::to_string() const
     {
         std::ostringstream oss{};
@@ -79,6 +84,11 @@ namespace goose {
     bool GoosePath::operator!=(const GoosePath& rhs) const
     {
         return m_stack != rhs.m_stack;
+    }
+
+    bool GoosePath::operator<(const GoosePath& rhs) const
+    {
+        return m_stack < rhs.m_stack;
     }
 
 } // namespace goose

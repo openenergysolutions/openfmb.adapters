@@ -1,15 +1,15 @@
-#ifndef OPENFMB_ADAPTER_GOOSE_PUB_PUBLISHINGCONFIGWRITEVISITOR_H
-#define OPENFMB_ADAPTER_GOOSE_PUB_PUBLISHINGCONFIGWRITEVISITOR_H
+#ifndef OPENFMB_ADAPTER_GOOSE_SUB_SUBSCRIBINGCONFIGWRITEVISITOR_H
+#define OPENFMB_ADAPTER_GOOSE_SUB_SUBSCRIBINGCONFIGWRITEVISITOR_H
 
 #include "adapter-api/config/ConfigWriteVisitorBase.h"
 
 namespace adapter {
 namespace goose {
 
-    class PublishingConfigWriteVisitor final : public ConfigWriteVisitorBase {
+    class SubscribingConfigWriteVisitor final : public ConfigWriteVisitorBase {
 
     public:
-        explicit PublishingConfigWriteVisitor(YAML::Emitter& out);
+        explicit SubscribingConfigWriteVisitor(YAML::Emitter& out);
 
     protected:
         void write_mapped_bool_keys(YAML::Emitter& out) final;
@@ -25,4 +25,4 @@ namespace goose {
 } // namespace goose
 } // namespace adapter
 
-#endif //OPENFMB_ADAPTER_GOOSE_PUB_PUBLISHINGCONFIGWRITEVISITOR_H
+#endif //OPENFMB_ADAPTER_GOOSE_SUB_SUBSCRIBINGCONFIGWRITEVISITOR_H

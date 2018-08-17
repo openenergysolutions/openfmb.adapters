@@ -1,5 +1,5 @@
-#ifndef OPENFMB_ADAPTER_GOOSE_PUB_PROFILEREADER_H
-#define OPENFMB_ADAPTER_GOOSE_PUB_PROFILEREADER_H
+#ifndef OPENFMB_ADAPTER_GOOSE_PUB_PUBLISHINGPROFILEREADER_H
+#define OPENFMB_ADAPTER_GOOSE_PUB_PUBLISHINGPROFILEREADER_H
 
 #include "pub/IPublishConfigBuilder.h"
 #include "pub/PublishingConfigReadVisitor.h"
@@ -11,7 +11,7 @@ namespace adapter {
 namespace goose {
 
     template <typename T>
-    class ProfileReader {
+    class PublishingProfileReader {
     public:
         static void handle(const YAML::Node& node, message_bus_t bus, std::shared_ptr<IPublishConfigBuilder> builder)
         {
@@ -23,4 +23,4 @@ namespace goose {
 } // namespace goose
 } // namespace adapter
 
-#endif //OPENFMB_ADAPTER_GOOSE_PUB_PROFILEREADER_H
+#endif //OPENFMB_ADAPTER_GOOSE_PUB_PUBLISHINGPROFILEREADER_H

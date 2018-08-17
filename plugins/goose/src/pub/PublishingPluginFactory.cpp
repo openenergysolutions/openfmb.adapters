@@ -27,7 +27,7 @@ namespace goose {
 
     std::string PublishingPluginFactory::description() const
     {
-        return "maps OpenFMB to the GOOSE protocol";
+        return "maps GOOSE protocol messages to OpenFMB";
     }
 
     std::unique_ptr<IPlugin> PublishingPluginFactory::create(const YAML::Node& node, const Logger& logger, message_bus_t bus)

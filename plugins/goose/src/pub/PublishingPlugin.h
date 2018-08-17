@@ -1,7 +1,7 @@
-#ifndef OPENFMB_ADAPTER_GOOSE_PUB_PLUGIN_H
-#define OPENFMB_ADAPTER_GOOSE_PUB_PLUGIN_H
+#ifndef OPENFMB_ADAPTER_GOOSE_PUB_PUBLISHINGPLUGIN_H
+#define OPENFMB_ADAPTER_GOOSE_PUB_PUBLISHINGPLUGIN_H
 
-#include "NetworkAdapter.h"
+#include "pub/NetworkAdapter.h"
 #include "adapter-api/IMessageBus.h"
 #include "adapter-api/IPlugin.h"
 #include "adapter-api/Logger.h"
@@ -30,4 +30,4 @@ namespace goose {
 } // namespace goose
 } // namespace adapter
 
-#endif //OPENFMB_ADAPTER_GOOSE_PUB_PLUGIN_H
+#endif //OPENFMB_ADAPTER_GOOSE_PUB_PUBLISHINGPLUGIN_H

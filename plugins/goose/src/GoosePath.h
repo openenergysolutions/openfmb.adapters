@@ -19,11 +19,14 @@ namespace goose {
         void pop();
         void inc();
         void set(unsigned int idx);
+        size_t get_level() const;
 
         std::string to_string() const;
 
         bool operator==(const GoosePath& rhs) const;
         bool operator!=(const GoosePath& rhs) const;
+        bool operator<(const GoosePath& rhs) const;
+
 
     private:
         std::vector<unsigned int> m_stack;

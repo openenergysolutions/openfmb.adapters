@@ -2,7 +2,7 @@
 
 #include "ConfigStrings.h"
 #include "pub/ControlBlockListener.h"
-#include "pub/ProfileReader.h"
+#include "pub/PublishingProfileReader.h"
 #include "adapter-api/ConfigStrings.h"
 #include "adapter-api/util/YAMLTemplate.h"
 #include "adapter-api/util/YAMLUtil.h"
@@ -52,7 +52,7 @@ namespace goose {
             profiles,
             [&](const YAML::Node& node) {
                 auto mapping = yaml::require(node, keys::mapping);
-                ProfileRegistry::handle_by_name<ProfileReader>(
+                ProfileRegistry::handle_by_name<PublishingProfileReader>(
                     yaml::require_string(node, ::adapter::keys::name),
                     mapping,
                     bus,

@@ -18,6 +18,7 @@
 
 #ifdef OPENFMB_USE_GOOSE
 #include "goose/PublishingPluginFactory.h"
+#include "goose/SubscribingPluginFactory.h"
 #endif
 
 #ifdef OPENFMB_USE_NATS
@@ -50,6 +51,7 @@ PluginRegistry::PluginRegistry()
 
 #ifdef OPENFMB_USE_GOOSE
     this->add<goose::PublishingPluginFactory>();
+    this->add<goose::SubscribingPluginFactory>();
 #endif
 
 #ifdef OPENFMB_USE_NATS
