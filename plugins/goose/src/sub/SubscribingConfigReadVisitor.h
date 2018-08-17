@@ -22,18 +22,18 @@ template <typename T>
 class DatasetBuilder
 {
 public:
-    DatasetBuilder(DatasetBuilder* parent)
-        : m_parent{parent}
-    {}
-
     void add(building_fn_t<T> building_fn)
     {
         m_building_funcs.push_back(building_fn);
     }
 
-    DatasetBuilder* get_parent() const
+    std::shared_ptr<DatasetBuilder> add_dataset()
     {
-        return m_parent;
+        auto dataset = std::make_shared<DatasetBuilder>();
+        m_building_funcs.push_back([dataset](const T& msg, goose_cpp::Dataset& root) {
+            (*dataset)(msg, root);
+        });
+        return dataset;
     }
 
     void operator()(const T& msg, goose_cpp::Dataset& root)
@@ -47,7 +47,6 @@ public:
     }
 
 private:
-    DatasetBuilder* m_parent;
     std::vector<building_fn_t<T>> m_building_funcs;
 };
 
@@ -66,37 +65,103 @@ public:
 
     building_fn_t<T> create_builder()
     {
-        return create_builder(DatasetBuilder<T>{nullptr}, GoosePath{}, m_building_funcs.begin());
+        std::vector<std::shared_ptr<DatasetBuilder<T>>> builder_stack{};
+        builder_stack.push_back(std::make_shared<DatasetBuilder<T>>());
+
+        GoosePath current_path{};
+        auto it = m_building_funcs.begin();
+        while(it != m_building_funcs.end())
+        {
+            if(current_path.get_level() < it->first.get_level())
+            {
+                // Create a new builder to hold the structure
+                current_path.push();
+                auto new_builder = builder_stack.back()->add_dataset();
+                builder_stack.push_back(new_builder);
+            }
+            else if(current_path.get_level() > it->first.get_level())
+            {
+                // We are too deep in the hierarchy, go up
+                current_path.pop();
+                builder_stack.pop_back();
+            }
+            else
+            {
+                // Validate the current value
+                if(current_path != it->first)
+                {
+                    // Check if it's the next value on the same level
+                    current_path.pop();
+                    current_path.inc();
+                    current_path.push();
+                    if(current_path == it->first)
+                    {
+                        current_path.pop();
+                        builder_stack.pop_back();
+                        continue;
+                    }
+                    else
+                    {
+                        throw Exception{"Invalid GOOSE structure."};
+                    }
+                }
+
+                // Add the value to the dataset
+                builder_stack.back()->add(it->second);
+
+                // Proceed with the next value
+                current_path.inc();
+                ++it;
+            }
+        }
+        //create_builder(root_builder, GoosePath{}, m_building_funcs.begin());
+        return [root_builder = builder_stack.front()](const T& msg, goose_cpp::Dataset& root) {
+            (*root_builder)(msg, root);
+        };
     }
 
-    building_fn_t<T> create_builder(DatasetBuilder<T>& builder, GoosePath current_path, typename std::map<GoosePath, building_fn_t<T>>::const_iterator it)
+    void create_builder(DatasetBuilder<T>& builder, GoosePath current_path, typename std::map<GoosePath, building_fn_t<T>>::const_iterator it)
     {
         // Check if we finished creating the builder
         if(it == m_building_funcs.end())
         {
-            return builder;
+            return;
         }
 
         if(current_path.get_level() < it->first.get_level())
         {
             // Create a new builder to hold the structure
             current_path.push();
-            DatasetBuilder<T> new_builder{&builder};
-            builder.add(create_builder(new_builder, current_path, it));
-            return builder;
+            auto new_builder = builder.add_dataset();
+            create_builder(new_builder, current_path, it);
+            return;
         }
         else if(current_path.get_level() > it->first.get_level())
         {
             // We are too deep in the hierarchy, go up
             current_path.pop();
-            return create_builder(*builder.get_parent(), current_path, it);
+            create_builder(*builder.get_parent(), current_path, it);
+            return;
         }
         else
         {
             // Validate the current value
             if(current_path != it->first)
             {
-                throw Exception{"Invalid GOOSE structure."};
+                // Check if it's the next value on the same level
+                current_path.pop();
+                current_path.inc();
+                current_path.push();
+                if(current_path == it->first)
+                {
+                    current_path.pop();
+                    create_builder(*builder.get_parent(), current_path, it);
+                    return;
+                }
+                else
+                {
+                    throw Exception{"Invalid GOOSE structure."};
+                }
             }
 
             // Add the value to the dataset
@@ -104,17 +169,38 @@ public:
 
             // Proceed with the next value
             current_path.inc();
-            return create_builder(builder, current_path, ++it);
+            create_builder(builder, current_path, ++it);
+            return;
         }
     }
 
 protected:
     void handle_mapped_field(const YAML::Node& node, const accessor_t<T, bool>& accessor) final
     {
+        add_building_fn(get_path(node), [=](const T& msg, goose_cpp::Dataset& dataset) {
+            auto present = accessor->if_present(msg, [&](bool value){
+                dataset.add_boolean(value);
+            });
+
+            if(!present)
+            {
+                throw Exception{ "A value is not present in the message." };
+            }
+        });
     }
 
     void handle_mapped_field(const YAML::Node& node, const accessor_t<T, int32_t>& accessor) final
     {
+        add_building_fn(get_path(node), [=](const T& msg, goose_cpp::Dataset& dataset) {
+            auto present = accessor->if_present(msg, [&](int32_t value){
+                dataset.add_integer(value);
+            });
+
+            if(!present)
+            {
+                throw Exception{ "A value is not present in the message." };
+            }
+        });
     }
 
     void handle_mapped_field(const YAML::Node& node, const accessor_t<T, int64_t>& accessor) final
@@ -147,6 +233,7 @@ protected:
 
     void handle_mapped_field(const YAML::Node& node, const accessor_t<T, int>& accessor, google::protobuf::EnumDescriptor const* descriptor) final
     {
+        throw Exception{"Mapped enums are not supported by goose-sub."};
     }
 
 private:
