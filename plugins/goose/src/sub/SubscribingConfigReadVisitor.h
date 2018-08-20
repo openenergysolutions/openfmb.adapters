@@ -114,64 +114,10 @@ public:
                 ++it;
             }
         }
-        //create_builder(root_builder, GoosePath{}, m_building_funcs.begin());
+
         return [root_builder = builder_stack.front()](const T& msg, goose_cpp::Dataset& root) {
             (*root_builder)(msg, root);
         };
-    }
-
-    void create_builder(DatasetBuilder<T>& builder, GoosePath current_path, typename std::map<GoosePath, building_fn_t<T>>::const_iterator it)
-    {
-        // Check if we finished creating the builder
-        if(it == m_building_funcs.end())
-        {
-            return;
-        }
-
-        if(current_path.get_level() < it->first.get_level())
-        {
-            // Create a new builder to hold the structure
-            current_path.push();
-            auto new_builder = builder.add_dataset();
-            create_builder(new_builder, current_path, it);
-            return;
-        }
-        else if(current_path.get_level() > it->first.get_level())
-        {
-            // We are too deep in the hierarchy, go up
-            current_path.pop();
-            create_builder(*builder.get_parent(), current_path, it);
-            return;
-        }
-        else
-        {
-            // Validate the current value
-            if(current_path != it->first)
-            {
-                // Check if it's the next value on the same level
-                current_path.pop();
-                current_path.inc();
-                current_path.push();
-                if(current_path == it->first)
-                {
-                    current_path.pop();
-                    create_builder(*builder.get_parent(), current_path, it);
-                    return;
-                }
-                else
-                {
-                    throw Exception{"Invalid GOOSE structure."};
-                }
-            }
-
-            // Add the value to the dataset
-            builder.add(it->second);
-
-            // Proceed with the next value
-            current_path.inc();
-            create_builder(builder, current_path, ++it);
-            return;
-        }
     }
 
 protected:
