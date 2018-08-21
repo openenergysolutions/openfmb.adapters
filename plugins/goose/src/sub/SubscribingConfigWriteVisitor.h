@@ -19,7 +19,7 @@ namespace goose {
         void write_mapped_enum_keys(YAML::Emitter& out, google::protobuf::EnumDescriptor const* descriptor) final;
 
     private:
-        void write_path(YAML::Emitter& out);
+        void write_name(YAML::Emitter& out);
     };
 
 } // namespace goose

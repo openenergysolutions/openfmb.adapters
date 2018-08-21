@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 public class Enumerations {
 
-    public static final List<GeneratedFileSet> sets = Arrays.asList(API.set, DNP3.set, Modbus.set);
+    public static final List<GeneratedFileSet> sets = Arrays.asList(API.set, DNP3.set, Modbus.set, Goose.set);
 
     private static class API {
 
@@ -199,6 +199,33 @@ public class Enumerations {
         private static final Path path = Paths.get("../plugins/modbus/src/modbus/generated");
 
         private static final List<String> namespaces = Arrays.asList("modbus", "adapter");
+
+        public static final GeneratedFileSet set = new GeneratedFileSet(
+                Collections.singletonList(path),
+                FileGenerator.convert(path, path, enums().stream().map(e -> new EnumFiles(e, namespaces)).collect(Collectors.toList()))
+        );
+    }
+
+    private static class Goose {
+
+        private final static Enumeration type = new Enumeration(
+                Arrays.asList("Type"),
+                Arrays.asList(
+                        Enumeration.entry("structure", "structure"),
+                        Enumeration.entry("array", "array"),
+                        Enumeration.entry("boolean", "boolean"),
+                        Enumeration.entry("integer", "integer"),
+                        Enumeration.entry("floating", "floating")
+                )
+        );
+
+        private static List<Enumeration> enums() {
+            return Arrays.asList(type);
+        }
+
+        private static final Path path = Paths.get("../plugins/goose/src/generated");
+
+        private static final List<String> namespaces = Arrays.asList("goose", "adapter");
 
         public static final GeneratedFileSet set = new GeneratedFileSet(
                 Collections.singletonList(path),

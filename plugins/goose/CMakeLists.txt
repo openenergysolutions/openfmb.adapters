@@ -7,6 +7,8 @@ set(goose_private_headers
     ./src/ConfigStrings.h
     ./src/GoosePath.h
 
+    ./src/generated/Type.h
+
     ./src/pub/ControlBlockListener.h
     ./src/pub/GooseMessageVisitor.h
     ./src/pub/IPublishConfigBuilder.h
@@ -18,6 +20,7 @@ set(goose_private_headers
     ./src/pub/PublishingProfileReader.h
 
     ./src/sub/BuildingFunction.h
+    ./src/sub/GooseStructureConfigReader.h
     ./src/sub/SubscribingConfigReadVisitor.h
     ./src/sub/SubscribingConfigWriteVisitor.h
     ./src/sub/SubscribingPlugin.h
@@ -27,6 +30,8 @@ set(goose_private_headers
 
 set(goose_src
     ./src/GoosePath.cpp
+
+    ./src/generated/Type.cpp
 
     ./src/pub/ControlBlockListener.cpp
     ./src/pub/GooseMessageVisitor.cpp

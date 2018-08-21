@@ -13,6 +13,9 @@ namespace goose {
         constexpr const char* const mapping = "mapping";
         constexpr const char* const path = "path";
 
+        constexpr const char* const goose_struct = "gooseStructure";
+        constexpr const char* const name = "name";
+
         constexpr const char* const src_mac = "src-mac";
         constexpr const char* const dest_mac = "dest-mac";
         constexpr const char* const datSet = "datSet";

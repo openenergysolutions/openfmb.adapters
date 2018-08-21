@@ -1,7 +1,9 @@
 #ifndef OPENFMB_ADAPTER_GOOSE_SUB_SUBSCRIBINGPROFILEREADER_H
 #define OPENFMB_ADAPTER_GOOSE_SUB_SUBSCRIBINGPROFILEREADER_H
 
+#include "ConfigStrings.h"
 #include "sub/SubscribingConfigReadVisitor.h"
+#include "sub/GooseStructureConfigReader.h"
 #include "adapter-api/IMessageBus.h"
 #include "adapter-api/Logger.h"
 #include "adapter-api/config/generated/TypedModelVisitors.h"
@@ -17,9 +19,11 @@ namespace goose {
     public:
         static void handle(const YAML::Node& node, Logger logger, message_bus_t bus, std::shared_ptr<goose_cpp::IControlBlockPublisher> cb_publisher)
         {
-            SubscribingConfigReadVisitor<T> visitor(node, logger);
+            SubscribingConfigReadVisitor<T> visitor(yaml::require(node, keys::mapping), logger);
             visit(visitor);
-            visitor.subscribe(*bus, cb_publisher);
+
+            GooseStructureConfigReader<T> goose_reader{yaml::require(node, keys::goose_struct), visitor};
+            goose_reader.subscribe(*bus, cb_publisher, logger);
         }
     };
 

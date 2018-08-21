@@ -13,32 +13,32 @@ namespace goose {
 
     void SubscribingConfigWriteVisitor::write_mapped_bool_keys(YAML::Emitter& out)
     {
-        write_path(out);
+        write_name(out);
     }
 
     void SubscribingConfigWriteVisitor::write_mapped_int32_keys(YAML::Emitter& out)
     {
-        write_path(out);
+        write_name(out);
     }
 
     void SubscribingConfigWriteVisitor::write_mapped_int64_keys(YAML::Emitter& out)
     {
-        write_path(out);
+        write_name(out);
     }
 
     void SubscribingConfigWriteVisitor::write_mapped_float_keys(YAML::Emitter& out)
     {
-        write_path(out);
+        write_name(out);
     }
 
     void SubscribingConfigWriteVisitor::write_mapped_enum_keys(YAML::Emitter& out, google::protobuf::EnumDescriptor const* descriptor)
     {
-        throw Exception("Enum mapping is not supported");
+        out << YAML::Comment("Enum mapping is not supported");
     }
 
-    void SubscribingConfigWriteVisitor::write_path(YAML::Emitter& out)
+    void SubscribingConfigWriteVisitor::write_name(YAML::Emitter& out)
     {
-        out << YAML::Key << keys::path << YAML::Value << "";
+        out << YAML::Key << keys::name << YAML::Value << "";
     }
 
 } // namespace goose

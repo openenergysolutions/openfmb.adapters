@@ -48,7 +48,6 @@ namespace goose {
         auto conf_rev = yaml::require(node, keys::confRev).as<uint16_t>();
         auto ttl = yaml::require(node, keys::ttl).as<uint16_t>();
         auto profile = yaml::require_string(node, ::adapter::keys::profile);
-        auto mapping = yaml::require(node, ::adapter::keys::mapping);
 
         auto control_block_publisher = network_publisher->make_control_block_publisher(
                 goose_cpp::MacAddress{0x08, 0x42, 0x70, 0x00, 0x00, 0x00}, // TODO: use configured address
@@ -63,7 +62,7 @@ namespace goose {
 
         ProfileRegistry::handle_by_name<SubscribingProfileReader>(
                 profile,
-                mapping,
+                node,
                 m_logger,
                 bus,
                 std::shared_ptr<goose_cpp::IControlBlockPublisher>{std::move(control_block_publisher)}

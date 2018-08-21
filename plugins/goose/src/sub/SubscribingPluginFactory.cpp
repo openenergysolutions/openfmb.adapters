@@ -1,6 +1,7 @@
 #include "goose/SubscribingPluginFactory.h"
 
 #include "ConfigStrings.h"
+#include "generated/Type.h"
 #include "sub/SubscribingConfigWriteVisitor.h"
 #include "sub/SubscribingPlugin.h"
 #include "adapter-api/ConfigStrings.h"
@@ -11,7 +12,7 @@ namespace adapter {
 namespace goose {
 
     template <class T>
-    struct WriterHandler {
+    struct SubWriterHandler {
         static void handle(YAML::Emitter& out)
         {
             std::cout << "Generating: " << T::descriptor()->name() << std::endl;
@@ -60,11 +61,30 @@ namespace goose {
         out << YAML::Key << keys::confRev << YAML::Value << 100 << YAML::Comment("Configuration revision");
         out << YAML::Key << keys::ttl << YAML::Value << 1000 << YAML::Comment("Retransmission interval (in ms)");
         out << YAML::Key << ::adapter::keys::profile << YAML::Value << profile;
-        out << YAML::Key << keys::mapping << YAML::Comment("profile model starts here");
+        write_goose_structure(out);
+        out << YAML::Key << keys::mapping;
         out << YAML::BeginMap;
-        ProfileRegistry::handle_by_name<WriterHandler>(profile, out);
+        ProfileRegistry::handle_by_name<SubWriterHandler>(profile, out);
         out << YAML::EndMap;
         out << YAML::EndMap;
+    }
+
+    void SubscribingPluginFactory::write_goose_structure(YAML::Emitter& out) const
+    {
+        out << YAML::Key << keys::goose_struct << YAML::Comment("GOOSE structure definition");
+        out << YAML::BeginSeq;
+        out << YAML::BeginMap << YAML::Key << "floating" << YAML::Value << "PhV.net" << YAML::EndMap;
+        out << YAML::BeginMap << YAML::Key << "structure" << YAML::Value << YAML::BeginSeq;
+        out << YAML::BeginMap << YAML::Key << "floating" << YAML::Value << "PhV.phsA" << YAML::EndMap;
+        out << YAML::BeginMap << YAML::Key << "floating" << YAML::Value << "PhV.phsB" << YAML::EndMap;
+        out << YAML::BeginMap << YAML::Key << "floating" << YAML::Value << "PhV.phsC" << YAML::EndMap;
+        out << YAML::EndSeq << YAML::EndMap;
+        out << YAML::BeginMap << YAML::Key << "array" << YAML::Value << YAML::BeginSeq;
+        out << YAML::BeginMap << YAML::Key << "integer" << YAML::Value << "W.phsA" << YAML::EndMap;
+        out << YAML::BeginMap << YAML::Key << "integer" << YAML::Value << "W.phsB" << YAML::EndMap;
+        out << YAML::BeginMap << YAML::Key << "integer" << YAML::Value << "W.phsC" << YAML::EndMap;
+        out << YAML::EndSeq << YAML::EndMap;
+        out << YAML::EndSeq;
     }
 
 } // namespace goose
