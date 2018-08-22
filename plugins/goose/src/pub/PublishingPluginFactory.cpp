@@ -1,6 +1,7 @@
 #include "goose/PublishingPluginFactory.h"
 
 #include "ConfigStrings.h"
+#include "generated/Type.h"
 #include "pub/PublishingConfigWriteVisitor.h"
 #include "pub/PublishingPlugin.h"
 #include "adapter-api/ConfigStrings.h"
@@ -52,6 +53,7 @@ namespace goose {
         out << YAML::Key << keys::networkAdapter << YAML::Value << "ens1" << YAML::Comment("Network adapter name");
         out << YAML::Key << keys::appId << YAML::Value << 1000 << YAML::Comment("APPID");
         out << YAML::Key << keys::goCbRef << YAML::Value << "REF615A_204LD0/LLN0$GO$OpenFMBheartbeat" << YAML::Comment("GOOSE Control Block Reference");
+        write_goose_structure(out);
 
         out << YAML::Key << keys::profiles;
         out << YAML::BeginSeq;
@@ -59,6 +61,24 @@ namespace goose {
         out << YAML::EndSeq;
 
         out << YAML::EndMap;
+    }
+
+    void PublishingPluginFactory::write_goose_structure(YAML::Emitter& out) const
+    {
+        out << YAML::Key << keys::goose_struct << YAML::Comment("GOOSE structure definition");
+        out << YAML::BeginSeq;
+        out << YAML::BeginMap << YAML::Key << Type::to_string(Type::Value::structure) << YAML::Value << YAML::BeginSeq;
+        out << YAML::BeginMap << YAML::Key << Type::to_string(Type::Value::floating) << YAML::Value << "PhV.phsA" << YAML::EndMap;
+        out << YAML::BeginMap << YAML::Key << Type::to_string(Type::Value::floating) << YAML::Value << "PhV.phsB" << YAML::EndMap;
+        out << YAML::BeginMap << YAML::Key << Type::to_string(Type::Value::floating) << YAML::Value << "PhV.phsC" << YAML::EndMap;
+        out << YAML::BeginMap << YAML::Key << Type::to_string(Type::Value::ignored) << YAML::Value << "PhV.net" << YAML::EndMap;
+        out << YAML::EndSeq << YAML::EndMap;
+        out << YAML::BeginMap << YAML::Key << Type::to_string(Type::Value::array) << YAML::Value << YAML::BeginSeq;
+        out << YAML::BeginMap << YAML::Key << Type::to_string(Type::Value::integer) << YAML::Value << "W.phsA" << YAML::EndMap;
+        out << YAML::BeginMap << YAML::Key << Type::to_string(Type::Value::integer) << YAML::Value << "W.phsB" << YAML::EndMap;
+        out << YAML::BeginMap << YAML::Key << Type::to_string(Type::Value::integer) << YAML::Value << "W.phsC" << YAML::EndMap;
+        out << YAML::EndSeq << YAML::EndMap;
+        out << YAML::EndSeq;
     }
 
     void PublishingPluginFactory::write_profile_configs(YAML::Emitter& out, const profile_vec_t& profiles) const

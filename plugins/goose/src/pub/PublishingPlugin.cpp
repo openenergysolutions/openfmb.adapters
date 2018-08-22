@@ -44,9 +44,9 @@ namespace goose {
         auto adapter = get_adapter(yaml::require_string(node, keys::networkAdapter));
         auto app_id = yaml::require(node, keys::appId).as<uint16_t>();
         auto go_cb_ref = yaml::require_string(node, keys::goCbRef);
+        auto goose_struct = yaml::require(node, keys::goose_struct);
 
-        auto handler = std::make_shared<ControlBlockListener>(go_cb_ref, logger);
-
+        PubGooseStructureConfigReader goose_struct_reader{};
         const auto profiles = yaml::require(node, ::adapter::keys::profiles);
         yaml::foreach (
             profiles,
@@ -56,10 +56,11 @@ namespace goose {
                     yaml::require_string(node, ::adapter::keys::name),
                     mapping,
                     bus,
-                    handler);
+                    goose_struct_reader);
             });
 
-        adapter.sink->add_control_block(app_id, go_cb_ref, handler);
+        auto cb_listener = std::make_shared<ControlBlockListener>(go_cb_ref, goose_struct_reader.get_meas_handler(goose_struct), logger);
+        adapter.sink->add_control_block(app_id, go_cb_ref, cb_listener);
     }
 
     NetworkAdapter PublishingPlugin::get_adapter(const std::string& network_adapter)

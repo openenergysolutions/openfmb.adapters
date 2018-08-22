@@ -3,6 +3,7 @@
 
 #include "pub/Mappings.h"
 #include "goose-cpp/messages/IDatasetVisitor.h"
+#include <functional>
 
 namespace adapter {
 namespace goose {
@@ -11,6 +12,8 @@ namespace goose {
     public:
         GooseMessageVisitor(const Mappings& mappings);
         ~GooseMessageVisitor() = default;
+
+        size_t get_num_elements_visited() const;
 
         void handle_array(const goose_cpp::Dataset& item) final;
         void handle_structure(const goose_cpp::Dataset& item) final;
@@ -29,11 +32,12 @@ namespace goose {
         void handle_utctime(std::chrono::system_clock::time_point item) final;
 
     private:
-        template <typename T>
-        void handle_int(T value);
+        template<typename T>
+        void handle(const T& item, std::function<bool(size_t,meas_fn_t<T>&)> getter);
+        void handle_not_supported();
 
         const Mappings& m_mappings;
-        GoosePath m_path;
+        size_t m_current_idx;
     };
 
 } // namespace goose

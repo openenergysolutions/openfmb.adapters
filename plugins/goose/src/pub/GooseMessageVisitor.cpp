@@ -1,126 +1,122 @@
 #include "pub/GooseMessageVisitor.h"
 
+#include "adapter-api/util/Exception.h"
+
 namespace adapter {
 namespace goose {
 
+    using namespace std::placeholders;
+
     GooseMessageVisitor::GooseMessageVisitor(const Mappings& mappings)
-        : m_mappings{ mappings }
+        : m_mappings{ mappings },
+          m_current_idx{ 0 }
     {
+    }
+
+    size_t GooseMessageVisitor::get_num_elements_visited() const
+    {
+        return m_current_idx;
     }
 
     void GooseMessageVisitor::handle_array(const goose_cpp::Dataset& item)
     {
-        m_path.push();
-
-        item.visit(*this);
+        handle<goose_cpp::Dataset>(item, std::bind(&Mappings::get_array_handler, &m_mappings, _1, _2));
     }
 
     void GooseMessageVisitor::handle_structure(const goose_cpp::Dataset& item)
     {
-        m_path.push();
-
-        item.visit(*this);
+        handle<goose_cpp::Dataset>(item, std::bind(&Mappings::get_struct_handler, &m_mappings, _1, _2));
     }
 
     void GooseMessageVisitor::handle_boolean(bool item)
     {
-        auto it = m_mappings.bool_handlers.find(m_path);
-        if (it != m_mappings.bool_handlers.end()) {
-            it->second(item);
-        }
-
-        m_path.inc();
+        handle<bool>(item, std::bind(&Mappings::get_bool_handler, &m_mappings, _1, _2));
     }
 
     void GooseMessageVisitor::handle_bit_string(const goose_cpp::BitString& item)
     {
-        m_path.inc();
+        handle_not_supported();
     }
 
     void GooseMessageVisitor::handle_integer(int64_t item)
     {
-        handle_int(item);
-
-        m_path.inc();
+        handle<int64_t>(item, std::bind(&Mappings::get_int_handler, &m_mappings, _1, _2));
     }
 
     void GooseMessageVisitor::handle_unsigned_integer(uint64_t item)
     {
-        handle_int(item);
-
-        m_path.inc();
+        handle_not_supported();
     }
 
     void GooseMessageVisitor::handle_floatingpoint(double item)
     {
-        auto it = m_mappings.float_handlers.find(m_path);
-        if (it != m_mappings.float_handlers.end()) {
-            it->second(static_cast<float>(item));
-        }
-
-        m_path.inc();
+        handle<float>(static_cast<float>(item), std::bind(&Mappings::get_float_handler, &m_mappings, _1, _2));
     }
 
     void GooseMessageVisitor::handle_octet_string(const std::vector<uint8_t>& item)
     {
-        m_path.inc();
+        handle_not_supported();
     }
 
     void GooseMessageVisitor::handle_visible_string(const std::string& item)
     {
-        m_path.inc();
+        handle_not_supported();
     }
 
     void GooseMessageVisitor::handle_generalizedtime(std::chrono::system_clock::time_point item)
     {
-        m_path.inc();
+        handle_not_supported();
     }
 
     void GooseMessageVisitor::handle_binarytime(std::chrono::system_clock::time_point item)
     {
-        m_path.inc();
+        handle_not_supported();
     }
 
     void GooseMessageVisitor::handle_bcd(uint64_t item)
     {
-        handle_int(item);
-
-        m_path.inc();
+        handle_not_supported();
     }
 
     void GooseMessageVisitor::handle_boolean_array(const goose_cpp::BitString& item)
     {
-        m_path.inc();
+        handle_not_supported();
     }
 
     void GooseMessageVisitor::handle_mms_string(const std::string& item)
     {
-        m_path.inc();
+        handle_not_supported();
     }
 
     void GooseMessageVisitor::handle_utctime(std::chrono::system_clock::time_point item)
     {
-        m_path.inc();
+        handle_not_supported();
     }
 
-    template <typename T>
-    void GooseMessageVisitor::handle_int(T value)
+    template<typename T>
+    void GooseMessageVisitor::handle(const T& item, std::function<bool(size_t,meas_fn_t<T>&)> getter)
     {
+        meas_fn_t<T> handler;
+        if(getter(m_current_idx, handler))
         {
-            auto it = m_mappings.int32_handlers.find(m_path);
-            if (it != m_mappings.int32_handlers.end()) {
-                it->second(static_cast<int32_t>(value));
-                return;
-            }
+            handler(item);
+        }
+        else if(!m_mappings.is_ignored(m_current_idx))
+        {
+            throw Exception{"GOOSE message format does not correspond to the configuration."};
         }
 
+        ++m_current_idx;
+    }
+
+    void GooseMessageVisitor::handle_not_supported()
+    {
+        if(!m_mappings.is_ignored(m_current_idx))
         {
-            auto it = m_mappings.int64_handlers.find(m_path);
-            if (it != m_mappings.int64_handlers.end()) {
-                it->second(static_cast<int64_t>(value));
-                return;
-            }
+            throw Exception{"GOOSE message format does not correspond to the configuration."};
         }
+
+        ++m_current_idx;
     }
 
 } // namespace goose

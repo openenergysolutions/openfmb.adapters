@@ -82,28 +82,24 @@ protected:
     void handle_mapped_field(const YAML::Node& node, const accessor_t<T, bool>& accessor) final
     {
         auto name = get_name(node);
-        m_names.insert(name);
         m_bool_accessors.insert({name, accessor});
     }
 
     void handle_mapped_field(const YAML::Node& node, const accessor_t<T, int32_t>& accessor) final
     {
         auto name = get_name(node);
-        m_names.insert(name);
         m_int32_accessors.insert({name, accessor});
     }
 
     void handle_mapped_field(const YAML::Node& node, const accessor_t<T, int64_t>& accessor) final
     {
         auto name = get_name(node);
-        m_names.insert(name);
         m_int64_accessors.insert({name, accessor});
     }
 
     void handle_mapped_field(const YAML::Node& node, const accessor_t<T, float>& accessor) final
     {
         auto name = get_name(node);
-        m_names.insert(name);
         m_float_accessors.insert({name, accessor});
     }
 
@@ -113,9 +109,23 @@ protected:
     }
 
 private:
-    std::string get_name(const YAML::Node& node) const
+    std::string get_name(const YAML::Node& node)
     {
-        return yaml::require_string(node, keys::name);
+        auto name = yaml::require_string(node, keys::name);
+
+        if(name.empty())
+        {
+            const auto mark = node.Mark();
+            throw Exception{"Name cannot be empty at line ", mark.line + 1};
+        }
+
+        auto result = m_names.insert(name);
+        if(!result.second)
+        {
+            throw Exception{"Duplicate mapping name \"", name, "\"."};
+        };
+
+        return name;
     }
 
     Logger m_logger;

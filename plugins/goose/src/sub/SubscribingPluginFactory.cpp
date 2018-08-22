@@ -73,16 +73,16 @@ namespace goose {
     {
         out << YAML::Key << keys::goose_struct << YAML::Comment("GOOSE structure definition");
         out << YAML::BeginSeq;
-        out << YAML::BeginMap << YAML::Key << "floating" << YAML::Value << "PhV.net" << YAML::EndMap;
-        out << YAML::BeginMap << YAML::Key << "structure" << YAML::Value << YAML::BeginSeq;
-        out << YAML::BeginMap << YAML::Key << "floating" << YAML::Value << "PhV.phsA" << YAML::EndMap;
-        out << YAML::BeginMap << YAML::Key << "floating" << YAML::Value << "PhV.phsB" << YAML::EndMap;
-        out << YAML::BeginMap << YAML::Key << "floating" << YAML::Value << "PhV.phsC" << YAML::EndMap;
+        out << YAML::BeginMap << YAML::Key << Type::to_string(Type::Value::floating) << YAML::Value << "PhV.net" << YAML::EndMap;
+        out << YAML::BeginMap << YAML::Key << Type::to_string(Type::Value::structure) << YAML::Value << YAML::BeginSeq;
+        out << YAML::BeginMap << YAML::Key << Type::to_string(Type::Value::floating) << YAML::Value << "PhV.phsA" << YAML::EndMap;
+        out << YAML::BeginMap << YAML::Key << Type::to_string(Type::Value::floating) << YAML::Value << "PhV.phsB" << YAML::EndMap;
+        out << YAML::BeginMap << YAML::Key << Type::to_string(Type::Value::floating) << YAML::Value << "PhV.phsC" << YAML::EndMap;
         out << YAML::EndSeq << YAML::EndMap;
-        out << YAML::BeginMap << YAML::Key << "array" << YAML::Value << YAML::BeginSeq;
-        out << YAML::BeginMap << YAML::Key << "integer" << YAML::Value << "W.phsA" << YAML::EndMap;
-        out << YAML::BeginMap << YAML::Key << "integer" << YAML::Value << "W.phsB" << YAML::EndMap;
-        out << YAML::BeginMap << YAML::Key << "integer" << YAML::Value << "W.phsC" << YAML::EndMap;
+        out << YAML::BeginMap << YAML::Key << Type::to_string(Type::Value::array) << YAML::Value << YAML::BeginSeq;
+        out << YAML::BeginMap << YAML::Key << Type::to_string(Type::Value::integer) << YAML::Value << "W.phsA" << YAML::EndMap;
+        out << YAML::BeginMap << YAML::Key << Type::to_string(Type::Value::integer) << YAML::Value << "W.phsB" << YAML::EndMap;
+        out << YAML::BeginMap << YAML::Key << Type::to_string(Type::Value::integer) << YAML::Value << "W.phsC" << YAML::EndMap;
         out << YAML::EndSeq << YAML::EndMap;
         out << YAML::EndSeq;
     }

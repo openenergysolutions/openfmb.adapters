@@ -211,6 +211,7 @@ public class Enumerations {
         private final static Enumeration type = new Enumeration(
                 Arrays.asList("Type"),
                 Arrays.asList(
+                        Enumeration.entry("ignored", "ignored"),
                         Enumeration.entry("structure", "structure"),
                         Enumeration.entry("array", "array"),
                         Enumeration.entry("boolean", "boolean"),

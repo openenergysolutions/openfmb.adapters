@@ -25,6 +25,8 @@ struct Type
 {
     enum class Value
     {
+        // ignored
+        ignored,
         // structure
         structure,
         // array
@@ -37,6 +39,7 @@ struct Type
         floating,
     };
 
+    static const char ignored[];
     static const char structure[];
     static const char array[];
     static const char boolean[];
@@ -45,7 +48,7 @@ struct Type
 
     static constexpr const char* label = "type";
 
-    static const std::array<Value, 5> values;
+    static const std::array<Value, 6> values;
 
     static std::string to_string(Value value);
     static Value from_string(const std::string& name);

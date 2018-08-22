@@ -1,7 +1,7 @@
 #ifndef OPENFMB_ADAPTER_SUB_SUBSCRIPTIONHANDLER_H
 #define OPENFMB_ADAPTER_SUB_SUBSCRIPTIONHANDLER_H
 
-#include "sub/BuildingFunction.h"
+#include "BuildingFunction.h"
 #include "adapter-api/ISubscriptionHandler.h"
 #include "adapter-api/Logger.h"
 #include "adapter-api/ProfileInfo.h"

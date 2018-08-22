@@ -21,14 +21,16 @@ namespace adapter {
 
 namespace goose {
 
+const char Type::ignored[] = "ignored";
 const char Type::structure[] = "structure";
 const char Type::array[] = "array";
 const char Type::boolean[] = "boolean";
 const char Type::integer[] = "integer";
 const char Type::floating[] = "floating";
 
-const std::array<Type::Value, 5> Type::values =
+const std::array<Type::Value, 6> Type::values =
 {
+    Type::Value::ignored,
     Type::Value::structure,
     Type::Value::array,
     Type::Value::boolean,
@@ -40,6 +42,7 @@ std::string Type::to_string(Type::Value value)
 {
     switch(value)
     {
+        case(Value::ignored): return ignored;
         case(Value::structure): return structure;
         case(Value::array): return array;
         case(Value::boolean): return boolean;
@@ -52,6 +55,7 @@ Type::Value Type::from_string(const std::string& name)
 {
     static const std::map<std::string, Value> map = 
     {
+        {ignored, Value::ignored},
         {structure, Value::structure},
         {array, Value::array},
         {boolean, Value::boolean},

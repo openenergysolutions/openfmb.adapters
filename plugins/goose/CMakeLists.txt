@@ -4,8 +4,9 @@ set(goose_public_headers
 )
 
 set(goose_private_headers
+    ./src/BuildingFunction.h
     ./src/ConfigStrings.h
-    ./src/GoosePath.h
+    ./src/GooseStructureConfigVisitor.h
 
     ./src/generated/Type.h
 
@@ -14,13 +15,13 @@ set(goose_private_headers
     ./src/pub/IPublishConfigBuilder.h
     ./src/pub/Mappings.h
     ./src/pub/NetworkAdapter.h
+    ./src/pub/PubGooseStructureConfigReader.h
     ./src/pub/PublishingConfigReadVisitor.h
     ./src/pub/PublishingConfigWriteVisitor.h
     ./src/pub/PublishingPlugin.h
     ./src/pub/PublishingProfileReader.h
 
-    ./src/sub/BuildingFunction.h
-    ./src/sub/GooseStructureConfigReader.h
+    ./src/sub/SubGooseStructureConfigReader.h
     ./src/sub/SubscribingConfigReadVisitor.h
     ./src/sub/SubscribingConfigWriteVisitor.h
     ./src/sub/SubscribingPlugin.h
@@ -29,12 +30,14 @@ set(goose_private_headers
 )
 
 set(goose_src
-    ./src/GoosePath.cpp
+    ./src/GooseStructureConfigVisitor.cpp
 
     ./src/generated/Type.cpp
 
     ./src/pub/ControlBlockListener.cpp
     ./src/pub/GooseMessageVisitor.cpp
+    ./src/pub/Mappings.cpp
+    ./src/pub/PubGooseStructureConfigReader.cpp
     ./src/pub/PublishingConfigWriteVisitor.cpp
     ./src/pub/PublishingPlugin.cpp
     ./src/pub/PublishingPluginFactory.cpp
