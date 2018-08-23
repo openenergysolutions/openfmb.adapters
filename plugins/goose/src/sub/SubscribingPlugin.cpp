@@ -50,8 +50,8 @@ namespace goose {
         auto profile = yaml::require_string(node, ::adapter::keys::profile);
 
         auto control_block_publisher = network_publisher->make_control_block_publisher(
-                goose_cpp::MacAddress{0x08, 0x42, 0x70, 0x00, 0x00, 0x00}, // TODO: use configured address
-                goose_cpp::MacAddress{0x01, 0x0c, 0xcd, 0x02, 0x00, 0x01}, // TODO: use configured address
+                goose_cpp::MacAddress::from_string(src_mac),
+                goose_cpp::MacAddress::from_string(dest_mac),
                 app_id,
                 go_cb_ref,
                 dat_set,
