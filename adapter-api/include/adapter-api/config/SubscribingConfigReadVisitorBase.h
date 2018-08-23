@@ -4,6 +4,7 @@
 
 #include "ConfigReadVisitorBase.h"
 
+#include "../ConfigStrings.h"
 #include "../util/Exception.h"
 
 namespace adapter {

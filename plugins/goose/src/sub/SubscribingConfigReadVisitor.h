@@ -75,7 +75,7 @@ public:
 
     const std::string& get_mrid() const
     {
-        return get_primary_mrid();
+        return this->get_primary_mrid();
     }
 
 protected:
