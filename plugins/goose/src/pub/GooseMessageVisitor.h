@@ -1,8 +1,8 @@
 #ifndef OPENFMB_ADAPTER_GOOSE_PUB_GOOSEMESSAGEVISITOR_H
 #define OPENFMB_ADAPTER_GOOSE_PUB_GOOSEMESSAGEVISITOR_H
 
-#include "pub/Mappings.h"
 #include "goose-cpp/messages/IDatasetVisitor.h"
+#include "pub/Mappings.h"
 #include <functional>
 
 namespace adapter {
@@ -32,8 +32,8 @@ namespace goose {
         void handle_utctime(std::chrono::system_clock::time_point item) final;
 
     private:
-        template<typename T>
-        void handle(const T& item, std::function<bool(size_t,meas_fn_t<T>&)> getter);
+        template <typename T>
+        void handle(const T& item, std::function<bool(size_t, meas_fn_t<T>&)> getter);
         void handle_not_supported();
 
         const Mappings& m_mappings;

@@ -1,11 +1,11 @@
 #include "sub/SubscribingPlugin.h"
 
 #include "ConfigStrings.h"
-#include "sub/SubscribingProfileReader.h"
 #include "adapter-api/ConfigStrings.h"
 #include "adapter-api/util/YAMLTemplate.h"
 #include "adapter-api/util/YAMLUtil.h"
 #include "goose-cpp/NetworkInterface.h"
+#include "sub/SubscribingProfileReader.h"
 #include <string>
 
 namespace adapter {
@@ -15,11 +15,11 @@ namespace goose {
         : m_logger{ logger }
     {
         yaml::load_template_configs(
-                yaml::require(node, keys::goCb),
-                m_logger,
-                [&](const YAML::Node& config) {
-                    this->add_control_block(config, std::move(bus), logger);
-                });
+            yaml::require(node, keys::goCb),
+            m_logger,
+            [&](const YAML::Node& config) {
+                this->add_control_block(config, std::move(bus), logger);
+            });
     }
 
     SubscribingPlugin::~SubscribingPlugin()
@@ -50,23 +50,21 @@ namespace goose {
         auto profile = yaml::require_string(node, ::adapter::keys::profile);
 
         auto control_block_publisher = network_publisher->make_control_block_publisher(
-                goose_cpp::MacAddress::from_string(src_mac),
-                goose_cpp::MacAddress::from_string(dest_mac),
-                app_id,
-                go_cb_ref,
-                dat_set,
-                go_id,
-                conf_rev,
-                ttl
-        );
+            goose_cpp::MacAddress::from_string(src_mac),
+            goose_cpp::MacAddress::from_string(dest_mac),
+            app_id,
+            go_cb_ref,
+            dat_set,
+            go_id,
+            conf_rev,
+            ttl);
 
         ProfileRegistry::handle_by_name<SubscribingProfileReader>(
-                profile,
-                node,
-                m_logger,
-                bus,
-                std::shared_ptr<goose_cpp::IControlBlockPublisher>{std::move(control_block_publisher)}
-        );
+            profile,
+            node,
+            m_logger,
+            bus,
+            std::shared_ptr<goose_cpp::IControlBlockPublisher>{ std::move(control_block_publisher) });
     }
 
     std::shared_ptr<goose_cpp::INetworkPublisher> SubscribingPlugin::get_network_publisher(const std::string& network_adapter_name)
@@ -82,7 +80,7 @@ namespace goose {
         for (auto& interface : interfaces) {
             if (interface.get_name() == network_adapter_name) {
                 auto network_publisher = std::shared_ptr<goose_cpp::INetworkPublisher>(std::move(goose_cpp::INetworkPublisher::create(interface)));
-                m_network_publishers.insert({network_adapter_name, network_publisher});
+                m_network_publishers.insert({ network_adapter_name, network_publisher });
                 return network_publisher;
             }
         }

@@ -7,8 +7,8 @@
 #include "adapter-api/ProfileInfo.h"
 #include "goose-cpp/control_block/IControlBlockPublisher.h"
 #include "goose-cpp/messages/Dataset.h"
-#include <string>
 #include <memory>
+#include <string>
 
 namespace adapter {
 namespace goose {
@@ -17,14 +17,14 @@ namespace goose {
     class SubscriptionHandler final : public ISubscriptionHandler<T> {
     public:
         SubscriptionHandler(
-                Logger logger,
-                std::string uuid,
-                std::shared_ptr<goose_cpp::IControlBlockPublisher> cb_publisher,
-                building_fn_t<T> builder)
-                : m_logger{logger}
-                , m_uuid{std::move(uuid)}
-                , m_cb_publisher{std::move(cb_publisher)}
-                , m_builder{std::move(builder)}
+            Logger logger,
+            std::string uuid,
+            std::shared_ptr<goose_cpp::IControlBlockPublisher> cb_publisher,
+            building_fn_t<T> builder)
+            : m_logger{ logger }
+            , m_uuid{ std::move(uuid) }
+            , m_cb_publisher{ std::move(cb_publisher) }
+            , m_builder{ std::move(builder) }
         {
         }
 
@@ -36,14 +36,11 @@ namespace goose {
     protected:
         void process(const T& message) final
         {
-            try
-            {
+            try {
                 auto dataset = std::make_unique<goose_cpp::Dataset>();
                 m_builder(message, *dataset);
                 m_cb_publisher->publish(std::move(dataset));
-            }
-            catch(Exception& e)
-            {
+            } catch (Exception& e) {
                 m_logger.warn("Cannot publish GOOSE message: {}", e.what());
             }
         }

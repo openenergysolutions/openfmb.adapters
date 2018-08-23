@@ -9,7 +9,6 @@ namespace goose {
 
     class IPublishConfigBuilder {
     public:
-
         virtual ~IPublishConfigBuilder() = default;
 
         virtual void add_start_action(const action_t& action) = 0;

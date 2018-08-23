@@ -1,12 +1,12 @@
 #include "pub/PublishingPlugin.h"
 
 #include "ConfigStrings.h"
-#include "pub/ControlBlockListener.h"
-#include "pub/PublishingProfileReader.h"
 #include "adapter-api/ConfigStrings.h"
 #include "adapter-api/util/YAMLTemplate.h"
 #include "adapter-api/util/YAMLUtil.h"
 #include "goose-cpp/NetworkInterface.h"
+#include "pub/ControlBlockListener.h"
+#include "pub/PublishingProfileReader.h"
 #include <string>
 
 namespace adapter {

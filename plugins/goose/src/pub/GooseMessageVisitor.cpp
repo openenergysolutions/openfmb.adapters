@@ -8,8 +8,8 @@ namespace goose {
     using namespace std::placeholders;
 
     GooseMessageVisitor::GooseMessageVisitor(const Mappings& mappings)
-        : m_mappings{ mappings },
-          m_current_idx{ 0 }
+        : m_mappings{ mappings }
+        , m_current_idx{ 0 }
     {
     }
 
@@ -93,17 +93,14 @@ namespace goose {
         handle_not_supported();
     }
 
-    template<typename T>
-    void GooseMessageVisitor::handle(const T& item, std::function<bool(size_t,meas_fn_t<T>&)> getter)
+    template <typename T>
+    void GooseMessageVisitor::handle(const T& item, std::function<bool(size_t, meas_fn_t<T>&)> getter)
     {
         meas_fn_t<T> handler;
-        if(getter(m_current_idx, handler))
-        {
+        if (getter(m_current_idx, handler)) {
             handler(item);
-        }
-        else if(!m_mappings.is_ignored(m_current_idx))
-        {
-            throw Exception{"GOOSE message format does not correspond to the configuration."};
+        } else if (!m_mappings.is_ignored(m_current_idx)) {
+            throw Exception{ "GOOSE message format does not correspond to the configuration." };
         }
 
         ++m_current_idx;
@@ -111,9 +108,8 @@ namespace goose {
 
     void GooseMessageVisitor::handle_not_supported()
     {
-        if(!m_mappings.is_ignored(m_current_idx))
-        {
-            throw Exception{"GOOSE message format does not correspond to the configuration."};
+        if (!m_mappings.is_ignored(m_current_idx)) {
+            throw Exception{ "GOOSE message format does not correspond to the configuration." };
         }
 
         ++m_current_idx;

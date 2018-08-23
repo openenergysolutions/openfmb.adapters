@@ -2,9 +2,9 @@
 #define OPENFMB_ADAPTER_GOOSE_PUB_PUBLISHINGCONFIGREADVISITOR_H
 
 #include "ConfigStrings.h"
-#include "pub/IPublishConfigBuilder.h"
 #include "adapter-api/IPublisher.h"
 #include "adapter-api/config/PublishingConfigReadVisitorBase.h"
+#include "pub/IPublishConfigBuilder.h"
 #include <string>
 #include <unordered_set>
 
@@ -85,16 +85,14 @@ namespace goose {
         {
             auto name = yaml::require_string(node, keys::name);
 
-            if(name.empty())
-            {
+            if (name.empty()) {
                 const auto mark = node.Mark();
-                throw Exception{"Name cannot be empty at line ", mark.line + 1};
+                throw Exception{ "Name cannot be empty at line ", mark.line + 1 };
             }
 
             auto result = m_names.insert(name);
-            if(!result.second)
-            {
-                throw Exception{"Duplicate mapping name \"", name, "\"."};
+            if (!result.second) {
+                throw Exception{ "Duplicate mapping name \"", name, "\"." };
             };
 
             return name;

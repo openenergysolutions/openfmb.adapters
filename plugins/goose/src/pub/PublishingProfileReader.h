@@ -1,11 +1,11 @@
 #ifndef OPENFMB_ADAPTER_GOOSE_PUB_PUBLISHINGPROFILEREADER_H
 #define OPENFMB_ADAPTER_GOOSE_PUB_PUBLISHINGPROFILEREADER_H
 
+#include "adapter-api/IMessageBus.h"
+#include "adapter-api/config/generated/TypedModelVisitors.h"
 #include "pub/IPublishConfigBuilder.h"
 #include "pub/PubGooseStructureConfigReader.h"
 #include "pub/PublishingConfigReadVisitor.h"
-#include "adapter-api/IMessageBus.h"
-#include "adapter-api/config/generated/TypedModelVisitors.h"
 #include "yaml-cpp/yaml.h"
 
 namespace adapter {

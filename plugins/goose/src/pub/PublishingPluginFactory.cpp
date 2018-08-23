@@ -1,12 +1,12 @@
 #include "goose/PublishingPluginFactory.h"
 
 #include "ConfigStrings.h"
-#include "generated/Type.h"
-#include "pub/PublishingConfigWriteVisitor.h"
-#include "pub/PublishingPlugin.h"
 #include "adapter-api/ConfigStrings.h"
 #include "adapter-api/config/generated/ModelVisitors.h"
 #include "adapter-api/util/YAMLTemplate.h"
+#include "generated/Type.h"
+#include "pub/PublishingConfigWriteVisitor.h"
+#include "pub/PublishingPlugin.h"
 
 namespace adapter {
 namespace goose {

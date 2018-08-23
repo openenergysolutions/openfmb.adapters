@@ -1,10 +1,10 @@
 #ifndef OPENFMB_ADAPTER_GOOSE_PUB_PUBLISHINGPLUGIN_H
 #define OPENFMB_ADAPTER_GOOSE_PUB_PUBLISHINGPLUGIN_H
 
-#include "pub/NetworkAdapter.h"
 #include "adapter-api/IMessageBus.h"
 #include "adapter-api/IPlugin.h"
 #include "adapter-api/Logger.h"
+#include "pub/NetworkAdapter.h"
 #include "yaml-cpp/yaml.h"
 #include <unordered_map>
 

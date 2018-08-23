@@ -1,12 +1,12 @@
 #include "goose/SubscribingPluginFactory.h"
 
 #include "ConfigStrings.h"
-#include "generated/Type.h"
-#include "sub/SubscribingConfigWriteVisitor.h"
-#include "sub/SubscribingPlugin.h"
 #include "adapter-api/ConfigStrings.h"
 #include "adapter-api/config/generated/ModelVisitors.h"
 #include "adapter-api/util/YAMLTemplate.h"
+#include "generated/Type.h"
+#include "sub/SubscribingConfigWriteVisitor.h"
+#include "sub/SubscribingPlugin.h"
 
 namespace adapter {
 namespace goose {

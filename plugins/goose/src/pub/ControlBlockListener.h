@@ -1,9 +1,9 @@
 #ifndef OPENFMB_ADAPTER_GOOSE_PUB_CONTROLBLOCKLISTENER_H
 #define OPENFMB_ADAPTER_GOOSE_PUB_CONTROLBLOCKLISTENER_H
 
+#include "BuildingFunction.h"
 #include "adapter-api/Logger.h"
 #include "goose-cpp/control_block/IControlBlockListener.h"
-#include "BuildingFunction.h"
 #include <string>
 #include <vector>
 

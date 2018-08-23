@@ -7,13 +7,13 @@
 namespace adapter {
 namespace goose {
 
-using action_t = std::function<void()>;
+    using action_t = std::function<void()>;
 
-template <typename T>
-using building_fn_t = std::function<void(const T&, goose_cpp::Dataset&)>;
+    template <typename T>
+    using building_fn_t = std::function<void(const T&, goose_cpp::Dataset&)>;
 
-template <typename T>
-using meas_fn_t = std::function<void(const T&)>;
+    template <typename T>
+    using meas_fn_t = std::function<void(const T&)>;
 
 } // namespace goose
 } // namespace adapter
