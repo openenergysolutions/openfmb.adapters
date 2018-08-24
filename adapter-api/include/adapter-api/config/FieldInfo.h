@@ -14,6 +14,8 @@
 #include "generated/StringFieldType.h"
 #include "generated/TimestampFieldType.h"
 
+#include "RepetitionType.h"
+
 namespace adapter {
 
 namespace fields {
@@ -31,6 +33,8 @@ namespace fields {
     StringFieldType::Value get_string_type(const std::string& field_name, IDescriptorPath& path);
 
     TimestampFieldType::Value get_timestamp_type(const std::string& field_name, IDescriptorPath& path);
+
+    RepetitionType get_repetition_type(google::protobuf::Descriptor const* descriptor);
 }
 }
 
