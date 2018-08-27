@@ -17,7 +17,7 @@ public class Profiles {
             BreakerReadingProfile.getDescriptor()
     );
 
-    public static Stream<com.google.protobuf.Descriptors.EnumDescriptor> getEnums()
+    static Stream<com.google.protobuf.Descriptors.EnumDescriptor> getEnums()
     {
         return enums.stream();
     }

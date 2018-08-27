@@ -1,5 +1,6 @@
 package com.oes.openfmb;
 
+import com.oes.openfmb.generation.dds.Conversions;
 import com.oes.openfmb.generation.document.GeneratedFileSet;
 import com.oes.openfmb.generation.enumeration.Enumerations;
 import com.oes.openfmb.generation.proto.Visitors;
@@ -12,10 +13,16 @@ public class Main {
 
     public static void main(String[] args) {
 
-        final List<GeneratedFileSet> sets = Stream.concat(
+
+        final List<GeneratedFileSet> sets = Stream.of(
+                // vistors methods used included with API library
                 Stream.of(Visitors.set),
-                Enumerations.sets.stream()
-        ).collect(Collectors.toList());
+                // enumerations used by multiple modules
+                Enumerations.sets.stream(),
+                // Twinoaks DDS <=> proto conversion routines
+                Stream.of(Conversions.set)
+        ).reduce(Stream::concat).orElseGet(Stream::empty).collect(Collectors.toList());
+
 
         sets.forEach(GeneratedFileSet::deleteFolders);
         sets.forEach(GeneratedFileSet::generate);
