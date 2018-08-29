@@ -100,6 +100,66 @@ namespace goose {
             m_mappings.add_float_field(it->second);
         }
 
+        void on_visible_string(const YAML::Node& node) final
+        {
+            auto name = get_name(node);
+            auto it = m_config_reader.m_string_handlers.find(name);
+            if (it == m_config_reader.m_string_handlers.end()) {
+                const auto mark = node.Mark();
+                throw Exception{ "Mapping \"", name, "\" is not a string point value for GOOSE element defined at line ", mark.line + 1 };
+            }
+
+            m_mappings.add_visible_string_field(it->second);
+        }
+
+        void on_mms_string(const YAML::Node& node) final
+        {
+            auto name = get_name(node);
+            auto it = m_config_reader.m_string_handlers.find(name);
+            if (it == m_config_reader.m_string_handlers.end()) {
+                const auto mark = node.Mark();
+                throw Exception{ "Mapping \"", name, "\" is not a string point value for GOOSE element defined at line ", mark.line + 1 };
+            }
+
+            m_mappings.add_mms_string_field(it->second);
+        }
+
+        void on_generalized_time(const YAML::Node& node) final
+        {
+            auto name = get_name(node);
+            auto it = m_config_reader.m_timestamp_handlers.find(name);
+            if (it == m_config_reader.m_timestamp_handlers.end()) {
+                const auto mark = node.Mark();
+                throw Exception{ "Mapping \"", name, "\" is not a string point value for GOOSE element defined at line ", mark.line + 1 };
+            }
+
+            m_mappings.add_generalizedtime_field(it->second);
+        }
+
+        void on_binary_time(const YAML::Node& node) final
+        {
+            auto name = get_name(node);
+            auto it = m_config_reader.m_timestamp_handlers.find(name);
+            if (it == m_config_reader.m_timestamp_handlers.end()) {
+                const auto mark = node.Mark();
+                throw Exception{ "Mapping \"", name, "\" is not a string point value for GOOSE element defined at line ", mark.line + 1 };
+            }
+
+            m_mappings.add_binarytime_field(it->second);
+        }
+
+        void on_utc_time(const YAML::Node& node) final
+        {
+            auto name = get_name(node);
+            auto it = m_config_reader.m_timestamp_handlers.find(name);
+            if (it == m_config_reader.m_timestamp_handlers.end()) {
+                const auto mark = node.Mark();
+                throw Exception{ "Mapping \"", name, "\" is not a string point value for GOOSE element defined at line ", mark.line + 1 };
+            }
+
+            m_mappings.add_utctime_field(it->second);
+        }
+
     private:
         std::string get_name(const YAML::Node& node) const
         {
@@ -171,6 +231,18 @@ namespace goose {
     {
         m_all_handlers.insert(name);
         m_float_handlers.insert({ name, handler });
+    }
+
+    void PubGooseStructureConfigReader::add_string_handler(const std::string& name, const meas_fn_t<std::string>& handler)
+    {
+        m_all_handlers.insert(name);
+        m_string_handlers.insert({ name, handler });
+    }
+
+    void PubGooseStructureConfigReader::add_timestamp_handler(const std::string& name, const meas_fn_t<std::chrono::system_clock::time_point>& handler)
+    {
+        m_all_handlers.insert(name);
+        m_timestamp_handlers.insert({ name, handler });
     }
 
 } // namespace goose

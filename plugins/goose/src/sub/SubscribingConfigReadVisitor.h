@@ -70,6 +70,28 @@ namespace goose {
             return true;
         }
 
+        bool get_string(const std::string& name, accessor_t<T, std::string>& accessor) const
+        {
+            auto search = m_string_accessors.find(name);
+            if (search == m_string_accessors.end()) {
+                return false;
+            };
+
+            accessor = search->second;
+            return true;
+        }
+
+        bool get_timestamp(const std::string& name, message_accessor_t<T, commonmodule::Timestamp>& accessor) const
+        {
+            auto search = m_timestamp_accessors.find(name);
+            if (search == m_timestamp_accessors.end()) {
+                return false;
+            };
+
+            accessor = search->second;
+            return true;
+        }
+
         const std::string& get_mrid() const
         {
             return this->get_primary_mrid();
@@ -78,26 +100,47 @@ namespace goose {
     protected:
         void handle_mapped_field(const YAML::Node& node, const accessor_t<T, bool>& accessor) final
         {
-            auto name = get_name(node);
-            m_bool_accessors.insert({ name, accessor });
+            std::string name;
+            if(get_name(node, name))
+            {
+                m_bool_accessors.insert({ name, accessor });
+            }
         }
 
         void handle_mapped_field(const YAML::Node& node, const accessor_t<T, int32_t>& accessor) final
         {
-            auto name = get_name(node);
-            m_int32_accessors.insert({ name, accessor });
+            std::string name;
+            if(get_name(node, name))
+            {
+                m_int32_accessors.insert({ name, accessor });
+            }
         }
 
         void handle_mapped_field(const YAML::Node& node, const accessor_t<T, int64_t>& accessor) final
         {
-            auto name = get_name(node);
-            m_int64_accessors.insert({ name, accessor });
+            std::string name;
+            if(get_name(node, name))
+            {
+                m_int64_accessors.insert({ name, accessor });
+            }
         }
 
         void handle_mapped_field(const YAML::Node& node, const accessor_t<T, float>& accessor) final
         {
-            auto name = get_name(node);
-            m_float_accessors.insert({ name, accessor });
+            std::string name;
+            if(get_name(node, name))
+            {
+                m_float_accessors.insert({ name, accessor });
+            }
+        }
+
+        void handle_mapped_field(const YAML::Node& node, const accessor_t<T, std::string>& accessor) final
+        {
+            std::string name;
+            if(get_name(node, name))
+            {
+                m_string_accessors.insert({ name, accessor });
+            }
         }
 
         void handle_mapped_field(const YAML::Node& node, const accessor_t<T, int>& accessor, google::protobuf::EnumDescriptor const* descriptor) final
@@ -105,22 +148,34 @@ namespace goose {
             throw Exception{ "Mapped enums are not supported by goose-sub." };
         }
 
-    private:
-        std::string get_name(const YAML::Node& node)
+        void handle_mapped_field(const YAML::Node& node, const message_accessor_t<T, commonmodule::Timestamp>& accessor) final
         {
-            auto name = yaml::require_string(node, keys::name);
+            std::string name;
+            if(get_name(node, name))
+            {
+                m_timestamp_accessors.insert({ name, accessor });
+            }
+        }
 
-            if (name.empty()) {
-                const auto mark = node.Mark();
-                throw Exception{ "Name cannot be empty at line ", mark.line + 1 };
+    private:
+        bool get_name(const YAML::Node& node, std::string& value)
+        {
+            const auto name_node = node[keys::name];
+            if(name_node)
+            {
+                value = name_node.as<std::string>();
+                if(!value.empty())
+                {
+                    auto result = m_names.insert(value);
+                    if (!result.second) {
+                        throw Exception{ "Duplicate mapping name \"", value, "\"." };
+                    };
+
+                    return true;
+                }
             }
 
-            auto result = m_names.insert(name);
-            if (!result.second) {
-                throw Exception{ "Duplicate mapping name \"", name, "\"." };
-            };
-
-            return name;
+            return false;
         }
 
         Logger m_logger;
@@ -130,6 +185,8 @@ namespace goose {
         std::unordered_map<std::string, const accessor_t<T, int32_t>> m_int32_accessors;
         std::unordered_map<std::string, const accessor_t<T, int64_t>> m_int64_accessors;
         std::unordered_map<std::string, const accessor_t<T, float>> m_float_accessors;
+        std::unordered_map<std::string, const accessor_t<T, std::string>> m_string_accessors;
+        std::unordered_map<std::string, const message_accessor_t<T, commonmodule::Timestamp>> m_timestamp_accessors;
     };
 
 } // namespace goose

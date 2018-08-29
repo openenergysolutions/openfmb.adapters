@@ -1,4 +1,4 @@
-//
+// 
 //   _   _         ______    _ _ _   _             _ _ _
 //  | \ | |       |  ____|  | (_) | (_)           | | | |
 //  |  \| | ___   | |__   __| |_| |_ _ _ __   __ _| | | |
@@ -7,53 +7,71 @@
 //  |_| \_|\___/  |______\__,_|_|\__|_|_| |_|\__, (_|_|_)
 //                                            __/ |
 //                                           |___/
-//
+// 
 //  This file is auto-generated. Do not edit manually
-//
+// 
 
 #ifndef OPENFMB_TYPE_H
 #define OPENFMB_TYPE_H
 
-#include <array>
 #include <string>
+#include <array>
 
 namespace adapter {
 
 namespace goose {
 
-    struct Type {
-        enum class Value {
-            // ignored
-            ignored,
-            // structure
-            structure,
-            // array
-            array,
-            // boolean
-            boolean,
-            // integer
-            integer,
-            // floating
-            floating,
-        };
-
-        static const char ignored[];
-        static const char structure[];
-        static const char array[];
-        static const char boolean[];
-        static const char integer[];
-        static const char floating[];
-
-        static constexpr const char* label = "type";
-
-        static const std::array<Value, 6> values;
-
-        static std::string to_string(Value value);
-        static Value from_string(const std::string& name);
+struct Type
+{
+    enum class Value
+    {
+        // ignored
+        ignored,
+        // structure
+        structure,
+        // array
+        array,
+        // boolean
+        boolean,
+        // integer
+        integer,
+        // floating
+        floating,
+        // visible_string
+        visible_string,
+        // mms_string
+        mms_string,
+        // generalized_time
+        generalized_time,
+        // binary_time
+        binary_time,
+        // utc_time
+        utc_time,
     };
+
+    static const char ignored[];
+    static const char structure[];
+    static const char array[];
+    static const char boolean[];
+    static const char integer[];
+    static const char floating[];
+    static const char visible_string[];
+    static const char mms_string[];
+    static const char generalized_time[];
+    static const char binary_time[];
+    static const char utc_time[];
+
+    static constexpr const char* label = "type";
+
+    static const std::array<Value, 11> values;
+
+    static std::string to_string(Value value);
+    static Value from_string(const std::string& name);
+};
 
 } // end namespace goose
 
 } // end namespace adapter
 
 #endif
+

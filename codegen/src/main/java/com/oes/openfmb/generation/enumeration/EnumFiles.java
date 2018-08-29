@@ -63,7 +63,7 @@ public class EnumFiles implements CppFileCollection {
         return name.createImplementationList(
                 () -> join(
                         FileHeader.lines,
-                        (this.includePath == null) ? include(this.name.getHeaderName()) : include(this.includePath.resolve(this.name.getHeaderName()).toString()),
+                        (this.includePath == null) ? include(this.name.getHeaderName()) : include(this.includePath.resolve(this.name.getHeaderName()).toString().replace('\\', '/')),
                         space,
                         include("adapter-api/util/Exception.h"),
                         space,

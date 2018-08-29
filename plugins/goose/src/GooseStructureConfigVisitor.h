@@ -18,6 +18,11 @@ namespace goose {
         virtual void on_bool(const YAML::Node& node) = 0;
         virtual void on_integer(const YAML::Node& node) = 0;
         virtual void on_floating(const YAML::Node& node) = 0;
+        virtual void on_visible_string(const YAML::Node& node) = 0;
+        virtual void on_mms_string(const YAML::Node& node) = 0;
+        virtual void on_generalized_time(const YAML::Node& node) = 0;
+        virtual void on_binary_time(const YAML::Node& node) = 0;
+        virtual void on_utc_time(const YAML::Node& node) = 0;
     };
 
 } // namespace goose

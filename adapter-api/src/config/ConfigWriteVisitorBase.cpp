@@ -128,6 +128,10 @@ void ConfigWriteVisitorBase::handle_string(const std::string& field_name)
         break;
     }
 
+    if (type != StringFieldType::Value::ignored) {
+        this->write_mapped_string_keys(out);
+    }
+
     out << YAML::EndMap;
 }
 

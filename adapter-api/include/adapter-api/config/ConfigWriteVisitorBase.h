@@ -34,6 +34,8 @@ protected:
 
     virtual void write_mapped_float_keys(YAML::Emitter& out) = 0;
 
+    virtual void write_mapped_string_keys(YAML::Emitter& out) {} // TODO: decide purity
+
     virtual void write_mapped_enum_keys(YAML::Emitter& out, google::protobuf::EnumDescriptor const* descriptor) = 0;
 
 public:

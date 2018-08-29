@@ -2,6 +2,7 @@
 #define OPENFMB_ADAPTER_GOOSE_PUB_IPUBLISHCONFIGBUILDER_H
 
 #include "BuildingFunction.h"
+#include <chrono>
 #include <string>
 
 namespace adapter {
@@ -17,6 +18,8 @@ namespace goose {
         virtual void add_int32_handler(const std::string& name, const meas_fn_t<int32_t>& handler) = 0;
         virtual void add_int64_handler(const std::string& name, const meas_fn_t<int64_t>& handler) = 0;
         virtual void add_float_handler(const std::string& name, const meas_fn_t<float>& handler) = 0;
+        virtual void add_string_handler(const std::string& name, const meas_fn_t<std::string>& handler) = 0;
+        virtual void add_timestamp_handler(const std::string& name, const meas_fn_t<std::chrono::system_clock::time_point>& handler) = 0;
     };
 
 } // namespace goose

@@ -45,6 +45,7 @@ public class Enumerations {
                         Enumeration.entry("constant_uuid", "the value is an optional constant UUID"),
                         Enumeration.entry("primary_uuid", "the value is a required primary UUID (conducting equipment)"),
                         Enumeration.entry("constant", "the value is an optional constant string"),
+                        Enumeration.entry("mapped", "the value is mapped dynamically from the underlying protocol"),
                         Enumeration.entry("ignored", "the field is ignored in this configuration")
                 )
         );
@@ -55,6 +56,7 @@ public class Enumerations {
                 getFieldName("Timestamp"),
                 Arrays.asList(
                         Enumeration.entry("message", "the main timestamp for the message"),
+                        Enumeration.entry("mapped", "the value is mapped dynamically from the underlying protocol"),
                         Enumeration.entry("ignored", "the timestamp is ignored in this configuration")
                 )
         );
@@ -216,7 +218,12 @@ public class Enumerations {
                         Enumeration.entry("array", "array"),
                         Enumeration.entry("boolean", "boolean"),
                         Enumeration.entry("integer", "integer"),
-                        Enumeration.entry("floating", "floating")
+                        Enumeration.entry("floating", "floating"),
+                        Enumeration.entry("visible_string", "visible_string"),
+                        Enumeration.entry("mms_string", "mms_string"),
+                        Enumeration.entry("generalized_time", "generalized_time"),
+                        Enumeration.entry("binary_time", "binary_time"),
+                        Enumeration.entry("utc_time", "utc_time")
                 )
         );
 

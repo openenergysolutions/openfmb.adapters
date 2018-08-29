@@ -45,6 +45,21 @@ namespace goose {
                 case Type::Value::floating:
                     on_floating(value);
                     break;
+                case Type::Value::visible_string:
+                    on_visible_string(value);
+                    break;
+                case Type::Value::mms_string:
+                    on_mms_string(value);
+                    break;
+                case Type::Value::generalized_time:
+                    on_generalized_time(value);
+                    break;
+                case Type::Value::binary_time:
+                    on_binary_time(value);
+                    break;
+                case Type::Value::utc_time:
+                    on_utc_time(value);
+                    break;
                 default:
                     throw Exception{ "Unsupported GOOSE type at line ", mark.line + 1 };
                 }

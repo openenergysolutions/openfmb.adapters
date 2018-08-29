@@ -50,7 +50,11 @@ protected:
 
     virtual void handle_mapped_field(const YAML::Node& node, const accessor_t<T, float>& accessor) = 0;
 
+    virtual void handle_mapped_field(const YAML::Node& node, const accessor_t<T, std::string>& accessor) {} // TODO: decide purity
+
     virtual void handle_mapped_field(const YAML::Node& node, const accessor_t<T, int>& accessor, google::protobuf::EnumDescriptor const* descriptor) = 0;
+
+    virtual void handle_mapped_field(const YAML::Node& node, const message_accessor_t<T, commonmodule::Timestamp>& accessor) {} // TODO: decide purity
 };
 
 template <class T>
@@ -113,13 +117,21 @@ void SubscribingConfigReadVisitorBase<T>::handle(const std::string& field_name, 
     const auto node = this->get_config_node(field_name);
     const auto field_type = yaml::require_enum<StringFieldType>(node);
 
-    if (field_type == StringFieldType::Value::primary_uuid) {
+    switch(field_type)
+    {
+        case StringFieldType::Value::primary_uuid:
+        {
+            if (!this->mRID.empty()) {
+                throw Exception("the primary mRID may only be specified once");
+            }
 
-        if (!this->mRID.empty()) {
-            throw Exception("the primary mRID may only be specified once");
+            this->mRID = yaml::require_uuid(node, ::adapter::keys::value);
+            break;
         }
-
-        this->mRID = yaml::require_uuid(node, ::adapter::keys::value);
+        case StringFieldType::Value::mapped:
+        {
+            this->handle_mapped_field(node, accessor);
+        }
     }
 }
 
@@ -143,7 +155,12 @@ void SubscribingConfigReadVisitorBase<T>::handle(const std::string& field_name, 
 template <class T>
 void SubscribingConfigReadVisitorBase<T>::handle(const std::string& field_name, const message_accessor_t<T, commonmodule::Timestamp>& accessor)
 {
-    // ignore all
+    const auto node = this->get_config_node(field_name);
+    const auto field_type = yaml::require_enum<TimestampFieldType>(node);
+
+    if (field_type == TimestampFieldType::Value::mapped) {
+        this->handle_mapped_field(node, accessor);
+    }
 }
 
 template <class T>

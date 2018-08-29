@@ -14,5 +14,13 @@ namespace time {
         timestamp.set_fraction(
             static_cast<uint32_t>((millisec / 1000.0) * std::numeric_limits<uint32_t>::max()));
     }
+
+    std::chrono::system_clock::time_point get(const commonmodule::Timestamp& timestamp)
+    {
+        std::chrono::seconds seconds{timestamp.seconds()};
+        std::chrono::milliseconds millis{static_cast<uint64_t>(timestamp.fraction()/std::numeric_limits<uint32_t>::max() * 1000.0)};
+
+        return std::chrono::time_point<std::chrono::system_clock>() + seconds;
+    }
 }
 }

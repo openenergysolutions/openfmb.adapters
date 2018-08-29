@@ -4,6 +4,7 @@
 #include "ConfigStrings.h"
 #include "adapter-api/IPublisher.h"
 #include "adapter-api/config/PublishingConfigReadVisitorBase.h"
+#include "adapter-api/util/Time.h"
 #include "pub/IPublishConfigBuilder.h"
 #include <string>
 #include <unordered_set>
@@ -35,35 +36,73 @@ namespace goose {
     protected:
         void handle_mapped_bool(const YAML::Node& node, const accessor_t<T, bool>& accessor) final
         {
-            m_builder.add_bool_handler(get_name(node), [accessor, profile = m_profile](const bool& value) {
-                accessor->set(*profile, value);
-            });
+            std::string name;
+            if(get_name(node, name))
+            {
+                m_builder.add_bool_handler(name, [accessor, profile = m_profile](const bool& value) {
+                    accessor->set(*profile, value);
+                });
+            }
         }
 
         void handle_mapped_int32(const YAML::Node& node, const accessor_t<T, int32_t>& accessor) final
         {
-            m_builder.add_int32_handler(get_name(node), [accessor, profile = m_profile](const int32_t& value) {
-                accessor->set(*profile, value);
-            });
+            std::string name;
+            if(get_name(node, name))
+            {
+                m_builder.add_int32_handler(name, [accessor, profile = m_profile](const int32_t& value) {
+                    accessor->set(*profile, value);
+                });
+            }
         }
 
         void handle_mapped_int64(const YAML::Node& node, const accessor_t<T, int64_t>& accessor) final
         {
-            m_builder.add_int64_handler(get_name(node), [accessor, profile = m_profile](const int64_t& value) {
-                accessor->set(*profile, value);
-            });
+            std::string name;
+            if(get_name(node, name))
+            {
+                m_builder.add_int64_handler(name, [accessor, profile = m_profile](const int64_t& value) {
+                    accessor->set(*profile, value);
+                });
+            }
         }
 
         void handle_mapped_float(const YAML::Node& node, const accessor_t<T, float>& accessor) final
         {
-            m_builder.add_float_handler(get_name(node), [accessor, profile = m_profile](const float& value) {
-                accessor->set(*profile, value);
-            });
+            std::string name;
+            if(get_name(node, name))
+            {
+                m_builder.add_float_handler(name, [accessor, profile = m_profile](const float& value) {
+                    accessor->set(*profile, value);
+                });
+            }
+        }
+
+        void handle_mapped_string(const YAML::Node& node, const accessor_t<T, std::string>& accessor) final
+        {
+            std::string name;
+            if(get_name(node, name))
+            {
+                m_builder.add_string_handler(name, [accessor, profile = m_profile](const std::string& value) {
+                    accessor->set(*profile, value);
+                });
+            }
         }
 
         void handle_mapped_enum(const YAML::Node& node, const accessor_t<T, int>& accessor, google::protobuf::EnumDescriptor const* descriptor) final
         {
             throw Exception("GOOSE adapter does not support mapped enum");
+        }
+
+        void handle_mapped_timestamp(const YAML::Node& node, const message_accessor_t<T, commonmodule::Timestamp>& accessor) final
+        {
+            std::string name;
+            if(get_name(node, name))
+            {
+                m_builder.add_timestamp_handler(name, [accessor, profile = m_profile](const std::chrono::system_clock::time_point& value) {
+                    time::set(value, *accessor->mutable_get(*profile));
+                });
+            }
         }
 
         void add_message_init_action(const std::function<void(T&)>& action) final
@@ -81,21 +120,24 @@ namespace goose {
         }
 
     private:
-        std::string get_name(const YAML::Node& node)
+        bool get_name(const YAML::Node& node, std::string& value)
         {
-            auto name = yaml::require_string(node, keys::name);
+            const auto name_node = node[keys::name];
+            if(name_node)
+            {
+                value = name_node.as<std::string>();
+                if(!value.empty())
+                {
+                    auto result = m_names.insert(value);
+                    if (!result.second) {
+                        throw Exception{ "Duplicate mapping name \"", value, "\"." };
+                    };
 
-            if (name.empty()) {
-                const auto mark = node.Mark();
-                throw Exception{ "Name cannot be empty at line ", mark.line + 1 };
+                    return true;
+                }
             }
 
-            auto result = m_names.insert(name);
-            if (!result.second) {
-                throw Exception{ "Duplicate mapping name \"", name, "\"." };
-            };
-
-            return name;
+            return false;
         }
 
         const publisher_t m_publisher;

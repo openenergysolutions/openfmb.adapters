@@ -8,12 +8,14 @@
 namespace adapter {
 namespace time {
     /**
-         * Apply a C++ system time-point to an OpenFMB timestamp
-         *
-         * @param time C++ time_point
-         * @param timestamp OpenFMB timestamp
-         */
+     * Apply a C++ system time-point to an OpenFMB timestamp
+     *
+     * @param time C++ time_point
+     * @param timestamp OpenFMB timestamp
+     */
     void set(const std::chrono::system_clock::time_point& time, commonmodule::Timestamp& timestamp);
+
+    std::chrono::system_clock::time_point get(const commonmodule::Timestamp& timestamp);
 }
 }
 

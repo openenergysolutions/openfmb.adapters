@@ -60,17 +60,17 @@ namespace goose {
 
     void GooseMessageVisitor::handle_visible_string(const std::string& item)
     {
-        handle_not_supported();
+        handle<std::string>(item, std::bind(&Mappings::get_visible_string_handler, &m_mappings, _1, _2));
     }
 
     void GooseMessageVisitor::handle_generalizedtime(std::chrono::system_clock::time_point item)
     {
-        handle_not_supported();
+        handle<std::chrono::system_clock::time_point>(item, std::bind(&Mappings::get_generalizedtime_handler, &m_mappings, _1, _2));
     }
 
     void GooseMessageVisitor::handle_binarytime(std::chrono::system_clock::time_point item)
     {
-        handle_not_supported();
+        handle<std::chrono::system_clock::time_point>(item, std::bind(&Mappings::get_binarytime_handler, &m_mappings, _1, _2));
     }
 
     void GooseMessageVisitor::handle_bcd(uint64_t item)
@@ -85,12 +85,12 @@ namespace goose {
 
     void GooseMessageVisitor::handle_mms_string(const std::string& item)
     {
-        handle_not_supported();
+        handle<std::string>(static_cast<std::string>(item), std::bind(&Mappings::get_mms_string_handler, &m_mappings, _1, _2));
     }
 
     void GooseMessageVisitor::handle_utctime(std::chrono::system_clock::time_point item)
     {
-        handle_not_supported();
+        handle<std::chrono::system_clock::time_point>(item, std::bind(&Mappings::get_utctime_handler, &m_mappings, _1, _2));
     }
 
     template <typename T>

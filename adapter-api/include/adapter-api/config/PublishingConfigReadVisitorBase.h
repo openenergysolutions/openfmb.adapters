@@ -79,7 +79,11 @@ protected:
 
     virtual void handle_mapped_float(const YAML::Node& node, const accessor_t<T, float>& accessor) = 0;
 
+    virtual void handle_mapped_string(const YAML::Node& node, const accessor_t<T, std::string>& accessor) {} // TODO: decide purity
+
     virtual void handle_mapped_enum(const YAML::Node& node, const accessor_t<T, int>& accessor, google::protobuf::EnumDescriptor const* descriptor) = 0;
+
+    virtual void handle_mapped_timestamp(const YAML::Node& node, const message_accessor_t<T, commonmodule::Timestamp>& accessor) {} // TODO: decide purity
 
 private:
     void handle_optional_const_bool(const YAML::Node& node, const accessor_t<T, bool>& accessor);
@@ -186,6 +190,9 @@ void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, c
     case (StringFieldType::Value::generated_uuid):
         this->handle_generated_uuid(node, accessor);
         break;
+    case (StringFieldType::Value::mapped):
+        this->handle_mapped_string(node, accessor);
+        break;
     default:
         // ignored
         break;
@@ -221,11 +228,21 @@ void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, c
 {
     const auto node = this->get_config_node(field_name);
     const auto field_type = yaml::require_enum<TimestampFieldType>(node);
-    if (field_type == TimestampFieldType::Value::message) {
+
+    switch(field_type)
+    {
+    case TimestampFieldType::Value::message:
         this->add_message_complete_action(
-            [accessor](T& profile) {
-                time::set(std::chrono::system_clock::now(), *accessor->mutable_get(profile));
-            });
+                [accessor](T& profile) {
+                    time::set(std::chrono::system_clock::now(), *accessor->mutable_get(profile));
+                });
+        break;
+    case TimestampFieldType::Value::mapped:
+        this->handle_mapped_timestamp(node, accessor);
+        break;
+    default:
+        // ignore
+        break;
     }
 }
 

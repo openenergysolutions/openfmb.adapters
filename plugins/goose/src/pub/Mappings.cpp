@@ -38,6 +38,31 @@ namespace goose {
         add_handler(handler, m_float_handlers);
     }
 
+    void Mappings::add_visible_string_field(meas_fn_t<std::string> handler)
+    {
+        add_handler(handler, m_visible_string_handlers);
+    }
+
+    void Mappings::add_mms_string_field(meas_fn_t<std::string> handler)
+    {
+        add_handler(handler, m_mms_string_handlers);
+    }
+
+    void Mappings::add_generalizedtime_field(meas_fn_t<std::chrono::system_clock::time_point> handler)
+    {
+        add_handler(handler, m_generalizedtime_handlers);
+    }
+
+    void Mappings::add_binarytime_field(meas_fn_t<std::chrono::system_clock::time_point> handler)
+    {
+        add_handler(handler, m_binarytime_handlers);
+    }
+
+    void Mappings::add_utctime_field(meas_fn_t<std::chrono::system_clock::time_point> handler)
+    {
+        add_handler(handler, m_utctime_handlers);
+    }
+
     size_t Mappings::get_num_fields() const
     {
         return m_num_fields;
@@ -71,6 +96,31 @@ namespace goose {
     bool Mappings::get_float_handler(size_t idx, meas_fn_t<float>& handler) const
     {
         return get_handler(idx, handler, m_float_handlers);
+    }
+
+    bool Mappings::get_visible_string_handler(size_t idx, meas_fn_t<std::string>& handler) const
+    {
+        return get_handler(idx, handler, m_visible_string_handlers);
+    }
+
+    bool Mappings::get_mms_string_handler(size_t idx, meas_fn_t<std::string>& handler) const
+    {
+        return get_handler(idx, handler, m_mms_string_handlers);
+    }
+
+    bool Mappings::get_generalizedtime_handler(size_t idx, meas_fn_t<std::chrono::system_clock::time_point>& handler) const
+    {
+        return get_handler(idx, handler, m_generalizedtime_handlers);
+    }
+
+    bool Mappings::get_binarytime_handler(size_t idx, meas_fn_t<std::chrono::system_clock::time_point>& handler) const
+    {
+        return get_handler(idx, handler, m_binarytime_handlers);
+    }
+
+    bool Mappings::get_utctime_handler(size_t idx, meas_fn_t<std::chrono::system_clock::time_point>& handler) const
+    {
+        return get_handler(idx, handler, m_utctime_handlers);
     }
 
     template <typename T>

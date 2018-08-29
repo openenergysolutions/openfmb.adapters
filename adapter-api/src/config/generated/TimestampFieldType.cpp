@@ -20,11 +20,13 @@
 namespace adapter {
 
 const char TimestampFieldType::message[] = "message";
+const char TimestampFieldType::mapped[] = "mapped";
 const char TimestampFieldType::ignored[] = "ignored";
 
-const std::array<TimestampFieldType::Value, 2> TimestampFieldType::values =
+const std::array<TimestampFieldType::Value, 3> TimestampFieldType::values =
 {
     TimestampFieldType::Value::message,
+    TimestampFieldType::Value::mapped,
     TimestampFieldType::Value::ignored,
 };
 
@@ -33,6 +35,7 @@ std::string TimestampFieldType::to_string(TimestampFieldType::Value value)
     switch(value)
     {
         case(Value::message): return message;
+        case(Value::mapped): return mapped;
         default: return ignored;
     }
 }
@@ -42,6 +45,7 @@ TimestampFieldType::Value TimestampFieldType::from_string(const std::string& nam
     static const std::map<std::string, Value> map = 
     {
         {message, Value::message},
+        {mapped, Value::mapped},
         {ignored, Value::ignored},
     };
     const auto elem = map.find(name);

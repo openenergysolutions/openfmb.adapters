@@ -31,6 +31,8 @@ struct StringFieldType
         primary_uuid,
         // the value is an optional constant string
         constant,
+        // the value is mapped dynamically from the underlying protocol
+        mapped,
         // the field is ignored in this configuration
         ignored,
     };
@@ -39,11 +41,12 @@ struct StringFieldType
     static const char constant_uuid[];
     static const char primary_uuid[];
     static const char constant[];
+    static const char mapped[];
     static const char ignored[];
 
     static constexpr const char* label = "string-field-type";
 
-    static const std::array<Value, 5> values;
+    static const std::array<Value, 6> values;
 
     static std::string to_string(Value value);
     static Value from_string(const std::string& name);

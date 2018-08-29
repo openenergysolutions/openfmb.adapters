@@ -31,6 +31,8 @@ namespace goose {
         void add_int32_handler(const std::string& name, const meas_fn_t<int32_t>& handler) final;
         void add_int64_handler(const std::string& name, const meas_fn_t<int64_t>& handler) final;
         void add_float_handler(const std::string& name, const meas_fn_t<float>& handler) final;
+        void add_string_handler(const std::string& name, const meas_fn_t<std::string>& handler) final;
+        void add_timestamp_handler(const std::string& name, const meas_fn_t<std::chrono::system_clock::time_point>& handler) final;
 
         std::vector<action_t> m_start_actions;
         std::vector<action_t> m_end_actions;
@@ -39,6 +41,8 @@ namespace goose {
         std::unordered_map<std::string, meas_fn_t<int32_t>> m_int32_handlers;
         std::unordered_map<std::string, meas_fn_t<int64_t>> m_int64_handlers;
         std::unordered_map<std::string, meas_fn_t<float>> m_float_handlers;
+        std::unordered_map<std::string, meas_fn_t<std::string>> m_string_handlers;
+        std::unordered_map<std::string, meas_fn_t<std::chrono::system_clock::time_point>> m_timestamp_handlers;
     };
 
 } // namespace goose
