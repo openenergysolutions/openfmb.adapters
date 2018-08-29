@@ -110,7 +110,25 @@ public class ModelVisitorFiles implements CppFileCollection {
                 }
                 else
                 {
-                    return field.isRepeated() ? getRepeatedMessageField(field) : getMessageField(field);
+                    if (field.isRepeated())
+                    {
+                        // lookup the type of the repeated field
+                        final RepeatedType type  = RepeatedType.getType(field.getMessageType());
+                        switch (type)
+                        {
+                            case READING:
+                            case SCHEDULE:
+                                return getRepeatedMessageField(field);
+                            case FUNCTION_PARAMETER:
+                                return getRepeatedFunctionParameterField(field);
+                            default:
+                                throw new RuntimeException("Unsupported repeated field type: " + type.toString());
+                        }
+                    }
+                    else
+                    {
+                        return getMessageField(field);
+                    }
                 }
             case ENUM:
                 return getEnumHandler(field);
@@ -125,6 +143,11 @@ public class ModelVisitorFiles implements CppFileCollection {
                         line("%s(visitor);", getVisitFunctionName(field.getMessageType()))
                                 .then("visitor.end_message_field();")
                 );
+    }
+
+    private Document getRepeatedFunctionParameterField(Descriptors.FieldDescriptor field) {
+        return line("// repeated function parameter")
+                .then(line("visitor.handle_repeated_function_parameter(%s);", Helpers.quoted(field.getName())));
     }
 
     private Document getRepeatedMessageField(Descriptors.FieldDescriptor field) {

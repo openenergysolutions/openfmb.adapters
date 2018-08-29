@@ -76,6 +76,10 @@ public:
     void handle_commonmodule_ControlTimestamp(const std::string &field_name) override {
 
     }
+
+    void handle_repeated_function_parameter(const std::string &field_name) override {
+
+    }
 };
 
 template <class P>

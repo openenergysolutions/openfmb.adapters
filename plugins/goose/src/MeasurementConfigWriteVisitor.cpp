@@ -41,5 +41,9 @@ namespace goose {
         out << YAML::Key << keys::path << YAML::Value << "";
     }
 
+    void MeasurementConfigWriteVisitor::write_mapped_function_parameter_keys(YAML::Emitter &out) {
+        throw Exception("function parameter lists not supported for measurement profiles");
+    }
+
 } // namespace goose
 } // namespace adapter
