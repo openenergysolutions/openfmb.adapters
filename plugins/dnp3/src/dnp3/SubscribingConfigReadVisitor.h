@@ -60,6 +60,9 @@ namespace dnp3 {
                 std::make_shared<ControlSubscriptionHandler<T>>(this->get_primary_mrid(), logger, this->configuration, std::move(executor)));
         }
 
+        void handle(const std::string &field_name,
+                    const getter_t<T, google::protobuf::RepeatedPtrField<essmodule::ENG_ESSFunctionParameter>> &getter) override;
+
         void handle_mapped_field(const YAML::Node& node, const accessor_t<T, bool>& accessor) override;
 
         void handle_mapped_field(const YAML::Node& node, const accessor_t<T, int32_t>& accessor) override;
@@ -118,6 +121,11 @@ namespace dnp3 {
     void SubscribingConfigReadVisitor<T>::handle_mapped_field(const YAML::Node& node, const accessor_t<T, int>& accessor, google::protobuf::EnumDescriptor const* descriptor)
     {
         // ignored
+    }
+
+    template<class T>
+    void SubscribingConfigReadVisitor<T>::handle(const std::string &field_name, const getter_t<T, repeated_function_parameter_t>& getter) {
+        // only occurs in ESS profile, so no need to handle in DNP3
     }
 }
 }

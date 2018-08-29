@@ -1599,42 +1599,22 @@ void visit_essmodule_ESSPoint(const set_t<essmodule::ESSPoint>& setter, const ge
         visitor.end_message_field();
     }
 
-    {
-        const auto count = visitor.start_repeated_message_field("functionparameter", essmodule::ENG_ESSFunctionParameter::descriptor());
-        for(int i = 0; i < count; ++i)
+    // repeated function parameter
+    visitor.handle(
+        "functionParameter",
+        [getter](const essmodule::ESSControlProfile& profile) -> const google::protobuf::RepeatedPtrField<essmodule::ENG_ESSFunctionParameter>*
         {
-            visitor.start_iteration(i);
-            const auto set = [setter, i, max = count](essmodule::ESSControlProfile& profile)
+            const auto value = getter(profile);
+            if(value)
             {
-                const auto repeated = setter(profile)->mutable_functionparameter();
-                if(repeated->size() < max)
-                {
-                    repeated->Reserve(max);
-                    // add items until we're at max requested capacity
-                    for(auto j = repeated->size(); j < max; ++j)
-                    {
-                        repeated->Add();
-                    }
-                }
-                return repeated->Mutable(i);
-            };
-            const auto get = [getter, i](const essmodule::ESSControlProfile& profile) -> essmodule::ENG_ESSFunctionParameter const*
+                return &value->functionparameter();
+            }
+            else
             {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return (i < value->functionparameter_size()) ? &value->functionparameter(i) : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            };
-            visit_essmodule_ENG_ESSFunctionParameter(set, get, visitor);
-            visitor.end_iteration();
+                return nullptr;
+            }
         }
-        visitor.end_repeated_message_field();
-    }
+    );
 
     if(visitor.start_message_field("mode", commonmodule::ENG_GridConnectModeKind::descriptor()))
     {

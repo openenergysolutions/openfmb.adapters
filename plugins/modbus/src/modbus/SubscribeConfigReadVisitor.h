@@ -28,6 +28,8 @@ namespace modbus {
 
         void subscribe(const Logger& logger, IMessageBus& bus, std::shared_ptr<ITransactionProcessor> tx_processor);
 
+        void handle(const std::string &field_name, const getter_t<T, repeated_function_parameter_t>& getter) override;
+
     protected:
         // implement pure virtual methods from base class
 
@@ -130,6 +132,12 @@ namespace modbus {
                     });
             });
     }
+
+    template<class T>
+    void SubscribeConfigReadVisitor<T>::handle(const std::string &field_name, const getter_t<T, repeated_function_parameter_t>& getter) {
+        // TODO
+    }
+
 }
 }
 

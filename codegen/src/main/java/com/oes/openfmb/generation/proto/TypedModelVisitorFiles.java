@@ -139,7 +139,27 @@ public class TypedModelVisitorFiles implements CppFileCollection {
                 }
                 else
                 {
-                    return field.isRepeated() ? getRepeatedMessageField(parent, field) : getMessageField(parent, field);
+                    if(field.isRepeated())
+                    {
+                        // lookup the type of the repeated field
+                        final RepeatedType type  = RepeatedType.getType(field.getMessageType());
+                        switch (type)
+                        {
+                            case READING:
+                            case SCHEDULE:
+                                return getRepeatedMessageField(parent, field);
+                            case FUNCTION_PARAMETER:
+                                return getRepeatedFunctionParameterField(parent, field);
+                            default:
+                                throw new RuntimeException("Unsupported repeated field type: " + type.toString());
+                        }
+
+
+                    }
+                    else
+                    {
+                        return getMessageField(parent, field);
+                    }
                 }
             case ENUM:
                 return getEnumHandler(parent, field);
@@ -174,6 +194,27 @@ public class TypedModelVisitorFiles implements CppFileCollection {
                                 .then(");")
                                 .then("visitor.end_message_field();")
                 );
+    }
+
+    private static Document getRepeatedFunctionParameterField(Descriptors.Descriptor parent, Descriptors.FieldDescriptor field)
+    {
+        return line("// repeated function parameter")
+                .then("visitor.handle(")
+                .indent(
+                     line(Helpers.quoted(field.getName())+",")
+                     .then(String.format("[getter](const %s& profile) -> const google::protobuf::RepeatedPtrField<%s>*", cppMessageName(parent), cppMessageName(field.getMessageType()))).bracket(
+                             line("const auto value = getter(profile);")
+                             .then("if(value)").bracket(
+                                     line("return &value->functionparameter();")
+                             )
+                             .then("else").bracket(
+                                     line("return nullptr;")
+                             )
+                     )
+
+                ).then(");");
+
+
     }
 
     private static Document getRepeatedMessageField(Descriptors.Descriptor parent, Descriptors.FieldDescriptor field) {
