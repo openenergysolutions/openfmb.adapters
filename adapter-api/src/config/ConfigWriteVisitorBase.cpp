@@ -176,13 +176,13 @@ void ConfigWriteVisitorBase::handle_commonmodule_ControlTimestamp(const std::str
 
 void ConfigWriteVisitorBase::handle_repeated_function_parameter(const std::string& field_name)
 {
-    out << YAML::Key << field_name;
-    out << YAML::BeginSeq << YAML::Comment("A sequence of function parameters names and the corresponding actions to take for each of them");
+    out << YAML::Key << field_name << YAML::Comment("A sequence of function parameters names and the corresponding actions to take for each of them");
+    out << YAML::BeginSeq;
 
-    for(int i = 0; i < essmodule::ESSFunctionKind_descriptor()->value_count(); ++i)
+    for(int i = 0; i < essmodule::ESSFunctionParameterKind_descriptor()->value_count(); ++i)
     {
         out << YAML::BeginMap;
-        out << YAML::Key << keys::name << YAML::Value << essmodule::ESSFunctionKind_descriptor()->value(i)->name();
+        out << YAML::Key << keys::name << YAML::Value << essmodule::ESSFunctionParameterKind_descriptor()->value(i)->name();
         this->write_mapped_function_parameter_keys(out);
         out << YAML::EndMap;
     }
