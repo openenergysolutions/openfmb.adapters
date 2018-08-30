@@ -18,7 +18,7 @@ namespace goose {
             yaml::require(node, keys::goCb),
             m_logger,
             [&](const YAML::Node& config) {
-                this->add_control_block(config, std::move(bus), logger);
+                this->add_control_block(config, bus, logger);
             });
     }
 

@@ -91,7 +91,35 @@ namespace goose {
 
         void handle_mapped_enum(const YAML::Node& node, const accessor_t<T, int>& accessor, google::protobuf::EnumDescriptor const* descriptor) final
         {
-            throw Exception("GOOSE adapter does not support mapped enum");
+            std::string name;
+            if(get_name(node, name))
+            {
+                std::unordered_map<goose_cpp::BitString, int> mapping{};
+                yaml::foreach(yaml::require(node, ::adapter::keys::mapping), [&](const YAML::Node& node) {
+                    const auto name = yaml::require_string(node, ::adapter::keys::name);
+                    const auto value = descriptor->FindValueByName(name);
+                    if (!value)
+                        throw Exception("Unknown enum value: ", name);
+                    const auto output = yaml::require_string(node, ::adapter::keys::value);
+                    auto bit_string = goose_cpp::BitString::from_string(output);
+
+                    auto result = mapping.insert({bit_string, value->number()});
+                    if(!result.second)
+                    {
+                        throw Exception{"Duplicate entry for bitstring value ", bit_string.to_string()};
+                    }
+                });
+
+                m_builder.add_bitstring_handler(name, [accessor, mapping, profile = m_profile](const goose_cpp::BitString& value) {
+                    auto it = mapping.find(value);
+                    if(it == mapping.end())
+                    {
+                        throw Exception{"Bitstring ", value.to_string(), " does not fit with any mapping."};
+                    };
+
+                    accessor->set(*profile, it->second);
+                });
+            }
         }
 
         void handle_mapped_quality(const YAML::Node& node, const message_accessor_t<T, commonmodule::Quality>& accessor) final

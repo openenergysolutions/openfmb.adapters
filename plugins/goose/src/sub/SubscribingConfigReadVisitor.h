@@ -178,8 +178,8 @@ namespace goose {
                     const auto value = descriptor->FindValueByName(name);
                     if (!value)
                         throw Exception("Unknown enum value: ", name);
-                    const auto outputs = yaml::require_string(node, ::adapter::keys::value);
-                    auto bit_string = goose_cpp::BitString::from_string(outputs);
+                    const auto output = yaml::require_string(node, ::adapter::keys::value);
+                    auto bit_string = goose_cpp::BitString::from_string(output);
                     mapping.insert({value->number(), bit_string});
                 });
 
