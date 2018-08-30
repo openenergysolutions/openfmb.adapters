@@ -16,7 +16,7 @@ namespace goose {
         ~ControlBlockListener() = default;
 
         // IControlBlockListener
-        void on_message(std::shared_ptr<goose_cpp::GooseEthernetFrame> message) final;
+        void on_message(std::shared_ptr<goose_cpp::GooseEthernetFrame> message, bool retransmission) final;
         void on_state_change(goose_cpp::ControlBlockState new_state) final;
 
     private:

@@ -13,12 +13,15 @@ namespace goose {
     {
     }
 
-    void ControlBlockListener::on_message(std::shared_ptr<goose_cpp::GooseEthernetFrame> message)
+    void ControlBlockListener::on_message(std::shared_ptr<goose_cpp::GooseEthernetFrame> message, bool retransmission)
     {
-        try {
-            m_builder(*message->goose_pdu.allData);
-        } catch (Exception& e) {
-            m_logger.warn(e.what());
+        if(!retransmission)
+        {
+            try {
+                m_builder(*message->goose_pdu.allData);
+            } catch (Exception& e) {
+                m_logger.warn(e.what());
+            }
         }
     }
 
