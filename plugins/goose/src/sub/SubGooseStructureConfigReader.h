@@ -182,21 +182,42 @@ namespace goose {
         {
             auto name = get_name(node);
 
-            message_accessor_t<T, commonmodule::Quality> accessor;
-            if (!m_mappings.get_quality(name, accessor)) {
+            message_accessor_t<T, commonmodule::Quality> accessor_quality;
+            std::pair<accessor_t<T, int>, std::unordered_map<int, goose_cpp::BitString>> accessor_enum;
+            if (m_mappings.get_quality(name, accessor_quality)) {
+                m_funcs.push_back([accessor = accessor_quality, name](const T& msg, goose_cpp::Dataset& dataset) {
+                    auto present = accessor->if_present(msg, [&](const commonmodule::Quality& value) {
+                        dataset.add_bitstring(quality_to_bitstring(value));
+                    });
+
+                    if (!present) {
+                        throw Exception{ "Value \"", name, "\" was not present in the message." };
+                    }
+                });
+            }
+            else if(m_mappings.get_enum(name, accessor_enum))
+            {
+                m_funcs.push_back([accessor = accessor_enum, name](const T& msg, goose_cpp::Dataset& dataset) {
+                    auto present = accessor.first->if_present(msg, [&](int value) {
+                        auto it = accessor.second.find(value);
+                        if(it == accessor.second.end())
+                        {
+                            throw Exception{ "Enum value ", value, " was not mapped to a bitstring representation." };
+                        }
+                        dataset.add_bitstring(goose_cpp::BitString{it->second});
+                    });
+
+                    if (!present) {
+                        throw Exception{ "Value \"", name, "\" was not present in the message." };
+                    }
+                });
+            }
+            else
+            {
                 const auto mark = node.Mark();
                 throw Exception{ "Mapping \"", name, "\" is not a bitstring value for GOOSE element defined at line ", mark.line + 1 };
             }
 
-            m_funcs.push_back([accessor, name](const T& msg, goose_cpp::Dataset& dataset) {
-                auto present = accessor->if_present(msg, [&](const commonmodule::Quality& value) {
-                    dataset.add_bitstring(quality_to_bitstring(value));
-                });
-
-                if (!present) {
-                    throw Exception{ "Value \"", name, "\" was not present in the message." };
-                }
-            });
         }
 
         void on_generalized_time(const YAML::Node& node) final

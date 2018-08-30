@@ -4,10 +4,12 @@
 #include "adapter-api/Logger.h"
 #include "adapter-api/config/SubscribingConfigReadVisitorBase.h"
 #include "adapter-api/util/Exception.h"
+#include "goose-cpp/messages/BitString.h"
 #include "yaml-cpp/yaml.h"
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
+#include <utility>
 
 namespace adapter {
 namespace goose {
@@ -74,6 +76,17 @@ namespace goose {
         {
             auto search = m_string_accessors.find(name);
             if (search == m_string_accessors.end()) {
+                return false;
+            };
+
+            accessor = search->second;
+            return true;
+        }
+
+        bool get_enum(const std::string& name, std::pair<accessor_t<T, int>, std::unordered_map<int, goose_cpp::BitString>>& accessor) const
+        {
+            auto search = m_enum_accessors.find(name);
+            if (search == m_enum_accessors.end()) {
                 return false;
             };
 
@@ -156,7 +169,22 @@ namespace goose {
 
         void handle_mapped_field(const YAML::Node& node, const accessor_t<T, int>& accessor, google::protobuf::EnumDescriptor const* descriptor) final
         {
-            throw Exception{ "Mapped enums are not supported by goose-sub." };
+            std::string name;
+            if(get_name(node, name))
+            {
+                std::unordered_map<int, goose_cpp::BitString> mapping{};
+                yaml::foreach(yaml::require(node, ::adapter::keys::mapping), [&](const YAML::Node& node) {
+                    const auto name = yaml::require_string(node, ::adapter::keys::name);
+                    const auto value = descriptor->FindValueByName(name);
+                    if (!value)
+                        throw Exception("Unknown enum value: ", name);
+                    const auto outputs = yaml::require_string(node, ::adapter::keys::value);
+                    auto bit_string = goose_cpp::BitString::from_string(outputs);
+                    mapping.insert({value->number(), bit_string});
+                });
+
+                m_enum_accessors.insert({ name, std::make_pair(accessor, mapping) });
+            }
         }
 
         void handle_mapped_field(const YAML::Node& node, const message_accessor_t<T, commonmodule::Quality>& accessor) final
@@ -206,6 +234,7 @@ namespace goose {
         std::unordered_map<std::string, const accessor_t<T, int64_t>> m_int64_accessors;
         std::unordered_map<std::string, const accessor_t<T, float>> m_float_accessors;
         std::unordered_map<std::string, const accessor_t<T, std::string>> m_string_accessors;
+        std::unordered_map<std::string, std::pair<const accessor_t<T, int>, const std::unordered_map<int, goose_cpp::BitString>>> m_enum_accessors;
         std::unordered_map<std::string, const message_accessor_t<T, commonmodule::Quality>> m_quality_accessors;
         std::unordered_map<std::string, const message_accessor_t<T, commonmodule::Timestamp>> m_timestamp_accessors;
     };

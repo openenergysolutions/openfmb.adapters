@@ -1,6 +1,7 @@
 #include "sub/SubscribingConfigWriteVisitor.h"
 
 #include "ConfigStrings.h"
+#include "adapter-api/ConfigStrings.h"
 #include "adapter-api/util/Exception.h"
 
 namespace adapter {
@@ -38,7 +39,18 @@ namespace goose {
 
     void SubscribingConfigWriteVisitor::write_mapped_enum_keys(YAML::Emitter& out, google::protobuf::EnumDescriptor const* descriptor)
     {
-        out << YAML::Comment("Enum mapping is not supported");
+        out << YAML::Key << keys::name << YAML::Value << "";
+        out << YAML::Key << ::adapter::keys::mapping << YAML::Value;
+        out << YAML::BeginSeq;
+        for (auto i = 0; i < descriptor->value_count(); ++i)
+        {
+            const auto value = descriptor->value(i);
+            out << YAML::BeginMap;
+            out << YAML::Key << ::adapter::keys::name << YAML::Value << value->name();
+            out << YAML::Key << ::adapter::keys::value << YAML::Value << "";
+            out << YAML::EndMap;
+        }
+        out << YAML::EndSeq;
     }
 
     void SubscribingConfigWriteVisitor::write_mapped_commonmodule_quality_keys(YAML::Emitter& out)
