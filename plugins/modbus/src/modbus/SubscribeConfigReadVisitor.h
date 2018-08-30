@@ -14,6 +14,8 @@
 #include "generated/OutputType.h"
 #include "CommandOptions.h"
 
+#include <map>
+
 namespace adapter {
 namespace modbus {
 
@@ -137,33 +139,8 @@ namespace modbus {
     void SubscribeConfigReadVisitor<T>::handle(const std::string &field_name, const getter_t<T, repeated_function_parameter_t>& getter) {
         const auto node = this->get_config_node(field_name);
 
-        // build up this map
-        std::map<essmodule::ESSFunctionParameterKind, std::function<void (ICommandSink& sink, int32_t value)>> action_map;
-
-        // loop over all the entries in the sequence, building up the action map
-        const auto add_to_action_map = [&](const YAML::Node& entry)
-        {
-            const auto name = yaml::require_string(entry, ::adapter::keys::name);
-            const auto value = essmodule::ESSFunctionParameterKind_descriptor()->FindValueByName(name);
-            if(!value)
-            {
-                throw Exception("'", name, "' is not a valid value for enumeration ", essmodule::ESSFunctionKind_descriptor()->name());
-            }
-
-            const auto index = yaml::require_integer<uint16_t>(entry, ::adapter::keys::index);
-            const auto scale = yaml::require(entry, ::adapter::keys::scale).as<float>();
-            const auto priority = this->priority_source.get_priority(CommandType::Value::write_single_register, index);
-
-            action_map[static_cast<essmodule::ESSFunctionParameterKind>(value->number())] = [index, scale, priority](ICommandSink& sink, int32_t value)
-            {
-                sink.write_single_register(index, priority, static_cast<uint16_t>(value*scale));
-            };
-        };
-
-        yaml::foreach(node, add_to_action_map);
-
         this->config->add(
-                [getter, map = std::move(action_map)](const T& profile, ICommandSink& sink, Logger& logger) {
+                [getter, map = read::function_parameter_configuration(node, this->priority_source)](const T& profile, ICommandSink& sink, Logger& logger) {
                     const auto parameters = getter(profile);
                     if(parameters)
                     {
