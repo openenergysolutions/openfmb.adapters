@@ -83,6 +83,8 @@ protected:
 
     virtual void handle_mapped_enum(const YAML::Node& node, const accessor_t<T, int>& accessor, google::protobuf::EnumDescriptor const* descriptor) = 0;
 
+    virtual void handle_mapped_quality(const YAML::Node& node, const message_accessor_t<T, commonmodule::Quality>& accessor) {} // TODO: decide purity
+
     virtual void handle_mapped_timestamp(const YAML::Node& node, const message_accessor_t<T, commonmodule::Timestamp>& accessor) {} // TODO: decide purity
 
 private:
@@ -220,7 +222,12 @@ void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, c
 template <class T>
 void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, const message_accessor_t<T, commonmodule::Quality>& accessor)
 {
-    // ignore for now
+    const auto node = this->get_config_node(field_name);
+    const auto field_type = yaml::require_enum<QualityFieldType>(node);
+
+    if(field_type == QualityFieldType::Value::mapped) {
+        this->handle_mapped_quality(node, accessor);
+    }
 }
 
 template <class T>

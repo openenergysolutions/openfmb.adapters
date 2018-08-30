@@ -35,7 +35,7 @@ namespace goose {
 
     void GooseMessageVisitor::handle_bit_string(const goose_cpp::BitString& item)
     {
-        handle_not_supported();
+        handle<goose_cpp::BitString>(item, std::bind(&Mappings::get_bitstring_handler, &m_mappings, _1, _2));
     }
 
     void GooseMessageVisitor::handle_integer(int64_t item)

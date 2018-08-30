@@ -63,8 +63,9 @@ public class Enumerations {
 
         private final static Enumeration qualityFieldType = new Enumeration(
                 getFieldName("Quality"),
-                Collections.singletonList(
-                        Enumeration.entry("ignored", "the quality field is ignored in this configuration")
+                Arrays.asList(
+                        Enumeration.entry("ignored", "the quality field is ignored in this configuration"),
+                        Enumeration.entry("mapped", "the value is mapped dynamically from the underlying protocol")
                 )
         );
 
@@ -221,6 +222,7 @@ public class Enumerations {
                         Enumeration.entry("floating", "floating"),
                         Enumeration.entry("visible_string", "visible_string"),
                         Enumeration.entry("mms_string", "mms_string"),
+                        Enumeration.entry("bitstring", "bitstring"),
                         Enumeration.entry("generalized_time", "generalized_time"),
                         Enumeration.entry("binary_time", "binary_time"),
                         Enumeration.entry("utc_time", "utc_time")

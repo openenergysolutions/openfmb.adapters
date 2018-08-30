@@ -124,6 +124,18 @@ namespace goose {
             m_mappings.add_mms_string_field(it->second);
         }
 
+        void on_bitstring(const YAML::Node& node) final
+        {
+            auto name = get_name(node);
+            auto it = m_config_reader.m_bitstring_handlers.find(name);
+            if (it == m_config_reader.m_bitstring_handlers.end()) {
+                const auto mark = node.Mark();
+                throw Exception{ "Mapping \"", name, "\" is not a bitstring point value for GOOSE element defined at line ", mark.line + 1 };
+            }
+
+            m_mappings.add_bitstring_field(it->second);
+        }
+
         void on_generalized_time(const YAML::Node& node) final
         {
             auto name = get_name(node);
@@ -237,6 +249,12 @@ namespace goose {
     {
         m_all_handlers.insert(name);
         m_string_handlers.insert({ name, handler });
+    }
+
+    void PubGooseStructureConfigReader::add_bitstring_handler(const std::string& name, const meas_fn_t<goose_cpp::BitString>& handler)
+    {
+        m_all_handlers.insert(name);
+        m_bitstring_handlers.insert({ name, handler });
     }
 
     void PubGooseStructureConfigReader::add_timestamp_handler(const std::string& name, const meas_fn_t<std::chrono::system_clock::time_point>& handler)

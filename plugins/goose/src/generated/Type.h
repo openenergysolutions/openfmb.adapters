@@ -41,6 +41,8 @@ struct Type
         visible_string,
         // mms_string
         mms_string,
+        // bitstring
+        bitstring,
         // generalized_time
         generalized_time,
         // binary_time
@@ -57,13 +59,14 @@ struct Type
     static const char floating[];
     static const char visible_string[];
     static const char mms_string[];
+    static const char bitstring[];
     static const char generalized_time[];
     static const char binary_time[];
     static const char utc_time[];
 
     static constexpr const char* label = "type";
 
-    static const std::array<Value, 11> values;
+    static const std::array<Value, 12> values;
 
     static std::string to_string(Value value);
     static Value from_string(const std::string& name);

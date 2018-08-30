@@ -25,13 +25,16 @@ struct QualityFieldType
     {
         // the quality field is ignored in this configuration
         ignored,
+        // the value is mapped dynamically from the underlying protocol
+        mapped,
     };
 
     static const char ignored[];
+    static const char mapped[];
 
     static constexpr const char* label = "quality-field-type";
 
-    static const std::array<Value, 1> values;
+    static const std::array<Value, 2> values;
 
     static std::string to_string(Value value);
     static Value from_string(const std::string& name);

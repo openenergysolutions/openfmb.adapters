@@ -81,6 +81,17 @@ namespace goose {
             return true;
         }
 
+        bool get_quality(const std::string& name, message_accessor_t<T, commonmodule::Quality>& accessor) const
+        {
+            auto search = m_quality_accessors.find(name);
+            if (search == m_quality_accessors.end()) {
+                return false;
+            };
+
+            accessor = search->second;
+            return true;
+        }
+
         bool get_timestamp(const std::string& name, message_accessor_t<T, commonmodule::Timestamp>& accessor) const
         {
             auto search = m_timestamp_accessors.find(name);
@@ -148,6 +159,15 @@ namespace goose {
             throw Exception{ "Mapped enums are not supported by goose-sub." };
         }
 
+        void handle_mapped_field(const YAML::Node& node, const message_accessor_t<T, commonmodule::Quality>& accessor) final
+        {
+            std::string name;
+            if(get_name(node, name))
+            {
+                m_quality_accessors.insert({ name, accessor });
+            }
+        }
+
         void handle_mapped_field(const YAML::Node& node, const message_accessor_t<T, commonmodule::Timestamp>& accessor) final
         {
             std::string name;
@@ -186,6 +206,7 @@ namespace goose {
         std::unordered_map<std::string, const accessor_t<T, int64_t>> m_int64_accessors;
         std::unordered_map<std::string, const accessor_t<T, float>> m_float_accessors;
         std::unordered_map<std::string, const accessor_t<T, std::string>> m_string_accessors;
+        std::unordered_map<std::string, const message_accessor_t<T, commonmodule::Quality>> m_quality_accessors;
         std::unordered_map<std::string, const message_accessor_t<T, commonmodule::Timestamp>> m_timestamp_accessors;
     };
 

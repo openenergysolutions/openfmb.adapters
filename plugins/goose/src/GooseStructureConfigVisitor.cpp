@@ -51,6 +51,9 @@ namespace goose {
                 case Type::Value::mms_string:
                     on_mms_string(value);
                     break;
+                case Type::Value::bitstring:
+                    on_bitstring(value);
+                    break;
                 case Type::Value::generalized_time:
                     on_generalized_time(value);
                     break;

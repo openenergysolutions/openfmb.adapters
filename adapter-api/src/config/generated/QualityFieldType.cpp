@@ -20,17 +20,20 @@
 namespace adapter {
 
 const char QualityFieldType::ignored[] = "ignored";
+const char QualityFieldType::mapped[] = "mapped";
 
-const std::array<QualityFieldType::Value, 1> QualityFieldType::values =
+const std::array<QualityFieldType::Value, 2> QualityFieldType::values =
 {
     QualityFieldType::Value::ignored,
+    QualityFieldType::Value::mapped,
 };
 
 std::string QualityFieldType::to_string(QualityFieldType::Value value)
 {
     switch(value)
     {
-        default: return ignored;
+        case(Value::ignored): return ignored;
+        default: return mapped;
     }
 }
 
@@ -39,6 +42,7 @@ QualityFieldType::Value QualityFieldType::from_string(const std::string& name)
     static const std::map<std::string, Value> map = 
     {
         {ignored, Value::ignored},
+        {mapped, Value::mapped},
     };
     const auto elem = map.find(name);
     if(elem == map.end()) throw Exception("Unknown value name '", name, "' for enum QualityFieldType");

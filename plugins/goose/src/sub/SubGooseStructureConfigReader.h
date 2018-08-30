@@ -178,6 +178,27 @@ namespace goose {
             });
         }
 
+        void on_bitstring(const YAML::Node& node) final
+        {
+            auto name = get_name(node);
+
+            message_accessor_t<T, commonmodule::Quality> accessor;
+            if (!m_mappings.get_quality(name, accessor)) {
+                const auto mark = node.Mark();
+                throw Exception{ "Mapping \"", name, "\" is not a bitstring value for GOOSE element defined at line ", mark.line + 1 };
+            }
+
+            m_funcs.push_back([accessor, name](const T& msg, goose_cpp::Dataset& dataset) {
+                auto present = accessor->if_present(msg, [&](const commonmodule::Quality& value) {
+                    dataset.add_bitstring(quality_to_bitstring(value));
+                });
+
+                if (!present) {
+                    throw Exception{ "Value \"", name, "\" was not present in the message." };
+                }
+            });
+        }
+
         void on_generalized_time(const YAML::Node& node) final
         {
             auto name = get_name(node);
@@ -252,6 +273,28 @@ namespace goose {
             }
 
             return name;
+        }
+
+        static goose_cpp::BitString quality_to_bitstring(const commonmodule::Quality& quality)
+        {
+            goose_cpp::BitString result{13};
+            result.set(0, quality.validity() == commonmodule::ValidityKind::ValidityKind_reserved ||
+                          quality.validity() == commonmodule::ValidityKind::ValidityKind_questionable);
+            result.set(1, quality.validity() == commonmodule::ValidityKind::ValidityKind_invalid ||
+                          quality.validity() == commonmodule::ValidityKind::ValidityKind_questionable);
+            result.set(2, quality.detailqual().overflow());
+            result.set(3, quality.detailqual().outofrange());
+            result.set(4, quality.detailqual().badreference());
+            result.set(5, quality.detailqual().oscillatory());
+            result.set(6, quality.detailqual().failure());
+            result.set(7, quality.detailqual().olddata());
+            result.set(8, quality.detailqual().inconsistent());
+            result.set(9, quality.detailqual().inaccurate());
+            result.set(10, quality.source() == commonmodule::SourceKind::SourceKind_substituted);
+            result.set(11, quality.test());
+            result.set(12, quality.operatorblocked());
+
+            return result;
         }
 
         const SubscribingConfigReadVisitor<T>& m_mappings;
