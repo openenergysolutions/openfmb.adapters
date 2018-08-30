@@ -31,9 +31,24 @@ namespace goose {
         write_name(out);
     }
 
+    void PublishingConfigWriteVisitor::write_mapped_string_keys(YAML::Emitter& out)
+    {
+        write_name(out);
+    }
+
     void PublishingConfigWriteVisitor::write_mapped_enum_keys(YAML::Emitter& out, google::protobuf::EnumDescriptor const* descriptor)
     {
         out << YAML::Comment("Enum mapping is not supported");
+    }
+
+    void PublishingConfigWriteVisitor::write_mapped_commonmodule_quality_keys(YAML::Emitter& out)
+    {
+        write_name(out);
+    }
+
+    void PublishingConfigWriteVisitor::write_mapped_commonmodule_timestamp_keys(YAML::Emitter& out)
+    {
+        write_name(out);
     }
 
     void PublishingConfigWriteVisitor::write_name(YAML::Emitter& out)

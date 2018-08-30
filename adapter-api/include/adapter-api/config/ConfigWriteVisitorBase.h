@@ -38,6 +38,10 @@ protected:
 
     virtual void write_mapped_enum_keys(YAML::Emitter& out, google::protobuf::EnumDescriptor const* descriptor) = 0;
 
+    virtual void write_mapped_commonmodule_quality_keys(YAML::Emitter& out) {} // TODO: decide purity
+
+    virtual void write_mapped_commonmodule_timestamp_keys(YAML::Emitter& out) {} // TODO: decide purity
+
 public:
     explicit ConfigWriteVisitorBase(YAML::Emitter& out);
 

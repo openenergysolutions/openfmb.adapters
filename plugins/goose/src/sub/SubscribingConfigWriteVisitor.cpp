@@ -41,6 +41,16 @@ namespace goose {
         out << YAML::Comment("Enum mapping is not supported");
     }
 
+    void SubscribingConfigWriteVisitor::write_mapped_commonmodule_quality_keys(YAML::Emitter& out)
+    {
+        write_name(out);
+    }
+
+    void SubscribingConfigWriteVisitor::write_mapped_commonmodule_timestamp_keys(YAML::Emitter& out)
+    {
+        write_name(out);
+    }
+
     void SubscribingConfigWriteVisitor::write_name(YAML::Emitter& out)
     {
         out << YAML::Key << keys::name << YAML::Value << "";

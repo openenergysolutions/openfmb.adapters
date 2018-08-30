@@ -18,6 +18,8 @@ namespace goose {
         void write_mapped_float_keys(YAML::Emitter& out) final;
         void write_mapped_string_keys(YAML::Emitter& out) final;
         void write_mapped_enum_keys(YAML::Emitter& out, google::protobuf::EnumDescriptor const* descriptor) final;
+        void write_mapped_commonmodule_quality_keys(YAML::Emitter& out) final;
+        void write_mapped_commonmodule_timestamp_keys(YAML::Emitter& out) final;
 
     private:
         void write_name(YAML::Emitter& out);

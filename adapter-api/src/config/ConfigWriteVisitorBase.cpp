@@ -124,12 +124,11 @@ void ConfigWriteVisitorBase::handle_string(const std::string& field_name)
     case (StringFieldType::Value::constant):
         out << YAML::Key << keys::value << YAML::Value << "";
         break;
+    case (StringFieldType::Value::mapped):
+        this->write_mapped_string_keys(out);
+        break;
     default:
         break;
-    }
-
-    if (type != StringFieldType::Value::ignored) {
-        this->write_mapped_string_keys(out);
     }
 
     out << YAML::EndMap;
@@ -152,9 +151,18 @@ void ConfigWriteVisitorBase::handle_enum(const std::string& field_name, google::
 
 void ConfigWriteVisitorBase::handle_commonmodule_Quality(const std::string& field_name)
 {
+    // TODO: quality mapping
+    //const auto type = fields::get_quality_type(field_name, path);
+    const auto type = QualityFieldType::Value::ignored;
+
     out << YAML::Key << field_name;
     out << YAML::BeginMap;
-    out << YAML::Key << QualityFieldType::label << YAML::Value << QualityFieldType::ignored;
+    out << YAML::Key << QualityFieldType::label << YAML::Value << QualityFieldType::to_string(type);
+
+    if (type == QualityFieldType::Value::mapped) {
+        this->write_mapped_commonmodule_quality_keys(out);
+    }
+
     out << YAML::EndMap;
 }
 
@@ -165,6 +173,11 @@ void ConfigWriteVisitorBase::handle_commonmodule_Timestamp(const std::string& fi
     out << YAML::Key << field_name;
     out << YAML::BeginMap;
     out << YAML::Key << TimestampFieldType::label << YAML::Value << TimestampFieldType::to_string(type);
+
+    if (type == TimestampFieldType::Value::mapped) {
+        this->write_mapped_commonmodule_timestamp_keys(out);
+    }
+
     out << YAML::EndMap;
 }
 
