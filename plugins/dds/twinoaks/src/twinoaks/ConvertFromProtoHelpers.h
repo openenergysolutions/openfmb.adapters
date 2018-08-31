@@ -3,13 +3,20 @@
 
 #include "NamespaceAlias.h"
 
+#include <type_traits>
+
 namespace adapter
 {
 
     namespace dds
     {
-        static_assert(sizeof(::twinoaks::commonmodule::INT64U) == sizeof(::google::protobuf::uint64), "size mismatch");
-        static_assert(sizeof(::twinoaks::commonmodule::INT64) == sizeof(::google::protobuf::int64), "size mismatch");
+        static_assert(std::is_same<::twinoaks::commonmodule::INT64, ::google::protobuf::int64>::value, "type mismatch");
+        static_assert(std::is_same<::twinoaks::commonmodule::INT64U, ::google::protobuf::uint64>::value, "type mismatch");
+
+        static_assert(std::is_same<::twinoaks::commonmodule::INT32, ::google::protobuf::int32>::value, "type mismatch");
+        static_assert(std::is_same<::twinoaks::commonmodule::INT32U, ::google::protobuf::uint32>::value, "type mismatch");
+
+        static_assert(std::is_same<::twinoaks::commonmodule::FLOAT32, float>::value, "type mismatch");
 
         template <class Out, class In>
         inline Out* allocate_enum(In value)
@@ -19,35 +26,55 @@ namespace adapter
 
         // --- bool ---
 
-        inline unsigned char convert_bool(bool value)
+        inline unsigned char convert(bool value)
         {
             return static_cast<unsigned char>(value);
         }
 
+        inline unsigned char* allocate(bool value)
+        {
+            return new unsigned char(static_cast<unsigned char>(value));
+        }
+
         // -------- string conversions ---------
 
-        inline char* convert_string(const ::std::string& in)
+        inline char* allocate(const ::std::string& in)
         {
             auto dest = new char[in.size() + 1];
             strcpy(dest, in.c_str());
             return dest;
         }
 
+        inline char* convert(const ::std::string& in)
+        {
+            return allocate(in);
+        }
+
         // -------- numeric conversions ---------
 
-        inline twinoaks::commonmodule::INT32U convert_uint32(::google::protobuf::uint32 value)
+        inline twinoaks::commonmodule::INT32* allocate(::google::protobuf::int32 value)
         {
-            return static_cast<twinoaks::commonmodule::INT32U>(value);
+            return new twinoaks::commonmodule::INT32(value);
         }
 
-        inline twinoaks::commonmodule::INT64U convert_uint64(::google::protobuf::uint64 value)
+        inline twinoaks::commonmodule::FLOAT32* allocate(float value)
         {
-            return static_cast<twinoaks::commonmodule::INT64U>(value);
+            return new twinoaks::commonmodule::FLOAT32(value);
         }
 
-        inline twinoaks::commonmodule::INT64 convert_int64(::google::protobuf::int64 value)
+        inline twinoaks::commonmodule::INT32U convert(::google::protobuf::uint32 value)
         {
-            return static_cast<twinoaks::commonmodule::INT64>(value);
+            return value;
+        }
+
+        inline twinoaks::commonmodule::INT64U convert(::google::protobuf::uint64 value)
+        {
+            return value;
+        }
+
+        inline twinoaks::commonmodule::INT64 convert(::google::protobuf::int64 value)
+        {
+            return value;
         }
     }
 

@@ -123,8 +123,8 @@ void convert_from_proto(const commonmodule::Timestamp& in, twinoaks::commonmodul
         convert_from_proto(in.tq(), *out.tq);
     }
     // convert primitive fields
-    out.fraction = convert_uint32(in.fraction());
-    out.seconds = convert_uint64(in.seconds());
+    out.fraction = convert(in.fraction());
+    out.seconds = convert(in.seconds());
 }
 
 void convert_from_proto(const commonmodule::WYE& in, twinoaks::commonmodule::WYE& out)
@@ -185,9 +185,9 @@ void convert_from_proto(const commonmodule::Quality& in, twinoaks::commonmodule:
     // convert message fields
     convert_from_proto(in.detailqual(), out.detailQual); // required field in DDS
     // convert primitive fields
-    out.operatorBlocked = convert_bool(in.operatorblocked());
+    out.operatorBlocked = convert(in.operatorblocked());
     out.source = static_cast<twinoaks::commonmodule::SourceKind>(in.source());
-    out.test = convert_bool(in.test());
+    out.test = convert(in.test());
     out.validity = static_cast<twinoaks::commonmodule::ValidityKind>(in.validity());
 }
 
@@ -202,9 +202,9 @@ void convert_from_proto(const commonmodule::TimeQuality& in, twinoaks::commonmod
 {
     out.clear();
     // convert primitive fields
-    out.clockFailure = convert_bool(in.clockfailure());
-    out.clockNotSynchronized = convert_bool(in.clocknotsynchronized());
-    out.leapSecondsKnown = convert_bool(in.leapsecondsknown());
+    out.clockFailure = convert(in.clockfailure());
+    out.clockNotSynchronized = convert(in.clocknotsynchronized());
+    out.leapSecondsKnown = convert(in.leapsecondsknown());
     out.timeAccuracy = static_cast<twinoaks::commonmodule::TimeAccuracyKind>(in.timeaccuracy());
 }
 
@@ -213,6 +213,9 @@ void convert_from_proto(const commonmodule::ACDCTerminal& in, twinoaks::commonmo
     out.clear();
     // convert message fields
     if(in.has_identifiedobject()) convert_from_proto(in.identifiedobject(), out); // inherited type
+    // convert wrapped primitive fields
+    if(in.has_connected()) out.connected = allocate(in.connected().value());
+    if(in.has_sequencenumber()) out.sequenceNumber = allocate(in.sequencenumber().value());
 }
 
 void convert_from_proto(const breakermodule::BreakerReading& in, twinoaks::breakermodule::BreakerReading& out)
@@ -258,13 +261,17 @@ void convert_from_proto(const commonmodule::BCR& in, twinoaks::commonmodule::BCR
     convert_from_proto(in.q(), out.q); // required field in DDS
     convert_from_proto(in.t(), out.t); // required field in DDS
     // convert primitive fields
-    out.actVal = convert_int64(in.actval());
+    out.actVal = convert(in.actval());
     out.units = allocate_enum<twinoaks::commonmodule::UnitSymbolKind>(in.units());
 }
 
 void convert_from_proto(const commonmodule::IdentifiedObject& in, twinoaks::commonmodule::IdentifiedObject& out)
 {
     out.clear();
+    // convert wrapped primitive fields
+    if(in.has_description()) out.description = allocate(in.description().value());
+    if(in.has_mrid()) out.mRID = allocate(in.mrid().value());
+    if(in.has_name()) out.name = allocate(in.name().value());
 }
 
 void convert_from_proto(const resourcemodule::ResourceReading& in, twinoaks::resourcemodule::ResourceReading& out)
@@ -387,6 +394,9 @@ void convert_from_proto(const commonmodule::PhaseMMTN& in, twinoaks::commonmodul
 void convert_from_proto(const commonmodule::NamedObject& in, twinoaks::commonmodule::NamedObject& out)
 {
     out.clear();
+    // convert wrapped primitive fields
+    if(in.has_description()) out.description = allocate(in.description().value());
+    if(in.has_name()) out.name = allocate(in.name().value());
 }
 
 void convert_from_proto(const commonmodule::ReadingMMXU& in, twinoaks::commonmodule::ReadingMMXU& out)
@@ -449,6 +459,9 @@ void convert_from_proto(const commonmodule::ReadingMMXU& in, twinoaks::commonmod
 void convert_from_proto(const commonmodule::AnalogueValue& in, twinoaks::commonmodule::AnalogueValue& out)
 {
     out.clear();
+    // convert wrapped primitive fields
+    if(in.has_f()) out.f = allocate(in.f().value());
+    if(in.has_i()) out.i = allocate(in.i().value());
 }
 
 void convert_from_proto(const commonmodule::Vector& in, twinoaks::commonmodule::Vector& out)
@@ -498,7 +511,7 @@ void convert_from_proto(const commonmodule::ConductingEquipment& in, twinoaks::c
     // convert message fields
     if(in.has_namedobject()) convert_from_proto(in.namedobject(), out); // inherited type
     // convert primitive fields
-    out.mRID = convert_string(in.mrid());
+    out.mRID = convert(in.mrid());
 }
 
 void convert_from_proto(const commonmodule::Unit& in, twinoaks::commonmodule::Unit& out)
@@ -527,14 +540,14 @@ void convert_from_proto(const commonmodule::DetailQual& in, twinoaks::commonmodu
 {
     out.clear();
     // convert primitive fields
-    out.badReference = convert_bool(in.badreference());
-    out.failure = convert_bool(in.failure());
-    out.inaccurate = convert_bool(in.inaccurate());
-    out.inconsistent = convert_bool(in.inconsistent());
-    out.oldData = convert_bool(in.olddata());
-    out.oscillatory = convert_bool(in.oscillatory());
-    out.outOfRange = convert_bool(in.outofrange());
-    out.overflow = convert_bool(in.overflow());
+    out.badReference = convert(in.badreference());
+    out.failure = convert(in.failure());
+    out.inaccurate = convert(in.inaccurate());
+    out.inconsistent = convert(in.inconsistent());
+    out.oldData = convert(in.olddata());
+    out.oscillatory = convert(in.oscillatory());
+    out.outOfRange = convert(in.outofrange());
+    out.overflow = convert(in.overflow());
 }
 
 void convert_from_proto(const commonmodule::ReadingMessageInfo& in, twinoaks::commonmodule::ReadingMessageInfo& out)

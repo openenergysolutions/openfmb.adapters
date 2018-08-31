@@ -148,7 +148,8 @@ public class ConvertFromProto implements CppFileCollection {
                         Helpers.omitConversion(d) ? line("// omitted via configuration") : join(
                                 line("out.clear();"),
                                 messageFieldConversions(d),
-                                primitiveFieldConversions(d)
+                                primitiveFieldConversions(d),
+                                wrappedPrimitiveFieldConversions(d)
                         )
                 )
                 .then("}");
@@ -171,6 +172,15 @@ public class ConvertFromProto implements CppFileCollection {
         );
 
         return conversions.isEmpty() ? conversions : line("// convert primitive fields").then(conversions);
+    }
+
+    private static Document wrappedPrimitiveFieldConversions(Descriptors.Descriptor d) {
+
+        Document conversions = join(
+                d.getFields().stream().map(ConvertFromProto::wrappedPrimitiveFieldConversion)
+        );
+
+        return conversions.isEmpty() ? conversions : line("// convert wrapped primitive fields").then(conversions);
     }
 
     private static Document primitiveFieldConversion(Descriptors.FieldDescriptor field)
@@ -205,9 +215,8 @@ public class ConvertFromProto implements CppFileCollection {
             if(Helpers.isRequired(field))
             {
                 return line(
-                        String.format("out.%s = convert_%s(in.%s());",
+                        String.format("out.%s = convert(in.%s());",
                                 field.getName(),
-                                field.getType().toString().toLowerCase(),
                                 field.getName().toLowerCase()
                         )
                 );
@@ -224,6 +233,19 @@ public class ConvertFromProto implements CppFileCollection {
                 );
             }
         }
+    }
+
+    private static Document wrappedPrimitiveFieldConversion(Descriptors.FieldDescriptor field)
+    {
+        if(field.getType() != Descriptors.FieldDescriptor.Type.MESSAGE) return Document.empty;
+        if(!Helpers.isPrimitiveWrapper(field.getMessageType())) return Document.empty;
+
+        return line(
+                "if(in.has_%s()) out.%s = allocate(in.%s().value());",
+                field.getName().toLowerCase(),
+                field.getName(),
+                field.getName().toLowerCase()
+        );
     }
 
     private static Document messageFieldConversion(Descriptors.FieldDescriptor field)

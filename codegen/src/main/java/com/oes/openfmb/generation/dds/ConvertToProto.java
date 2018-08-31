@@ -153,7 +153,7 @@ public class ConvertToProto implements CppFileCollection {
 
         if(field.getType() == Descriptors.FieldDescriptor.Type.BYTES)
         {
-            return line(String.format("// TODO - field '%s' of type 'bytes' omitted", field.getName()));
+            throw new RuntimeException("Bytes type not supported");
         }
 
         if(field.getType() == Descriptors.FieldDescriptor.Type.ENUM)
