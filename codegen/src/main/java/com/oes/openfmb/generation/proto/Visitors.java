@@ -1,6 +1,7 @@
 package com.oes.openfmb.generation.proto;
 
 import com.google.protobuf.Descriptors;
+import com.oes.openfmb.generation.Profiles;
 import com.oes.openfmb.generation.document.CppFileCollection;
 import com.oes.openfmb.generation.document.FileGenerator;
 import com.oes.openfmb.generation.document.GeneratedFileSet;
@@ -33,35 +34,12 @@ public class Visitors
             FileGenerator.convert(includeDir, implDir, cppFilePairs())
     );
 
-    private static List<Descriptors.Descriptor> descriptors()
-    {
-        return Arrays.asList(
-                ResourceReadingProfile.getDescriptor(),
-                // switch
-                SwitchReadingProfile.getDescriptor(),
-                SwitchStatusProfile.getDescriptor(),
-                SwitchControlProfile.getDescriptor(),
-                // ess
-                ESSReadingProfile.getDescriptor(),
-                ESSStatusProfile.getDescriptor(),
-                ESSControlProfile.getDescriptor(),
-                //solar
-                SolarReadingProfile.getDescriptor(),
-                SolarStatusProfile.getDescriptor(),
-                SolarControlProfile.getDescriptor(),
-                // load
-                LoadReadingProfile.getDescriptor(),
-                LoadStatusProfile.getDescriptor(),
-                LoadControlProfile.getDescriptor()
-        );
-    }
-
     private static List<CppFileCollection> cppFilePairs() {
 
         return Arrays.asList(
-                MessageVisitorFiles.from(descriptors()),
-                ModelVisitorFiles.from(descriptors()),
-                TypedModelVisitorFiles.from(descriptors())
+                MessageVisitorFiles.from(Profiles.descriptors),
+                ModelVisitorFiles.from(Profiles.descriptors),
+                TypedModelVisitorFiles.from(Profiles.descriptors)
         );
     }
 
