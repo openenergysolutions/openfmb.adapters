@@ -17,7 +17,7 @@ namespace adapter
 
     public:
 
-        DDSPlugin(const YAML::Node& node, const Logger& logger, IMessageBus& bus);
+        DDSPlugin(const YAML::Node& node, const Logger& logger, message_bus_t bus);
 
         virtual void start() override;
 
@@ -34,13 +34,13 @@ namespace adapter
         static std::string get_topic_name();
 
         template <class ProtoType, class DDSType>
-        void configure(const YAML::Node& node, DDS::DomainParticipant* participant, IMessageBus& bus);
+        void configure(const YAML::Node& node, DDS::DomainParticipant* participant, message_bus_t bus);
 
         template <class ProtoType, class DDSType>
-        void subscribe_to_dds(DDS::DomainParticipant* participant, IMessageBus& bus);
+        void subscribe_to_dds(DDS::DomainParticipant* participant, message_bus_t bus);
 
         template <class ProtoType, class DDSType>
-        void publish_to_dds(DDS::DomainParticipant* participant, IMessageBus& bus);
+        void publish_to_dds(DDS::DomainParticipant* participant, message_bus_t bus);
 
         // collection of active DDS listeners
         std::vector<std::shared_ptr<DDS::DataReaderListener>> reader_listeners;

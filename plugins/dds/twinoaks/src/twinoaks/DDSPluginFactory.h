@@ -23,7 +23,7 @@ namespace adapter
 
         virtual void write_default_config(YAML::Emitter& emitter) const override;
 
-        virtual std::unique_ptr<IPlugin> create(const YAML::Node& node, const Logger& logger, IMessageBus& bus) override;
+        virtual std::unique_ptr<IPlugin> create(const YAML::Node& node, const Logger& logger, message_bus_t bus) override;
 
     };
 

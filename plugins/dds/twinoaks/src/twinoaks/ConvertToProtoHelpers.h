@@ -1,6 +1,8 @@
 #ifndef OPENFMB_ADAPTER_CONVERTTOPROTOHELPERS_H
 #define OPENFMB_ADAPTER_CONVERTTOPROTOHELPERS_H
 
+#include "NamespaceAlias.h"
+
 namespace adapter
 {
 
@@ -32,52 +34,62 @@ namespace adapter
 
         // -------- numeric conversions ---------
 
-        inline ::google::protobuf::int32 convert_int32(openfmb::commonmodule::INT32 value)
+        inline ::google::protobuf::int32 convert_int32(twinoaks::commonmodule::INT32 value)
         {
             return static_cast<::google::protobuf::int32>(value);
         }
 
-        inline ::google::protobuf::uint32 convert_uint32(openfmb::commonmodule::INT32U value)
+        inline ::google::protobuf::uint32 convert_uint32(twinoaks::commonmodule::INT32U value)
         {
             return static_cast<::google::protobuf::uint32>(value);
         }
 
-        inline ::google::protobuf::uint64 convert_uint64(openfmb::commonmodule::INT64U value)
+        inline ::google::protobuf::uint64 convert_uint64(twinoaks::commonmodule::INT64U value)
         {
             return static_cast<::google::protobuf::uint64>(value);
         }
 
-        inline openfmb::commonmodule::INT64 convert_int64(::google::protobuf::int64 value)
+        inline twinoaks::commonmodule::INT64 convert_int64(::google::protobuf::int64 value)
         {
-            return static_cast<openfmb::commonmodule::INT64>(value);
+            return static_cast<twinoaks::commonmodule::INT64>(value);
         }
 
-        inline openfmb::commonmodule::FLOAT32 convert_float(float value)
+        inline twinoaks::commonmodule::FLOAT32 convert_float(float value)
         {
-            return static_cast<openfmb::commonmodule::FLOAT32>(value);
+            return static_cast<twinoaks::commonmodule::FLOAT32>(value);
         }
 
 
         // -------- enum conversions ---------
 
-        inline ::commonmodule::UnitSymbolKind convert_enum(openfmb::commonmodule::UnitSymbolKind value)
+        inline ::commonmodule::UnitSymbolKind convert_enum(twinoaks::commonmodule::UnitSymbolKind value)
         {
             return static_cast<::commonmodule::UnitSymbolKind>(value);
         }
 
-        inline ::commonmodule::CalcMethodKind convert_enum(openfmb::commonmodule::CalcMethodKind value)
+        inline ::commonmodule::CalcMethodKind convert_enum(twinoaks::commonmodule::CalcMethodKind value)
         {
             return static_cast<::commonmodule::CalcMethodKind>(value);
         }
 
-        inline ::commonmodule::PhaseCodeKind convert_enum(openfmb::commonmodule::PhaseCodeKind value)
+        inline ::commonmodule::PhaseCodeKind convert_enum(twinoaks::commonmodule::PhaseCodeKind value)
         {
             return static_cast<::commonmodule::PhaseCodeKind>(value);
         }
 
-        inline ::commonmodule::UnitMultiplierKind convert_enum(openfmb::commonmodule::UnitMultiplierKind value)
+        inline ::commonmodule::UnitMultiplierKind convert_enum(twinoaks::commonmodule::UnitMultiplierKind value)
         {
             return static_cast<::commonmodule::UnitMultiplierKind>(value);
+        }
+
+        inline ::commonmodule::TimeAccuracyKind convert_enum(twinoaks::commonmodule::TimeAccuracyKind value)
+        {
+            return static_cast<::commonmodule::TimeAccuracyKind>(value);
+        }
+
+        inline ::commonmodule::PFSignKind convert_enum(twinoaks::commonmodule::PFSignKind value)
+        {
+            return static_cast<::commonmodule::PFSignKind>(value);
         }
 
     }

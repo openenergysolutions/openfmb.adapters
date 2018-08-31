@@ -19,12 +19,10 @@ TEST_CASE( "protobuf <=> DDS conversions round trip correctly" )
 
     SECTION("Strings convert as expected")
     {
+        input.mutable_readingmessageinfo()->mutable_messageinfo()->mutable_identifiedobject()->mutable_name()->set_value("name");
 
+        convert_round_trip<twinoaks::resourcemodule::ResourceReadingProfile>(input, output);
 
-        input.mutable_readingmessageinfo()->set_applicationname("application");
-
-        convert_round_trip<openfmb::resourcemodule::ResourceReadingProfile>(input, output);
-
-        REQUIRE(input.readingmessageinfo().applicationname() == output.readingmessageinfo().applicationname());
+        REQUIRE(input.readingmessageinfo().messageinfo().identifiedobject().name().value() == output.readingmessageinfo().messageinfo().identifiedobject().name().value());
     }
 }

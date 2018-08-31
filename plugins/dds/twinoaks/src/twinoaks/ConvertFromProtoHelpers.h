@@ -1,17 +1,15 @@
 #ifndef OPENFMB_ADAPTER_CONVERTFROMPROTOHELPERS_H
 #define OPENFMB_ADAPTER_CONVERTFROMPROTOHELPERS_H
 
+#include "NamespaceAlias.h"
+
 namespace adapter
 {
 
     namespace dds
     {
-
-        /*
-        Uncomment these if they ever get fixed
-        */
-        //static_assert(sizeof(::openfmb::commonmodule::INT64U) == sizeof(::google::protobuf::uint64_t), "size mismatch");
-        //static_assert(sizeof(::openfmb::commonmodule::INT64) == sizeof(::google::protobuf::int64_t), "size mismatch");
+        static_assert(sizeof(::twinoaks::commonmodule::INT64U) == sizeof(::google::protobuf::uint64), "size mismatch");
+        static_assert(sizeof(::twinoaks::commonmodule::INT64) == sizeof(::google::protobuf::int64), "size mismatch");
 
 
         template <class Out, class T>
@@ -41,8 +39,12 @@ namespace adapter
             }
         };
 
+        // --- bool ---
 
-        // -------- TODO ------------
+        inline unsigned char convert_bool(bool value)
+        {
+            return static_cast<unsigned char>(value);
+        }
 
         inline unsigned char* create_bool(bool value)
         {
@@ -59,71 +61,81 @@ namespace adapter
 
         // -------- string conversions ---------
 
-        inline char* create_string(const ::std::string& in)
+        inline char* allocate_string(const ::std::string& in)
         {
-            char* dest = new char[in.size() + 1];
+            auto dest = new char[in.size() + 1];
             strcpy(dest, in.c_str());
             return dest;
         }
 
         inline char* convert_string(const ::std::string& in)
         {
-            return create_string(in); // no difference for mandatory / optional for strings
+            return allocate_string(in); // no difference for mandatory / optional for strings
         }
 
         // -------- numeric conversions ---------
 
-        inline openfmb::commonmodule::INT32U convert_uint32(::google::protobuf::uint32 value)
+        inline twinoaks::commonmodule::INT32U convert_uint32(::google::protobuf::uint32 value)
         {
-            return static_cast<openfmb::commonmodule::INT32U>(value);
+            return static_cast<twinoaks::commonmodule::INT32U>(value);
         }
 
-        inline openfmb::commonmodule::INT64U convert_uint64(::google::protobuf::uint64 value)
+        inline twinoaks::commonmodule::INT64U convert_uint64(::google::protobuf::uint64 value)
         {
-            return static_cast<openfmb::commonmodule::INT64U>(value);
+            return static_cast<twinoaks::commonmodule::INT64U>(value);
         }
 
-        inline openfmb::commonmodule::INT64 convert_int64(::google::protobuf::int64 value)
+        inline twinoaks::commonmodule::INT64 convert_int64(::google::protobuf::int64 value)
         {
-            return static_cast<openfmb::commonmodule::INT64>(value);
+            return static_cast<twinoaks::commonmodule::INT64>(value);
         }
 
-        inline openfmb::commonmodule::INT32* create_int32(::google::protobuf::int32 value)
+        inline twinoaks::commonmodule::INT32* create_int32(::google::protobuf::int32 value)
         {
-            return new openfmb::commonmodule::INT32(static_cast<openfmb::commonmodule::INT32>(value));
+            return new twinoaks::commonmodule::INT32(static_cast<twinoaks::commonmodule::INT32>(value));
         }
 
-        inline openfmb::commonmodule::FLOAT32* create_float(float value)
+        inline twinoaks::commonmodule::FLOAT32* create_float(float value)
         {
-            return new openfmb::commonmodule::FLOAT32(value);
+            return new twinoaks::commonmodule::FLOAT32(value);
         }
 
         // -------- enum conversions ---------
 
 
-        inline openfmb::commonmodule::UnitMultiplierKind* create_enum(::commonmodule::UnitMultiplierKind value)
+        inline twinoaks::commonmodule::UnitMultiplierKind* create_enum(::commonmodule::UnitMultiplierKind value)
         {
-            return allocate_enum<openfmb::commonmodule::UnitMultiplierKind>(value);
+            return allocate_enum<twinoaks::commonmodule::UnitMultiplierKind>(value);
         }
 
-        inline openfmb::commonmodule::UnitSymbolKind* create_enum(::commonmodule::UnitSymbolKind value)
+        inline twinoaks::commonmodule::UnitSymbolKind* create_enum(::commonmodule::UnitSymbolKind value)
         {
-            return allocate_enum<openfmb::commonmodule::UnitSymbolKind>(value);
+            return allocate_enum<twinoaks::commonmodule::UnitSymbolKind>(value);
         }
 
-        inline openfmb::commonmodule::PhaseCodeKind* create_enum(::commonmodule::PhaseCodeKind value)
+        inline twinoaks::commonmodule::PhaseCodeKind* create_enum(::commonmodule::PhaseCodeKind value)
         {
-            return allocate_enum<openfmb::commonmodule::PhaseCodeKind>(value);
+            return allocate_enum<twinoaks::commonmodule::PhaseCodeKind>(value);
         }
 
-        inline openfmb::commonmodule::UnitSymbolKind convert_enum(::commonmodule::UnitSymbolKind value)
+        inline twinoaks::commonmodule::UnitSymbolKind convert_enum(::commonmodule::UnitSymbolKind value)
         {
-            return static_cast<openfmb::commonmodule::UnitSymbolKind>(value);
+            return static_cast<twinoaks::commonmodule::UnitSymbolKind>(value);
         }
 
-        inline openfmb::commonmodule::CalcMethodKind convert_enum(::commonmodule::CalcMethodKind value)
+        inline twinoaks::commonmodule::CalcMethodKind convert_enum(::commonmodule::CalcMethodKind value)
         {
-            return static_cast<openfmb::commonmodule::CalcMethodKind>(value);
+            return static_cast<twinoaks::commonmodule::CalcMethodKind>(value);
+        }
+
+        inline twinoaks::commonmodule::TimeAccuracyKind convert_enum(::commonmodule::TimeAccuracyKind value)
+        {
+            return static_cast<twinoaks::commonmodule::TimeAccuracyKind>(value);
+        }
+
+        inline twinoaks::commonmodule::PFSignKind convert_enum(::commonmodule::PFSignKind value)
+        {
+            return static_cast<twinoaks::commonmodule::PFSignKind>(value);
         }
 
     }

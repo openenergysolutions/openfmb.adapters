@@ -1,6 +1,7 @@
 package com.oes.openfmb.generation.dds;
 
 import com.google.protobuf.Descriptors;
+import com.oes.openfmb.generation.Includes;
 import com.oes.openfmb.generation.document.CppFile;
 import com.oes.openfmb.generation.document.CppFileCollection;
 import com.oes.openfmb.generation.document.Document;
@@ -8,6 +9,7 @@ import com.oes.openfmb.generation.document.FileHeader;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.oes.openfmb.generation.document.Document.*;
 
@@ -65,8 +67,7 @@ public class ConvertFromProto implements CppFileCollection {
     private Document headerIncludes()
     {
        return join(
-                   include("adapter-api/proto/resourcemodule/resourcemodule.pb.h"),
-                   include("adapter-api/proto/breakermodule/breakermodule.pb.h")
+               Includes.getIncludeFiles(Profiles.getProfiles().collect(Collectors.toList())).stream().map(s -> include(s))
        ).then(
                join(
                    space,
@@ -225,10 +226,10 @@ public class ConvertFromProto implements CppFileCollection {
                 {
                     return line(
                             String.format(
-                                    "if(in.has_%s()) out.%s = allocate_from_proto<openfmb::%s>(in.%s());",
+                                    "if(in.has_%s()) out.%s = allocate_from_proto<%s>(in.%s());",
                                     field.getName().toLowerCase(),
                                     field.getName(),
-                                    cppName(field.getMessageType()),
+                                    Helpers.getDDSName(field.getMessageType()),
                                     field.getName().toLowerCase()
                             )
                     );
@@ -240,7 +241,7 @@ public class ConvertFromProto implements CppFileCollection {
 
     private static String signature(Descriptors.Descriptor d)
     {
-        return String.format("void convert_from_proto(const %s& in, openfmb::%s& out)", cppName(d), cppName(d));
+        return String.format("void convert_from_proto(const %s& in, %s& out)", Helpers.getProtoName(d), Helpers.getDDSName(d));
     }
 
     private static String cppName(Descriptors.EnumDescriptor d)
@@ -248,8 +249,4 @@ public class ConvertFromProto implements CppFileCollection {
         return d.getFullName().replace(".", "::");
     }
 
-    private static String cppName(Descriptors.Descriptor d)
-    {
-        return d.getFullName().replace(".", "::");
-    }
 }

@@ -14,90 +14,84 @@
 #ifndef OPENFMB_CONVERTTOPROTO_H
 #define OPENFMB_CONVERTTOPROTO_H
 
-#include "adapter-api/proto/resourcemodule/resourcemodule.pb.h"
-#include "adapter-api/proto/breakermodule/breakermodule.pb.h"
+#include "breakermodule/breakermodule.pb.h"
+#include "resourcemodule/resourcemodule.pb.h"
 
 #include "OpenFMB-3.0.0TypeSupport.hh"
+
+#include "../NamespaceAlias.h"
 
 namespace adapter {
 
 namespace dds {
 
-void convert_to_proto(const openfmb::commonmodule::Timestamp& in, commonmodule::Timestamp& out);
+void convert_to_proto(const twinoaks::commonmodule::Timestamp& in, commonmodule::Timestamp& out);
 
-void convert_to_proto(const openfmb::breakermodule::BreakerReadingProfile& in, breakermodule::BreakerReadingProfile& out);
+void convert_to_proto(const twinoaks::breakermodule::BreakerReadingProfile& in, breakermodule::BreakerReadingProfile& out);
 
-void convert_to_proto(const openfmb::commonmodule::WYE& in, commonmodule::WYE& out);
+void convert_to_proto(const twinoaks::commonmodule::WYE& in, commonmodule::WYE& out);
 
-void convert_to_proto(const openfmb::commonmodule::CMV& in, commonmodule::CMV& out);
+void convert_to_proto(const twinoaks::commonmodule::CMV& in, commonmodule::CMV& out);
 
-void convert_to_proto(const openfmb::google::protobuf::Int32Value& in, google::protobuf::Int32Value& out);
+void convert_to_proto(const twinoaks::commonmodule::ConductingEquipmentTerminalReading& in, commonmodule::ConductingEquipmentTerminalReading& out);
 
-void convert_to_proto(const openfmb::commonmodule::ConductingEquipmentTerminalReading& in, commonmodule::ConductingEquipmentTerminalReading& out);
+void convert_to_proto(const twinoaks::commonmodule::Quality& in, commonmodule::Quality& out);
 
-void convert_to_proto(const openfmb::commonmodule::Quality& in, commonmodule::Quality& out);
+void convert_to_proto(const twinoaks::commonmodule::ENG_CalcMethodKind& in, commonmodule::ENG_CalcMethodKind& out);
 
-void convert_to_proto(const openfmb::commonmodule::ENG_CalcMethodKind& in, commonmodule::ENG_CalcMethodKind& out);
+void convert_to_proto(const twinoaks::commonmodule::TimeQuality& in, commonmodule::TimeQuality& out);
 
-void convert_to_proto(const openfmb::commonmodule::TimeQuality& in, commonmodule::TimeQuality& out);
+void convert_to_proto(const twinoaks::commonmodule::ACDCTerminal& in, commonmodule::ACDCTerminal& out);
 
-void convert_to_proto(const openfmb::commonmodule::ACDCTerminal& in, commonmodule::ACDCTerminal& out);
+void convert_to_proto(const twinoaks::commonmodule::Terminal& in, commonmodule::Terminal& out);
 
-void convert_to_proto(const openfmb::commonmodule::Terminal& in, commonmodule::Terminal& out);
+void convert_to_proto(const twinoaks::commonmodule::BCR& in, commonmodule::BCR& out);
 
-void convert_to_proto(const openfmb::commonmodule::BCR& in, commonmodule::BCR& out);
+void convert_to_proto(const twinoaks::commonmodule::IdentifiedObject& in, commonmodule::IdentifiedObject& out);
 
-void convert_to_proto(const openfmb::commonmodule::IdentifiedObject& in, commonmodule::IdentifiedObject& out);
+void convert_to_proto(const twinoaks::resourcemodule::ResourceReading& in, resourcemodule::ResourceReading& out);
 
-void convert_to_proto(const openfmb::resourcemodule::ResourceReading& in, resourcemodule::ResourceReading& out);
+void convert_to_proto(const twinoaks::commonmodule::ReadingMMTR& in, commonmodule::ReadingMMTR& out);
 
-void convert_to_proto(const openfmb::commonmodule::ReadingMMTR& in, commonmodule::ReadingMMTR& out);
+void convert_to_proto(const twinoaks::commonmodule::IED& in, commonmodule::IED& out);
 
-void convert_to_proto(const openfmb::commonmodule::IED& in, commonmodule::IED& out);
+void convert_to_proto(const twinoaks::breakermodule::BreakerReading& in, breakermodule::BreakerReading& out);
 
-void convert_to_proto(const openfmb::breakermodule::BreakerReading& in, breakermodule::BreakerReading& out);
+void convert_to_proto(const twinoaks::commonmodule::PhaseMMTN& in, commonmodule::PhaseMMTN& out);
 
-void convert_to_proto(const openfmb::commonmodule::PhaseMMTN& in, commonmodule::PhaseMMTN& out);
+void convert_to_proto(const twinoaks::commonmodule::NamedObject& in, commonmodule::NamedObject& out);
 
-void convert_to_proto(const openfmb::google::protobuf::BoolValue& in, google::protobuf::BoolValue& out);
+void convert_to_proto(const twinoaks::commonmodule::ReadingMMXU& in, commonmodule::ReadingMMXU& out);
 
-void convert_to_proto(const openfmb::commonmodule::NamedObject& in, commonmodule::NamedObject& out);
+void convert_to_proto(const twinoaks::commonmodule::AnalogueValue& in, commonmodule::AnalogueValue& out);
 
-void convert_to_proto(const openfmb::commonmodule::ReadingMMXU& in, commonmodule::ReadingMMXU& out);
+void convert_to_proto(const twinoaks::resourcemodule::ResourceReadingProfile& in, resourcemodule::ResourceReadingProfile& out);
 
-void convert_to_proto(const openfmb::commonmodule::AnalogueValue& in, commonmodule::AnalogueValue& out);
+void convert_to_proto(const twinoaks::commonmodule::Vector& in, commonmodule::Vector& out);
 
-void convert_to_proto(const openfmb::resourcemodule::ResourceReadingProfile& in, resourcemodule::ResourceReadingProfile& out);
+void convert_to_proto(const twinoaks::commonmodule::LogicalNode& in, commonmodule::LogicalNode& out);
 
-void convert_to_proto(const openfmb::commonmodule::Vector& in, commonmodule::Vector& out);
+void convert_to_proto(const twinoaks::commonmodule::MessageInfo& in, commonmodule::MessageInfo& out);
 
-void convert_to_proto(const openfmb::commonmodule::LogicalNode& in, commonmodule::LogicalNode& out);
+void convert_to_proto(const twinoaks::commonmodule::MV& in, commonmodule::MV& out);
 
-void convert_to_proto(const openfmb::commonmodule::MessageInfo& in, commonmodule::MessageInfo& out);
+void convert_to_proto(const twinoaks::commonmodule::ConductingEquipment& in, commonmodule::ConductingEquipment& out);
 
-void convert_to_proto(const openfmb::commonmodule::MV& in, commonmodule::MV& out);
+void convert_to_proto(const twinoaks::commonmodule::Unit& in, commonmodule::Unit& out);
 
-void convert_to_proto(const openfmb::commonmodule::ConductingEquipment& in, commonmodule::ConductingEquipment& out);
+void convert_to_proto(const twinoaks::commonmodule::Meter& in, commonmodule::Meter& out);
 
-void convert_to_proto(const openfmb::commonmodule::Unit& in, commonmodule::Unit& out);
+void convert_to_proto(const twinoaks::commonmodule::DetailQual& in, commonmodule::DetailQual& out);
 
-void convert_to_proto(const openfmb::commonmodule::Meter& in, commonmodule::Meter& out);
+void convert_to_proto(const twinoaks::commonmodule::ReadingMessageInfo& in, commonmodule::ReadingMessageInfo& out);
 
-void convert_to_proto(const openfmb::commonmodule::DetailQual& in, commonmodule::DetailQual& out);
+void convert_to_proto(const twinoaks::commonmodule::ENG_PFSignKind& in, commonmodule::ENG_PFSignKind& out);
 
-void convert_to_proto(const openfmb::google::protobuf::FloatValue& in, google::protobuf::FloatValue& out);
+void convert_to_proto(const twinoaks::breakermodule::Breaker& in, breakermodule::Breaker& out);
 
-void convert_to_proto(const openfmb::commonmodule::ReadingMessageInfo& in, commonmodule::ReadingMessageInfo& out);
+void convert_to_proto(const twinoaks::commonmodule::DEL& in, commonmodule::DEL& out);
 
-void convert_to_proto(const openfmb::google::protobuf::StringValue& in, google::protobuf::StringValue& out);
-
-void convert_to_proto(const openfmb::commonmodule::ENG_PFSignKind& in, commonmodule::ENG_PFSignKind& out);
-
-void convert_to_proto(const openfmb::breakermodule::Breaker& in, breakermodule::Breaker& out);
-
-void convert_to_proto(const openfmb::commonmodule::DEL& in, commonmodule::DEL& out);
-
-void convert_to_proto(const openfmb::commonmodule::ReadingMMTN& in, commonmodule::ReadingMMTN& out);
+void convert_to_proto(const twinoaks::commonmodule::ReadingMMTN& in, commonmodule::ReadingMMTN& out);
 
 } // end namespace dds
 

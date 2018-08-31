@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 
 public class Profiles {
 
-    private static final List<com.google.protobuf.Descriptors.Descriptor> types = Arrays.asList(
+    private static final List<com.google.protobuf.Descriptors.Descriptor> profiles = Arrays.asList(
             ResourceReadingProfile.getDescriptor(),
             BreakerReadingProfile.getDescriptor()
     );
@@ -27,8 +27,13 @@ public class Profiles {
         return descriptors.stream();
     }
 
-    private static final Set<com.google.protobuf.Descriptors.Descriptor> descriptors = buildDescriptorSet(types);
-    private static final Set<com.google.protobuf.Descriptors.EnumDescriptor> enums = buildEnumSet(types);
+    public static Stream<com.google.protobuf.Descriptors.Descriptor> getProfiles()
+    {
+        return profiles.stream();
+    }
+
+    private static final Set<com.google.protobuf.Descriptors.Descriptor> descriptors = buildDescriptorSet(profiles);
+    private static final Set<com.google.protobuf.Descriptors.EnumDescriptor> enums = buildEnumSet(profiles);
 
     private static Set<com.google.protobuf.Descriptors.Descriptor> buildDescriptorSet(List<com.google.protobuf.Descriptors.Descriptor> descriptors)
     {

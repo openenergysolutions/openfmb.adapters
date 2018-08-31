@@ -1,3 +1,4 @@
+#include <adapter-api/ConfigStrings.h>
 #include "DDSPluginFactory.h"
 
 #include "DDSPlugin.h"
@@ -14,11 +15,11 @@ namespace adapter
         out << YAML::Newline << YAML::Comment("profiles that can be read (subscribe) or written (publish) to the DDS bus - values can 'publish', 'subscribe', or 'none'");
         out << YAML::Key << keys::profiles;
         out << YAML::BeginMap;
-        out << YAML::Key << resourcemodule::ResourceReadingProfile::descriptor()->name() << YAML::Value << keys::none;
+        out << YAML::Key << resourcemodule::ResourceReadingProfile::descriptor()->name() << YAML::Value << "none"; // TODO
         out << YAML::EndMap;
     }
 
-    std::unique_ptr<IPlugin> DDSPluginFactory::create(const YAML::Node& node, const Logger& logger, IMessageBus& bus)
+    std::unique_ptr<IPlugin> DDSPluginFactory::create(const YAML::Node& node, const Logger& logger, message_bus_t bus)
     {
         return std::make_unique<DDSPlugin>(node, logger, bus);
     }

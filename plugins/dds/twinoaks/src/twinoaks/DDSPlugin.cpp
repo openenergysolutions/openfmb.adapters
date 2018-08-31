@@ -17,7 +17,7 @@ namespace adapter
 {
     // Class used to listen to protobuf subscriptions
     template <class T, class U>
-    class SubscriberImpl : public ISubscriber<T>
+    class SubscriberImpl : public ISubscriptionHandler<T>
     {
 
         U outgoing;
@@ -31,7 +31,7 @@ namespace adapter
             writer(writer)
         {}
 
-        virtual void receive(const T& message) override
+        void process(const T& message) override
         {
             dds::convert_from_proto(message, outgoing);
             auto err = writer->write(&outgoing, DDS::HANDLE_NIL);
@@ -48,9 +48,9 @@ namespace adapter
     class SubscriptionListener final : public DataReaderListener
     {
     public:
-        explicit SubscriptionListener(Logger logger, publisher_t<T> publisher) :
+        explicit SubscriptionListener(Logger logger, message_bus_t bus) :
             logger(logger),
-            publisher(publisher)
+            bus(std::move(bus))
         {}
 
         virtual void on_data_available(DataReader* dr ) override
@@ -83,7 +83,7 @@ namespace adapter
                 {
                     T proto;
                     dds::convert_to_proto(*samples[i], proto);
-                    publisher->publish(proto);
+                    bus->publish(proto);
                 }
             }
 
@@ -93,7 +93,7 @@ namespace adapter
     private:
 
         Logger logger;
-        const publisher_t<T> publisher;
+        const message_bus_t bus;
     };
 
     template <class T, class... Args>
@@ -115,11 +115,11 @@ namespace adapter
         }
     }
 
-    DDSPlugin::DDSPlugin(const YAML::Node& node, const Logger& logger, IMessageBus& bus) : logger(logger)
+    DDSPlugin::DDSPlugin(const YAML::Node& node, const Logger& logger, message_bus_t bus) : logger(logger)
     {
         const auto domain_id = yaml::require(node, keys::domain_id).as<DDS::DomainId_t>();
 
-        const auto profiles = yaml::require(node, keys::profiles);
+        const auto profiles = yaml::require(node, "profiles"); // TODO
 
         const auto participant = require(
                                      DDS::DomainParticipantFactory::get_instance()->create_participant(domain_id, DDS::PARTICIPANT_QOS_DEFAULT, nullptr, DDS::STATUS_MASK_NONE),
@@ -127,7 +127,7 @@ namespace adapter
                                  );
 
         // configure the various profiles
-        this->configure<resourcemodule::ResourceReadingProfile, openfmb::resourcemodule::ResourceReadingProfile>(profiles, participant, bus);
+        this->configure<resourcemodule::ResourceReadingProfile, twinoaks::resourcemodule::ResourceReadingProfile>(profiles, participant, bus);
 
     }
 
@@ -152,9 +152,9 @@ namespace adapter
     }
 
     template <class ProtoType, class DDSType>
-    void DDSPlugin::configure(const YAML::Node& node, DDS::DomainParticipant* participant, IMessageBus& bus)
+    void DDSPlugin::configure(const YAML::Node& node, DDS::DomainParticipant* participant, message_bus_t bus)
     {
-        const auto mode = parse_profile_mode(yaml::require_string(node, ProtoType::descriptor()->name()));
+        const auto mode = ProfileModeMeta::parse(yaml::require_string(node, ProtoType::descriptor()->name()));
 
         switch(mode)
         {
@@ -170,7 +170,7 @@ namespace adapter
     }
 
     template <class ProtoType, class DDSType>
-    void DDSPlugin::publish_to_dds(DDS::DomainParticipant* participant, IMessageBus& bus)
+    void DDSPlugin::publish_to_dds(DDS::DomainParticipant* participant, message_bus_t bus)
     {
         const auto publisher = require(
                                    participant->create_publisher(DDS::PUBLISHER_QOS_DEFAULT, nullptr, DDS::STATUS_MASK_NONE),
@@ -204,11 +204,11 @@ namespace adapter
                                 "unable to create DDS writer for: ", DDSType::TypeSupport::get_type_name()
                             );
 
-        bus.subscribe(std::make_shared<SubscriberImpl<ProtoType, DDSType>>(this->logger, writer));
+        bus->subscribe(std::make_shared<SubscriberImpl<ProtoType, DDSType>>(this->logger, writer));
     }
 
     template <class ProtoType, class DDSType>
-    void DDSPlugin::subscribe_to_dds(DDS::DomainParticipant* participant, IMessageBus& bus)
+    void DDSPlugin::subscribe_to_dds(DDS::DomainParticipant* participant, message_bus_t bus)
     {
         const auto subscriber = require(
                                     participant->create_subscriber(DDS::SUBSCRIBER_QOS_DEFAULT, nullptr, DDS::STATUS_MASK_NONE),
@@ -235,7 +235,7 @@ namespace adapter
 
         const auto listener = std::make_shared<SubscriptionListener<ProtoType, DDSType>>(
                                   this->logger,
-                                  bus.get_publisher<ProtoType>()
+                                  bus
                               );
 
         // we must keep this alive on the heap since the DDS library doesn't understand smart pointers
