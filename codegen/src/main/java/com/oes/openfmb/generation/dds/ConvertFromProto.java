@@ -15,8 +15,10 @@ import static com.oes.openfmb.generation.document.Document.*;
 
 public class ConvertFromProto implements CppFileCollection {
 
-    public ConvertFromProto() {
+    private final List<Descriptors.Descriptor> profiles;
 
+    ConvertFromProto(List<Descriptors.Descriptor> profiles) {
+        this.profiles = profiles;
     }
 
     @Override
@@ -67,7 +69,7 @@ public class ConvertFromProto implements CppFileCollection {
     private Document headerIncludes()
     {
        return join(
-               Includes.getIncludeFiles(Profiles.getProfiles().collect(Collectors.toList())).stream().map(s -> include(s))
+               Includes.getIncludeFiles(this.profiles).stream().map(Document::include)
        ).then(
                join(
                    space,
@@ -80,14 +82,14 @@ public class ConvertFromProto implements CppFileCollection {
     private Document signatures()
     {
         return spaced(
-                Profiles.getDescriptors().map(d -> line(signature(d)+";"))
+                this.profiles.stream().map(d -> line(signature(d)+";"))
         );
 
     }
 
     private Document enumAssertions()
     {
-        return spaced(Profiles.getEnums().map(ed -> assertion(ed)));
+        return spaced(Helpers.getEnumSet(this.profiles).stream().map(ed -> assertion(ed)));
     }
 
     private static Document assertion(Descriptors.EnumDescriptor descriptor)
@@ -118,7 +120,7 @@ public class ConvertFromProto implements CppFileCollection {
 
     private Document convertImplementations()
     {
-        return spaced(Profiles.getDescriptors().map(d -> implementation(d)));
+        return spaced(this.profiles.stream().map(d -> implementation(d)));
     }
 
     private Document implementation(Descriptors.Descriptor d)

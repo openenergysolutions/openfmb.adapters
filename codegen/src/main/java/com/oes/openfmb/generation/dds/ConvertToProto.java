@@ -15,8 +15,10 @@ import static com.oes.openfmb.generation.document.Document.*;
 
 public class ConvertToProto implements CppFileCollection {
 
-    public ConvertToProto() {
+    private final List<Descriptors.Descriptor> profiles;
 
+    ConvertToProto(List<Descriptors.Descriptor> profiles) {
+        this.profiles = profiles;
     }
 
     @Override
@@ -64,7 +66,7 @@ public class ConvertToProto implements CppFileCollection {
 
     private Document convertImplementations()
     {
-        return spaced(Profiles.getDescriptors().map(this::implementation));
+        return spaced(this.profiles.stream().map(this::implementation));
     }
 
     private Document implementation(Descriptors.Descriptor d)
@@ -216,10 +218,10 @@ public class ConvertToProto implements CppFileCollection {
         }
     }
 
-    private static Document headerIncludes()
+    private Document headerIncludes()
     {
        return join(
-               Includes.getIncludeFiles(Profiles.getProfiles().collect(Collectors.toList())).stream().map(Document::include)
+               Includes.getIncludeFiles(this.profiles).stream().map(Document::include)
        ).then(
                join(
                    space,
@@ -231,7 +233,7 @@ public class ConvertToProto implements CppFileCollection {
 
     private Document signatures() {
         return spaced(
-                Profiles.getDescriptors().map(d -> line(signature(d) + ";"))
+                this.profiles.stream().map(d -> line(signature(d) + ";"))
         );
 
     }
