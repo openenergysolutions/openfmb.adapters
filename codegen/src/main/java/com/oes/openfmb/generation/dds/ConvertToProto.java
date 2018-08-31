@@ -1,14 +1,17 @@
 package com.oes.openfmb.generation.dds;
 
 import com.google.protobuf.Descriptors;
+import com.google.protobuf.StringValue;
 import com.oes.openfmb.generation.Includes;
 import com.oes.openfmb.generation.document.CppFile;
 import com.oes.openfmb.generation.document.CppFileCollection;
 import com.oes.openfmb.generation.document.Document;
 import com.oes.openfmb.generation.document.FileHeader;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.oes.openfmb.generation.document.Document.*;
@@ -16,9 +19,11 @@ import static com.oes.openfmb.generation.document.Document.*;
 public class ConvertToProto implements CppFileCollection {
 
     private final List<Descriptors.Descriptor> profiles;
+    private final Set<Descriptors.Descriptor> childTypes;
 
     ConvertToProto(List<Descriptors.Descriptor> profiles) {
         this.profiles = profiles;
+        this.childTypes = Helpers.getChildDescriptors(profiles);
     }
 
     @Override
@@ -34,7 +39,7 @@ public class ConvertToProto implements CppFileCollection {
                                        namespace(
                                                "adapter",
                                                namespace("dds",
-                                                       signatures()
+                                                       signatures(this.profiles)
                                                )
                                        )
                                )
@@ -56,7 +61,17 @@ public class ConvertToProto implements CppFileCollection {
                                 space,
                                 namespace("adapter",
                                         namespace("dds",
-                                                convertImplementations()
+                                                line("// ---- forward declare the conversion routines for the child types ---"),
+                                                space,
+                                                signatures(this.childTypes),
+                                                space,
+                                                line("// ---- implement the top level profile conversion routines ---"),
+                                                space,
+                                                implementations(this.profiles),
+                                                space,
+                                                line("// ---- implement the conversion routines for the child types ---"),
+                                                implementations(this.childTypes)
+
                                         )
                                 )
                         )
@@ -64,19 +79,20 @@ public class ConvertToProto implements CppFileCollection {
         );
     }
 
-    private Document convertImplementations()
+    private static Document implementations(Collection<Descriptors.Descriptor> descriptors)
     {
-        return spaced(this.profiles.stream().map(this::implementation));
+        return spaced(descriptors.stream().map(ConvertToProto::implementation));
     }
 
-    private Document implementation(Descriptors.Descriptor d)
+    private static Document implementation(Descriptors.Descriptor d)
     {
         return line(signature((d)))
                 .then("{")
                 .indent(
-                        FieldInfo.omitConversion(d) ? line("// omitted via configuration") : join(
+                        Helpers.omitConversion(d) ? line("// omitted via configuration") : join(
                                 line("out.Clear();"),
                                 messageFieldConversions(d),
+                                wrappedPrimitiveFieldConversions(d),
                                 primitiveFieldConversions(d)
                         )
                 )
@@ -85,25 +101,53 @@ public class ConvertToProto implements CppFileCollection {
     }
 
 
-    private Document messageFieldConversions(Descriptors.Descriptor d)
+    private static Document messageFieldConversions(Descriptors.Descriptor d)
     {
-        Document conversions = join(
-                d.getFields().stream().map(this::messageFieldConversion)
+        final Document conversions = join(
+                d.getFields().stream().map(ConvertToProto::messageFieldConversion)
         );
 
         return conversions.isEmpty() ? conversions : line("// convert message fields").then(conversions);
     }
 
-    private Document primitiveFieldConversions(Descriptors.Descriptor d) {
+    private static Document primitiveFieldConversions(Descriptors.Descriptor d) {
 
-        Document conversions = join(
-                d.getFields().stream().map(this::primitiveFieldConversion)
+        final Document conversions = join(
+                d.getFields().stream().map(ConvertToProto::primitiveFieldConversion)
         );
 
-        return conversions.isEmpty() ? conversions : line("// convert primitive fields").then(conversions);
+        return conversions.isEmpty() ? conversions : line("// convert required primitive fields").then(conversions);
     }
 
-    private Document primitiveFieldConversion(Descriptors.FieldDescriptor field)
+    private static Document wrappedPrimitiveFieldConversions(Descriptors.Descriptor d) {
+
+        final Document conversions = join(
+                d.getFields().stream().map(ConvertToProto::wrappedPrimitiveFieldConversion)
+        );
+
+        return conversions.isEmpty() ? conversions : line("// convert optional (wrapped) primitive fields").then(conversions);
+    }
+
+    private static Document wrappedPrimitiveFieldConversion(Descriptors.FieldDescriptor field)
+    {
+        if(field.getType() != Descriptors.FieldDescriptor.Type.MESSAGE) return Document.empty;
+
+        final Descriptors.Descriptor msgType = field.getMessageType();
+
+        if(!Helpers.isPrimitiveWrapper(msgType)) return Document.empty;
+
+        if(msgType.equals(StringValue.getDescriptor()))
+        {
+            return line("if(in.%s) out.mutable_%s()->set_value(in.%s);", field.getName(), field.getName().toLowerCase(), field.getName());
+        }
+        else
+        {
+            return line("if(in.%s) out.mutable_%s()->set_value(*in.%s);", field.getName(), field.getName().toLowerCase(), field.getName());
+        }
+
+    }
+
+    private static Document primitiveFieldConversion(Descriptors.FieldDescriptor field)
     {
         if(field.getType() == Descriptors.FieldDescriptor.Type.MESSAGE) return Document.empty;
 
@@ -112,15 +156,14 @@ public class ConvertToProto implements CppFileCollection {
             return line(String.format("// TODO - field '%s' of type 'bytes' omitted", field.getName()));
         }
 
-        if(FieldInfo.isRequired(field))
+        if(field.getType() == Descriptors.FieldDescriptor.Type.ENUM)
         {
-            if(field.getType().equals(Descriptors.FieldDescriptor.Type.STRING))
+            if(Helpers.isRequired(field))
             {
                 return line(
-                        String.format("if(in.%s) out.set_%s(convert_%s(in.%s));",
-                                field.getName(),
+                        String.format("out.set_%s(static_cast<%s>(in.%s));",
                                 field.getName().toLowerCase(),
-                                field.getType().toString().toLowerCase(),
+                                Helpers.getProtoName(field.getEnumType()),
                                 field.getName()
                         )
                 );
@@ -128,9 +171,10 @@ public class ConvertToProto implements CppFileCollection {
             else
             {
                 return line(
-                        String.format("out.set_%s(convert_%s(in.%s));",
+                        String.format("if(in.%s) out.set_%s(static_cast<%s>(*in.%s));",
+                                field.getName(),
                                 field.getName().toLowerCase(),
-                                field.getType().toString().toLowerCase(),
+                                Helpers.getProtoName(field.getEnumType()),
                                 field.getName()
                         )
                 );
@@ -138,38 +182,66 @@ public class ConvertToProto implements CppFileCollection {
         }
         else
         {
-            if(field.getType().equals(Descriptors.FieldDescriptor.Type.STRING))
+            if(Helpers.isRequired(field))
             {
-                return line(
-                        String.format(
-                                "if(in.%s) out.set_%s(in.%s);",
-                                field.getName(),
-                                field.getName().toLowerCase(),
-                                field.getName()
-                        )
-                );
+                if(field.getType().equals(Descriptors.FieldDescriptor.Type.STRING))
+                {
+                    return line(
+                            String.format("if(in.%s) out.set_%s(convert_%s(in.%s));",
+                                    field.getName(),
+                                    field.getName().toLowerCase(),
+                                    field.getType().toString().toLowerCase(),
+                                    field.getName()
+                            )
+                    );
+                }
+                else
+                {
+                    return line(
+                            String.format("out.set_%s(convert_%s(in.%s));",
+                                    field.getName().toLowerCase(),
+                                    field.getType().toString().toLowerCase(),
+                                    field.getName()
+                            )
+                    );
+                }
             }
             else
             {
-                return line(
-                        String.format(
-                                "if(in.%s) out.set_%s(convert_%s(*in.%s));",
-                                field.getName(),
-                                field.getName().toLowerCase(),
-                                field.getType().toString().toLowerCase(),
-                                field.getName()
-                        )
-                );
+                if(field.getType().equals(Descriptors.FieldDescriptor.Type.STRING))
+                {
+                    return line(
+                            String.format(
+                                    "if(in.%s) out.set_%s(in.%s);",
+                                    field.getName(),
+                                    field.getName().toLowerCase(),
+                                    field.getName()
+                            )
+                    );
+                }
+                else
+                {
+                    return line(
+                            String.format(
+                                    "if(in.%s) out.set_%s(convert_%s(*in.%s));",
+                                    field.getName(),
+                                    field.getName().toLowerCase(),
+                                    field.getType().toString().toLowerCase(),
+                                    field.getName()
+                            )
+                    );
+                }
             }
         }
-
     }
 
-    private Document messageFieldConversion(Descriptors.FieldDescriptor field)
+    private static Document messageFieldConversion(Descriptors.FieldDescriptor field)
     {
         if(field.getType() != Descriptors.FieldDescriptor.Type.MESSAGE) return Document.empty;
 
-        if(FieldInfo.isInherited(field))
+        if(Helpers.isPrimitiveWrapper(field.getMessageType())) return Document.empty;
+
+        if(Helpers.isInherited(field))
         {
             return line(
                     String.format(
@@ -182,17 +254,13 @@ public class ConvertToProto implements CppFileCollection {
         {
             if(field.isRepeated())
             {
-                return line(
-                        String.format(
-                                "convert_repeated_field(in.%s, *out.mutable_%s()); // repeated field",
-                                field.getName(),
-                                field.getName().toLowerCase()
-                        )
+                return line("for(decltype(in.%s.length()) i = 0; i < in.%s.length(); ++i)", field.getName(), field.getName()).bracket(
+                    line("convert_to_proto(in.%s.at(i), *out.mutable_%s()->Add());", field.getName(), field.getName().toLowerCase())
                 );
             }
             else
             {
-                if(FieldInfo.isRequired(field))
+                if(Helpers.isRequired(field))
                 {
                     return line(
                             String.format(
@@ -225,15 +293,17 @@ public class ConvertToProto implements CppFileCollection {
        ).then(
                join(
                    space,
-                   include("OpenFMB-3.0.0TypeSupport.hh")
+                   include("OpenFMB-3.0.0TypeSupport.hh"),
+                   space,
+                   include("../NamespaceAlias.h")
                )
        );
 
     }
 
-    private Document signatures() {
+    private static Document signatures(Collection<Descriptors.Descriptor> descriptors) {
         return spaced(
-                this.profiles.stream().map(d -> line(signature(d) + ";"))
+                descriptors.stream().map(d -> line(signature(d) + ";"))
         );
 
     }

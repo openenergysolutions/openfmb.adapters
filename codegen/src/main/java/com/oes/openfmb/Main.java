@@ -16,9 +16,9 @@ public class Main {
 
         final List<GeneratedFileSet> sets = Stream.of(
                 // vistors methods used included with API library
-                Stream.of(Visitors.set),
+                //Stream.of(Visitors.set),
                 // enumerations used by multiple modules
-                Enumerations.sets.stream(),
+                //Enumerations.sets.stream(),
                 // Twinoaks DDS <=> proto conversion routines
                 Stream.of(Conversions.set)
         ).reduce(Stream::concat).orElseGet(Stream::empty).collect(Collectors.toList());
