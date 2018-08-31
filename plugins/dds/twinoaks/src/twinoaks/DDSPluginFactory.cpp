@@ -24,6 +24,11 @@ namespace adapter
         return std::make_unique<DDSPlugin>(node, logger, bus);
     }
 
+    void DDSPluginFactory::write_session_config(YAML::Emitter &out, const profile_vec_t &profiles) const
+    {
+        throw Exception("twinoaks-dds plugin does not require a separate session configuration file");
+    }
+
 }
 
 
