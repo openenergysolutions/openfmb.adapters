@@ -1,11 +1,9 @@
 package com.oes.openfmb.generation.dds;
 
-import com.google.protobuf.Descriptors;
+import com.oes.openfmb.generation.Profiles;
 import com.oes.openfmb.generation.document.CppFileCollection;
 import com.oes.openfmb.generation.document.FileGenerator;
 import com.oes.openfmb.generation.document.GeneratedFileSet;
-import openfmb.breakermodule.BreakerReadingProfile;
-import openfmb.resourcemodule.ResourceReadingProfile;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -23,15 +21,9 @@ public class Conversions
 
     private static List<CppFileCollection> cppFilePairs() {
 
-        // list of profiles to support in DDS bindings
-        final List<Descriptors.Descriptor> profiles = Arrays.asList(
-                ResourceReadingProfile.getDescriptor(),
-                BreakerReadingProfile.getDescriptor()
-        );
-
         return Arrays.asList(
-                new ConvertToProto(profiles),
-                new ConvertFromProto(profiles)
+                new ConvertToProto(Profiles.set),
+                new ConvertFromProto(Profiles.set)
         );
     }
 

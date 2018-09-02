@@ -16,29 +16,38 @@ import openfmb.switchmodule.SwitchReadingProfile;
 import openfmb.switchmodule.SwitchStatusProfile;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Profiles {
 
     private Profiles() {}
 
-    public final static List<Descriptors.Descriptor> descriptors = Arrays.asList(
-            ResourceReadingProfile.getDescriptor(),
-            // switch
-            SwitchReadingProfile.getDescriptor(),
-            SwitchStatusProfile.getDescriptor(),
-            SwitchControlProfile.getDescriptor(),
-            // ess
-            ESSReadingProfile.getDescriptor(),
-            ESSStatusProfile.getDescriptor(),
-            ESSControlProfile.getDescriptor(),
-            //solar
-            SolarReadingProfile.getDescriptor(),
-            SolarStatusProfile.getDescriptor(),
-            SolarControlProfile.getDescriptor(),
-            // load
-            LoadReadingProfile.getDescriptor(),
-            LoadStatusProfile.getDescriptor(),
-            LoadControlProfile.getDescriptor()
-    );
+    public static Set<Descriptors.Descriptor> set = Collections.unmodifiableSet(get());
+
+    private static Set<Descriptors.Descriptor> get()
+    {
+        return new HashSet<>(
+                Arrays.asList(
+                        ResourceReadingProfile.getDescriptor(),
+                        // switch
+                        SwitchReadingProfile.getDescriptor(),
+                        SwitchStatusProfile.getDescriptor(),
+                        SwitchControlProfile.getDescriptor(),
+                        // ess
+                        ESSReadingProfile.getDescriptor(),
+                        ESSStatusProfile.getDescriptor(),
+                        ESSControlProfile.getDescriptor(),
+                        //solar
+                        SolarReadingProfile.getDescriptor(),
+                        SolarStatusProfile.getDescriptor(),
+                        SolarControlProfile.getDescriptor(),
+                        // load
+                        LoadReadingProfile.getDescriptor(),
+                        LoadStatusProfile.getDescriptor(),
+                        LoadControlProfile.getDescriptor()
+                )
+        );
+    }
 }

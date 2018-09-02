@@ -11,16 +11,15 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static com.oes.openfmb.generation.document.Document.*;
 
 public class ConvertFromProto implements CppFileCollection {
 
-    private final List<Descriptors.Descriptor> profiles;
+    private final Set<Descriptors.Descriptor> profiles;
     private final Set<Descriptors.Descriptor> children;
 
-    ConvertFromProto(List<Descriptors.Descriptor> profiles) {
+    ConvertFromProto(Set<Descriptors.Descriptor> profiles) {
         this.profiles = profiles;
         this.children = Helpers.getChildDescriptors(profiles);
     }
@@ -103,7 +102,7 @@ public class ConvertFromProto implements CppFileCollection {
 
     }
 
-    private static Document enumAssertions(List<Descriptors.Descriptor> descriptors)
+    private static Document enumAssertions(Collection<Descriptors.Descriptor> descriptors)
     {
         return spaced(Helpers.getEnumSet(descriptors).stream().map(ed -> assertion(ed)));
     }
@@ -145,7 +144,7 @@ public class ConvertFromProto implements CppFileCollection {
         return line(signature((d)))
                 .then("{")
                 .indent(
-                        Helpers.omitConversion(d) ? line("// omitted via configuration") : join(
+                        join(
                                 line("out.clear();"),
                                 messageFieldConversions(d),
                                 primitiveFieldConversions(d),
@@ -238,7 +237,7 @@ public class ConvertFromProto implements CppFileCollection {
     private static Document wrappedPrimitiveFieldConversion(Descriptors.FieldDescriptor field)
     {
         if(field.getType() != Descriptors.FieldDescriptor.Type.MESSAGE) return Document.empty;
-        if(!Helpers.isPrimitiveWrapper(field.getMessageType())) return Document.empty;
+        if(!Helpers.isOptionalPrimitiveWrapper(field.getMessageType())) return Document.empty;
 
         return line(
                 "if(in.has_%s()) out.%s = allocate(in.%s().value());",
@@ -251,7 +250,7 @@ public class ConvertFromProto implements CppFileCollection {
     private static Document messageFieldConversion(Descriptors.FieldDescriptor field)
     {
         if(field.getType() != Descriptors.FieldDescriptor.Type.MESSAGE) return Document.empty;
-        if(Helpers.isPrimitiveWrapper(field.getMessageType())) return Document.empty;
+        if(Helpers.isOptionalPrimitiveWrapper(field.getMessageType())) return Document.empty;
 
 
         if(Helpers.isInherited(field))

@@ -4,9 +4,7 @@ import com.oes.openfmb.generation.document.*;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-
 
 import static com.oes.openfmb.generation.document.Document.*;
 

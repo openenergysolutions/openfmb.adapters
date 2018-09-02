@@ -3,20 +3,23 @@ package com.oes.openfmb.generation.proto;
 import com.google.protobuf.Descriptors;
 import com.oes.openfmb.generation.document.*;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+import java.util.SortedMap;
 import java.util.stream.Collectors;
 
 import static com.oes.openfmb.generation.document.Document.*;
 
 public class TypedModelVisitorFiles implements CppFileCollection {
 
-    private final List<Descriptors.Descriptor> descriptors;
+    private final Set<Descriptors.Descriptor> descriptors;
 
-    private TypedModelVisitorFiles(List<Descriptors.Descriptor> descriptors) {
+    private TypedModelVisitorFiles(Set<Descriptors.Descriptor> descriptors) {
         this.descriptors = descriptors;
     }
 
-    public static CppFileCollection from(List<Descriptors.Descriptor> descriptors) {
+    public static CppFileCollection from(Set<Descriptors.Descriptor> descriptors) {
         return new TypedModelVisitorFiles(descriptors);
     }
 

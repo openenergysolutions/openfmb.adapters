@@ -2,8 +2,6 @@ package com.oes.openfmb;
 
 import com.oes.openfmb.generation.dds.Conversions;
 import com.oes.openfmb.generation.document.GeneratedFileSet;
-import com.oes.openfmb.generation.enumeration.Enumerations;
-import com.oes.openfmb.generation.proto.Visitors;
 
 import java.util.List;
 import java.util.stream.Collectors;

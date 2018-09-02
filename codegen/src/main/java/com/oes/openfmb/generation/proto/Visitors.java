@@ -1,23 +1,9 @@
 package com.oes.openfmb.generation.proto;
 
-import com.google.protobuf.Descriptors;
 import com.oes.openfmb.generation.Profiles;
 import com.oes.openfmb.generation.document.CppFileCollection;
 import com.oes.openfmb.generation.document.FileGenerator;
 import com.oes.openfmb.generation.document.GeneratedFileSet;
-import openfmb.essmodule.ESSControlProfile;
-import openfmb.essmodule.ESSReadingProfile;
-import openfmb.essmodule.ESSStatusProfile;
-import openfmb.loadmodule.LoadControlProfile;
-import openfmb.loadmodule.LoadReadingProfile;
-import openfmb.loadmodule.LoadStatusProfile;
-import openfmb.resourcemodule.ResourceReadingProfile;
-import openfmb.solarmodule.SolarControlProfile;
-import openfmb.solarmodule.SolarReadingProfile;
-import openfmb.solarmodule.SolarStatusProfile;
-import openfmb.switchmodule.SwitchControlProfile;
-import openfmb.switchmodule.SwitchReadingProfile;
-import openfmb.switchmodule.SwitchStatusProfile;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -37,9 +23,9 @@ public class Visitors
     private static List<CppFileCollection> cppFilePairs() {
 
         return Arrays.asList(
-                MessageVisitorFiles.from(Profiles.descriptors),
-                ModelVisitorFiles.from(Profiles.descriptors),
-                TypedModelVisitorFiles.from(Profiles.descriptors)
+                MessageVisitorFiles.from(Profiles.set),
+                ModelVisitorFiles.from(Profiles.set),
+                TypedModelVisitorFiles.from(Profiles.set)
         );
     }
 

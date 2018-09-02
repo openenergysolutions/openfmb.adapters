@@ -3,12 +3,9 @@ package com.oes.openfmb.generation.dds;
 import com.google.protobuf.Descriptors;
 import com.oes.openfmb.util.DescriptorUtil;
 import openfmb.Uml;
-import openfmb.commonmodule.Quality;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 class Helpers {
@@ -36,17 +33,17 @@ class Helpers {
         return "twinoaks::" + getProtoName(d);
     }
 
-    static Set<Descriptors.Descriptor> getChildDescriptors(List<Descriptors.Descriptor> profiles)
+    static Set<Descriptors.Descriptor> getChildDescriptors(Set<Descriptors.Descriptor> profiles)
     {
         final Set<Descriptors.Descriptor> set = profiles.stream().map(DescriptorUtil::findUniqueSubMessages).flatMap(Set::stream).collect(Collectors.toSet());
-        // don't include the primitive wrappers
-        set.removeAll(primitiveWrappers);
-        // don't include the profiles themselves
-        set.removeAll(profiles);
-        return set;
+
+        final Function<Descriptors.Descriptor, Boolean> isExcluded = d ->
+                primitiveWrappers.contains(d) || profiles.contains(d) || (Helpers.getOptionalEnumWrapper(d) != null);
+
+        return set.stream().filter(d -> !isExcluded.apply(d)).collect(Collectors.toSet());
     }
 
-    static Set<Descriptors.EnumDescriptor> getEnumSet(List<Descriptors.Descriptor> profiles)
+    static Set<Descriptors.EnumDescriptor> getEnumSet(Collection<Descriptors.Descriptor> profiles)
     {
         return profiles.stream().map(DescriptorUtil::findUniqueEnums).flatMap(Set::stream).collect(Collectors.toSet());
     }
@@ -61,13 +58,22 @@ class Helpers {
         return descriptor.getOptions().getExtension(Uml.optionParentMessage);
     }
 
-    static boolean omitConversion(Descriptors.Descriptor descriptor)
-    {
-        return false;//descriptor.equals(Quality.getDescriptor());
-    }
-
-    static boolean isPrimitiveWrapper(Descriptors.Descriptor descriptor)
+    static boolean isOptionalPrimitiveWrapper(Descriptors.Descriptor descriptor)
     {
         return primitiveWrappers.contains(descriptor);
+    }
+
+    static Descriptors.EnumDescriptor getOptionalEnumWrapper(Descriptors.Descriptor descriptor)
+    {
+        if(!descriptor.getName().startsWith("Optional_")) {
+            return null;
+        }
+
+        final List<Descriptors.FieldDescriptor> fields = descriptor.getFields();
+        if(fields.size() != 1) return null;
+        final Descriptors.FieldDescriptor field = fields.get(0);
+        if(field.getType() != Descriptors.FieldDescriptor.Type.ENUM) return null;
+
+        return field.getName().equals("value") ? field.getEnumType() : null;
     }
 }
