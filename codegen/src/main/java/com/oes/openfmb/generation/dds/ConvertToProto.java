@@ -194,7 +194,8 @@ public class ConvertToProto implements CppFileCollection {
                         join(
                                 line("out.Clear();"),
                                 join(
-                                        d.getFields().stream().map(field -> FieldHandler.get(new FieldHandlerImpl(field), field))
+                                        //d.getFields().stream().map(field -> FieldHandler.get(new FieldHandlerImpl(field), field))
+                                        line("// restore me")
                                 )
                         )
                 )

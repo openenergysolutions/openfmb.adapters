@@ -24,6 +24,123 @@ public class ConvertFromProto implements CppFileCollection {
         this.children = Helpers.getChildDescriptors(profiles);
     }
 
+    private static class FieldHandlerImpl implements FieldHandler {
+
+        private final Descriptors.FieldDescriptor field;
+
+        FieldHandlerImpl(Descriptors.FieldDescriptor field) {
+            this.field = field;
+        }
+
+        @Override
+        public Document repeatedMessage() {
+            return line("for(const auto& input : in.%s())", field.getName().toLowerCase()).bracket(
+                    join(
+                            line("%s ouput;", Helpers.getDDSName(field.getMessageType())),
+                            line("convert_from_proto(input, ouput);"),
+                            line("out.%s.push_back(ouput);", field.getName())
+                    )
+            );
+        }
+
+        @Override
+        public Document inheritedMessage() {
+            return line(
+                    String.format(
+                            "if(in.has_%s()) convert_from_proto(in.%s(), out); // inherited type",
+                            field.getName().toLowerCase(),
+                            field.getName().toLowerCase()
+                    )
+            );
+        }
+
+        @Override
+        public Document requiredMessage() {
+            return line(
+                    String.format(
+                            "convert_from_proto(in.%s(), out.%s); // required field in DDS",
+                            field.getName().toLowerCase(),
+                            field.getName()
+                    )
+            );
+        }
+
+        @Override
+        public Document optionalMessage() {
+            return line("if(in.has_%s()) // optional field in DDS", field.getName().toLowerCase()).bracket(
+                    join(
+                            line("out.%s = new %s();", field.getName(), Helpers.getDDSName(field.getMessageType())),
+                            line("convert_from_proto(in.%s(), *out.%s);", field.getName().toLowerCase(), field.getName())
+                    )
+            );
+        }
+
+        @Override
+        public Document requiredEnum() {
+            return line(
+                    String.format("out.%s = static_cast<%s>(in.%s());",
+                            field.getName(),
+                            Helpers.getDDSName(field.getEnumType()),
+                            field.getName().toLowerCase()
+                    )
+            );
+        }
+
+        @Override
+        public Document optionalEnum(Descriptors.EnumDescriptor ed) {
+            return line(
+                    "out.%s = new %s(static_cast<%s>(in.%s().value())); // optional enum",
+                        field.getName(),
+                        Helpers.getDDSName(ed),
+                        Helpers.getDDSName(ed),
+                        field.getName().toLowerCase()
+            );
+        }
+
+        @Override
+        public Document requiredString() {
+            return line(
+                    "out.%s = allocate(in.%s()); // required string",
+                    field.getName(),
+                    field.getName().toLowerCase()
+            );
+        }
+
+        @Override
+        public Document optionalString() {
+            return line(
+                    "if(in.has_%s()) out.%s = allocate(in.%s().value()); // optional string",
+                    field.getName().toLowerCase(),
+                    field.getName(),
+                    field.getName().toLowerCase()
+            );
+        }
+
+        @Override
+        public Document requiredPrimitive() {
+            return line(
+                    "out.%s = convert(in.%s()); // required primitive",
+                    field.getName(),
+                    field.getName().toLowerCase()
+            );
+        }
+
+        @Override
+        public Document optionalPrimitive() {
+
+            return line("if(in.has_%s())", field.getName().toLowerCase()).bracket(
+                    join(
+                            line(
+                                    "out.%s = allocate_from_wrapper_type(in.%s());",
+                                    field.getName(),
+                                    field.getName().toLowerCase()
+                            )
+                    )
+
+            );
+        }
+    }
+
     @Override
     public List<CppFile> headers() {
         return Collections.singletonList(
@@ -102,6 +219,38 @@ public class ConvertFromProto implements CppFileCollection {
 
     }
 
+    private static Document implementations(Collection<Descriptors.Descriptor> descriptors)
+    {
+        return spaced(descriptors.stream().map(ConvertFromProto::implementation));
+    }
+
+    private static Document implementation(Descriptors.Descriptor d)
+    {
+
+        return line(signature((d)))
+                .then("{")
+                .indent(
+                        join(
+                                line("out.clear();"),
+                                join(
+                                        d.getFields().stream().map(f -> FieldHandler.get(new FieldHandlerImpl(f), f))
+                                )
+                        )
+                )
+                .then("}");
+
+    }
+
+    private static String signature(Descriptors.Descriptor d)
+    {
+        return String.format("void convert_from_proto(const %s& in, %s& out)", Helpers.getProtoName(d), Helpers.getDDSName(d));
+    }
+
+    private static String cppName(Descriptors.EnumDescriptor d)
+    {
+        return d.getFullName().replace(".", "::");
+    }
+
     private static Document enumAssertions(Collection<Descriptors.Descriptor> descriptors)
     {
         return spaced(Helpers.getEnumSet(descriptors).stream().map(ed -> assertion(ed)));
@@ -124,198 +273,13 @@ public class ConvertFromProto implements CppFileCollection {
         }
 
         return line(
-            String.format("static_assert(static_cast<int>(%s::%s) == static_cast<int>(twinoaks::%s::%s), \"mismatched enum values\");",
-                    cppName(d.getType()),
-                    d.getName(),
-                    cppName(d.getType()),
-                    d.getName()
-            )
-        );
-    }
-
-    private static Document implementations(Collection<Descriptors.Descriptor> descriptors)
-    {
-        return spaced(descriptors.stream().map(ConvertFromProto::implementation));
-    }
-
-    private static Document implementation(Descriptors.Descriptor d)
-    {
-
-        return line(signature((d)))
-                .then("{")
-                .indent(
-                        join(
-                                line("out.clear();"),
-                                messageFieldConversions(d),
-                                primitiveFieldConversions(d),
-                                wrappedPrimitiveFieldConversions(d)
-                        )
+                String.format("static_assert(static_cast<int>(%s::%s) == static_cast<int>(twinoaks::%s::%s), \"mismatched enum values\");",
+                        cppName(d.getType()),
+                        d.getName(),
+                        cppName(d.getType()),
+                        d.getName()
                 )
-                .then("}");
-
-    }
-
-    private static Document messageFieldConversions(Descriptors.Descriptor d)
-    {
-        Document conversions = join(
-          d.getFields().stream().map(ConvertFromProto::messageFieldConversion)
         );
-
-        return conversions.isEmpty() ? conversions : line("// convert message fields").then(conversions);
-    }
-
-    private static Document primitiveFieldConversions(Descriptors.Descriptor d) {
-
-        Document conversions = join(
-                d.getFields().stream().map(ConvertFromProto::primitiveFieldConversion)
-        );
-
-        return conversions.isEmpty() ? conversions : line("// convert primitive fields").then(conversions);
-    }
-
-    private static Document wrappedPrimitiveFieldConversions(Descriptors.Descriptor d) {
-
-        Document conversions = join(
-                d.getFields().stream().map(ConvertFromProto::wrappedPrimitiveFieldConversion)
-        );
-
-        return conversions.isEmpty() ? conversions : line("// convert wrapped primitive fields").then(conversions);
-    }
-
-    private static Document primitiveFieldConversion(Descriptors.FieldDescriptor field)
-    {
-        if(field.getType() == Descriptors.FieldDescriptor.Type.MESSAGE) return Document.empty;
-
-        if(field.getType() == Descriptors.FieldDescriptor.Type.ENUM)
-        {
-            if(Helpers.isRequired(field))
-            {
-                return line(
-                        String.format("out.%s = static_cast<%s>(in.%s());",
-                                field.getName(),
-                                Helpers.getDDSName(field.getEnumType()),
-                                field.getName().toLowerCase()
-                        )
-                );
-            }
-            else
-            {
-                return line(
-                        String.format("out.%s = allocate_enum<%s>(in.%s());",
-                                field.getName(),
-                                Helpers.getDDSName(field.getEnumType()),
-                                field.getName().toLowerCase()
-                        )
-                );
-            }
-        }
-        else
-        {
-            if(Helpers.isRequired(field))
-            {
-                return line(
-                        String.format("out.%s = convert(in.%s());",
-                                field.getName(),
-                                field.getName().toLowerCase()
-                        )
-                );
-            }
-            else
-            {
-                return line(
-                        String.format(
-                                "out.%s = create_%s(in.%s());",
-                                field.getName(),
-                                field.getType().toString().toLowerCase(),
-                                field.getName().toLowerCase()
-                        )
-                );
-            }
-        }
-    }
-
-    private static Document wrappedPrimitiveFieldConversion(Descriptors.FieldDescriptor field)
-    {
-        if(field.getType() != Descriptors.FieldDescriptor.Type.MESSAGE) return Document.empty;
-        if(!Helpers.isOptionalPrimitiveWrapper(field.getMessageType())) return Document.empty;
-
-        return line(
-                "if(in.has_%s()) out.%s = allocate(in.%s().value());",
-                field.getName().toLowerCase(),
-                field.getName(),
-                field.getName().toLowerCase()
-        );
-    }
-
-    private static Document messageFieldConversion(Descriptors.FieldDescriptor field)
-    {
-        if(field.getType() != Descriptors.FieldDescriptor.Type.MESSAGE) return Document.empty;
-        if(Helpers.isOptionalPrimitiveWrapper(field.getMessageType())) return Document.empty;
-
-
-        if(Helpers.isInherited(field))
-        {
-            return line(
-                    String.format(
-                            "if(in.has_%s()) convert_from_proto(in.%s(), out); // inherited type",
-                            field.getName().toLowerCase(),
-                            field.getName().toLowerCase()
-                    )
-            );
-        }
-        else
-        {
-            if(field.isRepeated())
-            {
-                return line("for(const auto& input : in.%s())", field.getName().toLowerCase()).bracket(
-                        join(
-                                line("%s ouput;", Helpers.getDDSName(field.getMessageType())),
-                                line("convert_from_proto(input, ouput);"),
-                                line("out.%s.push_back(ouput);", field.getName())
-                        )
-                );
-            }
-            else
-            {
-                if(Helpers.isRequired(field))
-                {
-                    return line(
-                            String.format(
-                                    "convert_from_proto(in.%s(), out.%s); // required field in DDS",
-                                    field.getName().toLowerCase(),
-                                    field.getName()
-                            )
-                    );
-                }
-                else
-                {
-                    return line(
-                            String.format(
-                                    "if(in.has_%s())",
-                                    field.getName().toLowerCase()
-                            )
-                    ).bracket(
-                            line("out.%s = new %s();", field.getName(), Helpers.getDDSName(field.getMessageType()))
-                            .then(String.format(
-                                    "convert_from_proto(in.%s(), *out.%s);",
-                                    field.getName().toLowerCase(),
-                                    field.getName()
-                            ))
-                    );
-                }
-            }
-
-        }
-    }
-
-    private static String signature(Descriptors.Descriptor d)
-    {
-        return String.format("void convert_from_proto(const %s& in, %s& out)", Helpers.getProtoName(d), Helpers.getDDSName(d));
-    }
-
-    private static String cppName(Descriptors.EnumDescriptor d)
-    {
-        return d.getFullName().replace(".", "::");
     }
 
 }
