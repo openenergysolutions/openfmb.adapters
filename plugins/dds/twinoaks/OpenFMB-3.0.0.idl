@@ -309,9 +309,9 @@ module OpenFMB_Model {
                 typedef unsigned long long INT64U;
                 typedef long INT8;
                 typedef sequence<string,129> ObjRef;
-                typedef sequence<string,255> Unicode255;
+                typedef string Unicode255;
                 typedef string uuidType;
-                typedef sequence<string,255> VisString255;
+                typedef string VisString255;
             }; /* module commonmodule */
 
             module essmodule {
