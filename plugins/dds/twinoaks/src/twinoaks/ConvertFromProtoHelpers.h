@@ -5,6 +5,11 @@
 
 #include <type_traits>
 
+#include <OpenFMB-3.0.0.hh>
+#include <google/protobuf/stubs/port.h>
+#include <google/protobuf/wrappers.pb.h>
+
+
 namespace adapter
 {
 
@@ -18,64 +23,31 @@ namespace adapter
 
         static_assert(std::is_same<::twinoaks::commonmodule::FLOAT32, float>::value, "type mismatch");
 
-        template <class Out, class In>
-        inline Out* allocate_enum(In value)
-        {
-            return new Out(static_cast<Out>(value));
-        };
-
-        // --- bool ---
-
-        inline unsigned char convert(bool value)
-        {
-            return static_cast<unsigned char>(value);
-        }
-
-        inline unsigned char* allocate(bool value)
-        {
-            return new unsigned char(static_cast<unsigned char>(value));
-        }
-
         // -------- string conversions ---------
 
-        inline char* allocate(const ::std::string& in)
-        {
+        inline char* allocate_cstring(const ::std::string& in) {
             auto dest = new char[in.size() + 1];
             strcpy(dest, in.c_str());
             return dest;
         }
 
-        inline char* convert(const ::std::string& in)
+        // -------- proto wrapper to native pointer factories  ---------
+
+        inline unsigned char* allocate_from_wrapper_type(const google::protobuf::BoolValue& wrapper)
         {
-            return allocate(in);
+            return new unsigned char (wrapper.value());
         }
 
-        // -------- numeric conversions ---------
-
-        inline twinoaks::commonmodule::INT32* allocate(::google::protobuf::int32 value)
+        inline int* allocate_from_wrapper_type(const google::protobuf::Int32Value& wrapper)
         {
-            return new twinoaks::commonmodule::INT32(value);
+            return new int (wrapper.value());
         }
 
-        inline twinoaks::commonmodule::FLOAT32* allocate(float value)
+        inline float* allocate_from_wrapper_type(const google::protobuf::FloatValue& wrapper)
         {
-            return new twinoaks::commonmodule::FLOAT32(value);
+            return new float (wrapper.value());
         }
 
-        inline twinoaks::commonmodule::INT32U convert(::google::protobuf::uint32 value)
-        {
-            return value;
-        }
-
-        inline twinoaks::commonmodule::INT64U convert(::google::protobuf::uint64 value)
-        {
-            return value;
-        }
-
-        inline twinoaks::commonmodule::INT64 convert(::google::protobuf::int64 value)
-        {
-            return value;
-        }
     }
 
 }

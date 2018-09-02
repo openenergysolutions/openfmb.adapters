@@ -24,6 +24,106 @@ public class ConvertToProto implements CppFileCollection {
         this.childTypes = Helpers.getChildDescriptors(profiles);
     }
 
+    @Override
+    public List<CppFile> headers() {
+        return Collections.singletonList(
+               new CppFile(
+                       "ConvertToProto.h",
+                       () -> join(
+                               FileHeader.lines,
+                               guards("ConvertToProto",
+                                       headerIncludes(this.profiles),
+                                       space,
+                                       namespace(
+                                               "adapter",
+                                               namespace("dds",
+                                                       signatures(this.profiles)
+                                               )
+                                       )
+                               )
+                       )
+               )
+        );
+    }
+
+    @Override
+    public List<CppFile> implementations() {
+        return Collections.singletonList(
+                new CppFile(
+                        "ConvertToProto.cpp",
+                        () -> join(
+                                FileHeader.lines,
+                                include("ConvertToProto.h"),
+                                space,
+                                include("../ConvertToProtoHelpers.h"),
+                                space,
+                                namespace("adapter",
+                                        namespace("dds",
+                                                line("// ---- forward declare the conversion routines for the child types ---"),
+                                                space,
+                                                signatures(this.childTypes),
+                                                space,
+                                                line("// ---- implement the top level profile conversion routines ---"),
+                                                space,
+                                                implementations(this.profiles),
+                                                space,
+                                                line("// ---- implement the conversion routines for the child types ---"),
+                                                implementations(this.childTypes)
+
+                                        )
+                                )
+                        )
+                )
+        );
+    }
+
+    private static Document implementations(Collection<Descriptors.Descriptor> descriptors)
+    {
+        return spaced(descriptors.stream().map(ConvertToProto::implementation));
+    }
+
+    private static Document implementation(Descriptors.Descriptor d)
+    {
+        return line(signature((d)))
+                .then("{")
+                .indent(
+                        spaced(
+                                line("out.Clear();"),
+                                spaced(
+                                        d.getFields().stream().map(field -> FieldHandler.get(new FieldHandlerImpl(field), field))
+                                )
+                        )
+                )
+                .then("}");
+    }
+
+    private static Document headerIncludes(Collection<Descriptors.Descriptor> descriptors)
+    {
+       return join(
+               Includes.getIncludeFiles(descriptors).stream().map(Document::include)
+       ).then(
+               join(
+                   space,
+                   include("OpenFMB-3.0.0TypeSupport.hh"),
+                   space,
+                   include("../NamespaceAlias.h")
+               )
+       );
+
+    }
+
+    private static Document signatures(Collection<Descriptors.Descriptor> descriptors) {
+        return spaced(
+                descriptors.stream().map(d -> line(signature(d) + ";"))
+        );
+
+    }
+
+    private static String signature(Descriptors.Descriptor d)
+    {
+        return String.format("void convert_to_proto(const %s& in, %s& out)", Helpers.getDDSName(d), Helpers.getProtoName(d));
+    }
+
     private static class FieldHandlerImpl implements FieldHandler {
 
         private final Descriptors.FieldDescriptor field;
@@ -127,106 +227,4 @@ public class ConvertToProto implements CppFileCollection {
             return line("if(in.%s) out.mutable_%s()->set_value(*in.%s);", field.getName(), field.getName().toLowerCase(), field.getName());
         }
     }
-
-    @Override
-    public List<CppFile> headers() {
-        return Collections.singletonList(
-               new CppFile(
-                       "ConvertToProto.h",
-                       () -> join(
-                               FileHeader.lines,
-                               guards("ConvertToProto",
-                                       headerIncludes(this.profiles),
-                                       space,
-                                       namespace(
-                                               "adapter",
-                                               namespace("dds",
-                                                       signatures(this.profiles)
-                                               )
-                                       )
-                               )
-                       )
-               )
-        );
-    }
-
-    @Override
-    public List<CppFile> implementations() {
-        return Collections.singletonList(
-                new CppFile(
-                        "ConvertToProto.cpp",
-                        () -> join(
-                                FileHeader.lines,
-                                include("ConvertToProto.h"),
-                                space,
-                                include("../ConvertToProtoHelpers.h"),
-                                space,
-                                namespace("adapter",
-                                        namespace("dds",
-                                                line("// ---- forward declare the conversion routines for the child types ---"),
-                                                space,
-                                                signatures(this.childTypes),
-                                                space,
-                                                line("// ---- implement the top level profile conversion routines ---"),
-                                                space,
-                                                implementations(this.profiles),
-                                                space,
-                                                line("// ---- implement the conversion routines for the child types ---"),
-                                                implementations(this.childTypes)
-
-                                        )
-                                )
-                        )
-                )
-        );
-    }
-
-    private static Document implementations(Collection<Descriptors.Descriptor> descriptors)
-    {
-        return spaced(descriptors.stream().map(ConvertToProto::implementation));
-    }
-
-    private static Document implementation(Descriptors.Descriptor d)
-    {
-        return line(signature((d)))
-                .then("{")
-                .indent(
-                        join(
-                                line("out.Clear();"),
-                                join(
-                                        //d.getFields().stream().map(field -> FieldHandler.get(new FieldHandlerImpl(field), field))
-                                        line("// restore me")
-                                )
-                        )
-                )
-                .then("}");
-    }
-
-    private static Document headerIncludes(Collection<Descriptors.Descriptor> descriptors)
-    {
-       return join(
-               Includes.getIncludeFiles(descriptors).stream().map(Document::include)
-       ).then(
-               join(
-                   space,
-                   include("OpenFMB-3.0.0TypeSupport.hh"),
-                   space,
-                   include("../NamespaceAlias.h")
-               )
-       );
-
-    }
-
-    private static Document signatures(Collection<Descriptors.Descriptor> descriptors) {
-        return spaced(
-                descriptors.stream().map(d -> line(signature(d) + ";"))
-        );
-
-    }
-
-    private static String signature(Descriptors.Descriptor d)
-    {
-        return String.format("void convert_to_proto(const %s& in, %s& out)", Helpers.getDDSName(d), Helpers.getProtoName(d));
-    }
-
 }

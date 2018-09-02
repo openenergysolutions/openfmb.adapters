@@ -24,122 +24,7 @@ public class ConvertFromProto implements CppFileCollection {
         this.children = Helpers.getChildDescriptors(profiles);
     }
 
-    private static class FieldHandlerImpl implements FieldHandler {
 
-        private final Descriptors.FieldDescriptor field;
-
-        FieldHandlerImpl(Descriptors.FieldDescriptor field) {
-            this.field = field;
-        }
-
-        @Override
-        public Document repeatedMessage() {
-            return line("for(const auto& input : in.%s())", field.getName().toLowerCase()).bracket(
-                    join(
-                            line("%s ouput;", Helpers.getDDSName(field.getMessageType())),
-                            line("convert_from_proto(input, ouput);"),
-                            line("out.%s.push_back(ouput);", field.getName())
-                    )
-            );
-        }
-
-        @Override
-        public Document inheritedMessage() {
-            return line(
-                    String.format(
-                            "if(in.has_%s()) convert_from_proto(in.%s(), out); // inherited type",
-                            field.getName().toLowerCase(),
-                            field.getName().toLowerCase()
-                    )
-            );
-        }
-
-        @Override
-        public Document requiredMessage() {
-            return line(
-                    String.format(
-                            "convert_from_proto(in.%s(), out.%s); // required field in DDS",
-                            field.getName().toLowerCase(),
-                            field.getName()
-                    )
-            );
-        }
-
-        @Override
-        public Document optionalMessage() {
-            return line("if(in.has_%s()) // optional field in DDS", field.getName().toLowerCase()).bracket(
-                    join(
-                            line("out.%s = new %s();", field.getName(), Helpers.getDDSName(field.getMessageType())),
-                            line("convert_from_proto(in.%s(), *out.%s);", field.getName().toLowerCase(), field.getName())
-                    )
-            );
-        }
-
-        @Override
-        public Document requiredEnum() {
-            return line(
-                    String.format("out.%s = static_cast<%s>(in.%s());",
-                            field.getName(),
-                            Helpers.getDDSName(field.getEnumType()),
-                            field.getName().toLowerCase()
-                    )
-            );
-        }
-
-        @Override
-        public Document optionalEnum(Descriptors.EnumDescriptor ed) {
-            return line(
-                    "out.%s = new %s(static_cast<%s>(in.%s().value())); // optional enum",
-                        field.getName(),
-                        Helpers.getDDSName(ed),
-                        Helpers.getDDSName(ed),
-                        field.getName().toLowerCase()
-            );
-        }
-
-        @Override
-        public Document requiredString() {
-            return line(
-                    "out.%s = allocate(in.%s()); // required string",
-                    field.getName(),
-                    field.getName().toLowerCase()
-            );
-        }
-
-        @Override
-        public Document optionalString() {
-            return line(
-                    "if(in.has_%s()) out.%s = allocate(in.%s().value()); // optional string",
-                    field.getName().toLowerCase(),
-                    field.getName(),
-                    field.getName().toLowerCase()
-            );
-        }
-
-        @Override
-        public Document requiredPrimitive() {
-            return line(
-                    "out.%s = convert(in.%s()); // required primitive",
-                    field.getName(),
-                    field.getName().toLowerCase()
-            );
-        }
-
-        @Override
-        public Document optionalPrimitive() {
-
-            return line("if(in.has_%s())", field.getName().toLowerCase()).bracket(
-                    join(
-                            line(
-                                    "out.%s = allocate_from_wrapper_type(in.%s());",
-                                    field.getName(),
-                                    field.getName().toLowerCase()
-                            )
-                    )
-
-            );
-        }
-    }
 
     @Override
     public List<CppFile> headers() {
@@ -230,9 +115,9 @@ public class ConvertFromProto implements CppFileCollection {
         return line(signature((d)))
                 .then("{")
                 .indent(
-                        join(
+                        spaced(
                                 line("out.clear();"),
-                                join(
+                                spaced(
                                         d.getFields().stream().map(f -> FieldHandler.get(new FieldHandlerImpl(f), f))
                                 )
                         )
@@ -282,4 +167,138 @@ public class ConvertFromProto implements CppFileCollection {
         );
     }
 
+    private static class FieldHandlerImpl implements FieldHandler {
+
+        private final Descriptors.FieldDescriptor field;
+
+        FieldHandlerImpl(Descriptors.FieldDescriptor field) {
+            this.field = field;
+        }
+
+        @Override
+        public Document repeatedMessage() {
+            return line("for(const auto& input : in.%s())", field.getName().toLowerCase()).bracket(
+                    join(
+                            line("%s ouput;", Helpers.getDDSName(field.getMessageType())),
+                            line("convert_from_proto(input, ouput);"),
+                            line("out.%s.push_back(ouput);", field.getName())
+                    )
+            );
+        }
+
+        @Override
+        public Document inheritedMessage() {
+            return line(
+                    String.format(
+                            "if(in.has_%s()) convert_from_proto(in.%s(), out); // inherited type",
+                            field.getName().toLowerCase(),
+                            field.getName().toLowerCase()
+                    )
+            );
+        }
+
+        @Override
+        public Document requiredMessage() {
+            return line(
+                    String.format(
+                            "convert_from_proto(in.%s(), out.%s); // required field in DDS",
+                            field.getName().toLowerCase(),
+                            field.getName()
+                    )
+            );
+        }
+
+        @Override
+        public Document optionalMessage() {
+            return line("if(in.has_%s()) // optional field in DDS", field.getName().toLowerCase()).bracket(
+                    join(
+                            line("out.%s = new %s();", field.getName(), Helpers.getDDSName(field.getMessageType())),
+                            line("convert_from_proto(in.%s(), *out.%s);", field.getName().toLowerCase(), field.getName())
+                    )
+            );
+        }
+
+        @Override
+        public Document requiredEnum() {
+            return line(
+                    String.format("out.%s = static_cast<%s>(in.%s());",
+                            field.getName(),
+                            Helpers.getDDSName(field.getEnumType()),
+                            field.getName().toLowerCase()
+                    )
+            );
+        }
+
+        @Override
+        public Document optionalEnum(Descriptors.EnumDescriptor ed) {
+            return line(
+                    "out.%s = new %s(static_cast<%s>(in.%s().value())); // optional enum",
+                    field.getName(),
+                    Helpers.getDDSName(ed),
+                    Helpers.getDDSName(ed),
+                    field.getName().toLowerCase()
+            );
+        }
+
+        @Override
+        public Document requiredString() {
+            return line(
+                    "out.%s = allocate_cstring(in.%s()); // required string",
+                    field.getName(),
+                    field.getName().toLowerCase()
+            );
+        }
+
+        @Override
+        public Document optionalString() {
+            return line(
+                    "if(in.has_%s()) out.%s = allocate_cstring(in.%s().value()); // optional string",
+                    field.getName().toLowerCase(),
+                    field.getName(),
+                    field.getName().toLowerCase()
+            );
+        }
+
+        @Override
+        public Document requiredPrimitive() {
+
+            if(field.getType() == Descriptors.FieldDescriptor.Type.BOOL)
+            {
+                return join(
+                        line(
+                                "static_assert(std::is_same<decltype(out.%s), unsigned char>::value, \"unexpected type\");", field.getName()
+                        ),
+                        line(
+                                "out.%s = static_cast<unsigned char>(in.%s()); // required bool",
+                                field.getName(),
+                                field.getName().toLowerCase()
+                        )
+                );
+            }
+            else
+            {
+                return line(
+                        "out.%s = in.%s(); // required %s primitive",
+                        field.getName(),
+                        field.getName().toLowerCase(),
+                        field.getType().toString()
+                );
+            }
+        }
+
+        @Override
+        public Document optionalPrimitive() {
+
+            return line("if(in.has_%s())", field.getName().toLowerCase()).bracket(
+                    join(
+                            line(
+                                    "out.%s = allocate_from_wrapper_type(in.%s());",
+                                    field.getName(),
+                                    field.getName().toLowerCase()
+                            )
+                    )
+
+            );
+        }
+    }
 }
