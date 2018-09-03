@@ -5,7 +5,7 @@
 
 TEST_CASE("Deserialize string value")
 {
-    const std::string base64_encoded_serialized_message = "IhsiGQoXChUaE3dlbGNvbWUgdG8gdGhlIGNsdWI=";
+    const std::string base64_encoded_serialized_message = "Ih0iGwoZChcaFQoTd2VsY29tZSB0byB0aGUgY2x1Yg==";
     auto serialized_message = base64::decode<std::vector<uint8_t>>(base64_encoded_serialized_message);
 
     resourcemodule::ResourceReadingProfile message{};
