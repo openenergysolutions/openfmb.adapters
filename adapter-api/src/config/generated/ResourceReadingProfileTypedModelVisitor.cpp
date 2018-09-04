@@ -58,6 +58,12 @@ void visit_commonmodule_Meter(const set_t<commonmodule::Meter>& setter, const ge
 
 void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& setter, const get_t<commonmodule::NamedObject>& getter, ITypedModelVisitor<resourcemodule::ResourceReadingProfile>& visitor);
 
+void visit_commonmodule_Optional_PhaseCodeKind(const set_t<commonmodule::Optional_PhaseCodeKind>& setter, const get_t<commonmodule::Optional_PhaseCodeKind>& getter, ITypedModelVisitor<resourcemodule::ResourceReadingProfile>& visitor);
+
+void visit_commonmodule_Optional_UnitMultiplierKind(const set_t<commonmodule::Optional_UnitMultiplierKind>& setter, const get_t<commonmodule::Optional_UnitMultiplierKind>& getter, ITypedModelVisitor<resourcemodule::ResourceReadingProfile>& visitor);
+
+void visit_commonmodule_Optional_UnitSymbolKind(const set_t<commonmodule::Optional_UnitSymbolKind>& setter, const get_t<commonmodule::Optional_UnitSymbolKind>& getter, ITypedModelVisitor<resourcemodule::ResourceReadingProfile>& visitor);
+
 void visit_commonmodule_PhaseMMTN(const set_t<commonmodule::PhaseMMTN>& setter, const get_t<commonmodule::PhaseMMTN>& getter, ITypedModelVisitor<resourcemodule::ResourceReadingProfile>& visitor);
 
 void visit_commonmodule_ReadingMMTN(const set_t<commonmodule::ReadingMMTN>& setter, const get_t<commonmodule::ReadingMMTN>& getter, ITypedModelVisitor<resourcemodule::ResourceReadingProfile>& visitor);
@@ -365,20 +371,29 @@ void visit_commonmodule_BCR(const set_t<commonmodule::BCR>& setter, const get_t<
         )
     );
 
-    visitor.handle(
-        "units",
-        AccessorBuilder<resourcemodule::ResourceReadingProfile,int>::build(
-            [setter](resourcemodule::ResourceReadingProfile& profile, const int& value) { setter(profile)->set_units(static_cast<commonmodule::UnitSymbolKind>(value)); },
-            [getter](const resourcemodule::ResourceReadingProfile& profile, const handler_t<int>& handler)
+    if(visitor.start_message_field("units", commonmodule::Optional_UnitSymbolKind::descriptor()))
+    {
+        visit_commonmodule_Optional_UnitSymbolKind(
+            [setter](resourcemodule::ResourceReadingProfile& profile)
             {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->units());
-                return true;
-            }
-        ),
-        commonmodule::UnitSymbolKind_descriptor()
-    );
+                return setter(profile)->mutable_units();
+            },
+            [getter](const resourcemodule::ResourceReadingProfile& profile) -> commonmodule::Optional_UnitSymbolKind const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_units() ? &value->units() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
 }
 
 void visit_commonmodule_CMV(const set_t<commonmodule::CMV>& setter, const get_t<commonmodule::CMV>& getter, ITypedModelVisitor<resourcemodule::ResourceReadingProfile>& visitor)
@@ -1079,6 +1094,60 @@ void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& sett
         );
         visitor.end_message_field();
     }
+}
+
+void visit_commonmodule_Optional_PhaseCodeKind(const set_t<commonmodule::Optional_PhaseCodeKind>& setter, const get_t<commonmodule::Optional_PhaseCodeKind>& getter, ITypedModelVisitor<resourcemodule::ResourceReadingProfile>& visitor)
+{
+    visitor.handle(
+        "value",
+        AccessorBuilder<resourcemodule::ResourceReadingProfile,int>::build(
+            [setter](resourcemodule::ResourceReadingProfile& profile, const int& value) { setter(profile)->set_value(static_cast<commonmodule::PhaseCodeKind>(value)); },
+            [getter](const resourcemodule::ResourceReadingProfile& profile, const handler_t<int>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->value());
+                return true;
+            }
+        ),
+        commonmodule::PhaseCodeKind_descriptor()
+    );
+}
+
+void visit_commonmodule_Optional_UnitMultiplierKind(const set_t<commonmodule::Optional_UnitMultiplierKind>& setter, const get_t<commonmodule::Optional_UnitMultiplierKind>& getter, ITypedModelVisitor<resourcemodule::ResourceReadingProfile>& visitor)
+{
+    visitor.handle(
+        "value",
+        AccessorBuilder<resourcemodule::ResourceReadingProfile,int>::build(
+            [setter](resourcemodule::ResourceReadingProfile& profile, const int& value) { setter(profile)->set_value(static_cast<commonmodule::UnitMultiplierKind>(value)); },
+            [getter](const resourcemodule::ResourceReadingProfile& profile, const handler_t<int>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->value());
+                return true;
+            }
+        ),
+        commonmodule::UnitMultiplierKind_descriptor()
+    );
+}
+
+void visit_commonmodule_Optional_UnitSymbolKind(const set_t<commonmodule::Optional_UnitSymbolKind>& setter, const get_t<commonmodule::Optional_UnitSymbolKind>& getter, ITypedModelVisitor<resourcemodule::ResourceReadingProfile>& visitor)
+{
+    visitor.handle(
+        "value",
+        AccessorBuilder<resourcemodule::ResourceReadingProfile,int>::build(
+            [setter](resourcemodule::ResourceReadingProfile& profile, const int& value) { setter(profile)->set_value(static_cast<commonmodule::UnitSymbolKind>(value)); },
+            [getter](const resourcemodule::ResourceReadingProfile& profile, const handler_t<int>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->value());
+                return true;
+            }
+        ),
+        commonmodule::UnitSymbolKind_descriptor()
+    );
 }
 
 void visit_commonmodule_PhaseMMTN(const set_t<commonmodule::PhaseMMTN>& setter, const get_t<commonmodule::PhaseMMTN>& getter, ITypedModelVisitor<resourcemodule::ResourceReadingProfile>& visitor)
@@ -2034,20 +2103,29 @@ void visit_commonmodule_Terminal(const set_t<commonmodule::Terminal>& setter, co
         visitor.end_message_field();
     }
 
-    visitor.handle(
-        "phases",
-        AccessorBuilder<resourcemodule::ResourceReadingProfile,int>::build(
-            [setter](resourcemodule::ResourceReadingProfile& profile, const int& value) { setter(profile)->set_phases(static_cast<commonmodule::PhaseCodeKind>(value)); },
-            [getter](const resourcemodule::ResourceReadingProfile& profile, const handler_t<int>& handler)
+    if(visitor.start_message_field("phases", commonmodule::Optional_PhaseCodeKind::descriptor()))
+    {
+        visit_commonmodule_Optional_PhaseCodeKind(
+            [setter](resourcemodule::ResourceReadingProfile& profile)
             {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->phases());
-                return true;
-            }
-        ),
-        commonmodule::PhaseCodeKind_descriptor()
-    );
+                return setter(profile)->mutable_phases();
+            },
+            [getter](const resourcemodule::ResourceReadingProfile& profile) -> commonmodule::Optional_PhaseCodeKind const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_phases() ? &value->phases() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
 }
 
 void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& setter, const get_t<commonmodule::TimeQuality>& getter, ITypedModelVisitor<resourcemodule::ResourceReadingProfile>& visitor)
@@ -2112,20 +2190,29 @@ void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& sett
 
 void visit_commonmodule_Unit(const set_t<commonmodule::Unit>& setter, const get_t<commonmodule::Unit>& getter, ITypedModelVisitor<resourcemodule::ResourceReadingProfile>& visitor)
 {
-    visitor.handle(
-        "multiplier",
-        AccessorBuilder<resourcemodule::ResourceReadingProfile,int>::build(
-            [setter](resourcemodule::ResourceReadingProfile& profile, const int& value) { setter(profile)->set_multiplier(static_cast<commonmodule::UnitMultiplierKind>(value)); },
-            [getter](const resourcemodule::ResourceReadingProfile& profile, const handler_t<int>& handler)
+    if(visitor.start_message_field("multiplier", commonmodule::Optional_UnitMultiplierKind::descriptor()))
+    {
+        visit_commonmodule_Optional_UnitMultiplierKind(
+            [setter](resourcemodule::ResourceReadingProfile& profile)
             {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->multiplier());
-                return true;
-            }
-        ),
-        commonmodule::UnitMultiplierKind_descriptor()
-    );
+                return setter(profile)->mutable_multiplier();
+            },
+            [getter](const resourcemodule::ResourceReadingProfile& profile) -> commonmodule::Optional_UnitMultiplierKind const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_multiplier() ? &value->multiplier() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
 
     visitor.handle(
         "SIUnit",

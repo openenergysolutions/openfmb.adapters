@@ -570,7 +570,7 @@ void convert_from_proto(const commonmodule::Terminal& in, twinoaks::commonmodule
 
     if(in.has_acdcterminal()) convert_from_proto(in.acdcterminal(), out); // inherited type
 
-//    out.phases = static_cast<twinoaks::commonmodule::PhaseCodeKind>(in.phases());
+    out.phases = new twinoaks::commonmodule::PhaseCodeKind(static_cast<twinoaks::commonmodule::PhaseCodeKind>(in.phases().value())); // optional enum
 }
 
 void convert_from_proto(const commonmodule::BCR& in, twinoaks::commonmodule::BCR& out)
@@ -583,7 +583,7 @@ void convert_from_proto(const commonmodule::BCR& in, twinoaks::commonmodule::BCR
 
     convert_from_proto(in.t(), out.t); // required field in DDS
 
-//    out.units = static_cast<twinoaks::commonmodule::UnitSymbolKind>(in.units());
+    out.units = new twinoaks::commonmodule::UnitSymbolKind(static_cast<twinoaks::commonmodule::UnitSymbolKind>(in.units().value())); // optional enum
 }
 
 void convert_from_proto(const essmodule::ESSControlScheduleFSCH& in, twinoaks::essmodule::ESSControlScheduleFSCH& out)
@@ -622,7 +622,7 @@ void convert_from_proto(const essmodule::ENG_ESSFunctionParameter& in, twinoaks:
 {
     out.clear();
 
-    out.functionParameterType = static_cast<twinoaks::essmodule::ESSFunctionParameterKind>(in.name());
+    out.functionParameterType = static_cast<twinoaks::essmodule::ESSFunctionParameterKind>(in.functionparametertype());
 
     convert_from_proto(in.unit(), out.unit); // required field in DDS
 
@@ -984,7 +984,7 @@ void convert_from_proto(const commonmodule::Unit& in, twinoaks::commonmodule::Un
 {
     out.clear();
 
-//    out.multiplier = static_cast<twinoaks::commonmodule::UnitMultiplierKind>(in.multiplier());
+    out.multiplier = new twinoaks::commonmodule::UnitMultiplierKind(static_cast<twinoaks::commonmodule::UnitMultiplierKind>(in.multiplier().value())); // optional enum
 
     out.SIUnit = static_cast<twinoaks::commonmodule::UnitSymbolKind>(in.siunit());
 }
@@ -2142,7 +2142,7 @@ void convert_from_proto(const commonmodule::StatusDPS& in, twinoaks::commonmodul
 
     convert_from_proto(in.q(), out.q); // required field in DDS
 
-//    out.stVal = static_cast<twinoaks::commonmodule::DbPosKind>(in.stval());
+    out.stVal = static_cast<twinoaks::commonmodule::DbPosKind>(in.stval());
 
     convert_from_proto(in.t(), out.t); // required field in DDS
 }

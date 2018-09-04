@@ -56,6 +56,8 @@ void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& sett
 
 void visit_commonmodule_Optional_StateKind(const set_t<commonmodule::Optional_StateKind>& setter, const get_t<commonmodule::Optional_StateKind>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
 
+void visit_commonmodule_Optional_UnitMultiplierKind(const set_t<commonmodule::Optional_UnitMultiplierKind>& setter, const get_t<commonmodule::Optional_UnitMultiplierKind>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
+
 void visit_commonmodule_RampRate(const set_t<commonmodule::RampRate>& setter, const get_t<commonmodule::RampRate>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
 
 void visit_commonmodule_ScheduleCSG(const set_t<commonmodule::ScheduleCSG>& setter, const get_t<commonmodule::ScheduleCSG>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
@@ -806,6 +808,24 @@ void visit_commonmodule_Optional_StateKind(const set_t<commonmodule::Optional_St
     );
 }
 
+void visit_commonmodule_Optional_UnitMultiplierKind(const set_t<commonmodule::Optional_UnitMultiplierKind>& setter, const get_t<commonmodule::Optional_UnitMultiplierKind>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor)
+{
+    visitor.handle(
+        "value",
+        AccessorBuilder<essmodule::ESSControlProfile,int>::build(
+            [setter](essmodule::ESSControlProfile& profile, const int& value) { setter(profile)->set_value(static_cast<commonmodule::UnitMultiplierKind>(value)); },
+            [getter](const essmodule::ESSControlProfile& profile, const handler_t<int>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->value());
+                return true;
+            }
+        ),
+        commonmodule::UnitMultiplierKind_descriptor()
+    );
+}
+
 void visit_commonmodule_RampRate(const set_t<commonmodule::RampRate>& setter, const get_t<commonmodule::RampRate>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor)
 {
     if(visitor.start_message_field("negativeReactivePowerKVArPerMin", google::protobuf::FloatValue::descriptor()))
@@ -1254,20 +1274,29 @@ void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& sett
 
 void visit_commonmodule_Unit(const set_t<commonmodule::Unit>& setter, const get_t<commonmodule::Unit>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor)
 {
-    visitor.handle(
-        "multiplier",
-        AccessorBuilder<essmodule::ESSControlProfile,int>::build(
-            [setter](essmodule::ESSControlProfile& profile, const int& value) { setter(profile)->set_multiplier(static_cast<commonmodule::UnitMultiplierKind>(value)); },
-            [getter](const essmodule::ESSControlProfile& profile, const handler_t<int>& handler)
+    if(visitor.start_message_field("multiplier", commonmodule::Optional_UnitMultiplierKind::descriptor()))
+    {
+        visit_commonmodule_Optional_UnitMultiplierKind(
+            [setter](essmodule::ESSControlProfile& profile)
             {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->multiplier());
-                return true;
-            }
-        ),
-        commonmodule::UnitMultiplierKind_descriptor()
-    );
+                return setter(profile)->mutable_multiplier();
+            },
+            [getter](const essmodule::ESSControlProfile& profile) -> commonmodule::Optional_UnitMultiplierKind const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_multiplier() ? &value->multiplier() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
 
     visitor.handle(
         "SIUnit",
@@ -1330,14 +1359,14 @@ void visit_essmodule_ENG_ESSFunctionKind(const set_t<essmodule::ENG_ESSFunctionK
 void visit_essmodule_ENG_ESSFunctionParameter(const set_t<essmodule::ENG_ESSFunctionParameter>& setter, const get_t<essmodule::ENG_ESSFunctionParameter>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor)
 {
     visitor.handle(
-        "name",
+        "functionParameterType",
         AccessorBuilder<essmodule::ESSControlProfile,int>::build(
-            [setter](essmodule::ESSControlProfile& profile, const int& value) { setter(profile)->set_name(static_cast<essmodule::ESSFunctionParameterKind>(value)); },
+            [setter](essmodule::ESSControlProfile& profile, const int& value) { setter(profile)->set_functionparametertype(static_cast<essmodule::ESSFunctionParameterKind>(value)); },
             [getter](const essmodule::ESSControlProfile& profile, const handler_t<int>& handler)
             {
                 const auto parent = getter(profile);
                 if(!parent) return false;
-                handler(parent->name());
+                handler(parent->functionparametertype());
                 return true;
             }
         ),

@@ -54,6 +54,8 @@ void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& sett
 
 void visit_commonmodule_Optional_StateKind(const set_t<commonmodule::Optional_StateKind>& setter, const get_t<commonmodule::Optional_StateKind>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
+void visit_commonmodule_Optional_UnitMultiplierKind(const set_t<commonmodule::Optional_UnitMultiplierKind>& setter, const get_t<commonmodule::Optional_UnitMultiplierKind>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor);
+
 void visit_commonmodule_RampRate(const set_t<commonmodule::RampRate>& setter, const get_t<commonmodule::RampRate>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
 void visit_commonmodule_ScheduleCSG(const set_t<commonmodule::ScheduleCSG>& setter, const get_t<commonmodule::ScheduleCSG>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor);
@@ -775,6 +777,24 @@ void visit_commonmodule_Optional_StateKind(const set_t<commonmodule::Optional_St
     );
 }
 
+void visit_commonmodule_Optional_UnitMultiplierKind(const set_t<commonmodule::Optional_UnitMultiplierKind>& setter, const get_t<commonmodule::Optional_UnitMultiplierKind>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor)
+{
+    visitor.handle(
+        "value",
+        AccessorBuilder<solarmodule::SolarControlProfile,int>::build(
+            [setter](solarmodule::SolarControlProfile& profile, const int& value) { setter(profile)->set_value(static_cast<commonmodule::UnitMultiplierKind>(value)); },
+            [getter](const solarmodule::SolarControlProfile& profile, const handler_t<int>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->value());
+                return true;
+            }
+        ),
+        commonmodule::UnitMultiplierKind_descriptor()
+    );
+}
+
 void visit_commonmodule_RampRate(const set_t<commonmodule::RampRate>& setter, const get_t<commonmodule::RampRate>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor)
 {
     if(visitor.start_message_field("negativeReactivePowerKVArPerMin", google::protobuf::FloatValue::descriptor()))
@@ -1223,20 +1243,29 @@ void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& sett
 
 void visit_commonmodule_Unit(const set_t<commonmodule::Unit>& setter, const get_t<commonmodule::Unit>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor)
 {
-    visitor.handle(
-        "multiplier",
-        AccessorBuilder<solarmodule::SolarControlProfile,int>::build(
-            [setter](solarmodule::SolarControlProfile& profile, const int& value) { setter(profile)->set_multiplier(static_cast<commonmodule::UnitMultiplierKind>(value)); },
-            [getter](const solarmodule::SolarControlProfile& profile, const handler_t<int>& handler)
+    if(visitor.start_message_field("multiplier", commonmodule::Optional_UnitMultiplierKind::descriptor()))
+    {
+        visit_commonmodule_Optional_UnitMultiplierKind(
+            [setter](solarmodule::SolarControlProfile& profile)
             {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->multiplier());
-                return true;
-            }
-        ),
-        commonmodule::UnitMultiplierKind_descriptor()
-    );
+                return setter(profile)->mutable_multiplier();
+            },
+            [getter](const solarmodule::SolarControlProfile& profile) -> commonmodule::Optional_UnitMultiplierKind const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_multiplier() ? &value->multiplier() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
 
     visitor.handle(
         "SIUnit",

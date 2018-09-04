@@ -2,6 +2,8 @@ package com.oes.openfmb;
 
 import com.oes.openfmb.generation.dds.Conversions;
 import com.oes.openfmb.generation.document.GeneratedFileSet;
+import com.oes.openfmb.generation.enumeration.Enumerations;
+import com.oes.openfmb.generation.proto.Visitors;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,9 +16,9 @@ public class Main {
 
         final List<GeneratedFileSet> sets = Stream.of(
                 // vistors methods used included with API library
-                //Stream.of(Visitors.set),
+                Stream.of(Visitors.set),
                 // enumerations used by multiple modules
-                //Enumerations.sets.stream(),
+                Enumerations.sets.stream(),
                 // Twinoaks DDS <=> proto conversion routines
                 Stream.of(Conversions.set)
         ).reduce(Stream::concat).orElseGet(Stream::empty).collect(Collectors.toList());

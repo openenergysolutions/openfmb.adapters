@@ -72,7 +72,13 @@ void visit_commonmodule_Meter(IModelVisitor& visitor);
 
 void visit_commonmodule_NamedObject(IModelVisitor& visitor);
 
+void visit_commonmodule_Optional_PhaseCodeKind(IModelVisitor& visitor);
+
 void visit_commonmodule_Optional_StateKind(IModelVisitor& visitor);
+
+void visit_commonmodule_Optional_UnitMultiplierKind(IModelVisitor& visitor);
+
+void visit_commonmodule_Optional_UnitSymbolKind(IModelVisitor& visitor);
 
 void visit_commonmodule_PhaseMMTN(IModelVisitor& visitor);
 
@@ -207,128 +213,11 @@ void visit_switchmodule_SwitchStatusXSWI(IModelVisitor& visitor);
 // ---- specializations for profile types ----
 
 template <>
-void visit<resourcemodule::ResourceReadingProfile>(IModelVisitor& visitor)
-{
-    if(visitor.start_message_field("readingMessageInfo", commonmodule::ReadingMessageInfo::descriptor()))
-    {
-        visit_commonmodule_ReadingMessageInfo(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
-    {
-        visit_commonmodule_IED(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("meter", commonmodule::Meter::descriptor()))
-    {
-        visit_commonmodule_Meter(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("resourceReading", resourcemodule::ResourceReading::descriptor()))
-    {
-        visit_resourcemodule_ResourceReading(visitor);
-        visitor.end_message_field();
-    }
-}
-
-template <>
-void visit<switchmodule::SwitchReadingProfile>(IModelVisitor& visitor)
-{
-    if(visitor.start_message_field("readingMessageInfo", commonmodule::ReadingMessageInfo::descriptor()))
-    {
-        visit_commonmodule_ReadingMessageInfo(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
-    {
-        visit_commonmodule_IED(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("protectedSwitch", switchmodule::ProtectedSwitch::descriptor()))
-    {
-        visit_switchmodule_ProtectedSwitch(visitor);
-        visitor.end_message_field();
-    }
-
-    {
-        const auto count = visitor.start_repeated_message_field("switchreading", switchmodule::SwitchReading::descriptor());
-        for(int i = 0; i < count; ++i)
-        {
-            visitor.start_iteration(i);
-            visit_switchmodule_SwitchReading(visitor);
-            visitor.end_iteration();
-        }
-        visitor.end_repeated_message_field();
-    }
-}
-
-template <>
-void visit<switchmodule::SwitchStatusProfile>(IModelVisitor& visitor)
-{
-    if(visitor.start_message_field("statusMessageInfo", commonmodule::StatusMessageInfo::descriptor()))
-    {
-        visit_commonmodule_StatusMessageInfo(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
-    {
-        visit_commonmodule_IED(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("protectedSwitch", switchmodule::ProtectedSwitch::descriptor()))
-    {
-        visit_switchmodule_ProtectedSwitch(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("switchStatus", switchmodule::SwitchStatus::descriptor()))
-    {
-        visit_switchmodule_SwitchStatus(visitor);
-        visitor.end_message_field();
-    }
-}
-
-template <>
-void visit<switchmodule::SwitchControlProfile>(IModelVisitor& visitor)
+void visit<essmodule::ESSControlProfile>(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("controlMessageInfo", commonmodule::ControlMessageInfo::descriptor()))
     {
         visit_commonmodule_ControlMessageInfo(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
-    {
-        visit_commonmodule_IED(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("protectedSwitch", switchmodule::ProtectedSwitch::descriptor()))
-    {
-        visit_switchmodule_ProtectedSwitch(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("switchControl", switchmodule::SwitchControl::descriptor()))
-    {
-        visit_switchmodule_SwitchControl(visitor);
-        visitor.end_message_field();
-    }
-}
-
-template <>
-void visit<essmodule::ESSReadingProfile>(IModelVisitor& visitor)
-{
-    if(visitor.start_message_field("readingMessageInfo", commonmodule::ReadingMessageInfo::descriptor()))
-    {
-        visit_commonmodule_ReadingMessageInfo(visitor);
         visitor.end_message_field();
     }
 
@@ -338,9 +227,9 @@ void visit<essmodule::ESSReadingProfile>(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("essReading", essmodule::ESSReading::descriptor()))
+    if(visitor.start_message_field("essControl", essmodule::ESSControl::descriptor()))
     {
-        visit_essmodule_ESSReading(visitor);
+        visit_essmodule_ESSControl(visitor);
         visitor.end_message_field();
     }
 
@@ -380,11 +269,11 @@ void visit<essmodule::ESSStatusProfile>(IModelVisitor& visitor)
 }
 
 template <>
-void visit<essmodule::ESSControlProfile>(IModelVisitor& visitor)
+void visit<essmodule::ESSReadingProfile>(IModelVisitor& visitor)
 {
-    if(visitor.start_message_field("controlMessageInfo", commonmodule::ControlMessageInfo::descriptor()))
+    if(visitor.start_message_field("readingMessageInfo", commonmodule::ReadingMessageInfo::descriptor()))
     {
-        visit_commonmodule_ControlMessageInfo(visitor);
+        visit_commonmodule_ReadingMessageInfo(visitor);
         visitor.end_message_field();
     }
 
@@ -394,9 +283,9 @@ void visit<essmodule::ESSControlProfile>(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("essControl", essmodule::ESSControl::descriptor()))
+    if(visitor.start_message_field("essReading", essmodule::ESSReading::descriptor()))
     {
-        visit_essmodule_ESSControl(visitor);
+        visit_essmodule_ESSReading(visitor);
         visitor.end_message_field();
     }
 
@@ -464,34 +353,6 @@ void visit<solarmodule::SolarStatusProfile>(IModelVisitor& visitor)
 }
 
 template <>
-void visit<solarmodule::SolarControlProfile>(IModelVisitor& visitor)
-{
-    if(visitor.start_message_field("controlMessageInfo", commonmodule::ControlMessageInfo::descriptor()))
-    {
-        visit_commonmodule_ControlMessageInfo(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
-    {
-        visit_commonmodule_IED(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("solarControl", solarmodule::SolarControl::descriptor()))
-    {
-        visit_solarmodule_SolarControl(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("solarInverter", solarmodule::SolarInverter::descriptor()))
-    {
-        visit_solarmodule_SolarInverter(visitor);
-        visitor.end_message_field();
-    }
-}
-
-template <>
 void visit<loadmodule::LoadReadingProfile>(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("readingMessageInfo", commonmodule::ReadingMessageInfo::descriptor()))
@@ -520,17 +381,11 @@ void visit<loadmodule::LoadReadingProfile>(IModelVisitor& visitor)
 }
 
 template <>
-void visit<loadmodule::LoadStatusProfile>(IModelVisitor& visitor)
+void visit<solarmodule::SolarControlProfile>(IModelVisitor& visitor)
 {
-    if(visitor.start_message_field("statusMessageInfo", commonmodule::StatusMessageInfo::descriptor()))
+    if(visitor.start_message_field("controlMessageInfo", commonmodule::ControlMessageInfo::descriptor()))
     {
-        visit_commonmodule_StatusMessageInfo(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("energyConsumer", commonmodule::EnergyConsumer::descriptor()))
-    {
-        visit_commonmodule_EnergyConsumer(visitor);
+        visit_commonmodule_ControlMessageInfo(visitor);
         visitor.end_message_field();
     }
 
@@ -540,10 +395,77 @@ void visit<loadmodule::LoadStatusProfile>(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("loadStatus", loadmodule::LoadStatus::descriptor()))
+    if(visitor.start_message_field("solarControl", solarmodule::SolarControl::descriptor()))
     {
-        visit_loadmodule_LoadStatus(visitor);
+        visit_solarmodule_SolarControl(visitor);
         visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("solarInverter", solarmodule::SolarInverter::descriptor()))
+    {
+        visit_solarmodule_SolarInverter(visitor);
+        visitor.end_message_field();
+    }
+}
+
+template <>
+void visit<switchmodule::SwitchControlProfile>(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("controlMessageInfo", commonmodule::ControlMessageInfo::descriptor()))
+    {
+        visit_commonmodule_ControlMessageInfo(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
+    {
+        visit_commonmodule_IED(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("protectedSwitch", switchmodule::ProtectedSwitch::descriptor()))
+    {
+        visit_switchmodule_ProtectedSwitch(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("switchControl", switchmodule::SwitchControl::descriptor()))
+    {
+        visit_switchmodule_SwitchControl(visitor);
+        visitor.end_message_field();
+    }
+}
+
+template <>
+void visit<switchmodule::SwitchReadingProfile>(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("readingMessageInfo", commonmodule::ReadingMessageInfo::descriptor()))
+    {
+        visit_commonmodule_ReadingMessageInfo(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
+    {
+        visit_commonmodule_IED(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("protectedSwitch", switchmodule::ProtectedSwitch::descriptor()))
+    {
+        visit_switchmodule_ProtectedSwitch(visitor);
+        visitor.end_message_field();
+    }
+
+    {
+        const auto count = visitor.start_repeated_message_field("switchreading", switchmodule::SwitchReading::descriptor());
+        for(int i = 0; i < count; ++i)
+        {
+            visitor.start_iteration(i);
+            visit_switchmodule_SwitchReading(visitor);
+            visitor.end_iteration();
+        }
+        visitor.end_repeated_message_field();
     }
 }
 
@@ -571,6 +493,90 @@ void visit<loadmodule::LoadControlProfile>(IModelVisitor& visitor)
     if(visitor.start_message_field("loadControl", loadmodule::LoadControl::descriptor()))
     {
         visit_loadmodule_LoadControl(visitor);
+        visitor.end_message_field();
+    }
+}
+
+template <>
+void visit<resourcemodule::ResourceReadingProfile>(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("readingMessageInfo", commonmodule::ReadingMessageInfo::descriptor()))
+    {
+        visit_commonmodule_ReadingMessageInfo(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
+    {
+        visit_commonmodule_IED(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("meter", commonmodule::Meter::descriptor()))
+    {
+        visit_commonmodule_Meter(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("resourceReading", resourcemodule::ResourceReading::descriptor()))
+    {
+        visit_resourcemodule_ResourceReading(visitor);
+        visitor.end_message_field();
+    }
+}
+
+template <>
+void visit<switchmodule::SwitchStatusProfile>(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("statusMessageInfo", commonmodule::StatusMessageInfo::descriptor()))
+    {
+        visit_commonmodule_StatusMessageInfo(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
+    {
+        visit_commonmodule_IED(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("protectedSwitch", switchmodule::ProtectedSwitch::descriptor()))
+    {
+        visit_switchmodule_ProtectedSwitch(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("switchStatus", switchmodule::SwitchStatus::descriptor()))
+    {
+        visit_switchmodule_SwitchStatus(visitor);
+        visitor.end_message_field();
+    }
+}
+
+template <>
+void visit<loadmodule::LoadStatusProfile>(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("statusMessageInfo", commonmodule::StatusMessageInfo::descriptor()))
+    {
+        visit_commonmodule_StatusMessageInfo(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("energyConsumer", commonmodule::EnergyConsumer::descriptor()))
+    {
+        visit_commonmodule_EnergyConsumer(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
+    {
+        visit_commonmodule_IED(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("loadStatus", loadmodule::LoadStatus::descriptor()))
+    {
+        visit_loadmodule_LoadStatus(visitor);
         visitor.end_message_field();
     }
 }
@@ -621,7 +627,11 @@ void visit_commonmodule_BCR(IModelVisitor& visitor)
 
     visitor.handle_commonmodule_Timestamp("t");
 
-    visitor.handle_enum("units", commonmodule::UnitSymbolKind_descriptor());
+    if(visitor.start_message_field("units", commonmodule::Optional_UnitSymbolKind::descriptor()))
+    {
+        visit_commonmodule_Optional_UnitSymbolKind(visitor);
+        visitor.end_message_field();
+    }
 }
 
 void visit_commonmodule_CMV(IModelVisitor& visitor)
@@ -973,9 +983,24 @@ void visit_commonmodule_NamedObject(IModelVisitor& visitor)
     }
 }
 
+void visit_commonmodule_Optional_PhaseCodeKind(IModelVisitor& visitor)
+{
+    visitor.handle_enum("value", commonmodule::PhaseCodeKind_descriptor());
+}
+
 void visit_commonmodule_Optional_StateKind(IModelVisitor& visitor)
 {
     visitor.handle_enum("value", commonmodule::StateKind_descriptor());
+}
+
+void visit_commonmodule_Optional_UnitMultiplierKind(IModelVisitor& visitor)
+{
+    visitor.handle_enum("value", commonmodule::UnitMultiplierKind_descriptor());
+}
+
+void visit_commonmodule_Optional_UnitSymbolKind(IModelVisitor& visitor)
+{
+    visitor.handle_enum("value", commonmodule::UnitSymbolKind_descriptor());
 }
 
 void visit_commonmodule_PhaseMMTN(IModelVisitor& visitor)
@@ -1367,7 +1392,11 @@ void visit_commonmodule_Terminal(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    visitor.handle_enum("phases", commonmodule::PhaseCodeKind_descriptor());
+    if(visitor.start_message_field("phases", commonmodule::Optional_PhaseCodeKind::descriptor()))
+    {
+        visit_commonmodule_Optional_PhaseCodeKind(visitor);
+        visitor.end_message_field();
+    }
 }
 
 void visit_commonmodule_TimeQuality(IModelVisitor& visitor)
@@ -1383,7 +1412,11 @@ void visit_commonmodule_TimeQuality(IModelVisitor& visitor)
 
 void visit_commonmodule_Unit(IModelVisitor& visitor)
 {
-    visitor.handle_enum("multiplier", commonmodule::UnitMultiplierKind_descriptor());
+    if(visitor.start_message_field("multiplier", commonmodule::Optional_UnitMultiplierKind::descriptor()))
+    {
+        visit_commonmodule_Optional_UnitMultiplierKind(visitor);
+        visitor.end_message_field();
+    }
 
     visitor.handle_enum("SIUnit", commonmodule::UnitSymbolKind_descriptor());
 }
@@ -1449,7 +1482,7 @@ void visit_essmodule_ENG_ESSFunctionKind(IModelVisitor& visitor)
 
 void visit_essmodule_ENG_ESSFunctionParameter(IModelVisitor& visitor)
 {
-    visitor.handle_enum("name", essmodule::ESSFunctionParameterKind_descriptor());
+    visitor.handle_enum("functionParameterType", essmodule::ESSFunctionParameterKind_descriptor());
 
     if(visitor.start_message_field("unit", commonmodule::Unit::descriptor()))
     {
