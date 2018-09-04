@@ -39,7 +39,7 @@ set(HEADERS
 add_custom_command(
     OUTPUT ${DDS_SOURCES}
     COMMAND ${CMAKE_COMMAND} -E make_directory ${DDS_GEN_PATH}
-    COMMAND ${COREDX_TOP}/host/bin/Linux_2.6_x86_64_gcc5_coredx_ddl -l cpp -F -f ${IDL_INPUT_FILE} -d ${DDS_GEN_PATH}
+    COMMAND ${COREDX_COMPILER} -l cpp -F -f ${IDL_INPUT_FILE} -d ${DDS_GEN_PATH}
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     DEPENDS ${IDL_INPUT_FILE}
     COMMENT "Generating dds bindings..."
