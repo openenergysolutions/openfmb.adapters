@@ -12,6 +12,7 @@
 #include "ConfigKeys.h"
 
 #include <boost/algorithm/string/replace.hpp>
+#include <adapter-api/ConfigStrings.h>
 
 namespace adapter
 {
@@ -119,16 +120,31 @@ namespace adapter
     {
         const auto domain_id = yaml::require(node, keys::domain_id).as<DDS::DomainId_t>();
 
-        const auto profiles = yaml::require(node, "profiles"); // TODO
+        const auto profiles = yaml::require(node, keys::profiles);
 
         const auto participant = require(
                                      DDS::DomainParticipantFactory::get_instance()->create_participant(domain_id, DDS::PARTICIPANT_QOS_DEFAULT, nullptr, DDS::STATUS_MASK_NONE),
                                      "Unable to create domain participant: ", domain_id
                                  );
 
-        // configure the various profiles
+        // TODO - use some template specializations (protobuf to DDS type mapping) so that we don't have to manually list each profile
         this->configure<resourcemodule::ResourceReadingProfile, twinoaks::resourcemodule::ResourceReadingProfile>(profiles, participant, bus);
 
+        this->configure<switchmodule::SwitchReadingProfile, twinoaks::switchmodule::SwitchReadingProfile>(profiles, participant, bus);
+        this->configure<switchmodule::SwitchStatusProfile, twinoaks::switchmodule::SwitchStatusProfile>(profiles, participant, bus);
+        this->configure<switchmodule::SwitchControlProfile, twinoaks::switchmodule::SwitchControlProfile>(profiles, participant, bus);
+
+        this->configure<essmodule::ESSReadingProfile, twinoaks::essmodule::ESSReadingProfile>(profiles, participant, bus);
+        this->configure<essmodule::ESSStatusProfile, twinoaks::essmodule::ESSStatusProfile>(profiles, participant, bus);
+        this->configure<essmodule::ESSControlProfile, twinoaks::essmodule::ESSControlProfile>(profiles, participant, bus);
+
+        this->configure<solarmodule::SolarReadingProfile, twinoaks::solarmodule::SolarReadingProfile>(profiles, participant, bus);
+        this->configure<solarmodule::SolarStatusProfile, twinoaks::solarmodule::SolarStatusProfile>(profiles, participant, bus);
+        this->configure<solarmodule::SolarControlProfile, twinoaks::solarmodule::SolarControlProfile>(profiles, participant, bus);
+
+        this->configure<loadmodule::LoadReadingProfile, twinoaks::loadmodule::LoadReadingProfile>(profiles, participant, bus);
+        this->configure<loadmodule::LoadStatusProfile, twinoaks::loadmodule::LoadStatusProfile>(profiles, participant, bus);
+        this->configure<loadmodule::LoadControlProfile, twinoaks::loadmodule::LoadControlProfile>(profiles, participant, bus);
     }
 
     void DDSPlugin::start()

@@ -15,7 +15,13 @@ namespace adapter
         out << YAML::Newline << YAML::Comment("profiles that can be read (subscribe) or written (publish) to the DDS bus - values can 'publish', 'subscribe', or 'none'");
         out << YAML::Key << keys::profiles;
         out << YAML::BeginMap;
-        out << YAML::Key << resourcemodule::ResourceReadingProfile::descriptor()->name() << YAML::Value << "none"; // TODO
+
+        ProfileRegistry::foreach_descriptor(
+            [&out](const google::protobuf::Descriptor* descriptor) {
+                out << YAML::Key << descriptor->name() << YAML::Value << ProfileModeMeta::none;
+            }
+        );
+
         out << YAML::EndMap;
     }
 
