@@ -18,6 +18,10 @@ public enum RepeatedType {
      */
     FUNCTION_PARAMETER,
     /**
+     * list of schedule parameters used in control profiles
+     */
+    SCHEDULE_PARAMETER,
+    /**
      * a repetition of readings (e.g. repeated SwitchReading)
      */
     READING;
@@ -30,15 +34,16 @@ public enum RepeatedType {
         // the only reading repetition
         temp.put(openfmb.switchmodule.SwitchReading.getDescriptor(), RepeatedType.READING);
         // things related to schedules
-        temp.put(openfmb.switchmodule.SwitchPoint.getDescriptor(), RepeatedType.SCHEDULE);
         temp.put(openfmb.commonmodule.ControlScheduleFSCH.getDescriptor(), RepeatedType.SCHEDULE);
         temp.put(openfmb.commonmodule.SchedulePoint.getDescriptor(), RepeatedType.SCHEDULE);
+        temp.put(openfmb.commonmodule.SwitchPoint.getDescriptor(), RepeatedType.SCHEDULE);
         temp.put(openfmb.essmodule.ESSPoint.getDescriptor(), RepeatedType.SCHEDULE);
         temp.put(openfmb.solarmodule.SolarPoint.getDescriptor(), RepeatedType.SCHEDULE);
         temp.put(openfmb.loadmodule.LoadPoint.getDescriptor(), RepeatedType.SCHEDULE);
         // list of function parameters
         temp.put(openfmb.essmodule.ENG_ESSFunctionParameter.getDescriptor(), RepeatedType.FUNCTION_PARAMETER);
-
+        // list of schedule parameters
+        temp.put(openfmb.commonmodule.ENG_ScheduleParameter.getDescriptor(), RepeatedType.SCHEDULE_PARAMETER);
 
         lookupMap = Collections.unmodifiableMap(temp);
     }

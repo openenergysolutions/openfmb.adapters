@@ -56,12 +56,6 @@ void visit_commonmodule_MessageInfo(const set_t<commonmodule::MessageInfo>& sett
 
 void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& setter, const get_t<commonmodule::NamedObject>& getter, ITypedModelVisitor<solarmodule::SolarReadingProfile>& visitor);
 
-void visit_commonmodule_Optional_PhaseCodeKind(const set_t<commonmodule::Optional_PhaseCodeKind>& setter, const get_t<commonmodule::Optional_PhaseCodeKind>& getter, ITypedModelVisitor<solarmodule::SolarReadingProfile>& visitor);
-
-void visit_commonmodule_Optional_UnitMultiplierKind(const set_t<commonmodule::Optional_UnitMultiplierKind>& setter, const get_t<commonmodule::Optional_UnitMultiplierKind>& getter, ITypedModelVisitor<solarmodule::SolarReadingProfile>& visitor);
-
-void visit_commonmodule_Optional_UnitSymbolKind(const set_t<commonmodule::Optional_UnitSymbolKind>& setter, const get_t<commonmodule::Optional_UnitSymbolKind>& getter, ITypedModelVisitor<solarmodule::SolarReadingProfile>& visitor);
-
 void visit_commonmodule_PhaseMMTN(const set_t<commonmodule::PhaseMMTN>& setter, const get_t<commonmodule::PhaseMMTN>& getter, ITypedModelVisitor<solarmodule::SolarReadingProfile>& visitor);
 
 void visit_commonmodule_ReadingMMTN(const set_t<commonmodule::ReadingMMTN>& setter, const get_t<commonmodule::ReadingMMTN>& getter, ITypedModelVisitor<solarmodule::SolarReadingProfile>& visitor);
@@ -371,29 +365,20 @@ void visit_commonmodule_BCR(const set_t<commonmodule::BCR>& setter, const get_t<
         )
     );
 
-    if(visitor.start_message_field("units", commonmodule::Optional_UnitSymbolKind::descriptor()))
-    {
-        visit_commonmodule_Optional_UnitSymbolKind(
-            [setter](solarmodule::SolarReadingProfile& profile)
+    visitor.handle(
+        "units",
+        AccessorBuilder<solarmodule::SolarReadingProfile,int>::build(
+            [setter](solarmodule::SolarReadingProfile& profile, const int& value) { setter(profile)->set_units(static_cast<commonmodule::UnitSymbolKind>(value)); },
+            [getter](const solarmodule::SolarReadingProfile& profile, const handler_t<int>& handler)
             {
-                return setter(profile)->mutable_units();
-            },
-            [getter](const solarmodule::SolarReadingProfile& profile) -> commonmodule::Optional_UnitSymbolKind const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_units() ? &value->units() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->units());
+                return true;
+            }
+        ),
+        commonmodule::UnitSymbolKind_descriptor()
+    );
 }
 
 void visit_commonmodule_CMV(const set_t<commonmodule::CMV>& setter, const get_t<commonmodule::CMV>& getter, ITypedModelVisitor<solarmodule::SolarReadingProfile>& visitor)
@@ -1067,60 +1052,6 @@ void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& sett
         );
         visitor.end_message_field();
     }
-}
-
-void visit_commonmodule_Optional_PhaseCodeKind(const set_t<commonmodule::Optional_PhaseCodeKind>& setter, const get_t<commonmodule::Optional_PhaseCodeKind>& getter, ITypedModelVisitor<solarmodule::SolarReadingProfile>& visitor)
-{
-    visitor.handle(
-        "value",
-        AccessorBuilder<solarmodule::SolarReadingProfile,int>::build(
-            [setter](solarmodule::SolarReadingProfile& profile, const int& value) { setter(profile)->set_value(static_cast<commonmodule::PhaseCodeKind>(value)); },
-            [getter](const solarmodule::SolarReadingProfile& profile, const handler_t<int>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->value());
-                return true;
-            }
-        ),
-        commonmodule::PhaseCodeKind_descriptor()
-    );
-}
-
-void visit_commonmodule_Optional_UnitMultiplierKind(const set_t<commonmodule::Optional_UnitMultiplierKind>& setter, const get_t<commonmodule::Optional_UnitMultiplierKind>& getter, ITypedModelVisitor<solarmodule::SolarReadingProfile>& visitor)
-{
-    visitor.handle(
-        "value",
-        AccessorBuilder<solarmodule::SolarReadingProfile,int>::build(
-            [setter](solarmodule::SolarReadingProfile& profile, const int& value) { setter(profile)->set_value(static_cast<commonmodule::UnitMultiplierKind>(value)); },
-            [getter](const solarmodule::SolarReadingProfile& profile, const handler_t<int>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->value());
-                return true;
-            }
-        ),
-        commonmodule::UnitMultiplierKind_descriptor()
-    );
-}
-
-void visit_commonmodule_Optional_UnitSymbolKind(const set_t<commonmodule::Optional_UnitSymbolKind>& setter, const get_t<commonmodule::Optional_UnitSymbolKind>& getter, ITypedModelVisitor<solarmodule::SolarReadingProfile>& visitor)
-{
-    visitor.handle(
-        "value",
-        AccessorBuilder<solarmodule::SolarReadingProfile,int>::build(
-            [setter](solarmodule::SolarReadingProfile& profile, const int& value) { setter(profile)->set_value(static_cast<commonmodule::UnitSymbolKind>(value)); },
-            [getter](const solarmodule::SolarReadingProfile& profile, const handler_t<int>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->value());
-                return true;
-            }
-        ),
-        commonmodule::UnitSymbolKind_descriptor()
-    );
 }
 
 void visit_commonmodule_PhaseMMTN(const set_t<commonmodule::PhaseMMTN>& setter, const get_t<commonmodule::PhaseMMTN>& getter, ITypedModelVisitor<solarmodule::SolarReadingProfile>& visitor)
@@ -2076,29 +2007,20 @@ void visit_commonmodule_Terminal(const set_t<commonmodule::Terminal>& setter, co
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("phases", commonmodule::Optional_PhaseCodeKind::descriptor()))
-    {
-        visit_commonmodule_Optional_PhaseCodeKind(
-            [setter](solarmodule::SolarReadingProfile& profile)
+    visitor.handle(
+        "phases",
+        AccessorBuilder<solarmodule::SolarReadingProfile,int>::build(
+            [setter](solarmodule::SolarReadingProfile& profile, const int& value) { setter(profile)->set_phases(static_cast<commonmodule::PhaseCodeKind>(value)); },
+            [getter](const solarmodule::SolarReadingProfile& profile, const handler_t<int>& handler)
             {
-                return setter(profile)->mutable_phases();
-            },
-            [getter](const solarmodule::SolarReadingProfile& profile) -> commonmodule::Optional_PhaseCodeKind const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_phases() ? &value->phases() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->phases());
+                return true;
+            }
+        ),
+        commonmodule::PhaseCodeKind_descriptor()
+    );
 }
 
 void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& setter, const get_t<commonmodule::TimeQuality>& getter, ITypedModelVisitor<solarmodule::SolarReadingProfile>& visitor)
@@ -2163,29 +2085,20 @@ void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& sett
 
 void visit_commonmodule_Unit(const set_t<commonmodule::Unit>& setter, const get_t<commonmodule::Unit>& getter, ITypedModelVisitor<solarmodule::SolarReadingProfile>& visitor)
 {
-    if(visitor.start_message_field("multiplier", commonmodule::Optional_UnitMultiplierKind::descriptor()))
-    {
-        visit_commonmodule_Optional_UnitMultiplierKind(
-            [setter](solarmodule::SolarReadingProfile& profile)
+    visitor.handle(
+        "multiplier",
+        AccessorBuilder<solarmodule::SolarReadingProfile,int>::build(
+            [setter](solarmodule::SolarReadingProfile& profile, const int& value) { setter(profile)->set_multiplier(static_cast<commonmodule::UnitMultiplierKind>(value)); },
+            [getter](const solarmodule::SolarReadingProfile& profile, const handler_t<int>& handler)
             {
-                return setter(profile)->mutable_multiplier();
-            },
-            [getter](const solarmodule::SolarReadingProfile& profile) -> commonmodule::Optional_UnitMultiplierKind const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_multiplier() ? &value->multiplier() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->multiplier());
+                return true;
+            }
+        ),
+        commonmodule::UnitMultiplierKind_descriptor()
+    );
 
     visitor.handle(
         "SIUnit",

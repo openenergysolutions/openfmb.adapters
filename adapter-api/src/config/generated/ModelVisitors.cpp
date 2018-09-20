@@ -44,6 +44,8 @@ void visit_commonmodule_ENG_GridConnectModeKind(IModelVisitor& visitor);
 
 void visit_commonmodule_ENG_PFSignKind(IModelVisitor& visitor);
 
+void visit_commonmodule_ENG_ScheduleParameter(IModelVisitor& visitor);
+
 void visit_commonmodule_ENS_BehaviourModeKind(IModelVisitor& visitor);
 
 void visit_commonmodule_ENS_DynamicTestKind(IModelVisitor& visitor);
@@ -72,13 +74,7 @@ void visit_commonmodule_Meter(IModelVisitor& visitor);
 
 void visit_commonmodule_NamedObject(IModelVisitor& visitor);
 
-void visit_commonmodule_Optional_PhaseCodeKind(IModelVisitor& visitor);
-
 void visit_commonmodule_Optional_StateKind(IModelVisitor& visitor);
-
-void visit_commonmodule_Optional_UnitMultiplierKind(IModelVisitor& visitor);
-
-void visit_commonmodule_Optional_UnitSymbolKind(IModelVisitor& visitor);
 
 void visit_commonmodule_PhaseMMTN(IModelVisitor& visitor);
 
@@ -103,6 +99,12 @@ void visit_commonmodule_StatusMessageInfo(IModelVisitor& visitor);
 void visit_commonmodule_StatusSPS(IModelVisitor& visitor);
 
 void visit_commonmodule_StatusValue(IModelVisitor& visitor);
+
+void visit_commonmodule_SwitchCSG(IModelVisitor& visitor);
+
+void visit_commonmodule_SwitchControlScheduleFSCH(IModelVisitor& visitor);
+
+void visit_commonmodule_SwitchPoint(IModelVisitor& visitor);
 
 void visit_commonmodule_Terminal(IModelVisitor& visitor);
 
@@ -194,15 +196,9 @@ void visit_solarmodule_SolarStatusZGEN(IModelVisitor& visitor);
 
 void visit_switchmodule_ProtectedSwitch(IModelVisitor& visitor);
 
-void visit_switchmodule_SwitchCSG(IModelVisitor& visitor);
-
 void visit_switchmodule_SwitchControl(IModelVisitor& visitor);
 
 void visit_switchmodule_SwitchControlFSCC(IModelVisitor& visitor);
-
-void visit_switchmodule_SwitchControlScheduleFSCH(IModelVisitor& visitor);
-
-void visit_switchmodule_SwitchPoint(IModelVisitor& visitor);
 
 void visit_switchmodule_SwitchReading(IModelVisitor& visitor);
 
@@ -213,7 +209,7 @@ void visit_switchmodule_SwitchStatusXSWI(IModelVisitor& visitor);
 // ---- specializations for profile types ----
 
 template <>
-void visit<essmodule::ESSControlProfile>(IModelVisitor& visitor)
+void visit<solarmodule::SolarControlProfile>(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("controlMessageInfo", commonmodule::ControlMessageInfo::descriptor()))
     {
@@ -221,21 +217,21 @@ void visit<essmodule::ESSControlProfile>(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("ess", commonmodule::ESS::descriptor()))
-    {
-        visit_commonmodule_ESS(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("essControl", essmodule::ESSControl::descriptor()))
-    {
-        visit_essmodule_ESSControl(visitor);
-        visitor.end_message_field();
-    }
-
     if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
     {
         visit_commonmodule_IED(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("solarControl", solarmodule::SolarControl::descriptor()))
+    {
+        visit_solarmodule_SolarControl(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("solarInverter", solarmodule::SolarInverter::descriptor()))
+    {
+        visit_solarmodule_SolarInverter(visitor);
         visitor.end_message_field();
     }
 }
@@ -269,6 +265,34 @@ void visit<essmodule::ESSStatusProfile>(IModelVisitor& visitor)
 }
 
 template <>
+void visit<switchmodule::SwitchControlProfile>(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("controlMessageInfo", commonmodule::ControlMessageInfo::descriptor()))
+    {
+        visit_commonmodule_ControlMessageInfo(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
+    {
+        visit_commonmodule_IED(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("protectedSwitch", switchmodule::ProtectedSwitch::descriptor()))
+    {
+        visit_switchmodule_ProtectedSwitch(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("switchControl", switchmodule::SwitchControl::descriptor()))
+    {
+        visit_switchmodule_SwitchControl(visitor);
+        visitor.end_message_field();
+    }
+}
+
+template <>
 void visit<essmodule::ESSReadingProfile>(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("readingMessageInfo", commonmodule::ReadingMessageInfo::descriptor()))
@@ -297,7 +321,7 @@ void visit<essmodule::ESSReadingProfile>(IModelVisitor& visitor)
 }
 
 template <>
-void visit<solarmodule::SolarReadingProfile>(IModelVisitor& visitor)
+void visit<resourcemodule::ResourceReadingProfile>(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("readingMessageInfo", commonmodule::ReadingMessageInfo::descriptor()))
     {
@@ -311,21 +335,21 @@ void visit<solarmodule::SolarReadingProfile>(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("solarInverter", solarmodule::SolarInverter::descriptor()))
+    if(visitor.start_message_field("meter", commonmodule::Meter::descriptor()))
     {
-        visit_solarmodule_SolarInverter(visitor);
+        visit_commonmodule_Meter(visitor);
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("solarReading", solarmodule::SolarReading::descriptor()))
+    if(visitor.start_message_field("resourceReading", resourcemodule::ResourceReading::descriptor()))
     {
-        visit_solarmodule_SolarReading(visitor);
+        visit_resourcemodule_ResourceReading(visitor);
         visitor.end_message_field();
     }
 }
 
 template <>
-void visit<solarmodule::SolarStatusProfile>(IModelVisitor& visitor)
+void visit<switchmodule::SwitchStatusProfile>(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("statusMessageInfo", commonmodule::StatusMessageInfo::descriptor()))
     {
@@ -339,15 +363,15 @@ void visit<solarmodule::SolarStatusProfile>(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("solarInverter", solarmodule::SolarInverter::descriptor()))
+    if(visitor.start_message_field("protectedSwitch", switchmodule::ProtectedSwitch::descriptor()))
     {
-        visit_solarmodule_SolarInverter(visitor);
+        visit_switchmodule_ProtectedSwitch(visitor);
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("solarStatus", solarmodule::SolarStatus::descriptor()))
+    if(visitor.start_message_field("switchStatus", switchmodule::SwitchStatus::descriptor()))
     {
-        visit_solarmodule_SolarStatus(visitor);
+        visit_switchmodule_SwitchStatus(visitor);
         visitor.end_message_field();
     }
 }
@@ -376,62 +400,6 @@ void visit<loadmodule::LoadReadingProfile>(IModelVisitor& visitor)
     if(visitor.start_message_field("loadReading", loadmodule::LoadReading::descriptor()))
     {
         visit_loadmodule_LoadReading(visitor);
-        visitor.end_message_field();
-    }
-}
-
-template <>
-void visit<solarmodule::SolarControlProfile>(IModelVisitor& visitor)
-{
-    if(visitor.start_message_field("controlMessageInfo", commonmodule::ControlMessageInfo::descriptor()))
-    {
-        visit_commonmodule_ControlMessageInfo(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
-    {
-        visit_commonmodule_IED(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("solarControl", solarmodule::SolarControl::descriptor()))
-    {
-        visit_solarmodule_SolarControl(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("solarInverter", solarmodule::SolarInverter::descriptor()))
-    {
-        visit_solarmodule_SolarInverter(visitor);
-        visitor.end_message_field();
-    }
-}
-
-template <>
-void visit<switchmodule::SwitchControlProfile>(IModelVisitor& visitor)
-{
-    if(visitor.start_message_field("controlMessageInfo", commonmodule::ControlMessageInfo::descriptor()))
-    {
-        visit_commonmodule_ControlMessageInfo(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
-    {
-        visit_commonmodule_IED(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("protectedSwitch", switchmodule::ProtectedSwitch::descriptor()))
-    {
-        visit_switchmodule_ProtectedSwitch(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("switchControl", switchmodule::SwitchControl::descriptor()))
-    {
-        visit_switchmodule_SwitchControl(visitor);
         visitor.end_message_field();
     }
 }
@@ -498,7 +466,7 @@ void visit<loadmodule::LoadControlProfile>(IModelVisitor& visitor)
 }
 
 template <>
-void visit<resourcemodule::ResourceReadingProfile>(IModelVisitor& visitor)
+void visit<solarmodule::SolarReadingProfile>(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("readingMessageInfo", commonmodule::ReadingMessageInfo::descriptor()))
     {
@@ -512,21 +480,49 @@ void visit<resourcemodule::ResourceReadingProfile>(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("meter", commonmodule::Meter::descriptor()))
+    if(visitor.start_message_field("solarInverter", solarmodule::SolarInverter::descriptor()))
     {
-        visit_commonmodule_Meter(visitor);
+        visit_solarmodule_SolarInverter(visitor);
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("resourceReading", resourcemodule::ResourceReading::descriptor()))
+    if(visitor.start_message_field("solarReading", solarmodule::SolarReading::descriptor()))
     {
-        visit_resourcemodule_ResourceReading(visitor);
+        visit_solarmodule_SolarReading(visitor);
         visitor.end_message_field();
     }
 }
 
 template <>
-void visit<switchmodule::SwitchStatusProfile>(IModelVisitor& visitor)
+void visit<essmodule::ESSControlProfile>(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("controlMessageInfo", commonmodule::ControlMessageInfo::descriptor()))
+    {
+        visit_commonmodule_ControlMessageInfo(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("ess", commonmodule::ESS::descriptor()))
+    {
+        visit_commonmodule_ESS(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("essControl", essmodule::ESSControl::descriptor()))
+    {
+        visit_essmodule_ESSControl(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
+    {
+        visit_commonmodule_IED(visitor);
+        visitor.end_message_field();
+    }
+}
+
+template <>
+void visit<solarmodule::SolarStatusProfile>(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("statusMessageInfo", commonmodule::StatusMessageInfo::descriptor()))
     {
@@ -540,15 +536,15 @@ void visit<switchmodule::SwitchStatusProfile>(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("protectedSwitch", switchmodule::ProtectedSwitch::descriptor()))
+    if(visitor.start_message_field("solarInverter", solarmodule::SolarInverter::descriptor()))
     {
-        visit_switchmodule_ProtectedSwitch(visitor);
+        visit_solarmodule_SolarInverter(visitor);
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("switchStatus", switchmodule::SwitchStatus::descriptor()))
+    if(visitor.start_message_field("solarStatus", solarmodule::SolarStatus::descriptor()))
     {
-        visit_switchmodule_SwitchStatus(visitor);
+        visit_solarmodule_SolarStatus(visitor);
         visitor.end_message_field();
     }
 }
@@ -627,11 +623,7 @@ void visit_commonmodule_BCR(IModelVisitor& visitor)
 
     visitor.handle_commonmodule_Timestamp("t");
 
-    if(visitor.start_message_field("units", commonmodule::Optional_UnitSymbolKind::descriptor()))
-    {
-        visit_commonmodule_Optional_UnitSymbolKind(visitor);
-        visitor.end_message_field();
-    }
+    visitor.handle_enum("units", commonmodule::UnitSymbolKind_descriptor());
 }
 
 void visit_commonmodule_CMV(IModelVisitor& visitor)
@@ -701,15 +693,16 @@ void visit_commonmodule_ControlFSCC(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
+    if(visitor.start_message_field("controlScheduleFSCH", commonmodule::ControlScheduleFSCH::descriptor()))
     {
-        const auto count = visitor.start_repeated_message_field("controlschedulefsch", commonmodule::ControlScheduleFSCH::descriptor());
-        for(int i = 0; i < count; ++i)
-        {
-            visitor.start_iteration(i);
-            visit_commonmodule_ControlScheduleFSCH(visitor);
-            visitor.end_iteration();
-        }
-        visitor.end_repeated_message_field();
+        visit_commonmodule_ControlScheduleFSCH(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("islandControlScheduleFSCH", commonmodule::ControlScheduleFSCH::descriptor()))
+    {
+        visit_commonmodule_ControlScheduleFSCH(visitor);
+        visitor.end_message_field();
     }
 }
 
@@ -805,6 +798,13 @@ void visit_commonmodule_ENG_GridConnectModeKind(IModelVisitor& visitor)
 void visit_commonmodule_ENG_PFSignKind(IModelVisitor& visitor)
 {
     visitor.handle_enum("setVal", commonmodule::PFSignKind_descriptor());
+}
+
+void visit_commonmodule_ENG_ScheduleParameter(IModelVisitor& visitor)
+{
+    visitor.handle_enum("scheduleParameterType", commonmodule::ScheduleParameterKind_descriptor());
+
+    visitor.handle_float("value");
 }
 
 void visit_commonmodule_ENS_BehaviourModeKind(IModelVisitor& visitor)
@@ -983,24 +983,9 @@ void visit_commonmodule_NamedObject(IModelVisitor& visitor)
     }
 }
 
-void visit_commonmodule_Optional_PhaseCodeKind(IModelVisitor& visitor)
-{
-    visitor.handle_enum("value", commonmodule::PhaseCodeKind_descriptor());
-}
-
 void visit_commonmodule_Optional_StateKind(IModelVisitor& visitor)
 {
     visitor.handle_enum("value", commonmodule::StateKind_descriptor());
-}
-
-void visit_commonmodule_Optional_UnitMultiplierKind(IModelVisitor& visitor)
-{
-    visitor.handle_enum("value", commonmodule::UnitMultiplierKind_descriptor());
-}
-
-void visit_commonmodule_Optional_UnitSymbolKind(IModelVisitor& visitor)
-{
-    visitor.handle_enum("value", commonmodule::UnitSymbolKind_descriptor());
 }
 
 void visit_commonmodule_PhaseMMTN(IModelVisitor& visitor)
@@ -1276,7 +1261,7 @@ void visit_commonmodule_ReadingMessageInfo(IModelVisitor& visitor)
 void visit_commonmodule_ScheduleCSG(IModelVisitor& visitor)
 {
     {
-        const auto count = visitor.start_repeated_message_field("crvpts", commonmodule::SchedulePoint::descriptor());
+        const auto count = visitor.start_repeated_message_field("schpts", commonmodule::SchedulePoint::descriptor());
         for(int i = 0; i < count; ++i)
         {
             visitor.start_iteration(i);
@@ -1285,67 +1270,14 @@ void visit_commonmodule_ScheduleCSG(IModelVisitor& visitor)
         }
         visitor.end_repeated_message_field();
     }
-
-    if(visitor.start_message_field("xD", google::protobuf::StringValue::descriptor()))
-    {
-        visit_google_protobuf_StringValue(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("xDU", google::protobuf::StringValue::descriptor()))
-    {
-        visit_google_protobuf_StringValue(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("yD", google::protobuf::StringValue::descriptor()))
-    {
-        visit_google_protobuf_StringValue(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("yDU", google::protobuf::StringValue::descriptor()))
-    {
-        visit_google_protobuf_StringValue(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("yUnits", commonmodule::Unit::descriptor()))
-    {
-        visit_commonmodule_Unit(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("zD", google::protobuf::StringValue::descriptor()))
-    {
-        visit_google_protobuf_StringValue(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("zDU", google::protobuf::StringValue::descriptor()))
-    {
-        visit_google_protobuf_StringValue(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("zUnits", commonmodule::Unit::descriptor()))
-    {
-        visit_commonmodule_Unit(visitor);
-        visitor.end_message_field();
-    }
 }
 
 void visit_commonmodule_SchedulePoint(IModelVisitor& visitor)
 {
-    visitor.handle_commonmodule_ControlTimestamp("xVal");
+    // repeated schedule parameter
+    // TODO
 
-    visitor.handle_float("yVal");
-
-    if(visitor.start_message_field("zVal", google::protobuf::FloatValue::descriptor()))
-    {
-        visit_google_protobuf_FloatValue(visitor);
-        visitor.end_message_field();
-    }
+    visitor.handle_commonmodule_ControlTimestamp("startTime");
 }
 
 void visit_commonmodule_StatusDPS(IModelVisitor& visitor)
@@ -1384,6 +1316,40 @@ void visit_commonmodule_StatusValue(IModelVisitor& visitor)
     }
 }
 
+void visit_commonmodule_SwitchCSG(IModelVisitor& visitor)
+{
+    {
+        const auto count = visitor.start_repeated_message_field("crvpts", commonmodule::SwitchPoint::descriptor());
+        for(int i = 0; i < count; ++i)
+        {
+            visitor.start_iteration(i);
+            visit_commonmodule_SwitchPoint(visitor);
+            visitor.end_iteration();
+        }
+        visitor.end_repeated_message_field();
+    }
+}
+
+void visit_commonmodule_SwitchControlScheduleFSCH(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("ValDCSG", commonmodule::SwitchCSG::descriptor()))
+    {
+        visit_commonmodule_SwitchCSG(visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit_commonmodule_SwitchPoint(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("Pos", commonmodule::ControlDPC::descriptor()))
+    {
+        visit_commonmodule_ControlDPC(visitor);
+        visitor.end_message_field();
+    }
+
+    visitor.handle_commonmodule_ControlTimestamp("xVal");
+}
+
 void visit_commonmodule_Terminal(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("aCDCTerminal", commonmodule::ACDCTerminal::descriptor()))
@@ -1392,11 +1358,7 @@ void visit_commonmodule_Terminal(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("phases", commonmodule::Optional_PhaseCodeKind::descriptor()))
-    {
-        visit_commonmodule_Optional_PhaseCodeKind(visitor);
-        visitor.end_message_field();
-    }
+    visitor.handle_enum("phases", commonmodule::PhaseCodeKind_descriptor());
 }
 
 void visit_commonmodule_TimeQuality(IModelVisitor& visitor)
@@ -1412,11 +1374,7 @@ void visit_commonmodule_TimeQuality(IModelVisitor& visitor)
 
 void visit_commonmodule_Unit(IModelVisitor& visitor)
 {
-    if(visitor.start_message_field("multiplier", commonmodule::Optional_UnitMultiplierKind::descriptor()))
-    {
-        visit_commonmodule_Optional_UnitMultiplierKind(visitor);
-        visitor.end_message_field();
-    }
+    visitor.handle_enum("multiplier", commonmodule::UnitMultiplierKind_descriptor());
 
     visitor.handle_enum("SIUnit", commonmodule::UnitSymbolKind_descriptor());
 }
@@ -2401,20 +2359,6 @@ void visit_switchmodule_ProtectedSwitch(IModelVisitor& visitor)
     }
 }
 
-void visit_switchmodule_SwitchCSG(IModelVisitor& visitor)
-{
-    {
-        const auto count = visitor.start_repeated_message_field("crvpts", switchmodule::SwitchPoint::descriptor());
-        for(int i = 0; i < count; ++i)
-        {
-            visitor.start_iteration(i);
-            visit_switchmodule_SwitchPoint(visitor);
-            visitor.end_iteration();
-        }
-        visitor.end_repeated_message_field();
-    }
-}
-
 void visit_switchmodule_SwitchControl(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("controlValue", commonmodule::ControlValue::descriptor()))
@@ -2444,31 +2388,11 @@ void visit_switchmodule_SwitchControlFSCC(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("switchControlScheduleFSCH", switchmodule::SwitchControlScheduleFSCH::descriptor()))
+    if(visitor.start_message_field("switchControlScheduleFSCH", commonmodule::SwitchControlScheduleFSCH::descriptor()))
     {
-        visit_switchmodule_SwitchControlScheduleFSCH(visitor);
+        visit_commonmodule_SwitchControlScheduleFSCH(visitor);
         visitor.end_message_field();
     }
-}
-
-void visit_switchmodule_SwitchControlScheduleFSCH(IModelVisitor& visitor)
-{
-    if(visitor.start_message_field("ValDCSG", switchmodule::SwitchCSG::descriptor()))
-    {
-        visit_switchmodule_SwitchCSG(visitor);
-        visitor.end_message_field();
-    }
-}
-
-void visit_switchmodule_SwitchPoint(IModelVisitor& visitor)
-{
-    if(visitor.start_message_field("Pos", commonmodule::ControlDPC::descriptor()))
-    {
-        visit_commonmodule_ControlDPC(visitor);
-        visitor.end_message_field();
-    }
-
-    visitor.handle_commonmodule_ControlTimestamp("xVal");
 }
 
 void visit_switchmodule_SwitchReading(IModelVisitor& visitor)

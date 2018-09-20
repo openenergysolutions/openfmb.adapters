@@ -38,6 +38,8 @@ void visit(const commonmodule::ENG_GridConnectModeKind& message, IMessageVisitor
 
 void visit(const commonmodule::ENG_PFSignKind& message, IMessageVisitor& visitor);
 
+void visit(const commonmodule::ENG_ScheduleParameter& message, IMessageVisitor& visitor);
+
 void visit(const commonmodule::ENS_BehaviourModeKind& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::ENS_DynamicTestKind& message, IMessageVisitor& visitor);
@@ -66,13 +68,7 @@ void visit(const commonmodule::Meter& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::NamedObject& message, IMessageVisitor& visitor);
 
-void visit(const commonmodule::Optional_PhaseCodeKind& message, IMessageVisitor& visitor);
-
 void visit(const commonmodule::Optional_StateKind& message, IMessageVisitor& visitor);
-
-void visit(const commonmodule::Optional_UnitMultiplierKind& message, IMessageVisitor& visitor);
-
-void visit(const commonmodule::Optional_UnitSymbolKind& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::PhaseMMTN& message, IMessageVisitor& visitor);
 
@@ -99,6 +95,12 @@ void visit(const commonmodule::StatusMessageInfo& message, IMessageVisitor& visi
 void visit(const commonmodule::StatusSPS& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::StatusValue& message, IMessageVisitor& visitor);
+
+void visit(const commonmodule::SwitchCSG& message, IMessageVisitor& visitor);
+
+void visit(const commonmodule::SwitchControlScheduleFSCH& message, IMessageVisitor& visitor);
+
+void visit(const commonmodule::SwitchPoint& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::Terminal& message, IMessageVisitor& visitor);
 
@@ -192,15 +194,9 @@ void visit(const solarmodule::SolarStatusZGEN& message, IMessageVisitor& visitor
 
 void visit(const switchmodule::ProtectedSwitch& message, IMessageVisitor& visitor);
 
-void visit(const switchmodule::SwitchCSG& message, IMessageVisitor& visitor);
-
 void visit(const switchmodule::SwitchControl& message, IMessageVisitor& visitor);
 
 void visit(const switchmodule::SwitchControlFSCC& message, IMessageVisitor& visitor);
-
-void visit(const switchmodule::SwitchControlScheduleFSCH& message, IMessageVisitor& visitor);
-
-void visit(const switchmodule::SwitchPoint& message, IMessageVisitor& visitor);
 
 void visit(const switchmodule::SwitchReading& message, IMessageVisitor& visitor);
 
@@ -261,12 +257,7 @@ void visit(const commonmodule::BCR& message, IMessageVisitor& visitor)
         visit(message.t(), visitor);
         visitor.end_message_field();
     }
-    if(message.has_units())
-    {
-        visitor.start_message_field("units");
-        visit(message.units(), visitor);
-        visitor.end_message_field();
-    }
+    visitor.handle("units", static_cast<int>(message.units()), *commonmodule::UnitSymbolKind_descriptor());
 }
 
 void visit(const commonmodule::CMV& message, IMessageVisitor& visitor)
@@ -347,14 +338,18 @@ void visit(const commonmodule::ControlFSCC& message, IMessageVisitor& visitor)
         visit(message.logicalnodeforcontrol(), visitor);
         visitor.end_message_field();
     }
-    visitor.start_message_field("controlschedulefsch");
-    for(decltype(message.controlschedulefsch_size()) i = 0; i < message.controlschedulefsch_size(); ++i)
+    if(message.has_controlschedulefsch())
     {
-        visitor.start_iteration(i);
-        visit(message.controlschedulefsch(i), visitor);
-        visitor.end_iteration();
+        visitor.start_message_field("controlScheduleFSCH");
+        visit(message.controlschedulefsch(), visitor);
+        visitor.end_message_field();
     }
-    visitor.end_message_field();
+    if(message.has_islandcontrolschedulefsch())
+    {
+        visitor.start_message_field("islandControlScheduleFSCH");
+        visit(message.islandcontrolschedulefsch(), visitor);
+        visitor.end_message_field();
+    }
 }
 
 void visit(const commonmodule::ControlMessageInfo& message, IMessageVisitor& visitor)
@@ -452,6 +447,12 @@ void visit(const commonmodule::ENG_GridConnectModeKind& message, IMessageVisitor
 void visit(const commonmodule::ENG_PFSignKind& message, IMessageVisitor& visitor)
 {
     visitor.handle("setVal", static_cast<int>(message.setval()), *commonmodule::PFSignKind_descriptor());
+}
+
+void visit(const commonmodule::ENG_ScheduleParameter& message, IMessageVisitor& visitor)
+{
+    visitor.handle("scheduleParameterType", static_cast<int>(message.scheduleparametertype()), *commonmodule::ScheduleParameterKind_descriptor());
+    visitor.handle("value", message.value());
 }
 
 void visit(const commonmodule::ENS_BehaviourModeKind& message, IMessageVisitor& visitor)
@@ -669,24 +670,9 @@ void visit(const commonmodule::NamedObject& message, IMessageVisitor& visitor)
     }
 }
 
-void visit(const commonmodule::Optional_PhaseCodeKind& message, IMessageVisitor& visitor)
-{
-    visitor.handle("value", static_cast<int>(message.value()), *commonmodule::PhaseCodeKind_descriptor());
-}
-
 void visit(const commonmodule::Optional_StateKind& message, IMessageVisitor& visitor)
 {
     visitor.handle("value", static_cast<int>(message.value()), *commonmodule::StateKind_descriptor());
-}
-
-void visit(const commonmodule::Optional_UnitMultiplierKind& message, IMessageVisitor& visitor)
-{
-    visitor.handle("value", static_cast<int>(message.value()), *commonmodule::UnitMultiplierKind_descriptor());
-}
-
-void visit(const commonmodule::Optional_UnitSymbolKind& message, IMessageVisitor& visitor)
-{
-    visitor.handle("value", static_cast<int>(message.value()), *commonmodule::UnitSymbolKind_descriptor());
 }
 
 void visit(const commonmodule::PhaseMMTN& message, IMessageVisitor& visitor)
@@ -981,77 +967,30 @@ void visit(const commonmodule::ReadingMessageInfo& message, IMessageVisitor& vis
 
 void visit(const commonmodule::ScheduleCSG& message, IMessageVisitor& visitor)
 {
-    visitor.start_message_field("crvpts");
-    for(decltype(message.crvpts_size()) i = 0; i < message.crvpts_size(); ++i)
+    visitor.start_message_field("schpts");
+    for(decltype(message.schpts_size()) i = 0; i < message.schpts_size(); ++i)
     {
         visitor.start_iteration(i);
-        visit(message.crvpts(i), visitor);
+        visit(message.schpts(i), visitor);
         visitor.end_iteration();
     }
     visitor.end_message_field();
-    if(message.has_xd())
-    {
-        visitor.start_message_field("xD");
-        visit(message.xd(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_xdu())
-    {
-        visitor.start_message_field("xDU");
-        visit(message.xdu(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_yd())
-    {
-        visitor.start_message_field("yD");
-        visit(message.yd(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_ydu())
-    {
-        visitor.start_message_field("yDU");
-        visit(message.ydu(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_yunits())
-    {
-        visitor.start_message_field("yUnits");
-        visit(message.yunits(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_zd())
-    {
-        visitor.start_message_field("zD");
-        visit(message.zd(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_zdu())
-    {
-        visitor.start_message_field("zDU");
-        visit(message.zdu(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_zunits())
-    {
-        visitor.start_message_field("zUnits");
-        visit(message.zunits(), visitor);
-        visitor.end_message_field();
-    }
 }
 
 void visit(const commonmodule::SchedulePoint& message, IMessageVisitor& visitor)
 {
-    if(message.has_xval())
+    visitor.start_message_field("scheduleparameter");
+    for(decltype(message.scheduleparameter_size()) i = 0; i < message.scheduleparameter_size(); ++i)
     {
-        visitor.start_message_field("xVal");
-        visit(message.xval(), visitor);
-        visitor.end_message_field();
+        visitor.start_iteration(i);
+        visit(message.scheduleparameter(i), visitor);
+        visitor.end_iteration();
     }
-    visitor.handle("yVal", message.yval());
-    if(message.has_zval())
+    visitor.end_message_field();
+    if(message.has_starttime())
     {
-        visitor.start_message_field("zVal");
-        visit(message.zval(), visitor);
+        visitor.start_message_field("startTime");
+        visit(message.starttime(), visitor);
         visitor.end_message_field();
     }
 }
@@ -1110,6 +1049,44 @@ void visit(const commonmodule::StatusValue& message, IMessageVisitor& visitor)
     }
 }
 
+void visit(const commonmodule::SwitchCSG& message, IMessageVisitor& visitor)
+{
+    visitor.start_message_field("crvpts");
+    for(decltype(message.crvpts_size()) i = 0; i < message.crvpts_size(); ++i)
+    {
+        visitor.start_iteration(i);
+        visit(message.crvpts(i), visitor);
+        visitor.end_iteration();
+    }
+    visitor.end_message_field();
+}
+
+void visit(const commonmodule::SwitchControlScheduleFSCH& message, IMessageVisitor& visitor)
+{
+    if(message.has_valdcsg())
+    {
+        visitor.start_message_field("ValDCSG");
+        visit(message.valdcsg(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const commonmodule::SwitchPoint& message, IMessageVisitor& visitor)
+{
+    if(message.has_pos())
+    {
+        visitor.start_message_field("Pos");
+        visit(message.pos(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_xval())
+    {
+        visitor.start_message_field("xVal");
+        visit(message.xval(), visitor);
+        visitor.end_message_field();
+    }
+}
+
 void visit(const commonmodule::Terminal& message, IMessageVisitor& visitor)
 {
     if(message.has_acdcterminal())
@@ -1118,12 +1095,7 @@ void visit(const commonmodule::Terminal& message, IMessageVisitor& visitor)
         visit(message.acdcterminal(), visitor);
         visitor.end_message_field();
     }
-    if(message.has_phases())
-    {
-        visitor.start_message_field("phases");
-        visit(message.phases(), visitor);
-        visitor.end_message_field();
-    }
+    visitor.handle("phases", static_cast<int>(message.phases()), *commonmodule::PhaseCodeKind_descriptor());
 }
 
 void visit(const commonmodule::TimeQuality& message, IMessageVisitor& visitor)
@@ -1148,12 +1120,7 @@ void visit(const commonmodule::Timestamp& message, IMessageVisitor& visitor)
 
 void visit(const commonmodule::Unit& message, IMessageVisitor& visitor)
 {
-    if(message.has_multiplier())
-    {
-        visitor.start_message_field("multiplier");
-        visit(message.multiplier(), visitor);
-        visitor.end_message_field();
-    }
+    visitor.handle("multiplier", static_cast<int>(message.multiplier()), *commonmodule::UnitMultiplierKind_descriptor());
     visitor.handle("SIUnit", static_cast<int>(message.siunit()), *commonmodule::UnitSymbolKind_descriptor());
 }
 
@@ -2180,18 +2147,6 @@ void visit(const switchmodule::ProtectedSwitch& message, IMessageVisitor& visito
     }
 }
 
-void visit(const switchmodule::SwitchCSG& message, IMessageVisitor& visitor)
-{
-    visitor.start_message_field("crvpts");
-    for(decltype(message.crvpts_size()) i = 0; i < message.crvpts_size(); ++i)
-    {
-        visitor.start_iteration(i);
-        visit(message.crvpts(i), visitor);
-        visitor.end_iteration();
-    }
-    visitor.end_message_field();
-}
-
 void visit(const switchmodule::SwitchControl& message, IMessageVisitor& visitor)
 {
     if(message.has_controlvalue())
@@ -2226,32 +2181,6 @@ void visit(const switchmodule::SwitchControlFSCC& message, IMessageVisitor& visi
     {
         visitor.start_message_field("switchControlScheduleFSCH");
         visit(message.switchcontrolschedulefsch(), visitor);
-        visitor.end_message_field();
-    }
-}
-
-void visit(const switchmodule::SwitchControlScheduleFSCH& message, IMessageVisitor& visitor)
-{
-    if(message.has_valdcsg())
-    {
-        visitor.start_message_field("ValDCSG");
-        visit(message.valdcsg(), visitor);
-        visitor.end_message_field();
-    }
-}
-
-void visit(const switchmodule::SwitchPoint& message, IMessageVisitor& visitor)
-{
-    if(message.has_pos())
-    {
-        visitor.start_message_field("Pos");
-        visit(message.pos(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_xval())
-    {
-        visitor.start_message_field("xVal");
-        visit(message.xval(), visitor);
         visitor.end_message_field();
     }
 }
@@ -2327,7 +2256,7 @@ void visit(const switchmodule::SwitchStatusXSWI& message, IMessageVisitor& visit
         visitor.end_message_field();
     }
 }
-void visit(const essmodule::ESSControlProfile& message, IMessageVisitor& visitor)
+void visit(const solarmodule::SolarControlProfile& message, IMessageVisitor& visitor)
 {
     if(message.has_controlmessageinfo())
     {
@@ -2335,22 +2264,22 @@ void visit(const essmodule::ESSControlProfile& message, IMessageVisitor& visitor
         visit(message.controlmessageinfo(), visitor);
         visitor.end_message_field();
     }
-    if(message.has_ess())
-    {
-        visitor.start_message_field("ess");
-        visit(message.ess(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_esscontrol())
-    {
-        visitor.start_message_field("essControl");
-        visit(message.esscontrol(), visitor);
-        visitor.end_message_field();
-    }
     if(message.has_ied())
     {
         visitor.start_message_field("ied");
         visit(message.ied(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_solarcontrol())
+    {
+        visitor.start_message_field("solarControl");
+        visit(message.solarcontrol(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_solarinverter())
+    {
+        visitor.start_message_field("solarInverter");
+        visit(message.solarinverter(), visitor);
         visitor.end_message_field();
     }
 }
@@ -2383,6 +2312,34 @@ void visit(const essmodule::ESSStatusProfile& message, IMessageVisitor& visitor)
     }
 }
 
+void visit(const switchmodule::SwitchControlProfile& message, IMessageVisitor& visitor)
+{
+    if(message.has_controlmessageinfo())
+    {
+        visitor.start_message_field("controlMessageInfo");
+        visit(message.controlmessageinfo(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_ied())
+    {
+        visitor.start_message_field("ied");
+        visit(message.ied(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_protectedswitch())
+    {
+        visitor.start_message_field("protectedSwitch");
+        visit(message.protectedswitch(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_switchcontrol())
+    {
+        visitor.start_message_field("switchControl");
+        visit(message.switchcontrol(), visitor);
+        visitor.end_message_field();
+    }
+}
+
 void visit(const essmodule::ESSReadingProfile& message, IMessageVisitor& visitor)
 {
     if(message.has_readingmessageinfo())
@@ -2411,7 +2368,7 @@ void visit(const essmodule::ESSReadingProfile& message, IMessageVisitor& visitor
     }
 }
 
-void visit(const solarmodule::SolarReadingProfile& message, IMessageVisitor& visitor)
+void visit(const resourcemodule::ResourceReadingProfile& message, IMessageVisitor& visitor)
 {
     if(message.has_readingmessageinfo())
     {
@@ -2425,21 +2382,21 @@ void visit(const solarmodule::SolarReadingProfile& message, IMessageVisitor& vis
         visit(message.ied(), visitor);
         visitor.end_message_field();
     }
-    if(message.has_solarinverter())
+    if(message.has_meter())
     {
-        visitor.start_message_field("solarInverter");
-        visit(message.solarinverter(), visitor);
+        visitor.start_message_field("meter");
+        visit(message.meter(), visitor);
         visitor.end_message_field();
     }
-    if(message.has_solarreading())
+    if(message.has_resourcereading())
     {
-        visitor.start_message_field("solarReading");
-        visit(message.solarreading(), visitor);
+        visitor.start_message_field("resourceReading");
+        visit(message.resourcereading(), visitor);
         visitor.end_message_field();
     }
 }
 
-void visit(const solarmodule::SolarStatusProfile& message, IMessageVisitor& visitor)
+void visit(const switchmodule::SwitchStatusProfile& message, IMessageVisitor& visitor)
 {
     if(message.has_statusmessageinfo())
     {
@@ -2453,16 +2410,16 @@ void visit(const solarmodule::SolarStatusProfile& message, IMessageVisitor& visi
         visit(message.ied(), visitor);
         visitor.end_message_field();
     }
-    if(message.has_solarinverter())
+    if(message.has_protectedswitch())
     {
-        visitor.start_message_field("solarInverter");
-        visit(message.solarinverter(), visitor);
+        visitor.start_message_field("protectedSwitch");
+        visit(message.protectedswitch(), visitor);
         visitor.end_message_field();
     }
-    if(message.has_solarstatus())
+    if(message.has_switchstatus())
     {
-        visitor.start_message_field("solarStatus");
-        visit(message.solarstatus(), visitor);
+        visitor.start_message_field("switchStatus");
+        visit(message.switchstatus(), visitor);
         visitor.end_message_field();
     }
 }
@@ -2491,62 +2448,6 @@ void visit(const loadmodule::LoadReadingProfile& message, IMessageVisitor& visit
     {
         visitor.start_message_field("loadReading");
         visit(message.loadreading(), visitor);
-        visitor.end_message_field();
-    }
-}
-
-void visit(const solarmodule::SolarControlProfile& message, IMessageVisitor& visitor)
-{
-    if(message.has_controlmessageinfo())
-    {
-        visitor.start_message_field("controlMessageInfo");
-        visit(message.controlmessageinfo(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_ied())
-    {
-        visitor.start_message_field("ied");
-        visit(message.ied(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_solarcontrol())
-    {
-        visitor.start_message_field("solarControl");
-        visit(message.solarcontrol(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_solarinverter())
-    {
-        visitor.start_message_field("solarInverter");
-        visit(message.solarinverter(), visitor);
-        visitor.end_message_field();
-    }
-}
-
-void visit(const switchmodule::SwitchControlProfile& message, IMessageVisitor& visitor)
-{
-    if(message.has_controlmessageinfo())
-    {
-        visitor.start_message_field("controlMessageInfo");
-        visit(message.controlmessageinfo(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_ied())
-    {
-        visitor.start_message_field("ied");
-        visit(message.ied(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_protectedswitch())
-    {
-        visitor.start_message_field("protectedSwitch");
-        visit(message.protectedswitch(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_switchcontrol())
-    {
-        visitor.start_message_field("switchControl");
-        visit(message.switchcontrol(), visitor);
         visitor.end_message_field();
     }
 }
@@ -2609,7 +2510,7 @@ void visit(const loadmodule::LoadControlProfile& message, IMessageVisitor& visit
     }
 }
 
-void visit(const resourcemodule::ResourceReadingProfile& message, IMessageVisitor& visitor)
+void visit(const solarmodule::SolarReadingProfile& message, IMessageVisitor& visitor)
 {
     if(message.has_readingmessageinfo())
     {
@@ -2623,21 +2524,49 @@ void visit(const resourcemodule::ResourceReadingProfile& message, IMessageVisito
         visit(message.ied(), visitor);
         visitor.end_message_field();
     }
-    if(message.has_meter())
+    if(message.has_solarinverter())
     {
-        visitor.start_message_field("meter");
-        visit(message.meter(), visitor);
+        visitor.start_message_field("solarInverter");
+        visit(message.solarinverter(), visitor);
         visitor.end_message_field();
     }
-    if(message.has_resourcereading())
+    if(message.has_solarreading())
     {
-        visitor.start_message_field("resourceReading");
-        visit(message.resourcereading(), visitor);
+        visitor.start_message_field("solarReading");
+        visit(message.solarreading(), visitor);
         visitor.end_message_field();
     }
 }
 
-void visit(const switchmodule::SwitchStatusProfile& message, IMessageVisitor& visitor)
+void visit(const essmodule::ESSControlProfile& message, IMessageVisitor& visitor)
+{
+    if(message.has_controlmessageinfo())
+    {
+        visitor.start_message_field("controlMessageInfo");
+        visit(message.controlmessageinfo(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_ess())
+    {
+        visitor.start_message_field("ess");
+        visit(message.ess(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_esscontrol())
+    {
+        visitor.start_message_field("essControl");
+        visit(message.esscontrol(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_ied())
+    {
+        visitor.start_message_field("ied");
+        visit(message.ied(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const solarmodule::SolarStatusProfile& message, IMessageVisitor& visitor)
 {
     if(message.has_statusmessageinfo())
     {
@@ -2651,16 +2580,16 @@ void visit(const switchmodule::SwitchStatusProfile& message, IMessageVisitor& vi
         visit(message.ied(), visitor);
         visitor.end_message_field();
     }
-    if(message.has_protectedswitch())
+    if(message.has_solarinverter())
     {
-        visitor.start_message_field("protectedSwitch");
-        visit(message.protectedswitch(), visitor);
+        visitor.start_message_field("solarInverter");
+        visit(message.solarinverter(), visitor);
         visitor.end_message_field();
     }
-    if(message.has_switchstatus())
+    if(message.has_solarstatus())
     {
-        visitor.start_message_field("switchStatus");
-        visit(message.switchstatus(), visitor);
+        visitor.start_message_field("solarStatus");
+        visit(message.solarstatus(), visitor);
         visitor.end_message_field();
     }
 }

@@ -40,6 +40,8 @@ void visit_commonmodule_ControlValue(const set_t<commonmodule::ControlValue>& se
 
 void visit_commonmodule_ENG_GridConnectModeKind(const set_t<commonmodule::ENG_GridConnectModeKind>& setter, const get_t<commonmodule::ENG_GridConnectModeKind>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
+void visit_commonmodule_ENG_ScheduleParameter(const set_t<commonmodule::ENG_ScheduleParameter>& setter, const get_t<commonmodule::ENG_ScheduleParameter>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor);
+
 void visit_commonmodule_IED(const set_t<commonmodule::IED>& setter, const get_t<commonmodule::IED>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
 void visit_commonmodule_IdentifiedObject(const set_t<commonmodule::IdentifiedObject>& setter, const get_t<commonmodule::IdentifiedObject>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor);
@@ -54,8 +56,6 @@ void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& sett
 
 void visit_commonmodule_Optional_StateKind(const set_t<commonmodule::Optional_StateKind>& setter, const get_t<commonmodule::Optional_StateKind>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
-void visit_commonmodule_Optional_UnitMultiplierKind(const set_t<commonmodule::Optional_UnitMultiplierKind>& setter, const get_t<commonmodule::Optional_UnitMultiplierKind>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor);
-
 void visit_commonmodule_RampRate(const set_t<commonmodule::RampRate>& setter, const get_t<commonmodule::RampRate>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
 void visit_commonmodule_ScheduleCSG(const set_t<commonmodule::ScheduleCSG>& setter, const get_t<commonmodule::ScheduleCSG>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor);
@@ -63,8 +63,6 @@ void visit_commonmodule_ScheduleCSG(const set_t<commonmodule::ScheduleCSG>& sett
 void visit_commonmodule_SchedulePoint(const set_t<commonmodule::SchedulePoint>& setter, const get_t<commonmodule::SchedulePoint>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
 void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& setter, const get_t<commonmodule::TimeQuality>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor);
-
-void visit_commonmodule_Unit(const set_t<commonmodule::Unit>& setter, const get_t<commonmodule::Unit>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
 void visit_google_protobuf_BoolValue(const set_t<google::protobuf::BoolValue>& setter, const get_t<google::protobuf::BoolValue>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
@@ -326,41 +324,52 @@ void visit_commonmodule_ControlFSCC(const set_t<commonmodule::ControlFSCC>& sett
         visitor.end_message_field();
     }
 
+    if(visitor.start_message_field("controlScheduleFSCH", commonmodule::ControlScheduleFSCH::descriptor()))
     {
-        const auto count = visitor.start_repeated_message_field("controlschedulefsch", commonmodule::ControlScheduleFSCH::descriptor());
-        for(int i = 0; i < count; ++i)
-        {
-            visitor.start_iteration(i);
-            const auto set = [setter, i, max = count](solarmodule::SolarControlProfile& profile)
+        visit_commonmodule_ControlScheduleFSCH(
+            [setter](solarmodule::SolarControlProfile& profile)
             {
-                const auto repeated = setter(profile)->mutable_controlschedulefsch();
-                if(repeated->size() < max)
-                {
-                    repeated->Reserve(max);
-                    // add items until we're at max requested capacity
-                    for(auto j = repeated->size(); j < max; ++j)
-                    {
-                        repeated->Add();
-                    }
-                }
-                return repeated->Mutable(i);
-            };
-            const auto get = [getter, i](const solarmodule::SolarControlProfile& profile) -> commonmodule::ControlScheduleFSCH const*
+                return setter(profile)->mutable_controlschedulefsch();
+            },
+            [getter](const solarmodule::SolarControlProfile& profile) -> commonmodule::ControlScheduleFSCH const *
             {
                 const auto value = getter(profile);
                 if(value)
                 {
-                    return (i < value->controlschedulefsch_size()) ? &value->controlschedulefsch(i) : nullptr;
+                    return value->has_controlschedulefsch() ? &value->controlschedulefsch() : nullptr;
                 }
                 else
                 {
                     return nullptr;
                 }
-            };
-            visit_commonmodule_ControlScheduleFSCH(set, get, visitor);
-            visitor.end_iteration();
-        }
-        visitor.end_repeated_message_field();
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("islandControlScheduleFSCH", commonmodule::ControlScheduleFSCH::descriptor()))
+    {
+        visit_commonmodule_ControlScheduleFSCH(
+            [setter](solarmodule::SolarControlProfile& profile)
+            {
+                return setter(profile)->mutable_islandcontrolschedulefsch();
+            },
+            [getter](const solarmodule::SolarControlProfile& profile) -> commonmodule::ControlScheduleFSCH const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_islandcontrolschedulefsch() ? &value->islandcontrolschedulefsch() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
     }
 }
 
@@ -509,6 +518,38 @@ void visit_commonmodule_ENG_GridConnectModeKind(const set_t<commonmodule::ENG_Gr
         );
         visitor.end_message_field();
     }
+}
+
+void visit_commonmodule_ENG_ScheduleParameter(const set_t<commonmodule::ENG_ScheduleParameter>& setter, const get_t<commonmodule::ENG_ScheduleParameter>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor)
+{
+    visitor.handle(
+        "scheduleParameterType",
+        AccessorBuilder<solarmodule::SolarControlProfile,int>::build(
+            [setter](solarmodule::SolarControlProfile& profile, const int& value) { setter(profile)->set_scheduleparametertype(static_cast<commonmodule::ScheduleParameterKind>(value)); },
+            [getter](const solarmodule::SolarControlProfile& profile, const handler_t<int>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->scheduleparametertype());
+                return true;
+            }
+        ),
+        commonmodule::ScheduleParameterKind_descriptor()
+    );
+
+    visitor.handle(
+        "value",
+        AccessorBuilder<solarmodule::SolarControlProfile,float>::build(
+            [setter](solarmodule::SolarControlProfile& profile, const float& value) { setter(profile)->set_value(value); },
+            [getter](const solarmodule::SolarControlProfile& profile, const handler_t<float>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->value());
+                return true;
+            }
+        )
+    );
 }
 
 void visit_commonmodule_IED(const set_t<commonmodule::IED>& setter, const get_t<commonmodule::IED>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor)
@@ -777,24 +818,6 @@ void visit_commonmodule_Optional_StateKind(const set_t<commonmodule::Optional_St
     );
 }
 
-void visit_commonmodule_Optional_UnitMultiplierKind(const set_t<commonmodule::Optional_UnitMultiplierKind>& setter, const get_t<commonmodule::Optional_UnitMultiplierKind>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor)
-{
-    visitor.handle(
-        "value",
-        AccessorBuilder<solarmodule::SolarControlProfile,int>::build(
-            [setter](solarmodule::SolarControlProfile& profile, const int& value) { setter(profile)->set_value(static_cast<commonmodule::UnitMultiplierKind>(value)); },
-            [getter](const solarmodule::SolarControlProfile& profile, const handler_t<int>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->value());
-                return true;
-            }
-        ),
-        commonmodule::UnitMultiplierKind_descriptor()
-    );
-}
-
 void visit_commonmodule_RampRate(const set_t<commonmodule::RampRate>& setter, const get_t<commonmodule::RampRate>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor)
 {
     if(visitor.start_message_field("negativeReactivePowerKVArPerMin", google::protobuf::FloatValue::descriptor()))
@@ -897,13 +920,13 @@ void visit_commonmodule_RampRate(const set_t<commonmodule::RampRate>& setter, co
 void visit_commonmodule_ScheduleCSG(const set_t<commonmodule::ScheduleCSG>& setter, const get_t<commonmodule::ScheduleCSG>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor)
 {
     {
-        const auto count = visitor.start_repeated_message_field("crvpts", commonmodule::SchedulePoint::descriptor());
+        const auto count = visitor.start_repeated_message_field("schpts", commonmodule::SchedulePoint::descriptor());
         for(int i = 0; i < count; ++i)
         {
             visitor.start_iteration(i);
             const auto set = [setter, i, max = count](solarmodule::SolarControlProfile& profile)
             {
-                const auto repeated = setter(profile)->mutable_crvpts();
+                const auto repeated = setter(profile)->mutable_schpts();
                 if(repeated->size() < max)
                 {
                     repeated->Reserve(max);
@@ -920,7 +943,7 @@ void visit_commonmodule_ScheduleCSG(const set_t<commonmodule::ScheduleCSG>& sett
                 const auto value = getter(profile);
                 if(value)
                 {
-                    return (i < value->crvpts_size()) ? &value->crvpts(i) : nullptr;
+                    return (i < value->schpts_size()) ? &value->schpts(i) : nullptr;
                 }
                 else
                 {
@@ -932,253 +955,26 @@ void visit_commonmodule_ScheduleCSG(const set_t<commonmodule::ScheduleCSG>& sett
         }
         visitor.end_repeated_message_field();
     }
-
-    if(visitor.start_message_field("xD", google::protobuf::StringValue::descriptor()))
-    {
-        visit_google_protobuf_StringValue(
-            [setter](solarmodule::SolarControlProfile& profile)
-            {
-                return setter(profile)->mutable_xd();
-            },
-            [getter](const solarmodule::SolarControlProfile& profile) -> google::protobuf::StringValue const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_xd() ? &value->xd() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("xDU", google::protobuf::StringValue::descriptor()))
-    {
-        visit_google_protobuf_StringValue(
-            [setter](solarmodule::SolarControlProfile& profile)
-            {
-                return setter(profile)->mutable_xdu();
-            },
-            [getter](const solarmodule::SolarControlProfile& profile) -> google::protobuf::StringValue const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_xdu() ? &value->xdu() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("yD", google::protobuf::StringValue::descriptor()))
-    {
-        visit_google_protobuf_StringValue(
-            [setter](solarmodule::SolarControlProfile& profile)
-            {
-                return setter(profile)->mutable_yd();
-            },
-            [getter](const solarmodule::SolarControlProfile& profile) -> google::protobuf::StringValue const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_yd() ? &value->yd() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("yDU", google::protobuf::StringValue::descriptor()))
-    {
-        visit_google_protobuf_StringValue(
-            [setter](solarmodule::SolarControlProfile& profile)
-            {
-                return setter(profile)->mutable_ydu();
-            },
-            [getter](const solarmodule::SolarControlProfile& profile) -> google::protobuf::StringValue const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_ydu() ? &value->ydu() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("yUnits", commonmodule::Unit::descriptor()))
-    {
-        visit_commonmodule_Unit(
-            [setter](solarmodule::SolarControlProfile& profile)
-            {
-                return setter(profile)->mutable_yunits();
-            },
-            [getter](const solarmodule::SolarControlProfile& profile) -> commonmodule::Unit const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_yunits() ? &value->yunits() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("zD", google::protobuf::StringValue::descriptor()))
-    {
-        visit_google_protobuf_StringValue(
-            [setter](solarmodule::SolarControlProfile& profile)
-            {
-                return setter(profile)->mutable_zd();
-            },
-            [getter](const solarmodule::SolarControlProfile& profile) -> google::protobuf::StringValue const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_zd() ? &value->zd() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("zDU", google::protobuf::StringValue::descriptor()))
-    {
-        visit_google_protobuf_StringValue(
-            [setter](solarmodule::SolarControlProfile& profile)
-            {
-                return setter(profile)->mutable_zdu();
-            },
-            [getter](const solarmodule::SolarControlProfile& profile) -> google::protobuf::StringValue const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_zdu() ? &value->zdu() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("zUnits", commonmodule::Unit::descriptor()))
-    {
-        visit_commonmodule_Unit(
-            [setter](solarmodule::SolarControlProfile& profile)
-            {
-                return setter(profile)->mutable_zunits();
-            },
-            [getter](const solarmodule::SolarControlProfile& profile) -> commonmodule::Unit const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_zunits() ? &value->zunits() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
 }
 
 void visit_commonmodule_SchedulePoint(const set_t<commonmodule::SchedulePoint>& setter, const get_t<commonmodule::SchedulePoint>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor)
 {
+    // repeated schedule parameter
+    // TODO
+
     visitor.handle(
-        "xVal",
+        "startTime",
         MessageAccessorBuilder<solarmodule::SolarControlProfile,commonmodule::ControlTimestamp>::build(
-            [setter](solarmodule::SolarControlProfile& profile) { return setter(profile)->mutable_xval(); },
+            [setter](solarmodule::SolarControlProfile& profile) { return setter(profile)->mutable_starttime(); },
             [getter](const solarmodule::SolarControlProfile& profile, const handler_t<commonmodule::ControlTimestamp>& handler)
             {
                 const auto parent = getter(profile);
-                if(!parent || !parent->has_xval()) return false;
-                handler(parent->xval());
+                if(!parent || !parent->has_starttime()) return false;
+                handler(parent->starttime());
                 return true;
             }
         )
     );
-
-    visitor.handle(
-        "yVal",
-        AccessorBuilder<solarmodule::SolarControlProfile,float>::build(
-            [setter](solarmodule::SolarControlProfile& profile, const float& value) { setter(profile)->set_yval(value); },
-            [getter](const solarmodule::SolarControlProfile& profile, const handler_t<float>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->yval());
-                return true;
-            }
-        )
-    );
-
-    if(visitor.start_message_field("zVal", google::protobuf::FloatValue::descriptor()))
-    {
-        visit_google_protobuf_FloatValue(
-            [setter](solarmodule::SolarControlProfile& profile)
-            {
-                return setter(profile)->mutable_zval();
-            },
-            [getter](const solarmodule::SolarControlProfile& profile) -> google::protobuf::FloatValue const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_zval() ? &value->zval() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
 }
 
 void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& setter, const get_t<commonmodule::TimeQuality>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor)
@@ -1238,48 +1034,6 @@ void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& sett
             }
         ),
         commonmodule::TimeAccuracyKind_descriptor()
-    );
-}
-
-void visit_commonmodule_Unit(const set_t<commonmodule::Unit>& setter, const get_t<commonmodule::Unit>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor)
-{
-    if(visitor.start_message_field("multiplier", commonmodule::Optional_UnitMultiplierKind::descriptor()))
-    {
-        visit_commonmodule_Optional_UnitMultiplierKind(
-            [setter](solarmodule::SolarControlProfile& profile)
-            {
-                return setter(profile)->mutable_multiplier();
-            },
-            [getter](const solarmodule::SolarControlProfile& profile) -> commonmodule::Optional_UnitMultiplierKind const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_multiplier() ? &value->multiplier() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    visitor.handle(
-        "SIUnit",
-        AccessorBuilder<solarmodule::SolarControlProfile,int>::build(
-            [setter](solarmodule::SolarControlProfile& profile, const int& value) { setter(profile)->set_siunit(static_cast<commonmodule::UnitSymbolKind>(value)); },
-            [getter](const solarmodule::SolarControlProfile& profile, const handler_t<int>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->siunit());
-                return true;
-            }
-        ),
-        commonmodule::UnitSymbolKind_descriptor()
     );
 }
 

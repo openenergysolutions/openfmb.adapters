@@ -122,6 +122,8 @@ public class ModelVisitorFiles implements CppFileCollection {
                                 return getRepeatedMessageField(field);
                             case FUNCTION_PARAMETER:
                                 return getRepeatedFunctionParameterField(field);
+                            case SCHEDULE_PARAMETER:
+                                return getRepeatedScheduleParameterField(field);
                             default:
                                 throw new RuntimeException("Unsupported repeated field type: " + type.toString());
                         }
@@ -149,6 +151,11 @@ public class ModelVisitorFiles implements CppFileCollection {
     private Document getRepeatedFunctionParameterField(Descriptors.FieldDescriptor field) {
         return line("// repeated function parameter")
                 .then(line("visitor.handle_repeated_function_parameter(%s);", Helpers.quoted(field.getName())));
+    }
+
+    private Document getRepeatedScheduleParameterField(Descriptors.FieldDescriptor field) {
+        return line("// repeated schedule parameter")
+                .then(line("// TODO"));
     }
 
     private Document getRepeatedMessageField(Descriptors.FieldDescriptor field) {

@@ -23,29 +23,29 @@
 
 namespace adapter {
 
-void visit(const essmodule::ESSControlProfile& message, IMessageVisitor& visitor);
+void visit(const solarmodule::SolarControlProfile& message, IMessageVisitor& visitor);
 
 void visit(const essmodule::ESSStatusProfile& message, IMessageVisitor& visitor);
 
+void visit(const switchmodule::SwitchControlProfile& message, IMessageVisitor& visitor);
+
 void visit(const essmodule::ESSReadingProfile& message, IMessageVisitor& visitor);
 
-void visit(const solarmodule::SolarReadingProfile& message, IMessageVisitor& visitor);
+void visit(const resourcemodule::ResourceReadingProfile& message, IMessageVisitor& visitor);
 
-void visit(const solarmodule::SolarStatusProfile& message, IMessageVisitor& visitor);
+void visit(const switchmodule::SwitchStatusProfile& message, IMessageVisitor& visitor);
 
 void visit(const loadmodule::LoadReadingProfile& message, IMessageVisitor& visitor);
-
-void visit(const solarmodule::SolarControlProfile& message, IMessageVisitor& visitor);
-
-void visit(const switchmodule::SwitchControlProfile& message, IMessageVisitor& visitor);
 
 void visit(const switchmodule::SwitchReadingProfile& message, IMessageVisitor& visitor);
 
 void visit(const loadmodule::LoadControlProfile& message, IMessageVisitor& visitor);
 
-void visit(const resourcemodule::ResourceReadingProfile& message, IMessageVisitor& visitor);
+void visit(const solarmodule::SolarReadingProfile& message, IMessageVisitor& visitor);
 
-void visit(const switchmodule::SwitchStatusProfile& message, IMessageVisitor& visitor);
+void visit(const essmodule::ESSControlProfile& message, IMessageVisitor& visitor);
+
+void visit(const solarmodule::SolarStatusProfile& message, IMessageVisitor& visitor);
 
 void visit(const loadmodule::LoadStatusProfile& message, IMessageVisitor& visitor);
 

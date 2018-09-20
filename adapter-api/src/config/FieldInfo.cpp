@@ -432,7 +432,7 @@ namespace fields {
                 { essmodule::ENG_ESSFunctionParameter::descriptor(), RepetitionType::function_paramter},
 
                 // schedule related repetitions
-                { switchmodule::SwitchPoint::descriptor(), RepetitionType::schedule },
+                { commonmodule::SwitchPoint::descriptor(), RepetitionType::schedule },
                 { commonmodule::ControlScheduleFSCH::descriptor(), RepetitionType::schedule },
                 { commonmodule::SchedulePoint::descriptor(), RepetitionType::schedule },
                 { essmodule::ESSPoint::descriptor(), RepetitionType::schedule },
