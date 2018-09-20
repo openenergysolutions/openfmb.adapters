@@ -27,7 +27,7 @@ public enum RepeatedType {
     static {
         final Map<Descriptors.Descriptor, RepeatedType> temp = new HashMap<>();
 
-        // the on;y reading repetition
+        // the only reading repetition
         temp.put(openfmb.switchmodule.SwitchReading.getDescriptor(), RepeatedType.READING);
         // things related to schedules
         temp.put(openfmb.switchmodule.SwitchPoint.getDescriptor(), RepeatedType.SCHEDULE);
