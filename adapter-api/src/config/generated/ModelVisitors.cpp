@@ -1596,16 +1596,8 @@ void visit_essmodule_ESSPoint(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    {
-        const auto count = visitor.start_repeated_message_field("functionparameter", essmodule::ENG_ESSFunctionParameter::descriptor());
-        for(int i = 0; i < count; ++i)
-        {
-            visitor.start_iteration(i);
-            visit_essmodule_ENG_ESSFunctionParameter(visitor);
-            visitor.end_iteration();
-        }
-        visitor.end_repeated_message_field();
-    }
+    // repeated function parameter
+    visitor.handle_repeated_function_parameter("functionParameter");
 
     if(visitor.start_message_field("mode", commonmodule::ENG_GridConnectModeKind::descriptor()))
     {

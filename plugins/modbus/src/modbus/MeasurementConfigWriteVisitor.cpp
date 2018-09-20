@@ -8,6 +8,7 @@
 
 #include <adapter-api/ConfigStrings.h>
 #include <adapter-api/util/EnumUtil.h>
+#include <adapter-api/util/Exception.h>
 
 namespace adapter {
 namespace modbus {
@@ -64,6 +65,10 @@ namespace modbus {
             out << YAML::EndMap;
         }
         out << YAML::EndSeq;
+    }
+
+    void MeasurementConfigWriteVisitor::write_mapped_function_parameter_keys(YAML::Emitter &out) {
+        throw Exception("Function parameter lists not supported for Modbus measurement profiles");
     }
 }
 }

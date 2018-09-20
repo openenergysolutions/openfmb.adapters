@@ -32,6 +32,7 @@ set(API_HEADERS
 	include/adapter-api/config/IMessageFieldHandler.h
 	include/adapter-api/config/IModelVisitor.h
     include/adapter-api/config/ITypedModelVisitor.h
+	include/adapter-api/config/RepetitionType.h
     include/adapter-api/config/YAMLGetters.h
 	include/adapter-api/config/PublishingConfigReadVisitorBase.h
 	include/adapter-api/config/generated/BoolFieldType.h
@@ -84,8 +85,7 @@ set(API_SOURCES
 	src/config/generated/SolarControlProfileTypedModelVisitor.cpp
 	src/config/generated/LoadReadingProfileTypedModelVisitor.cpp
 	src/config/generated/LoadStatusProfileTypedModelVisitor.cpp
-	src/config/generated/LoadControlProfileTypedModelVisitor.cpp
-		)
+	src/config/generated/LoadControlProfileTypedModelVisitor.cpp)
 
 
 # directories to be automatically formatted by astyle

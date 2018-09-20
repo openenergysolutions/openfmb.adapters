@@ -66,5 +66,9 @@ namespace dnp3 {
 
         out << YAML::EndMap;
     }
+
+    void ControlConfigWriteVisitor::write_mapped_function_parameter_keys(YAML::Emitter &out) {
+        throw Exception("ESS function parameter not supported by DNP3 plugin");
+    }
 }
 }

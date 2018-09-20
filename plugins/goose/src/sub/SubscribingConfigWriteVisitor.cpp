@@ -68,5 +68,6 @@ namespace goose {
         out << YAML::Key << keys::name << YAML::Value << "";
     }
 
+
 } // namespace goose
 } // namespace adapter

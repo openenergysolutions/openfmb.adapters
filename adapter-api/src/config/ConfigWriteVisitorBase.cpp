@@ -1,7 +1,9 @@
 
 #include "adapter-api/config/ConfigWriteVisitorBase.h"
 #include <adapter-api/util/Exception.h>
+
 #include <proto-api/commonmodule/commonmodule.pb.h>
+#include <proto-api/essmodule/essmodule.pb.h>
 
 #include "adapter-api/config/FieldInfo.h"
 
@@ -189,6 +191,22 @@ void ConfigWriteVisitorBase::handle_commonmodule_ControlTimestamp(const std::str
     out << YAML::EndMap;
 }
 
+void ConfigWriteVisitorBase::handle_repeated_function_parameter(const std::string& field_name)
+{
+    out << YAML::Key << field_name << YAML::Comment("A sequence of function parameters names and the corresponding actions to take for each of them");
+    out << YAML::BeginSeq;
+
+    for(int i = 0; i < essmodule::ESSFunctionParameterKind_descriptor()->value_count(); ++i)
+    {
+        out << YAML::BeginMap;
+        out << YAML::Key << keys::name << YAML::Value << essmodule::ESSFunctionParameterKind_descriptor()->value(i)->name();
+        this->write_mapped_function_parameter_keys(out);
+        out << YAML::EndMap;
+    }
+
+    out << YAML::EndSeq;
+}
+
 BoolFieldType::Value ConfigWriteVisitorBase::remap(BoolFieldType::Value type)
 {
     switch (type) {
@@ -255,4 +273,5 @@ EnumFieldType::Value ConfigWriteVisitorBase::remap(EnumFieldType::Value type)
         return type;
     }
 }
+
 }

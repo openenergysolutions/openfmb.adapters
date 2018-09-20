@@ -22,6 +22,8 @@ namespace modbus {
         void write_mapped_float_keys(YAML::Emitter& out) override;
 
         void write_mapped_enum_keys(YAML::Emitter& out, google::protobuf::EnumDescriptor const* descriptor) override;
+
+        void write_mapped_function_parameter_keys(YAML::Emitter &out) override;
     };
 }
 }

@@ -42,6 +42,9 @@ protected:
 
     virtual void write_mapped_commonmodule_timestamp_keys(YAML::Emitter& out) {} // TODO: decide purity
 
+    virtual void write_mapped_function_parameter_keys(YAML::Emitter& out) = 0;
+
+
 public:
     explicit ConfigWriteVisitorBase(YAML::Emitter& out);
 
@@ -78,6 +81,8 @@ public:
     void handle_commonmodule_Timestamp(const std::string& field_name) final;
 
     void handle_commonmodule_ControlTimestamp(const std::string& field_name) final;
+
+    void handle_repeated_function_parameter(const std::string &field_name) override;
 
 private:
     static BoolFieldType::Value remap(BoolFieldType::Value type);

@@ -6,10 +6,14 @@
 
 #include <proto-api/commonmodule/commonmodule.pb.h>
 #include <proto-api/essmodule/essmodule.pb.h>
+#include <proto-api/switchmodule/switchmodule.pb.h>
+#include <proto-api/solarmodule/solarmodule.pb.h>
+#include <proto-api/loadmodule/loadmodule.pb.h>
 
 #include <functional>
 #include <map>
 #include <vector>
+
 
 namespace adapter {
 namespace fields {
@@ -416,6 +420,33 @@ namespace fields {
         // clang-format on
 
         return find_mapping_or_throw(map, field_name, path);
+    }
+
+    RepetitionType get_repetition_type(google::protobuf::Descriptor const* descriptor)
+    {
+        const static std::map<google::protobuf::Descriptor const*, RepetitionType> map = {
+                // the only repeated field in the non-control profiles
+                { switchmodule::SwitchReading::descriptor(), RepetitionType::reading },
+
+                // this repeated { function, parameter } list only show up in ESSControlProfile
+                { essmodule::ENG_ESSFunctionParameter::descriptor(), RepetitionType::function_paramter},
+
+                // schedule related repetitions
+                { switchmodule::SwitchPoint::descriptor(), RepetitionType::schedule },
+                { commonmodule::ControlScheduleFSCH::descriptor(), RepetitionType::schedule },
+                { commonmodule::SchedulePoint::descriptor(), RepetitionType::schedule },
+                { essmodule::ESSPoint::descriptor(), RepetitionType::schedule },
+                { solarmodule::SolarPoint::descriptor(), RepetitionType::schedule },
+                { loadmodule::LoadPoint::descriptor(), RepetitionType::schedule}
+        };
+
+        const auto elem = map.find(descriptor);
+
+        if(elem == map.end()) {
+            throw Exception("No repetition mapping for descriptor: ", descriptor->full_name());
+        }
+
+        return elem->second;
     }
 }
 }

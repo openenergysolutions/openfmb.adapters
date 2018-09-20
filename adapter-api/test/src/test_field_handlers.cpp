@@ -22,6 +22,9 @@ public:
 
     int start_repeated_message_field(const std::string &field_name,
                                      google::protobuf::Descriptor const *descriptor) override {
+
+        const auto type = adapter::fields::get_repetition_type(descriptor);
+
         path.push(field_name, descriptor);
         return 1;
     }
@@ -71,6 +74,10 @@ public:
     }
 
     void handle_commonmodule_ControlTimestamp(const std::string &field_name) override {
+
+    }
+
+    void handle_repeated_function_parameter(const std::string &field_name) override {
 
     }
 };

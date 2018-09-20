@@ -205,6 +205,12 @@ namespace goose {
             }
         }
 
+    public:
+        void handle(const std::string &field_name, const getter_t<T, google::protobuf::RepeatedPtrField<essmodule::ENG_ESSFunctionParameter>> &getter) override
+        {
+            // do nothing this only occurs in control profiles
+        }
+
     private:
         bool get_name(const YAML::Node& node, std::string& value)
         {

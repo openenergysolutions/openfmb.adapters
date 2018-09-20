@@ -25,6 +25,9 @@ public:
     virtual void handle_commonmodule_Quality(const std::string& field_name) = 0;
     virtual void handle_commonmodule_Timestamp(const std::string& field_name) = 0;
     virtual void handle_commonmodule_ControlTimestamp(const std::string& field_name) = 0;
+
+    // --- handlers for specialized repeated fields ---
+    virtual void handle_repeated_function_parameter(const std::string& field_name) = 0;
 };
 }
 

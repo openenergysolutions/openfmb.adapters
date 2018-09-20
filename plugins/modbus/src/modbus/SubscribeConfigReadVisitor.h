@@ -14,6 +14,8 @@
 #include "generated/OutputType.h"
 #include "CommandOptions.h"
 
+#include <map>
+
 namespace adapter {
 namespace modbus {
 
@@ -27,6 +29,8 @@ namespace modbus {
         SubscribeConfigReadVisitor(const YAML::Node& root, const ICommandPrioritySource& priority_source);
 
         void subscribe(const Logger& logger, IMessageBus& bus, std::shared_ptr<ITransactionProcessor> tx_processor);
+
+        void handle(const std::string &field_name, const getter_t<T, repeated_function_parameter_t>& getter) override;
 
     protected:
         // implement pure virtual methods from base class
@@ -130,6 +134,38 @@ namespace modbus {
                     });
             });
     }
+
+    template<class T>
+    void SubscribeConfigReadVisitor<T>::handle(const std::string &field_name, const getter_t<T, repeated_function_parameter_t>& getter) {
+        const auto node = this->get_config_node(field_name);
+
+        this->config->add(
+                [getter, map = read::function_parameter_configuration(node, this->priority_source)](const T& profile, ICommandSink& sink, Logger& logger) {
+                    const auto parameters = getter(profile);
+                    if(parameters)
+                    {
+                        for(auto param : *parameters)
+                        {
+                            auto entry = map.find(param.functionparametertype());
+                            if(entry == map.end())
+                            {
+                                const auto value = essmodule::ESSFunctionParameterKind_descriptor()->FindValueByNumber(param.functionparametertype());
+                                if(value)
+                                {
+                                    logger.warn("No configured mapping for function parameter: {}", value->name());
+                                }
+                            }
+                            else
+                            {
+                                // perform the action using the parameter's value
+                                entry->second(sink, param.value());
+                            }
+                        }
+                    }
+                }
+        );
+    };
+
 }
 }
 
