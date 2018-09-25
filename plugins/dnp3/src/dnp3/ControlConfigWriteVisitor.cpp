@@ -70,5 +70,9 @@ namespace dnp3 {
     void ControlConfigWriteVisitor::write_mapped_function_parameter_keys(YAML::Emitter &out) {
         throw Exception("ESS function parameter not supported by DNP3 plugin");
     }
+
+    void ControlConfigWriteVisitor::write_mapped_schedule_parameter_keys(YAML::Emitter &out) {
+        throw Exception("Schedule parameter not supported by DNP3 plugin");
+    }
 }
 }

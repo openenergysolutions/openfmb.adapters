@@ -155,7 +155,7 @@ public class ModelVisitorFiles implements CppFileCollection {
 
     private Document getRepeatedScheduleParameterField(Descriptors.FieldDescriptor field) {
         return line("// repeated schedule parameter")
-                .then(line("// TODO"));
+                .then(line("visitor.handle_repeated_schedule_parameter(%s);", Helpers.quoted(field.getName())));
     }
 
     private Document getRepeatedMessageField(Descriptors.FieldDescriptor field) {

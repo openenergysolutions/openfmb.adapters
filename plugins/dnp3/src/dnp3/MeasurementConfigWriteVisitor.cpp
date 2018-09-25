@@ -60,5 +60,9 @@ namespace dnp3 {
     void MeasurementConfigWriteVisitor::write_mapped_function_parameter_keys(YAML::Emitter &out) {
         throw Exception("Function parameter lists not supported for DNP3 measurement profiles");
     }
+
+    void MeasurementConfigWriteVisitor::write_mapped_schedule_parameter_keys(YAML::Emitter &out) {
+        throw Exception("Schedule parameter lists not supported for DNP3 measurement profiles");
+    }
 }
 }

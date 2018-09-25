@@ -1275,7 +1275,7 @@ void visit_commonmodule_ScheduleCSG(IModelVisitor& visitor)
 void visit_commonmodule_SchedulePoint(IModelVisitor& visitor)
 {
     // repeated schedule parameter
-    // TODO
+    visitor.handle_repeated_schedule_parameter("scheduleParameter");
 
     visitor.handle_commonmodule_ControlTimestamp("startTime");
 }

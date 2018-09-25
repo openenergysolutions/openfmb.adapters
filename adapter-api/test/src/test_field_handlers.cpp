@@ -6,7 +6,7 @@
 #include <adapter-api/config/DescriptorPath.h>
 #include <adapter-api/util/Exception.h>
 
-class TestModelVisitor : public adapter::IModelVisitor {
+class TestModelVisitor final : public adapter::IModelVisitor {
 
     ::adapter::DescriptorPath path;
 
@@ -78,6 +78,10 @@ public:
     }
 
     void handle_repeated_function_parameter(const std::string &field_name) override {
+
+    }
+
+    void handle_repeated_schedule_parameter(const std::string &field_name) override {
 
     }
 };

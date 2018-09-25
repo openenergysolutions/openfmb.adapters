@@ -154,7 +154,7 @@ public class TypedModelVisitorFiles implements CppFileCollection {
                             case FUNCTION_PARAMETER:
                                 return getRepeatedFunctionParameterField(parent, field);
                             case SCHEDULE_PARAMETER:
-                                return getRepeatedScheduleParameterField(parent, field);                                 
+                                return getRepeatedScheduleParameterField(parent, field);
                             default:
                                 throw new RuntimeException("Unsupported repeated field type: " + type.toString());
                         }
