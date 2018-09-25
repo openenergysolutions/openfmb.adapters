@@ -199,7 +199,7 @@ void ConfigWriteVisitorBase::handle_repeated_function_parameter(const std::strin
     for(int i = 0; i < essmodule::ESSFunctionParameterKind_descriptor()->value_count(); ++i)
     {
         out << YAML::BeginMap;
-        out << YAML::Key << keys::name << YAML::Value << essmodule::ESSFunctionParameterKind_descriptor()->value(i)->name();
+        out << YAML::Key << keys::functionParameterType << YAML::Value << essmodule::ESSFunctionParameterKind_descriptor()->value(i)->name();
         this->write_mapped_function_parameter_keys(out);
         out << YAML::EndMap;
     }
@@ -215,7 +215,7 @@ void ConfigWriteVisitorBase::handle_repeated_schedule_parameter(const std::strin
     for(int i = 0; i < commonmodule::ScheduleParameterKind_descriptor()->value_count(); ++i)
     {
         out << YAML::BeginMap;
-        out << YAML::Key << keys::name << YAML::Value << commonmodule::ScheduleParameterKind_descriptor()->value(i)->name();
+        out << YAML::Key << keys::scheduleParameterType << YAML::Value << commonmodule::ScheduleParameterKind_descriptor()->value(i)->name();
         this->write_mapped_schedule_parameter_keys(out);
         out << YAML::EndMap;
     }
