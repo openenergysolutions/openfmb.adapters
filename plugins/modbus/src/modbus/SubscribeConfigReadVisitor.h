@@ -171,7 +171,33 @@ namespace modbus {
     template<class T>
     void SubscribeConfigReadVisitor<T>::handle(const std::string &field_name, const getter_t<T, repeated_schedule_parameter_t>& getter)
     {
-        // TODO
+        const auto node = this->get_config_node(field_name);
+
+        this->config->add(
+                [getter, map = read::schedule_parameter_configuration(node, this->priority_source)](const T& profile, ICommandSink& sink, Logger& logger) {
+                    const auto parameters = getter(profile);
+                    if(parameters)
+                    {
+                        for(auto param : *parameters)
+                        {
+                            auto entry = map.find(param.scheduleparametertype());
+                            if(entry == map.end())
+                            {
+                                const auto value = commonmodule::ScheduleParameterKind_descriptor()->FindValueByNumber(param.scheduleparametertype());
+                                if(value)
+                                {
+                                    logger.warn("No configured mapping for schedule parameter: {}", value->name());
+                                }
+                            }
+                            else
+                            {
+                                // perform the action using the parameter's value
+                                entry->second(sink, param.value());
+                            }
+                        }
+                    }
+                }
+        );
     }
 
 }

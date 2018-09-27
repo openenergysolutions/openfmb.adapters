@@ -127,17 +127,50 @@ namespace modbus {
             return std::move(map);
         }
 
+        using schedule_parameter_map_t = std::map<commonmodule::ScheduleParameterKind, std::function<void (ICommandSink& sink, float value)>>;
+
+        schedule_parameter_map_t schedule_parameter_configuration(const YAML::Node& node, const ICommandPrioritySource& priority_source)
+        {
+            // build up this map
+            schedule_parameter_map_t action_map;
+
+            // loop over all the entries in the sequence, building up the action map
+            const auto add_to_action_map = [&](const YAML::Node& entry)
+            {
+                const auto name = yaml::require_string(entry, ::adapter::keys::scheduleParameterType);
+                const auto value = commonmodule::ScheduleParameterKind_descriptor()->FindValueByName(name);
+                if(!value)
+                {
+                    throw Exception("'", name, "' is not a valid value for enumeration ", commonmodule::ScheduleParameterKind_descriptor()->name());
+                }
+
+                const auto index = yaml::require_integer<uint16_t>(entry, ::adapter::keys::index);
+                const auto scale = yaml::require(entry, ::adapter::keys::scale).as<float>();
+                const auto priority = priority_source.get_priority(CommandType::Value::write_single_register, index);
+                const auto enum_value = static_cast<commonmodule::ScheduleParameterKind>(value->number());
+
+                action_map[enum_value] = [index, scale, priority](ICommandSink& sink, float value)
+                {
+                    sink.write_single_register(index, priority, static_cast<uint16_t>(value*scale));
+                };
+            };
+
+            yaml::foreach(node, add_to_action_map);
+
+            return std::move(action_map);
+        }
+
         using function_parameter_map_t = std::map<essmodule::ESSFunctionParameterKind, std::function<void (ICommandSink& sink, int32_t value)>>;
 
         function_parameter_map_t function_parameter_configuration(const YAML::Node& node, const ICommandPrioritySource& priority_source)
         {
             // build up this map
-            std::map<essmodule::ESSFunctionParameterKind, std::function<void (ICommandSink& sink, int32_t value)>> action_map;
+            function_parameter_map_t action_map;
 
             // loop over all the entries in the sequence, building up the action map
             const auto add_to_action_map = [&](const YAML::Node& entry)
             {
-                const auto name = yaml::require_string(entry, ::adapter::keys::name);
+                const auto name = yaml::require_string(entry, ::adapter::keys::functionParameterType);
                 const auto value = essmodule::ESSFunctionParameterKind_descriptor()->FindValueByName(name);
                 if(!value)
                 {
@@ -147,8 +180,9 @@ namespace modbus {
                 const auto index = yaml::require_integer<uint16_t>(entry, ::adapter::keys::index);
                 const auto scale = yaml::require(entry, ::adapter::keys::scale).as<float>();
                 const auto priority = priority_source.get_priority(CommandType::Value::write_single_register, index);
+                const auto enum_value = static_cast<essmodule::ESSFunctionParameterKind>(value->number());
 
-                action_map[static_cast<essmodule::ESSFunctionParameterKind>(value->number())] = [index, scale, priority](ICommandSink& sink, int32_t value)
+                action_map[enum_value] = [index, scale, priority](ICommandSink& sink, int32_t value)
                 {
                     sink.write_single_register(index, priority, static_cast<uint16_t>(value*scale));
                 };
