@@ -11,7 +11,9 @@
 
 namespace adapter {
 
+using repeated_schedule_parameter_t = google::protobuf::RepeatedPtrField<commonmodule::ENG_ScheduleParameter>;
 using repeated_function_parameter_t = google::protobuf::RepeatedPtrField<essmodule::ENG_ESSFunctionParameter>;
+
 
 template <class P>
 class ITypedModelVisitor : public IMessageFieldHandler {
@@ -32,8 +34,10 @@ public:
     virtual void handle(const std::string& field_name, const message_accessor_t<P, commonmodule::Timestamp>& accessor) = 0;
     virtual void handle(const std::string& field_name, const message_accessor_t<P, commonmodule::ControlTimestamp>& accessor) = 0;
 
-    // --- handler for specialized function parameter repetition ---
+    // --- handler for specialized repetitions in inside of schedules ---
+    virtual void handle(const std::string& field_name, const getter_t<P, repeated_schedule_parameter_t>& getter) = 0;
     virtual void handle(const std::string& field_name, const getter_t<P, repeated_function_parameter_t>& getter) = 0;
+
 };
 }
 

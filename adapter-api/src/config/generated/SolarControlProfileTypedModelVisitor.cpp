@@ -960,7 +960,21 @@ void visit_commonmodule_ScheduleCSG(const set_t<commonmodule::ScheduleCSG>& sett
 void visit_commonmodule_SchedulePoint(const set_t<commonmodule::SchedulePoint>& setter, const get_t<commonmodule::SchedulePoint>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor)
 {
     // repeated schedule parameter
-    // TODO
+    visitor.handle(
+        "scheduleParameter",
+        [getter](const solarmodule::SolarControlProfile& profile) -> const google::protobuf::RepeatedPtrField<commonmodule::ENG_ScheduleParameter>*
+        {
+            const auto value = getter(profile);
+            if(value)
+            {
+                return &value->scheduleparameter();
+            }
+            else
+            {
+                return nullptr;
+            }
+        }
+    );
 
     visitor.handle(
         "startTime",

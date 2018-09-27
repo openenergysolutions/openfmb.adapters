@@ -223,7 +223,20 @@ public class TypedModelVisitorFiles implements CppFileCollection {
     private static Document getRepeatedScheduleParameterField(Descriptors.Descriptor parent, Descriptors.FieldDescriptor field)
     {
         return line("// repeated schedule parameter")
-                .then("// TODO");
+                .then("visitor.handle(")
+                .indent(
+                        line(Helpers.quoted(field.getName())+",")
+                                .then(String.format("[getter](const %s& profile) -> const google::protobuf::RepeatedPtrField<%s>*", cppMessageName(parent), cppMessageName(field.getMessageType()))).bracket(
+                                line("const auto value = getter(profile);")
+                                        .then("if(value)").bracket(
+                                        line("return &value->scheduleparameter();")
+                                )
+                                        .then("else").bracket(
+                                        line("return nullptr;")
+                                )
+                        )
+
+                ).then(");");
 
     }
 

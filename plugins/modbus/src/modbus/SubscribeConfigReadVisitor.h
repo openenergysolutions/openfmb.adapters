@@ -32,6 +32,8 @@ namespace modbus {
 
         void handle(const std::string &field_name, const getter_t<T, repeated_function_parameter_t>& getter) override;
 
+        void handle(const std::string &field_name, const getter_t<T, repeated_schedule_parameter_t>& getter) override;
+
     protected:
         // implement pure virtual methods from base class
 
@@ -164,7 +166,13 @@ namespace modbus {
                     }
                 }
         );
-    };
+    }
+
+    template<class T>
+    void SubscribeConfigReadVisitor<T>::handle(const std::string &field_name, const getter_t<T, repeated_schedule_parameter_t>& getter)
+    {
+        // TODO
+    }
 
 }
 }

@@ -206,9 +206,17 @@ namespace goose {
         }
 
     public:
-        void handle(const std::string &field_name, const getter_t<T, google::protobuf::RepeatedPtrField<essmodule::ENG_ESSFunctionParameter>> &getter) override
+
+        // --- ignore these schedule types as they only occur in control profiles
+
+        void handle(const std::string &field_name, const getter_t<T, repeated_function_parameter_t> &getter) override
         {
-            // do nothing this only occurs in control profiles
+
+        }
+
+        void handle(const std::string& field_name, const getter_t<T, repeated_schedule_parameter_t>& getter) override
+        {
+
         }
 
     private:

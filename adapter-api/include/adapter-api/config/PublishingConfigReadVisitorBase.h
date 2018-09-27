@@ -49,6 +49,9 @@ public:
 
     void handle(const std::string& field_name, const getter_t<T, repeated_function_parameter_t>& getter) override;
 
+    void handle(const std::string &field_name,
+                const getter_t<T, google::protobuf::RepeatedPtrField<commonmodule::ENG_ScheduleParameter>> &getter) override;
+
 protected:
     explicit PublishingConfigReadVisitorBase(const YAML::Node& root)
         : ConfigReadVisitorBase<T>(root)
@@ -267,6 +270,12 @@ void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, c
     // ignore for now
 }
 
+template<class T>
+void PublishingConfigReadVisitorBase<T>::handle(const std::string &field_name, const getter_t<T, google::protobuf::RepeatedPtrField<commonmodule::ENG_ScheduleParameter>> &getter)
+{
+    // ignore for now
+}
+
 template <class T>
 void PublishingConfigReadVisitorBase<T>::handle_optional_const_bool(const YAML::Node& node, const accessor_t<T, bool>& accessor)
 {
@@ -340,6 +349,8 @@ void PublishingConfigReadVisitorBase<T>::handle_const_enum(const YAML::Node& nod
             accessor->set(profile, value);
         });
 }
+
+
 }
 
 #endif

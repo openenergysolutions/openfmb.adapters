@@ -82,14 +82,18 @@ namespace modbus {
         out << YAML::EndSeq;
     }
 
-    void ControlConfigWriteVisitor::write_mapped_function_parameter_keys(YAML::Emitter &out) {
+    void write_index_and_scale(YAML::Emitter &out)
+    {
         out << YAML::Key << ::adapter::keys::index << YAML::Value << 0;
         out << YAML::Key << ::adapter::keys::scale << YAML::Value << 1.0;
     }
 
+    void ControlConfigWriteVisitor::write_mapped_function_parameter_keys(YAML::Emitter &out) {
+        write_index_and_scale(out);
+    }
+
     void ControlConfigWriteVisitor::write_mapped_schedule_parameter_keys(YAML::Emitter &out) {
-        out << YAML::Key << ::adapter::keys::index << YAML::Value << 0;
-        out << YAML::Key << ::adapter::keys::scale << YAML::Value << 1.0;
+        write_index_and_scale(out);
     }
 }
 }
