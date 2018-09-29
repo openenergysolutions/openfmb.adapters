@@ -3,6 +3,9 @@
 #define OPENFMB_ADAPTER_ICOMMANDPRIORITYSOURCE_H
 
 #include "generated/CommandType.h"
+#include "ConfigStrings.h"
+
+#include <adapter-api/util/YAMLUtil.h>
 
 #include <cstdint>
 
@@ -13,7 +16,8 @@ namespace modbus {
     public:
         virtual ~ICommandPrioritySource() = default;
 
-        virtual int get_priority(CommandType::Value type, uint16_t index) const = 0;
+        // retrieve the priority via the "operation-id" map entry of the YAML node
+        virtual size_t get_priority(const YAML::Node& node) = 0;
     };
 }
 }

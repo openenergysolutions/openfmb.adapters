@@ -12,7 +12,6 @@
 #include "ControlConfigWriteVisitor.h"
 #include "MeasurementConfigWriteVisitor.h"
 
-#include "CommandOrdering.h"
 #include "ConfigStrings.h"
 #include "Plugin.h"
 
@@ -26,15 +25,11 @@ namespace modbus {
             std::cout << "Generating: " << T::descriptor()->name() << std::endl;
 
             if (profile_info<T>::is_control) {
-                out << YAML::Key << "command-order" << YAML::Comment("order of commands - first == highest priority, last == lowest priority");
-
-                // provide an example of the two types
-                command_ordering_t::write_sequence(
-                    {
-                        { 0, CommandType::Value::write_single_register },
-                        { 1, CommandType::Value::write_multiple_register },
-                    },
-                    out);
+                out << YAML::Key << keys::command_order << YAML::Comment("order of commands by operation id, first == highest priority, last == lowest priority");
+                out << YAML::BeginSeq;
+                out << YAML::Value << "operation-id-1";
+                out << YAML::Value << "operation-id-2";
+                out << YAML::EndSeq;
             }
 
             out << YAML::Key << ::adapter::keys::mapping << YAML::Comment("profile model starts here");

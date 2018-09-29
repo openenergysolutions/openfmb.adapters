@@ -25,7 +25,7 @@ namespace modbus {
         }
     };
 
-    void CommandSink::write_single_register(uint16_t index, int priority, uint16_t value)
+    void CommandSink::write_single_register(uint16_t index, size_t priority, uint16_t value)
     {
         this->transactions.emplace_back(
                         [index, value](Logger logger) -> std::shared_ptr<ITransaction>
@@ -36,7 +36,7 @@ namespace modbus {
         );
     }
 
-    void CommandSink::modify_single_register(uint16_t index, int priority, modify_reg_op_t operation)
+    void CommandSink::modify_single_register(uint16_t index, size_t priority, modify_reg_op_t operation)
     {
         this->modify_map[key_t(index, priority)].push_back(std::move(operation));
     }

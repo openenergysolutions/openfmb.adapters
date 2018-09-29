@@ -12,13 +12,24 @@ namespace adapter {
 namespace modbus {
 
     class CommandPriorityMap final : public ICommandPrioritySource {
-    public:
-        explicit CommandPriorityMap(const std::vector<command_ordering_t>& ordering);
 
-        int get_priority(CommandType::Value type, uint16_t index) const override;
+        struct Value {
+
+            Value() = default;
+            Value(size_t priority) : priority(priority) {}
+
+            size_t priority = 0;
+            YAML::Mark mark = YAML::Mark::null_mark();
+        };
+
+    public:
+
+        void add_operation(const std::string& operation_id);
+
+        size_t get_priority(const YAML::Node& node) override;
 
     private:
-        std::map<command_ordering_t, int> priority_map;
+        std::map<std::string, Value> priority_map;
     };
 }
 }

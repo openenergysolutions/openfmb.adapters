@@ -12,7 +12,7 @@ namespace modbus {
 
     class CommandSink final : public ICommandSink {
 
-        using key_t = std::pair<uint16_t, int>;
+        using key_t = std::pair<uint16_t, size_t>;
 
         using transaction_generator_t = std::function<std::shared_ptr<ITransaction> (Logger)>;
         using transaction_priority_t = std::pair<transaction_generator_t, int>;
@@ -22,9 +22,9 @@ namespace modbus {
 
     public:
 
-        void write_single_register(uint16_t index, int priority, uint16_t value) override;
+        void write_single_register(uint16_t index, size_t priority, uint16_t value) override;
 
-        void modify_single_register(uint16_t index, int priority, modify_reg_op_t operation) override;
+        void modify_single_register(uint16_t index, size_t priority, modify_reg_op_t operation) override;
 
         std::shared_ptr<ITransaction> try_get_transaction(std::string name, Logger logger) const;
     };

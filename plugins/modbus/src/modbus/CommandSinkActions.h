@@ -47,11 +47,11 @@ namespace modbus {
 
     namespace read {
 
-        sink_action_t register_read_and_modify_action(const YAML::Node& node, const ICommandPrioritySource& priority_source)
+        sink_action_t register_read_and_modify_action(const YAML::Node& node, ICommandPrioritySource& priority_source)
         {
             const auto operation = yaml::require_enum<BitwiseOperation>(node);
             const auto index = ::adapter::yaml::get::index(node);
-            const auto priority = priority_source.get_priority(CommandType::Value::write_single_register, index);
+            const auto priority = priority_source.get_priority(node);
             switch (operation) {
             case (BitwiseOperation::Value::clear_masked_bits):
                 return [=, mask = yaml::require_integer<uint16_t>(node, keys::mask)](ICommandSink& sink) {
@@ -66,7 +66,7 @@ namespace modbus {
             }
         }
 
-        std::vector<sink_action_t> command_actions(const YAML::Node& node, const ICommandPrioritySource& priority_source)
+        std::vector<sink_action_t> command_actions(const YAML::Node& node, ICommandPrioritySource& priority_source)
         {
             std::vector<sink_action_t> actions;
 
@@ -82,7 +82,7 @@ namespace modbus {
                         break;
                     case (OutputType::Value::write_register): {
                         const auto index = ::adapter::yaml::get::index(node);
-                        const auto priority = priority_source.get_priority(CommandType::Value::write_single_register, index);
+                        const auto priority = priority_source.get_priority(node);
                         const auto value = yaml::require_integer<uint16_t>(node, ::adapter::keys::value);
                         actions.push_back(
                                 [index, priority, value](ICommandSink &sink) {
@@ -99,7 +99,7 @@ namespace modbus {
             return std::move(actions);
         }
 
-        BinaryConfigPair binary_action_pair(const YAML::Node& node, const ICommandPrioritySource& priority_source)
+        BinaryConfigPair binary_action_pair(const YAML::Node& node, ICommandPrioritySource& priority_source)
         {
             return BinaryConfigPair{
                 std::move(
@@ -109,7 +109,7 @@ namespace modbus {
             };
         }
 
-        std::map<int, std::vector<sink_action_t>> enum_config(const YAML::Node& node, const google::protobuf::EnumDescriptor& descriptor, const ICommandPrioritySource& priority_source)
+        std::map<int, std::vector<sink_action_t>> enum_config(const YAML::Node& node, const google::protobuf::EnumDescriptor& descriptor, ICommandPrioritySource& priority_source)
         {
             std::map<int, std::vector<sink_action_t>> map;
 
@@ -129,7 +129,7 @@ namespace modbus {
 
         using schedule_parameter_map_t = std::map<commonmodule::ScheduleParameterKind, std::function<void (ICommandSink& sink, float value)>>;
 
-        schedule_parameter_map_t schedule_parameter_configuration(const YAML::Node& node, const ICommandPrioritySource& priority_source)
+        schedule_parameter_map_t schedule_parameter_configuration(const YAML::Node& node, ICommandPrioritySource& priority_source)
         {
             // build up this map
             schedule_parameter_map_t action_map;
@@ -146,7 +146,7 @@ namespace modbus {
 
                 const auto index = yaml::require_integer<uint16_t>(entry, ::adapter::keys::index);
                 const auto scale = yaml::require(entry, ::adapter::keys::scale).as<float>();
-                const auto priority = priority_source.get_priority(CommandType::Value::write_single_register, index);
+                const auto priority = priority_source.get_priority(entry);
                 const auto enum_value = static_cast<commonmodule::ScheduleParameterKind>(value->number());
 
                 action_map[enum_value] = [index, scale, priority](ICommandSink& sink, float value)
@@ -162,7 +162,7 @@ namespace modbus {
 
         using function_parameter_map_t = std::map<essmodule::ESSFunctionParameterKind, std::function<void (ICommandSink& sink, int32_t value)>>;
 
-        function_parameter_map_t function_parameter_configuration(const YAML::Node& node, const ICommandPrioritySource& priority_source)
+        function_parameter_map_t function_parameter_configuration(const YAML::Node& node, ICommandPrioritySource& priority_source)
         {
             // build up this map
             function_parameter_map_t action_map;
@@ -179,7 +179,7 @@ namespace modbus {
 
                 const auto index = yaml::require_integer<uint16_t>(entry, ::adapter::keys::index);
                 const auto scale = yaml::require(entry, ::adapter::keys::scale).as<float>();
-                const auto priority = priority_source.get_priority(CommandType::Value::write_single_register, index);
+                const auto priority = priority_source.get_priority(entry);
                 const auto enum_value = static_cast<essmodule::ESSFunctionParameterKind>(value->number());
 
                 action_map[enum_value] = [index, scale, priority](ICommandSink& sink, int32_t value)

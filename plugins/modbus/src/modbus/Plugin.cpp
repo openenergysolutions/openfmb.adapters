@@ -36,8 +36,14 @@ namespace modbus {
         template <class U = T>
         static return_t<profile_info<U>::is_control> handle(const YAML::Node& node, const Logger& logger, message_bus_t bus, std::shared_ptr<PollHandler> handler, std::shared_ptr<ITransactionProcessor> processor)
         {
-            CommandPriorityMap priority_map(
-                command_ordering_t::read_sequence(yaml::require(node, ::adapter::keys::command_order)));
+            CommandPriorityMap priority_map;
+            yaml::foreach(
+                    yaml::require(node, keys::command_order),
+                    [&priority_map](const YAML::Node& node)
+                    {
+                        priority_map.add_operation(node.Scalar());
+                    }
+            );
 
             SubscribeConfigReadVisitor<T> visitor(
                 yaml::require(node, ::adapter::keys::mapping),

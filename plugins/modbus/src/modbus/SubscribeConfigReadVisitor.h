@@ -23,10 +23,10 @@ namespace modbus {
     class SubscribeConfigReadVisitor final : public SubscribingConfigReadVisitorBase<T> {
 
         const std::shared_ptr<CommandConfiguration<T>> config = std::make_shared<CommandConfiguration<T>>();
-        const ICommandPrioritySource& priority_source;
+        ICommandPrioritySource& priority_source;
 
     public:
-        SubscribeConfigReadVisitor(const YAML::Node& root, const ICommandPrioritySource& priority_source);
+        SubscribeConfigReadVisitor(const YAML::Node& root, ICommandPrioritySource& priority_source);
 
         void subscribe(const Logger& logger, IMessageBus& bus, std::shared_ptr<ITransactionProcessor> tx_processor);
 
@@ -49,7 +49,7 @@ namespace modbus {
     };
 
     template <class T>
-    SubscribeConfigReadVisitor<T>::SubscribeConfigReadVisitor(const YAML::Node& root, const ICommandPrioritySource& priority_source)
+    SubscribeConfigReadVisitor<T>::SubscribeConfigReadVisitor(const YAML::Node& root, ICommandPrioritySource& priority_source)
         : SubscribingConfigReadVisitorBase<T>(root)
         , priority_source(priority_source)
     {
@@ -102,7 +102,7 @@ namespace modbus {
         case (OutputType::Value::write_register): {
             const auto index = ::adapter::yaml::get::index(node);
             const auto scale = ::adapter::yaml::get::scale(node);
-            const auto priority = this->priority_source.get_priority(CommandType::Value::write_single_register, index);
+            const auto priority = this->priority_source.get_priority(node);
             this->config->add(
                 [index, scale, priority, accessor](const T& profile, ICommandSink& sink, Logger& logger) {
                     accessor->if_present(
@@ -176,26 +176,27 @@ namespace modbus {
         this->config->add(
                 [getter, map = read::schedule_parameter_configuration(node, this->priority_source)](const T& profile, ICommandSink& sink, Logger& logger) {
                     const auto parameters = getter(profile);
-                    if(parameters)
+
+                    if(!parameters) return;
+
+                    for(auto param : *parameters)
                     {
-                        for(auto param : *parameters)
+                        auto entry = map.find(param.scheduleparametertype());
+                        if(entry == map.end())
                         {
-                            auto entry = map.find(param.scheduleparametertype());
-                            if(entry == map.end())
+                            const auto value = commonmodule::ScheduleParameterKind_descriptor()->FindValueByNumber(param.scheduleparametertype());
+                            if(value)
                             {
-                                const auto value = commonmodule::ScheduleParameterKind_descriptor()->FindValueByNumber(param.scheduleparametertype());
-                                if(value)
-                                {
-                                    logger.warn("No configured mapping for schedule parameter: {}", value->name());
-                                }
-                            }
-                            else
-                            {
-                                // perform the action using the parameter's value
-                                entry->second(sink, param.value());
+                                logger.warn("No configured mapping for schedule parameter: {}", value->name());
                             }
                         }
+                        else
+                        {
+                            // perform the action using the parameter's value
+                            entry->second(sink, param.value());
+                        }
                     }
+
                 }
         );
     }

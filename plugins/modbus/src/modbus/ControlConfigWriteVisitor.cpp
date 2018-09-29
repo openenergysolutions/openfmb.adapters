@@ -14,9 +14,21 @@ namespace modbus {
 
     // ---- helpers ----
 
+    void write_default_operation_id(YAML::Emitter& out)
+    {
+        out << YAML::Key << keys::operation_ids << "some-operation-id";
+    }
+
+    void write_index_and_scale(YAML::Emitter &out)
+    {
+        out << YAML::Key << ::adapter::keys::index << YAML::Value << 0;
+        out << YAML::Key << ::adapter::keys::scale << YAML::Value << 1.0;
+    }
+
     void write_output_action(YAML::Emitter& out)
     {
         out << YAML::Key << OutputType::label << YAML::Value << OutputType::none << YAML::Comment(enumeration::get_value_set<OutputType>());
+        write_default_operation_id(out);
         out << YAML::Key << BitwiseOperation::label << YAML::Value << BitwiseOperation::set_masked_bits << YAML::Comment(enumeration::get_value_set<BitwiseOperation>());
         out << YAML::Key << ::adapter::keys::index << YAML::Value << 0;
         out << YAML::Key << keys::mask << YAML::Value << YAML::Hex << 0x0001;
@@ -63,8 +75,8 @@ namespace modbus {
     void ControlConfigWriteVisitor::write_mapped_float_keys(YAML::Emitter& out)
     {
         out << YAML::Key << OutputType::label << YAML::Value << OutputType::none << YAML::Comment(enumeration::get_value_set<OutputType>());
-        out << YAML::Key << ::adapter::keys::index << YAML::Value << 0;
-        out << YAML::Key << ::adapter::keys::scale << YAML::Value << 1.0;
+        write_default_operation_id(out);
+        write_index_and_scale(out);
     }
 
     void ControlConfigWriteVisitor::write_mapped_enum_keys(YAML::Emitter& out, google::protobuf::EnumDescriptor const* descriptor)
@@ -82,17 +94,13 @@ namespace modbus {
         out << YAML::EndSeq;
     }
 
-    void write_index_and_scale(YAML::Emitter &out)
-    {
-        out << YAML::Key << ::adapter::keys::index << YAML::Value << 0;
-        out << YAML::Key << ::adapter::keys::scale << YAML::Value << 1.0;
-    }
-
     void ControlConfigWriteVisitor::write_mapped_function_parameter_keys(YAML::Emitter &out) {
+        write_default_operation_id(out);
         write_index_and_scale(out);
     }
 
     void ControlConfigWriteVisitor::write_mapped_schedule_parameter_keys(YAML::Emitter &out) {
+        write_default_operation_id(out);
         write_index_and_scale(out);
     }
 }
