@@ -26,7 +26,7 @@ namespace modbus {
 
         void add_operation(const std::string& operation_id);
 
-        size_t get_priority(const YAML::Node& node) override;
+        size_t get_priority(const YAML::Node& node) const override;
 
     private:
         std::map<std::string, Value> priority_map;

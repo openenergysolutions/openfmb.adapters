@@ -16,17 +16,13 @@ namespace modbus {
         this->priority_map[id] = Value(priority);
     }
 
-    size_t CommandPriorityMap::get_priority(const YAML::Node& node)
+    size_t CommandPriorityMap::get_priority(const YAML::Node& node) const
     {
         const auto id = yaml::require_string(node, keys::operation_ids);
         const auto elem = this->priority_map.find(id);
         if (elem == this->priority_map.end()) {
             throw Exception("No priority specified for operation id '", id, "' at line: ", node.Mark().line);
         }
-        if(!elem->second.mark.is_null()) {
-            throw Exception("Operation id '", id, "' is not unique. First defined at line ", elem->second.mark.line, ". Used again at line ", node.Mark().line, ".");
-        }
-        elem->second.mark = node.Mark();
         return elem->second.priority;
     }
 
