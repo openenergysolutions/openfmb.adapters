@@ -16,15 +16,27 @@ namespace modbus {
         this->priority_map[id] = priority;
     }
 
-    size_t CommandPriorityMap::get_priority(const YAML::Node& node) const
+    void CommandPriorityMap::assert_all_operations_referenced()
+    {
+        for(const auto& elem : this->priority_map)
+        {
+            if(!elem.second.referenced) {
+                throw Exception("Command order list contains unreferenced operation id: '", elem.first, "'");
+            }
+        }
+    }
+
+    size_t CommandPriorityMap::get_priority(const YAML::Node& node)
     {
         const auto id = yaml::require_string(node, keys::operation_ids);
         const auto elem = this->priority_map.find(id);
         if (elem == this->priority_map.end()) {
             throw Exception("No priority specified for operation id '", id, "' at line: ", node.Mark().line);
         }
-        return elem->second;
+        elem->second.referenced = true;
+        return elem->second.priority;
     }
+
 
 }
 }

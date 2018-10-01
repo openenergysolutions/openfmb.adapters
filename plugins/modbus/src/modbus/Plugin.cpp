@@ -49,8 +49,10 @@ namespace modbus {
                 yaml::require(node, ::adapter::keys::mapping),
                 priority_map
             );
-
             visit(visitor);
+
+            priority_map.assert_all_operations_referenced();
+
             visitor.subscribe(logger, *bus, std::move(processor));
             return true;
         }

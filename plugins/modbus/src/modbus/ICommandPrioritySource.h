@@ -17,7 +17,7 @@ namespace modbus {
         virtual ~ICommandPrioritySource() = default;
 
         // retrieve the priority via the "operation-id" map entry of the YAML node
-        virtual size_t get_priority(const YAML::Node& node) const = 0;
+        virtual size_t get_priority(const YAML::Node& node) = 0;
     };
 }
 }
