@@ -4,23 +4,12 @@
 
 #include "ICommandPrioritySource.h"
 
-#include "CommandOrdering.h"
-
 #include <map>
 
 namespace adapter {
 namespace modbus {
 
     class CommandPriorityMap final : public ICommandPrioritySource {
-
-        struct Value {
-
-            Value() = default;
-            Value(size_t priority) : priority(priority) {}
-
-            size_t priority = 0;
-            YAML::Mark mark = YAML::Mark::null_mark();
-        };
 
     public:
 
@@ -29,7 +18,7 @@ namespace modbus {
         size_t get_priority(const YAML::Node& node) const override;
 
     private:
-        std::map<std::string, Value> priority_map;
+        std::map<std::string, size_t> priority_map;
     };
 }
 }

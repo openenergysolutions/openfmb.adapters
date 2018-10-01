@@ -13,7 +13,7 @@ namespace modbus {
             throw Exception("duplicate operation id in priority list: ", id);
         }
         const auto priority = this->priority_map.size();
-        this->priority_map[id] = Value(priority);
+        this->priority_map[id] = priority;
     }
 
     size_t CommandPriorityMap::get_priority(const YAML::Node& node) const
@@ -23,7 +23,7 @@ namespace modbus {
         if (elem == this->priority_map.end()) {
             throw Exception("No priority specified for operation id '", id, "' at line: ", node.Mark().line);
         }
-        return elem->second.priority;
+        return elem->second;
     }
 
 }
