@@ -16,7 +16,7 @@ TEST_CASE("register operations behave as expected")
     SECTION("can clear a single bit")
     {
         const auto op = Operations::clear(0x0100);
-        REQUIRE(op->modify(0xFFFFF) == 0xFEFF);
+        REQUIRE(op->modify(0xFFFF) == 0xFEFF);
         REQUIRE(op->description() == "clear(0x0100)");
     }
 
