@@ -25,7 +25,7 @@ namespace modbus {
                 if (response.get().values.size() == 1) {
 
                     // process all of the operations on the read value
-                    const uint16_t write_value = self->operation(response.get().values[0].value);
+                    const uint16_t write_value = self->operation->modify(response.get().values[0].value);
 
                     std::make_shared<WriteRegisterTransaction>(self->logger, self->address, write_value)->start(session, callback);
 

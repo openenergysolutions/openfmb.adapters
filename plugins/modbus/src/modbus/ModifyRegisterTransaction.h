@@ -20,7 +20,7 @@ namespace modbus {
         std::string get_description() const override
         {
             std::ostringstream oss;
-            oss << "modify register: " << this->address;
+            oss << "modify register: " << this->address << " - " << operation->description() << std::endl;
             return oss.str();
         }
     };

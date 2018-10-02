@@ -55,11 +55,11 @@ namespace modbus {
             switch (operation) {
             case (BitwiseOperation::Value::clear_masked_bits):
                 return [=, mask = yaml::require_integer<uint16_t>(node, keys::mask)](ICommandSink& sink) {
-                    return sink.modify_single_register(index, priority, operations::clear(mask));
+                    return sink.modify_single_register(index, priority, Operations::clear(mask));
                 };
             case (BitwiseOperation::Value::set_masked_bits):
                 return [=, mask = yaml::require_integer<uint16_t>(node, keys::mask)](ICommandSink& sink) {
-                    return sink.modify_single_register(index, priority, operations::set(mask));
+                    return sink.modify_single_register(index, priority, Operations::set(mask));
                 };
             default:
                 throw Exception("Unsupported bitwise operation: ", BitwiseOperation::to_string(operation));

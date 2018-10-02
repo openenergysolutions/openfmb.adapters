@@ -14,6 +14,7 @@ set(MODBUS_SOURCES
         src/modbus/ConfigStrings.h
         src/modbus/HeartbeatTransaction.h
         src/modbus/ModifyRegisterOp.h
+        src/modbus/ModifyRegisterOp.cpp
         src/modbus/ModifyRegisterTransaction.h
         src/modbus/ModifyRegisterTransactionBase.h
         src/modbus/ModifyRegisterTransactionBase.cpp
@@ -53,6 +54,8 @@ set(MODBUS_SOURCES
         src/modbus/OrderedTransaction.cpp
         src/modbus/OrderedTransaction.h
         src/modbus/CommandSinkActions.h
+        src/modbus/SessionWrapper.h
+        src/modbus/CommandOptions.h
         # generated enums
         src/modbus/generated/CommandType.h
         src/modbus/generated/CommandType.cpp
@@ -65,9 +68,7 @@ set(MODBUS_SOURCES
         src/modbus/generated/RegisterMapping.h
         src/modbus/generated/RegisterMapping.cpp
         src/modbus/generated/SourceType.h
-        src/modbus/generated/SourceType.cpp
-
-        src/modbus/CommandOptions.h src/modbus/SessionWrapper.h)
+        src/modbus/generated/SourceType.cpp)
 
 add_library(modbus-plugin STATIC ${MODBUS_PUBLIC_HEADERS} ${MODBUS_SOURCES})
 target_link_libraries(modbus-plugin PUBLIC adapter-api modbus-cpp)

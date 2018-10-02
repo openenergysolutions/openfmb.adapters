@@ -55,7 +55,7 @@ namespace modbus {
 
         for (const auto& op : this->modify_map) {
             items.emplace_back(
-                std::make_shared<ModifyRegisterTransaction>(logger, op.first.first, operations::accumulate(op.second)),
+                std::make_shared<ModifyRegisterTransaction>(logger, op.first.first, Operations::accumulate(op.second)),
                 op.first.second // priority
             );
         }
