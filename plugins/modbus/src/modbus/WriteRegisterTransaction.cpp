@@ -31,7 +31,16 @@ namespace modbus {
     std::string WriteRegisterTransaction::get_description() const
     {
         std::ostringstream oss;
-        oss << "write register: " << this->index << " with value: " << this->value;
+
+        if(this->value > std::numeric_limits<int16_t>::max())
+        {
+            // also describe the value as a negative integer if it exceeds the maximum value of int16_t
+            oss << "write register: " << this->index << " with value: " << this->value << " (" << static_cast<int16_t>(this->value) << ")";
+        }
+        else
+        {
+            oss << "write register: " << this->index << " with value: " << this->value;
+        }
         return oss.str();
     }
 }
