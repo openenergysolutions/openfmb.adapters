@@ -53,13 +53,21 @@ namespace modbus {
             const auto index = ::adapter::yaml::get::index(node);
             const auto priority = priority_source.get_priority(node);
             switch (operation) {
+            case (BitwiseOperation::Value::clear_bit):
+                return [=, bit = yaml::require_integer<uint8_t>(node, keys::bit)](ICommandSink& sink) {
+                    return sink.modify_single_register(index, priority, Operations::clear_bit(bit));
+                };
+            case (BitwiseOperation::Value::set_bit):
+                return [=, bit = yaml::require_integer<uint8_t>(node, keys::bit)](ICommandSink& sink) {
+                    return sink.modify_single_register(index, priority, Operations::set_bit(bit));
+                };
             case (BitwiseOperation::Value::clear_masked_bits):
                 return [=, mask = yaml::require_integer<uint16_t>(node, keys::mask)](ICommandSink& sink) {
-                    return sink.modify_single_register(index, priority, Operations::clear(mask));
+                    return sink.modify_single_register(index, priority, Operations::clear_mask(mask));
                 };
             case (BitwiseOperation::Value::set_masked_bits):
                 return [=, mask = yaml::require_integer<uint16_t>(node, keys::mask)](ICommandSink& sink) {
-                    return sink.modify_single_register(index, priority, Operations::set(mask));
+                    return sink.modify_single_register(index, priority, Operations::set_mask(mask));
                 };
             default:
                 throw Exception("Unsupported bitwise operation: ", BitwiseOperation::to_string(operation));

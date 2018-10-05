@@ -1,11 +1,31 @@
 
 #include "ModifyRegisterOp.h"
 
+#include <adapter-api/util/Exception.h>
+
 #include <sstream>
 #include <iomanip>
 
+
 namespace adapter {
 namespace modbus {
+
+    struct Bit {
+
+        Bit(uint8_t value) : value(value)
+        {
+            if(value > 15) {
+                throw Exception("Value for bit outside the range [0,15]: ", static_cast<int>(value));
+            }
+        }
+
+        uint16_t to_mask() const
+        {
+            return static_cast<uint16_t >(1 << value);
+        }
+
+        const uint8_t value;
+    };
 
     inline std::string hex(const char* op, uint16_t num)
     {
@@ -13,6 +33,44 @@ namespace modbus {
         oss << op << "(0x" << std::setw(4) << std::setfill('0') << std::hex << num << ")";
         return oss.str();
     }
+
+    class ClearBitOperation final : public IModifyRegisterOp {
+        const Bit bit;
+
+    public:
+        ClearBitOperation(uint8_t value) : bit(value) {}
+
+        uint16_t modify(uint16_t input) const override
+        {
+            return input & ~bit.to_mask();
+        }
+
+        std::string description() const override
+        {
+            std::ostringstream oss;
+            oss << "clear(b" << static_cast<int>(this->bit.value) << ")";
+            return oss.str();
+        }
+    };
+
+    class SetBitOperation final : public IModifyRegisterOp {
+        const Bit bit;
+
+    public:
+        SetBitOperation(uint8_t value) : bit(value) {}
+
+        uint16_t modify(uint16_t input) const override
+        {
+            return input | bit.to_mask();
+        }
+
+        std::string description() const override
+        {
+            std::ostringstream oss;
+            oss << "set(b" << static_cast<int>(this->bit.value) << ")";
+            return oss.str();
+        }
+    };
 
     class ClearMaskOperation final : public IModifyRegisterOp {
         const uint16_t mask;
@@ -102,18 +160,27 @@ namespace modbus {
         }
     };
 
+    modify_reg_op_t Operations::clear_bit(uint8_t bit)
+    {
+        return std::make_shared<ClearBitOperation>(bit);
+    }
 
-    modify_reg_op_t Operations::clear(uint16_t mask)
+    modify_reg_op_t Operations::set_bit(uint8_t bit)
+    {
+        return std::make_shared<SetBitOperation>(bit);
+    }
+
+    modify_reg_op_t Operations::clear_mask(uint16_t mask)
     {
         return std::make_shared<ClearMaskOperation>(mask);
     }
 
-    modify_reg_op_t Operations::set(uint16_t mask)
+    modify_reg_op_t Operations::set_mask(uint16_t mask)
     {
         return std::make_shared<SetMaskOperation>(mask);
     }
 
-    modify_reg_op_t Operations::invert(uint16_t mask)
+    modify_reg_op_t Operations::invert_mask(uint16_t mask)
     {
         return std::make_shared<InvertMaskOperation>(mask);
     }

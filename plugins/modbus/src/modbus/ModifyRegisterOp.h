@@ -16,16 +16,19 @@ namespace modbus {
             virtual std::string description() const = 0;
     };
 
-
     using modify_reg_op_t = std::shared_ptr<IModifyRegisterOp>;
 
     struct Operations {
 
-        static modify_reg_op_t clear(uint16_t mask);
+        static modify_reg_op_t clear_bit(uint8_t bit);
 
-        static modify_reg_op_t set(uint16_t mask);
+        static modify_reg_op_t set_bit(uint8_t bit);
 
-        static modify_reg_op_t invert(uint16_t mask);
+        static modify_reg_op_t clear_mask(uint16_t mask);
+
+        static modify_reg_op_t set_mask(uint16_t mask);
+
+        static modify_reg_op_t invert_mask(uint16_t mask);
 
         static modify_reg_op_t accumulate(std::vector<modify_reg_op_t> operations);
 

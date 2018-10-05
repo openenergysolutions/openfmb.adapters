@@ -35,6 +35,7 @@ namespace modbus {
         constexpr const char* const lower_index = "lower_index";
         constexpr const char* const modulus = "modulus";
         constexpr const char* const mask = "mask";
+        constexpr const char* const bit = "bit";
 
         // controls
         constexpr const char* const action = "action";

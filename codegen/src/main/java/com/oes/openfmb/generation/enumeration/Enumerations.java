@@ -178,6 +178,8 @@ public class Enumerations {
         private final static Enumeration bitwiseOperation = new Enumeration(
                 Arrays.asList("Bitwise","Operation"),
                 Arrays.asList(
+                        Enumeration.entry("set_bit", "set a single bit"),
+                        Enumeration.entry("clear_bit", "clear a single bit"),
                         Enumeration.entry("clear_masked_bits", "clear the bits in the mask"),
                         Enumeration.entry("set_masked_bits", "set the bits in the mask")
                 )

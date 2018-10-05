@@ -108,7 +108,7 @@ namespace modbus {
                     yaml::get::index(node),
                     std::chrono::milliseconds(yaml::require_integer<uint32_t>(node, keys::period_ms)),
                     // ATM, we only support inverting masked bits
-                    Operations::invert(yaml::require_integer<uint16_t>(node, keys::mask))));
+                    Operations::invert_mask(yaml::require_integer<uint16_t>(node, keys::mask))));
         };
 
         yaml::foreach (yaml::require(node, keys::heartbeats), add_heartbeat);
