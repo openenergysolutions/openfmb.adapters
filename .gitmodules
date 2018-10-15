@@ -13,3 +13,6 @@
 [submodule "deps/goose-cpp"]
 	path = deps/goose-cpp
 	url = git@github.com:openenergysolutions/goose-cpp.git
+[submodule "deps/openfmb-schemas"]
+	path = deps/openfmb-schemas
+	url = https://github.com/openenergysolutions/openfmb-schemas.git
