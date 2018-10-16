@@ -10,16 +10,16 @@ template <class T>
 struct profile_info;
 
 template <>
-struct profile_info<resourcemodule::ResourceReadingProfile> {
+struct profile_info<metermodule::MeterReadingProfile> {
 
     static constexpr bool is_control = false;
 
-    static const commonmodule::MessageInfo& get_message_info(const resourcemodule::ResourceReadingProfile& profile)
+    static const commonmodule::MessageInfo& get_message_info(const metermodule::MeterReadingProfile& profile)
     {
         return profile.readingmessageinfo().messageinfo();
     }
 
-    static const commonmodule::ConductingEquipment& get_conducting_equip(const resourcemodule::ResourceReadingProfile& profile)
+    static const commonmodule::ConductingEquipment& get_conducting_equip(const metermodule::MeterReadingProfile& profile)
     {
         return profile.meter().conductingequipment();
     }

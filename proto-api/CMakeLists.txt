@@ -5,7 +5,7 @@ find_package(Protobuf REQUIRED)
 message("Protobuf compiler is: ${Protobuf_PROTOC_EXECUTABLE}")
 
 # the base directory where the protos live
-set(PROTO_INPUT_DIR ${CMAKE_SOURCE_DIR}/deps/openfmb-protobuf/proto/openfmb)
+set(PROTO_INPUT_DIR ${CMAKE_SOURCE_DIR}/deps/openfmb-schemas/protobuf/openfmb)
 set(GENERATED_SOURCES_BASE_DIR ${CMAKE_CURRENT_BINARY_DIR}/generated-sources)
 
 # the base diretory where the protos will be generated
@@ -19,9 +19,9 @@ set(PROTO_MODULES
     ess
     generation
     load
+    meter
     recloser
     regulator
-    resource
     solar
     switch
 )

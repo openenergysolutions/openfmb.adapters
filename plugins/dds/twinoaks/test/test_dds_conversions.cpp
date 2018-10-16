@@ -14,14 +14,14 @@ void convert_round_trip(const P& input, P& output)
 TEST_CASE( "protobuf <=> DDS conversions round trip correctly" )
 {
 
-    resourcemodule::ResourceReadingProfile input;
-    resourcemodule::ResourceReadingProfile output;
+    metermodule::MeterReadingProfile input;
+    metermodule::MeterReadingProfile output;
 
     SECTION("Strings convert as expected")
     {
         input.mutable_readingmessageinfo()->mutable_messageinfo()->mutable_identifiedobject()->mutable_name()->set_value("name");
 
-        convert_round_trip<twinoaks::resourcemodule::ResourceReadingProfile>(input, output);
+        convert_round_trip<twinoaks::metermodule::MeterReadingProfile>(input, output);
 
         REQUIRE(input.readingmessageinfo().messageinfo().identifiedobject().name().value() == output.readingmessageinfo().messageinfo().identifiedobject().name().value());
     }

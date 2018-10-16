@@ -73,7 +73,7 @@ set(API_SOURCES
 	src/config/generated/MessageVisitors.cpp
 	src/config/generated/ModelVisitors.cpp
 # typed model visitors
-	src/config/generated/ResourceReadingProfileTypedModelVisitor.cpp
+	src/config/generated/MeterReadingProfileTypedModelVisitor.cpp
 	src/config/generated/SwitchReadingProfileTypedModelVisitor.cpp
 	src/config/generated/SwitchStatusProfileTypedModelVisitor.cpp
 	src/config/generated/SwitchControlProfileTypedModelVisitor.cpp

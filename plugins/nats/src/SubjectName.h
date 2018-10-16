@@ -19,10 +19,10 @@ namespace nats {
     }
 
     /**
-         * How you get the mRID from a profile is profile-specific
-         *
-         * There are template specializations for each profile in the cpp file
-         */
+     * How you get the mRID from a profile is profile-specific
+     *
+     * There are template specializations for each profile in the cpp file
+     */
     template <class T>
     std::string get_subject_key_mrid(const T& profile)
     {

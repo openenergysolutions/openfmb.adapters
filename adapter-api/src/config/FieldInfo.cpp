@@ -36,12 +36,6 @@ namespace fields {
         constexpr const char* const mRID = "mRID";
         constexpr const char* const setValExtension = "setValExtension";
         constexpr const char* const d = "d";
-        constexpr const char* const xD = "xD";
-        constexpr const char* const xDU = "xDU";
-        constexpr const char* const yD = "yD";
-        constexpr const char* const yDU = "yDU";
-        constexpr const char* const zD = "zD";
-        constexpr const char* const zDU = "zDU";
         constexpr const char* const operatingLimit = "operatingLimit";
     }
 
@@ -65,9 +59,7 @@ namespace fields {
             { commonmodule::DynamicTestKind_descriptor(), EnumFieldType::Value::mapped },
             { commonmodule::DbPosKind_descriptor(), EnumFieldType::Value::mapped },
             { commonmodule::GridConnectModeKind_descriptor(), EnumFieldType::Value::mapped },
-            { commonmodule::StateKind_descriptor(), EnumFieldType::Value::mapped },
-            { essmodule::ESSFunctionKind_descriptor(), EnumFieldType::Value::mapped },
-            { essmodule::ESSFunctionParameterKind_descriptor(), EnumFieldType::Value::mapped },
+            { commonmodule::StateKind_descriptor(), EnumFieldType::Value::mapped }
         };
 
         const auto elem = map.find(descriptor);
@@ -123,7 +115,7 @@ namespace fields {
                     {
                         {
                             [](IDescriptorPath &path) -> bool {
-                                return path.has_parents({commonmodule::ConductingEquipment::descriptor()});
+                                return path.has_exact_parents({commonmodule::ConductingEquipment::descriptor()});
                             },
                             StringFieldType::Value::primary_uuid
                         }
@@ -134,7 +126,7 @@ namespace fields {
                     {
                         {
                             [](IDescriptorPath &path) -> bool {
-                                return path.has_parents(
+                                return path.has_exact_parents(
                                         {
                                                 {names::mRID,              google::protobuf::StringValue::descriptor()},
                                                 {names::identified_object, commonmodule::IdentifiedObject::descriptor()},
@@ -145,41 +137,43 @@ namespace fields {
                         },
                         {
                             [](IDescriptorPath &path) -> bool {
-                                return path.has_parents({{names::mRID, google::protobuf::StringValue::descriptor()}});
+                                return path.has_exact_parents({{names::mRID, google::protobuf::StringValue::descriptor()}});
                             },
                             StringFieldType::Value::constant_uuid
                         },
                         {
                             // all descriptions are optional constants
                             [](IDescriptorPath &path) -> bool {
-                                return path.has_parents({{names::description, google::protobuf::StringValue::descriptor()}});
+                                return path.has_exact_parents({{names::description, google::protobuf::StringValue::descriptor()}});
                             },
                             StringFieldType::Value::constant
                         },
                         {
                             // all names are optional constants
                             [](IDescriptorPath &path) -> bool {
-                                return path.has_parents({{keys::name, google::protobuf::StringValue::descriptor()}});
+                                return path.has_exact_parents({{keys::name, google::protobuf::StringValue::descriptor()}});
                             },
                             StringFieldType::Value::constant
                         },
                         {
-                            // these labels are all optional descriptions
                             [](IDescriptorPath &path) -> bool {
-                                std::initializer_list<const char *> names = {
-                                        names::setValExtension, names::d, names::xD, names::xDU, names::yD, names::yDU, names::zD, names::zDU
-                                };
-                                for(const auto& name : names) {
-                                    if(path.has_parents({{name, google::protobuf::StringValue::descriptor()}})) return true;
-                                }
-                                return false;
+                                // switchStatus.switchStatusXSWI.logicalNodeForEventAndStatus.EEHealth.d.value
+                                return path.has_exact_parents({{names::d, google::protobuf::StringValue::descriptor()}});
                             },
-                            StringFieldType::Value::constant
+                            StringFieldType::Value::ignored
+                        },
+                        {
+                            [](IDescriptorPath &path) -> bool {
+                                // essStatus.essStatusZBAT.GriMod.setValExtension.value
+                                return path.has_exact_parents({{names::setValExtension, google::protobuf::StringValue::descriptor()}});
+                            },
+                            StringFieldType::Value::ignored
                         },
                         {
                             // not sure what these are so
                             [](IDescriptorPath &path) -> bool {
-                                return path.has_parents({{names::operatingLimit, google::protobuf::StringValue::descriptor()}});
+                                // energyConsumer.operatingLimit.value
+                                return path.has_exact_parents({{names::operatingLimit, google::protobuf::StringValue::descriptor()}});
                             },
                             StringFieldType::Value::ignored
                         }
@@ -200,7 +194,7 @@ namespace fields {
                     {
                         {
                             [](IDescriptorPath& path) -> bool {
-                                return path.has_parents({
+                                return path.has_exact_parents({
                                                                 { names::mod_blk, google::protobuf::BoolValue::descriptor()},
                                                                 { names::control_value, commonmodule::ControlValue::descriptor()},
                                                         });
@@ -209,7 +203,7 @@ namespace fields {
                         },
                         {
                             [](IDescriptorPath& path) -> bool {
-                                return path.has_parents({
+                                return path.has_exact_parents({
                                                                 { names::connected, google::protobuf::BoolValue::descriptor()},
                                                                 { names::aCDCTerminal, commonmodule::ACDCTerminal::descriptor()},
                                                         });
@@ -220,16 +214,22 @@ namespace fields {
                             [](IDescriptorPath& path) -> bool {
                                 const std::initializer_list<const char*> names = {
                                         names::interlockCheck,
-                                        names::synchroCheck
+                                        names::synchroCheck,
                                 };
                                 for(const auto& name : names) {
-                                    if(path.has_parents({
+                                    if(path.has_exact_parents({
                                                                 { name, google::protobuf::BoolValue::descriptor()}
                                                         })) return true;
                                 }
                                 return false;
                             },
                             BoolFieldType::Value::mapped
+                        },
+                        {
+                                [](IDescriptorPath& path) -> bool {
+                                    return path.has_parent_somewhere(essmodule::ESSFunction::descriptor());
+                                },
+                                BoolFieldType::Value::mapped
                         }
                     }
                 },
@@ -256,21 +256,14 @@ namespace fields {
                 {
                     {
                         [](IDescriptorPath& path) -> bool {
-                               return path.has_parents({ google::protobuf::Int32Value::descriptor(), commonmodule::ACDCTerminal::descriptor() });
+                               return path.has_exact_parents({ google::protobuf::Int32Value::descriptor(), commonmodule::ACDCTerminal::descriptor() });
                         },
                         Int32FieldType::Value::ignored
                     },
                     {
                         // we're only using the float inside AnalogueValue for now
                         [](IDescriptorPath& path) -> bool {
-                            return path.has_parents({ google::protobuf::Int32Value::descriptor(), commonmodule::AnalogueValue::descriptor() });
-                        },
-                        Int32FieldType::Value::ignored
-                    },
-                    {
-                        // not sure what this even is
-                        [](IDescriptorPath& path) -> bool {
-                            return path.has_parents({ essmodule::ENG_ESSFunctionParameter::descriptor() });
+                            return path.has_exact_parents({ google::protobuf::Int32Value::descriptor(), commonmodule::AnalogueValue::descriptor() });
                         },
                         Int32FieldType::Value::ignored
                     }
@@ -291,7 +284,7 @@ namespace fields {
                         {
                                 {
                                         [](IDescriptorPath& path) -> bool {
-                                            return path.has_parents({commonmodule::BCR::descriptor() });
+                                            return path.has_exact_parents({commonmodule::BCR::descriptor() });
                                         },
                                         Int64FieldType::Value::mapped
                                 }
@@ -313,30 +306,19 @@ namespace fields {
                                 {
                                         [](IDescriptorPath& path) -> bool {
                                             // this is the optional zVal inside of a schedule point
-                                            return path.has_parents({ google::protobuf::FloatValue::descriptor(), commonmodule::SchedulePoint::descriptor() });
+                                            return path.has_exact_parents({ google::protobuf::FloatValue::descriptor(), commonmodule::SchedulePoint::descriptor() });
                                         },
                                         FloatFieldType::Value::ignored
                                 },
                                 {
                                         // all other float values default to mapped
                                         [](IDescriptorPath& path) -> bool {
-                                            return path.has_parents({ google::protobuf::FloatValue::descriptor() });
+                                            return path.has_exact_parents({ google::protobuf::FloatValue::descriptor() });
                                         },
                                         FloatFieldType::Value::mapped
                                 },
                         }
 
-                },
-                {
-                        "yVal",
-                        {
-                                {
-                                        [](IDescriptorPath& path) -> bool {
-                                            return path.has_parents({ commonmodule::SchedulePoint::descriptor() });
-                                        },
-                                        FloatFieldType::Value::mapped
-                                }
-                        }
                 }
         };
         // clang-format on
@@ -354,7 +336,7 @@ namespace fields {
                                 {
                                         [](IDescriptorPath& path) -> bool {
                                             // this is the optional zVal inside of a schedule point
-                                            return path.has_parents({ commonmodule::MessageInfo::descriptor() });
+                                            return path.has_exact_parents({ commonmodule::MessageInfo::descriptor() });
                                         },
                                         TimestampFieldType::Value::message
                                 }
@@ -366,50 +348,43 @@ namespace fields {
                         {
                                 {
                                         [](IDescriptorPath& path) -> bool {
-                                            // this is the optional zVal inside of a schedule point
-                                            return path.has_parents({ commonmodule::BCR::descriptor() });
+                                            return path.has_exact_parents({ commonmodule::BCR::descriptor() });
                                         },
                                         TimestampFieldType::Value::ignored
                                 },
                                 {
                                         [](IDescriptorPath& path) -> bool {
-                                            // this is the optional zVal inside of a schedule point
-                                            return path.has_parents({ commonmodule::CMV::descriptor() });
+                                            return path.has_exact_parents({ commonmodule::CMV::descriptor() });
                                         },
                                         TimestampFieldType::Value::ignored
                                 },
                                 {
                                         [](IDescriptorPath& path) -> bool {
-                                            // this is the optional zVal inside of a schedule point
-                                            return path.has_parents({ commonmodule::MV::descriptor() });
+                                            return path.has_exact_parents({ commonmodule::MV::descriptor() });
                                         },
                                         TimestampFieldType::Value::ignored
                                 },
                                 {
                                         [](IDescriptorPath& path) -> bool {
-                                            // this is the optional zVal inside of a schedule point
-                                            return path.has_parents({ commonmodule::ENS_BehaviourModeKind::descriptor() });
+                                            return path.has_exact_parents({ commonmodule::ENS_BehaviourModeKind::descriptor() });
                                         },
                                         TimestampFieldType::Value::ignored
                                 },
                                 {
                                         [](IDescriptorPath& path) -> bool {
-                                            // this is the optional zVal inside of a schedule point
-                                            return path.has_parents({ commonmodule::ENS_DynamicTestKind::descriptor() });
+                                            return path.has_exact_parents({ commonmodule::ENS_DynamicTestKind::descriptor() });
                                         },
                                         TimestampFieldType::Value::ignored
                                 },
                                 {
                                         [](IDescriptorPath& path) -> bool {
-                                            // this is the optional zVal inside of a schedule point
-                                            return path.has_parents({ commonmodule::StatusDPS::descriptor() });
+                                            return path.has_exact_parents({ commonmodule::StatusDPS::descriptor() });
                                         },
                                         TimestampFieldType::Value::ignored
                                 },
                                 {
                                         [](IDescriptorPath& path) -> bool {
-                                            // this is the optional zVal inside of a schedule point
-                                            return path.has_parents({ commonmodule::StatusSPS::descriptor() });
+                                            return path.has_exact_parents({ commonmodule::StatusSPS::descriptor() });
                                         },
                                         TimestampFieldType::Value::ignored
                                 }
@@ -422,31 +397,5 @@ namespace fields {
         return find_mapping_or_throw(map, field_name, path);
     }
 
-    RepetitionType get_repetition_type(google::protobuf::Descriptor const* descriptor)
-    {
-        const static std::map<google::protobuf::Descriptor const*, RepetitionType> map = {
-                // the only repeated field in the non-control profiles
-                { switchmodule::SwitchReading::descriptor(), RepetitionType::reading },
-
-                // this repeated { function, parameter } list only show up in ESSControlProfile
-                { essmodule::ENG_ESSFunctionParameter::descriptor(), RepetitionType::function_paramter},
-
-                // schedule related repetitions
-                { commonmodule::SwitchPoint::descriptor(), RepetitionType::schedule },
-                { commonmodule::ControlScheduleFSCH::descriptor(), RepetitionType::schedule },
-                { commonmodule::SchedulePoint::descriptor(), RepetitionType::schedule },
-                { essmodule::ESSPoint::descriptor(), RepetitionType::schedule },
-                { solarmodule::SolarPoint::descriptor(), RepetitionType::schedule },
-                { loadmodule::LoadPoint::descriptor(), RepetitionType::schedule}
-        };
-
-        const auto elem = map.find(descriptor);
-
-        if(elem == map.end()) {
-            throw Exception("No repetition mapping for descriptor: ", descriptor->full_name());
-        }
-
-        return elem->second;
-    }
 }
 }

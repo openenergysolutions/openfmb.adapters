@@ -4,7 +4,7 @@
 #include "switchmodule/switchmodule.pb.h"
 #include "loadmodule/loadmodule.pb.h"
 #include "essmodule/essmodule.pb.h"
-#include "resourcemodule/resourcemodule.pb.h"
+#include "metermodule/metermodule.pb.h"
 
 namespace adapter {
 
@@ -74,7 +74,13 @@ void visit_commonmodule_Meter(IModelVisitor& visitor);
 
 void visit_commonmodule_NamedObject(IModelVisitor& visitor);
 
+void visit_commonmodule_Optional_PhaseCodeKind(IModelVisitor& visitor);
+
 void visit_commonmodule_Optional_StateKind(IModelVisitor& visitor);
+
+void visit_commonmodule_Optional_UnitMultiplierKind(IModelVisitor& visitor);
+
+void visit_commonmodule_Optional_UnitSymbolKind(IModelVisitor& visitor);
 
 void visit_commonmodule_PhaseMMTN(IModelVisitor& visitor);
 
@@ -116,9 +122,7 @@ void visit_commonmodule_Vector(IModelVisitor& visitor);
 
 void visit_commonmodule_WYE(IModelVisitor& visitor);
 
-void visit_essmodule_ENG_ESSFunctionKind(IModelVisitor& visitor);
-
-void visit_essmodule_ENG_ESSFunctionParameter(IModelVisitor& visitor);
+void visit_essmodule_CapacityFirming(IModelVisitor& visitor);
 
 void visit_essmodule_ESSCSG(IModelVisitor& visitor);
 
@@ -127,6 +131,8 @@ void visit_essmodule_ESSControl(IModelVisitor& visitor);
 void visit_essmodule_ESSControlScheduleFSCH(IModelVisitor& visitor);
 
 void visit_essmodule_ESSEventAndStatusZGEN(IModelVisitor& visitor);
+
+void visit_essmodule_ESSFunction(IModelVisitor& visitor);
 
 void visit_essmodule_ESSPoint(IModelVisitor& visitor);
 
@@ -141,6 +147,20 @@ void visit_essmodule_ESSStatusZGEN(IModelVisitor& visitor);
 void visit_essmodule_EssControlFSCC(IModelVisitor& visitor);
 
 void visit_essmodule_EssStatusZBAT(IModelVisitor& visitor);
+
+void visit_essmodule_FrequencyRegulation(IModelVisitor& visitor);
+
+void visit_essmodule_PeakShaving(IModelVisitor& visitor);
+
+void visit_essmodule_SOCManagement(IModelVisitor& visitor);
+
+void visit_essmodule_SocLimit(IModelVisitor& visitor);
+
+void visit_essmodule_VoltageDroop(IModelVisitor& visitor);
+
+void visit_essmodule_VoltagePI(IModelVisitor& visitor);
+
+void visit_essmodule_VoltageRegulation(IModelVisitor& visitor);
 
 void visit_google_protobuf_BoolValue(IModelVisitor& visitor);
 
@@ -170,7 +190,7 @@ void visit_loadmodule_LoadStatus(IModelVisitor& visitor);
 
 void visit_loadmodule_LoadStatusZGLD(IModelVisitor& visitor);
 
-void visit_resourcemodule_ResourceReading(IModelVisitor& visitor);
+void visit_metermodule_MeterReading(IModelVisitor& visitor);
 
 void visit_solarmodule_SolarCSG(IModelVisitor& visitor);
 
@@ -265,34 +285,6 @@ void visit<essmodule::ESSStatusProfile>(IModelVisitor& visitor)
 }
 
 template <>
-void visit<switchmodule::SwitchControlProfile>(IModelVisitor& visitor)
-{
-    if(visitor.start_message_field("controlMessageInfo", commonmodule::ControlMessageInfo::descriptor()))
-    {
-        visit_commonmodule_ControlMessageInfo(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
-    {
-        visit_commonmodule_IED(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("protectedSwitch", switchmodule::ProtectedSwitch::descriptor()))
-    {
-        visit_switchmodule_ProtectedSwitch(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("switchControl", switchmodule::SwitchControl::descriptor()))
-    {
-        visit_switchmodule_SwitchControl(visitor);
-        visitor.end_message_field();
-    }
-}
-
-template <>
 void visit<essmodule::ESSReadingProfile>(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("readingMessageInfo", commonmodule::ReadingMessageInfo::descriptor()))
@@ -316,90 +308,6 @@ void visit<essmodule::ESSReadingProfile>(IModelVisitor& visitor)
     if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
     {
         visit_commonmodule_IED(visitor);
-        visitor.end_message_field();
-    }
-}
-
-template <>
-void visit<resourcemodule::ResourceReadingProfile>(IModelVisitor& visitor)
-{
-    if(visitor.start_message_field("readingMessageInfo", commonmodule::ReadingMessageInfo::descriptor()))
-    {
-        visit_commonmodule_ReadingMessageInfo(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
-    {
-        visit_commonmodule_IED(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("meter", commonmodule::Meter::descriptor()))
-    {
-        visit_commonmodule_Meter(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("resourceReading", resourcemodule::ResourceReading::descriptor()))
-    {
-        visit_resourcemodule_ResourceReading(visitor);
-        visitor.end_message_field();
-    }
-}
-
-template <>
-void visit<switchmodule::SwitchStatusProfile>(IModelVisitor& visitor)
-{
-    if(visitor.start_message_field("statusMessageInfo", commonmodule::StatusMessageInfo::descriptor()))
-    {
-        visit_commonmodule_StatusMessageInfo(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
-    {
-        visit_commonmodule_IED(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("protectedSwitch", switchmodule::ProtectedSwitch::descriptor()))
-    {
-        visit_switchmodule_ProtectedSwitch(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("switchStatus", switchmodule::SwitchStatus::descriptor()))
-    {
-        visit_switchmodule_SwitchStatus(visitor);
-        visitor.end_message_field();
-    }
-}
-
-template <>
-void visit<loadmodule::LoadReadingProfile>(IModelVisitor& visitor)
-{
-    if(visitor.start_message_field("readingMessageInfo", commonmodule::ReadingMessageInfo::descriptor()))
-    {
-        visit_commonmodule_ReadingMessageInfo(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("energyConsumer", commonmodule::EnergyConsumer::descriptor()))
-    {
-        visit_commonmodule_EnergyConsumer(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
-    {
-        visit_commonmodule_IED(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("loadReading", loadmodule::LoadReading::descriptor()))
-    {
-        visit_loadmodule_LoadReading(visitor);
         visitor.end_message_field();
     }
 }
@@ -434,6 +342,90 @@ void visit<switchmodule::SwitchReadingProfile>(IModelVisitor& visitor)
             visitor.end_iteration();
         }
         visitor.end_repeated_message_field();
+    }
+}
+
+template <>
+void visit<switchmodule::SwitchControlProfile>(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("controlMessageInfo", commonmodule::ControlMessageInfo::descriptor()))
+    {
+        visit_commonmodule_ControlMessageInfo(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
+    {
+        visit_commonmodule_IED(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("protectedSwitch", switchmodule::ProtectedSwitch::descriptor()))
+    {
+        visit_switchmodule_ProtectedSwitch(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("switchControl", switchmodule::SwitchControl::descriptor()))
+    {
+        visit_switchmodule_SwitchControl(visitor);
+        visitor.end_message_field();
+    }
+}
+
+template <>
+void visit<loadmodule::LoadReadingProfile>(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("readingMessageInfo", commonmodule::ReadingMessageInfo::descriptor()))
+    {
+        visit_commonmodule_ReadingMessageInfo(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("energyConsumer", commonmodule::EnergyConsumer::descriptor()))
+    {
+        visit_commonmodule_EnergyConsumer(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
+    {
+        visit_commonmodule_IED(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("loadReading", loadmodule::LoadReading::descriptor()))
+    {
+        visit_loadmodule_LoadReading(visitor);
+        visitor.end_message_field();
+    }
+}
+
+template <>
+void visit<switchmodule::SwitchStatusProfile>(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("statusMessageInfo", commonmodule::StatusMessageInfo::descriptor()))
+    {
+        visit_commonmodule_StatusMessageInfo(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
+    {
+        visit_commonmodule_IED(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("protectedSwitch", switchmodule::ProtectedSwitch::descriptor()))
+    {
+        visit_switchmodule_ProtectedSwitch(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("switchStatus", switchmodule::SwitchStatus::descriptor()))
+    {
+        visit_switchmodule_SwitchStatus(visitor);
+        visitor.end_message_field();
     }
 }
 
@@ -550,6 +542,34 @@ void visit<solarmodule::SolarStatusProfile>(IModelVisitor& visitor)
 }
 
 template <>
+void visit<metermodule::MeterReadingProfile>(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("readingMessageInfo", commonmodule::ReadingMessageInfo::descriptor()))
+    {
+        visit_commonmodule_ReadingMessageInfo(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
+    {
+        visit_commonmodule_IED(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("meter", commonmodule::Meter::descriptor()))
+    {
+        visit_commonmodule_Meter(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("meterReading", metermodule::MeterReading::descriptor()))
+    {
+        visit_metermodule_MeterReading(visitor);
+        visitor.end_message_field();
+    }
+}
+
+template <>
 void visit<loadmodule::LoadStatusProfile>(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("statusMessageInfo", commonmodule::StatusMessageInfo::descriptor()))
@@ -623,7 +643,11 @@ void visit_commonmodule_BCR(IModelVisitor& visitor)
 
     visitor.handle_commonmodule_Timestamp("t");
 
-    visitor.handle_enum("units", commonmodule::UnitSymbolKind_descriptor());
+    if(visitor.start_message_field("units", commonmodule::Optional_UnitSymbolKind::descriptor()))
+    {
+        visit_commonmodule_Optional_UnitSymbolKind(visitor);
+        visitor.end_message_field();
+    }
 }
 
 void visit_commonmodule_CMV(IModelVisitor& visitor)
@@ -983,9 +1007,24 @@ void visit_commonmodule_NamedObject(IModelVisitor& visitor)
     }
 }
 
+void visit_commonmodule_Optional_PhaseCodeKind(IModelVisitor& visitor)
+{
+    visitor.handle_enum("value", commonmodule::PhaseCodeKind_descriptor());
+}
+
 void visit_commonmodule_Optional_StateKind(IModelVisitor& visitor)
 {
     visitor.handle_enum("value", commonmodule::StateKind_descriptor());
+}
+
+void visit_commonmodule_Optional_UnitMultiplierKind(IModelVisitor& visitor)
+{
+    visitor.handle_enum("value", commonmodule::UnitMultiplierKind_descriptor());
+}
+
+void visit_commonmodule_Optional_UnitSymbolKind(IModelVisitor& visitor)
+{
+    visitor.handle_enum("value", commonmodule::UnitSymbolKind_descriptor());
 }
 
 void visit_commonmodule_PhaseMMTN(IModelVisitor& visitor)
@@ -1347,7 +1386,7 @@ void visit_commonmodule_SwitchPoint(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    visitor.handle_commonmodule_ControlTimestamp("xVal");
+    visitor.handle_commonmodule_ControlTimestamp("startTime");
 }
 
 void visit_commonmodule_Terminal(IModelVisitor& visitor)
@@ -1358,7 +1397,11 @@ void visit_commonmodule_Terminal(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    visitor.handle_enum("phases", commonmodule::PhaseCodeKind_descriptor());
+    if(visitor.start_message_field("phases", commonmodule::Optional_PhaseCodeKind::descriptor()))
+    {
+        visit_commonmodule_Optional_PhaseCodeKind(visitor);
+        visitor.end_message_field();
+    }
 }
 
 void visit_commonmodule_TimeQuality(IModelVisitor& visitor)
@@ -1374,7 +1417,11 @@ void visit_commonmodule_TimeQuality(IModelVisitor& visitor)
 
 void visit_commonmodule_Unit(IModelVisitor& visitor)
 {
-    visitor.handle_enum("multiplier", commonmodule::UnitMultiplierKind_descriptor());
+    if(visitor.start_message_field("multiplier", commonmodule::Optional_UnitMultiplierKind::descriptor()))
+    {
+        visit_commonmodule_Optional_UnitMultiplierKind(visitor);
+        visitor.end_message_field();
+    }
 
     visitor.handle_enum("SIUnit", commonmodule::UnitSymbolKind_descriptor());
 }
@@ -1427,28 +1474,25 @@ void visit_commonmodule_WYE(IModelVisitor& visitor)
     }
 }
 
-void visit_essmodule_ENG_ESSFunctionKind(IModelVisitor& visitor)
+void visit_essmodule_CapacityFirming(IModelVisitor& visitor)
 {
-    visitor.handle_enum("setVal", essmodule::ESSFunctionKind_descriptor());
-
-    if(visitor.start_message_field("setValExtension", google::protobuf::StringValue::descriptor()))
+    if(visitor.start_message_field("capacityFirmingCtl", google::protobuf::BoolValue::descriptor()))
     {
-        visit_google_protobuf_StringValue(visitor);
-        visitor.end_message_field();
-    }
-}
-
-void visit_essmodule_ENG_ESSFunctionParameter(IModelVisitor& visitor)
-{
-    visitor.handle_enum("functionParameterType", essmodule::ESSFunctionParameterKind_descriptor());
-
-    if(visitor.start_message_field("unit", commonmodule::Unit::descriptor()))
-    {
-        visit_commonmodule_Unit(visitor);
+        visit_google_protobuf_BoolValue(visitor);
         visitor.end_message_field();
     }
 
-    visitor.handle_int32("value");
+    if(visitor.start_message_field("limitNegative_dp_dt", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("limitPositive_dp_dt", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(visitor);
+        visitor.end_message_field();
+    }
 }
 
 void visit_essmodule_ESSCSG(IModelVisitor& visitor)
@@ -1534,6 +1578,51 @@ void visit_essmodule_ESSEventAndStatusZGEN(IModelVisitor& visitor)
     }
 }
 
+void visit_essmodule_ESSFunction(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("capacityFirming", essmodule::CapacityFirming::descriptor()))
+    {
+        visit_essmodule_CapacityFirming(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("frequencyRegulation", essmodule::FrequencyRegulation::descriptor()))
+    {
+        visit_essmodule_FrequencyRegulation(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("peakShaving", essmodule::PeakShaving::descriptor()))
+    {
+        visit_essmodule_PeakShaving(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("socLimit", essmodule::SocLimit::descriptor()))
+    {
+        visit_essmodule_SocLimit(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("socManagement", essmodule::SOCManagement::descriptor()))
+    {
+        visit_essmodule_SOCManagement(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("voltageDroop", essmodule::VoltageDroop::descriptor()))
+    {
+        visit_essmodule_VoltageDroop(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("voltagePI", essmodule::VoltagePI::descriptor()))
+    {
+        visit_essmodule_VoltagePI(visitor);
+        visitor.end_message_field();
+    }
+}
+
 void visit_essmodule_ESSPoint(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("blackStartEnabled", commonmodule::ControlDPC::descriptor()))
@@ -1548,14 +1637,11 @@ void visit_essmodule_ESSPoint(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("function", essmodule::ENG_ESSFunctionKind::descriptor()))
+    if(visitor.start_message_field("function", essmodule::ESSFunction::descriptor()))
     {
-        visit_essmodule_ENG_ESSFunctionKind(visitor);
+        visit_essmodule_ESSFunction(visitor);
         visitor.end_message_field();
     }
-
-    // repeated function parameter
-    visitor.handle_repeated_function_parameter("functionParameter");
 
     if(visitor.start_message_field("mode", commonmodule::ENG_GridConnectModeKind::descriptor()))
     {
@@ -1623,7 +1709,7 @@ void visit_essmodule_ESSPoint(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    visitor.handle_commonmodule_ControlTimestamp("xVal");
+    visitor.handle_commonmodule_ControlTimestamp("startTime");
 }
 
 void visit_essmodule_ESSPointStatus(IModelVisitor& visitor)
@@ -1640,15 +1726,9 @@ void visit_essmodule_ESSPointStatus(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("function", essmodule::ENG_ESSFunctionKind::descriptor()))
+    if(visitor.start_message_field("function", essmodule::ESSFunction::descriptor()))
     {
-        visit_essmodule_ENG_ESSFunctionKind(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("functionParameter", essmodule::ENG_ESSFunctionParameter::descriptor()))
-    {
-        visit_essmodule_ENG_ESSFunctionParameter(visitor);
+        visit_essmodule_ESSFunction(visitor);
         visitor.end_message_field();
     }
 
@@ -1818,6 +1898,219 @@ void visit_essmodule_EssStatusZBAT(IModelVisitor& visitor)
     }
 }
 
+void visit_essmodule_FrequencyRegulation(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("frequencyDeadBandMinus", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("frequencyDeadBandPlus", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("frequencyRegulationCtl", google::protobuf::BoolValue::descriptor()))
+    {
+        visit_google_protobuf_BoolValue(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("frequencySetPoint", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("gridFrequencyStableBandMinus", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("gridFrequencyStableBandPlus", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("overFrequencyDroop", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("underFrequencyDroop", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit_essmodule_PeakShaving(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("baseShavingLimit", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("peakShavingCtl", google::protobuf::BoolValue::descriptor()))
+    {
+        visit_google_protobuf_BoolValue(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("peakShavingLimit", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("socManagementAllowedHighLimit", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("socManagementAllowedLowLimit", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit_essmodule_SOCManagement(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("socDeadBandMinus", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("socDeadBandPlus", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("socManagementCtl", google::protobuf::BoolValue::descriptor()))
+    {
+        visit_google_protobuf_BoolValue(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("socPowerSetPoint", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("socSetPoint", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit_essmodule_SocLimit(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("socHighLimit", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("socHighLimitHysteresis", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("socLimitCtl", google::protobuf::BoolValue::descriptor()))
+    {
+        visit_google_protobuf_BoolValue(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("socLowLimit", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("socLowLimitHysteresis", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit_essmodule_VoltageDroop(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("voltageDroopCtl", google::protobuf::BoolValue::descriptor()))
+    {
+        visit_google_protobuf_BoolValue(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("voltageRegulation", essmodule::VoltageRegulation::descriptor()))
+    {
+        visit_essmodule_VoltageRegulation(visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit_essmodule_VoltagePI(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("voltagePICtl", google::protobuf::BoolValue::descriptor()))
+    {
+        visit_google_protobuf_BoolValue(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("voltageRegulation", essmodule::VoltageRegulation::descriptor()))
+    {
+        visit_essmodule_VoltageRegulation(visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit_essmodule_VoltageRegulation(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("overVoltageDroop", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("underVoltageDroop", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("voltageDeadBandMinus", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("voltageDeadBandPlus", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("voltageSetPoint", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(visitor);
+        visitor.end_message_field();
+    }
+}
+
 void visit_google_protobuf_BoolValue(IModelVisitor& visitor)
 {
     visitor.handle_bool("value");
@@ -1956,7 +2249,7 @@ void visit_loadmodule_LoadPoint(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    visitor.handle_commonmodule_ControlTimestamp("xVal");
+    visitor.handle_commonmodule_ControlTimestamp("startTime");
 }
 
 void visit_loadmodule_LoadPointStatus(IModelVisitor& visitor)
@@ -2043,7 +2336,7 @@ void visit_loadmodule_LoadStatusZGLD(IModelVisitor& visitor)
     }
 }
 
-void visit_resourcemodule_ResourceReading(IModelVisitor& visitor)
+void visit_metermodule_MeterReading(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("conductingEquipmentTerminalReading", commonmodule::ConductingEquipmentTerminalReading::descriptor()))
     {
@@ -2233,7 +2526,7 @@ void visit_solarmodule_SolarPoint(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    visitor.handle_commonmodule_ControlTimestamp("xVal");
+    visitor.handle_commonmodule_ControlTimestamp("startTime");
 }
 
 void visit_solarmodule_SolarPointStatus(IModelVisitor& visitor)

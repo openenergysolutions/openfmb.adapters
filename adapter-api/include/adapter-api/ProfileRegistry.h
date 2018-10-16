@@ -4,7 +4,7 @@
 
 #include <proto-api/essmodule/essmodule.pb.h>
 #include <proto-api/loadmodule/loadmodule.pb.h>
-#include <proto-api/resourcemodule/resourcemodule.pb.h>
+#include <proto-api/metermodule/metermodule.pb.h>
 #include <proto-api/solarmodule/solarmodule.pb.h>
 #include <proto-api/switchmodule/switchmodule.pb.h>
 
@@ -78,7 +78,7 @@ namespace impl {
      * This list is used by other components to automatically add support for profiles.
      */
 using ProfileRegistry = impl::ProfileList<
-    resourcemodule::ResourceReadingProfile,
+    metermodule::MeterReadingProfile,
     switchmodule::SwitchReadingProfile,
     switchmodule::SwitchStatusProfile,
     switchmodule::SwitchControlProfile,

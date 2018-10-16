@@ -4,7 +4,7 @@
 #include "adapter-api/util/YAMLUtil.h"
 #include "adapter-api/ProfileMode.h"
 
-#include "OpenFMB-3.0.0TypeSupport.hh"
+#include "OpenFMB-IDLTypeSupport.hh"
 
 #include "generated/ConvertFromProto.h"
 #include "generated/ConvertToProto.h"
@@ -128,7 +128,7 @@ namespace adapter
                                  );
 
         // TODO - use some template specializations (protobuf to DDS type mapping) so that we don't have to manually list each profile
-        this->configure<resourcemodule::ResourceReadingProfile, twinoaks::resourcemodule::ResourceReadingProfile>(profiles, participant, bus);
+        this->configure<metermodule::MeterReadingProfile, twinoaks::metermodule::MeterReadingProfile>(profiles, participant, bus);
 
         this->configure<switchmodule::SwitchReadingProfile, twinoaks::switchmodule::SwitchReadingProfile>(profiles, participant, bus);
         this->configure<switchmodule::SwitchStatusProfile, twinoaks::switchmodule::SwitchStatusProfile>(profiles, participant, bus);

@@ -88,7 +88,7 @@ public class ConvertFromProto implements CppFileCollection {
        ).then(
                join(
                    space,
-                   include("OpenFMB-3.0.0TypeSupport.hh"),
+                   include("OpenFMB-IDLTypeSupport.hh"),
                    space,
                    include("../NamespaceAlias.h")
                )

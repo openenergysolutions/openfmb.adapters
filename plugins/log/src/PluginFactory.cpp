@@ -22,11 +22,11 @@ namespace log {
     {
         out << YAML::BeginSeq;
 
-        write_tag_item(out, "resourceReading.readingMMXU.W.net.cVal.mag.f.value", "W", 0);
-        write_tag_item(out, "resourceReading.readingMMXU.PPV.phsAB.cVal.mag.f.value", "Vab", 1);
-        write_tag_item(out, "resourceReading.readingMMXU.PPV.phsBC.cVal.mag.f.value", "Vbc", 1);
-        write_tag_item(out, "resourceReading.readingMMXU.PPV.phsCA.cVal.mag.f.value", "Vca", 1);
-        write_tag_item(out, "resourceReading.readingMMXU.Hz.mag.f.value", "Hz", 3);
+        write_tag_item(out, "meterReading.readingMMXU.W.net.cVal.mag.f.value", "W", 0);
+        write_tag_item(out, "meterReading.readingMMXU.PPV.phsAB.cVal.mag.f.value", "Vab", 1);
+        write_tag_item(out, "meterReading.readingMMXU.PPV.phsBC.cVal.mag.f.value", "Vbc", 1);
+        write_tag_item(out, "meterReading.readingMMXU.PPV.phsCA.cVal.mag.f.value", "Vca", 1);
+        write_tag_item(out, "meterReading.readingMMXU.Hz.mag.f.value", "Hz", 3);
 
         out << YAML::EndSeq;
     }
@@ -44,7 +44,7 @@ namespace log {
         out << YAML::BeginSeq;
 
         out << YAML::BeginMap;
-        out << YAML::Key << ::adapter::keys::profile << YAML::Value << resourcemodule::ResourceReadingProfile::descriptor()->name();
+        out << YAML::Key << ::adapter::keys::profile << YAML::Value << metermodule::MeterReadingProfile::descriptor()->name();
         out << YAML::Key << ::adapter::keys::name << YAML::Value << "" << YAML::Comment("conducting equipment name");
         out << YAML::Key << ::adapter::keys::path << YAML::Value << "values.txt" << YAML::Comment("file to which values will be appended");
         out << YAML::Key << keys::print_alias << YAML::Value << true;

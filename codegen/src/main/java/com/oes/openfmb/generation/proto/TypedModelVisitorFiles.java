@@ -151,8 +151,6 @@ public class TypedModelVisitorFiles implements CppFileCollection {
                             case READING:
                             case SCHEDULE:
                                 return getRepeatedMessageField(parent, field);
-                            case FUNCTION_PARAMETER:
-                                return getRepeatedFunctionParameterField(parent, field);
                             case SCHEDULE_PARAMETER:
                                 return getRepeatedScheduleParameterField(parent, field);
                             default:
@@ -197,27 +195,6 @@ public class TypedModelVisitorFiles implements CppFileCollection {
                                 .then(");")
                                 .then("visitor.end_message_field();")
                 );
-    }
-
-    private static Document getRepeatedFunctionParameterField(Descriptors.Descriptor parent, Descriptors.FieldDescriptor field)
-    {
-        return line("// repeated function parameter")
-                .then("visitor.handle(")
-                .indent(
-                     line(Helpers.quoted(field.getName())+",")
-                     .then(String.format("[getter](const %s& profile) -> const google::protobuf::RepeatedPtrField<%s>*", cppMessageName(parent), cppMessageName(field.getMessageType()))).bracket(
-                             line("const auto value = getter(profile);")
-                             .then("if(value)").bracket(
-                                     line("return &value->functionparameter();")
-                             )
-                             .then("else").bracket(
-                                     line("return nullptr;")
-                             )
-                     )
-
-                ).then(");");
-
-
     }
 
     private static Document getRepeatedScheduleParameterField(Descriptors.Descriptor parent, Descriptors.FieldDescriptor field)

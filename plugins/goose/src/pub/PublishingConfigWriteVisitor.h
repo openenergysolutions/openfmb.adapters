@@ -22,7 +22,6 @@ namespace goose {
         void write_mapped_commonmodule_timestamp_keys(YAML::Emitter& out) final;
 
         // control profiles not required for GOOSE
-        void write_mapped_function_parameter_keys(YAML::Emitter &out) final;
         void write_mapped_schedule_parameter_keys(YAML::Emitter &out) final;
 
     private:

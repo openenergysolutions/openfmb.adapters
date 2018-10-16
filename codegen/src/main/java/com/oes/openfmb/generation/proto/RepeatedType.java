@@ -14,10 +14,6 @@ public enum RepeatedType {
      */
     SCHEDULE,
     /**
-     * list of function parameters used in control profiles
-     */
-    FUNCTION_PARAMETER,
-    /**
      * list of schedule parameters used in control profiles
      */
     SCHEDULE_PARAMETER,
@@ -40,8 +36,6 @@ public enum RepeatedType {
         temp.put(openfmb.essmodule.ESSPoint.getDescriptor(), RepeatedType.SCHEDULE);
         temp.put(openfmb.solarmodule.SolarPoint.getDescriptor(), RepeatedType.SCHEDULE);
         temp.put(openfmb.loadmodule.LoadPoint.getDescriptor(), RepeatedType.SCHEDULE);
-        // list of function parameters
-        temp.put(openfmb.essmodule.ENG_ESSFunctionParameter.getDescriptor(), RepeatedType.FUNCTION_PARAMETER);
         // list of schedule parameters
         temp.put(openfmb.commonmodule.ENG_ScheduleParameter.getDescriptor(), RepeatedType.SCHEDULE_PARAMETER);
 
