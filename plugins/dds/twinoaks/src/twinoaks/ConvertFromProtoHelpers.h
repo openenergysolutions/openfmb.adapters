@@ -5,7 +5,7 @@
 
 #include <type_traits>
 
-#include <OpenFMB-3.0.0.hh>
+#include <OpenFMB-IDL.hh>
 #include <google/protobuf/stubs/port.h>
 #include <google/protobuf/wrappers.pb.h>
 

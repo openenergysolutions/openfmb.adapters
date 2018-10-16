@@ -20,7 +20,7 @@
 #include "essmodule/essmodule.pb.h"
 #include "metermodule/metermodule.pb.h"
 
-#include "OpenFMB-3.0.0TypeSupport.hh"
+#include "OpenFMB-IDLTypeSupport.hh"
 
 #include "../NamespaceAlias.h"
 

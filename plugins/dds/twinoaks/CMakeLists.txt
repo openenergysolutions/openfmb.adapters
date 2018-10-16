@@ -6,17 +6,17 @@ find_library(DDS_CPP dds_cpp ${COREDX_LIB_DIR})
 
 set(DDS_GEN_PATH ${CMAKE_CURRENT_BINARY_DIR}/generated-sources)
 
-set(IDL_INPUT_FILE ${CMAKE_CURRENT_SOURCE_DIR}/OpenFMB-3.0.0.idl)
+set(IDL_INPUT_FILE ${CMAKE_SOURCE_DIR}/deps/openfmb-schemas/idl/OpenFMB-IDL.idl)
 
 set(DDS_SOURCES
-        ${DDS_GEN_PATH}/OpenFMB-3.0.0.cc
-        ${DDS_GEN_PATH}/OpenFMB-3.0.0.hh
-        ${DDS_GEN_PATH}/OpenFMB-3.0.0DataReader.cc
-        ${DDS_GEN_PATH}/OpenFMB-3.0.0DataReader.hh
-        ${DDS_GEN_PATH}/OpenFMB-3.0.0DataWriter.cc
-        ${DDS_GEN_PATH}/OpenFMB-3.0.0DataWriter.hh
-        ${DDS_GEN_PATH}/OpenFMB-3.0.0TypeSupport.cc
-        ${DDS_GEN_PATH}/OpenFMB-3.0.0TypeSupport.hh
+        ${DDS_GEN_PATH}/OpenFMB-IDL.cc
+        ${DDS_GEN_PATH}/OpenFMB-IDL.hh
+        ${DDS_GEN_PATH}/OpenFMB-IDLDataReader.cc
+        ${DDS_GEN_PATH}/OpenFMB-IDLDataReader.hh
+        ${DDS_GEN_PATH}/OpenFMB-IDLDataWriter.cc
+        ${DDS_GEN_PATH}/OpenFMB-IDLDataWriter.hh
+        ${DDS_GEN_PATH}/OpenFMB-IDLTypeSupport.cc
+        ${DDS_GEN_PATH}/OpenFMB-IDLTypeSupport.hh
 )
 
 set(SOURCES
