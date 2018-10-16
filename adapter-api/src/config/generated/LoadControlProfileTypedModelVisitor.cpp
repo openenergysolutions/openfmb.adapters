@@ -1425,14 +1425,14 @@ void visit_loadmodule_LoadPoint(const set_t<loadmodule::LoadPoint>& setter, cons
     }
 
     visitor.handle(
-        "xVal",
+        "startTime",
         MessageAccessorBuilder<loadmodule::LoadControlProfile,commonmodule::ControlTimestamp>::build(
-            [setter](loadmodule::LoadControlProfile& profile) { return setter(profile)->mutable_xval(); },
+            [setter](loadmodule::LoadControlProfile& profile) { return setter(profile)->mutable_starttime(); },
             [getter](const loadmodule::LoadControlProfile& profile, const handler_t<commonmodule::ControlTimestamp>& handler)
             {
                 const auto parent = getter(profile);
-                if(!parent || !parent->has_xval()) return false;
-                handler(parent->xval());
+                if(!parent || !parent->has_starttime()) return false;
+                handler(parent->starttime());
                 return true;
             }
         )

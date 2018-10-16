@@ -15,9 +15,11 @@ class DescriptorPath final : public IDescriptorPath {
 public:
     /// ---- implement IDescriptorPath ----
 
-    bool has_parents(const std::initializer_list<descriptor_ptr_t>& parents) const final;
+    bool has_exact_parents(const std::initializer_list<descriptor_ptr_t>& parents) const final;
 
-    bool has_parents(const std::initializer_list<Field>& field) const final;
+    bool has_exact_parents(const std::initializer_list<Field>& field) const final;
+
+    bool has_parent_somewhere(descriptor_ptr_t descriptor) const final;
 
     std::string as_string() const final;
 

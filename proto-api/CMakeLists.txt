@@ -19,9 +19,9 @@ set(PROTO_MODULES
     ess
     generation
     load
+    meter
     recloser
     regulator
-    resource
     solar
     switch
 )

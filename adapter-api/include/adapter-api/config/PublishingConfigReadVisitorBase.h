@@ -47,8 +47,6 @@ public:
 
     void handle(const std::string& field_name, const message_accessor_t<T, commonmodule::ControlTimestamp>& accessor) override;
 
-    void handle(const std::string& field_name, const getter_t<T, repeated_function_parameter_t>& getter) override;
-
     void handle(const std::string &field_name,
                 const getter_t<T, google::protobuf::RepeatedPtrField<commonmodule::ENG_ScheduleParameter>> &getter) override;
 
@@ -260,12 +258,6 @@ void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, c
 
 template <class T>
 void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, const message_accessor_t<T, commonmodule::ControlTimestamp>& accessor)
-{
-    // ignore for now
-}
-
-template <class T>
-void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, const getter_t<T, repeated_function_parameter_t>& getter)
 {
     // ignore for now
 }

@@ -191,22 +191,6 @@ void ConfigWriteVisitorBase::handle_commonmodule_ControlTimestamp(const std::str
     out << YAML::EndMap;
 }
 
-void ConfigWriteVisitorBase::handle_repeated_function_parameter(const std::string& field_name)
-{
-    out << YAML::Key << field_name << YAML::Comment("A sequence of function parameters w/ enum + value. Each plugin specifies what to do with each enumeration value");
-    out << YAML::BeginSeq;
-
-    for(int i = 0; i < essmodule::ESSFunctionParameterKind_descriptor()->value_count(); ++i)
-    {
-        out << YAML::BeginMap;
-        out << YAML::Key << keys::functionParameterType << YAML::Value << essmodule::ESSFunctionParameterKind_descriptor()->value(i)->name();
-        this->write_mapped_function_parameter_keys(out);
-        out << YAML::EndMap;
-    }
-
-    out << YAML::EndSeq;
-}
-
 void ConfigWriteVisitorBase::handle_repeated_schedule_parameter(const std::string &field_name)
 {
     out << YAML::Key << field_name << YAML::Comment("A sequence of schedule parameters w/ enum + value. Each plugin specifies what to do with each enumeration value");

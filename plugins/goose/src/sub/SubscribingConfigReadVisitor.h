@@ -209,11 +209,6 @@ namespace goose {
 
         // --- ignore these schedule types as they only occur in control profiles
 
-        void handle(const std::string &field_name, const getter_t<T, repeated_function_parameter_t> &getter) override
-        {
-
-        }
-
         void handle(const std::string& field_name, const getter_t<T, repeated_schedule_parameter_t>& getter) override
         {
 

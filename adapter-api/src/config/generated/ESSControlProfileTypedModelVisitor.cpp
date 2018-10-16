@@ -66,11 +66,7 @@ void visit_commonmodule_SchedulePoint(const set_t<commonmodule::SchedulePoint>& 
 
 void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& setter, const get_t<commonmodule::TimeQuality>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
 
-void visit_commonmodule_Unit(const set_t<commonmodule::Unit>& setter, const get_t<commonmodule::Unit>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
-
-void visit_essmodule_ENG_ESSFunctionKind(const set_t<essmodule::ENG_ESSFunctionKind>& setter, const get_t<essmodule::ENG_ESSFunctionKind>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
-
-void visit_essmodule_ENG_ESSFunctionParameter(const set_t<essmodule::ENG_ESSFunctionParameter>& setter, const get_t<essmodule::ENG_ESSFunctionParameter>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
+void visit_essmodule_CapacityFirming(const set_t<essmodule::CapacityFirming>& setter, const get_t<essmodule::CapacityFirming>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
 
 void visit_essmodule_ESSCSG(const set_t<essmodule::ESSCSG>& setter, const get_t<essmodule::ESSCSG>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
 
@@ -78,9 +74,25 @@ void visit_essmodule_ESSControl(const set_t<essmodule::ESSControl>& setter, cons
 
 void visit_essmodule_ESSControlScheduleFSCH(const set_t<essmodule::ESSControlScheduleFSCH>& setter, const get_t<essmodule::ESSControlScheduleFSCH>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
 
+void visit_essmodule_ESSFunction(const set_t<essmodule::ESSFunction>& setter, const get_t<essmodule::ESSFunction>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
+
 void visit_essmodule_ESSPoint(const set_t<essmodule::ESSPoint>& setter, const get_t<essmodule::ESSPoint>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
 
 void visit_essmodule_EssControlFSCC(const set_t<essmodule::EssControlFSCC>& setter, const get_t<essmodule::EssControlFSCC>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
+
+void visit_essmodule_FrequencyRegulation(const set_t<essmodule::FrequencyRegulation>& setter, const get_t<essmodule::FrequencyRegulation>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
+
+void visit_essmodule_PeakShaving(const set_t<essmodule::PeakShaving>& setter, const get_t<essmodule::PeakShaving>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
+
+void visit_essmodule_SOCManagement(const set_t<essmodule::SOCManagement>& setter, const get_t<essmodule::SOCManagement>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
+
+void visit_essmodule_SocLimit(const set_t<essmodule::SocLimit>& setter, const get_t<essmodule::SocLimit>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
+
+void visit_essmodule_VoltageDroop(const set_t<essmodule::VoltageDroop>& setter, const get_t<essmodule::VoltageDroop>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
+
+void visit_essmodule_VoltagePI(const set_t<essmodule::VoltagePI>& setter, const get_t<essmodule::VoltagePI>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
+
+void visit_essmodule_VoltageRegulation(const set_t<essmodule::VoltageRegulation>& setter, const get_t<essmodule::VoltageRegulation>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
 
 void visit_google_protobuf_BoolValue(const set_t<google::protobuf::BoolValue>& setter, const get_t<google::protobuf::BoolValue>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
 
@@ -1084,111 +1096,21 @@ void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& sett
     );
 }
 
-void visit_commonmodule_Unit(const set_t<commonmodule::Unit>& setter, const get_t<commonmodule::Unit>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor)
+void visit_essmodule_CapacityFirming(const set_t<essmodule::CapacityFirming>& setter, const get_t<essmodule::CapacityFirming>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor)
 {
-    visitor.handle(
-        "multiplier",
-        AccessorBuilder<essmodule::ESSControlProfile,int>::build(
-            [setter](essmodule::ESSControlProfile& profile, const int& value) { setter(profile)->set_multiplier(static_cast<commonmodule::UnitMultiplierKind>(value)); },
-            [getter](const essmodule::ESSControlProfile& profile, const handler_t<int>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->multiplier());
-                return true;
-            }
-        ),
-        commonmodule::UnitMultiplierKind_descriptor()
-    );
-
-    visitor.handle(
-        "SIUnit",
-        AccessorBuilder<essmodule::ESSControlProfile,int>::build(
-            [setter](essmodule::ESSControlProfile& profile, const int& value) { setter(profile)->set_siunit(static_cast<commonmodule::UnitSymbolKind>(value)); },
-            [getter](const essmodule::ESSControlProfile& profile, const handler_t<int>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->siunit());
-                return true;
-            }
-        ),
-        commonmodule::UnitSymbolKind_descriptor()
-    );
-}
-
-void visit_essmodule_ENG_ESSFunctionKind(const set_t<essmodule::ENG_ESSFunctionKind>& setter, const get_t<essmodule::ENG_ESSFunctionKind>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor)
-{
-    visitor.handle(
-        "setVal",
-        AccessorBuilder<essmodule::ESSControlProfile,int>::build(
-            [setter](essmodule::ESSControlProfile& profile, const int& value) { setter(profile)->set_setval(static_cast<essmodule::ESSFunctionKind>(value)); },
-            [getter](const essmodule::ESSControlProfile& profile, const handler_t<int>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->setval());
-                return true;
-            }
-        ),
-        essmodule::ESSFunctionKind_descriptor()
-    );
-
-    if(visitor.start_message_field("setValExtension", google::protobuf::StringValue::descriptor()))
+    if(visitor.start_message_field("capacityFirmingCtl", google::protobuf::BoolValue::descriptor()))
     {
-        visit_google_protobuf_StringValue(
+        visit_google_protobuf_BoolValue(
             [setter](essmodule::ESSControlProfile& profile)
             {
-                return setter(profile)->mutable_setvalextension();
+                return setter(profile)->mutable_capacityfirmingctl();
             },
-            [getter](const essmodule::ESSControlProfile& profile) -> google::protobuf::StringValue const *
+            [getter](const essmodule::ESSControlProfile& profile) -> google::protobuf::BoolValue const *
             {
                 const auto value = getter(profile);
                 if(value)
                 {
-                    return value->has_setvalextension() ? &value->setvalextension() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-}
-
-void visit_essmodule_ENG_ESSFunctionParameter(const set_t<essmodule::ENG_ESSFunctionParameter>& setter, const get_t<essmodule::ENG_ESSFunctionParameter>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor)
-{
-    visitor.handle(
-        "functionParameterType",
-        AccessorBuilder<essmodule::ESSControlProfile,int>::build(
-            [setter](essmodule::ESSControlProfile& profile, const int& value) { setter(profile)->set_functionparametertype(static_cast<essmodule::ESSFunctionParameterKind>(value)); },
-            [getter](const essmodule::ESSControlProfile& profile, const handler_t<int>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->functionparametertype());
-                return true;
-            }
-        ),
-        essmodule::ESSFunctionParameterKind_descriptor()
-    );
-
-    if(visitor.start_message_field("unit", commonmodule::Unit::descriptor()))
-    {
-        visit_commonmodule_Unit(
-            [setter](essmodule::ESSControlProfile& profile)
-            {
-                return setter(profile)->mutable_unit();
-            },
-            [getter](const essmodule::ESSControlProfile& profile) -> commonmodule::Unit const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_unit() ? &value->unit() : nullptr;
+                    return value->has_capacityfirmingctl() ? &value->capacityfirmingctl() : nullptr;
                 }
                 else
                 {
@@ -1200,19 +1122,53 @@ void visit_essmodule_ENG_ESSFunctionParameter(const set_t<essmodule::ENG_ESSFunc
         visitor.end_message_field();
     }
 
-    visitor.handle(
-        "value",
-        AccessorBuilder<essmodule::ESSControlProfile,int32_t>::build(
-            [setter](essmodule::ESSControlProfile& profile, const int32_t& value) { setter(profile)->set_value(value); },
-            [getter](const essmodule::ESSControlProfile& profile, const handler_t<int32_t>& handler)
+    if(visitor.start_message_field("limitNegative_dp_dt", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(
+            [setter](essmodule::ESSControlProfile& profile)
             {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->value());
-                return true;
-            }
-        )
-    );
+                return setter(profile)->mutable_limitnegative_dp_dt();
+            },
+            [getter](const essmodule::ESSControlProfile& profile) -> google::protobuf::FloatValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_limitnegative_dp_dt() ? &value->limitnegative_dp_dt() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("limitPositive_dp_dt", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(
+            [setter](essmodule::ESSControlProfile& profile)
+            {
+                return setter(profile)->mutable_limitpositive_dp_dt();
+            },
+            [getter](const essmodule::ESSControlProfile& profile) -> google::protobuf::FloatValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_limitpositive_dp_dt() ? &value->limitpositive_dp_dt() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
 }
 
 void visit_essmodule_ESSCSG(const set_t<essmodule::ESSCSG>& setter, const get_t<essmodule::ESSCSG>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor)
@@ -1357,6 +1313,177 @@ void visit_essmodule_ESSControlScheduleFSCH(const set_t<essmodule::ESSControlSch
     }
 }
 
+void visit_essmodule_ESSFunction(const set_t<essmodule::ESSFunction>& setter, const get_t<essmodule::ESSFunction>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor)
+{
+    if(visitor.start_message_field("capacityFirming", essmodule::CapacityFirming::descriptor()))
+    {
+        visit_essmodule_CapacityFirming(
+            [setter](essmodule::ESSControlProfile& profile)
+            {
+                return setter(profile)->mutable_capacityfirming();
+            },
+            [getter](const essmodule::ESSControlProfile& profile) -> essmodule::CapacityFirming const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_capacityfirming() ? &value->capacityfirming() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("frequencyRegulation", essmodule::FrequencyRegulation::descriptor()))
+    {
+        visit_essmodule_FrequencyRegulation(
+            [setter](essmodule::ESSControlProfile& profile)
+            {
+                return setter(profile)->mutable_frequencyregulation();
+            },
+            [getter](const essmodule::ESSControlProfile& profile) -> essmodule::FrequencyRegulation const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_frequencyregulation() ? &value->frequencyregulation() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("peakShaving", essmodule::PeakShaving::descriptor()))
+    {
+        visit_essmodule_PeakShaving(
+            [setter](essmodule::ESSControlProfile& profile)
+            {
+                return setter(profile)->mutable_peakshaving();
+            },
+            [getter](const essmodule::ESSControlProfile& profile) -> essmodule::PeakShaving const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_peakshaving() ? &value->peakshaving() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("socLimit", essmodule::SocLimit::descriptor()))
+    {
+        visit_essmodule_SocLimit(
+            [setter](essmodule::ESSControlProfile& profile)
+            {
+                return setter(profile)->mutable_soclimit();
+            },
+            [getter](const essmodule::ESSControlProfile& profile) -> essmodule::SocLimit const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_soclimit() ? &value->soclimit() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("socManagement", essmodule::SOCManagement::descriptor()))
+    {
+        visit_essmodule_SOCManagement(
+            [setter](essmodule::ESSControlProfile& profile)
+            {
+                return setter(profile)->mutable_socmanagement();
+            },
+            [getter](const essmodule::ESSControlProfile& profile) -> essmodule::SOCManagement const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_socmanagement() ? &value->socmanagement() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("voltageDroop", essmodule::VoltageDroop::descriptor()))
+    {
+        visit_essmodule_VoltageDroop(
+            [setter](essmodule::ESSControlProfile& profile)
+            {
+                return setter(profile)->mutable_voltagedroop();
+            },
+            [getter](const essmodule::ESSControlProfile& profile) -> essmodule::VoltageDroop const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_voltagedroop() ? &value->voltagedroop() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("voltagePI", essmodule::VoltagePI::descriptor()))
+    {
+        visit_essmodule_VoltagePI(
+            [setter](essmodule::ESSControlProfile& profile)
+            {
+                return setter(profile)->mutable_voltagepi();
+            },
+            [getter](const essmodule::ESSControlProfile& profile) -> essmodule::VoltagePI const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_voltagepi() ? &value->voltagepi() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+}
+
 void visit_essmodule_ESSPoint(const set_t<essmodule::ESSPoint>& setter, const get_t<essmodule::ESSPoint>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor)
 {
     if(visitor.start_message_field("blackStartEnabled", commonmodule::ControlDPC::descriptor()))
@@ -1407,14 +1534,14 @@ void visit_essmodule_ESSPoint(const set_t<essmodule::ESSPoint>& setter, const ge
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("function", essmodule::ENG_ESSFunctionKind::descriptor()))
+    if(visitor.start_message_field("function", essmodule::ESSFunction::descriptor()))
     {
-        visit_essmodule_ENG_ESSFunctionKind(
+        visit_essmodule_ESSFunction(
             [setter](essmodule::ESSControlProfile& profile)
             {
                 return setter(profile)->mutable_function();
             },
-            [getter](const essmodule::ESSControlProfile& profile) -> essmodule::ENG_ESSFunctionKind const *
+            [getter](const essmodule::ESSControlProfile& profile) -> essmodule::ESSFunction const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1430,23 +1557,6 @@ void visit_essmodule_ESSPoint(const set_t<essmodule::ESSPoint>& setter, const ge
         );
         visitor.end_message_field();
     }
-
-    // repeated function parameter
-    visitor.handle(
-        "functionParameter",
-        [getter](const essmodule::ESSControlProfile& profile) -> const google::protobuf::RepeatedPtrField<essmodule::ENG_ESSFunctionParameter>*
-        {
-            const auto value = getter(profile);
-            if(value)
-            {
-                return &value->functionparameter();
-            }
-            else
-            {
-                return nullptr;
-            }
-        }
-    );
 
     if(visitor.start_message_field("mode", commonmodule::ENG_GridConnectModeKind::descriptor()))
     {
@@ -1713,14 +1823,14 @@ void visit_essmodule_ESSPoint(const set_t<essmodule::ESSPoint>& setter, const ge
     }
 
     visitor.handle(
-        "xVal",
+        "startTime",
         MessageAccessorBuilder<essmodule::ESSControlProfile,commonmodule::ControlTimestamp>::build(
-            [setter](essmodule::ESSControlProfile& profile) { return setter(profile)->mutable_xval(); },
+            [setter](essmodule::ESSControlProfile& profile) { return setter(profile)->mutable_starttime(); },
             [getter](const essmodule::ESSControlProfile& profile, const handler_t<commonmodule::ControlTimestamp>& handler)
             {
                 const auto parent = getter(profile);
-                if(!parent || !parent->has_xval()) return false;
-                handler(parent->xval());
+                if(!parent || !parent->has_starttime()) return false;
+                handler(parent->starttime());
                 return true;
             }
         )
@@ -1766,6 +1876,795 @@ void visit_essmodule_EssControlFSCC(const set_t<essmodule::EssControlFSCC>& sett
                 if(value)
                 {
                     return value->has_esscontrolschedulefsch() ? &value->esscontrolschedulefsch() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+}
+
+void visit_essmodule_FrequencyRegulation(const set_t<essmodule::FrequencyRegulation>& setter, const get_t<essmodule::FrequencyRegulation>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor)
+{
+    if(visitor.start_message_field("frequencyDeadBandMinus", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(
+            [setter](essmodule::ESSControlProfile& profile)
+            {
+                return setter(profile)->mutable_frequencydeadbandminus();
+            },
+            [getter](const essmodule::ESSControlProfile& profile) -> google::protobuf::FloatValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_frequencydeadbandminus() ? &value->frequencydeadbandminus() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("frequencyDeadBandPlus", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(
+            [setter](essmodule::ESSControlProfile& profile)
+            {
+                return setter(profile)->mutable_frequencydeadbandplus();
+            },
+            [getter](const essmodule::ESSControlProfile& profile) -> google::protobuf::FloatValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_frequencydeadbandplus() ? &value->frequencydeadbandplus() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("frequencyRegulationCtl", google::protobuf::BoolValue::descriptor()))
+    {
+        visit_google_protobuf_BoolValue(
+            [setter](essmodule::ESSControlProfile& profile)
+            {
+                return setter(profile)->mutable_frequencyregulationctl();
+            },
+            [getter](const essmodule::ESSControlProfile& profile) -> google::protobuf::BoolValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_frequencyregulationctl() ? &value->frequencyregulationctl() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("frequencySetPoint", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(
+            [setter](essmodule::ESSControlProfile& profile)
+            {
+                return setter(profile)->mutable_frequencysetpoint();
+            },
+            [getter](const essmodule::ESSControlProfile& profile) -> google::protobuf::FloatValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_frequencysetpoint() ? &value->frequencysetpoint() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("gridFrequencyStableBandMinus", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(
+            [setter](essmodule::ESSControlProfile& profile)
+            {
+                return setter(profile)->mutable_gridfrequencystablebandminus();
+            },
+            [getter](const essmodule::ESSControlProfile& profile) -> google::protobuf::FloatValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_gridfrequencystablebandminus() ? &value->gridfrequencystablebandminus() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("gridFrequencyStableBandPlus", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(
+            [setter](essmodule::ESSControlProfile& profile)
+            {
+                return setter(profile)->mutable_gridfrequencystablebandplus();
+            },
+            [getter](const essmodule::ESSControlProfile& profile) -> google::protobuf::FloatValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_gridfrequencystablebandplus() ? &value->gridfrequencystablebandplus() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("overFrequencyDroop", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(
+            [setter](essmodule::ESSControlProfile& profile)
+            {
+                return setter(profile)->mutable_overfrequencydroop();
+            },
+            [getter](const essmodule::ESSControlProfile& profile) -> google::protobuf::FloatValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_overfrequencydroop() ? &value->overfrequencydroop() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("underFrequencyDroop", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(
+            [setter](essmodule::ESSControlProfile& profile)
+            {
+                return setter(profile)->mutable_underfrequencydroop();
+            },
+            [getter](const essmodule::ESSControlProfile& profile) -> google::protobuf::FloatValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_underfrequencydroop() ? &value->underfrequencydroop() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+}
+
+void visit_essmodule_PeakShaving(const set_t<essmodule::PeakShaving>& setter, const get_t<essmodule::PeakShaving>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor)
+{
+    if(visitor.start_message_field("baseShavingLimit", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(
+            [setter](essmodule::ESSControlProfile& profile)
+            {
+                return setter(profile)->mutable_baseshavinglimit();
+            },
+            [getter](const essmodule::ESSControlProfile& profile) -> google::protobuf::FloatValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_baseshavinglimit() ? &value->baseshavinglimit() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("peakShavingCtl", google::protobuf::BoolValue::descriptor()))
+    {
+        visit_google_protobuf_BoolValue(
+            [setter](essmodule::ESSControlProfile& profile)
+            {
+                return setter(profile)->mutable_peakshavingctl();
+            },
+            [getter](const essmodule::ESSControlProfile& profile) -> google::protobuf::BoolValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_peakshavingctl() ? &value->peakshavingctl() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("peakShavingLimit", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(
+            [setter](essmodule::ESSControlProfile& profile)
+            {
+                return setter(profile)->mutable_peakshavinglimit();
+            },
+            [getter](const essmodule::ESSControlProfile& profile) -> google::protobuf::FloatValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_peakshavinglimit() ? &value->peakshavinglimit() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("socManagementAllowedHighLimit", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(
+            [setter](essmodule::ESSControlProfile& profile)
+            {
+                return setter(profile)->mutable_socmanagementallowedhighlimit();
+            },
+            [getter](const essmodule::ESSControlProfile& profile) -> google::protobuf::FloatValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_socmanagementallowedhighlimit() ? &value->socmanagementallowedhighlimit() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("socManagementAllowedLowLimit", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(
+            [setter](essmodule::ESSControlProfile& profile)
+            {
+                return setter(profile)->mutable_socmanagementallowedlowlimit();
+            },
+            [getter](const essmodule::ESSControlProfile& profile) -> google::protobuf::FloatValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_socmanagementallowedlowlimit() ? &value->socmanagementallowedlowlimit() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+}
+
+void visit_essmodule_SOCManagement(const set_t<essmodule::SOCManagement>& setter, const get_t<essmodule::SOCManagement>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor)
+{
+    if(visitor.start_message_field("socDeadBandMinus", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(
+            [setter](essmodule::ESSControlProfile& profile)
+            {
+                return setter(profile)->mutable_socdeadbandminus();
+            },
+            [getter](const essmodule::ESSControlProfile& profile) -> google::protobuf::FloatValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_socdeadbandminus() ? &value->socdeadbandminus() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("socDeadBandPlus", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(
+            [setter](essmodule::ESSControlProfile& profile)
+            {
+                return setter(profile)->mutable_socdeadbandplus();
+            },
+            [getter](const essmodule::ESSControlProfile& profile) -> google::protobuf::FloatValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_socdeadbandplus() ? &value->socdeadbandplus() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("socManagementCtl", google::protobuf::BoolValue::descriptor()))
+    {
+        visit_google_protobuf_BoolValue(
+            [setter](essmodule::ESSControlProfile& profile)
+            {
+                return setter(profile)->mutable_socmanagementctl();
+            },
+            [getter](const essmodule::ESSControlProfile& profile) -> google::protobuf::BoolValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_socmanagementctl() ? &value->socmanagementctl() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("socPowerSetPoint", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(
+            [setter](essmodule::ESSControlProfile& profile)
+            {
+                return setter(profile)->mutable_socpowersetpoint();
+            },
+            [getter](const essmodule::ESSControlProfile& profile) -> google::protobuf::FloatValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_socpowersetpoint() ? &value->socpowersetpoint() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("socSetPoint", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(
+            [setter](essmodule::ESSControlProfile& profile)
+            {
+                return setter(profile)->mutable_socsetpoint();
+            },
+            [getter](const essmodule::ESSControlProfile& profile) -> google::protobuf::FloatValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_socsetpoint() ? &value->socsetpoint() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+}
+
+void visit_essmodule_SocLimit(const set_t<essmodule::SocLimit>& setter, const get_t<essmodule::SocLimit>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor)
+{
+    if(visitor.start_message_field("socHighLimit", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(
+            [setter](essmodule::ESSControlProfile& profile)
+            {
+                return setter(profile)->mutable_sochighlimit();
+            },
+            [getter](const essmodule::ESSControlProfile& profile) -> google::protobuf::FloatValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_sochighlimit() ? &value->sochighlimit() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("socHighLimitHysteresis", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(
+            [setter](essmodule::ESSControlProfile& profile)
+            {
+                return setter(profile)->mutable_sochighlimithysteresis();
+            },
+            [getter](const essmodule::ESSControlProfile& profile) -> google::protobuf::FloatValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_sochighlimithysteresis() ? &value->sochighlimithysteresis() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("socLimitCtl", google::protobuf::BoolValue::descriptor()))
+    {
+        visit_google_protobuf_BoolValue(
+            [setter](essmodule::ESSControlProfile& profile)
+            {
+                return setter(profile)->mutable_soclimitctl();
+            },
+            [getter](const essmodule::ESSControlProfile& profile) -> google::protobuf::BoolValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_soclimitctl() ? &value->soclimitctl() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("socLowLimit", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(
+            [setter](essmodule::ESSControlProfile& profile)
+            {
+                return setter(profile)->mutable_soclowlimit();
+            },
+            [getter](const essmodule::ESSControlProfile& profile) -> google::protobuf::FloatValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_soclowlimit() ? &value->soclowlimit() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("socLowLimitHysteresis", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(
+            [setter](essmodule::ESSControlProfile& profile)
+            {
+                return setter(profile)->mutable_soclowlimithysteresis();
+            },
+            [getter](const essmodule::ESSControlProfile& profile) -> google::protobuf::FloatValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_soclowlimithysteresis() ? &value->soclowlimithysteresis() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+}
+
+void visit_essmodule_VoltageDroop(const set_t<essmodule::VoltageDroop>& setter, const get_t<essmodule::VoltageDroop>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor)
+{
+    if(visitor.start_message_field("voltageDroopCtl", google::protobuf::BoolValue::descriptor()))
+    {
+        visit_google_protobuf_BoolValue(
+            [setter](essmodule::ESSControlProfile& profile)
+            {
+                return setter(profile)->mutable_voltagedroopctl();
+            },
+            [getter](const essmodule::ESSControlProfile& profile) -> google::protobuf::BoolValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_voltagedroopctl() ? &value->voltagedroopctl() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("voltageRegulation", essmodule::VoltageRegulation::descriptor()))
+    {
+        visit_essmodule_VoltageRegulation(
+            [setter](essmodule::ESSControlProfile& profile)
+            {
+                return setter(profile)->mutable_voltageregulation();
+            },
+            [getter](const essmodule::ESSControlProfile& profile) -> essmodule::VoltageRegulation const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_voltageregulation() ? &value->voltageregulation() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+}
+
+void visit_essmodule_VoltagePI(const set_t<essmodule::VoltagePI>& setter, const get_t<essmodule::VoltagePI>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor)
+{
+    if(visitor.start_message_field("voltagePICtl", google::protobuf::BoolValue::descriptor()))
+    {
+        visit_google_protobuf_BoolValue(
+            [setter](essmodule::ESSControlProfile& profile)
+            {
+                return setter(profile)->mutable_voltagepictl();
+            },
+            [getter](const essmodule::ESSControlProfile& profile) -> google::protobuf::BoolValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_voltagepictl() ? &value->voltagepictl() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("voltageRegulation", essmodule::VoltageRegulation::descriptor()))
+    {
+        visit_essmodule_VoltageRegulation(
+            [setter](essmodule::ESSControlProfile& profile)
+            {
+                return setter(profile)->mutable_voltageregulation();
+            },
+            [getter](const essmodule::ESSControlProfile& profile) -> essmodule::VoltageRegulation const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_voltageregulation() ? &value->voltageregulation() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+}
+
+void visit_essmodule_VoltageRegulation(const set_t<essmodule::VoltageRegulation>& setter, const get_t<essmodule::VoltageRegulation>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor)
+{
+    if(visitor.start_message_field("overVoltageDroop", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(
+            [setter](essmodule::ESSControlProfile& profile)
+            {
+                return setter(profile)->mutable_overvoltagedroop();
+            },
+            [getter](const essmodule::ESSControlProfile& profile) -> google::protobuf::FloatValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_overvoltagedroop() ? &value->overvoltagedroop() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("underVoltageDroop", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(
+            [setter](essmodule::ESSControlProfile& profile)
+            {
+                return setter(profile)->mutable_undervoltagedroop();
+            },
+            [getter](const essmodule::ESSControlProfile& profile) -> google::protobuf::FloatValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_undervoltagedroop() ? &value->undervoltagedroop() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("voltageDeadBandMinus", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(
+            [setter](essmodule::ESSControlProfile& profile)
+            {
+                return setter(profile)->mutable_voltagedeadbandminus();
+            },
+            [getter](const essmodule::ESSControlProfile& profile) -> google::protobuf::FloatValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_voltagedeadbandminus() ? &value->voltagedeadbandminus() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("voltageDeadBandPlus", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(
+            [setter](essmodule::ESSControlProfile& profile)
+            {
+                return setter(profile)->mutable_voltagedeadbandplus();
+            },
+            [getter](const essmodule::ESSControlProfile& profile) -> google::protobuf::FloatValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_voltagedeadbandplus() ? &value->voltagedeadbandplus() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("voltageSetPoint", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(
+            [setter](essmodule::ESSControlProfile& profile)
+            {
+                return setter(profile)->mutable_voltagesetpoint();
+            },
+            [getter](const essmodule::ESSControlProfile& profile) -> google::protobuf::FloatValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_voltagesetpoint() ? &value->voltagesetpoint() : nullptr;
                 }
                 else
                 {

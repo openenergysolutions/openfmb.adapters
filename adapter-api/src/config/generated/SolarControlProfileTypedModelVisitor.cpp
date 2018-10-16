@@ -1565,14 +1565,14 @@ void visit_solarmodule_SolarPoint(const set_t<solarmodule::SolarPoint>& setter, 
     }
 
     visitor.handle(
-        "xVal",
+        "startTime",
         MessageAccessorBuilder<solarmodule::SolarControlProfile,commonmodule::ControlTimestamp>::build(
-            [setter](solarmodule::SolarControlProfile& profile) { return setter(profile)->mutable_xval(); },
+            [setter](solarmodule::SolarControlProfile& profile) { return setter(profile)->mutable_starttime(); },
             [getter](const solarmodule::SolarControlProfile& profile, const handler_t<commonmodule::ControlTimestamp>& handler)
             {
                 const auto parent = getter(profile);
-                if(!parent || !parent->has_xval()) return false;
-                handler(parent->xval());
+                if(!parent || !parent->has_starttime()) return false;
+                handler(parent->starttime());
                 return true;
             }
         )

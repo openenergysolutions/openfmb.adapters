@@ -1,11 +1,12 @@
+
 #include "catch.hpp"
 
 #include "config/AccessorImpl.h"
-#include <proto-api/resourcemodule/resourcemodule.pb.h>
+#include <proto-api/metermodule/metermodule.pb.h>
 
 TEST_CASE( "accessor implementation" )
 {
-    using profile_t = resourcemodule::ResourceReadingProfile;
+    using profile_t = metermodule::MeterReadingProfile;
 
     const auto get_mrid = [](const profile_t& profile, const adapter::handler_t<std::string>& handler) -> bool {
         if (profile.has_meter() && profile.meter().has_conductingequipment()) {

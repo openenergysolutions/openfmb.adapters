@@ -94,11 +94,6 @@ namespace modbus {
         out << YAML::EndSeq;
     }
 
-    void ControlConfigWriteVisitor::write_mapped_function_parameter_keys(YAML::Emitter &out) {
-        write_default_operation_id(out);
-        write_index_and_scale(out);
-    }
-
     void ControlConfigWriteVisitor::write_mapped_schedule_parameter_keys(YAML::Emitter &out) {
         write_default_operation_id(out);
         write_index_and_scale(out);

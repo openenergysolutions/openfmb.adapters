@@ -68,11 +68,6 @@ namespace goose {
         out << YAML::Key << keys::name << YAML::Value << "";
     }
 
-    void SubscribingConfigWriteVisitor::write_mapped_function_parameter_keys(YAML::Emitter &out)
-    {
-        throw Exception("Function parameter lists not supported by GOOSE subscriber");
-    }
-
     void SubscribingConfigWriteVisitor::write_mapped_schedule_parameter_keys(YAML::Emitter &out)
     {
         throw Exception("schedule parameter lists not supported by GOOSE subscriber");

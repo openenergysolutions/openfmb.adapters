@@ -63,11 +63,6 @@ namespace goose {
         write_name(out);
     }
 
-    void PublishingConfigWriteVisitor::write_mapped_function_parameter_keys(YAML::Emitter &out)
-    {
-        throw Exception("Function parameter lists not supported by GOOSE publisher");
-    }
-
     void PublishingConfigWriteVisitor::write_mapped_schedule_parameter_keys(YAML::Emitter &out)
     {
         throw Exception("Schedule parameter lists not supported by GOOSE publisher");

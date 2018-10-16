@@ -7,7 +7,7 @@ import openfmb.essmodule.ESSStatusProfile;
 import openfmb.loadmodule.LoadControlProfile;
 import openfmb.loadmodule.LoadReadingProfile;
 import openfmb.loadmodule.LoadStatusProfile;
-import openfmb.resourcemodule.ResourceReadingProfile;
+import openfmb.metermodule.MeterReadingProfile;
 import openfmb.solarmodule.SolarControlProfile;
 import openfmb.solarmodule.SolarReadingProfile;
 import openfmb.solarmodule.SolarStatusProfile;
@@ -30,7 +30,8 @@ public class Profiles {
     {
         return new HashSet<>(
                 Arrays.asList(
-                        ResourceReadingProfile.getDescriptor(),
+                        // meter
+                        MeterReadingProfile.getDescriptor(),
                         // switch
                         SwitchReadingProfile.getDescriptor(),
                         SwitchStatusProfile.getDescriptor(),

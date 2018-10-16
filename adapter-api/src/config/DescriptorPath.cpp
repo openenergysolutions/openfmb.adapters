@@ -7,7 +7,7 @@
 
 namespace adapter {
 
-bool DescriptorPath::has_parents(const std::initializer_list<descriptor_ptr_t>& parents) const
+bool DescriptorPath::has_exact_parents(const std::initializer_list<descriptor_ptr_t>& parents) const
 {
     auto iter = this->fields.rbegin();
 
@@ -22,7 +22,7 @@ bool DescriptorPath::has_parents(const std::initializer_list<descriptor_ptr_t>& 
     return true;
 }
 
-bool DescriptorPath::has_parents(const std::initializer_list<Field>& parents) const
+bool DescriptorPath::has_exact_parents(const std::initializer_list<Field>& parents) const
 {
     auto iter = this->fields.rbegin();
 
@@ -35,6 +35,16 @@ bool DescriptorPath::has_parents(const std::initializer_list<Field>& parents) co
     }
 
     return true;
+}
+
+bool DescriptorPath::has_parent_somewhere(descriptor_ptr_t descriptor) const
+{
+    for(const auto& field : this->fields)
+    {
+        if(field.descriptor == descriptor) return true;
+    }
+
+    return false;
 }
 
 std::string DescriptorPath::as_string() const
