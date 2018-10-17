@@ -9,15 +9,16 @@ namespace adapter {
 namespace modbus {
 
     WriteMultipleRegistersTransaction::WriteMultipleRegistersTransaction(Logger logger, uint16_t start_index, uint16_t value)
-            : logger(std::move(logger))
-            , start_index(start_index)
-            , values({value})
-    {}
+        : logger(std::move(logger))
+        , start_index(start_index)
+        , values({ value })
+    {
+    }
 
     WriteMultipleRegistersTransaction::WriteMultipleRegistersTransaction(Logger logger, uint16_t start_index, std::vector<uint16_t> values)
-            : logger(std::move(logger))
-            , start_index(start_index)
-            , values(std::move(values))
+        : logger(std::move(logger))
+        , start_index(start_index)
+        , values(std::move(values))
     {
     }
 
@@ -32,16 +33,14 @@ namespace modbus {
 
         session->send_request(
             ::modbus::WriteMultipleRegistersRequest{ this->start_index, this->values },
-            write_callback
-        );
+            write_callback);
     }
 
     std::string WriteMultipleRegistersTransaction::get_description() const
     {
         std::ostringstream oss;
         oss << "write register: " << this->start_index << " with values: [";
-        for(auto value : this->values)
-        {
+        for (auto value : this->values) {
             oss << value << ",";
         }
         oss << "]";

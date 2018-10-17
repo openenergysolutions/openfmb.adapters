@@ -5,10 +5,10 @@
 #include <adapter-api/ISubscriptionHandler.h>
 #include <adapter-api/ProfileInfo.h>
 
+#include "CommandOptions.h"
 #include "CommandSink.h"
 #include "ICommandConfigBuilder.h"
 #include "ITransactionProcessor.h"
-#include "CommandOptions.h"
 
 namespace adapter {
 namespace modbus {

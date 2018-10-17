@@ -67,7 +67,8 @@ namespace dnp3 {
         out << YAML::EndMap;
     }
 
-    void ControlConfigWriteVisitor::write_mapped_schedule_parameter_keys(YAML::Emitter &out) {
+    void ControlConfigWriteVisitor::write_mapped_schedule_parameter_keys(YAML::Emitter& out)
+    {
         throw Exception("Schedule parameter not supported by DNP3 plugin");
     }
 }

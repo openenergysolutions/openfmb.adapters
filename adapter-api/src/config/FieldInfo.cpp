@@ -6,14 +6,13 @@
 
 #include <proto-api/commonmodule/commonmodule.pb.h>
 #include <proto-api/essmodule/essmodule.pb.h>
-#include <proto-api/switchmodule/switchmodule.pb.h>
-#include <proto-api/solarmodule/solarmodule.pb.h>
 #include <proto-api/loadmodule/loadmodule.pb.h>
+#include <proto-api/solarmodule/solarmodule.pb.h>
+#include <proto-api/switchmodule/switchmodule.pb.h>
 
 #include <functional>
 #include <map>
 #include <vector>
-
 
 namespace adapter {
 namespace fields {
@@ -396,6 +395,5 @@ namespace fields {
 
         return find_mapping_or_throw(map, field_name, path);
     }
-
 }
 }

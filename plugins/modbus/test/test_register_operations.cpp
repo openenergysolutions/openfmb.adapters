@@ -37,10 +37,8 @@ TEST_CASE("register operations behave as expected")
     SECTION("transactions can be combined")
     {
         const auto op = Operations::accumulate(
-                { Operations::set_mask(0x0001), Operations::clear_mask(0x0100) }
-        );
+            { Operations::set_mask(0x0001), Operations::clear_mask(0x0100) });
         REQUIRE(op->modify(0xFFFE) == 0xFEFF);
         REQUIRE(op->description() == "{ set(0x0001), clear(0x0100) }");
     }
 }
-

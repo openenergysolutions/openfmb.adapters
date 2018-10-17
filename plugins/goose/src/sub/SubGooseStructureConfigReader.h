@@ -148,7 +148,7 @@ namespace goose {
 
             m_funcs.push_back([accessor, name](const T& msg, goose_cpp::Dataset& dataset) {
                 auto present = accessor->if_present(msg, [&](const std::string& value) {
-                    dataset.add_visible_string(std::string{value});
+                    dataset.add_visible_string(std::string{ value });
                 });
 
                 if (!present) {
@@ -169,7 +169,7 @@ namespace goose {
 
             m_funcs.push_back([accessor, name](const T& msg, goose_cpp::Dataset& dataset) {
                 auto present = accessor->if_present(msg, [&](const std::string& value) {
-                    dataset.add_mms_string(std::string{value});
+                    dataset.add_mms_string(std::string{ value });
                 });
 
                 if (!present) {
@@ -194,30 +194,24 @@ namespace goose {
                         throw Exception{ "Value \"", name, "\" was not present in the message." };
                     }
                 });
-            }
-            else if(m_mappings.get_enum(name, accessor_enum))
-            {
+            } else if (m_mappings.get_enum(name, accessor_enum)) {
                 m_funcs.push_back([accessor = accessor_enum, name](const T& msg, goose_cpp::Dataset& dataset) {
                     auto present = accessor.first->if_present(msg, [&](int value) {
                         auto it = accessor.second.find(value);
-                        if(it == accessor.second.end())
-                        {
+                        if (it == accessor.second.end()) {
                             throw Exception{ "Enum value ", value, " was not mapped to a bitstring representation." };
                         }
-                        dataset.add_bitstring(goose_cpp::BitString{it->second});
+                        dataset.add_bitstring(goose_cpp::BitString{ it->second });
                     });
 
                     if (!present) {
                         throw Exception{ "Value \"", name, "\" was not present in the message." };
                     }
                 });
-            }
-            else
-            {
+            } else {
                 const auto mark = node.Mark();
                 throw Exception{ "Mapping \"", name, "\" is not a bitstring value for GOOSE element defined at line ", mark.line + 1 };
             }
-
         }
 
         void on_generalized_time(const YAML::Node& node) final
@@ -298,11 +292,9 @@ namespace goose {
 
         static goose_cpp::BitString quality_to_bitstring(const commonmodule::Quality& quality)
         {
-            goose_cpp::BitString result{13};
-            result.set(0, quality.validity() == commonmodule::ValidityKind::ValidityKind_reserved ||
-                          quality.validity() == commonmodule::ValidityKind::ValidityKind_questionable);
-            result.set(1, quality.validity() == commonmodule::ValidityKind::ValidityKind_invalid ||
-                          quality.validity() == commonmodule::ValidityKind::ValidityKind_questionable);
+            goose_cpp::BitString result{ 13 };
+            result.set(0, quality.validity() == commonmodule::ValidityKind::ValidityKind_reserved || quality.validity() == commonmodule::ValidityKind::ValidityKind_questionable);
+            result.set(1, quality.validity() == commonmodule::ValidityKind::ValidityKind_invalid || quality.validity() == commonmodule::ValidityKind::ValidityKind_questionable);
             result.set(2, quality.detailqual().overflow());
             result.set(3, quality.detailqual().outofrange());
             result.set(4, quality.detailqual().badreference());

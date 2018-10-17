@@ -67,7 +67,7 @@ namespace modbus {
         out << YAML::EndSeq;
     }
 
-    void MeasurementConfigWriteVisitor::write_mapped_schedule_parameter_keys(YAML::Emitter &out)
+    void MeasurementConfigWriteVisitor::write_mapped_schedule_parameter_keys(YAML::Emitter& out)
     {
         throw Exception("schdule parameter lists not supported for Modbus measurement profiles");
     }

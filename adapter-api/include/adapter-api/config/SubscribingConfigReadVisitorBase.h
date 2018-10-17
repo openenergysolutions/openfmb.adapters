@@ -119,21 +119,18 @@ void SubscribingConfigReadVisitorBase<T>::handle(const std::string& field_name, 
     const auto node = this->get_config_node(field_name);
     const auto field_type = yaml::require_enum<StringFieldType>(node);
 
-    switch(field_type)
-    {
-        case StringFieldType::Value::primary_uuid:
-        {
-            if (!this->mRID.empty()) {
-                throw Exception("the primary mRID may only be specified once");
-            }
+    switch (field_type) {
+    case StringFieldType::Value::primary_uuid: {
+        if (!this->mRID.empty()) {
+            throw Exception("the primary mRID may only be specified once");
+        }
 
-            this->mRID = yaml::require_uuid(node, ::adapter::keys::value);
-            break;
-        }
-        case StringFieldType::Value::mapped:
-        {
-            this->handle_mapped_field(node, accessor);
-        }
+        this->mRID = yaml::require_uuid(node, ::adapter::keys::value);
+        break;
+    }
+    case StringFieldType::Value::mapped: {
+        this->handle_mapped_field(node, accessor);
+    }
     }
 }
 

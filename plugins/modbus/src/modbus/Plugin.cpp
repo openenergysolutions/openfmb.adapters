@@ -20,9 +20,9 @@
 #include "CommandPriorityMap.h"
 #include "ConfigStrings.h"
 #include "PublishConfigReadVisitor.h"
+#include "SessionWrapper.h"
 #include "SubscribeConfigReadVisitor.h"
 #include "TransactionProcessor.h"
-#include "SessionWrapper.h"
 
 namespace adapter {
 namespace modbus {
@@ -37,18 +37,15 @@ namespace modbus {
         static return_t<profile_info<U>::is_control> handle(const YAML::Node& node, const Logger& logger, message_bus_t bus, std::shared_ptr<PollHandler> handler, std::shared_ptr<ITransactionProcessor> processor)
         {
             CommandPriorityMap priority_map;
-            yaml::foreach(
-                    yaml::require(node, keys::command_order),
-                    [&priority_map](const YAML::Node& node)
-                    {
-                        priority_map.add_operation(node.Scalar());
-                    }
-            );
+            yaml::foreach (
+                yaml::require(node, keys::command_order),
+                [&priority_map](const YAML::Node& node) {
+                    priority_map.add_operation(node.Scalar());
+                });
 
             SubscribeConfigReadVisitor<T> visitor(
                 yaml::require(node, ::adapter::keys::mapping),
-                priority_map
-            );
+                priority_map);
             visit(visitor);
 
             priority_map.assert_all_operations_referenced();
@@ -97,7 +94,7 @@ namespace modbus {
         const auto poll_handler = std::make_shared<PollHandler>();
         const auto tx_handler = std::make_shared<TransactionProcessor>(this->logger);
 
-        const CommandOptions options {
+        const CommandOptions options{
             yaml::require(node, keys::always_write_multiple_registers).as<bool>()
         };
 
@@ -120,8 +117,7 @@ namespace modbus {
                 this->logger,
                 bus,
                 poll_handler,
-                tx_handler
-            );
+                tx_handler);
         };
 
         yaml::foreach (yaml::require(node, ::adapter::keys::profiles), add_profile);
@@ -165,14 +161,19 @@ namespace modbus {
 
     ::modbus::LoggingLevel Plugin::get_modbus_logging_level(const LogLevel::Value level) const
     {
-        switch(level)
-        {
-            case LogLevel::Value::Trace: return ::modbus::LoggingLevel::Trace;
-            case LogLevel::Value::Debug: return ::modbus::LoggingLevel::Debug;
-            case LogLevel::Value::Info: return ::modbus::LoggingLevel::Info;
-            case LogLevel::Value::Warn: return ::modbus::LoggingLevel::Warn;
-            case LogLevel::Value::Error: return ::modbus::LoggingLevel::Error;
-            case LogLevel::Value::Critical: return ::modbus::LoggingLevel::Critical;
+        switch (level) {
+        case LogLevel::Value::Trace:
+            return ::modbus::LoggingLevel::Trace;
+        case LogLevel::Value::Debug:
+            return ::modbus::LoggingLevel::Debug;
+        case LogLevel::Value::Info:
+            return ::modbus::LoggingLevel::Info;
+        case LogLevel::Value::Warn:
+            return ::modbus::LoggingLevel::Warn;
+        case LogLevel::Value::Error:
+            return ::modbus::LoggingLevel::Error;
+        case LogLevel::Value::Critical:
+            return ::modbus::LoggingLevel::Critical;
         }
     }
 

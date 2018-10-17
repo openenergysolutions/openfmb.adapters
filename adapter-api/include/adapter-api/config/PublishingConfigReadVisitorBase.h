@@ -47,8 +47,8 @@ public:
 
     void handle(const std::string& field_name, const message_accessor_t<T, commonmodule::ControlTimestamp>& accessor) override;
 
-    void handle(const std::string &field_name,
-                const getter_t<T, google::protobuf::RepeatedPtrField<commonmodule::ENG_ScheduleParameter>> &getter) override;
+    void handle(const std::string& field_name,
+                const getter_t<T, google::protobuf::RepeatedPtrField<commonmodule::ENG_ScheduleParameter>>& getter) override;
 
 protected:
     explicit PublishingConfigReadVisitorBase(const YAML::Node& root)
@@ -228,7 +228,7 @@ void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, c
     const auto node = this->get_config_node(field_name);
     const auto field_type = yaml::require_enum<QualityFieldType>(node);
 
-    if(field_type == QualityFieldType::Value::mapped) {
+    if (field_type == QualityFieldType::Value::mapped) {
         this->handle_mapped_quality(node, accessor);
     }
 }
@@ -239,13 +239,12 @@ void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, c
     const auto node = this->get_config_node(field_name);
     const auto field_type = yaml::require_enum<TimestampFieldType>(node);
 
-    switch(field_type)
-    {
+    switch (field_type) {
     case TimestampFieldType::Value::message:
         this->add_message_complete_action(
-                [accessor](T& profile) {
-                    time::set(std::chrono::system_clock::now(), *accessor->mutable_get(profile));
-                });
+            [accessor](T& profile) {
+                time::set(std::chrono::system_clock::now(), *accessor->mutable_get(profile));
+            });
         break;
     case TimestampFieldType::Value::mapped:
         this->handle_mapped_timestamp(node, accessor);
@@ -262,8 +261,8 @@ void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, c
     // ignore for now
 }
 
-template<class T>
-void PublishingConfigReadVisitorBase<T>::handle(const std::string &field_name, const getter_t<T, google::protobuf::RepeatedPtrField<commonmodule::ENG_ScheduleParameter>> &getter)
+template <class T>
+void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, const getter_t<T, google::protobuf::RepeatedPtrField<commonmodule::ENG_ScheduleParameter>>& getter)
 {
     // ignore for now
 }
@@ -341,8 +340,6 @@ void PublishingConfigReadVisitorBase<T>::handle_const_enum(const YAML::Node& nod
             accessor->set(profile, value);
         });
 }
-
-
 }
 
 #endif

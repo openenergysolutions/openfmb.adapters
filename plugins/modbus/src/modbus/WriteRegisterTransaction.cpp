@@ -8,9 +8,9 @@ namespace adapter {
 namespace modbus {
 
     WriteRegisterTransaction::WriteRegisterTransaction(Logger logger, uint16_t index, uint16_t value)
-            : logger(std::move(logger))
-            , index(index)
-            , value(value)
+        : logger(std::move(logger))
+        , index(index)
+        , value(value)
     {
     }
 
@@ -24,7 +24,7 @@ namespace modbus {
         };
 
         session->send_request(
-            ::modbus::WriteSingleRegisterRequest{::modbus::RegisterValue{this->index, this->value } },
+            ::modbus::WriteSingleRegisterRequest{ ::modbus::RegisterValue{ this->index, this->value } },
             write_callback);
     }
 
@@ -32,13 +32,10 @@ namespace modbus {
     {
         std::ostringstream oss;
 
-        if(this->value > std::numeric_limits<int16_t>::max())
-        {
+        if (this->value > std::numeric_limits<int16_t>::max()) {
             // also describe the value as a negative integer if it exceeds the maximum value of int16_t
             oss << "write register: " << this->index << " with value: " << this->value << " (" << static_cast<int16_t>(this->value) << ")";
-        }
-        else
-        {
+        } else {
             oss << "write register: " << this->index << " with value: " << this->value;
         }
         return oss.str();

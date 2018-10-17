@@ -29,7 +29,6 @@ namespace modbus {
 
                     std::make_shared<WriteRegisterTransaction>(self->logger, self->address, write_value)->start(session, callback);
 
-
                 } else {
                     self->logger.warn("response does not contain a single value: {}", response.get().values.size());
                     callback(false);
@@ -41,7 +40,7 @@ namespace modbus {
         };
 
         session->send_request(
-            ::modbus::ReadHoldingRegistersRequest{this->address, 1},
+            ::modbus::ReadHoldingRegistersRequest{ this->address, 1 },
             read_handler);
     }
 }

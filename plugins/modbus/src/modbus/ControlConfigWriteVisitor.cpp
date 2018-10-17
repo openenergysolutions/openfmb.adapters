@@ -3,8 +3,8 @@
 #include "ControlConfigWriteVisitor.h"
 
 #include "ConfigStrings.h"
-#include "generated/OutputType.h"
 #include "generated/BitwiseOperation.h"
+#include "generated/OutputType.h"
 
 #include <adapter-api/ConfigStrings.h>
 #include <adapter-api/util/EnumUtil.h>
@@ -19,7 +19,7 @@ namespace modbus {
         out << YAML::Key << keys::operation_ids << "some-operation-id";
     }
 
-    void write_index_and_scale(YAML::Emitter &out)
+    void write_index_and_scale(YAML::Emitter& out)
     {
         out << YAML::Key << ::adapter::keys::index << YAML::Value << 0;
         out << YAML::Key << ::adapter::keys::scale << YAML::Value << 1.0;
@@ -94,7 +94,8 @@ namespace modbus {
         out << YAML::EndSeq;
     }
 
-    void ControlConfigWriteVisitor::write_mapped_schedule_parameter_keys(YAML::Emitter &out) {
+    void ControlConfigWriteVisitor::write_mapped_schedule_parameter_keys(YAML::Emitter& out)
+    {
         write_default_operation_id(out);
         write_index_and_scale(out);
     }

@@ -51,4 +51,4 @@ target_include_directories(twinoaks-dds-plugin INTERFACE "${CMAKE_CURRENT_SOURCE
 target_include_directories(twinoaks-dds-plugin PRIVATE ${DDS_GEN_PATH})
 target_link_libraries(twinoaks-dds-plugin adapter-api ${DDS} ${DDS_CPP} dl)
 clang_tidy(twinoaks-dds-plugin)
-clang_format(twinoaks-dds-plugin)
+clang_format(twinoaks-dds-plugin EXCLUDES "/generated-sources/" "/generated/")

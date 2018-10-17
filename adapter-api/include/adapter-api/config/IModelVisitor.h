@@ -29,7 +29,6 @@ public:
     // --- handlers for specialized repeated fields ---
     virtual void handle_repeated_schedule_parameter(const std::string& field_name) = 0;
 };
-
 }
 
 #endif

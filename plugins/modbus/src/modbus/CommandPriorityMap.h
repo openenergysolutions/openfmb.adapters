@@ -14,14 +14,16 @@ namespace modbus {
         struct Value {
 
             Value() = default;
-            Value(size_t priority) : priority(priority) {}
+            Value(size_t priority)
+                : priority(priority)
+            {
+            }
 
             size_t priority = 0;
             bool referenced = false;
         };
 
     public:
-
         void add_operation(const std::string& operation_id);
 
         /**

@@ -6,8 +6,8 @@
 #include "ICommandConfigBuilder.h"
 #include "ICommandPrioritySource.h"
 
-#include "generated/OutputType.h"
 #include "generated/BitwiseOperation.h"
+#include "generated/OutputType.h"
 
 #include <yaml-cpp/yaml.h>
 
@@ -93,10 +93,9 @@ namespace modbus {
                         const auto priority = priority_source.get_priority(node);
                         const auto value = yaml::require_integer<uint16_t>(node, ::adapter::keys::value);
                         actions.push_back(
-                                [index, priority, value](ICommandSink &sink) {
-                                    sink.write_single_register(index, priority, value);
-                                }
-                        );
+                            [index, priority, value](ICommandSink& sink) {
+                                sink.write_single_register(index, priority, value);
+                            });
                         break;
                     }
                     default:
@@ -135,7 +134,7 @@ namespace modbus {
             return std::move(map);
         }
 
-        using schedule_parameter_map_t = std::map<commonmodule::ScheduleParameterKind, std::function<void (ICommandSink& sink, float value)>>;
+        using schedule_parameter_map_t = std::map<commonmodule::ScheduleParameterKind, std::function<void(ICommandSink& sink, float value)>>;
 
         schedule_parameter_map_t schedule_parameter_configuration(const YAML::Node& node, ICommandPrioritySource& priority_source)
         {
@@ -143,12 +142,10 @@ namespace modbus {
             schedule_parameter_map_t action_map;
 
             // loop over all the entries in the sequence, building up the action map
-            const auto add_to_action_map = [&](const YAML::Node& entry)
-            {
+            const auto add_to_action_map = [&](const YAML::Node& entry) {
                 const auto name = yaml::require_string(entry, ::adapter::keys::scheduleParameterType);
                 const auto value = commonmodule::ScheduleParameterKind_descriptor()->FindValueByName(name);
-                if(!value)
-                {
+                if (!value) {
                     throw Exception("'", name, "' is not a valid value for enumeration ", commonmodule::ScheduleParameterKind_descriptor()->name());
                 }
 
@@ -157,17 +154,15 @@ namespace modbus {
                 const auto priority = priority_source.get_priority(entry);
                 const auto enum_value = static_cast<commonmodule::ScheduleParameterKind>(value->number());
 
-                action_map[enum_value] = [index, scale, priority](ICommandSink& sink, float value)
-                {
-                    sink.write_single_register(index, priority, static_cast<uint16_t>(value*scale));
+                action_map[enum_value] = [index, scale, priority](ICommandSink& sink, float value) {
+                    sink.write_single_register(index, priority, static_cast<uint16_t>(value * scale));
                 };
             };
 
-            yaml::foreach(node, add_to_action_map);
+            yaml::foreach (node, add_to_action_map);
 
             return std::move(action_map);
         }
-
     }
 }
 }

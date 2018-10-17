@@ -3,25 +3,25 @@
 
 #include <adapter-api/util/Exception.h>
 
-#include <sstream>
 #include <iomanip>
-
+#include <sstream>
 
 namespace adapter {
 namespace modbus {
 
     struct Bit {
 
-        Bit(uint8_t value) : value(value)
+        Bit(uint8_t value)
+            : value(value)
         {
-            if(value > 15) {
+            if (value > 15) {
                 throw Exception("Value for bit outside the range [0,15]: ", static_cast<int>(value));
             }
         }
 
         uint16_t to_mask() const
         {
-            return static_cast<uint16_t >(1 << value);
+            return static_cast<uint16_t>(1 << value);
         }
 
         const uint8_t value;
@@ -38,7 +38,10 @@ namespace modbus {
         const Bit bit;
 
     public:
-        ClearBitOperation(uint8_t value) : bit(value) {}
+        ClearBitOperation(uint8_t value)
+            : bit(value)
+        {
+        }
 
         uint16_t modify(uint16_t input) const override
         {
@@ -57,7 +60,10 @@ namespace modbus {
         const Bit bit;
 
     public:
-        SetBitOperation(uint8_t value) : bit(value) {}
+        SetBitOperation(uint8_t value)
+            : bit(value)
+        {
+        }
 
         uint16_t modify(uint16_t input) const override
         {
@@ -76,7 +82,10 @@ namespace modbus {
         const uint16_t mask;
 
     public:
-        ClearMaskOperation(const uint16_t mask) : mask(mask) {}
+        ClearMaskOperation(const uint16_t mask)
+            : mask(mask)
+        {
+        }
 
         uint16_t modify(uint16_t input) const override
         {
@@ -93,7 +102,10 @@ namespace modbus {
         const uint16_t mask;
 
     public:
-        SetMaskOperation(const uint16_t mask) : mask(mask) {}
+        SetMaskOperation(const uint16_t mask)
+            : mask(mask)
+        {
+        }
 
         uint16_t modify(uint16_t input) const override
         {
@@ -110,7 +122,10 @@ namespace modbus {
         const uint16_t mask;
 
     public:
-        InvertMaskOperation(const uint16_t mask) : mask(mask) {}
+        InvertMaskOperation(const uint16_t mask)
+            : mask(mask)
+        {
+        }
 
         uint16_t modify(uint16_t input) const override
         {
@@ -128,14 +143,14 @@ namespace modbus {
         const std::vector<modify_reg_op_t> operations;
 
     public:
-
-        AccumulatedOperation(std::vector<modify_reg_op_t> operations) :
-                operations(std::move(operations)) {}
+        AccumulatedOperation(std::vector<modify_reg_op_t> operations)
+            : operations(std::move(operations))
+        {
+        }
 
         uint16_t modify(uint16_t input) const override
         {
-            for(const auto& op : this->operations)
-            {
+            for (const auto& op : this->operations) {
                 input = op->modify(input);
             }
             return input;
@@ -146,10 +161,8 @@ namespace modbus {
             std::ostringstream oss;
             oss << "{ ";
 
-            for(size_t i = 0; i < this->operations.size(); ++i)
-            {
-                if(i != 0)
-                {
+            for (size_t i = 0; i < this->operations.size(); ++i) {
+                if (i != 0) {
                     oss << ", ";
                 }
                 oss << this->operations[i]->description();
@@ -189,9 +202,5 @@ namespace modbus {
     {
         return std::make_shared<AccumulatedOperation>(std::move(operations));
     }
-
-
 }
 }
-
-

@@ -18,9 +18,8 @@ namespace modbus {
 
     void CommandPriorityMap::assert_all_operations_referenced()
     {
-        for(const auto& elem : this->priority_map)
-        {
-            if(!elem.second.referenced) {
+        for (const auto& elem : this->priority_map) {
+            if (!elem.second.referenced) {
                 throw Exception("Command order list contains unreferenced operation id: '", elem.first, "'");
             }
         }
@@ -36,7 +35,5 @@ namespace modbus {
         elem->second.referenced = true;
         return elem->second.priority;
     }
-
-
 }
 }

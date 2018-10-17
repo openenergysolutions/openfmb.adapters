@@ -6,8 +6,8 @@
 #include "modbus/IModbusManager.h"
 #include "modbus/session/ISession.h"
 
-#include "PollHandler.h"
 #include "CommandOptions.h"
+#include "PollHandler.h"
 #include "generated/LogLevel.h"
 
 namespace adapter {

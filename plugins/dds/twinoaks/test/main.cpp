@@ -3,9 +3,10 @@
 
 #include <google/protobuf/stubs/common.h>
 
-int main( int argc, char* argv[] ) {
+int main(int argc, char* argv[])
+{
 
-    int result = Catch::Session().run( argc, argv );
+    int result = Catch::Session().run(argc, argv);
 
     // removes the false positives for valgrind memory leaks from global protobuf objects
     google::protobuf::ShutdownProtobufLibrary();

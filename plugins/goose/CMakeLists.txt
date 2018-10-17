@@ -53,4 +53,4 @@ target_include_directories(goose-plugin
         PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
         PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 clang_tidy(goose-plugin)
-clang_format(goose-plugin)
+clang_format(goose-plugin EXCLUDES "/generated/")

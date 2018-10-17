@@ -25,7 +25,6 @@ namespace modbus {
 
         void start(session_t session, const callback_t& callback) override;
     };
-
 }
 }
 

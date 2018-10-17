@@ -57,7 +57,8 @@ namespace dnp3 {
         out << YAML::Key << ::adapter::keys::when_false << YAML::Value << descriptor->value(1)->name();
     }
 
-    void MeasurementConfigWriteVisitor::write_mapped_schedule_parameter_keys(YAML::Emitter &out) {
+    void MeasurementConfigWriteVisitor::write_mapped_schedule_parameter_keys(YAML::Emitter& out)
+    {
         throw Exception("Schedule parameter lists not supported for DNP3 measurement profiles");
     }
 }

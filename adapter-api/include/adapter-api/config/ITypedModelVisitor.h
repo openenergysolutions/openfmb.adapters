@@ -16,8 +16,6 @@ using repeated_schedule_parameter_t = google::protobuf::RepeatedPtrField<commonm
 template <class P>
 class ITypedModelVisitor : public IMessageFieldHandler {
 
-
-
 public:
     // --- handlers for the various primitive types ---
     virtual void handle(const std::string& field_name, const accessor_t<P, bool>& accessor) = 0;
@@ -34,7 +32,6 @@ public:
 
     // --- handler for specialized repetitions in inside of schedules ---
     virtual void handle(const std::string& field_name, const getter_t<P, repeated_schedule_parameter_t>& getter) = 0;
-
 };
 }
 

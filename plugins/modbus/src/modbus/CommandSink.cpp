@@ -3,8 +3,8 @@
 
 #include "ModifyRegisterTransaction.h"
 #include "OrderedTransaction.h"
-#include "WriteRegisterTransaction.h"
 #include "WriteMultipleRegistersTransaction.h"
+#include "WriteRegisterTransaction.h"
 
 namespace adapter {
 namespace modbus {
@@ -28,12 +28,10 @@ namespace modbus {
     void CommandSink::write_single_register(uint16_t index, size_t priority, uint16_t value)
     {
         this->transactions.emplace_back(
-                        [index, value](Logger logger) -> std::shared_ptr<ITransaction>
-                        {
-                            return std::make_shared<WriteRegisterTransaction>(logger, index, value);
-                        },
-                        priority
-        );
+            [index, value](Logger logger) -> std::shared_ptr<ITransaction> {
+                return std::make_shared<WriteRegisterTransaction>(logger, index, value);
+            },
+            priority);
     }
 
     void CommandSink::modify_single_register(uint16_t index, size_t priority, modify_reg_op_t operation)
@@ -48,9 +46,8 @@ namespace modbus {
         // create transactions from transaction generators
         for (const auto& transaction : this->transactions) {
             items.emplace_back(
-                    transaction.first(logger),
-                    transaction.second
-                );
+                transaction.first(logger),
+                transaction.second);
         }
 
         for (const auto& op : this->modify_map) {
@@ -77,7 +74,5 @@ namespace modbus {
 
         return std::move(transaction);
     }
-
-
 }
 }

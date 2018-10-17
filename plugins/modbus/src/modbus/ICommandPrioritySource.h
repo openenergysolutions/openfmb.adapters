@@ -2,8 +2,8 @@
 #ifndef OPENFMB_ADAPTER_ICOMMANDPRIORITYSOURCE_H
 #define OPENFMB_ADAPTER_ICOMMANDPRIORITYSOURCE_H
 
-#include "generated/CommandType.h"
 #include "ConfigStrings.h"
+#include "generated/CommandType.h"
 
 #include <adapter-api/util/YAMLUtil.h>
 

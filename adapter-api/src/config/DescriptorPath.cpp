@@ -39,9 +39,9 @@ bool DescriptorPath::has_exact_parents(const std::initializer_list<Field>& paren
 
 bool DescriptorPath::has_parent_somewhere(descriptor_ptr_t descriptor) const
 {
-    for(const auto& field : this->fields)
-    {
-        if(field.descriptor == descriptor) return true;
+    for (const auto& field : this->fields) {
+        if (field.descriptor == descriptor)
+            return true;
     }
 
     return false;

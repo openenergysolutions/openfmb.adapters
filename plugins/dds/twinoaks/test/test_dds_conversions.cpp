@@ -11,7 +11,7 @@ void convert_round_trip(const P& input, P& output)
     adapter::dds::convert_to_proto(dds, output);
 }
 
-TEST_CASE( "protobuf <=> DDS conversions round trip correctly" )
+TEST_CASE("protobuf <=> DDS conversions round trip correctly")
 {
 
     metermodule::MeterReadingProfile input;

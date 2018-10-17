@@ -8,11 +8,11 @@
 #include "CommandConfiguration.h"
 #include "CommandSubscriptionHandler.h"
 
+#include "CommandOptions.h"
 #include "CommandSinkActions.h"
 #include "ITransactionProcessor.h"
 #include "ModifyRegisterTransaction.h"
 #include "generated/OutputType.h"
-#include "CommandOptions.h"
 
 #include <map>
 
@@ -30,7 +30,7 @@ namespace modbus {
 
         void subscribe(const Logger& logger, IMessageBus& bus, std::shared_ptr<ITransactionProcessor> tx_processor);
 
-        void handle(const std::string &field_name, const getter_t<T, repeated_schedule_parameter_t>& getter) override;
+        void handle(const std::string& field_name, const getter_t<T, repeated_schedule_parameter_t>& getter) override;
 
     protected:
         // implement pure virtual methods from base class
@@ -135,39 +135,32 @@ namespace modbus {
             });
     }
 
-    template<class T>
-    void SubscribeConfigReadVisitor<T>::handle(const std::string &field_name, const getter_t<T, repeated_schedule_parameter_t>& getter)
+    template <class T>
+    void SubscribeConfigReadVisitor<T>::handle(const std::string& field_name, const getter_t<T, repeated_schedule_parameter_t>& getter)
     {
         const auto node = this->get_config_node(field_name);
 
         this->config->add(
-                [getter, map = read::schedule_parameter_configuration(node, this->priority_source)](const T& profile, ICommandSink& sink, Logger& logger) {
-                    const auto parameters = getter(profile);
+            [getter, map = read::schedule_parameter_configuration(node, this->priority_source)](const T& profile, ICommandSink& sink, Logger& logger) {
+                const auto parameters = getter(profile);
 
-                    if(!parameters) return;
+                if (!parameters)
+                    return;
 
-                    for(auto param : *parameters)
-                    {
-                        auto entry = map.find(param.scheduleparametertype());
-                        if(entry == map.end())
-                        {
-                            const auto value = commonmodule::ScheduleParameterKind_descriptor()->FindValueByNumber(param.scheduleparametertype());
-                            if(value)
-                            {
-                                logger.warn("No configured mapping for schedule parameter: {}", value->name());
-                            }
+                for (auto param : *parameters) {
+                    auto entry = map.find(param.scheduleparametertype());
+                    if (entry == map.end()) {
+                        const auto value = commonmodule::ScheduleParameterKind_descriptor()->FindValueByNumber(param.scheduleparametertype());
+                        if (value) {
+                            logger.warn("No configured mapping for schedule parameter: {}", value->name());
                         }
-                        else
-                        {
-                            // perform the action using the parameter's value
-                            entry->second(sink, param.value());
-                        }
+                    } else {
+                        // perform the action using the parameter's value
+                        entry->second(sink, param.value());
                     }
-
                 }
-        );
+            });
     }
-
 }
 }
 

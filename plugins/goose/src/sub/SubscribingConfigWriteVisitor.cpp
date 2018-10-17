@@ -42,8 +42,7 @@ namespace goose {
         out << YAML::Key << keys::name << YAML::Value << "";
         out << YAML::Key << ::adapter::keys::mapping << YAML::Value;
         out << YAML::BeginSeq;
-        for (auto i = 0; i < descriptor->value_count(); ++i)
-        {
+        for (auto i = 0; i < descriptor->value_count(); ++i) {
             const auto value = descriptor->value(i);
             out << YAML::BeginMap;
             out << YAML::Key << ::adapter::keys::name << YAML::Value << value->name();
@@ -68,11 +67,10 @@ namespace goose {
         out << YAML::Key << keys::name << YAML::Value << "";
     }
 
-    void SubscribingConfigWriteVisitor::write_mapped_schedule_parameter_keys(YAML::Emitter &out)
+    void SubscribingConfigWriteVisitor::write_mapped_schedule_parameter_keys(YAML::Emitter& out)
     {
         throw Exception("schedule parameter lists not supported by GOOSE subscriber");
     }
-
 
 } // namespace goose
 } // namespace adapter

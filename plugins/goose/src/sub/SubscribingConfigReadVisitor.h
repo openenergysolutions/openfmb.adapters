@@ -125,8 +125,7 @@ namespace goose {
         void handle_mapped_field(const YAML::Node& node, const accessor_t<T, bool>& accessor) final
         {
             std::string name;
-            if(get_name(node, name))
-            {
+            if (get_name(node, name)) {
                 m_bool_accessors.insert({ name, accessor });
             }
         }
@@ -134,8 +133,7 @@ namespace goose {
         void handle_mapped_field(const YAML::Node& node, const accessor_t<T, int32_t>& accessor) final
         {
             std::string name;
-            if(get_name(node, name))
-            {
+            if (get_name(node, name)) {
                 m_int32_accessors.insert({ name, accessor });
             }
         }
@@ -143,8 +141,7 @@ namespace goose {
         void handle_mapped_field(const YAML::Node& node, const accessor_t<T, int64_t>& accessor) final
         {
             std::string name;
-            if(get_name(node, name))
-            {
+            if (get_name(node, name)) {
                 m_int64_accessors.insert({ name, accessor });
             }
         }
@@ -152,8 +149,7 @@ namespace goose {
         void handle_mapped_field(const YAML::Node& node, const accessor_t<T, float>& accessor) final
         {
             std::string name;
-            if(get_name(node, name))
-            {
+            if (get_name(node, name)) {
                 m_float_accessors.insert({ name, accessor });
             }
         }
@@ -161,8 +157,7 @@ namespace goose {
         void handle_mapped_field(const YAML::Node& node, const accessor_t<T, std::string>& accessor) final
         {
             std::string name;
-            if(get_name(node, name))
-            {
+            if (get_name(node, name)) {
                 m_string_accessors.insert({ name, accessor });
             }
         }
@@ -170,17 +165,16 @@ namespace goose {
         void handle_mapped_field(const YAML::Node& node, const accessor_t<T, int>& accessor, google::protobuf::EnumDescriptor const* descriptor) final
         {
             std::string name;
-            if(get_name(node, name))
-            {
+            if (get_name(node, name)) {
                 std::unordered_map<int, goose_cpp::BitString> mapping{};
-                yaml::foreach(yaml::require(node, ::adapter::keys::mapping), [&](const YAML::Node& node) {
+                yaml::foreach (yaml::require(node, ::adapter::keys::mapping), [&](const YAML::Node& node) {
                     const auto name = yaml::require_string(node, ::adapter::keys::name);
                     const auto value = descriptor->FindValueByName(name);
                     if (!value)
                         throw Exception("Unknown enum value: ", name);
                     const auto output = yaml::require_string(node, ::adapter::keys::value);
                     auto bit_string = goose_cpp::BitString::from_string(output);
-                    mapping.insert({value->number(), bit_string});
+                    mapping.insert({ value->number(), bit_string });
                 });
 
                 m_enum_accessors.insert({ name, std::make_pair(accessor, mapping) });
@@ -190,8 +184,7 @@ namespace goose {
         void handle_mapped_field(const YAML::Node& node, const message_accessor_t<T, commonmodule::Quality>& accessor) final
         {
             std::string name;
-            if(get_name(node, name))
-            {
+            if (get_name(node, name)) {
                 m_quality_accessors.insert({ name, accessor });
             }
         }
@@ -199,30 +192,25 @@ namespace goose {
         void handle_mapped_field(const YAML::Node& node, const message_accessor_t<T, commonmodule::Timestamp>& accessor) final
         {
             std::string name;
-            if(get_name(node, name))
-            {
+            if (get_name(node, name)) {
                 m_timestamp_accessors.insert({ name, accessor });
             }
         }
 
     public:
-
         // --- ignore these schedule types as they only occur in control profiles
 
         void handle(const std::string& field_name, const getter_t<T, repeated_schedule_parameter_t>& getter) override
         {
-
         }
 
     private:
         bool get_name(const YAML::Node& node, std::string& value)
         {
             const auto name_node = node[keys::name];
-            if(name_node)
-            {
+            if (name_node) {
                 value = name_node.as<std::string>();
-                if(!value.empty())
-                {
+                if (!value.empty()) {
                     auto result = m_names.insert(value);
                     if (!result.second) {
                         throw Exception{ "Duplicate mapping name \"", value, "\"." };

@@ -182,11 +182,10 @@ namespace log {
                 this->tags.push_back(TagPair{
                     yaml::require_string(node, keys::tag),
                     yaml::require_string(node, keys::alias),
-                    yaml::require(node, keys::digits).as<int>()
-                });
+                    yaml::require(node, keys::digits).as<int>() });
             };
 
-            yaml::foreach(values, add_tag);
+            yaml::foreach (values, add_tag);
         }
 
     private:
