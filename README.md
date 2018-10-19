@@ -49,6 +49,8 @@ Create a build directory, and then have conan check that all dependencies are in
 > conan install ..
 ```
 
+This can take a long time the first time it runs on your system.
+
 Run *cmake* to create a build file for your platform, optionally disabling components:
 
 ```
@@ -56,13 +58,13 @@ Run *cmake* to create a build file for your platform, optionally disabling compo
 ```
 Plugins can be optionally enabled or disabled:
 
-* **-DOPENFMB_USE_DNP3={OFF|ON}
-* **-DOPENFMB_USE_TWINOAKS_DDS={OFF|ON}  (off by default)
-* **-DOPENFMB_USE_MODBUS={OFF|ON}
-* **-DOPENFMB_USE_GOOSE={OFF|ON}
-* **-DOPENFMB_USE_NATS={OFF|ON}
-* **-DOPENFMB_USE_TWINOAKS_DDS={OFF|ON}
-* **-DOPENFMB_USE_TIMESCALEDB={OFF|ON}
+* **-DOPENFMB_USE_DNP3={OFF|ON}**
+* **-DOPENFMB_USE_TWINOAKS_DDS={OFF|ON}**  (off by default)
+* **-DOPENFMB_USE_MODBUS={OFF|ON}**
+* **-DOPENFMB_USE_GOOSE={OFF|ON}**
+* **-DOPENFMB_USE_NATS={OFF|ON}**
+* **-DOPENFMB_USE_TWINOAKS_DDS={OFF|ON}**
+* **-DOPENFMB_USE_TIMESCALEDB={OFF|ON}**
 
 You can then run your build using the build file created by cmake
 
