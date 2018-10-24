@@ -10,11 +10,10 @@ namespace adapter {
 namespace nats {
     constexpr static const char* openfmb = "openfmb";
 
-    template <class T>
-    std::string get_subscribe_all_subject_name()
+    std::string get_subject_name(const std::string& profile, const std::string& suffix)
     {
         std::ostringstream oss;
-        oss << openfmb << "." << T::descriptor()->full_name() << ".*";
+        oss << openfmb << "." << profile << "." << suffix;
         return oss.str();
     }
 

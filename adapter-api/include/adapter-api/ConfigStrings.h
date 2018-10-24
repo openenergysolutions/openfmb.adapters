@@ -21,7 +21,6 @@ namespace keys {
     constexpr const char* const outputs = "outputs";
     constexpr const char* const command_order = "command-order";
     constexpr const char* const scheduleParameterType = "scheduleParameterType";
-    constexpr const char* const functionParameterType = "functionParameterType";
 }
 }
 
