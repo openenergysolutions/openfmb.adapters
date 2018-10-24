@@ -21,6 +21,8 @@ namespace timescaledb {
     {
         emitter << YAML::Key << keys::database_url << YAML::Value << "postgresql://user:password@localhost:5432/dbname";
         emitter << YAML::Key << keys::table_name << YAML::Value << "data";
+        emitter << YAML::Key << keys::store_raw_message << YAML::Value << "false";
+        emitter << YAML::Key << keys::raw_table_name << YAML::Value << "raw_table";
         emitter << YAML::Key << keys::max_queued_messages << 100 << YAML::Comment("how many messages to buffer before discarding the oldest");
         emitter << YAML::Key << keys::connect_retry_seconds << 5 << YAML::Comment("time to wait between to connection attempts");
         ;

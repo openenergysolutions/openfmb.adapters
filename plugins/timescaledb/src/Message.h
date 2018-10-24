@@ -4,6 +4,7 @@
 #include <boost/uuid/uuid.hpp>
 #include <string>
 #include <vector>
+#include <memory>
 
 namespace adapter {
 namespace timescaledb {
@@ -31,6 +32,11 @@ namespace timescaledb {
         uint64_t timestamp;
         boost::uuids::uuid device_uuid;
         std::vector<MessageItem> items;
+
+        // Raw message
+        std::string profile_name;
+        std::unique_ptr<char[]> raw_data;
+        size_t raw_data_size;
     };
 }
 }
