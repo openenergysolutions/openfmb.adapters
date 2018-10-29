@@ -1,4 +1,4 @@
-set(TEST_SOURCES main.cpp test_command_ordering.cpp)
+set(TEST_SOURCES main.cpp)
 
 add_executable(test-dnp3-plugin ${TEST_SOURCES})
 target_include_directories(test-dnp3-plugin PRIVATE ${CMAKE_SOURCE_DIR}/deps/catch)

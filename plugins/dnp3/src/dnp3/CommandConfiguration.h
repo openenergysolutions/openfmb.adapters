@@ -4,7 +4,6 @@
 
 #include <opendnp3/master/ICommandProcessor.h>
 
-#include "CommandOrdering.h"
 #include "Control.h"
 
 #include <adapter-api/util/Exception.h>
@@ -22,13 +21,13 @@ namespace dnp3 {
 
     class PrioritizedCommand {
     public:
-        PrioritizedCommand(command_action_t action, int priority)
+        PrioritizedCommand(command_action_t action, size_t priority)
             : action(std::move(action))
             , priority(priority)
         {
         }
 
-        inline int get_priority() const
+        inline size_t get_priority() const
         {
             return this->priority;
         }
@@ -40,7 +39,7 @@ namespace dnp3 {
 
     private:
         command_action_t action;
-        int priority;
+        size_t priority;
     };
 
     /**

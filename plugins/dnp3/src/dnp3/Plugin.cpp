@@ -7,6 +7,7 @@
 
 #include <adapter-api/ConfigStrings.h>
 #include <adapter-api/ProfileInfo.h>
+#include <adapter-api/config/CommandPriorityMap.h>
 #include <adapter-api/config/generated/TypedModelVisitors.h>
 #include <adapter-api/util/YAMLTemplate.h>
 #include <adapter-api/util/YAMLUtil.h>
@@ -15,7 +16,6 @@
 #include "ConfigStrings.h"
 #include "LogAdapter.h"
 
-#include "CommandPriorityMap.h"
 #include "PublishingConfigReadVisitor.h"
 #include "SubscribingConfigReadVisitor.h"
 
@@ -36,7 +36,7 @@ namespace dnp3 {
         template <class U = T>
         static return_t<profile_info<U>::is_control> handle(const YAML::Node& node, const Logger& logger, message_bus_t bus, std::shared_ptr<IPublishConfigBuilder>, std::shared_ptr<ICommandSequenceExecutor> executor)
         {
-            CommandPriorityMap priority_map(command_ordering_t::read_sequence(yaml::require(node, ::adapter::keys::command_order)));
+            CommandPriorityMap priority_map(yaml::require(node, ::adapter::keys::command_order));
             SubscribingConfigReadVisitor<T> visitor(yaml::require(node, ::adapter::keys::mapping), priority_map);
             visit(visitor);
             visitor.subscribe(logger, *bus, std::move(executor));

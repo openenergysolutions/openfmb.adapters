@@ -39,6 +39,7 @@ namespace dnp3 {
     void Control::write(const Control& control, YAML::Emitter& out)
     {
         out << YAML::Key << ::adapter::keys::index << YAML::Value << control.index;
+        out << YAML::Key << ::adapter::keys::command_id << "some-command-id";
         out << YAML::Key << g12v1;
 
         out << YAML::BeginMap;

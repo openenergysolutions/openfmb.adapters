@@ -33,12 +33,21 @@ void CommandPriorityMap::assert_all_operations_referenced() const
 
 size_t CommandPriorityMap::get_priority(const YAML::Node& node)
 {
-    const auto id = yaml::require_string(node, ::adapter::keys::command_order);
+    const auto id = yaml::require_string(node, ::adapter::keys::command_id);
     const auto elem = this->priority_map.find(id);
     if (elem == this->priority_map.end()) {
         throw Exception("No priority specified for operation id '", id, "' at line: ", node.Mark().line);
     }
     elem->second.referenced = true;
     return elem->second.priority;
+}
+
+void CommandPriorityMap::write_default_list(YAML::Emitter& out)
+{
+    out << YAML::Key << ::adapter::keys::command_order << YAML::Comment("order of commands by operation id, first == highest priority, last == lowest priority");
+    out << YAML::BeginSeq;
+    out << YAML::Value << "operation-id-1";
+    out << YAML::Value << "operation-id-2";
+    out << YAML::EndSeq;
 }
 }

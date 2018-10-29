@@ -3,9 +3,6 @@ set(DNP3_PUBLIC_HEADERS
 )
 
 set(DNP3_SOURCES
-        src/dnp3/CommandOrdering.h
-        src/dnp3/CommandPriorityMap.h
-        src/dnp3/CommandPriorityMap.cpp
         src/dnp3/ConfigStrings.h
         src/dnp3/Control.h
         src/dnp3/Control.cpp
@@ -15,7 +12,6 @@ set(DNP3_SOURCES
         src/dnp3/MeasurementConfigWriteVisitor.h
         src/dnp3/MeasurementConfigWriteVisitor.cpp
         src/dnp3/Plugin.h
-        src/dnp3/ICommandPrioritySource.h
         src/dnp3/IPublishConfigBuilder.h
         src/dnp3/LogAdapter.h
         src/dnp3/PublishingConfigReadVisitor.h

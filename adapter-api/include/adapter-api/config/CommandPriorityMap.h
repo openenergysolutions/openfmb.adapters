@@ -40,6 +40,8 @@ public:
 
     size_t get_priority(const YAML::Node& node) override;
 
+    static void write_default_list(YAML::Emitter& out);
+
 private:
     std::map<std::string, Value> priority_map;
 };
