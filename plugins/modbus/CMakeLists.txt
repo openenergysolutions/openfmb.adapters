@@ -5,9 +5,9 @@ set(MODBUS_PUBLIC_HEADERS
 set(MODBUS_SOURCES
         src/modbus/CommandOptions.h
         src/modbus/CommandOrdering.h
-        src/modbus/ICommandPrioritySource.h
-        src/modbus/CommandPriorityMap.h
-        src/modbus/CommandPriorityMap.cpp
+        ../../adapter-api/include/adapter-api/config/ICommandPrioritySource.h
+        ../../adapter-api/include/adapter-api/config/CommandPriorityMap.h
+        ../../adapter-api/src/config/CommandPriorityMap.cpp
         src/modbus/CommandSinkActions.h
         src/modbus/PublishConfigReadVisitor.h
         src/modbus/SubscribeConfigReadVisitor.h

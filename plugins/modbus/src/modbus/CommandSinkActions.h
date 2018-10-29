@@ -4,7 +4,7 @@
 #define OPENFMB_ADAPTER_COMMANDSINKACTIONS_H
 
 #include "ICommandConfigBuilder.h"
-#include "ICommandPrioritySource.h"
+#include "../../../../adapter-api/include/adapter-api/config/ICommandPrioritySource.h"
 
 #include "generated/BitwiseOperation.h"
 #include "generated/OutputType.h"

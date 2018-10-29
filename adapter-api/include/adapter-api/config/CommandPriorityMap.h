@@ -2,12 +2,11 @@
 #ifndef OPENFMB_ADAPTER_COMMANDPRIORITYMAP_H
 #define OPENFMB_ADAPTER_COMMANDPRIORITYMAP_H
 
-#include "ICommandPrioritySource.h"
+#include <adapter-api/config/ICommandPrioritySource.h>
 
 #include <map>
 
 namespace adapter {
-namespace modbus {
 
     class CommandPriorityMap final : public ICommandPrioritySource {
 
@@ -39,7 +38,7 @@ namespace modbus {
     private:
         std::map<std::string, Value> priority_map;
     };
-}
+
 }
 
 #endif

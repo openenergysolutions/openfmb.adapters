@@ -6,6 +6,7 @@
 #include <adapter-api/ProfileRegistry.h>
 #include <adapter-api/config/YAMLGetters.h>
 #include <adapter-api/config/generated/TypedModelVisitors.h>
+#include <adapter-api/config/CommandPriorityMap.h>
 #include <adapter-api/util/YAMLTemplate.h>
 #include <adapter-api/util/YAMLUtil.h>
 
@@ -17,7 +18,7 @@
 #include "PollHandler.h"
 #include "PollTransaction.h"
 
-#include "CommandPriorityMap.h"
+
 #include "ConfigStrings.h"
 #include "PublishConfigReadVisitor.h"
 #include "SessionWrapper.h"

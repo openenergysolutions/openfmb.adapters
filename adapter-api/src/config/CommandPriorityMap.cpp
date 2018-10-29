@@ -1,10 +1,12 @@
 
-#include "CommandPriorityMap.h"
+#include "adapter-api/config/CommandPriorityMap.h"
 
-#include <adapter-api/util/Exception.h>
+#include "adapter-api/util/Exception.h"
+#include "adapter-api/util/YAMLUtil.h"
+#include "adapter-api/ConfigStrings.h"
 
 namespace adapter {
-namespace modbus {
+
 
     void CommandPriorityMap::add_operation(const std::string& id)
     {
@@ -27,7 +29,7 @@ namespace modbus {
 
     size_t CommandPriorityMap::get_priority(const YAML::Node& node)
     {
-        const auto id = yaml::require_string(node, keys::operation_ids);
+        const auto id = yaml::require_string(node, ::adapter::keys::operation_ids);
         const auto elem = this->priority_map.find(id);
         if (elem == this->priority_map.end()) {
             throw Exception("No priority specified for operation id '", id, "' at line: ", node.Mark().line);
@@ -35,5 +37,5 @@ namespace modbus {
         elem->second.referenced = true;
         return elem->second.priority;
     }
-}
+
 }

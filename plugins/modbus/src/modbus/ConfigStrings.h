@@ -29,7 +29,6 @@ namespace modbus {
 
         // mapping level
         constexpr const char* const command_order = "command-order";
-        constexpr const char* const operation_ids = "operation-id";
         constexpr const char* const type = "type";
         constexpr const char* const upper_index = "upper_index";
         constexpr const char* const lower_index = "lower_index";
