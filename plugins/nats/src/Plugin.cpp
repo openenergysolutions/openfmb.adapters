@@ -19,11 +19,11 @@ namespace nats {
     template <class T>
     struct SubscribeProfileReader {
 
-        static std::unique_ptr<INATSSubscription> handle(const SubjectNameSuffix& suffix, Logger& logger, publisher_t publisher, subscription_vec_t& subscriptions)
+        static void handle(const SubjectNameSuffix& suffix, Logger& logger, publisher_t publisher, subscription_vec_t& subscriptions)
         {
             const auto subject_name = get_subject_name(T::descriptor()->full_name(), suffix.get_value());
 
-            logger.info("subscribing to subject: {}", subject_name);
+            logger.info("creating NATs subscriber for subject: {}", subject_name);
 
             subscriptions.push_back(
                 std::make_unique<NATSSubscriber<T>>(
@@ -40,7 +40,7 @@ namespace nats {
         {
             const auto subject_name = get_subject_name(T::descriptor()->full_name(), suffix.get_value());
 
-            logger.info("creating NATs publisher for: {}", subject_name);
+            logger.info("creating NATs publisher for subject: {}", subject_name);
 
             bus.subscribe(
                 std::make_shared<NATSPublisher<T>>(

@@ -10,6 +10,7 @@
 
 #include "CommandOptions.h"
 #include "CommandSinkActions.h"
+#include "DoubleWord.h"
 #include "ITransactionProcessor.h"
 #include "ModifyRegisterTransaction.h"
 #include "generated/OutputType.h"
@@ -81,13 +82,13 @@ namespace modbus {
     template <class T>
     void SubscribeConfigReadVisitor<T>::handle_mapped_field(const YAML::Node& node, const accessor_t<T, int32_t>& accessor)
     {
-        // ignored
+        throw Exception("int32_t output mappings not supported");
     }
 
     template <class T>
     void SubscribeConfigReadVisitor<T>::handle_mapped_field(const YAML::Node& node, const accessor_t<T, int64_t>& accessor)
     {
-        // ignored
+        throw Exception("int64_t output mappings not supported");
     }
 
     template <class T>
@@ -107,6 +108,23 @@ namespace modbus {
                         profile,
                         [&](float value) {
                             sink.write_single_register(index, priority, static_cast<uint16_t>(value * scale));
+                        });
+                });
+            break;
+        }
+        case (OutputType::Value::write_two_registers): {
+            const auto upper_index = yaml::require_integer<uint16_t>(node, keys::upper_index);
+            const auto lower_index = yaml::require_integer<uint16_t>(node, keys::lower_index);
+            const auto scale = ::adapter::yaml::get::scale(node);
+            const auto priority = this->priority_source.get_priority(node);
+            this->config->add(
+                [upper_index, lower_index, scale, priority, accessor](const T& profile, ICommandSink& sink, Logger& logger) {
+                    accessor->if_present(
+                        profile,
+                        [&](float value) {
+                            const auto dword = DoubleWord::get(static_cast<uint32_t>(value * scale));
+                            sink.write_single_register(lower_index, priority, dword.lower);
+                            sink.write_single_register(upper_index, priority, dword.upper);
                         });
                 });
             break;

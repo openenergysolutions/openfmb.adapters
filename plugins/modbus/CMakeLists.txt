@@ -5,10 +5,9 @@ set(MODBUS_PUBLIC_HEADERS
 set(MODBUS_SOURCES
         src/modbus/CommandOptions.h
         src/modbus/CommandOrdering.h
-        ../../adapter-api/include/adapter-api/config/ICommandPrioritySource.h
-        ../../adapter-api/include/adapter-api/config/CommandPriorityMap.h
-        ../../adapter-api/src/config/CommandPriorityMap.cpp
         src/modbus/CommandSinkActions.h
+        src/modbus/DoubleWord.h
+        src/modbus/DoubleWord.cpp
         src/modbus/PublishConfigReadVisitor.h
         src/modbus/SubscribeConfigReadVisitor.h
         src/modbus/ConfigStrings.h
@@ -68,7 +67,7 @@ set(MODBUS_SOURCES
         src/modbus/generated/RegisterMapping.h
         src/modbus/generated/RegisterMapping.cpp
         src/modbus/generated/SourceType.h
-        src/modbus/generated/SourceType.cpp)
+        src/modbus/generated/SourceType.cpp src/modbus/DoubleWord.h)
 
 add_library(modbus-plugin STATIC ${MODBUS_PUBLIC_HEADERS} ${MODBUS_SOURCES})
 target_link_libraries(modbus-plugin PUBLIC adapter-api modbus-cpp)

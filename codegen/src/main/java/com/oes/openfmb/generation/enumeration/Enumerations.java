@@ -163,6 +163,7 @@ public class Enumerations {
                 Arrays.asList(
                         Enumeration.entry("none", "output is not mapped"),
                         Enumeration.entry("write_register", "write a value to a single holding register"),
+                        Enumeration.entry("write_two_registers", "write the low and high words to two (possibly disjoint) registers"),
                         Enumeration.entry("read_and_modify_register", "read a holding register and write a modified value")
                 )
         );
