@@ -8,37 +8,41 @@
 
 namespace adapter {
 
-    class CommandPriorityMap final : public ICommandPrioritySource {
+class CommandPriorityMap final : public ICommandPrioritySource {
 
-        struct Value {
+    struct Value {
 
-            Value() = default;
-            Value(size_t priority)
-                : priority(priority)
-            {
-            }
+        Value() = default;
+        Value(size_t priority)
+            : priority(priority)
+        {
+        }
 
-            size_t priority = 0;
-            bool referenced = false;
-        };
+        size_t priority = 0;
+        bool referenced = false;
+    };
 
-    public:
-        void add_operation(const std::string& operation_id);
+public:
+    /**
+         * Construct the map from sequence (of strings) node
+         *
+         * @param node a YAML::Node that is a sequence of operation names referenced later in the config
+         */
+    explicit CommandPriorityMap(const YAML::Node& node);
 
-        /**
+    /**
          * After getting all the priorities, call this to throw
          * an exception if one wasn't referenced
          */
-        void assert_all_operations_referenced();
+    void assert_all_operations_referenced() const;
 
-        // ---- implement ICommandPrioritySource ----
+    // ---- implement ICommandPrioritySource ----
 
-        size_t get_priority(const YAML::Node& node) override;
+    size_t get_priority(const YAML::Node& node) override;
 
-    private:
-        std::map<std::string, Value> priority_map;
-    };
-
+private:
+    std::map<std::string, Value> priority_map;
+};
 }
 
 #endif

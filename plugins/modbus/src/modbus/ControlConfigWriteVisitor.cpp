@@ -16,7 +16,7 @@ namespace modbus {
 
     void write_default_operation_id(YAML::Emitter& out)
     {
-        out << YAML::Key << ::adapter::keys::operation_ids << "some-operation-id";
+        out << YAML::Key << ::adapter::keys::command_order << "some-operation-id";
     }
 
     void write_index_and_scale(YAML::Emitter& out)

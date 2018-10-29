@@ -25,7 +25,7 @@ namespace modbus {
             std::cout << "Generating: " << T::descriptor()->name() << std::endl;
 
             if (profile_info<T>::is_control) {
-                out << YAML::Key << keys::command_order << YAML::Comment("order of commands by operation id, first == highest priority, last == lowest priority");
+                out << YAML::Key << ::adapter::keys::command_order << YAML::Comment("order of commands by operation id, first == highest priority, last == lowest priority");
                 out << YAML::BeginSeq;
                 out << YAML::Value << "operation-id-1";
                 out << YAML::Value << "operation-id-2";
