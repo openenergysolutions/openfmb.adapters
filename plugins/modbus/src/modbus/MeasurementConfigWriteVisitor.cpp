@@ -3,9 +3,9 @@
 #include "MeasurementConfigWriteVisitor.h"
 
 #include "ConfigStrings.h"
+#include "generated/EnumMappingType.h"
 #include "generated/RegisterMapping.h"
 #include "generated/SourceType.h"
-#include "generated/EnumMappingType.h"
 
 #include <adapter-api/ConfigStrings.h>
 #include <adapter-api/util/EnumUtil.h>

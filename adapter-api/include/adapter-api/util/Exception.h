@@ -30,7 +30,7 @@ public:
 
     template <class T, class... Args>
     Exception(const YAML::Mark& mark, T t, Args... args)
-            : std::runtime_error(strings::join(t, args..., " line: ", mark.line))
+        : std::runtime_error(strings::join(t, args..., " line: ", mark.line))
     {
     }
 };

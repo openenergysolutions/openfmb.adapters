@@ -4,10 +4,10 @@
 
 #include "ConfigStrings.h"
 #include "IConfigurationBuilder.h"
+#include "MultipleRegisterEnumMapping.h"
 #include "Register16.h"
 #include "Register32.h"
 #include "SingleRegisterEnumMapping.h"
-#include "MultipleRegisterEnumMapping.h"
 
 #include "generated/EnumMappingType.h"
 #include "generated/RegisterMapping.h"
@@ -130,8 +130,8 @@ namespace modbus {
     {
         const auto source_type = yaml::require_enum<SourceType>(node);
 
-        if (source_type != SourceType::Value::holding_register) {
-            throw Exception("Unsupported source type for int64 mapping: ", SourceType::to_string(source_type));
+        if (source_type == SourceType::Value::none) {
+            return;
         }
 
         const auto mapping = yaml::require_enum<RegisterMapping>(node);
@@ -178,8 +178,8 @@ namespace modbus {
     {
         const auto source_type = yaml::require_enum<SourceType>(node);
 
-        if (source_type != SourceType::Value::holding_register) {
-            throw Exception("Unsupported source type for float mapping: ", SourceType::to_string(source_type));
+        if (source_type == SourceType::Value::none) {
+            return;
         }
 
         const auto mapping = yaml::require_enum<RegisterMapping>(node);
