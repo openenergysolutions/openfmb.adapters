@@ -25,6 +25,8 @@ set(MODBUS_SOURCES
         src/modbus/IRequestBuilder.h
         src/modbus/MeasurementConfigWriteVisitor.h
         src/modbus/MeasurementConfigWriteVisitor.cpp
+        src/modbus/MultipleRegisterEnumMapping.h
+        src/modbus/MultipleRegisterEnumMapping.cpp
         src/modbus/ControlConfigWriteVisitor.h
         src/modbus/ControlConfigWriteVisitor.cpp
         src/modbus/PollHandler.h

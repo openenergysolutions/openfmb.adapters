@@ -7,6 +7,7 @@
 #include "Register16.h"
 #include "Register32.h"
 #include "SingleRegisterEnumMapping.h"
+#include "MultipleRegisterEnumMapping.h"
 
 #include "generated/EnumMappingType.h"
 #include "generated/RegisterMapping.h"
@@ -258,7 +259,9 @@ namespace modbus {
     template <class T>
     void PublishConfigReadVisitor<T>::handle_mapped_enum_multiple_registers(const YAML::Node& node, const accessor_t<T, int>& accessor, google::protobuf::EnumDescriptor const* descriptor)
     {
-        throw Exception("Not implemented");
+        MultipleRegisterEnumMapping mapping(node, descriptor);
+
+        mapping.build(*this->builder, accessor, this->profile);
     }
 
     template <class T>
