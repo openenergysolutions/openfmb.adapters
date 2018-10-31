@@ -158,6 +158,15 @@ public class Enumerations {
                 )
         );
 
+        private final static Enumeration enumMappingType = new Enumeration(
+                Arrays.asList("Enum","Mapping","Type"),
+                Arrays.asList(
+                        Enumeration.entry("none", "field is not mapped"),
+                        Enumeration.entry("holding_register", "enum is mapped from a single holding register"),
+                        Enumeration.entry("multiple_holding_register", "enum is mapped from bits in multiple holding registers")
+                )
+        );
+
         private final static Enumeration outputType = new Enumeration(
                 Arrays.asList("Output","Type"),
                 Arrays.asList(
@@ -199,7 +208,7 @@ public class Enumerations {
         );
 
         private static List<Enumeration> enums() {
-            return Arrays.asList(registerMapping, sourceType, outputType, bitwiseOperation, commandType, logLevel);
+            return Arrays.asList(registerMapping, sourceType, enumMappingType, outputType, bitwiseOperation, commandType, logLevel);
         }
 
         private static final Path path = Paths.get("../plugins/modbus/src/modbus/generated");

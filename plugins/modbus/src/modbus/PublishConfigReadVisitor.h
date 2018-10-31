@@ -6,7 +6,9 @@
 #include "IConfigurationBuilder.h"
 #include "Register16.h"
 #include "Register32.h"
+#include "SingleRegisterEnumMapping.h"
 
+#include "generated/EnumMappingType.h"
 #include "generated/RegisterMapping.h"
 #include "generated/SourceType.h"
 
@@ -51,6 +53,10 @@ namespace modbus {
         void add_message_complete_action(const std::function<void(T&)>& action) override;
 
     private:
+        void handle_mapped_enum_single_register(const YAML::Node& node, const accessor_t<T, int>& accessor, google::protobuf::EnumDescriptor const* descriptor);
+
+        void handle_mapped_enum_multiple_registers(const YAML::Node& node, const accessor_t<T, int>& accessor, google::protobuf::EnumDescriptor const* descriptor);
+
         template <class S>
         void map_register16(const YAML::Node& node, const S& setter);
 
@@ -115,7 +121,7 @@ namespace modbus {
     template <class T>
     void PublishConfigReadVisitor<T>::handle_mapped_int32(const YAML::Node& node, const accessor_t<T, int32_t>& accessor)
     {
-        // ignored
+        throw Exception("int32 mapping not supported");
     }
 
     template <class T>
@@ -123,9 +129,8 @@ namespace modbus {
     {
         const auto source_type = yaml::require_enum<SourceType>(node);
 
-        // ATM, there are only two source types
-        if (source_type == SourceType::Value::none) {
-            return;
+        if (source_type != SourceType::Value::holding_register) {
+            throw Exception("Unsupported source type for int64 mapping: ", SourceType::to_string(source_type));
         }
 
         const auto mapping = yaml::require_enum<RegisterMapping>(node);
@@ -172,9 +177,8 @@ namespace modbus {
     {
         const auto source_type = yaml::require_enum<SourceType>(node);
 
-        // ATM, there are only two source types
-        if (source_type == SourceType::Value::none) {
-            return;
+        if (source_type != SourceType::Value::holding_register) {
+            throw Exception("Unsupported source type for float mapping: ", SourceType::to_string(source_type));
         }
 
         const auto mapping = yaml::require_enum<RegisterMapping>(node);
@@ -218,44 +222,44 @@ namespace modbus {
     template <class T>
     void PublishConfigReadVisitor<T>::handle_mapped_enum(const YAML::Node& node, const accessor_t<T, int>& accessor, google::protobuf::EnumDescriptor const* descriptor)
     {
-        const auto source = yaml::require_enum<SourceType>(node);
+        const auto source = yaml::require_enum<EnumMappingType>(node);
 
-        // ATM, there are only two source types
-        if (source == SourceType::Value::none) {
-            return;
+        switch (source) {
+        case (EnumMappingType::Value::none):
+            break;
+        case (EnumMappingType::Value::holding_register):
+            this->handle_mapped_enum_single_register(node, accessor, descriptor);
+            break;
+        case (EnumMappingType::Value::multiple_holding_register):
+            this->handle_mapped_enum_multiple_registers(node, accessor, descriptor);
+            break;
+        default:
+            throw Exception("Unsupported source type for mapped enum: ", EnumMappingType::to_string(source));
         }
+    }
 
-        const auto mask = yaml::require_integer<uint16_t>(node, keys::mask);
-        std::map<uint16_t, int> mapping;
+    // --- private helpers ---
 
-        yaml::foreach (
-            yaml::require(node, ::adapter::keys::mapping),
-            [&mapping, &descriptor](const YAML::Node& item) {
-                const auto name = yaml::require_string(item, ::adapter::keys::name);
-                const auto value = yaml::require_integer<uint16_t>(item, ::adapter::keys::value);
-
-                const auto value_descriptor = descriptor->FindValueByName(name);
-                if (!value_descriptor) {
-                    throw Exception("Bad ", descriptor->name(), " enum name: ", name);
-                }
-                mapping[value] = value_descriptor->number();
-            });
-
+    template <class T>
+    void PublishConfigReadVisitor<T>::handle_mapped_enum_single_register(const YAML::Node& node, const accessor_t<T, int>& accessor, google::protobuf::EnumDescriptor const* descriptor)
+    {
         this->map_register16(
             node,
-            [accessor, mask, mapping = std::move(mapping), descriptor](T& profile, const std::shared_ptr<Register16>& reg, Logger& logger) {
-                const auto value = reg->to_uint16();
-                const auto masked_value = value & mask;
-                const auto entry = mapping.find(masked_value);
-                if (entry == mapping.end()) {
-                    logger.warn("No mapping to {} for value {} with mask {}", descriptor->name(), value, mask);
+            [accessor, descriptor, mapping = std::make_shared<SingleRegisterEnumMapping>(node, descriptor)](T& profile, const std::shared_ptr<Register16>& reg, Logger& logger) {
+                int value;
+                if (mapping->get_mapping(reg->to_uint16(), value)) {
+                    accessor->set(profile, value);
                 } else {
-                    accessor->set(profile, entry->second);
+                    logger.warn("No mapping to {} for value {}", descriptor->name(), value);
                 }
             });
     }
 
-    // --- private helpers ---
+    template <class T>
+    void PublishConfigReadVisitor<T>::handle_mapped_enum_multiple_registers(const YAML::Node& node, const accessor_t<T, int>& accessor, google::protobuf::EnumDescriptor const* descriptor)
+    {
+        throw Exception("Not implemented");
+    }
 
     template <class T>
     template <class S>
