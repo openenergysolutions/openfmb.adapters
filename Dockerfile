@@ -5,11 +5,12 @@ RUN apk update && apk add --no-cache \
     build-base \
     cmake \
     git \
+    libpcap-dev \
     libressl-dev \
     linux-headers \
     postgresql-dev \
     protobuf-dev \
-    python3
+    python3-dev
 
 # Install OpenDNP3
 WORKDIR /home
@@ -35,7 +36,6 @@ WORKDIR /home/openfmb
 RUN conan install .
 
 # Build the project
-RUN rm -rf ~/.conan/data/protobuf
 COPY . /home/openfmb/
 RUN cmake -DCMAKE_BUILD_TYPE=Release -DOPENFMB_LINK_STATIC=ON . && cmake --build .
 
@@ -43,6 +43,7 @@ RUN cmake -DCMAKE_BUILD_TYPE=Release -DOPENFMB_LINK_STATIC=ON . && cmake --build
 FROM alpine:3.7
 RUN apk update && apk add --no-cache \
     libpq \
+    libpcap \
     libressl \
     libstdc++
 COPY --from=builder /home/openfmb/application/openfmb-adapter /usr/local/bin/
