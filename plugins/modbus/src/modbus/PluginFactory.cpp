@@ -16,6 +16,8 @@
 #include "ConfigStrings.h"
 #include "Plugin.h"
 
+#include <iostream>
+
 namespace adapter {
 namespace modbus {
 

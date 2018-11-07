@@ -14,6 +14,8 @@
 #include "ConfigStrings.h"
 #include "Plugin.h"
 
+#include <iostream>
+
 namespace adapter {
 namespace dnp3 {
 
