@@ -8,6 +8,8 @@
 #include "pub/PublishingConfigWriteVisitor.h"
 #include "pub/PublishingPlugin.h"
 
+#include <iostream>
+
 namespace adapter {
 namespace goose {
 

@@ -23,12 +23,14 @@ namespace modbus {
 
 const char OutputType::none[] = "none";
 const char OutputType::write_register[] = "write_register";
+const char OutputType::write_two_registers[] = "write_two_registers";
 const char OutputType::read_and_modify_register[] = "read_and_modify_register";
 
-const std::array<OutputType::Value, 3> OutputType::values =
+const std::array<OutputType::Value, 4> OutputType::values =
 {
     OutputType::Value::none,
     OutputType::Value::write_register,
+    OutputType::Value::write_two_registers,
     OutputType::Value::read_and_modify_register,
 };
 
@@ -38,6 +40,7 @@ std::string OutputType::to_string(OutputType::Value value)
     {
         case(Value::none): return none;
         case(Value::write_register): return write_register;
+        case(Value::write_two_registers): return write_two_registers;
         default: return read_and_modify_register;
     }
 }
@@ -48,6 +51,7 @@ OutputType::Value OutputType::from_string(const std::string& name)
     {
         {none, Value::none},
         {write_register, Value::write_register},
+        {write_two_registers, Value::write_two_registers},
         {read_and_modify_register, Value::read_and_modify_register},
     };
     const auto elem = map.find(name);

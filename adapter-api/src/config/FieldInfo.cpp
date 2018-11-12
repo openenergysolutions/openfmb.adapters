@@ -13,6 +13,7 @@
 #include <functional>
 #include <map>
 #include <vector>
+#include <algorithm>
 
 namespace adapter {
 namespace fields {

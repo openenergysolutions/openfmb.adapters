@@ -3,6 +3,7 @@
 #define OPENFMB_ADAPTER_EXCEPTION_H
 
 #include "StringUtil.h"
+#include <yaml-cpp/mark.h>
 
 #define OPENFMB_MACRO_STRINGIFY(x) #x
 #define OPENFMB_MACRO_TOSTRING(x) OPENFMB_MACRO_STRINGIFY(x)
@@ -24,6 +25,12 @@ public:
     template <class T, class... Args>
     Exception(T t, Args... args)
         : std::runtime_error(strings::join(t, args...))
+    {
+    }
+
+    template <class T, class... Args>
+    Exception(const YAML::Mark& mark, T t, Args... args)
+        : std::runtime_error(strings::join(t, args..., " line: ", mark.line))
     {
     }
 };

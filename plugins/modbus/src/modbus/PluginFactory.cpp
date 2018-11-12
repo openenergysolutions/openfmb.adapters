@@ -7,6 +7,7 @@
 
 #include <adapter-api/ConfigStrings.h>
 #include <adapter-api/ProfileInfo.h>
+#include <adapter-api/config/CommandPriorityMap.h>
 #include <adapter-api/config/generated/ModelVisitors.h>
 
 #include "ControlConfigWriteVisitor.h"
@@ -14,6 +15,8 @@
 
 #include "ConfigStrings.h"
 #include "Plugin.h"
+
+#include <iostream>
 
 namespace adapter {
 namespace modbus {
@@ -25,11 +28,7 @@ namespace modbus {
             std::cout << "Generating: " << T::descriptor()->name() << std::endl;
 
             if (profile_info<T>::is_control) {
-                out << YAML::Key << keys::command_order << YAML::Comment("order of commands by operation id, first == highest priority, last == lowest priority");
-                out << YAML::BeginSeq;
-                out << YAML::Value << "operation-id-1";
-                out << YAML::Value << "operation-id-2";
-                out << YAML::EndSeq;
+                CommandPriorityMap::write_default_list(out);
             }
 
             out << YAML::Key << ::adapter::keys::mapping << YAML::Comment("profile model starts here");

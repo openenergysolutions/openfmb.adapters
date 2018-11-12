@@ -3,8 +3,8 @@
 #ifndef OPENFMB_ADAPTER_COMMANDSINKACTIONS_H
 #define OPENFMB_ADAPTER_COMMANDSINKACTIONS_H
 
+#include "../../../../adapter-api/include/adapter-api/config/ICommandPrioritySource.h"
 #include "ICommandConfigBuilder.h"
-#include "ICommandPrioritySource.h"
 
 #include "generated/BitwiseOperation.h"
 #include "generated/OutputType.h"

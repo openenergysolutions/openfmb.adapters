@@ -11,8 +11,8 @@
 //  This file is auto-generated. Do not edit manually
 // 
 
-#ifndef OPENFMB_OUTPUTTYPE_H
-#define OPENFMB_OUTPUTTYPE_H
+#ifndef OPENFMB_ENUMMAPPINGTYPE_H
+#define OPENFMB_ENUMMAPPINGTYPE_H
 
 #include <string>
 #include <array>
@@ -21,28 +21,25 @@ namespace adapter {
 
 namespace modbus {
 
-struct OutputType
+struct EnumMappingType
 {
     enum class Value
     {
-        // output is not mapped
+        // field is not mapped
         none,
-        // write a value to a single holding register
-        write_register,
-        // write the low and high words to two (possibly disjoint) registers
-        write_two_registers,
-        // read a holding register and write a modified value
-        read_and_modify_register,
+        // enum is mapped from a single holding register
+        holding_register,
+        // enum is mapped from bits in multiple holding registers
+        multiple_holding_register,
     };
 
     static const char none[];
-    static const char write_register[];
-    static const char write_two_registers[];
-    static const char read_and_modify_register[];
+    static const char holding_register[];
+    static const char multiple_holding_register[];
 
-    static constexpr const char* label = "output-type";
+    static constexpr const char* label = "enum-mapping-type";
 
-    static const std::array<Value, 4> values;
+    static const std::array<Value, 3> values;
 
     static std::string to_string(Value value);
     static Value from_string(const std::string& name);

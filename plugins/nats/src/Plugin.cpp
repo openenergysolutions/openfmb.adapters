@@ -11,51 +11,42 @@
 #include "ConfigStrings.h"
 #include "NATSSubscriber.h"
 #include "SubjectName.h"
+#include "SubjectNameSuffix.h"
 
 namespace adapter {
 namespace nats {
 
     template <class T>
-    class ProfileReader {
+    struct SubscribeProfileReader {
 
-    public:
-        static void handle(const YAML::Node& node, Logger logger, message_bus_t bus, const message_queue_t& message_queue, subscription_vec_t& subscriptions)
+        static void handle(const SubjectNameSuffix& suffix, Logger& logger, publisher_t publisher, subscription_vec_t& subscriptions)
         {
-            // get the mode for the profile
-            const auto mode = ProfileModeMeta::parse(yaml::require_string(node, T::descriptor()->name()));
-            switch (mode) {
-            case (ProfileMode::publish):
-                add_publisher(logger, *bus, message_queue);
-                break;
-            case (ProfileMode::subscribe):
-                subscriptions.push_back(create_subscription(logger, bus, message_queue));
-                break;
-            default:
-                break;
-            }
+            const auto subject_name = get_subject_name(T::descriptor()->full_name(), suffix.get_value());
+
+            logger.info("creating NATs subscriber for subject: {}", subject_name);
+
+            subscriptions.push_back(
+                std::make_unique<NATSSubscriber<T>>(
+                    logger,
+                    subject_name,
+                    std::move(publisher)));
         }
+    };
 
-    private:
-        static void add_publisher(Logger& logger, IMessageBus& bus, const message_queue_t& message_queue)
+    template <class T>
+    struct PublishProfileReader {
+
+        static void handle(const SubjectNameSuffix& suffix, Logger& logger, IMessageBus& bus, const message_queue_t& message_queue)
         {
-            logger.info("Registering subscriber for: {}", T::descriptor()->name());
+            const auto subject_name = get_subject_name(T::descriptor()->full_name(), suffix.get_value());
+
+            logger.info("creating NATs publisher for subject: {}", subject_name);
 
             bus.subscribe(
                 std::make_shared<NATSPublisher<T>>(
                     logger,
+                    suffix,
                     message_queue));
-        }
-
-        static std::unique_ptr<INATSSubscription> create_subscription(Logger& logger, publisher_t publisher, const std::shared_ptr<util::SynchronizedQueue<Message>>& message_queue)
-        {
-            const auto subject = get_subscribe_all_subject_name<T>();
-
-            logger.info("{} will be read from subject: {}", T::descriptor()->name(), subject);
-
-            return std::make_unique<NATSSubscriber<T>>(
-                logger,
-                subject,
-                std::move(publisher));
         }
     };
 
@@ -65,9 +56,27 @@ namespace nats {
         , messages(
               std::make_shared<util::SynchronizedQueue<Message>>(config.max_queued_messages))
     {
-        const auto profiles_map = yaml::require(node, ::adapter::keys::profiles);
+        yaml::foreach (
+            yaml::require(node, keys::subscribe),
+            [&](const YAML::Node& entry) {
+                ProfileRegistry::handle_by_name<SubscribeProfileReader>(
+                    yaml::require_string(entry, ::adapter::keys::profile),
+                    SubjectNameSuffix(yaml::require_string(entry, keys::subject)),
+                    this->logger,
+                    bus,
+                    this->subscriptions);
+            });
 
-        ProfileRegistry::handle_all<ProfileReader>(profiles_map, logger, bus, this->messages, this->subscriptions);
+        yaml::foreach (
+            yaml::require(node, keys::publish),
+            [&](const YAML::Node& entry) {
+                ProfileRegistry::handle_by_name<PublishProfileReader>(
+                    yaml::require_string(entry, ::adapter::keys::profile),
+                    SubjectNameSuffix(yaml::require_string(entry, keys::subject)),
+                    this->logger,
+                    *bus,
+                    this->messages);
+            });
     }
 
     Plugin::Config::Config(const YAML::Node& node)

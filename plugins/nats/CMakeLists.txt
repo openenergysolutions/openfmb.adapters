@@ -26,6 +26,8 @@ set(NATS_SOURCES
         src/NATSPublisher.h
 		src/NATSSubscriber.h
         src/SubjectName.h
+        src/SubjectNameSuffix.h
+        src/SubjectNameSuffix.cpp
 )
 
 add_library(nats-plugin STATIC ${NATS_PUBLIC_HEADERS} ${NATS_SOURCES})

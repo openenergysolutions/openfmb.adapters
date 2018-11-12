@@ -20,14 +20,15 @@ set(API_HEADERS
 	include/adapter-api/util/SynchronizedQueue.h
 	include/adapter-api/util/YAMLUtil.h
 	include/adapter-api/util/YAMLTemplate.h
+	include/adapter-api/config/FieldInfo.h
 	include/adapter-api/config/PublishingConfigReadVisitorBase.h
 	include/adapter-api/config/SubscribingConfigReadVisitorBase.h
 	include/adapter-api/config/ConfigReadVisitorBase.h
 	include/adapter-api/config/ConfigWriteVisitorBase.h
 	include/adapter-api/config/IAccessor.h
+	include/adapter-api/config/ICommandPrioritySource.h
 	include/adapter-api/config/IDescriptorPath.h
-	include/adapter-api/config/IndexedEnumOrdering.h
-	include/adapter-api/config/DescriptorPath.h
+    include/adapter-api/config/DescriptorPath.h
 	include/adapter-api/config/IMessageVisitor.h
 	include/adapter-api/config/IMessageFieldHandler.h
 	include/adapter-api/config/IModelVisitor.h
@@ -56,8 +57,8 @@ set(API_SOURCES
 	src/util/YAMLUtil.cpp
 	src/util/YAMLTemplate.cpp
     src/config/AccessorImpl.h
+	src/config/CommandPriorityMap.cpp
 	src/config/ConfigWriteVisitorBase.cpp
-    include/adapter-api/config/FieldInfo.h
 	src/config/FieldInfo.cpp
 	src/config/DescriptorPath.cpp
     src/config/YAMLGetters.cpp

@@ -4,6 +4,7 @@
 #include <adapter-api/ConfigStrings.h>
 #include <adapter-api/ProfileInfo.h>
 #include <adapter-api/ProfileRegistry.h>
+#include <adapter-api/config/CommandPriorityMap.h>
 #include <adapter-api/config/YAMLGetters.h>
 #include <adapter-api/config/generated/TypedModelVisitors.h>
 #include <adapter-api/util/YAMLTemplate.h>
@@ -17,7 +18,6 @@
 #include "PollHandler.h"
 #include "PollTransaction.h"
 
-#include "CommandPriorityMap.h"
 #include "ConfigStrings.h"
 #include "PublishConfigReadVisitor.h"
 #include "SessionWrapper.h"
@@ -36,12 +36,7 @@ namespace modbus {
         template <class U = T>
         static return_t<profile_info<U>::is_control> handle(const YAML::Node& node, const Logger& logger, message_bus_t bus, std::shared_ptr<PollHandler> handler, std::shared_ptr<ITransactionProcessor> processor)
         {
-            CommandPriorityMap priority_map;
-            yaml::foreach (
-                yaml::require(node, keys::command_order),
-                [&priority_map](const YAML::Node& node) {
-                    priority_map.add_operation(node.Scalar());
-                });
+            CommandPriorityMap priority_map(yaml::require(node, ::adapter::keys::command_order));
 
             SubscribeConfigReadVisitor<T> visitor(
                 yaml::require(node, ::adapter::keys::mapping),

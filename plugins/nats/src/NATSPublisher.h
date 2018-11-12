@@ -7,6 +7,7 @@
 
 #include "Message.h"
 #include "SubjectName.h"
+#include "SubjectNameSuffix.h"
 #include "adapter-api/util/SynchronizedQueue.h"
 
 #include <boost/numeric/conversion/cast.hpp>
@@ -20,10 +21,16 @@ namespace nats {
     public:
         using message_queue_t = util::SynchronizedQueue<Message>;
 
-        NATSPublisher(Logger logger, std::shared_ptr<message_queue_t> sink)
+        NATSPublisher(Logger logger, const SubjectNameSuffix& suffix, std::shared_ptr<message_queue_t> sink)
             : logger(std::move(logger))
+            , suffix(suffix)
             , sink(std::move(sink))
         {
+        }
+
+        bool matches(const T& message) const override
+        {
+            return suffix.is_wildcard() ? true : get_subject_key_mrid(message) == suffix.get_value();
         }
 
     private:
@@ -48,6 +55,7 @@ namespace nats {
         }
 
         Logger logger;
+        const SubjectNameSuffix suffix;
         const std::shared_ptr<message_queue_t> sink;
     };
 }

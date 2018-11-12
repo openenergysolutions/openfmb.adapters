@@ -8,6 +8,8 @@
 #include "sub/SubscribingConfigWriteVisitor.h"
 #include "sub/SubscribingPlugin.h"
 
+#include <iostream>
+
 namespace adapter {
 namespace goose {
 

@@ -4,15 +4,17 @@
 #include <adapter-api/ConfigStrings.h>
 #include <adapter-api/ProfileInfo.h>
 
+#include <adapter-api/config/CommandPriorityMap.h>
 #include <adapter-api/config/generated/ModelVisitors.h>
 #include <adapter-api/util/YAMLTemplate.h>
 
 #include "ControlConfigWriteVisitor.h"
 #include "MeasurementConfigWriteVisitor.h"
 
-#include "CommandOrdering.h"
 #include "ConfigStrings.h"
 #include "Plugin.h"
+
+#include <iostream>
 
 namespace adapter {
 namespace dnp3 {
@@ -24,15 +26,7 @@ namespace dnp3 {
             std::cout << "Generating: " << T::descriptor()->name() << std::endl;
 
             if (profile_info<T>::is_control) {
-                out << YAML::Key << ::adapter::keys::command_order << YAML::Comment("order of commands - first == highest priority, last == lowest priority");
-
-                // provide an example of the two types
-                command_ordering_t::write_sequence(
-                    {
-                        { 0, CommandType::Value::crob },
-                        { 1, CommandType::Value::analog_output },
-                    },
-                    out);
+                CommandPriorityMap::write_default_list(out);
             }
 
             out << YAML::Key << ::adapter::keys::mapping << YAML::Comment("profile model starts here");

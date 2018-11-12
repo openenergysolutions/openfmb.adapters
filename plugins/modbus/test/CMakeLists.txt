@@ -1,7 +1,9 @@
 set(TEST_SOURCES main.cpp
+                 test_double_word.cpp
+                 test_poll_handler.cpp
                  test_register_conversions.cpp
                  test_register_operations.cpp
-                 test_poll_handler.cpp
+
 )
 
 add_executable(test-modbus-plugin ${TEST_SOURCES})

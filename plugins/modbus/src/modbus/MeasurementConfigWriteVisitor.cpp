@@ -3,6 +3,7 @@
 #include "MeasurementConfigWriteVisitor.h"
 
 #include "ConfigStrings.h"
+#include "generated/EnumMappingType.h"
 #include "generated/RegisterMapping.h"
 #include "generated/SourceType.h"
 
@@ -51,7 +52,7 @@ namespace modbus {
 
     void MeasurementConfigWriteVisitor::write_mapped_enum_keys(YAML::Emitter& out, google::protobuf::EnumDescriptor const* descriptor)
     {
-        out << YAML::Key << SourceType::label << YAML::Value << SourceType::none << YAML::Comment(enumeration::get_value_set<SourceType>());
+        out << YAML::Key << EnumMappingType::label << YAML::Value << EnumMappingType::none << YAML::Comment(enumeration::get_value_set<EnumMappingType>());
         out << YAML::Key << ::adapter::keys::index << YAML::Value << 0;
         out << YAML::Key << keys::mask << YAML::Value << YAML::Hex << 0xFFFF << YAML::Comment("mask the register. map masked values to enum values");
         out << YAML::Value << ::adapter::keys::mapping;
@@ -69,7 +70,7 @@ namespace modbus {
 
     void MeasurementConfigWriteVisitor::write_mapped_schedule_parameter_keys(YAML::Emitter& out)
     {
-        throw Exception("schdule parameter lists not supported for Modbus measurement profiles");
+        throw Exception("schedule parameter lists not supported for Modbus measurement profiles");
     }
 }
 }

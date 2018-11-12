@@ -6,7 +6,6 @@
 #include <adapter-api/config/SubscribingConfigReadVisitorBase.h>
 
 #include "ControlSubscriptionHandler.h"
-#include "ICommandPrioritySource.h"
 
 namespace adapter {
 namespace dnp3 {
@@ -14,7 +13,7 @@ namespace dnp3 {
     // keep these helpers out of the template
     namespace read {
 
-        std::vector<PrioritizedCommand> control_list(const YAML::Node& node, const ICommandPrioritySource& priority_source)
+        std::vector<PrioritizedCommand> control_list(const YAML::Node& node, ICommandPrioritySource& priority_source)
         {
             std::vector<PrioritizedCommand> commands;
 
@@ -26,7 +25,7 @@ namespace dnp3 {
                     processor.DirectOperate(crob, index, callback);
                 };
 
-                commands.emplace_back(action, priority_source.get_binary_output_priority(control.index));
+                commands.emplace_back(action, priority_source.get_priority(node));
             };
 
             yaml::foreach (node, read_one);
@@ -39,12 +38,12 @@ namespace dnp3 {
     class SubscribingConfigReadVisitor final : public SubscribingConfigReadVisitorBase<T> {
 
         const std::shared_ptr<CommandConfiguration<T>> configuration = std::make_shared<CommandConfiguration<T>>();
-        const ICommandPrioritySource& priority;
+        ICommandPrioritySource& priorities;
 
     public:
-        explicit SubscribingConfigReadVisitor(const YAML::Node& root, const ICommandPrioritySource& priority)
+        explicit SubscribingConfigReadVisitor(const YAML::Node& root, ICommandPrioritySource& priorities)
             : SubscribingConfigReadVisitorBase<T>(root)
-            , priority(priority)
+            , priorities(priorities)
         {
         }
 
@@ -76,8 +75,8 @@ namespace dnp3 {
     template <class T>
     void SubscribingConfigReadVisitor<T>::handle_mapped_field(const YAML::Node& node, const accessor_t<T, bool>& accessor)
     {
-        const auto when_true = read::control_list(yaml::require(node, ::adapter::keys::when_true), this->priority);
-        const auto when_false = read::control_list(yaml::require(node, ::adapter::keys::when_false), this->priority);
+        const auto when_true = read::control_list(yaml::require(node, ::adapter::keys::when_true), this->priorities);
+        const auto when_false = read::control_list(yaml::require(node, ::adapter::keys::when_false), this->priorities);
 
         if (when_true.empty() && when_false.empty()) {
             return;

@@ -5,7 +5,7 @@ boost_lexical_cast/1.66.0@bincrafters/stable
 boost_numeric_conversion/1.66.0@bincrafters/stable
 boost_uuid/1.66.0@bincrafters/stable
 boost_variant/1.66.0@bincrafters/stable
-protobuf/3.5.2@bincrafters/stable
+#protobuf/3.5.2@bincrafters/stable
 yaml-cpp/0.5.3@bincrafters/stable
 
 [generators]

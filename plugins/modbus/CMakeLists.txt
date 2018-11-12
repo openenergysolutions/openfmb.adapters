@@ -5,10 +5,9 @@ set(MODBUS_PUBLIC_HEADERS
 set(MODBUS_SOURCES
         src/modbus/CommandOptions.h
         src/modbus/CommandOrdering.h
-        src/modbus/ICommandPrioritySource.h
-        src/modbus/CommandPriorityMap.h
-        src/modbus/CommandPriorityMap.cpp
         src/modbus/CommandSinkActions.h
+        src/modbus/DoubleWord.h
+        src/modbus/DoubleWord.cpp
         src/modbus/PublishConfigReadVisitor.h
         src/modbus/SubscribeConfigReadVisitor.h
         src/modbus/ConfigStrings.h
@@ -26,9 +25,10 @@ set(MODBUS_SOURCES
         src/modbus/IRequestBuilder.h
         src/modbus/MeasurementConfigWriteVisitor.h
         src/modbus/MeasurementConfigWriteVisitor.cpp
+        src/modbus/MultipleRegisterEnumMapping.h
+        src/modbus/MultipleRegisterEnumMapping.cpp
         src/modbus/ControlConfigWriteVisitor.h
         src/modbus/ControlConfigWriteVisitor.cpp
-        src/modbus/ConfigWriteVisitor.h
         src/modbus/PollHandler.h
         src/modbus/PollHandler.cpp
         src/modbus/Plugin.h
@@ -47,6 +47,8 @@ set(MODBUS_SOURCES
         src/modbus/CommandSink.cpp
         src/modbus/CommandSink.h
         src/modbus/SessionWrapper.h
+        src/modbus/SingleRegisterEnumMapping.h
+        src/modbus/SingleRegisterEnumMapping.cpp
         src/modbus/WriteRegisterTransaction.h
         src/modbus/WriteRegisterTransaction.cpp
         src/modbus/WriteMultipleRegistersTransaction.h
@@ -57,14 +59,16 @@ set(MODBUS_SOURCES
         src/modbus/SessionWrapper.h
         src/modbus/CommandOptions.h
         # generated enums
-        src/modbus/generated/CommandType.h
-        src/modbus/generated/CommandType.cpp
-        src/modbus/generated/OutputType.h
-        src/modbus/generated/OutputType.cpp
         src/modbus/generated/BitwiseOperation.h
         src/modbus/generated/BitwiseOperation.cpp
+        src/modbus/generated/EnumMappingType.h
+        src/modbus/generated/EnumMappingType.cpp
+        src/modbus/generated/CommandType.h
+        src/modbus/generated/CommandType.cpp
         src/modbus/generated/LogLevel.h
         src/modbus/generated/LogLevel.cpp
+        src/modbus/generated/OutputType.h
+        src/modbus/generated/OutputType.cpp
         src/modbus/generated/RegisterMapping.h
         src/modbus/generated/RegisterMapping.cpp
         src/modbus/generated/SourceType.h
