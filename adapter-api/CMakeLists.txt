@@ -1,4 +1,14 @@
 
+if(NOT OPENFMB_USE_CONAN)
+
+	set(Boost_USE_STATIC_LIBS ON)
+	find_package(Boost)# 1.57 REQUIRED COMPONENTS algorithms iostreams lexical_cast numeric_conversions uuid variant)
+	if(NOT Boost_FOUND)
+		message( FATAL_ERROR "Can't find boost libraries" )
+	endif()
+
+endif()
+
 set(API_HEADERS
 	include/adapter-api/ConfigStrings.h
 	include/adapter-api/IPlugin.h
@@ -116,6 +126,9 @@ execute_process(
 )
 
 add_library(adapter-api ${API_SOURCES} ${API_HEADERS})
+
+if(OPENFMB_USE_CONAN)
+
 target_link_libraries(adapter-api PUBLIC
     proto-api
     CONAN_PKG::boost_algorithm
@@ -124,6 +137,15 @@ target_link_libraries(adapter-api PUBLIC
     CONAN_PKG::boost_numeric_conversion
     CONAN_PKG::boost_uuid
     CONAN_PKG::yaml-cpp)
+
+else()
+
+target_link_libraries(adapter-api PUBLIC
+		proto-api
+		Boost::boost
+		libyaml-cpp.a)
+
+endif()
 
 target_include_directories(adapter-api PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_include_directories(adapter-api PUBLIC ${CMAKE_SOURCE_DIR}/deps/spdlog/include)

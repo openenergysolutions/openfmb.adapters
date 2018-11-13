@@ -2,11 +2,17 @@ cmake_minimum_required (VERSION 3.0)
 project (openfmb-adapter)
 set(OPENFMB_ADAPTER_VERSION 0.0.1)
 
-if(NOT EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-  message(FATAL_ERROR "Unable to locate 'conanbuildinfo.cmake' file. Make sure to run 'conan install ..' in the build directory.")
+option(OPENFMB_USE_CONAN "Use the conan package manager" ON)
+
+if(OPENFMB_USE_CONAN)
+  if(NOT EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+    message(FATAL_ERROR "Unable to locate 'conanbuildinfo.cmake' file. Make sure to run 'conan install ..' in the build directory.")
+  else()
+    include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+    conan_basic_setup(TARGETS NO_OUTPUT_DIRS)
+  endif()
 else()
-  include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-  conan_basic_setup(TARGETS NO_OUTPUT_DIRS)
+  message("Conan support is disabled")
 endif()
 
 # optionally disable certain plugins

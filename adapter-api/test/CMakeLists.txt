@@ -16,5 +16,11 @@ set(CPP_FORMAT_DIRS
 add_executable(test-adapter-api ${TEST_SOURCES})
 target_include_directories(test-adapter-api PRIVATE ${CMAKE_SOURCE_DIR}/deps/catch ${CMAKE_SOURCE_DIR}/deps/cppcodec)
 target_include_directories(test-adapter-api PRIVATE ../src)
-target_link_libraries(test-adapter-api PRIVATE adapter-api  CONAN_PKG::boost_variant)
+
+if(OPENFMB_USE_CONAN)
+    target_link_libraries(test-adapter-api PRIVATE adapter-api  CONAN_PKG::boost_variant)
+else()
+    target_link_libraries(test-adapter-api PRIVATE adapter-api)
+endif()
+
 add_test(test-adapter-api test-adapter-api)
