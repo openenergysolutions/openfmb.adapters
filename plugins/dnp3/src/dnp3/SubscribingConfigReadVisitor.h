@@ -98,13 +98,13 @@ namespace dnp3 {
     }
 
     template <class T>
-    void SubscribingConfigReadVisitor<T>::handle_mapped_field(const YAML::Node& node, const accessor_t<T, int>& accessor)
+    void SubscribingConfigReadVisitor<T>::handle_mapped_field(const YAML::Node& node, const accessor_t<T, int32_t>& accessor)
     {
         // ignored
     }
 
     template <class T>
-    void SubscribingConfigReadVisitor<T>::handle_mapped_field(const YAML::Node& node, const accessor_t<T, long>& accessor)
+    void SubscribingConfigReadVisitor<T>::handle_mapped_field(const YAML::Node& node, const accessor_t<T, int64_t>& accessor)
     {
         // ignored
     }
