@@ -2,9 +2,9 @@
 
 Adapter that converts legacy protocols to OpenFMB messages over various transports.
 
-# build requirements
+# building w/ conan
 
-The build uses the [conan](https://conan.io/) package manager.
+The build defaults to using the [conan](https://conan.io/) package manager. This greatly simplifies the build process on windows.
 
 You can install it using python pip:
 
@@ -26,6 +26,14 @@ Edit your default conan profile to tell it to explicitly use C++11 standard libr
 
 Change the line that reads `compiler.libcxx=libstdc++` to be `compiler.libcxx=libstdc++11`
 
+# building w/o conan
+
+If you don't want to use conan, you can configure cmake as follows:
+
+`> cmake -DOPENFMB_USE_CONAN=OFF`
+
+You'll have to use your system package manager to install boost / yaml-cpp / libpcap / etc, or install these packages via manual builds.
+
 # cloning
 
 clone the repository with the "--recursive" option to automatically obtain submodule dependencies
@@ -46,7 +54,7 @@ Create a build directory, and then have conan check that all dependencies are in
 
 ```
 > mkdir build; cd build
-> conan install ..
+> conan install .. # only if using conan
 ```
 
 This can take a long time the first time it runs on your system.
