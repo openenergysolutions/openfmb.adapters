@@ -12,6 +12,7 @@ namespace timescaledb {
 
     TimescaleDBArchiver::TimescaleDBArchiver(const Logger& logger,
                                              const std::string& database_url,
+                                             bool store_measurement,
                                              const std::string& table_name,
                                              bool store_raw_messages,
                                              const std::string& raw_table_name,
@@ -19,6 +20,7 @@ namespace timescaledb {
                                              std::chrono::steady_clock::duration connection_retry)
         : m_logger{ logger }
         , m_database_url{ database_url }
+        , m_store_measurement { store_measurement }
         , m_table_name{ table_name }
         , m_store_raw_messages{ store_raw_messages }
         , m_raw_table_name{ raw_table_name }
@@ -43,7 +45,7 @@ namespace timescaledb {
 
     void TimescaleDBArchiver::start()
     {
-        m_worker_thread = std::thread{ &TimescaleDBArchiver::run, this };
+        m_worker_thread = std::thread{&TimescaleDBArchiver::run, this};
         if (m_store_raw_messages) {
             m_worker_thread_raw_messages = std::thread{&TimescaleDBArchiver::run_store_raw_messages, this};
         }
@@ -82,60 +84,62 @@ namespace timescaledb {
             if (!message)
                 continue;
 
-            std::ostringstream oss;
-            oss << "INSERT INTO " << m_table_name + " "
-                << "(message_uuid, timestamp, device_uuid, tagname, ";
+            if (m_store_measurement) {
+                std::ostringstream oss;
+                oss << "INSERT INTO " << m_table_name + " "
+                    << "(message_uuid, timestamp, device_uuid, tagname, ";
 
-            std::ostringstream values;
-            values << "("
-                << "'" << boost::uuids::to_string(message->message_uuid) << "',"
-                << "to_timestamp(" << std::to_string(message->timestamp) << "),"
-                << "'" << boost::uuids::to_string(message->device_uuid) << "',"
-                << "'" << message->profile_name + "',";
+                std::ostringstream values;
+                values << "("
+                       << "'" << boost::uuids::to_string(message->message_uuid) << "',"
+                       << "to_timestamp(" << std::to_string(message->timestamp) << "),"
+                       << "'" << boost::uuids::to_string(message->device_uuid) << "',"
+                       << "'" << message->profile_name + "',";
 
-            bool first = true;
-            for (auto& item : message->items) {
-                std::string value;
-                std::string column;
+                bool first = true;
+                for (auto &item : message->items) {
+                    std::string value;
+                    std::string column;
 
-                if (get_column_value(&item, value, column)) {
+                    if (get_column_value(&item, value, column)) {
 
-                    if (!first) {
-                        oss << ", ";
-                        values << ", ";
+                        if (!first) {
+                            oss << ", ";
+                            values << ", ";
+                        }
+
+                        oss << column;
+                        values << value;
+
+                        first = false;
                     }
-
-                    oss << column;
-                    values << value;
-
-                    first = false;
                 }
-            }
 
-            oss << ")";
-            values << ")";
+                oss << ")";
+                values << ")";
 
-            m_logger.info(values.str());
+                m_logger.debug(values.str());
 
-            oss << " VALUES " << values.str();
+                oss << " VALUES " << values.str();
 
-            oss << " ON CONFLICT DO NOTHING";
+                oss << " ON CONFLICT DO NOTHING";
 
-            auto result = m_connection->exec(oss.str().c_str());
-            if (result.is_successful()) {
-                m_logger.info("Successfully inserted {} values", result.get_num_rows());
-            } else {
-                m_logger.error("PostgreSQL request failed: {}", result.get_error());
+                auto result = m_connection->exec(oss.str().c_str());
+                if (result.is_successful()) {
+                    m_logger.info("Successfully inserted {} row(s) into {}.", result.get_num_rows(), m_table_name);
+                } else {
+                    m_logger.error("PostgreSQL request failed: {}", result.get_error());
 
-                // The value is put back in front for reprocessing
-                auto successfully_pushed = m_queue.push_front(std::move(message));
-                if (!successfully_pushed) {
-                    m_logger.warn("Buffer is full, the last message won't be reprocessed.");
+                    // The value is put back in front for reprocessing
+                    auto successfully_pushed = m_queue.push_front(std::move(message));
+                    if (!successfully_pushed) {
+                        m_logger.warn("Buffer is full, the last message won't be reprocessed.");
+                    }
                 }
             }
 
             if (m_store_raw_messages) {
-                auto successfully_pushed = m_queue_for_raw_messages.push_front(std::move(message));
+                auto successfully_pushed = m_queue_for_raw_messages.push(std::move(message));
                 if (!successfully_pushed) {
                     m_logger.warn("Buffer (raw messages) is full, the last message won't be reprocessed.");
                 }
@@ -184,7 +188,7 @@ namespace timescaledb {
 
             auto rs = m_connection_raw_messages->exec(query.str().c_str(), message->raw_data.get(), message->raw_data_size);
             if (rs.is_successful()) {
-                m_logger.info("Successfully inserted {} values", rs.get_num_rows());
+                m_logger.info("Successfully inserted {} row(s) into {}.", rs.get_num_rows(), m_raw_table_name);
             } else {
                 m_logger.error("PostgreSQL request failed: {}", rs.get_error());
 

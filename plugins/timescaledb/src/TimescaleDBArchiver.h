@@ -13,6 +13,7 @@ namespace timescaledb {
     public:
         TimescaleDBArchiver(const Logger& logger,
                             const std::string& database_url,
+                            bool store_measurement,
                             const std::string& table_name,
                             bool store_raw_messages,
                             const std::string& raw_table_name,
@@ -40,6 +41,7 @@ namespace timescaledb {
         bool m_shutdown;
 
         // Measurement values
+        bool m_store_measurement;
         std::string m_table_name;
         util::SynchronizedQueue<Message> m_queue;
         std::thread m_worker_thread;
