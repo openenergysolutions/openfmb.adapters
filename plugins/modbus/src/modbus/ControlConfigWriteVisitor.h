@@ -1,12 +1,12 @@
 #ifndef OPENFMB_ADAPTER_MODBUS_CONTROLCONFIGWRITEVISITOR_H
 #define OPENFMB_ADAPTER_MODBUS_CONTROLCONFIGWRITEVISITOR_H
 
-#include <adapter-api/config/ConfigWriteVisitorBase.h>
+#include <adapter-util/config/ConfigWriteVisitorBase.h>
 
 namespace adapter {
 namespace modbus {
 
-    class ControlConfigWriteVisitor final : public ConfigWriteVisitorBase {
+    class ControlConfigWriteVisitor final : public util::ConfigWriteVisitorBase {
 
     public:
         explicit ControlConfigWriteVisitor(YAML::Emitter& out);

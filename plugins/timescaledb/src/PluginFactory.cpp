@@ -2,7 +2,7 @@
 
 #include "ConfigStrings.h"
 #include "Plugin.h"
-#include "adapter-api/util/Exception.h"
+#include "adapter-api/Exception.h"
 
 namespace adapter {
 namespace timescaledb {
@@ -26,12 +26,12 @@ namespace timescaledb {
         ;
     }
 
-    void PluginFactory::write_session_config(YAML::Emitter& out, const profile_vec_t& profiles) const
+    void PluginFactory::write_session_config(YAML::Emitter& out, const api::profile_vec_t& profiles) const
     {
-        throw Exception("timescaledb adapter does not support writing session configuration");
+        throw api::Exception("timescaledb adapter does not support writing session configuration");
     }
 
-    std::unique_ptr<IPlugin> PluginFactory::create(const YAML::Node& node, const Logger& logger, message_bus_t bus)
+    std::unique_ptr<api::IPlugin> PluginFactory::create(const YAML::Node& node, const api::Logger& logger, api::message_bus_t bus)
     {
         return std::make_unique<Plugin>(node, logger, *bus);
     }

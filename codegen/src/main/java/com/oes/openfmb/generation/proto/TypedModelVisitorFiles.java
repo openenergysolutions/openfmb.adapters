@@ -3,10 +3,7 @@ package com.oes.openfmb.generation.proto;
 import com.google.protobuf.Descriptors;
 import com.oes.openfmb.generation.document.*;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-import java.util.SortedMap;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.oes.openfmb.generation.document.Document.*;
@@ -36,8 +33,8 @@ public class TypedModelVisitorFiles implements CppFileCollection {
                                 space,
                                 include("../ITypedModelVisitor.h"),
                                 Document.space,
-                                namespace(
-                                        "adapter",
+                                namespaces(
+                                        Arrays.asList("adapter", "util"),
                                         spaced(
                                                 this.descriptors.stream().map(d -> line(getVisitSignature(d) + ";"))
                                         )
@@ -60,11 +57,11 @@ public class TypedModelVisitorFiles implements CppFileCollection {
                     name.getImplementationName(),
                     () -> join(
                             FileHeader.lines,
-                            include("adapter-api/config/generated/TypedModelVisitors.h"),
+                            include("adapter-util/config/generated/TypedModelVisitors.h"),
                             include("../AccessorImpl.h"),
                             space,
-                            namespace(
-                                    "adapter",
+                            namespaces(
+                                    Arrays.asList("adapter", "util"),
                                     line("template <class V>"),
                                     line("using set_t = setter_t<%s, V>;", Helpers.cppMessageName(descriptor)),
                                     space,

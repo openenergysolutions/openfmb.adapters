@@ -4,8 +4,8 @@
 #include "ConfigKeys.h"
 #include "Plugin.h"
 
-#include <adapter-api/ConfigStrings.h>
-#include <adapter-api/util/Exception.h>
+#include <adapter-api/Exception.h>
+#include <adapter-util/ConfigStrings.h>
 
 namespace adapter {
 namespace log {
@@ -31,7 +31,7 @@ namespace log {
         out << YAML::EndSeq;
     }
 
-    std::unique_ptr<IPlugin> PluginFactory::create(const YAML::Node& node, const Logger& logger, message_bus_t bus)
+    std::unique_ptr<api::IPlugin> PluginFactory::create(const YAML::Node& node, const api::Logger& logger, api::message_bus_t bus)
     {
         return std::make_unique<Plugin>(node, logger, std::move(bus));
     }
@@ -44,9 +44,9 @@ namespace log {
         out << YAML::BeginSeq;
 
         out << YAML::BeginMap;
-        out << YAML::Key << ::adapter::keys::profile << YAML::Value << metermodule::MeterReadingProfile::descriptor()->name();
-        out << YAML::Key << ::adapter::keys::name << YAML::Value << "" << YAML::Comment("conducting equipment name");
-        out << YAML::Key << ::adapter::keys::path << YAML::Value << "values.txt" << YAML::Comment("file to which values will be appended");
+        out << YAML::Key << util::keys::profile << YAML::Value << metermodule::MeterReadingProfile::descriptor()->name();
+        out << YAML::Key << util::keys::name << YAML::Value << "" << YAML::Comment("conducting equipment name");
+        out << YAML::Key << util::keys::path << YAML::Value << "values.txt" << YAML::Comment("file to which values will be appended");
         out << YAML::Key << keys::print_alias << YAML::Value << true;
         out << YAML::Key << keys::log_all_values << YAML::Value << false;
         out << YAML::Key << keys::values;
@@ -56,9 +56,9 @@ namespace log {
         out << YAML::EndSeq;
     }
 
-    void PluginFactory::write_session_config(YAML::Emitter& out, const profile_vec_t& profiles) const
+    void PluginFactory::write_session_config(YAML::Emitter& out, const api::profile_vec_t& profiles) const
     {
-        throw Exception("Log adapter does not support writing session configuration");
+        throw api::Exception("Log adapter does not support writing session configuration");
     }
 }
 }

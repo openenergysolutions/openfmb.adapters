@@ -3,8 +3,8 @@
 #ifndef OPENFMB_ADAPTER_CONTROLSUBSCRIPTIONHANDLER_H
 #define OPENFMB_ADAPTER_CONTROLSUBSCRIPTIONHANDLER_H
 
-#include "adapter-api/ISubscriptionHandler.h"
-#include "adapter-api/Logger.h"
+#include <adapter-api/ISubscriptionHandler.h>
+#include <adapter-api/Logger.h>
 
 #include "CommandConfiguration.h"
 #include "CommandSequence.h"
@@ -13,15 +13,15 @@ namespace adapter {
 namespace dnp3 {
 
     template <class T>
-    class ControlSubscriptionHandler final : public ISubscriptionHandler<T> {
+    class ControlSubscriptionHandler final : public api::ISubscriptionHandler<T> {
 
         const std::string mRID;
-        Logger logger;
+        api::Logger logger;
         const std::shared_ptr<CommandConfiguration<T>> configuration;
         const std::shared_ptr<ICommandSequenceExecutor> executor;
 
     public:
-        ControlSubscriptionHandler(std::string mRID, Logger logger, std::shared_ptr<CommandConfiguration<T>> configuration, std::shared_ptr<ICommandSequenceExecutor> executor);
+        ControlSubscriptionHandler(std::string mRID, api::Logger logger, std::shared_ptr<CommandConfiguration<T>> configuration, std::shared_ptr<ICommandSequenceExecutor> executor);
 
     protected:
         bool matches(const T& message) const override;
@@ -30,7 +30,7 @@ namespace dnp3 {
     };
 
     template <class T>
-    ControlSubscriptionHandler<T>::ControlSubscriptionHandler(std::string mRID, Logger logger, std::shared_ptr<CommandConfiguration<T>> configuration, std::shared_ptr<ICommandSequenceExecutor> executor)
+    ControlSubscriptionHandler<T>::ControlSubscriptionHandler(std::string mRID, api::Logger logger, std::shared_ptr<CommandConfiguration<T>> configuration, std::shared_ptr<ICommandSequenceExecutor> executor)
         : mRID(std::move(mRID))
         , logger(std::move(logger))
         , configuration(std::move(configuration))
@@ -41,7 +41,7 @@ namespace dnp3 {
     template <class T>
     bool ControlSubscriptionHandler<T>::matches(const T& message) const
     {
-        return this->mRID == profile_info<T>::get_conducting_equip(message).mrid();
+        return this->mRID == util::profile_info<T>::get_conducting_equip(message).mrid();
     }
 
     template <class T>

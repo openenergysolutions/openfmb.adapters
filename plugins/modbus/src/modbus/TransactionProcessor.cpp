@@ -1,12 +1,12 @@
 
 #include "TransactionProcessor.h"
 
-#include "adapter-api/util/Exception.h"
+#include "adapter-api/Exception.h"
 
 namespace adapter {
 namespace modbus {
 
-    TransactionProcessor::TransactionProcessor(Logger logger)
+    TransactionProcessor::TransactionProcessor(api::Logger logger)
         : logger(std::move(logger))
     {
     }
@@ -22,7 +22,7 @@ namespace modbus {
     {
         std::lock_guard<std::mutex> lock(mutex);
         if (this->session)
-            throw Exception("TransactionProcessor already started");
+            throw api::Exception("TransactionProcessor already started");
         this->session = std::move(session);
         this->check_for_start();
     }

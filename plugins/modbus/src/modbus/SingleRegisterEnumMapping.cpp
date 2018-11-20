@@ -3,8 +3,8 @@
 
 #include "ConfigStrings.h"
 
-#include <adapter-api/ConfigStrings.h>
-#include <adapter-api/util/YAMLUtil.h>
+#include <adapter-util/ConfigStrings.h>
+#include <adapter-util/util/YAMLUtil.h>
 
 namespace adapter {
 namespace modbus {
@@ -13,15 +13,15 @@ namespace modbus {
     {
         std::map<uint16_t, int> mapping;
 
-        yaml::foreach (
-            yaml::require(node, ::adapter::keys::mapping),
+        util::yaml::foreach (
+            util::yaml::require(node, util::keys::mapping),
             [&mapping, descriptor](const YAML::Node& item) {
-                const auto name = yaml::require_string(item, ::adapter::keys::name);
-                const auto value = yaml::require_integer<uint16_t>(item, ::adapter::keys::value);
+                const auto name = util::yaml::require_string(item, util::keys::name);
+                const auto value = util::yaml::require_integer<uint16_t>(item, util::keys::value);
 
                 const auto value_descriptor = descriptor->FindValueByName(name);
                 if (!value_descriptor) {
-                    throw Exception("Bad ", descriptor->name(), " enum name: ", name);
+                    throw api::Exception("Bad ", descriptor->name(), " enum name: ", name);
                 }
                 mapping[value] = value_descriptor->number();
             });
@@ -31,7 +31,7 @@ namespace modbus {
 
     SingleRegisterEnumMapping::SingleRegisterEnumMapping(const YAML::Node& node, google::protobuf::EnumDescriptor const* descriptor)
         : descriptor(descriptor)
-        , mask(yaml::require_integer<uint16_t>(node, keys::mask))
+        , mask(util::yaml::require_integer<uint16_t>(node, keys::mask))
         , mapping(read_mapping(node, descriptor))
     {
     }

@@ -12,7 +12,7 @@ namespace modbus {
     class ModifyRegisterTransaction final : public ModifyRegisterTransactionBase {
 
     public:
-        ModifyRegisterTransaction(Logger logger, uint16_t address, modify_reg_op_t operation)
+        ModifyRegisterTransaction(api::Logger logger, uint16_t address, modify_reg_op_t operation)
             : ModifyRegisterTransactionBase(std::move(logger), address, std::move(operation))
         {
         }

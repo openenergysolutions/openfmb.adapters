@@ -31,7 +31,7 @@ set_property(TARGET postgresql
 
 # Build plugin
 add_library(timescaledb-plugin ${timescaledb_public_headers} ${timescaledb_private_headers} ${timescaledb_src})
-target_link_libraries(timescaledb-plugin PUBLIC adapter-api postgresql)
+target_link_libraries(timescaledb-plugin PUBLIC adapter-util postgresql)
 target_include_directories(timescaledb-plugin PUBLIC ./include)
 clang_tidy(timescaledb-plugin)
 clang_format(timescaledb-plugin)

@@ -5,8 +5,7 @@
 
 #include "ConfigStrings.h"
 
-#include "adapter-api/ConfigStrings.h"
-#include "adapter-api/ProfileMode.h"
+#include "adapter-util/ConfigStrings.h"
 
 #include <google/protobuf/descriptor.h>
 #include <proto-api/switchmodule/switchmodule.pb.h>
@@ -17,7 +16,7 @@ namespace nats {
     void write_profile_keys(YAML::Emitter& out, google::protobuf::Descriptor const* descriptor)
     {
         out << YAML::BeginMap;
-        out << YAML::Key << ::adapter::keys::profile << descriptor->name();
+        out << YAML::Key << util::keys::profile << descriptor->name();
         out << YAML::Key << keys::subject << YAML::Value << "*" << YAML::Comment("* or an mRID");
         out << YAML::EndMap;
     }
@@ -41,7 +40,7 @@ namespace nats {
         out << YAML::EndSeq;
     }
 
-    std::unique_ptr<IPlugin> PluginFactory::create(const YAML::Node& node, const Logger& logger, message_bus_t bus)
+    std::unique_ptr<api::IPlugin> PluginFactory::create(const YAML::Node& node, const api::Logger& logger, api::message_bus_t bus)
     {
         return std::make_unique<Plugin>(
             logger,
@@ -49,9 +48,9 @@ namespace nats {
             std::move(bus));
     }
 
-    void PluginFactory::write_session_config(YAML::Emitter& out, const profile_vec_t& profiles) const
+    void PluginFactory::write_session_config(YAML::Emitter& out, const api::profile_vec_t& profiles) const
     {
-        throw Exception("NATS does not support writing session configuration");
+        throw api::Exception("NATS does not support writing session configuration");
     }
 }
 }

@@ -3,20 +3,20 @@
 
 #include "IArchiver.h"
 #include "PQConnection.h"
-#include "adapter-api/Logger.h"
-#include "adapter-api/util/SynchronizedQueue.h"
+#include "adapter-util/util/SynchronizedQueue.h"
+#include <adapter-api/Logger.h>
 
 namespace adapter {
 namespace timescaledb {
 
     class TimescaleDBArchiver : public IArchiver {
     public:
-        TimescaleDBArchiver(const Logger& logger,
+        TimescaleDBArchiver(const api::Logger& logger,
                             const std::string& database_url,
                             const std::string& table_name,
                             size_t max_queued_messages,
                             std::chrono::steady_clock::duration connection_retry);
-        virtual ~TimescaleDBArchiver();
+        ~TimescaleDBArchiver() override = default;
 
         void save(std::unique_ptr<Message> message) override;
 
@@ -26,7 +26,7 @@ namespace timescaledb {
     private:
         void run();
 
-        Logger m_logger;
+        api::Logger m_logger;
         std::string m_database_url;
         std::string m_table_name;
         std::chrono::steady_clock::duration m_connection_retry;

@@ -13,7 +13,7 @@
 
 #include "LogLevel.h"
 
-#include "adapter-api/util/Exception.h"
+#include "adapter-api/Exception.h"
 
 #include <map>
 
@@ -63,7 +63,7 @@ LogLevel::Value LogLevel::from_string(const std::string& name)
         {Critical, Value::Critical},
     };
     const auto elem = map.find(name);
-    if(elem == map.end()) throw Exception("Unknown value name '", name, "' for enum LogLevel");
+    if(elem == map.end()) throw api::Exception("Unknown value name '", name, "' for enum LogLevel");
     return elem->second;
 }
 

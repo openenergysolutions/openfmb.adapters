@@ -6,8 +6,8 @@
 #include "generated/BitwiseOperation.h"
 #include "generated/OutputType.h"
 
-#include <adapter-api/ConfigStrings.h>
-#include <adapter-api/util/EnumUtil.h>
+#include <adapter-util/ConfigStrings.h>
+#include <adapter-util/util/EnumUtil.h>
 
 namespace adapter {
 namespace modbus {
@@ -16,21 +16,21 @@ namespace modbus {
 
     void write_default_operation_id(YAML::Emitter& out)
     {
-        out << YAML::Key << ::adapter::keys::command_id << "some-command-id";
+        out << YAML::Key << util::keys::command_id << "some-command-id";
     }
 
     void write_index_and_scale(YAML::Emitter& out)
     {
-        out << YAML::Key << ::adapter::keys::index << YAML::Value << 0;
-        out << YAML::Key << ::adapter::keys::scale << YAML::Value << 1.0;
+        out << YAML::Key << util::keys::index << YAML::Value << 0;
+        out << YAML::Key << util::keys::scale << YAML::Value << 1.0;
     }
 
     void write_output_action(YAML::Emitter& out)
     {
-        out << YAML::Key << OutputType::label << YAML::Value << OutputType::none << YAML::Comment(enumeration::get_value_set<OutputType>());
+        out << YAML::Key << OutputType::label << YAML::Value << OutputType::none << YAML::Comment(util::enumeration::get_value_set<OutputType>());
         write_default_operation_id(out);
-        out << YAML::Key << BitwiseOperation::label << YAML::Value << BitwiseOperation::set_masked_bits << YAML::Comment(enumeration::get_value_set<BitwiseOperation>());
-        out << YAML::Key << ::adapter::keys::index << YAML::Value << 0;
+        out << YAML::Key << BitwiseOperation::label << YAML::Value << BitwiseOperation::set_masked_bits << YAML::Comment(util::enumeration::get_value_set<BitwiseOperation>());
+        out << YAML::Key << util::keys::index << YAML::Value << 0;
         out << YAML::Key << keys::mask << YAML::Value << YAML::Hex << 0x0001;
     }
 
@@ -58,8 +58,8 @@ namespace modbus {
 
     void ControlConfigWriteVisitor::write_mapped_bool_keys(YAML::Emitter& out)
     {
-        write_binary_control_keys(out, ::adapter::keys::when_true);
-        write_binary_control_keys(out, ::adapter::keys::when_false);
+        write_binary_control_keys(out, util::keys::when_true);
+        write_binary_control_keys(out, util::keys::when_false);
     }
 
     void ControlConfigWriteVisitor::write_mapped_int32_keys(YAML::Emitter& out)
@@ -74,20 +74,20 @@ namespace modbus {
 
     void ControlConfigWriteVisitor::write_mapped_float_keys(YAML::Emitter& out)
     {
-        out << YAML::Key << OutputType::label << YAML::Value << OutputType::none << YAML::Comment(enumeration::get_value_set<OutputType>());
+        out << YAML::Key << OutputType::label << YAML::Value << OutputType::none << YAML::Comment(util::enumeration::get_value_set<OutputType>());
         write_default_operation_id(out);
         write_index_and_scale(out);
     }
 
     void ControlConfigWriteVisitor::write_mapped_enum_keys(YAML::Emitter& out, google::protobuf::EnumDescriptor const* descriptor)
     {
-        out << YAML::Value << ::adapter::keys::mapping;
+        out << YAML::Value << util::keys::mapping;
         out << YAML::BeginSeq;
         for (auto i = 0; i < descriptor->value_count(); ++i) {
             const auto value = descriptor->value(i);
             out << YAML::BeginMap;
-            out << YAML::Key << ::adapter::keys::name << YAML::Value << value->name();
-            out << YAML::Key << ::adapter::keys::outputs;
+            out << YAML::Key << util::keys::name << YAML::Value << value->name();
+            out << YAML::Key << util::keys::outputs;
             write_output_action_list(out);
             out << YAML::EndMap;
         }

@@ -1,7 +1,7 @@
 #include "MeasurementConfigWriteVisitor.h"
 
 #include "ConfigStrings.h"
-#include "adapter-api/util/Exception.h"
+#include "adapter-util/util/Exception.h"
 
 namespace adapter {
 namespace goose {

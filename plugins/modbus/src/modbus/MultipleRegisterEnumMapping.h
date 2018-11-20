@@ -5,7 +5,7 @@
 #include <cstdint>
 #include <map>
 
-#include <adapter-api/config/IAccessor.h>
+#include <adapter-util/config/IAccessor.h>
 #include <google/protobuf/descriptor.h>
 #include <yaml-cpp/yaml.h>
 
@@ -67,16 +67,16 @@ namespace modbus {
         MultipleRegisterEnumMapping(const YAML::Node& node, google::protobuf::EnumDescriptor const* descriptor);
 
         template <class T>
-        void build(IConfigurationBuilder& builder, const accessor_t<T, int>& accessor, std::shared_ptr<T> profile);
+        void build(IConfigurationBuilder& builder, const util::accessor_t<T, int>& accessor, std::shared_ptr<T> profile);
     };
 
     template <class T>
-    void MultipleRegisterEnumMapping::build(IConfigurationBuilder& builder, const accessor_t<T, int>& accessor, std::shared_ptr<T> profile)
+    void MultipleRegisterEnumMapping::build(IConfigurationBuilder& builder, const util::accessor_t<T, int>& accessor, std::shared_ptr<T> profile)
     {
         const auto shared_value = std::make_shared<SharedValue>(this->mapping);
 
         // when the poll sequence starts, clear the shared value
-        builder.add_begin_action([shared_value](Logger&) { shared_value->value = 0; });
+        builder.add_begin_action([shared_value](api::Logger&) { shared_value->value = 0; });
 
         // each declared bit maps to a register action, this is what writes the actual bits when polls are received
         for (const auto& entry : this->bits) {
@@ -84,7 +84,7 @@ namespace modbus {
         }
 
         // at the end of the poll sequence, we try to look up the accumulated value against the mappings
-        builder.add_end_action([shared_value, mapping = this->mapping, profile, descriptor = this->descriptor, accessor](Logger& logger) {
+        builder.add_end_action([shared_value, mapping = this->mapping, profile, descriptor = this->descriptor, accessor](api::Logger& logger) {
             const auto entry = mapping->find(shared_value->value);
             if (entry == mapping->end()) {
                 logger.warn("No mapping to {} for value {}", descriptor->name(), shared_value->value);

@@ -13,7 +13,7 @@
 
 #include "RegisterMapping.h"
 
-#include "adapter-api/util/Exception.h"
+#include "adapter-api/Exception.h"
 
 #include <map>
 
@@ -63,7 +63,7 @@ RegisterMapping::Value RegisterMapping::from_string(const std::string& name)
         {uint32_with_modulus, Value::uint32_with_modulus},
     };
     const auto elem = map.find(name);
-    if(elem == map.end()) throw Exception("Unknown value name '", name, "' for enum RegisterMapping");
+    if(elem == map.end()) throw api::Exception("Unknown value name '", name, "' for enum RegisterMapping");
     return elem->second;
 }
 

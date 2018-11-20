@@ -36,11 +36,14 @@ enable_testing()
 include(./cmake/ClangFormat.cmake)
 include(./cmake/ClangTidy.cmake)
 
-# Protobuf C++ objects, used by adapter-api and transitively by all plugins
+# Protobuf C++ objects, used by adapter-util and transitively by all plugins
 add_subdirectory(./proto-api)
 
 # API used by the plugins / application
-add_subdirectory(./adapter-api)
+add_subdirectory(adapter-api)
+
+# utility classes used to build the internals of plugins
+add_subdirectory(adapter-util)
 
 # plugin that logs published messages
 add_subdirectory(./plugins/log)

@@ -2,26 +2,26 @@
 #ifndef OPENFMB_ADAPTER_NATS_PUBLISHER_H
 #define OPENFMB_ADAPTER_NATS_PUBLISHER_H
 
-#include "adapter-api/ISubscriptionHandler.h"
-#include "adapter-api/Logger.h"
+#include <adapter-api/ISubscriptionHandler.h>
+#include <adapter-api/Logger.h>
 
 #include "Message.h"
 #include "SubjectName.h"
 #include "SubjectNameSuffix.h"
-#include "adapter-api/util/SynchronizedQueue.h"
+#include "adapter-util/util/SynchronizedQueue.h"
 
 #include <boost/numeric/conversion/cast.hpp>
 
 namespace adapter {
 namespace nats {
     template <class T>
-    class NATSPublisher final : public ISubscriptionHandler<T> // a NATS publisher subscribes to the internal bus
+    class NATSPublisher final : public api::ISubscriptionHandler<T> // a NATS publisher subscribes to the internal bus
     {
 
     public:
         using message_queue_t = util::SynchronizedQueue<Message>;
 
-        NATSPublisher(Logger logger, const SubjectNameSuffix& suffix, std::shared_ptr<message_queue_t> sink)
+        NATSPublisher(api::Logger logger, const SubjectNameSuffix& suffix, std::shared_ptr<message_queue_t> sink)
             : logger(std::move(logger))
             , suffix(suffix)
             , sink(std::move(sink))
@@ -54,7 +54,7 @@ namespace nats {
             }
         }
 
-        Logger logger;
+        api::Logger logger;
         const SubjectNameSuffix suffix;
         const std::shared_ptr<message_queue_t> sink;
     };

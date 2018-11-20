@@ -4,6 +4,8 @@ import com.oes.openfmb.generation.document.impl.BasicDocument;
 import com.oes.openfmb.generation.document.impl.PrefixedDocument;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Stream;
 
 public interface Document {
@@ -89,6 +91,22 @@ public interface Document {
                 .then(Document.join(inner))
                 .then(space)
                 .then(String.format("} // end namespace %s", namespace));
+    }
+
+    static Document namespaces(List<String> namespaces, Document... inner)
+    {
+        if(namespaces.isEmpty()) throw new IllegalArgumentException("namespaces list must contain at least one element");
+
+        Collections.reverse(namespaces);
+
+        Document current = Document.join(inner);
+
+        for(String ns : namespaces)
+        {
+            current = namespace(ns, current);
+        }
+
+        return current;
     }
 
     static Document include(String filename)

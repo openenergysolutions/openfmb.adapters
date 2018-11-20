@@ -1,5 +1,5 @@
 #include "DDSPluginFactory.h"
-#include <adapter-api/ConfigStrings.h>
+#include <adapter-util/ConfigStrings.h>
 
 #include "ConfigKeys.h"
 #include "DDSPlugin.h"

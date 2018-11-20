@@ -48,7 +48,7 @@ set(goose_src
 )
 
 add_library(goose-plugin STATIC ${goose_public_headers} ${goose_private_headers} ${goose_src})
-target_link_libraries(goose-plugin PUBLIC adapter-api goose-cpp)
+target_link_libraries(goose-plugin PUBLIC adapter-util goose-cpp)
 target_include_directories(goose-plugin
         PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
         PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)

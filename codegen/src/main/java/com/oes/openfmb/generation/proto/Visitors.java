@@ -12,8 +12,8 @@ import java.util.List;
 
 public class Visitors
 {
-    private final static Path implDir = Paths.get("../adapter-api/src/config/generated");
-    private final static Path includeDir = Paths.get("../adapter-api/include/adapter-api/config/generated");
+    private final static Path implDir = Paths.get("../adapter-util/src/config/generated");
+    private final static Path includeDir = Paths.get("../adapter-util/include/adapter-util/config/generated");
 
     public final static GeneratedFileSet set = new GeneratedFileSet(
             Arrays.asList(implDir, includeDir),

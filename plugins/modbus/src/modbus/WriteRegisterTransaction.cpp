@@ -7,7 +7,7 @@
 namespace adapter {
 namespace modbus {
 
-    WriteRegisterTransaction::WriteRegisterTransaction(Logger logger, uint16_t index, uint16_t value)
+    WriteRegisterTransaction::WriteRegisterTransaction(api::Logger logger, uint16_t index, uint16_t value)
         : logger(std::move(logger))
         , index(index)
         , value(value)

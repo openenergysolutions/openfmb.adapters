@@ -1,7 +1,9 @@
 
 #include "PollHandler.h"
 
-#include <adapter-api/util/Exception.h>
+#include <adapter-api/Exception.h>
+#include <adapter-api/Logger.h>
+
 #include <boost/numeric/conversion/cast.hpp>
 
 namespace adapter {
@@ -21,7 +23,7 @@ namespace modbus {
         this->end_actions.push_back(std::move(fun));
     }
 
-    void PollHandler::begin(Logger& logger)
+    void PollHandler::begin(api::Logger& logger)
     {
         for (auto& action : this->begin_actions) {
             action(logger);
@@ -40,7 +42,7 @@ namespace modbus {
         }
     }
 
-    void PollHandler::end(Logger& logger)
+    void PollHandler::end(api::Logger& logger)
     {
         for (auto& action : this->end_actions) {
             action(logger);

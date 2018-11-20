@@ -1,12 +1,12 @@
 #ifndef OPENFMB_ADAPTER_GOOSE_SUB_SUBSCRIBINGCONFIGWRITEVISITOR_H
 #define OPENFMB_ADAPTER_GOOSE_SUB_SUBSCRIBINGCONFIGWRITEVISITOR_H
 
-#include "adapter-api/config/ConfigWriteVisitorBase.h"
+#include "adapter-util/config/ConfigWriteVisitorBase.h"
 
 namespace adapter {
 namespace goose {
 
-    class SubscribingConfigWriteVisitor final : public ConfigWriteVisitorBase {
+    class SubscribingConfigWriteVisitor final : public util::ConfigWriteVisitorBase {
 
     public:
         explicit SubscribingConfigWriteVisitor(YAML::Emitter& out);

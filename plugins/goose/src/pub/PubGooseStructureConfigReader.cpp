@@ -12,10 +12,10 @@ namespace goose {
         dataset.visit(visitor);
 
         if (visitor.get_num_elements_visited() < mappings.get_num_fields()) {
-            throw Exception{ "GOOSE message is missing some fields." };
+            throw api::Exception{ "GOOSE message is missing some fields." };
         }
         if (visitor.get_num_elements_visited() > mappings.get_num_fields()) {
-            throw Exception{ "GOOSE message has unexpected fields." };
+            throw api::Exception{ "GOOSE message has unexpected fields." };
         }
     }
 
@@ -61,7 +61,7 @@ namespace goose {
             auto it = m_config_reader.m_bool_handlers.find(name);
             if (it == m_config_reader.m_bool_handlers.end()) {
                 const auto mark = node.Mark();
-                throw Exception{ "Mapping \"", name, "\" is not a boolean value for GOOSE element defined at line ", mark.line + 1 };
+                throw api::Exception{ "Mapping \"", name, "\" is not a boolean value for GOOSE element defined at line ", mark.line + 1 };
             }
 
             m_mappings.add_bool_field(it->second);
@@ -85,7 +85,7 @@ namespace goose {
             }
 
             const auto mark = node.Mark();
-            throw Exception{ "Mapping \"", name, "\" is not an integer value for GOOSE element defined at line ", mark.line + 1 };
+            throw api::Exception{ "Mapping \"", name, "\" is not an integer value for GOOSE element defined at line ", mark.line + 1 };
         }
 
         void on_floating(const YAML::Node& node) final
@@ -94,7 +94,7 @@ namespace goose {
             auto it = m_config_reader.m_float_handlers.find(name);
             if (it == m_config_reader.m_float_handlers.end()) {
                 const auto mark = node.Mark();
-                throw Exception{ "Mapping \"", name, "\" is not a floating point value for GOOSE element defined at line ", mark.line + 1 };
+                throw api::Exception{ "Mapping \"", name, "\" is not a floating point value for GOOSE element defined at line ", mark.line + 1 };
             }
 
             m_mappings.add_float_field(it->second);
@@ -106,7 +106,7 @@ namespace goose {
             auto it = m_config_reader.m_string_handlers.find(name);
             if (it == m_config_reader.m_string_handlers.end()) {
                 const auto mark = node.Mark();
-                throw Exception{ "Mapping \"", name, "\" is not a string point value for GOOSE element defined at line ", mark.line + 1 };
+                throw api::Exception{ "Mapping \"", name, "\" is not a string point value for GOOSE element defined at line ", mark.line + 1 };
             }
 
             m_mappings.add_visible_string_field(it->second);
@@ -118,7 +118,7 @@ namespace goose {
             auto it = m_config_reader.m_string_handlers.find(name);
             if (it == m_config_reader.m_string_handlers.end()) {
                 const auto mark = node.Mark();
-                throw Exception{ "Mapping \"", name, "\" is not a string point value for GOOSE element defined at line ", mark.line + 1 };
+                throw api::Exception{ "Mapping \"", name, "\" is not a string point value for GOOSE element defined at line ", mark.line + 1 };
             }
 
             m_mappings.add_mms_string_field(it->second);
@@ -130,7 +130,7 @@ namespace goose {
             auto it = m_config_reader.m_bitstring_handlers.find(name);
             if (it == m_config_reader.m_bitstring_handlers.end()) {
                 const auto mark = node.Mark();
-                throw Exception{ "Mapping \"", name, "\" is not a bitstring point value for GOOSE element defined at line ", mark.line + 1 };
+                throw api::Exception{ "Mapping \"", name, "\" is not a bitstring point value for GOOSE element defined at line ", mark.line + 1 };
             }
 
             m_mappings.add_bitstring_field(it->second);
@@ -142,7 +142,7 @@ namespace goose {
             auto it = m_config_reader.m_timestamp_handlers.find(name);
             if (it == m_config_reader.m_timestamp_handlers.end()) {
                 const auto mark = node.Mark();
-                throw Exception{ "Mapping \"", name, "\" is not a string point value for GOOSE element defined at line ", mark.line + 1 };
+                throw api::Exception{ "Mapping \"", name, "\" is not a string point value for GOOSE element defined at line ", mark.line + 1 };
             }
 
             m_mappings.add_generalizedtime_field(it->second);
@@ -154,7 +154,7 @@ namespace goose {
             auto it = m_config_reader.m_timestamp_handlers.find(name);
             if (it == m_config_reader.m_timestamp_handlers.end()) {
                 const auto mark = node.Mark();
-                throw Exception{ "Mapping \"", name, "\" is not a string point value for GOOSE element defined at line ", mark.line + 1 };
+                throw api::Exception{ "Mapping \"", name, "\" is not a string point value for GOOSE element defined at line ", mark.line + 1 };
             }
 
             m_mappings.add_binarytime_field(it->second);
@@ -166,7 +166,7 @@ namespace goose {
             auto it = m_config_reader.m_timestamp_handlers.find(name);
             if (it == m_config_reader.m_timestamp_handlers.end()) {
                 const auto mark = node.Mark();
-                throw Exception{ "Mapping \"", name, "\" is not a string point value for GOOSE element defined at line ", mark.line + 1 };
+                throw api::Exception{ "Mapping \"", name, "\" is not a string point value for GOOSE element defined at line ", mark.line + 1 };
             }
 
             m_mappings.add_utctime_field(it->second);
@@ -180,7 +180,7 @@ namespace goose {
             auto it = m_config_reader.m_all_handlers.find(name);
             if (it == m_config_reader.m_all_handlers.end()) {
                 const auto mark = node.Mark();
-                throw Exception{ "No mapping named \"", name, "\" found for GOOSE element defined at line ", mark.line + 1 };
+                throw api::Exception{ "No mapping named \"", name, "\" found for GOOSE element defined at line ", mark.line + 1 };
             }
             return name;
         }

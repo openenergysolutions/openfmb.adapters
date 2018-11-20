@@ -1,6 +1,6 @@
 #include "Plugin.h"
 
-#include "adapter-api/util/YAMLUtil.h"
+#include "adapter-util/util/YAMLUtil.h"
 
 #include "BusListener.h"
 #include "ConfigStrings.h"
@@ -10,21 +10,21 @@ namespace timescaledb {
 
     template <class T>
     struct ProfileSubscriber {
-        static void handle(const Logger& logger, const std::shared_ptr<TimescaleDBArchiver>& archiver, IMessageBus& bus)
+        static void handle(const api::Logger& logger, const std::shared_ptr<TimescaleDBArchiver>& archiver, api::IMessageBus& bus)
         {
             bus.subscribe(std::make_shared<BusListener<T>>(logger, archiver));
         }
     };
 
-    Plugin::Plugin(const YAML::Node& node, const Logger& logger, IMessageBus& bus)
+    Plugin::Plugin(const YAML::Node& node, const api::Logger& logger, api::IMessageBus& bus)
         : m_logger{ logger }
         , m_archiver{ std::make_shared<TimescaleDBArchiver>(logger,
-                                                            yaml::require_string(node, keys::database_url),
-                                                            yaml::require_string(node, keys::table_name),
-                                                            yaml::require(node, keys::max_queued_messages).as<size_t>(),
-                                                            std::chrono::seconds(yaml::require(node, keys::connect_retry_seconds).as<uint32_t>())) }
+                                                            util::yaml::require_string(node, keys::database_url),
+                                                            util::yaml::require_string(node, keys::table_name),
+                                                            util::yaml::require(node, keys::max_queued_messages).as<size_t>(),
+                                                            std::chrono::seconds(util::yaml::require(node, keys::connect_retry_seconds).as<uint32_t>())) }
     {
-        ProfileRegistry::handle_all<ProfileSubscriber>(logger, this->m_archiver, bus);
+        api::ProfileRegistry::handle_all<ProfileSubscriber>(logger, this->m_archiver, bus);
     }
 
     Plugin::~Plugin()

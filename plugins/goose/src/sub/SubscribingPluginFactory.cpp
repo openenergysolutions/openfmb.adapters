@@ -1,9 +1,9 @@
 #include "goose/SubscribingPluginFactory.h"
 
 #include "ConfigStrings.h"
-#include "adapter-api/ConfigStrings.h"
-#include "adapter-api/config/generated/ModelVisitors.h"
-#include "adapter-api/util/YAMLTemplate.h"
+#include "adapter-util/ConfigStrings.h"
+#include "adapter-util/config/generated/ModelVisitors.h"
+#include "adapter-util/util/YAMLTemplate.h"
 #include "generated/Type.h"
 #include "sub/SubscribingConfigWriteVisitor.h"
 #include "sub/SubscribingPlugin.h"
@@ -19,7 +19,7 @@ namespace goose {
         {
             std::cout << "Generating: " << T::descriptor()->name() << std::endl;
             SubscribingConfigWriteVisitor visitor(out);
-            visit<T>(visitor);
+            util::visit<T>(visitor);
         }
     };
 
@@ -33,7 +33,7 @@ namespace goose {
         return "maps OpenFMB messages to the GOOSE protocol";
     }
 
-    std::unique_ptr<IPlugin> SubscribingPluginFactory::create(const YAML::Node& node, const Logger& logger, message_bus_t bus)
+    std::unique_ptr<api::IPlugin> SubscribingPluginFactory::create(const YAML::Node& node, const api::Logger& logger, api::message_bus_t bus)
     {
         return std::make_unique<SubscribingPlugin>(node, logger, bus);
     }
@@ -41,13 +41,13 @@ namespace goose {
     void SubscribingPluginFactory::write_default_config(YAML::Emitter& out) const
     {
         out << YAML::Key << keys::goCb;
-        yaml::write_default_template_config(out, "goCb-template.yaml");
+        util::yaml::write_default_template_config(out, "goCb-template.yaml");
     }
 
-    void SubscribingPluginFactory::write_session_config(YAML::Emitter& out, const profile_vec_t& profiles) const
+    void SubscribingPluginFactory::write_session_config(YAML::Emitter& out, const api::profile_vec_t& profiles) const
     {
         if (profiles.size() != 1) {
-            throw Exception("You must specify exactly one profile when generating goose-sub session configuration");
+            throw api::Exception("You must specify exactly one profile when generating goose-sub session configuration");
         }
         auto profile = profiles[0];
 
@@ -62,11 +62,11 @@ namespace goose {
         out << YAML::Key << keys::goID << YAML::Value << "REF615A_204LD0/LLN0.OpenFMBheartbeat" << YAML::Comment("goID");
         out << YAML::Key << keys::confRev << YAML::Value << 100 << YAML::Comment("Configuration revision");
         out << YAML::Key << keys::ttl << YAML::Value << 1000 << YAML::Comment("Retransmission interval (in ms)");
-        out << YAML::Key << ::adapter::keys::profile << YAML::Value << profile;
+        out << YAML::Key << util::keys::profile << YAML::Value << profile;
         write_goose_structure(out);
         out << YAML::Key << keys::mapping;
         out << YAML::BeginMap;
-        ProfileRegistry::handle_by_name<SubWriterHandler>(profile, out);
+        api::ProfileRegistry::handle_by_name<SubWriterHandler>(profile, out);
         out << YAML::EndMap;
         out << YAML::EndMap;
     }

@@ -1,11 +1,11 @@
 #ifndef OPENFMB_ADAPTER_GOOSE_SUB_SUBSCRIBINGCONFIGREADER_H
 #define OPENFMB_ADAPTER_GOOSE_SUB_SUBSCRIBINGCONFIGREADER_H
 
-#include "adapter-api/Logger.h"
-#include "adapter-api/config/SubscribingConfigReadVisitorBase.h"
-#include "adapter-api/util/Exception.h"
+#include "adapter-util/config/SubscribingConfigReadVisitorBase.h"
 #include "goose-cpp/messages/BitString.h"
 #include "yaml-cpp/yaml.h"
+#include <adapter-api/Exception.h>
+#include <adapter-api/Logger.h>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
@@ -15,11 +15,11 @@ namespace adapter {
 namespace goose {
 
     template <typename T>
-    class SubscribingConfigReadVisitor final : public SubscribingConfigReadVisitorBase<T> {
+    class SubscribingConfigReadVisitor final : public util::SubscribingConfigReadVisitorBase<T> {
     public:
-        SubscribingConfigReadVisitor(const YAML::Node& root, Logger logger)
-            : SubscribingConfigReadVisitorBase<T>(root)
-            , m_logger{ logger }
+        SubscribingConfigReadVisitor(const YAML::Node& root, api::Logger logger)
+            : util::SubscribingConfigReadVisitorBase<T>(root)
+            , m_logger{ std::move(logger) }
         {
         }
 
@@ -28,7 +28,7 @@ namespace goose {
             return m_names.find(name) != m_names.end();
         }
 
-        bool get_bool(const std::string& name, accessor_t<T, bool>& accessor) const
+        bool get_bool(const std::string& name, util::accessor_t<T, bool>& accessor) const
         {
             auto search = m_bool_accessors.find(name);
             if (search == m_bool_accessors.end()) {
@@ -39,7 +39,7 @@ namespace goose {
             return true;
         }
 
-        bool get_int32(const std::string& name, accessor_t<T, int32_t>& accessor) const
+        bool get_int32(const std::string& name, util::accessor_t<T, int32_t>& accessor) const
         {
             auto search = m_int32_accessors.find(name);
             if (search == m_int32_accessors.end()) {
@@ -50,7 +50,7 @@ namespace goose {
             return true;
         }
 
-        bool get_int64(const std::string& name, accessor_t<T, int64_t>& accessor) const
+        bool get_int64(const std::string& name, util::accessor_t<T, int64_t>& accessor) const
         {
             auto search = m_int64_accessors.find(name);
             if (search == m_int64_accessors.end()) {
@@ -61,7 +61,7 @@ namespace goose {
             return true;
         }
 
-        bool get_float(const std::string& name, accessor_t<T, float>& accessor) const
+        bool get_float(const std::string& name, util::accessor_t<T, float>& accessor) const
         {
             auto search = m_float_accessors.find(name);
             if (search == m_float_accessors.end()) {
@@ -72,7 +72,7 @@ namespace goose {
             return true;
         }
 
-        bool get_string(const std::string& name, accessor_t<T, std::string>& accessor) const
+        bool get_string(const std::string& name, util::accessor_t<T, std::string>& accessor) const
         {
             auto search = m_string_accessors.find(name);
             if (search == m_string_accessors.end()) {
@@ -83,7 +83,7 @@ namespace goose {
             return true;
         }
 
-        bool get_enum(const std::string& name, std::pair<accessor_t<T, int>, std::unordered_map<int, goose_cpp::BitString>>& accessor) const
+        bool get_enum(const std::string& name, std::pair<util::accessor_t<T, int>, std::unordered_map<int, goose_cpp::BitString>>& accessor) const
         {
             auto search = m_enum_accessors.find(name);
             if (search == m_enum_accessors.end()) {
@@ -94,7 +94,7 @@ namespace goose {
             return true;
         }
 
-        bool get_quality(const std::string& name, message_accessor_t<T, commonmodule::Quality>& accessor) const
+        bool get_quality(const std::string& name, util::message_accessor_t<T, commonmodule::Quality>& accessor) const
         {
             auto search = m_quality_accessors.find(name);
             if (search == m_quality_accessors.end()) {
@@ -105,7 +105,7 @@ namespace goose {
             return true;
         }
 
-        bool get_timestamp(const std::string& name, message_accessor_t<T, commonmodule::Timestamp>& accessor) const
+        bool get_timestamp(const std::string& name, util::message_accessor_t<T, commonmodule::Timestamp>& accessor) const
         {
             auto search = m_timestamp_accessors.find(name);
             if (search == m_timestamp_accessors.end()) {
@@ -122,7 +122,7 @@ namespace goose {
         }
 
     protected:
-        void handle_mapped_field(const YAML::Node& node, const accessor_t<T, bool>& accessor) final
+        void handle_mapped_field(const YAML::Node& node, const util::accessor_t<T, bool>& accessor) final
         {
             std::string name;
             if (get_name(node, name)) {
@@ -130,7 +130,7 @@ namespace goose {
             }
         }
 
-        void handle_mapped_field(const YAML::Node& node, const accessor_t<T, int32_t>& accessor) final
+        void handle_mapped_field(const YAML::Node& node, const util::accessor_t<T, int32_t>& accessor) final
         {
             std::string name;
             if (get_name(node, name)) {
@@ -138,7 +138,7 @@ namespace goose {
             }
         }
 
-        void handle_mapped_field(const YAML::Node& node, const accessor_t<T, int64_t>& accessor) final
+        void handle_mapped_field(const YAML::Node& node, const util::accessor_t<T, int64_t>& accessor) final
         {
             std::string name;
             if (get_name(node, name)) {
@@ -146,7 +146,7 @@ namespace goose {
             }
         }
 
-        void handle_mapped_field(const YAML::Node& node, const accessor_t<T, float>& accessor) final
+        void handle_mapped_field(const YAML::Node& node, const util::accessor_t<T, float>& accessor) final
         {
             std::string name;
             if (get_name(node, name)) {
@@ -154,7 +154,7 @@ namespace goose {
             }
         }
 
-        void handle_mapped_field(const YAML::Node& node, const accessor_t<T, std::string>& accessor) final
+        void handle_mapped_field(const YAML::Node& node, const util::accessor_t<T, std::string>& accessor) final
         {
             std::string name;
             if (get_name(node, name)) {
@@ -162,17 +162,17 @@ namespace goose {
             }
         }
 
-        void handle_mapped_field(const YAML::Node& node, const accessor_t<T, int>& accessor, google::protobuf::EnumDescriptor const* descriptor) final
+        void handle_mapped_field(const YAML::Node& node, const util::accessor_t<T, int>& accessor, google::protobuf::EnumDescriptor const* descriptor) final
         {
             std::string name;
             if (get_name(node, name)) {
                 std::unordered_map<int, goose_cpp::BitString> mapping{};
-                yaml::foreach (yaml::require(node, ::adapter::keys::mapping), [&](const YAML::Node& node) {
-                    const auto name = yaml::require_string(node, ::adapter::keys::name);
+                util::yaml::foreach (util::yaml::require(node, util::keys::mapping), [&](const YAML::Node& node) {
+                    const auto name = util::yaml::require_string(node, util::keys::name);
                     const auto value = descriptor->FindValueByName(name);
                     if (!value)
-                        throw Exception("Unknown enum value: ", name);
-                    const auto output = yaml::require_string(node, ::adapter::keys::value);
+                        throw api::Exception("Unknown enum value: ", name);
+                    const auto output = util::yaml::require_string(node, util::keys::value);
                     auto bit_string = goose_cpp::BitString::from_string(output);
                     mapping.insert({ value->number(), bit_string });
                 });
@@ -181,7 +181,7 @@ namespace goose {
             }
         }
 
-        void handle_mapped_field(const YAML::Node& node, const message_accessor_t<T, commonmodule::Quality>& accessor) final
+        void handle_mapped_field(const YAML::Node& node, const util::message_accessor_t<T, commonmodule::Quality>& accessor) final
         {
             std::string name;
             if (get_name(node, name)) {
@@ -189,7 +189,7 @@ namespace goose {
             }
         }
 
-        void handle_mapped_field(const YAML::Node& node, const message_accessor_t<T, commonmodule::Timestamp>& accessor) final
+        void handle_mapped_field(const YAML::Node& node, const util::message_accessor_t<T, commonmodule::Timestamp>& accessor) final
         {
             std::string name;
             if (get_name(node, name)) {
@@ -200,7 +200,7 @@ namespace goose {
     public:
         // --- ignore these schedule types as they only occur in control profiles
 
-        void handle(const std::string& field_name, const getter_t<T, repeated_schedule_parameter_t>& getter) override
+        void handle(const std::string& field_name, const util::getter_t<T, util::repeated_schedule_parameter_t>& getter) override
         {
         }
 
@@ -213,7 +213,7 @@ namespace goose {
                 if (!value.empty()) {
                     auto result = m_names.insert(value);
                     if (!result.second) {
-                        throw Exception{ "Duplicate mapping name \"", value, "\"." };
+                        throw api::Exception{ "Duplicate mapping name \"", value, "\"." };
                     };
 
                     return true;
@@ -223,17 +223,17 @@ namespace goose {
             return false;
         }
 
-        Logger m_logger;
+        api::Logger m_logger;
 
         std::unordered_set<std::string> m_names;
-        std::unordered_map<std::string, const accessor_t<T, bool>> m_bool_accessors;
-        std::unordered_map<std::string, const accessor_t<T, int32_t>> m_int32_accessors;
-        std::unordered_map<std::string, const accessor_t<T, int64_t>> m_int64_accessors;
-        std::unordered_map<std::string, const accessor_t<T, float>> m_float_accessors;
-        std::unordered_map<std::string, const accessor_t<T, std::string>> m_string_accessors;
-        std::unordered_map<std::string, std::pair<const accessor_t<T, int>, const std::unordered_map<int, goose_cpp::BitString>>> m_enum_accessors;
-        std::unordered_map<std::string, const message_accessor_t<T, commonmodule::Quality>> m_quality_accessors;
-        std::unordered_map<std::string, const message_accessor_t<T, commonmodule::Timestamp>> m_timestamp_accessors;
+        std::unordered_map<std::string, const util::accessor_t<T, bool>> m_bool_accessors;
+        std::unordered_map<std::string, const util::accessor_t<T, int32_t>> m_int32_accessors;
+        std::unordered_map<std::string, const util::accessor_t<T, int64_t>> m_int64_accessors;
+        std::unordered_map<std::string, const util::accessor_t<T, float>> m_float_accessors;
+        std::unordered_map<std::string, const util::accessor_t<T, std::string>> m_string_accessors;
+        std::unordered_map<std::string, std::pair<const util::accessor_t<T, int>, const std::unordered_map<int, goose_cpp::BitString>>> m_enum_accessors;
+        std::unordered_map<std::string, const util::message_accessor_t<T, commonmodule::Quality>> m_quality_accessors;
+        std::unordered_map<std::string, const util::message_accessor_t<T, commonmodule::Timestamp>> m_timestamp_accessors;
     };
 
 } // namespace goose

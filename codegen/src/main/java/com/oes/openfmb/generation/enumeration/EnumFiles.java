@@ -63,7 +63,7 @@ public class EnumFiles implements CppFileCollection {
                         FileHeader.lines,
                         (this.includePath == null) ? include(this.name.getHeaderName()) : include(this.includePath.resolve(this.name.getHeaderName()).toString().replace('\\', '/')),
                         space,
-                        include("adapter-api/util/Exception.h"),
+                        include("adapter-api/Exception.h"),
                         space,
                         line("#include <map>"),
                         space,
@@ -117,7 +117,7 @@ public class EnumFiles implements CppFileCollection {
                 ).then(
                         join(
                                 line("const auto elem = map.find(name);"),
-                                line("if(elem == map.end()) throw Exception(\"Unknown value name '\", name, \"' for enum %s\");", this.enumeration.name),
+                                line("if(elem == map.end()) throw api::Exception(\"Unknown value name '\", name, \"' for enum %s\");", this.enumeration.name),
                                 line("return elem->second;")
                         )
                 )

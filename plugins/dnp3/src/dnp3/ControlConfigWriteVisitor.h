@@ -2,9 +2,9 @@
 #ifndef OPENFMB_ADAPTER_DNP3_CONTROLCONFIGWRITEVISITOR_H
 #define OPENFMB_ADAPTER_DNP3_CONTROLCONFIGWRITEVISITOR_H
 
-#include "adapter-api/config/ConfigWriteVisitorBase.h"
-#include "adapter-api/util/EnumUtil.h"
-#include "adapter-api/util/Exception.h"
+#include <adapter-api/Exception.h>
+#include <adapter-util/config/ConfigWriteVisitorBase.h>
+#include <adapter-util/util/EnumUtil.h>
 
 #include <opendnp3/gen/ControlCode.h>
 
@@ -12,7 +12,7 @@ namespace adapter {
 
 namespace dnp3 {
 
-    class ControlConfigWriteVisitor final : public ConfigWriteVisitorBase {
+    class ControlConfigWriteVisitor final : public util::ConfigWriteVisitorBase {
 
     public:
         explicit ControlConfigWriteVisitor(YAML::Emitter& out);

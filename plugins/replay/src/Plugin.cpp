@@ -2,7 +2,7 @@
 #include "Plugin.h"
 #include "ConfigStrings.h"
 
-#include <adapter-api/util/YAMLUtil.h>
+#include <adapter-util/util/YAMLUtil.h>
 
 #include <boost/algorithm/string.hpp>
 #include <cppcodec/base64_default_rfc4648.hpp>
@@ -13,9 +13,9 @@ using namespace std::chrono;
 
 namespace adapter {
 namespace replay {
-    Plugin::Plugin(const YAML::Node& node, const Logger& logger, message_bus_t bus)
+    Plugin::Plugin(const YAML::Node& node, const api::Logger& logger, api::message_bus_t bus)
         : logger(logger)
-        , file_path(yaml::require_string(node, keys::file))
+        , file_path(util::yaml::require_string(node, keys::file))
         , publisher(std::move(bus))
     {
     }

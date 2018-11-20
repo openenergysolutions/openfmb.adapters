@@ -14,7 +14,7 @@ set(PROJECT_SOURCES
 )
 
 add_library(log-plugin STATIC ${PROJECT_SOURCES} ${PROJECT_HEADERS})
-target_link_libraries(log-plugin PUBLIC adapter-api)
+target_link_libraries(log-plugin PUBLIC adapter-util)
 target_include_directories(log-plugin PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 clang_tidy(log-plugin)
 clang_format(log-plugin)

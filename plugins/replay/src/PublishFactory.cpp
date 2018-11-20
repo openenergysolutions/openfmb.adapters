@@ -18,7 +18,7 @@ namespace replay {
     private:
         static publish_fun_t get(const std::vector<uint8_t>& data)
         {
-            return [profile = parse_data_as(data)](IPublisher& publisher) {
+            return [profile = parse_data_as(data)](api::IPublisher& publisher) {
                 publisher.publish(*profile);
             };
         }
@@ -28,7 +28,7 @@ namespace replay {
             const auto profile = std::make_shared<T>();
 
             if (!profile->ParseFromArray(data.data(), boost::numeric_cast<int>(data.size()))) {
-                throw Exception("error parsing message of type: ", T::descriptor()->name());
+                throw api::Exception("error parsing message of type: ", T::descriptor()->name());
             }
 
             return profile;
@@ -38,14 +38,14 @@ namespace replay {
     PublishFactory::PublishFactory()
     {
         // register a handler for each profile by name
-        ProfileRegistry::handle_all<ProfileHandler>(this->mapping);
+        api::ProfileRegistry::handle_all<ProfileHandler>(this->mapping);
     }
 
     publish_fun_t PublishFactory::get(const std::string& profile_name, const std::vector<uint8_t>& bytes) const
     {
         const auto handler = this->mapping.find(profile_name);
         if (handler == this->mapping.end()) {
-            throw Exception("Unknown profile: ", profile_name);
+            throw api::Exception("Unknown profile: ", profile_name);
         }
         return handler->second(bytes);
     }

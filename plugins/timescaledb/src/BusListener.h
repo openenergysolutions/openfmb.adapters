@@ -1,12 +1,15 @@
 #ifndef OPENFMB_PLUGIN_TIMESCALEDB_BUS_LISTENER_H
 #define OPENFMB_PLUGIN_TIMESCALEDB_BUS_LISTENER_H
 
+#include <adapter-api/ISubscriptionHandler.h>
+
+#include <adapter-util/ProfileInfo.h>
+#include <adapter-util/config/IMessageVisitor.h>
+#include <adapter-util/config/generated/MessageVisitors.h>
+
 #include "IArchiver.h"
 #include "Message.h"
-#include "adapter-api/ISubscriptionHandler.h"
-#include "adapter-api/ProfileInfo.h"
-#include "adapter-api/config/IMessageVisitor.h"
-#include "adapter-api/config/generated/MessageVisitors.h"
+
 #include <boost/uuid/uuid_generators.hpp>
 #include <deque>
 #include <memory>
@@ -16,7 +19,7 @@
 namespace adapter {
 namespace timescaledb {
 
-    class ProtoMessageVisitor : public IMessageVisitor {
+    class ProtoMessageVisitor : public util::IMessageVisitor {
     public:
         ProtoMessageVisitor(std::string base_name, Message& message)
             : base_name(std::move(base_name))
@@ -112,9 +115,9 @@ namespace timescaledb {
     };
 
     template <typename Proto>
-    class BusListener : public ISubscriptionHandler<Proto> {
+    class BusListener : public api::ISubscriptionHandler<Proto> {
     public:
-        explicit BusListener(const Logger& logger, const std::shared_ptr<IArchiver>& archiver)
+        explicit BusListener(const api::Logger& logger, const std::shared_ptr<IArchiver>& archiver)
             : m_logger{ logger }
             , m_archiver{ archiver }
         {
@@ -124,8 +127,8 @@ namespace timescaledb {
         void process(const Proto& proto) override
         {
             // Extract message UUID, timestamp and device UUID
-            const auto& message_info = profile_info<Proto>::get_message_info(proto);
-            const auto& conducting_equipment = profile_info<Proto>::get_conducting_equip(proto);
+            const auto& message_info = util::profile_info<Proto>::get_message_info(proto);
+            const auto& conducting_equipment = util::profile_info<Proto>::get_conducting_equip(proto);
 
             boost::uuids::uuid message_uuid;
             try {
@@ -155,7 +158,7 @@ namespace timescaledb {
             this->m_archiver->save(std::move(message));
         }
 
-        Logger m_logger;
+        api::Logger m_logger;
         const std::shared_ptr<IArchiver> m_archiver;
     };
 }

@@ -3,7 +3,7 @@
 #define OPENFMB_ADAPTER_COMMANDSUBSCRIPTIONHANDLER_H
 
 #include <adapter-api/ISubscriptionHandler.h>
-#include <adapter-api/ProfileInfo.h>
+#include <adapter-util/ProfileInfo.h>
 
 #include "CommandOptions.h"
 #include "CommandSink.h"
@@ -13,15 +13,15 @@
 namespace adapter {
 namespace modbus {
     template <class T>
-    class CommandSubscriptionHandler final : public ISubscriptionHandler<T> {
-        Logger logger;
+    class CommandSubscriptionHandler final : public api::ISubscriptionHandler<T> {
+        api::Logger logger;
         const std::string uuid;
         const std::shared_ptr<const ICommandConfiguration<T>> config;
         const std::shared_ptr<ITransactionProcessor> tx_processor;
 
     public:
         CommandSubscriptionHandler(
-            Logger logger,
+            api::Logger logger,
             std::string uuid,
             std::shared_ptr<const ICommandConfiguration<T>> config,
             std::shared_ptr<ITransactionProcessor> tx_processor)
@@ -34,7 +34,7 @@ namespace modbus {
 
         bool matches(const T& message) const override
         {
-            return profile_info<T>::get_conducting_equip(message).mrid() == this->uuid;
+            return util::profile_info<T>::get_conducting_equip(message).mrid() == this->uuid;
         }
 
     private:

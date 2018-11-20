@@ -1,7 +1,7 @@
 
 #include "LoggerConfig.h"
 
-#include <adapter-api/util/YAMLUtil.h>
+#include <adapter-util/util/YAMLUtil.h>
 
 #include "ConfigKeys.h"
 
@@ -18,31 +18,31 @@ namespace logging {
         static const char* const rotating_file = "rotating-file";
     }
 
-    Logger create_logger_from_yaml(const YAML::Node& root)
+    api::Logger create_logger_from_yaml(const YAML::Node& root)
     {
 
-        const auto logging = yaml::require(root, keys::logging);
-        const auto primary_log_name = yaml::require(logging, adapter::keys::logger_name).as<std::string>();
+        const auto logging = util::yaml::require(root, keys::logging);
+        const auto primary_log_name = util::yaml::require(logging, adapter::keys::logger_name).as<std::string>();
 
         std::vector<spdlog::sink_ptr> sinks;
 
-        const auto console = yaml::require(logging, keys::console);
+        const auto console = util::yaml::require(logging, keys::console);
 
-        if (yaml::require(console, adapter::keys::enabled).as<bool>()) {
+        if (util::yaml::require(console, adapter::keys::enabled).as<bool>()) {
             sinks.push_back(std::make_shared<spdlog::sinks::stdout_sink_mt>());
         }
 
-        const auto rotating = yaml::require(logging, keys::rotating_file);
+        const auto rotating = util::yaml::require(logging, keys::rotating_file);
 
-        if (yaml::require(rotating, adapter::keys::enabled).as<bool>()) {
+        if (util::yaml::require(rotating, adapter::keys::enabled).as<bool>()) {
             sinks.push_back(
                 std::make_shared<spdlog::sinks::rotating_file_sink_mt>(
-                    yaml::require(rotating, keys::path).as<std::string>(),
-                    yaml::require(rotating, keys::max_size).as<size_t>(),
-                    yaml::require(rotating, keys::max_files).as<size_t>()));
+                    util::yaml::require(rotating, keys::path).as<std::string>(),
+                    util::yaml::require(rotating, keys::max_size).as<size_t>(),
+                    util::yaml::require(rotating, keys::max_files).as<size_t>()));
         }
 
-        return Logger(primary_log_name, sinks);
+        return api::Logger(primary_log_name, sinks);
     }
 
     void write_default_logging_config(YAML::Emitter& out)

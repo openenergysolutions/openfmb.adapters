@@ -6,7 +6,7 @@
 #include <boost/algorithm/string.hpp>
 #include <cppcodec/base64_default_rfc4648.hpp>
 
-#include <adapter-api/util/Exception.h>
+#include <adapter-api/Exception.h>
 
 #include <adapter-api/ProfileRegistry.h>
 #include <proto-api/resourcemodule/resourcemodule.pb.h>
@@ -20,7 +20,7 @@ struct ProfilePrinter {
     {
         T message;
         if (!message.ParseFromArray(data, length)) {
-            throw Exception("Error parsing message");
+            throw api::Exception("Error parsing message");
         }
 
         std::cout << message.DebugString() << std::endl;
@@ -52,7 +52,7 @@ int main(int argc, char** argv)
         const auto profile_name = tokens[1];
         const auto payload = base64::decode(tokens[2]);
 
-        ProfileRegistry::handle_by_name<ProfilePrinter>(profile_name, payload.data(), payload.size());
+        api::ProfileRegistry::handle_by_name<ProfilePrinter>(profile_name, payload.data(), payload.size());
 
         tokens.clear();
         ++line_number;

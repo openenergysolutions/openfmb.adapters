@@ -16,10 +16,10 @@ namespace adapter {
 namespace capture {
     class SharedLog;
 
-    class Plugin final : public IPlugin {
+    class Plugin final : public api::IPlugin {
 
     public:
-        Plugin(const YAML::Node& node, const Logger& logger, message_bus_t bus);
+        Plugin(const YAML::Node& node, const api::Logger& logger, api::message_bus_t bus);
 
         ~Plugin() override;
 

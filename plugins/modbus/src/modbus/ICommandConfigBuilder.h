@@ -22,7 +22,7 @@ namespace modbus {
          * For a particular profile (T), process it and make callbacks to an ICommandSink
          */
     template <class T>
-    using command_builder_t = std::function<void(const T&, ICommandSink& sink, Logger&)>;
+    using command_builder_t = std::function<void(const T&, ICommandSink& sink, api::Logger&)>;
 
     /**
          * For a particular profile (T), something that accepts and caches command builders
@@ -41,7 +41,7 @@ namespace modbus {
     class ICommandConfiguration {
     public:
         virtual ~ICommandConfiguration() = default;
-        virtual void process(const T& profile, ICommandSink& sink, Logger& logger) const = 0;
+        virtual void process(const T& profile, ICommandSink& sink, api::Logger& logger) const = 0;
     };
 }
 }

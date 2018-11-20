@@ -3,6 +3,7 @@ package com.oes.openfmb.generation.proto;
 import com.google.protobuf.Descriptors;
 import com.oes.openfmb.generation.document.*;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.stream.Stream;
@@ -37,8 +38,8 @@ public class MessageVisitorFiles implements CppFileCollection {
                                 join(Helpers.getIncludeFiles(this.descriptors).stream().map(Document::include)),
                                 include("../IMessageVisitor.h"),
                                 Document.space,
-                                namespace(
-                                        "adapter",
+                                namespaces(
+                                        Arrays.asList("adapter", "util"),
                                         spaced(
                                                 getDescriptorStream().map(d -> line(getVisitSignature(d) + ";"))
                                         )
@@ -54,10 +55,10 @@ public class MessageVisitorFiles implements CppFileCollection {
 
         return this.name.createImplementationList(
                 () -> join(
-                        include("adapter-api/config/generated/MessageVisitors.h"),
+                        include("adapter-util/config/generated/MessageVisitors.h"),
                         space,
-                        namespace(
-                                "adapter",
+                        namespaces(
+                                Arrays.asList("adapter", "util"),
                                 join(
                                         spaced(
                                                 this.childDescriptors.values().stream().map(d -> line(getVisitSignature(d) + ";"))

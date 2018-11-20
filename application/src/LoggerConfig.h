@@ -10,7 +10,7 @@ namespace adapter {
 
 namespace logging {
 
-    Logger create_logger_from_yaml(const YAML::Node& root);
+    api::Logger create_logger_from_yaml(const YAML::Node& root);
 
     void write_default_logging_config(YAML::Emitter& out);
 }

@@ -36,7 +36,7 @@ set(DNP3_SOURCES
 set(DNP3_LIBS asiodnp3 asiopal opendnp3 openpal)
 
 add_library(dnp3-plugin STATIC ${DNP3_SOURCES} ${DNP3_PUBLIC_HEADERS})
-target_link_libraries(dnp3-plugin PUBLIC adapter-api ${DNP3_LIBS})
+target_link_libraries(dnp3-plugin PUBLIC adapter-util ${DNP3_LIBS})
 target_include_directories(dnp3-plugin PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_include_directories(dnp3-plugin PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 clang_tidy(dnp3-plugin)

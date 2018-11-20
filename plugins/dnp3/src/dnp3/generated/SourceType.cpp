@@ -13,7 +13,7 @@
 
 #include "SourceType.h"
 
-#include "adapter-api/util/Exception.h"
+#include "adapter-api/Exception.h"
 
 #include <map>
 
@@ -55,7 +55,7 @@ SourceType::Value SourceType::from_string(const std::string& name)
         {counter, Value::counter},
     };
     const auto elem = map.find(name);
-    if(elem == map.end()) throw Exception("Unknown value name '", name, "' for enum SourceType");
+    if(elem == map.end()) throw api::Exception("Unknown value name '", name, "' for enum SourceType");
     return elem->second;
 }
 

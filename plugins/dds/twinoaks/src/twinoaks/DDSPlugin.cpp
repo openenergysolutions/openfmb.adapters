@@ -2,7 +2,7 @@
 #include "DDSPlugin.h"
 
 #include "adapter-api/ProfileMode.h"
-#include "adapter-api/util/YAMLUtil.h"
+#include "adapter-util/util/YAMLUtil.h"
 
 #include "OpenFMB-IDLTypeSupport.hh"
 
@@ -11,7 +11,7 @@
 
 #include "ConfigKeys.h"
 
-#include <adapter-api/ConfigStrings.h>
+#include <adapter-util/ConfigStrings.h>
 #include <boost/algorithm/string/replace.hpp>
 
 namespace adapter {

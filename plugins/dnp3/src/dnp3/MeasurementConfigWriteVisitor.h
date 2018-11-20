@@ -2,9 +2,9 @@
 #ifndef OPENFMB_ADAPTER_DNP3_MEASUREMENTCONFIGWRITEVISITOR_H
 #define OPENFMB_ADAPTER_DNP3_MEASUREMENTCONFIGWRITEVISITOR_H
 
-#include "adapter-api/config/ConfigWriteVisitorBase.h"
-#include "adapter-api/util/EnumUtil.h"
-#include "adapter-api/util/Exception.h"
+#include <adapter-api/Exception.h>
+#include <adapter-util/config/ConfigWriteVisitorBase.h>
+#include <adapter-util/util/EnumUtil.h>
 
 #include <opendnp3/gen/ControlCode.h>
 
@@ -12,7 +12,7 @@ namespace adapter {
 
 namespace dnp3 {
 
-    class MeasurementConfigWriteVisitor final : public ConfigWriteVisitorBase {
+    class MeasurementConfigWriteVisitor final : public util::ConfigWriteVisitorBase {
 
     public:
         explicit MeasurementConfigWriteVisitor(YAML::Emitter& out);

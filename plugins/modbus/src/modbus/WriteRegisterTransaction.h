@@ -10,12 +10,12 @@ namespace adapter {
 namespace modbus {
 
     class WriteRegisterTransaction : public ITransaction, public std::enable_shared_from_this<WriteRegisterTransaction> {
-        Logger logger;
+        api::Logger logger;
         const uint16_t index;
         const uint16_t value;
 
     public:
-        WriteRegisterTransaction(Logger logger, uint16_t index, uint16_t value);
+        WriteRegisterTransaction(api::Logger logger, uint16_t index, uint16_t value);
 
         std::string get_description() const override;
 

@@ -5,12 +5,12 @@
 #include <asiodnp3/PrintingSOEHandler.h>
 #include <opendnp3/LogLevels.h>
 
-#include <adapter-api/ConfigStrings.h>
-#include <adapter-api/ProfileInfo.h>
-#include <adapter-api/config/CommandPriorityMap.h>
-#include <adapter-api/config/generated/TypedModelVisitors.h>
-#include <adapter-api/util/YAMLTemplate.h>
-#include <adapter-api/util/YAMLUtil.h>
+#include <adapter-util/ConfigStrings.h>
+#include <adapter-util/ProfileInfo.h>
+#include <adapter-util/config/CommandPriorityMap.h>
+#include <adapter-util/config/generated/TypedModelVisitors.h>
+#include <adapter-util/util/YAMLTemplate.h>
+#include <adapter-util/util/YAMLUtil.h>
 
 #include "CommandSequenceExecutor.h"
 #include "ConfigStrings.h"
@@ -34,51 +34,51 @@ namespace dnp3 {
         using return_t = typename std::enable_if<condition, bool>::type;
 
         template <class U = T>
-        static return_t<profile_info<U>::is_control> handle(const YAML::Node& node, const Logger& logger, message_bus_t bus, std::shared_ptr<IPublishConfigBuilder>, std::shared_ptr<ICommandSequenceExecutor> executor)
+        static return_t<util::profile_info<U>::is_control> handle(const YAML::Node& node, const api::Logger& logger, api::message_bus_t bus, std::shared_ptr<IPublishConfigBuilder>, std::shared_ptr<ICommandSequenceExecutor> executor)
         {
-            CommandPriorityMap priority_map(yaml::require(node, ::adapter::keys::command_order));
-            SubscribingConfigReadVisitor<T> visitor(yaml::require(node, ::adapter::keys::mapping), priority_map);
-            visit(visitor);
+            util::CommandPriorityMap priority_map(util::yaml::require(node, util::keys::command_order));
+            SubscribingConfigReadVisitor<T> visitor(util::yaml::require(node, util::keys::mapping), priority_map);
+            util::visit(visitor);
             visitor.subscribe(logger, *bus, std::move(executor));
             return true;
         }
 
         template <class U = T>
-        static return_t<!profile_info<U>::is_control> handle(const YAML::Node& node, const Logger& logger, message_bus_t bus, std::shared_ptr<IPublishConfigBuilder> builder, std::shared_ptr<ICommandSequenceExecutor>)
+        static return_t<!util::profile_info<U>::is_control> handle(const YAML::Node& node, const api::Logger& logger, api::message_bus_t bus, std::shared_ptr<IPublishConfigBuilder> builder, std::shared_ptr<ICommandSequenceExecutor>)
         {
-            PublishingConfigReadVisitor<T> visitor(yaml::require(node, ::adapter::keys::mapping), std::move(bus), builder);
-            visit(visitor);
+            PublishingConfigReadVisitor<T> visitor(util::yaml::require(node, util::keys::mapping), std::move(bus), builder);
+            util::visit(visitor);
             return true;
         }
     };
 
     Plugin::Plugin(
-        const Logger& logger,
+        const api::Logger& logger,
         const YAML::Node& node,
-        message_bus_t bus)
+        api::message_bus_t bus)
         : logger(logger)
         , manager(
-              yaml::optionally(node[keys::thread_pool_size], std::thread::hardware_concurrency()),
+              util::yaml::optionally(node[keys::thread_pool_size], std::thread::hardware_concurrency()),
               std::make_shared<LogAdapter>(logger))
     {
-        yaml::load_template_configs(
-            yaml::require(node, keys::masters),
+        util::yaml::load_template_configs(
+            util::yaml::require(node, keys::masters),
             this->logger,
             [&](const YAML::Node& config) {
                 this->add_master(config, bus);
             });
     }
 
-    void Plugin::add_master(const YAML::Node& node, message_bus_t bus)
+    void Plugin::add_master(const YAML::Node& node, api::message_bus_t bus)
     {
         const auto channel = this->create_channel(node);
 
         MasterStackConfig config;
 
-        const auto protocol = yaml::require(node, keys::protocol);
+        const auto protocol = util::yaml::require(node, keys::protocol);
 
-        config.link.LocalAddr = yaml::require_integer<uint16_t>(protocol, keys::master_address);
-        config.link.RemoteAddr = yaml::require_integer<uint16_t>(protocol, keys::outstation_address);
+        config.link.LocalAddr = util::yaml::require_integer<uint16_t>(protocol, keys::master_address);
+        config.link.RemoteAddr = util::yaml::require_integer<uint16_t>(protocol, keys::outstation_address);
 
         // actively disable unsolicited mode, and don't re-enable it after integrity scan
         config.master.disableUnsolOnStartup = true;
@@ -87,13 +87,13 @@ namespace dnp3 {
         const auto handler = std::make_shared<SOEHandler>();
         const auto executor = std::make_shared<CommandSequenceExecutor>(this->logger);
 
-        const auto profiles = yaml::require(node, ::adapter::keys::profiles);
+        const auto profiles = util::yaml::require(node, util::keys::profiles);
 
-        yaml::foreach (
+        util::yaml::foreach (
             profiles,
             [&](const YAML::Node& node) {
-                ProfileRegistry::handle_by_name<ProfileReader>(
-                    yaml::require_string(node, ::adapter::keys::name),
+                api::ProfileRegistry::handle_by_name<ProfileReader>(
+                    util::yaml::require_string(node, util::keys::name),
                     node,
                     logger,
                     bus,
@@ -108,7 +108,7 @@ namespace dnp3 {
             handler->num_counter());
 
         auto master = channel->AddMaster(
-            yaml::require(node, ::adapter::keys::name).as<std::string>(),
+            util::yaml::require(node, util::keys::name).as<std::string>(),
             handler,
             DefaultMasterApplication::Create(),
             config);
@@ -119,7 +119,7 @@ namespace dnp3 {
             // configure the integrity scan
             master->AddClassScan(
                 ClassField::AllClasses(),
-                TimeDuration::Milliseconds(yaml::require(protocol, keys::integrity_poll_ms).as<uint32_t>()));
+                TimeDuration::Milliseconds(util::yaml::require(protocol, keys::integrity_poll_ms).as<uint32_t>()));
         }
 
         // start allowing the executor to dispatch controls
@@ -137,15 +137,15 @@ namespace dnp3 {
 
     Plugin::channel_t Plugin::create_channel(const YAML::Node& node)
     {
-        const auto channel = yaml::require(node, keys::channel);
+        const auto channel = util::yaml::require(node, keys::channel);
 
         return this->manager.AddTCPClient(
-            yaml::require_string(node, ::adapter::keys::name),
+            util::yaml::require_string(node, util::keys::name),
             opendnp3::levels::NORMAL,
             asiopal::ChannelRetry::Default(),
-            yaml::require_string(channel, keys::outstation_ip),
-            yaml::require_string(channel, keys::adapter),
-            yaml::require_integer<uint16_t>(channel, keys::port),
+            util::yaml::require_string(channel, keys::outstation_ip),
+            util::yaml::require_string(channel, keys::adapter),
+            util::yaml::require_integer<uint16_t>(channel, keys::port),
             nullptr // no channel listener
         );
     }

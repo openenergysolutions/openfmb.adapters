@@ -13,7 +13,7 @@
 
 #include "OutputType.h"
 
-#include "adapter-api/util/Exception.h"
+#include "adapter-api/Exception.h"
 
 #include <map>
 
@@ -55,7 +55,7 @@ OutputType::Value OutputType::from_string(const std::string& name)
         {read_and_modify_register, Value::read_and_modify_register},
     };
     const auto elem = map.find(name);
-    if(elem == map.end()) throw Exception("Unknown value name '", name, "' for enum OutputType");
+    if(elem == map.end()) throw api::Exception("Unknown value name '", name, "' for enum OutputType");
     return elem->second;
 }
 

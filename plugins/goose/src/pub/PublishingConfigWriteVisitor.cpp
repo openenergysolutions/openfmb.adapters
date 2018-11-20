@@ -1,8 +1,8 @@
 #include "pub/PublishingConfigWriteVisitor.h"
 
 #include "ConfigStrings.h"
-#include "adapter-api/ConfigStrings.h"
-#include "adapter-api/util/Exception.h"
+#include "adapter-api/Exception.h"
+#include "adapter-util/ConfigStrings.h"
 
 namespace adapter {
 namespace goose {
@@ -40,13 +40,13 @@ namespace goose {
     void PublishingConfigWriteVisitor::write_mapped_enum_keys(YAML::Emitter& out, google::protobuf::EnumDescriptor const* descriptor)
     {
         out << YAML::Key << keys::name << YAML::Value << "";
-        out << YAML::Key << ::adapter::keys::mapping << YAML::Value;
+        out << YAML::Key << util::keys::mapping << YAML::Value;
         out << YAML::BeginSeq;
         for (auto i = 0; i < descriptor->value_count(); ++i) {
             const auto value = descriptor->value(i);
             out << YAML::BeginMap;
-            out << YAML::Key << ::adapter::keys::name << YAML::Value << value->name();
-            out << YAML::Key << ::adapter::keys::value << YAML::Value << "";
+            out << YAML::Key << util::keys::name << YAML::Value << value->name();
+            out << YAML::Key << util::keys::value << YAML::Value << "";
             out << YAML::EndMap;
         }
         out << YAML::EndSeq;
@@ -64,7 +64,7 @@ namespace goose {
 
     void PublishingConfigWriteVisitor::write_mapped_schedule_parameter_keys(YAML::Emitter& out)
     {
-        throw Exception("Schedule parameter lists not supported by GOOSE publisher");
+        throw api::Exception("Schedule parameter lists not supported by GOOSE publisher");
     }
 
     void PublishingConfigWriteVisitor::write_name(YAML::Emitter& out)

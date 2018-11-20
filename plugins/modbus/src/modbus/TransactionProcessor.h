@@ -4,7 +4,7 @@
 
 #include "ITransactionProcessor.h"
 
-#include "adapter-api/Logger.h"
+#include <adapter-api/Logger.h>
 
 #include "modbus/ITimer.h"
 #include "modbus/exceptions/IException.h"
@@ -14,7 +14,7 @@
 namespace adapter {
 namespace modbus {
     class TransactionProcessor final : public ITransactionProcessor, public std::enable_shared_from_this<TransactionProcessor> {
-        Logger logger;
+        api::Logger logger;
         session_t session;
 
         std::mutex mutex;
@@ -22,7 +22,7 @@ namespace modbus {
         std::queue<std::shared_ptr<ITransaction>> transactions;
 
     public:
-        explicit TransactionProcessor(Logger logger);
+        explicit TransactionProcessor(api::Logger logger);
 
         void add(std::shared_ptr<ITransaction> transaction) override;
 
