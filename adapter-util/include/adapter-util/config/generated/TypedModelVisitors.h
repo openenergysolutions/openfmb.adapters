@@ -15,6 +15,7 @@
 #define OPENFMB_TYPEDMODELVISITORS_H
 
 #include "solarmodule/solarmodule.pb.h"
+#include "breakermodule/breakermodule.pb.h"
 #include "switchmodule/switchmodule.pb.h"
 #include "loadmodule/loadmodule.pb.h"
 #include "essmodule/essmodule.pb.h"
@@ -26,31 +27,33 @@ namespace adapter {
 
 namespace util {
 
-void visit(ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor);
-
-void visit(ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor);
+void visit(ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
 
 void visit(ITypedModelVisitor<essmodule::ESSReadingProfile>& visitor);
 
-void visit(ITypedModelVisitor<switchmodule::SwitchReadingProfile>& visitor);
-
-void visit(ITypedModelVisitor<switchmodule::SwitchControlProfile>& visitor);
-
-void visit(ITypedModelVisitor<loadmodule::LoadReadingProfile>& visitor);
+void visit(ITypedModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 void visit(ITypedModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
 
-void visit(ITypedModelVisitor<loadmodule::LoadControlProfile>& visitor);
-
-void visit(ITypedModelVisitor<solarmodule::SolarReadingProfile>& visitor);
-
-void visit(ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
+void visit(ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 void visit(ITypedModelVisitor<solarmodule::SolarStatusProfile>& visitor);
 
+void visit(ITypedModelVisitor<loadmodule::LoadReadingProfile>& visitor);
+
+void visit(ITypedModelVisitor<solarmodule::SolarReadingProfile>& visitor);
+
+void visit(ITypedModelVisitor<loadmodule::LoadControlProfile>& visitor);
+
+void visit(ITypedModelVisitor<switchmodule::SwitchReadingProfile>& visitor);
+
 void visit(ITypedModelVisitor<metermodule::MeterReadingProfile>& visitor);
 
-void visit(ITypedModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+void visit(ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor);
+
+void visit(ITypedModelVisitor<switchmodule::SwitchControlProfile>& visitor);
+
+void visit(ITypedModelVisitor<breakermodule::BreakerReadingProfile>& visitor);
 
 } // end namespace util
 

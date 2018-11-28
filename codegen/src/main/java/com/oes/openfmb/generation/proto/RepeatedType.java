@@ -29,6 +29,7 @@ public enum RepeatedType {
 
         // the only reading repetition
         temp.put(openfmb.switchmodule.SwitchReading.getDescriptor(), RepeatedType.READING);
+        temp.put(openfmb.breakermodule.BreakerReading.getDescriptor(), RepeatedType.READING);
         // things related to schedules
         temp.put(openfmb.commonmodule.ControlScheduleFSCH.getDescriptor(), RepeatedType.SCHEDULE);
         temp.put(openfmb.commonmodule.SchedulePoint.getDescriptor(), RepeatedType.SCHEDULE);

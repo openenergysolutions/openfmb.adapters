@@ -7,6 +7,7 @@
 #include <proto-api/metermodule/metermodule.pb.h>
 #include <proto-api/solarmodule/solarmodule.pb.h>
 #include <proto-api/switchmodule/switchmodule.pb.h>
+#include <proto-api/breakermodule/breakermodule.pb.h>
 
 #include "Exception.h"
 
@@ -83,6 +84,7 @@ namespace api {
         switchmodule::SwitchReadingProfile,
         switchmodule::SwitchStatusProfile,
         switchmodule::SwitchControlProfile,
+        breakermodule::BreakerReadingProfile,
         essmodule::ESSReadingProfile,
         essmodule::ESSStatusProfile,
         essmodule::ESSControlProfile,
