@@ -13,6 +13,7 @@
 #include <memory>
 #include <sstream>
 #include <string>
+#include <google/protobuf/util/json_util.h>
 
 namespace adapter {
 namespace timescaledb {
@@ -155,15 +156,21 @@ namespace timescaledb {
             message->profile_name = Proto::descriptor()->name();
 
             if (m_archiver->store_raw_message_enabled()) {
-                const auto size_int = proto.ByteSize();
-                const auto size = boost::numeric_cast<size_t>(size_int);
 
-                message->raw_data = std::make_unique<char[]>(size);
-                message->raw_data_size = size;
+                if (m_archiver->raw_message_format() == 0) { // Json format
+                    google::protobuf::util::Status status = google::protobuf::util::MessageToJsonString(proto, &message->json_data);
 
-                if (!proto.SerializeToArray(message->raw_data.get(), size_int)) {
-                    m_logger.error("Failed to serialize protobuf message of type: {}", Proto::descriptor()->name());
-                    return;
+                } else if (m_archiver->raw_message_format() == 1) { // Protobuf format
+                    const auto size_int = proto.ByteSize();
+                    const auto size = boost::numeric_cast<size_t>(size_int);
+
+                    message->raw_data = std::make_unique<char[]>(size);
+                    message->raw_data_size = size;
+
+                    if (!proto.SerializeToArray(message->raw_data.get(), size_int)) {
+                        m_logger.error("Failed to serialize protobuf message of type: {}", Proto::descriptor()->name());
+                        return;
+                    }
                 }
             }
 

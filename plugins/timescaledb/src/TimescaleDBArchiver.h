@@ -17,6 +17,7 @@ namespace timescaledb {
                             const std::string& table_name,
                             bool store_raw_messages,
                             const std::string& raw_table_name,
+                            int raw_data_format,
                             size_t max_queued_messages,
                             std::chrono::steady_clock::duration connection_retry);
         virtual ~TimescaleDBArchiver();
@@ -27,6 +28,7 @@ namespace timescaledb {
         void shutdown();
 
         bool store_raw_message_enabled() { return m_store_raw_messages; }
+        int raw_message_format() { return m_raw_data_format; }
 
     private:
         void run();
@@ -47,9 +49,10 @@ namespace timescaledb {
         std::thread m_worker_thread;
         std::unique_ptr<PQConnection> m_connection;
 
-        // Raw protobuf messages
+        // Raw messages
         bool m_store_raw_messages;
         std::string m_raw_table_name;
+        int m_raw_data_format;
         util::SynchronizedQueue<Message> m_queue_for_raw_messages;
         std::thread m_worker_thread_raw_messages;
         std::unique_ptr<PQConnection> m_connection_raw_messages;

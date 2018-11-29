@@ -37,6 +37,9 @@ namespace timescaledb {
         std::string profile_name;
         std::unique_ptr<char[]> raw_data;
         size_t raw_data_size;
+
+        // Json
+        std::string json_data;
     };
 }
 }

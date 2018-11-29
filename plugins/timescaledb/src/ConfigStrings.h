@@ -10,6 +10,7 @@ namespace timescaledb {
         constexpr const char* const store_measurement = "store-measurement";
         constexpr const char* const store_raw_message = "store-raw-message";
         constexpr const char* const raw_table_name = "raw-table-name";
+        constexpr const char* const raw_data_format = "raw-data-format";
         constexpr const char* const max_queued_messages = "max-queued-messages";
         constexpr const char* const connect_retry_seconds = "connect-retry-seconds";
     }

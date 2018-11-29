@@ -21,6 +21,14 @@ CREATE TABLE raw_data(
   value bytea not null);
 SELECT create_hypertable('raw_data', 'timestamp');
 
+CREATE TABLE json_data(
+  message_uuid uuid not null,
+  timestamp timestamptz not null,
+  device_uuid uuid not null,
+  tagname varchar(1024) not null,
+  value jsonb not null);
+SELECT create_hypertable('json_data', 'timestamp');
+
 -- Create measurement table
 CREATE TABLE data(
 	message_uuid uuid not null,

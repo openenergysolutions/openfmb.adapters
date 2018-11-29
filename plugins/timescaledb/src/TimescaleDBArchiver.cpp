@@ -16,6 +16,7 @@ namespace timescaledb {
                                              const std::string& table_name,
                                              bool store_raw_messages,
                                              const std::string& raw_table_name,
+                                             int raw_data_format,
                                              size_t max_queued_messages,
                                              std::chrono::steady_clock::duration connection_retry)
         : m_logger{ logger }
@@ -24,6 +25,7 @@ namespace timescaledb {
         , m_table_name{ table_name }
         , m_store_raw_messages{ store_raw_messages }
         , m_raw_table_name{ raw_table_name }
+        , m_raw_data_format{ raw_data_format }
         , m_connection_retry{ connection_retry }
         , m_queue{ max_queued_messages }
         , m_queue_for_raw_messages{ max_queued_messages }
@@ -178,24 +180,53 @@ namespace timescaledb {
             query << "INSERT INTO " << m_raw_table_name + " "
                   << "(message_uuid, timestamp, device_uuid, tagname, value) "
                   << "VALUES ";
-            query << "("
-                  << "'" << boost::uuids::to_string(message->message_uuid) << "',"
-                  << "to_timestamp(" << std::to_string(message->timestamp) << "),"
-                  << "'" << boost::uuids::to_string(message->device_uuid) << "',"
-                  << "'" << message->profile_name + "',"
-                  << "" << "$1::bytea"
-                  << ")";
 
-            auto rs = m_connection_raw_messages->exec(query.str().c_str(), message->raw_data.get(), message->raw_data_size);
-            if (rs.is_successful()) {
-                m_logger.info("Successfully inserted {} row(s) into {}.", rs.get_num_rows(), m_raw_table_name);
-            } else {
-                m_logger.error("PostgreSQL request failed: {}", rs.get_error());
+            if (m_raw_data_format == 0) {
+                query << "("
+                       << "'" << boost::uuids::to_string(message->message_uuid) << "',"
+                       << "to_timestamp(" << std::to_string(message->timestamp) << "),"
+                       << "'" << boost::uuids::to_string(message->device_uuid) << "',"
+                       << "'" << message->profile_name + "',"
+                       << "'" << message->json_data + "'"
+                       << ")";
 
-                // The value is put back in front for reprocessing
-                auto successfully_pushed = m_queue_for_raw_messages.push_front(std::move(message));
-                if (!successfully_pushed) {
-                    m_logger.warn("Buffer (raw messages) is full, the last message won't be reprocessed.");
+                auto rs = m_connection_raw_messages->exec(query.str().c_str());
+
+                if (rs.is_successful()) {
+                    m_logger.info("Successfully inserted {} row(s) into {}.", rs.get_num_rows(), m_raw_table_name);
+                } else {
+                    m_logger.error("PostgreSQL request failed: {}", rs.get_error());
+
+                    // The value is put back in front for reprocessing
+                    auto successfully_pushed = m_queue_for_raw_messages.push_front(std::move(message));
+                    if (!successfully_pushed) {
+                        m_logger.warn("Buffer (raw messages) is full, the last message won't be reprocessed.");
+                    }
+                }
+
+
+            } else if (m_raw_data_format == 1) {
+
+                query << "("
+                      << "'" << boost::uuids::to_string(message->message_uuid) << "',"
+                      << "to_timestamp(" << std::to_string(message->timestamp) << "),"
+                      << "'" << boost::uuids::to_string(message->device_uuid) << "',"
+                      << "'" << message->profile_name + "',"
+                      << "" << "$1::bytea"
+                      << ")";
+
+                auto rs = m_connection_raw_messages->exec(query.str().c_str(), message->raw_data.get(), message->raw_data_size);
+
+                if (rs.is_successful()) {
+                    m_logger.info("Successfully inserted {} row(s) into {}.", rs.get_num_rows(), m_raw_table_name);
+                } else {
+                    m_logger.error("PostgreSQL request failed: {}", rs.get_error());
+
+                    // The value is put back in front for reprocessing
+                    auto successfully_pushed = m_queue_for_raw_messages.push_front(std::move(message));
+                    if (!successfully_pushed) {
+                        m_logger.warn("Buffer (raw messages) is full, the last message won't be reprocessed.");
+                    }
                 }
             }
         }
