@@ -18,7 +18,7 @@ namespace modbus {
             this->builders.push_back(builder);
         }
 
-        void process(const T& profile, ICommandSink& sink, Logger& logger) const override
+        void process(const T& profile, ICommandSink& sink, api::Logger& logger) const override
         {
             for (const auto& builder : this->builders) {
                 builder(profile, sink, logger);

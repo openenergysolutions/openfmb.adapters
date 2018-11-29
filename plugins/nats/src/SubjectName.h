@@ -2,7 +2,7 @@
 #ifndef OPENFMB_ADAPTER_SUBJECTNAME_H
 #define OPENFMB_ADAPTER_SUBJECTNAME_H
 
-#include "adapter-api/ProfileInfo.h"
+#include <adapter-util/ProfileInfo.h>
 
 #include <sstream>
 
@@ -25,7 +25,7 @@ namespace nats {
     template <class T>
     std::string get_subject_key_mrid(const T& profile)
     {
-        return profile_info<T>::get_conducting_equip(profile).mrid();
+        return util::profile_info<T>::get_conducting_equip(profile).mrid();
     }
 
     template <class T>

@@ -1,11 +1,12 @@
 #ifndef OPENFMB_ADAPTER_FILTEREDVALUELOGSUBSCRIBER_H
 #define OPENFMB_ADAPTER_FILTEREDVALUELOGSUBSCRIBER_H
 
-#include <adapter-api/ConfigStrings.h>
 #include <adapter-api/ISubscriptionHandler.h>
 #include <adapter-api/Logger.h>
-#include <adapter-api/ProfileInfo.h>
-#include <adapter-api/config/generated/MessageVisitors.h>
+
+#include <adapter-util/ConfigStrings.h>
+#include <adapter-util/ProfileInfo.h>
+#include <adapter-util/config/generated/MessageVisitors.h>
 
 #include <fstream>
 #include <iomanip>
@@ -21,12 +22,12 @@ namespace log {
         virtual std::string get(size_t i) const = 0;
     };
 
-    class CachingVisitor : public IMessageVisitor {
+    class CachingVisitor : public util::IMessageVisitor {
         std::vector<std::string> tag_name_stack;
 
         std::map<std::string, value_getter_t> values;
 
-        Logger logger;
+        api::Logger logger;
         const bool log_all_values;
 
         std::string get_tag_name(const std::string& field_name) const
@@ -67,7 +68,7 @@ namespace log {
         }
 
     public:
-        CachingVisitor(const ITagList& list, Logger logger, bool log_all_values)
+        CachingVisitor(const ITagList& list, api::Logger logger, bool log_all_values)
             : logger(std::move(logger))
             , log_all_values(log_all_values)
         {
@@ -152,14 +153,14 @@ namespace log {
     };
 
     template <class Proto>
-    class FilteredValueLogSubscriptionHandler final : public ISubscriptionHandler<Proto>, private ITagList {
+    class FilteredValueLogSubscriptionHandler final : public api::ISubscriptionHandler<Proto>, private ITagList {
         struct TagPair {
             std::string name;
             std::string alias;
             int digits;
         };
 
-        Logger logger;
+        api::Logger logger;
         const std::string name;
         const bool print_alias;
         const bool log_all_values;
@@ -169,29 +170,29 @@ namespace log {
         std::vector<TagPair> tags;
 
     public:
-        FilteredValueLogSubscriptionHandler(Logger logger, const YAML::Node& config)
+        FilteredValueLogSubscriptionHandler(api::Logger logger, const YAML::Node& config)
             : logger(std::move(logger))
-            , name(yaml::require_string(config, ::adapter::keys::name))
-            , print_alias(yaml::require(config, keys::print_alias).as<bool>())
-            , log_all_values(yaml::require(config, keys::log_all_values).as<bool>())
-            , log_file(yaml::require_string(config, ::adapter::keys::path), std::ios_base::app | std::ios_base::out)
+            , name(util::yaml::require_string(config, util::keys::name))
+            , print_alias(util::yaml::require(config, keys::print_alias).as<bool>())
+            , log_all_values(util::yaml::require(config, keys::log_all_values).as<bool>())
+            , log_file(util::yaml::require_string(config, util::keys::path), std::ios_base::app | std::ios_base::out)
         {
-            const auto values = yaml::require(config, keys::values);
+            const auto values = util::yaml::require(config, keys::values);
 
             const auto add_tag = [&](const YAML::Node& node) {
                 this->tags.push_back(TagPair{
-                    yaml::require_string(node, keys::tag),
-                    yaml::require_string(node, keys::alias),
-                    yaml::require(node, keys::digits).as<int>() });
+                    util::yaml::require_string(node, keys::tag),
+                    util::yaml::require_string(node, keys::alias),
+                    util::yaml::require(node, keys::digits).as<int>() });
             };
 
-            yaml::foreach (values, add_tag);
+            util::yaml::foreach (values, add_tag);
         }
 
     private:
         bool matches(const Proto& message) const override
         {
-            return profile_info<Proto>::get_conducting_equip(message).namedobject().name().value() == this->name;
+            return util::profile_info<Proto>::get_conducting_equip(message).namedobject().name().value() == this->name;
         }
 
         void process(const Proto& message) override

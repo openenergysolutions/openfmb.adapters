@@ -1,12 +1,12 @@
 #ifndef OPENFMB_ADAPTER_GOOSE_PUB_PUBLISHINGCONFIGWRITEVISITOR_H
 #define OPENFMB_ADAPTER_GOOSE_PUB_PUBLISHINGCONFIGWRITEVISITOR_H
 
-#include "adapter-api/config/ConfigWriteVisitorBase.h"
+#include "adapter-util/config/ConfigWriteVisitorBase.h"
 
 namespace adapter {
 namespace goose {
 
-    class PublishingConfigWriteVisitor final : public ConfigWriteVisitorBase {
+    class PublishingConfigWriteVisitor final : public util::ConfigWriteVisitorBase {
 
     public:
         explicit PublishingConfigWriteVisitor(YAML::Emitter& out);

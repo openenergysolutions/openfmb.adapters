@@ -1,6 +1,6 @@
 #include "pub/GooseMessageVisitor.h"
 
-#include "adapter-api/util/Exception.h"
+#include "adapter-api/Exception.h"
 
 namespace adapter {
 namespace goose {
@@ -100,7 +100,7 @@ namespace goose {
         if (getter(m_current_idx, handler)) {
             handler(item);
         } else if (!m_mappings.is_ignored(m_current_idx)) {
-            throw Exception{ "GOOSE message format does not correspond to the configuration." };
+            throw api::Exception{ "GOOSE message format does not correspond to the configuration." };
         }
 
         ++m_current_idx;
@@ -109,7 +109,7 @@ namespace goose {
     void GooseMessageVisitor::handle_not_supported()
     {
         if (!m_mappings.is_ignored(m_current_idx)) {
-            throw Exception{ "GOOSE message format does not correspond to the configuration." };
+            throw api::Exception{ "GOOSE message format does not correspond to the configuration." };
         }
 
         ++m_current_idx;

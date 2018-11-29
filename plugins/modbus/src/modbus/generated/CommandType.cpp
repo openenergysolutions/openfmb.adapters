@@ -13,7 +13,7 @@
 
 #include "CommandType.h"
 
-#include "adapter-api/util/Exception.h"
+#include "adapter-api/Exception.h"
 
 #include <map>
 
@@ -47,7 +47,7 @@ CommandType::Value CommandType::from_string(const std::string& name)
         {write_multiple_register, Value::write_multiple_register},
     };
     const auto elem = map.find(name);
-    if(elem == map.end()) throw Exception("Unknown value name '", name, "' for enum CommandType");
+    if(elem == map.end()) throw api::Exception("Unknown value name '", name, "' for enum CommandType");
     return elem->second;
 }
 

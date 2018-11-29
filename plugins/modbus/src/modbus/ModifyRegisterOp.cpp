@@ -1,7 +1,7 @@
 
 #include "ModifyRegisterOp.h"
 
-#include <adapter-api/util/Exception.h>
+#include <adapter-api/Exception.h>
 
 #include <iomanip>
 #include <sstream>
@@ -15,7 +15,7 @@ namespace modbus {
             : value(value)
         {
             if (value > 15) {
-                throw Exception("Value for bit outside the range [0,15]: ", static_cast<int>(value));
+                throw api::Exception("Value for bit outside the range [0,15]: ", static_cast<int>(value));
             }
         }
 

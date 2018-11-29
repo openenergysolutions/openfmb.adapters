@@ -12,14 +12,14 @@ namespace adapter {
 namespace modbus {
 
     class WriteMultipleRegistersTransaction : public ITransaction, public std::enable_shared_from_this<WriteMultipleRegistersTransaction> {
-        Logger logger;
+        api::Logger logger;
         const uint16_t start_index;
         const std::vector<uint16_t> values;
 
     public:
-        WriteMultipleRegistersTransaction(Logger logger, uint16_t start_index, std::vector<uint16_t> values);
+        WriteMultipleRegistersTransaction(api::Logger logger, uint16_t start_index, std::vector<uint16_t> values);
 
-        WriteMultipleRegistersTransaction(Logger logger, uint16_t start_index, uint16_t value);
+        WriteMultipleRegistersTransaction(api::Logger logger, uint16_t start_index, uint16_t value);
 
         std::string get_description() const override;
 

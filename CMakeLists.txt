@@ -2,11 +2,17 @@ cmake_minimum_required (VERSION 3.0)
 project (openfmb-adapter)
 set(OPENFMB_ADAPTER_VERSION 0.0.1)
 
-if(NOT EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-  message(FATAL_ERROR "Unable to locate 'conanbuildinfo.cmake' file. Make sure to run 'conan install ..' in the build directory.")
+option(OPENFMB_USE_CONAN "Use the conan package manager" ON)
+
+if(OPENFMB_USE_CONAN)
+  if(NOT EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+    message(FATAL_ERROR "Unable to locate 'conanbuildinfo.cmake' file. Make sure to run 'conan install ..' in the build directory.")
+  else()
+    include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+    conan_basic_setup(TARGETS NO_OUTPUT_DIRS)
+  endif()
 else()
-  include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-  conan_basic_setup(TARGETS NO_OUTPUT_DIRS)
+  message("Conan support is disabled")
 endif()
 
 # optionally disable certain plugins
@@ -30,11 +36,14 @@ enable_testing()
 include(./cmake/ClangFormat.cmake)
 include(./cmake/ClangTidy.cmake)
 
-# Protobuf C++ objects, used by adapter-api and transitively by all plugins
+# Protobuf C++ objects, used by adapter-util and transitively by all plugins
 add_subdirectory(./proto-api)
 
 # API used by the plugins / application
-add_subdirectory(./adapter-api)
+add_subdirectory(adapter-api)
+
+# utility classes used to build the internals of plugins
+add_subdirectory(adapter-util)
 
 # plugin that logs published messages
 add_subdirectory(./plugins/log)

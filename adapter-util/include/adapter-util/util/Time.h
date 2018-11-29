@@ -1,0 +1,25 @@
+
+#ifndef OPENFMB_ADAPTER_TIME_H
+#define OPENFMB_ADAPTER_TIME_H
+
+#include <chrono>
+#include <proto-api/commonmodule/commonmodule.pb.h>
+
+namespace adapter {
+namespace util {
+
+    namespace time {
+        /**
+     * Apply a C++ system time-point to an OpenFMB timestamp
+     *
+     * @param time C++ time_point
+     * @param timestamp OpenFMB timestamp
+     */
+        void set(const std::chrono::system_clock::time_point& time, commonmodule::Timestamp& timestamp);
+
+        std::chrono::system_clock::time_point get(const commonmodule::Timestamp& timestamp);
+    }
+}
+}
+
+#endif

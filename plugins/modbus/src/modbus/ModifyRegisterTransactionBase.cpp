@@ -11,7 +11,7 @@
 namespace adapter {
 namespace modbus {
 
-    ModifyRegisterTransactionBase::ModifyRegisterTransactionBase(Logger logger, uint16_t address, modify_reg_op_t operation)
+    ModifyRegisterTransactionBase::ModifyRegisterTransactionBase(api::Logger logger, uint16_t address, modify_reg_op_t operation)
         : logger(std::move(logger))
         , address(address)
         , operation(std::move(operation))

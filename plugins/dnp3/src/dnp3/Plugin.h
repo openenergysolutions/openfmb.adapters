@@ -10,7 +10,7 @@
 namespace adapter {
 namespace dnp3 {
 
-    class Plugin final : public IPlugin {
+    class Plugin final : public api::IPlugin {
 
         typedef std::shared_ptr<asiodnp3::IChannel> channel_t;
         typedef std::shared_ptr<asiodnp3::IMaster> master_t;
@@ -18,7 +18,7 @@ namespace dnp3 {
     public:
         Plugin() = delete;
 
-        Plugin(const Logger& logger, const YAML::Node& node, message_bus_t bus);
+        Plugin(const api::Logger& logger, const YAML::Node& node, api::message_bus_t bus);
 
         virtual std::string name() const override
         {
@@ -28,10 +28,10 @@ namespace dnp3 {
         virtual void start() override;
 
     private:
-        Logger logger;
+        api::Logger logger;
         asiodnp3::DNP3Manager manager;
 
-        void add_master(const YAML::Node& node, message_bus_t bus);
+        void add_master(const YAML::Node& node, api::message_bus_t bus);
 
         std::vector<master_t> masters;
 

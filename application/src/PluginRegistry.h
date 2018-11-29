@@ -21,13 +21,13 @@ public:
         }
     }
 
-    std::shared_ptr<const IPluginFactory> find(const std::string& name);
+    std::shared_ptr<const api::IPluginFactory> find(const std::string& name);
 
 private:
     template <class T>
     void add();
 
-    std::map<std::string, std::shared_ptr<IPluginFactory>> lookup;
+    std::map<std::string, std::shared_ptr<api::IPluginFactory>> lookup;
 };
 }
 

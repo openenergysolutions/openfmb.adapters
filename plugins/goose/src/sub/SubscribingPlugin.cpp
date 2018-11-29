@@ -1,9 +1,9 @@
 #include "sub/SubscribingPlugin.h"
 
 #include "ConfigStrings.h"
-#include "adapter-api/ConfigStrings.h"
-#include "adapter-api/util/YAMLTemplate.h"
-#include "adapter-api/util/YAMLUtil.h"
+#include "adapter-util/ConfigStrings.h"
+#include "adapter-util/util/YAMLTemplate.h"
+#include "adapter-util/util/YAMLUtil.h"
 #include "goose-cpp/NetworkInterface.h"
 #include "sub/SubscribingProfileReader.h"
 #include <string>
@@ -11,11 +11,11 @@
 namespace adapter {
 namespace goose {
 
-    SubscribingPlugin::SubscribingPlugin(const YAML::Node& node, const Logger& logger, message_bus_t bus)
+    SubscribingPlugin::SubscribingPlugin(const YAML::Node& node, const api::Logger& logger, api::message_bus_t bus)
         : m_logger{ logger }
     {
-        yaml::load_template_configs(
-            yaml::require(node, keys::goCb),
+        util::yaml::load_template_configs(
+            util::yaml::require(node, keys::goCb),
             m_logger,
             [&](const YAML::Node& config) {
                 this->add_control_block(config, bus, logger);
@@ -36,18 +36,18 @@ namespace goose {
         // The control blocks already subscribed to the message bus. Nothing to do here.
     }
 
-    void SubscribingPlugin::add_control_block(const YAML::Node& node, message_bus_t bus, Logger logger)
+    void SubscribingPlugin::add_control_block(const YAML::Node& node, api::message_bus_t bus, api::Logger logger)
     {
-        auto network_publisher = get_network_publisher(yaml::require_string(node, keys::networkAdapter));
-        auto src_mac = yaml::require_string(node, keys::src_mac);
-        auto dest_mac = yaml::require_string(node, keys::dest_mac);
-        auto app_id = yaml::require(node, keys::appId).as<uint16_t>();
-        auto go_cb_ref = yaml::require_string(node, keys::goCbRef);
-        auto dat_set = yaml::require_string(node, keys::datSet);
-        auto go_id = yaml::require_string(node, keys::goID);
-        auto conf_rev = yaml::require(node, keys::confRev).as<uint16_t>();
-        auto ttl = yaml::require(node, keys::ttl).as<uint16_t>();
-        auto profile = yaml::require_string(node, ::adapter::keys::profile);
+        auto network_publisher = get_network_publisher(util::yaml::require_string(node, keys::networkAdapter));
+        auto src_mac = util::yaml::require_string(node, keys::src_mac);
+        auto dest_mac = util::yaml::require_string(node, keys::dest_mac);
+        auto app_id = util::yaml::require(node, keys::appId).as<uint16_t>();
+        auto go_cb_ref = util::yaml::require_string(node, keys::goCbRef);
+        auto dat_set = util::yaml::require_string(node, keys::datSet);
+        auto go_id = util::yaml::require_string(node, keys::goID);
+        auto conf_rev = util::yaml::require(node, keys::confRev).as<uint16_t>();
+        auto ttl = util::yaml::require(node, keys::ttl).as<uint16_t>();
+        auto profile = util::yaml::require_string(node, util::keys::profile);
 
         auto control_block_publisher = network_publisher->make_control_block_publisher(
             goose_cpp::MacAddress::from_string(src_mac),
@@ -59,7 +59,7 @@ namespace goose {
             conf_rev,
             ttl);
 
-        ProfileRegistry::handle_by_name<SubscribingProfileReader>(
+        api::ProfileRegistry::handle_by_name<SubscribingProfileReader>(
             profile,
             node,
             m_logger,
@@ -85,7 +85,7 @@ namespace goose {
             }
         }
 
-        throw Exception{ "Cannot find network adapter " + network_adapter_name };
+        throw api::Exception{ "Cannot find network adapter " + network_adapter_name };
     }
 
 } // namespace goose

@@ -28,7 +28,7 @@ namespace modbus {
     void CommandSink::write_single_register(uint16_t index, size_t priority, uint16_t value)
     {
         this->transactions.emplace_back(
-            [index, value](Logger logger) -> std::shared_ptr<ITransaction> {
+            [index, value](api::Logger logger) -> std::shared_ptr<ITransaction> {
                 return std::make_shared<WriteRegisterTransaction>(logger, index, value);
             },
             priority);
@@ -39,7 +39,7 @@ namespace modbus {
         this->modify_map[key_t(index, priority)].push_back(std::move(operation));
     }
 
-    std::shared_ptr<ITransaction> CommandSink::try_get_transaction(std::string name, Logger logger) const
+    std::shared_ptr<ITransaction> CommandSink::try_get_transaction(std::string name, api::Logger logger) const
     {
         std::vector<Entry> items;
 

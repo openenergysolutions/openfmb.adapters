@@ -6,7 +6,7 @@
 
 #include "Control.h"
 
-#include <adapter-api/util/Exception.h>
+#include <adapter-api/Exception.h>
 #include <functional>
 #include <map>
 #include <queue>
@@ -56,13 +56,13 @@ namespace dnp3 {
      * Something that can send command actions to a sink given an instance of the profile
      */
     template <class T>
-    using command_action_builder_t = std::function<void(const T& profile, Logger& logger, ICommandSink& sink)>;
+    using command_action_builder_t = std::function<void(const T& profile, api::Logger& logger, ICommandSink& sink)>;
 
     template <class T>
     class CommandConfiguration final {
 
     public:
-        void get_actions(const T& profile, Logger& logger, ICommandSink& sink) const
+        void get_actions(const T& profile, api::Logger& logger, ICommandSink& sink) const
         {
             for (const auto& builder : this->builders) {
                 builder(profile, logger, sink);

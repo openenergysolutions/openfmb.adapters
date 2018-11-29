@@ -4,9 +4,9 @@
 
 #include "ICommandSequenceExecutor.h"
 
+#include <adapter-api/Exception.h>
 #include <adapter-api/Logger.h>
 
-#include <adapter-api/util/Exception.h>
 #include <mutex>
 #include <queue>
 
@@ -14,7 +14,7 @@ namespace adapter {
 namespace dnp3 {
     class CommandSequenceExecutor final : public ICommandSequenceExecutor, public std::enable_shared_from_this<CommandSequenceExecutor> {
     public:
-        CommandSequenceExecutor(const Logger& logger)
+        CommandSequenceExecutor(const api::Logger& logger)
             : logger(logger)
         {
         }
@@ -34,7 +34,7 @@ namespace dnp3 {
             std::lock_guard<std::mutex> lock(this->mutex);
 
             if (this->processor)
-                throw Exception("executing already started");
+                throw api::Exception("executing already started");
             this->processor = std::move(processor);
             this->check_start();
         }
@@ -73,7 +73,7 @@ namespace dnp3 {
 
         std::mutex mutex;
 
-        Logger logger;
+        api::Logger logger;
         std::shared_ptr<opendnp3::ICommandProcessor> processor;
 
         bool executing = false;

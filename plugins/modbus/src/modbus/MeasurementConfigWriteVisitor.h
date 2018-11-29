@@ -1,12 +1,12 @@
 #ifndef OPENFMB_ADAPTER_MODBUS_MEASUREMENTCONFIGWRITEVISITOR_H
 #define OPENFMB_ADAPTER_MODBUS_MEASUREMENTCONFIGWRITEVISITOR_H
 
-#include <adapter-api/config/ConfigWriteVisitorBase.h>
+#include <adapter-util/config/ConfigWriteVisitorBase.h>
 
 namespace adapter {
 namespace modbus {
 
-    class MeasurementConfigWriteVisitor final : public ConfigWriteVisitorBase {
+    class MeasurementConfigWriteVisitor final : public util::ConfigWriteVisitorBase {
 
     public:
         explicit MeasurementConfigWriteVisitor(YAML::Emitter& out);

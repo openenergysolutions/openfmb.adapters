@@ -4,7 +4,7 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/uuid/uuid_io.hpp>
 
-#include <adapter-api/util/Exception.h>
+#include <adapter-api/Exception.h>
 
 namespace adapter {
 namespace nats {
@@ -18,7 +18,7 @@ namespace nats {
                 // throws bad_lexical_cast if not a valid UUID
                 boost::lexical_cast<boost::uuids::uuid>(value);
             } catch (...) {
-                throw Exception("NATs subject suffix is Not a valid UUID: ", value);
+                throw api::Exception("NATs subject suffix is Not a valid UUID: ", value);
             }
 
             return SubjectNameSuffix::Type::uuid;

@@ -13,7 +13,7 @@
 
 #include "EnumMappingType.h"
 
-#include "adapter-api/util/Exception.h"
+#include "adapter-api/Exception.h"
 
 #include <map>
 
@@ -51,7 +51,7 @@ EnumMappingType::Value EnumMappingType::from_string(const std::string& name)
         {multiple_holding_register, Value::multiple_holding_register},
     };
     const auto elem = map.find(name);
-    if(elem == map.end()) throw Exception("Unknown value name '", name, "' for enum EnumMappingType");
+    if(elem == map.end()) throw api::Exception("Unknown value name '", name, "' for enum EnumMappingType");
     return elem->second;
 }
 

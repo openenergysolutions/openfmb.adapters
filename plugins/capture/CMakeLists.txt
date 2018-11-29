@@ -11,7 +11,7 @@ set(SOURCES
         src/ConfigStrings.h)
 
 add_library(capture-plugin STATIC ${PUBLIC_HEADERS} ${PROJECT_HEADERS} ${SOURCES})
-target_link_libraries(capture-plugin PUBLIC adapter-api)
+target_link_libraries(capture-plugin PUBLIC adapter-util)
 target_include_directories(
         capture-plugin
         PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include

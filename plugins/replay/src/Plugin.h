@@ -13,7 +13,7 @@
 namespace adapter {
 namespace replay {
 
-    class Plugin final : public IPlugin {
+    class Plugin final : public api::IPlugin {
         struct LineInfo {
             LineInfo() = default;
 
@@ -22,7 +22,7 @@ namespace replay {
         };
 
     public:
-        Plugin(const YAML::Node& node, const Logger& logger, message_bus_t bus);
+        Plugin(const YAML::Node& node, const api::Logger& logger, api::message_bus_t bus);
 
         ~Plugin() override;
 
@@ -46,10 +46,10 @@ namespace replay {
 
         std::unique_ptr<std::thread> thread;
 
-        Logger logger;
+        api::Logger logger;
 
         const std::string file_path;
-        const publisher_t publisher;
+        const api::publisher_t publisher;
         const PublishFactory factory;
     };
 }

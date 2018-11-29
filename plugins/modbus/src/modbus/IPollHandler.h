@@ -29,7 +29,7 @@ namespace modbus {
         /**
              * called prior to beginning a sequence of polls
              */
-        virtual void begin(Logger& logger) = 0;
+        virtual void begin(api::Logger& logger) = 0;
 
         /**
              * called after receiving a response to record some state
@@ -39,7 +39,7 @@ namespace modbus {
         /**
              * called after polls are complete to fill and publish a message
              */
-        virtual void end(Logger& logger) = 0;
+        virtual void end(api::Logger& logger) = 0;
 
         // --- helpers ----
 

@@ -18,13 +18,13 @@ namespace modbus {
             std::vector<::modbus::ReadHoldingRegistersRequest> requests;
         };
 
-        Logger logger;
+        api::Logger logger;
         const std::chrono::steady_clock::duration period;
         const std::shared_ptr<IPollHandler> handler;
         Polls polls;
 
     public:
-        PollTransaction(Logger logger,
+        PollTransaction(api::Logger logger,
                         const AutoPollConfig& config,
                         std::chrono::steady_clock::duration period,
                         std::shared_ptr<IPollHandler> handler);
@@ -50,7 +50,7 @@ namespace modbus {
         void start_next_request(size_t index, session_t session, const callback_t& callback);
 
         using poll_end_action_t = std::function<void(bool)>;
-        using poll_start_action_t = std::function<void(session_t, Logger logger, std::shared_ptr<IPollHandler>, const poll_end_action_t&)>;
+        using poll_start_action_t = std::function<void(session_t, api::Logger logger, std::shared_ptr<IPollHandler>, const poll_end_action_t&)>;
     };
 }
 }

@@ -1,8 +1,8 @@
 
 #include "Control.h"
 
-#include <adapter-api/ConfigStrings.h>
-#include <adapter-api/util/YAMLUtil.h>
+#include <adapter-util/ConfigStrings.h>
+#include <adapter-util/util/YAMLUtil.h>
 
 #include "ConfigStrings.h"
 #include "ControlCodeMeta.h"
@@ -24,22 +24,22 @@ namespace dnp3 {
 
     Control Control::read(const YAML::Node& node)
     {
-        const auto crob = yaml::require(node, g12v1);
+        const auto crob = util::yaml::require(node, g12v1);
 
         return Control{
-            yaml::require_integer<uint16_t>(node, ::adapter::keys::index),
+            util::yaml::require_integer<uint16_t>(node, util::keys::index),
             opendnp3::ControlRelayOutputBlock{
-                ControlCodeMeta::from_string(yaml::require_string(crob, control_code)),
-                yaml::require_integer<uint8_t>(crob, count),
-                yaml::require_integer<uint32_t>(crob, on_time_ms),
-                yaml::require_integer<uint32_t>(crob, off_time_ms) }
+                ControlCodeMeta::from_string(util::yaml::require_string(crob, control_code)),
+                util::yaml::require_integer<uint8_t>(crob, count),
+                util::yaml::require_integer<uint32_t>(crob, on_time_ms),
+                util::yaml::require_integer<uint32_t>(crob, off_time_ms) }
         };
     }
 
     void Control::write(const Control& control, YAML::Emitter& out)
     {
-        out << YAML::Key << ::adapter::keys::index << YAML::Value << control.index;
-        out << YAML::Key << ::adapter::keys::command_id << "some-command-id";
+        out << YAML::Key << util::keys::index << YAML::Value << control.index;
+        out << YAML::Key << util::keys::command_id << "some-command-id";
         out << YAML::Key << g12v1;
 
         out << YAML::BeginMap;

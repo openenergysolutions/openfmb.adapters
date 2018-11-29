@@ -8,7 +8,7 @@
 
 namespace adapter {
 namespace replay {
-    using publish_fun_t = std::function<void(IPublisher&)>;
+    using publish_fun_t = std::function<void(api::IPublisher&)>;
     using publish_factory_t = publish_fun_t (*)(const std::vector<uint8_t>& bytes);
     using factory_map_t = std::map<std::string, publish_factory_t>;
 

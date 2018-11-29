@@ -14,7 +14,7 @@ set(SOURCES
 )
 
 add_library(replay-plugin STATIC ${PUBLIC_HEADERS} ${PROJECT_HEADERS} ${SOURCES})
-target_link_libraries(replay-plugin PUBLIC adapter-api)
+target_link_libraries(replay-plugin PUBLIC adapter-util)
 target_include_directories(
         replay-plugin
         PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include

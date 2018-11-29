@@ -7,11 +7,11 @@
 namespace adapter {
 namespace log {
     template <class Proto>
-    class DebugStringLogSubscriptionHandler final : public ISubscriptionHandler<Proto> {
-        Logger logger;
+    class DebugStringLogSubscriptionHandler final : public api::ISubscriptionHandler<Proto> {
+        api::Logger logger;
 
     public:
-        explicit DebugStringLogSubscriptionHandler(Logger logger)
+        explicit DebugStringLogSubscriptionHandler(api::Logger logger)
             : logger(std::move(logger))
         {
         }

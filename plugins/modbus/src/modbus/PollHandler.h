@@ -16,9 +16,9 @@ namespace modbus {
     public:
         /// ---- implement IPollHandler ----
 
-        void begin(Logger& logger) override;
+        void begin(api::Logger& logger) override;
         void apply(const ::modbus::ReadHoldingRegistersResponse& response) override;
-        void end(Logger& logger) override;
+        void end(api::Logger& logger) override;
 
         size_t num_mapped_values() const override;
         void configure(const AutoPollConfig& config, IRequestBuilder& builder) override;

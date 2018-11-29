@@ -4,7 +4,7 @@
 #include "BuildingFunction.h"
 #include "GooseStructureConfigVisitor.h"
 #include "adapter-api/IMessageBus.h"
-#include "adapter-api/util/Time.h"
+#include "adapter-util/util/Time.h"
 #include "generated/Type.h"
 #include "goose-cpp/control_block/IControlBlockPublisher.h"
 #include "goose-cpp/messages/Dataset.h"
@@ -29,7 +29,7 @@ namespace goose {
 
         void on_ignore() final
         {
-            throw Exception{ "Cannot ignore fields in goose-sub." };
+            throw api::Exception{ "Cannot ignore fields in goose-sub." };
         }
 
         void on_structure(const YAML::Node& node) final
@@ -66,10 +66,10 @@ namespace goose {
         {
             auto name = get_name(node);
 
-            accessor_t<T, bool> accessor;
+            util::accessor_t<T, bool> accessor;
             if (!m_mappings.get_bool(name, accessor)) {
                 const auto mark = node.Mark();
-                throw Exception{ "Mapping \"", name, "\" is not a boolean value for GOOSE element defined at line ", mark.line + 1 };
+                throw api::Exception{ "Mapping \"", name, "\" is not a boolean value for GOOSE element defined at line ", mark.line + 1 };
             }
 
             m_funcs.push_back([accessor, name](const T& msg, goose_cpp::Dataset& dataset) {
@@ -78,7 +78,7 @@ namespace goose {
                 });
 
                 if (!present) {
-                    throw Exception{ "Value \"", name, "\" was not present in the message." };
+                    throw api::Exception{ "Value \"", name, "\" was not present in the message." };
                 }
             });
         }
@@ -87,8 +87,8 @@ namespace goose {
         {
             auto name = get_name(node);
 
-            accessor_t<T, int32_t> accessor32;
-            accessor_t<T, int64_t> accessor64;
+            util::accessor_t<T, int32_t> accessor32;
+            util::accessor_t<T, int64_t> accessor64;
             if (m_mappings.get_int32(name, accessor32)) {
                 m_funcs.push_back([accessor32, name](const T& msg, goose_cpp::Dataset& dataset) {
                     auto present = accessor32->if_present(msg, [&](int32_t value) {
@@ -96,7 +96,7 @@ namespace goose {
                     });
 
                     if (!present) {
-                        throw Exception{ "Value \"" + name + "\" was not present in the message." };
+                        throw api::Exception{ "Value \"" + name + "\" was not present in the message." };
                     }
                 });
             } else if (m_mappings.get_int64(name, accessor64)) {
@@ -106,12 +106,12 @@ namespace goose {
                     });
 
                     if (!present) {
-                        throw Exception{ "Value \"" + name + "\" was not present in the message." };
+                        throw api::Exception{ "Value \"" + name + "\" was not present in the message." };
                     }
                 });
             } else {
                 const auto mark = node.Mark();
-                throw Exception{ "Mapping \"", name, "\" is not an integer value for GOOSE element defined at line ", mark.line + 1 };
+                throw api::Exception{ "Mapping \"", name, "\" is not an integer value for GOOSE element defined at line ", mark.line + 1 };
             }
         }
 
@@ -119,10 +119,10 @@ namespace goose {
         {
             auto name = get_name(node);
 
-            accessor_t<T, float> accessor;
+            util::accessor_t<T, float> accessor;
             if (!m_mappings.get_float(name, accessor)) {
                 const auto mark = node.Mark();
-                throw Exception{ "Mapping \"", name, "\" is not a floating point value for GOOSE element defined at line ", mark.line + 1 };
+                throw api::Exception{ "Mapping \"", name, "\" is not a floating point value for GOOSE element defined at line ", mark.line + 1 };
             }
 
             m_funcs.push_back([accessor, name](const T& msg, goose_cpp::Dataset& dataset) {
@@ -131,7 +131,7 @@ namespace goose {
                 });
 
                 if (!present) {
-                    throw Exception{ "Value \"", name, "\" was not present in the message." };
+                    throw api::Exception{ "Value \"", name, "\" was not present in the message." };
                 }
             });
         }
@@ -140,10 +140,10 @@ namespace goose {
         {
             auto name = get_name(node);
 
-            accessor_t<T, std::string> accessor;
+            util::accessor_t<T, std::string> accessor;
             if (!m_mappings.get_string(name, accessor)) {
                 const auto mark = node.Mark();
-                throw Exception{ "Mapping \"", name, "\" is not a string value for GOOSE element defined at line ", mark.line + 1 };
+                throw api::Exception{ "Mapping \"", name, "\" is not a string value for GOOSE element defined at line ", mark.line + 1 };
             }
 
             m_funcs.push_back([accessor, name](const T& msg, goose_cpp::Dataset& dataset) {
@@ -152,7 +152,7 @@ namespace goose {
                 });
 
                 if (!present) {
-                    throw Exception{ "Value \"", name, "\" was not present in the message." };
+                    throw api::Exception{ "Value \"", name, "\" was not present in the message." };
                 }
             });
         }
@@ -161,10 +161,10 @@ namespace goose {
         {
             auto name = get_name(node);
 
-            accessor_t<T, std::string> accessor;
+            util::accessor_t<T, std::string> accessor;
             if (!m_mappings.get_string(name, accessor)) {
                 const auto mark = node.Mark();
-                throw Exception{ "Mapping \"", name, "\" is not a string value for GOOSE element defined at line ", mark.line + 1 };
+                throw api::Exception{ "Mapping \"", name, "\" is not a string value for GOOSE element defined at line ", mark.line + 1 };
             }
 
             m_funcs.push_back([accessor, name](const T& msg, goose_cpp::Dataset& dataset) {
@@ -173,7 +173,7 @@ namespace goose {
                 });
 
                 if (!present) {
-                    throw Exception{ "Value \"", name, "\" was not present in the message." };
+                    throw api::Exception{ "Value \"", name, "\" was not present in the message." };
                 }
             });
         }
@@ -182,8 +182,8 @@ namespace goose {
         {
             auto name = get_name(node);
 
-            message_accessor_t<T, commonmodule::Quality> accessor_quality;
-            std::pair<accessor_t<T, int>, std::unordered_map<int, goose_cpp::BitString>> accessor_enum;
+            util::message_accessor_t<T, commonmodule::Quality> accessor_quality;
+            std::pair<util::accessor_t<T, int>, std::unordered_map<int, goose_cpp::BitString>> accessor_enum;
             if (m_mappings.get_quality(name, accessor_quality)) {
                 m_funcs.push_back([accessor = accessor_quality, name](const T& msg, goose_cpp::Dataset& dataset) {
                     auto present = accessor->if_present(msg, [&](const commonmodule::Quality& value) {
@@ -191,7 +191,7 @@ namespace goose {
                     });
 
                     if (!present) {
-                        throw Exception{ "Value \"", name, "\" was not present in the message." };
+                        throw api::Exception{ "Value \"", name, "\" was not present in the message." };
                     }
                 });
             } else if (m_mappings.get_enum(name, accessor_enum)) {
@@ -199,18 +199,18 @@ namespace goose {
                     auto present = accessor.first->if_present(msg, [&](int value) {
                         auto it = accessor.second.find(value);
                         if (it == accessor.second.end()) {
-                            throw Exception{ "Enum value ", value, " was not mapped to a bitstring representation." };
+                            throw api::Exception{ "Enum value ", value, " was not mapped to a bitstring representation." };
                         }
                         dataset.add_bitstring(goose_cpp::BitString{ it->second });
                     });
 
                     if (!present) {
-                        throw Exception{ "Value \"", name, "\" was not present in the message." };
+                        throw api::Exception{ "Value \"", name, "\" was not present in the message." };
                     }
                 });
             } else {
                 const auto mark = node.Mark();
-                throw Exception{ "Mapping \"", name, "\" is not a bitstring value for GOOSE element defined at line ", mark.line + 1 };
+                throw api::Exception{ "Mapping \"", name, "\" is not a bitstring value for GOOSE element defined at line ", mark.line + 1 };
             }
         }
 
@@ -218,19 +218,19 @@ namespace goose {
         {
             auto name = get_name(node);
 
-            message_accessor_t<T, commonmodule::Timestamp> accessor;
+            util::message_accessor_t<T, commonmodule::Timestamp> accessor;
             if (!m_mappings.get_timestamp(name, accessor)) {
                 const auto mark = node.Mark();
-                throw Exception{ "Mapping \"", name, "\" is not a timestamp value for GOOSE element defined at line ", mark.line + 1 };
+                throw api::Exception{ "Mapping \"", name, "\" is not a timestamp value for GOOSE element defined at line ", mark.line + 1 };
             }
 
             m_funcs.push_back([accessor, name](const T& msg, goose_cpp::Dataset& dataset) {
                 auto present = accessor->if_present(msg, [&](const commonmodule::Timestamp& value) {
-                    dataset.add_generalizedtime(time::get(value));
+                    dataset.add_generalizedtime(util::time::get(value));
                 });
 
                 if (!present) {
-                    throw Exception{ "Value \"", name, "\" was not present in the message." };
+                    throw api::Exception{ "Value \"", name, "\" was not present in the message." };
                 }
             });
         }
@@ -239,19 +239,19 @@ namespace goose {
         {
             auto name = get_name(node);
 
-            message_accessor_t<T, commonmodule::Timestamp> accessor;
+            util::message_accessor_t<T, commonmodule::Timestamp> accessor;
             if (!m_mappings.get_timestamp(name, accessor)) {
                 const auto mark = node.Mark();
-                throw Exception{ "Mapping \"", name, "\" is not a timestamp value for GOOSE element defined at line ", mark.line + 1 };
+                throw api::Exception{ "Mapping \"", name, "\" is not a timestamp value for GOOSE element defined at line ", mark.line + 1 };
             }
 
             m_funcs.push_back([accessor, name](const T& msg, goose_cpp::Dataset& dataset) {
                 auto present = accessor->if_present(msg, [&](const commonmodule::Timestamp& value) {
-                    dataset.add_binarytime(time::get(value));
+                    dataset.add_binarytime(util::time::get(value));
                 });
 
                 if (!present) {
-                    throw Exception{ "Value \"", name, "\" was not present in the message." };
+                    throw api::Exception{ "Value \"", name, "\" was not present in the message." };
                 }
             });
         }
@@ -260,19 +260,19 @@ namespace goose {
         {
             auto name = get_name(node);
 
-            message_accessor_t<T, commonmodule::Timestamp> accessor;
+            util::message_accessor_t<T, commonmodule::Timestamp> accessor;
             if (!m_mappings.get_timestamp(name, accessor)) {
                 const auto mark = node.Mark();
-                throw Exception{ "Mapping \"", name, "\" is not a timestamp value for GOOSE element defined at line ", mark.line + 1 };
+                throw api::Exception{ "Mapping \"", name, "\" is not a timestamp value for GOOSE element defined at line ", mark.line + 1 };
             }
 
             m_funcs.push_back([accessor, name](const T& msg, goose_cpp::Dataset& dataset) {
                 auto present = accessor->if_present(msg, [&](const commonmodule::Timestamp& value) {
-                    dataset.add_utctime(time::get(value));
+                    dataset.add_utctime(util::time::get(value));
                 });
 
                 if (!present) {
-                    throw Exception{ "Value \"", name, "\" was not present in the message." };
+                    throw api::Exception{ "Value \"", name, "\" was not present in the message." };
                 }
             });
         }
@@ -284,7 +284,7 @@ namespace goose {
 
             if (!m_mappings.has(name)) {
                 const auto mark = node.Mark();
-                throw Exception{ "No mapping named \"", name, "\" found for GOOSE element defined at line ", mark.line + 1 };
+                throw api::Exception{ "No mapping named \"", name, "\" found for GOOSE element defined at line ", mark.line + 1 };
             }
 
             return name;
@@ -332,7 +332,7 @@ namespace goose {
             m_mrid = mappings.get_mrid();
         };
 
-        void subscribe(IMessageBus& bus, std::shared_ptr<goose_cpp::IControlBlockPublisher> cb_publisher, Logger logger)
+        void subscribe(api::IMessageBus& bus, std::shared_ptr<goose_cpp::IControlBlockPublisher> cb_publisher, api::Logger logger)
         {
             bus.subscribe(std::make_shared<SubscriptionHandler<T>>(logger, m_mrid, cb_publisher, m_building_func));
         }

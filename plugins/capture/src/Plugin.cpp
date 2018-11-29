@@ -2,7 +2,7 @@
 #include "Plugin.h"
 #include "ConfigStrings.h"
 
-#include <adapter-api/util/YAMLUtil.h>
+#include <adapter-util/util/YAMLUtil.h>
 
 #include <boost/numeric/conversion/cast.hpp>
 #include <cppcodec/base64_default_rfc4648.hpp>
@@ -18,10 +18,10 @@ namespace capture {
 
         std::mutex mutex;
         std::ofstream log_file;
-        Logger logger;
+        api::Logger logger;
 
     public:
-        SharedLog(const std::string& filename, const Logger& logger)
+        SharedLog(const std::string& filename, const api::Logger& logger)
             : log_file(filename, std::ios_base::app | std::ios_base::out)
             , logger(logger)
         {
@@ -31,7 +31,7 @@ namespace capture {
     };
 
     template <class T>
-    class SubscriptionHandler final : public ISubscriptionHandler<T> {
+    class SubscriptionHandler final : public api::ISubscriptionHandler<T> {
         const std::shared_ptr<SharedLog> log;
 
     public:
@@ -49,16 +49,16 @@ namespace capture {
 
     template <class T>
     struct ProfileSubscriber {
-        static void handle(std::shared_ptr<SharedLog> log, IMessageBus& bus)
+        static void handle(std::shared_ptr<SharedLog> log, api::IMessageBus& bus)
         {
             bus.subscribe(std::make_shared<SubscriptionHandler<T>>(std::move(log)));
         }
     };
 
-    Plugin::Plugin(const YAML::Node& node, const Logger& logger, message_bus_t bus)
-        : shared_log(std::make_shared<SharedLog>(yaml::require_string(node, keys::file), logger))
+    Plugin::Plugin(const YAML::Node& node, const api::Logger& logger, api::message_bus_t bus)
+        : shared_log(std::make_shared<SharedLog>(util::yaml::require_string(node, keys::file), logger))
     {
-        ProfileRegistry::handle_all<ProfileSubscriber>(this->shared_log, *bus);
+        api::ProfileRegistry::handle_all<ProfileSubscriber>(this->shared_log, *bus);
     }
 
     Plugin::~Plugin()

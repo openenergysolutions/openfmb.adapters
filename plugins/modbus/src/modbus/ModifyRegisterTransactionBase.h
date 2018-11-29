@@ -11,14 +11,14 @@
 namespace adapter {
 namespace modbus {
     class ModifyRegisterTransactionBase : public ITransaction, public std::enable_shared_from_this<ModifyRegisterTransactionBase> {
-        Logger logger;
+        api::Logger logger;
 
     protected:
         const uint16_t address;
         const modify_reg_op_t operation;
 
     public:
-        ModifyRegisterTransactionBase(Logger logger, uint16_t address, modify_reg_op_t operation);
+        ModifyRegisterTransactionBase(api::Logger logger, uint16_t address, modify_reg_op_t operation);
 
         virtual ~ModifyRegisterTransactionBase() = default;
 

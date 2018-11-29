@@ -5,7 +5,7 @@
 #include <dds/dds.hh>
 
 #include "adapter-api/IPluginFactory.h"
-#include "adapter-api/util/Exception.h"
+#include "adapter-util/util/Exception.h"
 
 #include <vector>
 

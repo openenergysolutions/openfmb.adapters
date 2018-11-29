@@ -4,7 +4,7 @@
 
 #include "ITransaction.h"
 
-#include <adapter-api/Logger.h>
+#include "adapter-api/Logger.h"
 
 #include <queue>
 
@@ -15,10 +15,10 @@ namespace modbus {
         std::vector<std::shared_ptr<ITransaction>> transactions;
 
         const std::string description;
-        Logger logger;
+        api::Logger logger;
 
     public:
-        OrderedTransaction(std::string description, Logger logger)
+        OrderedTransaction(std::string description, api::Logger logger)
             : description(std::move(description))
             , logger(std::move(logger))
         {

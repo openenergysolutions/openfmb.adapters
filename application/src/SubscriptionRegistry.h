@@ -2,8 +2,8 @@
 #ifndef OPENFMB_ADAPTER_SUBSCRIPTIONREGISTRY_H
 #define OPENFMB_ADAPTER_SUBSCRIPTIONREGISTRY_H
 
-#include "adapter-api/ISubscriptionHandler.h"
-#include "adapter-api/util/Exception.h"
+#include <adapter-api/Exception.h>
+#include <adapter-api/ISubscriptionHandler.h>
 
 #include <mutex>
 #include <vector>
@@ -20,7 +20,7 @@ public:
         std::lock_guard<std::mutex> lock(this->mutex);
 
         if (finalized)
-            throw Exception("Already finalized");
+            throw api::Exception("Already finalized");
         this->finalized = true;
     }
 
@@ -36,19 +36,19 @@ public:
         std::lock_guard<std::mutex> lock(this->mutex);
 
         if (!this->finalized)
-            throw Exception("Publish(..) called before finalization");
+            throw api::Exception("Publish(..) called before finalization");
 
         for (auto& sub : this->subscriptions) {
             sub->receive(message);
         }
     }
 
-    void add(subscription_handler_t<T> handler)
+    void add(api::subscription_handler_t<T> handler)
     {
         std::lock_guard<std::mutex> lock(this->mutex);
 
         if (finalized)
-            throw Exception("Subscribe(..) called after finalization");
+            throw api::Exception("Subscribe(..) called after finalization");
 
         this->subscriptions.push_back(std::move(handler));
     }
@@ -59,7 +59,7 @@ private:
     bool finalized = false;
 
     // all of the subscribers for a particular type
-    std::vector<subscription_handler_t<T>> subscriptions;
+    std::vector<api::subscription_handler_t<T>> subscriptions;
 };
 }
 

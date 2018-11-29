@@ -13,7 +13,7 @@
 
 #include "Type.h"
 
-#include "adapter-api/util/Exception.h"
+#include "adapter-api/Exception.h"
 
 #include <map>
 
@@ -87,7 +87,7 @@ Type::Value Type::from_string(const std::string& name)
         {utc_time, Value::utc_time},
     };
     const auto elem = map.find(name);
-    if(elem == map.end()) throw Exception("Unknown value name '", name, "' for enum Type");
+    if(elem == map.end()) throw api::Exception("Unknown value name '", name, "' for enum Type");
     return elem->second;
 }
 

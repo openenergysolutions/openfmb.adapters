@@ -1,7 +1,7 @@
 
 #include "SOEHandler.h"
 
-#include "adapter-api/util/Exception.h"
+#include "adapter-api/Exception.h"
 
 namespace adapter {
 namespace dnp3 {
@@ -53,7 +53,7 @@ namespace dnp3 {
     void SOEHandler::add_measurement_handler(const IPublishConfigBuilder::meas_handler_t<opendnp3::Binary>& handler, uint16_t index)
     {
         if (this->binary_handlers.find(index) != this->binary_handlers.end()) {
-            throw Exception("Binary index already mapped: ", index);
+            throw api::Exception("Binary index already mapped: ", index);
         }
         this->binary_handlers[index] = handler;
     }
@@ -61,7 +61,7 @@ namespace dnp3 {
     void SOEHandler::add_measurement_handler(const IPublishConfigBuilder::meas_handler_t<opendnp3::Analog>& handler, uint16_t index)
     {
         if (this->analog_handlers.find(index) != this->analog_handlers.end()) {
-            throw Exception("Analog index already mapped: ", index);
+            throw api::Exception("Analog index already mapped: ", index);
         }
         this->analog_handlers[index] = handler;
     }
@@ -69,7 +69,7 @@ namespace dnp3 {
     void SOEHandler::add_measurement_handler(const IPublishConfigBuilder::meas_handler_t<opendnp3::Counter>& handler, uint16_t index)
     {
         if (this->counter_handlers.find(index) != this->counter_handlers.end()) {
-            throw Exception("Counter index already mapped: ", index);
+            throw api::Exception("Counter index already mapped: ", index);
         }
         this->counter_handlers[index] = handler;
     }

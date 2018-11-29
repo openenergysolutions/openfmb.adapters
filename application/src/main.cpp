@@ -1,9 +1,10 @@
 
+#include "adapter-api/Exception.h"
 #include "adapter-api/IPlugin.h"
 #include "adapter-api/ProfileRegistry.h"
-#include "adapter-api/Version.h"
-#include "adapter-api/util/Exception.h"
-#include "adapter-api/util/YAMLUtil.h"
+
+#include "adapter-util/Version.h"
+#include "adapter-util/util/YAMLUtil.h"
 
 #include "ArgumentParser.h"
 #include "ConfigKeys.h"
@@ -17,17 +18,17 @@
 
 using namespace adapter;
 
-std::vector<std::unique_ptr<IPlugin>> initialize(const std::string& yaml_path, PluginRegistry& registry, message_bus_t bus);
+std::vector<std::unique_ptr<api::IPlugin>> initialize(const std::string& yaml_path, PluginRegistry& registry, api::message_bus_t bus);
 
 int run_application(const std::string& config_file_path);
 
 int write_default_config(const std::string& config_file_path);
 
-int write_default_session_config(const std::string& config_file_path, const IPluginFactory& factory, const profile_vec_t& profiles);
+int write_default_session_config(const std::string& config_file_path, const api::IPluginFactory& factory, const api::profile_vec_t& profiles);
 
-profile_vec_t get_profiles(const argagg::parser_results& args);
+api::profile_vec_t get_profiles(const argagg::parser_results& args);
 
-std::shared_ptr<const adapter::IPluginFactory> get_factory(const argagg::parser_results& args);
+std::shared_ptr<const api::IPluginFactory> get_factory(const argagg::parser_results& args);
 
 // global plugin registry
 PluginRegistry registry;
@@ -40,8 +41,8 @@ int main(int argc, char** argv)
         const auto args = parser.parse(argc, argv);
 
         if (args[flags::version]) {
-            std::cout << "git commmit date: " << version::git_commit_date() << std::endl;
-            std::cout << "git commmit hash: " << version::git_commit_hash() << std::endl;
+            std::cout << "git commmit date: " << util::version::git_commit_date() << std::endl;
+            std::cout << "git commmit hash: " << util::version::git_commit_hash() << std::endl;
             return 0;
         }
 
@@ -80,19 +81,19 @@ int main(int argc, char** argv)
     }
 }
 
-profile_vec_t get_profiles(const argagg::parser_results& args)
+api::profile_vec_t get_profiles(const argagg::parser_results& args)
 {
-    profile_vec_t profiles;
+    api::profile_vec_t profiles;
     for (auto& profile : args[flags::profile].all) {
         profiles.push_back(profile.arg);
     }
     return std::move(profiles);
 }
 
-std::shared_ptr<const adapter::IPluginFactory> get_factory(const argagg::parser_results& args)
+std::shared_ptr<const api::IPluginFactory> get_factory(const argagg::parser_results& args)
 {
     if (args[flags::plugin].count() == 0) {
-        throw Exception("No plugin specified for generation");
+        throw api::Exception("No plugin specified for generation");
     }
 
     return registry.find(args[flags::plugin].as<std::string>());
@@ -128,7 +129,7 @@ int run_application(const std::string& config_file_path)
     return 0;
 }
 
-int write_default_plugin_config(const IPluginFactory& factory, YAML::Emitter& out)
+int write_default_plugin_config(const api::IPluginFactory& factory, YAML::Emitter& out)
 {
     out << YAML::Newline << YAML::Comment(factory.description());
     out << factory.name();
@@ -156,7 +157,7 @@ int write_default_config(const std::string& config_file_path)
     out << YAML::Key << keys::plugins;
     out << YAML::BeginMap;
     registry.foreach_adapter(
-        [&](IPluginFactory& factory) {
+        [&](api::IPluginFactory& factory) {
             write_default_plugin_config(factory, out);
             out << YAML::Newline;
         });
@@ -173,7 +174,7 @@ int write_default_config(const std::string& config_file_path)
     return 0;
 }
 
-int write_default_session_config(const std::string& config_file_path, const IPluginFactory& factory, const profile_vec_t& profiles)
+int write_default_session_config(const std::string& config_file_path, const api::IPluginFactory& factory, const api::profile_vec_t& profiles)
 {
     YAML::Emitter out;
     out << YAML::BeginDoc;
@@ -186,24 +187,24 @@ int write_default_session_config(const std::string& config_file_path, const IPlu
     return 0;
 }
 
-std::vector<std::unique_ptr<IPlugin>> initialize(const std::string& yaml_path, PluginRegistry& registry, message_bus_t bus)
+std::vector<std::unique_ptr<api::IPlugin>> initialize(const std::string& yaml_path, PluginRegistry& registry, api::message_bus_t bus)
 {
     const auto yaml_root = YAML::LoadFile(yaml_path);
 
     auto logger = logging::create_logger_from_yaml(yaml_root);
 
-    const auto plugin_list = yaml::require(yaml_root, keys::plugins);
+    const auto plugin_list = util::yaml::require(yaml_root, keys::plugins);
 
-    std::vector<std::unique_ptr<IPlugin>> plugins;
+    std::vector<std::unique_ptr<api::IPlugin>> plugins;
 
-    const auto try_to_load = [&](IPluginFactory& factory) -> void {
+    const auto try_to_load = [&](api::IPluginFactory& factory) -> void {
         const auto entry = plugin_list[factory.name()];
         if (!entry) {
             logger.info("No configuration specified for adapter: {}", factory.name());
             return;
         }
 
-        const auto enabled = yaml::require(entry, keys::enabled).as<bool>();
+        const auto enabled = util::yaml::require(entry, keys::enabled).as<bool>();
 
         if (enabled) {
             logger.info("Initializing plugin: {}", factory.name());

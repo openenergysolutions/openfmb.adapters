@@ -32,7 +32,7 @@ set(NATS_SOURCES
 
 add_library(nats-plugin STATIC ${NATS_PUBLIC_HEADERS} ${NATS_SOURCES})
 target_include_directories(nats-plugin PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
-target_link_libraries(nats-plugin PUBLIC adapter-api PRIVATE ${LIBNATS})
+target_link_libraries(nats-plugin PUBLIC adapter-util PRIVATE ${LIBNATS})
 if(OPENFMB_LINK_STATIC)
 	target_link_libraries(nats-plugin PRIVATE ${OPENSSL_LIBRARIES})
 endif()

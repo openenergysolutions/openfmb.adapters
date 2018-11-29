@@ -2,18 +2,18 @@
 #include "MultipleRegisterEnumMapping.h"
 #include "ConfigStrings.h"
 
-#include <adapter-api/ConfigStrings.h>
-#include <adapter-api/util/Exception.h>
-#include <adapter-api/util/YAMLUtil.h>
+#include <adapter-api/Exception.h>
+#include <adapter-util/ConfigStrings.h>
+#include <adapter-util/util/YAMLUtil.h>
 
 namespace adapter {
 namespace modbus {
 
     uint32_t read_bit_pattern(const YAML::Node& node)
     {
-        const auto pattern_string = yaml::require_string(node, keys::pattern);
+        const auto pattern_string = util::yaml::require_string(node, keys::pattern);
         if (pattern_string.size() > 32) {
-            throw Exception(node.Mark(), "Bit pattern contains more than the allowed 32 bit characters (1|0)");
+            throw api::Exception(node.Mark(), "Bit pattern contains more than the allowed 32 bit characters (1|0)");
         }
         uint32_t bit_pos = 0;
         uint32_t pattern = 0;
@@ -25,7 +25,7 @@ namespace modbus {
             case '0':
                 break;
             default:
-                throw Exception(node.Mark(), "Bit pattern contains illegal character: ", *pos);
+                throw api::Exception(node.Mark(), "Bit pattern contains illegal character: ", *pos);
             }
             ++bit_pos;
         }
@@ -37,8 +37,8 @@ namespace modbus {
         std::map<uint16_t, MultipleRegisterEnumMapping::Bit> bits;
 
         uint16_t position = 0;
-        yaml::foreach (
-            yaml::require(node, keys::bits),
+        util::yaml::foreach (
+            util::yaml::require(node, keys::bits),
             [&bits, &position](const YAML::Node& entry) {
                 bits[position] = Bit(entry);
                 ++position;
@@ -51,14 +51,14 @@ namespace modbus {
     {
         const auto mapping = std::make_shared<std::map<uint32_t, int>>();
 
-        yaml::foreach (
-            yaml::require(node, ::adapter::keys::mapping),
+        util::yaml::foreach (
+            util::yaml::require(node, util::keys::mapping),
             [&mapping, descriptor](const YAML::Node& entry) {
                 const auto pattern = read_bit_pattern(entry);
-                const auto value = yaml::require_string(entry, ::adapter::keys::value);
+                const auto value = util::yaml::require_string(entry, util::keys::value);
                 const auto value_descriptor = descriptor->FindValueByName(value);
                 if (!value_descriptor) {
-                    throw Exception("Bad ", descriptor->name(), " enum name: ", value);
+                    throw api::Exception("Bad ", descriptor->name(), " enum name: ", value);
                 }
                 (*mapping)[pattern] = value_descriptor->number();
             });
@@ -67,11 +67,11 @@ namespace modbus {
     }
 
     MultipleRegisterEnumMapping::Bit::Bit(const YAML::Node& node)
-        : index(yaml::require_integer<uint16_t>(node, ::adapter::keys::index))
-        , bit(yaml::require_integer<uint8_t>(node, keys::bit))
+        : index(util::yaml::require_integer<uint16_t>(node, util::keys::index))
+        , bit(util::yaml::require_integer<uint8_t>(node, keys::bit))
     {
         if (bit > 15) {
-            throw Exception(node.Mark(), "Bit must be in the range [0,15]");
+            throw api::Exception(node.Mark(), "Bit must be in the range [0,15]");
         }
     }
 

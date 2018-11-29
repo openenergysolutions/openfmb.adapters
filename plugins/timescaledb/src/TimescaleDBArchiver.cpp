@@ -10,7 +10,7 @@
 namespace adapter {
 namespace timescaledb {
 
-    TimescaleDBArchiver::TimescaleDBArchiver(const Logger& logger,
+    TimescaleDBArchiver::TimescaleDBArchiver(const api::Logger& logger,
                                              const std::string& database_url,
                                              bool store_measurement,
                                              const std::string& table_name,
@@ -30,10 +30,6 @@ namespace timescaledb {
         , m_queue{ max_queued_messages }
         , m_queue_for_raw_messages{ max_queued_messages }
         , m_shutdown{ false }
-    {
-    }
-
-    TimescaleDBArchiver::~TimescaleDBArchiver()
     {
     }
 

@@ -13,7 +13,7 @@
 
 #include "BitwiseOperation.h"
 
-#include "adapter-api/util/Exception.h"
+#include "adapter-api/Exception.h"
 
 #include <map>
 
@@ -55,7 +55,7 @@ BitwiseOperation::Value BitwiseOperation::from_string(const std::string& name)
         {set_masked_bits, Value::set_masked_bits},
     };
     const auto elem = map.find(name);
-    if(elem == map.end()) throw Exception("Unknown value name '", name, "' for enum BitwiseOperation");
+    if(elem == map.end()) throw api::Exception("Unknown value name '", name, "' for enum BitwiseOperation");
     return elem->second;
 }
 

@@ -6,7 +6,7 @@
 #include "log/PluginFactory.h"
 #include "replay/PluginFactory.h"
 
-#include <adapter-api/util/Exception.h>
+#include <adapter-api/Exception.h>
 
 #ifdef OPENFMB_USE_DNP3
 #include "dnp3/PluginFactory.h"
@@ -67,11 +67,11 @@ PluginRegistry::PluginRegistry()
 #endif
 }
 
-std::shared_ptr<const IPluginFactory> PluginRegistry::find(const std::string& name)
+std::shared_ptr<const api::IPluginFactory> PluginRegistry::find(const std::string& name)
 {
     const auto result = this->lookup.find(name);
     if (result == this->lookup.end()) {
-        throw Exception("No plugin with name: ", name);
+        throw api::Exception("No plugin with name: ", name);
     }
     return result->second;
 }

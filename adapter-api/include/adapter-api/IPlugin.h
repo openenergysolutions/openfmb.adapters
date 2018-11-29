@@ -5,16 +5,18 @@
 #include <string>
 
 namespace adapter {
-class IPlugin {
-public:
-    virtual ~IPlugin() = default;
+namespace api {
+    class IPlugin {
+    public:
+        virtual ~IPlugin() = default;
 
-    // supplies the same name as the factory
-    virtual std::string name() const = 0;
+        // supplies the same name as the factory
+        virtual std::string name() const = 0;
 
-    // start the execution of the adapter
-    virtual void start() = 0;
-};
+        // start the execution of the adapter
+        virtual void start() = 0;
+    };
+}
 }
 
 #endif

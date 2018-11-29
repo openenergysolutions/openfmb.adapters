@@ -11,7 +11,7 @@
 
 namespace adapter {
 namespace modbus {
-    using logger_action_t = std::function<void(Logger&)>;
+    using logger_action_t = std::function<void(api::Logger&)>;
 
     class IConfigurationBuilder {
 

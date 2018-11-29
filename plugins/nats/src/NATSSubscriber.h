@@ -13,23 +13,23 @@ namespace nats {
     class NATSSubscriber final : public INATSSubscription {
 
     public:
-        typedef util::SynchronizedQueue<Message> message_queue_t;
+        using message_queue_t = util::SynchronizedQueue<Message>;
 
-        NATSSubscriber(Logger logger, const std::string& subject, publisher_t publisher)
+        NATSSubscriber(api::Logger logger, std::string subject, api::publisher_t publisher)
             : logger(logger)
-            , subject(subject)
-            , publisher(publisher)
+            , subject(std::move(subject))
+            , publisher(std::move(publisher))
         {
         }
 
-        ~NATSSubscriber()
+        ~NATSSubscriber() override
         {
             if (this->subscription) {
                 natsSubscription_Destroy(this->subscription);
             }
         }
 
-        virtual void start(natsConnection* connection) override
+        void start(natsConnection* connection) override
         {
             auto err = natsConnection_Subscribe(&this->subscription, connection, this->subject.c_str(), on_message_static, this);
             if (err) {
@@ -73,9 +73,9 @@ namespace nats {
             }
         }
 
-        Logger logger;
+        api::Logger logger;
         const std::string subject;
-        const publisher_t publisher;
+        const api::publisher_t publisher;
         natsSubscription* subscription = nullptr;
     };
 }

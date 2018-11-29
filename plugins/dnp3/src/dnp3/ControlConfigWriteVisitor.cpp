@@ -1,7 +1,7 @@
 
 #include "ControlConfigWriteVisitor.h"
 
-#include "adapter-api/ConfigStrings.h"
+#include "adapter-util/ConfigStrings.h"
 
 #include "ConfigStrings.h"
 #include "Control.h"
@@ -20,12 +20,12 @@ namespace dnp3 {
 
     void ControlConfigWriteVisitor::write_mapped_bool_keys(YAML::Emitter& out)
     {
-        out << YAML::Key << ::adapter::keys::when_true;
+        out << YAML::Key << util::keys::when_true;
         out << YAML::BeginSeq;
         write_crob_keys(out, 0, opendnp3::ControlCode::LATCH_ON);
         out << YAML::EndSeq;
 
-        out << YAML::Key << ::adapter::keys::when_false;
+        out << YAML::Key << util::keys::when_false;
         out << YAML::BeginSeq;
         write_crob_keys(out, 0, opendnp3::ControlCode::LATCH_OFF);
         out << YAML::EndSeq;
@@ -69,7 +69,7 @@ namespace dnp3 {
 
     void ControlConfigWriteVisitor::write_mapped_schedule_parameter_keys(YAML::Emitter& out)
     {
-        throw Exception("Schedule parameter not supported by DNP3 plugin");
+        throw api::Exception("Schedule parameter not supported by DNP3 plugin");
     }
 }
 }

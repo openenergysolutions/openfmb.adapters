@@ -1,12 +1,12 @@
 #include "pub/ControlBlockListener.h"
 
-#include "adapter-api/util/Exception.h"
+#include "adapter-api/Exception.h"
 #include "pub/GooseMessageVisitor.h"
 
 namespace adapter {
 namespace goose {
 
-    ControlBlockListener::ControlBlockListener(std::string name, const meas_fn_t<goose_cpp::Dataset>& builder, Logger& logger)
+    ControlBlockListener::ControlBlockListener(std::string name, const meas_fn_t<goose_cpp::Dataset>& builder, api::Logger& logger)
         : m_name{ name }
         , m_builder{ builder }
         , m_logger{ logger }
@@ -18,7 +18,7 @@ namespace goose {
         if (!retransmission) {
             try {
                 m_builder(*message->goose_pdu.allData);
-            } catch (Exception& e) {
+            } catch (api::Exception& e) {
                 m_logger.warn(e.what());
             }
         }

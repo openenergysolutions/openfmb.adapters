@@ -6,7 +6,7 @@ namespace adapter {
 namespace modbus {
 
     PollTransaction::PollTransaction(
-        Logger logger,
+        api::Logger logger,
         const AutoPollConfig& config,
         std::chrono::steady_clock::duration period,
         std::shared_ptr<IPollHandler> handler)

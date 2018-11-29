@@ -3,6 +3,7 @@ package com.oes.openfmb.generation.proto;
 import com.google.protobuf.Descriptors;
 import com.oes.openfmb.generation.document.*;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.SortedMap;
@@ -36,8 +37,8 @@ public class ModelVisitorFiles implements CppFileCollection {
                                 space,
                                 include("../IModelVisitor.h"),
                                 Document.space,
-                                namespace(
-                                        "adapter",
+                                namespaces(
+                                        Arrays.asList("adapter", "util"),
                                         lines(
                                                 "// specializations for each profile type in the implementation file",
                                                 "template <class T>",
@@ -54,12 +55,12 @@ public class ModelVisitorFiles implements CppFileCollection {
         return this.name.createImplementationList(
 
                 () -> join(
-                        include("adapter-api/config/generated/" + name.getHeaderName()),
+                        include("adapter-util/config/generated/" + name.getHeaderName()),
                         space,
                         join(Helpers.getIncludeFiles(this.descriptors).stream().map(Document::include)),
                         space,
-                        namespace(
-                                "adapter",
+                        namespaces(
+                                Arrays.asList("adapter", "util"),
                                 spaced(
                                         line("// ---- forward declare all the child visit method names ----"),
                                         spaced(this.children.values().stream().map(d -> getChildVisitSignature(d, true))),

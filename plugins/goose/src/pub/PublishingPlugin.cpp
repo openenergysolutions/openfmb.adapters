@@ -1,9 +1,9 @@
 #include "pub/PublishingPlugin.h"
 
 #include "ConfigStrings.h"
-#include "adapter-api/ConfigStrings.h"
-#include "adapter-api/util/YAMLTemplate.h"
-#include "adapter-api/util/YAMLUtil.h"
+#include "adapter-util/ConfigStrings.h"
+#include "adapter-util/util/YAMLTemplate.h"
+#include "adapter-util/util/YAMLUtil.h"
 #include "goose-cpp/NetworkInterface.h"
 #include "pub/ControlBlockListener.h"
 #include "pub/PublishingProfileReader.h"
@@ -12,11 +12,11 @@
 namespace adapter {
 namespace goose {
 
-    PublishingPlugin::PublishingPlugin(const YAML::Node& node, const Logger& logger, message_bus_t bus)
+    PublishingPlugin::PublishingPlugin(const YAML::Node& node, const api::Logger& logger, api::message_bus_t bus)
         : m_logger{ logger }
     {
-        yaml::load_template_configs(
-            yaml::require(node, keys::goCb),
+        util::yaml::load_template_configs(
+            util::yaml::require(node, keys::goCb),
             m_logger,
             [&](const YAML::Node& config) {
                 this->add_control_block(config, bus, logger);
@@ -39,21 +39,21 @@ namespace goose {
         }
     }
 
-    void PublishingPlugin::add_control_block(const YAML::Node& node, message_bus_t bus, Logger logger)
+    void PublishingPlugin::add_control_block(const YAML::Node& node, api::message_bus_t bus, api::Logger logger)
     {
-        auto adapter = get_adapter(yaml::require_string(node, keys::networkAdapter));
-        auto app_id = yaml::require(node, keys::appId).as<uint16_t>();
-        auto go_cb_ref = yaml::require_string(node, keys::goCbRef);
-        auto goose_struct = yaml::require(node, keys::goose_struct);
+        auto adapter = get_adapter(util::yaml::require_string(node, keys::networkAdapter));
+        auto app_id = util::yaml::require(node, keys::appId).as<uint16_t>();
+        auto go_cb_ref = util::yaml::require_string(node, keys::goCbRef);
+        auto goose_struct = util::yaml::require(node, keys::goose_struct);
 
         PubGooseStructureConfigReader goose_struct_reader{};
-        const auto profiles = yaml::require(node, ::adapter::keys::profiles);
-        yaml::foreach (
+        const auto profiles = util::yaml::require(node, util::keys::profiles);
+        util::yaml::foreach (
             profiles,
             [&](const YAML::Node& node) {
-                auto mapping = yaml::require(node, keys::mapping);
-                ProfileRegistry::handle_by_name<PublishingProfileReader>(
-                    yaml::require_string(node, ::adapter::keys::name),
+                auto mapping = util::yaml::require(node, keys::mapping);
+                api::ProfileRegistry::handle_by_name<PublishingProfileReader>(
+                    util::yaml::require_string(node, util::keys::name),
                     mapping,
                     bus,
                     goose_struct_reader);
@@ -83,7 +83,7 @@ namespace goose {
             }
         }
 
-        throw Exception{ "Cannot find network adapter " + network_adapter };
+        throw api::Exception{ "Cannot find network adapter " + network_adapter };
     }
 
 } // namespace goose

@@ -2,8 +2,8 @@
 #ifndef OPENFMB_ADAPTER_MESSAGEBUS_H
 #define OPENFMB_ADAPTER_MESSAGEBUS_H
 
-#include "adapter-api/IMessageBus.h"
 #include "adapter-api/ProfileRegistry.h"
+#include <adapter-api/IMessageBus.h>
 
 #include "SubscriptionRegistry.h"
 
@@ -12,7 +12,7 @@ template <class... Ps>
 class SingleMessageBus;
 
 template <class P>
-class SingleMessageBus<P> : public IMessageBus {
+class SingleMessageBus<P> : public api::IMessageBus {
 public:
     virtual ~SingleMessageBus() = default;
 
@@ -21,7 +21,7 @@ public:
         this->registry->publish(message);
     }
 
-    void subscribe(subscription_handler_t<P> handler) override
+    void subscribe(api::subscription_handler_t<P> handler) override
     {
         this->registry->add(std::move(handler));
     }
@@ -50,7 +50,7 @@ public:
         this->registry->publish(message);
     }
 
-    void subscribe(subscription_handler_t<P> handler) override
+    void subscribe(api::subscription_handler_t<P> handler) override
     {
         this->registry->add(std::move(handler));
     }
@@ -85,7 +85,7 @@ public:
 /**
      * Concrete implementation based on the ProfileRegistry
      */
-class MessageBus final : public SingleMessageBus<ProfileRegistry> {
+class MessageBus final : public SingleMessageBus<api::ProfileRegistry> {
 };
 }
 

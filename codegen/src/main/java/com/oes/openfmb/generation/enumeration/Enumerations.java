@@ -90,11 +90,11 @@ public class Enumerations {
             );
         }
 
-        private static final Path includePath = Paths.get("../adapter-api/include/adapter-api/config/generated");
-        private static final Path implPath = Paths.get("../adapter-api/src/config/generated");
-        private static final Path implIncludePath = Paths.get("adapter-api/config/generated");
+        private static final Path includePath = Paths.get("../adapter-util/include/adapter-util/config/generated");
+        private static final Path implPath = Paths.get("../adapter-util/src/config/generated");
+        private static final Path implIncludePath = Paths.get("adapter-util/config/generated");
 
-        private static final List<String> namespaces = Collections.singletonList("adapter");
+        private static final List<String> namespaces = Arrays.asList("util","adapter");
 
         public static final GeneratedFileSet set = new GeneratedFileSet(
                 Arrays.asList(includePath, implPath),

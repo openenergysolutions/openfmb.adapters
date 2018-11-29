@@ -5,17 +5,17 @@
 #include <opendnp3/LogLevels.h>
 #include <openpal/logging/ILogHandler.h>
 
-#include "adapter-api/Logger.h"
+#include <adapter-api/Logger.h>
 
 namespace adapter {
 namespace dnp3 {
 
     class LogAdapter final : public openpal::ILogHandler {
 
-        ::adapter::Logger logger;
+        api::Logger logger;
 
     public:
-        explicit LogAdapter(const ::adapter::Logger& logger)
+        explicit LogAdapter(const api::Logger& logger)
             : logger(logger)
         {
         }

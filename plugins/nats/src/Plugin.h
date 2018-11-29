@@ -4,7 +4,7 @@
 #include <adapter-api/IMessageBus.h>
 #include <adapter-api/IPlugin.h>
 #include <adapter-api/Logger.h>
-#include <adapter-api/util/SynchronizedQueue.h>
+#include <adapter-util/util/SynchronizedQueue.h>
 
 #include <nats/nats.h>
 #include <yaml-cpp/yaml.h>
@@ -26,7 +26,7 @@ namespace nats {
     using message_queue_t = std::shared_ptr<util::SynchronizedQueue<Message>>;
     using subscription_vec_t = std::vector<std::unique_ptr<INATSSubscription>>;
 
-    class Plugin final : public IPlugin {
+    class Plugin final : public api::IPlugin {
         struct Config {
 
             Config(const YAML::Node& node);
@@ -41,7 +41,7 @@ namespace nats {
 
         ~Plugin();
 
-        Plugin(const Logger& logger, const YAML::Node& node, message_bus_t bus);
+        Plugin(const api::Logger& logger, const YAML::Node& node, api::message_bus_t bus);
 
         virtual std::string name() const override
         {
@@ -55,7 +55,7 @@ namespace nats {
 
         const Config config;
 
-        Logger logger;
+        api::Logger logger;
         std::unique_ptr<std::thread> background_thread;
         bool shutdown = false;
 

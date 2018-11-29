@@ -1,7 +1,7 @@
 
 #include "ControlCodeMeta.h"
 
-#include <adapter-api/util/Exception.h>
+#include <adapter-api/Exception.h>
 
 namespace adapter {
 namespace dnp3 {
@@ -18,7 +18,7 @@ namespace dnp3 {
         case (opendnp3::ControlCode::CLOSE_PULSE_ON):
             return close_pulse_on;
         default:
-            throw Exception("Unsupported control code");
+            throw api::Exception("Unsupported control code");
         }
     }
 
@@ -33,7 +33,7 @@ namespace dnp3 {
         } else if (value == close_pulse_on) {
             return opendnp3::ControlCode::CLOSE_PULSE_ON;
         } else {
-            throw Exception("Unknown control code: ", value);
+            throw api::Exception("Unknown control code: ", value);
         }
     }
 }
