@@ -11,9 +11,7 @@
 #include "Message.h"
 
 #include "adapter-api/ISubscriptionHandler.h"
-#include "adapter-api/ProfileInfo.h"
-#include "adapter-api/config/IMessageVisitor.h"
-#include "adapter-api/config/generated/MessageVisitors.h"
+
 #include <boost/numeric/conversion/cast.hpp>
 #include <boost/uuid/uuid_generators.hpp>
 #include <deque>
