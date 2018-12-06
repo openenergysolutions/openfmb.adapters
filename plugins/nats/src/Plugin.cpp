@@ -12,6 +12,7 @@
 #include "NATSSubscriber.h"
 #include "SubjectName.h"
 #include "SubjectNameSuffix.h"
+#include "generated/SecurityType.h"
 
 namespace adapter {
 namespace nats {
@@ -21,7 +22,7 @@ namespace nats {
     {
         const auto err = fun();
         if (err) {
-            throw api::Exception(message, nats_GetLastError(nullptr));
+            throw api::Exception(message, ": ", nats_GetLastError(nullptr));
         }
     }
 
@@ -148,7 +149,52 @@ namespace nats {
                     this->options.impl,
                     util::yaml::require_string(node, keys::connect_url).c_str());
             },
-            "Unable to set url: ");
+            "Unable to set url");
+
+        // figure out what type of security we're using
+
+        const auto sec_node = util::yaml::require(node, keys::security);
+        const auto sec_type = util::yaml::require_enum<SecurityType>(sec_node);
+        switch (sec_type) {
+        case (SecurityType::Value::none):
+            break; // we're done, nothing to configure
+        case (SecurityType::Value::tls_mutual_auth):
+            this->read_tls_config(sec_node, true);
+            break;
+        case (SecurityType::Value::tls_server_auth):
+            this->read_tls_config(sec_node, false);
+            break;
+        default:
+            throw api::Exception("Unsupported security type: ", SecurityType::to_string(sec_type));
+        }
+    }
+
+    void Plugin::read_tls_config(const YAML::Node& node, bool mutual_auth)
+    {
+        // use TLS
+        try_nats(
+            [&]() -> natsStatus {
+                return natsOptions_SetSecure(this->options.impl, true);
+            },
+            "Unable to enable Nats security");
+
+        // always load the CA files for verifying the server
+        try_nats(
+            [&]() -> natsStatus {
+                return natsOptions_LoadCATrustedCertificates(this->options.impl, util::yaml::require_string(node, keys::ca_trusted_cert_file).c_str());
+            },
+            "Unable to read CA file");
+
+        if (mutual_auth) {
+            try_nats(
+                [&]() -> natsStatus {
+                    return natsOptions_LoadCertificatesChain(
+                        this->options.impl,
+                        util::yaml::require_string(node, keys::client_cert_chain_file).c_str(),
+                        util::yaml::require_string(node, keys::client_private_key_file).c_str());
+                },
+                "Unable load client cert chain or private key");
+        }
     }
 
     void Plugin::read_pub_sub_config(const YAML::Node& node, api::message_bus_t bus)

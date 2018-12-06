@@ -17,6 +17,8 @@ set(NATS_PUBLIC_HEADERS
 )
 
 set(NATS_SOURCES
+		src/generated/SecurityType.h
+		src/generated/SecurityType.cpp
 		src/ConfigStrings.h
         src/Plugin.h
         src/Plugin.cpp

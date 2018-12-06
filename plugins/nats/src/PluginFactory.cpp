@@ -7,6 +7,8 @@
 
 #include "adapter-util/ConfigStrings.h"
 
+#include "generated/SecurityType.h"
+
 #include <google/protobuf/descriptor.h>
 #include <proto-api/switchmodule/switchmodule.pb.h>
 
@@ -27,6 +29,11 @@ namespace nats {
         out << YAML::Comment("how many messages to buffer before discarding the oldest");
         out << YAML::Key << keys::connect_url << "nats://localhost:4222";
         out << YAML::Key << keys::connect_retry_seconds << 5;
+
+        out << YAML::Key << keys::security;
+        out << YAML::BeginMap;
+        out << YAML::Key << SecurityType::label << YAML::Value << SecurityType::to_string(SecurityType::Value::none);
+        out << YAML::EndMap;
 
         out << YAML::Key << keys::publish << YAML::Comment("to the NATs broker");
         out << YAML::BeginSeq;
