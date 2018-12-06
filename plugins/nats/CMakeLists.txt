@@ -28,7 +28,8 @@ set(NATS_SOURCES
         src/SubjectName.h
         src/SubjectNameSuffix.h
         src/SubjectNameSuffix.cpp
-)
+        src/NatsOptions.h
+		src/NatsOptions.cpp)
 
 add_library(nats-plugin STATIC ${NATS_PUBLIC_HEADERS} ${NATS_SOURCES})
 target_include_directories(nats-plugin PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)

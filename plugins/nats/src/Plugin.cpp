@@ -4,6 +4,7 @@
 
 #include "NATSPublisher.h"
 
+#include <adapter-api/Exception.h>
 #include <adapter-util/ConfigStrings.h>
 #include <adapter-util/util/YAMLUtil.h>
 
@@ -14,6 +15,15 @@
 
 namespace adapter {
 namespace nats {
+
+    template <class F>
+    void try_nats(const F& fun, const char* message)
+    {
+        const auto err = fun();
+        if (err) {
+            throw api::Exception(message, nats_GetLastError(nullptr));
+        }
+    }
 
     template <class T>
     struct SubscribeProfileReader {
@@ -55,33 +65,21 @@ namespace nats {
         , messages(
               std::make_shared<util::SynchronizedQueue<Message>>(config.max_queued_messages))
     {
-        util::yaml::foreach (
-            util::yaml::require(node, keys::subscribe),
-            [&](const YAML::Node& entry) {
-                api::ProfileRegistry::handle_by_name<SubscribeProfileReader>(
-                    util::yaml::require_string(entry, util::keys::profile),
-                    SubjectNameSuffix(util::yaml::require_string(entry, keys::subject)),
-                    this->logger,
-                    bus,
-                    this->subscriptions);
-            });
+        // configure the options used for the connection
+        this->read_nats_options(node);
 
-        util::yaml::foreach (
-            util::yaml::require(node, keys::publish),
-            [&](const YAML::Node& entry) {
-                api::ProfileRegistry::handle_by_name<PublishProfileReader>(
-                    util::yaml::require_string(entry, util::keys::profile),
-                    SubjectNameSuffix(util::yaml::require_string(entry, keys::subject)),
-                    this->logger,
-                    *bus,
-                    this->messages);
-            });
+        // read the pub/sub config
+        // this information isn't used until we have a connection in run()
+        this->read_pub_sub_config(node, std::move(bus));
     }
 
     Plugin::Config::Config(const YAML::Node& node)
         : max_queued_messages(util::yaml::require(node, keys::max_queued_messages).as<size_t>())
-        , connect_url(util::yaml::require(node, keys::connect_url).as<std::string>())
         , connect_retry_seconds(std::chrono::seconds(util::yaml::require(node, keys::connect_retry_seconds).as<uint32_t>()))
+    {
+    }
+
+    Plugin::Config::~Config()
     {
     }
 
@@ -106,7 +104,7 @@ namespace nats {
         natsConnection* connection;
 
         while (!shutdown) {
-            auto err = natsConnection_ConnectTo(&connection, this->config.connect_url.c_str());
+            auto err = natsConnection_Connect(&connection, this->options.impl);
 
             if (err) {
                 logger.warn("Unable to connect to NATS server: {}", nats_GetLastError(nullptr));
@@ -139,6 +137,43 @@ namespace nats {
                 }
             }
         }
+    }
+
+    void Plugin::read_nats_options(const YAML::Node& node)
+    {
+        // we always need the connect url
+        try_nats(
+            [&]() -> natsStatus {
+                return natsOptions_SetURL(
+                    this->options.impl,
+                    util::yaml::require_string(node, keys::connect_url).c_str());
+            },
+            "Unable to set url: ");
+    }
+
+    void Plugin::read_pub_sub_config(const YAML::Node& node, api::message_bus_t bus)
+    {
+        util::yaml::foreach (
+            util::yaml::require(node, keys::subscribe),
+            [&](const YAML::Node& entry) {
+                api::ProfileRegistry::handle_by_name<SubscribeProfileReader>(
+                    util::yaml::require_string(entry, util::keys::profile),
+                    SubjectNameSuffix(util::yaml::require_string(entry, keys::subject)),
+                    this->logger,
+                    bus,
+                    this->subscriptions);
+            });
+
+        util::yaml::foreach (
+            util::yaml::require(node, keys::publish),
+            [&](const YAML::Node& entry) {
+                api::ProfileRegistry::handle_by_name<PublishProfileReader>(
+                    util::yaml::require_string(entry, util::keys::profile),
+                    SubjectNameSuffix(util::yaml::require_string(entry, keys::subject)),
+                    this->logger,
+                    *bus,
+                    this->messages);
+            });
     }
 }
 }
