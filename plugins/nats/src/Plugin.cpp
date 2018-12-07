@@ -33,13 +33,13 @@ namespace nats {
         {
             const auto subject_name = get_subject_name(T::descriptor()->full_name(), suffix.get_value());
 
-            logger.info("creating NATs subscriber for subject: {}", subject_name);
-
             subscriptions.push_back(
                 std::make_unique<NATSSubscriber<T>>(
                     logger,
                     subject_name,
                     std::move(publisher)));
+
+            logger.info("configured NATs subscriber for subject: {}", subject_name);
         }
     };
 
@@ -50,13 +50,13 @@ namespace nats {
         {
             const auto subject_name = get_subject_name(T::descriptor()->full_name(), suffix.get_value());
 
-            logger.info("creating NATs publisher for subject: {}", subject_name);
-
             bus.subscribe(
                 std::make_shared<NATSPublisher<T>>(
                     logger,
                     suffix,
                     message_queue));
+
+            logger.info("configured NATs publisher for subject: {}", subject_name);
         }
     };
 
@@ -111,6 +111,9 @@ namespace nats {
                 logger.warn("Unable to connect to NATS server: {}", nats_GetLastError(nullptr));
                 std::this_thread::sleep_for(this->config.connect_retry_seconds);
             } else {
+
+                logger.info("Established connection to NATS broker");
+
                 // set up any subscriptions
                 for (auto& sub : this->subscriptions) {
                     sub->start(connection);
