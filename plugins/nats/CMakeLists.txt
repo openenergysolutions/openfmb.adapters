@@ -23,8 +23,8 @@ set(NATS_SOURCES
         src/Plugin.h
         src/Plugin.cpp
 		src/PluginFactory.cpp
-		src/Message.h
-		src/Buffer.h
+        ../../adapter-util/include/adapter-util/util/Message.h
+		../../adapter-util/include/adapter-util/util/Buffer.h
         src/NATSPublisher.h
 		src/NATSSubscriber.h
         src/SubjectName.h
