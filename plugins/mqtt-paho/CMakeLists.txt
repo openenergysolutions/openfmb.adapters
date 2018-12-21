@@ -20,9 +20,14 @@ set(PUBLIC_HEADERS
 )
 
 set(SOURCES
-		src/PluginFactory.cpp
+		src/ConfigStrings.h
+		src/MQTTPublisher.h
 		src/Plugin.cpp
-        src/MQTTPublisher.h src/QueueTypes.h)
+		src/PluginFactory.cpp
+		src/QueueTypes.h
+		src/TopicNameSuffix.h
+		src/TopicNameSuffix.cpp
+)
 
 add_library(mqtt-plugin STATIC ${PUBLIC_HEADERS} ${SOURCES})
 target_include_directories(mqtt-plugin PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)

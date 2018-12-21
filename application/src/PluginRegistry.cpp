@@ -37,7 +37,6 @@
 #include "timescaledb/PluginFactory.h"
 #endif
 
-
 namespace adapter {
 
 PluginRegistry::PluginRegistry()

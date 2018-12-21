@@ -10,6 +10,7 @@
 
 #include "QueueTypes.h"
 #include "TopicName.h"
+#include "TopicNameSuffix.h"
 
 namespace adapter {
     namespace mqtt {
@@ -18,11 +19,18 @@ namespace adapter {
         class MQTTPublisher : public api::ISubscriptionHandler<T> {
             api::Logger logger;
             const message_queue_ptr_t queue;
+            const TopicNameSuffix suffix;
 
         public:
-            MQTTPublisher(const api::Logger& logger, message_queue_ptr_t queue) : logger(logger), queue(std::move(queue)) {}
+            MQTTPublisher(const TopicNameSuffix& topic, const api::Logger& logger, message_queue_ptr_t queue) : suffix(suffix), logger(logger), queue(std::move(queue)) {}
 
         protected:
+
+            bool matches(const T& message) const override
+            {
+                return suffix.is_wildcard() ? true : get_subject_key_mrid(message) == suffix.get_value();
+            }
+
             void process(const T& message) override {
                 try {
 

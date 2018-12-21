@@ -3,25 +3,54 @@
 #include "Plugin.h"
 
 #include <adapter-util/util/YAMLUtil.h>
+#include <adapter-util/ConfigStrings.h>
 
 #include "MQTTPublisher.h"
+#include "ConfigStrings.h"
+#include "TopicNameSuffix.h"
 
 namespace adapter {
 namespace mqtt {
 
+    template <class T>
+    struct PublishProfileReader {
+
+        static void handle(const TopicNameSuffix& topic, api::Logger& logger, api::message_bus_t bus, message_queue_ptr_t message_queue)
+        {
+            bus->subscribe(
+                    std::make_shared<MQTTPublisher<T>>(
+                    topic,
+                    logger,
+                    message_queue));
+
+            logger.info("configured NATs publisher for topic: {}", topic.get_value());
+        }
+    };
+
     Plugin::Plugin(const api::Logger& logger, const YAML::Node& node, api::message_bus_t bus) :
         message_queue(
-                std::make_shared<message_queue_t>(util::yaml::require_integer<uint16_t>(node, "max-queued-messages"))
+                std::make_shared<message_queue_t>(util::yaml::require_integer<uint16_t>(node, keys::max_queued_messages))
         ),
         logger(logger),
         client(
-                util::yaml::require_string(node, "server-address"),
-                util::yaml::require_string(node, "client-id")
+                util::yaml::require_string(node, keys::server_address),
+                util::yaml::require_string(node, keys::client_id)
         )
     {
         // TODO - make certain standard options configurable
         options.set_keep_alive_interval(20);
-        options.set_clean_session(true);
+        options.set_clean_session(false);
+
+        util::yaml::foreach (
+                util::yaml::require(node, util::keys::publish),
+                [&](const YAML::Node& entry) {
+                    api::ProfileRegistry::handle_by_name<PublishProfileReader>(
+                            util::yaml::require_string(entry, util::keys::profile),
+                            TopicNameSuffix(util::yaml::require_string(entry, keys::topic_name)),
+                            this->logger,
+                            bus,
+                            this->message_queue);
+                });
     }
 
     Plugin::~Plugin()
