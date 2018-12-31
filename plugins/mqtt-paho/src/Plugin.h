@@ -11,6 +11,8 @@
 
 #include <mqtt/async_client.h>
 
+#include <chrono>
+
 #include "QueueTypes.h"
 #include "SubscriptionRegistry.h"
 
@@ -41,6 +43,7 @@ private:
 
     void process_messages();
 
+    const std::chrono::steady_clock::duration connect_retry_delay;
     const message_queue_ptr_t message_queue;
 
     api::Logger logger;

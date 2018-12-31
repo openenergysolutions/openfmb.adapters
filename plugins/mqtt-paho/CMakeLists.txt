@@ -34,4 +34,7 @@ add_library(mqtt-plugin STATIC ${PUBLIC_HEADERS} ${SOURCES})
 target_include_directories(mqtt-plugin PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_link_libraries(mqtt-plugin PUBLIC adapter-util PRIVATE ${LIBPAHOCPP} ${LIBPAHOC} ${OPENSSL_LIBRARIES})
 
+clang_tidy(mqtt-plugin)
+clang_format(mqtt-plugin)
+
 add_subdirectory(./test)

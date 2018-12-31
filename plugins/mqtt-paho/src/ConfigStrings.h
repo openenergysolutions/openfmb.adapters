@@ -9,10 +9,8 @@ namespace mqtt {
         constexpr const char* const server_address = "server-address";
         constexpr const char* const client_id = "client-id";
         constexpr const char* const max_queued_messages = "max-queued-messages";
+        constexpr const char* const connect_retry_delay_ms = "connect-retry-delay-ms";
         constexpr const char* const topic_suffix = "topic-suffix";
-
-
-
     }
 }
 }

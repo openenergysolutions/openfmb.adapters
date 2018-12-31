@@ -14,7 +14,7 @@ namespace mqtt {
 
         std::string name() const override
         {
-            return "mqtt-paho-paho";
+            return "mqtt";
         }
 
         std::string description() const override

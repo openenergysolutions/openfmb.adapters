@@ -2,13 +2,13 @@
 
 #include "Plugin.h"
 
-#include <adapter-util/util/YAMLUtil.h>
 #include <adapter-util/ConfigStrings.h>
+#include <adapter-util/util/YAMLUtil.h>
 
-#include "MQTTPublisher.h"
 #include "ConfigStrings.h"
-#include "TopicNameSuffix.h"
+#include "MQTTPublisher.h"
 #include "TopicName.h"
+#include "TopicNameSuffix.h"
 
 namespace adapter {
 namespace mqtt {
@@ -19,7 +19,7 @@ namespace mqtt {
         static void handle(const TopicNameSuffix& suffix, api::Logger logger, api::message_bus_t bus, message_queue_ptr_t message_queue, SubscriptionRegistry& /*registry*/)
         {
             bus->subscribe(
-                    std::make_shared<MQTTPublisher<T>>(
+                std::make_shared<MQTTPublisher<T>>(
                     suffix,
                     logger,
                     message_queue));
@@ -35,16 +35,15 @@ namespace mqtt {
         }
     };
 
-    Plugin::Plugin(const api::Logger& logger, const YAML::Node& node, api::message_bus_t bus) :
-        message_queue(
-                std::make_shared<message_queue_t>(util::yaml::require_integer<uint16_t>(node, keys::max_queued_messages))
-        ),
-        logger(logger),
-        client(
-                util::yaml::require_string(node, keys::server_address),
-                util::yaml::require_string(node, keys::client_id)
-        ),
-        registry(logger, bus)
+    Plugin::Plugin(const api::Logger& logger, const YAML::Node& node, api::message_bus_t bus)
+        : connect_retry_delay(util::yaml::require_integer<uint32_t>(node, keys::connect_retry_delay_ms))
+        , message_queue(
+              std::make_shared<message_queue_t>(util::yaml::require_integer<uint16_t>(node, keys::max_queued_messages)))
+        , logger(logger)
+        , client(
+              util::yaml::require_string(node, keys::server_address),
+              util::yaml::require_string(node, keys::client_id))
+        , registry(logger, bus)
     {
         client.set_callback(*this);
 
@@ -54,34 +53,34 @@ namespace mqtt {
 
         // configure publishers
         util::yaml::foreach (
-                util::yaml::require(node, util::keys::publish),
-                [&](const YAML::Node& entry) {
-                    api::ProfileRegistry::handle_by_name<PublishProfileReader>(
-                            util::yaml::require_string(entry, util::keys::profile),
-                            TopicNameSuffix(util::yaml::require_string(entry, keys::topic_suffix)),
-                            this->logger,
-                            bus,
-                            this->message_queue,
-                            this->registry);
-                });
+            util::yaml::require(node, util::keys::publish),
+            [&](const YAML::Node& entry) {
+                api::ProfileRegistry::handle_by_name<PublishProfileReader>(
+                    util::yaml::require_string(entry, util::keys::profile),
+                    TopicNameSuffix(util::yaml::require_string(entry, keys::topic_suffix)),
+                    this->logger,
+                    bus,
+                    this->message_queue,
+                    this->registry);
+            });
 
         // configure subscribers
         util::yaml::foreach (
-                util::yaml::require(node, util::keys::subscribe),
-                [&](const YAML::Node& entry) {
-                    api::ProfileRegistry::handle_by_name<SubscribeProfileReader>(
-                            util::yaml::require_string(entry, util::keys::profile),
-                            TopicNameSuffix(util::yaml::require_string(entry, keys::topic_suffix)),
-                            this->logger,
-                            bus,
-                            this->message_queue,
-                            this->registry);
-                });
+            util::yaml::require(node, util::keys::subscribe),
+            [&](const YAML::Node& entry) {
+                api::ProfileRegistry::handle_by_name<SubscribeProfileReader>(
+                    util::yaml::require_string(entry, util::keys::profile),
+                    TopicNameSuffix(util::yaml::require_string(entry, keys::topic_suffix)),
+                    this->logger,
+                    bus,
+                    this->message_queue,
+                    this->registry);
+            });
     }
 
     Plugin::~Plugin()
     {
-        if(thread) {
+        if (thread) {
             this->shutdown = true;
             this->thread->join();
         }
@@ -89,10 +88,10 @@ namespace mqtt {
 
     void Plugin::start()
     {
-        if(this->thread) {
+        if (this->thread) {
             throw api::Exception("plugin already started");
         }
-        this->thread = std::make_unique<std::thread>([this](){ this->run(); });
+        this->thread = std::make_unique<std::thread>([this]() { this->run(); });
     }
 
     void Plugin::message_arrived(::mqtt::const_message_ptr msg)
@@ -102,7 +101,7 @@ namespace mqtt {
 
     void Plugin::run()
     {
-        while(!this->shutdown) {
+        while (!this->shutdown) {
 
             try {
                 this->client.connect(this->options);
@@ -112,13 +111,12 @@ namespace mqtt {
                 this->process_messages();
 
                 this->client.disconnect()->wait();
-            }
-            catch(const ::mqtt::exception& ex) {
+            } catch (const ::mqtt::exception& ex) {
                 this->logger.error("Error connecting to MQTT server: {}", ex.get_message());
             }
 
-            if(!this->shutdown) {
-                std::this_thread::sleep_for(std::chrono::seconds(5));
+            if (!this->shutdown) {
+                std::this_thread::sleep_for(this->connect_retry_delay);
             }
         }
     }
@@ -126,19 +124,18 @@ namespace mqtt {
     void Plugin::process_messages()
     {
         // all we have to do is run the publishing loop
-        while(!this->shutdown) {
+        while (!this->shutdown) {
             const auto message = this->message_queue->pop(std::chrono::milliseconds(500));
-            if(message) {
+            if (message) {
                 try {
                     this->client.publish(message->subject, message->buffer.data(), message->buffer.length())->wait();
-                }
-                catch(const ::mqtt::exception& ex) {
+                } catch (const ::mqtt::exception& ex) {
                     logger.warn("Failed to publish message to topic: {} w/ error: {}", message->subject, ex.get_message());
                     return;
                 }
             } else {
                 // check to see if we're disconnected
-                if(!this->client.is_connected()) {
+                if (!this->client.is_connected()) {
                     return;
                 }
             }
