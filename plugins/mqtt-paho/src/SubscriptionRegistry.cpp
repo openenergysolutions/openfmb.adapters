@@ -21,12 +21,12 @@ namespace mqtt {
             return false;
         }
 
-        const auto base_name = msg->get_topic().substr(0, msg->get_topic().length() - pos);
+        const auto base_name = msg->get_topic().substr(0, pos);
 
         const auto entry = this->handlers.find(base_name);
 
         if (entry == this->handlers.end()) {
-            logger.warn("no handler for base topic name: {}", base_name);
+            logger.warn("no handler for base topic: {}", base_name);
             return false;
         }
 

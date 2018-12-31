@@ -24,7 +24,7 @@ namespace mqtt {
     };
 
     template <class T>
-    TopicHandler<T>::TopicHandler(api::Logger, api::publisher_t publisher) :
+    TopicHandler<T>::TopicHandler(api::Logger logger, api::publisher_t publisher) :
         logger(logger),
         publisher(std::move(publisher))
     {}
@@ -35,6 +35,14 @@ namespace mqtt {
     {
         T profile;
 
+        if(profile.ParseFromArray(msg->get_payload().data(), msg->get_payload().length()))
+        {
+            publisher->publish(profile);
+        }
+        else
+        {
+            this->logger.warn("Deserialization failed for topic {} w/ length {}", msg->get_topic(), msg->get_payload().length());
+        }
     }
 }
 }

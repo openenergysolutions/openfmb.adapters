@@ -13,7 +13,7 @@ namespace mqtt {
     {
         out << YAML::BeginMap;
         out << YAML::Key << util::keys::profile << descriptor->name();
-        out << YAML::Key << keys::topic_suffix << YAML::Value << "*" << YAML::Comment("* or an mRID");
+        out << YAML::Key << keys::topic_suffix << YAML::Value << "#" << YAML::Comment("# or an mRID");
         out << YAML::EndMap;
     }
 
