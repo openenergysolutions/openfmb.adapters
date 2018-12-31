@@ -11,8 +11,8 @@
 
 #include <vector>
 
-#include "Message.h"
 #include "NatsOptions.h"
+#include <adapter-util/util/Message.h>
 
 namespace adapter {
 namespace nats {
@@ -24,7 +24,7 @@ namespace nats {
         virtual void start(natsConnection* connection) = 0;
     };
 
-    using message_queue_t = std::shared_ptr<util::SynchronizedQueue<Message>>;
+    using message_queue_t = std::shared_ptr<util::SynchronizedQueue<util::Message>>;
     using subscription_vec_t = std::vector<std::unique_ptr<INATSSubscription>>;
 
     class Plugin final : public api::IPlugin {

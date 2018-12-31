@@ -5,10 +5,11 @@
 #include <adapter-api/ISubscriptionHandler.h>
 #include <adapter-api/Logger.h>
 
-#include "Message.h"
+#include <adapter-util/util/Message.h>
+#include <adapter-util/util/SynchronizedQueue.h>
+
 #include "SubjectName.h"
 #include "SubjectNameSuffix.h"
-#include "adapter-util/util/SynchronizedQueue.h"
 
 #include <boost/numeric/conversion/cast.hpp>
 
@@ -19,7 +20,7 @@ namespace nats {
     {
 
     public:
-        using message_queue_t = util::SynchronizedQueue<Message>;
+        using message_queue_t = util::SynchronizedQueue<util::Message>;
 
         NATSPublisher(api::Logger logger, const SubjectNameSuffix& suffix, std::shared_ptr<message_queue_t> sink)
             : logger(std::move(logger))
@@ -39,14 +40,14 @@ namespace nats {
             try {
 
                 // create a buffer just large enough to hold the serialized payload
-                Buffer buffer(boost::numeric_cast<size_t>(proto.ByteSize()));
+                util::Buffer buffer(boost::numeric_cast<size_t>(proto.ByteSize()));
 
                 if (!proto.SerializeToArray(buffer.data(), buffer.length())) {
                     logger.error("Failed to serialize proto of type: {}", T::descriptor()->name());
                     return;
                 }
 
-                if (!this->sink->push(std::make_unique<Message>(get_publish_subject_name(proto), std::move(buffer)))) {
+                if (!this->sink->push(std::make_unique<util::Message>(get_publish_subject_name(proto), std::move(buffer)))) {
                     logger.error("publish queue overflow");
                 }
             } catch (const boost::bad_numeric_cast& ex) {

@@ -64,7 +64,7 @@ namespace nats {
         : config(node)
         , logger(logger)
         , messages(
-              std::make_shared<util::SynchronizedQueue<Message>>(config.max_queued_messages))
+              std::make_shared<util::SynchronizedQueue<util::Message>>(config.max_queued_messages))
     {
         // configure the options used for the connection
         this->read_nats_options(node);

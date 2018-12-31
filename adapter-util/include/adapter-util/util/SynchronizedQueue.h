@@ -18,27 +18,27 @@ namespace util {
         }
 
         /**
-             * Push a value into the queue
-             *
-             * @param item to be moved into the queue
-             * @return true if the value was added without popping another item to make space
-             */
+         * Push a value into the queue
+         *
+         * @param item to be moved into the queue
+         * @return true if the value was added without popping another item to make space
+         */
         bool push(std::unique_ptr<T> item);
 
         /**
-             * Push a value infront of the queue. This will be the next value to be pop.
-             *
-             * @param item to be moved into the queue
-             * @return true if the value was added successfully.
-             */
+         * Push a value onto the front of the queue. This will be the next value to be pop.
+         *
+         * @param item to be moved into the queue
+         * @return true if the value was added successfully.
+         */
         bool push_front(std::unique_ptr<T> item);
 
         /**
-             * Try to pop an item from the queue within the specified timeout
-             *
-             * @param timeout Maximum time to wait for a value to be available
-             * @return An available value or nullptr upon timeout
-             */
+         * Try to pop an item from the queue within the specified timeout
+         *
+         * @param timeout Maximum time to wait for a value to be available
+         * @return An available value or nullptr upon timeout
+         */
         std::unique_ptr<T> pop(const std::chrono::steady_clock::duration& timeout);
 
     private:

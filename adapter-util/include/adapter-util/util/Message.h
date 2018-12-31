@@ -1,16 +1,20 @@
 
-#ifndef OPENFMB_ADAPTER_NATS_MESSAGE_H
-#define OPENFMB_ADAPTER_NATS_MESSAGE_H
+#ifndef OPENFMB_ADAPTER_MESSAGE_H
+#define OPENFMB_ADAPTER_MESSAGE_H
 
 #include <google/protobuf/message_lite.h>
 
 #include "Buffer.h"
 
 namespace adapter {
-namespace nats {
+namespace util {
+
     template <class T>
     using get_mrid_func_t = std::function<std::string(const T&)>;
 
+    /**
+     * Subject queue name + binary payload. Used by NATS + MQTT.
+     */
     class Message {
 
     public:

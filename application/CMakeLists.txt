@@ -40,6 +40,11 @@ if(OPENFMB_USE_GOOSE)
     list(APPEND plugin_definitions OPENFMB_USE_GOOSE)
 endif()
 
+if(OPENFMB_USE_MQTT)
+    list(APPEND plugins mqtt-plugin)
+    list(APPEND plugin_definitions OPENFMB_USE_MQTT)
+endif()
+
 if(OPENFMB_USE_NATS)
     list(APPEND plugins nats-plugin)
     list(APPEND plugin_definitions OPENFMB_USE_NATS)

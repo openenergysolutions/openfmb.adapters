@@ -1,12 +1,16 @@
 
-#ifndef OPENFMB_ADAPTER_NATS_BUFFER_H
-#define OPENFMB_ADAPTER_NATS_BUFFER_H
+#ifndef OPENFMB_ADAPTER_BUFFER_H
+#define OPENFMB_ADAPTER_BUFFER_H
 
 #include <cstddef>
 #include <memory>
 
 namespace adapter {
-namespace nats {
+namespace util {
+
+    /**
+     * A dynamically allocated, movable buffer type
+     */
     class Buffer {
     public:
         Buffer() = delete;
