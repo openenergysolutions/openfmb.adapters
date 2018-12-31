@@ -22,7 +22,7 @@ namespace mqtt {
         const TopicNameSuffix suffix;
 
     public:
-        MQTTPublisher(const TopicNameSuffix& topic, const api::Logger& logger, message_queue_ptr_t queue)
+        MQTTPublisher(const TopicNameSuffix& suffix, const api::Logger& logger, message_queue_ptr_t queue)
             : suffix(suffix)
             , logger(logger)
             , queue(std::move(queue))

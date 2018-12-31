@@ -36,7 +36,8 @@ namespace mqtt {
     };
 
     Plugin::Plugin(const api::Logger& logger, const YAML::Node& node, api::message_bus_t bus)
-        : connect_retry_delay(util::yaml::require_integer<uint32_t>(node, keys::connect_retry_delay_ms))
+        : connect_retry_delay(
+              std::chrono::milliseconds(util::yaml::require_integer<uint32_t>(node, keys::connect_retry_delay_ms)))
         , message_queue(
               std::make_shared<message_queue_t>(util::yaml::require_integer<uint16_t>(node, keys::max_queued_messages)))
         , logger(logger)
@@ -112,7 +113,7 @@ namespace mqtt {
 
                 this->client.disconnect()->wait();
             } catch (const ::mqtt::exception& ex) {
-                this->logger.error("Error connecting to MQTT server: {}", ex.get_message());
+                this->logger.error("Error connecting to MQTT server: {}", ex.what());
             }
 
             if (!this->shutdown) {

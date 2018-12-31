@@ -22,6 +22,7 @@ namespace mqtt {
         out << YAML::Key << keys::max_queued_messages << 100;
         out << YAML::Comment("how many messages to buffer before discarding the oldest");
         out << YAML::Key << keys::server_address << "tcp://localhost:1883";
+        out << YAML::Key << keys::client_id << "client1";
         out << YAML::Key << keys::connect_retry_delay_ms << 5000;
 
         out << YAML::Key << util::keys::publish << YAML::Comment("to the MQTT broker");
