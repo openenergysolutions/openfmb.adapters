@@ -28,6 +28,7 @@ set(SOURCES
 		src/TopicNameSuffix.h
 		src/TopicNameSuffix.cpp
 		src/SubscriptionRegistry.cpp
+		src/generated/SecurityType.cpp
 )
 
 add_library(mqtt-plugin STATIC ${PUBLIC_HEADERS} ${SOURCES})

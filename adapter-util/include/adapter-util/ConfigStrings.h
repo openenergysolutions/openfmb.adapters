@@ -25,6 +25,12 @@ namespace util {
         constexpr const char* const command_order = "command-order";
         constexpr const char* const command_id = "command-id";
         constexpr const char* const scheduleParameterType = "scheduleParameterType";
+
+        // used for TLS configurations in NATS and MQTT
+        static const char* const security = "security";
+        static const char* const ca_trusted_cert_file = "ca-trusted-cert-file";
+        static const char* const client_cert_chain_file = "client-cert-chain-file";
+        static const char* const client_private_key_file = "client-private-key-file";
     }
 }
 }

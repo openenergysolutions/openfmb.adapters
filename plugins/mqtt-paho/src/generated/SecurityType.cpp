@@ -19,7 +19,7 @@
 
 namespace adapter {
 
-namespace nats {
+namespace mqtt {
 
 const char SecurityType::none[] = "none";
 const char SecurityType::tls_server_auth[] = "tls_server_auth";
@@ -55,6 +55,6 @@ SecurityType::Value SecurityType::from_string(const std::string& name)
     return elem->second;
 }
 
-} // end namespace nats
+} // end namespace mqtt
 
 } // end namespace adapter

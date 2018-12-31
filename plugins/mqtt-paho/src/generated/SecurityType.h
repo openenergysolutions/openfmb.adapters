@@ -19,7 +19,7 @@
 
 namespace adapter {
 
-namespace nats {
+namespace mqtt {
 
 struct SecurityType
 {
@@ -45,7 +45,7 @@ struct SecurityType
     static Value from_string(const std::string& name);
 };
 
-} // end namespace nats
+} // end namespace mqtt
 
 } // end namespace adapter
 
