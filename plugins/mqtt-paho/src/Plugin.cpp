@@ -105,7 +105,9 @@ namespace mqtt {
         while (!this->shutdown) {
 
             try {
-                this->client.connect(this->options);
+                this->client.connect(this->options)->wait();
+
+                this->logger.info("connected to MQTT server");
 
                 this->registry.subscribe(client);
 
