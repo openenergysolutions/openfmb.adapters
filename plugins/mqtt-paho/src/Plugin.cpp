@@ -132,6 +132,7 @@ namespace mqtt {
             if (message) {
                 try {
                     this->client.publish(message->subject, message->buffer.data(), message->buffer.length())->wait();
+                    logger.debug("published message to topic: {} w/ length {}", message->subject, message->buffer.length());
                 } catch (const ::mqtt::exception& ex) {
                     logger.warn("Failed to publish message to topic: {} w/ error: {}", message->subject, ex.get_message());
                     return;
