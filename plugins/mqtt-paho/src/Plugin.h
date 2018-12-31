@@ -12,11 +12,12 @@
 #include <mqtt/async_client.h>
 
 #include "QueueTypes.h"
+#include "SubscriptionRegistry.h"
 
 namespace adapter {
 namespace mqtt {
 
-class Plugin final : public api::IPlugin {
+class Plugin final : public api::IPlugin, private ::mqtt::callback {
 
 public:
     Plugin() = delete;
@@ -32,6 +33,8 @@ public:
 
     void start() override;
 
+    void message_arrived(::mqtt::const_message_ptr msg) override;
+
 private:
 
     void run();
@@ -46,7 +49,7 @@ private:
 
     bool shutdown = false;
     std::unique_ptr<std::thread> thread;
-
+    SubscriptionRegistry registry;
 };
 
 }

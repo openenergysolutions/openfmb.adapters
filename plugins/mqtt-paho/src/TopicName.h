@@ -7,6 +7,8 @@
 #include <sstream>
 #include <algorithm>
 
+#include "TopicNameSuffix.h"
+
 namespace adapter {
 namespace mqtt {
     constexpr static const char* openfmb = "openfmb";
@@ -29,6 +31,26 @@ namespace mqtt {
         auto name = T::descriptor()->full_name();
         std::replace( name.begin(), name.end(), '.', '/');
         oss << openfmb << "/" << name << "/" << get_subject_key_mrid(profile);
+        return oss.str();
+    }
+
+    template <class T>
+    std::string get_base_topic_name()
+    {
+        auto name = T::descriptor()->full_name();
+        std::replace( name.begin(), name.end(), '.', '/');
+
+        std::ostringstream oss;
+        oss << openfmb << "/" << name;
+        return oss.str();
+    }
+
+    template <class T>
+    std::string get_subscribe_topic_name(const TopicNameSuffix& suffix)
+    {
+        const auto base_topic = get_base_topic_name<T>();
+        std::ostringstream oss;
+        oss << base_topic << "/" << suffix.get_value();
         return oss.str();
     }
 }

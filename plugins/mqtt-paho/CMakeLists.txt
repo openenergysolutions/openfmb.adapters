@@ -27,6 +27,7 @@ set(SOURCES
 		src/QueueTypes.h
 		src/TopicNameSuffix.h
 		src/TopicNameSuffix.cpp
+		src/SubscriptionRegistry.cpp
 )
 
 add_library(mqtt-plugin STATIC ${PUBLIC_HEADERS} ${SOURCES})

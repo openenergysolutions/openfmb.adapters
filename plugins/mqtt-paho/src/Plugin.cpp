@@ -8,6 +8,7 @@
 #include "MQTTPublisher.h"
 #include "ConfigStrings.h"
 #include "TopicNameSuffix.h"
+#include "TopicName.h"
 
 namespace adapter {
 namespace mqtt {
@@ -15,15 +16,22 @@ namespace mqtt {
     template <class T>
     struct PublishProfileReader {
 
-        static void handle(const TopicNameSuffix& topic, api::Logger& logger, api::message_bus_t bus, message_queue_ptr_t message_queue)
+        static void handle(const TopicNameSuffix& suffix, api::Logger logger, api::message_bus_t bus, message_queue_ptr_t message_queue, SubscriptionRegistry& /*registry*/)
         {
             bus->subscribe(
                     std::make_shared<MQTTPublisher<T>>(
-                    topic,
+                    suffix,
                     logger,
                     message_queue));
+        }
+    };
 
-            logger.info("configured NATs publisher for topic: {}", topic.get_value());
+    template <class T>
+    struct SubscribeProfileReader {
+
+        static void handle(const TopicNameSuffix& suffix, api::Logger /*logger*/, api::message_bus_t /*bus*/, message_queue_ptr_t /*message_queue*/, SubscriptionRegistry& registry)
+        {
+            registry.add_handler<T>(suffix);
         }
     };
 
@@ -35,21 +43,39 @@ namespace mqtt {
         client(
                 util::yaml::require_string(node, keys::server_address),
                 util::yaml::require_string(node, keys::client_id)
-        )
+        ),
+        registry(logger, bus)
     {
+        client.set_callback(*this);
+
         // TODO - make certain standard options configurable
         options.set_keep_alive_interval(20);
         options.set_clean_session(false);
 
+        // configure publishers
         util::yaml::foreach (
                 util::yaml::require(node, util::keys::publish),
                 [&](const YAML::Node& entry) {
                     api::ProfileRegistry::handle_by_name<PublishProfileReader>(
                             util::yaml::require_string(entry, util::keys::profile),
-                            TopicNameSuffix(util::yaml::require_string(entry, keys::topic_name)),
+                            TopicNameSuffix(util::yaml::require_string(entry, keys::topic_suffix)),
                             this->logger,
                             bus,
-                            this->message_queue);
+                            this->message_queue,
+                            this->registry);
+                });
+
+        // configure subscribers
+        util::yaml::foreach (
+                util::yaml::require(node, util::keys::subscribe),
+                [&](const YAML::Node& entry) {
+                    api::ProfileRegistry::handle_by_name<SubscribeProfileReader>(
+                            util::yaml::require_string(entry, util::keys::profile),
+                            TopicNameSuffix(util::yaml::require_string(entry, keys::topic_suffix)),
+                            this->logger,
+                            bus,
+                            this->message_queue,
+                            this->registry);
                 });
     }
 
@@ -69,13 +95,20 @@ namespace mqtt {
         this->thread = std::make_unique<std::thread>([this](){ this->run(); });
     }
 
+    void Plugin::message_arrived(::mqtt::const_message_ptr msg)
+    {
+        this->registry.handle(std::move(msg));
+    }
+
     void Plugin::run()
     {
         while(!this->shutdown) {
 
             try {
                 this->client.connect(this->options);
-                // TODO - apply subscriptions
+
+                this->registry.subscribe(client);
+
                 this->process_messages();
 
                 this->client.disconnect()->wait();
