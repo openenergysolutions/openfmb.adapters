@@ -21,6 +21,10 @@
 #include "goose/SubscribingPluginFactory.h"
 #endif
 
+#ifdef OPENFMB_USE_MQTT
+#include "mqtt-paho/PluginFactory.h"
+#endif
+
 #ifdef OPENFMB_USE_NATS
 #include "nats/PluginFactory.h"
 #endif
@@ -52,6 +56,10 @@ PluginRegistry::PluginRegistry()
 #ifdef OPENFMB_USE_GOOSE
     this->add<goose::PublishingPluginFactory>();
     this->add<goose::SubscribingPluginFactory>();
+#endif
+
+#ifdef OPENFMB_USE_MQTT
+    this->add<mqtt::PluginFactory>();
 #endif
 
 #ifdef OPENFMB_USE_NATS

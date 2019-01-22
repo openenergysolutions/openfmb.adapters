@@ -13,7 +13,7 @@ namespace nats {
     class NATSSubscriber final : public INATSSubscription {
 
     public:
-        using message_queue_t = util::SynchronizedQueue<Message>;
+        using message_queue_t = util::SynchronizedQueue<util::Message>;
 
         NATSSubscriber(api::Logger logger, std::string subject, api::publisher_t publisher)
             : logger(logger)

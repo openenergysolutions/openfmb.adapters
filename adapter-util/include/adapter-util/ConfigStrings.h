@@ -10,6 +10,8 @@ namespace util {
 
         constexpr const char* const profile = "profile";
         constexpr const char* const profiles = "profiles";
+        constexpr const char* const publish = "publish";
+        constexpr const char* const subscribe = "subscribe";
         constexpr const char* const path = "path";
         constexpr const char* const overrides = "overrides";
         constexpr const char* const scale = "scale";

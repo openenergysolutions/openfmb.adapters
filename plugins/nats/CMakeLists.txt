@@ -17,18 +17,21 @@ set(NATS_PUBLIC_HEADERS
 )
 
 set(NATS_SOURCES
+		src/generated/SecurityType.h
+		src/generated/SecurityType.cpp
 		src/ConfigStrings.h
         src/Plugin.h
         src/Plugin.cpp
 		src/PluginFactory.cpp
-		src/Message.h
-		src/Buffer.h
+        ../../adapter-util/include/adapter-util/util/Message.h
+		../../adapter-util/include/adapter-util/util/Buffer.h
         src/NATSPublisher.h
 		src/NATSSubscriber.h
         src/SubjectName.h
         src/SubjectNameSuffix.h
         src/SubjectNameSuffix.cpp
-)
+        src/NatsOptions.h
+		src/NatsOptions.cpp)
 
 add_library(nats-plugin STATIC ${NATS_PUBLIC_HEADERS} ${NATS_SOURCES})
 target_include_directories(nats-plugin PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)

@@ -11,7 +11,8 @@
 
 #include <vector>
 
-#include "Message.h"
+#include "NatsOptions.h"
+#include <adapter-util/util/Message.h>
 
 namespace adapter {
 namespace nats {
@@ -23,16 +24,17 @@ namespace nats {
         virtual void start(natsConnection* connection) = 0;
     };
 
-    using message_queue_t = std::shared_ptr<util::SynchronizedQueue<Message>>;
+    using message_queue_t = std::shared_ptr<util::SynchronizedQueue<util::Message>>;
     using subscription_vec_t = std::vector<std::unique_ptr<INATSSubscription>>;
 
     class Plugin final : public api::IPlugin {
+
         struct Config {
 
-            Config(const YAML::Node& node);
+            explicit Config(const YAML::Node& node);
+            ~Config();
 
             const size_t max_queued_messages;
-            const std::string connect_url;
             const std::chrono::seconds connect_retry_seconds;
         };
 
@@ -53,6 +55,8 @@ namespace nats {
     private:
         subscription_vec_t subscriptions;
 
+        NatsOptions options;
+
         const Config config;
 
         api::Logger logger;
@@ -63,6 +67,10 @@ namespace nats {
 
         void run();
         void run(natsConnection& connection);
+
+        void read_nats_options(const YAML::Node& node);
+        void read_tls_config(const YAML::Node& node, bool mutual_auth);
+        void read_pub_sub_config(const YAML::Node& node, api::message_bus_t bus);
     };
 }
 }
