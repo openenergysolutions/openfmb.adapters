@@ -8,8 +8,8 @@
 #include <adapter-util/config/generated/ModelVisitors.h>
 #include <adapter-util/util/YAMLTemplate.h>
 
-#include "../ControlConfigWriteVisitor.h"
-#include "../MeasurementConfigWriteVisitor.h"
+#include "ControlConfigWriteVisitor.h"
+#include "MeasurementConfigWriteVisitor.h"
 
 #include "../ConfigStrings.h"
 #include "Plugin.h"

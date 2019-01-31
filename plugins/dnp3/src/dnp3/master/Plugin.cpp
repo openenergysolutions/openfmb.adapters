@@ -12,12 +12,12 @@
 #include <adapter-util/util/YAMLTemplate.h>
 #include <adapter-util/util/YAMLUtil.h>
 
-#include "dnp3/CommandSequenceExecutor.h"
+#include "CommandSequenceExecutor.h"
 #include "dnp3/ConfigStrings.h"
 #include "dnp3/LogAdapter.h"
 
-#include "dnp3/PublishingConfigReadVisitor.h"
-#include "dnp3/SubscribingConfigReadVisitor.h"
+#include "PublishingConfigReadVisitor.h"
+#include "SubscribingConfigReadVisitor.h"
 
 #include <stdexcept>
 

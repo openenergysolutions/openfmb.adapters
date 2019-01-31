@@ -23,7 +23,7 @@ namespace dnp3 {
 
             virtual std::string name() const override
             {
-                return "dnp3";
+                return "dnp3-master";
             }
 
             virtual void start() override;

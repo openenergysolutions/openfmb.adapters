@@ -6,7 +6,7 @@
 
 #include "adapter-api/IMessageBus.h"
 
-#include "dnp3/IPublishConfigBuilder.h"
+#include "IPublishConfigBuilder.h"
 
 #include <map>
 

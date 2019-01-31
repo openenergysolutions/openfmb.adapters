@@ -7,6 +7,10 @@
 
 namespace adapter {
 namespace dnp3 {
+
+    /**
+     * provides to/from string functions for 
+     */
     struct ControlCodeMeta {
         constexpr static const char* const latch_on = "LATCH_ON";
         constexpr static const char* const latch_off = "LATCH_OFF";
