@@ -1,5 +1,5 @@
 set(DNP3_PUBLIC_HEADERS
-        include/dnp3/PluginFactory.h
+        include/dnp3/master/PluginFactory.h
 )
 
 set(DNP3_SOURCES
@@ -11,15 +11,15 @@ set(DNP3_SOURCES
         src/dnp3/ControlSubscriptionHandler.h
         src/dnp3/MeasurementConfigWriteVisitor.h
         src/dnp3/MeasurementConfigWriteVisitor.cpp
-        src/dnp3/Plugin.h
+        src/dnp3/master/Plugin.h
         src/dnp3/IPublishConfigBuilder.h
         src/dnp3/LogAdapter.h
         src/dnp3/PublishingConfigReadVisitor.h
         src/dnp3/SubscribingConfigReadVisitor.h
-        src/dnp3/SOEHandler.h
-        src/dnp3/SOEHandler.cpp
-        src/dnp3/PluginFactory.cpp
-        src/dnp3/Plugin.cpp
+        src/dnp3/master/SOEHandler.h
+        src/dnp3/master/SOEHandler.cpp
+        src/dnp3/master/PluginFactory.cpp
+        src/dnp3/master/Plugin.cpp
         src/dnp3/ControlCodeMeta.h
         src/dnp3/ControlCodeMeta.cpp
         src/dnp3/CommandConfiguration.h
