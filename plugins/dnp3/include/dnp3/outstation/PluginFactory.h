@@ -1,12 +1,12 @@
 
-#ifndef OPENFMB_ADAPTER_DNP3_MASTER_PLUGINFACTORY_H
-#define OPENFMB_ADAPTER_DNP3_MASTER_PLUGINFACTORY_H
+#ifndef OPENFMB_ADAPTER_DNP3_OUTSTATION_PLUGINFACTORY_H
+#define OPENFMB_ADAPTER_DNP3_OUTSTATION_PLUGINFACTORY_H
 
 #include "adapter-api/IPluginFactory.h"
 
 namespace adapter {
 namespace dnp3 {
-    namespace master {
+    namespace outstation {
 
         class PluginFactory final : public api::IPluginFactory {
 
@@ -15,12 +15,12 @@ namespace dnp3 {
 
             virtual std::string name() const override
             {
-                return "dnp3-master";
+                return "dnp3-outstation";
             }
 
             virtual std::string description() const override
             {
-                return "maps openFMB to the master side of the DNP3 protocol";
+                return "maps openFMB to the outstation side of the DNP3 protocol";
             };
 
             virtual void write_default_config(YAML::Emitter& emitter) const override;

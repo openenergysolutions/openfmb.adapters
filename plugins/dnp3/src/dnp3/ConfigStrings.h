@@ -18,6 +18,8 @@ namespace dnp3 {
         constexpr const char* const protocol = "protocol";
         constexpr const char* const integrity_poll_ms = "integrity-poll-ms";
 
+        constexpr const char* const listen_adapter = "listen-adapter";
+
         // link layer
         constexpr const char* const master_address = "master-address";
         constexpr const char* const outstation_address = "outstation-address";

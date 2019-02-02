@@ -1,9 +1,14 @@
 set(DNP3_PUBLIC_HEADERS
         include/dnp3/master/PluginFactory.h
+        include/dnp3/outstation/PluginFactory.h
 )
 
 set(DNP3_SOURCES
         src/dnp3/ConfigStrings.h
+        src/dnp3/LogAdapter.h
+        src/dnp3/ControlCodeMeta.h
+        src/dnp3/ControlCodeMeta.cpp
+        # master components
         src/dnp3/master/Control.h
         src/dnp3/master/Control.cpp
         src/dnp3/master/ControlConfigWriteVisitor.h
@@ -13,21 +18,20 @@ set(DNP3_SOURCES
         src/dnp3/master/MeasurementConfigWriteVisitor.cpp
         src/dnp3/master/Plugin.h
         src/dnp3/master/IPublishConfigBuilder.h
-        src/dnp3/LogAdapter.h
         src/dnp3/master/PublishingConfigReadVisitor.h
         src/dnp3/master/SubscribingConfigReadVisitor.h
         src/dnp3/master/SOEHandler.h
         src/dnp3/master/SOEHandler.cpp
         src/dnp3/master/PluginFactory.cpp
         src/dnp3/master/Plugin.cpp
-        src/dnp3/ControlCodeMeta.h
-        src/dnp3/ControlCodeMeta.cpp
         src/dnp3/master/CommandConfiguration.h
         src/dnp3/master/CommandSequence.h
         src/dnp3/master/ICommandSequence.h
         src/dnp3/master/CommandSequenceExecutor.h
         src/dnp3/master/ICommandSequenceExecutor.h
-        #generated enums
+        # outstation components
+        src/dnp3/outstation/PluginFactory.cpp
+        # generated enums
         src/dnp3/generated/SourceType.h
         src/dnp3/generated/SourceType.cpp
         src/dnp3/generated/CommandType.h
