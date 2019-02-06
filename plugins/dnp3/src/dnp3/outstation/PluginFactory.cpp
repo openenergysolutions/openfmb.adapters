@@ -9,8 +9,10 @@
 #include <adapter-util/util/YAMLTemplate.h>
 
 #include "../ConfigStrings.h"
+#include "../VariationToString.h"
 
 #include "Plugin.h"
+
 
 #include <iostream>
 
@@ -72,11 +74,27 @@ namespace dnp3 {
             out << YAML::EndMap;
 
             out << YAML::Key << keys::protocol;
+
             out << YAML::BeginMap;
             out << YAML::Key << keys::master_address << YAML::Value << 1;
             out << YAML::Key << keys::outstation_address << YAML::Value << 10;
             out << YAML::Key << keys::enable_unsolicited << YAML::Value << config.allowUnsolicited;
             out << YAML::Key << keys::confirm_timeout_ms << YAML::Value << config.unsolConfirmTimeout.milliseconds;
+
+            out << YAML::Key << keys::default_static_variations;
+            out << YAML::BeginMap;
+            out << YAML::Key << keys::binary_input << YAML::Value << StaticBinaryInputMeta::g1v2;
+            out << YAML::Key << keys::analog_input << YAML::Value << StaticAnalogInputMeta::g30v1;
+            out << YAML::Key << keys::counter << YAML::Value << StaticCounterMeta::g20v1;
+            out << YAML::EndMap;
+
+            out << YAML::Key << keys::default_event_variations;
+            out << YAML::BeginMap;
+            out << YAML::Key << keys::binary_input << YAML::Value << EventBinaryInputMeta::g2v2;
+            out << YAML::Key << keys::analog_input << YAML::Value << EventAnalogInputMeta::g32v1;
+            out << YAML::Key << keys::counter << YAML::Value << EventCounterMeta::g22v1;
+            out << YAML::EndMap;
+
             out << YAML::EndMap;
 
             out << YAML::Key << util::keys::profiles;
