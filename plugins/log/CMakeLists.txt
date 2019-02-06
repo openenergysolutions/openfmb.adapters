@@ -7,7 +7,7 @@ set(PROJECT_HEADERS
 set(PROJECT_SOURCES
         src/ConfigKeys.h
         src/PluginFactory.cpp
-        src/Plugin.h
+        src/PluginBase.h
         src/Plugin.cpp
         src/DebugStringLogSubscriber.h
         src/FilteredValueLogSubscriber.h

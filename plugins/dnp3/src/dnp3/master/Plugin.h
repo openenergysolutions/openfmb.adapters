@@ -1,7 +1,7 @@
 #ifndef OPENFMB_ADAPTER_DNP3_MASTER_PLUGIN_H
 #define OPENFMB_ADAPTER_DNP3_MASTER_PLUGIN_H
 
-#include <adapter-api/IPluginFactory.h>
+#include "dnp3/PluginBase.h"
 
 #include "SOEHandler.h"
 
@@ -11,7 +11,7 @@ namespace adapter {
 namespace dnp3 {
     namespace master {
 
-        class Plugin final : public api::IPlugin {
+        class Plugin final : public PluginBase {
 
             typedef std::shared_ptr<asiodnp3::IChannel> channel_t;
             typedef std::shared_ptr<asiodnp3::IMaster> master_t;
@@ -29,9 +29,6 @@ namespace dnp3 {
             virtual void start() override;
 
         private:
-            api::Logger logger;
-            asiodnp3::DNP3Manager manager;
-
             void add_master(const YAML::Node& node, api::message_bus_t bus);
 
             std::vector<master_t> masters;

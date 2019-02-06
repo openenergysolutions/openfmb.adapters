@@ -14,7 +14,6 @@
 
 #include "CommandSequenceExecutor.h"
 #include "dnp3/ConfigStrings.h"
-#include "dnp3/LogAdapter.h"
 
 #include "PublishingConfigReadVisitor.h"
 #include "SubscribingConfigReadVisitor.h"
@@ -63,10 +62,7 @@ namespace dnp3 {
             const api::Logger& logger,
             const YAML::Node& node,
             api::message_bus_t bus)
-            : logger(logger)
-            , manager(
-                  util::yaml::optionally(node[keys::thread_pool_size], std::thread::hardware_concurrency()),
-                  std::make_shared<LogAdapter>(logger))
+            : PluginBase(logger, node)
         {
             util::yaml::load_template_configs(
                 util::yaml::require(node, keys::masters),

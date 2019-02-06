@@ -8,6 +8,8 @@ set(DNP3_SOURCES
         src/dnp3/LogAdapter.h
         src/dnp3/ControlCodeMeta.h
         src/dnp3/ControlCodeMeta.cpp
+        src/dnp3/PluginBase.h
+        src/dnp3/PluginBase.cpp
         # master components
         src/dnp3/master/Control.h
         src/dnp3/master/Control.cpp

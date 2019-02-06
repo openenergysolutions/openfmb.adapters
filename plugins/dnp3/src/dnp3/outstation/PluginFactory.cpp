@@ -20,6 +20,7 @@ namespace dnp3 {
         struct WriterHandler {
             static void handle(YAML::Emitter& out)
             {
+                throw api::Exception("not supported");
             }
         };
 

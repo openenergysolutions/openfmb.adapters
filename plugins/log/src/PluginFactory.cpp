@@ -2,7 +2,7 @@
 #include "log/PluginFactory.h"
 
 #include "ConfigKeys.h"
-#include "Plugin.h"
+#include "PluginBase.h"
 
 #include <adapter-api/Exception.h>
 #include <adapter-util/ConfigStrings.h>

@@ -1,5 +1,5 @@
 
-#include "Plugin.h"
+#include "PluginBase.h"
 
 #include <adapter-util/util/YAMLUtil.h>
 
