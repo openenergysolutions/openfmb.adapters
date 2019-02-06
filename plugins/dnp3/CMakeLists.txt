@@ -18,13 +18,13 @@ set(DNP3_SOURCES
         src/dnp3/master/ControlSubscriptionHandler.h
         src/dnp3/master/MeasurementConfigWriteVisitor.h
         src/dnp3/master/MeasurementConfigWriteVisitor.cpp
-        src/dnp3/master/Plugin.h
         src/dnp3/master/IPublishConfigBuilder.h
         src/dnp3/master/PublishingConfigReadVisitor.h
         src/dnp3/master/SubscribingConfigReadVisitor.h
         src/dnp3/master/SOEHandler.h
         src/dnp3/master/SOEHandler.cpp
         src/dnp3/master/PluginFactory.cpp
+        src/dnp3/master/Plugin.h
         src/dnp3/master/Plugin.cpp
         src/dnp3/master/CommandConfiguration.h
         src/dnp3/master/CommandSequence.h
@@ -33,6 +33,8 @@ set(DNP3_SOURCES
         src/dnp3/master/ICommandSequenceExecutor.h
         # outstation components
         src/dnp3/outstation/PluginFactory.cpp
+        src/dnp3/outstation/Plugin.h
+        src/dnp3/outstation/Plugin.cpp
         # generated enums
         src/dnp3/generated/SourceType.h
         src/dnp3/generated/SourceType.cpp
