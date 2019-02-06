@@ -78,7 +78,7 @@ namespace dnp3 {
         {
             if (profiles.empty()) {
                 throw api::Exception(
-                    "You must specify at least one profile when generating DNP3 session configuration");
+                    "You must specify at least one profile when generating DNP3 master session configuration");
             }
 
             out << YAML::BeginMap;
@@ -87,20 +87,19 @@ namespace dnp3 {
 
             out << YAML::Key << keys::channel;
             out << YAML::BeginMap;
-            out << YAML::Key << keys::adapter << YAML::Value << "0.0.0.0";
-            out << YAML::Comment("Override to use a specific adapter");
+            out << YAML::Key << keys::adapter << YAML::Value << "0.0.0.0" << YAML::Comment("Override to use a specific adapter");
             out << YAML::Key << keys::outstation_ip << YAML::Value << "127.0.0.1";
             out << YAML::Key << keys::port << YAML::Value << 20000;
             out << YAML::EndMap;
 
-            out << YAML::Key << "protocol";
+            out << YAML::Key << keys::protocol;
             out << YAML::BeginMap;
             out << YAML::Key << keys::master_address << YAML::Value << 1;
             out << YAML::Key << keys::outstation_address << YAML::Value << 10;
             out << YAML::Key << keys::integrity_poll_ms << YAML::Value << 5000;
             out << YAML::EndMap;
 
-            out << YAML::Key << "profiles";
+            out << YAML::Key << util::keys::profiles;
             out << YAML::BeginSeq;
             write_profile_configs(out, profiles);
             out << YAML::EndSeq;

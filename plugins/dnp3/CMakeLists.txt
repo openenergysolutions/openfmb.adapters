@@ -10,6 +10,8 @@ set(DNP3_SOURCES
         src/dnp3/ControlCodeMeta.cpp
         src/dnp3/PluginBase.h
         src/dnp3/PluginBase.cpp
+        src/dnp3/VariationToString.h
+        src/dnp3/VariationToString.cpp
         # master components
         src/dnp3/master/Control.h
         src/dnp3/master/Control.cpp

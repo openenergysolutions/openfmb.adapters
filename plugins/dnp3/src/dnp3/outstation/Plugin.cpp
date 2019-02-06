@@ -1,6 +1,8 @@
 
 #include "Plugin.h"
 
+#include "adapter-util/ConfigStrings.h"
+
 using namespace openpal;
 using namespace opendnp3;
 using namespace asiodnp3;

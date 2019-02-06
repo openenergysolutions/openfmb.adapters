@@ -22,7 +22,7 @@ namespace dnp3 {
         struct WriterHandler {
             static void handle(YAML::Emitter& out)
             {
-                throw api::Exception("not supported");
+                //throw api::Exception("not supported");
             }
         };
 
@@ -41,7 +41,7 @@ namespace dnp3 {
         {
             out << YAML::Key << keys::thread_pool_size << YAML::Value << 1;
             out << YAML::Comment("defaults to std::thread::hardware_concurrency() if <= 0");
-            out << YAML::Key << keys::masters;
+            out << YAML::Key << keys::outstations;
             util::yaml::write_default_template_config(out, "dnp3-outstation-template.yaml");
         }
 
@@ -53,9 +53,12 @@ namespace dnp3 {
 
         void PluginFactory::write_session_config(YAML::Emitter& out, const api::profile_vec_t& profiles) const
         {
+            // use this to get some of the defaults for opendnp3
+            const opendnp3::OutstationParams config{};
+
             if (profiles.empty()) {
                 throw api::Exception(
-                    "You must specify at least one profile when generating DNP3 session configuration");
+                    "You must specify at least one profile when generating DNP3 outstation session configuration");
             }
 
             out << YAML::BeginMap;
@@ -68,13 +71,15 @@ namespace dnp3 {
             out << YAML::Key << keys::port << YAML::Value << 20000;
             out << YAML::EndMap;
 
-            out << YAML::Key << "protocol";
+            out << YAML::Key << keys::protocol;
             out << YAML::BeginMap;
             out << YAML::Key << keys::master_address << YAML::Value << 1;
             out << YAML::Key << keys::outstation_address << YAML::Value << 10;
+            out << YAML::Key << keys::enable_unsolicited << YAML::Value << config.allowUnsolicited;
+            out << YAML::Key << keys::confirm_timeout_ms << YAML::Value << config.unsolConfirmTimeout.milliseconds;
             out << YAML::EndMap;
 
-            out << YAML::Key << "profiles";
+            out << YAML::Key << util::keys::profiles;
             out << YAML::BeginSeq;
             write_profile_configs(out, profiles);
             out << YAML::EndSeq;
