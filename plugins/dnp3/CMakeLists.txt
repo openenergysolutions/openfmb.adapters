@@ -37,9 +37,13 @@ set(DNP3_SOURCES
         src/dnp3/outstation/PluginFactory.cpp
         src/dnp3/outstation/Plugin.h
         src/dnp3/outstation/Plugin.cpp
+        src/dnp3/outstation/MeasurementConfigWriteVisitor.h
+        src/dnp3/outstation/MeasurementConfigWriteVisitor.cpp
         # generated enums
         src/dnp3/generated/SourceType.h
         src/dnp3/generated/SourceType.cpp
+        src/dnp3/generated/DestinationType.h
+        src/dnp3/generated/DestinationType.cpp
         src/dnp3/generated/CommandType.h
         src/dnp3/generated/CommandType.cpp)
 

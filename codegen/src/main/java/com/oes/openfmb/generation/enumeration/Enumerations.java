@@ -104,15 +104,17 @@ public class Enumerations {
 
     private static class DNP3 {
 
-        private final static Enumeration source = new Enumeration(
+        private final static Enumeration sourceType = new Enumeration(
                 Arrays.asList("Source", "Type"),
                 Arrays.asList(
                         Enumeration.entry("none", "the field is disabled"),
-                        Enumeration.entry("binary", "the field value is derived from a DNP3 binary"),
-                        Enumeration.entry("analog", "the field value is derived from a DNP3 analog"),
-                        Enumeration.entry("counter", "the field value is derived from a DNP3 counter")
+                        Enumeration.entry("binary", "the field value is mapped to a DNP3 binary input"),
+                        Enumeration.entry("analog", "the field value is derived to a DNP3 analog input"),
+                        Enumeration.entry("counter", "the field value is derived to a DNP3 counter")
                 )
         );
+
+        private final static Enumeration destinationType = sourceType.rename(Arrays.asList("Destination","Type"));
 
         private final static Enumeration commandType = new Enumeration(
                 Arrays.asList("Command", "Type"),
@@ -123,7 +125,7 @@ public class Enumerations {
         );
 
         private static List<Enumeration> enums() {
-            return Arrays.asList(source, commandType);
+            return Arrays.asList(sourceType, destinationType, commandType);
         }
 
         private static final Path path = Paths.get("../plugins/dnp3/src/dnp3/generated");

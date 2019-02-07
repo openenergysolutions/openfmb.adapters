@@ -11,8 +11,8 @@
 //  This file is auto-generated. Do not edit manually
 // 
 
-#ifndef OPENFMB_SOURCETYPE_H
-#define OPENFMB_SOURCETYPE_H
+#ifndef OPENFMB_DESTINATIONTYPE_H
+#define OPENFMB_DESTINATIONTYPE_H
 
 #include <string>
 #include <array>
@@ -21,7 +21,7 @@ namespace adapter {
 
 namespace dnp3 {
 
-struct SourceType
+struct DestinationType
 {
     enum class Value
     {
@@ -40,7 +40,7 @@ struct SourceType
     static const char analog[];
     static const char counter[];
 
-    static constexpr const char* label = "source-type";
+    static constexpr const char* label = "destination-type";
 
     static const std::array<Value, 4> values;
 

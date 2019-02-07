@@ -29,7 +29,7 @@ namespace dnp3 {
         constexpr const char* const enable_unsolicited = "enable-unsolicited";
         constexpr const char* const confirm_timeout_ms = "confirm-timeout-ms";
         constexpr const char* const default_static_variations = "default-static-variations";
-        constexpr const char* const default_event_variations = "default_event_variations";
+        constexpr const char* const default_event_variations = "default-event-variations";
         constexpr const char* const binary_input = "binary-input";
         constexpr const char* const analog_input = "analog-input";
         constexpr const char* const counter = "counter";

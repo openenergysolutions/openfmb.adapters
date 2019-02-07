@@ -236,7 +236,7 @@ void visit_switchmodule_SwitchStatusXSWI(IModelVisitor& visitor);
 // ---- specializations for profile types ----
 
 template <>
-void visit<essmodule::ESSControlProfile>(IModelVisitor& visitor)
+void visit<solarmodule::SolarControlProfile>(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("controlMessageInfo", commonmodule::ControlMessageInfo::descriptor()))
     {
@@ -244,245 +244,21 @@ void visit<essmodule::ESSControlProfile>(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("ess", commonmodule::ESS::descriptor()))
-    {
-        visit_commonmodule_ESS(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("essControl", essmodule::ESSControl::descriptor()))
-    {
-        visit_essmodule_ESSControl(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
-    {
-        visit_commonmodule_IED(visitor);
-        visitor.end_message_field();
-    }
-}
-
-template <>
-void visit<essmodule::ESSReadingProfile>(IModelVisitor& visitor)
-{
-    if(visitor.start_message_field("readingMessageInfo", commonmodule::ReadingMessageInfo::descriptor()))
-    {
-        visit_commonmodule_ReadingMessageInfo(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("ess", commonmodule::ESS::descriptor()))
-    {
-        visit_commonmodule_ESS(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("essReading", essmodule::ESSReading::descriptor()))
-    {
-        visit_essmodule_ESSReading(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
-    {
-        visit_commonmodule_IED(visitor);
-        visitor.end_message_field();
-    }
-}
-
-template <>
-void visit<loadmodule::LoadStatusProfile>(IModelVisitor& visitor)
-{
-    if(visitor.start_message_field("statusMessageInfo", commonmodule::StatusMessageInfo::descriptor()))
-    {
-        visit_commonmodule_StatusMessageInfo(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("energyConsumer", commonmodule::EnergyConsumer::descriptor()))
-    {
-        visit_commonmodule_EnergyConsumer(visitor);
-        visitor.end_message_field();
-    }
-
     if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
     {
         visit_commonmodule_IED(visitor);
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("loadStatus", loadmodule::LoadStatus::descriptor()))
+    if(visitor.start_message_field("solarControl", solarmodule::SolarControl::descriptor()))
     {
-        visit_loadmodule_LoadStatus(visitor);
-        visitor.end_message_field();
-    }
-}
-
-template <>
-void visit<switchmodule::SwitchStatusProfile>(IModelVisitor& visitor)
-{
-    if(visitor.start_message_field("statusMessageInfo", commonmodule::StatusMessageInfo::descriptor()))
-    {
-        visit_commonmodule_StatusMessageInfo(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
-    {
-        visit_commonmodule_IED(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("protectedSwitch", switchmodule::ProtectedSwitch::descriptor()))
-    {
-        visit_switchmodule_ProtectedSwitch(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("switchStatus", switchmodule::SwitchStatus::descriptor()))
-    {
-        visit_switchmodule_SwitchStatus(visitor);
-        visitor.end_message_field();
-    }
-}
-
-template <>
-void visit<essmodule::ESSStatusProfile>(IModelVisitor& visitor)
-{
-    if(visitor.start_message_field("statusMessageInfo", commonmodule::StatusMessageInfo::descriptor()))
-    {
-        visit_commonmodule_StatusMessageInfo(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("ess", commonmodule::ESS::descriptor()))
-    {
-        visit_commonmodule_ESS(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("essStatus", essmodule::ESSStatus::descriptor()))
-    {
-        visit_essmodule_ESSStatus(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
-    {
-        visit_commonmodule_IED(visitor);
-        visitor.end_message_field();
-    }
-}
-
-template <>
-void visit<solarmodule::SolarStatusProfile>(IModelVisitor& visitor)
-{
-    if(visitor.start_message_field("statusMessageInfo", commonmodule::StatusMessageInfo::descriptor()))
-    {
-        visit_commonmodule_StatusMessageInfo(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
-    {
-        visit_commonmodule_IED(visitor);
+        visit_solarmodule_SolarControl(visitor);
         visitor.end_message_field();
     }
 
     if(visitor.start_message_field("solarInverter", solarmodule::SolarInverter::descriptor()))
     {
         visit_solarmodule_SolarInverter(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("solarStatus", solarmodule::SolarStatus::descriptor()))
-    {
-        visit_solarmodule_SolarStatus(visitor);
-        visitor.end_message_field();
-    }
-}
-
-template <>
-void visit<loadmodule::LoadReadingProfile>(IModelVisitor& visitor)
-{
-    if(visitor.start_message_field("readingMessageInfo", commonmodule::ReadingMessageInfo::descriptor()))
-    {
-        visit_commonmodule_ReadingMessageInfo(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("energyConsumer", commonmodule::EnergyConsumer::descriptor()))
-    {
-        visit_commonmodule_EnergyConsumer(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
-    {
-        visit_commonmodule_IED(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("loadReading", loadmodule::LoadReading::descriptor()))
-    {
-        visit_loadmodule_LoadReading(visitor);
-        visitor.end_message_field();
-    }
-}
-
-template <>
-void visit<solarmodule::SolarReadingProfile>(IModelVisitor& visitor)
-{
-    if(visitor.start_message_field("readingMessageInfo", commonmodule::ReadingMessageInfo::descriptor()))
-    {
-        visit_commonmodule_ReadingMessageInfo(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
-    {
-        visit_commonmodule_IED(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("solarInverter", solarmodule::SolarInverter::descriptor()))
-    {
-        visit_solarmodule_SolarInverter(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("solarReading", solarmodule::SolarReading::descriptor()))
-    {
-        visit_solarmodule_SolarReading(visitor);
-        visitor.end_message_field();
-    }
-}
-
-template <>
-void visit<loadmodule::LoadControlProfile>(IModelVisitor& visitor)
-{
-    if(visitor.start_message_field("controlMessageInfo", commonmodule::ControlMessageInfo::descriptor()))
-    {
-        visit_commonmodule_ControlMessageInfo(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("energyConsumer", commonmodule::EnergyConsumer::descriptor()))
-    {
-        visit_commonmodule_EnergyConsumer(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
-    {
-        visit_commonmodule_IED(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("loadControl", loadmodule::LoadControl::descriptor()))
-    {
-        visit_loadmodule_LoadControl(visitor);
         visitor.end_message_field();
     }
 }
@@ -521,6 +297,67 @@ void visit<switchmodule::SwitchReadingProfile>(IModelVisitor& visitor)
 }
 
 template <>
+void visit<loadmodule::LoadReadingProfile>(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("readingMessageInfo", commonmodule::ReadingMessageInfo::descriptor()))
+    {
+        visit_commonmodule_ReadingMessageInfo(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("energyConsumer", commonmodule::EnergyConsumer::descriptor()))
+    {
+        visit_commonmodule_EnergyConsumer(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
+    {
+        visit_commonmodule_IED(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("loadReading", loadmodule::LoadReading::descriptor()))
+    {
+        visit_loadmodule_LoadReading(visitor);
+        visitor.end_message_field();
+    }
+}
+
+template <>
+void visit<breakermodule::BreakerReadingProfile>(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("readingMessageInfo", commonmodule::ReadingMessageInfo::descriptor()))
+    {
+        visit_commonmodule_ReadingMessageInfo(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("breaker", breakermodule::Breaker::descriptor()))
+    {
+        visit_breakermodule_Breaker(visitor);
+        visitor.end_message_field();
+    }
+
+    {
+        const auto count = visitor.start_repeated_message_field("breakerreading", breakermodule::BreakerReading::descriptor());
+        for(int i = 0; i < count; ++i)
+        {
+            visitor.start_iteration(i);
+            visit_breakermodule_BreakerReading(visitor);
+            visitor.end_iteration();
+        }
+        visitor.end_repeated_message_field();
+    }
+
+    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
+    {
+        visit_commonmodule_IED(visitor);
+        visitor.end_message_field();
+    }
+}
+
+template <>
 void visit<metermodule::MeterReadingProfile>(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("readingMessageInfo", commonmodule::ReadingMessageInfo::descriptor()))
@@ -549,11 +386,11 @@ void visit<metermodule::MeterReadingProfile>(IModelVisitor& visitor)
 }
 
 template <>
-void visit<solarmodule::SolarControlProfile>(IModelVisitor& visitor)
+void visit<switchmodule::SwitchStatusProfile>(IModelVisitor& visitor)
 {
-    if(visitor.start_message_field("controlMessageInfo", commonmodule::ControlMessageInfo::descriptor()))
+    if(visitor.start_message_field("statusMessageInfo", commonmodule::StatusMessageInfo::descriptor()))
     {
-        visit_commonmodule_ControlMessageInfo(visitor);
+        visit_commonmodule_StatusMessageInfo(visitor);
         visitor.end_message_field();
     }
 
@@ -563,15 +400,43 @@ void visit<solarmodule::SolarControlProfile>(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("solarControl", solarmodule::SolarControl::descriptor()))
+    if(visitor.start_message_field("protectedSwitch", switchmodule::ProtectedSwitch::descriptor()))
     {
-        visit_solarmodule_SolarControl(visitor);
+        visit_switchmodule_ProtectedSwitch(visitor);
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("solarInverter", solarmodule::SolarInverter::descriptor()))
+    if(visitor.start_message_field("switchStatus", switchmodule::SwitchStatus::descriptor()))
     {
-        visit_solarmodule_SolarInverter(visitor);
+        visit_switchmodule_SwitchStatus(visitor);
+        visitor.end_message_field();
+    }
+}
+
+template <>
+void visit<essmodule::ESSControlProfile>(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("controlMessageInfo", commonmodule::ControlMessageInfo::descriptor()))
+    {
+        visit_commonmodule_ControlMessageInfo(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("ess", commonmodule::ESS::descriptor()))
+    {
+        visit_commonmodule_ESS(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("essControl", essmodule::ESSControl::descriptor()))
+    {
+        visit_essmodule_ESSControl(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
+    {
+        visit_commonmodule_IED(visitor);
         visitor.end_message_field();
     }
 }
@@ -605,7 +470,119 @@ void visit<switchmodule::SwitchControlProfile>(IModelVisitor& visitor)
 }
 
 template <>
-void visit<breakermodule::BreakerReadingProfile>(IModelVisitor& visitor)
+void visit<solarmodule::SolarStatusProfile>(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("statusMessageInfo", commonmodule::StatusMessageInfo::descriptor()))
+    {
+        visit_commonmodule_StatusMessageInfo(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
+    {
+        visit_commonmodule_IED(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("solarInverter", solarmodule::SolarInverter::descriptor()))
+    {
+        visit_solarmodule_SolarInverter(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("solarStatus", solarmodule::SolarStatus::descriptor()))
+    {
+        visit_solarmodule_SolarStatus(visitor);
+        visitor.end_message_field();
+    }
+}
+
+template <>
+void visit<loadmodule::LoadStatusProfile>(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("statusMessageInfo", commonmodule::StatusMessageInfo::descriptor()))
+    {
+        visit_commonmodule_StatusMessageInfo(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("energyConsumer", commonmodule::EnergyConsumer::descriptor()))
+    {
+        visit_commonmodule_EnergyConsumer(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
+    {
+        visit_commonmodule_IED(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("loadStatus", loadmodule::LoadStatus::descriptor()))
+    {
+        visit_loadmodule_LoadStatus(visitor);
+        visitor.end_message_field();
+    }
+}
+
+template <>
+void visit<loadmodule::LoadControlProfile>(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("controlMessageInfo", commonmodule::ControlMessageInfo::descriptor()))
+    {
+        visit_commonmodule_ControlMessageInfo(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("energyConsumer", commonmodule::EnergyConsumer::descriptor()))
+    {
+        visit_commonmodule_EnergyConsumer(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
+    {
+        visit_commonmodule_IED(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("loadControl", loadmodule::LoadControl::descriptor()))
+    {
+        visit_loadmodule_LoadControl(visitor);
+        visitor.end_message_field();
+    }
+}
+
+template <>
+void visit<essmodule::ESSStatusProfile>(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("statusMessageInfo", commonmodule::StatusMessageInfo::descriptor()))
+    {
+        visit_commonmodule_StatusMessageInfo(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("ess", commonmodule::ESS::descriptor()))
+    {
+        visit_commonmodule_ESS(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("essStatus", essmodule::ESSStatus::descriptor()))
+    {
+        visit_essmodule_ESSStatus(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
+    {
+        visit_commonmodule_IED(visitor);
+        visitor.end_message_field();
+    }
+}
+
+template <>
+void visit<solarmodule::SolarReadingProfile>(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("readingMessageInfo", commonmodule::ReadingMessageInfo::descriptor()))
     {
@@ -613,21 +590,44 @@ void visit<breakermodule::BreakerReadingProfile>(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("breaker", breakermodule::Breaker::descriptor()))
+    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
     {
-        visit_breakermodule_Breaker(visitor);
+        visit_commonmodule_IED(visitor);
         visitor.end_message_field();
     }
 
+    if(visitor.start_message_field("solarInverter", solarmodule::SolarInverter::descriptor()))
     {
-        const auto count = visitor.start_repeated_message_field("breakerreading", breakermodule::BreakerReading::descriptor());
-        for(int i = 0; i < count; ++i)
-        {
-            visitor.start_iteration(i);
-            visit_breakermodule_BreakerReading(visitor);
-            visitor.end_iteration();
-        }
-        visitor.end_repeated_message_field();
+        visit_solarmodule_SolarInverter(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("solarReading", solarmodule::SolarReading::descriptor()))
+    {
+        visit_solarmodule_SolarReading(visitor);
+        visitor.end_message_field();
+    }
+}
+
+template <>
+void visit<essmodule::ESSReadingProfile>(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("readingMessageInfo", commonmodule::ReadingMessageInfo::descriptor()))
+    {
+        visit_commonmodule_ReadingMessageInfo(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("ess", commonmodule::ESS::descriptor()))
+    {
+        visit_commonmodule_ESS(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("essReading", essmodule::ESSReading::descriptor()))
+    {
+        visit_essmodule_ESSReading(visitor);
+        visitor.end_message_field();
     }
 
     if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))

@@ -11,8 +11,8 @@
 #include "../ConfigStrings.h"
 #include "../VariationToString.h"
 
+#include "MeasurementConfigWriteVisitor.h"
 #include "Plugin.h"
-
 
 #include <iostream>
 
@@ -24,7 +24,19 @@ namespace dnp3 {
         struct WriterHandler {
             static void handle(YAML::Emitter& out)
             {
-                //throw api::Exception("not supported");
+                std::cout << "Generating: " << T::descriptor()->name() << std::endl;
+
+                out << YAML::Key << util::keys::mapping << YAML::Comment("profile model starts here");
+                out << YAML::BeginMap;
+
+                if (util::profile_info<T>::is_control) {
+                    throw api::Exception("control profiles not supported");
+                } else {
+                    MeasurementConfigWriteVisitor visitor(out);
+                    util::visit<T>(visitor);
+                }
+
+                out << YAML::EndMap;
             }
         };
 
