@@ -134,7 +134,7 @@ namespace dnp3 {
 
         void Plugin::start()
         {
-            for (auto& master : this->masters) {
+            for (const auto& master : this->masters) {
                 master->Enable();
             }
         }

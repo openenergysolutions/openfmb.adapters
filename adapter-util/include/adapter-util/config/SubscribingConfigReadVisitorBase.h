@@ -129,9 +129,11 @@ namespace util {
             this->mRID = yaml::require_uuid(node, util::keys::value);
             break;
         }
-        case StringFieldType::Value::mapped: {
+        case StringFieldType::Value::mapped:
             this->handle_mapped_field(node, accessor);
-        }
+            break;
+        default:
+            break;
         }
     }
 

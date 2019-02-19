@@ -9,6 +9,9 @@ namespace dnp3 {
 
         class Plugin final : public PluginBase {
 
+            using channel_t = std::shared_ptr<asiodnp3::IChannel>;
+            using outstation_t = std::shared_ptr<asiodnp3::IOutstation>;
+
         public:
             Plugin() = delete;
 
@@ -22,6 +25,13 @@ namespace dnp3 {
             virtual void start() override;
 
         private:
+            void add_outstation(const YAML::Node& node, api::message_bus_t bus);
+
+            std::vector<outstation_t> outstations;
+
+            // --- helper methods for creating resources ---
+
+            channel_t create_channel(const YAML::Node& node);
         };
     }
 }

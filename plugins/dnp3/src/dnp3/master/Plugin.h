@@ -13,8 +13,8 @@ namespace dnp3 {
 
         class Plugin final : public PluginBase {
 
-            typedef std::shared_ptr<asiodnp3::IChannel> channel_t;
-            typedef std::shared_ptr<asiodnp3::IMaster> master_t;
+            using channel_t = std::shared_ptr<asiodnp3::IChannel>;
+            using master_t = std::shared_ptr<asiodnp3::IMaster>;
 
         public:
             Plugin() = delete;
