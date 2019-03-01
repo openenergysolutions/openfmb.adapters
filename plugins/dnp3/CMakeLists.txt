@@ -37,6 +37,8 @@ set(DNP3_SOURCES
         src/dnp3/outstation/PluginFactory.cpp
         src/dnp3/outstation/Plugin.h
         src/dnp3/outstation/Plugin.cpp
+        src/dnp3/outstation/PointTracker.h
+        src/dnp3/outstation/PointTracker.cpp
         src/dnp3/outstation/MeasurementConfigWriteVisitor.h
         src/dnp3/outstation/MeasurementConfigWriteVisitor.cpp
         src/dnp3/outstation/SubscribingConfigReadVisitor.h

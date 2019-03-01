@@ -13,8 +13,8 @@ namespace dnp3 {
         class SubscribingConfigReadVisitor final : public util::SubscribingConfigReadVisitorBase<T> {
 
         public:
-            explicit SubscribingConfigReadVisitor(const YAML::Node& root)
-                : util::SubscribingConfigReadVisitorBase<T>(root)
+            explicit SubscribingConfigReadVisitor(const YAML::Node& node)
+                : util::SubscribingConfigReadVisitorBase<T>(node)
             {
             }
 
