@@ -85,6 +85,8 @@ namespace api {
         switchmodule::SwitchStatusProfile,
         switchmodule::SwitchControlProfile,
         breakermodule::BreakerReadingProfile,
+        breakermodule::BreakerStatusProfile,
+        breakermodule::BreakerDiscreteControlProfile,
         essmodule::ESSReadingProfile,
         essmodule::ESSStatusProfile,
         essmodule::ESSControlProfile,
