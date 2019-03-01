@@ -35,6 +35,8 @@ void visit(ITypedModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 void visit(ITypedModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
 
+void visit(ITypedModelVisitor<breakermodule::BreakerStatusProfile>& visitor);
+
 void visit(ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 void visit(ITypedModelVisitor<solarmodule::SolarStatusProfile>& visitor);
