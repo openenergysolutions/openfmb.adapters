@@ -6,6 +6,10 @@ namespace util {
 
 void visit(const breakermodule::Breaker& message, IMessageVisitor& visitor);
 
+void visit(const breakermodule::BreakerDiscreteControl& message, IMessageVisitor& visitor);
+
+void visit(const breakermodule::BreakerDiscreteControlXCBR& message, IMessageVisitor& visitor);
+
 void visit(const breakermodule::BreakerReading& message, IMessageVisitor& visitor);
 
 void visit(const breakermodule::BreakerStatus& message, IMessageVisitor& visitor);
@@ -240,6 +244,44 @@ void visit(const breakermodule::Breaker& message, IMessageVisitor& visitor)
     {
         visitor.start_message_field("conductingEquipment");
         visit(message.conductingequipment(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const breakermodule::BreakerDiscreteControl& message, IMessageVisitor& visitor)
+{
+    if(message.has_controlvalue())
+    {
+        visitor.start_message_field("controlValue");
+        visit(message.controlvalue(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_check())
+    {
+        visitor.start_message_field("check");
+        visit(message.check(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_breakerdiscretecontrolxcbr())
+    {
+        visitor.start_message_field("breakerDiscreteControlXCBR");
+        visit(message.breakerdiscretecontrolxcbr(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const breakermodule::BreakerDiscreteControlXCBR& message, IMessageVisitor& visitor)
+{
+    if(message.has_logicalnodeforcontrol())
+    {
+        visitor.start_message_field("logicalNodeForControl");
+        visit(message.logicalnodeforcontrol(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_pos())
+    {
+        visitor.start_message_field("Pos");
+        visit(message.pos(), visitor);
         visitor.end_message_field();
     }
 }
@@ -2897,6 +2939,34 @@ void visit(const solarmodule::SolarReadingProfile& message, IMessageVisitor& vis
     {
         visitor.start_message_field("solarReading");
         visit(message.solarreading(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const breakermodule::BreakerDiscreteControlProfile& message, IMessageVisitor& visitor)
+{
+    if(message.has_controlmessageinfo())
+    {
+        visitor.start_message_field("controlMessageInfo");
+        visit(message.controlmessageinfo(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_breaker())
+    {
+        visitor.start_message_field("breaker");
+        visit(message.breaker(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_breakerdiscretecontrol())
+    {
+        visitor.start_message_field("breakerDiscreteControl");
+        visit(message.breakerdiscretecontrol(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_ied())
+    {
+        visitor.start_message_field("ied");
+        visit(message.ied(), visitor);
         visitor.end_message_field();
     }
 }

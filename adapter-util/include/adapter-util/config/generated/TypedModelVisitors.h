@@ -45,6 +45,8 @@ void visit(ITypedModelVisitor<loadmodule::LoadReadingProfile>& visitor);
 
 void visit(ITypedModelVisitor<solarmodule::SolarReadingProfile>& visitor);
 
+void visit(ITypedModelVisitor<breakermodule::BreakerDiscreteControlProfile>& visitor);
+
 void visit(ITypedModelVisitor<loadmodule::LoadControlProfile>& visitor);
 
 void visit(ITypedModelVisitor<switchmodule::SwitchReadingProfile>& visitor);

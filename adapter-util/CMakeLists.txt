@@ -73,6 +73,7 @@ set(SOURCES
 	src/config/generated/MeterReadingProfileTypedModelVisitor.cpp
 	src/config/generated/BreakerReadingProfileTypedModelVisitor.cpp
 	src/config/generated/BreakerStatusProfileTypedModelVisitor.cpp
+	src/config/generated/BreakerDiscreteControlProfileTypedModelVisitor.cpp
 	src/config/generated/SwitchReadingProfileTypedModelVisitor.cpp
 	src/config/generated/SwitchStatusProfileTypedModelVisitor.cpp
 	src/config/generated/SwitchControlProfileTypedModelVisitor.cpp

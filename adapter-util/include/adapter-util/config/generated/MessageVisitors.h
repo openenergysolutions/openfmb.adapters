@@ -44,6 +44,8 @@ void visit(const loadmodule::LoadReadingProfile& message, IMessageVisitor& visit
 
 void visit(const solarmodule::SolarReadingProfile& message, IMessageVisitor& visitor);
 
+void visit(const breakermodule::BreakerDiscreteControlProfile& message, IMessageVisitor& visitor);
+
 void visit(const loadmodule::LoadControlProfile& message, IMessageVisitor& visitor);
 
 void visit(const switchmodule::SwitchReadingProfile& message, IMessageVisitor& visitor);

@@ -59,6 +59,22 @@ namespace util {
     };
 
     template <>
+    struct profile_info<breakermodule::BreakerDiscreteControlProfile> {
+
+        static constexpr bool is_control = true;
+
+        static const commonmodule::MessageInfo& get_message_info(const breakermodule::BreakerDiscreteControlProfile& profile)
+        {
+            return profile.controlmessageinfo().messageinfo();
+        }
+
+        static const commonmodule::ConductingEquipment& get_conducting_equip(const breakermodule::BreakerDiscreteControlProfile& profile)
+        {
+            return profile.breaker().conductingequipment();
+        }
+    };
+
+    template <>
     struct profile_info<switchmodule::SwitchReadingProfile> {
 
         static constexpr bool is_control = false;

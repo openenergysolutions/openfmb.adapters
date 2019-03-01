@@ -15,6 +15,10 @@ namespace util {
 
 void visit_breakermodule_Breaker(IModelVisitor& visitor);
 
+void visit_breakermodule_BreakerDiscreteControl(IModelVisitor& visitor);
+
+void visit_breakermodule_BreakerDiscreteControlXCBR(IModelVisitor& visitor);
+
 void visit_breakermodule_BreakerReading(IModelVisitor& visitor);
 
 void visit_breakermodule_BreakerStatus(IModelVisitor& visitor);
@@ -492,6 +496,34 @@ void visit<solarmodule::SolarReadingProfile>(IModelVisitor& visitor)
 }
 
 template <>
+void visit<breakermodule::BreakerDiscreteControlProfile>(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("controlMessageInfo", commonmodule::ControlMessageInfo::descriptor()))
+    {
+        visit_commonmodule_ControlMessageInfo(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("breaker", breakermodule::Breaker::descriptor()))
+    {
+        visit_breakermodule_Breaker(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("breakerDiscreteControl", breakermodule::BreakerDiscreteControl::descriptor()))
+    {
+        visit_breakermodule_BreakerDiscreteControl(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
+    {
+        visit_commonmodule_IED(visitor);
+        visitor.end_message_field();
+    }
+}
+
+template <>
 void visit<loadmodule::LoadControlProfile>(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("controlMessageInfo", commonmodule::ControlMessageInfo::descriptor()))
@@ -676,6 +708,42 @@ void visit_breakermodule_Breaker(IModelVisitor& visitor)
     if(visitor.start_message_field("conductingEquipment", commonmodule::ConductingEquipment::descriptor()))
     {
         visit_commonmodule_ConductingEquipment(visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit_breakermodule_BreakerDiscreteControl(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("controlValue", commonmodule::ControlValue::descriptor()))
+    {
+        visit_commonmodule_ControlValue(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("check", commonmodule::CheckConditions::descriptor()))
+    {
+        visit_commonmodule_CheckConditions(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("breakerDiscreteControlXCBR", breakermodule::BreakerDiscreteControlXCBR::descriptor()))
+    {
+        visit_breakermodule_BreakerDiscreteControlXCBR(visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit_breakermodule_BreakerDiscreteControlXCBR(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("logicalNodeForControl", commonmodule::LogicalNodeForControl::descriptor()))
+    {
+        visit_commonmodule_LogicalNodeForControl(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("Pos", commonmodule::ControlDPC::descriptor()))
+    {
+        visit_commonmodule_ControlDPC(visitor);
         visitor.end_message_field();
     }
 }

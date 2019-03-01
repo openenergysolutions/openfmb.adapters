@@ -129,6 +129,8 @@ void convert_from_proto(const commonmodule::ESS& in, twinoaks::commonmodule::ESS
 
 void convert_from_proto(const breakermodule::BreakerReading& in, twinoaks::breakermodule::BreakerReading& out);
 
+void convert_from_proto(const breakermodule::BreakerDiscreteControl& in, twinoaks::breakermodule::BreakerDiscreteControl& out);
+
 void convert_from_proto(const switchmodule::SwitchStatusXSWI& in, twinoaks::switchmodule::SwitchStatusXSWI& out);
 
 void convert_from_proto(const essmodule::EssStatusZBAT& in, twinoaks::essmodule::EssStatusZBAT& out);
@@ -224,6 +226,8 @@ void convert_from_proto(const breakermodule::BreakerStatus& in, twinoaks::breake
 void convert_from_proto(const commonmodule::Quality& in, twinoaks::commonmodule::Quality& out);
 
 void convert_from_proto(const solarmodule::SolarCSG& in, twinoaks::solarmodule::SolarCSG& out);
+
+void convert_from_proto(const breakermodule::BreakerDiscreteControlXCBR& in, twinoaks::breakermodule::BreakerDiscreteControlXCBR& out);
 
 void convert_from_proto(const commonmodule::IdentifiedObject& in, twinoaks::commonmodule::IdentifiedObject& out);
 
@@ -352,6 +356,19 @@ void convert_from_proto(const solarmodule::SolarReadingProfile& in, twinoaks::so
     convert_from_proto(in.solarinverter(), out.solarInverter); // required field in DDS
 
     convert_from_proto(in.solarreading(), out.solarReading); // required field in DDS
+}
+
+void convert_from_proto(const breakermodule::BreakerDiscreteControlProfile& in, twinoaks::breakermodule::BreakerDiscreteControlProfile& out)
+{
+    out.clear();
+
+    if(in.has_controlmessageinfo()) convert_from_proto(in.controlmessageinfo(), out); // inherited type
+
+    convert_from_proto(in.breaker(), out.breaker); // required field in DDS
+
+    convert_from_proto(in.breakerdiscretecontrol(), out.breakerDiscreteControl); // required field in DDS
+
+    convert_from_proto(in.ied(), out.ied); // required field in DDS
 }
 
 void convert_from_proto(const loadmodule::LoadControlProfile& in, twinoaks::loadmodule::LoadControlProfile& out)
@@ -1654,6 +1671,21 @@ void convert_from_proto(const breakermodule::BreakerReading& in, twinoaks::break
     }
 }
 
+void convert_from_proto(const breakermodule::BreakerDiscreteControl& in, twinoaks::breakermodule::BreakerDiscreteControl& out)
+{
+    out.clear();
+
+    if(in.has_controlvalue()) convert_from_proto(in.controlvalue(), out); // inherited type
+
+    if(in.has_check()) // optional field in DDS
+    {
+        out.check = new twinoaks::commonmodule::CheckConditions();
+        convert_from_proto(in.check(), *out.check);
+    }
+
+    convert_from_proto(in.breakerdiscretecontrolxcbr(), out.breakerDiscreteControlXCBR); // required field in DDS
+}
+
 void convert_from_proto(const switchmodule::SwitchStatusXSWI& in, twinoaks::switchmodule::SwitchStatusXSWI& out)
 {
     out.clear();
@@ -2419,6 +2451,15 @@ void convert_from_proto(const solarmodule::SolarCSG& in, twinoaks::solarmodule::
         convert_from_proto(input, ouput);
         out.crvPts.push_back(ouput);
     }
+}
+
+void convert_from_proto(const breakermodule::BreakerDiscreteControlXCBR& in, twinoaks::breakermodule::BreakerDiscreteControlXCBR& out)
+{
+    out.clear();
+
+    if(in.has_logicalnodeforcontrol()) convert_from_proto(in.logicalnodeforcontrol(), out); // inherited type
+
+    convert_from_proto(in.pos(), out.Pos); // required field in DDS
 }
 
 void convert_from_proto(const commonmodule::IdentifiedObject& in, twinoaks::commonmodule::IdentifiedObject& out)
