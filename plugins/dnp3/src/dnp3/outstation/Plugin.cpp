@@ -12,6 +12,7 @@
 #include "dnp3/ConfigStrings.h"
 
 #include "SubscribingConfigReadVisitor.h"
+#include "SubscriptionHandler.h"
 
 using namespace openpal;
 using namespace opendnp3;

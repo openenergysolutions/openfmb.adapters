@@ -42,6 +42,8 @@ set(DNP3_SOURCES
         src/dnp3/outstation/MeasurementConfigWriteVisitor.h
         src/dnp3/outstation/MeasurementConfigWriteVisitor.cpp
         src/dnp3/outstation/SubscribingConfigReadVisitor.h
+        src/dnp3/outstation/SubscriptionTypes.h
+        src/dnp3/outstation/SubscriptionHandler.h
         # generated enums
         src/dnp3/generated/SourceType.h
         src/dnp3/generated/SourceType.cpp
