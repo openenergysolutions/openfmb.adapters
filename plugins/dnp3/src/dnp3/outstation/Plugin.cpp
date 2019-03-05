@@ -11,6 +11,7 @@
 
 #include "dnp3/ConfigStrings.h"
 
+#include "PointTracker.h"
 #include "SubscribingConfigReadVisitor.h"
 #include "SubscriptionHandler.h"
 
@@ -22,6 +23,9 @@ namespace adapter {
 namespace dnp3 {
     namespace outstation {
 
+        using delayed_sub_t = std::function<void(const api::message_bus_t& bus, const std::shared_ptr<asiodnp3::IOutstation>& outstation)>;
+        using delayed_sub_vector_t = std::vector<delayed_sub_t>;
+
         template <class T>
         struct ProfileReader {
             template <bool condition>
@@ -29,17 +33,21 @@ namespace dnp3 {
 
             template <class U = T>
             static return_t<util::profile_info<U>::is_control>
-            handle(const YAML::Node& node, const api::Logger& logger, api::message_bus_t bus)
+            handle(const YAML::Node& node, const api::Logger& logger, const api::message_bus_t& bus, PointTracker& tracker, delayed_sub_vector_t& subscriptions)
             {
                 throw api::Exception("DNP3 outstation plugin doesn't support control profiles");
             }
 
             template <class U = T>
             static return_t<!util::profile_info<U>::is_control>
-            handle(const YAML::Node& node, const api::Logger& logger, api::message_bus_t bus)
+            handle(const YAML::Node& node, const api::Logger& logger, const api::message_bus_t& bus, PointTracker& tracker, delayed_sub_vector_t& subscriptions)
             {
-                SubscribingConfigReadVisitor<U> visitor(util::yaml::require(node, util::keys::mapping));
+                SubscribingConfigReadVisitor<U> visitor(util::yaml::require(node, util::keys::mapping), tracker);
                 util::visit(visitor);
+                subscriptions.push_back(
+                    [handlers = visitor.get_handlers(), mrid = visitor.get_primary_mrid()](const api::message_bus_t& bus, const std::shared_ptr<asiodnp3::IOutstation>& outstation) {
+                        bus->subscribe(std::make_shared<SubscriptionHandler<T>>(mrid, outstation, handlers));
+                    });
                 return true;
             }
         };
@@ -69,14 +77,9 @@ namespace dnp3 {
         {
             const auto channel = this->create_channel(node);
 
-            // TODO - pre-calculate sizes this based on referenced points
-            // This means that the generic configuration will happen after the profile configuration
-            OutstationStackConfig config(DatabaseSizes::AllTypes(1));
+            delayed_sub_vector_t subscriptions;
 
-            const auto protocol = util::yaml::require(node, keys::protocol);
-
-            config.link.LocalAddr = util::yaml::require_integer<uint16_t>(protocol, keys::master_address);
-            config.link.RemoteAddr = util::yaml::require_integer<uint16_t>(protocol, keys::outstation_address);
+            PointTracker tracker;
 
             // TODO - configure other outstation parameters
 
@@ -88,8 +91,17 @@ namespace dnp3 {
                         util::yaml::require_string(node, util::keys::name),
                         node,
                         logger,
-                        bus);
+                        bus,
+                        tracker,
+                        subscriptions);
                 });
+
+            OutstationStackConfig config(tracker.get_sizes());
+
+            const auto protocol_node = util::yaml::require(node, keys::protocol);
+
+            config.link.LocalAddr = util::yaml::require_integer<uint16_t>(protocol_node, keys::master_address);
+            config.link.RemoteAddr = util::yaml::require_integer<uint16_t>(protocol_node, keys::outstation_address);
 
             const auto outstation = channel->AddOutstation(
                 util::yaml::require_string(node, util::keys::name),
@@ -101,6 +113,12 @@ namespace dnp3 {
             );
 
             // TODO - configuration default static/event variations in the database
+
+            // bind all of the subscriptions now that we have an outstation
+            // that can load measurements
+            for (const auto& subscribe : subscriptions) {
+                subscribe(bus, outstation);
+            }
 
             this->outstations.push_back(outstation);
         }

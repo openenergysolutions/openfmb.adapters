@@ -18,6 +18,9 @@ namespace dnp3 {
         class PointTracker {
         public:
             PointTracker() = default;
+            PointTracker& operator=(const PointTracker&) = delete;
+            PointTracker(const PointTracker&&) = delete;
+            PointTracker(PointTracker&&) = delete;
 
             void add_binary(uint16_t index);
             void add_analog(uint16_t index);
