@@ -100,8 +100,8 @@ namespace dnp3 {
 
             const auto protocol_node = util::yaml::require(node, keys::protocol);
 
-            config.link.LocalAddr = util::yaml::require_integer<uint16_t>(protocol_node, keys::master_address);
-            config.link.RemoteAddr = util::yaml::require_integer<uint16_t>(protocol_node, keys::outstation_address);
+            config.link.RemoteAddr = util::yaml::require_integer<uint16_t>(protocol_node, keys::master_address);
+            config.link.LocalAddr = util::yaml::require_integer<uint16_t>(protocol_node, keys::outstation_address);
 
             const auto outstation = channel->AddOutstation(
                 util::yaml::require_string(node, util::keys::name),
@@ -131,7 +131,7 @@ namespace dnp3 {
                 util::yaml::require_string(node, util::keys::name),
                 opendnp3::levels::NORMAL,
                 asiopal::ChannelRetry::Default(),
-                util::yaml::require_string(channel_node, keys::adapter),
+                util::yaml::require_string(channel_node, keys::listen_adapter),
                 util::yaml::require_integer<uint16_t>(channel_node, keys::port),
                 nullptr // no channel listener
             );

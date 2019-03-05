@@ -122,6 +122,8 @@ namespace dnp3 {
                             builder.Update(opendnp3::Analog(value * scale), index);
                         });
                 });
+
+            this->tracker.add_analog(index);
         }
     }
 }
