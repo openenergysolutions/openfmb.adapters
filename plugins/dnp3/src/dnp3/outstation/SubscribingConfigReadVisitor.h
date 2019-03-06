@@ -4,6 +4,7 @@
 
 #include <adapter-util/ProfileInfo.h>
 #include <adapter-util/config/SubscribingConfigReadVisitorBase.h>
+#include <adapter-util/util/Time.h>
 
 #include "../generated/DestinationType.h"
 #include "PointTracker.h"
@@ -12,6 +13,11 @@
 namespace adapter {
 namespace dnp3 {
     namespace outstation {
+
+        opendnp3::DNPTime convert(const commonmodule::Timestamp& ts)
+        {
+            return opendnp3::DNPTime(std::chrono::duration_cast<std::chrono::milliseconds>(util::time::get(ts).time_since_epoch()).count());
+        }
 
         template <class T>
         class SubscribingConfigReadVisitor final : public util::SubscribingConfigReadVisitorBase<T> {
@@ -118,8 +124,15 @@ namespace dnp3 {
                     accessor->if_present(
                         profile,
                         [&](float value) {
-                            // TODO - decide where the timestamp should come from - the message timestamp?
-                            builder.Update(opendnp3::Analog(value * scale), index);
+                            builder.Update(
+                                    opendnp3::Analog(
+                                            value * scale,
+                                            opendnp3::Flags(0x01),
+                                            // for the time being, let's use the message timestamp for the DNP3 time
+                                            convert(util::profile_info<T>::get_message_info(profile).messagetimestamp())
+                                    ),
+                                    index
+                            );
                         });
                 });
 
