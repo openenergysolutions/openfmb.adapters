@@ -34,6 +34,7 @@ namespace dnp3 {
             out << YAML::Key << DestinationType::label << YAML::Value << DestinationType::none
                 << YAML::Comment(util::enumeration::get_value_set_from_list<DestinationType>({ DestinationType::Value::none, DestinationType::Value::binary }));
             out << YAML::Key << util::keys::index << YAML::Value << 0;
+            out << YAML::Key << util::keys::negate << YAML::Value << false;
         }
 
         void MeasurementConfigWriteVisitor::write_mapped_int32_keys(YAML::Emitter& out)

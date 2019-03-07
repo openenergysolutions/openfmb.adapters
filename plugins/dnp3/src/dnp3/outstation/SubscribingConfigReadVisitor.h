@@ -21,11 +21,15 @@ namespace dnp3 {
 
         opendnp3::Counter get_counter(int64_t value, const commonmodule::Timestamp& ts)
         {
+            const auto max = std::numeric_limits<uint32_t>::max();
+
             // the OpenFMB counter range (int64) exceeds the DNP3 range (uint32) so we have to do range checking
-            if(value < 0) {
+            if (value < 0) {
+                // a value < 0 is non sensical so map it 0 w/ a flag
                 return { 0, static_cast<uint8_t>(opendnp3::CounterQuality::DISCONTINUITY), convert(ts) };
-            } else if(value > std::numeric_limits<uint32_t>::max()) {
-                return { std::numeric_limits<uint32_t>::max(), static_cast<uint8_t>(opendnp3::CounterQuality::DISCONTINUITY), convert(ts) };
+            } else if (value > max) {
+                // use the modulo here since that's what a DNP3 counter would have to do anyway
+                return { static_cast<uint32_t>(value % max), 0x01, convert(ts) };
             } else {
                 return { static_cast<uint32_t>(value), 0x01, convert(ts) };
             }
@@ -57,6 +61,8 @@ namespace dnp3 {
                                      google::protobuf::EnumDescriptor const* descriptor) override;
 
         private:
+            void map_to_binary(const YAML::Node& node, const util::accessor_t<T, bool>& accessor);
+
             void map_to_analog(const YAML::Node& node, const util::accessor_t<T, float>& accessor);
 
             void map_to_analog(const YAML::Node& node, const util::accessor_t<T, int64_t>& accessor);
@@ -81,7 +87,16 @@ namespace dnp3 {
         void SubscribingConfigReadVisitor<T>::handle_mapped_field(const YAML::Node& node,
                                                                   const util::accessor_t<T, bool>& accessor)
         {
-            // ignored
+            const auto dest_type = util::yaml::require_enum<DestinationType>(node);
+            switch (dest_type) {
+            case (DestinationType::Value::none):
+                break;
+            case (DestinationType::Value::binary):
+                this->map_to_binary(node, accessor);
+                break;
+            default:
+                throw api::Exception("Unsupported destination type for bool field: ", DestinationType::to_string(dest_type));
+            }
         }
 
         template <class T>
@@ -97,16 +112,16 @@ namespace dnp3 {
         {
             const auto dest_type = util::yaml::require_enum<DestinationType>(node);
             switch (dest_type) {
-                case (DestinationType::Value::none):
-                    break;
-                case (DestinationType::Value::analog):
-                    this->map_to_analog(node, accessor);
-                    break;
-                case (DestinationType::Value::counter):
-                    this->map_to_counter(node, accessor);
-                    break;
-                default:
-                    throw api::Exception("Unsupported destination type for int64 field: ", DestinationType::to_string(dest_type));
+            case (DestinationType::Value::none):
+                break;
+            case (DestinationType::Value::analog):
+                this->map_to_analog(node, accessor);
+                break;
+            case (DestinationType::Value::counter):
+                this->map_to_counter(node, accessor);
+                break;
+            default:
+                throw api::Exception("Unsupported destination type for int64 field: ", DestinationType::to_string(dest_type));
             }
         }
 
@@ -142,6 +157,31 @@ namespace dnp3 {
         }
 
         template <class T>
+        void SubscribingConfigReadVisitor<T>::map_to_binary(const YAML::Node& node, const util::accessor_t<T, bool>& accessor)
+        {
+            const auto index = util::yaml::require_integer<uint16_t>(node, util::keys::index);
+            const auto negate = util::yaml::require(node, util::keys::negate).as<bool>();
+            const auto process = negate ? [](bool value) { return !value; } : [](bool value) { return value; };
+
+            this->handlers.push_back(
+                [index, process, accessor](asiodnp3::UpdateBuilder& builder, const T& profile) {
+                    accessor->if_present(
+                        profile,
+                        [&](bool value) {
+                            builder.Update(
+                                opendnp3::Binary(
+                                    process(value),
+                                    opendnp3::Flags(0x01),
+                                    // for the time being, let's use the message timestamp for the DNP3 time
+                                    convert(util::profile_info<T>::get_message_info(profile).messagetimestamp())),
+                                index);
+                        });
+                });
+
+            this->tracker.add_binary(index);
+        }
+
+        template <class T>
         void SubscribingConfigReadVisitor<T>::map_to_analog(const YAML::Node& node, const util::accessor_t<T, float>& accessor)
         {
             const auto index = util::yaml::require_integer<uint16_t>(node, util::keys::index);
@@ -153,14 +193,12 @@ namespace dnp3 {
                         profile,
                         [&](float value) {
                             builder.Update(
-                                    opendnp3::Analog(
-                                            value * scale,
-                                            opendnp3::Flags(0x01),
-                                            // for the time being, let's use the message timestamp for the DNP3 time
-                                            convert(util::profile_info<T>::get_message_info(profile).messagetimestamp())
-                                    ),
-                                    index
-                            );
+                                opendnp3::Analog(
+                                    value * scale,
+                                    opendnp3::Flags(0x01),
+                                    // for the time being, let's use the message timestamp for the DNP3 time
+                                    convert(util::profile_info<T>::get_message_info(profile).messagetimestamp())),
+                                index);
                         });
                 });
 
@@ -174,21 +212,19 @@ namespace dnp3 {
             const auto scale = util::yaml::require(node, util::keys::scale).as<float>();
 
             this->handlers.push_back(
-                    [index, scale, accessor](asiodnp3::UpdateBuilder& builder, const T& profile) {
-                        accessor->if_present(
-                                profile,
-                                [&](int64_t value) {
-                                    builder.Update(
-                                            opendnp3::Analog(
-                                                    value * scale,
-                                                    opendnp3::Flags(0x01),
-                                                    // for the time being, let's use the message timestamp for the DNP3 time
-                                                    convert(util::profile_info<T>::get_message_info(profile).messagetimestamp())
-                                            ),
-                                            index
-                                    );
-                                });
-                    });
+                [index, scale, accessor](asiodnp3::UpdateBuilder& builder, const T& profile) {
+                    accessor->if_present(
+                        profile,
+                        [&](int64_t value) {
+                            builder.Update(
+                                opendnp3::Analog(
+                                    value * scale,
+                                    opendnp3::Flags(0x01),
+                                    // for the time being, let's use the message timestamp for the DNP3 time
+                                    convert(util::profile_info<T>::get_message_info(profile).messagetimestamp())),
+                                index);
+                        });
+                });
 
             this->tracker.add_analog(index);
         }
@@ -199,16 +235,15 @@ namespace dnp3 {
             const auto index = util::yaml::require_integer<uint16_t>(node, util::keys::index);
 
             this->handlers.push_back(
-                    [index, accessor](asiodnp3::UpdateBuilder& builder, const T& profile) {
-                        accessor->if_present(
-                                profile,
-                                [&](int64_t value) {
-                                    builder.Update(
-                                            get_counter(value, util::profile_info<T>::get_message_info(profile).messagetimestamp()),
-                                            index
-                                    );
-                                });
-                    });
+                [index, accessor](asiodnp3::UpdateBuilder& builder, const T& profile) {
+                    accessor->if_present(
+                        profile,
+                        [&](int64_t value) {
+                            builder.Update(
+                                get_counter(value, util::profile_info<T>::get_message_info(profile).messagetimestamp()),
+                                index);
+                        });
+                });
 
             this->tracker.add_counter(index);
         }
