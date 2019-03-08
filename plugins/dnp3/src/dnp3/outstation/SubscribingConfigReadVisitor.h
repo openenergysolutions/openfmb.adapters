@@ -36,6 +36,23 @@ namespace dnp3 {
         }
 
         template <class T>
+        std::map<int, T> read_enum_mapping(const YAML::Node& node, google::protobuf::EnumDescriptor const* descriptor, T (*read_value)(const YAML::Node&))
+        {
+            std::map<int, T> map;
+            util::yaml::foreach (
+                node,
+                [&](const YAML::Node& elem) {
+                    const auto name = util::yaml::require_string(elem, util::keys::name);
+                    const auto enum_value = descriptor->FindValueByName(name);
+                    if (!enum_value) {
+                        throw api::Exception(node, "Unknown value name ", name, " for enum ", descriptor->name());
+                    }
+                    map[enum_value->number()] = read_value(elem);
+                });
+            return map;
+        }
+
+        template <class T>
         class SubscribingConfigReadVisitor final : public util::SubscribingConfigReadVisitorBase<T> {
 
             update_handler_vec_t<T> handlers;
@@ -68,6 +85,10 @@ namespace dnp3 {
             void map_to_analog(const YAML::Node& node, const util::accessor_t<T, int64_t>& accessor);
 
             void map_to_counter(const YAML::Node& node, const util::accessor_t<T, int64_t>& accessor);
+
+            void map_to_binary(const YAML::Node& node, const util::accessor_t<T, int>& accessor, google::protobuf::EnumDescriptor const* descriptor);
+
+            void map_to_analog(const YAML::Node& node, const util::accessor_t<T, int>& accessor, google::protobuf::EnumDescriptor const* descriptor);
         };
 
         template <class T>
@@ -146,7 +167,19 @@ namespace dnp3 {
                                                                   const util::accessor_t<T, int>& accessor,
                                                                   google::protobuf::EnumDescriptor const* descriptor)
         {
-            // ignored
+            const auto dest_type = util::yaml::require_enum<DestinationType>(node);
+            switch (dest_type) {
+            case (DestinationType::Value::none):
+                break;
+            case (DestinationType::Value::binary):
+                this->map_to_binary(node, accessor, descriptor);
+                break;
+            case (DestinationType::Value::analog):
+                this->map_to_analog(node, accessor, descriptor);
+                break;
+            default:
+                throw api::Exception(node.Mark(), "Unsupported destination type for enum field: ", DestinationType::to_string(dest_type));
+            }
         }
 
         template <class T>
@@ -246,6 +279,76 @@ namespace dnp3 {
                 });
 
             this->tracker.add_counter(index);
+        }
+
+        template <class T>
+        void SubscribingConfigReadVisitor<T>::map_to_binary(const YAML::Node& node, const util::accessor_t<T, int>& accessor, google::protobuf::EnumDescriptor const* descriptor)
+        {
+            const auto index = util::yaml::require_integer<uint16_t>(node, util::keys::index);
+
+            auto mapping = read_enum_mapping<bool>(
+                util::yaml::require(node, util::keys::mapping),
+                descriptor,
+                [](const YAML::Node& node) -> bool {
+                    return util::yaml::require(node, util::keys::value).as<bool>();
+                });
+
+            this->handlers.push_back(
+                [index, accessor, map = std::move(mapping)](asiodnp3::UpdateBuilder& builder, const T& profile) {
+                    accessor->if_present(
+                        profile,
+                        [&](int value) {
+                            const auto iter = map.find(value);
+                            if (iter == map.end()) {
+                                // set the value to offline to indicate the mapping is incomplete
+                                builder.Modify(opendnp3::FlagsType::BinaryInput, index, index, 0x00);
+                            } else {
+                                builder.Update(
+                                    opendnp3::Binary(
+                                        iter->second,
+                                        0x01,
+                                        convert(util::profile_info<T>::get_message_info(profile).messagetimestamp())),
+                                    index);
+                            }
+                        });
+                });
+
+            this->tracker.add_binary(index);
+        }
+
+        template <class T>
+        void SubscribingConfigReadVisitor<T>::map_to_analog(const YAML::Node& node, const util::accessor_t<T, int>& accessor, google::protobuf::EnumDescriptor const* descriptor)
+        {
+            const auto index = util::yaml::require_integer<uint16_t>(node, util::keys::index);
+
+            auto mapping = read_enum_mapping<int32_t>(
+                util::yaml::require(node, util::keys::mapping),
+                descriptor,
+                [](const YAML::Node& node) -> int32_t {
+                    return util::yaml::require_integer<int32_t>(node, util::keys::value);
+                });
+
+            this->handlers.push_back(
+                [index, accessor, map = std::move(mapping)](asiodnp3::UpdateBuilder& builder, const T& profile) {
+                    accessor->if_present(
+                        profile,
+                        [&](int value) {
+                            const auto iter = map.find(value);
+                            if (iter == map.end()) {
+                                // set the value to offline to indicate the mapping is incomplete
+                                builder.Modify(opendnp3::FlagsType::AnalogInput, index, index, 0x00);
+                            } else {
+                                builder.Update(
+                                    opendnp3::Analog(
+                                        iter->second,
+                                        0x01,
+                                        convert(util::profile_info<T>::get_message_info(profile).messagetimestamp())),
+                                    index);
+                            }
+                        });
+                });
+
+            this->tracker.add_analog(index);
         }
     }
 }

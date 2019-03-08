@@ -59,11 +59,18 @@ namespace dnp3 {
         void MeasurementConfigWriteVisitor::write_mapped_enum_keys(YAML::Emitter& out,
                                                                    google::protobuf::EnumDescriptor const* descriptor)
         {
-            // TODO - will almost certainly need to map enums to analogs
-            out << YAML::Key << DestinationType::label << YAML::Value << DestinationType::none << YAML::Comment(util::enumeration::get_value_set_from_list<DestinationType>({ DestinationType::Value::none, DestinationType::Value::binary }));
+            out << YAML::Key << DestinationType::label << YAML::Value << DestinationType::none;
+            out << YAML::Comment(util::enumeration::get_value_set_from_list<DestinationType>({ DestinationType::Value::none, DestinationType::Value::binary, DestinationType::Value::analog }));
             out << YAML::Key << util::keys::index << YAML::Value << 0;
-            out << YAML::Key << util::keys::when_true << YAML::Value << descriptor->value(0)->name();
-            out << YAML::Key << util::keys::when_false << YAML::Value << descriptor->value(1)->name();
+            // mapping from enum to analog - map each value to the enum 'number' by default
+            out << YAML::Key << util::keys::mapping;
+            out << YAML::BeginSeq;
+            for (auto i = 0; i < descriptor->value_count(); ++i) {
+                out << YAML::BeginMap;
+                out << YAML::Key << descriptor->value(i)->name() << YAML::Value << descriptor->value(i)->number();
+                out << YAML::EndMap;
+            }
+            out << YAML::EndSeq;
         }
 
         void MeasurementConfigWriteVisitor::write_mapped_schedule_parameter_keys(YAML::Emitter& out)
