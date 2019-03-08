@@ -11,6 +11,7 @@
 #include "../ConfigStrings.h"
 #include "../VariationToString.h"
 
+#include "ControlConfigWriteVisitor.h"
 #include "MeasurementConfigWriteVisitor.h"
 #include "Plugin.h"
 
@@ -30,7 +31,8 @@ namespace dnp3 {
                 out << YAML::BeginMap;
 
                 if (util::profile_info<T>::is_control) {
-                    throw api::Exception("control profiles not supported");
+                    ControlConfigWriteVisitor visitor(out);
+                    util::visit<T>(visitor);
                 } else {
                     MeasurementConfigWriteVisitor visitor(out);
                     util::visit<T>(visitor);
