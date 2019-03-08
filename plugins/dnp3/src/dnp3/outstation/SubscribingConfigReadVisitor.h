@@ -95,7 +95,7 @@ namespace dnp3 {
                 this->map_to_binary(node, accessor);
                 break;
             default:
-                throw api::Exception("Unsupported destination type for bool field: ", DestinationType::to_string(dest_type));
+                throw api::Exception(node.Mark(), "Unsupported destination type for bool field: ", DestinationType::to_string(dest_type));
             }
         }
 
@@ -103,7 +103,7 @@ namespace dnp3 {
         void SubscribingConfigReadVisitor<T>::handle_mapped_field(const YAML::Node& node,
                                                                   const util::accessor_t<T, int32_t>& accessor)
         {
-            // ignored
+            throw api::Exception(node.Mark(), "DNP3 outstation subscriptions do not support int32 mapping");
         }
 
         template <class T>
@@ -121,7 +121,7 @@ namespace dnp3 {
                 this->map_to_counter(node, accessor);
                 break;
             default:
-                throw api::Exception("Unsupported destination type for int64 field: ", DestinationType::to_string(dest_type));
+                throw api::Exception(node.Mark(), "Unsupported destination type for int64 field: ", DestinationType::to_string(dest_type));
             }
         }
 
@@ -137,7 +137,7 @@ namespace dnp3 {
                 this->map_to_analog(node, accessor);
                 break;
             default:
-                throw api::Exception("Unsupported destination type for floating point field: ", DestinationType::to_string(dest_type));
+                throw api::Exception(node.Mark(), "Unsupported destination type for floating point field: ", DestinationType::to_string(dest_type));
             }
         }
 
