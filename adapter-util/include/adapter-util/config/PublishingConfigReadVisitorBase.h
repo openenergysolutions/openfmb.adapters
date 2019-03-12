@@ -231,6 +231,11 @@ namespace util {
 
         if (field_type == QualityFieldType::Value::mapped) {
             this->handle_mapped_quality(node, accessor);
+        } else if (field_type == QualityFieldType::Value::constant) {
+            this->add_message_complete_action(
+                [accessor](T& profile){
+                    accessor->mutable_get(profile)->mutable_detailqual();
+                });
         }
     }
 

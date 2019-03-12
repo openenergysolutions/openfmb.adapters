@@ -23,11 +23,13 @@ namespace util {
 
 const char QualityFieldType::ignored[] = "ignored";
 const char QualityFieldType::mapped[] = "mapped";
+const char QualityFieldType::constant[] = "constant";
 
-const std::array<QualityFieldType::Value, 2> QualityFieldType::values =
+const std::array<QualityFieldType::Value, 3> QualityFieldType::values =
 {
     QualityFieldType::Value::ignored,
     QualityFieldType::Value::mapped,
+    QualityFieldType::Value::constant,
 };
 
 std::string QualityFieldType::to_string(QualityFieldType::Value value)
@@ -35,7 +37,8 @@ std::string QualityFieldType::to_string(QualityFieldType::Value value)
     switch(value)
     {
         case(Value::ignored): return ignored;
-        default: return mapped;
+        case(Value::mapped): return mapped;
+        default: return constant;
     }
 }
 
@@ -45,6 +48,7 @@ QualityFieldType::Value QualityFieldType::from_string(const std::string& name)
     {
         {ignored, Value::ignored},
         {mapped, Value::mapped},
+        {constant, Value::constant},
     };
     const auto elem = map.find(name);
     if(elem == map.end()) throw api::Exception("Unknown value name '", name, "' for enum QualityFieldType");

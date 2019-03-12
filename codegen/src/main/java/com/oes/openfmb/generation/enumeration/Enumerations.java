@@ -65,7 +65,8 @@ public class Enumerations {
                 getFieldName("Quality"),
                 Arrays.asList(
                         Enumeration.entry("ignored", "the quality field is ignored in this configuration"),
-                        Enumeration.entry("mapped", "the value is mapped dynamically from the underlying protocol")
+                        Enumeration.entry("mapped", "the value is mapped dynamically from the underlying protocol"),
+                        Enumeration.entry("constant", "the value is a constant of Quality fields")
                 )
         );
 
