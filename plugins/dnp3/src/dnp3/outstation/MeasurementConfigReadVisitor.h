@@ -1,6 +1,6 @@
 
-#ifndef OPENFMB_ADAPTER_DNP3_OUTSTATION_SUBSCRIBINGCONFIGREADVISITOR_H
-#define OPENFMB_ADAPTER_DNP3_OUTSTATION_SUBSCRIBINGCONFIGREADVISITOR_H
+#ifndef OPENFMB_ADAPTER_DNP3_OUTSTATION_MEASUREMENTCONFIGREADVISITOR_H
+#define OPENFMB_ADAPTER_DNP3_OUTSTATION_MEASUREMENTCONFIGREADVISITOR_H
 
 #include <adapter-util/ProfileInfo.h>
 #include <adapter-util/config/SubscribingConfigReadVisitorBase.h>
@@ -53,13 +53,13 @@ namespace dnp3 {
         }
 
         template <class T>
-        class SubscribingConfigReadVisitor final : public util::SubscribingConfigReadVisitorBase<T> {
+        class MeasurementConfigReadVisitor final : public util::SubscribingConfigReadVisitorBase<T> {
 
             update_handler_vec_t<T> handlers;
             PointTracker& tracker;
 
         public:
-            explicit SubscribingConfigReadVisitor(const YAML::Node& node, PointTracker& tracker);
+            explicit MeasurementConfigReadVisitor(const YAML::Node& node, PointTracker& tracker);
 
             update_handler_vec_t<T> get_handlers();
 
@@ -92,20 +92,20 @@ namespace dnp3 {
         };
 
         template <class T>
-        SubscribingConfigReadVisitor<T>::SubscribingConfigReadVisitor(const YAML::Node& node, PointTracker& tracker)
+        MeasurementConfigReadVisitor<T>::MeasurementConfigReadVisitor(const YAML::Node& node, PointTracker& tracker)
             : util::SubscribingConfigReadVisitorBase<T>(node)
             , tracker(tracker)
         {
         }
 
         template <class T>
-        update_handler_vec_t<T> SubscribingConfigReadVisitor<T>::get_handlers()
+        update_handler_vec_t<T> MeasurementConfigReadVisitor<T>::get_handlers()
         {
             return std::move(this->handlers);
         }
 
         template <class T>
-        void SubscribingConfigReadVisitor<T>::handle_mapped_field(const YAML::Node& node,
+        void MeasurementConfigReadVisitor<T>::handle_mapped_field(const YAML::Node& node,
                                                                   const util::accessor_t<T, bool>& accessor)
         {
             const auto dest_type = util::yaml::require_enum<DestinationType>(node);
@@ -121,14 +121,14 @@ namespace dnp3 {
         }
 
         template <class T>
-        void SubscribingConfigReadVisitor<T>::handle_mapped_field(const YAML::Node& node,
+        void MeasurementConfigReadVisitor<T>::handle_mapped_field(const YAML::Node& node,
                                                                   const util::accessor_t<T, int32_t>& accessor)
         {
             throw api::Exception(node.Mark(), "DNP3 outstation subscriptions do not support int32 mapping");
         }
 
         template <class T>
-        void SubscribingConfigReadVisitor<T>::handle_mapped_field(const YAML::Node& node,
+        void MeasurementConfigReadVisitor<T>::handle_mapped_field(const YAML::Node& node,
                                                                   const util::accessor_t<T, int64_t>& accessor)
         {
             const auto dest_type = util::yaml::require_enum<DestinationType>(node);
@@ -147,7 +147,7 @@ namespace dnp3 {
         }
 
         template <class T>
-        void SubscribingConfigReadVisitor<T>::handle_mapped_field(const YAML::Node& node,
+        void MeasurementConfigReadVisitor<T>::handle_mapped_field(const YAML::Node& node,
                                                                   const util::accessor_t<T, float>& accessor)
         {
             const auto dest_type = util::yaml::require_enum<DestinationType>(node);
@@ -163,7 +163,7 @@ namespace dnp3 {
         }
 
         template <class T>
-        void SubscribingConfigReadVisitor<T>::handle_mapped_field(const YAML::Node& node,
+        void MeasurementConfigReadVisitor<T>::handle_mapped_field(const YAML::Node& node,
                                                                   const util::accessor_t<T, int>& accessor,
                                                                   google::protobuf::EnumDescriptor const* descriptor)
         {
@@ -183,14 +183,14 @@ namespace dnp3 {
         }
 
         template <class T>
-        void SubscribingConfigReadVisitor<T>::handle(const std::string& field_name,
+        void MeasurementConfigReadVisitor<T>::handle(const std::string& field_name,
                                                      const util::getter_t<T, google::protobuf::RepeatedPtrField<commonmodule::ENG_ScheduleParameter>>& getter)
         {
             throw api::Exception("DNP3 outstation subscriptions cannot contain schedule parameter lists");
         }
 
         template <class T>
-        void SubscribingConfigReadVisitor<T>::map_to_binary(const YAML::Node& node, const util::accessor_t<T, bool>& accessor)
+        void MeasurementConfigReadVisitor<T>::map_to_binary(const YAML::Node& node, const util::accessor_t<T, bool>& accessor)
         {
             const auto index = util::yaml::require_integer<uint16_t>(node, util::keys::index);
             const auto negate = util::yaml::require(node, util::keys::negate).as<bool>();
@@ -215,7 +215,7 @@ namespace dnp3 {
         }
 
         template <class T>
-        void SubscribingConfigReadVisitor<T>::map_to_analog(const YAML::Node& node, const util::accessor_t<T, float>& accessor)
+        void MeasurementConfigReadVisitor<T>::map_to_analog(const YAML::Node& node, const util::accessor_t<T, float>& accessor)
         {
             const auto index = util::yaml::require_integer<uint16_t>(node, util::keys::index);
             const auto scale = util::yaml::require(node, util::keys::scale).as<float>();
@@ -239,7 +239,7 @@ namespace dnp3 {
         }
 
         template <class T>
-        void SubscribingConfigReadVisitor<T>::map_to_analog(const YAML::Node& node, const util::accessor_t<T, int64_t>& accessor)
+        void MeasurementConfigReadVisitor<T>::map_to_analog(const YAML::Node& node, const util::accessor_t<T, int64_t>& accessor)
         {
             const auto index = util::yaml::require_integer<uint16_t>(node, util::keys::index);
             const auto scale = util::yaml::require(node, util::keys::scale).as<float>();
@@ -263,7 +263,7 @@ namespace dnp3 {
         }
 
         template <class T>
-        void SubscribingConfigReadVisitor<T>::map_to_counter(const YAML::Node& node, const util::accessor_t<T, int64_t>& accessor)
+        void MeasurementConfigReadVisitor<T>::map_to_counter(const YAML::Node& node, const util::accessor_t<T, int64_t>& accessor)
         {
             const auto index = util::yaml::require_integer<uint16_t>(node, util::keys::index);
 
@@ -282,7 +282,7 @@ namespace dnp3 {
         }
 
         template <class T>
-        void SubscribingConfigReadVisitor<T>::map_to_binary(const YAML::Node& node, const util::accessor_t<T, int>& accessor, google::protobuf::EnumDescriptor const* descriptor)
+        void MeasurementConfigReadVisitor<T>::map_to_binary(const YAML::Node& node, const util::accessor_t<T, int>& accessor, google::protobuf::EnumDescriptor const* descriptor)
         {
             const auto index = util::yaml::require_integer<uint16_t>(node, util::keys::index);
 
@@ -317,7 +317,7 @@ namespace dnp3 {
         }
 
         template <class T>
-        void SubscribingConfigReadVisitor<T>::map_to_analog(const YAML::Node& node, const util::accessor_t<T, int>& accessor, google::protobuf::EnumDescriptor const* descriptor)
+        void MeasurementConfigReadVisitor<T>::map_to_analog(const YAML::Node& node, const util::accessor_t<T, int>& accessor, google::protobuf::EnumDescriptor const* descriptor)
         {
             const auto index = util::yaml::require_integer<uint16_t>(node, util::keys::index);
 

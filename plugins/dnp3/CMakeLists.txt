@@ -37,6 +37,7 @@ set(DNP3_SOURCES
         src/dnp3/outstation/CommandHandler.h
         src/dnp3/outstation/CommandHandler.cpp
         src/dnp3/outstation/ICommandConfig.h
+        src/dnp3/outstation/ControlConfigReadVisitor.h
         src/dnp3/outstation/ControlConfigWriteVisitor.cpp
         src/dnp3/outstation/ControlConfigWriteVisitor.h
         src/dnp3/outstation/PluginFactory.cpp
@@ -44,9 +45,9 @@ set(DNP3_SOURCES
         src/dnp3/outstation/Plugin.cpp
         src/dnp3/outstation/PointTracker.h
         src/dnp3/outstation/PointTracker.cpp
+        src/dnp3/outstation/MeasurementConfigReadVisitor.h
         src/dnp3/outstation/MeasurementConfigWriteVisitor.h
         src/dnp3/outstation/MeasurementConfigWriteVisitor.cpp
-        src/dnp3/outstation/SubscribingConfigReadVisitor.h
         src/dnp3/outstation/SubscriptionTypes.h
         src/dnp3/outstation/SubscriptionHandler.h
         # generated enums

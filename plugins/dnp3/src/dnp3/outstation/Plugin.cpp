@@ -11,8 +11,9 @@
 #include "dnp3/ConfigStrings.h"
 
 #include "CommandHandler.h"
+#include "ControlConfigReadVisitor.h"
+#include "MeasurementConfigReadVisitor.h"
 #include "PointTracker.h"
-#include "SubscribingConfigReadVisitor.h"
 #include "SubscriptionHandler.h"
 
 using namespace openpal;
@@ -35,14 +36,15 @@ namespace dnp3 {
             static return_t<util::profile_info<U>::is_control>
             handle(const YAML::Node& node, const api::Logger& logger, const api::message_bus_t& bus, PointTracker& tracker, ICommandConfig& config, delayed_sub_vector_t& subscriptions)
             {
-                throw api::Exception("DNP3 outstation plugin doesn't support control profiles");
+                ControlConfigReadVisitor<U> visitor(util::yaml::require(node, util::keys::mapping), config);
+                util::visit(visitor);
             }
 
             template <class U = T>
             static return_t<!util::profile_info<U>::is_control>
             handle(const YAML::Node& node, const api::Logger& logger, const api::message_bus_t& bus, PointTracker& tracker, ICommandConfig& config, delayed_sub_vector_t& subscriptions)
             {
-                SubscribingConfigReadVisitor<U> visitor(util::yaml::require(node, util::keys::mapping), tracker);
+                MeasurementConfigReadVisitor<U> visitor(util::yaml::require(node, util::keys::mapping), tracker);
                 util::visit(visitor);
                 subscriptions.push_back(
                     [handlers = visitor.get_handlers(), mrid = visitor.get_primary_mrid()](const api::message_bus_t& bus, const std::shared_ptr<asiodnp3::IOutstation>& outstation) {
