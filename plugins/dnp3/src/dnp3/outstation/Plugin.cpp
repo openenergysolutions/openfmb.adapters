@@ -33,14 +33,14 @@ namespace dnp3 {
 
             template <class U = T>
             static return_t<util::profile_info<U>::is_control>
-            handle(const YAML::Node& node, const api::Logger& logger, const api::message_bus_t& bus, PointTracker& tracker, CommandHandler& handler, delayed_sub_vector_t& subscriptions)
+            handle(const YAML::Node& node, const api::Logger& logger, const api::message_bus_t& bus, PointTracker& tracker, ICommandConfig& config, delayed_sub_vector_t& subscriptions)
             {
                 throw api::Exception("DNP3 outstation plugin doesn't support control profiles");
             }
 
             template <class U = T>
             static return_t<!util::profile_info<U>::is_control>
-            handle(const YAML::Node& node, const api::Logger& logger, const api::message_bus_t& bus, PointTracker& tracker, CommandHandler& handler, delayed_sub_vector_t& subscriptions)
+            handle(const YAML::Node& node, const api::Logger& logger, const api::message_bus_t& bus, PointTracker& tracker, ICommandConfig& config, delayed_sub_vector_t& subscriptions)
             {
                 SubscribingConfigReadVisitor<U> visitor(util::yaml::require(node, util::keys::mapping), tracker);
                 util::visit(visitor);

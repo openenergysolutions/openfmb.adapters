@@ -4,10 +4,10 @@
 
 #include <opendnp3/outstation/ICommandHandler.h>
 
-#include <adapter-api/IPublisher.h>
-
 #include <functional>
 #include <map>
+
+#include "ICommandConfig.h"
 
 namespace adapter {
 
@@ -15,10 +15,7 @@ namespace dnp3 {
 
     namespace outstation {
 
-        class CommandHandler final : public opendnp3::ICommandHandler {
-
-            using crob_handler_t = std::function<opendnp3::CommandStatus(api::IPublisher& publisher, const opendnp3::ControlRelayOutputBlock& crob)>;
-            using ao_handler_t = std::function<opendnp3::CommandStatus(api::IPublisher& publisher, const opendnp3::AnalogOutputDouble64& value)>; // All set-point types converted to double type
+        class CommandHandler final : public opendnp3::ICommandHandler, public ICommandConfig {
 
             const api::publisher_t publisher;
 
@@ -55,11 +52,11 @@ namespace dnp3 {
             opendnp3::CommandStatus Operate(const opendnp3::AnalogOutputDouble64& command, uint16_t index,
                                             opendnp3::OperateType opType) override;
 
-            /**** Helpers for configuring ****/
+            /**** Implement ICommandConfig ****/
 
-            void add_handler(uint16_t index, const crob_handler_t& handler);
+            void add_handler(uint16_t index, const crob_handler_t& handler) override;
 
-            void add_handler(uint16_t index, const ao_handler_t& handler);
+            void add_handler(uint16_t index, const ao_handler_t& handler) override;
 
         protected:
             void Start() override {}
