@@ -7,10 +7,10 @@
 #include <adapter-util/util/YAMLTemplate.h>
 
 #include <opendnp3/LogLevels.h>
-#include <opendnp3/outstation/SimpleCommandHandler.h>
 
 #include "dnp3/ConfigStrings.h"
 
+#include "CommandHandler.h"
 #include "PointTracker.h"
 #include "SubscribingConfigReadVisitor.h"
 #include "SubscriptionHandler.h"
@@ -33,14 +33,14 @@ namespace dnp3 {
 
             template <class U = T>
             static return_t<util::profile_info<U>::is_control>
-            handle(const YAML::Node& node, const api::Logger& logger, const api::message_bus_t& bus, PointTracker& tracker, delayed_sub_vector_t& subscriptions)
+            handle(const YAML::Node& node, const api::Logger& logger, const api::message_bus_t& bus, PointTracker& tracker, CommandHandler& handler, delayed_sub_vector_t& subscriptions)
             {
                 throw api::Exception("DNP3 outstation plugin doesn't support control profiles");
             }
 
             template <class U = T>
             static return_t<!util::profile_info<U>::is_control>
-            handle(const YAML::Node& node, const api::Logger& logger, const api::message_bus_t& bus, PointTracker& tracker, delayed_sub_vector_t& subscriptions)
+            handle(const YAML::Node& node, const api::Logger& logger, const api::message_bus_t& bus, PointTracker& tracker, CommandHandler& handler, delayed_sub_vector_t& subscriptions)
             {
                 SubscribingConfigReadVisitor<U> visitor(util::yaml::require(node, util::keys::mapping), tracker);
                 util::visit(visitor);
@@ -81,6 +81,8 @@ namespace dnp3 {
 
             PointTracker tracker;
 
+            const auto command_handler = std::make_shared<CommandHandler>(bus);
+
             // TODO - configure other outstation parameters
 
             // configure all the profiles for this outstation
@@ -93,6 +95,7 @@ namespace dnp3 {
                         logger,
                         bus,
                         tracker,
+                        *command_handler,
                         subscriptions);
                 });
 
@@ -105,8 +108,7 @@ namespace dnp3 {
 
             const auto outstation = channel->AddOutstation(
                 util::yaml::require_string(node, util::keys::name),
-                // TODO - use an actual command handler once we support commands
-                std::make_shared<opendnp3::SimpleCommandHandler>(opendnp3::CommandStatus::NOT_SUPPORTED),
+                command_handler,
                 std::make_shared<opendnp3::DefaultOutstationApplication>(),
                 config
 

@@ -34,6 +34,8 @@ set(DNP3_SOURCES
         src/dnp3/master/CommandSequenceExecutor.h
         src/dnp3/master/ICommandSequenceExecutor.h
         # outstation components
+        src/dnp3/outstation/CommandHandler.h
+        src/dnp3/outstation/CommandHandler.cpp
         src/dnp3/outstation/ControlConfigWriteVisitor.h
         src/dnp3/outstation/ControlConfigWriteVisitor.cpp
         src/dnp3/outstation/PluginFactory.cpp
