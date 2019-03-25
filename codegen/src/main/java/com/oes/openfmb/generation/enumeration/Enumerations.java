@@ -116,6 +116,15 @@ public class Enumerations {
 
         private final static Enumeration destinationType = sourceType.rename(Arrays.asList("Destination","Type"));
 
+        private final static Enumeration profileAction = new Enumeration(
+                Arrays.asList("Profile", "Action"),
+                Arrays.asList(
+                        Enumeration.entry("update", "update the DNP3 value"),
+                        Enumeration.entry("clear_and_update", "clear the profile, then update the DNP3 value"),
+                        Enumeration.entry("update_and_publish", "update the DNP3 value, publish the profile, then clear the profile")
+                )
+        );
+
         private final static Enumeration commandType = new Enumeration(
                 Arrays.asList("Command", "Type"),
                 Arrays.asList(
@@ -125,7 +134,7 @@ public class Enumerations {
         );
 
         private static List<Enumeration> enums() {
-            return Arrays.asList(sourceType, destinationType, commandType);
+            return Arrays.asList(sourceType, destinationType, commandType, profileAction);
         }
 
         private static final Path path = Paths.get("../plugins/dnp3/src/dnp3/generated");

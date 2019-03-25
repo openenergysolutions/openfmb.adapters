@@ -52,7 +52,10 @@ set(DNP3_SOURCES
         src/dnp3/generated/DestinationType.h
         src/dnp3/generated/DestinationType.cpp
         src/dnp3/generated/CommandType.h
-        src/dnp3/generated/CommandType.cpp)
+        src/dnp3/generated/CommandType.cpp
+        src/dnp3/generated/ProfileAction.h
+        src/dnp3/generated/ProfileAction.cpp
+        )
 
 set(DNP3_LIBS asiodnp3 asiopal opendnp3 openpal)
 

@@ -33,6 +33,7 @@ namespace dnp3 {
         constexpr const char* const binary_input = "binary-input";
         constexpr const char* const analog_input = "analog-input";
         constexpr const char* const counter = "counter";
+        constexpr const char* const action = "action";
     }
 }
 }
