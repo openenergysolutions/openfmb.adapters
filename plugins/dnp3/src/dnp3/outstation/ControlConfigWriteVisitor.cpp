@@ -31,10 +31,12 @@ namespace dnp3 {
             out << YAML::Key << util::keys::mapping;
             out << YAML::BeginSeq;
             out << YAML::BeginMap;
-            out << YAML::Key << ControlCodeMeta::latch_on << YAML::Value << true;
+            out << YAML::Key << ControlCodeMeta::label << YAML::Value << ControlCodeMeta::latch_on;
+            out << YAML::Key << util::keys::value << YAML::Value << true;
             out << YAML::EndMap;
             out << YAML::BeginMap;
-            out << YAML::Key << ControlCodeMeta::latch_off << YAML::Value << false;
+            out << YAML::Key << ControlCodeMeta::label << YAML::Value << ControlCodeMeta::latch_off;
+            out << YAML::Key << util::keys::value << YAML::Value << false;
             out << YAML::EndMap;
             out << YAML::EndSeq;
         }

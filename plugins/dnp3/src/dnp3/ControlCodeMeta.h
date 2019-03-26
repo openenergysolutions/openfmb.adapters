@@ -17,6 +17,8 @@ namespace dnp3 {
         constexpr static const char* const trip_pulse_on = "TRIP_PULSE_ON";
         constexpr static const char* const close_pulse_on = "CLOSE_PULSE_ON";
 
+        constexpr static const char* const label = "control_code";
+
         static std::string to_string(opendnp3::ControlCode code);
         static opendnp3::ControlCode from_string(const std::string& value);
     };

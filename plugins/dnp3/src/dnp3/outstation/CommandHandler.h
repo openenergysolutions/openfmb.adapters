@@ -18,12 +18,13 @@ namespace dnp3 {
         class CommandHandler final : public opendnp3::ICommandHandler, public ICommandConfig {
 
             const api::publisher_t publisher;
+            api::Logger logger;
 
             std::map<uint16_t, crob_handler_t> crob_map;
             std::map<uint16_t, ao_handler_t> ao_map;
 
         public:
-            explicit CommandHandler(const api::publisher_t& publisher);
+            explicit CommandHandler(const api::publisher_t& publisher, api::Logger logger);
 
             /**** Implement ICommandHandler ****/
 

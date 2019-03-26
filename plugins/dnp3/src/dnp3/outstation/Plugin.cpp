@@ -83,7 +83,7 @@ namespace dnp3 {
 
             PointTracker tracker;
 
-            const auto command_handler = std::make_shared<CommandHandler>(bus);
+            const auto command_handler = std::make_shared<CommandHandler>(bus, this->logger);
 
             // TODO - configure other outstation parameters
 

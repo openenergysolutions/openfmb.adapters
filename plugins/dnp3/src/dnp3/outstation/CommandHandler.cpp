@@ -9,8 +9,9 @@ namespace dnp3 {
 
     namespace outstation {
 
-        CommandHandler::CommandHandler(const api::publisher_t& publisher)
+        CommandHandler::CommandHandler(const api::publisher_t& publisher, api::Logger logger)
             : publisher(publisher)
+            , logger(std::move(logger))
         {
         }
 
@@ -23,7 +24,7 @@ namespace dnp3 {
         CommandStatus CommandHandler::Operate(const ControlRelayOutputBlock& command, uint16_t index, OperateType /*opType*/)
         {
             const auto iter = this->crob_map.find(index);
-            return (iter == this->crob_map.end()) ? CommandStatus::NOT_SUPPORTED : iter->second(*this->publisher, command);
+            return (iter == this->crob_map.end()) ? CommandStatus::NOT_SUPPORTED : iter->second(*this->publisher, command, this->logger);
         }
 
         CommandStatus CommandHandler::Select(const AnalogOutputInt16& command, uint16_t index)
@@ -65,7 +66,7 @@ namespace dnp3 {
         CommandStatus CommandHandler::Operate(const AnalogOutputDouble64& command, uint16_t index, OperateType /*opType*/)
         {
             const auto iter = this->ao_map.find(index);
-            return (iter == this->ao_map.end()) ? CommandStatus::NOT_SUPPORTED : iter->second(*this->publisher, command);
+            return (iter == this->ao_map.end()) ? CommandStatus::NOT_SUPPORTED : iter->second(*this->publisher, command, this->logger);
         }
 
         void CommandHandler::add_handler(uint16_t index, const crob_handler_t& handler)
