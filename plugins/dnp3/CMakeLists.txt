@@ -38,6 +38,7 @@ set(DNP3_SOURCES
         src/dnp3/outstation/CommandHandler.cpp
         src/dnp3/outstation/ICommandConfig.h
         src/dnp3/outstation/ControlConfigReadVisitor.h
+        src/dnp3/outstation/ControlConfigReadVisitor.cpp
         src/dnp3/outstation/ControlConfigWriteVisitor.cpp
         src/dnp3/outstation/ControlConfigWriteVisitor.h
         src/dnp3/outstation/PluginFactory.cpp

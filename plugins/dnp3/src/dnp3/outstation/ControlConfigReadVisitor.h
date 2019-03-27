@@ -5,32 +5,18 @@
 #include <adapter-util/ProfileInfo.h>
 #include <adapter-util/config/PublishingConfigReadVisitorBase.h>
 #include <adapter-util/util/Time.h>
-#include <dnp3/ControlCodeMeta.h>
 
+#include "../ControlCodeMeta.h"
 #include "../generated/CommandType.h"
 #include "../generated/ProfileAction.h"
+#include "ICommandConfig.h"
 
 namespace adapter {
 namespace dnp3 {
     namespace outstation {
 
-        std::map<opendnp3::ControlCode, bool> read_bool_mapping(const YAML::Node& node)
-        {
-            std::map<opendnp3::ControlCode, bool> mapping;
-            util::yaml::foreach (
-                util::yaml::require(node, util::keys::mapping),
-                [&mapping](const YAML::Node& elem) {
-                    const auto code = ControlCodeMeta::from_string(util::yaml::require_string(elem, ControlCodeMeta::label));
-                    const auto value = util::yaml::require(elem, util::keys::value).as<bool>();
-
-                    if (mapping.find(code) != mapping.end()) {
-                        throw api::Exception(elem.Mark(), "Duplicate control code in mapping: ", ControlCodeMeta::to_string(code));
-                    }
-
-                    mapping[code] = value;
-                });
-            return mapping;
-        }
+        /// -----  Helper methods implemented in the cpp -------
+        std::map<opendnp3::ControlCode, bool> read_bool_mapping(const YAML::Node& node);
 
         template <class T>
         class ControlConfigReadVisitor final : public util::PublishingConfigReadVisitorBase<T> {
@@ -98,6 +84,15 @@ namespace dnp3 {
 
             void handle_mapped_float(const YAML::Node& node, const util::accessor_t<T, float>& accessor) override
             {
+                const auto command_type = util::yaml::require_enum<CommandType>(node);
+
+                switch (command_type) {
+                case (CommandType::Value::analog_output):
+                    this->handle_float_mapped_from_ao(node, accessor);
+                    break;
+                default:
+                    throw api::Exception(node.Mark(), "Unsupported command type for float: ", CommandType::to_string(command_type));
+                }
             }
 
             void handle_mapped_enum(const YAML::Node& node, const util::accessor_t<T, int>& accessor,
@@ -119,6 +114,9 @@ namespace dnp3 {
             void handle_bool_mapped_from_crob(const YAML::Node& node, const util::accessor_t<T, bool>& accessor)
             {
                 const auto action = util::yaml::require_enum<ProfileAction>(node);
+                if (action == ProfileAction::Value::none)
+                    return;
+
                 this->config.add_handler(
                     util::yaml::require_integer<uint16_t>(node, util::keys::index),
                     [action, accessor, data = this->shared_data, mapping = read_bool_mapping(node)](api::IPublisher& publisher, const opendnp3::ControlRelayOutputBlock& crob, api::Logger& logger) -> opendnp3::CommandStatus {
@@ -131,6 +129,27 @@ namespace dnp3 {
                         if (action == ProfileAction::Value::clear_and_update)
                             data->init();
                         accessor->set(data->profile, iter->second);
+                        if (action == ProfileAction::Value::update_and_publish) {
+                            publisher.publish(data->profile);
+                            data->init();
+                        }
+                    });
+            }
+
+            void handle_float_mapped_from_ao(const YAML::Node& node, const util::accessor_t<T, float>& accessor)
+            {
+                const auto action = util::yaml::require_enum<ProfileAction>(node);
+                if (action == ProfileAction::Value::none)
+                    return;
+
+                this->config.add_handler(
+                    util::yaml::require_integer<uint16_t>(node, util::keys::index),
+                    [action, accessor, data = this->shared_data, scale = util::yaml::require(node, util::keys::scale).as<double>()](api::IPublisher& publisher, const opendnp3::AnalogOutputDouble64& ao, api::Logger& logger) -> opendnp3::CommandStatus {
+                        // first determine if there's a mapping
+
+                        if (action == ProfileAction::Value::clear_and_update)
+                            data->init();
+                        accessor->set(data->profile, static_cast<float>(ao.value * scale));
                         if (action == ProfileAction::Value::update_and_publish) {
                             publisher.publish(data->profile);
                             data->init();

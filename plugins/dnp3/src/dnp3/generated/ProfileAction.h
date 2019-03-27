@@ -25,7 +25,9 @@ struct ProfileAction
 {
     enum class Value
     {
-        // update the profile value based on the DNP3 command
+        // perform no action
+        none,
+        // update the value
         update,
         // clear the profile, then update the value
         clear_and_update,
@@ -33,13 +35,14 @@ struct ProfileAction
         update_and_publish,
     };
 
+    static const char none[];
     static const char update[];
     static const char clear_and_update[];
     static const char update_and_publish[];
 
     static constexpr const char* label = "profile-action";
 
-    static const std::array<Value, 3> values;
+    static const std::array<Value, 4> values;
 
     static std::string to_string(Value value);
     static Value from_string(const std::string& name);

@@ -119,9 +119,10 @@ public class Enumerations {
         private final static Enumeration profileAction = new Enumeration(
                 Arrays.asList("Profile", "Action"),
                 Arrays.asList(
-                        Enumeration.entry("update", "update the DNP3 value"),
-                        Enumeration.entry("clear_and_update", "clear the profile, then update the DNP3 value"),
-                        Enumeration.entry("update_and_publish", "update the DNP3 value, publish the profile, then clear the profile")
+                        Enumeration.entry("none", "perform no action"),
+                        Enumeration.entry("update", "update the value"),
+                        Enumeration.entry("clear_and_update", "clear the profile, then update the value"),
+                        Enumeration.entry("update_and_publish", "update the value, publish the profile, then clear the profile")
                 )
         );
 

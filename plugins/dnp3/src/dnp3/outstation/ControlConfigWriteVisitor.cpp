@@ -23,7 +23,8 @@ namespace dnp3 {
 
         void ControlConfigWriteVisitor::write_mapped_bool_keys(YAML::Emitter& out)
         {
-            out << YAML::Key << ProfileAction::label << YAML::Value << ProfileAction::update;
+            out << YAML::Key << ProfileAction::label << YAML::Value << ProfileAction::none;
+            out << YAML::Comment(util::enumeration::get_value_set<ProfileAction>());
             out << YAML::Key << CommandType::label << YAML::Value << CommandType::crob;
             out << YAML::Comment(util::enumeration::get_value_set_from_list<CommandType>({ CommandType::Value::crob }));
             out << YAML::Key << util::keys::index << YAML::Value << 0;
@@ -53,7 +54,12 @@ namespace dnp3 {
 
         void ControlConfigWriteVisitor::write_mapped_float_keys(YAML::Emitter& out)
         {
-            //throw api::Exception("float mapping not supported in DNP3 outstation control profiles");
+            out << YAML::Key << ProfileAction::label << YAML::Value << ProfileAction::none;
+            out << YAML::Comment(util::enumeration::get_value_set<ProfileAction>());
+            out << YAML::Key << CommandType::label << YAML::Value << CommandType::analog_output;
+            out << YAML::Comment(util::enumeration::get_value_set_from_list<CommandType>({ CommandType::Value::analog_output }));
+            out << YAML::Key << util::keys::index << YAML::Value << 0;
+            out << YAML::Key << util::keys::scale << YAML::Value << 1.0;
         }
 
         void ControlConfigWriteVisitor::write_mapped_enum_keys(YAML::Emitter& out,
