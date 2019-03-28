@@ -11,8 +11,8 @@
 //  This file is auto-generated. Do not edit manually
 // 
 
-#ifndef OPENFMB_COMMANDTYPE_H
-#define OPENFMB_COMMANDTYPE_H
+#ifndef OPENFMB_COMMANDSOURCETYPE_H
+#define OPENFMB_COMMANDSOURCETYPE_H
 
 #include <string>
 #include <array>
@@ -21,22 +21,25 @@ namespace adapter {
 
 namespace dnp3 {
 
-struct CommandType
+struct CommandSourceType
 {
     enum class Value
     {
-        // the command is a ControlRelayOutputBlock
+        // not mapped
+        none,
+        // the value is mapped from a Control Relay Output Block (CROB)
         crob,
-        // the command is an AnalogOutout
+        // the value is mapped from an Analog Output (AO)
         analog_output,
     };
 
+    static const char none[];
     static const char crob[];
     static const char analog_output[];
 
-    static constexpr const char* label = "command-type";
+    static constexpr const char* label = "command-source-type";
 
-    static const std::array<Value, 2> values;
+    static const std::array<Value, 3> values;
 
     static std::string to_string(Value value);
     static Value from_string(const std::string& name);

@@ -22,6 +22,25 @@ namespace dnp3 {
                 });
             return mapping;
         }
+
+        std::map<int, int> read_enum_mapping(const YAML::Node& node, google::protobuf::EnumDescriptor const* descriptor)
+        {
+            std::map<int, int> mapping;
+            util::yaml::foreach (
+                util::yaml::require(node, util::keys::mapping),
+                [&mapping, descriptor](const YAML::Node& elem) {
+                    const auto name = util::yaml::require_string(elem, util::keys::name);
+                    const auto value = util::yaml::require_integer<int>(elem, util::keys::value);
+
+                    const auto enum_value = descriptor->FindValueByName(name);
+                    if (!enum_value) {
+                        throw api::Exception(elem, "Undefined value: ", value, " for enum: ", descriptor->name());
+                    }
+
+                    mapping[value] = enum_value->number();
+                });
+            return mapping;
+        }
     }
 }
 }

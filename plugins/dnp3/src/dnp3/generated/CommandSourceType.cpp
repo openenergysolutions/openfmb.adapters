@@ -11,7 +11,7 @@
 //  This file is auto-generated. Do not edit manually
 // 
 
-#include "CommandType.h"
+#include "CommandSourceType.h"
 
 #include "adapter-api/Exception.h"
 
@@ -21,33 +21,37 @@ namespace adapter {
 
 namespace dnp3 {
 
-const char CommandType::crob[] = "crob";
-const char CommandType::analog_output[] = "analog_output";
+const char CommandSourceType::none[] = "none";
+const char CommandSourceType::crob[] = "crob";
+const char CommandSourceType::analog_output[] = "analog_output";
 
-const std::array<CommandType::Value, 2> CommandType::values =
+const std::array<CommandSourceType::Value, 3> CommandSourceType::values =
 {
-    CommandType::Value::crob,
-    CommandType::Value::analog_output,
+    CommandSourceType::Value::none,
+    CommandSourceType::Value::crob,
+    CommandSourceType::Value::analog_output,
 };
 
-std::string CommandType::to_string(CommandType::Value value)
+std::string CommandSourceType::to_string(CommandSourceType::Value value)
 {
     switch(value)
     {
+        case(Value::none): return none;
         case(Value::crob): return crob;
         default: return analog_output;
     }
 }
 
-CommandType::Value CommandType::from_string(const std::string& name)
+CommandSourceType::Value CommandSourceType::from_string(const std::string& name)
 {
     static const std::map<std::string, Value> map = 
     {
+        {none, Value::none},
         {crob, Value::crob},
         {analog_output, Value::analog_output},
     };
     const auto elem = map.find(name);
-    if(elem == map.end()) throw api::Exception("Unknown value name '", name, "' for enum CommandType");
+    if(elem == map.end()) throw api::Exception("Unknown value name '", name, "' for enum CommandSourceType");
     return elem->second;
 }
 

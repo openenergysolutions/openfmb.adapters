@@ -7,7 +7,7 @@
 #include <adapter-util/util/Time.h>
 
 #include "../ControlCodeMeta.h"
-#include "../generated/CommandType.h"
+#include "../generated/CommandSourceType.h"
 #include "../generated/ProfileAction.h"
 #include "ICommandConfig.h"
 
@@ -16,7 +16,12 @@ namespace dnp3 {
     namespace outstation {
 
         /// -----  Helper methods implemented in the cpp -------
+
+        // convert from dnp3 control code to boolean
         std::map<opendnp3::ControlCode, bool> read_bool_mapping(const YAML::Node& node);
+
+        // convert from DNP3 AO value to raw enum value
+        std::map<int, int> read_enum_mapping(const YAML::Node& node, google::protobuf::EnumDescriptor const* descriptor);
 
         template <class T>
         class ControlConfigReadVisitor final : public util::PublishingConfigReadVisitorBase<T> {
@@ -24,7 +29,11 @@ namespace dnp3 {
             struct SharedData {
 
             public:
-                T profile;
+                template <class V>
+                void set(const util::accessor_t<T, V>& accessor, V value)
+                {
+                    accessor->set(this->profile, value);
+                }
 
                 void init()
                 {
@@ -33,10 +42,14 @@ namespace dnp3 {
                         action(profile);
                 }
 
-                void complete()
+                void publish(api::IPublisher& publisher)
                 {
                     for (const auto& action : complete_actions)
                         action(profile);
+
+                    publisher.publish(profile);
+
+                    init();
                 }
 
                 void add_init_action(const std::function<void(T&)>& action)
@@ -50,6 +63,7 @@ namespace dnp3 {
                 }
 
             private:
+                T profile;
                 std::vector<std::function<void(T&)>> init_actions;
                 std::vector<std::function<void(T&)>> complete_actions;
             };
@@ -63,14 +77,16 @@ namespace dnp3 {
         protected:
             void handle_mapped_bool(const YAML::Node& node, const util::accessor_t<T, bool>& accessor) override
             {
-                const auto command_type = util::yaml::require_enum<CommandType>(node);
+                const auto command_type = util::yaml::require_enum<CommandSourceType>(node);
 
                 switch (command_type) {
-                case (CommandType::Value::crob):
+                case CommandSourceType::Value::none:
+                    break;
+                case CommandSourceType::Value::crob:
                     this->handle_bool_mapped_from_crob(node, accessor);
                     break;
                 default:
-                    throw api::Exception(node.Mark(), "Unsupported command type for boolean: ", CommandType::to_string(command_type));
+                    throw api::Exception(node.Mark(), "Unsupported command type for boolean: ", CommandSourceType::to_string(command_type));
                 }
             }
 
@@ -84,20 +100,33 @@ namespace dnp3 {
 
             void handle_mapped_float(const YAML::Node& node, const util::accessor_t<T, float>& accessor) override
             {
-                const auto command_type = util::yaml::require_enum<CommandType>(node);
+                const auto command_type = util::yaml::require_enum<CommandSourceType>(node);
 
                 switch (command_type) {
-                case (CommandType::Value::analog_output):
+                case CommandSourceType::Value::none:
+                    break;
+                case CommandSourceType::Value::analog_output:
                     this->handle_float_mapped_from_ao(node, accessor);
                     break;
                 default:
-                    throw api::Exception(node.Mark(), "Unsupported command type for float: ", CommandType::to_string(command_type));
+                    throw api::Exception(node.Mark(), "Unsupported command type for float: ", CommandSourceType::to_string(command_type));
                 }
             }
 
             void handle_mapped_enum(const YAML::Node& node, const util::accessor_t<T, int>& accessor,
                                     google::protobuf::EnumDescriptor const* descriptor) override
             {
+                const auto command_type = util::yaml::require_enum<CommandSourceType>(node);
+
+                switch (command_type) {
+                case CommandSourceType::Value::none:
+                    break;
+                case CommandSourceType::Value::analog_output:
+                    this->handle_enum_mapped_from_ao(node, accessor, descriptor);
+                    break;
+                default:
+                    throw api::Exception(node.Mark(), "Unsupported command type for float: ", CommandSourceType::to_string(command_type));
+                }
             }
 
             void add_message_init_action(const std::function<void(T&)>& action) override
@@ -114,8 +143,6 @@ namespace dnp3 {
             void handle_bool_mapped_from_crob(const YAML::Node& node, const util::accessor_t<T, bool>& accessor)
             {
                 const auto action = util::yaml::require_enum<ProfileAction>(node);
-                if (action == ProfileAction::Value::none)
-                    return;
 
                 this->config.add_handler(
                     util::yaml::require_integer<uint16_t>(node, util::keys::index),
@@ -123,15 +150,17 @@ namespace dnp3 {
                         // first determine if there's a mapping
                         const auto iter = mapping.find(crob.functionCode);
                         if (iter == mapping.end()) {
+                            logger.info("No enum mapping for CROB function: ", crob.rawCode);
                             return opendnp3::CommandStatus::NOT_SUPPORTED;
                         }
 
                         if (action == ProfileAction::Value::clear_and_update)
                             data->init();
-                        accessor->set(data->profile, iter->second);
+
+                        data->set(accessor, iter->second);
+
                         if (action == ProfileAction::Value::update_and_publish) {
-                            publisher.publish(data->profile);
-                            data->init();
+                            data->publish(publisher);
                         }
                     });
             }
@@ -139,20 +168,40 @@ namespace dnp3 {
             void handle_float_mapped_from_ao(const YAML::Node& node, const util::accessor_t<T, float>& accessor)
             {
                 const auto action = util::yaml::require_enum<ProfileAction>(node);
-                if (action == ProfileAction::Value::none)
-                    return;
 
                 this->config.add_handler(
                     util::yaml::require_integer<uint16_t>(node, util::keys::index),
                     [action, accessor, data = this->shared_data, scale = util::yaml::require(node, util::keys::scale).as<double>()](api::IPublisher& publisher, const opendnp3::AnalogOutputDouble64& ao, api::Logger& logger) -> opendnp3::CommandStatus {
-                        // first determine if there's a mapping
-
                         if (action == ProfileAction::Value::clear_and_update)
                             data->init();
-                        accessor->set(data->profile, static_cast<float>(ao.value * scale));
+                        data->set(accessor, static_cast<float>(ao.value * scale));
                         if (action == ProfileAction::Value::update_and_publish) {
-                            publisher.publish(data->profile);
+                            data->publish(publisher);
+                        }
+                    });
+            }
+
+            void handle_enum_mapped_from_ao(const YAML::Node& node, const util::accessor_t<T, int>& accessor, google::protobuf::EnumDescriptor const* descriptor)
+            {
+                const auto action = util::yaml::require_enum<ProfileAction>(node);
+
+                this->config.add_handler(
+                    util::yaml::require_integer<uint16_t>(node, util::keys::index),
+                    [action, accessor, data = this->shared_data, mapping = read_enum_mapping(node, descriptor)](api::IPublisher& publisher, const opendnp3::AnalogOutputDouble64& ao, api::Logger& logger) -> opendnp3::CommandStatus {
+                        // first determine if there's a mapping
+                        const auto value = static_cast<int>(ao.value);
+                        const auto iter = mapping.find(value);
+                        if (iter == mapping.end()) {
+                            logger.info("No enum mapping for AO value: ", value);
+                            return opendnp3::CommandStatus::NOT_SUPPORTED;
+                        }
+
+                        if (action == ProfileAction::Value::clear_and_update) {
                             data->init();
+                        }
+                        data->set(accessor, iter->second);
+                        if (action == ProfileAction::Value::update_and_publish) {
+                            data->publish(publisher);
                         }
                     });
             }
