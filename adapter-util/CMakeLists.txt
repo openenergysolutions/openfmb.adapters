@@ -120,12 +120,7 @@ if(OPENFMB_USE_CONAN)
 
 target_link_libraries(adapter-util PUBLIC
     adapter-api
-    CONAN_PKG::boost_algorithm
-    CONAN_PKG::boost_iostreams
-    CONAN_PKG::boost_lexical_cast
-    CONAN_PKG::boost_numeric_conversion
-    CONAN_PKG::boost_uuid
-    CONAN_PKG::yaml-cpp)
+    CONAN_PKG::boost)
 
 else()
 

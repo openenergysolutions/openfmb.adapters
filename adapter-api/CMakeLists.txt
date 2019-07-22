@@ -18,19 +18,19 @@ SET(CPP_FORMAT_DIRS
     PARENT_SCOPE
 )
 
-add_library(adapter-api ${API_HEADERS})
+add_library(adapter-api INTERFACE)
 
 if(OPENFMB_USE_CONAN)
 
-target_link_libraries(adapter-api PUBLIC proto-api )
+target_link_libraries(adapter-api INTERFACE proto-api CONAN_PKG::yaml-cpp)
 
 else()
 
-target_link_libraries(adapter-api PUBLIC proto-api libyaml-cpp.a)
+target_link_libraries(adapter-api INTERFACE proto-api libyaml-cpp.a)
 
 endif()
 
-target_include_directories(adapter-api PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
-target_include_directories(adapter-api PUBLIC ${CMAKE_SOURCE_DIR}/deps/spdlog/include)
+target_include_directories(adapter-api INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_include_directories(adapter-api INTERFACE ${CMAKE_SOURCE_DIR}/deps/spdlog/include)
 clang_tidy(adapter-api)
 
