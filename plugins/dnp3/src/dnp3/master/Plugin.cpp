@@ -1,8 +1,7 @@
 
 #include "Plugin.h"
 
-#include <asiodnp3/DefaultMasterApplication.h>
-#include <asiodnp3/PrintingSOEHandler.h>
+#include <opendnp3/master/DefaultMasterApplication.h>
 #include <opendnp3/LogLevels.h>
 
 #include <adapter-util/ConfigStrings.h>
@@ -20,9 +19,7 @@
 
 #include <stdexcept>
 
-using namespace openpal;
 using namespace opendnp3;
-using namespace asiodnp3;
 
 namespace adapter {
 namespace dnp3 {
@@ -146,10 +143,12 @@ namespace dnp3 {
             return this->manager.AddTCPClient(
                 util::yaml::require_string(node, util::keys::name),
                 opendnp3::levels::NORMAL,
-                asiopal::ChannelRetry::Default(),
-                util::yaml::require_string(channel, keys::outstation_ip),
+                ChannelRetry::Default(),
+                { IPEndpoint{
+                    util::yaml::require_string(channel, keys::outstation_ip),
+                    util::yaml::require_integer<uint16_t>(channel, keys::port)
+                } },
                 util::yaml::require_string(channel, keys::adapter),
-                util::yaml::require_integer<uint16_t>(channel, keys::port),
                 nullptr // no channel listener
             );
         }

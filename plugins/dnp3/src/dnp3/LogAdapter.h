@@ -3,14 +3,14 @@
 #define OPENFMB_ADAPTER_LOGADAPTER_H
 
 #include <opendnp3/LogLevels.h>
-#include <openpal/logging/ILogHandler.h>
+#include <log4cpp/ILogHandler.h>
 
 #include <adapter-api/Logger.h>
 
 namespace adapter {
 namespace dnp3 {
 
-    class LogAdapter final : public openpal::ILogHandler {
+    class LogAdapter final : public log4cpp::ILogHandler {
 
         api::Logger logger;
 
@@ -20,28 +20,14 @@ namespace dnp3 {
         {
         }
 
-        virtual void Log(const openpal::LogEntry& entry) override
+        virtual void log(log4cpp::ModuleId module, const char* id, log4cpp::LogLevel level, char const* location, char const* message)
         {
-            switch (entry.filters.GetBitfield()) {
-            case (opendnp3::flags::DBG):
-                logger.debug("[{}] - {}", entry.loggerid, entry.message);
-                break;
-            case (opendnp3::flags::INFO):
-                logger.info("[{}] - {}", entry.loggerid, entry.message);
-                break;
-            case (opendnp3::flags::WARN):
-                logger.warn("[{}] - {}", entry.loggerid, entry.message);
-                break;
-            case (opendnp3::flags::ERR):
-                logger.error("[{}] - {}", entry.loggerid, entry.message);
-                break;
-            case (opendnp3::flags::EVENT):
-                logger.critical("[{}] - {}", entry.loggerid, entry.message);
-                break;
-            default:
-                logger.info("[{}] - {}", entry.loggerid, entry.message);
-                break;
-            }
+            if(level == opendnp3::flags::DBG) logger.debug("[{}] - {}", id, message);
+            else if(level == opendnp3::flags::INFO) logger.info("[{}] - {}", id, message);
+            else if(level == opendnp3::flags::WARN) logger.warn("[{}] - {}", id, message);
+            else if(level == opendnp3::flags::ERR) logger.error("[{}] - {}", id, message);
+            else if(level == opendnp3::flags::EVENT) logger.critical("[{}] - {}", id, message);
+            else logger.info("[{}] - {}", id, message);
         }
     };
 }

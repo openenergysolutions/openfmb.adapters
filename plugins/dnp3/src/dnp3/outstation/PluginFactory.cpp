@@ -93,7 +93,7 @@ namespace dnp3 {
             out << YAML::Key << keys::master_address << YAML::Value << 1;
             out << YAML::Key << keys::outstation_address << YAML::Value << 10;
             out << YAML::Key << keys::enable_unsolicited << YAML::Value << config.allowUnsolicited;
-            out << YAML::Key << keys::confirm_timeout_ms << YAML::Value << config.unsolConfirmTimeout.milliseconds;
+            out << YAML::Key << keys::confirm_timeout_ms << YAML::Value << std::chrono::duration_cast<std::chrono::milliseconds>(config.unsolConfirmTimeout.value).count();
 
             out << YAML::Key << keys::default_static_variations;
             out << YAML::BeginMap;

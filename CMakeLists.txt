@@ -60,6 +60,7 @@ add_subdirectory(./plugins/capture)
 add_subdirectory(./plugins/replay)
 
 if(OPENFMB_USE_DNP3)
+  add_subdirectory(./deps/opendnp3)
   add_subdirectory(./plugins/dnp3)
 endif()
 

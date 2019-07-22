@@ -19,7 +19,7 @@ namespace dnp3 {
                  Something that can start a DNP3 command operation given the interface and the callback
             */
         using command_action_t = std::function<void(opendnp3::ICommandProcessor&,
-                                                    const opendnp3::CommandCallbackT& callback)>;
+                                                    const opendnp3::CommandResultCallbackT& callback)>;
 
         class PrioritizedCommand {
         public:
@@ -35,7 +35,7 @@ namespace dnp3 {
             }
 
             void begin_execute(opendnp3::ICommandProcessor& processor,
-                               const opendnp3::CommandCallbackT& callback) const
+                               const opendnp3::CommandResultCallbackT& callback) const
             {
                 action(processor, callback);
             }

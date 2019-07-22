@@ -3,7 +3,7 @@
 
 #include <adapter-api/IPluginFactory.h>
 
-#include <asiodnp3/DNP3Manager.h>
+#include <opendnp3/DNP3Manager.h>
 
 namespace adapter {
 namespace dnp3 {
@@ -17,7 +17,7 @@ namespace dnp3 {
 
     protected:
         api::Logger logger;
-        asiodnp3::DNP3Manager manager;
+        opendnp3::DNP3Manager manager;
     };
 }
 }

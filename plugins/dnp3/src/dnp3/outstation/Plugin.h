@@ -9,8 +9,8 @@ namespace dnp3 {
 
         class Plugin final : public PluginBase {
 
-            using channel_t = std::shared_ptr<asiodnp3::IChannel>;
-            using outstation_t = std::shared_ptr<asiodnp3::IOutstation>;
+            using channel_t = std::shared_ptr<opendnp3::IChannel>;
+            using outstation_t = std::shared_ptr<opendnp3::IOutstation>;
 
         public:
             Plugin() = delete;

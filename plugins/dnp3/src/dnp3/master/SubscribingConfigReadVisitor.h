@@ -23,7 +23,7 @@ namespace dnp3 {
                     const auto control = Control::read(node);
 
                     const auto action = [crob = control.crob, index = control.index](
-                                            opendnp3::ICommandProcessor& processor, const opendnp3::CommandCallbackT& callback) {
+                                            opendnp3::ICommandProcessor& processor, const opendnp3::CommandResultCallbackT& callback) {
                         processor.DirectOperate(crob, index, callback);
                     };
 

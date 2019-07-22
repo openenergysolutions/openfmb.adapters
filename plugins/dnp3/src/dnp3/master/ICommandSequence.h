@@ -24,7 +24,7 @@ namespace dnp3 {
                      * @return true, if there was a command to execute, false otherwise
                      */
             virtual bool
-            begin_execute(opendnp3::ICommandProcessor& processor, const opendnp3::CommandCallbackT& callback)
+            begin_execute(opendnp3::ICommandProcessor& processor, const opendnp3::CommandResultCallbackT& callback)
                 = 0;
         };
     }

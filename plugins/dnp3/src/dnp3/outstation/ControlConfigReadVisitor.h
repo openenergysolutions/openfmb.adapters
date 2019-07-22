@@ -90,11 +90,11 @@ namespace dnp3 {
                 }
             }
 
-            void handle_mapped_int32(const YAML::Node& node, const util::accessor_t<T, int>& accessor) override
+            void handle_mapped_int32(const YAML::Node& node, const util::accessor_t<T, int32_t>& accessor) override
             {
             }
 
-            void handle_mapped_int64(const YAML::Node& node, const util::accessor_t<T, long>& accessor) override
+            void handle_mapped_int64(const YAML::Node& node, const util::accessor_t<T, int64_t>& accessor) override
             {
             }
 
@@ -162,6 +162,8 @@ namespace dnp3 {
                         if (action == ProfileAction::Value::update_and_publish) {
                             data->publish(publisher);
                         }
+
+                        return opendnp3::CommandStatus::SUCCESS;
                     });
             }
 
@@ -178,6 +180,7 @@ namespace dnp3 {
                         if (action == ProfileAction::Value::update_and_publish) {
                             data->publish(publisher);
                         }
+                        return opendnp3::CommandStatus::SUCCESS;
                     });
             }
 
@@ -203,6 +206,7 @@ namespace dnp3 {
                         if (action == ProfileAction::Value::update_and_publish) {
                             data->publish(publisher);
                         }
+                        return opendnp3::CommandStatus::SUCCESS;
                     });
             }
         };

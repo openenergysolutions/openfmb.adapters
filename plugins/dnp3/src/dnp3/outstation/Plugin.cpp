@@ -7,24 +7,23 @@
 #include <adapter-util/util/YAMLTemplate.h>
 
 #include <opendnp3/LogLevels.h>
+#include <opendnp3/outstation/DatabaseConfig.h>
+#include <opendnp3/outstation/DefaultOutstationApplication.h>
 
 #include "dnp3/ConfigStrings.h"
 
 #include "CommandHandler.h"
 #include "ControlConfigReadVisitor.h"
 #include "MeasurementConfigReadVisitor.h"
-#include "PointTracker.h"
 #include "SubscriptionHandler.h"
 
-using namespace openpal;
 using namespace opendnp3;
-using namespace asiodnp3;
 
 namespace adapter {
 namespace dnp3 {
     namespace outstation {
 
-        using delayed_sub_t = std::function<void(const api::message_bus_t& bus, const std::shared_ptr<asiodnp3::IOutstation>& outstation)>;
+        using delayed_sub_t = std::function<void(const api::message_bus_t& bus, const std::shared_ptr<IOutstation>& outstation)>;
         using delayed_sub_vector_t = std::vector<delayed_sub_t>;
 
         template <class T>
@@ -34,20 +33,21 @@ namespace dnp3 {
 
             template <class U = T>
             static return_t<util::profile_info<U>::is_control>
-            handle(const YAML::Node& node, const api::Logger& logger, const api::message_bus_t& bus, PointTracker& tracker, ICommandConfig& config, delayed_sub_vector_t& subscriptions)
+            handle(const YAML::Node& node, const api::Logger& logger, const api::message_bus_t& bus, DatabaseConfig& db_config, ICommandConfig& config, delayed_sub_vector_t& subscriptions)
             {
                 ControlConfigReadVisitor<U> visitor(util::yaml::require(node, util::keys::mapping), config);
                 util::visit(visitor);
+                return true;
             }
 
             template <class U = T>
             static return_t<!util::profile_info<U>::is_control>
-            handle(const YAML::Node& node, const api::Logger& logger, const api::message_bus_t& bus, PointTracker& tracker, ICommandConfig& config, delayed_sub_vector_t& subscriptions)
+            handle(const YAML::Node& node, const api::Logger& logger, const api::message_bus_t& bus, DatabaseConfig& db_config, ICommandConfig& config, delayed_sub_vector_t& subscriptions)
             {
-                MeasurementConfigReadVisitor<U> visitor(util::yaml::require(node, util::keys::mapping), tracker);
+                MeasurementConfigReadVisitor<U> visitor(util::yaml::require(node, util::keys::mapping), db_config);
                 util::visit(visitor);
                 subscriptions.push_back(
-                    [handlers = visitor.get_handlers(), mrid = visitor.get_primary_mrid()](const api::message_bus_t& bus, const std::shared_ptr<asiodnp3::IOutstation>& outstation) {
+                    [handlers = visitor.get_handlers(), mrid = visitor.get_primary_mrid()](const api::message_bus_t& bus, const std::shared_ptr<IOutstation>& outstation) {
                         bus->subscribe(std::make_shared<SubscriptionHandler<T>>(mrid, outstation, handlers));
                     });
                 return true;
@@ -81,7 +81,7 @@ namespace dnp3 {
 
             delayed_sub_vector_t subscriptions;
 
-            PointTracker tracker;
+            DatabaseConfig db_config;
 
             const auto command_handler = std::make_shared<CommandHandler>(bus, this->logger);
 
@@ -96,12 +96,12 @@ namespace dnp3 {
                         node,
                         logger,
                         bus,
-                        tracker,
+                        db_config,
                         *command_handler,
                         subscriptions);
                 });
 
-            OutstationStackConfig config(tracker.get_sizes());
+            OutstationStackConfig config(db_config);
 
             const auto protocol_node = util::yaml::require(node, keys::protocol);
 
@@ -111,9 +111,8 @@ namespace dnp3 {
             const auto outstation = channel->AddOutstation(
                 util::yaml::require_string(node, util::keys::name),
                 command_handler,
-                std::make_shared<opendnp3::DefaultOutstationApplication>(),
+                std::make_shared<DefaultOutstationApplication>(),
                 config
-
             );
 
             // TODO - configuration default static/event variations in the database
@@ -134,9 +133,11 @@ namespace dnp3 {
             return this->manager.AddTCPServer(
                 util::yaml::require_string(node, util::keys::name),
                 opendnp3::levels::NORMAL,
-                asiopal::ChannelRetry::Default(),
-                util::yaml::require_string(channel_node, keys::listen_adapter),
-                util::yaml::require_integer<uint16_t>(channel_node, keys::port),
+                ServerAcceptMode::CloseExisting,
+                IPEndpoint{
+                    util::yaml::require_string(channel_node, keys::listen_adapter),
+                    util::yaml::require_integer<uint16_t>(channel_node, keys::port)
+                },
                 nullptr // no channel listener
             );
         }
