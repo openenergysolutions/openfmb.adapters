@@ -1,5 +1,8 @@
 
 #include "ControlConfigReadVisitor.h"
+#include "dnp3/ConfigStrings.h"
+
+#include <opendnp3/gen/ControlCode.h>
 
 namespace adapter {
 namespace dnp3 {
@@ -11,11 +14,11 @@ namespace dnp3 {
             util::yaml::foreach (
                 util::yaml::require(node, util::keys::mapping),
                 [&mapping](const YAML::Node& elem) {
-                    const auto code = ControlCodeMeta::from_string(util::yaml::require_string(elem, ControlCodeMeta::label));
+                    const auto code = opendnp3::ControlCodeSpec::from_string(util::yaml::require_string(elem, keys::control_code));
                     const auto value = util::yaml::require(elem, util::keys::value).as<bool>();
 
                     if (mapping.find(code) != mapping.end()) {
-                        throw api::Exception(elem.Mark(), "Duplicate control code in mapping: ", ControlCodeMeta::to_string(code));
+                        throw api::Exception(elem.Mark(), "Duplicate control code in mapping: ", opendnp3::ControlCodeSpec::to_string(code));
                     }
 
                     mapping[code] = value;

@@ -2,6 +2,7 @@
 #define OPENFMB_ADAPTER_DNP3_OUTSTATION_PLUGIN_H
 
 #include "dnp3/PluginBase.h"
+#include "DefaultVariations.h"
 
 namespace adapter {
 namespace dnp3 {
@@ -30,8 +31,8 @@ namespace dnp3 {
             std::vector<outstation_t> outstations;
 
             // --- helper methods for creating resources ---
-
             channel_t create_channel(const YAML::Node& node);
+            DefaultVariations read_default_variations(const YAML::Node& node) const;
         };
     }
 }

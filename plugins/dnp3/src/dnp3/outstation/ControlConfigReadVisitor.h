@@ -6,7 +6,6 @@
 #include <adapter-util/config/PublishingConfigReadVisitorBase.h>
 #include <adapter-util/util/Time.h>
 
-#include "../ControlCodeMeta.h"
 #include "../generated/CommandSourceType.h"
 #include "../generated/ProfileAction.h"
 #include "ICommandConfig.h"

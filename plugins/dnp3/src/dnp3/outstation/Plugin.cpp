@@ -33,7 +33,7 @@ namespace dnp3 {
 
             template <class U = T>
             static return_t<util::profile_info<U>::is_control>
-            handle(const YAML::Node& node, const api::Logger& logger, const api::message_bus_t& bus, DatabaseConfig& db_config, ICommandConfig& config, delayed_sub_vector_t& subscriptions)
+            handle(const YAML::Node& node, const api::Logger& logger, const api::message_bus_t& bus, const DefaultVariations& default_var, DatabaseConfig& db_config, ICommandConfig& config, delayed_sub_vector_t& subscriptions)
             {
                 ControlConfigReadVisitor<U> visitor(util::yaml::require(node, util::keys::mapping), config);
                 util::visit(visitor);
@@ -42,9 +42,9 @@ namespace dnp3 {
 
             template <class U = T>
             static return_t<!util::profile_info<U>::is_control>
-            handle(const YAML::Node& node, const api::Logger& logger, const api::message_bus_t& bus, DatabaseConfig& db_config, ICommandConfig& config, delayed_sub_vector_t& subscriptions)
+            handle(const YAML::Node& node, const api::Logger& logger, const api::message_bus_t& bus, const DefaultVariations& default_var, DatabaseConfig& db_config, ICommandConfig& config, delayed_sub_vector_t& subscriptions)
             {
-                MeasurementConfigReadVisitor<U> visitor(util::yaml::require(node, util::keys::mapping), db_config);
+                MeasurementConfigReadVisitor<U> visitor(util::yaml::require(node, util::keys::mapping), default_var, db_config);
                 util::visit(visitor);
                 subscriptions.push_back(
                     [handlers = visitor.get_handlers(), mrid = visitor.get_primary_mrid()](const api::message_bus_t& bus, const std::shared_ptr<IOutstation>& outstation) {
@@ -81,6 +81,8 @@ namespace dnp3 {
 
             delayed_sub_vector_t subscriptions;
 
+            const auto protocol_node = util::yaml::require(node, keys::protocol);
+            DefaultVariations default_var = read_default_variations(protocol_node);
             DatabaseConfig db_config;
 
             const auto command_handler = std::make_shared<CommandHandler>(bus, this->logger);
@@ -96,14 +98,13 @@ namespace dnp3 {
                         node,
                         logger,
                         bus,
+                        default_var,
                         db_config,
                         *command_handler,
                         subscriptions);
                 });
 
             OutstationStackConfig config(db_config);
-
-            const auto protocol_node = util::yaml::require(node, keys::protocol);
 
             config.link.RemoteAddr = util::yaml::require_integer<uint16_t>(protocol_node, keys::master_address);
             config.link.LocalAddr = util::yaml::require_integer<uint16_t>(protocol_node, keys::outstation_address);
@@ -140,6 +141,25 @@ namespace dnp3 {
                 },
                 nullptr // no channel listener
             );
+        }
+
+        DefaultVariations Plugin::read_default_variations(const YAML::Node& node) const
+        {
+            const auto static_var_node = util::yaml::require(node, keys::default_static_variations);
+            const auto binary_static = opendnp3::StaticBinaryVariationSpec::from_string(util::yaml::require_string(static_var_node, keys::binary_input));
+            const auto analog_static = opendnp3::StaticAnalogVariationSpec::from_string(util::yaml::require_string(static_var_node, keys::analog_input));
+            const auto counter_static = opendnp3::StaticCounterVariationSpec::from_string(util::yaml::require_string(static_var_node, keys::counter));
+
+            const auto event_var_node = util::yaml::require(node, keys::default_event_variations);
+            const auto binary_event = opendnp3::EventBinaryVariationSpec::from_string(util::yaml::require_string(event_var_node, keys::binary_input));
+            const auto analog_event = opendnp3::EventAnalogVariationSpec::from_string(util::yaml::require_string(event_var_node, keys::analog_input));
+            const auto counter_event = opendnp3::EventCounterVariationSpec::from_string(util::yaml::require_string(event_var_node, keys::counter));
+
+            return DefaultVariations
+            {
+                binary_static, analog_static, counter_static,
+                binary_event, analog_event, counter_event
+            };
         }
     }
 }

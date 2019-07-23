@@ -9,6 +9,7 @@
 #include <opendnp3/outstation/DatabaseConfig.h>
 
 #include "../generated/DestinationType.h"
+#include "DefaultVariations.h"
 #include "SubscriptionTypes.h"
 
 namespace adapter {
@@ -57,10 +58,11 @@ namespace dnp3 {
         class MeasurementConfigReadVisitor final : public util::SubscribingConfigReadVisitorBase<T> {
 
             update_handler_vec_t<T> handlers;
+            DefaultVariations default_var;
             opendnp3::DatabaseConfig& db_config;
 
         public:
-            explicit MeasurementConfigReadVisitor(const YAML::Node& node, opendnp3::DatabaseConfig& db_config);
+            explicit MeasurementConfigReadVisitor(const YAML::Node& node, const DefaultVariations& default_var, opendnp3::DatabaseConfig& db_config);
 
             update_handler_vec_t<T> get_handlers();
 
@@ -93,8 +95,9 @@ namespace dnp3 {
         };
 
         template <class T>
-        MeasurementConfigReadVisitor<T>::MeasurementConfigReadVisitor(const YAML::Node& node, opendnp3::DatabaseConfig& db_config)
+        MeasurementConfigReadVisitor<T>::MeasurementConfigReadVisitor(const YAML::Node& node, const DefaultVariations& default_var, opendnp3::DatabaseConfig& db_config)
             : util::SubscribingConfigReadVisitorBase<T>(node)
+            , default_var(default_var)
             , db_config(db_config)
         {
         }
@@ -212,7 +215,10 @@ namespace dnp3 {
                         });
                 });
 
-            this->db_config.binary_input[index] = {};
+            opendnp3::BinaryConfig config{};
+            config.svariation = default_var.binary_static;
+            config.evariation = default_var.binary_event;
+            this->db_config.binary_input[index] = config;
         }
 
         template <class T>
@@ -236,7 +242,10 @@ namespace dnp3 {
                         });
                 });
 
-            this->db_config.analog_input[index] = {};
+            opendnp3::AnalogConfig config{};
+            config.svariation = default_var.analog_static;
+            config.evariation = default_var.analog_event;
+            this->db_config.analog_input[index] = config;
         }
 
         template <class T>
@@ -260,7 +269,10 @@ namespace dnp3 {
                         });
                 });
 
-            this->db_config.analog_input[index] = {};
+            opendnp3::AnalogConfig config{};
+            config.svariation = default_var.analog_static;
+            config.evariation = default_var.analog_event;
+            this->db_config.analog_input[index] = config;
         }
 
         template <class T>
@@ -279,7 +291,10 @@ namespace dnp3 {
                         });
                 });
 
-            this->db_config.counter[index] = {};
+            opendnp3::CounterConfig config{};
+            config.svariation = default_var.counter_static;
+            config.evariation = default_var.counter_event;
+            this->db_config.counter[index] = config;
         }
 
         template <class T>
@@ -314,7 +329,10 @@ namespace dnp3 {
                         });
                 });
 
-            this->db_config.binary_input[index] = {};
+            opendnp3::BinaryConfig config{};
+            config.svariation = default_var.binary_static;
+            config.evariation = default_var.binary_event;
+            this->db_config.binary_input[index] = config;
         }
 
         template <class T>
@@ -349,7 +367,10 @@ namespace dnp3 {
                         });
                 });
 
-            this->db_config.analog_input[index] = {};
+            opendnp3::AnalogConfig config{};
+            config.svariation = default_var.analog_static;
+            config.evariation = default_var.analog_event;
+            this->db_config.analog_input[index] = config;
         }
     }
 }
