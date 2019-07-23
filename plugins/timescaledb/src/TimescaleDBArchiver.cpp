@@ -95,6 +95,7 @@ namespace timescaledb {
                        << "'" << message->profile_name + "',";
 
                 bool first = true;
+                bool found_column = false;
                 for (auto &item : message->items) {
                     std::string value;
                     std::string column;
@@ -110,6 +111,8 @@ namespace timescaledb {
                         values << value;
 
                         first = false;
+
+                        found_column = true;
                     }
                 }
 
@@ -122,16 +125,18 @@ namespace timescaledb {
 
                 oss << " ON CONFLICT DO NOTHING";
 
-                auto result = m_connection->exec(oss.str().c_str());
-                if (result.is_successful()) {
-                    m_logger.info("Successfully inserted {} row(s) into {}.", result.get_num_rows(), m_table_name);
-                } else {
-                    m_logger.error("PostgreSQL request failed: {}", result.get_error());
+                if (found_column) {
+                    auto result = m_connection->exec(oss.str().c_str());
+                    if (result.is_successful()) {
+                        m_logger.info("Successfully inserted {} row(s) into {}.", result.get_num_rows(), m_table_name);
+                    } else {
+                        m_logger.error("PostgreSQL request failed: {}", result.get_error());
 
-                    // The value is put back in front for reprocessing
-                    auto successfully_pushed = m_queue.push_front(std::move(message));
-                    if (!successfully_pushed) {
-                        m_logger.warn("Buffer is full, the last message won't be reprocessed.");
+                        // The value is put back in front for reprocessing
+                        auto successfully_pushed = m_queue.push_front(std::move(message));
+                        if (!successfully_pushed) {
+                            m_logger.warn("Buffer is full, the last message won't be reprocessed.");
+                        }
                     }
                 }
             }
