@@ -41,8 +41,11 @@ namespace dnp3 {
 
         void SOEHandler::begin_fragment(const opendnp3::ResponseInfo& info)
         {
-            for (auto& action : this->start_handlers)
-                action();
+            if(info.fir)
+            {
+                for (auto& action : this->start_handlers)
+                    action();
+            }
         }
 
         void SOEHandler::end_fragment(const opendnp3::ResponseInfo& info)
