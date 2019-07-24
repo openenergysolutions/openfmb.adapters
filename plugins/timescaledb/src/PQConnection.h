@@ -19,6 +19,7 @@ namespace timescaledb {
         bool connect();
         bool is_connected() const;
         PQResult exec(const char* query);
+        PQResult exec(const char* query, char *binary, size_t size);
 
     private:
         PGconn* m_conn;
