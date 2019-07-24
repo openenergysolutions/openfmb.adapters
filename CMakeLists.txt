@@ -26,6 +26,7 @@ option(OPENFMB_USE_GOOSE "Build the GOOSE plugin" ON)
 option(OPENFMB_USE_MQTT "Build the MQTT plugin" ON)
 option(OPENFMB_USE_NATS "Build the NATS plugin" ON)
 option(OPENFMB_USE_TWINOAKS_DDS "Build the Twin Oaks DDS plugin" OFF)
+option(OPENFMB_USE_RTI_DDS "Build the RTI DDS plugin" OFF)
 option(OPENFMB_USE_TIMESCALEDB "Build the historian using TimescaleDB" ON)
 option(OPENFMB_LINK_STATIC "Link dependencies statically where possible" OFF)
 
@@ -77,6 +78,10 @@ endif()
 if(OPENFMB_USE_TWINOAKS_DDS)
   add_subdirectory(./plugins/dds/twinoaks)
   add_subdirectory(./plugins/dds/twinoaks/test)
+endif()
+
+if(OPENFMB_USE_RTI_DDS)
+  add_subdirectory(./plugins/dds/rti)
 endif()
 
 if(OPENFMB_USE_MQTT)
