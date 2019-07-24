@@ -88,7 +88,12 @@ struct Handler {
 
     static void handle(IModelVisitor& visitor)
     {
-        visit<P>(visitor);
+        try {
+            visit<P>(visitor);
+        }
+        catch(const Exception& ex) {
+            throw Exception("In profile ", P::descriptor()->name(), ", ", ex.what());
+        }
     }
 
 };
