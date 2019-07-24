@@ -27,11 +27,11 @@ struct SourceType
     {
         // the field is disabled
         none,
-        // the field value is derived from a DNP3 binary
+        // the field value is mapped to a DNP3 binary input
         binary,
-        // the field value is derived from a DNP3 analog
+        // the field value is derived to a DNP3 analog input
         analog,
-        // the field value is derived from a DNP3 counter
+        // the field value is derived to a DNP3 counter
         counter,
     };
 

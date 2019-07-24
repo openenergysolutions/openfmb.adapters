@@ -19,7 +19,7 @@ target_include_directories(test-adapter-util PRIVATE ${CMAKE_SOURCE_DIR}/deps/ca
 target_include_directories(test-adapter-util PRIVATE ../src)
 
 if(OPENFMB_USE_CONAN)
-    target_link_libraries(test-adapter-util PRIVATE adapter-util CONAN_PKG::boost_variant)
+    target_link_libraries(test-adapter-util PRIVATE adapter-util CONAN_PKG::boost)
 else()
     target_link_libraries(test-adapter-util PRIVATE adapter-util)
 endif()

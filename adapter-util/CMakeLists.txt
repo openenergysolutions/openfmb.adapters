@@ -72,6 +72,8 @@ set(SOURCES
 # typed model visitors
 	src/config/generated/MeterReadingProfileTypedModelVisitor.cpp
 	src/config/generated/BreakerReadingProfileTypedModelVisitor.cpp
+	src/config/generated/BreakerStatusProfileTypedModelVisitor.cpp
+	src/config/generated/BreakerDiscreteControlProfileTypedModelVisitor.cpp
 	src/config/generated/SwitchReadingProfileTypedModelVisitor.cpp
 	src/config/generated/SwitchStatusProfileTypedModelVisitor.cpp
 	src/config/generated/SwitchControlProfileTypedModelVisitor.cpp
@@ -118,12 +120,7 @@ if(OPENFMB_USE_CONAN)
 
 target_link_libraries(adapter-util PUBLIC
     adapter-api
-    CONAN_PKG::boost_algorithm
-    CONAN_PKG::boost_iostreams
-    CONAN_PKG::boost_lexical_cast
-    CONAN_PKG::boost_numeric_conversion
-    CONAN_PKG::boost_uuid
-    CONAN_PKG::yaml-cpp)
+    CONAN_PKG::boost)
 
 else()
 

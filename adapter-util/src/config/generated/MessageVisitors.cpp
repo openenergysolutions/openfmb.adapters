@@ -6,7 +6,13 @@ namespace util {
 
 void visit(const breakermodule::Breaker& message, IMessageVisitor& visitor);
 
+void visit(const breakermodule::BreakerDiscreteControl& message, IMessageVisitor& visitor);
+
+void visit(const breakermodule::BreakerDiscreteControlXCBR& message, IMessageVisitor& visitor);
+
 void visit(const breakermodule::BreakerReading& message, IMessageVisitor& visitor);
+
+void visit(const breakermodule::BreakerStatus& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::ACDCTerminal& message, IMessageVisitor& visitor);
 
@@ -99,6 +105,8 @@ void visit(const commonmodule::ReadingMessageInfo& message, IMessageVisitor& vis
 void visit(const commonmodule::ScheduleCSG& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::SchedulePoint& message, IMessageVisitor& visitor);
+
+void visit(const commonmodule::StatusAndEventXCBR& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::StatusDPS& message, IMessageVisitor& visitor);
 
@@ -240,6 +248,44 @@ void visit(const breakermodule::Breaker& message, IMessageVisitor& visitor)
     }
 }
 
+void visit(const breakermodule::BreakerDiscreteControl& message, IMessageVisitor& visitor)
+{
+    if(message.has_controlvalue())
+    {
+        visitor.start_message_field("controlValue");
+        visit(message.controlvalue(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_check())
+    {
+        visitor.start_message_field("check");
+        visit(message.check(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_breakerdiscretecontrolxcbr())
+    {
+        visitor.start_message_field("breakerDiscreteControlXCBR");
+        visit(message.breakerdiscretecontrolxcbr(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const breakermodule::BreakerDiscreteControlXCBR& message, IMessageVisitor& visitor)
+{
+    if(message.has_logicalnodeforcontrol())
+    {
+        visitor.start_message_field("logicalNodeForControl");
+        visit(message.logicalnodeforcontrol(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_pos())
+    {
+        visitor.start_message_field("Pos");
+        visit(message.pos(), visitor);
+        visitor.end_message_field();
+    }
+}
+
 void visit(const breakermodule::BreakerReading& message, IMessageVisitor& visitor)
 {
     if(message.has_conductingequipmentterminalreading())
@@ -270,6 +316,22 @@ void visit(const breakermodule::BreakerReading& message, IMessageVisitor& visito
     {
         visitor.start_message_field("readingMMXU");
         visit(message.readingmmxu(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const breakermodule::BreakerStatus& message, IMessageVisitor& visitor)
+{
+    if(message.has_statusvalue())
+    {
+        visitor.start_message_field("statusValue");
+        visit(message.statusvalue(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_statusandeventxcbr())
+    {
+        visitor.start_message_field("statusAndEventXCBR");
+        visit(message.statusandeventxcbr(), visitor);
         visitor.end_message_field();
     }
 }
@@ -1081,6 +1143,28 @@ void visit(const commonmodule::SchedulePoint& message, IMessageVisitor& visitor)
     {
         visitor.start_message_field("startTime");
         visit(message.starttime(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const commonmodule::StatusAndEventXCBR& message, IMessageVisitor& visitor)
+{
+    if(message.has_logicalnodeforeventandstatus())
+    {
+        visitor.start_message_field("logicalNodeForEventAndStatus");
+        visit(message.logicalnodeforeventandstatus(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_dynamictest())
+    {
+        visitor.start_message_field("DynamicTest");
+        visit(message.dynamictest(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_pos())
+    {
+        visitor.start_message_field("Pos");
+        visit(message.pos(), visitor);
         visitor.end_message_field();
     }
 }
@@ -2719,6 +2803,34 @@ void visit(const switchmodule::SwitchStatusProfile& message, IMessageVisitor& vi
     }
 }
 
+void visit(const breakermodule::BreakerStatusProfile& message, IMessageVisitor& visitor)
+{
+    if(message.has_statusmessageinfo())
+    {
+        visitor.start_message_field("statusMessageInfo");
+        visit(message.statusmessageinfo(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_breaker())
+    {
+        visitor.start_message_field("breaker");
+        visit(message.breaker(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_breakerstatus())
+    {
+        visitor.start_message_field("breakerStatus");
+        visit(message.breakerstatus(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_ied())
+    {
+        visitor.start_message_field("ied");
+        visit(message.ied(), visitor);
+        visitor.end_message_field();
+    }
+}
+
 void visit(const essmodule::ESSStatusProfile& message, IMessageVisitor& visitor)
 {
     if(message.has_statusmessageinfo())
@@ -2827,6 +2939,34 @@ void visit(const solarmodule::SolarReadingProfile& message, IMessageVisitor& vis
     {
         visitor.start_message_field("solarReading");
         visit(message.solarreading(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const breakermodule::BreakerDiscreteControlProfile& message, IMessageVisitor& visitor)
+{
+    if(message.has_controlmessageinfo())
+    {
+        visitor.start_message_field("controlMessageInfo");
+        visit(message.controlmessageinfo(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_breaker())
+    {
+        visitor.start_message_field("breaker");
+        visit(message.breaker(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_breakerdiscretecontrol())
+    {
+        visitor.start_message_field("breakerDiscreteControl");
+        visit(message.breakerdiscretecontrol(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_ied())
+    {
+        visitor.start_message_field("ied");
+        visit(message.ied(), visitor);
         visitor.end_message_field();
     }
 }

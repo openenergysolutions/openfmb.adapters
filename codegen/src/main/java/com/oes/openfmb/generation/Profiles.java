@@ -2,6 +2,8 @@ package com.oes.openfmb.generation;
 
 import com.google.protobuf.Descriptors;
 import openfmb.breakermodule.BreakerReadingProfile;
+import openfmb.breakermodule.BreakerStatusProfile;
+import openfmb.breakermodule.BreakerDiscreteControlProfile;
 import openfmb.essmodule.ESSControlProfile;
 import openfmb.essmodule.ESSReadingProfile;
 import openfmb.essmodule.ESSStatusProfile;
@@ -35,6 +37,8 @@ public class Profiles {
                         MeterReadingProfile.getDescriptor(),
                         // breaker
                         BreakerReadingProfile.getDescriptor(),
+                        BreakerStatusProfile.getDescriptor(),
+                        BreakerDiscreteControlProfile.getDescriptor(),
                         // switch
                         SwitchReadingProfile.getDescriptor(),
                         SwitchStatusProfile.getDescriptor(),

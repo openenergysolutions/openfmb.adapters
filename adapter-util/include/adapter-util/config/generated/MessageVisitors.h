@@ -34,6 +34,8 @@ void visit(const loadmodule::LoadStatusProfile& message, IMessageVisitor& visito
 
 void visit(const switchmodule::SwitchStatusProfile& message, IMessageVisitor& visitor);
 
+void visit(const breakermodule::BreakerStatusProfile& message, IMessageVisitor& visitor);
+
 void visit(const essmodule::ESSStatusProfile& message, IMessageVisitor& visitor);
 
 void visit(const solarmodule::SolarStatusProfile& message, IMessageVisitor& visitor);
@@ -41,6 +43,8 @@ void visit(const solarmodule::SolarStatusProfile& message, IMessageVisitor& visi
 void visit(const loadmodule::LoadReadingProfile& message, IMessageVisitor& visitor);
 
 void visit(const solarmodule::SolarReadingProfile& message, IMessageVisitor& visitor);
+
+void visit(const breakermodule::BreakerDiscreteControlProfile& message, IMessageVisitor& visitor);
 
 void visit(const loadmodule::LoadControlProfile& message, IMessageVisitor& visitor);
 

@@ -104,26 +104,38 @@ public class Enumerations {
 
     private static class DNP3 {
 
-        private final static Enumeration source = new Enumeration(
+        private final static Enumeration sourceType = new Enumeration(
                 Arrays.asList("Source", "Type"),
                 Arrays.asList(
                         Enumeration.entry("none", "the field is disabled"),
-                        Enumeration.entry("binary", "the field value is derived from a DNP3 binary"),
-                        Enumeration.entry("analog", "the field value is derived from a DNP3 analog"),
-                        Enumeration.entry("counter", "the field value is derived from a DNP3 counter")
+                        Enumeration.entry("binary", "the field value is mapped to a DNP3 binary input"),
+                        Enumeration.entry("analog", "the field value is derived to a DNP3 analog input"),
+                        Enumeration.entry("counter", "the field value is derived to a DNP3 counter")
                 )
         );
 
-        private final static Enumeration commandType = new Enumeration(
-                Arrays.asList("Command", "Type"),
+        private final static Enumeration destinationType = sourceType.rename(Arrays.asList("Destination","Type"));
+
+        private final static Enumeration profileAction = new Enumeration(
+                Arrays.asList("Profile", "Action"),
                 Arrays.asList(
-                        Enumeration.entry("crob", "the command is a ControlRelayOutputBlock"),
-                        Enumeration.entry("analog_output", "the command is an AnalogOutout")
+                        Enumeration.entry("update", "update the value"),
+                        Enumeration.entry("clear_and_update", "clear the profile, then update the value"),
+                        Enumeration.entry("update_and_publish", "update the value, publish the profile, then clear the profile")
+                )
+        );
+
+        private final static Enumeration commandSourceType = new Enumeration(
+                Arrays.asList("Command", "Source", "Type"),
+                Arrays.asList(
+                        Enumeration.entry("none", "not mapped"),
+                        Enumeration.entry("crob", "the value is mapped from a Control Relay Output Block (CROB)"),
+                        Enumeration.entry("analog_output", "the value is mapped from an Analog Output (AO)")
                 )
         );
 
         private static List<Enumeration> enums() {
-            return Arrays.asList(source, commandType);
+            return Arrays.asList(sourceType, destinationType, commandSourceType, profileAction);
         }
 
         private static final Path path = Paths.get("../plugins/dnp3/src/dnp3/generated");
