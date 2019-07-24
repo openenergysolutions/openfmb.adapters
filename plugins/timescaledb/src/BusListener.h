@@ -10,11 +10,15 @@
 #include "IArchiver.h"
 #include "Message.h"
 
+#include "adapter-api/ISubscriptionHandler.h"
+
+#include <boost/numeric/conversion/cast.hpp>
 #include <boost/uuid/uuid_generators.hpp>
 #include <deque>
 #include <memory>
 #include <sstream>
 #include <string>
+#include <google/protobuf/util/json_util.h>
 
 namespace adapter {
 namespace timescaledb {
@@ -153,6 +157,27 @@ namespace timescaledb {
             auto message = std::make_unique<Message>(message_uuid, timestamp, device_uuid);
             ProtoMessageVisitor visitor(Proto::descriptor()->name(), *message);
             visit(proto, visitor);
+
+            message->profile_name = Proto::descriptor()->name();
+
+            if (m_archiver->store_raw_message_enabled()) {
+
+                if (m_archiver->raw_message_format() == 0) { // Json format
+                    google::protobuf::util::Status status = google::protobuf::util::MessageToJsonString(proto, &message->json_data);
+
+                } else if (m_archiver->raw_message_format() == 1) { // Protobuf format
+                    const auto size_int = proto.ByteSize();
+                    const auto size = boost::numeric_cast<size_t>(size_int);
+
+                    message->raw_data = std::make_unique<char[]>(size);
+                    message->raw_data_size = size;
+
+                    if (!proto.SerializeToArray(message->raw_data.get(), size_int)) {
+                        m_logger.error("Failed to serialize protobuf message of type: {}", Proto::descriptor()->name());
+                        return;
+                    }
+                }
+            }
 
             // Save the message
             this->m_archiver->save(std::move(message));

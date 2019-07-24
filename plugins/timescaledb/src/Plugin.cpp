@@ -20,7 +20,11 @@ namespace timescaledb {
         : m_logger{ logger }
         , m_archiver{ std::make_shared<TimescaleDBArchiver>(logger,
                                                             util::yaml::require_string(node, keys::database_url),
+                                                            util::yaml::require(node, keys::store_measurement).as<bool>(),
                                                             util::yaml::require_string(node, keys::table_name),
+                                                            util::yaml::require(node, keys::store_raw_message).as<bool>(),
+                                                            util::yaml::require_string(node, keys::raw_table_name),
+                                                            util::yaml::require(node, keys::raw_data_format).as<int>(),
                                                             util::yaml::require(node, keys::max_queued_messages).as<size_t>(),
                                                             std::chrono::seconds(util::yaml::require(node, keys::connect_retry_seconds).as<uint32_t>())) }
     {

@@ -23,5 +23,27 @@ namespace timescaledb {
         auto res = PQexec(m_conn, query);
         return PQResult{ res };
     }
+
+    PQResult PQConnection::exec(const char* query, char *binary, size_t size)
+    {
+        const char *paramValues[1];
+        int paramLengths[1];
+        int paramFormats[1];
+
+        paramValues[0] = binary;
+        paramLengths[0] = size;
+        paramFormats[0] = 1;
+
+        auto res = PQexecParams(m_conn,
+                query,
+                1, // One parameter
+                NULL,
+                paramValues,
+                paramLengths,
+                paramFormats,
+                0);
+
+        return PQResult{ res };
+    }
 }
 }
