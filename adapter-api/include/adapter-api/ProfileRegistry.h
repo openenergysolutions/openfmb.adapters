@@ -2,12 +2,16 @@
 #ifndef OPENFMB_ADAPTER_PROFILEREGISTRY_H
 #define OPENFMB_ADAPTER_PROFILEREGISTRY_H
 
+#include <proto-api/breakermodule/breakermodule.pb.h>
 #include <proto-api/essmodule/essmodule.pb.h>
+#include <proto-api/generationmodule/generationmodule.pb.h>
 #include <proto-api/loadmodule/loadmodule.pb.h>
 #include <proto-api/metermodule/metermodule.pb.h>
+#include <proto-api/reclosermodule/reclosermodule.pb.h>
+#include <proto-api/regulatormodule/regulatormodule.pb.h>
+#include <proto-api/resourcemodule/resourcemodule.pb.h>
 #include <proto-api/solarmodule/solarmodule.pb.h>
 #include <proto-api/switchmodule/switchmodule.pb.h>
-#include <proto-api/breakermodule/breakermodule.pb.h>
 
 #include "Exception.h"
 
@@ -80,22 +84,31 @@ namespace api {
      * This list is used by other components to automatically add support for profiles.
      */
     using ProfileRegistry = impl::ProfileList<
-        metermodule::MeterReadingProfile,
-        switchmodule::SwitchReadingProfile,
-        switchmodule::SwitchStatusProfile,
-        switchmodule::SwitchControlProfile,
+        breakermodule::BreakerDiscreteControlProfile,
         breakermodule::BreakerReadingProfile,
         breakermodule::BreakerStatusProfile,
-        breakermodule::BreakerDiscreteControlProfile,
+        essmodule::ESSControlProfile,
         essmodule::ESSReadingProfile,
         essmodule::ESSStatusProfile,
-        essmodule::ESSControlProfile,
-        solarmodule::SolarReadingProfile,
-        solarmodule::SolarStatusProfile,
-        solarmodule::SolarControlProfile,
+        generationmodule::GenerationReadingProfile,
+        generationmodule::GenerationStatusProfile,
+        loadmodule::LoadControlProfile,
         loadmodule::LoadReadingProfile,
         loadmodule::LoadStatusProfile,
-        loadmodule::LoadControlProfile>;
+        metermodule::MeterReadingProfile,
+        reclosermodule::RecloserControlProfile,
+        reclosermodule::RecloserDiscreteControlProfile,
+        reclosermodule::RecloserStatusProfile,
+        regulatormodule::RegulatorStatusProfile,
+        resourcemodule::ResourceReadingProfile,
+        solarmodule::SolarControlProfile,
+        solarmodule::SolarReadingProfile,
+        solarmodule::SolarStatusProfile,
+        switchmodule::SwitchControlProfile,
+        switchmodule::SwitchDiscreteControlProfile,
+        switchmodule::SwitchReadingProfile,
+        switchmodule::SwitchStatusProfile
+        >;
 }
 }
 
