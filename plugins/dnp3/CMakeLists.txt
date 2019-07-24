@@ -6,12 +6,8 @@ set(DNP3_PUBLIC_HEADERS
 set(DNP3_SOURCES
         src/dnp3/ConfigStrings.h
         src/dnp3/LogAdapter.h
-        src/dnp3/ControlCodeMeta.h
-        src/dnp3/ControlCodeMeta.cpp
         src/dnp3/PluginBase.h
         src/dnp3/PluginBase.cpp
-        src/dnp3/VariationToString.h
-        src/dnp3/VariationToString.cpp
         # master components
         src/dnp3/master/Control.h
         src/dnp3/master/Control.cpp
@@ -41,11 +37,10 @@ set(DNP3_SOURCES
         src/dnp3/outstation/ControlConfigReadVisitor.cpp
         src/dnp3/outstation/ControlConfigWriteVisitor.cpp
         src/dnp3/outstation/ControlConfigWriteVisitor.h
+        src/dnp3/outstation/DefaultVariations.h
         src/dnp3/outstation/PluginFactory.cpp
         src/dnp3/outstation/Plugin.h
         src/dnp3/outstation/Plugin.cpp
-        src/dnp3/outstation/PointTracker.h
-        src/dnp3/outstation/PointTracker.cpp
         src/dnp3/outstation/MeasurementConfigReadVisitor.h
         src/dnp3/outstation/MeasurementConfigWriteVisitor.h
         src/dnp3/outstation/MeasurementConfigWriteVisitor.cpp
@@ -62,10 +57,8 @@ set(DNP3_SOURCES
         src/dnp3/generated/ProfileAction.cpp
         )
 
-set(DNP3_LIBS asiodnp3 asiopal opendnp3 openpal)
-
 add_library(dnp3-plugin STATIC ${DNP3_SOURCES} ${DNP3_PUBLIC_HEADERS})
-target_link_libraries(dnp3-plugin PUBLIC adapter-util ${DNP3_LIBS})
+target_link_libraries(dnp3-plugin PUBLIC adapter-util opendnp3)
 target_include_directories(dnp3-plugin PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_include_directories(dnp3-plugin PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 clang_tidy(dnp3-plugin)

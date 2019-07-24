@@ -5,7 +5,7 @@
 
 #include "SOEHandler.h"
 
-#include <asiodnp3/DNP3Manager.h>
+#include <opendnp3/DNP3Manager.h>
 
 namespace adapter {
 namespace dnp3 {
@@ -13,8 +13,8 @@ namespace dnp3 {
 
         class Plugin final : public PluginBase {
 
-            using channel_t = std::shared_ptr<asiodnp3::IChannel>;
-            using master_t = std::shared_ptr<asiodnp3::IMaster>;
+            using channel_t = std::shared_ptr<opendnp3::IChannel>;
+            using master_t = std::shared_ptr<opendnp3::IMaster>;
 
         public:
             Plugin() = delete;

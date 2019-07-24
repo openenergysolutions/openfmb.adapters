@@ -60,9 +60,9 @@ namespace dnp3 {
             void add_handler(uint16_t index, const ao_handler_t& handler) override;
 
         protected:
-            void Start() override {}
+            void begin() override {}
 
-            void End() override {}
+            void end() override {}
         };
     }
 }

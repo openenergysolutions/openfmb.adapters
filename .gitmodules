@@ -16,3 +16,7 @@
 [submodule "deps/openfmb-schemas"]
 	path = deps/openfmb-schemas
 	url = https://github.com/openenergysolutions/openfmb-schemas.git
+[submodule "deps/opendnp3"]
+	path = deps/opendnp3
+	url = https://github.com/dnp3/opendnp3.git
+	branch = develop

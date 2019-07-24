@@ -42,7 +42,7 @@ namespace dnp3 {
             }
 
             bool begin_execute(opendnp3::ICommandProcessor& processor,
-                               const opendnp3::CommandCallbackT& callback) override
+                               const opendnp3::CommandResultCallbackT& callback) override
             {
                 if (queue.empty())
                     return false;

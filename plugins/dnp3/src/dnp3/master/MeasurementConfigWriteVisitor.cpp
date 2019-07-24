@@ -4,7 +4,6 @@
 #include "adapter-util/ConfigStrings.h"
 
 #include "dnp3/ConfigStrings.h"
-#include "dnp3/ControlCodeMeta.h"
 #include "dnp3/generated/SourceType.h"
 
 namespace adapter {

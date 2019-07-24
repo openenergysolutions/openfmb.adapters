@@ -39,16 +39,22 @@ namespace dnp3 {
             process_any(values, this->counter_handlers);
         }
 
-        void SOEHandler::Start()
+        void SOEHandler::begin_fragment(const opendnp3::ResponseInfo& info)
         {
-            for (auto& action : this->start_handlers)
-                action();
+            if(info.fir)
+            {
+                for (auto& action : this->start_handlers)
+                    action();
+            }
         }
 
-        void SOEHandler::End()
+        void SOEHandler::end_fragment(const opendnp3::ResponseInfo& info)
         {
-            for (auto& action : this->end_handlers)
-                action();
+            if(info.fin)
+            {
+                for (auto& action : this->end_handlers)
+                    action();
+            }
         }
 
         void SOEHandler::add_start_action(const IPublishConfigBuilder::action_t& action)

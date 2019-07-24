@@ -15,6 +15,10 @@ else()
   message("Conan support is disabled")
 endif()
 
+if(MSVC)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -bigobj")
+endif()
+
 # optionally disable certain plugins
 option(OPENFMB_USE_DNP3 "Build the DNP3 plugin" ON)
 option(OPENFMB_USE_MODBUS "Build the Modbus plugin" ON)
@@ -41,10 +45,10 @@ include(./cmake/ClangTidy.cmake)
 add_subdirectory(./proto-api)
 
 # API used by the plugins / application
-add_subdirectory(adapter-api)
+add_subdirectory(./adapter-api)
 
 # utility classes used to build the internals of plugins
-add_subdirectory(adapter-util)
+add_subdirectory(./adapter-util)
 
 # plugin that logs published messages
 add_subdirectory(./plugins/log)
@@ -56,6 +60,7 @@ add_subdirectory(./plugins/capture)
 add_subdirectory(./plugins/replay)
 
 if(OPENFMB_USE_DNP3)
+  add_subdirectory(./deps/opendnp3)
   add_subdirectory(./plugins/dnp3)
 endif()
 

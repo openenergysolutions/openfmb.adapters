@@ -6,9 +6,7 @@
 
 #include <adapter-util/util/YAMLUtil.h>
 
-using namespace openpal;
 using namespace opendnp3;
-using namespace asiodnp3;
 
 namespace adapter {
 namespace dnp3 {

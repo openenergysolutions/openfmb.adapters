@@ -94,9 +94,9 @@ namespace dnp3 {
             }
 
         private:
-            void Start() override;
+            void begin_fragment(const opendnp3::ResponseInfo& info) override;
 
-            void End() override;
+            void end_fragment(const opendnp3::ResponseInfo& info) override;
 
             std::vector<std::function<void()>> start_handlers;
 

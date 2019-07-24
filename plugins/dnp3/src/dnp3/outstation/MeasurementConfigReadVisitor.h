@@ -6,8 +6,10 @@
 #include <adapter-util/config/SubscribingConfigReadVisitorBase.h>
 #include <adapter-util/util/Time.h>
 
+#include <opendnp3/outstation/DatabaseConfig.h>
+
 #include "../generated/DestinationType.h"
-#include "PointTracker.h"
+#include "DefaultVariations.h"
 #include "SubscriptionTypes.h"
 
 namespace adapter {
@@ -26,12 +28,12 @@ namespace dnp3 {
             // the OpenFMB counter range (int64) exceeds the DNP3 range (uint32) so we have to do range checking
             if (value < 0) {
                 // a value < 0 is non sensical so map it 0 w/ a flag
-                return { 0, static_cast<uint8_t>(opendnp3::CounterQuality::DISCONTINUITY), convert(ts) };
+                return { 0, opendnp3::Flags(static_cast<uint8_t>(opendnp3::CounterQuality::DISCONTINUITY)), convert(ts) };
             } else if (value > max) {
                 // use the modulo here since that's what a DNP3 counter would have to do anyway
-                return { static_cast<uint32_t>(value % max), 0x01, convert(ts) };
+                return { static_cast<uint32_t>(value % max), opendnp3::Flags(0x01), convert(ts) };
             } else {
-                return { static_cast<uint32_t>(value), 0x01, convert(ts) };
+                return { static_cast<uint32_t>(value), opendnp3::Flags(0x01), convert(ts) };
             }
         }
 
@@ -56,10 +58,11 @@ namespace dnp3 {
         class MeasurementConfigReadVisitor final : public util::SubscribingConfigReadVisitorBase<T> {
 
             update_handler_vec_t<T> handlers;
-            PointTracker& tracker;
+            DefaultVariations default_var;
+            opendnp3::DatabaseConfig& db_config;
 
         public:
-            explicit MeasurementConfigReadVisitor(const YAML::Node& node, PointTracker& tracker);
+            explicit MeasurementConfigReadVisitor(const YAML::Node& node, const DefaultVariations& default_var, opendnp3::DatabaseConfig& db_config);
 
             update_handler_vec_t<T> get_handlers();
 
@@ -92,9 +95,10 @@ namespace dnp3 {
         };
 
         template <class T>
-        MeasurementConfigReadVisitor<T>::MeasurementConfigReadVisitor(const YAML::Node& node, PointTracker& tracker)
+        MeasurementConfigReadVisitor<T>::MeasurementConfigReadVisitor(const YAML::Node& node, const DefaultVariations& default_var, opendnp3::DatabaseConfig& db_config)
             : util::SubscribingConfigReadVisitorBase<T>(node)
-            , tracker(tracker)
+            , default_var(default_var)
+            , db_config(db_config)
         {
         }
 
@@ -194,10 +198,10 @@ namespace dnp3 {
         {
             const auto index = util::yaml::require_integer<uint16_t>(node, util::keys::index);
             const auto negate = util::yaml::require(node, util::keys::negate).as<bool>();
-            const auto process = negate ? [](bool value) { return !value; } : [](bool value) { return value; };
+            const auto process = negate ? std::function<bool(bool)>{[](bool value) { return !value; }} : std::function<bool(bool)>{[](bool value) { return value; }};
 
             this->handlers.push_back(
-                [index, process, accessor](asiodnp3::UpdateBuilder& builder, const T& profile) {
+                [index, process, accessor](opendnp3::UpdateBuilder& builder, const T& profile) {
                     accessor->if_present(
                         profile,
                         [&](bool value) {
@@ -211,7 +215,10 @@ namespace dnp3 {
                         });
                 });
 
-            this->tracker.add_binary(index);
+            opendnp3::BinaryConfig config{};
+            config.svariation = default_var.binary_static;
+            config.evariation = default_var.binary_event;
+            this->db_config.binary_input[index] = config;
         }
 
         template <class T>
@@ -221,7 +228,7 @@ namespace dnp3 {
             const auto scale = util::yaml::require(node, util::keys::scale).as<float>();
 
             this->handlers.push_back(
-                [index, scale, accessor](asiodnp3::UpdateBuilder& builder, const T& profile) {
+                [index, scale, accessor](opendnp3::UpdateBuilder& builder, const T& profile) {
                     accessor->if_present(
                         profile,
                         [&](float value) {
@@ -235,7 +242,10 @@ namespace dnp3 {
                         });
                 });
 
-            this->tracker.add_analog(index);
+            opendnp3::AnalogConfig config{};
+            config.svariation = default_var.analog_static;
+            config.evariation = default_var.analog_event;
+            this->db_config.analog_input[index] = config;
         }
 
         template <class T>
@@ -245,7 +255,7 @@ namespace dnp3 {
             const auto scale = util::yaml::require(node, util::keys::scale).as<float>();
 
             this->handlers.push_back(
-                [index, scale, accessor](asiodnp3::UpdateBuilder& builder, const T& profile) {
+                [index, scale, accessor](opendnp3::UpdateBuilder& builder, const T& profile) {
                     accessor->if_present(
                         profile,
                         [&](int64_t value) {
@@ -259,7 +269,10 @@ namespace dnp3 {
                         });
                 });
 
-            this->tracker.add_analog(index);
+            opendnp3::AnalogConfig config{};
+            config.svariation = default_var.analog_static;
+            config.evariation = default_var.analog_event;
+            this->db_config.analog_input[index] = config;
         }
 
         template <class T>
@@ -268,7 +281,7 @@ namespace dnp3 {
             const auto index = util::yaml::require_integer<uint16_t>(node, util::keys::index);
 
             this->handlers.push_back(
-                [index, accessor](asiodnp3::UpdateBuilder& builder, const T& profile) {
+                [index, accessor](opendnp3::UpdateBuilder& builder, const T& profile) {
                     accessor->if_present(
                         profile,
                         [&](int64_t value) {
@@ -278,7 +291,10 @@ namespace dnp3 {
                         });
                 });
 
-            this->tracker.add_counter(index);
+            opendnp3::CounterConfig config{};
+            config.svariation = default_var.counter_static;
+            config.evariation = default_var.counter_event;
+            this->db_config.counter[index] = config;
         }
 
         template <class T>
@@ -294,7 +310,7 @@ namespace dnp3 {
                 });
 
             this->handlers.push_back(
-                [index, accessor, map = std::move(mapping)](asiodnp3::UpdateBuilder& builder, const T& profile) {
+                [index, accessor, map = std::move(mapping)](opendnp3::UpdateBuilder& builder, const T& profile) {
                     accessor->if_present(
                         profile,
                         [&](int value) {
@@ -306,14 +322,17 @@ namespace dnp3 {
                                 builder.Update(
                                     opendnp3::Binary(
                                         iter->second,
-                                        0x01,
+                                        opendnp3::Flags(0x01),
                                         convert(util::profile_info<T>::get_message_info(profile).messagetimestamp())),
                                     index);
                             }
                         });
                 });
 
-            this->tracker.add_binary(index);
+            opendnp3::BinaryConfig config{};
+            config.svariation = default_var.binary_static;
+            config.evariation = default_var.binary_event;
+            this->db_config.binary_input[index] = config;
         }
 
         template <class T>
@@ -329,7 +348,7 @@ namespace dnp3 {
                 });
 
             this->handlers.push_back(
-                [index, accessor, map = std::move(mapping)](asiodnp3::UpdateBuilder& builder, const T& profile) {
+                [index, accessor, map = std::move(mapping)](opendnp3::UpdateBuilder& builder, const T& profile) {
                     accessor->if_present(
                         profile,
                         [&](int value) {
@@ -341,14 +360,17 @@ namespace dnp3 {
                                 builder.Update(
                                     opendnp3::Analog(
                                         iter->second,
-                                        0x01,
+                                        opendnp3::Flags(0x01),
                                         convert(util::profile_info<T>::get_message_info(profile).messagetimestamp())),
                                     index);
                             }
                         });
                 });
 
-            this->tracker.add_analog(index);
+            opendnp3::AnalogConfig config{};
+            config.svariation = default_var.analog_static;
+            config.evariation = default_var.analog_event;
+            this->db_config.analog_input[index] = config;
         }
     }
 }

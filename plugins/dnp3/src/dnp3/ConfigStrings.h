@@ -23,6 +23,7 @@ namespace dnp3 {
         constexpr const char* const outstation_address = "outstation-address";
 
         // master application layer
+        constexpr const char* const control_code = "control_code";
         constexpr const char* const integrity_poll_ms = "integrity-poll-ms";
 
         // outstation application layer

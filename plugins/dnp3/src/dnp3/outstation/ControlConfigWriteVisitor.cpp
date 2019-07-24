@@ -3,10 +3,9 @@
 
 #include "adapter-util/ConfigStrings.h"
 
-#include "dnp3/ConfigStrings.h"
-#include "dnp3/ControlCodeMeta.h"
-#include "dnp3/generated/CommandSourceType.h"
-#include "dnp3/generated/ProfileAction.h"
+#include <dnp3/ConfigStrings.h>
+#include <dnp3/generated/CommandSourceType.h>
+#include <dnp3/generated/ProfileAction.h>
 
 namespace adapter {
 
@@ -32,11 +31,11 @@ namespace dnp3 {
             out << YAML::Key << util::keys::mapping;
             out << YAML::BeginSeq;
             out << YAML::BeginMap;
-            out << YAML::Key << ControlCodeMeta::label << YAML::Value << ControlCodeMeta::latch_on;
+            out << YAML::Key << keys::control_code << YAML::Value << opendnp3::ControlCodeSpec::to_string(opendnp3::ControlCode::LATCH_ON);
             out << YAML::Key << util::keys::value << YAML::Value << true;
             out << YAML::EndMap;
             out << YAML::BeginMap;
-            out << YAML::Key << ControlCodeMeta::label << YAML::Value << ControlCodeMeta::latch_off;
+            out << YAML::Key << keys::control_code << YAML::Value << opendnp3::ControlCodeSpec::to_string(opendnp3::ControlCode::LATCH_OFF);
             out << YAML::Key << util::keys::value << YAML::Value << false;
             out << YAML::EndMap;
             out << YAML::EndSeq;
