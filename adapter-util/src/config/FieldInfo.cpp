@@ -38,6 +38,7 @@ namespace util {
             constexpr const char* const setValExtension = "setValExtension";
             constexpr const char* const d = "d";
             constexpr const char* const operatingLimit = "operatingLimit";
+            constexpr const char* const normalOpen = "normalOpen";
         }
 
         EnumFieldType::Value get_enum_type(google::protobuf::EnumDescriptor const* descriptor)
@@ -231,6 +232,14 @@ namespace util {
                                     return path.has_parent_somewhere(essmodule::ESSFunction::descriptor());
                                 },
                                 BoolFieldType::Value::mapped
+                        },
+                        {
+                                [](IDescriptorPath& path) -> bool {
+                                    return path.has_exact_parents({
+                                                                         { names::normalOpen, google::protobuf::BoolValue::descriptor()}
+                                                                 });
+                                },
+                                BoolFieldType::Value::mapped
                         }
                     }
                 },
@@ -267,8 +276,26 @@ namespace util {
                             return path.has_exact_parents({ google::protobuf::Int32Value::descriptor(), commonmodule::AnalogueValue::descriptor() });
                         },
                         Int32FieldType::Value::ignored
+                    },
+                    {
+                        // we're only using the float inside AnalogueValue for now
+                        [](IDescriptorPath& path) -> bool {
+                            return path.has_exact_parents({ google::protobuf::Int32Value::descriptor(), commonmodule::AnalogueValueCtl::descriptor() });
+                        },
+                        Int32FieldType::Value::ignored
                     }
                 }
+            },
+            {
+                    names::stVal,
+                    {
+                            {
+                                    [](IDescriptorPath& path) -> bool {
+                                        return path.has_exact_parents({ commonmodule::StatusISC::descriptor() });
+                                    },
+                                    Int32FieldType::Value::mapped
+                            }
+                    }
             }
         };
             // clang-format on
@@ -386,6 +413,18 @@ namespace util {
                                 {
                                         [](IDescriptorPath& path) -> bool {
                                             return path.has_exact_parents({ commonmodule::StatusSPS::descriptor() });
+                                        },
+                                        TimestampFieldType::Value::ignored
+                                },
+                                {
+                                        [](IDescriptorPath& path) -> bool {
+                                            return path.has_exact_parents({ commonmodule::StatusSPC::descriptor() });
+                                        },
+                                        TimestampFieldType::Value::ignored
+                                },
+                                {
+                                        [](IDescriptorPath& path) -> bool {
+                                            return path.has_exact_parents({ commonmodule::StatusISC::descriptor() });
                                         },
                                         TimestampFieldType::Value::ignored
                                 }
