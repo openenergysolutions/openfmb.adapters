@@ -43,6 +43,22 @@ namespace util {
     };
 
     template <>
+    struct profile_info<breakermodule::BreakerEventProfile> {
+
+        static constexpr bool is_control = false;
+
+        static const commonmodule::MessageInfo& get_message_info(const breakermodule::BreakerEventProfile& profile)
+        {
+            return profile.eventmessageinfo().messageinfo();
+        }
+
+        static const commonmodule::ConductingEquipment& get_conducting_equip(const breakermodule::BreakerEventProfile& profile)
+        {
+            return profile.breaker().conductingequipment();
+        }
+    };
+
+    template <>
     struct profile_info<breakermodule::BreakerStatusProfile> {
 
         static constexpr bool is_control = false;
@@ -69,6 +85,22 @@ namespace util {
         }
 
         static const commonmodule::ConductingEquipment& get_conducting_equip(const essmodule::ESSControlProfile& profile)
+        {
+            return profile.ess().conductingequipment();
+        }
+    };
+
+    template <>
+    struct profile_info<essmodule::ESSEventProfile> {
+
+        static constexpr bool is_control = false;
+
+        static const commonmodule::MessageInfo& get_message_info(const essmodule::ESSEventProfile& profile)
+        {
+            return profile.eventmessageinfo().messageinfo();
+        }
+
+        static const commonmodule::ConductingEquipment& get_conducting_equip(const essmodule::ESSEventProfile& profile)
         {
             return profile.ess().conductingequipment();
         }
@@ -123,6 +155,22 @@ namespace util {
     };
 
     template <>
+    struct profile_info<generationmodule::GenerationEventProfile> {
+
+        static constexpr bool is_control = false;
+
+        static const commonmodule::MessageInfo& get_message_info(const generationmodule::GenerationEventProfile& profile)
+        {
+            return profile.eventmessageinfo().messageinfo();
+        }
+
+        static const commonmodule::ConductingEquipment& get_conducting_equip(const generationmodule::GenerationEventProfile& profile)
+        {
+            return profile.generatingunit().conductingequipment();
+        }
+    };
+
+    template <>
     struct profile_info<generationmodule::GenerationReadingProfile> {
 
         static constexpr bool is_control = false;
@@ -165,6 +213,22 @@ namespace util {
         }
 
         static const commonmodule::ConductingEquipment& get_conducting_equip(const loadmodule::LoadControlProfile& profile)
+        {
+            return profile.energyconsumer().conductingequipment();
+        }
+    };
+
+    template <>
+    struct profile_info<loadmodule::LoadEventProfile> {
+
+        static constexpr bool is_control = false;
+
+        static const commonmodule::MessageInfo& get_message_info(const loadmodule::LoadEventProfile& profile)
+        {
+            return profile.eventmessageinfo().messageinfo();
+        }
+
+        static const commonmodule::ConductingEquipment& get_conducting_equip(const loadmodule::LoadEventProfile& profile)
         {
             return profile.energyconsumer().conductingequipment();
         }
@@ -251,6 +315,22 @@ namespace util {
     };
 
     template <>
+    struct profile_info<reclosermodule::RecloserEventProfile> {
+
+        static constexpr bool is_control = false;
+
+        static const commonmodule::MessageInfo& get_message_info(const reclosermodule::RecloserEventProfile& profile)
+        {
+            return profile.eventmessageinfo().messageinfo();
+        }
+
+        static const commonmodule::ConductingEquipment& get_conducting_equip(const reclosermodule::RecloserEventProfile& profile)
+        {
+            return profile.recloser().conductingequipment();
+        }
+    };
+
+    template <>
     struct profile_info<reclosermodule::RecloserReadingProfile> {
 
         static constexpr bool is_control = false;
@@ -293,6 +373,22 @@ namespace util {
         }
 
         static const commonmodule::ConductingEquipment& get_conducting_equip(const regulatormodule::RegulatorControlProfile& profile)
+        {
+            return profile.regulatorsystem().conductingequipment();
+        }
+    };
+
+    template <>
+    struct profile_info<regulatormodule::RegulatorEventProfile> {
+
+        static constexpr bool is_control = false;
+
+        static const commonmodule::MessageInfo& get_message_info(const regulatormodule::RegulatorEventProfile& profile)
+        {
+            return profile.eventmessageinfo().messageinfo();
+        }
+
+        static const commonmodule::ConductingEquipment& get_conducting_equip(const regulatormodule::RegulatorEventProfile& profile)
         {
             return profile.regulatorsystem().conductingequipment();
         }
@@ -379,6 +475,22 @@ namespace util {
     };
 
     template <>
+    struct profile_info<solarmodule::SolarEventProfile> {
+
+        static constexpr bool is_control = false;
+
+        static const commonmodule::MessageInfo& get_message_info(const solarmodule::SolarEventProfile& profile)
+        {
+            return profile.eventmessageinfo().messageinfo();
+        }
+
+        static const commonmodule::ConductingEquipment& get_conducting_equip(const solarmodule::SolarEventProfile& profile)
+        {
+            return profile.solarinverter().conductingequipment();
+        }
+    };
+
+    template <>
     struct profile_info<solarmodule::SolarReadingProfile> {
 
         static constexpr bool is_control = false;
@@ -437,6 +549,22 @@ namespace util {
         }
 
         static const commonmodule::ConductingEquipment& get_conducting_equip(const switchmodule::SwitchDiscreteControlProfile& profile)
+        {
+            return profile.protectedswitch().conductingequipment();
+        }
+    };
+
+    template <>
+    struct profile_info<switchmodule::SwitchEventProfile> {
+
+        static constexpr bool is_control = false;
+
+        static const commonmodule::MessageInfo& get_message_info(const switchmodule::SwitchEventProfile& profile)
+        {
+            return profile.eventmessageinfo().messageinfo();
+        }
+
+        static const commonmodule::ConductingEquipment& get_conducting_equip(const switchmodule::SwitchEventProfile& profile)
         {
             return profile.protectedswitch().conductingequipment();
         }

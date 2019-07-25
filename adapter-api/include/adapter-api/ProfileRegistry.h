@@ -86,18 +86,22 @@ namespace api {
     using ProfileRegistry = impl::ProfileList<
         // ess module
         breakermodule::BreakerDiscreteControlProfile,
+        breakermodule::BreakerEventProfile,
         breakermodule::BreakerReadingProfile,
         breakermodule::BreakerStatusProfile,
         // ess module
         essmodule::ESSControlProfile,
+        essmodule::ESSEventProfile,
         essmodule::ESSReadingProfile,
         essmodule::ESSStatusProfile,
         // generation module
         generationmodule::GenerationControlProfile,
+        generationmodule::GenerationEventProfile,
         generationmodule::GenerationReadingProfile,
         generationmodule::GenerationStatusProfile,
         // load module
         loadmodule::LoadControlProfile,
+        loadmodule::LoadEventProfile,
         loadmodule::LoadReadingProfile,
         loadmodule::LoadStatusProfile,
         // meter module
@@ -105,10 +109,12 @@ namespace api {
         // recloser module
         reclosermodule::RecloserControlProfile,
         reclosermodule::RecloserDiscreteControlProfile,
+        reclosermodule::RecloserEventProfile,
         reclosermodule::RecloserReadingProfile,
         reclosermodule::RecloserStatusProfile,
         // regulator module
         regulatormodule::RegulatorControlProfile,
+        regulatormodule::RegulatorEventProfile,
         regulatormodule::RegulatorReadingProfile,
         regulatormodule::RegulatorStatusProfile,
         // resource module
@@ -116,11 +122,13 @@ namespace api {
         resourcemodule::ResourceStatusProfile,
         // solar module
         solarmodule::SolarControlProfile,
+        solarmodule::SolarEventProfile,
         solarmodule::SolarReadingProfile,
         solarmodule::SolarStatusProfile,
         // switch module
         switchmodule::SwitchControlProfile,
         switchmodule::SwitchDiscreteControlProfile,
+        switchmodule::SwitchEventProfile,
         switchmodule::SwitchReadingProfile,
         switchmodule::SwitchStatusProfile
         >;
