@@ -107,6 +107,22 @@ namespace util {
     };
 
     template <>
+    struct profile_info<generationmodule::GenerationControlProfile> {
+
+        static constexpr bool is_control = true;
+
+        static const commonmodule::MessageInfo& get_message_info(const generationmodule::GenerationControlProfile& profile)
+        {
+            return profile.controlmessageinfo().messageinfo();
+        }
+
+        static const commonmodule::ConductingEquipment& get_conducting_equip(const generationmodule::GenerationControlProfile& profile)
+        {
+            return profile.generatingunit().conductingequipment();
+        }
+    };
+
+    template <>
     struct profile_info<generationmodule::GenerationReadingProfile> {
 
         static constexpr bool is_control = false;
@@ -267,6 +283,22 @@ namespace util {
     };
 
     template <>
+    struct profile_info<regulatormodule::RegulatorControlProfile> {
+
+        static constexpr bool is_control = true;
+
+        static const commonmodule::MessageInfo& get_message_info(const regulatormodule::RegulatorControlProfile& profile)
+        {
+            return profile.controlmessageinfo().messageinfo();
+        }
+
+        static const commonmodule::ConductingEquipment& get_conducting_equip(const regulatormodule::RegulatorControlProfile& profile)
+        {
+            return profile.regulatorsystem().conductingequipment();
+        }
+    };
+
+    template <>
     struct profile_info<regulatormodule::RegulatorReadingProfile> {
 
         static constexpr bool is_control = false;
@@ -309,6 +341,22 @@ namespace util {
         }
 
         static const commonmodule::ConductingEquipment& get_conducting_equip(const resourcemodule::ResourceReadingProfile& profile)
+        {
+            return profile.conductingequipment();
+        }
+    };
+
+    template <>
+    struct profile_info<resourcemodule::ResourceStatusProfile> {
+
+        static constexpr bool is_control = false;
+
+        static const commonmodule::MessageInfo& get_message_info(const resourcemodule::ResourceStatusProfile& profile)
+        {
+            return profile.statusmessageinfo().messageinfo();
+        }
+
+        static const commonmodule::ConductingEquipment& get_conducting_equip(const resourcemodule::ResourceStatusProfile& profile)
         {
             return profile.conductingequipment();
         }

@@ -93,6 +93,7 @@ namespace api {
         essmodule::ESSReadingProfile,
         essmodule::ESSStatusProfile,
         // generation module
+        generationmodule::GenerationControlProfile,
         generationmodule::GenerationReadingProfile,
         generationmodule::GenerationStatusProfile,
         // load module
@@ -107,10 +108,12 @@ namespace api {
         reclosermodule::RecloserReadingProfile,
         reclosermodule::RecloserStatusProfile,
         // regulator module
+        regulatormodule::RegulatorControlProfile,
         regulatormodule::RegulatorReadingProfile,
         regulatormodule::RegulatorStatusProfile,
         // resource module
         resourcemodule::ResourceReadingProfile,
+        resourcemodule::ResourceStatusProfile,
         // solar module
         solarmodule::SolarControlProfile,
         solarmodule::SolarReadingProfile,
