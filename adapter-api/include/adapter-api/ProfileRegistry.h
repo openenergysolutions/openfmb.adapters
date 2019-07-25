@@ -84,26 +84,38 @@ namespace api {
      * This list is used by other components to automatically add support for profiles.
      */
     using ProfileRegistry = impl::ProfileList<
+        // ess module
         breakermodule::BreakerDiscreteControlProfile,
         breakermodule::BreakerReadingProfile,
         breakermodule::BreakerStatusProfile,
+        // ess module
         essmodule::ESSControlProfile,
         essmodule::ESSReadingProfile,
         essmodule::ESSStatusProfile,
+        // generation module
         generationmodule::GenerationReadingProfile,
         generationmodule::GenerationStatusProfile,
+        // load module
         loadmodule::LoadControlProfile,
         loadmodule::LoadReadingProfile,
         loadmodule::LoadStatusProfile,
+        // meter module
         metermodule::MeterReadingProfile,
+        // recloser module
         reclosermodule::RecloserControlProfile,
         reclosermodule::RecloserDiscreteControlProfile,
+        reclosermodule::RecloserReadingProfile,
         reclosermodule::RecloserStatusProfile,
+        // regulator module
+        regulatormodule::RegulatorReadingProfile,
         regulatormodule::RegulatorStatusProfile,
+        // resource module
         resourcemodule::ResourceReadingProfile,
+        // solar module
         solarmodule::SolarControlProfile,
         solarmodule::SolarReadingProfile,
         solarmodule::SolarStatusProfile,
+        // switch module
         switchmodule::SwitchControlProfile,
         switchmodule::SwitchDiscreteControlProfile,
         switchmodule::SwitchReadingProfile,

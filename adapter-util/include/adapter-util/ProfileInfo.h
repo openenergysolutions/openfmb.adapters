@@ -235,6 +235,22 @@ namespace util {
     };
 
     template <>
+    struct profile_info<reclosermodule::RecloserReadingProfile> {
+
+        static constexpr bool is_control = false;
+
+        static const commonmodule::MessageInfo& get_message_info(const reclosermodule::RecloserReadingProfile& profile)
+        {
+            return profile.readingmessageinfo().messageinfo();
+        }
+
+        static const commonmodule::ConductingEquipment& get_conducting_equip(const reclosermodule::RecloserReadingProfile& profile)
+        {
+            return profile.recloser().conductingequipment();
+        }
+    };
+
+    template <>
     struct profile_info<reclosermodule::RecloserStatusProfile> {
 
         static constexpr bool is_control = false;
@@ -247,6 +263,22 @@ namespace util {
         static const commonmodule::ConductingEquipment& get_conducting_equip(const reclosermodule::RecloserStatusProfile& profile)
         {
             return profile.recloser().conductingequipment();
+        }
+    };
+
+    template <>
+    struct profile_info<regulatormodule::RegulatorReadingProfile> {
+
+        static constexpr bool is_control = false;
+
+        static const commonmodule::MessageInfo& get_message_info(const regulatormodule::RegulatorReadingProfile& profile)
+        {
+            return profile.readingmessageinfo().messageinfo();
+        }
+
+        static const commonmodule::ConductingEquipment& get_conducting_equip(const regulatormodule::RegulatorReadingProfile& profile)
+        {
+            return profile.regulatorsystem().conductingequipment();
         }
     };
 
