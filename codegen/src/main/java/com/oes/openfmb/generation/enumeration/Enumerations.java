@@ -158,7 +158,8 @@ public class Enumerations {
                         Enumeration.entry("sint32", "32-bit signed register, formed from two modbus 16-bit registers"),
                         Enumeration.entry("uint32", "32-bit unsigned register, formed from two modbus 16-bit registers"),
                         Enumeration.entry("sint32_with_modulus", "32-bit signed register, formed from two modbus 16-bit registers, custom modulus"),
-                        Enumeration.entry("uint32_with_modulus", "32-bit unsigned register, formed from two modbus 16-bit registers, custom modulus")
+                        Enumeration.entry("uint32_with_modulus", "32-bit unsigned register, formed from two modbus 16-bit registers, custom modulus"),
+                        Enumeration.entry("float32", "32-bit IEEE 754 floating point value")
                 )
         );
 
