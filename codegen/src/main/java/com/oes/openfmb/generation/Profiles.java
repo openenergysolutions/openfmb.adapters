@@ -26,6 +26,7 @@ import openfmb.regulatormodule.RegulatorStatusProfile;
 import openfmb.resourcemodule.ResourceReadingProfile;
 import openfmb.resourcemodule.ResourceStatusProfile;
 import openfmb.solarmodule.SolarControlProfile;
+import openfmb.solarmodule.SolarEventProfile;
 import openfmb.solarmodule.SolarReadingProfile;
 import openfmb.solarmodule.SolarStatusProfile;
 import openfmb.switchmodule.*;
@@ -83,6 +84,7 @@ public class Profiles {
                         ResourceStatusProfile.getDescriptor(),
                         // Solar
                         SolarControlProfile.getDescriptor(),
+                        SolarEventProfile.getDescriptor(),
                         SolarReadingProfile.getDescriptor(),
                         SolarReadingProfile.getDescriptor(),
                         SolarStatusProfile.getDescriptor(),
