@@ -31,6 +31,11 @@ public enum RepeatedType {
         temp.put(openfmb.switchmodule.SwitchReading.getDescriptor(), RepeatedType.READING);
         temp.put(openfmb.breakermodule.BreakerReading.getDescriptor(), RepeatedType.READING);
         temp.put(openfmb.reclosermodule.RecloserReading.getDescriptor(), RepeatedType.READING);
+        temp.put(openfmb.regulatormodule.RegulatorReading.getDescriptor(), RepeatedType.READING);
+        temp.put(openfmb.commonmodule.AnalogStatusGGIO.getDescriptor(), RepeatedType.READING);
+        temp.put(openfmb.commonmodule.BooleanStatusGGIO.getDescriptor(), RepeatedType.READING);
+        temp.put(openfmb.commonmodule.IntegerStatusGGIO.getDescriptor(), RepeatedType.READING);
+        temp.put(openfmb.commonmodule.StringStatusGGIO.getDescriptor(), RepeatedType.READING);
         // things related to schedules
         temp.put(openfmb.commonmodule.ControlScheduleFSCH.getDescriptor(), RepeatedType.SCHEDULE);
         temp.put(openfmb.commonmodule.SchedulePoint.getDescriptor(), RepeatedType.SCHEDULE);
@@ -38,6 +43,8 @@ public enum RepeatedType {
         temp.put(openfmb.essmodule.ESSPoint.getDescriptor(), RepeatedType.SCHEDULE);
         temp.put(openfmb.solarmodule.SolarPoint.getDescriptor(), RepeatedType.SCHEDULE);
         temp.put(openfmb.loadmodule.LoadPoint.getDescriptor(), RepeatedType.SCHEDULE);
+        temp.put(openfmb.generationmodule.GenerationPoint.getDescriptor(), RepeatedType.SCHEDULE);
+        temp.put(openfmb.regulatormodule.RegulatorPoint.getDescriptor(), RepeatedType.SCHEDULE);
         // list of schedule parameters
         temp.put(openfmb.commonmodule.ENG_ScheduleParameter.getDescriptor(), RepeatedType.SCHEDULE_PARAMETER);
 

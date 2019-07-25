@@ -56,7 +56,7 @@ public class Profiles {
                         ESSReadingProfile.getDescriptor(),
                         ESSStatusProfile.getDescriptor(),
                         // Generation
-                        //GenerationControlProfile.getDescriptor(),
+                        GenerationControlProfile.getDescriptor(),
                         GenerationEventProfile.getDescriptor(),
                         GenerationReadingProfile.getDescriptor(),
                         GenerationStatusProfile.getDescriptor(),
@@ -74,13 +74,13 @@ public class Profiles {
                         RecloserReadingProfile.getDescriptor(),
                         RecloserStatusProfile.getDescriptor(),
                         // Regulator
-                        //RegulatorControlProfile.getDescriptor(),
+                        RegulatorControlProfile.getDescriptor(),
                         RegulatorEventProfile.getDescriptor(),
-                        //RegulatorReadingProfile.getDescriptor(),
+                        RegulatorReadingProfile.getDescriptor(),
                         RegulatorStatusProfile.getDescriptor(),
                         // Resource
                         ResourceReadingProfile.getDescriptor(),
-                        //ResourceStatusProfile.getDescriptor(),
+                        ResourceStatusProfile.getDescriptor(),
                         // Solar
                         SolarControlProfile.getDescriptor(),
                         SolarReadingProfile.getDescriptor(),
