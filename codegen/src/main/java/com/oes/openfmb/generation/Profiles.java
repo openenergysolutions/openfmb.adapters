@@ -71,7 +71,7 @@ public class Profiles {
                         RecloserControlProfile.getDescriptor(),
                         RecloserDiscreteControlProfile.getDescriptor(),
                         RecloserEventProfile.getDescriptor(),
-                        //RecloserReadingProfile.getDescriptor(),
+                        RecloserReadingProfile.getDescriptor(),
                         RecloserStatusProfile.getDescriptor(),
                         // Regulator
                         //RegulatorControlProfile.getDescriptor(),
