@@ -12,9 +12,12 @@ namespace dnp3 {
         process_any(const opendnp3::ICollection<opendnp3::Indexed<T>>& values, SOEHandler::handler_map<T>& map)
         {
             auto process = [&](const opendnp3::Indexed<T>& pair) {
-                auto handler = map.find(pair.index);
-                if (handler != map.end()) {
-                    handler->second(pair.value);
+                auto it = map.find(pair.index);
+                if (it != map.end()) {
+                    for(auto& handler : it->second)
+                    {
+                        handler(pair.value);
+                    }
                 }
             };
 
@@ -66,30 +69,45 @@ namespace dnp3 {
         SOEHandler::add_measurement_handler(const IPublishConfigBuilder::meas_handler_t<opendnp3::Binary>& handler,
                                             uint16_t index)
         {
-            if (this->binary_handlers.find(index) != this->binary_handlers.end()) {
-                throw api::Exception("Binary index already mapped: ", index);
+            auto it = this->binary_handlers.find(index);
+            if(it != this->binary_handlers.end())
+            {
+                it->second.emplace_back(handler);
             }
-            this->binary_handlers[index] = handler;
+            else
+            {
+                this->binary_handlers[index] = { handler };
+            }
         }
 
         void
         SOEHandler::add_measurement_handler(const IPublishConfigBuilder::meas_handler_t<opendnp3::Analog>& handler,
                                             uint16_t index)
         {
-            if (this->analog_handlers.find(index) != this->analog_handlers.end()) {
-                throw api::Exception("Analog index already mapped: ", index);
+            auto it = this->analog_handlers.find(index);
+            if(it != this->analog_handlers.end())
+            {
+                it->second.emplace_back(handler);
             }
-            this->analog_handlers[index] = handler;
+            else
+            {
+                this->analog_handlers[index] = { handler };
+            }
         }
 
         void
         SOEHandler::add_measurement_handler(const IPublishConfigBuilder::meas_handler_t<opendnp3::Counter>& handler,
                                             uint16_t index)
         {
-            if (this->counter_handlers.find(index) != this->counter_handlers.end()) {
-                throw api::Exception("Counter index already mapped: ", index);
+            auto it = this->counter_handlers.find(index);
+            if(it != this->counter_handlers.end())
+            {
+                it->second.emplace_back(handler);
             }
-            this->counter_handlers[index] = handler;
+            else
+            {
+                this->counter_handlers[index] = { handler };
+            }
         }
 
         void SOEHandler::add_end_action(const IPublishConfigBuilder::action_t& action)

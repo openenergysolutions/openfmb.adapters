@@ -9,6 +9,7 @@
 #include "IPublishConfigBuilder.h"
 
 #include <map>
+#include <vector>
 
 namespace adapter {
 namespace dnp3 {
@@ -17,7 +18,7 @@ namespace dnp3 {
 
         public:
             template <class T>
-            using handler_map = std::map<uint16_t, std::function<void(const T&)>>;
+            using handler_map = std::map<uint16_t, std::vector<std::function<void(const T&)>>>;
 
             SOEHandler() = default;
 
