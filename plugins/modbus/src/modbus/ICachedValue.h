@@ -37,6 +37,8 @@ namespace modbus {
         virtual uint32_t to_uint32(uint32_t modulus) const = 0;
 
         virtual int32_t to_sint32(uint32_t modulus) const = 0;
+
+        virtual float to_float32() const = 0;
     };
 }
 }

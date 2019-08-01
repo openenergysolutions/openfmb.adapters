@@ -27,8 +27,9 @@ const char RegisterMapping::sint32[] = "sint32";
 const char RegisterMapping::uint32[] = "uint32";
 const char RegisterMapping::sint32_with_modulus[] = "sint32_with_modulus";
 const char RegisterMapping::uint32_with_modulus[] = "uint32_with_modulus";
+const char RegisterMapping::float32[] = "float32";
 
-const std::array<RegisterMapping::Value, 6> RegisterMapping::values =
+const std::array<RegisterMapping::Value, 7> RegisterMapping::values =
 {
     RegisterMapping::Value::sint16,
     RegisterMapping::Value::uint16,
@@ -36,6 +37,7 @@ const std::array<RegisterMapping::Value, 6> RegisterMapping::values =
     RegisterMapping::Value::uint32,
     RegisterMapping::Value::sint32_with_modulus,
     RegisterMapping::Value::uint32_with_modulus,
+    RegisterMapping::Value::float32,
 };
 
 std::string RegisterMapping::to_string(RegisterMapping::Value value)
@@ -47,7 +49,8 @@ std::string RegisterMapping::to_string(RegisterMapping::Value value)
         case(Value::sint32): return sint32;
         case(Value::uint32): return uint32;
         case(Value::sint32_with_modulus): return sint32_with_modulus;
-        default: return uint32_with_modulus;
+        case(Value::uint32_with_modulus): return uint32_with_modulus;
+        default: return float32;
     }
 }
 
@@ -61,6 +64,7 @@ RegisterMapping::Value RegisterMapping::from_string(const std::string& name)
         {uint32, Value::uint32},
         {sint32_with_modulus, Value::sint32_with_modulus},
         {uint32_with_modulus, Value::uint32_with_modulus},
+        {float32, Value::float32},
     };
     const auto elem = map.find(name);
     if(elem == map.end()) throw api::Exception("Unknown value name '", name, "' for enum RegisterMapping");

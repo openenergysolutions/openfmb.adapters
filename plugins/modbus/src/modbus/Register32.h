@@ -58,6 +58,62 @@ namespace modbus {
             return static_cast<int32_t>(to_uint32(modulus));
         }
 
+        float to_float32() const override
+        {
+            auto value = to_uint32();
+
+            // Extract the required values
+            bool sign = (value & 0x80000000) != 0;
+            uint8_t exponent = static_cast<uint8_t>((value >> 23) & 0xFF);
+            uint32_t mantissa = value & 0x7FFFFF;
+
+            // Check special cases
+            if(exponent == 0xFF)
+            {
+                if(mantissa != 0x00)
+                {
+                    return std::numeric_limits<float>::quiet_NaN();
+                }
+                else
+                {
+                    if(!sign)
+                    {
+                        return std::numeric_limits<float>::infinity();
+                    }
+                    else
+                    {
+                        return -std::numeric_limits<float>::infinity();
+                    }
+                    
+                }
+            }
+            if(exponent == 0x00 && mantissa == 0x00)
+            {
+                return 0.0f;
+            }
+
+
+            // Build the actual value
+            auto weigthed_mantissa = static_cast<float>(mantissa)/(static_cast<uint32_t>(1) << 23);
+            float result;
+            if(exponent == 0)
+            {
+                result = std::ldexp(weigthed_mantissa, 2 - (static_cast<uint16_t>(1) << 8));
+            }
+            else
+            {
+                result = std::ldexp(1.0f + weigthed_mantissa, exponent - 127);
+            }
+
+            // Adjust the sign
+            if(sign)
+            {
+                result = -result;
+            }
+
+            return result;
+        }
+
         // ---- getters for upper / lower pieces ----
 
         std::shared_ptr<IRegister> get_upper()

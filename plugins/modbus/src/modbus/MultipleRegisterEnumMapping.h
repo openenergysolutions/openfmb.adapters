@@ -48,7 +48,7 @@ namespace modbus {
             const std::shared_ptr<SharedValue> shared_value;
 
         public:
-            RegisterAction(uint8_t bit, uint8_t position, std::shared_ptr<SharedValue> shared_value)
+            RegisterAction(uint8_t bit, uint16_t position, std::shared_ptr<SharedValue> shared_value)
                 : bit_mask(static_cast<uint16_t>(1) << bit)
                 , or_mask(static_cast<uint16_t>(1) << position)
                 , shared_value(std::move(shared_value))
