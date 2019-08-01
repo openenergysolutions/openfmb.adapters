@@ -14,6 +14,7 @@
 #include <functional>
 #include <map>
 #include <vector>
+#include <proto-api/regulatormodule/regulatormodule.pb.h>
 
 namespace adapter {
 namespace util {
@@ -38,6 +39,9 @@ namespace util {
             constexpr const char* const setValExtension = "setValExtension";
             constexpr const char* const d = "d";
             constexpr const char* const operatingLimit = "operatingLimit";
+            constexpr const char* const normalOpen = "normalOpen";
+            constexpr const char* const setVal = "setVal";
+            constexpr const char* const startTime = "startTime";
         }
 
         EnumFieldType::Value get_enum_type(google::protobuf::EnumDescriptor const* descriptor)
@@ -111,6 +115,17 @@ namespace util {
         {
             // clang-format off
         const static field_map_t<StringFieldType::Value> map = {
+                {
+                        names::stVal,
+                        {
+                                {
+                                        [](IDescriptorPath &path) -> bool {
+                                            return path.has_exact_parents({commonmodule::VSS::descriptor()});
+                                        },
+                                        StringFieldType::Value::mapped
+                                }
+                        }
+                },
                 {
                     names::mRID,
                     {
@@ -231,6 +246,14 @@ namespace util {
                                     return path.has_parent_somewhere(essmodule::ESSFunction::descriptor());
                                 },
                                 BoolFieldType::Value::mapped
+                        },
+                        {
+                                [](IDescriptorPath& path) -> bool {
+                                    return path.has_exact_parents({
+                                                                         { names::normalOpen, google::protobuf::BoolValue::descriptor()}
+                                                                 });
+                                },
+                                BoolFieldType::Value::mapped
                         }
                     }
                 },
@@ -267,8 +290,54 @@ namespace util {
                             return path.has_exact_parents({ google::protobuf::Int32Value::descriptor(), commonmodule::AnalogueValue::descriptor() });
                         },
                         Int32FieldType::Value::ignored
+                    },
+                    {
+                        // we're only using the float inside AnalogueValue for now
+                        [](IDescriptorPath& path) -> bool {
+                            return path.has_exact_parents({ google::protobuf::Int32Value::descriptor(), commonmodule::AnalogueValueCtl::descriptor() });
+                        },
+                        Int32FieldType::Value::ignored
                     }
                 }
+            },
+            {
+                    names::stVal,
+                    {
+                            {
+                                    [](IDescriptorPath& path) -> bool {
+                                        return path.has_exact_parents({ commonmodule::StatusISC::descriptor() });
+                                    },
+                                    Int32FieldType::Value::mapped
+                            },
+                            {
+                                    [](IDescriptorPath& path) -> bool {
+                                        return path.has_exact_parents({ commonmodule::StatusINS::descriptor() });
+                                    },
+                                    Int32FieldType::Value::mapped
+                            }
+                    }
+            },
+            {
+                    names::setVal,
+                    {
+                            {
+                                    [](IDescriptorPath& path) -> bool {
+                                        return path.has_exact_parents({ commonmodule::ControlING::descriptor() });
+                                    },
+                                    Int32FieldType::Value::mapped
+                            }
+                    }
+            },
+            {
+                    names::ctlVal,
+                    {
+                            {
+                                    [](IDescriptorPath& path) -> bool {
+                                        return path.has_exact_parents({ commonmodule::ControlISC::descriptor() });
+                                    },
+                                    Int32FieldType::Value::mapped
+                            }
+                    }
             }
         };
             // clang-format on
@@ -345,6 +414,19 @@ namespace util {
 
                 },
                 {
+                        names::startTime,
+                        {
+                                {
+                                        [](IDescriptorPath& path) -> bool {
+                                            // this is the optional zVal inside of a schedule point
+                                            return path.has_exact_parents({ regulatormodule::RegulatorPoint::descriptor() });
+                                        },
+                                        TimestampFieldType::Value::ignored
+                                }
+                        }
+
+                },
+                {
                         names::t,
                         {
                                 {
@@ -386,6 +468,30 @@ namespace util {
                                 {
                                         [](IDescriptorPath& path) -> bool {
                                             return path.has_exact_parents({ commonmodule::StatusSPS::descriptor() });
+                                        },
+                                        TimestampFieldType::Value::ignored
+                                },
+                                {
+                                        [](IDescriptorPath& path) -> bool {
+                                            return path.has_exact_parents({ commonmodule::StatusSPC::descriptor() });
+                                        },
+                                        TimestampFieldType::Value::ignored
+                                },
+                                {
+                                        [](IDescriptorPath& path) -> bool {
+                                            return path.has_exact_parents({ commonmodule::StatusISC::descriptor() });
+                                        },
+                                        TimestampFieldType::Value::ignored
+                                },
+                                {
+                                        [](IDescriptorPath& path) -> bool {
+                                            return path.has_exact_parents({ commonmodule::StatusINS::descriptor() });
+                                        },
+                                        TimestampFieldType::Value::ignored
+                                },
+                                {
+                                        [](IDescriptorPath& path) -> bool {
+                                            return path.has_exact_parents({ commonmodule::VSS::descriptor() });
                                         },
                                         TimestampFieldType::Value::ignored
                                 }

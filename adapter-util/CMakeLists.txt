@@ -70,23 +70,31 @@ set(SOURCES
 	src/config/generated/MessageVisitors.cpp
 	src/config/generated/ModelVisitors.cpp
 # typed model visitors
-	src/config/generated/MeterReadingProfileTypedModelVisitor.cpp
+	src/config/generated/BreakerDiscreteControlProfileTypedModelVisitor.cpp
 	src/config/generated/BreakerReadingProfileTypedModelVisitor.cpp
 	src/config/generated/BreakerStatusProfileTypedModelVisitor.cpp
-	src/config/generated/BreakerDiscreteControlProfileTypedModelVisitor.cpp
-	src/config/generated/SwitchReadingProfileTypedModelVisitor.cpp
-	src/config/generated/SwitchStatusProfileTypedModelVisitor.cpp
-	src/config/generated/SwitchControlProfileTypedModelVisitor.cpp
+	src/config/generated/ESSControlProfileTypedModelVisitor.cpp
 	src/config/generated/ESSReadingProfileTypedModelVisitor.cpp
 	src/config/generated/ESSStatusProfileTypedModelVisitor.cpp
-	src/config/generated/ESSControlProfileTypedModelVisitor.cpp
+	src/config/generated/GenerationReadingProfileTypedModelVisitor.cpp
+	src/config/generated/GenerationStatusProfileTypedModelVisitor.cpp
+	src/config/generated/LoadControlProfileTypedModelVisitor.cpp
+	src/config/generated/LoadReadingProfileTypedModelVisitor.cpp
+	src/config/generated/LoadStatusProfileTypedModelVisitor.cpp
+	src/config/generated/MeterReadingProfileTypedModelVisitor.cpp
+	src/config/generated/RecloserControlProfileTypedModelVisitor.cpp
+	src/config/generated/RecloserDiscreteControlProfileTypedModelVisitor.cpp
+	src/config/generated/RecloserStatusProfileTypedModelVisitor.cpp
+	src/config/generated/RegulatorStatusProfileTypedModelVisitor.cpp
+	src/config/generated/ResourceReadingProfileTypedModelVisitor.cpp
 	src/config/generated/SolarReadingProfileTypedModelVisitor.cpp
 	src/config/generated/SolarStatusProfileTypedModelVisitor.cpp
 	src/config/generated/SolarControlProfileTypedModelVisitor.cpp
-	src/config/generated/LoadReadingProfileTypedModelVisitor.cpp
-	src/config/generated/LoadStatusProfileTypedModelVisitor.cpp
-	src/config/generated/LoadControlProfileTypedModelVisitor.cpp)
-
+	src/config/generated/SwitchControlProfileTypedModelVisitor.cpp
+	src/config/generated/SwitchDiscreteControlProfileTypedModelVisitor.cpp
+	src/config/generated/SwitchReadingProfileTypedModelVisitor.cpp
+	src/config/generated/SwitchStatusProfileTypedModelVisitor.cpp
+)
 
 # directories to be automatically formatted by astyle
 SET(CPP_FORMAT_DIRS
