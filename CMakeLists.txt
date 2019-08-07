@@ -23,7 +23,7 @@ option(OPENFMB_NOTHING "Default to not building any plugins" OFF)
 
 if(OPENFMB_NOTHING)
    set(BUILD_BY_DEFAULT OFF)
-elseif()
+else()
    set(BUILD_BY_DEFAULT ON)
 endif()
 
