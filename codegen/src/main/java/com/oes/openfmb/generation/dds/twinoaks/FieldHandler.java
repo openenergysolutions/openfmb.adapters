@@ -1,4 +1,4 @@
-package com.oes.openfmb.generation.dds;
+package com.oes.openfmb.generation.dds.twinoaks;
 
 import com.google.protobuf.Descriptors;
 import com.google.protobuf.StringValue;

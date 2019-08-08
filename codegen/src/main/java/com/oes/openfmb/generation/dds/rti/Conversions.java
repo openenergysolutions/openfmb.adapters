@@ -1,4 +1,4 @@
-package com.oes.openfmb.generation.dds;
+package com.oes.openfmb.generation.dds.rti;
 
 import com.oes.openfmb.generation.Profiles;
 import com.oes.openfmb.generation.document.CppFileCollection;
@@ -12,7 +12,7 @@ import java.util.List;
 
 public class Conversions
 {
-    private final static Path path = Paths.get("../plugins/dds/twinoaks/src/twinoaks/generated");
+    private final static Path path = Paths.get("../plugins/dds/rti/src/generated");
 
     public final static GeneratedFileSet set = new GeneratedFileSet(
             Arrays.asList(path, path),
@@ -23,7 +23,9 @@ public class Conversions
 
         return Arrays.asList(
                 new ConvertToProto(Profiles.set),
-                new ConvertFromProto(Profiles.set)
+                new ConvertFromProto(Profiles.set),
+                new SubscriberFactory(Profiles.set),
+                new PublisherFactory(Profiles.set)
         );
     }
 
