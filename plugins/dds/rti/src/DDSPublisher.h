@@ -7,7 +7,6 @@
 
 #include <adapter-api/ISubscriptionHandler.h>
 
-#include "IDDSPublisher.h"
 #include "generated/ConvertFromProto.h"
 
 namespace adapter {
@@ -15,14 +14,13 @@ namespace dds {
 namespace rti {
 
 template<typename ProtoType, typename DdsType>
-class DDSPublisher : public api::ISubscriptionHandler<ProtoType>, public IDDSPublisher, public std::enable_shared_from_this<DDSPublisher<ProtoType, DdsType>> {
+class DDSPublisher : public api::ISubscriptionHandler<ProtoType> {
 
 public:
-    DDSPublisher(const api::Logger& logger, api::subscriber_t subscriber, const ::dds::pub::Publisher& dds_publisher, const ::dds::topic::Topic<DdsType>& topic)
+    DDSPublisher(const api::Logger& logger, std::shared_ptr<::dds::pub::Publisher> dds_publisher, const ::dds::topic::Topic<DdsType>& topic)
         : m_logger{logger},
-          m_subscriber{subscriber},
           m_dds_publisher{dds_publisher},
-          m_data_writer{m_dds_publisher, topic}
+          m_data_writer{*m_dds_publisher, topic, get_qos()}
     {
 
     }
@@ -35,16 +33,18 @@ public:
         m_data_writer.write(dds_data);
     }
 
-    // IDDSPublisher
-    void start() override
+private:
+    static ::dds::pub::qos::DataWriterQos get_qos()
     {
-        m_subscriber->subscribe(shared_from_this());
+        ::dds::pub::qos::DataWriterQos qos{};
+        qos << ::dds::core::policy::Reliability::BestEffort();
+        qos << ::dds::core::policy::History::KeepLast(100);
+        qos << ::rti::core::policy::PublishMode::Asynchronous();
+        return qos;
     }
 
-private:
     api::Logger m_logger;
-    api::subscriber_t m_subscriber;
-    const ::dds::pub::Publisher& m_dds_publisher;
+    std::shared_ptr<::dds::pub::Publisher> m_dds_publisher;
 
     ::dds::pub::DataWriter<DdsType> m_data_writer;
     ProtoType m_proto_message;

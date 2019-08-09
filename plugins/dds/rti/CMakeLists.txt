@@ -39,7 +39,6 @@ set(rti_dds_plugin_private_headers
     ./src/ConfigKeys.h
     ./src/DDSPlugin.h
     ./src/DDSPublisher.h
-    ./src/IDDSPublisher.h
     ./src/DDSSubscriber.h
     ./src/IDDSSubscriber.h
 
@@ -65,3 +64,5 @@ target_include_directories(rti-dds-plugin
 target_link_libraries(rti-dds-plugin PRIVATE RTIConnextDDS::cpp2_api adapter-util)
 clang_tidy(rti-dds-plugin)
 clang_format(rti-dds-plugin EXCLUDES "/generated/")
+
+add_subdirectory(./test)

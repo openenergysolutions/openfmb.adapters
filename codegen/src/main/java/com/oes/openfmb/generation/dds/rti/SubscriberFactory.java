@@ -75,9 +75,9 @@ public class SubscriberFactory implements CppFileCollection {
         return line("template<>")
                 .then(String.format("struct SubscriberFactory<%s>", Helpers.getProtoName(profile)))
                 .bracketSemicolon(
-                    line("static std::unique_ptr<IDDSSubscriber> build(const api::Logger& logger, const ::dds::sub::Subscriber& dds_subscriber, api::publisher_t publisher)")
+                    line("static std::unique_ptr<IDDSSubscriber> build(const api::Logger& logger, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, api::publisher_t publisher)")
                     .bracket(lines(
-                                String.format("::dds::topic::Topic<%s> topic{dds_subscriber.participant(), \"openfmb.%s\"};", Helpers.getDDSName(profile), profile.getFullName()),
+                                String.format("::dds::topic::Topic<%s> topic{dds_subscriber->participant(), \"openfmb.%s\"};", Helpers.getDDSName(profile), profile.getFullName()),
                                 String.format("return std::make_unique<DDSSubscriber<%s, %s>>(logger, dds_subscriber, topic, publisher);", Helpers.getProtoName(profile), Helpers.getDDSName(profile))
                             )
                     )

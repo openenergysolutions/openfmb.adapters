@@ -24,8 +24,6 @@ public class ConvertFromProto implements CppFileCollection {
         this.children = Helpers.getChildDescriptors(profiles);
     }
 
-
-
     @Override
     public List<CppFile> headers() {
         return Collections.singletonList(

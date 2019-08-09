@@ -75,10 +75,10 @@ public class PublisherFactory implements CppFileCollection {
         return line("template<>")
                 .then(String.format("struct PublisherFactory<%s>", Helpers.getProtoName(profile)))
                 .bracketSemicolon(
-                    line("static std::shared_ptr<IDDSPublisher> build(const api::Logger& logger, api::subscriber_t subscriber, const ::dds::pub::Publisher& dds_publisher)")
+                    line(String.format("static std::shared_ptr<api::ISubscriptionHandler<%s>> build(const api::Logger& logger, std::shared_ptr<::dds::pub::Publisher> dds_publisher)", Helpers.getProtoName(profile)))
                     .bracket(lines(
-                                String.format("::dds::topic::Topic<%s> topic{dds_publisher.participant(), \"openfmb.%s\"};", Helpers.getDDSName(profile), profile.getFullName()),
-                                String.format("return std::make_shared<DDSPublisher<%s, %s>>(logger, subscriber, dds_publisher, topic);", Helpers.getProtoName(profile), Helpers.getDDSName(profile))
+                                String.format("::dds::topic::Topic<%s> topic{dds_publisher->participant(), \"openfmb.%s\"};", Helpers.getDDSName(profile), profile.getFullName()),
+                                String.format("return std::make_shared<DDSPublisher<%s, %s>>(logger, dds_publisher, topic);", Helpers.getProtoName(profile), Helpers.getDDSName(profile))
                             )
                     )
                 );
