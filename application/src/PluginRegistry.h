@@ -11,10 +11,11 @@ namespace adapter {
 class PluginRegistry {
 
 public:
+
     PluginRegistry();
 
     template <class Action>
-    void foreach_adapter(const Action& action) const
+    void foreach_plugin(const Action& action) const
     {
         for (auto& entry : lookup) {
             action(*entry.second);

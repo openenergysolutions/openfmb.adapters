@@ -30,6 +30,8 @@ api::profile_vec_t get_profiles(const argagg::parser_results& args);
 
 std::shared_ptr<const api::IPluginFactory> get_factory(const argagg::parser_results& args);
 
+void print_plugins();
+
 // global plugin registry
 PluginRegistry registry;
 
@@ -48,6 +50,11 @@ int main(int argc, char** argv)
 
         if (args[flags::help]) {
             parser.print_help();
+            return 0;
+        }
+
+        if(args[flags::list]) {
+            print_plugins();
             return 0;
         }
 
@@ -97,6 +104,32 @@ std::shared_ptr<const api::IPluginFactory> get_factory(const argagg::parser_resu
     }
 
     return registry.find(args[flags::plugin].as<std::string>());
+}
+
+void print_plugins()
+{
+    std::cout << "available plugins:" << std::endl << std::endl;
+
+    // calculate the maximum length for padding
+    size_t max_name_length = 0;
+    registry.foreach_plugin(
+            [&](api::IPluginFactory& factory) {
+                if(factory.name().size() > max_name_length) {
+                    max_name_length = factory.name().size();
+                }
+            }
+    );
+
+    registry.foreach_plugin(
+            [&](api::IPluginFactory& factory) {
+                const size_t num_spaces = max_name_length - factory.name().size();
+                std::cout << factory.name();
+                for(size_t i = 0; i < num_spaces; ++i) {
+                    std::cout << " ";
+                }
+                std::cout << " - " << factory.description() << std::endl;
+            }
+    );
 }
 
 int run_application(const std::string& config_file_path)
@@ -156,7 +189,7 @@ int write_default_config(const std::string& config_file_path)
     out << YAML::Newline << YAML::Newline << YAML::Comment("map of plugin configurations");
     out << YAML::Key << keys::plugins;
     out << YAML::BeginMap;
-    registry.foreach_adapter(
+    registry.foreach_plugin(
         [&](api::IPluginFactory& factory) {
             write_default_plugin_config(factory, out);
             out << YAML::Newline;
@@ -214,7 +247,7 @@ std::vector<std::unique_ptr<api::IPlugin>> initialize(const std::string& yaml_pa
         }
     };
 
-    registry.foreach_adapter(try_to_load);
+    registry.foreach_plugin(try_to_load);
 
     return std::move(plugins);
 }

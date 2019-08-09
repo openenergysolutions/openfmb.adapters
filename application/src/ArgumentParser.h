@@ -12,6 +12,7 @@ namespace flags {
     constexpr const char* generate_config = "generate_config";
     constexpr const char* plugin = "plugin";
     constexpr const char* profile = "profile";
+    constexpr const char* list = "list";
 }
 
 class ArgumentParser {
