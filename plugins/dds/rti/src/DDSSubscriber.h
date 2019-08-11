@@ -26,6 +26,11 @@ public:
 
     }
 
+    ~DDSSubscriber()
+    {
+        m_data_reader.close();
+    }
+
     // DataReaderListener
     virtual void on_requested_deadline_missed(::dds::sub::DataReader<DdsType>& reader, const ::dds::core::status::RequestedDeadlineMissedStatus& status) override
     {

@@ -23,7 +23,7 @@ public:
     using subscriber_vec_t = std::vector<std::unique_ptr<IDDSSubscriber>>;
 
     DDSPlugin() = delete;
-    ~DDSPlugin() = default;
+    ~DDSPlugin();
 
     DDSPlugin(const api::Logger& logger, const YAML::Node& node, api::message_bus_t bus);
 

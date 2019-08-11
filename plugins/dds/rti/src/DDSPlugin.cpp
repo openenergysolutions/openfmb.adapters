@@ -62,6 +62,11 @@ DDSPlugin::DDSPlugin(const api::Logger& logger, const YAML::Node& node, api::mes
     });
 }
 
+DDSPlugin::~DDSPlugin()
+{
+    m_dds_subscriber->close();
+}
+
 void DDSPlugin::start()
 {
     for(auto& subscriber : m_subscribers)

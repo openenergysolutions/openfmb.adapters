@@ -8,6 +8,7 @@ namespace rti {
 class IDDSSubscriber
 {
 public:
+    virtual ~IDDSSubscriber() = default;
     virtual void start() = 0;
 };
 
