@@ -50,6 +50,8 @@ public class PublisherFactory implements CppFileCollection {
     {
         return spaced(
             include("DDSPublisher.h"),
+            include("generated/TopicRepository.h"),
+            include("adapter-util/config/SubjectNameSuffix.h"),
             join(Includes.getIncludeFiles(this.profiles).stream().map(Document::include)),
             include("OpenFMB-IDL.hpp")
         );
@@ -75,11 +77,9 @@ public class PublisherFactory implements CppFileCollection {
         return line("template<>")
                 .then(String.format("struct PublisherFactory<%s>", Helpers.getProtoName(profile)))
                 .bracketSemicolon(
-                    line(String.format("static std::shared_ptr<api::ISubscriptionHandler<%s>> build(const api::Logger& logger, std::shared_ptr<::dds::pub::Publisher> dds_publisher)", Helpers.getProtoName(profile)))
-                    .bracket(lines(
-                                String.format("::dds::topic::Topic<%s> topic{dds_publisher->participant(), \"openfmb.%s\"};", Helpers.getDDSName(profile), profile.getFullName()),
-                                String.format("return std::make_shared<DDSPublisher<%s, %s>>(logger, dds_publisher, topic);", Helpers.getProtoName(profile), Helpers.getDDSName(profile))
-                            )
+                    line(String.format("static std::shared_ptr<api::ISubscriptionHandler<%s>> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::pub::Publisher> dds_publisher)", Helpers.getProtoName(profile)))
+                    .bracket(
+                            line(String.format("return std::make_shared<DDSPublisher<%s, %s>>(logger, subject, dds_publisher, topic_repo.%s);", Helpers.getProtoName(profile), Helpers.getDDSName(profile), profile.getName().toLowerCase()))
                     )
                 );
     }

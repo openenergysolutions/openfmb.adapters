@@ -50,6 +50,8 @@ public class SubscriberFactory implements CppFileCollection {
     {
         return spaced(
             include("DDSSubscriber.h"),
+            include("generated/TopicRepository.h"),
+            include("adapter-util/config/SubjectNameSuffix.h"),
             join(Includes.getIncludeFiles(this.profiles).stream().map(Document::include)),
             include("OpenFMB-IDL.hpp")
         );
@@ -75,11 +77,9 @@ public class SubscriberFactory implements CppFileCollection {
         return line("template<>")
                 .then(String.format("struct SubscriberFactory<%s>", Helpers.getProtoName(profile)))
                 .bracketSemicolon(
-                    line("static std::unique_ptr<IDDSSubscriber> build(const api::Logger& logger, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, api::publisher_t publisher)")
-                    .bracket(lines(
-                                String.format("::dds::topic::Topic<%s> topic{dds_subscriber->participant(), \"openfmb.%s\"};", Helpers.getDDSName(profile), profile.getFullName()),
-                                String.format("return std::make_unique<DDSSubscriber<%s, %s>>(logger, dds_subscriber, topic, publisher);", Helpers.getProtoName(profile), Helpers.getDDSName(profile))
-                            )
+                    line("static std::unique_ptr<IDDSSubscriber> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, api::publisher_t publisher)")
+                    .bracket(
+                            line(String.format("return std::make_unique<DDSSubscriber<%s, %s>>(logger, subject, dds_subscriber, topic_repo.%s, publisher);", Helpers.getProtoName(profile), Helpers.getDDSName(profile), profile.getName().toLowerCase()))
                     )
                 );
     }

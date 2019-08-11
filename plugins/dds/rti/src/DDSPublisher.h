@@ -6,6 +6,8 @@
 #include <dds/dds.hpp>
 
 #include <adapter-api/ISubscriptionHandler.h>
+#include <adapter-util/ProfileInfo.h>
+#include <adapter-util/config/SubjectNameSuffix.h>
 
 #include "generated/ConvertFromProto.h"
 
@@ -17,8 +19,9 @@ template<typename ProtoType, typename DdsType>
 class DDSPublisher : public api::ISubscriptionHandler<ProtoType> {
 
 public:
-    DDSPublisher(const api::Logger& logger, std::shared_ptr<::dds::pub::Publisher> dds_publisher, const ::dds::topic::Topic<DdsType>& topic)
+    DDSPublisher(const api::Logger& logger, const util::SubjectNameSuffix& subject, std::shared_ptr<::dds::pub::Publisher> dds_publisher, const ::dds::topic::Topic<DdsType>& topic)
         : m_logger{logger},
+          m_subject{subject},
           m_dds_publisher{dds_publisher},
           m_data_writer{*m_dds_publisher, topic, get_qos()}
     {
@@ -26,6 +29,11 @@ public:
     }
 
     // ISubscriptionHandler
+    bool matches(const ProtoType& message) const override
+    {
+        return m_subject.is_wildcard() || (util::profile_info<ProtoType>::get_conducting_equip(message).mrid() == m_subject.get_value());
+    }
+
     void process(const ProtoType& message) override
     {
         DdsType dds_data{};
@@ -44,6 +52,7 @@ private:
     }
 
     api::Logger m_logger;
+    util::SubjectNameSuffix m_subject;
     std::shared_ptr<::dds::pub::Publisher> m_dds_publisher;
 
     ::dds::pub::DataWriter<DdsType> m_data_writer;

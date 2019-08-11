@@ -30,8 +30,6 @@ set(NATS_SOURCES
         src/NATSPublisher.h
 		src/NATSSubscriber.h
         src/SubjectName.h
-        src/SubjectNameSuffix.h
-        src/SubjectNameSuffix.cpp
         src/NatsOptions.h
 		src/NatsOptions.cpp)
 

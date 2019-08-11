@@ -4,6 +4,8 @@
 #include <memory>
 
 #include <adapter-api/Logger.h>
+#include <adapter-util/config/SubjectNameSuffix.h>
+
 #include <dds/dds.hpp>
 
 #include "IDDSSubscriber.h"
@@ -17,8 +19,9 @@ template<typename ProtoType, typename DdsType>
 class DDSSubscriber : public ::dds::sub::DataReaderListener<DdsType>, public IDDSSubscriber {
 
 public:
-    DDSSubscriber(const api::Logger& logger, std::shared_ptr<::dds::sub::Subscriber> dds_subscribe, const ::dds::topic::Topic<DdsType>& topic, api::publisher_t publisher)
+    DDSSubscriber(const api::Logger& logger, const util::SubjectNameSuffix& subject, std::shared_ptr<::dds::sub::Subscriber> dds_subscribe, const ::dds::topic::Topic<DdsType>& topic, api::publisher_t publisher)
         : m_logger{logger},
+          m_subject{subject},
           m_dds_subscriber{std::move(dds_subscribe)},
           m_publisher{publisher},
           m_data_reader{*m_dds_subscriber, topic}
@@ -61,7 +64,11 @@ public:
 
             m_proto_message.Clear();
             convert_to_proto(message, m_proto_message);
-            m_publisher->publish(m_proto_message);
+
+            if(m_subject.is_wildcard() || (util::profile_info<ProtoType>::get_conducting_equip(m_proto_message).mrid() == m_subject.get_value()))
+            {
+                m_publisher->publish(m_proto_message);
+            }
         }
     }
 
@@ -83,6 +90,7 @@ public:
 
 private:
     api::Logger m_logger;
+    util::SubjectNameSuffix m_subject;
     std::shared_ptr<::dds::sub::Subscriber> m_dds_subscriber;
     api::publisher_t m_publisher;
 

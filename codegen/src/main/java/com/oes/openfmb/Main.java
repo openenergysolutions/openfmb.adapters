@@ -24,8 +24,6 @@ public class Main {
                 Stream.of(com.oes.openfmb.generation.dds.rti.Conversions.set)
         ).reduce(Stream::concat).orElseGet(Stream::empty).collect(Collectors.toList());
 
-
-
         sets.forEach(GeneratedFileSet::deleteFolders);
         sets.forEach(GeneratedFileSet::generate);
     }

@@ -25,7 +25,8 @@ public class Conversions
                 new ConvertToProto(Profiles.set),
                 new ConvertFromProto(Profiles.set),
                 new SubscriberFactory(Profiles.set),
-                new PublisherFactory(Profiles.set)
+                new PublisherFactory(Profiles.set),
+                new TopicRepository(Profiles.set)
         );
     }
 

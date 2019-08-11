@@ -46,6 +46,7 @@ set(rti_dds_plugin_private_headers
     ./src/generated/ConvertToProto.h
     ./src/generated/PublisherFactory.h
     ./src/generated/SubscriberFactory.h
+    ./src/generated/TopicRepository.h
 )
 
 set(rti_dds_plugin_src
@@ -54,6 +55,7 @@ set(rti_dds_plugin_src
 
     ./src/generated/ConvertFromProto.cpp
     ./src/generated/ConvertToProto.cpp
+    ./src/generated/TopicRepository.cpp
 )
 
 add_library(rti-dds-plugin STATIC ${rti_dds_plugin_public_headers} ${rti_dds_plugin_private_headers} ${rti_dds_plugin_src} ${dds_sources})

@@ -2,6 +2,7 @@
 #define OPENFMB_ADAPTER_DDS_RTI_DDSPLUGIN_H
 
 #include "IDDSSubscriber.h"
+#include "generated/TopicRepository.h"
 
 #include <adapter-api/IMessageBus.h>
 #include <adapter-api/IPlugin.h>
@@ -40,6 +41,7 @@ private:
     api::Logger m_logger;
 
     ::dds::domain::DomainParticipant m_participant;
+    TopicRepository m_topics;
     std::shared_ptr<::dds::pub::Publisher> m_dds_publisher;
     std::shared_ptr<::dds::sub::Subscriber> m_dds_subscriber;
 

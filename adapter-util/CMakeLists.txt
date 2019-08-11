@@ -33,6 +33,7 @@ set(HEADERS
 		include/adapter-util/config/ITypedModelVisitor.h
 		include/adapter-util/config/YAMLGetters.h
 		include/adapter-util/config/PublishingConfigReadVisitorBase.h
+		include/adapter-util/config/SubjectNameSuffix.h
 		include/adapter-util/config/generated/BoolFieldType.h
 		include/adapter-util/config/generated/Int32FieldType.h
 		include/adapter-util/config/generated/Int64FieldType.h
@@ -57,7 +58,8 @@ set(SOURCES
 	src/config/ConfigWriteVisitorBase.cpp
 	src/config/FieldInfo.cpp
 	src/config/DescriptorPath.cpp
-    src/config/YAMLGetters.cpp
+	src/config/YAMLGetters.cpp
+	src/config/SubjectNameSuffix.cpp
 	src/config/generated/BoolFieldType.cpp
 	src/config/generated/Int32FieldType.cpp
 	src/config/generated/Int64FieldType.cpp

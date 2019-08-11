@@ -7,6 +7,7 @@
 #include <adapter-api/ProfileRegistry.h>
 #include <adapter-util/ConfigStrings.h>
 #include <adapter-util/util/YAMLUtil.h>
+#include <adapter-util/config/SubjectNameSuffix.h>
 
 namespace adapter {
 namespace dds {
@@ -15,9 +16,9 @@ namespace rti {
 template<typename T>
 struct PublishProfileReader
 {
-    static void handle(api::Logger& logger, api::subscriber_t subscriber, std::shared_ptr<::dds::pub::Publisher> dds_publisher)
+    static void handle(const util::SubjectNameSuffix& subject, api::Logger& logger, const TopicRepository& topic_repo, api::subscriber_t subscriber, std::shared_ptr<::dds::pub::Publisher> dds_publisher)
     {
-        auto publisher = PublisherFactory<T>::build(logger, dds_publisher);
+        auto publisher = PublisherFactory<T>::build(logger, subject, topic_repo, dds_publisher);
 
         subscriber->subscribe(std::move(publisher));
 
@@ -28,9 +29,9 @@ struct PublishProfileReader
 template<typename T>
 struct SubscribeProfileReader
 {
-    static void handle(api::Logger& logger, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, api::publisher_t publisher, DDSPlugin::subscriber_vec_t& subscriptions)
+    static void handle(const util::SubjectNameSuffix& subject, api::Logger& logger, const TopicRepository& topic_repo, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, api::publisher_t publisher, DDSPlugin::subscriber_vec_t& subscriptions)
     {
-        subscriptions.push_back(SubscriberFactory<T>::build(logger, dds_subscriber, publisher));
+        subscriptions.push_back(SubscriberFactory<T>::build(logger, subject, topic_repo, dds_subscriber, publisher));
 
         logger.info("configured DDS subscriber for subject: {}", T::descriptor()->full_name());
     }
@@ -39,6 +40,7 @@ struct SubscribeProfileReader
 DDSPlugin::DDSPlugin(const api::Logger& logger, const YAML::Node& node, api::message_bus_t bus)
     : m_logger{logger},
       m_participant{util::yaml::require_integer<int32_t>(node, keys::domain_id)},
+      m_topics{m_participant},
       m_dds_publisher{std::make_shared<::dds::pub::Publisher>(m_participant, get_publisher_qos())},
       m_dds_subscriber{std::make_shared<::dds::sub::Subscriber>(m_participant)}
 {
@@ -46,7 +48,9 @@ DDSPlugin::DDSPlugin(const api::Logger& logger, const YAML::Node& node, api::mes
     util::yaml::foreach(util::yaml::require(node, keys::publish), [&](const YAML::Node& entry) {
         api::ProfileRegistry::handle_by_name<PublishProfileReader>(
             util::yaml::require_string(entry, util::keys::profile),
+            util::SubjectNameSuffix(util::yaml::require_string(entry, keys::subject)),
             m_logger,
+            m_topics,
             bus,
             m_dds_publisher);
     });
@@ -55,7 +59,9 @@ DDSPlugin::DDSPlugin(const api::Logger& logger, const YAML::Node& node, api::mes
     util::yaml::foreach(util::yaml::require(node, keys::subscribe), [&](const YAML::Node& entry) {
         api::ProfileRegistry::handle_by_name<SubscribeProfileReader>(
             util::yaml::require_string(entry, util::keys::profile),
+            util::SubjectNameSuffix(util::yaml::require_string(entry, keys::subject)),
             m_logger,
+            m_topics,
             m_dds_subscriber,
             bus,
             m_subscribers);
