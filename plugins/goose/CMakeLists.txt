@@ -30,6 +30,8 @@ set(goose_private_headers
     ./src/sub/SubscribingPlugin.h
     ./src/sub/SubscribingProfileReader.h
     ./src/sub/SubscriptionHandler.h
+    ./src/sub/TimeQualityMessageAccessor.h
+    ./src/sub/TimeQualityTemplatesConfigReader.h
 )
 
 set(goose_src
@@ -50,6 +52,7 @@ set(goose_src
     ./src/sub/SubscribingConfigWriteVisitor.cpp
     ./src/sub/SubscribingPlugin.cpp
     ./src/sub/SubscribingPluginFactory.cpp
+    ./src/sub/TimeQualityTemplatesConfigReader.cpp
 )
 
 add_library(goose-plugin STATIC ${goose_public_headers} ${goose_private_headers} ${goose_src})

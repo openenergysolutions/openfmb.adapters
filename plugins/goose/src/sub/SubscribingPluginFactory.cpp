@@ -66,6 +66,7 @@ namespace goose {
         out << YAML::Key << util::keys::profile << YAML::Value << profile;
         write_goose_structure(out);
         write_quality_template(out);
+        write_time_quality_template(out);
         out << YAML::Key << keys::mapping;
         out << YAML::BeginMap;
         api::ProfileRegistry::handle_by_name<SubWriterHandler>(profile, out);
@@ -75,7 +76,7 @@ namespace goose {
 
     void SubscribingPluginFactory::write_quality_template(YAML::Emitter& out) const
     {
-        out << YAML::Key << keys::quality_templates << YAML::Comment("GOOSE structure definition");
+        out << YAML::Key << keys::quality_templates << YAML::Comment("Quality templates");
         out << YAML::BeginSeq;
         out << YAML::BeginMap;
         out << YAML::Key << keys::quality_id << YAML::Value << "default-quality" << YAML::Comment("unique id");
@@ -91,6 +92,20 @@ namespace goose {
         out << YAML::Key << keys::quality_source << YAML::Value << commonmodule::SourceKind_Name(commonmodule::SourceKind::SourceKind_process) << YAML::Comment(util::enumeration::get_enum_set(*commonmodule::SourceKind_descriptor()));
         out << YAML::Key << keys::quality_test << YAML::Value << false;
         out << YAML::Key << keys::quality_operatorblocked << YAML::Value << false;
+        out << YAML::EndMap;
+        out << YAML::EndSeq;
+    }
+
+    void SubscribingPluginFactory::write_time_quality_template(YAML::Emitter& out) const
+    {
+        out << YAML::Key << keys::timequality_templates << YAML::Comment("Time quality templates");
+        out << YAML::BeginSeq;
+        out << YAML::BeginMap;
+        out << YAML::Key << keys::timequality_id << YAML::Value << "default-time-quality" << YAML::Comment("unique id");
+        out << YAML::Key << keys::timequality_clock_failure << YAML::Value << false;
+        out << YAML::Key << keys::timequality_clock_not_synchronized << YAML::Value << false;
+        out << YAML::Key << keys::timequality_leap_seconds_known << YAML::Value << false;
+        out << YAML::Key << keys::timequality_time_accuracy << YAML::Value << commonmodule::TimeAccuracyKind_Name(commonmodule::TimeAccuracyKind::TimeAccuracyKind_T0) << YAML::Comment(util::enumeration::get_enum_set(*commonmodule::TimeAccuracyKind_descriptor()));
         out << YAML::EndMap;
         out << YAML::EndSeq;
     }

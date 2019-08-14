@@ -64,6 +64,10 @@ namespace goose {
     void SubscribingConfigWriteVisitor::write_mapped_commonmodule_timestamp_keys(YAML::Emitter& out)
     {
         write_name(out);
+
+        out << YAML::Key << keys::timequality_name << YAML::Value << "";
+        out << YAML::Key << QualityMappingType::label << YAML::Value << QualityMappingType::to_string(QualityMappingType::Value::copy) << YAML::Comment(util::enumeration::get_value_set<QualityMappingType>());
+        out << YAML::Key << keys::timequality_id << YAML::Value << "default-time-quality";
     }
 
     void SubscribingConfigWriteVisitor::write_name(YAML::Emitter& out)

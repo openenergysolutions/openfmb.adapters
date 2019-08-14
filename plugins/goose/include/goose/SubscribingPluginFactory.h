@@ -20,6 +20,7 @@ namespace goose {
 
     private:
         void write_quality_template(YAML::Emitter& out) const;
+        void write_time_quality_template(YAML::Emitter& out) const;
         void write_goose_structure(YAML::Emitter& out) const;
     };
 

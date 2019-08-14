@@ -36,6 +36,14 @@ namespace goose {
         constexpr const char* const quality_source = "source";
         constexpr const char* const quality_test = "test";
         constexpr const char* const quality_operatorblocked = "operator_blocked";
+
+        constexpr const char* const timequality_templates = "time-quality-templates";
+        constexpr const char* const timequality_id = "template-id";
+        constexpr const char* const timequality_name = "time-quality-name";
+        constexpr const char* const timequality_clock_failure = "clock_failure";
+        constexpr const char* const timequality_clock_not_synchronized = "clock_not_synchronized";
+        constexpr const char* const timequality_leap_seconds_known = "leap_seconds_known";
+        constexpr const char* const timequality_time_accuracy = "time_accuracy";
     } // namespace keys
 } // namespace goose
 } // namespace adapter

@@ -4,6 +4,8 @@
 #include "generated/QualityMappingType.h"
 #include "sub/ConstantMessageAccessor.h"
 #include "sub/QualityTemplatesConfigReader.h"
+#include "sub/TimeQualityMessageAccessor.h"
+#include "sub/TimeQualityTemplatesConfigReader.h"
 #include <goose-cpp/messages/BitString.h>
 #include <adapter-api/Exception.h>
 #include <adapter-api/Logger.h>
@@ -19,10 +21,11 @@ namespace goose {
     template <typename T>
     class SubscribingConfigReadVisitor final : public util::SubscribingConfigReadVisitorBase<T> {
     public:
-        SubscribingConfigReadVisitor(const YAML::Node& root, api::Logger logger, const QualityTemplatesConfigReader& quality_templates)
+        SubscribingConfigReadVisitor(const YAML::Node& root, api::Logger logger, const QualityTemplatesConfigReader& quality_templates, const TimeQualityTemplatesConfigReader& time_quality_templates)
             : util::SubscribingConfigReadVisitorBase<T>(root)
             , m_logger{ std::move(logger) }
             , m_quality_templates{ quality_templates }
+            , m_time_quality_templates{ time_quality_templates }
         {
         }
 
@@ -119,6 +122,17 @@ namespace goose {
             return true;
         }
 
+        bool get_time_quality(const std::string& name, util::message_accessor_t<T, commonmodule::TimeQuality>& accessor) const
+        {
+            auto search = m_time_quality_accessors.find(name);
+            if (search == m_time_quality_accessors.end()) {
+                return false;
+            };
+
+            accessor = search->second;
+            return true;
+        }
+
         const std::string& get_mrid() const
         {
             return this->get_primary_mrid();
@@ -128,7 +142,7 @@ namespace goose {
         void handle_mapped_field(const YAML::Node& node, const util::accessor_t<T, bool>& accessor) final
         {
             std::string name;
-            if (get_name(node, name)) {
+            if (get_name(node, keys::name, name)) {
                 m_bool_accessors.insert({ name, accessor });
             }
         }
@@ -136,7 +150,7 @@ namespace goose {
         void handle_mapped_field(const YAML::Node& node, const util::accessor_t<T, int32_t>& accessor) final
         {
             std::string name;
-            if (get_name(node, name)) {
+            if (get_name(node, keys::name, name)) {
                 m_int32_accessors.insert({ name, accessor });
             }
         }
@@ -144,7 +158,7 @@ namespace goose {
         void handle_mapped_field(const YAML::Node& node, const util::accessor_t<T, int64_t>& accessor) final
         {
             std::string name;
-            if (get_name(node, name)) {
+            if (get_name(node, keys::name, name)) {
                 m_int64_accessors.insert({ name, accessor });
             }
         }
@@ -152,7 +166,7 @@ namespace goose {
         void handle_mapped_field(const YAML::Node& node, const util::accessor_t<T, float>& accessor) final
         {
             std::string name;
-            if (get_name(node, name)) {
+            if (get_name(node, keys::name, name)) {
                 m_float_accessors.insert({ name, accessor });
             }
         }
@@ -160,7 +174,7 @@ namespace goose {
         void handle_mapped_field(const YAML::Node& node, const util::accessor_t<T, std::string>& accessor) final
         {
             std::string name;
-            if (get_name(node, name)) {
+            if (get_name(node, keys::name, name)) {
                 m_string_accessors.insert({ name, accessor });
             }
         }
@@ -168,7 +182,7 @@ namespace goose {
         void handle_mapped_field(const YAML::Node& node, const util::accessor_t<T, int>& accessor, google::protobuf::EnumDescriptor const* descriptor) final
         {
             std::string name;
-            if (get_name(node, name)) {
+            if (get_name(node, keys::name, name)) {
                 std::unordered_map<int, goose_cpp::BitString> mapping{};
                 util::yaml::foreach (util::yaml::require(node, util::keys::mapping), [&](const YAML::Node& node) {
                     const auto name = util::yaml::require_string(node, util::keys::name);
@@ -187,7 +201,7 @@ namespace goose {
         void handle_mapped_field(const YAML::Node& node, const util::message_accessor_t<T, commonmodule::Quality>& accessor) final
         {
             std::string name;
-            if (get_name(node, name)) {
+            if (get_name(node, keys::name, name)) {
                 auto quality_mapping_type = util::yaml::require_enum<QualityMappingType>(node);
                 if(quality_mapping_type == QualityMappingType::Value::copy)
                 {
@@ -213,8 +227,32 @@ namespace goose {
         void handle_mapped_field(const YAML::Node& node, const util::message_accessor_t<T, commonmodule::Timestamp>& accessor) final
         {
             std::string name;
-            if (get_name(node, name)) {
+            if (get_name(node, keys::name, name)) {
                 m_timestamp_accessors.insert({ name, accessor });
+            }
+
+            std::string time_quality_name;
+            if (get_name(node, keys::timequality_name, time_quality_name)) {
+                auto time_quality_accessor = std::make_shared<TimeQualityMessageAccessor<T>>(accessor);
+                auto quality_mapping_type = util::yaml::require_enum<QualityMappingType>(node);
+                if(quality_mapping_type == QualityMappingType::Value::copy)
+                {
+                    m_time_quality_accessors.insert({ time_quality_name, time_quality_accessor });
+                }
+                else
+                {
+                    auto quality_id = util::yaml::require_string(node, keys::timequality_id);
+                    auto& constant_quality = m_time_quality_templates.get(quality_id);
+
+                    if(quality_mapping_type == QualityMappingType::Value::constant)
+                    {
+                        m_time_quality_accessors.insert({ time_quality_name,  std::make_shared<ConstantMessageAccessor<T, commonmodule::TimeQuality>>(constant_quality)});
+                    }
+                    else if(quality_mapping_type == QualityMappingType::Value::constant_if_absent)
+                    {
+                        m_time_quality_accessors.insert({ time_quality_name, std::make_shared<ConstantFallbackMessageAccessor<T, commonmodule::TimeQuality>>(constant_quality, time_quality_accessor)});
+                    }
+                }
             }
         }
 
@@ -226,9 +264,10 @@ namespace goose {
         }
 
     private:
-        bool get_name(const YAML::Node& node, std::string& value)
+
+        bool get_name(const YAML::Node& node, const std::string& key, std::string& value)
         {
-            const auto name_node = node[keys::name];
+            const auto name_node = node[key];
             if (name_node) {
                 value = name_node.as<std::string>();
                 if (!value.empty()) {
@@ -246,6 +285,7 @@ namespace goose {
 
         api::Logger m_logger;
         const QualityTemplatesConfigReader& m_quality_templates;
+        const TimeQualityTemplatesConfigReader& m_time_quality_templates;
 
         std::unordered_set<std::string> m_names;
         std::unordered_map<std::string, const util::accessor_t<T, bool>> m_bool_accessors;
@@ -253,9 +293,10 @@ namespace goose {
         std::unordered_map<std::string, const util::accessor_t<T, int64_t>> m_int64_accessors;
         std::unordered_map<std::string, const util::accessor_t<T, float>> m_float_accessors;
         std::unordered_map<std::string, const util::accessor_t<T, std::string>> m_string_accessors;
-        std::unordered_map<std::string, std::pair<const util::accessor_t<T, int>, const std::unordered_map<int, goose_cpp::BitString>>> m_enum_accessors;
+        std::unordered_map<std::string, const std::pair<const util::accessor_t<T, int>, const std::unordered_map<int, goose_cpp::BitString>>> m_enum_accessors;
         std::unordered_map<std::string, const util::message_accessor_t<T, commonmodule::Quality>> m_quality_accessors;
         std::unordered_map<std::string, const util::message_accessor_t<T, commonmodule::Timestamp>> m_timestamp_accessors;
+        std::unordered_map<std::string, const util::message_accessor_t<T, commonmodule::TimeQuality>> m_time_quality_accessors;
     };
 
 } // namespace goose
