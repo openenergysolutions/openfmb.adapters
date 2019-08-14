@@ -48,8 +48,6 @@ void visit_commonmodule_MessageInfo(const set_t<commonmodule::MessageInfo>& sett
 
 void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& setter, const get_t<commonmodule::NamedObject>& getter, ITypedModelVisitor<switchmodule::SwitchDiscreteControlProfile>& visitor);
 
-void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& setter, const get_t<commonmodule::TimeQuality>& getter, ITypedModelVisitor<switchmodule::SwitchDiscreteControlProfile>& visitor);
-
 void visit_google_protobuf_BoolValue(const set_t<google::protobuf::BoolValue>& setter, const get_t<google::protobuf::BoolValue>& getter, ITypedModelVisitor<switchmodule::SwitchDiscreteControlProfile>& visitor);
 
 void visit_google_protobuf_StringValue(const set_t<google::protobuf::StringValue>& setter, const get_t<google::protobuf::StringValue>& getter, ITypedModelVisitor<switchmodule::SwitchDiscreteControlProfile>& visitor);
@@ -600,66 +598,6 @@ void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& sett
         );
         visitor.end_message_field();
     }
-}
-
-void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& setter, const get_t<commonmodule::TimeQuality>& getter, ITypedModelVisitor<switchmodule::SwitchDiscreteControlProfile>& visitor)
-{
-    visitor.handle(
-        "clockFailure",
-        AccessorBuilder<switchmodule::SwitchDiscreteControlProfile,bool>::build(
-            [setter](switchmodule::SwitchDiscreteControlProfile& profile, const bool& value) { setter(profile)->set_clockfailure(value); },
-            [getter](const switchmodule::SwitchDiscreteControlProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->clockfailure());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "clockNotSynchronized",
-        AccessorBuilder<switchmodule::SwitchDiscreteControlProfile,bool>::build(
-            [setter](switchmodule::SwitchDiscreteControlProfile& profile, const bool& value) { setter(profile)->set_clocknotsynchronized(value); },
-            [getter](const switchmodule::SwitchDiscreteControlProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->clocknotsynchronized());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "leapSecondsKnown",
-        AccessorBuilder<switchmodule::SwitchDiscreteControlProfile,bool>::build(
-            [setter](switchmodule::SwitchDiscreteControlProfile& profile, const bool& value) { setter(profile)->set_leapsecondsknown(value); },
-            [getter](const switchmodule::SwitchDiscreteControlProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->leapsecondsknown());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "timeAccuracy",
-        AccessorBuilder<switchmodule::SwitchDiscreteControlProfile,int>::build(
-            [setter](switchmodule::SwitchDiscreteControlProfile& profile, const int& value) { setter(profile)->set_timeaccuracy(static_cast<commonmodule::TimeAccuracyKind>(value)); },
-            [getter](const switchmodule::SwitchDiscreteControlProfile& profile, const handler_t<int>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->timeaccuracy());
-                return true;
-            }
-        ),
-        commonmodule::TimeAccuracyKind_descriptor()
-    );
 }
 
 void visit_google_protobuf_BoolValue(const set_t<google::protobuf::BoolValue>& setter, const get_t<google::protobuf::BoolValue>& getter, ITypedModelVisitor<switchmodule::SwitchDiscreteControlProfile>& visitor)

@@ -71,15 +71,11 @@ void visit_commonmodule_ControlValue(IModelVisitor& visitor);
 
 void visit_commonmodule_DEL(IModelVisitor& visitor);
 
-void visit_commonmodule_DetailQual(IModelVisitor& visitor);
-
 void visit_commonmodule_ENG_CalcMethodKind(IModelVisitor& visitor);
 
 void visit_commonmodule_ENG_GridConnectModeKind(IModelVisitor& visitor);
 
 void visit_commonmodule_ENG_PFSignKind(IModelVisitor& visitor);
-
-void visit_commonmodule_ENG_ScheduleParameter(IModelVisitor& visitor);
 
 void visit_commonmodule_ENS_BehaviourModeKind(IModelVisitor& visitor);
 
@@ -165,8 +161,6 @@ void visit_commonmodule_SwitchPoint(IModelVisitor& visitor);
 
 void visit_commonmodule_Terminal(IModelVisitor& visitor);
 
-void visit_commonmodule_TimeQuality(IModelVisitor& visitor);
-
 void visit_commonmodule_Unit(IModelVisitor& visitor);
 
 void visit_commonmodule_VSS(IModelVisitor& visitor);
@@ -246,14 +240,6 @@ void visit_generationmodule_GenerationReading(IModelVisitor& visitor);
 void visit_generationmodule_GenerationStatus(IModelVisitor& visitor);
 
 void visit_generationmodule_GenerationStatusZGEN(IModelVisitor& visitor);
-
-void visit_google_protobuf_BoolValue(IModelVisitor& visitor);
-
-void visit_google_protobuf_FloatValue(IModelVisitor& visitor);
-
-void visit_google_protobuf_Int32Value(IModelVisitor& visitor);
-
-void visit_google_protobuf_StringValue(IModelVisitor& visitor);
 
 void visit_loadmodule_LoadCSG(IModelVisitor& visitor);
 
@@ -1551,13 +1537,13 @@ void visit_commonmodule_ACDCTerminal(IModelVisitor& visitor)
 
     if(visitor.start_message_field("connected", google::protobuf::BoolValue::descriptor()))
     {
-        visit_google_protobuf_BoolValue(visitor);
+        visitor.handle("value", BoolFieldType::Value::ignored);
         visitor.end_message_field();
     }
 
     if(visitor.start_message_field("sequenceNumber", google::protobuf::Int32Value::descriptor()))
     {
-        visit_google_protobuf_Int32Value(visitor);
+        visitor.handle("value", Int32FieldType::Value::ignored);
         visitor.end_message_field();
     }
 }
@@ -1593,7 +1579,7 @@ void visit_commonmodule_ActivePower(IModelVisitor& visitor)
 
     if(visitor.start_message_field("value", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue(visitor);
+        visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
     }
 }
@@ -1623,13 +1609,13 @@ void visit_commonmodule_AnalogueValue(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("f", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue(visitor);
+        visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
     }
 
     if(visitor.start_message_field("i", google::protobuf::Int32Value::descriptor()))
     {
-        visit_google_protobuf_Int32Value(visitor);
+        visitor.handle("value", Int32FieldType::Value::ignored);
         visitor.end_message_field();
     }
 }
@@ -1638,24 +1624,24 @@ void visit_commonmodule_AnalogueValueCtl(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("f", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue(visitor);
+        visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
     }
 
     if(visitor.start_message_field("i", google::protobuf::Int32Value::descriptor()))
     {
-        visit_google_protobuf_Int32Value(visitor);
+        visitor.handle("value", Int32FieldType::Value::ignored);
         visitor.end_message_field();
     }
 }
 
 void visit_commonmodule_BCR(IModelVisitor& visitor)
 {
-    visitor.handle_int64("actVal");
+    visitor.handle("actVal", Int64FieldType::Value::mapped);
 
-    visitor.handle_commonmodule_Quality("q");
+    visitor.handle("q", QualityFieldType::Value::ignored);
 
-    visitor.handle_commonmodule_Timestamp("t");
+    visitor.handle("t", TimestampFieldType::Value::ignored);
 
     if(visitor.start_message_field("units", commonmodule::Optional_UnitSymbolKind::descriptor()))
     {
@@ -1693,9 +1679,9 @@ void visit_commonmodule_CMV(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    visitor.handle_commonmodule_Quality("q");
+    visitor.handle("q", QualityFieldType::Value::ignored);
 
-    visitor.handle_commonmodule_Timestamp("t");
+    visitor.handle("t", TimestampFieldType::Value::ignored);
 
     if(visitor.start_message_field("units", commonmodule::Unit::descriptor()))
     {
@@ -1708,13 +1694,13 @@ void visit_commonmodule_CheckConditions(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("interlockCheck", google::protobuf::BoolValue::descriptor()))
     {
-        visit_google_protobuf_BoolValue(visitor);
+        visitor.handle("value", BoolFieldType::Value::mapped);
         visitor.end_message_field();
     }
 
     if(visitor.start_message_field("synchroCheck", google::protobuf::BoolValue::descriptor()))
     {
-        visit_google_protobuf_BoolValue(visitor);
+        visitor.handle("value", BoolFieldType::Value::mapped);
         visitor.end_message_field();
     }
 }
@@ -1727,7 +1713,7 @@ void visit_commonmodule_ConductingEquipment(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    visitor.handle_string("mRID");
+    visitor.handle("mRID", StringFieldType::Value::primary_uuid);
 }
 
 void visit_commonmodule_ConductingEquipmentTerminalReading(IModelVisitor& visitor)
@@ -1741,7 +1727,7 @@ void visit_commonmodule_ConductingEquipmentTerminalReading(IModelVisitor& visito
 
 void visit_commonmodule_ControlDPC(IModelVisitor& visitor)
 {
-    visitor.handle_bool("ctlVal");
+    visitor.handle("ctlVal", BoolFieldType::Value::mapped);
 }
 
 void visit_commonmodule_ControlFSCC(IModelVisitor& visitor)
@@ -1767,7 +1753,7 @@ void visit_commonmodule_ControlFSCC(IModelVisitor& visitor)
 
 void visit_commonmodule_ControlING(IModelVisitor& visitor)
 {
-    visitor.handle_int32("setVal");
+    visitor.handle("setVal", Int64FieldType::Value::mapped);
 
     if(visitor.start_message_field("units", commonmodule::Unit::descriptor()))
     {
@@ -1778,7 +1764,7 @@ void visit_commonmodule_ControlING(IModelVisitor& visitor)
 
 void visit_commonmodule_ControlISC(IModelVisitor& visitor)
 {
-    visitor.handle_int32("ctlVal");
+    visitor.handle("ctlVal", Int32FieldType::Value::mapped);
 }
 
 void visit_commonmodule_ControlMessageInfo(IModelVisitor& visitor)
@@ -1792,7 +1778,7 @@ void visit_commonmodule_ControlMessageInfo(IModelVisitor& visitor)
 
 void visit_commonmodule_ControlSPC(IModelVisitor& visitor)
 {
-    visitor.handle_bool("ctlVal");
+    visitor.handle("ctlVal", BoolFieldType::Value::mapped);
 }
 
 void visit_commonmodule_ControlScheduleFSCH(IModelVisitor& visitor)
@@ -1814,7 +1800,7 @@ void visit_commonmodule_ControlValue(IModelVisitor& visitor)
 
     if(visitor.start_message_field("modBlk", google::protobuf::BoolValue::descriptor()))
     {
-        visit_google_protobuf_BoolValue(visitor);
+        visitor.handle("value", BoolFieldType::Value::ignored);
         visitor.end_message_field();
     }
 }
@@ -1840,80 +1826,54 @@ void visit_commonmodule_DEL(IModelVisitor& visitor)
     }
 }
 
-void visit_commonmodule_DetailQual(IModelVisitor& visitor)
-{
-    visitor.handle_bool("badReference");
-
-    visitor.handle_bool("failure");
-
-    visitor.handle_bool("inaccurate");
-
-    visitor.handle_bool("inconsistent");
-
-    visitor.handle_bool("oldData");
-
-    visitor.handle_bool("oscillatory");
-
-    visitor.handle_bool("outOfRange");
-
-    visitor.handle_bool("overflow");
-}
-
 void visit_commonmodule_ENG_CalcMethodKind(IModelVisitor& visitor)
 {
-    visitor.handle_enum("setVal", commonmodule::CalcMethodKind_descriptor());
+    visitor.handle("setVal", commonmodule::CalcMethodKind_descriptor(), EnumFieldType::Value::constant);
 }
 
 void visit_commonmodule_ENG_GridConnectModeKind(IModelVisitor& visitor)
 {
-    visitor.handle_enum("setVal", commonmodule::GridConnectModeKind_descriptor());
+    visitor.handle("setVal", commonmodule::GridConnectModeKind_descriptor(), EnumFieldType::Value::mapped);
 
     if(visitor.start_message_field("setValExtension", google::protobuf::StringValue::descriptor()))
     {
-        visit_google_protobuf_StringValue(visitor);
+        visitor.handle("value", StringFieldType::Value::ignored);
         visitor.end_message_field();
     }
 }
 
 void visit_commonmodule_ENG_PFSignKind(IModelVisitor& visitor)
 {
-    visitor.handle_enum("setVal", commonmodule::PFSignKind_descriptor());
-}
-
-void visit_commonmodule_ENG_ScheduleParameter(IModelVisitor& visitor)
-{
-    visitor.handle_enum("scheduleParameterType", commonmodule::ScheduleParameterKind_descriptor());
-
-    visitor.handle_float("value");
+    visitor.handle("setVal", commonmodule::PFSignKind_descriptor(), EnumFieldType::Value::constant);
 }
 
 void visit_commonmodule_ENS_BehaviourModeKind(IModelVisitor& visitor)
 {
-    visitor.handle_commonmodule_Quality("q");
+    visitor.handle("q", QualityFieldType::Value::ignored);
 
-    visitor.handle_enum("stVal", commonmodule::BehaviourModeKind_descriptor());
+    visitor.handle("stVal", commonmodule::BehaviourModeKind_descriptor(), EnumFieldType::Value::constant);
 
-    visitor.handle_commonmodule_Timestamp("t");
+    visitor.handle("t", TimestampFieldType::Value::ignored);
 }
 
 void visit_commonmodule_ENS_DynamicTestKind(IModelVisitor& visitor)
 {
-    visitor.handle_commonmodule_Quality("q");
+    visitor.handle("q", QualityFieldType::Value::ignored);
 
-    visitor.handle_enum("stVal", commonmodule::DynamicTestKind_descriptor());
+    visitor.handle("stVal", commonmodule::DynamicTestKind_descriptor(), EnumFieldType::Value::mapped);
 
-    visitor.handle_commonmodule_Timestamp("t");
+    visitor.handle("t", TimestampFieldType::Value::ignored);
 }
 
 void visit_commonmodule_ENS_HealthKind(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("d", google::protobuf::StringValue::descriptor()))
     {
-        visit_google_protobuf_StringValue(visitor);
+        visitor.handle("value", StringFieldType::Value::ignored);
         visitor.end_message_field();
     }
 
-    visitor.handle_enum("stVal", commonmodule::HealthKind_descriptor());
+    visitor.handle("stVal", commonmodule::HealthKind_descriptor(), EnumFieldType::Value::constant);
 }
 
 void visit_commonmodule_ESS(IModelVisitor& visitor)
@@ -1935,7 +1895,7 @@ void visit_commonmodule_EnergyConsumer(IModelVisitor& visitor)
 
     if(visitor.start_message_field("operatingLimit", google::protobuf::StringValue::descriptor()))
     {
-        visit_google_protobuf_StringValue(visitor);
+        visitor.handle("value", StringFieldType::Value::ignored);
         visitor.end_message_field();
     }
 }
@@ -1971,19 +1931,19 @@ void visit_commonmodule_IdentifiedObject(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("description", google::protobuf::StringValue::descriptor()))
     {
-        visit_google_protobuf_StringValue(visitor);
+        visitor.handle("value", StringFieldType::Value::constant);
         visitor.end_message_field();
     }
 
     if(visitor.start_message_field("mRID", google::protobuf::StringValue::descriptor()))
     {
-        visit_google_protobuf_StringValue(visitor);
+        visitor.handle("value", StringFieldType::Value::primary_uuid);
         visitor.end_message_field();
     }
 
     if(visitor.start_message_field("name", google::protobuf::StringValue::descriptor()))
     {
-        visit_google_protobuf_StringValue(visitor);
+        visitor.handle("value", StringFieldType::Value::constant);
         visitor.end_message_field();
     }
 }
@@ -2056,9 +2016,9 @@ void visit_commonmodule_MV(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    visitor.handle_commonmodule_Quality("q");
+    visitor.handle("q", QualityFieldType::Value::ignored);
 
-    visitor.handle_commonmodule_Timestamp("t");
+    visitor.handle("t", TimestampFieldType::Value::ignored);
 
     if(visitor.start_message_field("units", commonmodule::Unit::descriptor()))
     {
@@ -2075,7 +2035,7 @@ void visit_commonmodule_MessageInfo(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    visitor.handle_commonmodule_Timestamp("messageTimeStamp");
+    visitor.handle("messageTimeStamp", TimestampFieldType::Value::ignored);
 }
 
 void visit_commonmodule_Meter(IModelVisitor& visitor)
@@ -2091,35 +2051,35 @@ void visit_commonmodule_NamedObject(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("description", google::protobuf::StringValue::descriptor()))
     {
-        visit_google_protobuf_StringValue(visitor);
+        visitor.handle("value", StringFieldType::Value::constant);
         visitor.end_message_field();
     }
 
     if(visitor.start_message_field("name", google::protobuf::StringValue::descriptor()))
     {
-        visit_google_protobuf_StringValue(visitor);
+        visitor.handle("value", StringFieldType::Value::constant);
         visitor.end_message_field();
     }
 }
 
 void visit_commonmodule_Optional_PhaseCodeKind(IModelVisitor& visitor)
 {
-    visitor.handle_enum("value", commonmodule::PhaseCodeKind_descriptor());
+    visitor.handle("value", commonmodule::PhaseCodeKind_descriptor(), EnumFieldType::Value::constant);
 }
 
 void visit_commonmodule_Optional_StateKind(IModelVisitor& visitor)
 {
-    visitor.handle_enum("value", commonmodule::StateKind_descriptor());
+    visitor.handle("value", commonmodule::StateKind_descriptor(), EnumFieldType::Value::mapped);
 }
 
 void visit_commonmodule_Optional_UnitMultiplierKind(IModelVisitor& visitor)
 {
-    visitor.handle_enum("value", commonmodule::UnitMultiplierKind_descriptor());
+    visitor.handle("value", commonmodule::UnitMultiplierKind_descriptor(), EnumFieldType::Value::constant);
 }
 
 void visit_commonmodule_Optional_UnitSymbolKind(IModelVisitor& visitor)
 {
-    visitor.handle_enum("value", commonmodule::UnitSymbolKind_descriptor());
+    visitor.handle("value", commonmodule::UnitSymbolKind_descriptor(), EnumFieldType::Value::constant);
 }
 
 void visit_commonmodule_PhaseMMTN(IModelVisitor& visitor)
@@ -2165,25 +2125,25 @@ void visit_commonmodule_RampRate(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("negativeReactivePowerKVArPerMin", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue(visitor);
+        visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
     }
 
     if(visitor.start_message_field("negativeRealPowerKWPerMin", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue(visitor);
+        visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
     }
 
     if(visitor.start_message_field("positiveReactivePowerKVArPerMin", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue(visitor);
+        visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
     }
 
     if(visitor.start_message_field("positiveRealPowerKWPerMin", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue(visitor);
+        visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
     }
 }
@@ -2411,7 +2371,7 @@ void visit_commonmodule_SchedulePoint(IModelVisitor& visitor)
     // repeated schedule parameter
     visitor.handle_repeated_schedule_parameter("scheduleParameter");
 
-    visitor.handle_commonmodule_ControlTimestamp("startTime");
+    visitor.handle("startTime", ControlTimestampFieldType::Value::ignored);
 }
 
 void visit_commonmodule_StatusAndEventXCBR(IModelVisitor& visitor)
@@ -2437,20 +2397,20 @@ void visit_commonmodule_StatusAndEventXCBR(IModelVisitor& visitor)
 
 void visit_commonmodule_StatusDPS(IModelVisitor& visitor)
 {
-    visitor.handle_commonmodule_Quality("q");
+    visitor.handle("q", QualityFieldType::Value::ignored);
 
-    visitor.handle_enum("stVal", commonmodule::DbPosKind_descriptor());
+    visitor.handle("stVal", commonmodule::DbPosKind_descriptor(), EnumFieldType::Value::mapped);
 
-    visitor.handle_commonmodule_Timestamp("t");
+    visitor.handle("t", TimestampFieldType::Value::ignored);
 }
 
 void visit_commonmodule_StatusINS(IModelVisitor& visitor)
 {
-    visitor.handle_commonmodule_Quality("q");
+    visitor.handle("q", QualityFieldType::Value::ignored);
 
-    visitor.handle_int32("stVal");
+    visitor.handle("stVal", Int32FieldType::Value::mapped);
 
-    visitor.handle_commonmodule_Timestamp("t");
+    visitor.handle("t", TimestampFieldType::Value::ignored);
 
     if(visitor.start_message_field("units", commonmodule::Unit::descriptor()))
     {
@@ -2461,11 +2421,11 @@ void visit_commonmodule_StatusINS(IModelVisitor& visitor)
 
 void visit_commonmodule_StatusISC(IModelVisitor& visitor)
 {
-    visitor.handle_commonmodule_Quality("q");
+    visitor.handle("q", QualityFieldType::Value::ignored);
 
-    visitor.handle_int32("stVal");
+    visitor.handle("stVal", Int32FieldType::Value::mapped);
 
-    visitor.handle_commonmodule_Timestamp("t");
+    visitor.handle("t", TimestampFieldType::Value::ignored);
 }
 
 void visit_commonmodule_StatusMessageInfo(IModelVisitor& visitor)
@@ -2479,20 +2439,20 @@ void visit_commonmodule_StatusMessageInfo(IModelVisitor& visitor)
 
 void visit_commonmodule_StatusSPC(IModelVisitor& visitor)
 {
-    visitor.handle_commonmodule_Quality("q");
+    visitor.handle("q", QualityFieldType::Value::ignored);
 
-    visitor.handle_bool("stVal");
+    visitor.handle("stVal", BoolFieldType::Value::mapped);
 
-    visitor.handle_commonmodule_Timestamp("t");
+    visitor.handle("t", TimestampFieldType::Value::ignored);
 }
 
 void visit_commonmodule_StatusSPS(IModelVisitor& visitor)
 {
-    visitor.handle_commonmodule_Quality("q");
+    visitor.handle("q", QualityFieldType::Value::ignored);
 
-    visitor.handle_bool("stVal");
+    visitor.handle("stVal", BoolFieldType::Value::mapped);
 
-    visitor.handle_commonmodule_Timestamp("t");
+    visitor.handle("t", TimestampFieldType::Value::ignored);
 }
 
 void visit_commonmodule_StatusValue(IModelVisitor& visitor)
@@ -2556,7 +2516,7 @@ void visit_commonmodule_SwitchPoint(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    visitor.handle_commonmodule_ControlTimestamp("startTime");
+    visitor.handle("startTime", ControlTimestampFieldType::Value::ignored);
 }
 
 void visit_commonmodule_Terminal(IModelVisitor& visitor)
@@ -2574,17 +2534,6 @@ void visit_commonmodule_Terminal(IModelVisitor& visitor)
     }
 }
 
-void visit_commonmodule_TimeQuality(IModelVisitor& visitor)
-{
-    visitor.handle_bool("clockFailure");
-
-    visitor.handle_bool("clockNotSynchronized");
-
-    visitor.handle_bool("leapSecondsKnown");
-
-    visitor.handle_enum("timeAccuracy", commonmodule::TimeAccuracyKind_descriptor());
-}
-
 void visit_commonmodule_Unit(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("multiplier", commonmodule::Optional_UnitMultiplierKind::descriptor()))
@@ -2593,16 +2542,16 @@ void visit_commonmodule_Unit(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    visitor.handle_enum("SIUnit", commonmodule::UnitSymbolKind_descriptor());
+    visitor.handle("SIUnit", commonmodule::UnitSymbolKind_descriptor(), EnumFieldType::Value::constant);
 }
 
 void visit_commonmodule_VSS(IModelVisitor& visitor)
 {
-    visitor.handle_commonmodule_Quality("q");
+    visitor.handle("q", QualityFieldType::Value::ignored);
 
-    visitor.handle_string("stVal");
+    visitor.handle("stVal", StringFieldType::Value::mapped);
 
-    visitor.handle_commonmodule_Timestamp("t");
+    visitor.handle("t", TimestampFieldType::Value::ignored);
 }
 
 void visit_commonmodule_Vector(IModelVisitor& visitor)
@@ -2657,19 +2606,19 @@ void visit_essmodule_CapacityFirming(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("capacityFirmingCtl", google::protobuf::BoolValue::descriptor()))
     {
-        visit_google_protobuf_BoolValue(visitor);
+        visitor.handle("value", BoolFieldType::Value::mapped);
         visitor.end_message_field();
     }
 
     if(visitor.start_message_field("limitNegative_dp_dt", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue(visitor);
+        visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
     }
 
     if(visitor.start_message_field("limitPositive_dp_dt", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue(visitor);
+        visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
     }
 }
@@ -2860,13 +2809,13 @@ void visit_essmodule_ESSPoint(IModelVisitor& visitor)
 
     if(visitor.start_message_field("pctHzDroop", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue(visitor);
+        visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
     }
 
     if(visitor.start_message_field("pctVDroop", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue(visitor);
+        visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
     }
 
@@ -2918,7 +2867,7 @@ void visit_essmodule_ESSPoint(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    visitor.handle_commonmodule_ControlTimestamp("startTime");
+    visitor.handle("startTime", ControlTimestampFieldType::Value::ignored);
 }
 
 void visit_essmodule_ESSPointStatus(IModelVisitor& visitor)
@@ -2949,13 +2898,13 @@ void visit_essmodule_ESSPointStatus(IModelVisitor& visitor)
 
     if(visitor.start_message_field("pctHzDroop", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue(visitor);
+        visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
     }
 
     if(visitor.start_message_field("pctVDroop", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue(visitor);
+        visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
     }
 
@@ -3150,49 +3099,49 @@ void visit_essmodule_FrequencyRegulation(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("frequencyDeadBandMinus", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue(visitor);
+        visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
     }
 
     if(visitor.start_message_field("frequencyDeadBandPlus", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue(visitor);
+        visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
     }
 
     if(visitor.start_message_field("frequencyRegulationCtl", google::protobuf::BoolValue::descriptor()))
     {
-        visit_google_protobuf_BoolValue(visitor);
+        visitor.handle("value", BoolFieldType::Value::mapped);
         visitor.end_message_field();
     }
 
     if(visitor.start_message_field("frequencySetPoint", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue(visitor);
+        visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
     }
 
     if(visitor.start_message_field("gridFrequencyStableBandMinus", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue(visitor);
+        visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
     }
 
     if(visitor.start_message_field("gridFrequencyStableBandPlus", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue(visitor);
+        visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
     }
 
     if(visitor.start_message_field("overFrequencyDroop", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue(visitor);
+        visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
     }
 
     if(visitor.start_message_field("underFrequencyDroop", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue(visitor);
+        visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
     }
 }
@@ -3201,31 +3150,31 @@ void visit_essmodule_PeakShaving(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("baseShavingLimit", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue(visitor);
+        visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
     }
 
     if(visitor.start_message_field("peakShavingCtl", google::protobuf::BoolValue::descriptor()))
     {
-        visit_google_protobuf_BoolValue(visitor);
+        visitor.handle("value", BoolFieldType::Value::mapped);
         visitor.end_message_field();
     }
 
     if(visitor.start_message_field("peakShavingLimit", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue(visitor);
+        visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
     }
 
     if(visitor.start_message_field("socManagementAllowedHighLimit", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue(visitor);
+        visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
     }
 
     if(visitor.start_message_field("socManagementAllowedLowLimit", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue(visitor);
+        visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
     }
 }
@@ -3234,31 +3183,31 @@ void visit_essmodule_SOCManagement(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("socDeadBandMinus", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue(visitor);
+        visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
     }
 
     if(visitor.start_message_field("socDeadBandPlus", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue(visitor);
+        visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
     }
 
     if(visitor.start_message_field("socManagementCtl", google::protobuf::BoolValue::descriptor()))
     {
-        visit_google_protobuf_BoolValue(visitor);
+        visitor.handle("value", BoolFieldType::Value::mapped);
         visitor.end_message_field();
     }
 
     if(visitor.start_message_field("socPowerSetPoint", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue(visitor);
+        visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
     }
 
     if(visitor.start_message_field("socSetPoint", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue(visitor);
+        visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
     }
 }
@@ -3267,31 +3216,31 @@ void visit_essmodule_SocLimit(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("socHighLimit", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue(visitor);
+        visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
     }
 
     if(visitor.start_message_field("socHighLimitHysteresis", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue(visitor);
+        visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
     }
 
     if(visitor.start_message_field("socLimitCtl", google::protobuf::BoolValue::descriptor()))
     {
-        visit_google_protobuf_BoolValue(visitor);
+        visitor.handle("value", BoolFieldType::Value::mapped);
         visitor.end_message_field();
     }
 
     if(visitor.start_message_field("socLowLimit", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue(visitor);
+        visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
     }
 
     if(visitor.start_message_field("socLowLimitHysteresis", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue(visitor);
+        visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
     }
 }
@@ -3300,7 +3249,7 @@ void visit_essmodule_VoltageDroop(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("voltageDroopCtl", google::protobuf::BoolValue::descriptor()))
     {
-        visit_google_protobuf_BoolValue(visitor);
+        visitor.handle("value", BoolFieldType::Value::mapped);
         visitor.end_message_field();
     }
 
@@ -3315,7 +3264,7 @@ void visit_essmodule_VoltagePI(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("voltagePICtl", google::protobuf::BoolValue::descriptor()))
     {
-        visit_google_protobuf_BoolValue(visitor);
+        visitor.handle("value", BoolFieldType::Value::mapped);
         visitor.end_message_field();
     }
 
@@ -3330,31 +3279,31 @@ void visit_essmodule_VoltageRegulation(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("overVoltageDroop", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue(visitor);
+        visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
     }
 
     if(visitor.start_message_field("underVoltageDroop", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue(visitor);
+        visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
     }
 
     if(visitor.start_message_field("voltageDeadBandMinus", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue(visitor);
+        visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
     }
 
     if(visitor.start_message_field("voltageDeadBandPlus", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue(visitor);
+        visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
     }
 
     if(visitor.start_message_field("voltageSetPoint", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue(visitor);
+        visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
     }
 }
@@ -3512,13 +3461,13 @@ void visit_generationmodule_GenerationPoint(IModelVisitor& visitor)
 
     if(visitor.start_message_field("pctHzDroop", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue(visitor);
+        visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
     }
 
     if(visitor.start_message_field("pctVDroop", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue(visitor);
+        visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
     }
 
@@ -3570,7 +3519,7 @@ void visit_generationmodule_GenerationPoint(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    visitor.handle_commonmodule_ControlTimestamp("startTime");
+    visitor.handle("startTime", ControlTimestampFieldType::Value::ignored);
 }
 
 void visit_generationmodule_GenerationPointStatus(IModelVisitor& visitor)
@@ -3589,13 +3538,13 @@ void visit_generationmodule_GenerationPointStatus(IModelVisitor& visitor)
 
     if(visitor.start_message_field("pctHzDroop", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue(visitor);
+        visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
     }
 
     if(visitor.start_message_field("pctVDroop", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue(visitor);
+        visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
     }
 
@@ -3691,26 +3640,6 @@ void visit_generationmodule_GenerationStatusZGEN(IModelVisitor& visitor)
         visit_generationmodule_GenerationEventAndStatusZGEN(visitor);
         visitor.end_message_field();
     }
-}
-
-void visit_google_protobuf_BoolValue(IModelVisitor& visitor)
-{
-    visitor.handle_bool("value");
-}
-
-void visit_google_protobuf_FloatValue(IModelVisitor& visitor)
-{
-    visitor.handle_float("value");
-}
-
-void visit_google_protobuf_Int32Value(IModelVisitor& visitor)
-{
-    visitor.handle_int32("value");
-}
-
-void visit_google_protobuf_StringValue(IModelVisitor& visitor)
-{
-    visitor.handle_string("value");
 }
 
 void visit_loadmodule_LoadCSG(IModelVisitor& visitor)
@@ -3855,7 +3784,7 @@ void visit_loadmodule_LoadPoint(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    visitor.handle_commonmodule_ControlTimestamp("startTime");
+    visitor.handle("startTime", ControlTimestampFieldType::Value::ignored);
 }
 
 void visit_loadmodule_LoadPointStatus(IModelVisitor& visitor)
@@ -3979,7 +3908,7 @@ void visit_reclosermodule_Recloser(IModelVisitor& visitor)
 
     if(visitor.start_message_field("normalOpen", google::protobuf::BoolValue::descriptor()))
     {
-        visit_google_protobuf_BoolValue(visitor);
+        visitor.handle("value", BoolFieldType::Value::mapped);
         visitor.end_message_field();
     }
 }
@@ -4326,7 +4255,7 @@ void visit_regulatormodule_RegulatorEventAndStatusPoint(IModelVisitor& visitor)
 
     if(visitor.start_message_field("pctVDroop", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue(visitor);
+        visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
     }
 
@@ -4365,7 +4294,7 @@ void visit_regulatormodule_RegulatorPoint(IModelVisitor& visitor)
 
     if(visitor.start_message_field("pctVDroop", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue(visitor);
+        visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
     }
 
@@ -4399,7 +4328,7 @@ void visit_regulatormodule_RegulatorPoint(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    visitor.handle_commonmodule_Timestamp("startTime");
+    visitor.handle("startTime", TimestampFieldType::Value::ignored);
 }
 
 void visit_regulatormodule_RegulatorReading(IModelVisitor& visitor)
@@ -4680,13 +4609,13 @@ void visit_solarmodule_SolarPoint(IModelVisitor& visitor)
 
     if(visitor.start_message_field("pctHzDroop", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue(visitor);
+        visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
     }
 
     if(visitor.start_message_field("pctVDroop", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue(visitor);
+        visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
     }
 
@@ -4726,7 +4655,7 @@ void visit_solarmodule_SolarPoint(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    visitor.handle_commonmodule_ControlTimestamp("startTime");
+    visitor.handle("startTime", ControlTimestampFieldType::Value::ignored);
 }
 
 void visit_solarmodule_SolarPointStatus(IModelVisitor& visitor)
@@ -4745,13 +4674,13 @@ void visit_solarmodule_SolarPointStatus(IModelVisitor& visitor)
 
     if(visitor.start_message_field("pctHzDroop", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue(visitor);
+        visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
     }
 
     if(visitor.start_message_field("pctVDroop", google::protobuf::FloatValue::descriptor()))
     {
-        visit_google_protobuf_FloatValue(visitor);
+        visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
     }
 

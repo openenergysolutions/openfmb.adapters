@@ -1,6 +1,7 @@
 package com.oes.openfmb.generation.proto;
 
 import com.google.protobuf.Descriptors;
+import com.google.protobuf.Type;
 import com.oes.openfmb.generation.document.*;
 
 import java.util.Arrays;
@@ -18,7 +19,7 @@ public class ModelVisitorFiles implements CppFileCollection {
 
     private ModelVisitorFiles(Set<Descriptors.Descriptor> descriptors) {
         this.descriptors = descriptors;
-        this.children = Helpers.getFilteredChildMessageDescriptors(descriptors);
+        this.children = Helpers.getFilteredChildMessageDescriptors(descriptors, false);
         this.name = new FileName("ModelVisitors");
     }
 
@@ -110,28 +111,30 @@ public class ModelVisitorFiles implements CppFileCollection {
                     }
                     return getTerminalMessageHandler(field);
                 }
-                else
+
+                if (field.isRepeated())
                 {
-                    if (field.isRepeated())
+                    // lookup the type of the repeated field
+                    final RepeatedType type  = RepeatedType.getType(field.getMessageType());
+                    switch (type)
                     {
-                        // lookup the type of the repeated field
-                        final RepeatedType type  = RepeatedType.getType(field.getMessageType());
-                        switch (type)
-                        {
-                            case READING:
-                            case SCHEDULE:
-                                return getRepeatedMessageField(field);
-                            case SCHEDULE_PARAMETER:
-                                return getRepeatedScheduleParameterField(field);
-                            default:
-                                throw new RuntimeException("Unsupported repeated field type: " + type.toString());
-                        }
-                    }
-                    else
-                    {
-                        return getMessageField(field);
+                        case READING:
+                        case SCHEDULE:
+                            return getRepeatedMessageField(field);
+                        case SCHEDULE_PARAMETER:
+                            return getRepeatedScheduleParameterField(field);
+                        default:
+                            throw new RuntimeException("Unsupported repeated field type: " + type.toString());
                     }
                 }
+
+                if(Helpers.isWrapperType(field.getMessageType()))
+                {
+                    return getWrapperHandler(field);
+                }
+
+                return getMessageField(field);
+
             case ENUM:
                 return getEnumHandler(field);
             default:
@@ -170,23 +173,39 @@ public class ModelVisitorFiles implements CppFileCollection {
     }
 
     private Document getEnumHandler(Descriptors.FieldDescriptor field) {
-        return line("visitor.handle_enum(%s, %s_descriptor());", Helpers.quoted(field.getName()), Helpers.cppMessageName(field.getEnumType()));
+        return line("visitor.handle(%s, %s_descriptor(), %s);", Helpers.quoted(field.getName()), Helpers.cppMessageName(field.getEnumType()), TypeClassification.getName(field));
     }
 
     private Document getPrimitiveHandler(Descriptors.FieldDescriptor field) {
-        return line("visitor.handle_%s(%s);", getPrimitiveHandlerSuffix(field), Helpers.quoted(field.getName()));
+        return line("visitor.handle(%s, %s);", Helpers.quoted(field.getName()), TypeClassification.getName(field));
+    }
+
+    private Document getWrapperHandler(Descriptors.FieldDescriptor field) {
+
+        final List<Descriptors.FieldDescriptor> fields = field.getMessageType().getFields();
+        if(fields.size() != 1) {
+            throw new RuntimeException(String.format("Wrapper types may only contain a single field, but %s contains %s", field.getMessageType().getFullName(), fields.size()));
+        }
+
+        final Descriptors.FieldDescriptor primitiveField = fields.get(0);
+
+        return line("if(visitor.start_message_field(%s, %s::descriptor()))", Helpers.quoted(field.getName()), Helpers.cppMessageName(field.getMessageType()))
+                .bracket(
+                        line("visitor.handle(%s, %s);", Helpers.quoted(primitiveField.getName()), TypeClassification.getName(field))
+                                .then("visitor.end_message_field();")
+                );
     }
 
     private Document getTerminalMessageHandler(Descriptors.FieldDescriptor field) {
         return line(
-                "visitor.handle_%s(%s);",
-                Helpers.cppMessageName(field.getMessageType()).replace("::", "_"),
-                Helpers.quoted(field.getName())
+                "visitor.handle(%s, %s);",
+                Helpers.quoted(field.getName()),
+                TypeClassification.getName(field)
 
         );
     }
 
-    static String getPrimitiveHandlerSuffix(Descriptors.FieldDescriptor fieldDescriptor) {
+    private static String getPrimitiveHandlerSuffix(Descriptors.FieldDescriptor fieldDescriptor) {
         switch (fieldDescriptor.getType()) {
             case DOUBLE:
                 return "double";
