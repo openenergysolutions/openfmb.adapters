@@ -254,8 +254,17 @@ public class Enumerations {
                 )
         );
 
+        private final static Enumeration qualityMapping = new Enumeration(
+                Arrays.asList("Quality", "Mapping", "Type"),
+                Arrays.asList(
+                        Enumeration.entry("copy", "copy the value of the OpenFMB proto"),
+                        Enumeration.entry("constant", "use a constant quality"),
+                        Enumeration.entry("constant_if_absent", "use a constant quality if the OpenFMB proto doesn't have a quality")
+                )
+        );
+
         private static List<Enumeration> enums() {
-            return Arrays.asList(type);
+            return Arrays.asList(type, qualityMapping);
         }
 
         private static final Path path = Paths.get("../plugins/goose/src/generated");

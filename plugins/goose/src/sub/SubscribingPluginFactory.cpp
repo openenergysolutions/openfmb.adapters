@@ -3,6 +3,7 @@
 #include "ConfigStrings.h"
 #include "adapter-util/ConfigStrings.h"
 #include "adapter-util/config/generated/ModelVisitors.h"
+#include "adapter-util/util/EnumUtil.h"
 #include "adapter-util/util/YAMLTemplate.h"
 #include "generated/Type.h"
 #include "sub/SubscribingConfigWriteVisitor.h"
@@ -64,6 +65,7 @@ namespace goose {
         out << YAML::Key << keys::ttl << YAML::Value << 1000 << YAML::Comment("Retransmission interval (in ms)");
         out << YAML::Key << util::keys::profile << YAML::Value << profile;
         write_goose_structure(out);
+        write_quality_template(out);
         out << YAML::Key << keys::mapping;
         out << YAML::BeginMap;
         api::ProfileRegistry::handle_by_name<SubWriterHandler>(profile, out);
@@ -71,21 +73,48 @@ namespace goose {
         out << YAML::EndMap;
     }
 
+    void SubscribingPluginFactory::write_quality_template(YAML::Emitter& out) const
+    {
+        out << YAML::Key << keys::quality_templates << YAML::Comment("GOOSE structure definition");
+        out << YAML::BeginSeq;
+        out << YAML::BeginMap;
+        out << YAML::Key << keys::quality_id << YAML::Value << "default-quality" << YAML::Comment("unique id");
+        out << YAML::Key << keys::quality_validity << YAML::Value << commonmodule::ValidityKind_Name(commonmodule::ValidityKind::ValidityKind_good) << YAML::Comment(util::enumeration::get_enum_set(*commonmodule::ValidityKind_descriptor()));
+        out << YAML::Key << keys::quality_overflow << YAML::Value << false;
+        out << YAML::Key << keys::quality_outofrange << YAML::Value << false;
+        out << YAML::Key << keys::quality_badreference << YAML::Value << false;
+        out << YAML::Key << keys::quality_oscillatory << YAML::Value << false;
+        out << YAML::Key << keys::quality_failure << YAML::Value << false;
+        out << YAML::Key << keys::quality_olddata << YAML::Value << false;
+        out << YAML::Key << keys::quality_inconsistent << YAML::Value << false;
+        out << YAML::Key << keys::quality_inaccurate << YAML::Value << false;
+        out << YAML::Key << keys::quality_source << YAML::Value << commonmodule::SourceKind_Name(commonmodule::SourceKind::SourceKind_process) << YAML::Comment(util::enumeration::get_enum_set(*commonmodule::SourceKind_descriptor()));
+        out << YAML::Key << keys::quality_test << YAML::Value << false;
+        out << YAML::Key << keys::quality_operatorblocked << YAML::Value << false;
+        out << YAML::EndMap;
+        out << YAML::EndSeq;
+    }
+
     void SubscribingPluginFactory::write_goose_structure(YAML::Emitter& out) const
     {
         out << YAML::Key << keys::goose_struct << YAML::Comment("GOOSE structure definition");
         out << YAML::BeginSeq;
         out << YAML::BeginMap << YAML::Key << Type::to_string(Type::Value::floating) << YAML::Value << "PhV.net" << YAML::EndMap;
-        out << YAML::BeginMap << YAML::Key << Type::to_string(Type::Value::structure) << YAML::Value << YAML::BeginSeq;
+        out << YAML::BeginMap;
+        out << YAML::Key << Type::to_string(Type::Value::structure) << YAML::Value;
+        out << YAML::BeginSeq;
         out << YAML::BeginMap << YAML::Key << Type::to_string(Type::Value::floating) << YAML::Value << "PhV.phsA" << YAML::EndMap;
         out << YAML::BeginMap << YAML::Key << Type::to_string(Type::Value::floating) << YAML::Value << "PhV.phsB" << YAML::EndMap;
         out << YAML::BeginMap << YAML::Key << Type::to_string(Type::Value::floating) << YAML::Value << "PhV.phsC" << YAML::EndMap;
-        out << YAML::EndSeq << YAML::EndMap;
-        out << YAML::BeginMap << YAML::Key << Type::to_string(Type::Value::array) << YAML::Value << YAML::BeginSeq;
+        out << YAML::EndSeq;
+        out << YAML::EndMap;
+        out << YAML::BeginMap << YAML::Key << Type::to_string(Type::Value::array) << YAML::Value;
+        out << YAML::BeginSeq;
         out << YAML::BeginMap << YAML::Key << Type::to_string(Type::Value::integer) << YAML::Value << "W.phsA" << YAML::EndMap;
         out << YAML::BeginMap << YAML::Key << Type::to_string(Type::Value::integer) << YAML::Value << "W.phsB" << YAML::EndMap;
         out << YAML::BeginMap << YAML::Key << Type::to_string(Type::Value::integer) << YAML::Value << "W.phsC" << YAML::EndMap;
-        out << YAML::EndSeq << YAML::EndMap;
+        out << YAML::EndSeq;
+        out << YAML::EndMap;
         out << YAML::EndSeq;
     }
 

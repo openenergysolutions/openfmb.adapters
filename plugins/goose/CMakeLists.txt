@@ -8,6 +8,7 @@ set(goose_private_headers
     ./src/ConfigStrings.h
     ./src/GooseStructureConfigVisitor.h
 
+    ./src/generated/QualityMappingType.h
     ./src/generated/Type.h
 
     ./src/pub/ControlBlockListener.h
@@ -21,6 +22,8 @@ set(goose_private_headers
     ./src/pub/PublishingPlugin.h
     ./src/pub/PublishingProfileReader.h
 
+    ./src/sub/ConstantMessageAccessor.h
+    ./src/sub/QualityTemplatesConfigReader.h
     ./src/sub/SubGooseStructureConfigReader.h
     ./src/sub/SubscribingConfigReadVisitor.h
     ./src/sub/SubscribingConfigWriteVisitor.h
@@ -32,6 +35,7 @@ set(goose_private_headers
 set(goose_src
     ./src/GooseStructureConfigVisitor.cpp
 
+    ./src/generated/QualityMappingType.cpp
     ./src/generated/Type.cpp
 
     ./src/pub/ControlBlockListener.cpp
@@ -42,6 +46,7 @@ set(goose_src
     ./src/pub/PublishingPlugin.cpp
     ./src/pub/PublishingPluginFactory.cpp
 
+    ./src/sub/QualityTemplatesConfigReader.cpp
     ./src/sub/SubscribingConfigWriteVisitor.cpp
     ./src/sub/SubscribingPlugin.cpp
     ./src/sub/SubscribingPluginFactory.cpp

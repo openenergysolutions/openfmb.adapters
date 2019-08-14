@@ -1,8 +1,10 @@
 #include "sub/SubscribingConfigWriteVisitor.h"
 
 #include "ConfigStrings.h"
+#include "generated/QualityMappingType.h"
 #include "adapter-api/Exception.h"
 #include "adapter-util/ConfigStrings.h"
+#include "adapter-util/util/EnumUtil.h"
 
 namespace adapter {
 namespace goose {
@@ -55,6 +57,8 @@ namespace goose {
     void SubscribingConfigWriteVisitor::write_mapped_commonmodule_quality_keys(YAML::Emitter& out)
     {
         write_name(out);
+        out << YAML::Key << QualityMappingType::label << YAML::Value << QualityMappingType::to_string(QualityMappingType::Value::copy) << YAML::Comment(util::enumeration::get_value_set<QualityMappingType>());
+        out << YAML::Key << keys::quality_id << YAML::Value << "default-quality";
     }
 
     void SubscribingConfigWriteVisitor::write_mapped_commonmodule_timestamp_keys(YAML::Emitter& out)

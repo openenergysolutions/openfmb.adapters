@@ -4,6 +4,7 @@
 #include "ConfigStrings.h"
 #include "adapter-util/config/generated/TypedModelVisitors.h"
 #include "goose-cpp/control_block/IControlBlockPublisher.h"
+#include "sub/QualityTemplatesConfigReader.h"
 #include "sub/SubGooseStructureConfigReader.h"
 #include "sub/SubscribingConfigReadVisitor.h"
 #include "yaml-cpp/yaml.h"
@@ -19,7 +20,9 @@ namespace goose {
     public:
         static void handle(const YAML::Node& node, api::Logger logger, api::message_bus_t bus, std::shared_ptr<goose_cpp::IControlBlockPublisher> cb_publisher)
         {
-            SubscribingConfigReadVisitor<T> visitor(util::yaml::require(node, keys::mapping), logger);
+            QualityTemplatesConfigReader quality_templates{util::yaml::require(node, keys::quality_templates)};
+
+            SubscribingConfigReadVisitor<T> visitor(util::yaml::require(node, keys::mapping), logger, quality_templates);
             util::visit(visitor);
 
             SubGooseStructureConfigReader<T> goose_reader{ util::yaml::require(node, keys::goose_struct), visitor };

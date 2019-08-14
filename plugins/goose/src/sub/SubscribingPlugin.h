@@ -16,7 +16,7 @@ namespace goose {
     class SubscribingPlugin final : public api::IPlugin {
     public:
         SubscribingPlugin(const YAML::Node& node, const api::Logger& logger, api::message_bus_t bus);
-        virtual ~SubscribingPlugin();
+        ~SubscribingPlugin() = default;
 
         std::string name() const override;
         void start() override;

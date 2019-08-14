@@ -19,6 +19,7 @@ namespace goose {
         void write_session_config(YAML::Emitter& out, const api::profile_vec_t& profiles) const final;
 
     private:
+        void write_quality_template(YAML::Emitter& out) const;
         void write_goose_structure(YAML::Emitter& out) const;
     };
 

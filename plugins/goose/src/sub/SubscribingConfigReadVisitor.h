@@ -1,11 +1,13 @@
 #ifndef OPENFMB_ADAPTER_GOOSE_SUB_SUBSCRIBINGCONFIGREADER_H
 #define OPENFMB_ADAPTER_GOOSE_SUB_SUBSCRIBINGCONFIGREADER_H
 
-#include "adapter-util/config/SubscribingConfigReadVisitorBase.h"
-#include "goose-cpp/messages/BitString.h"
-#include "yaml-cpp/yaml.h"
+#include "generated/QualityMappingType.h"
+#include "sub/ConstantMessageAccessor.h"
+#include "sub/QualityTemplatesConfigReader.h"
+#include <goose-cpp/messages/BitString.h>
 #include <adapter-api/Exception.h>
 #include <adapter-api/Logger.h>
+#include <adapter-util/config/SubscribingConfigReadVisitorBase.h>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
@@ -17,9 +19,10 @@ namespace goose {
     template <typename T>
     class SubscribingConfigReadVisitor final : public util::SubscribingConfigReadVisitorBase<T> {
     public:
-        SubscribingConfigReadVisitor(const YAML::Node& root, api::Logger logger)
+        SubscribingConfigReadVisitor(const YAML::Node& root, api::Logger logger, const QualityTemplatesConfigReader& quality_templates)
             : util::SubscribingConfigReadVisitorBase<T>(root)
             , m_logger{ std::move(logger) }
+            , m_quality_templates{ quality_templates }
         {
         }
 
@@ -185,7 +188,25 @@ namespace goose {
         {
             std::string name;
             if (get_name(node, name)) {
-                m_quality_accessors.insert({ name, accessor });
+                auto quality_mapping_type = util::yaml::require_enum<QualityMappingType>(node);
+                if(quality_mapping_type == QualityMappingType::Value::copy)
+                {
+                    m_quality_accessors.insert({ name, accessor });
+                }
+                else
+                {
+                    auto quality_id = util::yaml::require_string(node, keys::quality_id);
+                    auto& constant_quality = m_quality_templates.get(quality_id);
+
+                    if(quality_mapping_type == QualityMappingType::Value::constant)
+                    {
+                        m_quality_accessors.insert({ name,  std::make_shared<ConstantMessageAccessor<T, commonmodule::Quality>>(constant_quality)});
+                    }
+                    else if(quality_mapping_type == QualityMappingType::Value::constant_if_absent)
+                    {
+                        m_quality_accessors.insert({ name, std::make_shared<ConstantFallbackMessageAccessor<T, commonmodule::Quality>>(constant_quality, accessor)});
+                    }
+                }
             }
         }
 
@@ -224,6 +245,7 @@ namespace goose {
         }
 
         api::Logger m_logger;
+        const QualityTemplatesConfigReader& m_quality_templates;
 
         std::unordered_set<std::string> m_names;
         std::unordered_map<std::string, const util::accessor_t<T, bool>> m_bool_accessors;

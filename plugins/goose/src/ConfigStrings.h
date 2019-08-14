@@ -21,6 +21,21 @@ namespace goose {
         constexpr const char* const goID = "goID";
         constexpr const char* const confRev = "confRev";
         constexpr const char* const ttl = "ttl";
+
+        constexpr const char* const quality_templates = "quality-templates";
+        constexpr const char* const quality_id = "template-id";
+        constexpr const char* const quality_validity = "validity";
+        constexpr const char* const quality_overflow = "overflow";
+        constexpr const char* const quality_outofrange = "out_of_range";
+        constexpr const char* const quality_badreference = "bad_reference";
+        constexpr const char* const quality_oscillatory = "oscillatory";
+        constexpr const char* const quality_failure = "failure";
+        constexpr const char* const quality_olddata = "old_data";
+        constexpr const char* const quality_inconsistent = "inconsistent";
+        constexpr const char* const quality_inaccurate = "inaccurate";
+        constexpr const char* const quality_source = "source";
+        constexpr const char* const quality_test = "test";
+        constexpr const char* const quality_operatorblocked = "operator_blocked";
     } // namespace keys
 } // namespace goose
 } // namespace adapter
