@@ -275,7 +275,8 @@ public class Enumerations {
                 Arrays.asList(
                         Enumeration.entry("none", "no security - bare TCP"),
                         Enumeration.entry("tls_server_auth", "tls - only authenticate the server"),
-                        Enumeration.entry("tls_mutual_auth", "tls - authenticate the server and provide client cert")
+                        Enumeration.entry("tls_mutual_auth", "tls - authenticate the server and provide client cert"),
+                        Enumeration.entry("jwt", "JSON Web Tokens")
                 )
         );
 

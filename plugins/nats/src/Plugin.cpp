@@ -167,6 +167,9 @@ namespace nats {
         case (SecurityType::Value::tls_server_auth):
             this->read_tls_config(sec_node, false);
             break;
+        case (SecurityType::Value::jwt):
+            this->read_jwt_config(sec_node);
+            break;
         default:
             throw api::Exception("Unsupported security type: ", SecurityType::to_string(sec_type));
         }
@@ -198,6 +201,18 @@ namespace nats {
                 },
                 "Unable load client cert chain or private key");
         }
+    }
+
+    void Plugin::read_jwt_config(const YAML::Node& node)
+    {
+        try_nats(
+            [&]() -> natsStatus {
+                return natsOptions_SetUserCredentialsFromFiles(
+                    this->options.impl,
+                    util::yaml::require_string(node, keys::jwt_creds_file).c_str(),
+                    nullptr);
+            },
+            "Unable to set JWT user credentials");
     }
 
     void Plugin::read_pub_sub_config(const YAML::Node& node, api::message_bus_t bus)

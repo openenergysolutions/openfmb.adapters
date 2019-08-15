@@ -24,12 +24,14 @@ namespace nats {
 const char SecurityType::none[] = "none";
 const char SecurityType::tls_server_auth[] = "tls_server_auth";
 const char SecurityType::tls_mutual_auth[] = "tls_mutual_auth";
+const char SecurityType::jwt[] = "jwt";
 
-const std::array<SecurityType::Value, 3> SecurityType::values =
+const std::array<SecurityType::Value, 4> SecurityType::values =
 {
     SecurityType::Value::none,
     SecurityType::Value::tls_server_auth,
     SecurityType::Value::tls_mutual_auth,
+    SecurityType::Value::jwt,
 };
 
 std::string SecurityType::to_string(SecurityType::Value value)
@@ -38,7 +40,8 @@ std::string SecurityType::to_string(SecurityType::Value value)
     {
         case(Value::none): return none;
         case(Value::tls_server_auth): return tls_server_auth;
-        default: return tls_mutual_auth;
+        case(Value::tls_mutual_auth): return tls_mutual_auth;
+        default: return jwt;
     }
 }
 
@@ -49,6 +52,7 @@ SecurityType::Value SecurityType::from_string(const std::string& name)
         {none, Value::none},
         {tls_server_auth, Value::tls_server_auth},
         {tls_mutual_auth, Value::tls_mutual_auth},
+        {jwt, Value::jwt},
     };
     const auto elem = map.find(name);
     if(elem == map.end()) throw api::Exception("Unknown value name '", name, "' for enum SecurityType");
