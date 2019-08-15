@@ -29,9 +29,9 @@ class Helpers {
 
     static SortedMap<String, Descriptors.Descriptor> getChildMessageDescriptors(Iterable<Descriptors.Descriptor> descriptors)
     {
-        final Set<Descriptors.Descriptor> set = getChildMessageDescriptors(StreamSupport.stream(descriptors.spliterator(), false));
+        final List<Descriptors.Descriptor> list = getChildMessageDescriptors(StreamSupport.stream(descriptors.spliterator(), false));
         SortedMap<String, Descriptors.Descriptor> map = new TreeMap<>();
-        set.forEach(d -> map.put(d.getFullName(), d));
+        list.forEach(d -> map.put(d.getFullName(), d));
         return map;
     }
 
@@ -89,24 +89,24 @@ class Helpers {
 
     /// ----  private methods --- /
 
-    private static Set<Descriptors.Descriptor> getChildMessageDescriptors(Stream<Descriptors.Descriptor> descriptors)
+    private static List<Descriptors.Descriptor> getChildMessageDescriptors(Stream<Descriptors.Descriptor> descriptors)
     {
-        return descriptors.map(Helpers::getChildMessageDescriptorsForProfile).flatMap(Set::stream).collect(Collectors.toSet());
+        return descriptors.map(Helpers::getChildMessageDescriptorsForProfile).flatMap(List::stream).distinct().collect(Collectors.toList());
     }
 
-    private static Set<Descriptors.Descriptor> getChildMessageDescriptorsForProfile(Descriptors.Descriptor descriptor)
+    private static List<Descriptors.Descriptor> getChildMessageDescriptorsForProfile(Descriptors.Descriptor descriptor)
     {
-        return descriptor.getFields().stream().map(Helpers::getChildMessageDescriptors).flatMap(Set::stream).collect(Collectors.toSet());
+        return descriptor.getFields().stream().map(Helpers::getChildMessageDescriptors).flatMap(List::stream).distinct().collect(Collectors.toList());
     }
 
-    private static Set<Descriptors.Descriptor> getChildMessageDescriptors(Descriptors.Descriptor descriptor)
+    private static List<Descriptors.Descriptor> getChildMessageDescriptors(Descriptors.Descriptor descriptor)
     {
-        final Set<Descriptors.Descriptor> set = descriptor.getFields().stream().map(Helpers::getChildMessageDescriptors).flatMap(Set::stream).collect(Collectors.toSet());
+        final Set<Descriptors.Descriptor> set = descriptor.getFields().stream().map(Helpers::getChildMessageDescriptors).flatMap(List::stream).collect(Collectors.toCollection(LinkedHashSet::new));
         set.add(descriptor);
-        return set;
+        return new ArrayList<>(set);
     }
 
-    private static Set<Descriptors.Descriptor> getChildMessageDescriptors(Descriptors.FieldDescriptor field)
+    private static List<Descriptors.Descriptor> getChildMessageDescriptors(Descriptors.FieldDescriptor field)
     {
         if(field.getType() == Descriptors.FieldDescriptor.Type.MESSAGE)
         {
@@ -114,7 +114,7 @@ class Helpers {
         }
         else
         {
-            return Collections.emptySet();
+            return Collections.emptyList();
         }
     }
 }

@@ -5,24 +5,23 @@ import com.oes.openfmb.generation.document.*;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 import java.util.SortedMap;
 
 import static com.oes.openfmb.generation.document.Document.*;
 
 public class ModelVisitorFiles implements CppFileCollection {
 
-    private final Set<Descriptors.Descriptor> descriptors;
+    private final List<Descriptors.Descriptor> descriptors;
     private final SortedMap<String, Descriptors.Descriptor> children;
     private final FileName name;
 
-    private ModelVisitorFiles(Set<Descriptors.Descriptor> descriptors) {
+    private ModelVisitorFiles(List<Descriptors.Descriptor> descriptors) {
         this.descriptors = descriptors;
         this.children = Helpers.getFilteredChildMessageDescriptors(descriptors);
         this.name = new FileName("ModelVisitors");
     }
 
-    public static CppFileCollection from(Set<Descriptors.Descriptor> descriptors) {
+    public static CppFileCollection from(List<Descriptors.Descriptor> descriptors) {
         return new ModelVisitorFiles(descriptors);
     }
 
