@@ -4,35 +4,91 @@ import com.google.protobuf.*;
 import openfmb.commonmodule.*;
 import openfmb.commonmodule.Timestamp;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 class TypeClassification {
 
-    public static class NoClassificationException extends RuntimeException
-    {
-        private final Descriptors.FieldDescriptor field;
+    static class FieldPath {
+        final List<Descriptors.FieldDescriptor> path;
 
-        NoClassificationException(Descriptors.FieldDescriptor field) {
-            super(getMessage(field));
-            this.field = field;
+        private FieldPath(List<Descriptors.FieldDescriptor> path) {
+            this.path = path;
         }
 
-        private static String getMessage(Descriptors.FieldDescriptor field)
-        {
-            if(field.getType() == Descriptors.FieldDescriptor.Type.MESSAGE)
-            {
-                return String.format("In message type %s, Field '%s' of type '%s' lacks a classification", findRoot(field.getContainingType()).getFullName(), field.getName(), field.getMessageType().getFullName());
-            }
-            else
-            {
-                return String.format("In message type %s, Field '%s' of type '%s' lacks a classification", findRoot(field.getContainingType()).getFullName(), field.getName(), field.getType());
-            }
+        private FieldPath(Descriptors.FieldDescriptor descriptor) {
+            this(Collections.singletonList(descriptor));
         }
 
-        private static Descriptors.Descriptor findRoot(Descriptors.Descriptor descriptor)
+        static FieldPath create(Descriptors.FieldDescriptor descriptor) {
+            return new FieldPath(descriptor);
+        }
+
+        @Override
+        public String toString() {
+            final StringBuilder builder = new StringBuilder();
+            for(Descriptors.FieldDescriptor field : path) {
+                final String type = field.getType() == Descriptors.FieldDescriptor.Type.MESSAGE ? field.getMessageType().getFullName() : field.getType().toString();
+                builder.append(String.format("%s:%s (%s), ", field.getContainingType().getFullName(), field.getName(), type));
+            }
+            return builder.toString();
+        }
+
+        FieldPath build(Descriptors.FieldDescriptor field) {
+            final List<Descriptors.FieldDescriptor> fields = new ArrayList<>(this.path);
+            fields.add(field);
+            return new FieldPath(fields);
+        }
+
+        boolean hasName(String ... names) {
+            for(String name : names) {
+                if(this.last().getName().equals(name)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        boolean hasParents(Descriptors.Descriptor ... parents)
         {
+            if(parents.length > this.path.size()) {
+                return false;
+            }
+
+            for(int i = 0; i < parents.length; ++i) {
+                int path_index = this.path.size() - i - 1;
+                if(parents[i] != this.path.get(path_index).getContainingType()) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        boolean matches(String name, Descriptors.Descriptor ... parents)
+        {
+            if(!this.hasName(name)) {
+                return false;
+            }
+
+            return this.hasParents(parents);
+        }
+
+        Descriptors.FieldDescriptor last() {
+            return path.get(path.size() - 1);
+        }
+    }
+
+    public static class NoClassificationException extends RuntimeException {
+
+        NoClassificationException(FieldPath path) {
+            super(getMessage(path));
+        }
+
+        private static String getMessage(FieldPath path) {
+            return String.format("Path %s lacks a classification", path);
+        }
+
+        private static Descriptors.Descriptor findRoot(Descriptors.Descriptor descriptor) {
             final Descriptors.Descriptor parent = descriptor.getContainingType();
             return (parent == null) ? descriptor : findRoot(parent);
         }
@@ -75,127 +131,110 @@ class TypeClassification {
         static BasicType controlTimestamp = new BasicType("ControlTimestampFieldType");
     }
 
-    static String getName(Descriptors.FieldDescriptor descriptor)
+    static String getName(Descriptors.FieldDescriptor field)
     {
-        switch(descriptor.getType())
+        return getName(FieldPath.create(field));
+    }
+
+    static String getName(FieldPath path)
+    {
+        switch(path.last().getType())
         {
             case BOOL:
-                return getBool(descriptor);
+                return getBool(path);
             case INT32:
-                return getInt32(descriptor);
+                return getInt32(path);
             case INT64:
-                return getInt64(descriptor);
+                return getInt64(path);
             case STRING:
-                return getString(descriptor);
+                return getString(path);
             case ENUM:
-                return getEnum(descriptor);
+                return getEnum(path);
             case FLOAT:
-                return getFloat(descriptor);
+                return getFloat(path);
             case MESSAGE:
             {
-                if(descriptor.getMessageType() == Quality.getDescriptor()) {
+                if(path.last().getMessageType() == Quality.getDescriptor()) {
                     // just ignore for now
                     return Types.quality.ignored;
                 }
 
-                if(descriptor.getMessageType() == Timestamp.getDescriptor()) {
+                if(path.last().getMessageType() == Timestamp.getDescriptor()) {
                     // just ignore for now
                     return Types.timestamp.ignored;
                 }
 
-                if(descriptor.getMessageType() == ControlTimestamp.getDescriptor()) {
+                if(path.last().getMessageType() == ControlTimestamp.getDescriptor()) {
                     // just ignore for now
                     return Types.controlTimestamp.ignored;
                 }
 
-                if(descriptor.getMessageType() == BoolValue.getDescriptor()) {
-                    return getBoolWrapper(descriptor);
+                if(path.last().getMessageType() == BoolValue.getDescriptor()) {
+                    return getBoolWrapper(path);
                 }
 
-                if(descriptor.getMessageType() == Int32Value.getDescriptor()) {
-                    return getInt32Wrapper(descriptor);
+                if(path.last().getMessageType() == Int32Value.getDescriptor()) {
+                    return getInt32Wrapper(path);
                 }
 
-                if(descriptor.getMessageType() == FloatValue.getDescriptor()) {
-                    return getFloatWrapper(descriptor);
+                if(path.last().getMessageType() == FloatValue.getDescriptor()) {
+                    return getFloatWrapper(path);
                 }
 
-                if(descriptor.getMessageType() == StringValue.getDescriptor()) {
-                    return getStringWrapper(descriptor);
+                if(path.last().getMessageType() == StringValue.getDescriptor()) {
+                    return getStringWrapper(path);
                 }
             }
             default:
-                throw new NoClassificationException(descriptor);
+                throw new NoClassificationException(path);
         }
     }
 
-    private static String getBool(Descriptors.FieldDescriptor descriptor)
+    private static String getBool(FieldPath path)
     {
-        final String name = descriptor.getName();
-
-        if(name.equals("ctlVal") || name.equals("stVal") || name.equals("value")) {
+        if(path.hasName("ctlVal", "stVal", "value")) {
             return Types.bool.mapped;
         }
 
-        throw new NoClassificationException(descriptor);
+        throw new NoClassificationException(path);
     }
 
-    private static String getInt32(Descriptors.FieldDescriptor descriptor)
+    private static String getInt32(FieldPath path)
     {
-        final String name = descriptor.getName();
-
-        if(name.equals("setVal")) {
+        if(path.hasName("setVal", "ctlVal", "stVal", "value")) {
             return Types.int64.mapped;
         }
 
-        if(name.equals("ctlVal")) {
-            return Types.int32.mapped;
-        }
-
-        if(name.equals("stVal")) {
-            return Types.int32.mapped;
-        }
-
-        if(name.equals("value")) {
-            return Types.int32.mapped;
-        }
-
-        throw new NoClassificationException(descriptor);
+        throw new NoClassificationException(path);
     }
 
-    private static String getInt64(Descriptors.FieldDescriptor descriptor)
+    private static String getInt64(FieldPath path)
     {
-        final String name = descriptor.getName();
-
-        if(name.equals("actVal")) {
+        if(path.hasName("actVal")) {
             return Types.int64.mapped;
         }
 
-        throw new NoClassificationException(descriptor);
+        throw new NoClassificationException(path);
     }
 
 
-    private static String getFloat(Descriptors.FieldDescriptor descriptor)
+    private static String getFloat(FieldPath path)
     {
-        final String name = descriptor.getName();
-
-        if(name.equals("value")) {
+        if(path.hasName("value")) {
             return Types.float32.mapped;
         }
 
-        throw new NoClassificationException(descriptor);
+        throw new NoClassificationException(path);
     }
 
-    private static String getBoolWrapper(Descriptors.FieldDescriptor descriptor) {
-
-        final String name = descriptor.getName();
-
-        if(name.equals("connected") && descriptor.getContainingType() == ACDCTerminal.getDescriptor())
+    private static String getBoolWrapper(FieldPath path)
+    {
+        if(path.matches("connected", ACDCTerminal.getDescriptor()))
         {
             return Types.bool.ignored;
         }
 
-        if(name.equals("modBlk") && descriptor.getContainingType() == ControlValue.getDescriptor())
+        if(path.matches("modBlk", ControlValue.getDescriptor()))
         {
             return Types.bool.ignored;
         }
@@ -203,23 +242,22 @@ class TypeClassification {
        return Types.bool.mapped;
     }
 
-    private static String getInt32Wrapper(Descriptors.FieldDescriptor descriptor) {
+    private static String getInt32Wrapper(FieldPath path)
+    {
 
-        final String name = descriptor.getName();
-
-        if(name.equals("sequenceNumber") && descriptor.getContainingType() == ACDCTerminal.getDescriptor())
+        if(path.matches("sequenceNumber", ACDCTerminal.getDescriptor()))
         {
             return Types.int32.ignored;
         }
 
-        if(name.equals("i"))
+        if(path.hasName("i"))
         {
-            if(descriptor.getContainingType() == AnalogueValue.getDescriptor())
+            if(path.hasParents(AnalogueValue.getDescriptor()))
             {
                 return Types.int32.ignored;
             }
 
-            if(descriptor.getContainingType() == AnalogueValueCtl.getDescriptor())
+            if(path.hasParents(AnalogueValueCtl.getDescriptor()))
             {
                 return Types.int32.ignored;
             }
@@ -228,76 +266,60 @@ class TypeClassification {
         return Types.int32.mapped;
     }
 
-    private static String getFloatWrapper(Descriptors.FieldDescriptor descriptor)
+    private static String getFloatWrapper(FieldPath path)
     {
         return Types.float32.mapped;
     }
 
-    private static String getStringWrapper(Descriptors.FieldDescriptor descriptor) {
-
-        final String name = descriptor.getName();
-
-        if(name.equals("setValExtension") && descriptor.getContainingType() == ENG_GridConnectModeKind.getDescriptor())
+    private static String getStringWrapper(FieldPath path)
+    {
+        // --- generated uuid, unique per message ---
+        if(path.matches("mRID", IdentifiedObject.getDescriptor(), MessageInfo.getDescriptor()))
         {
+            return Types.string.generatedUUID;
+        }
+
+        // --- unconstrained constants ----
+
+        if(path.hasName("description", "name")) {
+            return Types.string.constant;
+        }
+
+        // --- all other mRID are constant uuid ----
+
+        if(path.matches("mRID"))
+        {
+            return Types.string.constantUUID;
+        }
+
+        // --- ignored fields ---
+
+        if(path.matches("operatingLimit", EnergyConsumer.getDescriptor())) {
             return Types.string.ignored;
         }
 
-        if(name.equals("d") && descriptor.getContainingType() == ENS_HealthKind.getDescriptor())
-        {
+        if(path.matches("setValExtension", ENG_GridConnectModeKind.getDescriptor())) {
             return Types.string.ignored;
         }
 
-        if(name.equals("operatingLimit") && descriptor.getContainingType() == EnergyConsumer.getDescriptor())
-        {
+        if(path.matches("d", ENS_HealthKind.getDescriptor())) {
             return Types.string.ignored;
         }
 
-        if(name.equals("description") && descriptor.getContainingType() == IdentifiedObject.getDescriptor())
-        {
-            return Types.string.constant;
-        }
-
-        if(name.equals("mRID") && descriptor.getContainingType() == IdentifiedObject.getDescriptor())
-        {
-            return Types.string.primaryUUID;
-        }
-
-        if(name.equals("name") && descriptor.getContainingType() == IdentifiedObject.getDescriptor())
-        {
-            return Types.string.constant;
-        }
-
-        if(name.equals("description") && descriptor.getContainingType() == NamedObject.getDescriptor())
-        {
-            return Types.string.constant;
-        }
-
-        if(name.equals("name") && descriptor.getContainingType() == NamedObject.getDescriptor())
-        {
-            return Types.string.constant;
-        }
-
-        throw new NoClassificationException(descriptor);
+        throw new NoClassificationException(path);
     }
 
-    private static String getString(Descriptors.FieldDescriptor descriptor)
+    private static String getString(FieldPath path)
     {
-        final String name = descriptor.getName();
-
-        if(name.equals("stVal")) {
+        if(path.hasName("stVal")) {
             return Types.string.mapped;
         }
 
-        if(name.equals("mRID")) {
-            if(descriptor.getContainingType() == ConductingEquipment.getDescriptor())
-            {
-               return Types.string.primaryUUID;
-            }
-
-            throw new NoClassificationException(descriptor);
+        if(path.matches("mRID", ConductingEquipment.getDescriptor())) {
+            return Types.string.primaryUUID;
         }
 
-        throw new NoClassificationException(descriptor);
+        throw new NoClassificationException(path);
     }
 
     private static Map<Descriptors.EnumDescriptor, String> enumMap;
@@ -328,11 +350,11 @@ class TypeClassification {
         enumMap = Collections.unmodifiableMap(temp);
     }
 
-    private static String getEnum(Descriptors.FieldDescriptor descriptor)
+    private static String getEnum(FieldPath path)
     {
-        final String result = enumMap.get(descriptor.getEnumType());
+        final String result = enumMap.get(path.last().getEnumType());
         if(result == null) {
-            throw new NoClassificationException(descriptor);
+            throw new NoClassificationException(path);
         }
         return result;
     }
