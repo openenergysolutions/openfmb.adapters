@@ -18,8 +18,7 @@ set(HEADERS
 		include/adapter-util/util/SynchronizedQueue.h
 		include/adapter-util/util/YAMLUtil.h
 		include/adapter-util/util/YAMLTemplate.h
-		include/adapter-util/config/FieldInfo.h
-		include/adapter-util/config/PublishingConfigReadVisitorBase.h
+        include/adapter-util/config/PublishingConfigReadVisitorBase.h
 		include/adapter-util/config/SubscribingConfigReadVisitorBase.h
 		include/adapter-util/config/ConfigReadVisitorBase.h
 		include/adapter-util/config/ConfigWriteVisitorBase.h
@@ -55,8 +54,7 @@ set(SOURCES
     src/config/AccessorImpl.h
 	src/config/CommandPriorityMap.cpp
 	src/config/ConfigWriteVisitorBase.cpp
-	src/config/FieldInfo.cpp
-	src/config/DescriptorPath.cpp
+		src/config/DescriptorPath.cpp
     src/config/YAMLGetters.cpp
 	src/config/generated/BoolFieldType.cpp
 	src/config/generated/Int32FieldType.cpp
@@ -107,7 +105,7 @@ set(SOURCES
 	src/config/generated/SwitchEventProfileTypedModelVisitor.cpp
 	src/config/generated/SwitchReadingProfileTypedModelVisitor.cpp
 	src/config/generated/SwitchStatusProfileTypedModelVisitor.cpp
-)
+        include/adapter-util/config/FieldTypes.h)
 
 # directories to be automatically formatted by astyle
 SET(CPP_FORMAT_DIRS
