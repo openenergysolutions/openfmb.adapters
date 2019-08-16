@@ -2096,7 +2096,7 @@ void visit_commonmodule_MessageInfo(IModelVisitor& visitor)
     }
     visitor.end_message_field();
 
-    visitor.handle("messageTimeStamp", TimestampFieldType::Value::ignored);
+    visitor.handle("messageTimeStamp", TimestampFieldType::Value::message);
 }
 
 void visit_commonmodule_Meter(IModelVisitor& visitor)

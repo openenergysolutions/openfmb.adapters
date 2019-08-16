@@ -118,7 +118,7 @@ public class ModelVisitorFiles implements CppFileCollection {
                     if(path.last().isRepeated()) {
                         throw new RuntimeException(String.format("Terminal repeated messages not supported: %s", path.last().getMessageType().getName()));
                     }
-                    return getTerminalMessageHandler(path.last());
+                    return getTerminalMessageHandler(path);
                 }
 
                 if (path.last().isRepeated())
@@ -220,21 +220,11 @@ public class ModelVisitorFiles implements CppFileCollection {
                 );
     }
 
-    private Document getInlinedMessageHandler(Descriptors.FieldDescriptor field) {
-
-
-        final Document inner = line("static_assert(false, \"%s\");", field.getMessageType().getFullName());
-
-        return line("if(visitor.start_message_field(%s, %s::descriptor()))", Helpers.quoted(field.getName()), Helpers.cppMessageName(field.getMessageType()))
-                .bracket(inner)
-                .then("visitor.end_message_field();");
-    }
-
-    private Document getTerminalMessageHandler(Descriptors.FieldDescriptor field) {
+    private Document getTerminalMessageHandler(TypeClassification.FieldPath path) {
         return line(
                 "visitor.handle(%s, %s);",
-                Helpers.quoted(field.getName()),
-                TypeClassification.getName(field)
+                Helpers.quoted(path.last().getName()),
+                TypeClassification.getName(path)
 
         );
     }

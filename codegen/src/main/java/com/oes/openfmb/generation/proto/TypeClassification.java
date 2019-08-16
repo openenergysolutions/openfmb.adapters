@@ -155,12 +155,15 @@ class TypeClassification {
             case MESSAGE:
             {
                 if(path.last().getMessageType() == Quality.getDescriptor()) {
-                    // just ignore for now
                     return Types.quality.ignored;
                 }
 
                 if(path.last().getMessageType() == Timestamp.getDescriptor()) {
-                    // just ignore for now
+                    if(path.matches("messageTimeStamp", MessageInfo.getDescriptor())) {
+                        return "TimestampFieldType::Value::message";
+                    }
+
+
                     return Types.timestamp.ignored;
                 }
 
