@@ -3,7 +3,6 @@ package com.oes.openfmb.generation.proto;
 import com.google.protobuf.*;
 import com.oes.openfmb.generation.document.*;
 import openfmb.commonmodule.IdentifiedObject;
-import openfmb.commonmodule.MessageInfo;
 
 import java.util.*;
 
@@ -11,20 +10,19 @@ import static com.oes.openfmb.generation.document.Document.*;
 
 public class ModelVisitorFiles implements CppFileCollection {
 
-    private final Set<Descriptors.Descriptor> descriptors;
+    private final List<Descriptors.Descriptor> descriptors;
     private final SortedMap<String, Descriptors.Descriptor> children;
     private final FileName name;
 
     // certain types contain fields that we cannot classify without knowing the parent
     // type. For instance, MessageInfo contains IdentifiedObject w/ an mRID, which who's
     // meaning is dependent on the whether MessageInfo is the parent 2 levels up
-    private static final Set<Descriptors.Descriptor> inlinedTypes = new HashSet<>(
+    private static final List<Descriptors.Descriptor> inlinedTypes =
             Collections.singletonList(
                     IdentifiedObject.getDescriptor()
-            )
-    );
+            );
 
-    private ModelVisitorFiles(Set<Descriptors.Descriptor> descriptors) {
+    private ModelVisitorFiles(List<Descriptors.Descriptor> descriptors) {
         this.descriptors = descriptors;
         this.children = Helpers.getFilteredChildMessageDescriptors(descriptors, false);
         // don't generate handlers for the inlined types, we'll inline them
@@ -32,7 +30,7 @@ public class ModelVisitorFiles implements CppFileCollection {
         this.name = new FileName("ModelVisitors");
     }
 
-    public static CppFileCollection from(Set<Descriptors.Descriptor> descriptors) {
+    public static CppFileCollection from(List<Descriptors.Descriptor> descriptors) {
         return new ModelVisitorFiles(descriptors);
     }
 
