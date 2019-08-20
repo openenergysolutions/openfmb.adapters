@@ -1,8 +1,7 @@
 package com.oes.openfmb.generation.proto;
 
-import com.google.protobuf.Descriptors;
-import openfmb.commonmodule.ControlTimestamp;
-import openfmb.commonmodule.Quality;
+import com.google.protobuf.*;
+import openfmb.commonmodule.*;
 import openfmb.commonmodule.Timestamp;
 
 import java.util.*;
@@ -20,18 +19,50 @@ class Helpers {
             )
     );
 
-    static SortedMap<String, Descriptors.Descriptor> getFilteredChildMessageDescriptors(Iterable<Descriptors.Descriptor> descriptors)
+    // certain types are only found as subtypes of terminal messages
+    private static final Set<Descriptors.Descriptor> terminalMessageSubtypes = new HashSet<>(
+            Arrays.asList(
+                    DetailQual.getDescriptor(),
+                    TimeQuality.getDescriptor(),
+                    ENG_ScheduleParameter.getDescriptor()
+            )
+    );
+
+    private static final Set<Descriptors.Descriptor> wrapperTypes = new HashSet<>(
+            Arrays.asList(
+                    StringValue.getDescriptor(),
+                    BoolValue.getDescriptor(),
+                    FloatValue.getDescriptor(),
+                    Int32Value.getDescriptor(),
+                    Int64Value.getDescriptor(),
+                    UInt32Value.getDescriptor(),
+                    UInt32Value.getDescriptor()
+            )
+    );
+
+    static boolean isWrapperType(Descriptors.Descriptor descriptor)
+    {
+        return wrapperTypes.contains(descriptor);
+    }
+
+
+    static SortedMap<String, Descriptors.Descriptor> getFilteredChildMessageDescriptors(Iterable<Descriptors.Descriptor> descriptors, boolean includeWrapperTypes)
     {
         final SortedMap<String, Descriptors.Descriptor> map = getChildMessageDescriptors(descriptors);
         terminalMessages.forEach(d -> map.remove(d.getFullName()));
+        terminalMessageSubtypes.forEach(d -> map.remove(d.getFullName()));
+        if(!includeWrapperTypes) {
+            wrapperTypes.forEach(d -> map.remove(d.getFullName()));
+        }
         return map;
     }
 
+
     static SortedMap<String, Descriptors.Descriptor> getChildMessageDescriptors(Iterable<Descriptors.Descriptor> descriptors)
     {
-        final Set<Descriptors.Descriptor> set = getChildMessageDescriptors(StreamSupport.stream(descriptors.spliterator(), false));
+        final List<Descriptors.Descriptor> list = getChildMessageDescriptors(StreamSupport.stream(descriptors.spliterator(), false));
         SortedMap<String, Descriptors.Descriptor> map = new TreeMap<>();
-        set.forEach(d -> map.put(d.getFullName(), d));
+        list.forEach(d -> map.put(d.getFullName(), d));
         return map;
     }
 
@@ -50,7 +81,7 @@ class Helpers {
         return StreamSupport.stream(descriptors.spliterator(), false).map(Helpers::getIncludeFile).collect(Collectors.toSet());
     }
 
-    static String getIncludeFile(Descriptors.Descriptor descriptor)
+    private static String getIncludeFile(Descriptors.Descriptor descriptor)
     {
         final String[] names = descriptor.getFullName().split("\\.");
         if(names.length != 2) throw new RuntimeException("Descriptor name does not follow <module>.<name> syntax: " + descriptor.getFullName());
@@ -89,24 +120,24 @@ class Helpers {
 
     /// ----  private methods --- /
 
-    private static Set<Descriptors.Descriptor> getChildMessageDescriptors(Stream<Descriptors.Descriptor> descriptors)
+    private static List<Descriptors.Descriptor> getChildMessageDescriptors(Stream<Descriptors.Descriptor> descriptors)
     {
-        return descriptors.map(Helpers::getChildMessageDescriptorsForProfile).flatMap(Set::stream).collect(Collectors.toSet());
+        return descriptors.map(Helpers::getChildMessageDescriptorsForProfile).flatMap(List::stream).distinct().collect(Collectors.toList());
     }
 
-    private static Set<Descriptors.Descriptor> getChildMessageDescriptorsForProfile(Descriptors.Descriptor descriptor)
+    private static List<Descriptors.Descriptor> getChildMessageDescriptorsForProfile(Descriptors.Descriptor descriptor)
     {
-        return descriptor.getFields().stream().map(Helpers::getChildMessageDescriptors).flatMap(Set::stream).collect(Collectors.toSet());
+        return descriptor.getFields().stream().map(Helpers::getChildMessageDescriptors).flatMap(List::stream).distinct().collect(Collectors.toList());
     }
 
-    private static Set<Descriptors.Descriptor> getChildMessageDescriptors(Descriptors.Descriptor descriptor)
+    private static List<Descriptors.Descriptor> getChildMessageDescriptors(Descriptors.Descriptor descriptor)
     {
-        final Set<Descriptors.Descriptor> set = descriptor.getFields().stream().map(Helpers::getChildMessageDescriptors).flatMap(Set::stream).collect(Collectors.toSet());
+        final Set<Descriptors.Descriptor> set = descriptor.getFields().stream().map(Helpers::getChildMessageDescriptors).flatMap(List::stream).collect(Collectors.toCollection(LinkedHashSet::new));
         set.add(descriptor);
-        return set;
+        return new ArrayList<>(set);
     }
 
-    private static Set<Descriptors.Descriptor> getChildMessageDescriptors(Descriptors.FieldDescriptor field)
+    private static List<Descriptors.Descriptor> getChildMessageDescriptors(Descriptors.FieldDescriptor field)
     {
         if(field.getType() == Descriptors.FieldDescriptor.Type.MESSAGE)
         {
@@ -114,7 +145,7 @@ class Helpers {
         }
         else
         {
-            return Collections.emptySet();
+            return Collections.emptyList();
         }
     }
 }

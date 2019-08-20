@@ -10,16 +10,15 @@ import com.oes.openfmb.generation.document.FileHeader;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import static com.oes.openfmb.generation.document.Document.*;
 
 public class ConvertFromProto implements CppFileCollection {
 
-    private final Set<Descriptors.Descriptor> profiles;
-    private final Set<Descriptors.Descriptor> children;
+    private final List<Descriptors.Descriptor> profiles;
+    private final List<Descriptors.Descriptor> children;
 
-    ConvertFromProto(Set<Descriptors.Descriptor> profiles) {
+    ConvertFromProto(List<Descriptors.Descriptor> profiles) {
         this.profiles = profiles;
         this.children = Helpers.getChildDescriptors(profiles);
     }

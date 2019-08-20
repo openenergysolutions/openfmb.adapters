@@ -40,8 +40,6 @@ void visit_commonmodule_ControlScheduleFSCH(const set_t<commonmodule::ControlSch
 
 void visit_commonmodule_ControlValue(const set_t<commonmodule::ControlValue>& setter, const get_t<commonmodule::ControlValue>& getter, ITypedModelVisitor<loadmodule::LoadControlProfile>& visitor);
 
-void visit_commonmodule_ENG_ScheduleParameter(const set_t<commonmodule::ENG_ScheduleParameter>& setter, const get_t<commonmodule::ENG_ScheduleParameter>& getter, ITypedModelVisitor<loadmodule::LoadControlProfile>& visitor);
-
 void visit_commonmodule_EnergyConsumer(const set_t<commonmodule::EnergyConsumer>& setter, const get_t<commonmodule::EnergyConsumer>& getter, ITypedModelVisitor<loadmodule::LoadControlProfile>& visitor);
 
 void visit_commonmodule_IED(const set_t<commonmodule::IED>& setter, const get_t<commonmodule::IED>& getter, ITypedModelVisitor<loadmodule::LoadControlProfile>& visitor);
@@ -63,8 +61,6 @@ void visit_commonmodule_RampRate(const set_t<commonmodule::RampRate>& setter, co
 void visit_commonmodule_ScheduleCSG(const set_t<commonmodule::ScheduleCSG>& setter, const get_t<commonmodule::ScheduleCSG>& getter, ITypedModelVisitor<loadmodule::LoadControlProfile>& visitor);
 
 void visit_commonmodule_SchedulePoint(const set_t<commonmodule::SchedulePoint>& setter, const get_t<commonmodule::SchedulePoint>& getter, ITypedModelVisitor<loadmodule::LoadControlProfile>& visitor);
-
-void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& setter, const get_t<commonmodule::TimeQuality>& getter, ITypedModelVisitor<loadmodule::LoadControlProfile>& visitor);
 
 void visit_google_protobuf_BoolValue(const set_t<google::protobuf::BoolValue>& setter, const get_t<google::protobuf::BoolValue>& getter, ITypedModelVisitor<loadmodule::LoadControlProfile>& visitor);
 
@@ -476,38 +472,6 @@ void visit_commonmodule_ControlValue(const set_t<commonmodule::ControlValue>& se
         );
         visitor.end_message_field();
     }
-}
-
-void visit_commonmodule_ENG_ScheduleParameter(const set_t<commonmodule::ENG_ScheduleParameter>& setter, const get_t<commonmodule::ENG_ScheduleParameter>& getter, ITypedModelVisitor<loadmodule::LoadControlProfile>& visitor)
-{
-    visitor.handle(
-        "scheduleParameterType",
-        AccessorBuilder<loadmodule::LoadControlProfile,int>::build(
-            [setter](loadmodule::LoadControlProfile& profile, const int& value) { setter(profile)->set_scheduleparametertype(static_cast<commonmodule::ScheduleParameterKind>(value)); },
-            [getter](const loadmodule::LoadControlProfile& profile, const handler_t<int>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->scheduleparametertype());
-                return true;
-            }
-        ),
-        commonmodule::ScheduleParameterKind_descriptor()
-    );
-
-    visitor.handle(
-        "value",
-        AccessorBuilder<loadmodule::LoadControlProfile,float>::build(
-            [setter](loadmodule::LoadControlProfile& profile, const float& value) { setter(profile)->set_value(value); },
-            [getter](const loadmodule::LoadControlProfile& profile, const handler_t<float>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->value());
-                return true;
-            }
-        )
-    );
 }
 
 void visit_commonmodule_EnergyConsumer(const set_t<commonmodule::EnergyConsumer>& setter, const get_t<commonmodule::EnergyConsumer>& getter, ITypedModelVisitor<loadmodule::LoadControlProfile>& visitor)
@@ -997,66 +961,6 @@ void visit_commonmodule_SchedulePoint(const set_t<commonmodule::SchedulePoint>& 
                 return true;
             }
         )
-    );
-}
-
-void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& setter, const get_t<commonmodule::TimeQuality>& getter, ITypedModelVisitor<loadmodule::LoadControlProfile>& visitor)
-{
-    visitor.handle(
-        "clockFailure",
-        AccessorBuilder<loadmodule::LoadControlProfile,bool>::build(
-            [setter](loadmodule::LoadControlProfile& profile, const bool& value) { setter(profile)->set_clockfailure(value); },
-            [getter](const loadmodule::LoadControlProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->clockfailure());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "clockNotSynchronized",
-        AccessorBuilder<loadmodule::LoadControlProfile,bool>::build(
-            [setter](loadmodule::LoadControlProfile& profile, const bool& value) { setter(profile)->set_clocknotsynchronized(value); },
-            [getter](const loadmodule::LoadControlProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->clocknotsynchronized());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "leapSecondsKnown",
-        AccessorBuilder<loadmodule::LoadControlProfile,bool>::build(
-            [setter](loadmodule::LoadControlProfile& profile, const bool& value) { setter(profile)->set_leapsecondsknown(value); },
-            [getter](const loadmodule::LoadControlProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->leapsecondsknown());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "timeAccuracy",
-        AccessorBuilder<loadmodule::LoadControlProfile,int>::build(
-            [setter](loadmodule::LoadControlProfile& profile, const int& value) { setter(profile)->set_timeaccuracy(static_cast<commonmodule::TimeAccuracyKind>(value)); },
-            [getter](const loadmodule::LoadControlProfile& profile, const handler_t<int>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->timeaccuracy());
-                return true;
-            }
-        ),
-        commonmodule::TimeAccuracyKind_descriptor()
     );
 }
 

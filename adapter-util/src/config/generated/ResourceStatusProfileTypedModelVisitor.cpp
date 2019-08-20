@@ -34,8 +34,6 @@ void visit_commonmodule_BooleanStatusGGIO(const set_t<commonmodule::BooleanStatu
 
 void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::ConductingEquipment>& setter, const get_t<commonmodule::ConductingEquipment>& getter, ITypedModelVisitor<resourcemodule::ResourceStatusProfile>& visitor);
 
-void visit_commonmodule_DetailQual(const set_t<commonmodule::DetailQual>& setter, const get_t<commonmodule::DetailQual>& getter, ITypedModelVisitor<resourcemodule::ResourceStatusProfile>& visitor);
-
 void visit_commonmodule_IED(const set_t<commonmodule::IED>& setter, const get_t<commonmodule::IED>& getter, ITypedModelVisitor<resourcemodule::ResourceStatusProfile>& visitor);
 
 void visit_commonmodule_IdentifiedObject(const set_t<commonmodule::IdentifiedObject>& setter, const get_t<commonmodule::IdentifiedObject>& getter, ITypedModelVisitor<resourcemodule::ResourceStatusProfile>& visitor);
@@ -63,8 +61,6 @@ void visit_commonmodule_StatusSPS(const set_t<commonmodule::StatusSPS>& setter, 
 void visit_commonmodule_StatusValue(const set_t<commonmodule::StatusValue>& setter, const get_t<commonmodule::StatusValue>& getter, ITypedModelVisitor<resourcemodule::ResourceStatusProfile>& visitor);
 
 void visit_commonmodule_StringStatusGGIO(const set_t<commonmodule::StringStatusGGIO>& setter, const get_t<commonmodule::StringStatusGGIO>& getter, ITypedModelVisitor<resourcemodule::ResourceStatusProfile>& visitor);
-
-void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& setter, const get_t<commonmodule::TimeQuality>& getter, ITypedModelVisitor<resourcemodule::ResourceStatusProfile>& visitor);
 
 void visit_commonmodule_Unit(const set_t<commonmodule::Unit>& setter, const get_t<commonmodule::Unit>& getter, ITypedModelVisitor<resourcemodule::ResourceStatusProfile>& visitor);
 
@@ -421,121 +417,6 @@ void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::Conducting
                 const auto parent = getter(profile);
                 if(!parent) return false;
                 handler(parent->mrid());
-                return true;
-            }
-        )
-    );
-}
-
-void visit_commonmodule_DetailQual(const set_t<commonmodule::DetailQual>& setter, const get_t<commonmodule::DetailQual>& getter, ITypedModelVisitor<resourcemodule::ResourceStatusProfile>& visitor)
-{
-    visitor.handle(
-        "badReference",
-        AccessorBuilder<resourcemodule::ResourceStatusProfile,bool>::build(
-            [setter](resourcemodule::ResourceStatusProfile& profile, const bool& value) { setter(profile)->set_badreference(value); },
-            [getter](const resourcemodule::ResourceStatusProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->badreference());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "failure",
-        AccessorBuilder<resourcemodule::ResourceStatusProfile,bool>::build(
-            [setter](resourcemodule::ResourceStatusProfile& profile, const bool& value) { setter(profile)->set_failure(value); },
-            [getter](const resourcemodule::ResourceStatusProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->failure());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "inaccurate",
-        AccessorBuilder<resourcemodule::ResourceStatusProfile,bool>::build(
-            [setter](resourcemodule::ResourceStatusProfile& profile, const bool& value) { setter(profile)->set_inaccurate(value); },
-            [getter](const resourcemodule::ResourceStatusProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->inaccurate());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "inconsistent",
-        AccessorBuilder<resourcemodule::ResourceStatusProfile,bool>::build(
-            [setter](resourcemodule::ResourceStatusProfile& profile, const bool& value) { setter(profile)->set_inconsistent(value); },
-            [getter](const resourcemodule::ResourceStatusProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->inconsistent());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "oldData",
-        AccessorBuilder<resourcemodule::ResourceStatusProfile,bool>::build(
-            [setter](resourcemodule::ResourceStatusProfile& profile, const bool& value) { setter(profile)->set_olddata(value); },
-            [getter](const resourcemodule::ResourceStatusProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->olddata());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "oscillatory",
-        AccessorBuilder<resourcemodule::ResourceStatusProfile,bool>::build(
-            [setter](resourcemodule::ResourceStatusProfile& profile, const bool& value) { setter(profile)->set_oscillatory(value); },
-            [getter](const resourcemodule::ResourceStatusProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->oscillatory());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "outOfRange",
-        AccessorBuilder<resourcemodule::ResourceStatusProfile,bool>::build(
-            [setter](resourcemodule::ResourceStatusProfile& profile, const bool& value) { setter(profile)->set_outofrange(value); },
-            [getter](const resourcemodule::ResourceStatusProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->outofrange());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "overflow",
-        AccessorBuilder<resourcemodule::ResourceStatusProfile,bool>::build(
-            [setter](resourcemodule::ResourceStatusProfile& profile, const bool& value) { setter(profile)->set_overflow(value); },
-            [getter](const resourcemodule::ResourceStatusProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->overflow());
                 return true;
             }
         )
@@ -1194,66 +1075,6 @@ void visit_commonmodule_StringStatusGGIO(const set_t<commonmodule::StringStatusG
         );
         visitor.end_message_field();
     }
-}
-
-void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& setter, const get_t<commonmodule::TimeQuality>& getter, ITypedModelVisitor<resourcemodule::ResourceStatusProfile>& visitor)
-{
-    visitor.handle(
-        "clockFailure",
-        AccessorBuilder<resourcemodule::ResourceStatusProfile,bool>::build(
-            [setter](resourcemodule::ResourceStatusProfile& profile, const bool& value) { setter(profile)->set_clockfailure(value); },
-            [getter](const resourcemodule::ResourceStatusProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->clockfailure());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "clockNotSynchronized",
-        AccessorBuilder<resourcemodule::ResourceStatusProfile,bool>::build(
-            [setter](resourcemodule::ResourceStatusProfile& profile, const bool& value) { setter(profile)->set_clocknotsynchronized(value); },
-            [getter](const resourcemodule::ResourceStatusProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->clocknotsynchronized());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "leapSecondsKnown",
-        AccessorBuilder<resourcemodule::ResourceStatusProfile,bool>::build(
-            [setter](resourcemodule::ResourceStatusProfile& profile, const bool& value) { setter(profile)->set_leapsecondsknown(value); },
-            [getter](const resourcemodule::ResourceStatusProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->leapsecondsknown());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "timeAccuracy",
-        AccessorBuilder<resourcemodule::ResourceStatusProfile,int>::build(
-            [setter](resourcemodule::ResourceStatusProfile& profile, const int& value) { setter(profile)->set_timeaccuracy(static_cast<commonmodule::TimeAccuracyKind>(value)); },
-            [getter](const resourcemodule::ResourceStatusProfile& profile, const handler_t<int>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->timeaccuracy());
-                return true;
-            }
-        ),
-        commonmodule::TimeAccuracyKind_descriptor()
-    );
 }
 
 void visit_commonmodule_Unit(const set_t<commonmodule::Unit>& setter, const get_t<commonmodule::Unit>& getter, ITypedModelVisitor<resourcemodule::ResourceStatusProfile>& visitor)

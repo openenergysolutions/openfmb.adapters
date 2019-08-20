@@ -33,14 +33,14 @@ class Helpers {
         return "twinoaks::" + getProtoName(d);
     }
 
-    static Set<Descriptors.Descriptor> getChildDescriptors(Set<Descriptors.Descriptor> profiles)
+    static List<Descriptors.Descriptor> getChildDescriptors(List<Descriptors.Descriptor> profiles)
     {
-        final Set<Descriptors.Descriptor> set = profiles.stream().map(DescriptorUtil::findUniqueSubMessages).flatMap(Set::stream).collect(Collectors.toSet());
+        final Set<Descriptors.Descriptor> set = profiles.stream().map(DescriptorUtil::findUniqueSubMessages).flatMap(Set::stream).collect(Collectors.toCollection(LinkedHashSet::new));
 
         final Function<Descriptors.Descriptor, Boolean> isExcluded = d ->
                 primitiveWrappers.contains(d) || profiles.contains(d) || (Helpers.getOptionalEnumWrapper(d) != null);
 
-        return set.stream().filter(d -> !isExcluded.apply(d)).collect(Collectors.toSet());
+        return set.stream().filter(d -> !isExcluded.apply(d)).collect(Collectors.toList());
     }
 
     static Set<Descriptors.EnumDescriptor> getEnumSet(Collection<Descriptors.Descriptor> profiles)
