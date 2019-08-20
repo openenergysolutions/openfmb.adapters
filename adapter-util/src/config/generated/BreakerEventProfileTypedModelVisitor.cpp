@@ -32,8 +32,6 @@ void visit_breakermodule_BreakerEvent(const set_t<breakermodule::BreakerEvent>& 
 
 void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::ConductingEquipment>& setter, const get_t<commonmodule::ConductingEquipment>& getter, ITypedModelVisitor<breakermodule::BreakerEventProfile>& visitor);
 
-void visit_commonmodule_DetailQual(const set_t<commonmodule::DetailQual>& setter, const get_t<commonmodule::DetailQual>& getter, ITypedModelVisitor<breakermodule::BreakerEventProfile>& visitor);
-
 void visit_commonmodule_ENS_BehaviourModeKind(const set_t<commonmodule::ENS_BehaviourModeKind>& setter, const get_t<commonmodule::ENS_BehaviourModeKind>& getter, ITypedModelVisitor<breakermodule::BreakerEventProfile>& visitor);
 
 void visit_commonmodule_ENS_DynamicTestKind(const set_t<commonmodule::ENS_DynamicTestKind>& setter, const get_t<commonmodule::ENS_DynamicTestKind>& getter, ITypedModelVisitor<breakermodule::BreakerEventProfile>& visitor);
@@ -59,8 +57,6 @@ void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& sett
 void visit_commonmodule_StatusAndEventXCBR(const set_t<commonmodule::StatusAndEventXCBR>& setter, const get_t<commonmodule::StatusAndEventXCBR>& getter, ITypedModelVisitor<breakermodule::BreakerEventProfile>& visitor);
 
 void visit_commonmodule_StatusDPS(const set_t<commonmodule::StatusDPS>& setter, const get_t<commonmodule::StatusDPS>& getter, ITypedModelVisitor<breakermodule::BreakerEventProfile>& visitor);
-
-void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& setter, const get_t<commonmodule::TimeQuality>& getter, ITypedModelVisitor<breakermodule::BreakerEventProfile>& visitor);
 
 void visit_google_protobuf_StringValue(const set_t<google::protobuf::StringValue>& setter, const get_t<google::protobuf::StringValue>& getter, ITypedModelVisitor<breakermodule::BreakerEventProfile>& visitor);
 
@@ -284,121 +280,6 @@ void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::Conducting
                 const auto parent = getter(profile);
                 if(!parent) return false;
                 handler(parent->mrid());
-                return true;
-            }
-        )
-    );
-}
-
-void visit_commonmodule_DetailQual(const set_t<commonmodule::DetailQual>& setter, const get_t<commonmodule::DetailQual>& getter, ITypedModelVisitor<breakermodule::BreakerEventProfile>& visitor)
-{
-    visitor.handle(
-        "badReference",
-        AccessorBuilder<breakermodule::BreakerEventProfile,bool>::build(
-            [setter](breakermodule::BreakerEventProfile& profile, const bool& value) { setter(profile)->set_badreference(value); },
-            [getter](const breakermodule::BreakerEventProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->badreference());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "failure",
-        AccessorBuilder<breakermodule::BreakerEventProfile,bool>::build(
-            [setter](breakermodule::BreakerEventProfile& profile, const bool& value) { setter(profile)->set_failure(value); },
-            [getter](const breakermodule::BreakerEventProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->failure());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "inaccurate",
-        AccessorBuilder<breakermodule::BreakerEventProfile,bool>::build(
-            [setter](breakermodule::BreakerEventProfile& profile, const bool& value) { setter(profile)->set_inaccurate(value); },
-            [getter](const breakermodule::BreakerEventProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->inaccurate());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "inconsistent",
-        AccessorBuilder<breakermodule::BreakerEventProfile,bool>::build(
-            [setter](breakermodule::BreakerEventProfile& profile, const bool& value) { setter(profile)->set_inconsistent(value); },
-            [getter](const breakermodule::BreakerEventProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->inconsistent());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "oldData",
-        AccessorBuilder<breakermodule::BreakerEventProfile,bool>::build(
-            [setter](breakermodule::BreakerEventProfile& profile, const bool& value) { setter(profile)->set_olddata(value); },
-            [getter](const breakermodule::BreakerEventProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->olddata());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "oscillatory",
-        AccessorBuilder<breakermodule::BreakerEventProfile,bool>::build(
-            [setter](breakermodule::BreakerEventProfile& profile, const bool& value) { setter(profile)->set_oscillatory(value); },
-            [getter](const breakermodule::BreakerEventProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->oscillatory());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "outOfRange",
-        AccessorBuilder<breakermodule::BreakerEventProfile,bool>::build(
-            [setter](breakermodule::BreakerEventProfile& profile, const bool& value) { setter(profile)->set_outofrange(value); },
-            [getter](const breakermodule::BreakerEventProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->outofrange());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "overflow",
-        AccessorBuilder<breakermodule::BreakerEventProfile,bool>::build(
-            [setter](breakermodule::BreakerEventProfile& profile, const bool& value) { setter(profile)->set_overflow(value); },
-            [getter](const breakermodule::BreakerEventProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->overflow());
                 return true;
             }
         )
@@ -1007,66 +888,6 @@ void visit_commonmodule_StatusDPS(const set_t<commonmodule::StatusDPS>& setter, 
                 return true;
             }
         )
-    );
-}
-
-void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& setter, const get_t<commonmodule::TimeQuality>& getter, ITypedModelVisitor<breakermodule::BreakerEventProfile>& visitor)
-{
-    visitor.handle(
-        "clockFailure",
-        AccessorBuilder<breakermodule::BreakerEventProfile,bool>::build(
-            [setter](breakermodule::BreakerEventProfile& profile, const bool& value) { setter(profile)->set_clockfailure(value); },
-            [getter](const breakermodule::BreakerEventProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->clockfailure());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "clockNotSynchronized",
-        AccessorBuilder<breakermodule::BreakerEventProfile,bool>::build(
-            [setter](breakermodule::BreakerEventProfile& profile, const bool& value) { setter(profile)->set_clocknotsynchronized(value); },
-            [getter](const breakermodule::BreakerEventProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->clocknotsynchronized());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "leapSecondsKnown",
-        AccessorBuilder<breakermodule::BreakerEventProfile,bool>::build(
-            [setter](breakermodule::BreakerEventProfile& profile, const bool& value) { setter(profile)->set_leapsecondsknown(value); },
-            [getter](const breakermodule::BreakerEventProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->leapsecondsknown());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "timeAccuracy",
-        AccessorBuilder<breakermodule::BreakerEventProfile,int>::build(
-            [setter](breakermodule::BreakerEventProfile& profile, const int& value) { setter(profile)->set_timeaccuracy(static_cast<commonmodule::TimeAccuracyKind>(value)); },
-            [getter](const breakermodule::BreakerEventProfile& profile, const handler_t<int>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->timeaccuracy());
-                return true;
-            }
-        ),
-        commonmodule::TimeAccuracyKind_descriptor()
     );
 }
 

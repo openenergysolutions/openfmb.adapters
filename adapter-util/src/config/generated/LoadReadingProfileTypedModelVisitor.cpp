@@ -40,8 +40,6 @@ void visit_commonmodule_ConductingEquipmentTerminalReading(const set_t<commonmod
 
 void visit_commonmodule_DEL(const set_t<commonmodule::DEL>& setter, const get_t<commonmodule::DEL>& getter, ITypedModelVisitor<loadmodule::LoadReadingProfile>& visitor);
 
-void visit_commonmodule_DetailQual(const set_t<commonmodule::DetailQual>& setter, const get_t<commonmodule::DetailQual>& getter, ITypedModelVisitor<loadmodule::LoadReadingProfile>& visitor);
-
 void visit_commonmodule_ENG_CalcMethodKind(const set_t<commonmodule::ENG_CalcMethodKind>& setter, const get_t<commonmodule::ENG_CalcMethodKind>& getter, ITypedModelVisitor<loadmodule::LoadReadingProfile>& visitor);
 
 void visit_commonmodule_ENG_PFSignKind(const set_t<commonmodule::ENG_PFSignKind>& setter, const get_t<commonmodule::ENG_PFSignKind>& getter, ITypedModelVisitor<loadmodule::LoadReadingProfile>& visitor);
@@ -77,8 +75,6 @@ void visit_commonmodule_ReadingMMXU(const set_t<commonmodule::ReadingMMXU>& sett
 void visit_commonmodule_ReadingMessageInfo(const set_t<commonmodule::ReadingMessageInfo>& setter, const get_t<commonmodule::ReadingMessageInfo>& getter, ITypedModelVisitor<loadmodule::LoadReadingProfile>& visitor);
 
 void visit_commonmodule_Terminal(const set_t<commonmodule::Terminal>& setter, const get_t<commonmodule::Terminal>& getter, ITypedModelVisitor<loadmodule::LoadReadingProfile>& visitor);
-
-void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& setter, const get_t<commonmodule::TimeQuality>& getter, ITypedModelVisitor<loadmodule::LoadReadingProfile>& visitor);
 
 void visit_commonmodule_Unit(const set_t<commonmodule::Unit>& setter, const get_t<commonmodule::Unit>& getter, ITypedModelVisitor<loadmodule::LoadReadingProfile>& visitor);
 
@@ -618,121 +614,6 @@ void visit_commonmodule_DEL(const set_t<commonmodule::DEL>& setter, const get_t<
         );
         visitor.end_message_field();
     }
-}
-
-void visit_commonmodule_DetailQual(const set_t<commonmodule::DetailQual>& setter, const get_t<commonmodule::DetailQual>& getter, ITypedModelVisitor<loadmodule::LoadReadingProfile>& visitor)
-{
-    visitor.handle(
-        "badReference",
-        AccessorBuilder<loadmodule::LoadReadingProfile,bool>::build(
-            [setter](loadmodule::LoadReadingProfile& profile, const bool& value) { setter(profile)->set_badreference(value); },
-            [getter](const loadmodule::LoadReadingProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->badreference());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "failure",
-        AccessorBuilder<loadmodule::LoadReadingProfile,bool>::build(
-            [setter](loadmodule::LoadReadingProfile& profile, const bool& value) { setter(profile)->set_failure(value); },
-            [getter](const loadmodule::LoadReadingProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->failure());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "inaccurate",
-        AccessorBuilder<loadmodule::LoadReadingProfile,bool>::build(
-            [setter](loadmodule::LoadReadingProfile& profile, const bool& value) { setter(profile)->set_inaccurate(value); },
-            [getter](const loadmodule::LoadReadingProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->inaccurate());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "inconsistent",
-        AccessorBuilder<loadmodule::LoadReadingProfile,bool>::build(
-            [setter](loadmodule::LoadReadingProfile& profile, const bool& value) { setter(profile)->set_inconsistent(value); },
-            [getter](const loadmodule::LoadReadingProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->inconsistent());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "oldData",
-        AccessorBuilder<loadmodule::LoadReadingProfile,bool>::build(
-            [setter](loadmodule::LoadReadingProfile& profile, const bool& value) { setter(profile)->set_olddata(value); },
-            [getter](const loadmodule::LoadReadingProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->olddata());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "oscillatory",
-        AccessorBuilder<loadmodule::LoadReadingProfile,bool>::build(
-            [setter](loadmodule::LoadReadingProfile& profile, const bool& value) { setter(profile)->set_oscillatory(value); },
-            [getter](const loadmodule::LoadReadingProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->oscillatory());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "outOfRange",
-        AccessorBuilder<loadmodule::LoadReadingProfile,bool>::build(
-            [setter](loadmodule::LoadReadingProfile& profile, const bool& value) { setter(profile)->set_outofrange(value); },
-            [getter](const loadmodule::LoadReadingProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->outofrange());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "overflow",
-        AccessorBuilder<loadmodule::LoadReadingProfile,bool>::build(
-            [setter](loadmodule::LoadReadingProfile& profile, const bool& value) { setter(profile)->set_overflow(value); },
-            [getter](const loadmodule::LoadReadingProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->overflow());
-                return true;
-            }
-        )
-    );
 }
 
 void visit_commonmodule_ENG_CalcMethodKind(const set_t<commonmodule::ENG_CalcMethodKind>& setter, const get_t<commonmodule::ENG_CalcMethodKind>& getter, ITypedModelVisitor<loadmodule::LoadReadingProfile>& visitor)
@@ -2152,66 +2033,6 @@ void visit_commonmodule_Terminal(const set_t<commonmodule::Terminal>& setter, co
         );
         visitor.end_message_field();
     }
-}
-
-void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& setter, const get_t<commonmodule::TimeQuality>& getter, ITypedModelVisitor<loadmodule::LoadReadingProfile>& visitor)
-{
-    visitor.handle(
-        "clockFailure",
-        AccessorBuilder<loadmodule::LoadReadingProfile,bool>::build(
-            [setter](loadmodule::LoadReadingProfile& profile, const bool& value) { setter(profile)->set_clockfailure(value); },
-            [getter](const loadmodule::LoadReadingProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->clockfailure());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "clockNotSynchronized",
-        AccessorBuilder<loadmodule::LoadReadingProfile,bool>::build(
-            [setter](loadmodule::LoadReadingProfile& profile, const bool& value) { setter(profile)->set_clocknotsynchronized(value); },
-            [getter](const loadmodule::LoadReadingProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->clocknotsynchronized());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "leapSecondsKnown",
-        AccessorBuilder<loadmodule::LoadReadingProfile,bool>::build(
-            [setter](loadmodule::LoadReadingProfile& profile, const bool& value) { setter(profile)->set_leapsecondsknown(value); },
-            [getter](const loadmodule::LoadReadingProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->leapsecondsknown());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "timeAccuracy",
-        AccessorBuilder<loadmodule::LoadReadingProfile,int>::build(
-            [setter](loadmodule::LoadReadingProfile& profile, const int& value) { setter(profile)->set_timeaccuracy(static_cast<commonmodule::TimeAccuracyKind>(value)); },
-            [getter](const loadmodule::LoadReadingProfile& profile, const handler_t<int>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->timeaccuracy());
-                return true;
-            }
-        ),
-        commonmodule::TimeAccuracyKind_descriptor()
-    );
 }
 
 void visit_commonmodule_Unit(const set_t<commonmodule::Unit>& setter, const get_t<commonmodule::Unit>& getter, ITypedModelVisitor<loadmodule::LoadReadingProfile>& visitor)
