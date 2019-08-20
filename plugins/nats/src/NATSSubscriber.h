@@ -35,7 +35,7 @@ namespace nats {
             if (err) {
                 logger.error("Unable to create NATS subscription: {}", nats_GetLastError(nullptr));
             } else {
-                logger.info("created NATS subscribtion: {}", T::descriptor()->name());
+                logger.info("Created NATS subscription: {}", T::descriptor()->name());
             }
         }
 

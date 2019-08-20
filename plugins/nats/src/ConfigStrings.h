@@ -14,6 +14,7 @@ namespace nats {
         static const char* const ca_trusted_cert_file = "ca-trusted-cert-file";
         static const char* const client_cert_chain_file = "client-cert-chain-file";
         static const char* const client_private_key_file = "client-private-key-file";
+        static const char* const jwt_creds_file = "jwt-creds-file";
     }
 }
 }
