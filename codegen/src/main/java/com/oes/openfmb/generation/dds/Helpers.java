@@ -25,17 +25,17 @@ public class Helpers {
 
     public static List<Descriptors.Descriptor> getChildDescriptors(List<Descriptors.Descriptor> profiles)
     {
-        final Set<Descriptors.Descriptor> set = profiles.stream().map(DescriptorUtil::findUniqueSubMessages).flatMap(Set::stream).collect(Collectors.toCollection(LinkedHashSet::new));
+        final List<Descriptors.Descriptor> list = profiles.stream().map(DescriptorUtil::findUniqueSubMessages).flatMap(List::stream).distinct().collect(Collectors.toList());
 
         final Function<Descriptors.Descriptor, Boolean> isExcluded = d ->
                 primitiveWrappers.contains(d) || profiles.contains(d) || (Helpers.getOptionalEnumWrapper(d) != null);
 
-        return set.stream().filter(d -> !isExcluded.apply(d)).collect(Collectors.toList());
+        return list.stream().filter(d -> !isExcluded.apply(d)).collect(Collectors.toList());
     }
 
-    public static Set<Descriptors.EnumDescriptor> getEnumSet(Collection<Descriptors.Descriptor> profiles)
+    public static List<Descriptors.EnumDescriptor> getEnumSet(Collection<Descriptors.Descriptor> profiles)
     {
-        return profiles.stream().map(DescriptorUtil::findUniqueEnums).flatMap(Set::stream).collect(Collectors.toCollection(LinkedHashSet::new));
+        return profiles.stream().map(DescriptorUtil::findUniqueEnums).flatMap(List::stream).distinct().collect(Collectors.toList());
     }
 
     public static boolean isRequired(Descriptors.FieldDescriptor descriptor)
