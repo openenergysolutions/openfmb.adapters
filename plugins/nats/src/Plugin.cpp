@@ -167,11 +167,15 @@ namespace nats {
         case (SecurityType::Value::tls_server_auth):
             this->read_tls_config(sec_node, false);
             break;
-        case (SecurityType::Value::jwt):
-            this->read_jwt_config(sec_node);
-            break;
         default:
             throw api::Exception("Unsupported security type: ", SecurityType::to_string(sec_type));
+        }
+
+        // Setup JWT security
+        const auto jwt_node = sec_node[keys::jwt_creds_file];
+        if(jwt_node)
+        {
+            read_jwt_config(sec_node);
         }
     }
 

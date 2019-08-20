@@ -31,18 +31,15 @@ struct SecurityType
         tls_server_auth,
         // tls - authenticate the server and provide client cert
         tls_mutual_auth,
-        // JSON Web Tokens
-        jwt,
     };
 
     static const char none[];
     static const char tls_server_auth[];
     static const char tls_mutual_auth[];
-    static const char jwt[];
 
     static constexpr const char* label = "security-type";
 
-    static const std::array<Value, 4> values;
+    static const std::array<Value, 3> values;
 
     static std::string to_string(Value value);
     static Value from_string(const std::string& name);
