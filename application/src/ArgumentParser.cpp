@@ -6,6 +6,7 @@
 namespace adapter {
 ArgumentParser::ArgumentParser()
     : parser{ { { flags::help, { "-h", "--help" }, "show this help message", 0 },
+                { flags::list, { "-l", "--list" }, "list available plugins", 0 },
                 { flags::version, { "-v", "--version" }, "display version information", 0 },
                 { flags::config_file, { "-c", "--config" }, "run with the specified config file", 1 },
                 { flags::generate_config, { "-g", "--generate" }, "generate the specified config file", 1 },

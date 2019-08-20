@@ -2,12 +2,16 @@
 #ifndef OPENFMB_ADAPTER_PROFILEREGISTRY_H
 #define OPENFMB_ADAPTER_PROFILEREGISTRY_H
 
+#include <proto-api/breakermodule/breakermodule.pb.h>
 #include <proto-api/essmodule/essmodule.pb.h>
+#include <proto-api/generationmodule/generationmodule.pb.h>
 #include <proto-api/loadmodule/loadmodule.pb.h>
 #include <proto-api/metermodule/metermodule.pb.h>
+#include <proto-api/reclosermodule/reclosermodule.pb.h>
+#include <proto-api/regulatormodule/regulatormodule.pb.h>
+#include <proto-api/resourcemodule/resourcemodule.pb.h>
 #include <proto-api/solarmodule/solarmodule.pb.h>
 #include <proto-api/switchmodule/switchmodule.pb.h>
-#include <proto-api/breakermodule/breakermodule.pb.h>
 
 #include "Exception.h"
 
@@ -80,20 +84,54 @@ namespace api {
      * This list is used by other components to automatically add support for profiles.
      */
     using ProfileRegistry = impl::ProfileList<
-        metermodule::MeterReadingProfile,
-        switchmodule::SwitchReadingProfile,
-        switchmodule::SwitchStatusProfile,
-        switchmodule::SwitchControlProfile,
+        // ess module
+        breakermodule::BreakerDiscreteControlProfile,
+        breakermodule::BreakerEventProfile,
         breakermodule::BreakerReadingProfile,
+        breakermodule::BreakerStatusProfile,
+        // ess module
+        essmodule::ESSControlProfile,
+        essmodule::ESSEventProfile,
         essmodule::ESSReadingProfile,
         essmodule::ESSStatusProfile,
-        essmodule::ESSControlProfile,
-        solarmodule::SolarReadingProfile,
-        solarmodule::SolarStatusProfile,
-        solarmodule::SolarControlProfile,
+        // generation module
+        generationmodule::GenerationControlProfile,
+        generationmodule::GenerationEventProfile,
+        generationmodule::GenerationReadingProfile,
+        generationmodule::GenerationStatusProfile,
+        // load module
+        loadmodule::LoadControlProfile,
+        loadmodule::LoadEventProfile,
         loadmodule::LoadReadingProfile,
         loadmodule::LoadStatusProfile,
-        loadmodule::LoadControlProfile>;
+        // meter module
+        metermodule::MeterReadingProfile,
+        // recloser module
+        reclosermodule::RecloserControlProfile,
+        reclosermodule::RecloserDiscreteControlProfile,
+        reclosermodule::RecloserEventProfile,
+        reclosermodule::RecloserReadingProfile,
+        reclosermodule::RecloserStatusProfile,
+        // regulator module
+        regulatormodule::RegulatorControlProfile,
+        regulatormodule::RegulatorEventProfile,
+        regulatormodule::RegulatorReadingProfile,
+        regulatormodule::RegulatorStatusProfile,
+        // resource module
+        resourcemodule::ResourceReadingProfile,
+        resourcemodule::ResourceStatusProfile,
+        // solar module
+        solarmodule::SolarControlProfile,
+        solarmodule::SolarEventProfile,
+        solarmodule::SolarReadingProfile,
+        solarmodule::SolarStatusProfile,
+        // switch module
+        switchmodule::SwitchControlProfile,
+        switchmodule::SwitchDiscreteControlProfile,
+        switchmodule::SwitchEventProfile,
+        switchmodule::SwitchReadingProfile,
+        switchmodule::SwitchStatusProfile
+        >;
 }
 }
 

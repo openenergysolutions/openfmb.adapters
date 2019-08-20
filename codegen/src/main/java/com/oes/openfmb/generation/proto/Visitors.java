@@ -23,9 +23,9 @@ public class Visitors
     private static List<CppFileCollection> cppFilePairs() {
 
         return Arrays.asList(
-                MessageVisitorFiles.from(Profiles.set),
-                ModelVisitorFiles.from(Profiles.set),
-                TypedModelVisitorFiles.from(Profiles.set)
+                MessageVisitorFiles.from(Profiles.list),
+                ModelVisitorFiles.from(Profiles.list),
+                TypedModelVisitorFiles.from(Profiles.list)
         );
     }
 

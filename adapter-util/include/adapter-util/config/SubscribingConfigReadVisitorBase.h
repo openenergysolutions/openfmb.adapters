@@ -4,6 +4,8 @@
 
 #include "ConfigReadVisitorBase.h"
 
+#include "FieldTypes.h"
+
 #include "../ConfigStrings.h"
 #include <adapter-api/Exception.h>
 
@@ -16,14 +18,14 @@ namespace util {
         std::string mRID;
 
     protected:
-        const std::string& get_primary_mrid() const;
-
         explicit SubscribingConfigReadVisitorBase(const YAML::Node& root)
             : ConfigReadVisitorBase<T>(root)
         {
         }
 
     public:
+        const std::string& get_primary_mrid() const;
+
         void handle(const std::string& field_name, const accessor_t<T, bool>& accessor) final;
 
         void handle(const std::string& field_name, const accessor_t<T, int32_t>& accessor) final;
@@ -64,7 +66,7 @@ namespace util {
     const std::string& SubscribingConfigReadVisitorBase<T>::get_primary_mrid() const
     {
         if (this->mRID.empty()) {
-            throw api::Exception("primary mRID for control profile was not specified");
+            throw api::Exception("primary mRID for profile was not specified");
         }
 
         return this->mRID;
@@ -129,9 +131,11 @@ namespace util {
             this->mRID = yaml::require_uuid(node, util::keys::value);
             break;
         }
-        case StringFieldType::Value::mapped: {
+        case StringFieldType::Value::mapped:
             this->handle_mapped_field(node, accessor);
-        }
+            break;
+        default:
+            break;
         }
     }
 

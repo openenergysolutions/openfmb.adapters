@@ -22,6 +22,7 @@ set(PROTO_MODULES
     meter
     recloser
     regulator
+    resource
     solar
     switch
 )

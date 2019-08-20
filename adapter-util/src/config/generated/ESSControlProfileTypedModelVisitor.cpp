@@ -42,8 +42,6 @@ void visit_commonmodule_ControlValue(const set_t<commonmodule::ControlValue>& se
 
 void visit_commonmodule_ENG_GridConnectModeKind(const set_t<commonmodule::ENG_GridConnectModeKind>& setter, const get_t<commonmodule::ENG_GridConnectModeKind>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
 
-void visit_commonmodule_ENG_ScheduleParameter(const set_t<commonmodule::ENG_ScheduleParameter>& setter, const get_t<commonmodule::ENG_ScheduleParameter>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
-
 void visit_commonmodule_ESS(const set_t<commonmodule::ESS>& setter, const get_t<commonmodule::ESS>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
 
 void visit_commonmodule_IED(const set_t<commonmodule::IED>& setter, const get_t<commonmodule::IED>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
@@ -65,8 +63,6 @@ void visit_commonmodule_RampRate(const set_t<commonmodule::RampRate>& setter, co
 void visit_commonmodule_ScheduleCSG(const set_t<commonmodule::ScheduleCSG>& setter, const get_t<commonmodule::ScheduleCSG>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
 
 void visit_commonmodule_SchedulePoint(const set_t<commonmodule::SchedulePoint>& setter, const get_t<commonmodule::SchedulePoint>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
-
-void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& setter, const get_t<commonmodule::TimeQuality>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
 
 void visit_essmodule_CapacityFirming(const set_t<essmodule::CapacityFirming>& setter, const get_t<essmodule::CapacityFirming>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
 
@@ -540,38 +536,6 @@ void visit_commonmodule_ENG_GridConnectModeKind(const set_t<commonmodule::ENG_Gr
     }
 }
 
-void visit_commonmodule_ENG_ScheduleParameter(const set_t<commonmodule::ENG_ScheduleParameter>& setter, const get_t<commonmodule::ENG_ScheduleParameter>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor)
-{
-    visitor.handle(
-        "scheduleParameterType",
-        AccessorBuilder<essmodule::ESSControlProfile,int>::build(
-            [setter](essmodule::ESSControlProfile& profile, const int& value) { setter(profile)->set_scheduleparametertype(static_cast<commonmodule::ScheduleParameterKind>(value)); },
-            [getter](const essmodule::ESSControlProfile& profile, const handler_t<int>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->scheduleparametertype());
-                return true;
-            }
-        ),
-        commonmodule::ScheduleParameterKind_descriptor()
-    );
-
-    visitor.handle(
-        "value",
-        AccessorBuilder<essmodule::ESSControlProfile,float>::build(
-            [setter](essmodule::ESSControlProfile& profile, const float& value) { setter(profile)->set_value(value); },
-            [getter](const essmodule::ESSControlProfile& profile, const handler_t<float>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->value());
-                return true;
-            }
-        )
-    );
-}
-
 void visit_commonmodule_ESS(const set_t<commonmodule::ESS>& setter, const get_t<commonmodule::ESS>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor)
 {
     if(visitor.start_message_field("conductingEquipment", commonmodule::ConductingEquipment::descriptor()))
@@ -1035,66 +999,6 @@ void visit_commonmodule_SchedulePoint(const set_t<commonmodule::SchedulePoint>& 
                 return true;
             }
         )
-    );
-}
-
-void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& setter, const get_t<commonmodule::TimeQuality>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor)
-{
-    visitor.handle(
-        "clockFailure",
-        AccessorBuilder<essmodule::ESSControlProfile,bool>::build(
-            [setter](essmodule::ESSControlProfile& profile, const bool& value) { setter(profile)->set_clockfailure(value); },
-            [getter](const essmodule::ESSControlProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->clockfailure());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "clockNotSynchronized",
-        AccessorBuilder<essmodule::ESSControlProfile,bool>::build(
-            [setter](essmodule::ESSControlProfile& profile, const bool& value) { setter(profile)->set_clocknotsynchronized(value); },
-            [getter](const essmodule::ESSControlProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->clocknotsynchronized());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "leapSecondsKnown",
-        AccessorBuilder<essmodule::ESSControlProfile,bool>::build(
-            [setter](essmodule::ESSControlProfile& profile, const bool& value) { setter(profile)->set_leapsecondsknown(value); },
-            [getter](const essmodule::ESSControlProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->leapsecondsknown());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "timeAccuracy",
-        AccessorBuilder<essmodule::ESSControlProfile,int>::build(
-            [setter](essmodule::ESSControlProfile& profile, const int& value) { setter(profile)->set_timeaccuracy(static_cast<commonmodule::TimeAccuracyKind>(value)); },
-            [getter](const essmodule::ESSControlProfile& profile, const handler_t<int>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->timeaccuracy());
-                return true;
-            }
-        ),
-        commonmodule::TimeAccuracyKind_descriptor()
     );
 }
 

@@ -8,6 +8,8 @@
 #include "adapter-util/config/YAMLGetters.h"
 #include "adapter-util/util/Time.h"
 
+#include "FieldTypes.h"
+
 #include <boost/lexical_cast.hpp>
 #include <boost/uuid/random_generator.hpp>
 #include <boost/uuid/uuid_io.hpp>

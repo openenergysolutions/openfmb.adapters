@@ -8,6 +8,7 @@ namespace nats {
         static const char* const connect_url = "connect-url";
         static const char* const max_queued_messages = "max-queued-messages";
         static const char* const subject = "subject";
+        static const char* const jwt_creds_file = "jwt-creds-file";
     }
 }
 }

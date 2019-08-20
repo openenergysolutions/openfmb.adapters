@@ -56,11 +56,74 @@ TEST_CASE("32-bit registers function as expected")
 
     SECTION("converts to uint32 modulo 10K")
     {
-
         Register32 value;
         value.get_upper()->set(1234);
         value.get_lower()->set(5678);
         // 1234*10000 + 5678 = 123455679
         REQUIRE(value.to_uint32(10000) == 12345678);
+    }
+
+    SECTION("converts to float32 correctly")
+    {
+        SECTION("Zero")
+        {
+            Register32 value;
+            value.get_upper()->set(0x0000);
+            value.get_lower()->set(0x0000);
+            REQUIRE(value.to_float32() == Approx(0.0f));
+        }
+
+        SECTION("Positive number")
+        {
+            Register32 value;
+            value.get_upper()->set(0x4228);
+            value.get_lower()->set(0xCCCD);
+            REQUIRE(value.to_float32() == Approx(42.2f));
+        }
+
+        SECTION("Negative number")
+        {
+            Register32 value;
+            value.get_upper()->set(0xC299);
+            value.get_lower()->set(0x3333);
+            REQUIRE(value.to_float32() == Approx(-76.6f));
+        }
+
+        SECTION("Fraction number")
+        {
+            Register32 value;
+            value.get_upper()->set(0x3DFC);
+            value.get_lower()->set(0xB924);
+            REQUIRE(value.to_float32() == Approx(0.1234f));
+        }
+
+        SECTION("NaN")
+        {
+            Register32 value;
+            value.get_upper()->set(0xFFC0);
+            value.get_lower()->set(0x0000);
+            auto result = value.to_float32();
+            REQUIRE(std::isnan(result));
+        }
+
+        SECTION("+Infinity")
+        {
+            Register32 value;
+            value.get_upper()->set(0x7F80);
+            value.get_lower()->set(0x0000);
+            auto result = value.to_float32();
+            REQUIRE(std::isinf(result));
+            REQUIRE(result > 0);
+        }
+
+        SECTION("-Infinity")
+        {
+            Register32 value;
+            value.get_upper()->set(0xFF80);
+            value.get_lower()->set(0x0000);
+            auto result = value.to_float32();
+            REQUIRE(std::isinf(result));
+            REQUIRE(result < 0);
+        }
     }
 }

@@ -10,13 +10,13 @@ import static com.oes.openfmb.generation.document.Document.*;
 
 public class TypedModelVisitorFiles implements CppFileCollection {
 
-    private final Set<Descriptors.Descriptor> descriptors;
+    private final List<Descriptors.Descriptor> descriptors;
 
-    private TypedModelVisitorFiles(Set<Descriptors.Descriptor> descriptors) {
+    private TypedModelVisitorFiles(List<Descriptors.Descriptor> descriptors) {
         this.descriptors = descriptors;
     }
 
-    public static CppFileCollection from(Set<Descriptors.Descriptor> descriptors) {
+    public static CppFileCollection from(List<Descriptors.Descriptor> descriptors) {
         return new TypedModelVisitorFiles(descriptors);
     }
 
@@ -49,7 +49,7 @@ public class TypedModelVisitorFiles implements CppFileCollection {
     public List<CppFile> implementations() {
         return this.descriptors.stream().map(descriptor -> {
 
-            final SortedMap<String, Descriptors.Descriptor> children = Helpers.getFilteredChildMessageDescriptors(Collections.singletonList(descriptor));
+            final SortedMap<String, Descriptors.Descriptor> children = Helpers.getFilteredChildMessageDescriptors(Collections.singletonList(descriptor), true);
 
             final FileName name = new FileName(descriptor.getName() + "TypedModelVisitor");
 

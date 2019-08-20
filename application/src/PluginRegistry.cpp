@@ -9,7 +9,8 @@
 #include <adapter-api/Exception.h>
 
 #ifdef OPENFMB_USE_DNP3
-#include "dnp3/PluginFactory.h"
+#include "dnp3/master/PluginFactory.h"
+#include "dnp3/outstation/PluginFactory.h"
 #endif
 
 #ifdef OPENFMB_USE_MODBUS
@@ -46,7 +47,8 @@ PluginRegistry::PluginRegistry()
     this->add<replay::PluginFactory>();
 
 #ifdef OPENFMB_USE_DNP3
-    this->add<dnp3::PluginFactory>();
+    this->add<dnp3::master::PluginFactory>();
+    this->add<dnp3::outstation::PluginFactory>();
 #endif
 
 #ifdef OPENFMB_USE_MODBUS

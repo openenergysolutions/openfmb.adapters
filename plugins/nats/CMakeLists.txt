@@ -1,15 +1,17 @@
 
 if(OPENFMB_LINK_STATIC)
-	find_library(LIBNATS nats_static)
+	find_library(NATS_LIB nats_static)
 	find_package(OpenSSL REQUIRED)
 else()
-	find_library(LIBNATS nats)
+	find_library(NATS_LIB nats)
 endif()
 
-if(NOT LIBNATS)
+find_path(NATS_INCLUDE "nats.h")
+
+if(NOT NATS_LIB)
 	message(FATAL_ERROR "Nats library not found. Is cnats (https://github.com/nats-io/cnats) installed?")
 else()
-	message("LIBNATS is ${LIBNATS}")
+	message("NATS_LIB is ${NATS_LIB}")
 endif()
 
 set(NATS_PUBLIC_HEADERS
@@ -32,8 +34,8 @@ set(NATS_SOURCES
 		src/NatsOptions.cpp)
 
 add_library(nats-plugin STATIC ${NATS_PUBLIC_HEADERS} ${NATS_SOURCES})
-target_include_directories(nats-plugin PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
-target_link_libraries(nats-plugin PUBLIC adapter-util PRIVATE ${LIBNATS})
+target_include_directories(nats-plugin PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include PRIVATE ${NATS_INCLUDE})
+target_link_libraries(nats-plugin PUBLIC adapter-util PRIVATE ${NATS_LIB})
 if(OPENFMB_LINK_STATIC)
 	target_link_libraries(nats-plugin PRIVATE ${OPENSSL_LIBRARIES})
 endif()

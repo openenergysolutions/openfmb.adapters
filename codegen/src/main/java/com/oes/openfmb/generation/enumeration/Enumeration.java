@@ -37,4 +37,12 @@ class Enumeration {
         this.configLabel = getConfigLabel(names);
         this.values = values;
     }
+
+    public Enumeration rename(List<String> names)
+    {
+        return new Enumeration(
+             names,
+             this.values
+        );
+    }
 }

@@ -15,14 +15,28 @@ else()
   message("Conan support is disabled")
 endif()
 
+if(MSVC)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -bigobj")
+endif()
+
+option(OPENFMB_NOTHING "Default to not building any plugins" OFF)
+
+if(OPENFMB_NOTHING)
+   set(BUILD_BY_DEFAULT OFF)
+else()
+   set(BUILD_BY_DEFAULT ON)
+endif()
+
 # optionally disable certain plugins
-option(OPENFMB_USE_DNP3 "Build the DNP3 plugin" ON)
-option(OPENFMB_USE_MODBUS "Build the Modbus plugin" ON)
-option(OPENFMB_USE_GOOSE "Build the GOOSE plugin" ON)
-option(OPENFMB_USE_MQTT "Build the MQTT plugin" ON)
-option(OPENFMB_USE_NATS "Build the NATS plugin" ON)
+option(OPENFMB_USE_DNP3 "Build the DNP3 plugin" ${BUILD_BY_DEFAULT})
+option(OPENFMB_USE_MODBUS "Build the Modbus plugin" ${BUILD_BY_DEFAULT})
+option(OPENFMB_USE_GOOSE "Build the GOOSE plugin" ${BUILD_BY_DEFAULT})
+option(OPENFMB_USE_MQTT "Build the MQTT plugin" ${BUILD_BY_DEFAULT})
+option(OPENFMB_USE_NATS "Build the NATS plugin" ${BUILD_BY_DEFAULT})
+option(OPENFMB_USE_TIMESCALEDB "Build the historian using TimescaleDB" ${BUILD_BY_DEFAULT})
+# the proprietary plugins are always opt-in
 option(OPENFMB_USE_TWINOAKS_DDS "Build the Twin Oaks DDS plugin" OFF)
-option(OPENFMB_USE_TIMESCALEDB "Build the historian using TimescaleDB" ON)
+option(OPENFMB_USE_RTI_DDS "Build the RTI DDS plugin" OFF)
 option(OPENFMB_LINK_STATIC "Link dependencies statically where possible" OFF)
 
 #if(OPENFMB_LINK_STATIC)
@@ -41,10 +55,10 @@ include(./cmake/ClangTidy.cmake)
 add_subdirectory(./proto-api)
 
 # API used by the plugins / application
-add_subdirectory(adapter-api)
+add_subdirectory(./adapter-api)
 
 # utility classes used to build the internals of plugins
-add_subdirectory(adapter-util)
+add_subdirectory(./adapter-util)
 
 # plugin that logs published messages
 add_subdirectory(./plugins/log)
@@ -56,6 +70,10 @@ add_subdirectory(./plugins/capture)
 add_subdirectory(./plugins/replay)
 
 if(OPENFMB_USE_DNP3)
+  if(OPENFMB_LINK_STATIC)
+    set(DNP3_STATIC_LIBS ON CACHE BOOL "build opendnp3 statically")
+  endif()
+  add_subdirectory(./deps/opendnp3)
   add_subdirectory(./plugins/dnp3)
 endif()
 
@@ -72,6 +90,10 @@ endif()
 if(OPENFMB_USE_TWINOAKS_DDS)
   add_subdirectory(./plugins/dds/twinoaks)
   add_subdirectory(./plugins/dds/twinoaks/test)
+endif()
+
+if(OPENFMB_USE_RTI_DDS)
+  add_subdirectory(./plugins/dds/rti)
 endif()
 
 if(OPENFMB_USE_MQTT)

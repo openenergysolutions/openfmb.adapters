@@ -215,6 +215,11 @@ namespace modbus {
                 accessor->set(profile, static_cast<float>(reg->to_sint32(modulus) * scale));
             });
             break;
+        case (RegisterMapping::Value::float32):
+            this->map_register32(node, [accessor, scale = util::yaml::get::scale(node)](T& profile, const std::shared_ptr<Register32>& reg, api::Logger&) {
+                accessor->set(profile, static_cast<float>(reg->to_float32() * scale));
+            });
+            break;
         default:
             throw api::Exception("Unhandled register mapping type for float: ", RegisterMapping::to_string(mapping));
         }
