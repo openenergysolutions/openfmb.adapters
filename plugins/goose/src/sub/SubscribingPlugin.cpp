@@ -22,10 +22,6 @@ namespace goose {
             });
     }
 
-    SubscribingPlugin::~SubscribingPlugin()
-    {
-    }
-
     std::string SubscribingPlugin::name() const
     {
         return "goose-sub";

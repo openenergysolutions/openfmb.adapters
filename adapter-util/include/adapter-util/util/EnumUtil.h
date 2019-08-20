@@ -25,6 +25,22 @@ namespace util {
             return oss.str();
         }
 
+        inline std::string get_enum_set(const google::protobuf::EnumDescriptor& descriptor)
+        {
+            const auto size = descriptor.value_count();
+            std::ostringstream oss;
+            oss << "{";
+
+            for (int i = 0; i < size; ++i)
+            {
+                oss << descriptor.value(i)->name();
+                if ((i + 1) < size)
+                    oss << ", ";
+            }
+            oss << "}";
+            return oss.str();
+        }
+
         template <class E>
         std::string get_value_set()
         {
