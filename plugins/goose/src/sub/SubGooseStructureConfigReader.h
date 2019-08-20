@@ -183,6 +183,7 @@ namespace goose {
             auto name = get_name(node);
 
             util::message_accessor_t<T, commonmodule::Quality> accessor_quality;
+            util::message_accessor_t<T, commonmodule::TimeQuality> accessor_time_quality;
             std::pair<util::accessor_t<T, int>, std::unordered_map<int, goose_cpp::BitString>> accessor_enum;
             if (m_mappings.get_quality(name, accessor_quality)) {
                 m_funcs.push_back([accessor = accessor_quality, name](const T& msg, goose_cpp::Dataset& dataset) {
@@ -194,7 +195,19 @@ namespace goose {
                         throw api::Exception{ "Value \"", name, "\" was not present in the message." };
                     }
                 });
-            } else if (m_mappings.get_enum(name, accessor_enum)) {
+            }
+            else if (m_mappings.get_time_quality(name, accessor_time_quality)) {
+                m_funcs.push_back([accessor = accessor_time_quality, name](const T& msg, goose_cpp::Dataset& dataset) {
+                    auto present = accessor->if_present(msg, [&](const commonmodule::TimeQuality& value) {
+                        dataset.add_bitstring(time_quality_to_bitstring(value));
+                    });
+
+                    if (!present) {
+                        throw api::Exception{ "Value \"", name, "\" was not present in the message." };
+                    }
+                });
+            }
+            else if (m_mappings.get_enum(name, accessor_enum)) {
                 m_funcs.push_back([accessor = accessor_enum, name](const T& msg, goose_cpp::Dataset& dataset) {
                     auto present = accessor.first->if_present(msg, [&](int value) {
                         auto it = accessor.second.find(value);
@@ -306,6 +319,23 @@ namespace goose {
             result.set(10, quality.source() == commonmodule::SourceKind::SourceKind_substituted);
             result.set(11, quality.test());
             result.set(12, quality.operatorblocked());
+
+            return result;
+        }
+
+        static goose_cpp::BitString time_quality_to_bitstring(const commonmodule::TimeQuality& quality)
+        {
+            goose_cpp::BitString result{ 8 };
+            result.set(0, quality.clockfailure());
+            result.set(1, quality.clocknotsynchronized());
+            result.set(2, quality.leapsecondsknown());
+
+            auto accuracy_value = static_cast<uint32_t>(quality.timeaccuracy());
+            result.set(3, ((accuracy_value >> 4) & 0x01) != 0);
+            result.set(4, ((accuracy_value >> 3) & 0x01) != 0);
+            result.set(5, ((accuracy_value >> 2) & 0x01) != 0);
+            result.set(6, ((accuracy_value >> 1) & 0x01) != 0);
+            result.set(7, ((accuracy_value >> 0) & 0x01) != 0);
 
             return result;
         }
