@@ -49,7 +49,7 @@ public class TypedModelVisitorFiles implements CppFileCollection {
     public List<CppFile> implementations() {
         return this.descriptors.stream().map(descriptor -> {
 
-            final SortedMap<String, Descriptors.Descriptor> children = Helpers.getFilteredChildMessageDescriptors(Collections.singletonList(descriptor));
+            final SortedMap<String, Descriptors.Descriptor> children = Helpers.getFilteredChildMessageDescriptors(Collections.singletonList(descriptor), true);
 
             final FileName name = new FileName(descriptor.getName() + "TypedModelVisitor");
 

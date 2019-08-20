@@ -4,6 +4,8 @@
 
 #include "ConfigReadVisitorBase.h"
 
+#include "FieldTypes.h"
+
 #include "../ConfigStrings.h"
 #include <adapter-api/Exception.h>
 

@@ -5,7 +5,6 @@
 #include "ITypedModelVisitor.h"
 
 #include "DescriptorPath.h"
-#include "FieldInfo.h"
 #include "adapter-util/util/YAMLUtil.h"
 
 #include <stack>

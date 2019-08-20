@@ -28,8 +28,6 @@ using get_t = getter_t<switchmodule::SwitchStatusProfile, V>;
 
 void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::ConductingEquipment>& setter, const get_t<commonmodule::ConductingEquipment>& getter, ITypedModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
 
-void visit_commonmodule_DetailQual(const set_t<commonmodule::DetailQual>& setter, const get_t<commonmodule::DetailQual>& getter, ITypedModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
-
 void visit_commonmodule_ENS_BehaviourModeKind(const set_t<commonmodule::ENS_BehaviourModeKind>& setter, const get_t<commonmodule::ENS_BehaviourModeKind>& getter, ITypedModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
 
 void visit_commonmodule_ENS_DynamicTestKind(const set_t<commonmodule::ENS_DynamicTestKind>& setter, const get_t<commonmodule::ENS_DynamicTestKind>& getter, ITypedModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
@@ -53,8 +51,6 @@ void visit_commonmodule_StatusDPS(const set_t<commonmodule::StatusDPS>& setter, 
 void visit_commonmodule_StatusMessageInfo(const set_t<commonmodule::StatusMessageInfo>& setter, const get_t<commonmodule::StatusMessageInfo>& getter, ITypedModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
 
 void visit_commonmodule_StatusValue(const set_t<commonmodule::StatusValue>& setter, const get_t<commonmodule::StatusValue>& getter, ITypedModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
-
-void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& setter, const get_t<commonmodule::TimeQuality>& getter, ITypedModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
 
 void visit_google_protobuf_StringValue(const set_t<google::protobuf::StringValue>& setter, const get_t<google::protobuf::StringValue>& getter, ITypedModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
 
@@ -206,121 +202,6 @@ void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::Conducting
                 const auto parent = getter(profile);
                 if(!parent) return false;
                 handler(parent->mrid());
-                return true;
-            }
-        )
-    );
-}
-
-void visit_commonmodule_DetailQual(const set_t<commonmodule::DetailQual>& setter, const get_t<commonmodule::DetailQual>& getter, ITypedModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
-{
-    visitor.handle(
-        "badReference",
-        AccessorBuilder<switchmodule::SwitchStatusProfile,bool>::build(
-            [setter](switchmodule::SwitchStatusProfile& profile, const bool& value) { setter(profile)->set_badreference(value); },
-            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->badreference());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "failure",
-        AccessorBuilder<switchmodule::SwitchStatusProfile,bool>::build(
-            [setter](switchmodule::SwitchStatusProfile& profile, const bool& value) { setter(profile)->set_failure(value); },
-            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->failure());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "inaccurate",
-        AccessorBuilder<switchmodule::SwitchStatusProfile,bool>::build(
-            [setter](switchmodule::SwitchStatusProfile& profile, const bool& value) { setter(profile)->set_inaccurate(value); },
-            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->inaccurate());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "inconsistent",
-        AccessorBuilder<switchmodule::SwitchStatusProfile,bool>::build(
-            [setter](switchmodule::SwitchStatusProfile& profile, const bool& value) { setter(profile)->set_inconsistent(value); },
-            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->inconsistent());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "oldData",
-        AccessorBuilder<switchmodule::SwitchStatusProfile,bool>::build(
-            [setter](switchmodule::SwitchStatusProfile& profile, const bool& value) { setter(profile)->set_olddata(value); },
-            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->olddata());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "oscillatory",
-        AccessorBuilder<switchmodule::SwitchStatusProfile,bool>::build(
-            [setter](switchmodule::SwitchStatusProfile& profile, const bool& value) { setter(profile)->set_oscillatory(value); },
-            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->oscillatory());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "outOfRange",
-        AccessorBuilder<switchmodule::SwitchStatusProfile,bool>::build(
-            [setter](switchmodule::SwitchStatusProfile& profile, const bool& value) { setter(profile)->set_outofrange(value); },
-            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->outofrange());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "overflow",
-        AccessorBuilder<switchmodule::SwitchStatusProfile,bool>::build(
-            [setter](switchmodule::SwitchStatusProfile& profile, const bool& value) { setter(profile)->set_overflow(value); },
-            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->overflow());
                 return true;
             }
         )
@@ -855,66 +736,6 @@ void visit_commonmodule_StatusValue(const set_t<commonmodule::StatusValue>& sett
         );
         visitor.end_message_field();
     }
-}
-
-void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& setter, const get_t<commonmodule::TimeQuality>& getter, ITypedModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
-{
-    visitor.handle(
-        "clockFailure",
-        AccessorBuilder<switchmodule::SwitchStatusProfile,bool>::build(
-            [setter](switchmodule::SwitchStatusProfile& profile, const bool& value) { setter(profile)->set_clockfailure(value); },
-            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->clockfailure());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "clockNotSynchronized",
-        AccessorBuilder<switchmodule::SwitchStatusProfile,bool>::build(
-            [setter](switchmodule::SwitchStatusProfile& profile, const bool& value) { setter(profile)->set_clocknotsynchronized(value); },
-            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->clocknotsynchronized());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "leapSecondsKnown",
-        AccessorBuilder<switchmodule::SwitchStatusProfile,bool>::build(
-            [setter](switchmodule::SwitchStatusProfile& profile, const bool& value) { setter(profile)->set_leapsecondsknown(value); },
-            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->leapsecondsknown());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "timeAccuracy",
-        AccessorBuilder<switchmodule::SwitchStatusProfile,int>::build(
-            [setter](switchmodule::SwitchStatusProfile& profile, const int& value) { setter(profile)->set_timeaccuracy(static_cast<commonmodule::TimeAccuracyKind>(value)); },
-            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<int>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->timeaccuracy());
-                return true;
-            }
-        ),
-        commonmodule::TimeAccuracyKind_descriptor()
-    );
 }
 
 void visit_google_protobuf_StringValue(const set_t<google::protobuf::StringValue>& setter, const get_t<google::protobuf::StringValue>& getter, ITypedModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
