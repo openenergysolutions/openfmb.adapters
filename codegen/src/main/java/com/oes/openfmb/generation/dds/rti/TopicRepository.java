@@ -1,7 +1,6 @@
 package com.oes.openfmb.generation.dds.rti;
 
 import com.google.protobuf.Descriptors;
-import com.oes.openfmb.generation.Includes;
 import com.oes.openfmb.generation.document.CppFile;
 import com.oes.openfmb.generation.document.CppFileCollection;
 import com.oes.openfmb.generation.document.Document;
@@ -14,9 +13,9 @@ import static com.oes.openfmb.generation.document.Document.*;
 
 public class TopicRepository implements CppFileCollection {
 
-    private final Set<Descriptors.Descriptor> profiles;
+    private final List<Descriptors.Descriptor> profiles;
 
-    TopicRepository(Set<Descriptors.Descriptor> profiles)
+    TopicRepository(List<Descriptors.Descriptor> profiles)
     {
         this.profiles = profiles;
     }
@@ -59,7 +58,7 @@ public class TopicRepository implements CppFileCollection {
                 line("public:")
                     .then("TopicRepository(const ::dds::domain::DomainParticipant& participant);")
                     .space()
-                    .then(join(this.profiles.stream().map(profile -> line(String.format("::dds::topic::Topic<%s> %s;", Helpers.getDDSName(profile), getName(profile))))))
+                    .then(join(this.profiles.stream().map(profile -> line(String.format("::dds::topic::Topic<%s> %s;", RtiHelpers.getDDSName(profile), getName(profile))))))
             );
     }
 

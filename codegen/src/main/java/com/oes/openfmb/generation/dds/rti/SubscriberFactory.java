@@ -15,9 +15,9 @@ import static com.oes.openfmb.generation.document.Document.*;
 
 public class SubscriberFactory implements CppFileCollection {
 
-    private final Set<Descriptors.Descriptor> profiles;
+    private final List<Descriptors.Descriptor> profiles;
 
-    SubscriberFactory(Set<Descriptors.Descriptor> profiles) {
+    SubscriberFactory(List<Descriptors.Descriptor> profiles) {
         this.profiles = profiles;
     }
 
@@ -75,11 +75,11 @@ public class SubscriberFactory implements CppFileCollection {
     private Document method(Descriptors.Descriptor profile)
     {
         return line("template<>")
-                .then(String.format("struct SubscriberFactory<%s>", Helpers.getProtoName(profile)))
+                .then(String.format("struct SubscriberFactory<%s>", RtiHelpers.getProtoName(profile)))
                 .bracketSemicolon(
                     line("static std::unique_ptr<IDDSSubscriber> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, api::publisher_t publisher)")
                     .bracket(
-                            line(String.format("return std::make_unique<DDSSubscriber<%s, %s>>(logger, subject, dds_subscriber, topic_repo.%s, publisher);", Helpers.getProtoName(profile), Helpers.getDDSName(profile), profile.getName().toLowerCase()))
+                            line(String.format("return std::make_unique<DDSSubscriber<%s, %s>>(logger, subject, dds_subscriber, topic_repo.%s, publisher);", RtiHelpers.getProtoName(profile), RtiHelpers.getDDSName(profile), profile.getName().toLowerCase()))
                     )
                 );
     }

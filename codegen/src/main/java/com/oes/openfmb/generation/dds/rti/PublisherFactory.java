@@ -15,9 +15,9 @@ import static com.oes.openfmb.generation.document.Document.*;
 
 public class PublisherFactory implements CppFileCollection {
 
-    private final Set<Descriptors.Descriptor> profiles;
+    private final List<Descriptors.Descriptor> profiles;
 
-    PublisherFactory(Set<Descriptors.Descriptor> profiles) {
+    PublisherFactory(List<Descriptors.Descriptor> profiles) {
         this.profiles = profiles;
     }
 
@@ -75,11 +75,11 @@ public class PublisherFactory implements CppFileCollection {
     private Document method(Descriptors.Descriptor profile)
     {
         return line("template<>")
-                .then(String.format("struct PublisherFactory<%s>", Helpers.getProtoName(profile)))
+                .then(String.format("struct PublisherFactory<%s>", RtiHelpers.getProtoName(profile)))
                 .bracketSemicolon(
-                    line(String.format("static std::shared_ptr<api::ISubscriptionHandler<%s>> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::pub::Publisher> dds_publisher)", Helpers.getProtoName(profile)))
+                    line(String.format("static std::shared_ptr<api::ISubscriptionHandler<%s>> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::pub::Publisher> dds_publisher)", RtiHelpers.getProtoName(profile)))
                     .bracket(
-                            line(String.format("return std::make_shared<DDSPublisher<%s, %s>>(logger, subject, dds_publisher, topic_repo.%s);", Helpers.getProtoName(profile), Helpers.getDDSName(profile), profile.getName().toLowerCase()))
+                            line(String.format("return std::make_shared<DDSPublisher<%s, %s>>(logger, subject, dds_publisher, topic_repo.%s);", RtiHelpers.getProtoName(profile), RtiHelpers.getDDSName(profile), profile.getName().toLowerCase()))
                     )
                 );
     }

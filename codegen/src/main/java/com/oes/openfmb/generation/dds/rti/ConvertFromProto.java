@@ -2,6 +2,7 @@ package com.oes.openfmb.generation.dds.rti;
 
 import com.google.protobuf.Descriptors;
 import com.oes.openfmb.generation.Includes;
+import com.oes.openfmb.generation.dds.Helpers;
 import com.oes.openfmb.generation.document.CppFile;
 import com.oes.openfmb.generation.document.CppFileCollection;
 import com.oes.openfmb.generation.document.Document;
@@ -10,16 +11,15 @@ import com.oes.openfmb.generation.document.FileHeader;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import static com.oes.openfmb.generation.document.Document.*;
 
 public class ConvertFromProto implements CppFileCollection {
 
-    private final Set<Descriptors.Descriptor> profiles;
-    private final Set<Descriptors.Descriptor> children;
+    private final List<Descriptors.Descriptor> profiles;
+    private final List<Descriptors.Descriptor> children;
 
-    ConvertFromProto(Set<Descriptors.Descriptor> profiles) {
+    ConvertFromProto(List<Descriptors.Descriptor> profiles) {
         this.profiles = profiles;
         this.children = Helpers.getChildDescriptors(profiles);
     }
@@ -125,7 +125,7 @@ public class ConvertFromProto implements CppFileCollection {
 
     private static String signature(Descriptors.Descriptor d)
     {
-        return String.format("void convert_from_proto(const %s& in, %s& out)", Helpers.getProtoName(d), Helpers.getDDSName(d));
+        return String.format("void convert_from_proto(const %s& in, %s& out)", RtiHelpers.getProtoName(d), RtiHelpers.getDDSName(d));
     }
 
     private static String cppName(Descriptors.EnumDescriptor d)
@@ -176,7 +176,7 @@ public class ConvertFromProto implements CppFileCollection {
         public Document repeatedMessage() {
             return line("for(const auto& input : in.%s())", field.getName().toLowerCase()).bracket(
                     join(
-                            line("%s output;", Helpers.getDDSName(field.getMessageType())),
+                            line("%s output;", RtiHelpers.getDDSName(field.getMessageType())),
                             line("convert_from_proto(input, output);"),
                             line("out.%s().push_back(output);", field.getName())
                     )
@@ -209,7 +209,7 @@ public class ConvertFromProto implements CppFileCollection {
         public Document optionalMessage() {
             return line("if(in.has_%s()) // optional field in DDS", field.getName().toLowerCase()).bracket(
                     join(
-                            line("%s temp{};", Helpers.getDDSName(field.getMessageType())),
+                            line("%s temp{};", RtiHelpers.getDDSName(field.getMessageType())),
                             line("convert_from_proto(in.%s(), temp);", field.getName().toLowerCase()),
                             line("out.%s() = temp;", field.getName())
                     )
@@ -221,7 +221,7 @@ public class ConvertFromProto implements CppFileCollection {
             return line(
                     String.format("out.%s() = static_cast<%s::inner_enum>(in.%s());",
                             field.getName(),
-                            Helpers.getDDSName(field.getEnumType()),
+                            RtiHelpers.getDDSName(field.getEnumType()),
                             field.getName().toLowerCase()
                     )
             );
@@ -234,7 +234,7 @@ public class ConvertFromProto implements CppFileCollection {
                             line(
                                     "out.%s() = static_cast<%s::inner_enum>(in.%s().value());",
                                     field.getName(),
-                                    Helpers.getDDSName(ed),
+                                    RtiHelpers.getDDSName(ed),
                                     field.getName().toLowerCase()
                             )
                     )

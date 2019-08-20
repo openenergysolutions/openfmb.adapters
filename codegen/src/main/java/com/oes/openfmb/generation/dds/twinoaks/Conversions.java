@@ -22,8 +22,8 @@ public class Conversions
     private static List<CppFileCollection> cppFilePairs() {
 
         return Arrays.asList(
-                new ConvertToProto(Profiles.set),
-                new ConvertFromProto(Profiles.set)
+                new ConvertToProto(Profiles.list),
+                new ConvertFromProto(Profiles.list)
         );
     }
 

@@ -54,8 +54,6 @@ void visit_commonmodule_SwitchControlScheduleFSCH(const set_t<commonmodule::Swit
 
 void visit_commonmodule_SwitchPoint(const set_t<commonmodule::SwitchPoint>& setter, const get_t<commonmodule::SwitchPoint>& getter, ITypedModelVisitor<reclosermodule::RecloserControlProfile>& visitor);
 
-void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& setter, const get_t<commonmodule::TimeQuality>& getter, ITypedModelVisitor<reclosermodule::RecloserControlProfile>& visitor);
-
 void visit_google_protobuf_BoolValue(const set_t<google::protobuf::BoolValue>& setter, const get_t<google::protobuf::BoolValue>& getter, ITypedModelVisitor<reclosermodule::RecloserControlProfile>& visitor);
 
 void visit_google_protobuf_StringValue(const set_t<google::protobuf::StringValue>& setter, const get_t<google::protobuf::StringValue>& getter, ITypedModelVisitor<reclosermodule::RecloserControlProfile>& visitor);
@@ -713,66 +711,6 @@ void visit_commonmodule_SwitchPoint(const set_t<commonmodule::SwitchPoint>& sett
                 return true;
             }
         )
-    );
-}
-
-void visit_commonmodule_TimeQuality(const set_t<commonmodule::TimeQuality>& setter, const get_t<commonmodule::TimeQuality>& getter, ITypedModelVisitor<reclosermodule::RecloserControlProfile>& visitor)
-{
-    visitor.handle(
-        "clockFailure",
-        AccessorBuilder<reclosermodule::RecloserControlProfile,bool>::build(
-            [setter](reclosermodule::RecloserControlProfile& profile, const bool& value) { setter(profile)->set_clockfailure(value); },
-            [getter](const reclosermodule::RecloserControlProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->clockfailure());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "clockNotSynchronized",
-        AccessorBuilder<reclosermodule::RecloserControlProfile,bool>::build(
-            [setter](reclosermodule::RecloserControlProfile& profile, const bool& value) { setter(profile)->set_clocknotsynchronized(value); },
-            [getter](const reclosermodule::RecloserControlProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->clocknotsynchronized());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "leapSecondsKnown",
-        AccessorBuilder<reclosermodule::RecloserControlProfile,bool>::build(
-            [setter](reclosermodule::RecloserControlProfile& profile, const bool& value) { setter(profile)->set_leapsecondsknown(value); },
-            [getter](const reclosermodule::RecloserControlProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->leapsecondsknown());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "timeAccuracy",
-        AccessorBuilder<reclosermodule::RecloserControlProfile,int>::build(
-            [setter](reclosermodule::RecloserControlProfile& profile, const int& value) { setter(profile)->set_timeaccuracy(static_cast<commonmodule::TimeAccuracyKind>(value)); },
-            [getter](const reclosermodule::RecloserControlProfile& profile, const handler_t<int>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->timeaccuracy());
-                return true;
-            }
-        ),
-        commonmodule::TimeAccuracyKind_descriptor()
     );
 }
 

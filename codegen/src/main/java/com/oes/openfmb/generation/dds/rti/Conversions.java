@@ -22,11 +22,11 @@ public class Conversions
     private static List<CppFileCollection> cppFilePairs() {
 
         return Arrays.asList(
-                new ConvertToProto(Profiles.set),
-                new ConvertFromProto(Profiles.set),
-                new SubscriberFactory(Profiles.set),
-                new PublisherFactory(Profiles.set),
-                new TopicRepository(Profiles.set)
+                new ConvertToProto(Profiles.list),
+                new ConvertFromProto(Profiles.list),
+                new SubscriberFactory(Profiles.list),
+                new PublisherFactory(Profiles.list),
+                new TopicRepository(Profiles.list)
         );
     }
 

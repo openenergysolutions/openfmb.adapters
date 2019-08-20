@@ -2,7 +2,6 @@
 set(TEST_SOURCES
         src/main.cpp
         src/test_config_accessor.cpp
-        src/test_field_handlers.cpp
         src/test_proto_deserialization.cpp
         src/test_proto_set_and_get.cpp
         src/test_yaml_override_parsing.cpp
