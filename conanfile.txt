@@ -7,5 +7,8 @@ yaml-cpp/0.5.3@bincrafters/stable
 [build_requires]
 protoc_installer/3.5.2@bincrafters/stable
 
+[options]
+paho-cpp:SSL=True
+
 [generators]
 cmake
