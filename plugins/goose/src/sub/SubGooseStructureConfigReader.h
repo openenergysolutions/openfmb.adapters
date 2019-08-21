@@ -326,9 +326,9 @@ namespace goose {
         static goose_cpp::BitString time_quality_to_bitstring(const commonmodule::TimeQuality& quality)
         {
             goose_cpp::BitString result{ 8 };
-            result.set(0, quality.clockfailure());
-            result.set(1, quality.clocknotsynchronized());
-            result.set(2, quality.leapsecondsknown());
+            result.set(0, quality.leapsecondsknown());
+            result.set(1, quality.clockfailure());
+            result.set(2, quality.clocknotsynchronized());
 
             auto accuracy_value = static_cast<uint32_t>(quality.timeaccuracy());
             result.set(3, ((accuracy_value >> 4) & 0x01) != 0);
