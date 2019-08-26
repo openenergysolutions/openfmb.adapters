@@ -30,18 +30,18 @@ namespace nats {
         out << YAML::Key << keys::connect_url << "nats://localhost:4222";
         out << YAML::Key << keys::connect_retry_seconds << 5;
 
-        out << YAML::Key << keys::security;
+        out << YAML::Key << util::keys::security;
         out << YAML::BeginMap;
         out << YAML::Key << SecurityType::label << YAML::Value << SecurityType::to_string(SecurityType::Value::none);
         out << YAML::EndMap;
 
-        out << YAML::Key << keys::publish << YAML::Comment("to the NATs broker");
+        out << YAML::Key << util::keys::publish << YAML::Comment("to the NATs broker");
         out << YAML::BeginSeq;
         write_profile_keys(out, switchmodule::SwitchReadingProfile::descriptor());
         write_profile_keys(out, switchmodule::SwitchStatusProfile::descriptor());
         out << YAML::EndSeq;
 
-        out << YAML::Key << keys::subscribe << YAML::Comment("from the NATs broker");
+        out << YAML::Key << util::keys::subscribe << YAML::Comment("from the NATs broker");
         out << YAML::BeginSeq;
         write_profile_keys(out, switchmodule::SwitchControlProfile::descriptor());
         out << YAML::EndSeq;

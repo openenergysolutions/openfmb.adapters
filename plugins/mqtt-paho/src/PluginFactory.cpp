@@ -6,6 +6,8 @@
 #include "ConfigStrings.h"
 #include "Plugin.h"
 
+#include "generated/SecurityType.h"
+
 namespace adapter {
 namespace mqtt {
 
@@ -24,6 +26,11 @@ namespace mqtt {
         out << YAML::Key << keys::server_address << "tcp://localhost:1883";
         out << YAML::Key << keys::client_id << "client1";
         out << YAML::Key << keys::connect_retry_delay_ms << 5000;
+
+        out << YAML::Key << util::keys::security;
+        out << YAML::BeginMap;
+        out << YAML::Key << SecurityType::label << YAML::Value << SecurityType::to_string(SecurityType::Value::none);
+        out << YAML::EndMap;
 
         out << YAML::Key << util::keys::publish << YAML::Comment("to the MQTT broker");
         out << YAML::BeginSeq;

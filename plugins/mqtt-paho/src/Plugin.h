@@ -43,10 +43,16 @@ private:
 
     void process_messages();
 
+    void configure_tls_options(const YAML::Node& node);
+    void read_tls_config(const YAML::Node& node, bool mutual_auth);
+
+    void configure_pub_sub(const YAML::Node& node, api::message_bus_t bus);
+
     const std::chrono::steady_clock::duration connect_retry_delay;
     const message_queue_ptr_t message_queue;
 
     api::Logger logger;
+    ::mqtt::ssl_options ssl_options;
     ::mqtt::connect_options options;
     ::mqtt::async_client client;
 

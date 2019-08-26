@@ -11,6 +11,8 @@ namespace mqtt {
         constexpr const char* const max_queued_messages = "max-queued-messages";
         constexpr const char* const connect_retry_delay_ms = "connect-retry-delay-ms";
         constexpr const char* const topic_suffix = "topic-suffix";
+        constexpr const char* const username = "username";
+        constexpr const char* const password = "password";
     }
 }
 }

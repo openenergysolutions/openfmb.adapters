@@ -9,6 +9,7 @@
 #include "MQTTPublisher.h"
 #include "TopicName.h"
 #include "TopicNameSuffix.h"
+#include "generated/SecurityType.h"
 
 namespace adapter {
 namespace mqtt {
@@ -52,31 +53,9 @@ namespace mqtt {
         options.set_keep_alive_interval(20);
         options.set_clean_session(false);
 
-        // configure publishers
-        util::yaml::foreach (
-            util::yaml::require(node, util::keys::publish),
-            [&](const YAML::Node& entry) {
-                api::ProfileRegistry::handle_by_name<PublishProfileReader>(
-                    util::yaml::require_string(entry, util::keys::profile),
-                    TopicNameSuffix(util::yaml::require_string(entry, keys::topic_suffix)),
-                    this->logger,
-                    bus,
-                    this->message_queue,
-                    this->registry);
-            });
+        this->configure_tls_options(util::yaml::require(node, util::keys::security));
 
-        // configure subscribers
-        util::yaml::foreach (
-            util::yaml::require(node, util::keys::subscribe),
-            [&](const YAML::Node& entry) {
-                api::ProfileRegistry::handle_by_name<SubscribeProfileReader>(
-                    util::yaml::require_string(entry, util::keys::profile),
-                    TopicNameSuffix(util::yaml::require_string(entry, keys::topic_suffix)),
-                    this->logger,
-                    bus,
-                    this->message_queue,
-                    this->registry);
-            });
+        this->configure_pub_sub(node, std::move(bus));
     }
 
     Plugin::~Plugin()
@@ -144,6 +123,77 @@ namespace mqtt {
                 }
             }
         }
+    }
+
+    void Plugin::configure_tls_options(const YAML::Node& node)
+    {
+        const auto sec_type = util::yaml::require_enum<SecurityType>(node);
+        switch (sec_type) {
+            case (SecurityType::Value::none):
+                break; // we're done, nothing to configure
+            case (SecurityType::Value::tls_mutual_auth):
+                this->read_tls_config(node, true);
+                break;
+            case (SecurityType::Value::tls_server_auth):
+                this->read_tls_config(node, false);
+                break;
+            default:
+                throw api::Exception("Unsupported security type: ", SecurityType::to_string(sec_type));
+        }
+    }
+
+    void Plugin::read_tls_config(const YAML::Node& node, bool mutual_auth)
+    {
+        this->ssl_options.set_enable_server_cert_auth(true); // always verify the server
+
+        // always load the CA files for verifying the server
+        this->ssl_options.set_trust_store(
+                util::yaml::require_string(node, util::keys::ca_trusted_cert_file)
+        );
+
+        // Load username/password if provided
+        if(node[keys::username]) {
+            this->options.set_user_name(util::yaml::require_string(node, keys::username));
+            this->options.set_password(util::yaml::require_string(node, keys::password));
+        }
+
+        if(mutual_auth) {
+            // client certificate chain
+            this->ssl_options.set_key_store(util::yaml::require_string(node, util::keys::client_cert_chain_file));
+            // client private key
+            this->ssl_options.set_private_key(util::yaml::require_string(node, util::keys::client_private_key_file));
+        }
+
+        this->options.set_ssl(this->ssl_options);
+    }
+
+    void Plugin::configure_pub_sub(const YAML::Node& node, api::message_bus_t bus)
+    {
+        // configure publishers
+        util::yaml::foreach (
+                util::yaml::require(node, util::keys::publish),
+                [&](const YAML::Node& entry) {
+                    api::ProfileRegistry::handle_by_name<PublishProfileReader>(
+                            util::yaml::require_string(entry, util::keys::profile),
+                            TopicNameSuffix(util::yaml::require_string(entry, keys::topic_suffix)),
+                            this->logger,
+                            bus,
+                            this->message_queue,
+                            this->registry);
+                });
+
+        // configure subscribers
+        util::yaml::foreach (
+                util::yaml::require(node, util::keys::subscribe),
+                [&](const YAML::Node& entry) {
+                    api::ProfileRegistry::handle_by_name<SubscribeProfileReader>(
+                            util::yaml::require_string(entry, util::keys::profile),
+                            TopicNameSuffix(util::yaml::require_string(entry, keys::topic_suffix)),
+                            this->logger,
+                            bus,
+                            this->message_queue,
+                            this->registry);
+                });
     }
 }
 }
