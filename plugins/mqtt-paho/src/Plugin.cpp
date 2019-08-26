@@ -144,14 +144,20 @@ namespace mqtt {
 
     void Plugin::read_tls_config(const YAML::Node& node, bool mutual_auth)
     {
-        this->ssl_options.set_enable_server_cert_auth(true); // alawys verify the server
+        this->ssl_options.set_enable_server_cert_auth(true); // always verify the server
 
         // always load the CA files for verifying the server
         this->ssl_options.set_trust_store(
                 util::yaml::require_string(node, util::keys::ca_trusted_cert_file)
         );
 
-        if (mutual_auth) {
+        // Load username/password if provided
+        if(node[keys::username]) {
+            this->options.set_user_name(util::yaml::require_string(node, keys::username));
+            this->options.set_password(util::yaml::require_string(node, keys::password));
+        }
+
+        if(mutual_auth) {
             // client certificate chain
             this->ssl_options.set_key_store(util::yaml::require_string(node, util::keys::client_cert_chain_file));
             // client private key
