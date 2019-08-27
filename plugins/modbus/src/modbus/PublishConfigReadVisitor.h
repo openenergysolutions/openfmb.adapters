@@ -112,10 +112,16 @@ namespace modbus {
         }
 
         const auto mask = util::yaml::require_integer<uint16_t>(node, keys::mask);
+        const auto invert = util::yaml::optionally<bool>(node[keys::invert], false);
         this->map_register16(
             node,
-            [accessor, mask](T& profile, const std::shared_ptr<Register16>& reg, api::Logger&) {
-                accessor->set(profile, (reg->to_uint16() & mask) != 0);
+            [accessor, mask, invert](T& profile, const std::shared_ptr<Register16>& reg, api::Logger&) {
+                auto value = (reg->to_uint16() & mask) != 0;
+                if(invert)
+                {
+                    value = !value;
+                }
+                accessor->set(profile, value);
             });
     }
 

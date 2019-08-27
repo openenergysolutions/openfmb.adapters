@@ -33,6 +33,7 @@ namespace modbus {
         out << YAML::Key << SourceType::label << YAML::Value << SourceType::none << YAML::Comment(util::enumeration::get_value_set<SourceType>());
         out << YAML::Key << util::keys::index << YAML::Value << 0;
         out << YAML::Key << keys::mask << YAML::Value << "0x0001" << YAML::Comment("mask the register. true if masked value != 0");
+        out << YAML::Key << keys::invert << YAML::Value << false << YAML::Comment("invert the boolean value.");
     }
 
     void MeasurementConfigWriteVisitor::write_mapped_int32_keys(YAML::Emitter& out)
