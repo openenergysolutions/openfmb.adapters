@@ -135,39 +135,44 @@ namespace modbus {
         }
 
         const auto mapping = util::yaml::require_enum<RegisterMapping>(node);
+        const auto scale = util::yaml::get::scale(node);
 
         switch (mapping) {
         case (RegisterMapping::Value::uint16):
-            this->map_register16(node, [accessor](T& profile, const std::shared_ptr<Register16>& reg, api::Logger&) {
-                accessor->set(profile, reg->to_uint16());
+            this->map_register16(node, [accessor, scale](T& profile, const std::shared_ptr<Register16>& reg, api::Logger&) {
+                accessor->set(profile, static_cast<int64_t>(reg->to_uint16() * scale));
             });
             break;
         case (RegisterMapping::Value::sint16):
-            this->map_register16(node, [accessor](T& profile, const std::shared_ptr<Register16>& reg, api::Logger&) {
-                accessor->set(profile, reg->to_sint16());
+            this->map_register16(node, [accessor, scale](T& profile, const std::shared_ptr<Register16>& reg, api::Logger&) {
+                accessor->set(profile, static_cast<int64_t>(reg->to_sint16() * scale));
             });
             break;
         case (RegisterMapping::Value::uint32):
-            this->map_register32(node, [accessor](T& profile, const std::shared_ptr<Register32>& reg, api::Logger&) {
-                accessor->set(profile, reg->to_uint32());
+            this->map_register32(node, [accessor, scale](T& profile, const std::shared_ptr<Register32>& reg, api::Logger&) {
+                accessor->set(profile, static_cast<int64_t>(reg->to_uint32() * scale));
             });
             break;
         case (RegisterMapping::Value::sint32):
-            this->map_register32(node, [accessor](T& profile, const std::shared_ptr<Register32>& reg, api::Logger&) {
-                accessor->set(profile, reg->to_sint32());
+            this->map_register32(node, [accessor, scale](T& profile, const std::shared_ptr<Register32>& reg, api::Logger&) {
+                accessor->set(profile, static_cast<int64_t>(reg->to_sint32() * scale));
             });
             break;
         case (RegisterMapping::Value::uint32_with_modulus):
-            this->map_register32(node, [accessor, modulus = get::modulus(node)](T& profile, const std::shared_ptr<Register32>& reg, api::Logger&) {
-                accessor->set(profile, reg->to_uint32(modulus));
+            this->map_register32(node, [accessor, scale, modulus = get::modulus(node)](T& profile, const std::shared_ptr<Register32>& reg, api::Logger&) {
+                accessor->set(profile, static_cast<int64_t>(reg->to_uint32(modulus) * scale));
             });
             break;
         case (RegisterMapping::Value::sint32_with_modulus):
-            this->map_register32(node, [accessor, modulus = get::modulus(node)](T& profile, const std::shared_ptr<Register32>& reg, api::Logger&) {
-                accessor->set(profile, reg->to_sint32(modulus));
+            this->map_register32(node, [accessor, scale, modulus = get::modulus(node)](T& profile, const std::shared_ptr<Register32>& reg, api::Logger&) {
+                accessor->set(profile, static_cast<int64_t>(reg->to_sint32(modulus) * scale));
             });
             break;
-
+        case (RegisterMapping::Value::float32):
+            this->map_register32(node, [accessor, scale](T& profile, const std::shared_ptr<Register32>& reg, api::Logger&) {
+                accessor->set(profile, static_cast<int64_t>(reg->to_float32() * scale));
+            });
+            break;
         default:
             throw api::Exception("Unhandled register mapping type for int64: ", RegisterMapping::to_string(mapping));
         }
@@ -183,40 +188,41 @@ namespace modbus {
         }
 
         const auto mapping = util::yaml::require_enum<RegisterMapping>(node);
+        const auto scale = util::yaml::get::scale(node);
 
         switch (mapping) {
         case (RegisterMapping::Value::uint16):
-            this->map_register16(node, [accessor, scale = util::yaml::get::scale(node)](T& profile, const std::shared_ptr<Register16>& reg, api::Logger&) {
+            this->map_register16(node, [accessor, scale](T& profile, const std::shared_ptr<Register16>& reg, api::Logger&) {
                 accessor->set(profile, static_cast<float>(reg->to_uint16() * scale));
             });
             break;
         case (RegisterMapping::Value::sint16):
-            this->map_register16(node, [accessor, scale = util::yaml::get::scale(node)](T& profile, const std::shared_ptr<Register16>& reg, api::Logger&) {
+            this->map_register16(node, [accessor, scale](T& profile, const std::shared_ptr<Register16>& reg, api::Logger&) {
                 accessor->set(profile, static_cast<float>(reg->to_sint16() * scale));
             });
             break;
         case (RegisterMapping::Value::uint32):
-            this->map_register32(node, [accessor, scale = util::yaml::get::scale(node)](T& profile, const std::shared_ptr<Register32>& reg, api::Logger&) {
+            this->map_register32(node, [accessor, scale](T& profile, const std::shared_ptr<Register32>& reg, api::Logger&) {
                 accessor->set(profile, static_cast<float>(reg->to_uint32() * scale));
             });
             break;
         case (RegisterMapping::Value::sint32):
-            this->map_register32(node, [accessor, scale = util::yaml::get::scale(node)](T& profile, const std::shared_ptr<Register32>& reg, api::Logger&) {
+            this->map_register32(node, [accessor, scale](T& profile, const std::shared_ptr<Register32>& reg, api::Logger&) {
                 accessor->set(profile, static_cast<float>(reg->to_sint32() * scale));
             });
             break;
         case (RegisterMapping::Value::uint32_with_modulus):
-            this->map_register32(node, [accessor, scale = util::yaml::get::scale(node), modulus = get::modulus(node)](T& profile, const std::shared_ptr<Register32>& reg, api::Logger&) {
+            this->map_register32(node, [accessor, scale, modulus = get::modulus(node)](T& profile, const std::shared_ptr<Register32>& reg, api::Logger&) {
                 accessor->set(profile, static_cast<float>(reg->to_uint32(modulus) * scale));
             });
             break;
         case (RegisterMapping::Value::sint32_with_modulus):
-            this->map_register32(node, [accessor, scale = util::yaml::get::scale(node), modulus = get::modulus(node)](T& profile, const std::shared_ptr<Register32>& reg, api::Logger&) {
+            this->map_register32(node, [accessor, scale, modulus = get::modulus(node)](T& profile, const std::shared_ptr<Register32>& reg, api::Logger&) {
                 accessor->set(profile, static_cast<float>(reg->to_sint32(modulus) * scale));
             });
             break;
         case (RegisterMapping::Value::float32):
-            this->map_register32(node, [accessor, scale = util::yaml::get::scale(node)](T& profile, const std::shared_ptr<Register32>& reg, api::Logger&) {
+            this->map_register32(node, [accessor, scale](T& profile, const std::shared_ptr<Register32>& reg, api::Logger&) {
                 accessor->set(profile, static_cast<float>(reg->to_float32() * scale));
             });
             break;
