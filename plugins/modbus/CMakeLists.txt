@@ -75,7 +75,7 @@ set(MODBUS_SOURCES
         src/modbus/generated/SourceType.cpp)
 
 add_library(modbus-plugin STATIC ${MODBUS_PUBLIC_HEADERS} ${MODBUS_SOURCES})
-target_link_libraries(modbus-plugin PUBLIC adapter-util modbus-cpp)
+target_link_libraries(modbus-plugin PUBLIC adapter-util modbus-cpp PRIVATE ser4cpp)
 target_include_directories(modbus-plugin PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 clang_tidy(modbus-plugin)
 clang_format(modbus-plugin EXCLUDES "/generated/")

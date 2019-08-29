@@ -195,6 +195,7 @@ public class Enumerations {
                         Enumeration.entry("none", "output is not mapped"),
                         Enumeration.entry("write_register", "write a value to a single holding register"),
                         Enumeration.entry("write_two_registers", "write the low and high words to two (possibly disjoint) registers"),
+                        Enumeration.entry("write_multiple_registers_float32", "write the IEEE 754 in multiple holding registers"),
                         Enumeration.entry("read_and_modify_register", "read a holding register and write a modified value")
                 )
         );
