@@ -26,7 +26,8 @@ public class Conversions
                 new ConvertFromProto(Profiles.list),
                 new SubscriberFactory(Profiles.list),
                 new PublisherFactory(Profiles.list),
-                new TopicRepository(Profiles.list)
+                new TopicRepository(Profiles.list),
+                new DdsFilterFactory(Profiles.list)
         );
     }
 

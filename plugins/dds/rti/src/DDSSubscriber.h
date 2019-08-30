@@ -10,6 +10,7 @@
 
 #include "IDDSSubscriber.h"
 #include "generated/ConvertToProto.h"
+#include "generated/DdsFilterFactory.h"
 
 namespace adapter {
 namespace dds {
@@ -24,7 +25,8 @@ public:
           m_subject{subject},
           m_dds_subscriber{std::move(dds_subscribe)},
           m_publisher{publisher},
-          m_data_reader{*m_dds_subscriber, topic}
+          m_topic{topic, "asdf", ::dds::topic::Filter{get_topic_filter(subject)}},
+          m_data_reader{*m_dds_subscriber, m_topic}
     {
 
     }
@@ -89,11 +91,22 @@ public:
     }
 
 private:
+    std::string get_topic_filter(const util::SubjectNameSuffix& subject)
+    {
+        if(!subject.is_wildcard())
+        {
+            return DdsFilterFactory<DdsType>::build(subject.get_value());
+        }
+
+        return "";
+    }
+
     api::Logger m_logger;
     util::SubjectNameSuffix m_subject;
     std::shared_ptr<::dds::sub::Subscriber> m_dds_subscriber;
     api::publisher_t m_publisher;
 
+    ::dds::topic::ContentFilteredTopic<DdsType> m_topic;
     ::dds::sub::DataReader<DdsType> m_data_reader;
     ProtoType m_proto_message;
 };
