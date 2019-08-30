@@ -8,10 +8,12 @@ namespace adapter {
 namespace modbus {
 
     struct DoubleWord {
-        const uint16_t upper;
-        const uint16_t lower;
+        uint16_t upper;
+        uint16_t lower;
 
         DoubleWord(const uint16_t upper, const uint16_t lower);
+        DoubleWord(const DoubleWord&);
+        DoubleWord& operator=(const DoubleWord&);
 
         static DoubleWord get(uint32_t value);
     };

@@ -4,7 +4,6 @@ set(MODBUS_PUBLIC_HEADERS
 
 set(MODBUS_SOURCES
         src/modbus/CommandOptions.h
-        src/modbus/CommandOrdering.h
         src/modbus/CommandSinkActions.h
         src/modbus/DoubleWord.h
         src/modbus/DoubleWord.cpp
@@ -63,8 +62,6 @@ set(MODBUS_SOURCES
         src/modbus/generated/BitwiseOperation.cpp
         src/modbus/generated/EnumMappingType.h
         src/modbus/generated/EnumMappingType.cpp
-        src/modbus/generated/CommandType.h
-        src/modbus/generated/CommandType.cpp
         src/modbus/generated/LogLevel.h
         src/modbus/generated/LogLevel.cpp
         src/modbus/generated/OutputType.h
