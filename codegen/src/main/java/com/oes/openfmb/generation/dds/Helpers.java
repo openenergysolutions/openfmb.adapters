@@ -8,62 +8,50 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-class Helpers {
+public class Helpers {
 
     private Helpers() {}
 
     // registry of wrapper types - they correspond to optional DDS primitive types
-    private static final Set<Descriptors.Descriptor> primitiveWrappers = new HashSet<>(
-            Arrays.asList(
+    private static final List<Descriptors.Descriptor> primitiveWrappers = Arrays.asList(
                     com.google.protobuf.BoolValue.getDescriptor(),
                     com.google.protobuf.FloatValue.getDescriptor(),
                     com.google.protobuf.Int32Value.getDescriptor(),
                     com.google.protobuf.Int64Value.getDescriptor(),
                     com.google.protobuf.StringValue.getDescriptor()
-            )
     );
 
-    static String getProtoName(Descriptors.GenericDescriptor d)
+    public static List<Descriptors.Descriptor> getChildDescriptors(List<Descriptors.Descriptor> profiles)
     {
-        return d.getFullName().replace(".", "::");
-    }
-
-    static String getDDSName(Descriptors.GenericDescriptor d)
-    {
-        return "twinoaks::" + getProtoName(d);
-    }
-
-    static List<Descriptors.Descriptor> getChildDescriptors(List<Descriptors.Descriptor> profiles)
-    {
-        final Set<Descriptors.Descriptor> set = profiles.stream().map(DescriptorUtil::findUniqueSubMessages).flatMap(Set::stream).collect(Collectors.toCollection(LinkedHashSet::new));
+        final List<Descriptors.Descriptor> list = profiles.stream().map(DescriptorUtil::findUniqueSubMessages).flatMap(List::stream).distinct().collect(Collectors.toList());
 
         final Function<Descriptors.Descriptor, Boolean> isExcluded = d ->
                 primitiveWrappers.contains(d) || profiles.contains(d) || (Helpers.getOptionalEnumWrapper(d) != null);
 
-        return set.stream().filter(d -> !isExcluded.apply(d)).collect(Collectors.toList());
+        return list.stream().filter(d -> !isExcluded.apply(d)).collect(Collectors.toList());
     }
 
-    static Set<Descriptors.EnumDescriptor> getEnumSet(Collection<Descriptors.Descriptor> profiles)
+    public static List<Descriptors.EnumDescriptor> getEnumSet(Collection<Descriptors.Descriptor> profiles)
     {
-        return profiles.stream().map(DescriptorUtil::findUniqueEnums).flatMap(Set::stream).collect(Collectors.toSet());
+        return profiles.stream().map(DescriptorUtil::findUniqueEnums).flatMap(List::stream).distinct().collect(Collectors.toList());
     }
 
-    static boolean isRequired(Descriptors.FieldDescriptor descriptor)
+    public static boolean isRequired(Descriptors.FieldDescriptor descriptor)
     {
         return descriptor.getOptions().getExtension(Uml.optionRequiredField);
     }
 
-    static boolean isInherited(Descriptors.FieldDescriptor descriptor)
+    public static boolean isInherited(Descriptors.FieldDescriptor descriptor)
     {
         return descriptor.getOptions().getExtension(Uml.optionParentMessage);
     }
 
-    static boolean isOptionalPrimitiveWrapper(Descriptors.Descriptor descriptor)
+    public static boolean isOptionalPrimitiveWrapper(Descriptors.Descriptor descriptor)
     {
         return primitiveWrappers.contains(descriptor);
     }
 
-    static Descriptors.EnumDescriptor getOptionalEnumWrapper(Descriptors.Descriptor descriptor)
+    public static Descriptors.EnumDescriptor getOptionalEnumWrapper(Descriptors.Descriptor descriptor)
     {
         if(!descriptor.getName().startsWith("Optional_")) {
             return null;
