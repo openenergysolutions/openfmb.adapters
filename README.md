@@ -68,6 +68,7 @@ Plugins can be optionally enabled or disabled:
 
 * **-DOPENFMB_USE_DNP3={OFF|ON}**
 * **-DOPENFMB_USE_TWINOAKS_DDS={OFF|ON}**  (off by default)
+* **-DOPENFMB_USE_RTI_DDS={OFF|ON}**  (off by default)
 * **-DOPENFMB_USE_MODBUS={OFF|ON}**
 * **-DOPENFMB_USE_GOOSE={OFF|ON}**
 * **-DOPENFMB_USE_NATS={OFF|ON}**
