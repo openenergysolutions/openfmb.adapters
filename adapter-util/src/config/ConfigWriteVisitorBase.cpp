@@ -5,8 +5,6 @@
 #include <proto-api/commonmodule/commonmodule.pb.h>
 #include <proto-api/essmodule/essmodule.pb.h>
 
-#include "adapter-util/config/FieldInfo.h"
-
 #include "adapter-util/ConfigStrings.h"
 
 namespace adapter {
@@ -73,55 +71,55 @@ namespace util {
         out << YAML::EndMap;
     };
 
-    void ConfigWriteVisitorBase::handle_bool(const std::string& field_name)
+    void ConfigWriteVisitorBase::handle(const std::string& field_name, BoolFieldType::Value type)
     {
         handle_mapped_field<BoolFieldType>(
             this->out,
             field_name,
-            this->remap(fields::get_bool_type(field_name, path)),
+            remap(type),
             BoolFieldType::Value::mapped,
             [&]() { this->write_mapped_bool_keys(out); });
     }
 
-    void ConfigWriteVisitorBase::handle_int32(const std::string& field_name)
+    void ConfigWriteVisitorBase::handle(const std::string& field_name, Int32FieldType::Value type)
     {
         handle_mapped_field<Int32FieldType>(
             this->out,
             field_name,
-            this->remap(fields::get_int32_type(field_name, path)),
+            remap(type),
             Int32FieldType::Value::mapped,
             [&]() { this->write_mapped_int32_keys(out); });
     }
 
-    void ConfigWriteVisitorBase::handle_int64(const std::string& field_name)
+    void ConfigWriteVisitorBase::handle(const std::string& field_name, Int64FieldType::Value type)
     {
         handle_mapped_field<Int64FieldType>(
             this->out,
             field_name,
-            this->remap(fields::get_int64_type(field_name, path)),
+            remap(type),
             Int64FieldType::Value::mapped,
             [&]() { this->write_mapped_int64_keys(out); });
     }
 
-    void ConfigWriteVisitorBase::handle_float(const std::string& field_name)
+    void ConfigWriteVisitorBase::handle(const std::string& field_name, FloatFieldType::Value type)
     {
         handle_mapped_field<FloatFieldType>(
             this->out,
             field_name,
-            this->remap(fields::get_float_type(field_name, path)),
+            remap(type),
             FloatFieldType::Value::mapped,
             [&]() { this->write_mapped_float_keys(out); });
     }
 
-    void ConfigWriteVisitorBase::handle_string(const std::string& field_name)
+    void ConfigWriteVisitorBase::handle(const std::string& field_name, StringFieldType::Value type)
     {
-        const auto type = this->remap(fields::get_string_type(field_name, path));
+        const auto remapped = remap(type);
 
         out << YAML::Key << field_name;
         out << YAML::BeginMap;
-        out << YAML::Key << StringFieldType::label << StringFieldType::to_string(type);
+        out << YAML::Key << StringFieldType::label << StringFieldType::to_string(remapped);
 
-        switch (type) {
+        switch (remapped) {
         case (StringFieldType::Value::constant_uuid):
         case (StringFieldType::Value::primary_uuid):
         case (StringFieldType::Value::constant):
@@ -137,27 +135,23 @@ namespace util {
         out << YAML::EndMap;
     }
 
-    void ConfigWriteVisitorBase::handle_enum(const std::string& field_name, google::protobuf::EnumDescriptor const* descriptor)
+    void ConfigWriteVisitorBase::handle(const std::string& field_name, google::protobuf::EnumDescriptor const* descriptor, EnumFieldType::Value type)
     {
-        const auto type = remap(fields::get_enum_type(descriptor));
+        const auto remapped = remap(type);
 
         out << YAML::Key << field_name;
         out << YAML::BeginMap;
-        out << YAML::Key << EnumFieldType::label << YAML::Value << EnumFieldType::to_string(type);
+        out << YAML::Key << EnumFieldType::label << YAML::Value << EnumFieldType::to_string(remapped);
 
-        if (type == EnumFieldType::Value::mapped) {
+        if (remapped == EnumFieldType::Value::mapped) {
             this->write_mapped_enum_keys(out, descriptor);
         }
 
         out << YAML::EndMap;
     }
 
-    void ConfigWriteVisitorBase::handle_commonmodule_Quality(const std::string& field_name)
+    void ConfigWriteVisitorBase::handle(const std::string& field_name, QualityFieldType::Value type)
     {
-        // TODO: quality mapping
-        //const auto type = fields::get_quality_type(field_name, path);
-        const auto type = QualityFieldType::Value::ignored;
-
         out << YAML::Key << field_name;
         out << YAML::BeginMap;
         out << YAML::Key << QualityFieldType::label << YAML::Value << QualityFieldType::to_string(type);
@@ -169,10 +163,8 @@ namespace util {
         out << YAML::EndMap;
     }
 
-    void ConfigWriteVisitorBase::handle_commonmodule_Timestamp(const std::string& field_name)
+    void ConfigWriteVisitorBase::handle(const std::string& field_name, TimestampFieldType::Value type)
     {
-        const auto type = fields::get_timestamp_type(field_name, path);
-
         out << YAML::Key << field_name;
         out << YAML::BeginMap;
         out << YAML::Key << TimestampFieldType::label << YAML::Value << TimestampFieldType::to_string(type);
@@ -184,7 +176,7 @@ namespace util {
         out << YAML::EndMap;
     }
 
-    void ConfigWriteVisitorBase::handle_commonmodule_ControlTimestamp(const std::string& field_name)
+    void ConfigWriteVisitorBase::handle(const std::string& field_name, ControlTimestampFieldType::Value type)
     {
         out << YAML::Key << field_name;
         out << YAML::BeginMap;

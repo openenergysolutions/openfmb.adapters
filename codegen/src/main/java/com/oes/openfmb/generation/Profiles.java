@@ -31,21 +31,17 @@ import openfmb.solarmodule.SolarReadingProfile;
 import openfmb.solarmodule.SolarStatusProfile;
 import openfmb.switchmodule.*;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class Profiles {
 
     private Profiles() {}
 
-    public static Set<Descriptors.Descriptor> set = Collections.unmodifiableSet(get());
+    public static List<Descriptors.Descriptor> list = Collections.unmodifiableList(get());
 
-    private static Set<Descriptors.Descriptor> get()
+    private static List<Descriptors.Descriptor> get()
     {
-        return new HashSet<>(
-                Arrays.asList(
+        return Arrays.asList(
                         // Breaker
                         BreakerDiscreteControlProfile.getDescriptor(),
                         BreakerEventProfile.getDescriptor(),
@@ -86,7 +82,6 @@ public class Profiles {
                         SolarControlProfile.getDescriptor(),
                         SolarEventProfile.getDescriptor(),
                         SolarReadingProfile.getDescriptor(),
-                        SolarReadingProfile.getDescriptor(),
                         SolarStatusProfile.getDescriptor(),
                         // Switch
                         SwitchControlProfile.getDescriptor(),
@@ -94,7 +89,6 @@ public class Profiles {
                         SwitchEventProfile.getDescriptor(),
                         SwitchReadingProfile.getDescriptor(),
                         SwitchStatusProfile.getDescriptor()
-                )
         );
     }
 }

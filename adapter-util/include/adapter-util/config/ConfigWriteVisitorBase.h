@@ -64,23 +64,25 @@ namespace util {
 
         // --- final handlers for primitive fields ---
 
-        void handle_bool(const std::string& field_name) final;
+        void handle(const std::string& field_name, BoolFieldType::Value type) final;
 
-        void handle_int32(const std::string& field_name) final;
+        void handle(const std::string& field_name, Int32FieldType::Value type) final;
 
-        void handle_int64(const std::string& field_name) final;
+        void handle(const std::string& field_name, Int64FieldType::Value type) final;
 
-        void handle_float(const std::string& field_name) final;
+        void handle(const std::string& field_name, FloatFieldType::Value type) final;
 
-        void handle_string(const std::string& field_name) final;
+        void handle(const std::string& field_name, StringFieldType::Value type) final;
 
-        void handle_enum(const std::string& field_name, google::protobuf::EnumDescriptor const* descriptor) final;
+        void handle(const std::string& field_name, google::protobuf::EnumDescriptor const* descriptor, EnumFieldType::Value type) final;
 
-        void handle_commonmodule_Quality(const std::string& field_name) final;
+        // --- final handlers for terminal message fields ---
 
-        void handle_commonmodule_Timestamp(const std::string& field_name) final;
+        void handle(const std::string& field_name, QualityFieldType::Value type) final;
 
-        void handle_commonmodule_ControlTimestamp(const std::string& field_name) final;
+        void handle(const std::string& field_name, TimestampFieldType::Value type) final;
+
+        void handle(const std::string& field_name, ControlTimestampFieldType::Value type) final;
 
         void handle_repeated_schedule_parameter(const std::string& field_name) final;
 

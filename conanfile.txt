@@ -1,10 +1,15 @@
 [requires]
 boost/1.66.0@conan/stable
+OpenSSL/1.1.1c@conan/stable
+paho-cpp/1.0.1@conan/stable
 protobuf/3.5.2@bincrafters/stable
 yaml-cpp/0.5.3@bincrafters/stable
 
 [build_requires]
 protoc_installer/3.5.2@bincrafters/stable
+
+[options]
+paho-cpp:SSL=True
 
 [generators]
 cmake

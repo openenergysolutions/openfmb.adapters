@@ -13,7 +13,16 @@ import java.util.stream.Collectors;
 
 public class Enumerations {
 
-    public static final List<GeneratedFileSet> sets = Arrays.asList(API.set, DNP3.set, Modbus.set, Goose.set, Nats.set);
+    private final static Enumeration securityType = new Enumeration(
+            Arrays.asList("Security","Type"),
+            Arrays.asList(
+                    Enumeration.entry("none", "no security - bare TCP"),
+                    Enumeration.entry("tls_server_auth", "tls - only authenticate the server"),
+                    Enumeration.entry("tls_mutual_auth", "tls - authenticate the server and provide client cert")
+            )
+    );
+
+    public static final List<GeneratedFileSet> sets = Arrays.asList(API.set, DNP3.set, Modbus.set, Goose.set, Nats.set, MQTT.set);
 
     private static class API {
 
@@ -254,8 +263,17 @@ public class Enumerations {
                 )
         );
 
+        private final static Enumeration qualityMapping = new Enumeration(
+                Arrays.asList("Quality", "Mapping", "Type"),
+                Arrays.asList(
+                        Enumeration.entry("copy", "copy the value of the OpenFMB proto"),
+                        Enumeration.entry("constant", "use a constant quality"),
+                        Enumeration.entry("constant_if_absent", "use a constant quality if the OpenFMB proto doesn't have a quality")
+                )
+        );
+
         private static List<Enumeration> enums() {
-            return Arrays.asList(type);
+            return Arrays.asList(type, qualityMapping);
         }
 
         private static final Path path = Paths.get("../plugins/goose/src/generated");
@@ -270,15 +288,6 @@ public class Enumerations {
 
     private static class Nats {
 
-        private final static Enumeration securityType = new Enumeration(
-                Arrays.asList("Security","Type"),
-                Arrays.asList(
-                        Enumeration.entry("none", "no security - bare TCP"),
-                        Enumeration.entry("tls_server_auth", "tls - only authenticate the server"),
-                        Enumeration.entry("tls_mutual_auth", "tls - authenticate the server and provide client cert")
-                )
-        );
-
         private static List<Enumeration> enums() {
             return Collections.singletonList(securityType);
         }
@@ -286,6 +295,22 @@ public class Enumerations {
         private static final Path path = Paths.get("../plugins/nats/src/generated");
 
         private static final List<String> namespaces = Arrays.asList("nats", "adapter");
+
+        public static final GeneratedFileSet set = new GeneratedFileSet(
+                Collections.singletonList(path),
+                FileGenerator.convert(path, path, enums().stream().map(e -> new EnumFiles(e, namespaces)).collect(Collectors.toList()))
+        );
+    }
+
+    private static class MQTT {
+
+        private static List<Enumeration> enums() {
+            return Collections.singletonList(securityType);
+        }
+
+        private static final Path path = Paths.get("../plugins/mqtt-paho/src/generated");
+
+        private static final List<String> namespaces = Arrays.asList("mqtt", "adapter");
 
         public static final GeneratedFileSet set = new GeneratedFileSet(
                 Collections.singletonList(path),

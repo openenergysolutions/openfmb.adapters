@@ -31,6 +31,8 @@ namespace mqtt {
         }
 
         entry->second->handle(std::move(msg));
+
+        return true;
     }
 }
 }

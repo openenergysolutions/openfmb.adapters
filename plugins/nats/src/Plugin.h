@@ -70,6 +70,7 @@ namespace nats {
 
         void read_nats_options(const YAML::Node& node);
         void read_tls_config(const YAML::Node& node, bool mutual_auth);
+        void read_jwt_config(const YAML::Node& node);
         void read_pub_sub_config(const YAML::Node& node, api::message_bus_t bus);
     };
 }

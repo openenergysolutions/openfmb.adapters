@@ -6,12 +6,12 @@
 
 #include <adapter-api/Exception.h>
 #include <adapter-util/ConfigStrings.h>
+#include <adapter-util/config/SubjectNameSuffix.h>
 #include <adapter-util/util/YAMLUtil.h>
 
 #include "ConfigStrings.h"
 #include "NATSSubscriber.h"
 #include "SubjectName.h"
-#include "SubjectNameSuffix.h"
 #include "generated/SecurityType.h"
 
 namespace adapter {
@@ -29,7 +29,7 @@ namespace nats {
     template <class T>
     struct SubscribeProfileReader {
 
-        static void handle(const SubjectNameSuffix& suffix, api::Logger& logger, api::publisher_t publisher, subscription_vec_t& subscriptions)
+        static void handle(const util::SubjectNameSuffix& suffix, api::Logger& logger, api::publisher_t publisher, subscription_vec_t& subscriptions)
         {
             const auto subject_name = get_subject_name(T::descriptor()->full_name(), suffix.get_value());
 
@@ -46,7 +46,7 @@ namespace nats {
     template <class T>
     struct PublishProfileReader {
 
-        static void handle(const SubjectNameSuffix& suffix, api::Logger& logger, api::IMessageBus& bus, const message_queue_t& message_queue)
+        static void handle(const util::SubjectNameSuffix& suffix, api::Logger& logger, api::IMessageBus& bus, const message_queue_t& message_queue)
         {
             const auto subject_name = get_subject_name(T::descriptor()->full_name(), suffix.get_value());
 
@@ -156,7 +156,7 @@ namespace nats {
 
         // figure out what type of security we're using
 
-        const auto sec_node = util::yaml::require(node, keys::security);
+        const auto sec_node = util::yaml::require(node, util::keys::security);
         const auto sec_type = util::yaml::require_enum<SecurityType>(sec_node);
         switch (sec_type) {
         case (SecurityType::Value::none):
@@ -169,6 +169,13 @@ namespace nats {
             break;
         default:
             throw api::Exception("Unsupported security type: ", SecurityType::to_string(sec_type));
+        }
+
+        // Setup JWT security
+        const auto jwt_node = sec_node[keys::jwt_creds_file];
+        if(jwt_node)
+        {
+            read_jwt_config(sec_node);
         }
     }
 
@@ -184,7 +191,7 @@ namespace nats {
         // always load the CA files for verifying the server
         try_nats(
             [&]() -> natsStatus {
-                return natsOptions_LoadCATrustedCertificates(this->options.impl, util::yaml::require_string(node, keys::ca_trusted_cert_file).c_str());
+                return natsOptions_LoadCATrustedCertificates(this->options.impl, util::yaml::require_string(node, util::keys::ca_trusted_cert_file).c_str());
             },
             "Unable to read CA file");
 
@@ -193,32 +200,44 @@ namespace nats {
                 [&]() -> natsStatus {
                     return natsOptions_LoadCertificatesChain(
                         this->options.impl,
-                        util::yaml::require_string(node, keys::client_cert_chain_file).c_str(),
-                        util::yaml::require_string(node, keys::client_private_key_file).c_str());
+                        util::yaml::require_string(node, util::keys::client_cert_chain_file).c_str(),
+                        util::yaml::require_string(node, util::keys::client_private_key_file).c_str());
                 },
                 "Unable load client cert chain or private key");
         }
     }
 
+    void Plugin::read_jwt_config(const YAML::Node& node)
+    {
+        try_nats(
+            [&]() -> natsStatus {
+                return natsOptions_SetUserCredentialsFromFiles(
+                    this->options.impl,
+                    util::yaml::require_string(node, keys::jwt_creds_file).c_str(),
+                    nullptr);
+            },
+            "Unable to set JWT user credentials");
+    }
+
     void Plugin::read_pub_sub_config(const YAML::Node& node, api::message_bus_t bus)
     {
         util::yaml::foreach (
-            util::yaml::require(node, keys::subscribe),
+            util::yaml::require(node, util::keys::subscribe),
             [&](const YAML::Node& entry) {
                 api::ProfileRegistry::handle_by_name<SubscribeProfileReader>(
                     util::yaml::require_string(entry, util::keys::profile),
-                    SubjectNameSuffix(util::yaml::require_string(entry, keys::subject)),
+                    util::SubjectNameSuffix(util::yaml::require_string(entry, keys::subject)),
                     this->logger,
                     bus,
                     this->subscriptions);
             });
 
         util::yaml::foreach (
-            util::yaml::require(node, keys::publish),
+            util::yaml::require(node, util::keys::publish),
             [&](const YAML::Node& entry) {
                 api::ProfileRegistry::handle_by_name<PublishProfileReader>(
                     util::yaml::require_string(entry, util::keys::profile),
-                    SubjectNameSuffix(util::yaml::require_string(entry, keys::subject)),
+                    util::SubjectNameSuffix(util::yaml::require_string(entry, keys::subject)),
                     this->logger,
                     *bus,
                     this->messages);
