@@ -13,14 +13,12 @@ public class Helpers {
     private Helpers() {}
 
     // registry of wrapper types - they correspond to optional DDS primitive types
-    private static final Set<Descriptors.Descriptor> primitiveWrappers = new HashSet<>(
-            Arrays.asList(
+    private static final List<Descriptors.Descriptor> primitiveWrappers = Arrays.asList(
                     com.google.protobuf.BoolValue.getDescriptor(),
                     com.google.protobuf.FloatValue.getDescriptor(),
                     com.google.protobuf.Int32Value.getDescriptor(),
                     com.google.protobuf.Int64Value.getDescriptor(),
                     com.google.protobuf.StringValue.getDescriptor()
-            )
     );
 
     public static List<Descriptors.Descriptor> getChildDescriptors(List<Descriptors.Descriptor> profiles)

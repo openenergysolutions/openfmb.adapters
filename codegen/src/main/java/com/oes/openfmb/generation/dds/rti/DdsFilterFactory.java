@@ -2,6 +2,7 @@ package com.oes.openfmb.generation.dds.rti;
 
 import com.google.protobuf.Descriptors;
 import com.oes.openfmb.generation.Includes;
+import com.oes.openfmb.generation.dds.Helpers;
 import com.oes.openfmb.generation.document.CppFile;
 import com.oes.openfmb.generation.document.CppFileCollection;
 import com.oes.openfmb.generation.document.Document;
@@ -78,9 +79,11 @@ public class DdsFilterFactory implements CppFileCollection {
         return line("template<>")
                 .then(String.format("struct DdsFilterFactory<%s>", RtiHelpers.getDDSName(profile)))
                 .bracketSemicolon(
-                        line(String.format("static std::string build(const std::string& mRID)"))
+                        line(String.format("static ::dds::topic::ContentFilteredTopic<%s> build(const ::dds::topic::Topic<%s>& topic, const std::string& mRID)", RtiHelpers.getDDSName(profile), RtiHelpers.getDDSName(profile)))
                                 .bracket(
-                                        line(String.format("return std::string{\"%s\"} + \" = \" + mRID;", path))
+                                        line(String.format("std::string filter_string{\"%s = '\" + mRID + \"'\"};", path)),
+                                        line(String.format("return ::dds::topic::ContentFilteredTopic<%s>{topic, \"%s - \" + mRID, ::dds::topic::Filter{filter_string}};", RtiHelpers.getDDSName(profile), RtiHelpers.getProtoName(profile)))
+
                                 )
                 );
     }
@@ -105,7 +108,10 @@ public class DdsFilterFactory implements CppFileCollection {
             StringJoiner joiner = new StringJoiner(".");
             for(Descriptors.FieldDescriptor pathField : path.path)
             {
-                joiner.add(pathField.getName());
+                if(!Helpers.isInherited(pathField))
+                {
+                    joiner.add(pathField.getName());
+                }
             }
             return Optional.of(joiner.toString());
         }

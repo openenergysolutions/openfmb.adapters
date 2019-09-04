@@ -20,13 +20,12 @@ template<typename ProtoType, typename DdsType>
 class DDSSubscriber : public ::dds::sub::DataReaderListener<DdsType>, public IDDSSubscriber {
 
 public:
-    DDSSubscriber(const api::Logger& logger, const util::SubjectNameSuffix& subject, std::shared_ptr<::dds::sub::Subscriber> dds_subscribe, const ::dds::topic::Topic<DdsType>& topic, api::publisher_t publisher)
+    DDSSubscriber(const api::Logger& logger, const util::SubjectNameSuffix& subject, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, const ::dds::topic::Topic<DdsType>& topic, api::publisher_t publisher)
         : m_logger{logger},
           m_subject{subject},
-          m_dds_subscriber{std::move(dds_subscribe)},
+          m_dds_subscriber{std::move(dds_subscriber)},
           m_publisher{publisher},
-          m_topic{topic, "asdf", ::dds::topic::Filter{get_topic_filter(subject)}},
-          m_data_reader{*m_dds_subscriber, m_topic}
+          m_data_reader{create_data_reader(dds_subscriber, topic, subject)}
     {
 
     }
@@ -91,14 +90,17 @@ public:
     }
 
 private:
-    std::string get_topic_filter(const util::SubjectNameSuffix& subject)
+    ::dds::sub::DataReader<DdsType> create_data_reader(std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, const ::dds::topic::Topic<DdsType>& topic, const util::SubjectNameSuffix& subject)
     {
-        if(!subject.is_wildcard())
+        if(subject.is_wildcard())
         {
-            return DdsFilterFactory<DdsType>::build(subject.get_value());
+            return ::dds::sub::DataReader<DdsType>{*m_dds_subscriber, topic};
         }
-
-        return "";
+        else
+        {
+            auto filtered_topic = DdsFilterFactory<DdsType>::build(topic, subject.get_value());
+            return ::dds::sub::DataReader<DdsType>{*m_dds_subscriber, filtered_topic};
+        }
     }
 
     api::Logger m_logger;
@@ -106,7 +108,6 @@ private:
     std::shared_ptr<::dds::sub::Subscriber> m_dds_subscriber;
     api::publisher_t m_publisher;
 
-    ::dds::topic::ContentFilteredTopic<DdsType> m_topic;
     ::dds::sub::DataReader<DdsType> m_data_reader;
     ProtoType m_proto_message;
 };
