@@ -6,12 +6,12 @@
 
 #include <adapter-api/Exception.h>
 #include <adapter-util/ConfigStrings.h>
+#include <adapter-util/config/SubjectNameSuffix.h>
 #include <adapter-util/util/YAMLUtil.h>
 
 #include "ConfigStrings.h"
 #include "NATSSubscriber.h"
 #include "SubjectName.h"
-#include "SubjectNameSuffix.h"
 #include "generated/SecurityType.h"
 
 namespace adapter {
@@ -29,7 +29,7 @@ namespace nats {
     template <class T>
     struct SubscribeProfileReader {
 
-        static void handle(const SubjectNameSuffix& suffix, api::Logger& logger, api::publisher_t publisher, subscription_vec_t& subscriptions)
+        static void handle(const util::SubjectNameSuffix& suffix, api::Logger& logger, api::publisher_t publisher, subscription_vec_t& subscriptions)
         {
             const auto subject_name = get_subject_name(T::descriptor()->full_name(), suffix.get_value());
 
@@ -46,7 +46,7 @@ namespace nats {
     template <class T>
     struct PublishProfileReader {
 
-        static void handle(const SubjectNameSuffix& suffix, api::Logger& logger, api::IMessageBus& bus, const message_queue_t& message_queue)
+        static void handle(const util::SubjectNameSuffix& suffix, api::Logger& logger, api::IMessageBus& bus, const message_queue_t& message_queue)
         {
             const auto subject_name = get_subject_name(T::descriptor()->full_name(), suffix.get_value());
 
@@ -226,7 +226,7 @@ namespace nats {
             [&](const YAML::Node& entry) {
                 api::ProfileRegistry::handle_by_name<SubscribeProfileReader>(
                     util::yaml::require_string(entry, util::keys::profile),
-                    SubjectNameSuffix(util::yaml::require_string(entry, keys::subject)),
+                    util::SubjectNameSuffix(util::yaml::require_string(entry, keys::subject)),
                     this->logger,
                     bus,
                     this->subscriptions);
@@ -237,7 +237,7 @@ namespace nats {
             [&](const YAML::Node& entry) {
                 api::ProfileRegistry::handle_by_name<PublishProfileReader>(
                     util::yaml::require_string(entry, util::keys::profile),
-                    SubjectNameSuffix(util::yaml::require_string(entry, keys::subject)),
+                    util::SubjectNameSuffix(util::yaml::require_string(entry, keys::subject)),
                     this->logger,
                     *bus,
                     this->messages);

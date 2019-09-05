@@ -1,7 +1,8 @@
-package com.oes.openfmb.generation.dds;
+package com.oes.openfmb.generation.dds.twinoaks;
 
 import com.google.protobuf.Descriptors;
 import com.oes.openfmb.generation.Includes;
+import com.oes.openfmb.generation.dds.Helpers;
 import com.oes.openfmb.generation.document.CppFile;
 import com.oes.openfmb.generation.document.CppFileCollection;
 import com.oes.openfmb.generation.document.Document;
@@ -22,8 +23,6 @@ public class ConvertFromProto implements CppFileCollection {
         this.profiles = profiles;
         this.children = Helpers.getChildDescriptors(profiles);
     }
-
-
 
     @Override
     public List<CppFile> headers() {
@@ -127,7 +126,7 @@ public class ConvertFromProto implements CppFileCollection {
 
     private static String signature(Descriptors.Descriptor d)
     {
-        return String.format("void convert_from_proto(const %s& in, %s& out)", Helpers.getProtoName(d), Helpers.getDDSName(d));
+        return String.format("void convert_from_proto(const %s& in, %s& out)", TwinOaksHelpers.getProtoName(d), TwinOaksHelpers.getDDSName(d));
     }
 
     private static String cppName(Descriptors.EnumDescriptor d)
@@ -178,7 +177,7 @@ public class ConvertFromProto implements CppFileCollection {
         public Document repeatedMessage() {
             return line("for(const auto& input : in.%s())", field.getName().toLowerCase()).bracket(
                     join(
-                            line("%s ouput;", Helpers.getDDSName(field.getMessageType())),
+                            line("%s ouput;", TwinOaksHelpers.getDDSName(field.getMessageType())),
                             line("convert_from_proto(input, ouput);"),
                             line("out.%s.push_back(ouput);", field.getName())
                     )
@@ -211,7 +210,7 @@ public class ConvertFromProto implements CppFileCollection {
         public Document optionalMessage() {
             return line("if(in.has_%s()) // optional field in DDS", field.getName().toLowerCase()).bracket(
                     join(
-                            line("out.%s = new %s();", field.getName(), Helpers.getDDSName(field.getMessageType())),
+                            line("out.%s = new %s();", field.getName(), TwinOaksHelpers.getDDSName(field.getMessageType())),
                             line("convert_from_proto(in.%s(), *out.%s);", field.getName().toLowerCase(), field.getName())
                     )
             );
@@ -222,7 +221,7 @@ public class ConvertFromProto implements CppFileCollection {
             return line(
                     String.format("out.%s = static_cast<%s>(in.%s());",
                             field.getName(),
-                            Helpers.getDDSName(field.getEnumType()),
+                            TwinOaksHelpers.getDDSName(field.getEnumType()),
                             field.getName().toLowerCase()
                     )
             );
@@ -233,8 +232,8 @@ public class ConvertFromProto implements CppFileCollection {
             return line(
                     "out.%s = new %s(static_cast<%s>(in.%s().value())); // optional enum",
                     field.getName(),
-                    Helpers.getDDSName(ed),
-                    Helpers.getDDSName(ed),
+                    TwinOaksHelpers.getDDSName(ed),
+                    TwinOaksHelpers.getDDSName(ed),
                     field.getName().toLowerCase()
             );
         }

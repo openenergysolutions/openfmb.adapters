@@ -34,6 +34,10 @@
 #include "twinoaks/DDSPluginFactory.h"
 #endif
 
+#ifdef OPENFMB_USE_RTI_DDS
+#include "rti/PluginFactory.h"
+#endif
+
 #ifdef OPENFMB_USE_TIMESCALEDB
 #include "timescaledb/PluginFactory.h"
 #endif
@@ -70,6 +74,10 @@ PluginRegistry::PluginRegistry()
 
 #ifdef OPENFMB_USE_TWINOAKS_DDS
     this->add<adapter::DDSPluginFactory>();
+#endif
+
+#ifdef OPENFMB_USE_RTI_DDS
+    this->add<dds::rti::PluginFactory>();
 #endif
 
 #ifdef OPENFMB_USE_TIMESCALEDB

@@ -1,7 +1,8 @@
-package com.oes.openfmb.generation.dds;
+package com.oes.openfmb.generation.dds.twinoaks;
 
 import com.google.protobuf.Descriptors;
 import com.google.protobuf.StringValue;
+import com.oes.openfmb.generation.dds.Helpers;
 import com.oes.openfmb.generation.document.Document;
 
 public interface FieldHandler {

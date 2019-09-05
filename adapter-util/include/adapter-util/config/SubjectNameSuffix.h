@@ -6,7 +6,7 @@
 #include <yaml-cpp/yaml.h>
 
 namespace adapter {
-namespace nats {
+namespace util {
 
     class SubjectNameSuffix {
     public:

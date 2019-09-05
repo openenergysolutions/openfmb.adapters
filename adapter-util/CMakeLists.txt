@@ -32,6 +32,7 @@ set(HEADERS
 		include/adapter-util/config/ITypedModelVisitor.h
 		include/adapter-util/config/YAMLGetters.h
 		include/adapter-util/config/PublishingConfigReadVisitorBase.h
+		include/adapter-util/config/SubjectNameSuffix.h
 		include/adapter-util/config/generated/BoolFieldType.h
 		include/adapter-util/config/generated/Int32FieldType.h
 		include/adapter-util/config/generated/Int64FieldType.h
@@ -55,7 +56,8 @@ set(SOURCES
 	src/config/CommandPriorityMap.cpp
 	src/config/ConfigWriteVisitorBase.cpp
 		src/config/DescriptorPath.cpp
-    src/config/YAMLGetters.cpp
+	src/config/YAMLGetters.cpp
+	src/config/SubjectNameSuffix.cpp
 	src/config/generated/BoolFieldType.cpp
 	src/config/generated/Int32FieldType.cpp
 	src/config/generated/Int64FieldType.cpp
@@ -72,12 +74,13 @@ set(SOURCES
 	src/config/generated/BreakerEventProfileTypedModelVisitor.cpp
 	src/config/generated/BreakerReadingProfileTypedModelVisitor.cpp
 	src/config/generated/BreakerStatusProfileTypedModelVisitor.cpp
+	src/config/generated/ControlTimestampFieldType.cpp
 	src/config/generated/ESSControlProfileTypedModelVisitor.cpp
 	src/config/generated/ESSEventProfileTypedModelVisitor.cpp
 	src/config/generated/ESSReadingProfileTypedModelVisitor.cpp
 	src/config/generated/ESSStatusProfileTypedModelVisitor.cpp
 	src/config/generated/GenerationControlProfileTypedModelVisitor.cpp
-    src/config/generated/GenerationEventProfileTypedModelVisitor.cpp
+	src/config/generated/GenerationEventProfileTypedModelVisitor.cpp
 	src/config/generated/GenerationReadingProfileTypedModelVisitor.cpp
 	src/config/generated/GenerationStatusProfileTypedModelVisitor.cpp
 	src/config/generated/LoadControlProfileTypedModelVisitor.cpp
@@ -91,15 +94,15 @@ set(SOURCES
 	src/config/generated/RecloserReadingProfileTypedModelVisitor.cpp
 	src/config/generated/RecloserStatusProfileTypedModelVisitor.cpp
 	src/config/generated/RegulatorControlProfileTypedModelVisitor.cpp
-    src/config/generated/RegulatorEventProfileTypedModelVisitor.cpp
+	src/config/generated/RegulatorEventProfileTypedModelVisitor.cpp
 	src/config/generated/RegulatorReadingProfileTypedModelVisitor.cpp
 	src/config/generated/RegulatorStatusProfileTypedModelVisitor.cpp
 	src/config/generated/ResourceReadingProfileTypedModelVisitor.cpp
 	src/config/generated/ResourceStatusProfileTypedModelVisitor.cpp
+	src/config/generated/SolarControlProfileTypedModelVisitor.cpp
 	src/config/generated/SolarEventProfileTypedModelVisitor.cpp
 	src/config/generated/SolarReadingProfileTypedModelVisitor.cpp
 	src/config/generated/SolarStatusProfileTypedModelVisitor.cpp
-	src/config/generated/SolarControlProfileTypedModelVisitor.cpp
 	src/config/generated/SwitchControlProfileTypedModelVisitor.cpp
 	src/config/generated/SwitchDiscreteControlProfileTypedModelVisitor.cpp
 	src/config/generated/SwitchEventProfileTypedModelVisitor.cpp

@@ -1,7 +1,8 @@
-package com.oes.openfmb.generation.dds;
+package com.oes.openfmb.generation.dds.rti;
 
 import com.google.protobuf.Descriptors;
 import com.oes.openfmb.generation.Includes;
+import com.oes.openfmb.generation.dds.Helpers;
 import com.oes.openfmb.generation.document.CppFile;
 import com.oes.openfmb.generation.document.CppFileCollection;
 import com.oes.openfmb.generation.document.Document;
@@ -36,7 +37,9 @@ public class ConvertToProto implements CppFileCollection {
                                        namespace(
                                                "adapter",
                                                namespace("dds",
-                                                       signatures(this.profiles)
+                                                       namespace("rti",
+                                                        signatures(this.profiles)
+                                                       )
                                                )
                                        )
                                )
@@ -52,23 +55,22 @@ public class ConvertToProto implements CppFileCollection {
                         "ConvertToProto.cpp",
                         () -> join(
                                 FileHeader.lines,
-                                include("ConvertToProto.h"),
-                                space,
-                                include("../ConvertToProtoHelpers.h"),
+                                include("generated/ConvertToProto.h"),
                                 space,
                                 namespace("adapter",
                                         namespace("dds",
-                                                line("// ---- forward declare the conversion routines for the child types ---"),
-                                                space,
-                                                signatures(this.childTypes),
-                                                space,
-                                                line("// ---- implement the top level profile conversion routines ---"),
-                                                space,
-                                                implementations(this.profiles),
-                                                space,
-                                                line("// ---- implement the conversion routines for the child types ---"),
-                                                implementations(this.childTypes)
-
+                                                namespace("rti",
+                                                    line("// ---- forward declare the conversion routines for the child types ---"),
+                                                    space,
+                                                    signatures(this.childTypes),
+                                                    space,
+                                                    line("// ---- implement the top level profile conversion routines ---"),
+                                                    space,
+                                                    implementations(this.profiles),
+                                                    space,
+                                                    line("// ---- implement the conversion routines for the child types ---"),
+                                                    implementations(this.childTypes)
+                                                )
                                         )
                                 )
                         )
@@ -103,9 +105,7 @@ public class ConvertToProto implements CppFileCollection {
        ).then(
                join(
                    space,
-                   include("OpenFMB-IDLTypeSupport.hh"),
-                   space,
-                   include("../NamespaceAlias.h")
+                   include("OpenFMB-IDL.hpp")
                )
        );
 
@@ -120,7 +120,7 @@ public class ConvertToProto implements CppFileCollection {
 
     private static String signature(Descriptors.Descriptor d)
     {
-        return String.format("void convert_to_proto(const %s& in, %s& out)", Helpers.getDDSName(d), Helpers.getProtoName(d));
+        return String.format("void convert_to_proto(const %s& in, %s& out)", RtiHelpers.getDDSName(d), RtiHelpers.getProtoName(d));
     }
 
     private static class FieldHandlerImpl implements FieldHandler {
@@ -133,8 +133,8 @@ public class ConvertToProto implements CppFileCollection {
 
         @Override
         public Document repeatedMessage() {
-            return line("for(decltype(in.%s.length()) i = 0; i < in.%s.length(); ++i)", field.getName(), field.getName()).bracket(
-                    line("convert_to_proto(in.%s.at(i), *out.mutable_%s()->Add());", field.getName(), field.getName().toLowerCase())
+            return line("for(const auto& value : in.%s())", field.getName()).bracket(
+                    line("convert_to_proto(value, *out.mutable_%s()->Add());", field.getName().toLowerCase())
             );
         }
 
@@ -152,7 +152,7 @@ public class ConvertToProto implements CppFileCollection {
         public Document requiredMessage() {
             return line(
                     String.format(
-                            "convert_to_proto(in.%s, *out.mutable_%s()); // required field in DDS",
+                            "convert_to_proto(in.%s(), *out.mutable_%s()); // required field in DDS",
                             field.getName(),
                             field.getName().toLowerCase()
                     )
@@ -163,7 +163,7 @@ public class ConvertToProto implements CppFileCollection {
         public Document optionalMessage() {
             return line(
                     String.format(
-                            "if(in.%s) convert_to_proto(*in.%s, *out.mutable_%s());",
+                            "if(in.%s().is_set()) convert_to_proto(in.%s().get(), *out.mutable_%s());",
                             field.getName(),
                             field.getName(),
                             field.getName().toLowerCase()
@@ -174,9 +174,9 @@ public class ConvertToProto implements CppFileCollection {
         @Override
         public Document requiredEnum() {
             return line(
-                    String.format("out.set_%s(static_cast<%s>(in.%s));",
+                    String.format("out.set_%s(static_cast<%s>(in.%s().underlying()));",
                             field.getName().toLowerCase(),
-                            Helpers.getProtoName(field.getEnumType()),
+                            RtiHelpers.getProtoName(field.getEnumType()),
                             field.getName()
                     )
             );
@@ -185,10 +185,10 @@ public class ConvertToProto implements CppFileCollection {
         @Override
         public Document optionalEnum(Descriptors.EnumDescriptor ed) {
             return line(
-                    String.format("if(in.%s) out.mutable_%s()->set_value(static_cast<%s>(*in.%s));  // wrapped optional enum",
+                    String.format("if(in.%s().is_set()) out.mutable_%s()->set_value(static_cast<%s>(in.%s().get().underlying()));  // wrapped optional enum",
                             field.getName(),
                             field.getName().toLowerCase(),
-                            Helpers.getProtoName(ed),
+                            RtiHelpers.getProtoName(ed),
                             field.getName()
                     )
             );
@@ -197,10 +197,8 @@ public class ConvertToProto implements CppFileCollection {
         @Override
         public Document requiredString() {
             return line(
-                    String.format("if(in.%s) out.set_%s(convert_%s(in.%s));",
-                            field.getName(),
+                    String.format("out.set_%s(in.%s());",
                             field.getName().toLowerCase(),
-                            field.getType().toString().toLowerCase(),
                             field.getName()
                     )
             );
@@ -208,13 +206,13 @@ public class ConvertToProto implements CppFileCollection {
 
         @Override
         public Document optionalString() {
-            return line("if(in.%s) out.mutable_%s()->set_value(in.%s);", field.getName(), field.getName().toLowerCase(), field.getName());
+            return line("if(in.%s().is_set()) out.mutable_%s()->set_value(in.%s().get());", field.getName(), field.getName().toLowerCase(), field.getName());
         }
 
         @Override
         public Document requiredPrimitive() {
             return line(
-                    String.format("out.set_%s(in.%s);",
+                    String.format("out.set_%s(in.%s());",
                             field.getName().toLowerCase(),
                             field.getName()
                     )
@@ -223,7 +221,7 @@ public class ConvertToProto implements CppFileCollection {
 
         @Override
         public Document optionalPrimitive() {
-            return line("if(in.%s) out.mutable_%s()->set_value(*in.%s);", field.getName(), field.getName().toLowerCase(), field.getName());
+            return line("if(in.%s().is_set()) out.mutable_%s()->set_value(in.%s().get());", field.getName(), field.getName().toLowerCase(), field.getName());
         }
     }
 }

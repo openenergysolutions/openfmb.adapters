@@ -5,11 +5,11 @@
 #include <adapter-api/ISubscriptionHandler.h>
 #include <adapter-api/Logger.h>
 
+#include <adapter-util/config/SubjectNameSuffix.h>
 #include <adapter-util/util/Message.h>
 #include <adapter-util/util/SynchronizedQueue.h>
 
 #include "SubjectName.h"
-#include "SubjectNameSuffix.h"
 
 #include <boost/numeric/conversion/cast.hpp>
 
@@ -22,7 +22,7 @@ namespace nats {
     public:
         using message_queue_t = util::SynchronizedQueue<util::Message>;
 
-        NATSPublisher(api::Logger logger, const SubjectNameSuffix& suffix, std::shared_ptr<message_queue_t> sink)
+        NATSPublisher(api::Logger logger, const util::SubjectNameSuffix& suffix, std::shared_ptr<message_queue_t> sink)
             : logger(std::move(logger))
             , suffix(suffix)
             , sink(std::move(sink))
@@ -56,7 +56,7 @@ namespace nats {
         }
 
         api::Logger logger;
-        const SubjectNameSuffix suffix;
+        const util::SubjectNameSuffix suffix;
         const std::shared_ptr<message_queue_t> sink;
     };
 }

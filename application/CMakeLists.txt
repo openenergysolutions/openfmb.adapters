@@ -55,6 +55,11 @@ if(OPENFMB_USE_TWINOAKS_DDS)
     list(APPEND plugin_definitions OPENFMB_USE_TWINOAKS_DDS)
 endif()
 
+if(OPENFMB_USE_RTI_DDS)
+    list(APPEND plugins rti-dds-plugin)
+    list(APPEND plugin_definitions OPENFMB_USE_RTI_DDS)
+endif()
+
 if(OPENFMB_USE_TIMESCALEDB)
     list(APPEND plugins timescaledb-plugin)
     list(APPEND plugin_definitions OPENFMB_USE_TIMESCALEDB)

@@ -6,10 +6,10 @@ import openfmb.commonmodule.Timestamp;
 
 import java.util.*;
 
-class TypeClassification {
+public class TypeClassification {
 
-    static class FieldPath {
-        final List<Descriptors.FieldDescriptor> path;
+    static public class FieldPath {
+        public final List<Descriptors.FieldDescriptor> path;
 
         private FieldPath(List<Descriptors.FieldDescriptor> path) {
             this.path = path;
@@ -19,7 +19,7 @@ class TypeClassification {
             this(Collections.singletonList(descriptor));
         }
 
-        static FieldPath create(Descriptors.FieldDescriptor descriptor) {
+        public static FieldPath create(Descriptors.FieldDescriptor descriptor) {
             return new FieldPath(descriptor);
         }
 
@@ -33,13 +33,13 @@ class TypeClassification {
             return builder.toString();
         }
 
-        FieldPath build(Descriptors.FieldDescriptor field) {
+        public FieldPath build(Descriptors.FieldDescriptor field) {
             final List<Descriptors.FieldDescriptor> fields = new ArrayList<>(this.path);
             fields.add(field);
             return new FieldPath(fields);
         }
 
-        boolean hasName(String ... names) {
+        public boolean hasName(String ... names) {
             for(String name : names) {
                 if(this.last().getName().equals(name)) {
                     return true;
@@ -48,7 +48,7 @@ class TypeClassification {
             return false;
         }
 
-        boolean hasParents(Descriptors.Descriptor ... parents)
+        public boolean hasParents(Descriptors.Descriptor ... parents)
         {
             if(parents.length > this.path.size()) {
                 return false;
@@ -64,7 +64,7 @@ class TypeClassification {
             return true;
         }
 
-        boolean matches(String name, Descriptors.Descriptor ... parents)
+        public boolean matches(String name, Descriptors.Descriptor ... parents)
         {
             if(!this.hasName(name)) {
                 return false;
@@ -73,7 +73,7 @@ class TypeClassification {
             return this.hasParents(parents);
         }
 
-        Descriptors.FieldDescriptor last() {
+        public Descriptors.FieldDescriptor last() {
             return path.get(path.size() - 1);
         }
     }
