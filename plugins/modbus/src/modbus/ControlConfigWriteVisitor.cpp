@@ -96,6 +96,7 @@ namespace modbus {
 
     void ControlConfigWriteVisitor::write_mapped_schedule_parameter_keys(YAML::Emitter& out)
     {
+        out << YAML::Key << OutputType::label << YAML::Value << OutputType::none << YAML::Comment(util::enumeration::get_value_set<OutputType>());
         write_default_operation_id(out);
         write_index_and_scale(out);
     }

@@ -27,22 +27,31 @@ struct OutputType
     {
         // output is not mapped
         none,
-        // write a value to a single holding register
-        write_register,
-        // write the low and high words to two (possibly disjoint) registers
-        write_two_registers,
+        // write a value to a single holding register, casted as an unsigned integer
+        write_single_register_uint16,
+        // write a value to a single holding register, casted as a signed integer
+        write_single_register_int16,
+        // write the low and high words to two (possibly disjoint) registers, casted as an unsigned integer
+        write_multiple_registers_uint32,
+        // write the low and high words to two (possibly disjoint) registers, casted as a signed integer
+        write_multiple_registers_int32,
+        // write the IEEE 754 in two (possibly disjoint) registers
+        write_multiple_registers_float32,
         // read a holding register and write a modified value
         read_and_modify_register,
     };
 
     static const char none[];
-    static const char write_register[];
-    static const char write_two_registers[];
+    static const char write_single_register_uint16[];
+    static const char write_single_register_int16[];
+    static const char write_multiple_registers_uint32[];
+    static const char write_multiple_registers_int32[];
+    static const char write_multiple_registers_float32[];
     static const char read_and_modify_register[];
 
     static constexpr const char* label = "output-type";
 
-    static const std::array<Value, 4> values;
+    static const std::array<Value, 7> values;
 
     static std::string to_string(Value value);
     static Value from_string(const std::string& name);

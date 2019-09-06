@@ -94,44 +94,17 @@ namespace modbus {
     template <class T>
     void SubscribeConfigReadVisitor<T>::handle_mapped_field(const YAML::Node& node, const util::accessor_t<T, float>& accessor)
     {
-        const auto output_type = util::yaml::require_enum<OutputType>(node);
-        switch (output_type) {
-        case (OutputType::Value::none):
-            break;
-        case (OutputType::Value::write_register): {
-            const auto index = util::yaml::get::index(node);
-            const auto scale = util::yaml::get::scale(node);
-            const auto priority = this->priority_source.get_priority(node);
-            this->config->add(
-                [index, scale, priority, accessor](const T& profile, ICommandSink& sink, api::Logger& logger) {
-                    accessor->if_present(
-                        profile,
-                        [&](float value) {
-                            sink.write_single_register(index, priority, static_cast<uint16_t>(value * scale));
-                        });
-                });
-            break;
-        }
-        case (OutputType::Value::write_two_registers): {
-            const auto upper_index = util::yaml::require_integer<uint16_t>(node, keys::upper_index);
-            const auto lower_index = util::yaml::require_integer<uint16_t>(node, keys::lower_index);
-            const auto scale = util::yaml::get::scale(node);
-            const auto priority = this->priority_source.get_priority(node);
-            this->config->add(
-                [upper_index, lower_index, scale, priority, accessor](const T& profile, ICommandSink& sink, api::Logger& logger) {
-                    accessor->if_present(
-                        profile,
-                        [&](float value) {
-                            const auto dword = DoubleWord::get(static_cast<uint32_t>(value * scale));
-                            sink.write_single_register(lower_index, priority, dword.lower);
-                            sink.write_single_register(upper_index, priority, dword.upper);
-                        });
-                });
-            break;
-        }
-        default:
-            throw api::Exception("unsupported output type for float: ", OutputType::to_string(output_type));
-        }
+        auto float_config = read::float_config(node, this->priority_source);
+
+        this->config->add(
+            [accessor, float_config](const T& profile, ICommandSink& sink, api::Logger& logger) {
+                accessor->if_present(
+                    profile,
+                    [&sink, float_config](float value) {
+                        float_config(sink, value);
+                    });
+            }
+        );
     }
 
     template <class T>

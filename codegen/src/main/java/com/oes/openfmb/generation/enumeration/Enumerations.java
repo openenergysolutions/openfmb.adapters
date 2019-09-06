@@ -193,17 +193,12 @@ public class Enumerations {
                 Arrays.asList("Output","Type"),
                 Arrays.asList(
                         Enumeration.entry("none", "output is not mapped"),
-                        Enumeration.entry("write_register", "write a value to a single holding register"),
-                        Enumeration.entry("write_two_registers", "write the low and high words to two (possibly disjoint) registers"),
+                        Enumeration.entry("write_single_register_uint16", "write a value to a single holding register, casted as an unsigned integer"),
+                        Enumeration.entry("write_single_register_int16", "write a value to a single holding register, casted as a signed integer"),
+                        Enumeration.entry("write_multiple_registers_uint32", "write the low and high words to two (possibly disjoint) registers, casted as an unsigned integer"),
+                        Enumeration.entry("write_multiple_registers_int32", "write the low and high words to two (possibly disjoint) registers, casted as a signed integer"),
+                        Enumeration.entry("write_multiple_registers_float32", "write the IEEE 754 in two (possibly disjoint) registers"),
                         Enumeration.entry("read_and_modify_register", "read a holding register and write a modified value")
-                )
-        );
-
-        private final static Enumeration commandType = new Enumeration(
-                Arrays.asList("Command","Type"),
-                Arrays.asList(
-                        Enumeration.entry("write_single_register", "write a single holding register value"),
-                        Enumeration.entry("write_multiple_register", "write multiple holding register values starting a particular index")
                 )
         );
 
@@ -230,7 +225,7 @@ public class Enumerations {
         );
 
         private static List<Enumeration> enums() {
-            return Arrays.asList(registerMapping, sourceType, enumMappingType, outputType, bitwiseOperation, commandType, logLevel);
+            return Arrays.asList(registerMapping, sourceType, enumMappingType, outputType, bitwiseOperation, logLevel);
         }
 
         private static final Path path = Paths.get("../plugins/modbus/src/modbus/generated");
