@@ -9,13 +9,13 @@
 namespace adapter {
 namespace modbus {
 
-    std::map<uint16_t, int> read_mapping(const YAML::Node& node, google::protobuf::EnumDescriptor const* descriptor)
+    std::map<uint16_t, int> read_mapping(const YAML::Node& node, google::protobuf::EnumDescriptor const* descriptor, uint16_t mask)
     {
         std::map<uint16_t, int> mapping;
 
         util::yaml::foreach (
             util::yaml::require(node, util::keys::mapping),
-            [&mapping, descriptor](const YAML::Node& item) {
+            [&mapping, descriptor, mask](const YAML::Node& item) {
                 const auto name = util::yaml::require_string(item, util::keys::name);
                 const auto value = util::yaml::require_integer<uint16_t>(item, util::keys::value);
 
@@ -23,7 +23,7 @@ namespace modbus {
                 if (!value_descriptor) {
                     throw api::Exception("Bad ", descriptor->name(), " enum name: ", name);
                 }
-                mapping[value] = value_descriptor->number();
+                mapping[value & mask] = value_descriptor->number();
             });
 
         return std::move(mapping);
@@ -32,13 +32,13 @@ namespace modbus {
     SingleRegisterEnumMapping::SingleRegisterEnumMapping(const YAML::Node& node, google::protobuf::EnumDescriptor const* descriptor)
         : descriptor(descriptor)
         , mask(util::yaml::require_integer<uint16_t>(node, keys::mask))
-        , mapping(read_mapping(node, descriptor))
+        , mapping(read_mapping(node, descriptor, mask))
     {
     }
 
     bool SingleRegisterEnumMapping::get_mapping(uint16_t value, int& out) const
     {
-        const auto iter = this->mapping.find(value);
+        const auto iter = this->mapping.find(value & mask);
         if (iter == this->mapping.end()) {
             return false;
         }

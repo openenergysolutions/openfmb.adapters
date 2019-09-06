@@ -4,7 +4,11 @@
 #define OPENFMB_ADAPTER_COMMANDSINKACTIONS_H
 
 #include <adapter-util/config/ICommandPrioritySource.h>
+#include <adapter-util/config/YAMLGetters.h>
 
+#include <ser4cpp/serialization/LittleEndian.h>
+
+#include "DoubleWord.h"
 #include "ICommandConfigBuilder.h"
 
 #include "generated/BitwiseOperation.h"
@@ -84,19 +88,61 @@ namespace modbus {
                 [&actions, &priority_source](const YAML::Node& node) {
                     const auto output_type = util::yaml::require_enum<OutputType>(node);
                     switch (output_type) {
-                    case (OutputType::Value::none):
+                    case OutputType::Value::none:
                         break;
-                    case (OutputType::Value::read_and_modify_register):
+                    case OutputType::Value::read_and_modify_register:
                         actions.push_back(register_read_and_modify_action(node, priority_source));
                         break;
-                    case (OutputType::Value::write_register): {
+                    case OutputType::Value::write_single_register_uint16:
+                    case OutputType::Value::write_single_register_int16:
+                    {
                         const auto index = util::yaml::get::index(node);
                         const auto priority = priority_source.get_priority(node);
-                        const auto value = util::yaml::require_integer<uint16_t>(node, util::keys::value);
+
+                        uint32_t value;
+                        if(output_type == OutputType::Value::write_single_register_uint16)
+                        {
+                            value = util::yaml::require_integer<uint16_t>(node, util::keys::value);
+                        }
+                        else
+                        {
+                            value = util::yaml::require_integer<int16_t>(node, util::keys::value);
+                        }
+
                         actions.push_back(
                             [index, priority, value](ICommandSink& sink) {
                                 sink.write_single_register(index, priority, value);
                             });
+                        break;
+                    }
+                    case OutputType::Value::write_multiple_registers_uint32:
+                    case OutputType::Value::write_multiple_registers_int32:
+                    case OutputType::Value::write_multiple_registers_float32:
+                    {
+                        const auto upper_index = util::yaml::require_integer<uint16_t>(node, keys::upper_index);
+                        const auto lower_index = util::yaml::require_integer<uint16_t>(node, keys::lower_index);
+                        const auto priority = priority_source.get_priority(node);
+
+                        auto dword = DoubleWord::get(0);
+                        if (output_type == OutputType::Value::write_multiple_registers_uint32)
+                        {
+                            dword = DoubleWord::get(util::yaml::require_integer<uint32_t>(node, util::keys::value));
+                        }
+                        else if (output_type == OutputType::Value::write_multiple_registers_int32)
+                        {
+                            dword = DoubleWord::get(util::yaml::require_integer<int32_t>(node, util::keys::value));
+                        }
+                        else
+                        {
+                            dword = DoubleWord::get(ser4cpp::SingleFloat::to_uint32(util::yaml::require(node, util::keys::value).as<float>()));
+                        }
+
+                        actions.push_back(
+                            [upper_index, lower_index, priority, dword](ICommandSink& sink) {
+                                sink.write_single_register(lower_index, priority, dword.lower);
+                                sink.write_single_register(upper_index, priority, dword.upper);
+                            });
+
                         break;
                     }
                     default:
@@ -135,6 +181,71 @@ namespace modbus {
             return std::move(map);
         }
 
+        std::function<void(ICommandSink& sink, float value)> float_config(const YAML::Node& node, util::ICommandPrioritySource& priority_source)
+        {
+            const auto output_type = util::yaml::require_enum<OutputType>(node);
+            switch (output_type) {
+            case OutputType::Value::none:
+                return [](ICommandSink& sink, float value) {};
+            case OutputType::Value::write_single_register_uint16:
+            case OutputType::Value::write_single_register_int16:
+            {
+                const auto index = util::yaml::get::index(node);
+                const auto scale = util::yaml::get::scale(node);
+                const auto priority = priority_source.get_priority(node);
+
+                if (output_type == OutputType::Value::write_single_register_uint16)
+                {
+                    return [index, scale, priority](ICommandSink& sink, float value) {
+                        sink.write_single_register(index, priority, static_cast<uint16_t>(value * scale));
+                    };
+                }
+                else
+                {
+                    return [index, scale, priority](ICommandSink& sink, float value) {
+                        sink.write_single_register(index, priority, static_cast<int16_t>(value * scale));
+                    };
+                }
+            }
+            case OutputType::Value::write_multiple_registers_uint32:
+            case OutputType::Value::write_multiple_registers_int32:
+            case OutputType::Value::write_multiple_registers_float32:
+            {
+                const auto upper_index = util::yaml::require_integer<uint16_t>(node, keys::upper_index);
+                const auto lower_index = util::yaml::require_integer<uint16_t>(node, keys::lower_index);
+                const auto scale = util::yaml::get::scale(node);
+                const auto priority = priority_source.get_priority(node);
+
+                if (output_type == OutputType::Value::write_multiple_registers_uint32)
+                {
+                    return [upper_index, lower_index, scale, priority](ICommandSink& sink, float value) {
+                        const auto dword = DoubleWord::get(static_cast<uint32_t>(value * scale));
+                        sink.write_single_register(lower_index, priority, dword.lower);
+                        sink.write_single_register(upper_index, priority, dword.upper);
+                    };
+                }
+                else if (output_type == OutputType::Value::write_multiple_registers_int32)
+                {
+                    return [upper_index, lower_index, scale, priority](ICommandSink& sink, float value) {
+                        const auto dword = DoubleWord::get(static_cast<int32_t>(value * scale));
+                        sink.write_single_register(lower_index, priority, dword.lower);
+                        sink.write_single_register(upper_index, priority, dword.upper);
+                    };
+                }
+                else
+                {
+                    return [upper_index, lower_index, scale, priority](ICommandSink& sink, float value) {
+                        const auto dword = DoubleWord::get(ser4cpp::SingleFloat::to_uint32(static_cast<float>(value * scale)));
+                        sink.write_single_register(lower_index, priority, dword.lower);
+                        sink.write_single_register(upper_index, priority, dword.upper);
+                    };
+                }
+            }
+            default:
+                throw api::Exception("unsupported output type for float: ", OutputType::to_string(output_type));
+            }
+        }
+
         using schedule_parameter_map_t = std::map<commonmodule::ScheduleParameterKind, std::function<void(ICommandSink& sink, float value)>>;
 
         schedule_parameter_map_t schedule_parameter_configuration(const YAML::Node& node, util::ICommandPrioritySource& priority_source)
@@ -150,14 +261,8 @@ namespace modbus {
                     throw api::Exception("'", name, "' is not a valid value for enumeration ", commonmodule::ScheduleParameterKind_descriptor()->name());
                 }
 
-                const auto index = util::yaml::require_integer<uint16_t>(entry, util::keys::index);
-                const auto scale = util::yaml::require(entry, util::keys::scale).as<float>();
-                const auto priority = priority_source.get_priority(entry);
                 const auto enum_value = static_cast<commonmodule::ScheduleParameterKind>(value->number());
-
-                action_map[enum_value] = [index, scale, priority](ICommandSink& sink, float value) {
-                    sink.write_single_register(index, priority, static_cast<uint16_t>(value * scale));
-                };
+                action_map[enum_value] = float_config(entry, priority_source);
             };
 
             util::yaml::foreach (node, add_to_action_map);
