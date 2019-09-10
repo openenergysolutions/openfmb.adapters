@@ -28,7 +28,6 @@ template <class T>
 struct SplitSchedule {
     std::unique_ptr<T> now;
     schedule_map_t<T> later;
-
 };
 
 SplitSchedule<essmodule::ESSControlProfile> split(const essmodule::ESSControlProfile& profile, boost::uuids::random_generator& rg);

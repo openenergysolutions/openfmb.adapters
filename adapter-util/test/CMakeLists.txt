@@ -4,6 +4,7 @@ set(TEST_SOURCES
         src/test_config_accessor.cpp
         src/test_proto_deserialization.cpp
         src/test_proto_set_and_get.cpp
+        src/test_schedule_splitting.cpp
         src/test_time_conversion.cpp
         src/test_yaml_override_parsing.cpp
 )

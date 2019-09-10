@@ -18,6 +18,7 @@ set(HEADERS
 		include/adapter-util/util/SynchronizedQueue.h
 		include/adapter-util/util/YAMLUtil.h
 		include/adapter-util/util/YAMLTemplate.h
+		include/adapter-util/schedule/ScheduleSplit.h
         include/adapter-util/config/PublishingConfigReadVisitorBase.h
 		include/adapter-util/config/SubscribingConfigReadVisitorBase.h
 		include/adapter-util/config/ConfigReadVisitorBase.h
@@ -52,6 +53,7 @@ set(SOURCES
 	src/util/Time.cpp
 	src/util/YAMLUtil.cpp
 	src/util/YAMLTemplate.cpp
+	src/schedule/ScheduleSplit.cpp
     src/config/AccessorImpl.h
 	src/config/CommandPriorityMap.cpp
 	src/config/ConfigWriteVisitorBase.cpp
