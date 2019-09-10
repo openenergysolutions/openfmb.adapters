@@ -76,3 +76,5 @@ target_compile_definitions(openfmb-adapter PRIVATE ${plugin_definitions})
 clang_tidy(openfmb-adapter)
 clang_format(openfmb-adapter)
 install(TARGETS openfmb-adapter DESTINATION bin)
+
+add_subdirectory("./test")
