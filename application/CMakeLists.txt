@@ -10,9 +10,9 @@ set(openfmb_adapter_src
     ./src/ConfigKeys.h
     ./src/LoggerConfig.h
     ./src/LoggerConfig.cpp
-        src/SubscriptionRegistry.h
-    ./src/ArgumentParser.h
-)
+    ./src/SubscriptionRegistry.h
+        ../adapter-util/src/schedule/ScheduleSplit.h
+        ../adapter-util/src/schedule/ScheduleSplit.cpp)
 
 SET(CPP_FORMAT_DIRS
     ${CPP_FORMAT_DIRS}
@@ -76,5 +76,3 @@ target_compile_definitions(openfmb-adapter PRIVATE ${plugin_definitions})
 clang_tidy(openfmb-adapter)
 clang_format(openfmb-adapter)
 install(TARGETS openfmb-adapter DESTINATION bin)
-
-add_subdirectory("./test")

@@ -55,7 +55,7 @@ set(SOURCES
     src/config/AccessorImpl.h
 	src/config/CommandPriorityMap.cpp
 	src/config/ConfigWriteVisitorBase.cpp
-		src/config/DescriptorPath.cpp
+	src/config/DescriptorPath.cpp
 	src/config/YAMLGetters.cpp
 	src/config/SubjectNameSuffix.cpp
 	src/config/generated/BoolFieldType.cpp
@@ -107,8 +107,7 @@ set(SOURCES
 	src/config/generated/SwitchDiscreteControlProfileTypedModelVisitor.cpp
 	src/config/generated/SwitchEventProfileTypedModelVisitor.cpp
 	src/config/generated/SwitchReadingProfileTypedModelVisitor.cpp
-	src/config/generated/SwitchStatusProfileTypedModelVisitor.cpp
-        include/adapter-util/config/FieldTypes.h)
+	src/config/generated/SwitchStatusProfileTypedModelVisitor.cpp)
 
 # directories to be automatically formatted by astyle
 SET(CPP_FORMAT_DIRS
