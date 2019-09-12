@@ -52,6 +52,7 @@ namespace dnp3 {
 
                 out << YAML::BeginMap;
                 out << YAML::Key << util::keys::name << YAML::Value << profile;
+                out << YAML::Key << keys::poll_name << YAML::Value << "integrity_poll";
 
                 api::ProfileRegistry::handle_by_name<WriterHandler>(profile, out);
             }
@@ -96,8 +97,24 @@ namespace dnp3 {
             out << YAML::BeginMap;
             out << YAML::Key << keys::master_address << YAML::Value << 1;
             out << YAML::Key << keys::outstation_address << YAML::Value << 10;
-            out << YAML::Key << keys::integrity_poll_ms << YAML::Value << 5000;
             out << YAML::EndMap;
+
+            out << YAML::Key << keys::polls;
+            out << YAML::BeginSeq;
+            out << YAML::BeginMap;
+            out << YAML::Key << util::keys::name << YAML::Value << "integrity_poll";
+            out << YAML::Key << keys::poll_type << YAML::Value << keys::poll_type_integrity;
+            out << YAML::Key << keys::poll_interval << YAML::Value << "5000";
+            out << YAML::EndMap;
+            out << YAML::BeginMap;
+            out << YAML::Key << util::keys::name << YAML::Value << "event_poll";
+            out << YAML::Key << keys::poll_type << YAML::Value << keys::poll_type_event;
+            out << YAML::Key << keys::poll_interval << YAML::Value << "2000";
+            out << YAML::Key << keys::poll_class1 << YAML::Value << true;
+            out << YAML::Key << keys::poll_class2 << YAML::Value << true;
+            out << YAML::Key << keys::poll_class3 << YAML::Value << true;
+            out << YAML::EndMap;
+            out << YAML::EndSeq;
 
             out << YAML::Key << util::keys::profiles;
             out << YAML::BeginSeq;
