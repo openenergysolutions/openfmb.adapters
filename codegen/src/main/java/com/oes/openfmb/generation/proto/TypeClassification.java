@@ -205,7 +205,7 @@ public class TypeClassification {
     private static String getInt32(FieldPath path)
     {
         if(path.hasName("setVal", "ctlVal", "stVal", "value")) {
-            return Types.int64.mapped;
+            return Types.int32.mapped;
         }
 
         throw new NoClassificationException(path);

@@ -1765,7 +1765,7 @@ void visit_commonmodule_ControlFSCC(IModelVisitor& visitor)
 
 void visit_commonmodule_ControlING(IModelVisitor& visitor)
 {
-    visitor.handle("setVal", Int64FieldType::Value::mapped);
+    visitor.handle("setVal", Int32FieldType::Value::mapped);
 
     if(visitor.start_message_field("units", commonmodule::Unit::descriptor()))
     {
@@ -1776,7 +1776,7 @@ void visit_commonmodule_ControlING(IModelVisitor& visitor)
 
 void visit_commonmodule_ControlISC(IModelVisitor& visitor)
 {
-    visitor.handle("ctlVal", Int64FieldType::Value::mapped);
+    visitor.handle("ctlVal", Int32FieldType::Value::mapped);
 }
 
 void visit_commonmodule_ControlMessageInfo(IModelVisitor& visitor)
@@ -2469,7 +2469,7 @@ void visit_commonmodule_StatusINS(IModelVisitor& visitor)
 {
     visitor.handle("q", QualityFieldType::Value::ignored);
 
-    visitor.handle("stVal", Int64FieldType::Value::mapped);
+    visitor.handle("stVal", Int32FieldType::Value::mapped);
 
     visitor.handle("t", TimestampFieldType::Value::ignored);
 
@@ -2484,7 +2484,7 @@ void visit_commonmodule_StatusISC(IModelVisitor& visitor)
 {
     visitor.handle("q", QualityFieldType::Value::ignored);
 
-    visitor.handle("stVal", Int64FieldType::Value::mapped);
+    visitor.handle("stVal", Int32FieldType::Value::mapped);
 
     visitor.handle("t", TimestampFieldType::Value::ignored);
 }
