@@ -25,6 +25,9 @@ namespace dnp3 {
         // master application layer
         constexpr const char* const control_code = "control_code";
         constexpr const char* const unsolicited_poll_name = "unsolicited";
+        constexpr const char* const unsolicited_class_1 = "unsol-class-1";
+        constexpr const char* const unsolicited_class_2 = "unsol-class-2";
+        constexpr const char* const unsolicited_class_3 = "unsol-class-3";
         constexpr const char* const polls = "polls";
         constexpr const char* const poll_name = "poll-name";
         constexpr const char* const poll_type = "type";

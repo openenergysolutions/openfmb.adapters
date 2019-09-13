@@ -97,6 +97,9 @@ namespace dnp3 {
             out << YAML::BeginMap;
             out << YAML::Key << keys::master_address << YAML::Value << 1;
             out << YAML::Key << keys::outstation_address << YAML::Value << 10;
+            out << YAML::Key << keys::unsolicited_class_1 << YAML::Value << false;
+            out << YAML::Key << keys::unsolicited_class_2 << YAML::Value << false;
+            out << YAML::Key << keys::unsolicited_class_3 << YAML::Value << false;
             out << YAML::EndMap;
 
             out << YAML::Key << keys::polls;

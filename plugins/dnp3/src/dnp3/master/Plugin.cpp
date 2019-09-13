@@ -85,7 +85,11 @@ namespace dnp3 {
 
             // actively disable unsolicited mode, and don't re-enable it after integrity scan
             config.master.disableUnsolOnStartup = true;
-            config.master.unsolClassMask = ClassField::None();
+            ClassField unsol_class_mask = ClassField::None();
+            if(util::yaml::require(protocol, keys::unsolicited_class_1).as<bool>()) unsol_class_mask.Set(PointClass::Class1);
+            if(util::yaml::require(protocol, keys::unsolicited_class_2).as<bool>()) unsol_class_mask.Set(PointClass::Class2);
+            if(util::yaml::require(protocol, keys::unsolicited_class_3).as<bool>()) unsol_class_mask.Set(PointClass::Class3);
+            config.master.unsolClassMask = unsol_class_mask;
 
             const auto unsolicited_handler = std::make_shared<SOEHandler>();
             const auto executor = std::make_shared<CommandSequenceExecutor>(this->logger);
