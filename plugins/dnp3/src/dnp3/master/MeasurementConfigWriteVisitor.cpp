@@ -30,12 +30,16 @@ namespace dnp3 {
 
         void MeasurementConfigWriteVisitor::write_mapped_bool_keys(YAML::Emitter& out)
         {
-            out << YAML::Comment("bool mapping not supported for measurements");
+            out << YAML::Key << SourceType::label << YAML::Value << SourceType::none
+                << YAML::Comment(util::enumeration::get_value_set_from_list<SourceType>({SourceType::Value::none, SourceType::Value::binary}));
+            out << YAML::Key << util::keys::index << YAML::Value << 0;
         }
 
         void MeasurementConfigWriteVisitor::write_mapped_int32_keys(YAML::Emitter& out)
         {
-            out << YAML::Comment("int32 mapping not supported for measurements");
+            write_scaled_keys(
+                out,
+                { SourceType::Value::none, SourceType::Value::analog, SourceType::Value::counter });
         }
 
         void MeasurementConfigWriteVisitor::write_mapped_int64_keys(YAML::Emitter& out)

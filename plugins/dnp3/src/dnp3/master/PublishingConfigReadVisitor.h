@@ -54,6 +54,10 @@ namespace dnp3 {
             void add_message_init_action(const std::function<void(T&)>& action) override;
 
             void add_message_complete_action(const std::function<void(T&)>& action) override;
+
+        private:
+            template<typename IntT>
+            void handle_mapped_int(const YAML::Node& node, const util::accessor_t<T, IntT>& accessor);
         };
 
         template <class T>
@@ -83,19 +87,40 @@ namespace dnp3 {
         void PublishingConfigReadVisitor<T>::handle_mapped_bool(const YAML::Node& node,
                                                                 const util::accessor_t<T, bool>& accessor)
         {
-            // ignore - not supported
+            const auto source = util::yaml::require_enum<SourceType>(node);
+            switch (source) {
+            case (SourceType::Value::none):
+                break;
+            case (SourceType::Value::binary):
+                this->builder->add_measurement_handler(
+                    [accessor, profile = this->profile](
+                        const opendnp3::Binary& meas) {
+                        accessor->set(*profile, meas.value);
+                    },
+                    util::yaml::get::index(node));
+                break;
+            default:
+                throw api::Exception("boolean value cannot be mapped to DNP3 type: ", SourceType::to_string(source));
+            }
         }
 
         template <class T>
         void PublishingConfigReadVisitor<T>::handle_mapped_int32(const YAML::Node& node,
                                                                  const util::accessor_t<T, int32_t>& accessor)
         {
-            // ignore - not supported
+            handle_mapped_int(node, accessor);
         }
 
         template <class T>
         void PublishingConfigReadVisitor<T>::handle_mapped_int64(const YAML::Node& node,
                                                                  const util::accessor_t<T, int64_t>& accessor)
+        {
+            handle_mapped_int(node, accessor);
+        }
+
+        template <typename T>
+        template <typename IntT>
+        void PublishingConfigReadVisitor<T>::handle_mapped_int(const YAML::Node& node, const util::accessor_t<T, IntT>& accessor)
         {
             const auto source = util::yaml::require_enum<SourceType>(node);
             switch (source) {
@@ -105,7 +130,7 @@ namespace dnp3 {
                 this->builder->add_measurement_handler(
                     [accessor, profile = this->profile, scale = util::yaml::get::scale(node)](
                         const opendnp3::Analog& meas) {
-                        accessor->set(*profile, static_cast<int64_t>(meas.value * scale));
+                        accessor->set(*profile, static_cast<IntT>(meas.value * scale));
                     },
                     util::yaml::get::index(node));
                 break;
@@ -113,12 +138,12 @@ namespace dnp3 {
                 this->builder->add_measurement_handler(
                     [accessor, profile = this->profile, scale = util::yaml::get::scale(node)](
                         const opendnp3::Counter& meas) {
-                        accessor->set(*profile, static_cast<int64_t>(meas.value * scale));
+                        accessor->set(*profile, static_cast<IntT>(meas.value * scale));
                     },
                     util::yaml::get::index(node));
                 break;
             default:
-                throw api::Exception("int64 cannot be mapped to DNP3 type: ", SourceType::to_string(source));
+                throw api::Exception("integer cannot be mapped to DNP3 type: ", SourceType::to_string(source));
             }
         }
 
