@@ -26,11 +26,11 @@ namespace dnp3 {
         class PublishingConfigReadVisitor final : public util::PublishingConfigReadVisitorBase<T> {
 
             const std::shared_ptr<T> profile = std::make_shared<T>();
-            const api::publisher_t publisher;
+            const api::publisher_one_t<T> publisher;
             const std::shared_ptr<IPublishConfigBuilder> builder;
 
         public:
-            PublishingConfigReadVisitor(const YAML::Node& root, api::publisher_t publisher,
+            PublishingConfigReadVisitor(const YAML::Node& root, api::publisher_one_t<T> publisher,
                                         std::shared_ptr<IPublishConfigBuilder> builder);
 
             ~PublishingConfigReadVisitor();
@@ -62,7 +62,7 @@ namespace dnp3 {
 
         template <class T>
         PublishingConfigReadVisitor<T>::PublishingConfigReadVisitor(const YAML::Node& root,
-                                                                    api::publisher_t publisher,
+                                                                    api::publisher_one_t<T> publisher,
                                                                     std::shared_ptr<IPublishConfigBuilder> builder)
             : util::PublishingConfigReadVisitorBase<T>(root)
             , publisher(std::move(publisher))

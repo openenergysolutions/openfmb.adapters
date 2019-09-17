@@ -8,6 +8,7 @@
 #include <adapter-util/config/CommandPriorityMap.h>
 #include <adapter-util/config/YAMLGetters.h>
 #include <adapter-util/config/generated/TypedModelVisitors.h>
+#include <adapter-util/util/ProtoChangeFilter.h>
 #include <adapter-util/util/YAMLTemplate.h>
 #include <adapter-util/util/YAMLUtil.h>
 
@@ -35,7 +36,7 @@ namespace modbus {
 
         /// use this implementation if profile type is a control
         template <class U = T>
-        static return_t<util::profile_info<U>::is_control> handle(const YAML::Node& node, const api::Logger& logger, api::message_bus_t bus, std::shared_ptr<PollHandler> handler, std::shared_ptr<ITransactionProcessor> processor)
+        static return_t<util::profile_info<U>::type == util::ProfileType::Control> handle(const YAML::Node& node, const api::Logger& logger, api::message_bus_t bus, std::shared_ptr<PollHandler> handler, std::shared_ptr<ITransactionProcessor> processor)
         {
             util::CommandPriorityMap priority_map(util::yaml::require(node, util::keys::command_order));
 
@@ -50,11 +51,25 @@ namespace modbus {
             return true;
         }
 
-        /// use this implementation if profile type is NOT a control
+        /// use this implementation if profile type is reading or status
         template <class U = T>
-        static return_t<!util::profile_info<U>::is_control> handle(const YAML::Node& node, const api::Logger& logger, api::message_bus_t bus, std::shared_ptr<PollHandler> handler, std::shared_ptr<ITransactionProcessor> processor)
+        static return_t<
+            util::profile_info<U>::type == util::ProfileType::Reading ||
+            util::profile_info<U>::type == util::ProfileType::Status>
+        handle(const YAML::Node& node, const api::Logger& logger, api::message_bus_t bus, std::shared_ptr<PollHandler> handler, std::shared_ptr<ITransactionProcessor> processor)
         {
             PublishConfigReadVisitor<T> visitor(util::yaml::require(node, util::keys::mapping), std::move(bus), std::move(handler));
+            util::visit(visitor);
+            return true;
+        }
+
+        // use this implementation if profile is event
+        template <class U = T>
+        static return_t<util::profile_info<U>::type == util::ProfileType::Event>
+        handle(const YAML::Node& node, const api::Logger& logger, api::message_bus_t bus, std::shared_ptr<PollHandler> handler, std::shared_ptr<ITransactionProcessor> processor)
+        {
+            auto filter = std::make_shared<util::ProtoChangeFilter<T>>(bus);
+            PublishConfigReadVisitor<T> visitor(util::yaml::require(node, util::keys::mapping), std::move(filter), std::move(handler));
             util::visit(visitor);
             return true;
         }
