@@ -49,7 +49,7 @@ namespace dnp3 {
             {
             }
 
-            void subscribe(api::Logger logger, api::IMessageBus& bus,
+            void subscribe(api::Logger logger, api::ISubscribeOne<T>& bus,
                            std::shared_ptr<ICommandSequenceExecutor> executor)
             {
                 if (configuration->is_empty()) {

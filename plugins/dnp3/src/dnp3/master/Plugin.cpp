@@ -31,7 +31,7 @@ namespace dnp3 {
             using return_t = typename std::enable_if<condition, bool>::type;
 
             template <class U = T>
-            static return_t<util::profile_info<U>::is_control>
+            static return_t<util::profile_info<U>::type == util::ProfileType::Control>
             handle(const YAML::Node& node, const api::Logger& logger, api::message_bus_t bus,
                    std::shared_ptr<IPublishConfigBuilder>, std::shared_ptr<ICommandSequenceExecutor> executor)
             {
@@ -44,7 +44,7 @@ namespace dnp3 {
             }
 
             template <class U = T>
-            static return_t<!util::profile_info<U>::is_control>
+            static return_t<util::profile_info<U>::type != util::ProfileType::Control>
             handle(const YAML::Node& node, const api::Logger& logger, api::message_bus_t bus,
                    std::shared_ptr<IPublishConfigBuilder> builder, std::shared_ptr<ICommandSequenceExecutor>)
             {

@@ -22,8 +22,6 @@ namespace util {
     template <>
     struct profile_info<breakermodule::BreakerReadingProfile> {
 
-        static constexpr bool is_control = false;
-
         static constexpr ProfileType type = ProfileType::Reading;
 
         static const commonmodule::MessageInfo& get_message_info(const breakermodule::BreakerReadingProfile& profile)
@@ -39,8 +37,6 @@ namespace util {
 
     template <>
     struct profile_info<breakermodule::BreakerDiscreteControlProfile> {
-
-        static constexpr bool is_control = true;
 
         static constexpr ProfileType type = ProfileType::Control;
 
@@ -58,8 +54,6 @@ namespace util {
     template <>
     struct profile_info<breakermodule::BreakerEventProfile> {
 
-        static constexpr bool is_control = false;
-
         static constexpr ProfileType type = ProfileType::Event;
 
         static const commonmodule::MessageInfo& get_message_info(const breakermodule::BreakerEventProfile& profile)
@@ -75,8 +69,6 @@ namespace util {
 
     template <>
     struct profile_info<breakermodule::BreakerStatusProfile> {
-
-        static constexpr bool is_control = false;
 
         static constexpr ProfileType type = ProfileType::Status;
 
@@ -94,8 +86,6 @@ namespace util {
     template <>
     struct profile_info<essmodule::ESSControlProfile> {
 
-        static constexpr bool is_control = true;
-
         static constexpr ProfileType type = ProfileType::Control;
 
         static const commonmodule::MessageInfo& get_message_info(const essmodule::ESSControlProfile& profile)
@@ -111,8 +101,6 @@ namespace util {
 
     template <>
     struct profile_info<essmodule::ESSEventProfile> {
-
-        static constexpr bool is_control = false;
 
         static constexpr ProfileType type = ProfileType::Event;
 
@@ -130,8 +118,6 @@ namespace util {
     template <>
     struct profile_info<essmodule::ESSReadingProfile> {
 
-        static constexpr bool is_control = false;
-
         static constexpr ProfileType type = ProfileType::Reading;
 
         static const commonmodule::MessageInfo& get_message_info(const essmodule::ESSReadingProfile& profile)
@@ -147,8 +133,6 @@ namespace util {
 
     template <>
     struct profile_info<essmodule::ESSStatusProfile> {
-
-        static constexpr bool is_control = false;
 
         static constexpr ProfileType type = ProfileType::Status;
 
@@ -166,8 +150,6 @@ namespace util {
     template <>
     struct profile_info<generationmodule::GenerationControlProfile> {
 
-        static constexpr bool is_control = true;
-
         static constexpr ProfileType type = ProfileType::Control;
 
         static const commonmodule::MessageInfo& get_message_info(const generationmodule::GenerationControlProfile& profile)
@@ -183,8 +165,6 @@ namespace util {
 
     template <>
     struct profile_info<generationmodule::GenerationEventProfile> {
-
-        static constexpr bool is_control = false;
 
         static constexpr ProfileType type = ProfileType::Event;
 
@@ -202,8 +182,6 @@ namespace util {
     template <>
     struct profile_info<generationmodule::GenerationReadingProfile> {
 
-        static constexpr bool is_control = false;
-
         static constexpr ProfileType type = ProfileType::Reading;
 
         static const commonmodule::MessageInfo& get_message_info(const generationmodule::GenerationReadingProfile& profile)
@@ -219,8 +197,6 @@ namespace util {
 
     template <>
     struct profile_info<generationmodule::GenerationStatusProfile> {
-
-        static constexpr bool is_control = false;
 
         static constexpr ProfileType type = ProfileType::Status;
 
@@ -238,8 +214,6 @@ namespace util {
     template <>
     struct profile_info<loadmodule::LoadControlProfile> {
 
-        static constexpr bool is_control = true;
-
         static constexpr ProfileType type = ProfileType::Control;
 
         static const commonmodule::MessageInfo& get_message_info(const loadmodule::LoadControlProfile& profile)
@@ -255,8 +229,6 @@ namespace util {
 
     template <>
     struct profile_info<loadmodule::LoadEventProfile> {
-
-        static constexpr bool is_control = false;
 
         static constexpr ProfileType type = ProfileType::Event;
 
@@ -274,8 +246,6 @@ namespace util {
     template <>
     struct profile_info<loadmodule::LoadReadingProfile> {
 
-        static constexpr bool is_control = false;
-
         static constexpr ProfileType type = ProfileType::Reading;
 
         static const commonmodule::MessageInfo& get_message_info(const loadmodule::LoadReadingProfile& profile)
@@ -291,8 +261,6 @@ namespace util {
 
     template <>
     struct profile_info<loadmodule::LoadStatusProfile> {
-
-        static constexpr bool is_control = false;
 
         static constexpr ProfileType type = ProfileType::Status;
 
@@ -310,8 +278,6 @@ namespace util {
     template <>
     struct profile_info<metermodule::MeterReadingProfile> {
 
-        static constexpr bool is_control = false;
-
         static constexpr ProfileType type = ProfileType::Reading;
 
         static const commonmodule::MessageInfo& get_message_info(const metermodule::MeterReadingProfile& profile)
@@ -327,8 +293,6 @@ namespace util {
 
     template <>
     struct profile_info<reclosermodule::RecloserControlProfile> {
-
-        static constexpr bool is_control = true;
 
         static constexpr ProfileType type = ProfileType::Control;
 
@@ -346,8 +310,6 @@ namespace util {
     template <>
     struct profile_info<reclosermodule::RecloserDiscreteControlProfile> {
 
-        static constexpr bool is_control = true;
-
         static constexpr ProfileType type = ProfileType::Control;
 
         static const commonmodule::MessageInfo& get_message_info(const reclosermodule::RecloserDiscreteControlProfile& profile)
@@ -363,8 +325,6 @@ namespace util {
 
     template <>
     struct profile_info<reclosermodule::RecloserEventProfile> {
-
-        static constexpr bool is_control = false;
 
         static constexpr ProfileType type = ProfileType::Event;
 
@@ -382,8 +342,6 @@ namespace util {
     template <>
     struct profile_info<reclosermodule::RecloserReadingProfile> {
 
-        static constexpr bool is_control = false;
-
         static constexpr ProfileType type = ProfileType::Reading;
 
         static const commonmodule::MessageInfo& get_message_info(const reclosermodule::RecloserReadingProfile& profile)
@@ -399,8 +357,6 @@ namespace util {
 
     template <>
     struct profile_info<reclosermodule::RecloserStatusProfile> {
-
-        static constexpr bool is_control = false;
 
         static constexpr ProfileType type = ProfileType::Status;
 
@@ -418,8 +374,6 @@ namespace util {
     template <>
     struct profile_info<regulatormodule::RegulatorControlProfile> {
 
-        static constexpr bool is_control = true;
-
         static constexpr ProfileType type = ProfileType::Control;
 
         static const commonmodule::MessageInfo& get_message_info(const regulatormodule::RegulatorControlProfile& profile)
@@ -435,8 +389,6 @@ namespace util {
 
     template <>
     struct profile_info<regulatormodule::RegulatorEventProfile> {
-
-        static constexpr bool is_control = false;
 
         static constexpr ProfileType type = ProfileType::Event;
 
@@ -454,8 +406,6 @@ namespace util {
     template <>
     struct profile_info<regulatormodule::RegulatorReadingProfile> {
 
-        static constexpr bool is_control = false;
-
         static constexpr ProfileType type = ProfileType::Reading;
 
         static const commonmodule::MessageInfo& get_message_info(const regulatormodule::RegulatorReadingProfile& profile)
@@ -471,8 +421,6 @@ namespace util {
 
     template <>
     struct profile_info<regulatormodule::RegulatorStatusProfile> {
-
-        static constexpr bool is_control = false;
 
         static constexpr ProfileType type = ProfileType::Status;
 
@@ -490,8 +438,6 @@ namespace util {
     template <>
     struct profile_info<resourcemodule::ResourceReadingProfile> {
 
-        static constexpr bool is_control = false;
-
         static constexpr ProfileType type = ProfileType::Reading;
 
         static const commonmodule::MessageInfo& get_message_info(const resourcemodule::ResourceReadingProfile& profile)
@@ -507,8 +453,6 @@ namespace util {
 
     template <>
     struct profile_info<resourcemodule::ResourceStatusProfile> {
-
-        static constexpr bool is_control = false;
 
         static constexpr ProfileType type = ProfileType::Status;
 
@@ -526,8 +470,6 @@ namespace util {
     template <>
     struct profile_info<solarmodule::SolarControlProfile> {
 
-        static constexpr bool is_control = true;
-
         static constexpr ProfileType type = ProfileType::Control;
 
         static const commonmodule::MessageInfo& get_message_info(const solarmodule::SolarControlProfile& profile)
@@ -543,8 +485,6 @@ namespace util {
 
     template <>
     struct profile_info<solarmodule::SolarEventProfile> {
-
-        static constexpr bool is_control = false;
 
         static constexpr ProfileType type = ProfileType::Event;
 
@@ -562,8 +502,6 @@ namespace util {
     template <>
     struct profile_info<solarmodule::SolarReadingProfile> {
 
-        static constexpr bool is_control = false;
-
         static constexpr ProfileType type = ProfileType::Reading;
 
         static const commonmodule::MessageInfo& get_message_info(const solarmodule::SolarReadingProfile& profile)
@@ -579,8 +517,6 @@ namespace util {
 
     template <>
     struct profile_info<solarmodule::SolarStatusProfile> {
-
-        static constexpr bool is_control = false;
 
         static constexpr ProfileType type = ProfileType::Status;
 
@@ -598,8 +534,6 @@ namespace util {
     template <>
     struct profile_info<switchmodule::SwitchControlProfile> {
 
-        static constexpr bool is_control = true;
-
         static constexpr ProfileType type = ProfileType::Control;
 
         static const commonmodule::MessageInfo& get_message_info(const switchmodule::SwitchControlProfile& profile)
@@ -615,8 +549,6 @@ namespace util {
 
     template <>
     struct profile_info<switchmodule::SwitchDiscreteControlProfile> {
-
-        static constexpr bool is_control = true;
 
         static constexpr ProfileType type = ProfileType::Control;
 
@@ -634,8 +566,6 @@ namespace util {
     template <>
     struct profile_info<switchmodule::SwitchEventProfile> {
 
-        static constexpr bool is_control = false;
-
         static constexpr ProfileType type = ProfileType::Event;
 
         static const commonmodule::MessageInfo& get_message_info(const switchmodule::SwitchEventProfile& profile)
@@ -652,8 +582,6 @@ namespace util {
     template <>
     struct profile_info<switchmodule::SwitchReadingProfile> {
 
-        static constexpr bool is_control = false;
-
         static constexpr ProfileType type = ProfileType::Reading;
 
         static const commonmodule::MessageInfo& get_message_info(const switchmodule::SwitchReadingProfile& profile)
@@ -669,8 +597,6 @@ namespace util {
 
     template <>
     struct profile_info<switchmodule::SwitchStatusProfile> {
-
-        static constexpr bool is_control = false;
 
         static constexpr ProfileType type = ProfileType::Status;
 

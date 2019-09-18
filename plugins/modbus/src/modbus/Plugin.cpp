@@ -36,7 +36,7 @@ namespace modbus {
 
         /// use this implementation if profile type is a control
         template <class U = T>
-        static return_t<util::profile_info<U>::type == util::ProfileType::Control> handle(const YAML::Node& node, const api::Logger& logger, api::message_bus_t bus, std::shared_ptr<PollHandler> handler, std::shared_ptr<ITransactionProcessor> processor)
+        static return_t<util::profile_info<U>::type == util::ProfileType::Control> handle(const YAML::Node& node, const api::Logger& logger, api::message_bus_t bus, std::shared_ptr<ITransactionProcessor> processor, const AutoPollConfig& auto_poll_config)
         {
             util::CommandPriorityMap priority_map(util::yaml::require(node, util::keys::command_order));
 
@@ -56,21 +56,39 @@ namespace modbus {
         static return_t<
             util::profile_info<U>::type == util::ProfileType::Reading ||
             util::profile_info<U>::type == util::ProfileType::Status>
-        handle(const YAML::Node& node, const api::Logger& logger, api::message_bus_t bus, std::shared_ptr<PollHandler> handler, std::shared_ptr<ITransactionProcessor> processor)
+        handle(const YAML::Node& node, const api::Logger& logger, api::message_bus_t bus, std::shared_ptr<ITransactionProcessor> processor, const AutoPollConfig& auto_poll_config)
         {
-            PublishConfigReadVisitor<T> visitor(util::yaml::require(node, util::keys::mapping), std::move(bus), std::move(handler));
+            const auto poll_handler = std::make_shared<PollHandler>();
+            PublishConfigReadVisitor<T> visitor(util::yaml::require(node, util::keys::mapping), std::move(bus), std::move(poll_handler));
             util::visit(visitor);
+
+            const auto transaction = std::make_shared<PollTransaction>(
+                    logger,
+                    auto_poll_config,
+                    std::chrono::milliseconds(util::yaml::require_integer<uint32_t>(node, keys::poll_period_ms)),
+                    poll_handler);
+            processor->add(std::move(transaction));
+
             return true;
         }
 
         // use this implementation if profile is event
         template <class U = T>
         static return_t<util::profile_info<U>::type == util::ProfileType::Event>
-        handle(const YAML::Node& node, const api::Logger& logger, api::message_bus_t bus, std::shared_ptr<PollHandler> handler, std::shared_ptr<ITransactionProcessor> processor)
+        handle(const YAML::Node& node, const api::Logger& logger, api::message_bus_t bus, std::shared_ptr<ITransactionProcessor> processor, const AutoPollConfig& auto_poll_config)
         {
+            const auto poll_handler = std::make_shared<PollHandler>();
             auto filter = std::make_shared<util::ProtoChangeFilter<T>>(bus);
-            PublishConfigReadVisitor<T> visitor(util::yaml::require(node, util::keys::mapping), std::move(filter), std::move(handler));
+            PublishConfigReadVisitor<T> visitor(util::yaml::require(node, util::keys::mapping), std::move(filter), std::move(poll_handler));
             util::visit(visitor);
+
+            const auto transaction = std::make_shared<PollTransaction>(
+                    logger,
+                    auto_poll_config,
+                    std::chrono::milliseconds(util::yaml::require_integer<uint32_t>(node, keys::poll_period_ms)),
+                    poll_handler);
+                    processor->add(std::move(transaction));
+
             return true;
         }
     };
@@ -102,8 +120,9 @@ namespace modbus {
     {
         const auto name = util::yaml::require_string(node, util::keys::name);
 
-        const auto poll_handler = std::make_shared<PollHandler>();
+        //const auto poll_handler = std::make_shared<PollHandler>();
         const auto tx_handler = std::make_shared<TransactionProcessor>(this->logger);
+        const auto auto_poll_config = read_auto_poll_config(node);
 
         const CommandOptions options{
             util::yaml::require(node, keys::always_write_multiple_registers).as<bool>()
@@ -127,22 +146,22 @@ namespace modbus {
                 node,
                 this->logger,
                 bus,
-                poll_handler,
-                tx_handler);
+                tx_handler,
+                auto_poll_config);
         };
 
         util::yaml::foreach (util::yaml::require(node, util::keys::profiles), add_profile);
 
-        this->logger.info("Session {} has {} mapped values", name, poll_handler->num_mapped_values());
+        //this->logger.info("Session {} has {} mapped values", name, poll_handler->num_mapped_values());
 
-        if (poll_handler->num_mapped_values() > 0) {
+        /*if (poll_handler->num_mapped_values() > 0) {
             tx_handler->add(
                 std::make_shared<PollTransaction>(
                     this->logger,
                     read_auto_poll_config(node),
                     std::chrono::milliseconds(util::yaml::require_integer<uint32_t>(node, keys::poll_period_ms)),
                     poll_handler));
-        }
+        }*/
 
         const auto session = this->get_session(name, node, options);
 

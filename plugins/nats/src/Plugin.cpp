@@ -46,7 +46,7 @@ namespace nats {
     template <class T>
     struct PublishProfileReader {
 
-        static void handle(const util::SubjectNameSuffix& suffix, api::Logger& logger, api::IMessageBus& bus, const message_queue_t& message_queue)
+        static void handle(const util::SubjectNameSuffix& suffix, api::Logger& logger, api::ISubscribeOne<T>& bus, const message_queue_t& message_queue)
         {
             const auto subject_name = get_subject_name(T::descriptor()->full_name(), suffix.get_value());
 

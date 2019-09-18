@@ -32,7 +32,7 @@ namespace dnp3 {
                 out << YAML::Key << util::keys::mapping << YAML::Comment("profile model starts here");
                 out << YAML::BeginMap;
 
-                if (util::profile_info<T>::is_control) {
+                if (util::profile_info<T>::type == util::ProfileType::Control) {
                     ControlConfigWriteVisitor visitor(out);
                     util::visit<T>(visitor);
                 } else {
