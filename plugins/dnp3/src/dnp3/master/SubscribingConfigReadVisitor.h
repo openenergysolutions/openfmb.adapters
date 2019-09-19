@@ -132,7 +132,26 @@ namespace dnp3 {
                                                                   const util::accessor_t<T, int>& accessor,
                                                                   google::protobuf::EnumDescriptor const* descriptor)
         {
-            // ignored
+            std::map<int, std::vector<PrioritizedCommand>> map;
+            util::yaml::foreach(util::yaml::require(node, util::keys::mapping), [&](const YAML::Node& node) {
+                const auto name = util::yaml::require_string(node, util::keys::name);
+                const auto value = descriptor->FindValueByName(name);
+                if (!value)
+                    throw api::Exception("Unknown enum value: ", name);
+                map[value->number()] = std::move(read::control_list(util::yaml::require(node, util::keys::outputs), this->priorities));
+            });
+
+            this->configuration->add([map = std::move(map), accessor](const T& profile, api::Logger& logger, ICommandSink& sink) {
+                accessor->if_present(
+                    profile,
+                    [&](int value) {
+                        const auto entry = map.find(value);
+                        if (entry != map.end()) {
+                            for (const auto& action : entry->second)
+                                sink.add(action);
+                        }
+                    });
+            });
         }
 
         template <class T>
