@@ -2,6 +2,7 @@
 #include "Control.h"
 
 #include <adapter-util/ConfigStrings.h>
+#include <adapter-util/config/YAMLGetters.h>
 #include <adapter-util/util/YAMLUtil.h>
 
 #include <opendnp3/gen/ControlCode.h>
@@ -29,7 +30,7 @@ namespace dnp3 {
             const auto crob = util::yaml::require(node, g12v1);
 
             return Control{
-                util::yaml::require_integer<uint16_t>(node, util::keys::index),
+                util::yaml::get::index(node),
                 opendnp3::ControlRelayOutputBlock{
                     opendnp3::ControlCodeSpec::from_string(util::yaml::require_string(crob, control_code)),
                     util::yaml::require_integer<uint8_t>(crob, count),

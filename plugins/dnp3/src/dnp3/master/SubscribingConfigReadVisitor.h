@@ -4,6 +4,7 @@
 
 #include <adapter-util/ProfileInfo.h>
 #include <adapter-util/config/SubscribingConfigReadVisitorBase.h>
+#include <adapter-util/config/YAMLGetters.h>
 
 #include "dnp3/master/ControlSubscriptionHandler.h"
 
@@ -33,6 +34,19 @@ namespace dnp3 {
                 util::yaml::foreach (node, read_one);
 
                 return commands;
+            }
+
+            std::function<void(ICommandSink& sink, float value)> single_analog(const YAML::Node& node, util::ICommandPrioritySource& priority_source)
+            {
+                const auto index = util::yaml::get::index(node);
+                const auto scaling = util::yaml::get::scale(node);
+                const auto priority = priority_source.get_priority(node);
+
+                return [index, scaling, priority](ICommandSink& sink, float value) {
+                    sink.add(PrioritizedCommand([index, scaling, value](opendnp3::ICommandProcessor& processor, const opendnp3::CommandResultCallbackT& callback) {
+                        processor.DirectOperate(opendnp3::AnalogOutputInt32(static_cast<int32_t>(value * scaling)), index, callback);
+                    }, priority));
+                };
             }
         }
 
@@ -158,7 +172,39 @@ namespace dnp3 {
         void SubscribingConfigReadVisitor<T>::handle(const std::string& field_name,
                                                      const util::getter_t<T, google::protobuf::RepeatedPtrField<commonmodule::ENG_ScheduleParameter>>& getter)
         {
-            // DNP3 only requires SwitchControlProfile ATM which doesn't have this.
+            const auto node = this->get_config_node(field_name);
+
+            std::map<commonmodule::ScheduleParameterKind, std::function<void(ICommandSink& sink, float value)>> action_map;
+            util::yaml::foreach(node, [&](const YAML::Node& entry) {
+                const auto name = util::yaml::require_string(entry, util::keys::scheduleParameterType);
+                const auto value = commonmodule::ScheduleParameterKind_descriptor()->FindValueByName(name);
+                if (!value) {
+                    throw api::Exception("'", name, "' is not a valid value for enumeration ", commonmodule::ScheduleParameterKind_descriptor()->name());
+                }
+
+                const auto enum_value = static_cast<commonmodule::ScheduleParameterKind>(value->number());
+                action_map[enum_value] = std::move(read::single_analog(entry, this->priorities));
+            });
+
+            this->configuration->add([getter, map = std::move(action_map)](const T& profile, api::Logger& logger, ICommandSink& sink) {
+                const auto parameters = getter(profile);
+
+                if (!parameters)
+                    return;
+
+                for (auto param : *parameters) {
+                    auto entry = map.find(param.scheduleparametertype());
+                    if (entry == map.end()) {
+                        const auto value = commonmodule::ScheduleParameterKind_descriptor()->FindValueByNumber(param.scheduleparametertype());
+                        if (value) {
+                            logger.warn("No configured mapping for schedule parameter: {}", value->name());
+                        }
+                    } else {
+                        // perform the action using the parameter's value
+                        entry->second(sink, param.value());
+                    }
+                }
+            });
         }
     }
 }
