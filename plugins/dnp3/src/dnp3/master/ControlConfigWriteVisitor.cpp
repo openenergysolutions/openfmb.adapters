@@ -51,7 +51,20 @@ namespace dnp3 {
         void ControlConfigWriteVisitor::write_mapped_enum_keys(YAML::Emitter& out,
                                                                google::protobuf::EnumDescriptor const* descriptor)
         {
-            out << YAML::Comment("enum mapping not supported for controls");
+            out << YAML::Value << util::keys::mapping;
+            out << YAML::BeginSeq;
+            for (auto i = 0; i < descriptor->value_count(); ++i)
+            {
+                const auto value = descriptor->value(i);
+                out << YAML::BeginMap;
+                out << YAML::Key << util::keys::name << YAML::Value << value->name();
+                out << YAML::Key << util::keys::outputs;
+                out << YAML::BeginSeq;
+                write_crob_keys(out, 0, opendnp3::ControlCode::LATCH_ON);
+                out << YAML::EndSeq;
+                out << YAML::EndMap;
+            }
+            out << YAML::EndSeq;
         }
 
         // --- various helpers ---
@@ -73,7 +86,7 @@ namespace dnp3 {
 
         void ControlConfigWriteVisitor::write_mapped_schedule_parameter_keys(YAML::Emitter& out)
         {
-            throw api::Exception("Schedule parameter not supported by DNP3 plugin");
+            //throw api::Exception("Schedule parameter not supported by DNP3 plugin");
         }
     }
 }
