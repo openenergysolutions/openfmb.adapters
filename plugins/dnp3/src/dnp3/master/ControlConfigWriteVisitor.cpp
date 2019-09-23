@@ -3,8 +3,9 @@
 
 #include "adapter-util/ConfigStrings.h"
 
-#include "Control.h"
 #include "dnp3/ConfigStrings.h"
+#include "dnp3/master/Control.h"
+#include "dnp3/generated/CommandActionAnalogType.h"
 #include "dnp3/generated/SourceType.h"
 
 namespace adapter {
@@ -35,23 +36,32 @@ namespace dnp3 {
 
         void ControlConfigWriteVisitor::write_mapped_int32_keys(YAML::Emitter& out)
         {
-            out << YAML::Comment("int32 mapping not supported for controls");
+            out << YAML::Key << util::keys::outputs << YAML::Value;
+            out << YAML::BeginSeq;
+            write_analog_keys(out, 0);
+            out << YAML::EndSeq;
         }
 
         void ControlConfigWriteVisitor::write_mapped_int64_keys(YAML::Emitter& out)
         {
-            out << YAML::Comment("int64 mapping not supported for controls");
+            out << YAML::Key << util::keys::outputs << YAML::Value;
+            out << YAML::BeginSeq;
+            write_analog_keys(out, 0);
+            out << YAML::EndSeq;
         }
 
         void ControlConfigWriteVisitor::write_mapped_float_keys(YAML::Emitter& out)
         {
-            out << YAML::Comment("float mapping not supported for controls");
+            out << YAML::Key << util::keys::outputs << YAML::Value;
+            out << YAML::BeginSeq;
+            write_analog_keys(out, 0);
+            out << YAML::EndSeq;
         }
 
         void ControlConfigWriteVisitor::write_mapped_enum_keys(YAML::Emitter& out,
                                                                google::protobuf::EnumDescriptor const* descriptor)
         {
-            out << YAML::Value << util::keys::mapping;
+            out << YAML::Key << util::keys::mapping << YAML::Value;
             out << YAML::BeginSeq;
             for (auto i = 0; i < descriptor->value_count(); ++i)
             {
@@ -67,10 +77,17 @@ namespace dnp3 {
             out << YAML::EndSeq;
         }
 
+        void ControlConfigWriteVisitor::write_mapped_schedule_parameter_keys(YAML::Emitter& out)
+        {
+            out << YAML::Key << util::keys::outputs << YAML::Value;
+            out << YAML::BeginSeq;
+            write_analog_keys(out, 0);
+            out << YAML::EndSeq;
+        }
+
         // --- various helpers ---
 
-        void
-        ControlConfigWriteVisitor::write_crob_keys(YAML::Emitter& out, uint16_t index, opendnp3::ControlCode code)
+        void ControlConfigWriteVisitor::write_crob_keys(YAML::Emitter& out, uint16_t index, opendnp3::ControlCode code)
         {
             out << YAML::BeginMap;
 
@@ -84,9 +101,14 @@ namespace dnp3 {
             out << YAML::EndMap;
         }
 
-        void ControlConfigWriteVisitor::write_mapped_schedule_parameter_keys(YAML::Emitter& out)
+        void ControlConfigWriteVisitor::write_analog_keys(YAML::Emitter& out, uint16_t index)
         {
-            //throw api::Exception("Schedule parameter not supported by DNP3 plugin");
+            out << YAML::BeginMap;
+            out << YAML::Key << util::keys::command_id << "some-command-id";
+            out << YAML::Key << CommandActionAnalogType::label << YAML::Value << CommandActionAnalogType::to_string(CommandActionAnalogType::Value::g41v1) << YAML::Comment(util::enumeration::get_value_set<CommandActionAnalogType>());
+            out << YAML::Key << util::keys::index << YAML::Value << index;
+            out << YAML::Key << util::keys::scale << YAML::Value << 1.0;
+            out << YAML::EndMap;
         }
     }
 }

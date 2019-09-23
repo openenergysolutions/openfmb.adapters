@@ -53,6 +53,8 @@ set(DNP3_SOURCES
         src/dnp3/generated/DestinationType.cpp
         src/dnp3/generated/CommandSourceType.h
         src/dnp3/generated/CommandSourceType.cpp
+        src/dnp3/generated/CommandActionAnalogType.h
+        src/dnp3/generated/CommandActionAnalogType.cpp
         src/dnp3/generated/ProfileAction.h
         src/dnp3/generated/ProfileAction.cpp
         )

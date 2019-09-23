@@ -6,6 +6,7 @@
 #include <adapter-util/config/SubscribingConfigReadVisitorBase.h>
 #include <adapter-util/config/YAMLGetters.h>
 
+#include "dnp3/generated/CommandActionAnalogType.h"
 #include "dnp3/master/ControlSubscriptionHandler.h"
 
 namespace adapter {
@@ -15,38 +16,72 @@ namespace dnp3 {
         // keep these helpers out of the template
         namespace read {
 
-            std::vector<PrioritizedCommand>
-            control_list(const YAML::Node& node, util::ICommandPrioritySource& priority_source)
+            PrioritizedCommand single_control(const YAML::Node& node, util::ICommandPrioritySource& priority_source)
+            {
+                const auto control = Control::read(node);
+                return PrioritizedCommand([crob = control.crob, index = control.index](opendnp3::ICommandProcessor& processor, const opendnp3::CommandResultCallbackT& callback) {
+                    processor.DirectOperate(crob, index, callback);
+                }, priority_source.get_priority(node));
+            }
+
+            std::vector<PrioritizedCommand> control_list(const YAML::Node& node, util::ICommandPrioritySource& priority_source)
             {
                 std::vector<PrioritizedCommand> commands;
 
-                const auto read_one = [&](const YAML::Node& node) {
-                    const auto control = Control::read(node);
-
-                    const auto action = [crob = control.crob, index = control.index](
-                                            opendnp3::ICommandProcessor& processor, const opendnp3::CommandResultCallbackT& callback) {
-                        processor.DirectOperate(crob, index, callback);
-                    };
-
-                    commands.emplace_back(action, priority_source.get_priority(node));
-                };
-
-                util::yaml::foreach (node, read_one);
+                util::yaml::foreach(node, [&commands, &priority_source](const YAML::Node& subnode) {
+                    commands.push_back(single_control(subnode, priority_source));
+                });
 
                 return commands;
             }
 
-            std::function<void(ICommandSink& sink, float value)> single_analog(const YAML::Node& node, util::ICommandPrioritySource& priority_source)
+            std::function<void(ICommandSink& sink, double value)> single_analog(const YAML::Node& node, util::ICommandPrioritySource& priority_source)
             {
                 const auto index = util::yaml::get::index(node);
                 const auto scaling = util::yaml::get::scale(node);
                 const auto priority = priority_source.get_priority(node);
+                const auto analog_type = util::yaml::require_enum<CommandActionAnalogType>(node);
 
-                return [index, scaling, priority](ICommandSink& sink, float value) {
-                    sink.add(PrioritizedCommand([index, scaling, value](opendnp3::ICommandProcessor& processor, const opendnp3::CommandResultCallbackT& callback) {
-                        processor.DirectOperate(opendnp3::AnalogOutputInt32(static_cast<int32_t>(value * scaling)), index, callback);
-                    }, priority));
-                };
+                switch(analog_type)
+                {
+                    case CommandActionAnalogType::Value::g41v1:
+                        return [index, scaling, priority](ICommandSink& sink, double value) {
+                            sink.add(PrioritizedCommand([index, scaling, value](opendnp3::ICommandProcessor& processor, const opendnp3::CommandResultCallbackT& callback) {
+                                processor.DirectOperate(opendnp3::AnalogOutputInt32(static_cast<int32_t>(value * scaling)), index, callback);
+                            }, priority));
+                        };
+                    case CommandActionAnalogType::Value::g41v2:
+                        return [index, scaling, priority](ICommandSink& sink, double value) {
+                            sink.add(PrioritizedCommand([index, scaling, value](opendnp3::ICommandProcessor& processor, const opendnp3::CommandResultCallbackT& callback) {
+                                processor.DirectOperate(opendnp3::AnalogOutputInt16(static_cast<int16_t>(value * scaling)), index, callback);
+                            }, priority));
+                        };
+                    case CommandActionAnalogType::Value::g41v3:
+                        return [index, scaling, priority](ICommandSink& sink, double value) {
+                            sink.add(PrioritizedCommand([index, scaling, value](opendnp3::ICommandProcessor& processor, const opendnp3::CommandResultCallbackT& callback) {
+                                processor.DirectOperate(opendnp3::AnalogOutputFloat32(static_cast<float>(value * scaling)), index, callback);
+                            }, priority));
+                        };
+                    case CommandActionAnalogType::Value::g41v4:
+                        return [index, scaling, priority](ICommandSink& sink, double value) {
+                            sink.add(PrioritizedCommand([index, scaling, value](opendnp3::ICommandProcessor& processor, const opendnp3::CommandResultCallbackT& callback) {
+                                processor.DirectOperate(opendnp3::AnalogOutputDouble64(static_cast<double>(value * scaling)), index, callback);
+                            }, priority));
+                        };
+                    default:
+                        throw api::Exception(node.Mark(), "Unsupported analog command type.");
+                }
+            }
+
+            std::vector<std::function<void(ICommandSink& sink, double value)>> analog_list(const YAML::Node& node, util::ICommandPrioritySource& priority_source)
+            {
+                std::vector<std::function<void(ICommandSink& sink, double value)>> list;
+
+                util::yaml::foreach(node, [&list, &priority_source](const YAML::Node& subnode) {
+                    list.push_back(single_analog(subnode, priority_source));
+                });
+
+                return list;
             }
         }
 
@@ -124,21 +159,51 @@ namespace dnp3 {
         void SubscribingConfigReadVisitor<T>::handle_mapped_field(const YAML::Node& node,
                                                                   const util::accessor_t<T, int32_t>& accessor)
         {
-            // ignored
+            const auto actions = read::analog_list(util::yaml::require(node, util::keys::outputs), this->priorities);
+
+            if (actions.empty())
+                return;
+
+            this->configuration->add([=](const T& profile, api::Logger& logger, ICommandSink& sink) {
+                accessor->if_present(profile, [&](const int32_t& value) {
+                    for(const auto& action : actions)
+                        action(sink, static_cast<double>(value));
+                });
+            });
         }
 
         template <class T>
         void SubscribingConfigReadVisitor<T>::handle_mapped_field(const YAML::Node& node,
                                                                   const util::accessor_t<T, int64_t>& accessor)
         {
-            // ignored
+            const auto actions = read::analog_list(util::yaml::require(node, util::keys::outputs), this->priorities);
+
+            if (actions.empty())
+                return;
+
+            this->configuration->add([=](const T& profile, api::Logger& logger, ICommandSink& sink) {
+                accessor->if_present(profile, [&](const int64_t& value) {
+                    for(const auto& action : actions)
+                        action(sink, static_cast<double>(value));
+                });
+            });
         }
 
         template <class T>
         void SubscribingConfigReadVisitor<T>::handle_mapped_field(const YAML::Node& node,
                                                                   const util::accessor_t<T, float>& accessor)
         {
-            // ignored
+            const auto actions = read::analog_list(util::yaml::require(node, util::keys::outputs), this->priorities);
+
+            if (actions.empty())
+                return;
+
+            this->configuration->add([=](const T& profile, api::Logger& logger, ICommandSink& sink) {
+                accessor->if_present(profile, [&](const float& value) {
+                    for(const auto& action : actions)
+                        action(sink, value);
+                });
+            });
         }
 
         template <class T>
@@ -174,7 +239,7 @@ namespace dnp3 {
         {
             const auto node = this->get_config_node(field_name);
 
-            std::map<commonmodule::ScheduleParameterKind, std::function<void(ICommandSink& sink, float value)>> action_map;
+            std::map<commonmodule::ScheduleParameterKind, std::vector<std::function<void(ICommandSink& sink, double value)>>> action_map;
             util::yaml::foreach(node, [&](const YAML::Node& entry) {
                 const auto name = util::yaml::require_string(entry, util::keys::scheduleParameterType);
                 const auto value = commonmodule::ScheduleParameterKind_descriptor()->FindValueByName(name);
@@ -183,7 +248,7 @@ namespace dnp3 {
                 }
 
                 const auto enum_value = static_cast<commonmodule::ScheduleParameterKind>(value->number());
-                action_map[enum_value] = std::move(read::single_analog(entry, this->priorities));
+                action_map[enum_value] = std::move(read::analog_list(util::yaml::require(entry, util::keys::outputs), this->priorities));
             });
 
             this->configuration->add([getter, map = std::move(action_map)](const T& profile, api::Logger& logger, ICommandSink& sink) {
@@ -194,14 +259,17 @@ namespace dnp3 {
 
                 for (auto param : *parameters) {
                     auto entry = map.find(param.scheduleparametertype());
-                    if (entry == map.end()) {
+                    if (entry == map.end())
+                    {
                         const auto value = commonmodule::ScheduleParameterKind_descriptor()->FindValueByNumber(param.scheduleparametertype());
-                        if (value) {
+                        if (value)
                             logger.warn("No configured mapping for schedule parameter: {}", value->name());
-                        }
-                    } else {
-                        // perform the action using the parameter's value
-                        entry->second(sink, param.value());
+                    }
+                    else
+                    {
+                        // perform the actions using the parameter's value
+                        for(const auto& action : entry->second)
+                            action(sink, param.value());
                     }
                 }
             });
