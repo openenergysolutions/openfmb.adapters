@@ -10,9 +10,7 @@ set(openfmb_adapter_src
     ./src/ConfigKeys.h
     ./src/LoggerConfig.h
     ./src/LoggerConfig.cpp
-    ./src/SubscriptionRegistry.h
-        ../adapter-util/include/adapter-util/schedule/ScheduleSplit.h
-        ../adapter-util/src/schedule/ScheduleSplit.cpp)
+    ./src/SubscriptionRegistry.h)
 
 SET(CPP_FORMAT_DIRS
     ${CPP_FORMAT_DIRS}

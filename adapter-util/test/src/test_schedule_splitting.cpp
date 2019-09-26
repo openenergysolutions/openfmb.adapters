@@ -2,6 +2,7 @@
 
 #include "adapter-util/schedule/ScheduleSplit.h"
 #include "adapter-util/util/Time.h"
+#include <adapter-api/ProfileRegistry.h>
 
 #include <boost/uuid/uuid_io.hpp>
 
@@ -24,7 +25,7 @@ TEST_CASE("properly splits ESSControlProfile")
                 point->mutable_starttime()->set_seconds(23);
                 point->mutable_starttime()->set_fraction(1);
                 const auto param = point->mutable_scheduleparameter()->Add();
-                param->set_value(47.3);
+                param->set_value(47.3f);
                 param->set_scheduleparametertype(commonmodule::ScheduleParameterKind::ScheduleParameterKind_A_net_mag);
             }
             {
@@ -83,4 +84,30 @@ TEST_CASE("properly splits ESSControlProfile")
         std::cout << later.second->DebugString() << std::endl;
     }
     */
+}
+
+template <typename T>
+struct ProfileReader
+{
+    template <bool condition>
+    using return_t = typename std::enable_if<condition, void>::type;
+
+    template <typename U = T>
+    static return_t<adapter::util::profile_info<U>::is_control> handle()
+    {
+        boost::uuids::random_generator rg;
+        U profile;
+        adapter::util::split(profile, rg);
+    }
+
+    template <typename U = T>
+    static return_t<!adapter::util::profile_info<U>::is_control> handle()
+    {
+        // Do nothing for profiles that are not controls
+    }
+};
+
+TEST_CASE("verify schedule splitting is implemented for each control profiles")
+{
+    adapter::api::ProfileRegistry::handle_all<ProfileReader>();
 }
