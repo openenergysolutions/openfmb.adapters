@@ -1,8 +1,6 @@
 #ifndef OPENFMB_ADAPTER_SCHEDULESPLIT_H
 #define OPENFMB_ADAPTER_SCHEDULESPLIT_H
 
-#include <proto-api/essmodule/essmodule.pb.h>
-
 #include <memory>
 #include <chrono>
 
@@ -10,6 +8,7 @@
 
 #include "adapter-util/ProfileInfo.h"
 #include "adapter-util/schedule/ScheduleExtractors.h"
+#include "adapter-util/util/Time.h"
 
 namespace adapter
 {
@@ -174,7 +173,7 @@ SplitSchedule<T> split(const T& profile, boost::uuids::random_generator& rg)
     SchedulePointSplitter<T>::extract(*copy, later, rg);
 
     // Extract custom points (if necessary)
-    //CustomPointSplitter<T>::extract(*copy, later, rg);
+    CustomPointSplitter<T>::extract(*copy, later, rg);
 
     return { std::move(copy), std::move(later) };
 }

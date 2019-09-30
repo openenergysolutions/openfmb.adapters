@@ -18,6 +18,7 @@ set(HEADERS
 		include/adapter-util/util/SynchronizedQueue.h
 		include/adapter-util/util/YAMLUtil.h
 		include/adapter-util/util/YAMLTemplate.h
+		include/adapter-util/schedule/ScheduleExecutor.h
 		include/adapter-util/schedule/ScheduleExtractors.h
 		include/adapter-util/schedule/ScheduleSplit.h
 		include/adapter-util/config/PublishingConfigReadVisitorBase.h
@@ -143,11 +144,12 @@ if(OPENFMB_USE_CONAN)
 
 target_link_libraries(adapter-util PUBLIC
     adapter-api
-    CONAN_PKG::boost)
+	CONAN_PKG::boost
+	exe4cpp)
 
 else()
 
-target_link_libraries(adapter-util PUBLIC adapter-api Boost::boost)
+target_link_libraries(adapter-util PUBLIC adapter-api Boost::boost exe4cpp)
 
 endif()
 
