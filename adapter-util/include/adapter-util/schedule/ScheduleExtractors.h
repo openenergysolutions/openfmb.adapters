@@ -36,7 +36,7 @@ struct schedule_extractor<breakermodule::BreakerDiscreteControlProfile>
         return profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_messagetimestamp();
     }
 
-    // No schedule points
+    // No control FSCC
 
     // No custom points
 };
@@ -59,14 +59,9 @@ struct schedule_extractor<essmodule::ESSControlProfile>
         return profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_messagetimestamp();
     }
 
-    static bool has_schedule_points(const essmodule::ESSControlProfile& profile)
+    static commonmodule::ControlFSCC* get_control_fscc(essmodule::ESSControlProfile& profile)
     {
-        return profile.esscontrol().esscontrolfscc().controlfscc().controlschedulefsch().has_valacsg();
-    }
-
-    static google::protobuf::RepeatedPtrField<commonmodule::SchedulePoint>* get_schedule_points(essmodule::ESSControlProfile& profile)
-    {
-        return profile.mutable_esscontrol()->mutable_esscontrolfscc()->mutable_controlfscc()->mutable_controlschedulefsch()->mutable_valacsg()->mutable_schpts();
+        return profile.mutable_esscontrol()->mutable_esscontrolfscc()->mutable_controlfscc();
     }
 
     using custom_point_t = essmodule::ESSPoint;
@@ -100,14 +95,9 @@ struct schedule_extractor<generationmodule::GenerationControlProfile>
         return profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_messagetimestamp();
     }
 
-    static bool has_schedule_points(const generationmodule::GenerationControlProfile& profile)
+    static commonmodule::ControlFSCC* get_control_fscc(generationmodule::GenerationControlProfile& profile)
     {
-        return profile.generationcontrol().generationcontrolfscc().controlfscc().controlschedulefsch().has_valacsg();
-    }
-
-    static google::protobuf::RepeatedPtrField<commonmodule::SchedulePoint>* get_schedule_points(generationmodule::GenerationControlProfile& profile)
-    {
-        return profile.mutable_generationcontrol()->mutable_generationcontrolfscc()->mutable_controlfscc()->mutable_controlschedulefsch()->mutable_valacsg()->mutable_schpts();
+        return profile.mutable_generationcontrol()->mutable_generationcontrolfscc()->mutable_controlfscc();
     }
 
     using custom_point_t = generationmodule::GenerationPoint;
@@ -141,14 +131,9 @@ struct schedule_extractor<loadmodule::LoadControlProfile>
         return profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_messagetimestamp();
     }
 
-    static bool has_schedule_points(const loadmodule::LoadControlProfile& profile)
+    static commonmodule::ControlFSCC* get_control_fscc(loadmodule::LoadControlProfile& profile)
     {
-        return profile.loadcontrol().loadcontrolfscc().controlfscc().controlschedulefsch().has_valacsg();
-    }
-
-    static google::protobuf::RepeatedPtrField<commonmodule::SchedulePoint>* get_schedule_points(loadmodule::LoadControlProfile& profile)
-    {
-        return profile.mutable_loadcontrol()->mutable_loadcontrolfscc()->mutable_controlfscc()->mutable_controlschedulefsch()->mutable_valacsg()->mutable_schpts();
+        return profile.mutable_loadcontrol()->mutable_loadcontrolfscc()->mutable_controlfscc();
     }
 
     using custom_point_t = loadmodule::LoadPoint;
@@ -182,7 +167,7 @@ struct schedule_extractor<reclosermodule::RecloserControlProfile>
         return profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_messagetimestamp();
     }
 
-    // No schedule points
+    // No control FSCC
 
     using custom_point_t = commonmodule::SwitchPoint;
 
@@ -215,7 +200,7 @@ struct schedule_extractor<reclosermodule::RecloserDiscreteControlProfile>
         return profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_messagetimestamp();
     }
 
-    // No schedule points
+    // No control FSCC
 
     // No custom points
 };
@@ -238,14 +223,9 @@ struct schedule_extractor<regulatormodule::RegulatorControlProfile>
         return profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_messagetimestamp();
     }
 
-    static bool has_schedule_points(const regulatormodule::RegulatorControlProfile& profile)
+    static commonmodule::ControlFSCC* get_control_fscc(regulatormodule::RegulatorControlProfile& profile)
     {
-        return profile.regulatorcontrol().regulatorcontrolfscc().controlfscc().controlschedulefsch().has_valacsg();
-    }
-
-    static google::protobuf::RepeatedPtrField<commonmodule::SchedulePoint>* get_schedule_points(regulatormodule::RegulatorControlProfile& profile)
-    {
-        return profile.mutable_regulatorcontrol()->mutable_regulatorcontrolfscc()->mutable_controlfscc()->mutable_controlschedulefsch()->mutable_valacsg()->mutable_schpts();
+        return profile.mutable_regulatorcontrol()->mutable_regulatorcontrolfscc()->mutable_controlfscc();
     }
 
     using custom_point_t = regulatormodule::RegulatorPoint;
@@ -279,14 +259,9 @@ struct schedule_extractor<solarmodule::SolarControlProfile>
         return profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_messagetimestamp();
     }
 
-    static bool has_schedule_points(const solarmodule::SolarControlProfile& profile)
+    static commonmodule::ControlFSCC* get_control_fscc(solarmodule::SolarControlProfile& profile)
     {
-        return profile.solarcontrol().solarcontrolfscc().controlfscc().controlschedulefsch().has_valacsg();
-    }
-
-    static google::protobuf::RepeatedPtrField<commonmodule::SchedulePoint>* get_schedule_points(solarmodule::SolarControlProfile& profile)
-    {
-        return profile.mutable_solarcontrol()->mutable_solarcontrolfscc()->mutable_controlfscc()->mutable_controlschedulefsch()->mutable_valacsg()->mutable_schpts();
+        return profile.mutable_solarcontrol()->mutable_solarcontrolfscc()->mutable_controlfscc();
     }
 
     using custom_point_t = solarmodule::SolarPoint;
@@ -320,7 +295,7 @@ struct schedule_extractor<switchmodule::SwitchControlProfile>
         return profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_messagetimestamp();
     }
 
-    // No schedule points
+    // No control FSCC
 
     using custom_point_t = commonmodule::SwitchPoint;
 
@@ -353,7 +328,7 @@ struct schedule_extractor<switchmodule::SwitchDiscreteControlProfile>
         return profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_messagetimestamp();
     }
 
-    // No schedule points
+    // No control FSCC
 
     // No custom points
 };

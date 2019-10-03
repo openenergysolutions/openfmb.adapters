@@ -39,21 +39,16 @@ struct SchedulePointSplitter
 };
 
 template <typename T>
-struct SchedulePointSplitter<T, decltype((void) schedule_extractor<T>::has_schedule_points, 0)>
+struct SchedulePointSplitter<T, decltype((void) schedule_extractor<T>::get_control_fscc, 0)>
 {
-    static void extract(T& profile, schedule_map_t<T>& later, boost::uuids::random_generator& rg)
+private:
+    static void extract_points(const T& profile, schedule_map_t<T>& later, boost::uuids::random_generator& rg,
+        commonmodule::ControlScheduleFSCH* schedule, std::function<void(const commonmodule::SchedulePoint& point, T& profile)> add_point_fn)
     {
-        if(schedule_extractor<T>::has_schedule_points(profile))
+        if(schedule->has_valacsg())
         {
-            auto add_schedule_point = [](const commonmodule::SchedulePoint& point, T& profile)
-            {
-                const auto new_point = schedule_extractor<T>::get_schedule_points(profile)->Add();
-                new_point->MergeFrom(point);
-            };
-
-            // loop over the common module schedules
-            auto points = schedule_extractor<T>::get_schedule_points(profile);
-            for(const auto point: *points)
+            auto points = schedule->valacsg().schpts();
+            for(const auto point: points)
             {
                 const auto timestamp = time::get(point.starttime());
 
@@ -62,7 +57,7 @@ struct SchedulePointSplitter<T, decltype((void) schedule_extractor<T>::has_sched
                 // a profile at that time already exists
                 if(existing != later.end())
                 {
-                    add_schedule_point(point, *existing->second);
+                    add_point_fn(point, *existing->second);
                 }
                 else
                 {
@@ -79,14 +74,30 @@ struct SchedulePointSplitter<T, decltype((void) schedule_extractor<T>::has_sched
                         ts->set_seconds(point.starttime().seconds());
                         ts->set_fraction(point.starttime().fraction());
                     }
-                    add_schedule_point(point, *new_profile);
+                    add_point_fn(point, *new_profile);
 
                     later.insert({ timestamp, std::move(new_profile) });
                 }
             }
 
-            points->Clear();
+            schedule->Clear();
         }
+    }
+
+public:
+    static void extract(T& profile, schedule_map_t<T>& later, boost::uuids::random_generator& rg)
+    {
+        auto control_fscc = schedule_extractor<T>::get_control_fscc(profile);
+
+        extract_points(profile, later, rg, control_fscc->mutable_controlschedulefsch(), [](const commonmodule::SchedulePoint& point, T& profile) {
+            const auto new_point = schedule_extractor<T>::get_control_fscc(profile)->mutable_controlschedulefsch()->mutable_valacsg()->mutable_schpts()->Add();
+            new_point->MergeFrom(point);
+        });
+
+        extract_points(profile, later, rg, control_fscc->mutable_islandcontrolschedulefsch(), [](const commonmodule::SchedulePoint& point, T& profile) {
+            const auto new_point = schedule_extractor<T>::get_control_fscc(profile)->mutable_islandcontrolschedulefsch()->mutable_valacsg()->mutable_schpts()->Add();
+            new_point->MergeFrom(point);
+        });
     }
 };
 
@@ -148,12 +159,6 @@ struct CustomPointSplitter<T, decltype((void) schedule_extractor<T>::has_custom_
 
             points->Clear();
         }
-    }
-
-    template <typename U = T>
-    static typename std::enable_if<!std::is_function<decltype(schedule_extractor<U>::has_custom_points)>::value, void>::type extract(T& profile, schedule_map_t<T>& later, boost::uuids::random_generator& rg)
-    {
-        // Do nothing
     }
 };
 
