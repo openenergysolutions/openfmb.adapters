@@ -16,7 +16,7 @@ namespace rti {
 template<typename T>
 struct PublishProfileReader
 {
-    static void handle(const util::SubjectNameSuffix& subject, api::Logger& logger, const TopicRepository& topic_repo, api::subscriber_t subscriber, std::shared_ptr<::dds::pub::Publisher> dds_publisher)
+    static void handle(const util::SubjectNameSuffix& subject, api::Logger& logger, const TopicRepository& topic_repo, api::subscriber_one_t<T> subscriber, std::shared_ptr<::dds::pub::Publisher> dds_publisher)
     {
         auto publisher = PublisherFactory<T>::build(logger, subject, topic_repo, dds_publisher);
 
@@ -29,7 +29,7 @@ struct PublishProfileReader
 template<typename T>
 struct SubscribeProfileReader
 {
-    static void handle(const util::SubjectNameSuffix& subject, api::Logger& logger, const TopicRepository& topic_repo, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, api::publisher_t publisher, DDSPlugin::subscriber_vec_t& subscriptions)
+    static void handle(const util::SubjectNameSuffix& subject, api::Logger& logger, const TopicRepository& topic_repo, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, api::publisher_one_t<T> publisher, DDSPlugin::subscriber_vec_t& subscriptions)
     {
         subscriptions.push_back(SubscriberFactory<T>::build(logger, subject, topic_repo, dds_subscriber, publisher));
 

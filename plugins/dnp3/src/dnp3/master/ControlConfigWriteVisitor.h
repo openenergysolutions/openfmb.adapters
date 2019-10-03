@@ -30,14 +30,14 @@ namespace dnp3 {
 
             void write_mapped_float_keys(YAML::Emitter& out) override;
 
-            void
-            write_mapped_enum_keys(YAML::Emitter& out, google::protobuf::EnumDescriptor const* descriptor) override;
+            void write_mapped_enum_keys(YAML::Emitter& out, google::protobuf::EnumDescriptor const* descriptor) override;
 
             void write_mapped_schedule_parameter_keys(YAML::Emitter& out) override;
 
         private:
             // --- various helpers ---
             void write_crob_keys(YAML::Emitter& out, uint16_t index, opendnp3::ControlCode code);
+            void write_analog_keys(YAML::Emitter& out, uint16_t index);
         };
     }
 }

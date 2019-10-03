@@ -2,12 +2,6 @@
 #ifndef OPENFMB_ADAPTER_IPUBLISHER_H
 #define OPENFMB_ADAPTER_IPUBLISHER_H
 
-#include <proto-api/essmodule/essmodule.pb.h>
-#include <proto-api/loadmodule/loadmodule.pb.h>
-#include <proto-api/resourcemodule/resourcemodule.pb.h>
-#include <proto-api/solarmodule/solarmodule.pb.h>
-#include <proto-api/switchmodule/switchmodule.pb.h>
-
 #include "ProfileRegistry.h"
 
 #include <memory>
@@ -26,14 +20,10 @@ namespace api {
     };
 
     template <class T, class... Ts>
-    class IPublishOne<T, Ts...> : public IPublishOne<Ts...> {
+    class IPublishOne<T, Ts...> : public IPublishOne<T>, public IPublishOne<Ts...>
+    {
     public:
         virtual ~IPublishOne() = default;
-
-        // don't hide implementation in base class
-        using IPublishOne<Ts...>::publish;
-
-        virtual void publish(const T& message) = 0;
     };
 
     /**
@@ -57,6 +47,9 @@ namespace api {
     };
 
     using publisher_t = std::shared_ptr<IPublisher>;
+
+    template <typename T>
+    using publisher_one_t = std::shared_ptr<IPublishOne<T>>;
 }
 }
 

@@ -13,11 +13,14 @@ set(HEADERS
 		include/adapter-util/ConfigStrings.h
 		include/adapter-util/ProfileInfo.h
 		include/adapter-util/Version.h
-		include/adapter-util/util/Time.h
+		include/adapter-util/util/Buffer.h
 		include/adapter-util/util/EnumUtil.h
+		include/adapter-util/util/Message.h
+		include/adapter-util/util/ProtoChangeFilter.h
 		include/adapter-util/util/SynchronizedQueue.h
-		include/adapter-util/util/YAMLUtil.h
+		include/adapter-util/util/Time.h
 		include/adapter-util/util/YAMLTemplate.h
+		include/adapter-util/util/YAMLUtil.h
         include/adapter-util/config/PublishingConfigReadVisitorBase.h
 		include/adapter-util/config/SubscribingConfigReadVisitorBase.h
 		include/adapter-util/config/ConfigReadVisitorBase.h
@@ -55,7 +58,7 @@ set(SOURCES
     src/config/AccessorImpl.h
 	src/config/CommandPriorityMap.cpp
 	src/config/ConfigWriteVisitorBase.cpp
-		src/config/DescriptorPath.cpp
+	src/config/DescriptorPath.cpp
 	src/config/YAMLGetters.cpp
 	src/config/SubjectNameSuffix.cpp
 	src/config/generated/BoolFieldType.cpp

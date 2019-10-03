@@ -30,11 +30,11 @@ namespace modbus {
     template <class T>
     class PublishConfigReadVisitor final : public util::PublishingConfigReadVisitorBase<T> {
         const std::shared_ptr<T> profile = std::make_shared<T>();
-        const api::publisher_t publisher;
+        const api::publisher_one_t<T> publisher;
         const std::shared_ptr<IConfigurationBuilder> builder;
 
     public:
-        PublishConfigReadVisitor(const YAML::Node& root, api::publisher_t publisher, std::shared_ptr<IConfigurationBuilder> builder);
+        PublishConfigReadVisitor(const YAML::Node& root, api::publisher_one_t<T> publisher, std::shared_ptr<IConfigurationBuilder> builder);
 
         ~PublishConfigReadVisitor();
 
@@ -66,7 +66,7 @@ namespace modbus {
     };
 
     template <class T>
-    PublishConfigReadVisitor<T>::PublishConfigReadVisitor(const YAML::Node& root, api::publisher_t publisher, std::shared_ptr<IConfigurationBuilder> builder)
+    PublishConfigReadVisitor<T>::PublishConfigReadVisitor(const YAML::Node& root, api::publisher_one_t<T> publisher, std::shared_ptr<IConfigurationBuilder> builder)
         : util::PublishingConfigReadVisitorBase<T>(root)
         , publisher(std::move(publisher))
         , builder(std::move(builder))

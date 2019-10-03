@@ -27,14 +27,14 @@ namespace modbus {
         {
             std::cout << "Generating: " << T::descriptor()->name() << std::endl;
 
-            if (util::profile_info<T>::is_control) {
+            if (util::profile_info<T>::type == util::ProfileType::Control) {
                 util::CommandPriorityMap::write_default_list(out);
             }
 
             out << YAML::Key << util::keys::mapping << YAML::Comment("profile model starts here");
             out << YAML::BeginMap;
 
-            if (util::profile_info<T>::is_control) {
+            if (util::profile_info<T>::type == util::ProfileType::Control) {
                 ControlConfigWriteVisitor visitor(out);
                 util::visit<T>(visitor);
             } else {
@@ -71,7 +71,6 @@ namespace modbus {
         out << YAML::Key << keys::port << YAML::Value << 502;
         out << YAML::Key << keys::unit_identifier << YAML::Value << 1 << YAML::Comment("aka 'slave address'");
 
-        out << YAML::Key << keys::poll_period_ms << YAML::Value << 1000 << YAML::Comment("perform polls once per second");
         out << YAML::Key << keys::response_timeout_ms << YAML::Value << 1000 << YAML::Comment("response timeout");
         out << YAML::Key << keys::always_write_multiple_registers << YAML::Value << false << YAML::Comment("if true, translate single register writes to multiple register write w/ single value ");
 
@@ -94,6 +93,7 @@ namespace modbus {
         for (const auto& profile : profiles) {
             out << YAML::BeginMap;
             out << YAML::Key << util::keys::name << YAML::Value << profile;
+            out << YAML::Key << keys::poll_period_ms << YAML::Value << 1000 << YAML::Comment("perform polls once per second");
             api::ProfileRegistry::handle_by_name<ProfileWriter>(profile, out);
             out << YAML::EndMap;
         }

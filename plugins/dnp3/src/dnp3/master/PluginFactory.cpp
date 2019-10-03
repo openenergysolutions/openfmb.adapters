@@ -26,14 +26,14 @@ namespace dnp3 {
             {
                 std::cout << "Generating: " << T::descriptor()->name() << std::endl;
 
-                if (util::profile_info<T>::is_control) {
+                if (util::profile_info<T>::type == util::ProfileType::Control) {
                     util::CommandPriorityMap::write_default_list(out);
                 }
 
                 out << YAML::Key << util::keys::mapping << YAML::Comment("profile model starts here");
                 out << YAML::BeginMap;
 
-                if (util::profile_info<T>::is_control) {
+                if (util::profile_info<T>::type == util::ProfileType::Control) {
                     ControlConfigWriteVisitor visitor(out);
                     util::visit<T>(visitor);
 
