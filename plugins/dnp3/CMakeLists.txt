@@ -21,9 +21,11 @@ set(DNP3_SOURCES
         src/dnp3/master/SubscribingConfigReadVisitor.h
         src/dnp3/master/SOEHandler.h
         src/dnp3/master/SOEHandler.cpp
-        src/dnp3/master/PluginFactory.cpp
         src/dnp3/master/Plugin.h
         src/dnp3/master/Plugin.cpp
+        src/dnp3/master/PluginFactory.cpp
+        src/dnp3/master/PollRepository.h
+        src/dnp3/master/PollRepository.cpp
         src/dnp3/master/CommandConfiguration.h
         src/dnp3/master/CommandSequence.h
         src/dnp3/master/ICommandSequence.h
