@@ -6,6 +6,8 @@
 
 #include <boost/uuid/uuid_io.hpp>
 
+using namespace adapter;
+
 TEST_CASE("properly splits ESSControlProfile")
 {
     boost::uuids::random_generator rg;
@@ -71,7 +73,7 @@ TEST_CASE("properly splits ESSControlProfile")
     };
 
     const auto profile = initialize(rg);
-    const auto result = adapter::util::split(profile, rg);
+    const auto result = util::split(profile, rg);
 
     // there should be no schedule points to be performed now
     CHECK(result.now->esscontrol().esscontrolfscc().controlfscc().controlschedulefsch().valacsg().schpts_size() == 0);
@@ -201,15 +203,15 @@ struct ProfileReader
     using return_t = typename std::enable_if<condition, void>::type;
 
     template <typename U = T>
-    static return_t<adapter::util::profile_info<U>::is_control> handle()
+    static return_t<util::profile_info<U>::type == util::ProfileType::Control> handle()
     {
         boost::uuids::random_generator rg;
         U profile;
-        adapter::util::split(profile, rg);
+        util::split(profile, rg);
     }
 
     template <typename U = T>
-    static return_t<!adapter::util::profile_info<U>::is_control> handle()
+    static return_t<util::profile_info<U>::type != util::ProfileType::Control> handle()
     {
         // Do nothing for profiles that are not controls
     }

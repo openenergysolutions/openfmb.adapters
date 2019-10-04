@@ -11,11 +11,11 @@
 #include <adapter-util/util/YAMLTemplate.h>
 #include <adapter-util/util/YAMLUtil.h>
 
-#include "CommandSequenceExecutor.h"
 #include "dnp3/ConfigStrings.h"
-
-#include "PublishingConfigReadVisitor.h"
-#include "SubscribingConfigReadVisitor.h"
+#include "dnp3/master/CommandSequenceExecutor.h"
+#include "dnp3/master/PollRepository.h"
+#include "dnp3/master/PublishingConfigReadVisitor.h"
+#include "dnp3/master/SubscribingConfigReadVisitor.h"
 
 #include <stdexcept>
 
@@ -31,9 +31,9 @@ namespace dnp3 {
             using return_t = typename std::enable_if<condition, bool>::type;
 
             template <class U = T>
-            static return_t<util::profile_info<U>::is_control>
+            static return_t<util::profile_info<U>::type == util::ProfileType::Control>
             handle(const YAML::Node& node, const api::Logger& logger, api::message_bus_t bus,
-                   std::shared_ptr<IPublishConfigBuilder>, std::shared_ptr<ICommandSequenceExecutor> executor)
+                   const PollRepository&, std::shared_ptr<ICommandSequenceExecutor> executor)
             {
                 util::CommandPriorityMap priority_map(util::yaml::require(node, util::keys::command_order));
                 SubscribingConfigReadVisitor<T> visitor(util::yaml::require(node, util::keys::mapping),
@@ -44,10 +44,13 @@ namespace dnp3 {
             }
 
             template <class U = T>
-            static return_t<!util::profile_info<U>::is_control>
+            static return_t<util::profile_info<U>::type != util::ProfileType::Control>
             handle(const YAML::Node& node, const api::Logger& logger, api::message_bus_t bus,
-                   std::shared_ptr<IPublishConfigBuilder> builder, std::shared_ptr<ICommandSequenceExecutor>)
+                   const PollRepository& poll_repo, std::shared_ptr<ICommandSequenceExecutor>)
             {
+                auto poll_name = util::yaml::require_string(node, keys::poll_name);
+                auto builder = poll_repo.get(poll_name);
+
                 PublishingConfigReadVisitor<T> visitor(util::yaml::require(node, util::keys::mapping),
                                                        std::move(bus), builder);
                 util::visit(visitor);
@@ -82,10 +85,23 @@ namespace dnp3 {
 
             // actively disable unsolicited mode, and don't re-enable it after integrity scan
             config.master.disableUnsolOnStartup = true;
-            config.master.unsolClassMask = ClassField::None();
+            ClassField unsol_class_mask = ClassField::None();
+            if(util::yaml::require(protocol, keys::unsolicited_class_1).as<bool>()) unsol_class_mask.Set(PointClass::Class1);
+            if(util::yaml::require(protocol, keys::unsolicited_class_2).as<bool>()) unsol_class_mask.Set(PointClass::Class2);
+            if(util::yaml::require(protocol, keys::unsolicited_class_3).as<bool>()) unsol_class_mask.Set(PointClass::Class3);
+            config.master.unsolClassMask = unsol_class_mask;
 
-            const auto handler = std::make_shared<SOEHandler>();
+            const auto unsolicited_handler = std::make_shared<SOEHandler>();
             const auto executor = std::make_shared<CommandSequenceExecutor>(this->logger);
+
+            auto master = channel->AddMaster(
+                util::yaml::require(node, util::keys::name).as<std::string>(),
+                unsolicited_handler,
+                DefaultMasterApplication::Create(),
+                config);
+
+            PollRepository poll_repo(unsolicited_handler);
+            poll_repo.load(util::yaml::require(node, keys::polls), *master);
 
             const auto profiles = util::yaml::require(node, util::keys::profiles);
 
@@ -97,31 +113,9 @@ namespace dnp3 {
                         node,
                         logger,
                         bus,
-                        handler,
+                        poll_repo,
                         executor);
                 });
-
-            this->logger.info(
-                "num binary: {} num analog: {} num counter: {}",
-                handler->num_binary(),
-                handler->num_analog(),
-                handler->num_counter());
-
-            auto master = channel->AddMaster(
-                util::yaml::require(node, util::keys::name).as<std::string>(),
-                handler,
-                DefaultMasterApplication::Create(),
-                config);
-
-            if (handler->empty()) {
-                logger.info("No measurement handlers: ignoring poll configuration");
-            } else {
-                // configure the integrity scan
-                master->AddClassScan(
-                    ClassField::AllClasses(),
-                    TimeDuration::Milliseconds(
-                        util::yaml::require(protocol, keys::integrity_poll_ms).as<uint32_t>()));
-            }
 
             // start allowing the executor to dispatch controls
             executor->start(master);

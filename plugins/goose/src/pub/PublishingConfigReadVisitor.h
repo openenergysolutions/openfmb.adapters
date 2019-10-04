@@ -15,7 +15,7 @@ namespace goose {
     template <typename T>
     class PublishingConfigReadVisitor final : public util::PublishingConfigReadVisitorBase<T> {
     public:
-        PublishingConfigReadVisitor(const YAML::Node& root, api::publisher_t publisher, IPublishConfigBuilder& builder)
+        PublishingConfigReadVisitor(const YAML::Node& root, api::publisher_one_t<T> publisher, IPublishConfigBuilder& builder)
             : util::PublishingConfigReadVisitorBase<T>{ root }
             , m_publisher{ std::move(publisher) }
             , m_builder{ builder }
@@ -200,7 +200,7 @@ namespace goose {
             return false;
         }
 
-        const api::publisher_t m_publisher;
+        const api::publisher_one_t<T> m_publisher;
         IPublishConfigBuilder& m_builder;
         const std::shared_ptr<T> m_profile;
         std::unordered_set<std::string> m_names;

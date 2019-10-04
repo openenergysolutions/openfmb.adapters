@@ -10,7 +10,7 @@ namespace timescaledb {
 
     template <class T>
     struct ProfileSubscriber {
-        static void handle(const api::Logger& logger, const std::shared_ptr<TimescaleDBArchiver>& archiver, api::IMessageBus& bus)
+        static void handle(const api::Logger& logger, const std::shared_ptr<TimescaleDBArchiver>& archiver, api::ISubscribeOne<T>& bus)
         {
             bus.subscribe(std::make_shared<BusListener<T>>(logger, archiver));
         }

@@ -41,7 +41,7 @@ namespace dnp3 {
                         action(profile);
                 }
 
-                void publish(api::IPublisher& publisher)
+                void publish(api::IPublishOne<T>& publisher)
                 {
                     for (const auto& action : complete_actions)
                         action(profile);

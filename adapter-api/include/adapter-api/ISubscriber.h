@@ -20,14 +20,9 @@ namespace api {
     };
 
     template <class T, class... Ts>
-    class ISubscribeOne<T, Ts...> : public ISubscribeOne<Ts...> {
+    class ISubscribeOne<T, Ts...> : public ISubscribeOne<T>, public ISubscribeOne<Ts...> {
     public:
         virtual ~ISubscribeOne() = default;
-
-        // don't hide implementation in base class
-        using ISubscribeOne<Ts...>::subscribe;
-
-        virtual void subscribe(subscription_handler_t<T> handler) = 0;
     };
 
     /**
@@ -51,6 +46,9 @@ namespace api {
     };
 
     using subscriber_t = std::shared_ptr<ISubscriber>;
+
+    template <typename T>
+    using subscriber_one_t = std::shared_ptr<ISubscribeOne<T>>;
 }
 }
 

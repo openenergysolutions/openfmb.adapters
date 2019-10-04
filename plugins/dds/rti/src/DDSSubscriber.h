@@ -20,7 +20,7 @@ template<typename ProtoType, typename DdsType>
 class DDSSubscriber : public ::dds::sub::DataReaderListener<DdsType>, public IDDSSubscriber {
 
 public:
-    DDSSubscriber(const api::Logger& logger, const util::SubjectNameSuffix& subject, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, const ::dds::topic::Topic<DdsType>& topic, api::publisher_t publisher)
+    DDSSubscriber(const api::Logger& logger, const util::SubjectNameSuffix& subject, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, const ::dds::topic::Topic<DdsType>& topic, api::publisher_one_t<ProtoType> publisher)
         : m_logger{logger},
           m_subject{subject},
           m_dds_subscriber{std::move(dds_subscriber)},
@@ -106,7 +106,7 @@ private:
     api::Logger m_logger;
     util::SubjectNameSuffix m_subject;
     std::shared_ptr<::dds::sub::Subscriber> m_dds_subscriber;
-    api::publisher_t m_publisher;
+    api::publisher_one_t<ProtoType> m_publisher;
 
     ::dds::sub::DataReader<DdsType> m_data_reader;
     ProtoType m_proto_message;

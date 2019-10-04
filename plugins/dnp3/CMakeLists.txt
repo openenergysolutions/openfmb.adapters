@@ -21,9 +21,11 @@ set(DNP3_SOURCES
         src/dnp3/master/SubscribingConfigReadVisitor.h
         src/dnp3/master/SOEHandler.h
         src/dnp3/master/SOEHandler.cpp
-        src/dnp3/master/PluginFactory.cpp
         src/dnp3/master/Plugin.h
         src/dnp3/master/Plugin.cpp
+        src/dnp3/master/PluginFactory.cpp
+        src/dnp3/master/PollRepository.h
+        src/dnp3/master/PollRepository.cpp
         src/dnp3/master/CommandConfiguration.h
         src/dnp3/master/CommandSequence.h
         src/dnp3/master/ICommandSequence.h
@@ -53,6 +55,8 @@ set(DNP3_SOURCES
         src/dnp3/generated/DestinationType.cpp
         src/dnp3/generated/CommandSourceType.h
         src/dnp3/generated/CommandSourceType.cpp
+        src/dnp3/generated/CommandActionAnalogType.h
+        src/dnp3/generated/CommandActionAnalogType.cpp
         src/dnp3/generated/ProfileAction.h
         src/dnp3/generated/ProfileAction.cpp
         )

@@ -13,11 +13,14 @@ set(HEADERS
 		include/adapter-util/ConfigStrings.h
 		include/adapter-util/ProfileInfo.h
 		include/adapter-util/Version.h
-		include/adapter-util/util/Time.h
+		include/adapter-util/util/Buffer.h
 		include/adapter-util/util/EnumUtil.h
+		include/adapter-util/util/Message.h
+		include/adapter-util/util/ProtoChangeFilter.h
 		include/adapter-util/util/SynchronizedQueue.h
-		include/adapter-util/util/YAMLUtil.h
+		include/adapter-util/util/Time.h
 		include/adapter-util/util/YAMLTemplate.h
+		include/adapter-util/util/YAMLUtil.h
 		include/adapter-util/schedule/ScheduleExecutor.h
 		include/adapter-util/schedule/ScheduleExtractors.h
 		include/adapter-util/schedule/ScheduleSplit.h

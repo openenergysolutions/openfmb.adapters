@@ -49,7 +49,7 @@ namespace capture {
 
     template <class T>
     struct ProfileSubscriber {
-        static void handle(std::shared_ptr<SharedLog> log, api::IMessageBus& bus)
+        static void handle(std::shared_ptr<SharedLog> log, api::ISubscribeOne<T>& bus)
         {
             bus.subscribe(std::make_shared<SubscriptionHandler<T>>(std::move(log)));
         }

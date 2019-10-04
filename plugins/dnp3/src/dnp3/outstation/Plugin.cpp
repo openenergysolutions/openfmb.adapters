@@ -32,8 +32,8 @@ namespace dnp3 {
             using return_t = typename std::enable_if<condition, bool>::type;
 
             template <class U = T>
-            static return_t<util::profile_info<U>::is_control>
-            handle(const YAML::Node& node, const api::Logger& logger, const api::message_bus_t& bus, const DefaultVariations& default_var, DatabaseConfig& db_config, ICommandConfig& config, delayed_sub_vector_t& subscriptions)
+            static return_t<util::profile_info<U>::type == util::ProfileType::Control>
+            handle(const YAML::Node& node, const api::Logger& logger, const api::subscriber_one_t<T>& bus, const DefaultVariations& default_var, DatabaseConfig& db_config, ICommandConfig& config, delayed_sub_vector_t& subscriptions)
             {
                 ControlConfigReadVisitor<U> visitor(util::yaml::require(node, util::keys::mapping), config);
                 util::visit(visitor);
@@ -41,13 +41,13 @@ namespace dnp3 {
             }
 
             template <class U = T>
-            static return_t<!util::profile_info<U>::is_control>
-            handle(const YAML::Node& node, const api::Logger& logger, const api::message_bus_t& bus, const DefaultVariations& default_var, DatabaseConfig& db_config, ICommandConfig& config, delayed_sub_vector_t& subscriptions)
+            static return_t<util::profile_info<U>::type != util::ProfileType::Control>
+            handle(const YAML::Node& node, const api::Logger& logger, const api::subscriber_one_t<T>& bus, const DefaultVariations& default_var, DatabaseConfig& db_config, ICommandConfig& config, delayed_sub_vector_t& subscriptions)
             {
                 MeasurementConfigReadVisitor<U> visitor(util::yaml::require(node, util::keys::mapping), default_var, db_config);
                 util::visit(visitor);
                 subscriptions.push_back(
-                    [handlers = visitor.get_handlers(), mrid = visitor.get_primary_mrid()](const api::message_bus_t& bus, const std::shared_ptr<IOutstation>& outstation) {
+                    [handlers = visitor.get_handlers(), mrid = visitor.get_primary_mrid()](const api::subscriber_one_t<T>& bus, const std::shared_ptr<IOutstation>& outstation) {
                         bus->subscribe(std::make_shared<SubscriptionHandler<T>>(mrid, outstation, handlers));
                     });
                 return true;

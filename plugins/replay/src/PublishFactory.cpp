@@ -18,7 +18,7 @@ namespace replay {
     private:
         static publish_fun_t get(const std::vector<uint8_t>& data)
         {
-            return [profile = parse_data_as(data)](api::IPublisher& publisher) {
+            return [profile = parse_data_as(data)](api::IPublishOne<T>& publisher) {
                 publisher.publish(*profile);
             };
         }
