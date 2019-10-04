@@ -18,9 +18,9 @@ set(CPP_FORMAT_DIRS
 )
 
 add_executable(test-adapter-util ${TEST_SOURCES})
-target_include_directories(test-adapter-util PRIVATE ${CMAKE_SOURCE_DIR}/deps/catch ${CMAKE_SOURCE_DIR}/deps/cppcodec)
+target_include_directories(test-adapter-util PRIVATE ${CMAKE_SOURCE_DIR}/deps/cppcodec)
 target_include_directories(test-adapter-util PRIVATE ../src)
 
-target_link_libraries(test-adapter-util PRIVATE adapter-util)
+target_link_libraries(test-adapter-util PRIVATE adapter-util catch)
 
 add_test(test-adapter-util test-adapter-util)

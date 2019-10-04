@@ -7,8 +7,7 @@ set(TEST_SOURCES main.cpp
 )
 
 add_executable(test-modbus-plugin ${TEST_SOURCES})
-target_include_directories(test-modbus-plugin PRIVATE ${CMAKE_SOURCE_DIR}/deps/catch)
 target_include_directories(test-modbus-plugin PRIVATE ../src/ ../include)
-target_link_libraries(test-modbus-plugin modbus-plugin)
+target_link_libraries(test-modbus-plugin PRIVATE modbus-plugin catch)
 clang_format(test-modbus-plugin)
 add_test(test-modbus-plugin test-modbus-plugin)

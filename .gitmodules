@@ -1,22 +1,12 @@
 [submodule "deps/spdlog"]
 	path = deps/spdlog
 	url = https://github.com/gabime/spdlog.git
-[submodule "deps/modbus"]
-	path = deps/modbus
-	url = git@github.com:openenergysolutions/modbus-cpp.git
 [submodule "deps/argagg"]
 	path = deps/argagg
 	url = https://github.com/vietjtnguyen/argagg.git
 [submodule "deps/cppcodec"]
 	path = deps/cppcodec
 	url = https://github.com/tplgy/cppcodec.git
-[submodule "deps/goose-cpp"]
-	path = deps/goose-cpp
-	url = git@github.com:openenergysolutions/goose-cpp.git
 [submodule "deps/openfmb-schemas"]
 	path = deps/openfmb-schemas
 	url = https://github.com/openenergysolutions/openfmb-schemas.git
-[submodule "deps/opendnp3"]
-	path = deps/opendnp3
-	url = https://github.com/dnp3/opendnp3.git
-	branch = develop
