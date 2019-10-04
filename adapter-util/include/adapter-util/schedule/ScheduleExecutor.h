@@ -29,12 +29,9 @@ public:
             handler->receive(*msg);
         });
 
-        const auto now_system = std::chrono::system_clock::now();
-        const auto now_steady = m_executor->get_time();
         for(auto it = result.later.begin(); it != result.later.end(); ++it)
         {
-            auto steady_time = now_steady + (it->first - now_system);
-            m_executor->start(steady_time, [handler = m_handler, msg = std::shared_ptr<T>(std::move(it->second))] {
+            m_executor->start(it->first, [handler = m_handler, msg = std::shared_ptr<T>(std::move(it->second))] {
                 handler->receive(*msg);
             });
         }
