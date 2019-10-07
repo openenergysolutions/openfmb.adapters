@@ -15,7 +15,7 @@ namespace nats {
     public:
         using message_queue_t = util::SynchronizedQueue<util::Message>;
 
-        NATSSubscriber(api::Logger logger, std::string subject, api::publisher_t publisher)
+        NATSSubscriber(api::Logger logger, std::string subject, api::publisher_one_t<T> publisher)
             : logger(logger)
             , subject(std::move(subject))
             , publisher(std::move(publisher))
@@ -75,7 +75,7 @@ namespace nats {
 
         api::Logger logger;
         const std::string subject;
-        const api::publisher_t publisher;
+        const api::publisher_one_t<T> publisher;
         natsSubscription* subscription = nullptr;
     };
 }

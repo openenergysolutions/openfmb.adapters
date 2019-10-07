@@ -17,7 +17,7 @@ namespace mqtt {
     template <class T>
     struct PublishProfileReader {
 
-        static void handle(const TopicNameSuffix& suffix, api::Logger logger, api::message_bus_t bus, message_queue_ptr_t message_queue, SubscriptionRegistry& /*registry*/)
+        static void handle(const TopicNameSuffix& suffix, api::Logger logger, api::subscriber_one_t<T> bus, message_queue_ptr_t message_queue, SubscriptionRegistry& /*registry*/)
         {
             bus->subscribe(
                 std::make_shared<MQTTPublisher<T>>(
@@ -30,7 +30,7 @@ namespace mqtt {
     template <class T>
     struct SubscribeProfileReader {
 
-        static void handle(const TopicNameSuffix& suffix, api::Logger /*logger*/, api::message_bus_t /*bus*/, message_queue_ptr_t /*message_queue*/, SubscriptionRegistry& registry)
+        static void handle(const TopicNameSuffix& suffix, api::Logger /*logger*/, api::subscriber_one_t<T> /*bus*/, message_queue_ptr_t /*message_queue*/, SubscriptionRegistry& registry)
         {
             registry.add_handler<T>(suffix);
         }

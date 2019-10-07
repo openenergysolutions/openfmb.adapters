@@ -26,14 +26,14 @@ namespace dnp3 {
             {
                 std::cout << "Generating: " << T::descriptor()->name() << std::endl;
 
-                if (util::profile_info<T>::is_control) {
+                if (util::profile_info<T>::type == util::ProfileType::Control) {
                     util::CommandPriorityMap::write_default_list(out);
                 }
 
                 out << YAML::Key << util::keys::mapping << YAML::Comment("profile model starts here");
                 out << YAML::BeginMap;
 
-                if (util::profile_info<T>::is_control) {
+                if (util::profile_info<T>::type == util::ProfileType::Control) {
                     ControlConfigWriteVisitor visitor(out);
                     util::visit<T>(visitor);
 
@@ -52,6 +52,7 @@ namespace dnp3 {
 
                 out << YAML::BeginMap;
                 out << YAML::Key << util::keys::name << YAML::Value << profile;
+                out << YAML::Key << keys::poll_name << YAML::Value << "integrity_poll";
 
                 api::ProfileRegistry::handle_by_name<WriterHandler>(profile, out);
             }
@@ -96,8 +97,27 @@ namespace dnp3 {
             out << YAML::BeginMap;
             out << YAML::Key << keys::master_address << YAML::Value << 1;
             out << YAML::Key << keys::outstation_address << YAML::Value << 10;
-            out << YAML::Key << keys::integrity_poll_ms << YAML::Value << 5000;
+            out << YAML::Key << keys::unsolicited_class_1 << YAML::Value << false;
+            out << YAML::Key << keys::unsolicited_class_2 << YAML::Value << false;
+            out << YAML::Key << keys::unsolicited_class_3 << YAML::Value << false;
             out << YAML::EndMap;
+
+            out << YAML::Key << keys::polls;
+            out << YAML::BeginSeq;
+            out << YAML::BeginMap;
+            out << YAML::Key << util::keys::name << YAML::Value << "integrity_poll";
+            out << YAML::Key << keys::poll_type << YAML::Value << keys::poll_type_integrity;
+            out << YAML::Key << keys::poll_interval << YAML::Value << "5000";
+            out << YAML::EndMap;
+            out << YAML::BeginMap;
+            out << YAML::Key << util::keys::name << YAML::Value << "event_poll";
+            out << YAML::Key << keys::poll_type << YAML::Value << keys::poll_type_event;
+            out << YAML::Key << keys::poll_interval << YAML::Value << "2000";
+            out << YAML::Key << keys::poll_class1 << YAML::Value << true;
+            out << YAML::Key << keys::poll_class2 << YAML::Value << true;
+            out << YAML::Key << keys::poll_class3 << YAML::Value << true;
+            out << YAML::EndMap;
+            out << YAML::EndSeq;
 
             out << YAML::Key << util::keys::profiles;
             out << YAML::BeginSeq;

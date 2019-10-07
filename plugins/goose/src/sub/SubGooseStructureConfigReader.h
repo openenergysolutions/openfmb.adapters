@@ -362,7 +362,7 @@ namespace goose {
             m_mrid = mappings.get_mrid();
         };
 
-        void subscribe(api::IMessageBus& bus, std::shared_ptr<goose_cpp::IControlBlockPublisher> cb_publisher, api::Logger logger)
+        void subscribe(api::ISubscribeOne<T>& bus, std::shared_ptr<goose_cpp::IControlBlockPublisher> cb_publisher, api::Logger logger)
         {
             bus.subscribe(std::make_shared<SubscriptionHandler<T>>(logger, m_mrid, cb_publisher, m_building_func));
         }

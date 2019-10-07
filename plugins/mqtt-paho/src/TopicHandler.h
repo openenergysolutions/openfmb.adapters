@@ -13,18 +13,18 @@ namespace mqtt {
     class TopicHandler : public ITopicHandler {
 
         api::Logger logger;
-        const api::publisher_t publisher;
+        const api::publisher_one_t<T> publisher;
 
     public:
 
-        TopicHandler(api::Logger, api::publisher_t publisher);
+        TopicHandler(api::Logger, api::publisher_one_t<T> publisher);
 
         void handle(::mqtt::const_message_ptr msg) override;
 
     };
 
     template <class T>
-    TopicHandler<T>::TopicHandler(api::Logger logger, api::publisher_t publisher) :
+    TopicHandler<T>::TopicHandler(api::Logger logger, api::publisher_one_t<T> publisher) :
         logger(logger),
         publisher(std::move(publisher))
     {}

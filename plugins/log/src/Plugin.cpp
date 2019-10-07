@@ -13,7 +13,7 @@ namespace adapter {
 namespace log {
     template <class T>
     struct DebugSubscriberHandler {
-        static void handle(const api::Logger& logger, api::IMessageBus& bus)
+        static void handle(const api::Logger& logger, api::ISubscribeOne<T>& bus)
         {
             bus.subscribe(
                 std::make_shared<DebugStringLogSubscriptionHandler<T>>(logger));
@@ -22,7 +22,7 @@ namespace log {
 
     template <class T>
     struct FilteredSubscriberHandler {
-        static void handle(const YAML::Node& config, const api::Logger& logger, api::IMessageBus& bus)
+        static void handle(const YAML::Node& config, const api::Logger& logger, api::ISubscribeOne<T>& bus)
         {
             bus.subscribe(
                 std::make_shared<FilteredValueLogSubscriptionHandler<T>>(logger, config));
