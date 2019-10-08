@@ -26,6 +26,7 @@ namespace util {
         constexpr const char* const command_order = "command-order";
         constexpr const char* const command_id = "command-id";
         constexpr const char* const scheduleParameterType = "scheduleParameterType";
+        constexpr const char* const tolerance = "tolerance-ms";
 
         // used for TLS configurations in NATS and MQTT
         static const char* const security = "security";

@@ -3,6 +3,10 @@
 
 #include <adapter-api/IPluginFactory.h>
 
+#include <exe4cpp/asio/BasicExecutor.h>
+
+#include <thread>
+
 #include "modbus/IModbusManager.h"
 #include "modbus/session/ISession.h"
 
@@ -19,6 +23,8 @@ namespace modbus {
 
         Plugin(const YAML::Node& node, const api::Logger& logger, api::message_bus_t bus);
 
+        virtual ~Plugin();
+
         virtual std::string name() const override
         {
             return "modbus";
@@ -33,6 +39,9 @@ namespace modbus {
         ::modbus::LoggingLevel get_modbus_logging_level(const LogLevel::Value level) const;
 
         api::Logger logger;
+        std::shared_ptr<exe4cpp::BasicExecutor> executor;
+        asio::executor_work_guard<asio::io_context::executor_type> executor_guard;
+        std::unique_ptr<std::thread> executor_thread;
         std::unique_ptr<::modbus::IModbusManager> manager;
         std::vector<std::function<void()>> start_actions;
     };
