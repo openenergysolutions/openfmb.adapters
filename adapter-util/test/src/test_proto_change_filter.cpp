@@ -49,6 +49,7 @@ TEST_CASE("ProtoChangeFilter")
         CHECK(publisher->last_message.breakerevent().statusandeventxcbr().pos().stval() == commonmodule::DbPosKind::DbPosKind_closed);
         CHECK(publisher->last_message.breakerevent().statusandeventxcbr().pos().has_q() == false); // Should not contain other events
         CHECK(publisher->last_message.breaker().conductingequipment().DebugString() == msg.breaker().conductingequipment().DebugString()); // Keep conducting equipment
+        CHECK(publisher->last_message.eventmessageinfo().messageinfo().DebugString() == msg.eventmessageinfo().messageinfo().DebugString()); // Keep message info
     }
 
     SECTION("Change other value")
@@ -59,6 +60,7 @@ TEST_CASE("ProtoChangeFilter")
         CHECK(publisher->last_message.breakerevent().statusandeventxcbr().pos().q().validity() == commonmodule::ValidityKind::ValidityKind_invalid);
         CHECK(publisher->last_message.breakerevent().statusandeventxcbr().pos().stval() == 0); // Should not contain other events
         CHECK(publisher->last_message.breaker().conductingequipment().DebugString() == msg.breaker().conductingequipment().DebugString()); // Keep conducting equipment
+        CHECK(publisher->last_message.eventmessageinfo().messageinfo().DebugString() == msg.eventmessageinfo().messageinfo().DebugString()); // Keep message info
     }
 
     SECTION("Add value")
@@ -70,6 +72,7 @@ TEST_CASE("ProtoChangeFilter")
         CHECK(publisher->last_message.breakerevent().statusandeventxcbr().has_pos() == false); // Should not contain other events
         CHECK(publisher->last_message.breakerevent().statusandeventxcbr().pos().has_q() == false); // Should not contain other events
         CHECK(publisher->last_message.breaker().conductingequipment().DebugString() == msg.breaker().conductingequipment().DebugString()); // Keep conducting equipment
+        CHECK(publisher->last_message.eventmessageinfo().messageinfo().DebugString() == msg.eventmessageinfo().messageinfo().DebugString()); // Keep message info
     }
 
     SECTION("Change value in message identifier")

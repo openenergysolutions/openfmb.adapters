@@ -9,7 +9,10 @@
 #include <algorithm>
 #include <memory>
 #include <unordered_map>
-#undef GetMessage
+
+#ifdef GetMessage
+#undef GetMessage // On Windows, there's a #define of GetMessage and it's a pain.
+#endif
 
 namespace adapter {
 namespace util {
@@ -22,7 +25,11 @@ public:
                    const google::protobuf::FieldDescriptor* field,
                    const std::vector<google::protobuf::util::MessageDifferencer::SpecificField>& parent_fields) override 
     {
-        return field->type() == google::protobuf::FieldDescriptor::Type::TYPE_MESSAGE && field->message_type() == commonmodule::MessageInfo::descriptor();
+        return field->type() == google::protobuf::FieldDescriptor::Type::TYPE_MESSAGE && (
+            field->message_type() == commonmodule::MessageInfo::descriptor() || // Ignore the message info (because it always change)
+            field->message_type() == commonmodule::ConductingEquipment::descriptor() // Ignore the conducting equipment (because it will always be the same)
+            // Also, ignoring it helps copying it later
+        );
     }
 };
 
@@ -34,7 +41,7 @@ public:
                              const google::protobuf::Message& message2,
                              const std::vector<google::protobuf::util::MessageDifferencer::SpecificField>& field_path) override
     {
-
+        recursive_update(message2, m_message, field_path, true);
     }
 
     // Reports that a field has been deleted from Message1.
@@ -50,7 +57,15 @@ public:
                                 const google::protobuf::Message& message2,
                                 const std::vector<google::protobuf::util::MessageDifferencer::SpecificField>& field_path) override
     {
-        recursive_update(message2, m_message, field_path);
+        recursive_update(message2, m_message, field_path, false);
+    }
+
+    // Reports that the value of a field has been ignored during comparison.
+    virtual void ReportIgnored(const google::protobuf::Message& message1,
+                               const google::protobuf::Message& message2,
+                               const std::vector<google::protobuf::util::MessageDifferencer::SpecificField>& field_path) override
+    {
+        recursive_update(message2, m_message, field_path, true);
     }
 
     const T& get_message() const
@@ -61,11 +76,9 @@ public:
 private:
     void recursive_update(const google::protobuf::Message& received_msg,
                           google::protobuf::Message& current_msg,
-                          const std::vector<google::protobuf::util::MessageDifferencer::SpecificField>& field_path)
+                          const std::vector<google::protobuf::util::MessageDifferencer::SpecificField>& field_path,
+                          bool add_end_message)
     {
-        if(field_path.empty())
-            return;
-
         auto reflection = current_msg.GetReflection();
         
         auto field_descriptor = field_path.front().field;
@@ -118,12 +131,22 @@ private:
             }
             case google::protobuf::FieldDescriptor::CppType::CPPTYPE_MESSAGE:
             {
-                std::vector<google::protobuf::util::MessageDifferencer::SpecificField> sub_field_path{};
-                std::copy(++field_path.begin(), field_path.end(), std::back_inserter(sub_field_path));
+                if(field_path.size() == 1 && add_end_message)
+                {
+                    // Copy the whole message because it was added, not modified
+                    auto sub_current_msg = reflection->MutableMessage(&current_msg, field_descriptor);
+                    const auto& sub_received_msg = reflection->GetMessage(received_msg, field_descriptor);
+                    sub_current_msg->CopyFrom(sub_received_msg);
+                }
+                else if(field_path.size() > 1)
+                {
+                    // Continue the recursion
+                    std::vector<google::protobuf::util::MessageDifferencer::SpecificField> sub_field_path{};
+                    std::copy(++field_path.begin(), field_path.end(), std::back_inserter(sub_field_path));
 
-                auto descriptor = current_msg.GetDescriptor();
-                auto sub_msg = reflection->MutableMessage(&current_msg, field_descriptor);
-                recursive_update(received_msg, *sub_msg, sub_field_path);
+                    auto sub_msg = reflection->MutableMessage(&current_msg, field_descriptor);
+                    recursive_update(received_msg, *sub_msg, sub_field_path, add_end_message);
+                }
                 break;
             }
         }
@@ -162,11 +185,6 @@ public:
                 m_publisher->publish(diff_msg);
             }
         }
-        /*else if(!m_message_differencer.Compare(cache_it->second, msg))
-        {
-            cache_it->second = msg;
-            m_publisher->publish(msg);
-        }*/
     }
 
 private:
