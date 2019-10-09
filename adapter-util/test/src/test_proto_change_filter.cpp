@@ -10,10 +10,12 @@ class IPublisherMock : public api::IPublishOne<P> {
 public:
     void publish(const P& message) override
     {
+        last_message = message;
         ++num_calls;
     }
 
     unsigned int num_calls = 0;
+    P last_message;
 };
 
 TEST_CASE("ProtoChangeFilter")
@@ -22,12 +24,16 @@ TEST_CASE("ProtoChangeFilter")
     util::ProtoChangeFilter<breakermodule::BreakerEventProfile> filter{publisher};
 
     breakermodule::BreakerEventProfile msg{};
-    msg.mutable_breaker()->mutable_conductingequipment()->set_mrid("7cc229e2-0a69-4383-bd55-a3599fb2bb71");
-    msg.mutable_eventmessageinfo()->mutable_messageinfo()->mutable_identifiedobject()->mutable_mrid()->set_value("ebbb0049-d5b0-45b4-840a-9df37489e475");
+    const auto device_mrid = "7cc229e2-0a69-4383-bd55-a3599fb2bb71";
+    const auto message_mrid = "ebbb0049-d5b0-45b4-840a-9df37489e475";
+    msg.mutable_breaker()->mutable_conductingequipment()->set_mrid(device_mrid);
+    msg.mutable_eventmessageinfo()->mutable_messageinfo()->mutable_identifiedobject()->mutable_mrid()->set_value(message_mrid);
     msg.mutable_breakerevent()->mutable_statusandeventxcbr()->mutable_pos()->set_stval(commonmodule::DbPosKind::DbPosKind_open);
+    msg.mutable_breakerevent()->mutable_statusandeventxcbr()->mutable_pos()->mutable_q()->set_validity(commonmodule::ValidityKind::ValidityKind_questionable);
 
     filter.publish(msg);
     REQUIRE(publisher->num_calls == 1);
+    CHECK(publisher->last_message.DebugString() == msg.DebugString());
 
     SECTION("Send same message")
     {
@@ -40,6 +46,19 @@ TEST_CASE("ProtoChangeFilter")
         msg.mutable_breakerevent()->mutable_statusandeventxcbr()->mutable_pos()->set_stval(commonmodule::DbPosKind::DbPosKind_closed);
         filter.publish(msg);
         CHECK(publisher->num_calls == 2);
+        CHECK(publisher->last_message.breakerevent().statusandeventxcbr().pos().stval() == commonmodule::DbPosKind::DbPosKind_closed);
+        CHECK(publisher->last_message.breakerevent().statusandeventxcbr().pos().has_q() == false); // Should not contain other events
+        CHECK(publisher->last_message.breaker().conductingequipment().DebugString() == msg.breaker().conductingequipment().DebugString()); // Keep conducting equipment
+    }
+
+    SECTION("Change other value")
+    {
+        msg.mutable_breakerevent()->mutable_statusandeventxcbr()->mutable_pos()->mutable_q()->set_validity(commonmodule::ValidityKind::ValidityKind_invalid);
+        filter.publish(msg);
+        CHECK(publisher->num_calls == 2);
+        CHECK(publisher->last_message.breakerevent().statusandeventxcbr().pos().q().validity() == commonmodule::ValidityKind::ValidityKind_invalid);
+        CHECK(publisher->last_message.breakerevent().statusandeventxcbr().pos().stval() == 0); // Should not contain other events
+        CHECK(publisher->last_message.breaker().conductingequipment().DebugString() == msg.breaker().conductingequipment().DebugString()); // Keep conducting equipment
     }
 
     SECTION("Add value")
@@ -47,6 +66,10 @@ TEST_CASE("ProtoChangeFilter")
         msg.mutable_breakerevent()->mutable_statusandeventxcbr()->mutable_dynamictest()->set_stval(commonmodule::DynamicTestKind::DynamicTestKind_operating);
         filter.publish(msg);
         CHECK(publisher->num_calls == 2);
+        CHECK(publisher->last_message.breakerevent().statusandeventxcbr().dynamictest().stval() == commonmodule::DynamicTestKind::DynamicTestKind_operating);
+        CHECK(publisher->last_message.breakerevent().statusandeventxcbr().has_pos() == false); // Should not contain other events
+        CHECK(publisher->last_message.breakerevent().statusandeventxcbr().pos().has_q() == false); // Should not contain other events
+        CHECK(publisher->last_message.breaker().conductingequipment().DebugString() == msg.breaker().conductingequipment().DebugString()); // Keep conducting equipment
     }
 
     SECTION("Change value in message identifier")
