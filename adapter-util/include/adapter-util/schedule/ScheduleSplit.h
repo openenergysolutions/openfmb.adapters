@@ -6,6 +6,8 @@
 #include <memory>
 
 #include <boost/uuid/random_generator.hpp>
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_io.hpp>
 
 #include "adapter-util/ProfileInfo.h"
 #include "adapter-util/schedule/ScheduleExtractors.h"
@@ -129,7 +131,7 @@ struct CustomPointSplitter<T, decltype((void) schedule_extractor<T>::has_custom_
     {
         if(schedule_extractor<T>::has_custom_points(profile))
         {
-            auto add_custom_point = [](const schedule_extractor<T>::custom_point_t& point, T& profile)
+            auto add_custom_point = [](const typename schedule_extractor<T>::custom_point_t& point, T& profile)
             {
                 const auto new_point = schedule_extractor<T>::get_custom_points(profile)->Add();
                 new_point->MergeFrom(point);
@@ -181,7 +183,7 @@ template <typename T>
 class ScheduleSplit
 {
 public:
-    ScheduleSplit(boost::uuids::random_generator& rg, std::chrono::system_clock::duration tolerance)
+    ScheduleSplit(const boost::uuids::random_generator& rg, std::chrono::system_clock::duration tolerance)
         : rg(rg), tolerance(tolerance)
     {}
 
@@ -210,7 +212,9 @@ public:
         {
             if(is_first_point)
             {
-                if(std::chrono::abs(it.first - std::chrono::system_clock::now()) > tolerance)
+                auto diff = it.first - std::chrono::system_clock::now();
+                diff = diff >= diff.zero() ? diff : -diff;
+                if(diff > tolerance)
                 {
                     throw api::Exception("First schedule point not within tolerance");
                 }
