@@ -1,8 +1,9 @@
 #ifndef OPENFMB_ADAPTER_SCHEDULESPLIT_H
 #define OPENFMB_ADAPTER_SCHEDULESPLIT_H
 
-#include <memory>
 #include <chrono>
+#include <deque>
+#include <memory>
 
 #include <boost/uuid/random_generator.hpp>
 
@@ -16,7 +17,7 @@ namespace util
 {
 
 template <typename T>
-using schedule_map_t = std::map<std::chrono::system_clock::time_point, std::unique_ptr<T>>;
+using schedule_vector_t = std::deque<std::pair<std::chrono::system_clock::time_point, std::unique_ptr<T>>>;
 
 /**
  * The type returned when schedules are split for differed processing
@@ -26,13 +27,13 @@ using schedule_map_t = std::map<std::chrono::system_clock::time_point, std::uniq
 template <typename T>
 struct SplitSchedule {
     std::unique_ptr<T> now;
-    schedule_map_t<T> later;
+    schedule_vector_t<T> later;
 };
 
 template <typename T, typename U = int>
 struct SchedulePointSplitter
 {
-    static void extract(T& profile, schedule_map_t<T>& later, boost::uuids::random_generator& rg)
+    static void extract(T& profile, schedule_vector_t<T>& later, boost::uuids::random_generator& rg)
     {
         // Do nothing
     }
@@ -42,7 +43,7 @@ template <typename T>
 struct SchedulePointSplitter<T, decltype((void) schedule_extractor<T>::get_control_fscc, 0)>
 {
 private:
-    static void extract_points(const T& profile, schedule_map_t<T>& later, boost::uuids::random_generator& rg,
+    static void extract_points(const T& profile, schedule_vector_t<T>& later, boost::uuids::random_generator& rg,
         commonmodule::ControlScheduleFSCH* schedule, std::function<void(const commonmodule::SchedulePoint& point, T& profile)> add_point_fn)
     {
         if(schedule->has_valacsg())
@@ -50,14 +51,17 @@ private:
             auto points = schedule->valacsg().schpts();
             for(const auto point: points)
             {
-                const auto timestamp = time::get(point.starttime());
+                if(!point.has_starttime())
+                {
+                    throw api::Exception("Schedule point is missing a timestamp");
+                }
 
-                auto existing = later.find(timestamp);
+                auto timestamp = time::get(point.starttime());
 
                 // a profile at that time already exists
-                if(existing != later.end())
+                if(!later.empty() && timestamp == later.back().first)
                 {
-                    add_point_fn(point, *existing->second);
+                    add_point_fn(point, *later.back().second);
                 }
                 else
                 {
@@ -76,7 +80,7 @@ private:
                     }
                     add_point_fn(point, *new_profile);
 
-                    later.insert({ timestamp, std::move(new_profile) });
+                    later.emplace_back(timestamp, std::move(new_profile));
                 }
             }
 
@@ -85,16 +89,24 @@ private:
     }
 
 public:
-    static void extract(T& profile, schedule_map_t<T>& later, boost::uuids::random_generator& rg)
+    static void extract(T& profile, schedule_vector_t<T>& later, boost::uuids::random_generator& rg)
     {
         auto control_fscc = schedule_extractor<T>::get_control_fscc(profile);
 
         extract_points(profile, later, rg, control_fscc->mutable_controlschedulefsch(), [](const commonmodule::SchedulePoint& point, T& profile) {
+            if(point.scheduleparameter_size() == 0)
+            {
+                throw api::Exception("Schedule point does not have a value associated with a timestamp");
+            }
             const auto new_point = schedule_extractor<T>::get_control_fscc(profile)->mutable_controlschedulefsch()->mutable_valacsg()->mutable_schpts()->Add();
             new_point->MergeFrom(point);
         });
 
         extract_points(profile, later, rg, control_fscc->mutable_islandcontrolschedulefsch(), [](const commonmodule::SchedulePoint& point, T& profile) {
+            if(point.scheduleparameter_size() == 0)
+            {
+                throw api::Exception("Schedule point does not have a value associated with a timestamp");
+            }
             const auto new_point = schedule_extractor<T>::get_control_fscc(profile)->mutable_islandcontrolschedulefsch()->mutable_valacsg()->mutable_schpts()->Add();
             new_point->MergeFrom(point);
         });
@@ -104,7 +116,7 @@ public:
 template <typename T, typename U = int>
 struct CustomPointSplitter
 {
-    static void extract(T& profile, schedule_map_t<T>& later, boost::uuids::random_generator& rg)
+    static void extract(T& profile, schedule_vector_t<T>& later, boost::uuids::random_generator& rg)
     {
         // Do nothing
     }
@@ -113,7 +125,7 @@ struct CustomPointSplitter
 template <typename T>
 struct CustomPointSplitter<T, decltype((void) schedule_extractor<T>::has_custom_points, 0)>
 {
-    static void extract(T& profile, schedule_map_t<T>& later, boost::uuids::random_generator& rg)
+    static void extract(T& profile, schedule_vector_t<T>& later, boost::uuids::random_generator& rg)
     {
         if(schedule_extractor<T>::has_custom_points(profile))
         {
@@ -127,14 +139,17 @@ struct CustomPointSplitter<T, decltype((void) schedule_extractor<T>::has_custom_
             auto points = schedule_extractor<T>::get_custom_points(profile);
             for(const auto point: *points)
             {
-                const auto timestamp = time::get(point.starttime());
+                if(!point.has_starttime())
+                {
+                    throw api::Exception("Schedule point is missing a timestamp");
+                }
 
-                auto existing = later.find(timestamp);
+                auto timestamp = time::get(point.starttime());
 
                 // a profile at that time already exists
-                if(existing != later.end())
+                if(!later.empty() && timestamp == later.back().first)
                 {
-                    add_custom_point(point, *existing->second);
+                    add_custom_point(point, *later.back().second);
                 }
                 else
                 {
@@ -153,7 +168,7 @@ struct CustomPointSplitter<T, decltype((void) schedule_extractor<T>::has_custom_
                     }
                     add_custom_point(point, *new_profile);
 
-                    later.insert({ timestamp, std::move(new_profile) });
+                    later.emplace_back(timestamp, std::move(new_profile));
                 }
             }
 
@@ -163,25 +178,71 @@ struct CustomPointSplitter<T, decltype((void) schedule_extractor<T>::has_custom_
 };
 
 template <typename T>
-SplitSchedule<T> split(const T& profile, boost::uuids::random_generator& rg)
+class ScheduleSplit
 {
-    // make a mutable copy
-    auto copy = std::make_unique<T>(profile);
+public:
+    ScheduleSplit(boost::uuids::random_generator& rg, std::chrono::system_clock::duration tolerance)
+        : rg(rg), tolerance(tolerance)
+    {}
 
-    // This is just to make sure we have a template specialization for each type
-    schedule_extractor<T>::get_message_timestamp(*copy);
+    SplitSchedule<T> split(const T& profile)
+    {
+        // make a mutable copy
+        auto copy = std::make_unique<T>(profile);
 
-    // iterate over each schedule point, building a map of new profiles
-    schedule_map_t<T> later;
+        // This is just to make sure we have a template specialization for each type
+        schedule_extractor<T>::get_message_timestamp(*copy);
 
-    // Extract SchedulePoints (if necessary)
-    SchedulePointSplitter<T>::extract(*copy, later, rg);
+        // iterate over each schedule point, building a map of new profiles
+        schedule_vector_t<T> later;
 
-    // Extract custom points (if necessary)
-    CustomPointSplitter<T>::extract(*copy, later, rg);
+        // Extract SchedulePoints (if necessary)
+        SchedulePointSplitter<T>::extract(*copy, later, rg);
 
-    return { std::move(copy), std::move(later) };
-}
+        // Extract custom points (if necessary)
+        CustomPointSplitter<T>::extract(*copy, later, rg);
+
+        // Timestamp validations
+        bool is_first_point = true;
+        bool remove_first_point = false;
+        std::chrono::system_clock::time_point last_timestamp;
+        for(auto& it : later)
+        {
+            if(is_first_point)
+            {
+                if(std::chrono::abs(it.first - std::chrono::system_clock::now()) > tolerance)
+                {
+                    throw api::Exception("First schedule point not within tolerance");
+                }
+                if(it.first <= std::chrono::system_clock::now())
+                {
+                    copy->MergeFrom(*it.second);
+                    remove_first_point = true;
+                }
+                is_first_point = false;
+            }
+            else
+            {
+                if(it.first < last_timestamp)
+                {
+                    throw api::Exception("Schedule points not in order");
+                }
+            }
+            last_timestamp = it.first;
+        }
+
+        if(remove_first_point)
+        {
+            later.pop_front();
+        }
+
+        return { std::move(copy), std::move(later) };
+    }
+
+private:
+    boost::uuids::random_generator rg;
+    std::chrono::system_clock::duration tolerance;
+};
 
 }
 }
