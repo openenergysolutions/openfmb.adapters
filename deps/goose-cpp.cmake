@@ -2,7 +2,7 @@ include(FetchContent)
 
 FetchContent_Declare(
     goose-cpp
-    GIT_REPOSITORY https://github.com/openenergysolutions/goose-cpp.git
+    GIT_REPOSITORY git@github.com:openenergysolutions/goose-cpp.git
     GIT_TAG        develop
     GIT_SHALLOW    ON
 )

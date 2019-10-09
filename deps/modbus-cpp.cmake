@@ -2,7 +2,7 @@ include(FetchContent)
 
 FetchContent_Declare(
     modbus-cpp
-    GIT_REPOSITORY https://github.com/openenergysolutions/modbus-cpp.git
+    GIT_REPOSITORY git@github.com:openenergysolutions/modbus-cpp.git
     GIT_TAG        master
     GIT_SHALLOW    ON
 )
