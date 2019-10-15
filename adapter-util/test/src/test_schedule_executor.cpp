@@ -23,7 +23,7 @@ TEST_CASE("ScheduleExecutor")
     auto executor = std::make_shared<exe4cpp::MockExecutor>();
     auto subscriber = std::make_shared<MockSubscriber>();
     const auto start = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch()).count();
-    util::ScheduleExecutor<essmodule::ESSControlProfile> sched_executor{logger, executor, std::chrono::seconds(5), subscriber};
+    util::ScheduleExecutor<essmodule::ESSControlProfile> sched_executor{logger, "f20e4b90-ba3c-4c60-bf19-a7c2e9336a5c", executor, std::chrono::seconds(5), subscriber};
 
     boost::uuids::random_generator rg;
     // setup the input profile

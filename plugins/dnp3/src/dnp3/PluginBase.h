@@ -12,6 +12,7 @@ namespace dnp3 {
 
     public:
         PluginBase() = delete;
+        virtual ~PluginBase() = default;
 
         PluginBase(const api::Logger& logger, const YAML::Node& node);
 

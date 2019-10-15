@@ -60,8 +60,8 @@ namespace modbus {
     template <class T>
     void SubscribeConfigReadVisitor<T>::subscribe(const api::Logger& logger, std::chrono::system_clock::duration tolerance, std::shared_ptr<exe4cpp::IExecutor> executor, api::ISubscribeOne<T>& bus, std::shared_ptr<ITransactionProcessor> tx_processor)
     {
-        auto subscriber = std::make_shared<CommandSubscriptionHandler<T>>(logger, this->get_primary_mrid(), this->config, std::move(tx_processor));
-        bus.subscribe(std::make_shared<util::ScheduleExecutor<T>>(logger, executor, tolerance, subscriber));
+        auto subscriber = std::make_shared<CommandSubscriptionHandler<T>>(logger, this->config, std::move(tx_processor));
+        bus.subscribe(std::make_shared<util::ScheduleExecutor<T>>(logger, this->get_primary_mrid(), executor, tolerance, subscriber));
     }
 
     template <class T>

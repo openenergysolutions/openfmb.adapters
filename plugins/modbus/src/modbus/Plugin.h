@@ -4,6 +4,7 @@
 #include <adapter-api/IPluginFactory.h>
 
 #include <exe4cpp/asio/BasicExecutor.h>
+#include <exe4cpp/asio/ThreadPool.h>
 
 #include <thread>
 
@@ -40,8 +41,7 @@ namespace modbus {
 
         api::Logger logger;
         std::shared_ptr<exe4cpp::BasicExecutor> executor;
-        asio::executor_work_guard<asio::io_context::executor_type> executor_guard;
-        std::unique_ptr<std::thread> executor_thread;
+        std::unique_ptr<exe4cpp::ThreadPool> thread_pool;
         std::unique_ptr<::modbus::IModbusManager> manager;
         std::vector<std::function<void()>> start_actions;
     };

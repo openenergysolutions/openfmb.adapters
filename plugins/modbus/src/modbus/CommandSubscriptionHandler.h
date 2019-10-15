@@ -15,26 +15,18 @@ namespace modbus {
     template <class T>
     class CommandSubscriptionHandler final : public api::ISubscriptionHandler<T> {
         api::Logger logger;
-        const std::string uuid;
         const std::shared_ptr<const ICommandConfiguration<T>> config;
         const std::shared_ptr<ITransactionProcessor> tx_processor;
 
     public:
         CommandSubscriptionHandler(
             api::Logger logger,
-            std::string uuid,
             std::shared_ptr<const ICommandConfiguration<T>> config,
             std::shared_ptr<ITransactionProcessor> tx_processor)
             : logger(std::move(logger))
-            , uuid(std::move(uuid))
             , config(std::move(config))
             , tx_processor(std::move(tx_processor))
         {
-        }
-
-        bool matches(const T& message) const override
-        {
-            return util::profile_info<T>::get_conducting_equip(message).mrid() == this->uuid;
         }
 
     private:

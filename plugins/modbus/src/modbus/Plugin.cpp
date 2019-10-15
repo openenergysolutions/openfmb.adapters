@@ -38,6 +38,7 @@ namespace modbus {
         template <class U = T>
         static return_t<util::profile_info<U>::type == util::ProfileType::Control> handle(const YAML::Node& node, const api::Logger& logger, std::shared_ptr<exe4cpp::IExecutor> executor, api::message_bus_t bus, std::shared_ptr<ITransactionProcessor> processor, const AutoPollConfig& auto_poll_config)
         {
+            const auto tolerance = std::chrono::milliseconds(util::yaml::require(node, util::keys::tolerance).as<uint64_t>());
             util::CommandPriorityMap priority_map(util::yaml::require(node, util::keys::command_order));
 
             SubscribeConfigReadVisitor<T> visitor(
@@ -47,7 +48,7 @@ namespace modbus {
 
             priority_map.assert_all_operations_referenced();
 
-            visitor.subscribe(logger, std::chrono::milliseconds(util::yaml::require(node, util::keys::tolerance).as<uint64_t>()), executor, *bus, std::move(processor));
+            visitor.subscribe(logger, tolerance, executor, *bus, std::move(processor));
             return true;
         }
 
@@ -95,8 +96,7 @@ namespace modbus {
 
     Plugin::Plugin(const YAML::Node& node, const api::Logger& logger, api::message_bus_t bus)
         : logger(logger),
-          executor(exe4cpp::BasicExecutor::create(std::make_shared<asio::io_context>())),
-          executor_guard(executor->get_context()->get_executor())
+          executor(exe4cpp::BasicExecutor::create(std::make_shared<asio::io_context>()))
     {
         // initialize the Modbus manager
         this->manager = ::modbus::IModbusManager::create(
@@ -113,11 +113,10 @@ namespace modbus {
 
     Plugin::~Plugin()
     {
-        if(executor_thread)
+        if(thread_pool)
         {
-            executor_guard.reset();
             executor->get_context()->stop();
-            executor_thread->join();
+            thread_pool.reset();
         }
     }
 
@@ -211,9 +210,7 @@ namespace modbus {
 
     void Plugin::start()
     {
-        executor_thread = std::make_unique<std::thread>([this]() {
-            this->executor->get_context()->run();
-        });
+        thread_pool = std::make_unique<exe4cpp::ThreadPool>(executor->get_context(), 1);
 
         for (auto& action : start_actions) {
             action();
