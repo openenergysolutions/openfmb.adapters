@@ -170,7 +170,7 @@ struct CustomPointSplitter<T, decltype((void) schedule_extractor<T>::has_custom_
     {
         extract_points<T, typename schedule_extractor<T>::custom_point_t>(profile, later, rg, tolerance,
                                                        schedule_extractor<T>::get_custom_points(profile),
-                                                       [](const schedule_extractor<T>::custom_point_t& point, T& profile) {
+                                                       [](const typename schedule_extractor<T>::custom_point_t& point, T& profile) {
             const auto new_point = schedule_extractor<T>::get_custom_points(profile)->Add();
             new_point->MergeFrom(point);
         });
