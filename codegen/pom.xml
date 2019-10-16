@@ -24,6 +24,7 @@
         <artifactId>protobuf-maven-plugin</artifactId>
         <version>0.5.1</version>
         <configuration>
+          <protocExecutable>C:/.conan/6e73a2/1/bin/protoc.exe</protocExecutable>
           <protoSourceRoot>../deps/openfmb-schemas/protobuf/openfmb</protoSourceRoot>
         </configuration>
         <executions>

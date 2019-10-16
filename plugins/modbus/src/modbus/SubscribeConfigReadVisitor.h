@@ -4,6 +4,9 @@
 
 #include <adapter-util/ConfigStrings.h>
 #include <adapter-util/config/SubscribingConfigReadVisitorBase.h>
+#include <adapter-util/schedule/ScheduleExecutor.h>
+
+#include <exe4cpp/IExecutor.h>
 
 #include "CommandConfiguration.h"
 #include "CommandSubscriptionHandler.h"
@@ -29,7 +32,7 @@ namespace modbus {
     public:
         SubscribeConfigReadVisitor(const YAML::Node& root, util::ICommandPrioritySource& priority_source);
 
-        void subscribe(const api::Logger& logger, api::ISubscribeOne<T>& bus, std::shared_ptr<ITransactionProcessor> tx_processor);
+        void subscribe(const api::Logger& logger, std::chrono::system_clock::duration tolerance, std::shared_ptr<exe4cpp::IExecutor> executor, api::ISubscribeOne<T>& bus, std::shared_ptr<ITransactionProcessor> tx_processor);
 
         void handle(const std::string& field_name, const util::getter_t<T, util::repeated_schedule_parameter_t>& getter) override;
 
@@ -55,11 +58,10 @@ namespace modbus {
     }
 
     template <class T>
-    void SubscribeConfigReadVisitor<T>::subscribe(const api::Logger& logger, api::ISubscribeOne<T>& bus, std::shared_ptr<ITransactionProcessor> tx_processor)
+    void SubscribeConfigReadVisitor<T>::subscribe(const api::Logger& logger, std::chrono::system_clock::duration tolerance, std::shared_ptr<exe4cpp::IExecutor> executor, api::ISubscribeOne<T>& bus, std::shared_ptr<ITransactionProcessor> tx_processor)
     {
-
-        bus.subscribe(
-            std::make_shared<CommandSubscriptionHandler<T>>(logger, this->get_primary_mrid(), this->config, std::move(tx_processor)));
+        auto subscriber = std::make_shared<CommandSubscriptionHandler<T>>(logger, this->config, std::move(tx_processor));
+        bus.subscribe(std::make_shared<util::ScheduleExecutor<T>>(logger, this->get_primary_mrid(), executor, tolerance, subscriber));
     }
 
     template <class T>

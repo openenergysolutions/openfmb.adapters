@@ -16,37 +16,27 @@ namespace dnp3 {
         template <class T>
         class ControlSubscriptionHandler final : public api::ISubscriptionHandler<T> {
 
-            const std::string mRID;
             api::Logger logger;
             const std::shared_ptr<CommandConfiguration<T>> configuration;
             const std::shared_ptr<ICommandSequenceExecutor> executor;
 
         public:
-            ControlSubscriptionHandler(std::string mRID, api::Logger logger,
+            ControlSubscriptionHandler(api::Logger logger,
                                        std::shared_ptr<CommandConfiguration<T>> configuration,
                                        std::shared_ptr<ICommandSequenceExecutor> executor);
 
         protected:
-            bool matches(const T& message) const override;
-
             void process(const T& message) override;
         };
 
         template <class T>
-        ControlSubscriptionHandler<T>::ControlSubscriptionHandler(std::string mRID, api::Logger logger,
+        ControlSubscriptionHandler<T>::ControlSubscriptionHandler(api::Logger logger,
                                                                   std::shared_ptr<CommandConfiguration<T>> configuration,
                                                                   std::shared_ptr<ICommandSequenceExecutor> executor)
-            : mRID(std::move(mRID))
-            , logger(std::move(logger))
+            : logger(std::move(logger))
             , configuration(std::move(configuration))
             , executor(std::move(executor))
         {
-        }
-
-        template <class T>
-        bool ControlSubscriptionHandler<T>::matches(const T& message) const
-        {
-            return this->mRID == util::profile_info<T>::get_conducting_equip(message).mrid();
         }
 
         template <class T>
