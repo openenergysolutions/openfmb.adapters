@@ -17,12 +17,12 @@ template <typename T>
 class ScheduleExecutor : public api::ISubscriptionHandler<T>
 {
 public:
-    explicit ScheduleExecutor(const api::Logger& logger, const std::string mrid, std::shared_ptr<exe4cpp::IExecutor> executor, std::chrono::system_clock::duration tolerance, api::subscription_handler_t<T> handler)
+    explicit ScheduleExecutor(const api::Logger& logger, const std::string& mrid, std::shared_ptr<exe4cpp::IExecutor> executor, std::chrono::system_clock::duration tolerance, api::subscription_handler_t<T> handler)
         : m_logger{logger},
           m_mrid{mrid},
           m_executor{std::move(executor)},
           m_handler{std::move(handler)},
-          m_splitter{boost::uuids::random_generator(), tolerance}
+          m_splitter{tolerance}
     {
     }
 

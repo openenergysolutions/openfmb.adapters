@@ -181,8 +181,7 @@ template <typename T>
 class ScheduleSplit
 {
 public:
-    ScheduleSplit(const boost::uuids::random_generator& rg, std::chrono::system_clock::duration tolerance)
-        : rg(rg), tolerance(tolerance)
+    ScheduleSplit(std::chrono::system_clock::duration tolerance) : tolerance(tolerance)
     {}
 
     SplitSchedule<T> split(const T& profile)
