@@ -1,0 +1,357 @@
+---
+name: session1  # name for logging purposes
+log-level: Info  # {Trace, Debug, Info, Warn, Error, Critical}
+remote-ip: 127.0.0.1
+port: 8080
+unit-identifier: 2  # aka 'slave address'
+response_timeout_ms: 1000  # response timeout
+always-write-multiple-registers: false  # if true, translate single register writes to multiple register write w/ single value 
+auto_polling:  # configuration parameters for auto-polling
+  max_register_gaps: 0  # 0 == no gaps allowed when polling for registers
+heartbeats: []
+profiles:
+  - name: SolarControlProfile
+    poll_period_ms: 1000  # perform polls once per second
+    command-order:  # order of commands by operation id, first == highest priority, last == lowest priority
+      - some-command-id
+    tolerance-ms: 60000
+    mapping:  # profile model starts here
+      controlMessageInfo:
+        messageInfo:
+          identifiedObject:
+            description:
+              value:
+                string-field-type: ignored
+            mRID:
+              value:
+                string-field-type: generated_uuid
+            name:
+              value:
+                string-field-type: ignored
+          messageTimeStamp:
+            timestamp-field-type: message
+      ied:
+        identifiedObject:
+          description:
+            value:
+              string-field-type: ignored
+          mRID:
+            value:
+              string-field-type: ignored
+          name:
+            value:
+              string-field-type: ignored
+      solarControl:
+        controlValue:
+          identifiedObject:
+            description:
+              value:
+                string-field-type: ignored
+            mRID:
+              value:
+                string-field-type: ignored
+            name:
+              value:
+                string-field-type: ignored
+          modBlk:
+            value:
+              bool-field-type: ignored
+        check:
+          interlockCheck:
+            value:
+              bool-field-type: ignored
+              when-true:
+                - output-type: none  # {none, write_single_register_uint16, write_single_register_int16, write_multiple_registers_uint32, write_multiple_registers_int32, write_multiple_registers_float32, read_and_modify_register}
+                  command-id: some-command-id
+                  bitwise-operation: set_masked_bits  # {set_bit, clear_bit, clear_masked_bits, set_masked_bits}
+                  index: 0
+                  mask: 0x1
+              when-false:
+                - output-type: none  # {none, write_single_register_uint16, write_single_register_int16, write_multiple_registers_uint32, write_multiple_registers_int32, write_multiple_registers_float32, read_and_modify_register}
+                  command-id: some-command-id
+                  bitwise-operation: set_masked_bits  # {set_bit, clear_bit, clear_masked_bits, set_masked_bits}
+                  index: 0
+                  mask: 0x1
+          synchroCheck:
+            value:
+              bool-field-type: ignored
+              when-true:
+                - output-type: none  # {none, write_single_register_uint16, write_single_register_int16, write_multiple_registers_uint32, write_multiple_registers_int32, write_multiple_registers_float32, read_and_modify_register}
+                  command-id: some-command-id
+                  bitwise-operation: set_masked_bits  # {set_bit, clear_bit, clear_masked_bits, set_masked_bits}
+                  index: 0
+                  mask: 0x1
+              when-false:
+                - output-type: none  # {none, write_single_register_uint16, write_single_register_int16, write_multiple_registers_uint32, write_multiple_registers_int32, write_multiple_registers_float32, read_and_modify_register}
+                  command-id: some-command-id
+                  bitwise-operation: set_masked_bits  # {set_bit, clear_bit, clear_masked_bits, set_masked_bits}
+                  index: 0
+                  mask: 0x1
+        solarControlFSCC:
+          controlFSCC:
+            logicalNodeForControl:
+              logicalNode:
+                identifiedObject:
+                  description:
+                    value:
+                      string-field-type: ignored
+                  mRID:
+                    value:
+                      string-field-type: ignored
+                  name:
+                    value:
+                      string-field-type: ignored
+            controlScheduleFSCH:
+              ValACSG:
+                schpts:
+                  - scheduleParameter:  # A sequence of schedule parameters w/ enum + value. Each plugin specifies what to do with each enumeration value
+                      - scheduleParameterType: ScheduleParameterKind_A_net_mag
+                        output-type: write_single_register_uint16  # {none, write_single_register_uint16, write_single_register_int16, write_multiple_registers_uint32, write_multiple_registers_int32, write_multiple_registers_float32, read_and_modify_register}
+                        command-id: some-command-id
+                        index: 0
+                        scale: 1
+                    startTime:
+                      control-timestamp-field-type: ignored
+            islandControlScheduleFSCH:
+              ValACSG:
+                schpts:
+                  - scheduleParameter:  # A sequence of schedule parameters w/ enum + value. Each plugin specifies what to do with each enumeration value
+                      - scheduleParameterType: ScheduleParameterKind_A_net_mag
+                        output-type: write_single_register_uint16  # {none, write_single_register_uint16, write_single_register_int16, write_multiple_registers_uint32, write_multiple_registers_int32, write_multiple_registers_float32, read_and_modify_register}
+                        command-id: some-command-id
+                        index: 1
+                        scale: 1
+                    startTime:
+                      control-timestamp-field-type: ignored
+          SolarControlScheduleFSCH:
+            ValDCSG:
+              crvpts:
+                - frequencySetPointEnabled:
+                    ctlVal:
+                      bool-field-type: ignored
+                      when-true:
+                        - output-type: none  # {none, write_single_register_uint16, write_single_register_int16, write_multiple_registers_uint32, write_multiple_registers_int32, write_multiple_registers_float32, read_and_modify_register}
+                          command-id: some-command-id
+                          bitwise-operation: set_masked_bits  # {set_bit, clear_bit, clear_masked_bits, set_masked_bits}
+                          index: 0
+                          mask: 0x1
+                      when-false:
+                        - output-type: none  # {none, write_single_register_uint16, write_single_register_int16, write_multiple_registers_uint32, write_multiple_registers_int32, write_multiple_registers_float32, read_and_modify_register}
+                          command-id: some-command-id
+                          bitwise-operation: set_masked_bits  # {set_bit, clear_bit, clear_masked_bits, set_masked_bits}
+                          index: 0
+                          mask: 0x1
+                  mode:
+                    setVal:
+                      enum-field-type: ignored
+                      mapping:
+                        - name: GridConnectModeKind_UNDEFINED
+                          outputs:
+                            - output-type: none  # {none, write_single_register_uint16, write_single_register_int16, write_multiple_registers_uint32, write_multiple_registers_int32, write_multiple_registers_float32, read_and_modify_register}
+                              command-id: some-command-id
+                              bitwise-operation: set_masked_bits  # {set_bit, clear_bit, clear_masked_bits, set_masked_bits}
+                              index: 0
+                              mask: 0x1
+                        - name: GridConnectModeKind_CSI
+                          outputs:
+                            - output-type: none  # {none, write_single_register_uint16, write_single_register_int16, write_multiple_registers_uint32, write_multiple_registers_int32, write_multiple_registers_float32, read_and_modify_register}
+                              command-id: some-command-id
+                              bitwise-operation: set_masked_bits  # {set_bit, clear_bit, clear_masked_bits, set_masked_bits}
+                              index: 0
+                              mask: 0x1
+                        - name: GridConnectModeKind_VC_VSI
+                          outputs:
+                            - output-type: none  # {none, write_single_register_uint16, write_single_register_int16, write_multiple_registers_uint32, write_multiple_registers_int32, write_multiple_registers_float32, read_and_modify_register}
+                              command-id: some-command-id
+                              bitwise-operation: set_masked_bits  # {set_bit, clear_bit, clear_masked_bits, set_masked_bits}
+                              index: 0
+                              mask: 0x1
+                        - name: GridConnectModeKind_CC_VSI
+                          outputs:
+                            - output-type: none  # {none, write_single_register_uint16, write_single_register_int16, write_multiple_registers_uint32, write_multiple_registers_int32, write_multiple_registers_float32, read_and_modify_register}
+                              command-id: some-command-id
+                              bitwise-operation: set_masked_bits  # {set_bit, clear_bit, clear_masked_bits, set_masked_bits}
+                              index: 0
+                              mask: 0x1
+                        - name: GridConnectModeKind_none
+                          outputs:
+                            - output-type: none  # {none, write_single_register_uint16, write_single_register_int16, write_multiple_registers_uint32, write_multiple_registers_int32, write_multiple_registers_float32, read_and_modify_register}
+                              command-id: some-command-id
+                              bitwise-operation: set_masked_bits  # {set_bit, clear_bit, clear_masked_bits, set_masked_bits}
+                              index: 0
+                              mask: 0x1
+                        - name: GridConnectModeKind_other
+                          outputs:
+                            - output-type: none  # {none, write_single_register_uint16, write_single_register_int16, write_multiple_registers_uint32, write_multiple_registers_int32, write_multiple_registers_float32, read_and_modify_register}
+                              command-id: some-command-id
+                              bitwise-operation: set_masked_bits  # {set_bit, clear_bit, clear_masked_bits, set_masked_bits}
+                              index: 0
+                              mask: 0x1
+                        - name: GridConnectModeKind_VSI_PQ
+                          outputs:
+                            - output-type: none  # {none, write_single_register_uint16, write_single_register_int16, write_multiple_registers_uint32, write_multiple_registers_int32, write_multiple_registers_float32, read_and_modify_register}
+                              command-id: some-command-id
+                              bitwise-operation: set_masked_bits  # {set_bit, clear_bit, clear_masked_bits, set_masked_bits}
+                              index: 0
+                              mask: 0x1
+                        - name: GridConnectModeKind_VSI_VF
+                          outputs:
+                            - output-type: none  # {none, write_single_register_uint16, write_single_register_int16, write_multiple_registers_uint32, write_multiple_registers_int32, write_multiple_registers_float32, read_and_modify_register}
+                              command-id: some-command-id
+                              bitwise-operation: set_masked_bits  # {set_bit, clear_bit, clear_masked_bits, set_masked_bits}
+                              index: 0
+                              mask: 0x1
+                        - name: GridConnectModeKind_VSI_ISO
+                          outputs:
+                            - output-type: none  # {none, write_single_register_uint16, write_single_register_int16, write_multiple_registers_uint32, write_multiple_registers_int32, write_multiple_registers_float32, read_and_modify_register}
+                              command-id: some-command-id
+                              bitwise-operation: set_masked_bits  # {set_bit, clear_bit, clear_masked_bits, set_masked_bits}
+                              index: 0
+                              mask: 0x1
+                    setValExtension:
+                      value:
+                        string-field-type: ignored
+                  pctHzDroop:
+                    value:
+                      float-field-type: ignored
+                      output-type: none  # {none, write_single_register_uint16, write_single_register_int16, write_multiple_registers_uint32, write_multiple_registers_int32, write_multiple_registers_float32, read_and_modify_register}
+                      command-id: some-command-id
+                      index: 0
+                      scale: 1
+                  pctVDroop:
+                    value:
+                      float-field-type: ignored
+                      output-type: none  # {none, write_single_register_uint16, write_single_register_int16, write_multiple_registers_uint32, write_multiple_registers_int32, write_multiple_registers_float32, read_and_modify_register}
+                      command-id: some-command-id
+                      index: 0
+                      scale: 1
+                  rampRates:
+                    negativeReactivePowerKVArPerMin:
+                      value:
+                        float-field-type: ignored
+                        output-type: none  # {none, write_single_register_uint16, write_single_register_int16, write_multiple_registers_uint32, write_multiple_registers_int32, write_multiple_registers_float32, read_and_modify_register}
+                        command-id: some-command-id
+                        index: 0
+                        scale: 1
+                    negativeRealPowerKWPerMin:
+                      value:
+                        float-field-type: ignored
+                        output-type: none  # {none, write_single_register_uint16, write_single_register_int16, write_multiple_registers_uint32, write_multiple_registers_int32, write_multiple_registers_float32, read_and_modify_register}
+                        command-id: some-command-id
+                        index: 0
+                        scale: 1
+                    positiveReactivePowerKVArPerMin:
+                      value:
+                        float-field-type: ignored
+                        output-type: none  # {none, write_single_register_uint16, write_single_register_int16, write_multiple_registers_uint32, write_multiple_registers_int32, write_multiple_registers_float32, read_and_modify_register}
+                        command-id: some-command-id
+                        index: 0
+                        scale: 1
+                    positiveRealPowerKWPerMin:
+                      value:
+                        float-field-type: ignored
+                        output-type: none  # {none, write_single_register_uint16, write_single_register_int16, write_multiple_registers_uint32, write_multiple_registers_int32, write_multiple_registers_float32, read_and_modify_register}
+                        command-id: some-command-id
+                        index: 0
+                        scale: 1
+                  reactivePwrSetPointEnabled:
+                    ctlVal:
+                      bool-field-type: ignored
+                      when-true:
+                        - output-type: none  # {none, write_single_register_uint16, write_single_register_int16, write_multiple_registers_uint32, write_multiple_registers_int32, write_multiple_registers_float32, read_and_modify_register}
+                          command-id: some-command-id
+                          bitwise-operation: set_masked_bits  # {set_bit, clear_bit, clear_masked_bits, set_masked_bits}
+                          index: 0
+                          mask: 0x1
+                      when-false:
+                        - output-type: none  # {none, write_single_register_uint16, write_single_register_int16, write_multiple_registers_uint32, write_multiple_registers_int32, write_multiple_registers_float32, read_and_modify_register}
+                          command-id: some-command-id
+                          bitwise-operation: set_masked_bits  # {set_bit, clear_bit, clear_masked_bits, set_masked_bits}
+                          index: 0
+                          mask: 0x1
+                  realPwrSetPointEnabled:
+                    ctlVal:
+                      bool-field-type: ignored
+                      when-true:
+                        - output-type: none  # {none, write_single_register_uint16, write_single_register_int16, write_multiple_registers_uint32, write_multiple_registers_int32, write_multiple_registers_float32, read_and_modify_register}
+                          command-id: some-command-id
+                          bitwise-operation: set_masked_bits  # {set_bit, clear_bit, clear_masked_bits, set_masked_bits}
+                          index: 0
+                          mask: 0x1
+                      when-false:
+                        - output-type: none  # {none, write_single_register_uint16, write_single_register_int16, write_multiple_registers_uint32, write_multiple_registers_int32, write_multiple_registers_float32, read_and_modify_register}
+                          command-id: some-command-id
+                          bitwise-operation: set_masked_bits  # {set_bit, clear_bit, clear_masked_bits, set_masked_bits}
+                          index: 0
+                          mask: 0x1
+                  reset:
+                    ctlVal:
+                      bool-field-type: ignored
+                      when-true:
+                        - output-type: none  # {none, write_single_register_uint16, write_single_register_int16, write_multiple_registers_uint32, write_multiple_registers_int32, write_multiple_registers_float32, read_and_modify_register}
+                          command-id: some-command-id
+                          bitwise-operation: set_masked_bits  # {set_bit, clear_bit, clear_masked_bits, set_masked_bits}
+                          index: 0
+                          mask: 0x1
+                      when-false:
+                        - output-type: none  # {none, write_single_register_uint16, write_single_register_int16, write_multiple_registers_uint32, write_multiple_registers_int32, write_multiple_registers_float32, read_and_modify_register}
+                          command-id: some-command-id
+                          bitwise-operation: set_masked_bits  # {set_bit, clear_bit, clear_masked_bits, set_masked_bits}
+                          index: 0
+                          mask: 0x1
+                  state:
+                    value:
+                      enum-field-type: ignored
+                      mapping:
+                        - name: StateKind_off
+                          outputs:
+                            - output-type: none  # {none, write_single_register_uint16, write_single_register_int16, write_multiple_registers_uint32, write_multiple_registers_int32, write_multiple_registers_float32, read_and_modify_register}
+                              command-id: some-command-id
+                              bitwise-operation: set_masked_bits  # {set_bit, clear_bit, clear_masked_bits, set_masked_bits}
+                              index: 0
+                              mask: 0x1
+                        - name: StateKind_on
+                          outputs:
+                            - output-type: none  # {none, write_single_register_uint16, write_single_register_int16, write_multiple_registers_uint32, write_multiple_registers_int32, write_multiple_registers_float32, read_and_modify_register}
+                              command-id: some-command-id
+                              bitwise-operation: set_masked_bits  # {set_bit, clear_bit, clear_masked_bits, set_masked_bits}
+                              index: 0
+                              mask: 0x1
+                        - name: StateKind_standby
+                          outputs:
+                            - output-type: none  # {none, write_single_register_uint16, write_single_register_int16, write_multiple_registers_uint32, write_multiple_registers_int32, write_multiple_registers_float32, read_and_modify_register}
+                              command-id: some-command-id
+                              bitwise-operation: set_masked_bits  # {set_bit, clear_bit, clear_masked_bits, set_masked_bits}
+                              index: 0
+                              mask: 0x1
+                  voltageSetPointEnabled:
+                    ctlVal:
+                      bool-field-type: ignored
+                      when-true:
+                        - output-type: none  # {none, write_single_register_uint16, write_single_register_int16, write_multiple_registers_uint32, write_multiple_registers_int32, write_multiple_registers_float32, read_and_modify_register}
+                          command-id: some-command-id
+                          bitwise-operation: set_masked_bits  # {set_bit, clear_bit, clear_masked_bits, set_masked_bits}
+                          index: 0
+                          mask: 0x1
+                      when-false:
+                        - output-type: none  # {none, write_single_register_uint16, write_single_register_int16, write_multiple_registers_uint32, write_multiple_registers_int32, write_multiple_registers_float32, read_and_modify_register}
+                          command-id: some-command-id
+                          bitwise-operation: set_masked_bits  # {set_bit, clear_bit, clear_masked_bits, set_masked_bits}
+                          index: 0
+                          mask: 0x1
+                  startTime:
+                    control-timestamp-field-type: ignored
+      solarInverter:
+        conductingEquipment:
+          namedObject:
+            description:
+              value:
+                string-field-type: ignored
+            name:
+              value:
+                string-field-type: ignored
+          mRID:
+            string-field-type: primary_uuid
+            value: "89207ddb-93bf-48e1-ade2-9b3aa49c9ff5"
+...
+

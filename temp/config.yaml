@@ -1,0 +1,130 @@
+---
+# common application settings
+logging:
+  logger-name: application
+  console:  # log messages to the console
+    enabled: true
+  rotating-file:  # log messages to rotating files
+    enabled: false
+    path: adapter.log
+    max-size: 1048576  # maximum size of a single file in bytes
+    max-files: 3
+
+# map of plugin configurations
+plugins:
+
+# captures published OpenFMB messages to a replayable file format
+  capture:
+    enabled: false
+    file: capture.txt
+
+# publish/subscribe to DDS using RTI bindings (requires run-time license)
+  dds-rti:
+    enabled: false
+    domain-id: 0
+    publish:  # to the DDS broker
+      - profile: SwitchReadingProfile
+        subject: "*"  # * or an mRID
+      - profile: SwitchStatusProfile
+        subject: "*"  # * or an mRID
+    subscribe:  # from the DDS broker
+      - profile: SwitchControlProfile
+        subject: "*"  # * or an mRID
+
+# maps openFMB to the master side of the DNP3 protocol
+  dnp3-master:
+    enabled: true
+    thread-pool-size: 1  # defaults to std::thread::hardware_concurrency() if <= 0
+    masters:
+      - path: pv-simulator-template.yaml  # possibly a template
+        overrides: []
+
+# maps openFMB to the outstation side of the DNP3 protocol
+  dnp3-outstation:
+    enabled: false
+    thread-pool-size: 1  # defaults to std::thread::hardware_concurrency() if <= 0
+    outstations:
+      - path: dnp3-outstation-template.yaml  # possibly a template
+        overrides:
+          - a.b.c = 4  # a sequence of override specifications to apply to the template
+
+# maps GOOSE protocol messages to OpenFMB
+  goose-pub:
+    enabled: false
+    goCb:
+      - path: goCb-template.yaml  # possibly a template
+        overrides:
+          - a.b.c = 4  # a sequence of override specifications to apply to the template
+
+# maps OpenFMB messages to the GOOSE protocol
+  goose-sub:
+    enabled: false
+    goCb:
+      - path: goCb-template.yaml  # possibly a template
+        overrides:
+          - a.b.c = 4  # a sequence of override specifications to apply to the template
+
+# pretty prints profiles to the log
+  log:
+    enabled: true
+    log_debug_string: true  # log the entire protobuf debug string for every profile
+    filters: []
+
+# maps openFMB to the Modbus protocol
+  modbus:
+    enabled: false
+    thread-pool-size: 1  # defaults to std::thread::hardware_concurrency() if <= 0
+    sessions:  # list of session configuration files
+      - path: config-modbus.yaml  # possibly a template
+        overrides: []
+
+# publish/subscribe to a MQTT broker
+  mqtt:
+    enabled: false
+    max-queued-messages: 100  # how many messages to buffer before discarding the oldest
+    server-address: tcp://localhost:1883
+    client-id: client1
+    connect-retry-delay-ms: 5000
+    security:
+      security-type: none
+    publish:  # to the MQTT broker
+      - profile: SwitchReadingProfile
+        topic-suffix: "#"  # # or an mRID
+      - profile: SwitchStatusProfile
+        topic-suffix: "#"  # # or an mRID
+    subscribe:  # from the MQTT broker
+      - profile: SwitchControlProfile
+        topic-suffix: "#"  # # or an mRID
+
+# publish/subscribe to a NATS server
+  nats:
+    enabled: true
+    max-queued-messages: 100  # how many messages to buffer before discarding the oldest
+    connect-url: nats://localhost:4222
+    connect-retry-seconds: 5
+    security:
+      security-type: none
+    publish:  # to the NATs broker
+      []
+    subscribe:  # from the NATs broker
+      - profile: SolarControlProfile
+        subject: "*"  # * or an mRID
+
+# replays captured OpenFMB messages from a file
+  replay:
+    enabled: false
+    file: capture.txt
+
+# saves all the published messages to a TimescaleDB
+  timescaledb:
+    enabled: false
+    database-url: postgresql://user:password@localhost:5432/dbname
+    store-measurement: true
+    table-name: data
+    store-raw-message: true
+    raw-table-name: raw_data
+    raw-data-format: 0  # 0 = json; 1 = protobuf
+    max-queued-messages: 100  # how many messages to buffer before discarding the oldest
+    connect-retry-seconds: 5  # time to wait between to connection attempts
+...
+

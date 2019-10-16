@@ -33,20 +33,22 @@ namespace dnp3 {
             template <class U = T>
             static return_t<util::profile_info<U>::type == util::ProfileType::Control>
             handle(const YAML::Node& node, const api::Logger& logger, api::message_bus_t bus,
-                   const PollRepository&, std::shared_ptr<ICommandSequenceExecutor> executor)
+                   const PollRepository&, std::shared_ptr<exe4cpp::IExecutor> executor, std::shared_ptr<ICommandSequenceExecutor> command_executor)
             {
+                const auto tolerance = std::chrono::milliseconds(util::yaml::require(node, util::keys::tolerance).as<uint64_t>());
+
                 util::CommandPriorityMap priority_map(util::yaml::require(node, util::keys::command_order));
                 SubscribingConfigReadVisitor<T> visitor(util::yaml::require(node, util::keys::mapping),
                                                         priority_map);
                 util::visit(visitor);
-                visitor.subscribe(logger, *bus, std::move(executor));
+                visitor.subscribe(logger, *bus, tolerance, executor, std::move(command_executor));
                 return true;
             }
 
             template <class U = T>
             static return_t<util::profile_info<U>::type != util::ProfileType::Control>
             handle(const YAML::Node& node, const api::Logger& logger, api::message_bus_t bus,
-                   const PollRepository& poll_repo, std::shared_ptr<ICommandSequenceExecutor>)
+                   const PollRepository& poll_repo, std::shared_ptr<exe4cpp::IExecutor>, std::shared_ptr<ICommandSequenceExecutor>)
             {
                 auto poll_name = util::yaml::require_string(node, keys::poll_name);
                 auto builder = poll_repo.get(poll_name);
@@ -62,7 +64,8 @@ namespace dnp3 {
             const api::Logger& logger,
             const YAML::Node& node,
             api::message_bus_t bus)
-            : PluginBase(logger, node)
+            : PluginBase(logger, node),
+              executor(exe4cpp::BasicExecutor::create(std::make_shared<asio::io_context>()))
         {
             util::yaml::load_template_configs(
                 util::yaml::require(node, keys::masters),
@@ -70,6 +73,24 @@ namespace dnp3 {
                 [&](const YAML::Node& config) {
                     this->add_master(config, bus);
                 });
+        }
+
+        Plugin::~Plugin()
+        {
+            if(thread_pool)
+            {
+                executor->get_context()->stop();
+                thread_pool.reset();
+            }
+        }
+
+        void Plugin::start()
+        {
+            thread_pool = std::make_unique<exe4cpp::ThreadPool>(executor->get_context(), 1);
+
+            for (const auto& master : this->masters) {
+                master->Enable();
+            }
         }
 
         void Plugin::add_master(const YAML::Node& node, api::message_bus_t bus)
@@ -92,7 +113,7 @@ namespace dnp3 {
             config.master.unsolClassMask = unsol_class_mask;
 
             const auto unsolicited_handler = std::make_shared<SOEHandler>();
-            const auto executor = std::make_shared<CommandSequenceExecutor>(this->logger);
+            const auto command_executor = std::make_shared<CommandSequenceExecutor>(this->logger);
 
             auto master = channel->AddMaster(
                 util::yaml::require(node, util::keys::name).as<std::string>(),
@@ -114,20 +135,14 @@ namespace dnp3 {
                         logger,
                         bus,
                         poll_repo,
-                        executor);
+                        executor,
+                        command_executor);
                 });
 
             // start allowing the executor to dispatch controls
-            executor->start(master);
+            command_executor->start(master);
 
             this->masters.push_back(master);
-        }
-
-        void Plugin::start()
-        {
-            for (const auto& master : this->masters) {
-                master->Enable();
-            }
         }
 
         Plugin::channel_t Plugin::create_channel(const YAML::Node& node)

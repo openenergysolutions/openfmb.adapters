@@ -21,7 +21,10 @@ set(HEADERS
 		include/adapter-util/util/Time.h
 		include/adapter-util/util/YAMLTemplate.h
 		include/adapter-util/util/YAMLUtil.h
-        include/adapter-util/config/PublishingConfigReadVisitorBase.h
+		include/adapter-util/schedule/ScheduleExecutor.h
+		include/adapter-util/schedule/ScheduleExtractors.h
+		include/adapter-util/schedule/ScheduleSplit.h
+		include/adapter-util/config/PublishingConfigReadVisitorBase.h
 		include/adapter-util/config/SubscribingConfigReadVisitorBase.h
 		include/adapter-util/config/ConfigReadVisitorBase.h
 		include/adapter-util/config/ConfigWriteVisitorBase.h
@@ -110,8 +113,7 @@ set(SOURCES
 	src/config/generated/SwitchDiscreteControlProfileTypedModelVisitor.cpp
 	src/config/generated/SwitchEventProfileTypedModelVisitor.cpp
 	src/config/generated/SwitchReadingProfileTypedModelVisitor.cpp
-	src/config/generated/SwitchStatusProfileTypedModelVisitor.cpp
-        include/adapter-util/config/FieldTypes.h)
+	src/config/generated/SwitchStatusProfileTypedModelVisitor.cpp)
 
 # directories to be automatically formatted by astyle
 SET(CPP_FORMAT_DIRS
@@ -145,11 +147,12 @@ if(OPENFMB_USE_CONAN)
 
 target_link_libraries(adapter-util PUBLIC
     adapter-api
-    CONAN_PKG::boost)
+	CONAN_PKG::boost
+	exe4cpp)
 
 else()
 
-target_link_libraries(adapter-util PUBLIC adapter-api Boost::boost)
+target_link_libraries(adapter-util PUBLIC adapter-api Boost::boost exe4cpp)
 
 endif()
 

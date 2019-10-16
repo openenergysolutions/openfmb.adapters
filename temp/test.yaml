@@ -1,0 +1,919 @@
+---
+name: device1  # This name is pre-pended to each log message
+channel:
+  adapter: 0.0.0.0  # Override to use a specific adapter
+  outstation-ip: 127.0.0.1
+  port: 20000
+protocol:
+  master-address: 1
+  outstation-address: 10
+  integrity-poll-ms: 5000
+profiles:
+  - name: SolarControlProfile
+    command-order:  # order of commands by operation id, first == highest priority, last == lowest priority
+      - some-command-id
+    mapping:  # profile model starts here
+      controlMessageInfo:
+        messageInfo:
+          identifiedObject:
+            description:
+              value:
+                string-field-type: ignored
+            mRID:
+              value:
+                string-field-type: generated_uuid
+            name:
+              value:
+                string-field-type: ignored
+          messageTimeStamp:
+            timestamp-field-type: message
+      ied:
+        identifiedObject:
+          description:
+            value:
+              string-field-type: ignored
+          mRID:
+            value:
+              string-field-type: ignored
+          name:
+            value:
+              string-field-type: ignored
+      solarControl:
+        controlValue:
+          identifiedObject:
+            description:
+              value:
+                string-field-type: ignored
+            mRID:
+              value:
+                string-field-type: ignored
+            name:
+              value:
+                string-field-type: ignored
+          modBlk:
+            value:
+              bool-field-type: ignored
+        check:
+          interlockCheck:
+            value:
+              bool-field-type: ignored
+              when-true:
+                - index: 0
+                  command-id: some-command-id
+                  g12v1:
+                    control-code: LATCH_ON
+                    count: 1
+                    on-time-ms: 1000
+                    off-time-ms: 1000
+              when-false:
+                - index: 0
+                  command-id: some-command-id
+                  g12v1:
+                    control-code: LATCH_OFF
+                    count: 1
+                    on-time-ms: 1000
+                    off-time-ms: 1000
+          synchroCheck:
+            value:
+              bool-field-type: ignored
+              when-true:
+                - index: 0
+                  command-id: some-command-id
+                  g12v1:
+                    control-code: LATCH_ON
+                    count: 1
+                    on-time-ms: 1000
+                    off-time-ms: 1000
+              when-false:
+                - index: 0
+                  command-id: some-command-id
+                  g12v1:
+                    control-code: LATCH_OFF
+                    count: 1
+                    on-time-ms: 1000
+                    off-time-ms: 1000
+        solarControlFSCC:
+          controlFSCC:
+            logicalNodeForControl:
+              logicalNode:
+                identifiedObject:
+                  description:
+                    value:
+                      string-field-type: ignored
+                  mRID:
+                    value:
+                      string-field-type: ignored
+                  name:
+                    value:
+                      string-field-type: ignored
+            controlScheduleFSCH:
+              ValACSG:
+                schpts:
+                  - scheduleParameter:  # A sequence of schedule parameters w/ enum + value. Each plugin specifies what to do with each enumeration value
+                      - scheduleParameterType: ScheduleParameterKind_none
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_other
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_A_net_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_A_neut_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_A_phsA_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_A_phsB_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_A_phsC_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_Hz_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_PF_net_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 11
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_PF_neut_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_PF_phsA_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_PF_phsB_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_PF_phsC_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_PhV_net_ang
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_PhV_net_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_PhV_neut_ang
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_PhV_neut_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_PhV_phsA_ang
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_PhV_phsA_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_PhV_phsB_ang
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_PhV_phsB_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_PhV_phsC_ang
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_PhV_phsC_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_PPV_phsAB_ang
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_PPV_phsAB_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_PPV_phsBC_ang
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_PPV_phsBC_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_PPV_phsCA_ang
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_PPV_phsCA_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_VA_net_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_VA_neut_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_VA_phsA_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_VA_phsB_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_VA_phsC_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_VAr_net_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_VAr_neut_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_VAr_phsA_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_VAr_phsB_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_VAr_phsC_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_W_net_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_W_neut_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_W_phsA_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_W_phsB_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_W_phsC_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                    startTime:
+                      control-timestamp-field-type: ignored
+            islandControlScheduleFSCH:
+              ValACSG:
+                schpts:
+                  - scheduleParameter:  # A sequence of schedule parameters w/ enum + value. Each plugin specifies what to do with each enumeration value
+                      - scheduleParameterType: ScheduleParameterKind_none
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_other
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_A_net_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_A_neut_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_A_phsA_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_A_phsB_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_A_phsC_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_Hz_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_PF_net_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 11
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_PF_neut_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_PF_phsA_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_PF_phsB_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_PF_phsC_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_PhV_net_ang
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_PhV_net_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_PhV_neut_ang
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_PhV_neut_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_PhV_phsA_ang
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_PhV_phsA_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_PhV_phsB_ang
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_PhV_phsB_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_PhV_phsC_ang
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_PhV_phsC_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_PPV_phsAB_ang
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_PPV_phsAB_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_PPV_phsBC_ang
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_PPV_phsBC_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_PPV_phsCA_ang
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_PPV_phsCA_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_VA_net_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_VA_neut_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_VA_phsA_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_VA_phsB_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_VA_phsC_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_VAr_net_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_VAr_neut_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_VAr_phsA_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_VAr_phsB_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_VAr_phsC_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_W_net_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_W_neut_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_W_phsA_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_W_phsB_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                      - scheduleParameterType: ScheduleParameterKind_W_phsC_mag
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                    startTime:
+                      control-timestamp-field-type: ignored
+          SolarControlScheduleFSCH:
+            ValDCSG:
+              crvpts:
+                - frequencySetPointEnabled:
+                    ctlVal:
+                      bool-field-type: ignored
+                      when-true:
+                        - index: 0
+                          command-id: some-command-id
+                          g12v1:
+                            control-code: LATCH_ON
+                            count: 1
+                            on-time-ms: 1000
+                            off-time-ms: 1000
+                      when-false:
+                        - index: 0
+                          command-id: some-command-id
+                          g12v1:
+                            control-code: LATCH_OFF
+                            count: 1
+                            on-time-ms: 1000
+                            off-time-ms: 1000
+                  mode:
+                    setVal:
+                      enum-field-type: ignored
+                      mapping:
+                        - name: GridConnectModeKind_UNDEFINED
+                          outputs:
+                            - index: 0
+                              command-id: some-command-id
+                              g12v1:
+                                control-code: LATCH_ON
+                                count: 1
+                                on-time-ms: 1000
+                                off-time-ms: 1000
+                        - name: GridConnectModeKind_CSI
+                          outputs:
+                            - index: 0
+                              command-id: some-command-id
+                              g12v1:
+                                control-code: LATCH_ON
+                                count: 1
+                                on-time-ms: 1000
+                                off-time-ms: 1000
+                        - name: GridConnectModeKind_VC_VSI
+                          outputs:
+                            - index: 0
+                              command-id: some-command-id
+                              g12v1:
+                                control-code: LATCH_ON
+                                count: 1
+                                on-time-ms: 1000
+                                off-time-ms: 1000
+                        - name: GridConnectModeKind_CC_VSI
+                          outputs:
+                            - index: 0
+                              command-id: some-command-id
+                              g12v1:
+                                control-code: LATCH_ON
+                                count: 1
+                                on-time-ms: 1000
+                                off-time-ms: 1000
+                        - name: GridConnectModeKind_none
+                          outputs:
+                            - index: 0
+                              command-id: some-command-id
+                              g12v1:
+                                control-code: LATCH_ON
+                                count: 1
+                                on-time-ms: 1000
+                                off-time-ms: 1000
+                        - name: GridConnectModeKind_other
+                          outputs:
+                            - index: 0
+                              command-id: some-command-id
+                              g12v1:
+                                control-code: LATCH_ON
+                                count: 1
+                                on-time-ms: 1000
+                                off-time-ms: 1000
+                        - name: GridConnectModeKind_VSI_PQ
+                          outputs:
+                            - index: 0
+                              command-id: some-command-id
+                              g12v1:
+                                control-code: LATCH_ON
+                                count: 1
+                                on-time-ms: 1000
+                                off-time-ms: 1000
+                        - name: GridConnectModeKind_VSI_VF
+                          outputs:
+                            - index: 0
+                              command-id: some-command-id
+                              g12v1:
+                                control-code: LATCH_ON
+                                count: 1
+                                on-time-ms: 1000
+                                off-time-ms: 1000
+                        - name: GridConnectModeKind_VSI_ISO
+                          outputs:
+                            - index: 0
+                              command-id: some-command-id
+                              g12v1:
+                                control-code: LATCH_ON
+                                count: 1
+                                on-time-ms: 1000
+                                off-time-ms: 1000
+                    setValExtension:
+                      value:
+                        string-field-type: ignored
+                  pctHzDroop:
+                    value:
+                      float-field-type: ignored
+                      outputs:
+                        - command-id: some-command-id
+                          command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                          index: 0
+                          scale: 1
+                  pctVDroop:
+                    value:
+                      float-field-type: ignored
+                      outputs:
+                        - command-id: some-command-id
+                          command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                          index: 0
+                          scale: 1
+                  rampRates:
+                    negativeReactivePowerKVArPerMin:
+                      value:
+                        float-field-type: mapped
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v3  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 10
+                            scale: 10
+                    negativeRealPowerKWPerMin:
+                      value:
+                        float-field-type: ignored
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                    positiveReactivePowerKVArPerMin:
+                      value:
+                        float-field-type: ignored
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                    positiveRealPowerKWPerMin:
+                      value:
+                        float-field-type: ignored
+                        outputs:
+                          - command-id: some-command-id
+                            command-action-analog-type: g41v1  # {g41v1, g41v2, g41v3, g41v4}
+                            index: 0
+                            scale: 1
+                  reactivePwrSetPointEnabled:
+                    ctlVal:
+                      bool-field-type: ignored
+                      when-true:
+                        - index: 0
+                          command-id: some-command-id
+                          g12v1:
+                            control-code: LATCH_ON
+                            count: 1
+                            on-time-ms: 1000
+                            off-time-ms: 1000
+                      when-false:
+                        - index: 0
+                          command-id: some-command-id
+                          g12v1:
+                            control-code: LATCH_OFF
+                            count: 1
+                            on-time-ms: 1000
+                            off-time-ms: 1000
+                  realPwrSetPointEnabled:
+                    ctlVal:
+                      bool-field-type: ignored
+                      when-true:
+                        - index: 0
+                          command-id: some-command-id
+                          g12v1:
+                            control-code: LATCH_ON
+                            count: 1
+                            on-time-ms: 1000
+                            off-time-ms: 1000
+                      when-false:
+                        - index: 0
+                          command-id: some-command-id
+                          g12v1:
+                            control-code: LATCH_OFF
+                            count: 1
+                            on-time-ms: 1000
+                            off-time-ms: 1000
+                  reset:
+                    ctlVal:
+                      bool-field-type: ignored
+                      when-true:
+                        - index: 0
+                          command-id: some-command-id
+                          g12v1:
+                            control-code: LATCH_ON
+                            count: 1
+                            on-time-ms: 1000
+                            off-time-ms: 1000
+                      when-false:
+                        - index: 0
+                          command-id: some-command-id
+                          g12v1:
+                            control-code: LATCH_OFF
+                            count: 1
+                            on-time-ms: 1000
+                            off-time-ms: 1000
+                  state:
+                    value:
+                      enum-field-type: mapped
+                      mapping:
+                        - name: StateKind_off
+                          outputs:
+                            - index: 0
+                              command-id: some-command-id
+                              g12v1:
+                                control-code: LATCH_ON
+                                count: 1
+                                on-time-ms: 1000
+                                off-time-ms: 1000
+                        - name: StateKind_on
+                          outputs:
+                            - index: 0
+                              command-id: some-command-id
+                              g12v1:
+                                control-code: LATCH_OFF
+                                count: 1
+                                on-time-ms: 1000
+                                off-time-ms: 1000
+                  voltageSetPointEnabled:
+                    ctlVal:
+                      bool-field-type: ignored
+                      when-true:
+                        - index: 0
+                          command-id: some-command-id
+                          g12v1:
+                            control-code: LATCH_ON
+                            count: 1
+                            on-time-ms: 1000
+                            off-time-ms: 1000
+                      when-false:
+                        - index: 0
+                          command-id: some-command-id
+                          g12v1:
+                            control-code: LATCH_OFF
+                            count: 1
+                            on-time-ms: 1000
+                            off-time-ms: 1000
+                  startTime:
+                    control-timestamp-field-type: ignored
+      solarInverter:
+        conductingEquipment:
+          namedObject:
+            description:
+              value:
+                string-field-type: ignored
+            name:
+              value:
+                string-field-type: ignored
+          mRID:
+            string-field-type: primary_uuid
+            value: "ccfebb8e-b56f-496e-8329-b9dbabb7b00c"

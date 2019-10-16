@@ -5,6 +5,9 @@
 
 #include "SOEHandler.h"
 
+#include <exe4cpp/asio/BasicExecutor.h>
+#include <exe4cpp/asio/ThreadPool.h>
+
 #include <opendnp3/DNP3Manager.h>
 
 namespace adapter {
@@ -21,6 +24,8 @@ namespace dnp3 {
 
             Plugin(const api::Logger& logger, const YAML::Node& node, api::message_bus_t bus);
 
+            virtual ~Plugin();
+
             virtual std::string name() const override
             {
                 return "dnp3-master";
@@ -36,6 +41,10 @@ namespace dnp3 {
             // --- helper methods for creating resources ---
 
             channel_t create_channel(const YAML::Node& node);
+
+
+            std::shared_ptr<exe4cpp::BasicExecutor> executor;
+            std::unique_ptr<exe4cpp::ThreadPool> thread_pool;
         };
     }
 }

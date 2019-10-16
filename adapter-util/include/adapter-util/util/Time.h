@@ -18,6 +18,8 @@ namespace util {
         void set(const std::chrono::system_clock::time_point& time, commonmodule::Timestamp& timestamp);
 
         std::chrono::system_clock::time_point get(const commonmodule::Timestamp& timestamp);
+
+        std::chrono::system_clock::time_point get(const commonmodule::ControlTimestamp& timestamp);
     }
 }
 }

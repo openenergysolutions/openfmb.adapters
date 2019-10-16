@@ -29,6 +29,7 @@ namespace modbus {
 
             if (util::profile_info<T>::type == util::ProfileType::Control) {
                 util::CommandPriorityMap::write_default_list(out);
+                out << YAML::Key << util::keys::tolerance << YAML::Value << 5000;
             }
 
             out << YAML::Key << util::keys::mapping << YAML::Comment("profile model starts here");

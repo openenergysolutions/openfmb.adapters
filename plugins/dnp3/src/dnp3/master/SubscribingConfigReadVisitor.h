@@ -5,6 +5,7 @@
 #include <adapter-util/ProfileInfo.h>
 #include <adapter-util/config/SubscribingConfigReadVisitorBase.h>
 #include <adapter-util/config/YAMLGetters.h>
+#include <adapter-util/schedule/ScheduleExecutor.h>
 
 #include "dnp3/generated/CommandActionAnalogType.h"
 #include "dnp3/master/ControlSubscriptionHandler.h"
@@ -98,8 +99,11 @@ namespace dnp3 {
             {
             }
 
-            void subscribe(api::Logger logger, api::ISubscribeOne<T>& bus,
-                           std::shared_ptr<ICommandSequenceExecutor> executor)
+            void subscribe(api::Logger logger,
+                           api::ISubscribeOne<T>& bus,
+                           std::chrono::system_clock::duration tolerance,
+                           std::shared_ptr<exe4cpp::IExecutor> executor,
+                           std::shared_ptr<ICommandSequenceExecutor> command_executor)
             {
                 if (configuration->is_empty()) {
                     throw api::Exception("command configuration is empty!");
@@ -107,9 +111,8 @@ namespace dnp3 {
 
                 logger.info("Subscribing to {} w/ mRID {}", T::descriptor()->name(), this->get_primary_mrid());
 
-                bus.subscribe(
-                    std::make_shared<ControlSubscriptionHandler<T>>(this->get_primary_mrid(), logger,
-                                                                    this->configuration, std::move(executor)));
+                auto subscriber = std::make_shared<ControlSubscriptionHandler<T>>(logger, this->configuration, std::move(command_executor));
+                bus.subscribe(std::make_shared<util::ScheduleExecutor<T>>(logger, this->get_primary_mrid(), executor, tolerance, subscriber));
             }
 
             void handle(const std::string& field_name,

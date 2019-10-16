@@ -4,6 +4,9 @@
 namespace adapter {
 namespace util {
     namespace time {
+
+        const uint32_t fraction_to_millisec_ratio = std::numeric_limits<uint32_t>::max() / 1000;
+
         void set(const std::chrono::system_clock::time_point& time, commonmodule::Timestamp& timestamp)
         {
             const auto elapsed = time.time_since_epoch();
@@ -16,15 +19,25 @@ namespace util {
                 static_cast<uint32_t>((millisec / 1000.0) * std::numeric_limits<uint32_t>::max()));
         }
 
+        std::chrono::system_clock::time_point get(uint64_t seconds, uint32_t fraction)
+        {
+            std::chrono::seconds sec { seconds };
+            std::chrono::milliseconds ms {fraction / fraction_to_millisec_ratio };
+
+            return std::chrono::time_point<std::chrono::system_clock>() + sec + ms;
+        }
+
         std::chrono::system_clock::time_point get(const commonmodule::Timestamp& timestamp)
         {
-            std::chrono::seconds seconds{ timestamp.seconds() };
-            std::chrono::milliseconds millis{
-                static_cast<uint64_t>(timestamp.fraction() / std::numeric_limits<uint32_t>::max() * 1000.0)
-            };
-
-            return std::chrono::time_point<std::chrono::system_clock>() + seconds;
+            return get(timestamp.seconds(), timestamp.fraction());
         }
+
+        std::chrono::system_clock::time_point get(const commonmodule::ControlTimestamp& timestamp)
+        {
+            return get(timestamp.seconds(), timestamp.fraction());
+        }
+
+
     }
 }
 }

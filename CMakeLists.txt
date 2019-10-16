@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.0)
+cmake_minimum_required (VERSION 3.12)
 project (openfmb-adapter)
 set(OPENFMB_ADAPTER_VERSION 0.0.1)
 
@@ -51,6 +51,13 @@ enable_testing()
 include(./cmake/ClangFormat.cmake)
 include(./cmake/ClangTidy.cmake)
 
+# External dependencies
+include(./deps/asio.cmake)
+include(./deps/catch.cmake)
+include(./deps/exe4cpp.cmake)
+include(./deps/log4cpp.cmake)
+include(./deps/ser4cpp.cmake)
+
 # Protobuf C++ objects, used by adapter-util and transitively by all plugins
 add_subdirectory(./proto-api)
 
@@ -73,17 +80,17 @@ if(OPENFMB_USE_DNP3)
   if(OPENFMB_LINK_STATIC)
     set(DNP3_STATIC_LIBS ON CACHE BOOL "build opendnp3 statically")
   endif()
-  add_subdirectory(./deps/opendnp3)
+  include(./deps/opendnp3.cmake)
   add_subdirectory(./plugins/dnp3)
 endif()
 
 if(OPENFMB_USE_MODBUS)
-  add_subdirectory(./deps/modbus)
+  include(./deps/modbus-cpp.cmake)
   add_subdirectory(./plugins/modbus)
 endif()
 
 if(OPENFMB_USE_GOOSE)
-  add_subdirectory(./deps/goose-cpp)
+  include(./deps/goose-cpp.cmake)
   add_subdirectory(./plugins/goose)
 endif()
 
