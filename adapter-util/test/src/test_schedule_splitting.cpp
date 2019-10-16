@@ -17,7 +17,7 @@ struct ProfileReader
     template <typename U = T>
     static return_t<util::profile_info<U>::type == util::ProfileType::Control> handle()
     {
-        util::ScheduleSplit<U> splitter(boost::uuids::random_generator(), std::chrono::seconds(5));
+        util::ScheduleSplit<U> splitter(std::chrono::seconds(5));
         U profile;
         splitter.split(profile);
     }
@@ -31,9 +31,8 @@ struct ProfileReader
 
 TEST_CASE("ScheduleSplit")
 {
-    boost::uuids::random_generator rg;
     const auto now = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch()).count();
-    util::ScheduleSplit<essmodule::ESSControlProfile> splitter(rg, std::chrono::seconds(5));
+    util::ScheduleSplit<essmodule::ESSControlProfile> splitter(std::chrono::seconds(5));
 
     SECTION("verify schedule splitting is implemented for each control profiles")
     {
@@ -42,7 +41,8 @@ TEST_CASE("ScheduleSplit")
 
     SECTION("properly splits ESSControlProfile")
     {
-        const auto initialize = [now](boost::uuids::random_generator& rg) -> essmodule::ESSControlProfile {
+        const auto initialize = [now]() -> essmodule::ESSControlProfile {
+            boost::uuids::random_generator rg;
             // setup the input profile
             essmodule::ESSControlProfile profile;
             // setup the metadata
@@ -102,7 +102,7 @@ TEST_CASE("ScheduleSplit")
             return profile;
         };
 
-        const auto profile = initialize(rg);
+        const auto profile = initialize();
         const auto result = splitter.split(profile);
 
         // there should be no schedule points to be performed now
@@ -228,6 +228,7 @@ TEST_CASE("ScheduleSplit")
 
     SECTION("missing timestamp")
     {
+        boost::uuids::random_generator rg;
         essmodule::ESSControlProfile profile;
         // setup the metadata
         profile.mutable_ess()->mutable_conductingequipment()->set_mrid(boost::uuids::to_string(rg()));
@@ -245,6 +246,7 @@ TEST_CASE("ScheduleSplit")
 
     SECTION("points not in order")
     {
+        boost::uuids::random_generator rg;
         essmodule::ESSControlProfile profile;
         // setup the metadata
         profile.mutable_ess()->mutable_conductingequipment()->set_mrid(boost::uuids::to_string(rg()));
@@ -279,6 +281,7 @@ TEST_CASE("ScheduleSplit")
 
     SECTION("points in order across different types")
     {
+        boost::uuids::random_generator rg;
         essmodule::ESSControlProfile profile;
         // setup the metadata
         profile.mutable_ess()->mutable_conductingequipment()->set_mrid(boost::uuids::to_string(rg()));
@@ -340,6 +343,7 @@ TEST_CASE("ScheduleSplit")
 
     SECTION("points of other type doesn't have now point")
     {
+        boost::uuids::random_generator rg;
         essmodule::ESSControlProfile profile;
         // setup the metadata
         profile.mutable_ess()->mutable_conductingequipment()->set_mrid(boost::uuids::to_string(rg()));
@@ -369,6 +373,7 @@ TEST_CASE("ScheduleSplit")
 
     SECTION("first point outside of tolerance (after)")
     {
+        boost::uuids::random_generator rg;
         essmodule::ESSControlProfile profile;
         // setup the metadata
         profile.mutable_ess()->mutable_conductingequipment()->set_mrid(boost::uuids::to_string(rg()));
@@ -389,6 +394,7 @@ TEST_CASE("ScheduleSplit")
 
     SECTION("first point outside of tolerance (before)")
     {
+        boost::uuids::random_generator rg;
         essmodule::ESSControlProfile profile;
         // setup the metadata
         profile.mutable_ess()->mutable_conductingequipment()->set_mrid(boost::uuids::to_string(rg()));
@@ -409,6 +415,7 @@ TEST_CASE("ScheduleSplit")
 
     SECTION("no value associated with a timestamp")
     {
+        boost::uuids::random_generator rg;
         essmodule::ESSControlProfile profile;
         // setup the metadata
         profile.mutable_ess()->mutable_conductingequipment()->set_mrid(boost::uuids::to_string(rg()));
@@ -427,6 +434,7 @@ TEST_CASE("ScheduleSplit")
 
     SECTION("first value before now is put in now")
     {
+        boost::uuids::random_generator rg;
         essmodule::ESSControlProfile profile;
         // setup the metadata
         profile.mutable_ess()->mutable_conductingequipment()->set_mrid(boost::uuids::to_string(rg()));
