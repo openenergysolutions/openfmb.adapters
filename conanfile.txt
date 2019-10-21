@@ -1,6 +1,6 @@
 [requires]
 boost/1.66.0@conan/stable
-OpenSSL/1.0.2s@conan/stable
+OpenSSL/1.1.0k@conan/stable
 paho-cpp/1.0.1@conan/stable
 protobuf/3.5.2@bincrafters/stable
 yaml-cpp/0.5.3@bincrafters/stable
