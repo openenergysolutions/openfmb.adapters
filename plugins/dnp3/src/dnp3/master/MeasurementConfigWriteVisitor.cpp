@@ -59,7 +59,8 @@ namespace dnp3 {
         void MeasurementConfigWriteVisitor::write_mapped_enum_keys(YAML::Emitter& out,
                                                                    google::protobuf::EnumDescriptor const* descriptor)
         {
-            out << YAML::Key << SourceType::label << YAML::Value << SourceType::none << YAML::Comment(util::enumeration::get_value_set_from_list<SourceType>({ SourceType::Value::none, SourceType::Value::binary }));
+            out << YAML::Key << SourceType::label << YAML::Value << SourceType::none <<
+                YAML::Comment(util::enumeration::get_value_set_from_list<SourceType>({ SourceType::Value::none, SourceType::Value::binary, SourceType::Value::analog, SourceType::Value::counter }));
             out << YAML::Key << util::keys::index << YAML::Value << 0;
             out << YAML::Key << util::keys::when_true << YAML::Value << descriptor->value(0)->name();
             out << YAML::Key << util::keys::when_false << YAML::Value << descriptor->value(1)->name();

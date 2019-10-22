@@ -189,6 +189,44 @@ namespace dnp3 {
                     util::yaml::get::index(node));
                 break;
             }
+            case (SourceType::Value::analog):
+            case (SourceType::Value::counter): {
+                const auto index = util::yaml::get::index(node);
+                std::map<uint32_t, int> mappings;
+                const auto mapping_node = util::yaml::require(node, util::keys::mapping);
+                util::yaml::foreach(mapping_node, [&mappings, descriptor](const YAML::Node& node) {
+                    const auto value = util::yaml::require_integer<uint32_t>(node, util::keys::value);
+                    const auto enum_value = util::yaml::get::enum_value(node, util::keys::name, *descriptor);
+                    mappings.insert({value, enum_value});
+                });
+
+                if(source == SourceType::Value::analog)
+                {
+                    this->builder->add_measurement_handler(
+                    [accessor, profile = this->profile, index, mappings](const opendnp3::Analog& meas) {
+                        for(const auto& it : mappings)
+                        {
+                            if(std::abs(static_cast<double>(it.first) - meas.value) < 0.001)
+                            {
+                                accessor->set(*profile, it.second);
+                                return;
+                            }
+                        }
+                    }, index);
+                }
+                else if(source == SourceType::Value::counter)
+                {
+                    this->builder->add_measurement_handler(
+                    [accessor, profile = this->profile, index, mappings](const opendnp3::Counter& meas) {
+                        const auto it = mappings.find(meas.value);
+                        if(it != mappings.end())
+                        {
+                            accessor->set(*profile, it->second);
+                        }
+                    }, index);
+                }
+                break;
+            }
             default:
                 throw api::Exception("enums cannot be mapped to DNP3 type: ", SourceType::to_string(source));
             }
