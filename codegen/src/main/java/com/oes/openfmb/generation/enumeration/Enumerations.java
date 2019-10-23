@@ -143,9 +143,10 @@ public class Enumerations {
                 )
         );
 
-        private final static Enumeration commandActionAnalogType = new Enumeration(
-                Arrays.asList("Command", "Action", "Analog", "Type"),
+        private final static Enumeration commandActionType = new Enumeration(
+                Arrays.asList("Command", "Action", "Type"),
                 Arrays.asList(
+                        Enumeration.entry("g12v1", "Control Relay Output Block"),
                         Enumeration.entry("g41v1", "Analog output Variation 1 (Int32)"),
                         Enumeration.entry("g41v2", "Analog output Variation 2 (Int16)"),
                         Enumeration.entry("g41v3", "Analog output Variation 3 (float)"),
@@ -154,7 +155,7 @@ public class Enumerations {
         );
 
         private static List<Enumeration> enums() {
-            return Arrays.asList(sourceType, destinationType, commandSourceType, commandActionAnalogType, profileAction);
+            return Arrays.asList(sourceType, destinationType, commandSourceType, commandActionType, profileAction);
         }
 
         private static final Path path = Paths.get("../plugins/dnp3/src/dnp3/generated");

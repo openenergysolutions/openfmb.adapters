@@ -7,7 +7,7 @@
 #include <adapter-util/config/YAMLGetters.h>
 #include <adapter-util/schedule/ScheduleExecutor.h>
 
-#include "dnp3/generated/CommandActionAnalogType.h"
+#include "dnp3/generated/CommandActionType.h"
 #include "dnp3/master/ControlSubscriptionHandler.h"
 
 namespace adapter {
@@ -17,12 +17,66 @@ namespace dnp3 {
         // keep these helpers out of the template
         namespace read {
 
-            PrioritizedCommand single_control(const YAML::Node& node, util::ICommandPrioritySource& priority_source)
+            PrioritizedCommand single_crob(const YAML::Node& node, util::ICommandPrioritySource& priority_source)
             {
                 const auto control = Control::read(node);
                 return PrioritizedCommand([crob = control.crob, index = control.index](opendnp3::ICommandProcessor& processor, const opendnp3::CommandResultCallbackT& callback) {
                     processor.DirectOperate(crob, index, callback);
                 }, priority_source.get_priority(node));
+            }
+
+            PrioritizedCommand single_fixed_analog(const YAML::Node& node, CommandActionType::Value action_type, util::ICommandPrioritySource& priority_source)
+            {
+                const auto index = util::yaml::get::index(node);
+                const auto priority = priority_source.get_priority(node);
+
+                switch(action_type)
+                {
+                    case CommandActionType::Value::g41v1:
+                    {
+                        const auto value = util::yaml::require_integer<int32_t>(node, util::keys::value);
+                        return PrioritizedCommand([index, value](opendnp3::ICommandProcessor& processor, const opendnp3::CommandResultCallbackT& callback) {
+                            processor.DirectOperate(opendnp3::AnalogOutputInt32(value), index, callback);
+                        }, priority);
+                    }
+                    case CommandActionType::Value::g41v2:
+                    {
+                        const auto value = util::yaml::require_integer<int16_t>(node, util::keys::value);
+                        return PrioritizedCommand([index, value](opendnp3::ICommandProcessor& processor, const opendnp3::CommandResultCallbackT& callback) {
+                            processor.DirectOperate(opendnp3::AnalogOutputInt16(value), index, callback);
+                        }, priority);
+                    }
+                    case CommandActionType::Value::g41v3:
+                    {
+                        const auto value = util::yaml::require(node, util::keys::value).as<float>();
+                        return PrioritizedCommand([index, value](opendnp3::ICommandProcessor& processor, const opendnp3::CommandResultCallbackT& callback) {
+                            processor.DirectOperate(opendnp3::AnalogOutputFloat32(value), index, callback);
+                        }, priority);
+                    }
+                    case CommandActionType::Value::g41v4:
+                    {
+                        const auto value = util::yaml::require(node, util::keys::value).as<double>();
+                        return PrioritizedCommand([index, value](opendnp3::ICommandProcessor& processor, const opendnp3::CommandResultCallbackT& callback) {
+                            processor.DirectOperate(opendnp3::AnalogOutputDouble64(value), index, callback);
+                        }, priority);
+                    }
+                }
+                
+            }
+
+            PrioritizedCommand single_control(const YAML::Node& node, util::ICommandPrioritySource& priority_source)
+            {
+                const auto action_type = util::yaml::require_enum<CommandActionType>(node);
+                switch(action_type)
+                {
+                case CommandActionType::Value::g12v1:
+                    return single_crob(node, priority_source);
+                case CommandActionType::Value::g41v1:
+                case CommandActionType::Value::g41v2:
+                case CommandActionType::Value::g41v3:
+                case CommandActionType::Value::g41v4:
+                    return single_fixed_analog(node, action_type, priority_source);
+                }
             }
 
             std::vector<PrioritizedCommand> control_list(const YAML::Node& node, util::ICommandPrioritySource& priority_source)
@@ -41,36 +95,36 @@ namespace dnp3 {
                 const auto index = util::yaml::get::index(node);
                 const auto scaling = util::yaml::get::scale(node);
                 const auto priority = priority_source.get_priority(node);
-                const auto analog_type = util::yaml::require_enum<CommandActionAnalogType>(node);
+                const auto analog_type = util::yaml::require_enum<CommandActionType>(node);
 
                 switch(analog_type)
                 {
-                    case CommandActionAnalogType::Value::g41v1:
+                    case CommandActionType::Value::g41v1:
                         return [index, scaling, priority](ICommandSink& sink, double value) {
                             sink.add(PrioritizedCommand([index, scaling, value](opendnp3::ICommandProcessor& processor, const opendnp3::CommandResultCallbackT& callback) {
                                 processor.DirectOperate(opendnp3::AnalogOutputInt32(static_cast<int32_t>(value * scaling)), index, callback);
                             }, priority));
                         };
-                    case CommandActionAnalogType::Value::g41v2:
+                    case CommandActionType::Value::g41v2:
                         return [index, scaling, priority](ICommandSink& sink, double value) {
                             sink.add(PrioritizedCommand([index, scaling, value](opendnp3::ICommandProcessor& processor, const opendnp3::CommandResultCallbackT& callback) {
                                 processor.DirectOperate(opendnp3::AnalogOutputInt16(static_cast<int16_t>(value * scaling)), index, callback);
                             }, priority));
                         };
-                    case CommandActionAnalogType::Value::g41v3:
+                    case CommandActionType::Value::g41v3:
                         return [index, scaling, priority](ICommandSink& sink, double value) {
                             sink.add(PrioritizedCommand([index, scaling, value](opendnp3::ICommandProcessor& processor, const opendnp3::CommandResultCallbackT& callback) {
                                 processor.DirectOperate(opendnp3::AnalogOutputFloat32(static_cast<float>(value * scaling)), index, callback);
                             }, priority));
                         };
-                    case CommandActionAnalogType::Value::g41v4:
+                    case CommandActionType::Value::g41v4:
                         return [index, scaling, priority](ICommandSink& sink, double value) {
                             sink.add(PrioritizedCommand([index, scaling, value](opendnp3::ICommandProcessor& processor, const opendnp3::CommandResultCallbackT& callback) {
                                 processor.DirectOperate(opendnp3::AnalogOutputDouble64(static_cast<double>(value * scaling)), index, callback);
                             }, priority));
                         };
                     default:
-                        throw api::Exception(node.Mark(), "Unsupported analog command type.");
+                        throw api::Exception(node.Mark(), "Unsupported action type.");
                 }
             }
 

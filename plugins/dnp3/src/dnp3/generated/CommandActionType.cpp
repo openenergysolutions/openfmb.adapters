@@ -11,7 +11,7 @@
 //  This file is auto-generated. Do not edit manually
 // 
 
-#include "CommandActionAnalogType.h"
+#include "CommandActionType.h"
 
 #include "adapter-api/Exception.h"
 
@@ -21,23 +21,26 @@ namespace adapter {
 
 namespace dnp3 {
 
-const char CommandActionAnalogType::g41v1[] = "g41v1";
-const char CommandActionAnalogType::g41v2[] = "g41v2";
-const char CommandActionAnalogType::g41v3[] = "g41v3";
-const char CommandActionAnalogType::g41v4[] = "g41v4";
+const char CommandActionType::g12v1[] = "g12v1";
+const char CommandActionType::g41v1[] = "g41v1";
+const char CommandActionType::g41v2[] = "g41v2";
+const char CommandActionType::g41v3[] = "g41v3";
+const char CommandActionType::g41v4[] = "g41v4";
 
-const std::array<CommandActionAnalogType::Value, 4> CommandActionAnalogType::values =
+const std::array<CommandActionType::Value, 5> CommandActionType::values =
 {
-    CommandActionAnalogType::Value::g41v1,
-    CommandActionAnalogType::Value::g41v2,
-    CommandActionAnalogType::Value::g41v3,
-    CommandActionAnalogType::Value::g41v4,
+    CommandActionType::Value::g12v1,
+    CommandActionType::Value::g41v1,
+    CommandActionType::Value::g41v2,
+    CommandActionType::Value::g41v3,
+    CommandActionType::Value::g41v4,
 };
 
-std::string CommandActionAnalogType::to_string(CommandActionAnalogType::Value value)
+std::string CommandActionType::to_string(CommandActionType::Value value)
 {
     switch(value)
     {
+        case(Value::g12v1): return g12v1;
         case(Value::g41v1): return g41v1;
         case(Value::g41v2): return g41v2;
         case(Value::g41v3): return g41v3;
@@ -45,17 +48,18 @@ std::string CommandActionAnalogType::to_string(CommandActionAnalogType::Value va
     }
 }
 
-CommandActionAnalogType::Value CommandActionAnalogType::from_string(const std::string& name)
+CommandActionType::Value CommandActionType::from_string(const std::string& name)
 {
     static const std::map<std::string, Value> map = 
     {
+        {g12v1, Value::g12v1},
         {g41v1, Value::g41v1},
         {g41v2, Value::g41v2},
         {g41v3, Value::g41v3},
         {g41v4, Value::g41v4},
     };
     const auto elem = map.find(name);
-    if(elem == map.end()) throw api::Exception("Unknown value name '", name, "' for enum CommandActionAnalogType");
+    if(elem == map.end()) throw api::Exception("Unknown value name '", name, "' for enum CommandActionType");
     return elem->second;
 }
 

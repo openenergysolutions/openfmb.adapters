@@ -5,7 +5,7 @@
 
 #include "dnp3/ConfigStrings.h"
 #include "dnp3/master/Control.h"
-#include "dnp3/generated/CommandActionAnalogType.h"
+#include "dnp3/generated/CommandActionType.h"
 #include "dnp3/generated/SourceType.h"
 
 namespace adapter {
@@ -90,6 +90,7 @@ namespace dnp3 {
         void ControlConfigWriteVisitor::write_crob_keys(YAML::Emitter& out, uint16_t index, opendnp3::ControlCode code)
         {
             out << YAML::BeginMap;
+            out << YAML::Key << CommandActionType::label << YAML::Value << CommandActionType::g12v1 << YAML::Comment(util::enumeration::get_value_set<CommandActionType>());
 
             const Control control{
                 index,
@@ -105,7 +106,7 @@ namespace dnp3 {
         {
             out << YAML::BeginMap;
             out << YAML::Key << util::keys::command_id << "some-command-id";
-            out << YAML::Key << CommandActionAnalogType::label << YAML::Value << CommandActionAnalogType::to_string(CommandActionAnalogType::Value::g41v1) << YAML::Comment(util::enumeration::get_value_set<CommandActionAnalogType>());
+            out << YAML::Key << CommandActionType::label << YAML::Value << CommandActionType::g41v1 << YAML::Comment(util::enumeration::get_value_set_from_list<CommandActionType>({CommandActionType::Value::g41v1, CommandActionType::Value::g41v2, CommandActionType::Value::g41v3, CommandActionType::Value::g41v4}));
             out << YAML::Key << util::keys::index << YAML::Value << index;
             out << YAML::Key << util::keys::scale << YAML::Value << 1.0;
             out << YAML::EndMap;
