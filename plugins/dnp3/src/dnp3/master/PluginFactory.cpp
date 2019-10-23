@@ -30,6 +30,9 @@ namespace dnp3 {
                     util::CommandPriorityMap::write_default_list(out);
                     out << YAML::Key << util::keys::tolerance << YAML::Value << 5000;
                 }
+                else {
+                    out << YAML::Key << keys::poll_name << YAML::Value << "integrity_poll";
+                }
 
                 out << YAML::Key << util::keys::mapping << YAML::Comment("profile model starts here");
                 out << YAML::BeginMap;
@@ -53,9 +56,9 @@ namespace dnp3 {
 
                 out << YAML::BeginMap;
                 out << YAML::Key << util::keys::name << YAML::Value << profile;
-                out << YAML::Key << keys::poll_name << YAML::Value << "integrity_poll";
 
                 api::ProfileRegistry::handle_by_name<WriterHandler>(profile, out);
+                out << YAML::EndMap;
             }
         }
 
