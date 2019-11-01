@@ -11,7 +11,6 @@ namespace modbus {
     public:
         explicit ControlConfigWriteVisitor(YAML::Emitter& out);
 
-    private:
     protected:
         void write_mapped_bool_keys(YAML::Emitter& out) override;
 
@@ -24,6 +23,9 @@ namespace modbus {
         void write_mapped_enum_keys(YAML::Emitter& out, google::protobuf::EnumDescriptor const* descriptor) override;
 
         void write_mapped_schedule_parameter_keys(YAML::Emitter& out) override;
+
+    private:
+        void write_scaled_register_mapping(YAML::Emitter& out);
     };
 }
 }

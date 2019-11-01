@@ -64,19 +64,17 @@ namespace modbus {
 
     void ControlConfigWriteVisitor::write_mapped_int32_keys(YAML::Emitter& out)
     {
-        out << YAML::Comment("int32 mapping not supported for Modbus control profiles");
+        write_scaled_register_mapping(out);
     }
 
     void ControlConfigWriteVisitor::write_mapped_int64_keys(YAML::Emitter& out)
     {
-        out << YAML::Comment("int65 mapping not supported for Modbus control profiles");
+        write_scaled_register_mapping(out);
     }
 
     void ControlConfigWriteVisitor::write_mapped_float_keys(YAML::Emitter& out)
     {
-        out << YAML::Key << OutputType::label << YAML::Value << OutputType::none << YAML::Comment(util::enumeration::get_value_set<OutputType>());
-        write_default_operation_id(out);
-        write_index_and_scale(out);
+        write_scaled_register_mapping(out);
     }
 
     void ControlConfigWriteVisitor::write_mapped_enum_keys(YAML::Emitter& out, google::protobuf::EnumDescriptor const* descriptor)
@@ -96,7 +94,19 @@ namespace modbus {
 
     void ControlConfigWriteVisitor::write_mapped_schedule_parameter_keys(YAML::Emitter& out)
     {
-        out << YAML::Key << OutputType::label << YAML::Value << OutputType::none << YAML::Comment(util::enumeration::get_value_set<OutputType>());
+        write_scaled_register_mapping(out);
+    }
+
+    void ControlConfigWriteVisitor::write_scaled_register_mapping(YAML::Emitter& out)
+    {
+        out << YAML::Key << OutputType::label << YAML::Value << OutputType::none << YAML::Comment(util::enumeration::get_value_set_from_list<OutputType>({
+            OutputType::Value::none,
+            OutputType::Value::write_single_register_uint16,
+            OutputType::Value::write_single_register_int16,
+            OutputType::Value::write_multiple_registers_uint32,
+            OutputType::Value::write_multiple_registers_int32,
+            OutputType::Value::write_multiple_registers_float32
+        }));
         write_default_operation_id(out);
         write_index_and_scale(out);
     }

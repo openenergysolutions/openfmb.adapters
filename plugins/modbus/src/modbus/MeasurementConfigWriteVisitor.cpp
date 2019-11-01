@@ -38,7 +38,7 @@ namespace modbus {
 
     void MeasurementConfigWriteVisitor::write_mapped_int32_keys(YAML::Emitter& out)
     {
-        out << YAML::Comment("int32 mapping not supported");
+        write_scaled_register_mapping(out);
     }
 
     void MeasurementConfigWriteVisitor::write_mapped_int64_keys(YAML::Emitter& out)

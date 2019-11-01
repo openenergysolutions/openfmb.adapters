@@ -84,13 +84,33 @@ namespace modbus {
     template <class T>
     void SubscribeConfigReadVisitor<T>::handle_mapped_field(const YAML::Node& node, const util::accessor_t<T, int32_t>& accessor)
     {
-        throw api::Exception("int32_t output mappings not supported");
+        auto float_config = read::float_config(node, this->priority_source);
+
+        this->config->add(
+            [accessor, float_config](const T& profile, ICommandSink& sink, api::Logger& logger) {
+                accessor->if_present(
+                    profile,
+                    [&sink, float_config](int32_t value) {
+                        float_config(sink, static_cast<float>(value));
+                    });
+            }
+        );
     }
 
     template <class T>
     void SubscribeConfigReadVisitor<T>::handle_mapped_field(const YAML::Node& node, const util::accessor_t<T, int64_t>& accessor)
     {
-        throw api::Exception("int64_t output mappings not supported");
+        auto float_config = read::float_config(node, this->priority_source);
+
+        this->config->add(
+            [accessor, float_config](const T& profile, ICommandSink& sink, api::Logger& logger) {
+                accessor->if_present(
+                    profile,
+                    [&sink, float_config](int64_t value) {
+                        float_config(sink, static_cast<float>(value));
+                    });
+            }
+        );
     }
 
     template <class T>

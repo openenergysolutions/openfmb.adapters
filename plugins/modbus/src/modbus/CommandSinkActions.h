@@ -242,7 +242,7 @@ namespace modbus {
                 }
             }
             default:
-                throw api::Exception("unsupported output type for float: ", OutputType::to_string(output_type));
+                throw api::Exception("unsupported output type: ", OutputType::to_string(output_type));
             }
         }
 
