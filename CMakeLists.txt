@@ -39,9 +39,11 @@ option(OPENFMB_USE_TWINOAKS_DDS "Build the Twin Oaks DDS plugin" OFF)
 option(OPENFMB_USE_RTI_DDS "Build the RTI DDS plugin" OFF)
 option(OPENFMB_LINK_STATIC "Link dependencies statically where possible" OFF)
 
-#if(OPENFMB_LINK_STATIC)
-#  set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
-#endif()
+if(OPENFMB_LINK_STATIC AND NOT WIN32)
+  set(BUILD_SHARED_LIBS OFF)
+  set(CMAKE_EXE_LINKER_FLAGS "-static")
+  set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
+endif()
 
 set(CMAKE_CXX_STANDARD 14)
 

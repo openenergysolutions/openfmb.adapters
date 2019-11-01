@@ -35,3 +35,8 @@ target_link_libraries(timescaledb-plugin PUBLIC adapter-util postgresql)
 target_include_directories(timescaledb-plugin PUBLIC ./include)
 clang_tidy(timescaledb-plugin)
 clang_format(timescaledb-plugin)
+
+if(WIN32)
+    # On Windows, PostgreSQL needs secur32 for SSPI stuff.
+    target_link_libraries(timescaledb-plugin PUBLIC secur32)
+endif()
