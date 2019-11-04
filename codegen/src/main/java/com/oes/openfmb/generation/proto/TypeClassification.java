@@ -3,6 +3,7 @@ package com.oes.openfmb.generation.proto;
 import com.google.protobuf.*;
 import openfmb.commonmodule.*;
 import openfmb.commonmodule.Timestamp;
+import openfmb.shuntmodule.SwitchingCapabilityKind;
 
 import java.util.*;
 
@@ -343,6 +344,7 @@ public class TypeClassification {
         temp.put(CalcMethodKind.getDescriptor(), Types.enumeration.constant);
         temp.put(UnitMultiplierKind.getDescriptor(), Types.enumeration.constant);
         temp.put(UnitSymbolKind.getDescriptor(), Types.enumeration.constant);
+        temp.put(SwitchingCapabilityKind.getDescriptor(), Types.enumeration.constant);
 
         // mapped types
         temp.put(GridConnectModeKind.getDescriptor(), Types.enumeration.mapped);

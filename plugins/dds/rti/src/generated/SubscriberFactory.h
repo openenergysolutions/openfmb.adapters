@@ -21,6 +21,7 @@
 #include "adapter-util/config/SubjectNameSuffix.h"
 
 #include "reclosermodule/reclosermodule.pb.h"
+#include "shuntmodule/shuntmodule.pb.h"
 #include "solarmodule/solarmodule.pb.h"
 #include "breakermodule/breakermodule.pb.h"
 #include "switchmodule/switchmodule.pb.h"
@@ -327,6 +328,51 @@ struct SubscriberFactory<solarmodule::SolarStatusProfile>
     static std::unique_ptr<IDDSSubscriber> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, api::publisher_one_t<solarmodule::SolarStatusProfile> publisher)
     {
         return std::make_unique<DDSSubscriber<solarmodule::SolarStatusProfile, openfmb::solarmodule::SolarStatusProfile>>(logger, subject, dds_subscriber, topic_repo.solarstatusprofile, publisher);
+    }
+};
+
+template<>
+struct SubscriberFactory<shuntmodule::ShuntControlProfile>
+{
+    static std::unique_ptr<IDDSSubscriber> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, api::publisher_one_t<shuntmodule::ShuntControlProfile> publisher)
+    {
+        return std::make_unique<DDSSubscriber<shuntmodule::ShuntControlProfile, openfmb::shuntmodule::ShuntControlProfile>>(logger, subject, dds_subscriber, topic_repo.shuntcontrolprofile, publisher);
+    }
+};
+
+template<>
+struct SubscriberFactory<shuntmodule::ShuntDiscreteControlProfile>
+{
+    static std::unique_ptr<IDDSSubscriber> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, api::publisher_one_t<shuntmodule::ShuntDiscreteControlProfile> publisher)
+    {
+        return std::make_unique<DDSSubscriber<shuntmodule::ShuntDiscreteControlProfile, openfmb::shuntmodule::ShuntDiscreteControlProfile>>(logger, subject, dds_subscriber, topic_repo.shuntdiscretecontrolprofile, publisher);
+    }
+};
+
+template<>
+struct SubscriberFactory<shuntmodule::ShuntEventProfile>
+{
+    static std::unique_ptr<IDDSSubscriber> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, api::publisher_one_t<shuntmodule::ShuntEventProfile> publisher)
+    {
+        return std::make_unique<DDSSubscriber<shuntmodule::ShuntEventProfile, openfmb::shuntmodule::ShuntEventProfile>>(logger, subject, dds_subscriber, topic_repo.shunteventprofile, publisher);
+    }
+};
+
+template<>
+struct SubscriberFactory<shuntmodule::ShuntStatusProfile>
+{
+    static std::unique_ptr<IDDSSubscriber> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, api::publisher_one_t<shuntmodule::ShuntStatusProfile> publisher)
+    {
+        return std::make_unique<DDSSubscriber<shuntmodule::ShuntStatusProfile, openfmb::shuntmodule::ShuntStatusProfile>>(logger, subject, dds_subscriber, topic_repo.shuntstatusprofile, publisher);
+    }
+};
+
+template<>
+struct SubscriberFactory<shuntmodule::ShuntReadingProfile>
+{
+    static std::unique_ptr<IDDSSubscriber> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, api::publisher_one_t<shuntmodule::ShuntReadingProfile> publisher)
+    {
+        return std::make_unique<DDSSubscriber<shuntmodule::ShuntReadingProfile, openfmb::shuntmodule::ShuntReadingProfile>>(logger, subject, dds_subscriber, topic_repo.shuntreadingprofile, publisher);
     }
 };
 

@@ -15,6 +15,7 @@
 #define OPENFMB_MESSAGEVISITORS_H
 
 #include "reclosermodule/reclosermodule.pb.h"
+#include "shuntmodule/shuntmodule.pb.h"
 #include "solarmodule/solarmodule.pb.h"
 #include "breakermodule/breakermodule.pb.h"
 #include "switchmodule/switchmodule.pb.h"
@@ -93,6 +94,16 @@ void visit(const solarmodule::SolarEventProfile& message, IMessageVisitor& visit
 void visit(const solarmodule::SolarReadingProfile& message, IMessageVisitor& visitor);
 
 void visit(const solarmodule::SolarStatusProfile& message, IMessageVisitor& visitor);
+
+void visit(const shuntmodule::ShuntControlProfile& message, IMessageVisitor& visitor);
+
+void visit(const shuntmodule::ShuntDiscreteControlProfile& message, IMessageVisitor& visitor);
+
+void visit(const shuntmodule::ShuntEventProfile& message, IMessageVisitor& visitor);
+
+void visit(const shuntmodule::ShuntStatusProfile& message, IMessageVisitor& visitor);
+
+void visit(const shuntmodule::ShuntReadingProfile& message, IMessageVisitor& visitor);
 
 void visit(const switchmodule::SwitchControlProfile& message, IMessageVisitor& visitor);
 

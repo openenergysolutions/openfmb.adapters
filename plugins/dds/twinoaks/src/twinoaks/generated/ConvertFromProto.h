@@ -15,6 +15,7 @@
 #define OPENFMB_CONVERTFROMPROTO_H
 
 #include "reclosermodule/reclosermodule.pb.h"
+#include "shuntmodule/shuntmodule.pb.h"
 #include "solarmodule/solarmodule.pb.h"
 #include "breakermodule/breakermodule.pb.h"
 #include "switchmodule/switchmodule.pb.h"
@@ -96,6 +97,16 @@ void convert_from_proto(const solarmodule::SolarEventProfile& in, twinoaks::sola
 void convert_from_proto(const solarmodule::SolarReadingProfile& in, twinoaks::solarmodule::SolarReadingProfile& out);
 
 void convert_from_proto(const solarmodule::SolarStatusProfile& in, twinoaks::solarmodule::SolarStatusProfile& out);
+
+void convert_from_proto(const shuntmodule::ShuntControlProfile& in, twinoaks::shuntmodule::ShuntControlProfile& out);
+
+void convert_from_proto(const shuntmodule::ShuntDiscreteControlProfile& in, twinoaks::shuntmodule::ShuntDiscreteControlProfile& out);
+
+void convert_from_proto(const shuntmodule::ShuntEventProfile& in, twinoaks::shuntmodule::ShuntEventProfile& out);
+
+void convert_from_proto(const shuntmodule::ShuntStatusProfile& in, twinoaks::shuntmodule::ShuntStatusProfile& out);
+
+void convert_from_proto(const shuntmodule::ShuntReadingProfile& in, twinoaks::shuntmodule::ShuntReadingProfile& out);
 
 void convert_from_proto(const switchmodule::SwitchControlProfile& in, twinoaks::switchmodule::SwitchControlProfile& out);
 

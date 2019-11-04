@@ -28,6 +28,8 @@ using get_t = getter_t<switchmodule::SwitchStatusProfile, V>;
 
 void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::ConductingEquipment>& setter, const get_t<commonmodule::ConductingEquipment>& getter, ITypedModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
 
+void visit_commonmodule_DeviceStatus(const set_t<commonmodule::DeviceStatus>& setter, const get_t<commonmodule::DeviceStatus>& getter, ITypedModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
+
 void visit_commonmodule_ENS_BehaviourModeKind(const set_t<commonmodule::ENS_BehaviourModeKind>& setter, const get_t<commonmodule::ENS_BehaviourModeKind>& getter, ITypedModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
 
 void visit_commonmodule_ENS_DynamicTestKind(const set_t<commonmodule::ENS_DynamicTestKind>& setter, const get_t<commonmodule::ENS_DynamicTestKind>& getter, ITypedModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
@@ -49,6 +51,8 @@ void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& sett
 void visit_commonmodule_StatusDPS(const set_t<commonmodule::StatusDPS>& setter, const get_t<commonmodule::StatusDPS>& getter, ITypedModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
 
 void visit_commonmodule_StatusMessageInfo(const set_t<commonmodule::StatusMessageInfo>& setter, const get_t<commonmodule::StatusMessageInfo>& getter, ITypedModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
+
+void visit_commonmodule_StatusSPS(const set_t<commonmodule::StatusSPS>& setter, const get_t<commonmodule::StatusSPS>& getter, ITypedModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
 
 void visit_commonmodule_StatusValue(const set_t<commonmodule::StatusValue>& setter, const get_t<commonmodule::StatusValue>& getter, ITypedModelVisitor<switchmodule::SwitchStatusProfile>& visitor);
 
@@ -206,6 +210,177 @@ void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::Conducting
             }
         )
     );
+}
+
+void visit_commonmodule_DeviceStatus(const set_t<commonmodule::DeviceStatus>& setter, const get_t<commonmodule::DeviceStatus>& getter, ITypedModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
+{
+    if(visitor.start_message_field("logicalNodeForEventAndStatus", commonmodule::LogicalNodeForEventAndStatus::descriptor()))
+    {
+        visit_commonmodule_LogicalNodeForEventAndStatus(
+            [setter](switchmodule::SwitchStatusProfile& profile)
+            {
+                return setter(profile)->mutable_logicalnodeforeventandstatus();
+            },
+            [getter](const switchmodule::SwitchStatusProfile& profile) -> commonmodule::LogicalNodeForEventAndStatus const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_logicalnodeforeventandstatus() ? &value->logicalnodeforeventandstatus() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("ANSI79LO", commonmodule::StatusSPS::descriptor()))
+    {
+        visit_commonmodule_StatusSPS(
+            [setter](switchmodule::SwitchStatusProfile& profile)
+            {
+                return setter(profile)->mutable_ansi79lo();
+            },
+            [getter](const switchmodule::SwitchStatusProfile& profile) -> commonmodule::StatusSPS const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_ansi79lo() ? &value->ansi79lo() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("FaultLatch", commonmodule::StatusSPS::descriptor()))
+    {
+        visit_commonmodule_StatusSPS(
+            [setter](switchmodule::SwitchStatusProfile& profile)
+            {
+                return setter(profile)->mutable_faultlatch();
+            },
+            [getter](const switchmodule::SwitchStatusProfile& profile) -> commonmodule::StatusSPS const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_faultlatch() ? &value->faultlatch() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("HotLineTag", commonmodule::StatusSPS::descriptor()))
+    {
+        visit_commonmodule_StatusSPS(
+            [setter](switchmodule::SwitchStatusProfile& profile)
+            {
+                return setter(profile)->mutable_hotlinetag();
+            },
+            [getter](const switchmodule::SwitchStatusProfile& profile) -> commonmodule::StatusSPS const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_hotlinetag() ? &value->hotlinetag() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("IEDTrouble", commonmodule::StatusSPS::descriptor()))
+    {
+        visit_commonmodule_StatusSPS(
+            [setter](switchmodule::SwitchStatusProfile& profile)
+            {
+                return setter(profile)->mutable_iedtrouble();
+            },
+            [getter](const switchmodule::SwitchStatusProfile& profile) -> commonmodule::StatusSPS const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_iedtrouble() ? &value->iedtrouble() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("RecloseEnabled", commonmodule::StatusSPS::descriptor()))
+    {
+        visit_commonmodule_StatusSPS(
+            [setter](switchmodule::SwitchStatusProfile& profile)
+            {
+                return setter(profile)->mutable_recloseenabled();
+            },
+            [getter](const switchmodule::SwitchStatusProfile& profile) -> commonmodule::StatusSPS const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_recloseenabled() ? &value->recloseenabled() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("RemoteEnabled", commonmodule::StatusSPS::descriptor()))
+    {
+        visit_commonmodule_StatusSPS(
+            [setter](switchmodule::SwitchStatusProfile& profile)
+            {
+                return setter(profile)->mutable_remoteenabled();
+            },
+            [getter](const switchmodule::SwitchStatusProfile& profile) -> commonmodule::StatusSPS const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_remoteenabled() ? &value->remoteenabled() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
 }
 
 void visit_commonmodule_ENS_BehaviourModeKind(const set_t<commonmodule::ENS_BehaviourModeKind>& setter, const get_t<commonmodule::ENS_BehaviourModeKind>& getter, ITypedModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
@@ -711,6 +886,51 @@ void visit_commonmodule_StatusMessageInfo(const set_t<commonmodule::StatusMessag
     }
 }
 
+void visit_commonmodule_StatusSPS(const set_t<commonmodule::StatusSPS>& setter, const get_t<commonmodule::StatusSPS>& getter, ITypedModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
+{
+    visitor.handle(
+        "q",
+        MessageAccessorBuilder<switchmodule::SwitchStatusProfile,commonmodule::Quality>::build(
+            [setter](switchmodule::SwitchStatusProfile& profile) { return setter(profile)->mutable_q(); },
+            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<commonmodule::Quality>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent || !parent->has_q()) return false;
+                handler(parent->q());
+                return true;
+            }
+        )
+    );
+
+    visitor.handle(
+        "stVal",
+        AccessorBuilder<switchmodule::SwitchStatusProfile,bool>::build(
+            [setter](switchmodule::SwitchStatusProfile& profile, const bool& value) { setter(profile)->set_stval(value); },
+            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->stval());
+                return true;
+            }
+        )
+    );
+
+    visitor.handle(
+        "t",
+        MessageAccessorBuilder<switchmodule::SwitchStatusProfile,commonmodule::Timestamp>::build(
+            [setter](switchmodule::SwitchStatusProfile& profile) { return setter(profile)->mutable_t(); },
+            [getter](const switchmodule::SwitchStatusProfile& profile, const handler_t<commonmodule::Timestamp>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent || !parent->has_t()) return false;
+                handler(parent->t());
+                return true;
+            }
+        )
+    );
+}
+
 void visit_commonmodule_StatusValue(const set_t<commonmodule::StatusValue>& setter, const get_t<commonmodule::StatusValue>& getter, ITypedModelVisitor<switchmodule::SwitchStatusProfile>& visitor)
 {
     if(visitor.start_message_field("identifiedObject", commonmodule::IdentifiedObject::descriptor()))
@@ -806,6 +1026,43 @@ void visit_switchmodule_SwitchStatus(const set_t<switchmodule::SwitchStatus>& se
             visitor
         );
         visitor.end_message_field();
+    }
+
+    {
+        const auto count = visitor.start_repeated_message_field("devicestatus", commonmodule::DeviceStatus::descriptor());
+        for(int i = 0; i < count; ++i)
+        {
+            visitor.start_iteration(i);
+            const auto set = [setter, i, max = count](switchmodule::SwitchStatusProfile& profile)
+            {
+                const auto repeated = setter(profile)->mutable_devicestatus();
+                if(repeated->size() < max)
+                {
+                    repeated->Reserve(max);
+                    // add items until we're at max requested capacity
+                    for(auto j = repeated->size(); j < max; ++j)
+                    {
+                        repeated->Add();
+                    }
+                }
+                return repeated->Mutable(i);
+            };
+            const auto get = [getter, i](const switchmodule::SwitchStatusProfile& profile) -> commonmodule::DeviceStatus const*
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return (i < value->devicestatus_size()) ? &value->devicestatus(i) : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            };
+            visit_commonmodule_DeviceStatus(set, get, visitor);
+            visitor.end_iteration();
+        }
+        visitor.end_repeated_message_field();
     }
 
     if(visitor.start_message_field("switchStatusXSWI", switchmodule::SwitchStatusXSWI::descriptor()))

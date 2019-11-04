@@ -24,6 +24,7 @@ set(PROTO_MODULES
     regulator
     resource
     solar
+    shunt
     switch
 )
 

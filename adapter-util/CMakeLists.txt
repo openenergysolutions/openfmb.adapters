@@ -109,6 +109,11 @@ set(SOURCES
 	src/config/generated/SolarEventProfileTypedModelVisitor.cpp
 	src/config/generated/SolarReadingProfileTypedModelVisitor.cpp
 	src/config/generated/SolarStatusProfileTypedModelVisitor.cpp
+	src/config/generated/ShuntControlProfileTypedModelVisitor.cpp
+	src/config/generated/ShuntDiscreteControlProfileTypedModelVisitor.cpp
+	src/config/generated/ShuntEventProfileTypedModelVisitor.cpp
+	src/config/generated/ShuntReadingProfileTypedModelVisitor.cpp
+	src/config/generated/ShuntStatusProfileTypedModelVisitor.cpp
 	src/config/generated/SwitchControlProfileTypedModelVisitor.cpp
 	src/config/generated/SwitchDiscreteControlProfileTypedModelVisitor.cpp
 	src/config/generated/SwitchEventProfileTypedModelVisitor.cpp

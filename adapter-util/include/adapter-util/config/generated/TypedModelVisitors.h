@@ -15,6 +15,7 @@
 #define OPENFMB_TYPEDMODELVISITORS_H
 
 #include "reclosermodule/reclosermodule.pb.h"
+#include "shuntmodule/shuntmodule.pb.h"
 #include "solarmodule/solarmodule.pb.h"
 #include "breakermodule/breakermodule.pb.h"
 #include "switchmodule/switchmodule.pb.h"
@@ -94,6 +95,16 @@ void visit(ITypedModelVisitor<solarmodule::SolarEventProfile>& visitor);
 void visit(ITypedModelVisitor<solarmodule::SolarReadingProfile>& visitor);
 
 void visit(ITypedModelVisitor<solarmodule::SolarStatusProfile>& visitor);
+
+void visit(ITypedModelVisitor<shuntmodule::ShuntControlProfile>& visitor);
+
+void visit(ITypedModelVisitor<shuntmodule::ShuntDiscreteControlProfile>& visitor);
+
+void visit(ITypedModelVisitor<shuntmodule::ShuntEventProfile>& visitor);
+
+void visit(ITypedModelVisitor<shuntmodule::ShuntStatusProfile>& visitor);
+
+void visit(ITypedModelVisitor<shuntmodule::ShuntReadingProfile>& visitor);
 
 void visit(ITypedModelVisitor<switchmodule::SwitchControlProfile>& visitor);
 

@@ -21,6 +21,7 @@
 #include "adapter-util/config/SubjectNameSuffix.h"
 
 #include "reclosermodule/reclosermodule.pb.h"
+#include "shuntmodule/shuntmodule.pb.h"
 #include "solarmodule/solarmodule.pb.h"
 #include "breakermodule/breakermodule.pb.h"
 #include "switchmodule/switchmodule.pb.h"
@@ -327,6 +328,51 @@ struct PublisherFactory<solarmodule::SolarStatusProfile>
     static std::shared_ptr<api::ISubscriptionHandler<solarmodule::SolarStatusProfile>> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::pub::Publisher> dds_publisher)
     {
         return std::make_shared<DDSPublisher<solarmodule::SolarStatusProfile, openfmb::solarmodule::SolarStatusProfile>>(logger, subject, dds_publisher, topic_repo.solarstatusprofile);
+    }
+};
+
+template<>
+struct PublisherFactory<shuntmodule::ShuntControlProfile>
+{
+    static std::shared_ptr<api::ISubscriptionHandler<shuntmodule::ShuntControlProfile>> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::pub::Publisher> dds_publisher)
+    {
+        return std::make_shared<DDSPublisher<shuntmodule::ShuntControlProfile, openfmb::shuntmodule::ShuntControlProfile>>(logger, subject, dds_publisher, topic_repo.shuntcontrolprofile);
+    }
+};
+
+template<>
+struct PublisherFactory<shuntmodule::ShuntDiscreteControlProfile>
+{
+    static std::shared_ptr<api::ISubscriptionHandler<shuntmodule::ShuntDiscreteControlProfile>> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::pub::Publisher> dds_publisher)
+    {
+        return std::make_shared<DDSPublisher<shuntmodule::ShuntDiscreteControlProfile, openfmb::shuntmodule::ShuntDiscreteControlProfile>>(logger, subject, dds_publisher, topic_repo.shuntdiscretecontrolprofile);
+    }
+};
+
+template<>
+struct PublisherFactory<shuntmodule::ShuntEventProfile>
+{
+    static std::shared_ptr<api::ISubscriptionHandler<shuntmodule::ShuntEventProfile>> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::pub::Publisher> dds_publisher)
+    {
+        return std::make_shared<DDSPublisher<shuntmodule::ShuntEventProfile, openfmb::shuntmodule::ShuntEventProfile>>(logger, subject, dds_publisher, topic_repo.shunteventprofile);
+    }
+};
+
+template<>
+struct PublisherFactory<shuntmodule::ShuntStatusProfile>
+{
+    static std::shared_ptr<api::ISubscriptionHandler<shuntmodule::ShuntStatusProfile>> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::pub::Publisher> dds_publisher)
+    {
+        return std::make_shared<DDSPublisher<shuntmodule::ShuntStatusProfile, openfmb::shuntmodule::ShuntStatusProfile>>(logger, subject, dds_publisher, topic_repo.shuntstatusprofile);
+    }
+};
+
+template<>
+struct PublisherFactory<shuntmodule::ShuntReadingProfile>
+{
+    static std::shared_ptr<api::ISubscriptionHandler<shuntmodule::ShuntReadingProfile>> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::pub::Publisher> dds_publisher)
+    {
+        return std::make_shared<DDSPublisher<shuntmodule::ShuntReadingProfile, openfmb::shuntmodule::ShuntReadingProfile>>(logger, subject, dds_publisher, topic_repo.shuntreadingprofile);
     }
 };
 

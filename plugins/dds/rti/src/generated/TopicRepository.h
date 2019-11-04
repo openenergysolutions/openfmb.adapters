@@ -61,6 +61,11 @@ struct TopicRepository
     ::dds::topic::Topic<openfmb::solarmodule::SolarEventProfile> solareventprofile;
     ::dds::topic::Topic<openfmb::solarmodule::SolarReadingProfile> solarreadingprofile;
     ::dds::topic::Topic<openfmb::solarmodule::SolarStatusProfile> solarstatusprofile;
+    ::dds::topic::Topic<openfmb::shuntmodule::ShuntControlProfile> shuntcontrolprofile;
+    ::dds::topic::Topic<openfmb::shuntmodule::ShuntDiscreteControlProfile> shuntdiscretecontrolprofile;
+    ::dds::topic::Topic<openfmb::shuntmodule::ShuntEventProfile> shunteventprofile;
+    ::dds::topic::Topic<openfmb::shuntmodule::ShuntStatusProfile> shuntstatusprofile;
+    ::dds::topic::Topic<openfmb::shuntmodule::ShuntReadingProfile> shuntreadingprofile;
     ::dds::topic::Topic<openfmb::switchmodule::SwitchControlProfile> switchcontrolprofile;
     ::dds::topic::Topic<openfmb::switchmodule::SwitchDiscreteControlProfile> switchdiscretecontrolprofile;
     ::dds::topic::Topic<openfmb::switchmodule::SwitchEventProfile> switcheventprofile;

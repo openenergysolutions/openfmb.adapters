@@ -51,6 +51,10 @@ void convert_from_proto(const commonmodule::LogicalNode& in, twinoaks::commonmod
 
 void convert_from_proto(const commonmodule::ControlDPC& in, twinoaks::commonmodule::ControlDPC& out);
 
+void convert_from_proto(const commonmodule::DeviceControl& in, twinoaks::commonmodule::DeviceControl& out);
+
+void convert_from_proto(const commonmodule::ControlSPC& in, twinoaks::commonmodule::ControlSPC& out);
+
 void convert_from_proto(const commonmodule::IED& in, twinoaks::commonmodule::IED& out);
 
 void convert_from_proto(const commonmodule::EventMessageInfo& in, twinoaks::commonmodule::EventMessageInfo& out);
@@ -119,6 +123,10 @@ void convert_from_proto(const breakermodule::BreakerStatus& in, twinoaks::breake
 
 void convert_from_proto(const commonmodule::StatusValue& in, twinoaks::commonmodule::StatusValue& out);
 
+void convert_from_proto(const commonmodule::DeviceStatus& in, twinoaks::commonmodule::DeviceStatus& out);
+
+void convert_from_proto(const commonmodule::StatusSPS& in, twinoaks::commonmodule::StatusSPS& out);
+
 void convert_from_proto(const commonmodule::ESS& in, twinoaks::commonmodule::ESS& out);
 
 void convert_from_proto(const essmodule::ESSControl& in, twinoaks::essmodule::ESSControl& out);
@@ -168,8 +176,6 @@ void convert_from_proto(const commonmodule::RampRate& in, twinoaks::commonmodule
 void convert_from_proto(const essmodule::ESSEvent& in, twinoaks::essmodule::ESSEvent& out);
 
 void convert_from_proto(const essmodule::EssEventZBAT& in, twinoaks::essmodule::EssEventZBAT& out);
-
-void convert_from_proto(const commonmodule::StatusSPS& in, twinoaks::commonmodule::StatusSPS& out);
 
 void convert_from_proto(const essmodule::ESSEventZGEN& in, twinoaks::essmodule::ESSEventZGEN& out);
 
@@ -283,8 +289,6 @@ void convert_from_proto(const commonmodule::AnalogueValueCtl& in, twinoaks::comm
 
 void convert_from_proto(const commonmodule::ControlING& in, twinoaks::commonmodule::ControlING& out);
 
-void convert_from_proto(const commonmodule::ControlSPC& in, twinoaks::commonmodule::ControlSPC& out);
-
 void convert_from_proto(const commonmodule::ControlISC& in, twinoaks::commonmodule::ControlISC& out);
 
 void convert_from_proto(const regulatormodule::RegulatorSystem& in, twinoaks::regulatormodule::RegulatorSystem& out);
@@ -346,6 +350,36 @@ void convert_from_proto(const solarmodule::SolarReading& in, twinoaks::solarmodu
 void convert_from_proto(const solarmodule::SolarStatus& in, twinoaks::solarmodule::SolarStatus& out);
 
 void convert_from_proto(const solarmodule::SolarStatusZGEN& in, twinoaks::solarmodule::SolarStatusZGEN& out);
+
+void convert_from_proto(const shuntmodule::ShuntControl& in, twinoaks::shuntmodule::ShuntControl& out);
+
+void convert_from_proto(const shuntmodule::ShuntControlFSCC& in, twinoaks::shuntmodule::ShuntControlFSCC& out);
+
+void convert_from_proto(const shuntmodule::ShuntControlScheduleFSCH& in, twinoaks::shuntmodule::ShuntControlScheduleFSCH& out);
+
+void convert_from_proto(const shuntmodule::ShuntCSG& in, twinoaks::shuntmodule::ShuntCSG& out);
+
+void convert_from_proto(const shuntmodule::ShuntPoint& in, twinoaks::shuntmodule::ShuntPoint& out);
+
+void convert_from_proto(const shuntmodule::ShuntEventAndStatusYPSH& in, twinoaks::shuntmodule::ShuntEventAndStatusYPSH& out);
+
+void convert_from_proto(const shuntmodule::ENS_SwitchingCapabilityKind& in, twinoaks::shuntmodule::ENS_SwitchingCapabilityKind& out);
+
+void convert_from_proto(const shuntmodule::ShuntSystem& in, twinoaks::shuntmodule::ShuntSystem& out);
+
+void convert_from_proto(const shuntmodule::ShuntDiscreteControl& in, twinoaks::shuntmodule::ShuntDiscreteControl& out);
+
+void convert_from_proto(const shuntmodule::ShuntDiscreteControlZCAP& in, twinoaks::shuntmodule::ShuntDiscreteControlZCAP& out);
+
+void convert_from_proto(const shuntmodule::ShuntEvent& in, twinoaks::shuntmodule::ShuntEvent& out);
+
+void convert_from_proto(const shuntmodule::ShuntEventAndStatusZCAP& in, twinoaks::shuntmodule::ShuntEventAndStatusZCAP& out);
+
+void convert_from_proto(const shuntmodule::ShuntEventAndStatusPoint& in, twinoaks::shuntmodule::ShuntEventAndStatusPoint& out);
+
+void convert_from_proto(const shuntmodule::ShuntStatus& in, twinoaks::shuntmodule::ShuntStatus& out);
+
+void convert_from_proto(const shuntmodule::ShuntReading& in, twinoaks::shuntmodule::ShuntReading& out);
 
 void convert_from_proto(const switchmodule::ProtectedSwitch& in, twinoaks::switchmodule::ProtectedSwitch& out);
 
@@ -800,6 +834,71 @@ void convert_from_proto(const solarmodule::SolarStatusProfile& in, twinoaks::sol
     convert_from_proto(in.solarstatus(), out.solarStatus); // required field in DDS
 }
 
+void convert_from_proto(const shuntmodule::ShuntControlProfile& in, twinoaks::shuntmodule::ShuntControlProfile& out)
+{
+    out.clear();
+
+    if(in.has_controlmessageinfo()) convert_from_proto(in.controlmessageinfo(), out); // inherited type
+
+    convert_from_proto(in.ied(), out.ied); // required field in DDS
+
+    convert_from_proto(in.shuntcontrol(), out.shuntControl); // required field in DDS
+
+    convert_from_proto(in.shuntsystem(), out.shuntSystem); // required field in DDS
+}
+
+void convert_from_proto(const shuntmodule::ShuntDiscreteControlProfile& in, twinoaks::shuntmodule::ShuntDiscreteControlProfile& out)
+{
+    out.clear();
+
+    if(in.has_controlmessageinfo()) convert_from_proto(in.controlmessageinfo(), out); // inherited type
+
+    convert_from_proto(in.ied(), out.ied); // required field in DDS
+
+    convert_from_proto(in.shuntcontrol(), out.shuntControl); // required field in DDS
+
+    convert_from_proto(in.shuntsystem(), out.shuntSystem); // required field in DDS
+}
+
+void convert_from_proto(const shuntmodule::ShuntEventProfile& in, twinoaks::shuntmodule::ShuntEventProfile& out)
+{
+    out.clear();
+
+    if(in.has_eventmessageinfo()) convert_from_proto(in.eventmessageinfo(), out); // inherited type
+
+    convert_from_proto(in.ied(), out.ied); // required field in DDS
+
+    convert_from_proto(in.shuntevent(), out.shuntEvent); // required field in DDS
+
+    convert_from_proto(in.shuntsystem(), out.shuntSystem); // required field in DDS
+}
+
+void convert_from_proto(const shuntmodule::ShuntStatusProfile& in, twinoaks::shuntmodule::ShuntStatusProfile& out)
+{
+    out.clear();
+
+    if(in.has_statusmessageinfo()) convert_from_proto(in.statusmessageinfo(), out); // inherited type
+
+    convert_from_proto(in.ied(), out.ied); // required field in DDS
+
+    convert_from_proto(in.shuntstatus(), out.shuntStatus); // required field in DDS
+
+    convert_from_proto(in.shuntsystem(), out.shuntSystem); // required field in DDS
+}
+
+void convert_from_proto(const shuntmodule::ShuntReadingProfile& in, twinoaks::shuntmodule::ShuntReadingProfile& out)
+{
+    out.clear();
+
+    if(in.has_readingmessageinfo()) convert_from_proto(in.readingmessageinfo(), out); // inherited type
+
+    convert_from_proto(in.ied(), out.ied); // required field in DDS
+
+    convert_from_proto(in.shuntreading(), out.shuntReading); // required field in DDS
+
+    convert_from_proto(in.shuntsystem(), out.shuntSystem); // required field in DDS
+}
+
 void convert_from_proto(const switchmodule::SwitchControlProfile& in, twinoaks::switchmodule::SwitchControlProfile& out)
 {
     out.clear();
@@ -967,6 +1066,13 @@ void convert_from_proto(const breakermodule::BreakerDiscreteControl& in, twinoak
     }
 
     convert_from_proto(in.breakerdiscretecontrolxcbr(), out.breakerDiscreteControlXCBR); // required field in DDS
+
+    for(const auto& input : in.devicecontrol())
+    {
+        twinoaks::commonmodule::DeviceControl ouput;
+        convert_from_proto(input, ouput);
+        out.deviceControl.push_back(ouput);
+    }
 }
 
 void convert_from_proto(const commonmodule::ControlValue& in, twinoaks::commonmodule::ControlValue& out)
@@ -1020,6 +1126,51 @@ void convert_from_proto(const commonmodule::LogicalNode& in, twinoaks::commonmod
 }
 
 void convert_from_proto(const commonmodule::ControlDPC& in, twinoaks::commonmodule::ControlDPC& out)
+{
+    out.clear();
+
+    static_assert(std::is_same<decltype(out.ctlVal), unsigned char>::value, "unexpected type");
+    out.ctlVal = static_cast<unsigned char>(in.ctlval()); // required bool
+}
+
+void convert_from_proto(const commonmodule::DeviceControl& in, twinoaks::commonmodule::DeviceControl& out)
+{
+    out.clear();
+
+    if(in.has_logicalnodeforcontrol()) convert_from_proto(in.logicalnodeforcontrol(), out); // inherited type
+
+    if(in.has_ansi79lo()) // optional field in DDS
+    {
+        out.ANSI79LO = new twinoaks::commonmodule::ControlSPC();
+        convert_from_proto(in.ansi79lo(), *out.ANSI79LO);
+    }
+
+    if(in.has_faultlatch()) // optional field in DDS
+    {
+        out.FaultLatch = new twinoaks::commonmodule::ControlSPC();
+        convert_from_proto(in.faultlatch(), *out.FaultLatch);
+    }
+
+    if(in.has_hotlinetag()) // optional field in DDS
+    {
+        out.HotLineTag = new twinoaks::commonmodule::ControlSPC();
+        convert_from_proto(in.hotlinetag(), *out.HotLineTag);
+    }
+
+    if(in.has_iedtrouble()) // optional field in DDS
+    {
+        out.IEDTrouble = new twinoaks::commonmodule::ControlSPC();
+        convert_from_proto(in.iedtrouble(), *out.IEDTrouble);
+    }
+
+    if(in.has_recloseenabled()) // optional field in DDS
+    {
+        out.RecloseEnabled = new twinoaks::commonmodule::ControlSPC();
+        convert_from_proto(in.recloseenabled(), *out.RecloseEnabled);
+    }
+}
+
+void convert_from_proto(const commonmodule::ControlSPC& in, twinoaks::commonmodule::ControlSPC& out)
 {
     out.clear();
 
@@ -1649,6 +1800,13 @@ void convert_from_proto(const breakermodule::BreakerStatus& in, twinoaks::breake
 
     if(in.has_statusvalue()) convert_from_proto(in.statusvalue(), out); // inherited type
 
+    for(const auto& input : in.devicestatus())
+    {
+        twinoaks::commonmodule::DeviceStatus ouput;
+        convert_from_proto(input, ouput);
+        out.deviceStatus.push_back(ouput);
+    }
+
     convert_from_proto(in.statusandeventxcbr(), out.statusAndEventXCBR); // required field in DDS
 }
 
@@ -1657,6 +1815,69 @@ void convert_from_proto(const commonmodule::StatusValue& in, twinoaks::commonmod
     out.clear();
 
     if(in.has_identifiedobject()) convert_from_proto(in.identifiedobject(), out); // inherited type
+}
+
+void convert_from_proto(const commonmodule::DeviceStatus& in, twinoaks::commonmodule::DeviceStatus& out)
+{
+    out.clear();
+
+    if(in.has_logicalnodeforeventandstatus()) convert_from_proto(in.logicalnodeforeventandstatus(), out); // inherited type
+
+    if(in.has_ansi79lo()) // optional field in DDS
+    {
+        out.ANSI79LO = new twinoaks::commonmodule::StatusSPS();
+        convert_from_proto(in.ansi79lo(), *out.ANSI79LO);
+    }
+
+    if(in.has_faultlatch()) // optional field in DDS
+    {
+        out.FaultLatch = new twinoaks::commonmodule::StatusSPS();
+        convert_from_proto(in.faultlatch(), *out.FaultLatch);
+    }
+
+    if(in.has_hotlinetag()) // optional field in DDS
+    {
+        out.HotLineTag = new twinoaks::commonmodule::StatusSPS();
+        convert_from_proto(in.hotlinetag(), *out.HotLineTag);
+    }
+
+    if(in.has_iedtrouble()) // optional field in DDS
+    {
+        out.IEDTrouble = new twinoaks::commonmodule::StatusSPS();
+        convert_from_proto(in.iedtrouble(), *out.IEDTrouble);
+    }
+
+    if(in.has_recloseenabled()) // optional field in DDS
+    {
+        out.RecloseEnabled = new twinoaks::commonmodule::StatusSPS();
+        convert_from_proto(in.recloseenabled(), *out.RecloseEnabled);
+    }
+
+    if(in.has_remoteenabled()) // optional field in DDS
+    {
+        out.RemoteEnabled = new twinoaks::commonmodule::StatusSPS();
+        convert_from_proto(in.remoteenabled(), *out.RemoteEnabled);
+    }
+}
+
+void convert_from_proto(const commonmodule::StatusSPS& in, twinoaks::commonmodule::StatusSPS& out)
+{
+    out.clear();
+
+    if(in.has_q()) // optional field in DDS
+    {
+        out.q = new twinoaks::commonmodule::Quality();
+        convert_from_proto(in.q(), *out.q);
+    }
+
+    static_assert(std::is_same<decltype(out.stVal), unsigned char>::value, "unexpected type");
+    out.stVal = static_cast<unsigned char>(in.stval()); // required bool
+
+    if(in.has_t()) // optional field in DDS
+    {
+        out.t = new twinoaks::commonmodule::Timestamp();
+        convert_from_proto(in.t(), *out.t);
+    }
 }
 
 void convert_from_proto(const commonmodule::ESS& in, twinoaks::commonmodule::ESS& out)
@@ -2219,26 +2440,6 @@ void convert_from_proto(const essmodule::EssEventZBAT& in, twinoaks::essmodule::
     {
         out.Stdby = new twinoaks::commonmodule::StatusSPS();
         convert_from_proto(in.stdby(), *out.Stdby);
-    }
-}
-
-void convert_from_proto(const commonmodule::StatusSPS& in, twinoaks::commonmodule::StatusSPS& out)
-{
-    out.clear();
-
-    if(in.has_q()) // optional field in DDS
-    {
-        out.q = new twinoaks::commonmodule::Quality();
-        convert_from_proto(in.q(), *out.q);
-    }
-
-    static_assert(std::is_same<decltype(out.stVal), unsigned char>::value, "unexpected type");
-    out.stVal = static_cast<unsigned char>(in.stval()); // required bool
-
-    if(in.has_t()) // optional field in DDS
-    {
-        out.t = new twinoaks::commonmodule::Timestamp();
-        convert_from_proto(in.t(), *out.t);
     }
 }
 
@@ -3061,6 +3262,13 @@ void convert_from_proto(const reclosermodule::RecloserDiscreteControl& in, twino
         convert_from_proto(in.check(), *out.check);
     }
 
+    for(const auto& input : in.devicecontrol())
+    {
+        twinoaks::commonmodule::DeviceControl ouput;
+        convert_from_proto(input, ouput);
+        out.deviceControl.push_back(ouput);
+    }
+
     convert_from_proto(in.recloserdiscretecontrolxcbr(), out.recloserDiscreteControlXCBR); // required field in DDS
 }
 
@@ -3122,6 +3330,13 @@ void convert_from_proto(const reclosermodule::RecloserStatus& in, twinoaks::recl
     out.clear();
 
     if(in.has_statusvalue()) convert_from_proto(in.statusvalue(), out); // inherited type
+
+    for(const auto& input : in.devicestatus())
+    {
+        twinoaks::commonmodule::DeviceStatus ouput;
+        convert_from_proto(input, ouput);
+        out.deviceStatus.push_back(ouput);
+    }
 
     convert_from_proto(in.statusandeventxcbr(), out.statusAndEventXCBR); // required field in DDS
 }
@@ -3309,14 +3524,6 @@ void convert_from_proto(const commonmodule::ControlING& in, twinoaks::commonmodu
         out.units = new twinoaks::commonmodule::Unit();
         convert_from_proto(in.units(), *out.units);
     }
-}
-
-void convert_from_proto(const commonmodule::ControlSPC& in, twinoaks::commonmodule::ControlSPC& out)
-{
-    out.clear();
-
-    static_assert(std::is_same<decltype(out.ctlVal), unsigned char>::value, "unexpected type");
-    out.ctlVal = static_cast<unsigned char>(in.ctlval()); // required bool
 }
 
 void convert_from_proto(const commonmodule::ControlISC& in, twinoaks::commonmodule::ControlISC& out)
@@ -3931,6 +4138,199 @@ void convert_from_proto(const solarmodule::SolarStatusZGEN& in, twinoaks::solarm
     }
 }
 
+void convert_from_proto(const shuntmodule::ShuntControl& in, twinoaks::shuntmodule::ShuntControl& out)
+{
+    out.clear();
+
+    if(in.has_controlvalue()) convert_from_proto(in.controlvalue(), out); // inherited type
+
+    if(in.has_check()) // optional field in DDS
+    {
+        out.check = new twinoaks::commonmodule::CheckConditions();
+        convert_from_proto(in.check(), *out.check);
+    }
+
+    convert_from_proto(in.shuntcontrolfscc(), out.shuntControlFSCC); // required field in DDS
+}
+
+void convert_from_proto(const shuntmodule::ShuntControlFSCC& in, twinoaks::shuntmodule::ShuntControlFSCC& out)
+{
+    out.clear();
+
+    if(in.has_controlfscc()) convert_from_proto(in.controlfscc(), out); // inherited type
+
+    if(in.has_shuntcontrolschedulefsch()) // optional field in DDS
+    {
+        out.shuntControlScheduleFSCH = new twinoaks::shuntmodule::ShuntControlScheduleFSCH();
+        convert_from_proto(in.shuntcontrolschedulefsch(), *out.shuntControlScheduleFSCH);
+    }
+}
+
+void convert_from_proto(const shuntmodule::ShuntControlScheduleFSCH& in, twinoaks::shuntmodule::ShuntControlScheduleFSCH& out)
+{
+    out.clear();
+
+    convert_from_proto(in.valcsg(), out.ValCSG); // required field in DDS
+}
+
+void convert_from_proto(const shuntmodule::ShuntCSG& in, twinoaks::shuntmodule::ShuntCSG& out)
+{
+    out.clear();
+
+    for(const auto& input : in.crvpts())
+    {
+        twinoaks::shuntmodule::ShuntPoint ouput;
+        convert_from_proto(input, ouput);
+        out.crvPts.push_back(ouput);
+    }
+}
+
+void convert_from_proto(const shuntmodule::ShuntPoint& in, twinoaks::shuntmodule::ShuntPoint& out)
+{
+    out.clear();
+
+    if(in.has_control()) // optional field in DDS
+    {
+        out.control = new twinoaks::shuntmodule::ShuntEventAndStatusYPSH();
+        convert_from_proto(in.control(), *out.control);
+    }
+
+    convert_from_proto(in.starttime(), out.startTime); // required field in DDS
+}
+
+void convert_from_proto(const shuntmodule::ShuntEventAndStatusYPSH& in, twinoaks::shuntmodule::ShuntEventAndStatusYPSH& out)
+{
+    out.clear();
+
+    convert_from_proto(in.blkcls(), out.BlkCls); // required field in DDS
+
+    convert_from_proto(in.blkopn(), out.BlkOpn); // required field in DDS
+
+    convert_from_proto(in.pos(), out.Pos); // required field in DDS
+
+    convert_from_proto(in.shopcap(), out.ShOpCap); // required field in DDS
+}
+
+void convert_from_proto(const shuntmodule::ENS_SwitchingCapabilityKind& in, twinoaks::shuntmodule::ENS_SwitchingCapabilityKind& out)
+{
+    out.clear();
+
+    if(in.has_blkena())
+    {
+        out.blkEna = allocate_from_wrapper_type(in.blkena());
+    }
+
+    convert_from_proto(in.q(), out.q); // required field in DDS
+
+    out.stVal = static_cast<twinoaks::shuntmodule::SwitchingCapabilityKind>(in.stval());
+
+    convert_from_proto(in.t(), out.t); // required field in DDS
+}
+
+void convert_from_proto(const shuntmodule::ShuntSystem& in, twinoaks::shuntmodule::ShuntSystem& out)
+{
+    out.clear();
+
+    if(in.has_conductingequipment()) convert_from_proto(in.conductingequipment(), out); // inherited type
+}
+
+void convert_from_proto(const shuntmodule::ShuntDiscreteControl& in, twinoaks::shuntmodule::ShuntDiscreteControl& out)
+{
+    out.clear();
+
+    if(in.has_controlvalue()) convert_from_proto(in.controlvalue(), out); // inherited type
+
+    if(in.has_check()) // optional field in DDS
+    {
+        out.check = new twinoaks::commonmodule::CheckConditions();
+        convert_from_proto(in.check(), *out.check);
+    }
+
+    convert_from_proto(in.shuntdiscretecontrolzcap(), out.shuntDiscreteControlZCAP); // required field in DDS
+}
+
+void convert_from_proto(const shuntmodule::ShuntDiscreteControlZCAP& in, twinoaks::shuntmodule::ShuntDiscreteControlZCAP& out)
+{
+    out.clear();
+
+    if(in.has_logicalnodeforcontrol()) convert_from_proto(in.logicalnodeforcontrol(), out); // inherited type
+
+    if(in.has_pos()) // optional field in DDS
+    {
+        out.Pos = new twinoaks::commonmodule::ControlDPC();
+        convert_from_proto(in.pos(), *out.Pos);
+    }
+}
+
+void convert_from_proto(const shuntmodule::ShuntEvent& in, twinoaks::shuntmodule::ShuntEvent& out)
+{
+    out.clear();
+
+    if(in.has_eventvalue()) convert_from_proto(in.eventvalue(), out); // inherited type
+
+    convert_from_proto(in.shunteventandstatuszcap(), out.shuntEventAndStatusZCAP); // required field in DDS
+}
+
+void convert_from_proto(const shuntmodule::ShuntEventAndStatusZCAP& in, twinoaks::shuntmodule::ShuntEventAndStatusZCAP& out)
+{
+    out.clear();
+
+    if(in.has_logicalnodeforeventandstatus()) convert_from_proto(in.logicalnodeforeventandstatus(), out); // inherited type
+
+    if(in.has_dynamictest()) // optional field in DDS
+    {
+        out.DynamicTest = new twinoaks::commonmodule::ENS_DynamicTestKind();
+        convert_from_proto(in.dynamictest(), *out.DynamicTest);
+    }
+
+    convert_from_proto(in.pointstatus(), out.PointStatus); // required field in DDS
+}
+
+void convert_from_proto(const shuntmodule::ShuntEventAndStatusPoint& in, twinoaks::shuntmodule::ShuntEventAndStatusPoint& out)
+{
+    out.clear();
+
+    if(in.has_eventandstatus()) // optional field in DDS
+    {
+        out.eventAndStatus = new twinoaks::shuntmodule::ShuntEventAndStatusYPSH();
+        convert_from_proto(in.eventandstatus(), *out.eventAndStatus);
+    }
+}
+
+void convert_from_proto(const shuntmodule::ShuntStatus& in, twinoaks::shuntmodule::ShuntStatus& out)
+{
+    out.clear();
+
+    if(in.has_statusvalue()) convert_from_proto(in.statusvalue(), out); // inherited type
+
+    convert_from_proto(in.shunteventandstatuszcap(), out.shuntEventAndStatusZCAP); // required field in DDS
+}
+
+void convert_from_proto(const shuntmodule::ShuntReading& in, twinoaks::shuntmodule::ShuntReading& out)
+{
+    out.clear();
+
+    if(in.has_conductingequipmentterminalreading()) convert_from_proto(in.conductingequipmentterminalreading(), out); // inherited type
+
+    if(in.has_phasemmtn()) // optional field in DDS
+    {
+        out.phaseMMTN = new twinoaks::commonmodule::PhaseMMTN();
+        convert_from_proto(in.phasemmtn(), *out.phaseMMTN);
+    }
+
+    if(in.has_readingmmtr()) // optional field in DDS
+    {
+        out.readingMMTR = new twinoaks::commonmodule::ReadingMMTR();
+        convert_from_proto(in.readingmmtr(), *out.readingMMTR);
+    }
+
+    if(in.has_readingmmxu()) // optional field in DDS
+    {
+        out.readingMMXU = new twinoaks::commonmodule::ReadingMMXU();
+        convert_from_proto(in.readingmmxu(), *out.readingMMXU);
+    }
+}
+
 void convert_from_proto(const switchmodule::ProtectedSwitch& in, twinoaks::switchmodule::ProtectedSwitch& out)
 {
     out.clear();
@@ -3976,6 +4376,13 @@ void convert_from_proto(const switchmodule::SwitchDiscreteControl& in, twinoaks:
     {
         out.check = new twinoaks::commonmodule::CheckConditions();
         convert_from_proto(in.check(), *out.check);
+    }
+
+    for(const auto& input : in.devicecontrol())
+    {
+        twinoaks::commonmodule::DeviceControl ouput;
+        convert_from_proto(input, ouput);
+        out.deviceControl.push_back(ouput);
     }
 
     convert_from_proto(in.switchdiscretecontrolxswi(), out.switchDiscreteControlXSWI); // required field in DDS
@@ -4054,6 +4461,13 @@ void convert_from_proto(const switchmodule::SwitchStatus& in, twinoaks::switchmo
     out.clear();
 
     if(in.has_statusvalue()) convert_from_proto(in.statusvalue(), out); // inherited type
+
+    for(const auto& input : in.devicestatus())
+    {
+        twinoaks::commonmodule::DeviceStatus ouput;
+        convert_from_proto(input, ouput);
+        out.deviceStatus.push_back(ouput);
+    }
 
     convert_from_proto(in.switchstatusxswi(), out.switchStatusXSWI); // required field in DDS
 }
@@ -4248,6 +4662,11 @@ static_assert(static_cast<int>(commonmodule::GridConnectModeKind::GridConnectMod
 static_assert(static_cast<int>(commonmodule::StateKind::StateKind_off) == static_cast<int>(twinoaks::commonmodule::StateKind::StateKind_off), "mismatched enum values");
 static_assert(static_cast<int>(commonmodule::StateKind::StateKind_on) == static_cast<int>(twinoaks::commonmodule::StateKind::StateKind_on), "mismatched enum values");
 static_assert(static_cast<int>(commonmodule::StateKind::StateKind_standby) == static_cast<int>(twinoaks::commonmodule::StateKind::StateKind_standby), "mismatched enum values");
+
+static_assert(static_cast<int>(shuntmodule::SwitchingCapabilityKind::SwitchingCapabilityKind_none) == static_cast<int>(twinoaks::shuntmodule::SwitchingCapabilityKind::SwitchingCapabilityKind_none), "mismatched enum values");
+static_assert(static_cast<int>(shuntmodule::SwitchingCapabilityKind::SwitchingCapabilityKind_open) == static_cast<int>(twinoaks::shuntmodule::SwitchingCapabilityKind::SwitchingCapabilityKind_open), "mismatched enum values");
+static_assert(static_cast<int>(shuntmodule::SwitchingCapabilityKind::SwitchingCapabilityKind_close) == static_cast<int>(twinoaks::shuntmodule::SwitchingCapabilityKind::SwitchingCapabilityKind_close), "mismatched enum values");
+static_assert(static_cast<int>(shuntmodule::SwitchingCapabilityKind::SwitchingCapabilityKind_open_and_close) == static_cast<int>(twinoaks::shuntmodule::SwitchingCapabilityKind::SwitchingCapabilityKind_open_and_close), "mismatched enum values");
 
 } // end namespace dds
 

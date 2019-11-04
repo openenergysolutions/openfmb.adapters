@@ -1,6 +1,7 @@
 #include "adapter-util/config/generated/ModelVisitors.h"
 
 #include "reclosermodule/reclosermodule.pb.h"
+#include "shuntmodule/shuntmodule.pb.h"
 #include "solarmodule/solarmodule.pb.h"
 #include "breakermodule/breakermodule.pb.h"
 #include "switchmodule/switchmodule.pb.h"
@@ -70,6 +71,10 @@ void visit_commonmodule_ControlScheduleFSCH(IModelVisitor& visitor);
 void visit_commonmodule_ControlValue(IModelVisitor& visitor);
 
 void visit_commonmodule_DEL(IModelVisitor& visitor);
+
+void visit_commonmodule_DeviceControl(IModelVisitor& visitor);
+
+void visit_commonmodule_DeviceStatus(IModelVisitor& visitor);
 
 void visit_commonmodule_ENG_CalcMethodKind(IModelVisitor& visitor);
 
@@ -310,6 +315,36 @@ void visit_regulatormodule_RegulatorSystem(IModelVisitor& visitor);
 void visit_resourcemodule_ResourceReading(IModelVisitor& visitor);
 
 void visit_resourcemodule_ResourceStatus(IModelVisitor& visitor);
+
+void visit_shuntmodule_ENS_SwitchingCapabilityKind(IModelVisitor& visitor);
+
+void visit_shuntmodule_ShuntCSG(IModelVisitor& visitor);
+
+void visit_shuntmodule_ShuntControl(IModelVisitor& visitor);
+
+void visit_shuntmodule_ShuntControlFSCC(IModelVisitor& visitor);
+
+void visit_shuntmodule_ShuntControlScheduleFSCH(IModelVisitor& visitor);
+
+void visit_shuntmodule_ShuntDiscreteControl(IModelVisitor& visitor);
+
+void visit_shuntmodule_ShuntDiscreteControlZCAP(IModelVisitor& visitor);
+
+void visit_shuntmodule_ShuntEvent(IModelVisitor& visitor);
+
+void visit_shuntmodule_ShuntEventAndStatusPoint(IModelVisitor& visitor);
+
+void visit_shuntmodule_ShuntEventAndStatusYPSH(IModelVisitor& visitor);
+
+void visit_shuntmodule_ShuntEventAndStatusZCAP(IModelVisitor& visitor);
+
+void visit_shuntmodule_ShuntPoint(IModelVisitor& visitor);
+
+void visit_shuntmodule_ShuntReading(IModelVisitor& visitor);
+
+void visit_shuntmodule_ShuntStatus(IModelVisitor& visitor);
+
+void visit_shuntmodule_ShuntSystem(IModelVisitor& visitor);
 
 void visit_solarmodule_SolarCSG(IModelVisitor& visitor);
 
@@ -1271,6 +1306,146 @@ void visit<solarmodule::SolarStatusProfile>(IModelVisitor& visitor)
 }
 
 template <>
+void visit<shuntmodule::ShuntControlProfile>(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("controlMessageInfo", commonmodule::ControlMessageInfo::descriptor()))
+    {
+        visit_commonmodule_ControlMessageInfo(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
+    {
+        visit_commonmodule_IED(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("shuntControl", shuntmodule::ShuntControl::descriptor()))
+    {
+        visit_shuntmodule_ShuntControl(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("shuntSystem", shuntmodule::ShuntSystem::descriptor()))
+    {
+        visit_shuntmodule_ShuntSystem(visitor);
+        visitor.end_message_field();
+    }
+}
+
+template <>
+void visit<shuntmodule::ShuntDiscreteControlProfile>(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("controlMessageInfo", commonmodule::ControlMessageInfo::descriptor()))
+    {
+        visit_commonmodule_ControlMessageInfo(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
+    {
+        visit_commonmodule_IED(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("shuntControl", shuntmodule::ShuntDiscreteControl::descriptor()))
+    {
+        visit_shuntmodule_ShuntDiscreteControl(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("shuntSystem", shuntmodule::ShuntSystem::descriptor()))
+    {
+        visit_shuntmodule_ShuntSystem(visitor);
+        visitor.end_message_field();
+    }
+}
+
+template <>
+void visit<shuntmodule::ShuntEventProfile>(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("eventMessageInfo", commonmodule::EventMessageInfo::descriptor()))
+    {
+        visit_commonmodule_EventMessageInfo(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
+    {
+        visit_commonmodule_IED(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("shuntEvent", shuntmodule::ShuntEvent::descriptor()))
+    {
+        visit_shuntmodule_ShuntEvent(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("shuntSystem", shuntmodule::ShuntSystem::descriptor()))
+    {
+        visit_shuntmodule_ShuntSystem(visitor);
+        visitor.end_message_field();
+    }
+}
+
+template <>
+void visit<shuntmodule::ShuntStatusProfile>(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("statusMessageInfo", commonmodule::StatusMessageInfo::descriptor()))
+    {
+        visit_commonmodule_StatusMessageInfo(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
+    {
+        visit_commonmodule_IED(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("shuntStatus", shuntmodule::ShuntStatus::descriptor()))
+    {
+        visit_shuntmodule_ShuntStatus(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("shuntSystem", shuntmodule::ShuntSystem::descriptor()))
+    {
+        visit_shuntmodule_ShuntSystem(visitor);
+        visitor.end_message_field();
+    }
+}
+
+template <>
+void visit<shuntmodule::ShuntReadingProfile>(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("readingMessageInfo", commonmodule::ReadingMessageInfo::descriptor()))
+    {
+        visit_commonmodule_ReadingMessageInfo(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
+    {
+        visit_commonmodule_IED(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("shuntReading", shuntmodule::ShuntReading::descriptor()))
+    {
+        visit_shuntmodule_ShuntReading(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("shuntSystem", shuntmodule::ShuntSystem::descriptor()))
+    {
+        visit_shuntmodule_ShuntSystem(visitor);
+        visitor.end_message_field();
+    }
+}
+
+template <>
 void visit<switchmodule::SwitchControlProfile>(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("controlMessageInfo", commonmodule::ControlMessageInfo::descriptor()))
@@ -1445,6 +1620,17 @@ void visit_breakermodule_BreakerDiscreteControl(IModelVisitor& visitor)
         visit_breakermodule_BreakerDiscreteControlXCBR(visitor);
         visitor.end_message_field();
     }
+
+    {
+        const auto count = visitor.start_repeated_message_field("devicecontrol", commonmodule::DeviceControl::descriptor());
+        for(int i = 0; i < count; ++i)
+        {
+            visitor.start_iteration(i);
+            visit_commonmodule_DeviceControl(visitor);
+            visitor.end_iteration();
+        }
+        visitor.end_repeated_message_field();
+    }
 }
 
 void visit_breakermodule_BreakerDiscreteControlXCBR(IModelVisitor& visitor)
@@ -1516,6 +1702,17 @@ void visit_breakermodule_BreakerStatus(IModelVisitor& visitor)
     {
         visit_commonmodule_StatusValue(visitor);
         visitor.end_message_field();
+    }
+
+    {
+        const auto count = visitor.start_repeated_message_field("devicestatus", commonmodule::DeviceStatus::descriptor());
+        for(int i = 0; i < count; ++i)
+        {
+            visitor.start_iteration(i);
+            visit_commonmodule_DeviceStatus(visitor);
+            visitor.end_iteration();
+        }
+        visitor.end_repeated_message_field();
     }
 
     if(visitor.start_message_field("statusAndEventXCBR", commonmodule::StatusAndEventXCBR::descriptor()))
@@ -1848,6 +2045,90 @@ void visit_commonmodule_DEL(IModelVisitor& visitor)
     if(visitor.start_message_field("phsCA", commonmodule::CMV::descriptor()))
     {
         visit_commonmodule_CMV(visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit_commonmodule_DeviceControl(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("logicalNodeForControl", commonmodule::LogicalNodeForControl::descriptor()))
+    {
+        visit_commonmodule_LogicalNodeForControl(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("ANSI79LO", commonmodule::ControlSPC::descriptor()))
+    {
+        visit_commonmodule_ControlSPC(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("FaultLatch", commonmodule::ControlSPC::descriptor()))
+    {
+        visit_commonmodule_ControlSPC(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("HotLineTag", commonmodule::ControlSPC::descriptor()))
+    {
+        visit_commonmodule_ControlSPC(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("IEDTrouble", commonmodule::ControlSPC::descriptor()))
+    {
+        visit_commonmodule_ControlSPC(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("RecloseEnabled", commonmodule::ControlSPC::descriptor()))
+    {
+        visit_commonmodule_ControlSPC(visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit_commonmodule_DeviceStatus(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("logicalNodeForEventAndStatus", commonmodule::LogicalNodeForEventAndStatus::descriptor()))
+    {
+        visit_commonmodule_LogicalNodeForEventAndStatus(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("ANSI79LO", commonmodule::StatusSPS::descriptor()))
+    {
+        visit_commonmodule_StatusSPS(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("FaultLatch", commonmodule::StatusSPS::descriptor()))
+    {
+        visit_commonmodule_StatusSPS(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("HotLineTag", commonmodule::StatusSPS::descriptor()))
+    {
+        visit_commonmodule_StatusSPS(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("IEDTrouble", commonmodule::StatusSPS::descriptor()))
+    {
+        visit_commonmodule_StatusSPS(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("RecloseEnabled", commonmodule::StatusSPS::descriptor()))
+    {
+        visit_commonmodule_StatusSPS(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("RemoteEnabled", commonmodule::StatusSPS::descriptor()))
+    {
+        visit_commonmodule_StatusSPS(visitor);
         visitor.end_message_field();
     }
 }
@@ -4038,6 +4319,17 @@ void visit_reclosermodule_RecloserDiscreteControl(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
+    {
+        const auto count = visitor.start_repeated_message_field("devicecontrol", commonmodule::DeviceControl::descriptor());
+        for(int i = 0; i < count; ++i)
+        {
+            visitor.start_iteration(i);
+            visit_commonmodule_DeviceControl(visitor);
+            visitor.end_iteration();
+        }
+        visitor.end_repeated_message_field();
+    }
+
     if(visitor.start_message_field("recloserDiscreteControlXCBR", reclosermodule::RecloserDiscreteControlXCBR::descriptor()))
     {
         visit_reclosermodule_RecloserDiscreteControlXCBR(visitor);
@@ -4114,6 +4406,17 @@ void visit_reclosermodule_RecloserStatus(IModelVisitor& visitor)
     {
         visit_commonmodule_StatusValue(visitor);
         visitor.end_message_field();
+    }
+
+    {
+        const auto count = visitor.start_repeated_message_field("devicestatus", commonmodule::DeviceStatus::descriptor());
+        for(int i = 0; i < count; ++i)
+        {
+            visitor.start_iteration(i);
+            visit_commonmodule_DeviceStatus(visitor);
+            visitor.end_iteration();
+        }
+        visitor.end_repeated_message_field();
     }
 
     if(visitor.start_message_field("statusAndEventXCBR", commonmodule::StatusAndEventXCBR::descriptor()))
@@ -4537,6 +4840,250 @@ void visit_resourcemodule_ResourceStatus(IModelVisitor& visitor)
     }
 }
 
+void visit_shuntmodule_ENS_SwitchingCapabilityKind(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("blkEna", google::protobuf::BoolValue::descriptor()))
+    {
+        visitor.handle("value", BoolFieldType::Value::mapped);
+        visitor.end_message_field();
+    }
+
+    visitor.handle("q", QualityFieldType::Value::ignored);
+
+    visitor.handle("stVal", shuntmodule::SwitchingCapabilityKind_descriptor(), EnumFieldType::Value::constant);
+
+    visitor.handle("t", TimestampFieldType::Value::ignored);
+}
+
+void visit_shuntmodule_ShuntCSG(IModelVisitor& visitor)
+{
+    {
+        const auto count = visitor.start_repeated_message_field("crvpts", shuntmodule::ShuntPoint::descriptor());
+        for(int i = 0; i < count; ++i)
+        {
+            visitor.start_iteration(i);
+            visit_shuntmodule_ShuntPoint(visitor);
+            visitor.end_iteration();
+        }
+        visitor.end_repeated_message_field();
+    }
+}
+
+void visit_shuntmodule_ShuntControl(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("controlValue", commonmodule::ControlValue::descriptor()))
+    {
+        visit_commonmodule_ControlValue(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("check", commonmodule::CheckConditions::descriptor()))
+    {
+        visit_commonmodule_CheckConditions(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("shuntControlFSCC", shuntmodule::ShuntControlFSCC::descriptor()))
+    {
+        visit_shuntmodule_ShuntControlFSCC(visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit_shuntmodule_ShuntControlFSCC(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("controlFSCC", commonmodule::ControlFSCC::descriptor()))
+    {
+        visit_commonmodule_ControlFSCC(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("shuntControlScheduleFSCH", shuntmodule::ShuntControlScheduleFSCH::descriptor()))
+    {
+        visit_shuntmodule_ShuntControlScheduleFSCH(visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit_shuntmodule_ShuntControlScheduleFSCH(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("ValCSG", shuntmodule::ShuntCSG::descriptor()))
+    {
+        visit_shuntmodule_ShuntCSG(visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit_shuntmodule_ShuntDiscreteControl(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("controlValue", commonmodule::ControlValue::descriptor()))
+    {
+        visit_commonmodule_ControlValue(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("check", commonmodule::CheckConditions::descriptor()))
+    {
+        visit_commonmodule_CheckConditions(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("shuntDiscreteControlZCAP", shuntmodule::ShuntDiscreteControlZCAP::descriptor()))
+    {
+        visit_shuntmodule_ShuntDiscreteControlZCAP(visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit_shuntmodule_ShuntDiscreteControlZCAP(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("logicalNodeForControl", commonmodule::LogicalNodeForControl::descriptor()))
+    {
+        visit_commonmodule_LogicalNodeForControl(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("Pos", commonmodule::ControlDPC::descriptor()))
+    {
+        visit_commonmodule_ControlDPC(visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit_shuntmodule_ShuntEvent(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("eventValue", commonmodule::EventValue::descriptor()))
+    {
+        visit_commonmodule_EventValue(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("shuntEventAndStatusZCAP", shuntmodule::ShuntEventAndStatusZCAP::descriptor()))
+    {
+        visit_shuntmodule_ShuntEventAndStatusZCAP(visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit_shuntmodule_ShuntEventAndStatusPoint(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("eventAndStatus", shuntmodule::ShuntEventAndStatusYPSH::descriptor()))
+    {
+        visit_shuntmodule_ShuntEventAndStatusYPSH(visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit_shuntmodule_ShuntEventAndStatusYPSH(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("BlkCls", commonmodule::ControlSPC::descriptor()))
+    {
+        visit_commonmodule_ControlSPC(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("BlkOpn", commonmodule::ControlSPC::descriptor()))
+    {
+        visit_commonmodule_ControlSPC(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("Pos", commonmodule::ControlDPC::descriptor()))
+    {
+        visit_commonmodule_ControlDPC(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("ShOpCap", shuntmodule::ENS_SwitchingCapabilityKind::descriptor()))
+    {
+        visit_shuntmodule_ENS_SwitchingCapabilityKind(visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit_shuntmodule_ShuntEventAndStatusZCAP(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("logicalNodeForEventAndStatus", commonmodule::LogicalNodeForEventAndStatus::descriptor()))
+    {
+        visit_commonmodule_LogicalNodeForEventAndStatus(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("DynamicTest", commonmodule::ENS_DynamicTestKind::descriptor()))
+    {
+        visit_commonmodule_ENS_DynamicTestKind(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("PointStatus", shuntmodule::ShuntEventAndStatusPoint::descriptor()))
+    {
+        visit_shuntmodule_ShuntEventAndStatusPoint(visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit_shuntmodule_ShuntPoint(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("control", shuntmodule::ShuntEventAndStatusYPSH::descriptor()))
+    {
+        visit_shuntmodule_ShuntEventAndStatusYPSH(visitor);
+        visitor.end_message_field();
+    }
+
+    visitor.handle("startTime", TimestampFieldType::Value::ignored);
+}
+
+void visit_shuntmodule_ShuntReading(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("conductingEquipmentTerminalReading", commonmodule::ConductingEquipmentTerminalReading::descriptor()))
+    {
+        visit_commonmodule_ConductingEquipmentTerminalReading(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("phaseMMTN", commonmodule::PhaseMMTN::descriptor()))
+    {
+        visit_commonmodule_PhaseMMTN(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("readingMMTR", commonmodule::ReadingMMTR::descriptor()))
+    {
+        visit_commonmodule_ReadingMMTR(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("readingMMXU", commonmodule::ReadingMMXU::descriptor()))
+    {
+        visit_commonmodule_ReadingMMXU(visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit_shuntmodule_ShuntStatus(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("statusValue", commonmodule::StatusValue::descriptor()))
+    {
+        visit_commonmodule_StatusValue(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("shuntEventAndStatusZCAP", shuntmodule::ShuntEventAndStatusZCAP::descriptor()))
+    {
+        visit_shuntmodule_ShuntEventAndStatusZCAP(visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit_shuntmodule_ShuntSystem(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("conductingEquipment", commonmodule::ConductingEquipment::descriptor()))
+    {
+        visit_commonmodule_ConductingEquipment(visitor);
+        visitor.end_message_field();
+    }
+}
+
 void visit_solarmodule_SolarCSG(IModelVisitor& visitor)
 {
     {
@@ -4906,6 +5453,17 @@ void visit_switchmodule_SwitchDiscreteControl(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
+    {
+        const auto count = visitor.start_repeated_message_field("devicecontrol", commonmodule::DeviceControl::descriptor());
+        for(int i = 0; i < count; ++i)
+        {
+            visitor.start_iteration(i);
+            visit_commonmodule_DeviceControl(visitor);
+            visitor.end_iteration();
+        }
+        visitor.end_repeated_message_field();
+    }
+
     if(visitor.start_message_field("switchDiscreteControlXSWI", switchmodule::SwitchDiscreteControlXSWI::descriptor()))
     {
         visit_switchmodule_SwitchDiscreteControlXSWI(visitor);
@@ -5003,6 +5561,17 @@ void visit_switchmodule_SwitchStatus(IModelVisitor& visitor)
     {
         visit_commonmodule_StatusValue(visitor);
         visitor.end_message_field();
+    }
+
+    {
+        const auto count = visitor.start_repeated_message_field("devicestatus", commonmodule::DeviceStatus::descriptor());
+        for(int i = 0; i < count; ++i)
+        {
+            visitor.start_iteration(i);
+            visit_commonmodule_DeviceStatus(visitor);
+            visitor.end_iteration();
+        }
+        visitor.end_repeated_message_field();
     }
 
     if(visitor.start_message_field("switchStatusXSWI", switchmodule::SwitchStatusXSWI::descriptor()))

@@ -40,7 +40,11 @@ void visit_commonmodule_ControlDPC(const set_t<commonmodule::ControlDPC>& setter
 
 void visit_commonmodule_ControlMessageInfo(const set_t<commonmodule::ControlMessageInfo>& setter, const get_t<commonmodule::ControlMessageInfo>& getter, ITypedModelVisitor<breakermodule::BreakerDiscreteControlProfile>& visitor);
 
+void visit_commonmodule_ControlSPC(const set_t<commonmodule::ControlSPC>& setter, const get_t<commonmodule::ControlSPC>& getter, ITypedModelVisitor<breakermodule::BreakerDiscreteControlProfile>& visitor);
+
 void visit_commonmodule_ControlValue(const set_t<commonmodule::ControlValue>& setter, const get_t<commonmodule::ControlValue>& getter, ITypedModelVisitor<breakermodule::BreakerDiscreteControlProfile>& visitor);
+
+void visit_commonmodule_DeviceControl(const set_t<commonmodule::DeviceControl>& setter, const get_t<commonmodule::DeviceControl>& getter, ITypedModelVisitor<breakermodule::BreakerDiscreteControlProfile>& visitor);
 
 void visit_commonmodule_IED(const set_t<commonmodule::IED>& setter, const get_t<commonmodule::IED>& getter, ITypedModelVisitor<breakermodule::BreakerDiscreteControlProfile>& visitor);
 
@@ -265,6 +269,43 @@ void visit_breakermodule_BreakerDiscreteControl(const set_t<breakermodule::Break
         );
         visitor.end_message_field();
     }
+
+    {
+        const auto count = visitor.start_repeated_message_field("devicecontrol", commonmodule::DeviceControl::descriptor());
+        for(int i = 0; i < count; ++i)
+        {
+            visitor.start_iteration(i);
+            const auto set = [setter, i, max = count](breakermodule::BreakerDiscreteControlProfile& profile)
+            {
+                const auto repeated = setter(profile)->mutable_devicecontrol();
+                if(repeated->size() < max)
+                {
+                    repeated->Reserve(max);
+                    // add items until we're at max requested capacity
+                    for(auto j = repeated->size(); j < max; ++j)
+                    {
+                        repeated->Add();
+                    }
+                }
+                return repeated->Mutable(i);
+            };
+            const auto get = [getter, i](const breakermodule::BreakerDiscreteControlProfile& profile) -> commonmodule::DeviceControl const*
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return (i < value->devicecontrol_size()) ? &value->devicecontrol(i) : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            };
+            visit_commonmodule_DeviceControl(set, get, visitor);
+            visitor.end_iteration();
+        }
+        visitor.end_repeated_message_field();
+    }
 }
 
 void visit_breakermodule_BreakerDiscreteControlXCBR(const set_t<breakermodule::BreakerDiscreteControlXCBR>& setter, const get_t<breakermodule::BreakerDiscreteControlXCBR>& getter, ITypedModelVisitor<breakermodule::BreakerDiscreteControlProfile>& visitor)
@@ -454,6 +495,23 @@ void visit_commonmodule_ControlMessageInfo(const set_t<commonmodule::ControlMess
     }
 }
 
+void visit_commonmodule_ControlSPC(const set_t<commonmodule::ControlSPC>& setter, const get_t<commonmodule::ControlSPC>& getter, ITypedModelVisitor<breakermodule::BreakerDiscreteControlProfile>& visitor)
+{
+    visitor.handle(
+        "ctlVal",
+        AccessorBuilder<breakermodule::BreakerDiscreteControlProfile,bool>::build(
+            [setter](breakermodule::BreakerDiscreteControlProfile& profile, const bool& value) { setter(profile)->set_ctlval(value); },
+            [getter](const breakermodule::BreakerDiscreteControlProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->ctlval());
+                return true;
+            }
+        )
+    );
+}
+
 void visit_commonmodule_ControlValue(const set_t<commonmodule::ControlValue>& setter, const get_t<commonmodule::ControlValue>& getter, ITypedModelVisitor<breakermodule::BreakerDiscreteControlProfile>& visitor)
 {
     if(visitor.start_message_field("identifiedObject", commonmodule::IdentifiedObject::descriptor()))
@@ -493,6 +551,153 @@ void visit_commonmodule_ControlValue(const set_t<commonmodule::ControlValue>& se
                 if(value)
                 {
                     return value->has_modblk() ? &value->modblk() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+}
+
+void visit_commonmodule_DeviceControl(const set_t<commonmodule::DeviceControl>& setter, const get_t<commonmodule::DeviceControl>& getter, ITypedModelVisitor<breakermodule::BreakerDiscreteControlProfile>& visitor)
+{
+    if(visitor.start_message_field("logicalNodeForControl", commonmodule::LogicalNodeForControl::descriptor()))
+    {
+        visit_commonmodule_LogicalNodeForControl(
+            [setter](breakermodule::BreakerDiscreteControlProfile& profile)
+            {
+                return setter(profile)->mutable_logicalnodeforcontrol();
+            },
+            [getter](const breakermodule::BreakerDiscreteControlProfile& profile) -> commonmodule::LogicalNodeForControl const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_logicalnodeforcontrol() ? &value->logicalnodeforcontrol() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("ANSI79LO", commonmodule::ControlSPC::descriptor()))
+    {
+        visit_commonmodule_ControlSPC(
+            [setter](breakermodule::BreakerDiscreteControlProfile& profile)
+            {
+                return setter(profile)->mutable_ansi79lo();
+            },
+            [getter](const breakermodule::BreakerDiscreteControlProfile& profile) -> commonmodule::ControlSPC const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_ansi79lo() ? &value->ansi79lo() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("FaultLatch", commonmodule::ControlSPC::descriptor()))
+    {
+        visit_commonmodule_ControlSPC(
+            [setter](breakermodule::BreakerDiscreteControlProfile& profile)
+            {
+                return setter(profile)->mutable_faultlatch();
+            },
+            [getter](const breakermodule::BreakerDiscreteControlProfile& profile) -> commonmodule::ControlSPC const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_faultlatch() ? &value->faultlatch() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("HotLineTag", commonmodule::ControlSPC::descriptor()))
+    {
+        visit_commonmodule_ControlSPC(
+            [setter](breakermodule::BreakerDiscreteControlProfile& profile)
+            {
+                return setter(profile)->mutable_hotlinetag();
+            },
+            [getter](const breakermodule::BreakerDiscreteControlProfile& profile) -> commonmodule::ControlSPC const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_hotlinetag() ? &value->hotlinetag() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("IEDTrouble", commonmodule::ControlSPC::descriptor()))
+    {
+        visit_commonmodule_ControlSPC(
+            [setter](breakermodule::BreakerDiscreteControlProfile& profile)
+            {
+                return setter(profile)->mutable_iedtrouble();
+            },
+            [getter](const breakermodule::BreakerDiscreteControlProfile& profile) -> commonmodule::ControlSPC const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_iedtrouble() ? &value->iedtrouble() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("RecloseEnabled", commonmodule::ControlSPC::descriptor()))
+    {
+        visit_commonmodule_ControlSPC(
+            [setter](breakermodule::BreakerDiscreteControlProfile& profile)
+            {
+                return setter(profile)->mutable_recloseenabled();
+            },
+            [getter](const breakermodule::BreakerDiscreteControlProfile& profile) -> commonmodule::ControlSPC const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_recloseenabled() ? &value->recloseenabled() : nullptr;
                 }
                 else
                 {

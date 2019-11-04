@@ -8,6 +8,7 @@
 #include <proto-api/reclosermodule/reclosermodule.pb.h>
 #include <proto-api/regulatormodule/regulatormodule.pb.h>
 #include <proto-api/solarmodule/solarmodule.pb.h>
+#include <proto-api/shuntmodule/shuntmodule.pb.h>
 #include <proto-api/switchmodule/switchmodule.pb.h>
 
 namespace adapter
@@ -275,6 +276,65 @@ struct schedule_extractor<solarmodule::SolarControlProfile>
     {
         return profile.mutable_solarcontrol()->mutable_solarcontrolfscc()->mutable_solarcontrolschedulefsch()->mutable_valdcsg()->mutable_crvpts();
     }
+};
+
+template <>
+struct schedule_extractor<shuntmodule::ShuntControlProfile>
+{
+    static void set_source_mrid(shuntmodule::ShuntControlProfile& profile, const std::string& mrid)
+    {
+        profile.mutable_shuntsystem()->mutable_conductingequipment()->set_mrid(mrid);
+    }
+
+    static void set_message_mrid(shuntmodule::ShuntControlProfile& profile, const std::string& mrid)
+    {
+        profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_identifiedobject()->mutable_mrid()->set_value(mrid);
+    }
+
+    static commonmodule::Timestamp* get_message_timestamp(shuntmodule::ShuntControlProfile& profile)
+    {
+        return profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_messagetimestamp();
+    }
+
+    static commonmodule::ControlFSCC* get_control_fscc(shuntmodule::ShuntControlProfile& profile)
+    {
+        return profile.mutable_shuntcontrol()->mutable_shuntcontrolfscc()->mutable_controlfscc();
+    }
+
+    using custom_point_t = shuntmodule::ShuntPoint;
+
+    static bool has_custom_points(const shuntmodule::ShuntControlProfile& profile)
+    {
+        return profile.shuntcontrol().shuntcontrolfscc().shuntcontrolschedulefsch().has_valcsg();
+    }
+
+    static google::protobuf::RepeatedPtrField<custom_point_t>* get_custom_points(shuntmodule::ShuntControlProfile& profile)
+    {
+        return profile.mutable_shuntcontrol()->mutable_shuntcontrolfscc()->mutable_shuntcontrolschedulefsch()->mutable_valcsg()->mutable_crvpts();
+    }
+};
+
+template <>
+struct schedule_extractor<shuntmodule::ShuntDiscreteControlProfile>
+{
+    static void set_source_mrid(shuntmodule::ShuntDiscreteControlProfile& profile, const std::string& mrid)
+    {
+        profile.mutable_shuntsystem()->mutable_conductingequipment()->set_mrid(mrid);
+    }
+
+    static void set_message_mrid(shuntmodule::ShuntDiscreteControlProfile& profile, const std::string& mrid)
+    {
+        profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_identifiedobject()->mutable_mrid()->set_value(mrid);
+    }
+
+    static commonmodule::Timestamp* get_message_timestamp(shuntmodule::ShuntDiscreteControlProfile& profile)
+    {
+        return profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_messagetimestamp();
+    }
+
+    // No control FSCC
+
+    // No custom points
 };
 
 template <>

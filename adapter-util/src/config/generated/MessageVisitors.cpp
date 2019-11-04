@@ -62,6 +62,10 @@ void visit(const commonmodule::DEL& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::DetailQual& message, IMessageVisitor& visitor);
 
+void visit(const commonmodule::DeviceControl& message, IMessageVisitor& visitor);
+
+void visit(const commonmodule::DeviceStatus& message, IMessageVisitor& visitor);
+
 void visit(const commonmodule::ENG_CalcMethodKind& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::ENG_GridConnectModeKind& message, IMessageVisitor& visitor);
@@ -320,6 +324,36 @@ void visit(const resourcemodule::ResourceReading& message, IMessageVisitor& visi
 
 void visit(const resourcemodule::ResourceStatus& message, IMessageVisitor& visitor);
 
+void visit(const shuntmodule::ENS_SwitchingCapabilityKind& message, IMessageVisitor& visitor);
+
+void visit(const shuntmodule::ShuntCSG& message, IMessageVisitor& visitor);
+
+void visit(const shuntmodule::ShuntControl& message, IMessageVisitor& visitor);
+
+void visit(const shuntmodule::ShuntControlFSCC& message, IMessageVisitor& visitor);
+
+void visit(const shuntmodule::ShuntControlScheduleFSCH& message, IMessageVisitor& visitor);
+
+void visit(const shuntmodule::ShuntDiscreteControl& message, IMessageVisitor& visitor);
+
+void visit(const shuntmodule::ShuntDiscreteControlZCAP& message, IMessageVisitor& visitor);
+
+void visit(const shuntmodule::ShuntEvent& message, IMessageVisitor& visitor);
+
+void visit(const shuntmodule::ShuntEventAndStatusPoint& message, IMessageVisitor& visitor);
+
+void visit(const shuntmodule::ShuntEventAndStatusYPSH& message, IMessageVisitor& visitor);
+
+void visit(const shuntmodule::ShuntEventAndStatusZCAP& message, IMessageVisitor& visitor);
+
+void visit(const shuntmodule::ShuntPoint& message, IMessageVisitor& visitor);
+
+void visit(const shuntmodule::ShuntReading& message, IMessageVisitor& visitor);
+
+void visit(const shuntmodule::ShuntStatus& message, IMessageVisitor& visitor);
+
+void visit(const shuntmodule::ShuntSystem& message, IMessageVisitor& visitor);
+
 void visit(const solarmodule::SolarCSG& message, IMessageVisitor& visitor);
 
 void visit(const solarmodule::SolarControl& message, IMessageVisitor& visitor);
@@ -396,6 +430,14 @@ void visit(const breakermodule::BreakerDiscreteControl& message, IMessageVisitor
         visit(message.breakerdiscretecontrolxcbr(), visitor);
         visitor.end_message_field();
     }
+    visitor.start_message_field("devicecontrol");
+    for(decltype(message.devicecontrol_size()) i = 0; i < message.devicecontrol_size(); ++i)
+    {
+        visitor.start_iteration(i);
+        visit(message.devicecontrol(i), visitor);
+        visitor.end_iteration();
+    }
+    visitor.end_message_field();
 }
 
 void visit(const breakermodule::BreakerDiscreteControlXCBR& message, IMessageVisitor& visitor)
@@ -472,6 +514,14 @@ void visit(const breakermodule::BreakerStatus& message, IMessageVisitor& visitor
         visit(message.statusvalue(), visitor);
         visitor.end_message_field();
     }
+    visitor.start_message_field("devicestatus");
+    for(decltype(message.devicestatus_size()) i = 0; i < message.devicestatus_size(); ++i)
+    {
+        visitor.start_iteration(i);
+        visit(message.devicestatus(i), visitor);
+        visitor.end_iteration();
+    }
+    visitor.end_message_field();
     if(message.has_statusandeventxcbr())
     {
         visitor.start_message_field("statusAndEventXCBR");
@@ -826,6 +876,92 @@ void visit(const commonmodule::DetailQual& message, IMessageVisitor& visitor)
     visitor.handle("oscillatory", message.oscillatory());
     visitor.handle("outOfRange", message.outofrange());
     visitor.handle("overflow", message.overflow());
+}
+
+void visit(const commonmodule::DeviceControl& message, IMessageVisitor& visitor)
+{
+    if(message.has_logicalnodeforcontrol())
+    {
+        visitor.start_message_field("logicalNodeForControl");
+        visit(message.logicalnodeforcontrol(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_ansi79lo())
+    {
+        visitor.start_message_field("ANSI79LO");
+        visit(message.ansi79lo(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_faultlatch())
+    {
+        visitor.start_message_field("FaultLatch");
+        visit(message.faultlatch(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_hotlinetag())
+    {
+        visitor.start_message_field("HotLineTag");
+        visit(message.hotlinetag(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_iedtrouble())
+    {
+        visitor.start_message_field("IEDTrouble");
+        visit(message.iedtrouble(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_recloseenabled())
+    {
+        visitor.start_message_field("RecloseEnabled");
+        visit(message.recloseenabled(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const commonmodule::DeviceStatus& message, IMessageVisitor& visitor)
+{
+    if(message.has_logicalnodeforeventandstatus())
+    {
+        visitor.start_message_field("logicalNodeForEventAndStatus");
+        visit(message.logicalnodeforeventandstatus(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_ansi79lo())
+    {
+        visitor.start_message_field("ANSI79LO");
+        visit(message.ansi79lo(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_faultlatch())
+    {
+        visitor.start_message_field("FaultLatch");
+        visit(message.faultlatch(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_hotlinetag())
+    {
+        visitor.start_message_field("HotLineTag");
+        visit(message.hotlinetag(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_iedtrouble())
+    {
+        visitor.start_message_field("IEDTrouble");
+        visit(message.iedtrouble(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_recloseenabled())
+    {
+        visitor.start_message_field("RecloseEnabled");
+        visit(message.recloseenabled(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_remoteenabled())
+    {
+        visitor.start_message_field("RemoteEnabled");
+        visit(message.remoteenabled(), visitor);
+        visitor.end_message_field();
+    }
 }
 
 void visit(const commonmodule::ENG_CalcMethodKind& message, IMessageVisitor& visitor)
@@ -3195,6 +3331,14 @@ void visit(const reclosermodule::RecloserDiscreteControl& message, IMessageVisit
         visit(message.check(), visitor);
         visitor.end_message_field();
     }
+    visitor.start_message_field("devicecontrol");
+    for(decltype(message.devicecontrol_size()) i = 0; i < message.devicecontrol_size(); ++i)
+    {
+        visitor.start_iteration(i);
+        visit(message.devicecontrol(i), visitor);
+        visitor.end_iteration();
+    }
+    visitor.end_message_field();
     if(message.has_recloserdiscretecontrolxcbr())
     {
         visitor.start_message_field("recloserDiscreteControlXCBR");
@@ -3277,6 +3421,14 @@ void visit(const reclosermodule::RecloserStatus& message, IMessageVisitor& visit
         visit(message.statusvalue(), visitor);
         visitor.end_message_field();
     }
+    visitor.start_message_field("devicestatus");
+    for(decltype(message.devicestatus_size()) i = 0; i < message.devicestatus_size(); ++i)
+    {
+        visitor.start_iteration(i);
+        visit(message.devicestatus(i), visitor);
+        visitor.end_iteration();
+    }
+    visitor.end_message_field();
     if(message.has_statusandeventxcbr())
     {
         visitor.start_message_field("statusAndEventXCBR");
@@ -3703,6 +3855,273 @@ void visit(const resourcemodule::ResourceStatus& message, IMessageVisitor& visit
     visitor.end_message_field();
 }
 
+void visit(const shuntmodule::ENS_SwitchingCapabilityKind& message, IMessageVisitor& visitor)
+{
+    if(message.has_blkena())
+    {
+        visitor.start_message_field("blkEna");
+        visit(message.blkena(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_q())
+    {
+        visitor.start_message_field("q");
+        visit(message.q(), visitor);
+        visitor.end_message_field();
+    }
+    visitor.handle("stVal", static_cast<int>(message.stval()), *shuntmodule::SwitchingCapabilityKind_descriptor());
+    if(message.has_t())
+    {
+        visitor.start_message_field("t");
+        visit(message.t(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const shuntmodule::ShuntCSG& message, IMessageVisitor& visitor)
+{
+    visitor.start_message_field("crvpts");
+    for(decltype(message.crvpts_size()) i = 0; i < message.crvpts_size(); ++i)
+    {
+        visitor.start_iteration(i);
+        visit(message.crvpts(i), visitor);
+        visitor.end_iteration();
+    }
+    visitor.end_message_field();
+}
+
+void visit(const shuntmodule::ShuntControl& message, IMessageVisitor& visitor)
+{
+    if(message.has_controlvalue())
+    {
+        visitor.start_message_field("controlValue");
+        visit(message.controlvalue(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_check())
+    {
+        visitor.start_message_field("check");
+        visit(message.check(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_shuntcontrolfscc())
+    {
+        visitor.start_message_field("shuntControlFSCC");
+        visit(message.shuntcontrolfscc(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const shuntmodule::ShuntControlFSCC& message, IMessageVisitor& visitor)
+{
+    if(message.has_controlfscc())
+    {
+        visitor.start_message_field("controlFSCC");
+        visit(message.controlfscc(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_shuntcontrolschedulefsch())
+    {
+        visitor.start_message_field("shuntControlScheduleFSCH");
+        visit(message.shuntcontrolschedulefsch(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const shuntmodule::ShuntControlScheduleFSCH& message, IMessageVisitor& visitor)
+{
+    if(message.has_valcsg())
+    {
+        visitor.start_message_field("ValCSG");
+        visit(message.valcsg(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const shuntmodule::ShuntDiscreteControl& message, IMessageVisitor& visitor)
+{
+    if(message.has_controlvalue())
+    {
+        visitor.start_message_field("controlValue");
+        visit(message.controlvalue(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_check())
+    {
+        visitor.start_message_field("check");
+        visit(message.check(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_shuntdiscretecontrolzcap())
+    {
+        visitor.start_message_field("shuntDiscreteControlZCAP");
+        visit(message.shuntdiscretecontrolzcap(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const shuntmodule::ShuntDiscreteControlZCAP& message, IMessageVisitor& visitor)
+{
+    if(message.has_logicalnodeforcontrol())
+    {
+        visitor.start_message_field("logicalNodeForControl");
+        visit(message.logicalnodeforcontrol(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_pos())
+    {
+        visitor.start_message_field("Pos");
+        visit(message.pos(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const shuntmodule::ShuntEvent& message, IMessageVisitor& visitor)
+{
+    if(message.has_eventvalue())
+    {
+        visitor.start_message_field("eventValue");
+        visit(message.eventvalue(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_shunteventandstatuszcap())
+    {
+        visitor.start_message_field("shuntEventAndStatusZCAP");
+        visit(message.shunteventandstatuszcap(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const shuntmodule::ShuntEventAndStatusPoint& message, IMessageVisitor& visitor)
+{
+    if(message.has_eventandstatus())
+    {
+        visitor.start_message_field("eventAndStatus");
+        visit(message.eventandstatus(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const shuntmodule::ShuntEventAndStatusYPSH& message, IMessageVisitor& visitor)
+{
+    if(message.has_blkcls())
+    {
+        visitor.start_message_field("BlkCls");
+        visit(message.blkcls(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_blkopn())
+    {
+        visitor.start_message_field("BlkOpn");
+        visit(message.blkopn(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_pos())
+    {
+        visitor.start_message_field("Pos");
+        visit(message.pos(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_shopcap())
+    {
+        visitor.start_message_field("ShOpCap");
+        visit(message.shopcap(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const shuntmodule::ShuntEventAndStatusZCAP& message, IMessageVisitor& visitor)
+{
+    if(message.has_logicalnodeforeventandstatus())
+    {
+        visitor.start_message_field("logicalNodeForEventAndStatus");
+        visit(message.logicalnodeforeventandstatus(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_dynamictest())
+    {
+        visitor.start_message_field("DynamicTest");
+        visit(message.dynamictest(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_pointstatus())
+    {
+        visitor.start_message_field("PointStatus");
+        visit(message.pointstatus(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const shuntmodule::ShuntPoint& message, IMessageVisitor& visitor)
+{
+    if(message.has_control())
+    {
+        visitor.start_message_field("control");
+        visit(message.control(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_starttime())
+    {
+        visitor.start_message_field("startTime");
+        visit(message.starttime(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const shuntmodule::ShuntReading& message, IMessageVisitor& visitor)
+{
+    if(message.has_conductingequipmentterminalreading())
+    {
+        visitor.start_message_field("conductingEquipmentTerminalReading");
+        visit(message.conductingequipmentterminalreading(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_phasemmtn())
+    {
+        visitor.start_message_field("phaseMMTN");
+        visit(message.phasemmtn(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_readingmmtr())
+    {
+        visitor.start_message_field("readingMMTR");
+        visit(message.readingmmtr(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_readingmmxu())
+    {
+        visitor.start_message_field("readingMMXU");
+        visit(message.readingmmxu(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const shuntmodule::ShuntStatus& message, IMessageVisitor& visitor)
+{
+    if(message.has_statusvalue())
+    {
+        visitor.start_message_field("statusValue");
+        visit(message.statusvalue(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_shunteventandstatuszcap())
+    {
+        visitor.start_message_field("shuntEventAndStatusZCAP");
+        visit(message.shunteventandstatuszcap(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const shuntmodule::ShuntSystem& message, IMessageVisitor& visitor)
+{
+    if(message.has_conductingequipment())
+    {
+        visitor.start_message_field("conductingEquipment");
+        visit(message.conductingequipment(), visitor);
+        visitor.end_message_field();
+    }
+}
+
 void visit(const solarmodule::SolarCSG& message, IMessageVisitor& visitor)
 {
     visitor.start_message_field("crvpts");
@@ -4089,6 +4508,14 @@ void visit(const switchmodule::SwitchDiscreteControl& message, IMessageVisitor& 
         visit(message.check(), visitor);
         visitor.end_message_field();
     }
+    visitor.start_message_field("devicecontrol");
+    for(decltype(message.devicecontrol_size()) i = 0; i < message.devicecontrol_size(); ++i)
+    {
+        visitor.start_iteration(i);
+        visit(message.devicecontrol(i), visitor);
+        visitor.end_iteration();
+    }
+    visitor.end_message_field();
     if(message.has_switchdiscretecontrolxswi())
     {
         visitor.start_message_field("switchDiscreteControlXSWI");
@@ -4193,6 +4620,14 @@ void visit(const switchmodule::SwitchStatus& message, IMessageVisitor& visitor)
         visit(message.statusvalue(), visitor);
         visitor.end_message_field();
     }
+    visitor.start_message_field("devicestatus");
+    for(decltype(message.devicestatus_size()) i = 0; i < message.devicestatus_size(); ++i)
+    {
+        visitor.start_iteration(i);
+        visit(message.devicestatus(i), visitor);
+        visitor.end_iteration();
+    }
+    visitor.end_message_field();
     if(message.has_switchstatusxswi())
     {
         visitor.start_message_field("switchStatusXSWI");
@@ -5120,6 +5555,146 @@ void visit(const solarmodule::SolarStatusProfile& message, IMessageVisitor& visi
     {
         visitor.start_message_field("solarStatus");
         visit(message.solarstatus(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const shuntmodule::ShuntControlProfile& message, IMessageVisitor& visitor)
+{
+    if(message.has_controlmessageinfo())
+    {
+        visitor.start_message_field("controlMessageInfo");
+        visit(message.controlmessageinfo(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_ied())
+    {
+        visitor.start_message_field("ied");
+        visit(message.ied(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_shuntcontrol())
+    {
+        visitor.start_message_field("shuntControl");
+        visit(message.shuntcontrol(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_shuntsystem())
+    {
+        visitor.start_message_field("shuntSystem");
+        visit(message.shuntsystem(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const shuntmodule::ShuntDiscreteControlProfile& message, IMessageVisitor& visitor)
+{
+    if(message.has_controlmessageinfo())
+    {
+        visitor.start_message_field("controlMessageInfo");
+        visit(message.controlmessageinfo(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_ied())
+    {
+        visitor.start_message_field("ied");
+        visit(message.ied(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_shuntcontrol())
+    {
+        visitor.start_message_field("shuntControl");
+        visit(message.shuntcontrol(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_shuntsystem())
+    {
+        visitor.start_message_field("shuntSystem");
+        visit(message.shuntsystem(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const shuntmodule::ShuntEventProfile& message, IMessageVisitor& visitor)
+{
+    if(message.has_eventmessageinfo())
+    {
+        visitor.start_message_field("eventMessageInfo");
+        visit(message.eventmessageinfo(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_ied())
+    {
+        visitor.start_message_field("ied");
+        visit(message.ied(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_shuntevent())
+    {
+        visitor.start_message_field("shuntEvent");
+        visit(message.shuntevent(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_shuntsystem())
+    {
+        visitor.start_message_field("shuntSystem");
+        visit(message.shuntsystem(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const shuntmodule::ShuntStatusProfile& message, IMessageVisitor& visitor)
+{
+    if(message.has_statusmessageinfo())
+    {
+        visitor.start_message_field("statusMessageInfo");
+        visit(message.statusmessageinfo(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_ied())
+    {
+        visitor.start_message_field("ied");
+        visit(message.ied(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_shuntstatus())
+    {
+        visitor.start_message_field("shuntStatus");
+        visit(message.shuntstatus(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_shuntsystem())
+    {
+        visitor.start_message_field("shuntSystem");
+        visit(message.shuntsystem(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const shuntmodule::ShuntReadingProfile& message, IMessageVisitor& visitor)
+{
+    if(message.has_readingmessageinfo())
+    {
+        visitor.start_message_field("readingMessageInfo");
+        visit(message.readingmessageinfo(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_ied())
+    {
+        visitor.start_message_field("ied");
+        visit(message.ied(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_shuntreading())
+    {
+        visitor.start_message_field("shuntReading");
+        visit(message.shuntreading(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_shuntsystem())
+    {
+        visitor.start_message_field("shuntSystem");
+        visit(message.shuntsystem(), visitor);
         visitor.end_message_field();
     }
 }
