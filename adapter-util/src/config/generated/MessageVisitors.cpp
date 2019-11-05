@@ -430,14 +430,12 @@ void visit(const breakermodule::BreakerDiscreteControl& message, IMessageVisitor
         visit(message.breakerdiscretecontrolxcbr(), visitor);
         visitor.end_message_field();
     }
-    visitor.start_message_field("devicecontrol");
-    for(decltype(message.devicecontrol_size()) i = 0; i < message.devicecontrol_size(); ++i)
+    if(message.has_devicecontrol())
     {
-        visitor.start_iteration(i);
-        visit(message.devicecontrol(i), visitor);
-        visitor.end_iteration();
+        visitor.start_message_field("deviceControl");
+        visit(message.devicecontrol(), visitor);
+        visitor.end_message_field();
     }
-    visitor.end_message_field();
 }
 
 void visit(const breakermodule::BreakerDiscreteControlXCBR& message, IMessageVisitor& visitor)
@@ -3331,14 +3329,12 @@ void visit(const reclosermodule::RecloserDiscreteControl& message, IMessageVisit
         visit(message.check(), visitor);
         visitor.end_message_field();
     }
-    visitor.start_message_field("devicecontrol");
-    for(decltype(message.devicecontrol_size()) i = 0; i < message.devicecontrol_size(); ++i)
+    if(message.has_devicecontrol())
     {
-        visitor.start_iteration(i);
-        visit(message.devicecontrol(i), visitor);
-        visitor.end_iteration();
+        visitor.start_message_field("deviceControl");
+        visit(message.devicecontrol(), visitor);
+        visitor.end_message_field();
     }
-    visitor.end_message_field();
     if(message.has_recloserdiscretecontrolxcbr())
     {
         visitor.start_message_field("recloserDiscreteControlXCBR");
@@ -4508,14 +4504,12 @@ void visit(const switchmodule::SwitchDiscreteControl& message, IMessageVisitor& 
         visit(message.check(), visitor);
         visitor.end_message_field();
     }
-    visitor.start_message_field("devicecontrol");
-    for(decltype(message.devicecontrol_size()) i = 0; i < message.devicecontrol_size(); ++i)
+    if(message.has_devicecontrol())
     {
-        visitor.start_iteration(i);
-        visit(message.devicecontrol(i), visitor);
-        visitor.end_iteration();
+        visitor.start_message_field("deviceControl");
+        visit(message.devicecontrol(), visitor);
+        visitor.end_message_field();
     }
-    visitor.end_message_field();
     if(message.has_switchdiscretecontrolxswi())
     {
         visitor.start_message_field("switchDiscreteControlXSWI");

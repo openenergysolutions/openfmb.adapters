@@ -270,41 +270,28 @@ void visit_breakermodule_BreakerDiscreteControl(const set_t<breakermodule::Break
         visitor.end_message_field();
     }
 
+    if(visitor.start_message_field("deviceControl", commonmodule::DeviceControl::descriptor()))
     {
-        const auto count = visitor.start_repeated_message_field("devicecontrol", commonmodule::DeviceControl::descriptor());
-        for(int i = 0; i < count; ++i)
-        {
-            visitor.start_iteration(i);
-            const auto set = [setter, i, max = count](breakermodule::BreakerDiscreteControlProfile& profile)
+        visit_commonmodule_DeviceControl(
+            [setter](breakermodule::BreakerDiscreteControlProfile& profile)
             {
-                const auto repeated = setter(profile)->mutable_devicecontrol();
-                if(repeated->size() < max)
-                {
-                    repeated->Reserve(max);
-                    // add items until we're at max requested capacity
-                    for(auto j = repeated->size(); j < max; ++j)
-                    {
-                        repeated->Add();
-                    }
-                }
-                return repeated->Mutable(i);
-            };
-            const auto get = [getter, i](const breakermodule::BreakerDiscreteControlProfile& profile) -> commonmodule::DeviceControl const*
+                return setter(profile)->mutable_devicecontrol();
+            },
+            [getter](const breakermodule::BreakerDiscreteControlProfile& profile) -> commonmodule::DeviceControl const *
             {
                 const auto value = getter(profile);
                 if(value)
                 {
-                    return (i < value->devicecontrol_size()) ? &value->devicecontrol(i) : nullptr;
+                    return value->has_devicecontrol() ? &value->devicecontrol() : nullptr;
                 }
                 else
                 {
                     return nullptr;
                 }
-            };
-            visit_commonmodule_DeviceControl(set, get, visitor);
-            visitor.end_iteration();
-        }
-        visitor.end_repeated_message_field();
+            },
+            visitor
+        );
+        visitor.end_message_field();
     }
 }
 

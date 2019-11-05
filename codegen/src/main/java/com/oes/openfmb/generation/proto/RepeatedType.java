@@ -39,7 +39,6 @@ public enum RepeatedType {
         temp.put(openfmb.commonmodule.DeviceStatus.getDescriptor(), RepeatedType.READING);
         // things related to schedules
         temp.put(openfmb.commonmodule.ControlScheduleFSCH.getDescriptor(), RepeatedType.SCHEDULE);
-        temp.put(openfmb.commonmodule.DeviceControl.getDescriptor(), RepeatedType.SCHEDULE);
         temp.put(openfmb.commonmodule.SchedulePoint.getDescriptor(), RepeatedType.SCHEDULE);
         temp.put(openfmb.commonmodule.SwitchPoint.getDescriptor(), RepeatedType.SCHEDULE);
         temp.put(openfmb.essmodule.ESSPoint.getDescriptor(), RepeatedType.SCHEDULE);

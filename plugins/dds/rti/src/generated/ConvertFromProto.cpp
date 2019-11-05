@@ -964,11 +964,11 @@ void convert_from_proto(const breakermodule::BreakerDiscreteControl& in, openfmb
 
     convert_from_proto(in.breakerdiscretecontrolxcbr(), out.breakerDiscreteControlXCBR()); // required field in DDS
 
-    for(const auto& input : in.devicecontrol())
+    if(in.has_devicecontrol()) // optional field in DDS
     {
-        openfmb::commonmodule::DeviceControl output;
-        convert_from_proto(input, output);
-        out.deviceControl().push_back(output);
+        openfmb::commonmodule::DeviceControl temp{};
+        convert_from_proto(in.devicecontrol(), temp);
+        out.deviceControl() = temp;
     }
 }
 
@@ -3124,11 +3124,11 @@ void convert_from_proto(const reclosermodule::RecloserDiscreteControl& in, openf
         out.check() = temp;
     }
 
-    for(const auto& input : in.devicecontrol())
+    if(in.has_devicecontrol()) // optional field in DDS
     {
-        openfmb::commonmodule::DeviceControl output;
-        convert_from_proto(input, output);
-        out.deviceControl().push_back(output);
+        openfmb::commonmodule::DeviceControl temp{};
+        convert_from_proto(in.devicecontrol(), temp);
+        out.deviceControl() = temp;
     }
 
     convert_from_proto(in.recloserdiscretecontrolxcbr(), out.recloserDiscreteControlXCBR()); // required field in DDS
@@ -4223,11 +4223,11 @@ void convert_from_proto(const switchmodule::SwitchDiscreteControl& in, openfmb::
         out.check() = temp;
     }
 
-    for(const auto& input : in.devicecontrol())
+    if(in.has_devicecontrol()) // optional field in DDS
     {
-        openfmb::commonmodule::DeviceControl output;
-        convert_from_proto(input, output);
-        out.deviceControl().push_back(output);
+        openfmb::commonmodule::DeviceControl temp{};
+        convert_from_proto(in.devicecontrol(), temp);
+        out.deviceControl() = temp;
     }
 
     convert_from_proto(in.switchdiscretecontrolxswi(), out.switchDiscreteControlXSWI()); // required field in DDS

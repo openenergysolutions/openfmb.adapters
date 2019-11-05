@@ -1621,15 +1621,10 @@ void visit_breakermodule_BreakerDiscreteControl(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
+    if(visitor.start_message_field("deviceControl", commonmodule::DeviceControl::descriptor()))
     {
-        const auto count = visitor.start_repeated_message_field("devicecontrol", commonmodule::DeviceControl::descriptor());
-        for(int i = 0; i < count; ++i)
-        {
-            visitor.start_iteration(i);
-            visit_commonmodule_DeviceControl(visitor);
-            visitor.end_iteration();
-        }
-        visitor.end_repeated_message_field();
+        visit_commonmodule_DeviceControl(visitor);
+        visitor.end_message_field();
     }
 }
 
@@ -4319,15 +4314,10 @@ void visit_reclosermodule_RecloserDiscreteControl(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
+    if(visitor.start_message_field("deviceControl", commonmodule::DeviceControl::descriptor()))
     {
-        const auto count = visitor.start_repeated_message_field("devicecontrol", commonmodule::DeviceControl::descriptor());
-        for(int i = 0; i < count; ++i)
-        {
-            visitor.start_iteration(i);
-            visit_commonmodule_DeviceControl(visitor);
-            visitor.end_iteration();
-        }
-        visitor.end_repeated_message_field();
+        visit_commonmodule_DeviceControl(visitor);
+        visitor.end_message_field();
     }
 
     if(visitor.start_message_field("recloserDiscreteControlXCBR", reclosermodule::RecloserDiscreteControlXCBR::descriptor()))
@@ -5453,15 +5443,10 @@ void visit_switchmodule_SwitchDiscreteControl(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
+    if(visitor.start_message_field("deviceControl", commonmodule::DeviceControl::descriptor()))
     {
-        const auto count = visitor.start_repeated_message_field("devicecontrol", commonmodule::DeviceControl::descriptor());
-        for(int i = 0; i < count; ++i)
-        {
-            visitor.start_iteration(i);
-            visit_commonmodule_DeviceControl(visitor);
-            visitor.end_iteration();
-        }
-        visitor.end_repeated_message_field();
+        visit_commonmodule_DeviceControl(visitor);
+        visitor.end_message_field();
     }
 
     if(visitor.start_message_field("switchDiscreteControlXSWI", switchmodule::SwitchDiscreteControlXSWI::descriptor()))

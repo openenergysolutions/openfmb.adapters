@@ -1067,11 +1067,10 @@ void convert_from_proto(const breakermodule::BreakerDiscreteControl& in, twinoak
 
     convert_from_proto(in.breakerdiscretecontrolxcbr(), out.breakerDiscreteControlXCBR); // required field in DDS
 
-    for(const auto& input : in.devicecontrol())
+    if(in.has_devicecontrol()) // optional field in DDS
     {
-        twinoaks::commonmodule::DeviceControl ouput;
-        convert_from_proto(input, ouput);
-        out.deviceControl.push_back(ouput);
+        out.deviceControl = new twinoaks::commonmodule::DeviceControl();
+        convert_from_proto(in.devicecontrol(), *out.deviceControl);
     }
 }
 
@@ -3262,11 +3261,10 @@ void convert_from_proto(const reclosermodule::RecloserDiscreteControl& in, twino
         convert_from_proto(in.check(), *out.check);
     }
 
-    for(const auto& input : in.devicecontrol())
+    if(in.has_devicecontrol()) // optional field in DDS
     {
-        twinoaks::commonmodule::DeviceControl ouput;
-        convert_from_proto(input, ouput);
-        out.deviceControl.push_back(ouput);
+        out.deviceControl = new twinoaks::commonmodule::DeviceControl();
+        convert_from_proto(in.devicecontrol(), *out.deviceControl);
     }
 
     convert_from_proto(in.recloserdiscretecontrolxcbr(), out.recloserDiscreteControlXCBR); // required field in DDS
@@ -4378,11 +4376,10 @@ void convert_from_proto(const switchmodule::SwitchDiscreteControl& in, twinoaks:
         convert_from_proto(in.check(), *out.check);
     }
 
-    for(const auto& input : in.devicecontrol())
+    if(in.has_devicecontrol()) // optional field in DDS
     {
-        twinoaks::commonmodule::DeviceControl ouput;
-        convert_from_proto(input, ouput);
-        out.deviceControl.push_back(ouput);
+        out.deviceControl = new twinoaks::commonmodule::DeviceControl();
+        convert_from_proto(in.devicecontrol(), *out.deviceControl);
     }
 
     convert_from_proto(in.switchdiscretecontrolxswi(), out.switchDiscreteControlXSWI); // required field in DDS
