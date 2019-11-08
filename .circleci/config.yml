@@ -1,0 +1,108 @@
+version: 2.1
+commands:
+  install_system_deps:
+    description: Install system dependencies
+    steps:
+      - run:
+          name: Install system dependencies
+          command: apt-get update && apt-get install -y build-essential unzip git git-lfs cmake python3 python3-pip libssl-dev libpcap-dev
+      - run:
+          name: Install conan
+          command: pip3 install conan
+      - run:
+          name: Update conan profile
+          command: conan profile new default --detect && conan profile update settings.compiler.libcxx=libstdc++11 default
+  add_github_api_token:
+    description: Add GitHub API token
+    steps:
+      - run:
+          name:
+          command: git config --global --add url."https://${GITHUB_API_KEY}@github.com/".insteadOf "git@github.com:"
+      - run:
+          name:
+          command: git config --global --add url."https://${GITHUB_API_KEY}@github.com/".insteadOf "https://github.com/"
+  checkout_and_submodule_init:
+    description: Checkout
+    steps:
+      - checkout
+      - run:
+          name: Submodule update
+          command: git submodule update --init
+  install_deps:
+    description: Build NATS client
+    steps:
+      - run:
+          name: Clone NATS
+          working_directory: deps/nats
+          command: git clone --depth 1 --single-branch -b v2.0.0 https://github.com/nats-io/nats.c.git .
+      - run:
+          name: Build NATS
+          working_directory: deps/nats
+          command: cmake -DCMAKE_BUILD_TYPE=Release -DNATS_BUILD_STREAMING=OFF && cmake --build . --target install
+      - run:
+          name: Download RTI DDS library
+          working_directory: deps
+          command: git clone https://github.com/openenergysolutions/rti-dds-lfs.git
+      - run:
+          name: Extract RTI DDS library
+          working_directory: deps
+          command: mkdir rti-dds && unzip rti-dds-lfs/rti-dds.zip -d rti-dds && chmod -R +x ./rti-dds
+      - run:
+          name: Install conan dependencies
+          working_directory: build
+          command: conan install --build=missing ..
+  build:
+    description: Build the adapter
+    parameters:
+      build_type:
+        description: Build type
+        type: enum
+        enum: ["Debug", "Release"]
+        default: Release
+    steps:
+      - run:
+          name: CMake configure
+          working_directory: build
+          command: cmake -DCMAKE_BUILD_TYPE=<< parameters.build_type >> -DOPENFMB_LINK_STATIC=ON -DOPENFMB_USE_RTI_DDS=ON -DCONNEXTDDS_DIR="/root/project/deps/rti-dds" ..
+      - run:
+          name: CMake build
+          working_directory: build
+          command: cmake --build .
+  test:
+    description: Run the unit tests
+    steps:
+      - run:
+          name: Run CTest
+          working_directory: build
+          command: ctest .
+jobs:
+  gcc-debug:
+    docker:
+      - image: debian:buster
+    steps:
+      - install_system_deps
+      - add_github_api_token
+      - checkout_and_submodule_init
+      - install_deps
+      - build:
+          build_type: Debug
+      - test
+  gcc-release:
+    docker:
+      - image: debian:buster
+    steps:
+      - install_system_deps
+      - add_github_api_token
+      - checkout_and_submodule_init
+      - install_deps
+      - build:
+          build_type: Release
+      - test
+workflows:
+  version: 2
+  check:
+    jobs:
+      - gcc-debug
+      - gcc-release
+      #- clang-debug
+      #- clang-release
