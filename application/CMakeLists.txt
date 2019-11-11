@@ -68,7 +68,7 @@ message("Application will be built with support for: ${ADAPTERS}")
 # Application
 find_package(Threads)
 add_executable(openfmb-adapter ${openfmb_adapter_src})
-target_link_libraries(openfmb-adapter PRIVATE ${plugins} Threads::Threads)
+target_link_libraries(openfmb-adapter PRIVATE Threads::Threads ${plugins})
 target_include_directories(openfmb-adapter PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../deps/argagg/include)
 target_compile_definitions(openfmb-adapter PRIVATE ${plugin_definitions})
 clang_tidy(openfmb-adapter)

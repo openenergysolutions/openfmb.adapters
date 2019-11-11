@@ -2,51 +2,56 @@ version: 2.1
 commands:
   install_system_deps:
     description: Install system dependencies
+    parameters:
+      compiler:
+        description: The compiler to use
+        type: enum
+        enum: ["gcc", "clang"]
     steps:
       - run:
           name: Install system dependencies
-          command: apt-get update && apt-get install -y build-essential unzip git git-lfs cmake python3 python3-pip libssl-dev libpcap-dev
+          command: >
+            apt-get update && apt-get install -y build-essential unzip git git-lfs cmake python3 python3-pip libssl-dev libpcap-dev && 
+            if [ "<< parameters.compiler >>" = "clang" ]; then apt-get install -y clang && echo "export CC=/usr/bin/clang" >> $BASH_ENV && echo "export CXX=/usr/bin/clang++" >> $BASH_ENV; fi
       - run:
           name: Install conan
-          command: pip3 install conan
-      - run:
-          name: Update conan profile
-          command: conan profile new default --detect && conan profile update settings.compiler.libcxx=libstdc++11 default
+          command: >
+            pip3 install conan &&
+            conan profile new default --detect &&
+            conan profile update settings.compiler.libcxx=libstdc++11 default
   add_github_api_token:
     description: Add GitHub API token
     steps:
       - run:
-          name:
-          command: git config --global --add url."https://${GITHUB_API_KEY}@github.com/".insteadOf "git@github.com:"
-      - run:
-          name:
-          command: git config --global --add url."https://${GITHUB_API_KEY}@github.com/".insteadOf "https://github.com/"
+          name: Add GitHub API token
+          command: >
+            git config --global --add url."https://${GITHUB_API_KEY}@github.com/".insteadOf "git@github.com:" &&
+            git config --global --add url."https://${GITHUB_API_KEY}@github.com/".insteadOf "https://github.com/"
   checkout_and_submodule_init:
-    description: Checkout
+    description: Checkout and update submodules
     steps:
       - checkout
       - run:
           name: Submodule update
           command: git submodule update --init
   install_deps:
-    description: Build NATS client
+    description: Install and/or build the dependencies
     steps:
-      - run:
-          name: Clone NATS
-          working_directory: deps/nats
-          command: git clone --depth 1 --single-branch -b v2.0.0 https://github.com/nats-io/nats.c.git .
       - run:
           name: Build NATS
           working_directory: deps/nats
-          command: cmake -DCMAKE_BUILD_TYPE=Release -DNATS_BUILD_STREAMING=OFF && cmake --build . --target install
+          command: >
+            git clone --depth 1 --single-branch -b v2.0.0 https://github.com/nats-io/nats.c.git . &&
+            cmake -DCMAKE_BUILD_TYPE=Release -DNATS_BUILD_STREAMING=OFF &&
+            cmake --build . --target install
       - run:
-          name: Download RTI DDS library
+          name: Install RTI DDS library
           working_directory: deps
-          command: git clone https://github.com/openenergysolutions/rti-dds-lfs.git
-      - run:
-          name: Extract RTI DDS library
-          working_directory: deps
-          command: mkdir rti-dds && unzip rti-dds-lfs/rti-dds.zip -d rti-dds && chmod -R +x ./rti-dds
+          command: >
+            git clone https://github.com/openenergysolutions/rti-dds-lfs.git &&
+            mkdir rti-dds &&
+            unzip rti-dds-lfs/rti-dds.zip -d rti-dds &&
+            chmod -R +x ./rti-dds
       - run:
           name: Install conan dependencies
           working_directory: build
@@ -59,11 +64,18 @@ commands:
         type: enum
         enum: ["Debug", "Release"]
         default: Release
+      build_static:
+        description: Build statically
+        type: string
+        default: "ON"
     steps:
       - run:
           name: CMake configure
           working_directory: build
-          command: cmake -DCMAKE_BUILD_TYPE=<< parameters.build_type >> -DOPENFMB_LINK_STATIC=ON -DOPENFMB_USE_RTI_DDS=ON -DCONNEXTDDS_DIR="/root/project/deps/rti-dds" ..
+          command: >
+            cmake -DCMAKE_BUILD_TYPE=<< parameters.build_type >> \
+              -DOPENFMB_LINK_STATIC=<< parameters.build_static >> \
+              -DOPENFMB_USE_RTI_DDS=ON -DCONNEXTDDS_DIR="/root/project/deps/rti-dds" ..
       - run:
           name: CMake build
           working_directory: build
@@ -75,34 +87,74 @@ commands:
           name: Run CTest
           working_directory: build
           command: ctest .
+  store_application:
+    description: Store application executable
+    steps:
+      - store_artifacts:
+          path: ~/build/application/openfmb-adapter
+          destination: /
 jobs:
   gcc-debug:
     docker:
       - image: debian:buster
     steps:
-      - install_system_deps
+      - install_system_deps:
+          compiler: gcc
       - add_github_api_token
       - checkout_and_submodule_init
       - install_deps
       - build:
           build_type: Debug
+          build_static: "ON"
       - test
+      - store_application
   gcc-release:
     docker:
       - image: debian:buster
     steps:
-      - install_system_deps
+      - install_system_deps:
+          compiler: gcc
       - add_github_api_token
       - checkout_and_submodule_init
       - install_deps
       - build:
           build_type: Release
+          build_static: "ON"
       - test
+      - store_application
+  clang-debug:
+    docker:
+      - image: debian:buster
+    steps:
+      - install_system_deps:
+          compiler: clang
+      - add_github_api_token
+      - checkout_and_submodule_init
+      - install_deps
+      - build:
+          build_type: Debug
+          build_static: "OFF"
+      - test
+      - store_application
+  clang-release:
+    docker:
+      - image: debian:buster
+    steps:
+      - install_system_deps:
+          compiler: clang
+      - add_github_api_token
+      - checkout_and_submodule_init
+      - install_deps
+      - build:
+          build_type: Release
+          build_static: "OFF"
+      - test
+      - store_application
 workflows:
   version: 2
   check:
     jobs:
       - gcc-debug
       - gcc-release
-      #- clang-debug
-      #- clang-release
+      - clang-debug
+      - clang-release
