@@ -1,4 +1,6 @@
 version: 2.1
+orbs:
+  win: circleci/windows@1.0.0
 commands:
   install_system_deps:
     description: Install system dependencies
@@ -91,7 +93,7 @@ commands:
     description: Store application executable
     steps:
       - store_artifacts:
-          path: ~/build/application/openfmb-adapter
+          path: /root/project/build/application/openfmb-adapter
           destination: /
 jobs:
   gcc-debug:
@@ -150,11 +152,75 @@ jobs:
           build_static: "OFF"
       - test
       - store_application
+  windows:
+    executor:
+      name: win/vs2019
+      shell: powershell.exe
+    steps:
+      - run:
+          name: Install system dependencies
+          command: choco install 7zip.portable python cmake.portable openssl; refreshenv
+      - run:
+          name: Install conan
+          command: >
+            pip install conan;
+            conan profile new default --detect
+      - run:
+          name: Add GitHub API token
+          command: >
+            git config --global --add url."https://$Env:GITHUB_API_KEY@github.com/".insteadOf "git@github.com:";
+            git config --global --add url."https://$Env:GITHUB_API_KEY@github.com/".insteadOf "https://github.com/"
+      - checkout
+      - run:
+          name: Submodule update
+          command: git submodule update --init
+      - run:
+          name: Build NATS
+          working_directory: deps/nats
+          command: >
+            git clone --depth 1 --single-branch -b v2.0.0 https://github.com/nats-io/nats.c.git .;
+            cmake -DCMAKE_INSTALL_PREFIX="C:/Users/circleci/project/deps/cnats" -DCMAKE_BUILD_TYPE=Release -DNATS_BUILD_STREAMING=OFF;
+            cmake --build . --config Release --target install
+      - run:
+          name: Install RTI DDS library
+          working_directory: deps
+          command: >
+            git clone https://github.com/openenergysolutions/rti-dds-lfs.git;
+            7z x rti-dds-lfs/rti-dds.zip -orti-dds
+      - run:
+          name: Install npcap
+          working_directory: deps
+          command: >
+            $ProgressPreference = "SilentlyContinue";
+            wget "https://nmap.org/npcap/dist/npcap-sdk-1.04.zip" -outfile npcap-sdk.zip;
+            7z x npcap-sdk.zip -onpcap-sdk;
+            Get-ChildItem npcap-sdk/Lib/x64 | Move-Item -Destination npcap-sdk/Lib -Force; Remove-Item npcap-sdk/Lib/x64 -Recurse
+      - run:
+          name: Install conan dependencies
+          working_directory: build
+          command: conan install --build=missing ..
+      - run:
+          name: CMake configure
+          working_directory: build
+          command: >
+            cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="C:/Users/circleci/project/deps/npcap-sdk;C:/Users/circleci/project/deps/cnats" -DOPENFMB_USE_RTI_DDS=ON -DCONNEXTDDS_DIR="C:/Users/circleci/project/deps/rti-dds" -DCONNEXTDDS_ARCH="x64Win64VS2017" ..
+      - run:
+          name: CMake build
+          working_directory: build
+          command: cmake --build . --config Release
+      - run:
+          name: Run CTest
+          working_directory: build
+          command: ctest -C Release
+      - store_artifacts:
+          path: C:/Users/circleci/project/build/application/Release/openfmb-adapter.exe
+          destination: /
 workflows:
   version: 2
   check:
     jobs:
-      - gcc-debug
+      #- gcc-debug
       - gcc-release
-      - clang-debug
+      #- clang-debug
       - clang-release
+      - windows
