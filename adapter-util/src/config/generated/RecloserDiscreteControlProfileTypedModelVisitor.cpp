@@ -903,30 +903,6 @@ void visit_reclosermodule_RecloserDiscreteControl(const set_t<reclosermodule::Re
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("deviceControl", commonmodule::DeviceControl::descriptor()))
-    {
-        visit_commonmodule_DeviceControl(
-            [setter](reclosermodule::RecloserDiscreteControlProfile& profile)
-            {
-                return setter(profile)->mutable_devicecontrol();
-            },
-            [getter](const reclosermodule::RecloserDiscreteControlProfile& profile) -> commonmodule::DeviceControl const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_devicecontrol() ? &value->devicecontrol() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
     if(visitor.start_message_field("recloserDiscreteControlXCBR", reclosermodule::RecloserDiscreteControlXCBR::descriptor()))
     {
         visit_reclosermodule_RecloserDiscreteControlXCBR(
@@ -940,6 +916,30 @@ void visit_reclosermodule_RecloserDiscreteControl(const set_t<reclosermodule::Re
                 if(value)
                 {
                     return value->has_recloserdiscretecontrolxcbr() ? &value->recloserdiscretecontrolxcbr() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("deviceControl", commonmodule::DeviceControl::descriptor()))
+    {
+        visit_commonmodule_DeviceControl(
+            [setter](reclosermodule::RecloserDiscreteControlProfile& profile)
+            {
+                return setter(profile)->mutable_devicecontrol();
+            },
+            [getter](const reclosermodule::RecloserDiscreteControlProfile& profile) -> commonmodule::DeviceControl const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_devicecontrol() ? &value->devicecontrol() : nullptr;
                 }
                 else
                 {

@@ -879,30 +879,6 @@ void visit_switchmodule_SwitchDiscreteControl(const set_t<switchmodule::SwitchDi
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("deviceControl", commonmodule::DeviceControl::descriptor()))
-    {
-        visit_commonmodule_DeviceControl(
-            [setter](switchmodule::SwitchDiscreteControlProfile& profile)
-            {
-                return setter(profile)->mutable_devicecontrol();
-            },
-            [getter](const switchmodule::SwitchDiscreteControlProfile& profile) -> commonmodule::DeviceControl const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_devicecontrol() ? &value->devicecontrol() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
     if(visitor.start_message_field("switchDiscreteControlXSWI", switchmodule::SwitchDiscreteControlXSWI::descriptor()))
     {
         visit_switchmodule_SwitchDiscreteControlXSWI(
@@ -916,6 +892,30 @@ void visit_switchmodule_SwitchDiscreteControl(const set_t<switchmodule::SwitchDi
                 if(value)
                 {
                     return value->has_switchdiscretecontrolxswi() ? &value->switchdiscretecontrolxswi() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("deviceControl", commonmodule::DeviceControl::descriptor()))
+    {
+        visit_commonmodule_DeviceControl(
+            [setter](switchmodule::SwitchDiscreteControlProfile& profile)
+            {
+                return setter(profile)->mutable_devicecontrol();
+            },
+            [getter](const switchmodule::SwitchDiscreteControlProfile& profile) -> commonmodule::DeviceControl const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_devicecontrol() ? &value->devicecontrol() : nullptr;
                 }
                 else
                 {

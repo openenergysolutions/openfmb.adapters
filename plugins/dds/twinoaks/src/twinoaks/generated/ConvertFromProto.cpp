@@ -1799,14 +1799,13 @@ void convert_from_proto(const breakermodule::BreakerStatus& in, twinoaks::breake
 
     if(in.has_statusvalue()) convert_from_proto(in.statusvalue(), out); // inherited type
 
-    for(const auto& input : in.devicestatus())
-    {
-        twinoaks::commonmodule::DeviceStatus ouput;
-        convert_from_proto(input, ouput);
-        out.deviceStatus.push_back(ouput);
-    }
-
     convert_from_proto(in.statusandeventxcbr(), out.statusAndEventXCBR); // required field in DDS
+
+    if(in.has_devicestatus()) // optional field in DDS
+    {
+        out.deviceStatus = new twinoaks::commonmodule::DeviceStatus();
+        convert_from_proto(in.devicestatus(), *out.deviceStatus);
+    }
 }
 
 void convert_from_proto(const commonmodule::StatusValue& in, twinoaks::commonmodule::StatusValue& out)
@@ -3261,13 +3260,13 @@ void convert_from_proto(const reclosermodule::RecloserDiscreteControl& in, twino
         convert_from_proto(in.check(), *out.check);
     }
 
+    convert_from_proto(in.recloserdiscretecontrolxcbr(), out.recloserDiscreteControlXCBR); // required field in DDS
+
     if(in.has_devicecontrol()) // optional field in DDS
     {
         out.deviceControl = new twinoaks::commonmodule::DeviceControl();
         convert_from_proto(in.devicecontrol(), *out.deviceControl);
     }
-
-    convert_from_proto(in.recloserdiscretecontrolxcbr(), out.recloserDiscreteControlXCBR); // required field in DDS
 }
 
 void convert_from_proto(const reclosermodule::RecloserDiscreteControlXCBR& in, twinoaks::reclosermodule::RecloserDiscreteControlXCBR& out)
@@ -3329,14 +3328,13 @@ void convert_from_proto(const reclosermodule::RecloserStatus& in, twinoaks::recl
 
     if(in.has_statusvalue()) convert_from_proto(in.statusvalue(), out); // inherited type
 
-    for(const auto& input : in.devicestatus())
-    {
-        twinoaks::commonmodule::DeviceStatus ouput;
-        convert_from_proto(input, ouput);
-        out.deviceStatus.push_back(ouput);
-    }
-
     convert_from_proto(in.statusandeventxcbr(), out.statusAndEventXCBR); // required field in DDS
+
+    if(in.has_devicestatus()) // optional field in DDS
+    {
+        out.deviceStatus = new twinoaks::commonmodule::DeviceStatus();
+        convert_from_proto(in.devicestatus(), *out.deviceStatus);
+    }
 }
 
 void convert_from_proto(const regulatormodule::RegulatorControl& in, twinoaks::regulatormodule::RegulatorControl& out)
@@ -4376,13 +4374,13 @@ void convert_from_proto(const switchmodule::SwitchDiscreteControl& in, twinoaks:
         convert_from_proto(in.check(), *out.check);
     }
 
+    convert_from_proto(in.switchdiscretecontrolxswi(), out.switchDiscreteControlXSWI); // required field in DDS
+
     if(in.has_devicecontrol()) // optional field in DDS
     {
         out.deviceControl = new twinoaks::commonmodule::DeviceControl();
         convert_from_proto(in.devicecontrol(), *out.deviceControl);
     }
-
-    convert_from_proto(in.switchdiscretecontrolxswi(), out.switchDiscreteControlXSWI); // required field in DDS
 }
 
 void convert_from_proto(const switchmodule::SwitchDiscreteControlXSWI& in, twinoaks::switchmodule::SwitchDiscreteControlXSWI& out)
@@ -4459,14 +4457,13 @@ void convert_from_proto(const switchmodule::SwitchStatus& in, twinoaks::switchmo
 
     if(in.has_statusvalue()) convert_from_proto(in.statusvalue(), out); // inherited type
 
-    for(const auto& input : in.devicestatus())
-    {
-        twinoaks::commonmodule::DeviceStatus ouput;
-        convert_from_proto(input, ouput);
-        out.deviceStatus.push_back(ouput);
-    }
-
     convert_from_proto(in.switchstatusxswi(), out.switchStatusXSWI); // required field in DDS
+
+    if(in.has_devicestatus()) // optional field in DDS
+    {
+        out.deviceStatus = new twinoaks::commonmodule::DeviceStatus();
+        convert_from_proto(in.devicestatus(), *out.deviceStatus);
+    }
 }
 
 void convert_from_proto(const switchmodule::SwitchStatusXSWI& in, twinoaks::switchmodule::SwitchStatusXSWI& out)

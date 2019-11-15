@@ -1669,14 +1669,14 @@ void convert_from_proto(const breakermodule::BreakerStatus& in, openfmb::breaker
 {
     if(in.has_statusvalue()) convert_from_proto(in.statusvalue(), out); // inherited type
 
-    for(const auto& input : in.devicestatus())
-    {
-        openfmb::commonmodule::DeviceStatus output;
-        convert_from_proto(input, output);
-        out.deviceStatus().push_back(output);
-    }
-
     convert_from_proto(in.statusandeventxcbr(), out.statusAndEventXCBR()); // required field in DDS
+
+    if(in.has_devicestatus()) // optional field in DDS
+    {
+        openfmb::commonmodule::DeviceStatus temp{};
+        convert_from_proto(in.devicestatus(), temp);
+        out.deviceStatus() = temp;
+    }
 }
 
 void convert_from_proto(const commonmodule::StatusValue& in, openfmb::commonmodule::StatusValue& out)
@@ -3124,14 +3124,14 @@ void convert_from_proto(const reclosermodule::RecloserDiscreteControl& in, openf
         out.check() = temp;
     }
 
+    convert_from_proto(in.recloserdiscretecontrolxcbr(), out.recloserDiscreteControlXCBR()); // required field in DDS
+
     if(in.has_devicecontrol()) // optional field in DDS
     {
         openfmb::commonmodule::DeviceControl temp{};
         convert_from_proto(in.devicecontrol(), temp);
         out.deviceControl() = temp;
     }
-
-    convert_from_proto(in.recloserdiscretecontrolxcbr(), out.recloserDiscreteControlXCBR()); // required field in DDS
 }
 
 void convert_from_proto(const reclosermodule::RecloserDiscreteControlXCBR& in, openfmb::reclosermodule::RecloserDiscreteControlXCBR& out)
@@ -3190,14 +3190,14 @@ void convert_from_proto(const reclosermodule::RecloserStatus& in, openfmb::reclo
 {
     if(in.has_statusvalue()) convert_from_proto(in.statusvalue(), out); // inherited type
 
-    for(const auto& input : in.devicestatus())
-    {
-        openfmb::commonmodule::DeviceStatus output;
-        convert_from_proto(input, output);
-        out.deviceStatus().push_back(output);
-    }
-
     convert_from_proto(in.statusandeventxcbr(), out.statusAndEventXCBR()); // required field in DDS
+
+    if(in.has_devicestatus()) // optional field in DDS
+    {
+        openfmb::commonmodule::DeviceStatus temp{};
+        convert_from_proto(in.devicestatus(), temp);
+        out.deviceStatus() = temp;
+    }
 }
 
 void convert_from_proto(const regulatormodule::RegulatorControl& in, openfmb::regulatormodule::RegulatorControl& out)
@@ -4223,14 +4223,14 @@ void convert_from_proto(const switchmodule::SwitchDiscreteControl& in, openfmb::
         out.check() = temp;
     }
 
+    convert_from_proto(in.switchdiscretecontrolxswi(), out.switchDiscreteControlXSWI()); // required field in DDS
+
     if(in.has_devicecontrol()) // optional field in DDS
     {
         openfmb::commonmodule::DeviceControl temp{};
         convert_from_proto(in.devicecontrol(), temp);
         out.deviceControl() = temp;
     }
-
-    convert_from_proto(in.switchdiscretecontrolxswi(), out.switchDiscreteControlXSWI()); // required field in DDS
 }
 
 void convert_from_proto(const switchmodule::SwitchDiscreteControlXSWI& in, openfmb::switchmodule::SwitchDiscreteControlXSWI& out)
@@ -4303,14 +4303,14 @@ void convert_from_proto(const switchmodule::SwitchStatus& in, openfmb::switchmod
 {
     if(in.has_statusvalue()) convert_from_proto(in.statusvalue(), out); // inherited type
 
-    for(const auto& input : in.devicestatus())
-    {
-        openfmb::commonmodule::DeviceStatus output;
-        convert_from_proto(input, output);
-        out.deviceStatus().push_back(output);
-    }
-
     convert_from_proto(in.switchstatusxswi(), out.switchStatusXSWI()); // required field in DDS
+
+    if(in.has_devicestatus()) // optional field in DDS
+    {
+        openfmb::commonmodule::DeviceStatus temp{};
+        convert_from_proto(in.devicestatus(), temp);
+        out.deviceStatus() = temp;
+    }
 }
 
 void convert_from_proto(const switchmodule::SwitchStatusXSWI& in, openfmb::switchmodule::SwitchStatusXSWI& out)

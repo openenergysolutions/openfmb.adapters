@@ -1699,20 +1699,15 @@ void visit_breakermodule_BreakerStatus(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    {
-        const auto count = visitor.start_repeated_message_field("devicestatus", commonmodule::DeviceStatus::descriptor());
-        for(int i = 0; i < count; ++i)
-        {
-            visitor.start_iteration(i);
-            visit_commonmodule_DeviceStatus(visitor);
-            visitor.end_iteration();
-        }
-        visitor.end_repeated_message_field();
-    }
-
     if(visitor.start_message_field("statusAndEventXCBR", commonmodule::StatusAndEventXCBR::descriptor()))
     {
         visit_commonmodule_StatusAndEventXCBR(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("deviceStatus", commonmodule::DeviceStatus::descriptor()))
+    {
+        visit_commonmodule_DeviceStatus(visitor);
         visitor.end_message_field();
     }
 }
@@ -4314,15 +4309,15 @@ void visit_reclosermodule_RecloserDiscreteControl(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("deviceControl", commonmodule::DeviceControl::descriptor()))
-    {
-        visit_commonmodule_DeviceControl(visitor);
-        visitor.end_message_field();
-    }
-
     if(visitor.start_message_field("recloserDiscreteControlXCBR", reclosermodule::RecloserDiscreteControlXCBR::descriptor()))
     {
         visit_reclosermodule_RecloserDiscreteControlXCBR(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("deviceControl", commonmodule::DeviceControl::descriptor()))
+    {
+        visit_commonmodule_DeviceControl(visitor);
         visitor.end_message_field();
     }
 }
@@ -4398,20 +4393,15 @@ void visit_reclosermodule_RecloserStatus(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    {
-        const auto count = visitor.start_repeated_message_field("devicestatus", commonmodule::DeviceStatus::descriptor());
-        for(int i = 0; i < count; ++i)
-        {
-            visitor.start_iteration(i);
-            visit_commonmodule_DeviceStatus(visitor);
-            visitor.end_iteration();
-        }
-        visitor.end_repeated_message_field();
-    }
-
     if(visitor.start_message_field("statusAndEventXCBR", commonmodule::StatusAndEventXCBR::descriptor()))
     {
         visit_commonmodule_StatusAndEventXCBR(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("deviceStatus", commonmodule::DeviceStatus::descriptor()))
+    {
+        visit_commonmodule_DeviceStatus(visitor);
         visitor.end_message_field();
     }
 }
@@ -5443,15 +5433,15 @@ void visit_switchmodule_SwitchDiscreteControl(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("deviceControl", commonmodule::DeviceControl::descriptor()))
-    {
-        visit_commonmodule_DeviceControl(visitor);
-        visitor.end_message_field();
-    }
-
     if(visitor.start_message_field("switchDiscreteControlXSWI", switchmodule::SwitchDiscreteControlXSWI::descriptor()))
     {
         visit_switchmodule_SwitchDiscreteControlXSWI(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("deviceControl", commonmodule::DeviceControl::descriptor()))
+    {
+        visit_commonmodule_DeviceControl(visitor);
         visitor.end_message_field();
     }
 }
@@ -5548,20 +5538,15 @@ void visit_switchmodule_SwitchStatus(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    {
-        const auto count = visitor.start_repeated_message_field("devicestatus", commonmodule::DeviceStatus::descriptor());
-        for(int i = 0; i < count; ++i)
-        {
-            visitor.start_iteration(i);
-            visit_commonmodule_DeviceStatus(visitor);
-            visitor.end_iteration();
-        }
-        visitor.end_repeated_message_field();
-    }
-
     if(visitor.start_message_field("switchStatusXSWI", switchmodule::SwitchStatusXSWI::descriptor()))
     {
         visit_switchmodule_SwitchStatusXSWI(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("deviceStatus", commonmodule::DeviceStatus::descriptor()))
+    {
+        visit_commonmodule_DeviceStatus(visitor);
         visitor.end_message_field();
     }
 }

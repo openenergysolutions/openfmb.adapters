@@ -512,18 +512,16 @@ void visit(const breakermodule::BreakerStatus& message, IMessageVisitor& visitor
         visit(message.statusvalue(), visitor);
         visitor.end_message_field();
     }
-    visitor.start_message_field("devicestatus");
-    for(decltype(message.devicestatus_size()) i = 0; i < message.devicestatus_size(); ++i)
-    {
-        visitor.start_iteration(i);
-        visit(message.devicestatus(i), visitor);
-        visitor.end_iteration();
-    }
-    visitor.end_message_field();
     if(message.has_statusandeventxcbr())
     {
         visitor.start_message_field("statusAndEventXCBR");
         visit(message.statusandeventxcbr(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_devicestatus())
+    {
+        visitor.start_message_field("deviceStatus");
+        visit(message.devicestatus(), visitor);
         visitor.end_message_field();
     }
 }
@@ -3329,16 +3327,16 @@ void visit(const reclosermodule::RecloserDiscreteControl& message, IMessageVisit
         visit(message.check(), visitor);
         visitor.end_message_field();
     }
-    if(message.has_devicecontrol())
-    {
-        visitor.start_message_field("deviceControl");
-        visit(message.devicecontrol(), visitor);
-        visitor.end_message_field();
-    }
     if(message.has_recloserdiscretecontrolxcbr())
     {
         visitor.start_message_field("recloserDiscreteControlXCBR");
         visit(message.recloserdiscretecontrolxcbr(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_devicecontrol())
+    {
+        visitor.start_message_field("deviceControl");
+        visit(message.devicecontrol(), visitor);
         visitor.end_message_field();
     }
 }
@@ -3417,18 +3415,16 @@ void visit(const reclosermodule::RecloserStatus& message, IMessageVisitor& visit
         visit(message.statusvalue(), visitor);
         visitor.end_message_field();
     }
-    visitor.start_message_field("devicestatus");
-    for(decltype(message.devicestatus_size()) i = 0; i < message.devicestatus_size(); ++i)
-    {
-        visitor.start_iteration(i);
-        visit(message.devicestatus(i), visitor);
-        visitor.end_iteration();
-    }
-    visitor.end_message_field();
     if(message.has_statusandeventxcbr())
     {
         visitor.start_message_field("statusAndEventXCBR");
         visit(message.statusandeventxcbr(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_devicestatus())
+    {
+        visitor.start_message_field("deviceStatus");
+        visit(message.devicestatus(), visitor);
         visitor.end_message_field();
     }
 }
@@ -4504,16 +4500,16 @@ void visit(const switchmodule::SwitchDiscreteControl& message, IMessageVisitor& 
         visit(message.check(), visitor);
         visitor.end_message_field();
     }
-    if(message.has_devicecontrol())
-    {
-        visitor.start_message_field("deviceControl");
-        visit(message.devicecontrol(), visitor);
-        visitor.end_message_field();
-    }
     if(message.has_switchdiscretecontrolxswi())
     {
         visitor.start_message_field("switchDiscreteControlXSWI");
         visit(message.switchdiscretecontrolxswi(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_devicecontrol())
+    {
+        visitor.start_message_field("deviceControl");
+        visit(message.devicecontrol(), visitor);
         visitor.end_message_field();
     }
 }
@@ -4614,18 +4610,16 @@ void visit(const switchmodule::SwitchStatus& message, IMessageVisitor& visitor)
         visit(message.statusvalue(), visitor);
         visitor.end_message_field();
     }
-    visitor.start_message_field("devicestatus");
-    for(decltype(message.devicestatus_size()) i = 0; i < message.devicestatus_size(); ++i)
-    {
-        visitor.start_iteration(i);
-        visit(message.devicestatus(i), visitor);
-        visitor.end_iteration();
-    }
-    visitor.end_message_field();
     if(message.has_switchstatusxswi())
     {
         visitor.start_message_field("switchStatusXSWI");
         visit(message.switchstatusxswi(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_devicestatus())
+    {
+        visitor.start_message_field("deviceStatus");
+        visit(message.devicestatus(), visitor);
         visitor.end_message_field();
     }
 }

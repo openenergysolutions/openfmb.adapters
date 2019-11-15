@@ -1028,43 +1028,6 @@ void visit_switchmodule_SwitchStatus(const set_t<switchmodule::SwitchStatus>& se
         visitor.end_message_field();
     }
 
-    {
-        const auto count = visitor.start_repeated_message_field("devicestatus", commonmodule::DeviceStatus::descriptor());
-        for(int i = 0; i < count; ++i)
-        {
-            visitor.start_iteration(i);
-            const auto set = [setter, i, max = count](switchmodule::SwitchStatusProfile& profile)
-            {
-                const auto repeated = setter(profile)->mutable_devicestatus();
-                if(repeated->size() < max)
-                {
-                    repeated->Reserve(max);
-                    // add items until we're at max requested capacity
-                    for(auto j = repeated->size(); j < max; ++j)
-                    {
-                        repeated->Add();
-                    }
-                }
-                return repeated->Mutable(i);
-            };
-            const auto get = [getter, i](const switchmodule::SwitchStatusProfile& profile) -> commonmodule::DeviceStatus const*
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return (i < value->devicestatus_size()) ? &value->devicestatus(i) : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            };
-            visit_commonmodule_DeviceStatus(set, get, visitor);
-            visitor.end_iteration();
-        }
-        visitor.end_repeated_message_field();
-    }
-
     if(visitor.start_message_field("switchStatusXSWI", switchmodule::SwitchStatusXSWI::descriptor()))
     {
         visit_switchmodule_SwitchStatusXSWI(
@@ -1078,6 +1041,30 @@ void visit_switchmodule_SwitchStatus(const set_t<switchmodule::SwitchStatus>& se
                 if(value)
                 {
                     return value->has_switchstatusxswi() ? &value->switchstatusxswi() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("deviceStatus", commonmodule::DeviceStatus::descriptor()))
+    {
+        visit_commonmodule_DeviceStatus(
+            [setter](switchmodule::SwitchStatusProfile& profile)
+            {
+                return setter(profile)->mutable_devicestatus();
+            },
+            [getter](const switchmodule::SwitchStatusProfile& profile) -> commonmodule::DeviceStatus const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_devicestatus() ? &value->devicestatus() : nullptr;
                 }
                 else
                 {

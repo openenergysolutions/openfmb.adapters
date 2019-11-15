@@ -1515,12 +1515,9 @@ void convert_to_proto(const openfmb::breakermodule::BreakerStatus& in, breakermo
 
     convert_to_proto(in, *out.mutable_statusvalue()); // inherited type
 
-    for(const auto& value : in.deviceStatus())
-    {
-        convert_to_proto(value, *out.mutable_devicestatus()->Add());
-    }
-
     convert_to_proto(in.statusAndEventXCBR(), *out.mutable_statusandeventxcbr()); // required field in DDS
+
+    if(in.deviceStatus().is_set()) convert_to_proto(in.deviceStatus().get(), *out.mutable_devicestatus());
 }
 
 void convert_to_proto(const openfmb::commonmodule::StatusValue& in, commonmodule::StatusValue& out)
@@ -2373,9 +2370,9 @@ void convert_to_proto(const openfmb::reclosermodule::RecloserDiscreteControl& in
 
     if(in.check().is_set()) convert_to_proto(in.check().get(), *out.mutable_check());
 
-    if(in.deviceControl().is_set()) convert_to_proto(in.deviceControl().get(), *out.mutable_devicecontrol());
-
     convert_to_proto(in.recloserDiscreteControlXCBR(), *out.mutable_recloserdiscretecontrolxcbr()); // required field in DDS
+
+    if(in.deviceControl().is_set()) convert_to_proto(in.deviceControl().get(), *out.mutable_devicecontrol());
 }
 
 void convert_to_proto(const openfmb::reclosermodule::RecloserDiscreteControlXCBR& in, reclosermodule::RecloserDiscreteControlXCBR& out)
@@ -2417,12 +2414,9 @@ void convert_to_proto(const openfmb::reclosermodule::RecloserStatus& in, reclose
 
     convert_to_proto(in, *out.mutable_statusvalue()); // inherited type
 
-    for(const auto& value : in.deviceStatus())
-    {
-        convert_to_proto(value, *out.mutable_devicestatus()->Add());
-    }
-
     convert_to_proto(in.statusAndEventXCBR(), *out.mutable_statusandeventxcbr()); // required field in DDS
+
+    if(in.deviceStatus().is_set()) convert_to_proto(in.deviceStatus().get(), *out.mutable_devicestatus());
 }
 
 void convert_to_proto(const openfmb::regulatormodule::RegulatorControl& in, regulatormodule::RegulatorControl& out)
@@ -3096,9 +3090,9 @@ void convert_to_proto(const openfmb::switchmodule::SwitchDiscreteControl& in, sw
 
     if(in.check().is_set()) convert_to_proto(in.check().get(), *out.mutable_check());
 
-    if(in.deviceControl().is_set()) convert_to_proto(in.deviceControl().get(), *out.mutable_devicecontrol());
-
     convert_to_proto(in.switchDiscreteControlXSWI(), *out.mutable_switchdiscretecontrolxswi()); // required field in DDS
+
+    if(in.deviceControl().is_set()) convert_to_proto(in.deviceControl().get(), *out.mutable_devicecontrol());
 }
 
 void convert_to_proto(const openfmb::switchmodule::SwitchDiscreteControlXSWI& in, switchmodule::SwitchDiscreteControlXSWI& out)
@@ -3151,12 +3145,9 @@ void convert_to_proto(const openfmb::switchmodule::SwitchStatus& in, switchmodul
 
     convert_to_proto(in, *out.mutable_statusvalue()); // inherited type
 
-    for(const auto& value : in.deviceStatus())
-    {
-        convert_to_proto(value, *out.mutable_devicestatus()->Add());
-    }
-
     convert_to_proto(in.switchStatusXSWI(), *out.mutable_switchstatusxswi()); // required field in DDS
+
+    if(in.deviceStatus().is_set()) convert_to_proto(in.deviceStatus().get(), *out.mutable_devicestatus());
 }
 
 void convert_to_proto(const openfmb::switchmodule::SwitchStatusXSWI& in, switchmodule::SwitchStatusXSWI& out)
