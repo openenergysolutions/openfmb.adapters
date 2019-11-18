@@ -21,7 +21,7 @@ namespace dnp3 {
             return (iter == this->crob_map.end()) ? CommandStatus::NOT_SUPPORTED : CommandStatus::SUCCESS;
         }
 
-        CommandStatus CommandHandler::Operate(const ControlRelayOutputBlock& command, uint16_t index, OperateType /*opType*/)
+        CommandStatus CommandHandler::Operate(const ControlRelayOutputBlock& command, uint16_t index, opendnp3::IUpdateHandler& /*handler*/, OperateType /*opType*/)
         {
             const auto iter = this->crob_map.find(index);
             return (iter == this->crob_map.end()) ? CommandStatus::NOT_SUPPORTED : iter->second(*this->publisher, command, this->logger);
@@ -32,9 +32,9 @@ namespace dnp3 {
             return this->Select(AnalogOutputDouble64(command.value), index);
         }
 
-        CommandStatus CommandHandler::Operate(const AnalogOutputInt16& command, uint16_t index, OperateType opType)
+        CommandStatus CommandHandler::Operate(const AnalogOutputInt16& command, uint16_t index, opendnp3::IUpdateHandler& handler, OperateType opType)
         {
-            return this->Operate(AnalogOutputDouble64(command.value), index, opType);
+            return this->Operate(AnalogOutputDouble64(command.value), index, handler, opType);
         }
 
         CommandStatus CommandHandler::Select(const AnalogOutputInt32& command, uint16_t index)
@@ -42,9 +42,9 @@ namespace dnp3 {
             return this->Select(AnalogOutputDouble64(command.value), index);
         }
 
-        CommandStatus CommandHandler::Operate(const AnalogOutputInt32& command, uint16_t index, OperateType opType)
+        CommandStatus CommandHandler::Operate(const AnalogOutputInt32& command, uint16_t index, opendnp3::IUpdateHandler& handler, OperateType opType)
         {
-            return this->Operate(AnalogOutputDouble64(command.value), index, opType);
+            return this->Operate(AnalogOutputDouble64(command.value), index, handler, opType);
         }
 
         CommandStatus CommandHandler::Select(const AnalogOutputFloat32& command, uint16_t index)
@@ -52,9 +52,9 @@ namespace dnp3 {
             return this->Select(AnalogOutputDouble64(command.value), index);
         }
 
-        CommandStatus CommandHandler::Operate(const AnalogOutputFloat32& command, uint16_t index, OperateType opType)
+        CommandStatus CommandHandler::Operate(const AnalogOutputFloat32& command, uint16_t index, opendnp3::IUpdateHandler& handler, OperateType opType)
         {
-            return this->Operate(AnalogOutputDouble64(command.value), index, opType);
+            return this->Operate(AnalogOutputDouble64(command.value), index, handler, opType);
         }
 
         CommandStatus CommandHandler::Select(const AnalogOutputDouble64& command, uint16_t index)
@@ -63,7 +63,7 @@ namespace dnp3 {
             return (iter == this->ao_map.end()) ? CommandStatus::NOT_SUPPORTED : CommandStatus::SUCCESS;
         }
 
-        CommandStatus CommandHandler::Operate(const AnalogOutputDouble64& command, uint16_t index, OperateType /*opType*/)
+        CommandStatus CommandHandler::Operate(const AnalogOutputDouble64& command, uint16_t index,opendnp3::IUpdateHandler& /*handler*/, OperateType /*opType*/)
         {
             const auto iter = this->ao_map.find(index);
             return (iter == this->ao_map.end()) ? CommandStatus::NOT_SUPPORTED : iter->second(*this->publisher, command, this->logger);
