@@ -70,6 +70,7 @@ namespace modbus {
         out << YAML::Key << keys::log_level << YAML::Value << "Info" << YAML::Comment(util::enumeration::get_value_set<LogLevel>());
         out << YAML::Key << keys::remote_ip << YAML::Value << "127.0.0.1";
         out << YAML::Key << keys::port << YAML::Value << 502;
+        out << YAML::Key << keys::adapter << YAML::Value << "0.0.0.0";
         out << YAML::Key << keys::unit_identifier << YAML::Value << 1 << YAML::Comment("aka 'slave address'");
 
         out << YAML::Key << keys::response_timeout_ms << YAML::Value << 1000 << YAML::Comment("response timeout");
