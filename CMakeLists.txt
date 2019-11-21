@@ -61,6 +61,7 @@ include(./deps/catch.cmake)
 include(./deps/exe4cpp.cmake)
 include(./deps/log4cpp.cmake)
 include(./deps/ser4cpp.cmake)
+include(./deps/spdlog.cmake)
 
 # Protobuf C++ objects, used by adapter-util and transitively by all plugins
 add_subdirectory(./proto-api)

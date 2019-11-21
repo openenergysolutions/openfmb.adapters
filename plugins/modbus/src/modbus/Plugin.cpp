@@ -179,6 +179,7 @@ namespace modbus {
             ::modbus::Ipv4Endpoint(
                 util::yaml::require_string(node, keys::remote_ip),
                 util::yaml::require_integer<uint16_t>(node, keys::port)),
+            util::yaml::require_string(node, keys::adapter),
             log_level);
 
         const auto session = channel->create_session(

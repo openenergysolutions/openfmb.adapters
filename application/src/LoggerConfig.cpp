@@ -2,6 +2,8 @@
 #include "LoggerConfig.h"
 
 #include <adapter-util/util/YAMLUtil.h>
+#include <spdlog/sinks/rotating_file_sink.h>
+#include <spdlog/sinks/stdout_sinks.h>
 
 #include "ConfigKeys.h"
 

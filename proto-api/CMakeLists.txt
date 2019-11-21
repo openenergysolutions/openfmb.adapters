@@ -50,11 +50,10 @@ set_proto_output_files(PROTO_SOURCES "pb.cc")
 set_proto_input_files(PROTO_INPUT_FILES)
 
 # generate the protos
-file(GLOB PROTO_FILES ${PROTO_INPUT_DIR}/*.proto ${PROTO_INPUT_DIR}/**/*.proto)
 add_custom_command(
     OUTPUT ${PROTO_HEADERS} ${PROTO_SOURCES}
     COMMAND ${CMAKE_COMMAND} -E make_directory ${PROTO_OUTPUT_DIR}
-    COMMAND ${Protobuf_PROTOC_EXECUTABLE} --cpp_out=${PROTO_OUTPUT_DIR} --proto_path=${PROTO_INPUT_DIR} ${PROTO_FILES}
+    COMMAND ${Protobuf_PROTOC_EXECUTABLE} --cpp_out=${PROTO_OUTPUT_DIR} --proto_path=${PROTO_INPUT_DIR} ${PROTO_INPUT_FILES}
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     DEPENDS ${PROTO_INPUTS_FILES}
     COMMENT "Generating openfmb protos..."
