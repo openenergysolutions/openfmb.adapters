@@ -10,10 +10,12 @@ commands:
         type: enum
         enum: ["gcc", "clang"]
     steps:
+      - setup_remote_docker
       - run:
           name: Install system dependencies
           command: >
-            apt-get update && apt-get install -y build-essential unzip git git-lfs cmake python3 python3-pip libssl-dev libpcap-dev && 
+            apt-get update && apt-get install -y build-essential unzip curl git git-lfs cmake python3 python3-pip libssl-dev libpcap-dev &&
+            bash <(curl -fsSL https://get.docker.com) &&
             if [ "<< parameters.compiler >>" = "clang" ]; then apt-get install -y clang && echo "export CC=/usr/bin/clang" >> $BASH_ENV && echo "export CXX=/usr/bin/clang++" >> $BASH_ENV; fi
       - run:
           name: Install conan
@@ -75,9 +77,10 @@ commands:
           name: CMake configure
           working_directory: build
           command: >
-            cmake -DCMAKE_BUILD_TYPE=<< parameters.build_type >> \
-              -DOPENFMB_LINK_STATIC=<< parameters.build_static >> \
-              -DOPENFMB_USE_RTI_DDS=ON -DCONNEXTDDS_DIR="/root/project/deps/rti-dds" ..
+            cmake -DCMAKE_BUILD_TYPE=<< parameters.build_type >>
+            -DOPENFMB_LINK_STATIC=<< parameters.build_static >>
+            -DOPENFMB_USE_RTI_DDS=ON -DCONNEXTDDS_DIR="/root/project/deps/rti-dds"
+            ..
       - run:
           name: CMake build
           working_directory: build
@@ -89,12 +92,26 @@ commands:
           name: Run CTest
           working_directory: build
           command: ctest .
+  build_docker:
+    description: Build Docker image
+    steps:
+      - run:
+          name: Build Docker image
+          working_directory: build/application
+          command: >
+            cp /root/project/deps/rti-dds/rti_license.dat ./rti_license.dat &&
+            echo -e "FROM scratch\nCOPY openfmb-adapter /\nCOPY rti_license.dat /\nENTRYPOINT [\"/openfmb-adapter\"]" >> Dockerfile &&
+            docker build -t openfmb-adapter-scratch-x64:latest . &&
+            docker save openfmb-adapter-scratch-x64:latest | gzip > openfmb-adapter-scratch-x64.tar.gz
   store_application:
     description: Store application executable
     steps:
       - store_artifacts:
           path: /root/project/build/application/openfmb-adapter
-          destination: adapter
+          destination: openfmb-adapter
+      - store_artifacts:
+          path: /root/project/build/application/openfmb-adapter-scratch-x64.tar.gz
+          destination: openfmb-adapter-scratch-x64.tar.gz
 jobs:
   gcc-debug:
     docker:
@@ -109,6 +126,7 @@ jobs:
           build_type: Debug
           build_static: "ON"
       - test
+      - build_docker
       - store_application
   gcc-release:
     docker:
@@ -123,6 +141,7 @@ jobs:
           build_type: Release
           build_static: "ON"
       - test
+      - build_docker
       - store_application
   clang-debug:
     docker:
@@ -137,6 +156,7 @@ jobs:
           build_type: Debug
           build_static: "OFF"
       - test
+      - build_docker
       - store_application
   clang-release:
     docker:
@@ -151,6 +171,7 @@ jobs:
           build_type: Release
           build_static: "OFF"
       - test
+      - build_docker
       - store_application
   windows:
     executor:
@@ -203,7 +224,14 @@ jobs:
           name: CMake configure
           working_directory: build
           command: >
-            cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="C:/Users/circleci/project/deps/npcap-sdk;C:/Users/circleci/project/deps/cnats" -DOPENFMB_USE_RTI_DDS=ON -DCONNEXTDDS_DIR="C:/Users/circleci/project/deps/rti-dds" -DCONNEXTDDS_ARCH="x64Win64VS2017" ..
+            cmake
+            -DCMAKE_BUILD_TYPE=Release
+            -DCMAKE_PREFIX_PATH="C:/Users/circleci/project/deps/npcap-sdk;C:/Users/circleci/project/deps/cnats"
+            -DOPENFMB_LINK_STATIC=OFF
+            -DOPENFMB_USE_RTI_DDS=ON
+            -DCONNEXTDDS_DIR="C:/Users/circleci/project/deps/rti-dds"
+            -DCONNEXTDDS_ARCH="x64Win64VS2017"
+            ..
       - run:
           name: CMake build
           working_directory: build
@@ -214,7 +242,7 @@ jobs:
           command: ctest -C Release
       - store_artifacts:
           path: C:/Users/circleci/project/build/application/Release/openfmb-adapter.exe
-          destination: adapter
+          destination: openfmb-adapter.exe
 workflows:
   version: 2
   check:
