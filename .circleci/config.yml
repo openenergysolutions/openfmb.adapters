@@ -94,7 +94,7 @@ commands:
     steps:
       - store_artifacts:
           path: /root/project/build/application/openfmb-adapter
-          destination: /
+          destination: adapter
 jobs:
   gcc-debug:
     docker:
@@ -214,7 +214,7 @@ jobs:
           command: ctest -C Release
       - store_artifacts:
           path: C:/Users/circleci/project/build/application/Release/openfmb-adapter.exe
-          destination: /
+          destination: adapter
 workflows:
   version: 2
   check:
