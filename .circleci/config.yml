@@ -2,67 +2,13 @@ version: 2.1
 orbs:
   win: circleci/windows@1.0.0
 commands:
-  install_system_deps:
-    description: Install system dependencies
+  build_linux:
+    description: Build on Linux
     parameters:
       compiler:
         description: The compiler to use
         type: enum
-        enum: ["gcc", "clang"]
-    steps:
-      - setup_remote_docker
-      - run:
-          name: Install system dependencies
-          command: >
-            apt-get update && apt-get install -y build-essential unzip curl git git-lfs cmake python3 python3-pip libssl-dev libpcap-dev &&
-            bash <(curl -fsSL https://get.docker.com) &&
-            if [ "<< parameters.compiler >>" = "clang" ]; then apt-get install -y clang && echo "export CC=/usr/bin/clang" >> $BASH_ENV && echo "export CXX=/usr/bin/clang++" >> $BASH_ENV; fi
-      - run:
-          name: Install conan
-          command: >
-            pip3 install conan &&
-            conan profile new default --detect &&
-            conan profile update settings.compiler.libcxx=libstdc++11 default
-  add_github_api_token:
-    description: Add GitHub API token
-    steps:
-      - run:
-          name: Add GitHub API token
-          command: >
-            git config --global --add url."https://${GITHUB_API_KEY}@github.com/".insteadOf "git@github.com:" &&
-            git config --global --add url."https://${GITHUB_API_KEY}@github.com/".insteadOf "https://github.com/"
-  checkout_and_submodule_init:
-    description: Checkout and update submodules
-    steps:
-      - checkout
-      - run:
-          name: Submodule update
-          command: git submodule update --init
-  install_deps:
-    description: Install and/or build the dependencies
-    steps:
-      - run:
-          name: Build NATS
-          working_directory: deps/nats
-          command: >
-            git clone --depth 1 --single-branch -b v2.0.0 https://github.com/nats-io/nats.c.git . &&
-            cmake -DCMAKE_BUILD_TYPE=Release -DNATS_BUILD_STREAMING=OFF &&
-            cmake --build . --target install
-      - run:
-          name: Install RTI DDS library
-          working_directory: deps
-          command: >
-            git clone https://github.com/openenergysolutions/rti-dds-lfs.git &&
-            mkdir rti-dds &&
-            unzip rti-dds-lfs/rti-dds.zip -d rti-dds &&
-            chmod -R +x ./rti-dds
-      - run:
-          name: Install conan dependencies
-          working_directory: build
-          command: conan install --build=missing ..
-  build:
-    description: Build the adapter
-    parameters:
+        enum: ["gcc", "clang", "arm"]
       build_type:
         description: Build type
         type: enum
@@ -70,113 +16,133 @@ commands:
         default: Release
       build_static:
         description: Build statically
-        type: string
-        default: "ON"
+        type: boolean
+        default: true
+      build_with_rti:
+        description: Build with RTI DDS
+        type: boolean
+      run_unit_tests:
+        description: Run the unit tests
+        type: boolean
     steps:
+      - setup_remote_docker
+      - run:
+          name: Install system dependencies
+          command: >
+            apt-get update && apt-get install -y build-essential unzip curl git git-lfs cmake python3 python3-pip &&
+            bash <(curl -fsSL https://get.docker.com) &&
+            if [ "<< parameters.compiler >>" = "clang" ]; then apt-get install -y clang && echo "export CC=/usr/bin/clang" >> $BASH_ENV && echo "export CXX=/usr/bin/clang++" >> $BASH_ENV; fi &&
+            if [ "<< parameters.compiler >>" = "arm" ]; then apt-get install -y crossbuild-essential-armhf && echo "export CC=/usr/bin/arm-linux-gnueabihf-gcc" >> $BASH_ENV && echo "export CXX=/usr/bin/arm-linux-gnueabihf-g++" >> $BASH_ENV; fi
+      - run:
+          name: Install conan
+          command: |
+            pip3 install conan && \
+            conan profile new default --detect && \
+            conan profile update settings.compiler.libcxx=libstdc++11 default && \
+            if [ "<< parameters.compiler >>" = "arm" ]; then \
+            echo -e "target_host=arm-linux-gnueabihf\n
+            [settings]\n
+            os=Linux\n
+            os_build=Linux\n
+            arch=armv7hf\n
+            arch_build=x86_64\n
+            compiler=gcc\n
+            compiler.version=8\n
+            compiler.libcxx=libstdc++11\n
+            build_type=Release\n
+            [env]\n
+            CHOST=/target_host\n
+            AR=\$target_host-ar\n
+            AS=\$target_host-as\n
+            RANLIB=\$target_host-ranlib\n
+            LD=\$target_host-ld\n
+            CC=\$target_host-gcc\n
+            CXX=\$target_host-g++" > ~/.conan/profiles/default; fi
+      - run:
+          name: Add GitHub API token
+          command: >
+            git config --global --add url."https://${GITHUB_API_KEY}@github.com/".insteadOf "git@github.com:" &&
+            git config --global --add url."https://${GITHUB_API_KEY}@github.com/".insteadOf "https://github.com/"
+      - checkout
+      - run:
+          name: Submodule update
+          command: git submodule update --init
+      - run:
+          name: Install conan dependencies
+          working_directory: build
+          command: conan install --build=missing ..
+      - run:
+          name: Build NATS
+          working_directory: deps/nats
+          command: >
+            if [ "<< parameters.compiler >>" = "arm" ]; then TOOLCHAIN_SPEC="-DCMAKE_TOOLCHAIN_FILE=~/project/cmake/Armv7HfToolchain.cmake"; else TOOLCHAIN_SPEC=""; fi &&
+            OPENSSL_PATH=$(conan info --package-filter OpenSSL* --paths -n package_folder ~/project | grep -o /root.*) &&
+            git clone --depth 1 --single-branch -b v2.0.0 https://github.com/nats-io/nats.c.git . &&
+            cmake $TOOLCHAIN_SPEC -DCMAKE_PREFIX_PATH="$OPENSSL_PATH" -DCMAKE_BUILD_TYPE=Release -DNATS_BUILD_STREAMING=OFF &&
+            cmake --build . --target install
+      - run:
+          name: Install or build libpcap
+          working_directory: deps/libpcap
+          command: >
+            if [ "<< parameters.compiler >>" = "arm" ]; then
+            apt-get install -y flex bison &&
+            curl https://www.tcpdump.org/release/libpcap-1.9.1.tar.gz > libpcap-1.9.1.tar.gz && tar -xzf libpcap-1.9.1.tar.gz && cd libpcap-1.9.1 &&
+            ./configure --prefix=/usr/local --host=arm-linux &&
+            make all && make install;
+            else apt-get install -y libpcap-dev;
+            fi
+      - when:
+          condition: << parameters.build_with_rti >>
+          steps:
+            - run:
+                name: Install RTI DDS library
+                working_directory: deps
+                command: >
+                  git clone https://github.com/openenergysolutions/rti-dds-lfs.git &&
+                  mkdir rti-dds &&
+                  unzip rti-dds-lfs/rti-dds.zip -d rti-dds &&
+                  chmod -R +x ./rti-dds
       - run:
           name: CMake configure
           working_directory: build
           command: >
-            cmake -DCMAKE_BUILD_TYPE=<< parameters.build_type >>
+            if [ "<< parameters.compiler >>" = "arm" ]; then TOOLCHAIN_SPEC="-DCMAKE_TOOLCHAIN_FILE=~/project/cmake/Armv7HfToolchain.cmake"; else TOOLCHAIN_SPEC=""; fi &&
+            cmake
+            $TOOLCHAIN_SPEC
+            -DCMAKE_BUILD_TYPE=<< parameters.build_type >>
             -DOPENFMB_LINK_STATIC=<< parameters.build_static >>
-            -DOPENFMB_USE_RTI_DDS=ON -DCONNEXTDDS_DIR="/root/project/deps/rti-dds"
+            -DOPENFMB_USE_RTI_DDS=${<< parameters.build_with_rti >>^^} -DCONNEXTDDS_DIR="/root/project/deps/rti-dds"
             ..
       - run:
           name: CMake build
           working_directory: build
           command: cmake --build .
-  test:
-    description: Run the unit tests
-    steps:
-      - run:
-          name: Run CTest
-          working_directory: build
-          command: ctest .
-  build_docker:
-    description: Build Docker image
-    steps:
+      - when:
+          condition: << parameters.run_unit_tests >>
+          steps:
+            - run:
+                name: Run CTest
+                working_directory: build
+                command: ctest .
       - run:
           name: Build Docker image
           working_directory: build/application
-          command: >
-            cp /root/project/deps/rti-dds/rti_license.dat ./rti_license.dat &&
-            echo -e "FROM scratch\nCOPY openfmb-adapter /\nCOPY rti_license.dat /\nENTRYPOINT [\"/openfmb-adapter\"]" >> Dockerfile &&
-            docker build -t openfmb-adapter-scratch-x64:latest . &&
-            docker save openfmb-adapter-scratch-x64:latest | gzip > openfmb-adapter-scratch-x64.tar.gz
-  store_application:
-    description: Store application executable
-    steps:
+          command: |
+            if [ "<< parameters.build_with_rti >>" = "true" ]; then cp /root/project/deps/rti-dds/rti_license.dat ./rti_license.dat && RTI_COPY="COPY rti_license.dat /"; else RTI_COPY=""; fi && \
+            echo -e "FROM scratch\n
+            COPY openfmb-adapter /\n
+            $RTI_COPY\n
+            ENTRYPOINT [\"/openfmb-adapter\"]" >> Dockerfile && \
+            docker build -t openfmb-adapter-scratch-<< parameters.compiler >>-x64:latest . && \
+            docker save openfmb-adapter-scratch-<< parameters.compiler >>-x64:latest | gzip > openfmb-adapter-scratch-<< parameters.compiler >>-x64.tar.gz
       - store_artifacts:
           path: /root/project/build/application/openfmb-adapter
           destination: openfmb-adapter
       - store_artifacts:
-          path: /root/project/build/application/openfmb-adapter-scratch-x64.tar.gz
-          destination: openfmb-adapter-scratch-x64.tar.gz
-jobs:
-  gcc-debug:
-    docker:
-      - image: debian:buster
-    steps:
-      - install_system_deps:
-          compiler: gcc
-      - add_github_api_token
-      - checkout_and_submodule_init
-      - install_deps
-      - build:
-          build_type: Debug
-          build_static: "ON"
-      - test
-      - build_docker
-      - store_application
-  gcc-release:
-    docker:
-      - image: debian:buster
-    steps:
-      - install_system_deps:
-          compiler: gcc
-      - add_github_api_token
-      - checkout_and_submodule_init
-      - install_deps
-      - build:
-          build_type: Release
-          build_static: "ON"
-      - test
-      - build_docker
-      - store_application
-  clang-debug:
-    docker:
-      - image: debian:buster
-    steps:
-      - install_system_deps:
-          compiler: clang
-      - add_github_api_token
-      - checkout_and_submodule_init
-      - install_deps
-      - build:
-          build_type: Debug
-          build_static: "OFF"
-      - test
-      - build_docker
-      - store_application
-  clang-release:
-    docker:
-      - image: debian:buster
-    steps:
-      - install_system_deps:
-          compiler: clang
-      - add_github_api_token
-      - checkout_and_submodule_init
-      - install_deps
-      - build:
-          build_type: Release
-          build_static: "OFF"
-      - test
-      - build_docker
-      - store_application
-  windows:
-    executor:
-      name: win/vs2019
-      shell: powershell.exe
+          path: /root/project/build/application/openfmb-adapter-scratch-<< parameters.compiler >>-x64.tar.gz
+          destination: openfmb-adapter-scratch-<< parameters.compiler >>-x64.tar.gz
+  build_windows:
+    description: Build on Windows
     steps:
       - run:
           name: Install system dependencies
@@ -243,6 +209,74 @@ jobs:
       - store_artifacts:
           path: C:/Users/circleci/project/build/application/Release/openfmb-adapter.exe
           destination: openfmb-adapter.exe
+jobs:
+  gcc-debug:
+    docker:
+      - image: debian:buster
+    steps:
+      - build_linux:
+          compiler: gcc
+          build_type: Debug
+          build_static: true
+          build_with_rti: true
+          run_unit_tests: true
+  gcc-release:
+    docker:
+      - image: debian:buster
+    steps:
+      - build_linux:
+          compiler: gcc
+          build_type: Release
+          build_static: true
+          build_with_rti: true
+          run_unit_tests: true
+  clang-debug:
+    docker:
+      - image: debian:buster
+    steps:
+      - build_linux:
+          compiler: clang
+          build_type: Debug
+          build_static: false
+          build_with_rti: true
+          run_unit_tests: true
+  clang-release:
+    docker:
+      - image: debian:buster
+    steps:
+      - build_linux:
+          compiler: clang
+          build_type: Release
+          build_static: false
+          build_with_rti: true
+          run_unit_tests: true
+  armv7-debug:
+    docker:
+      - image: debian:buster
+    steps:
+      - build_linux:
+          compiler: arm
+          build_type: Debug
+          build_static: true
+          build_with_rti: false
+          run_unit_tests: false
+  armv7-release:
+    docker:
+      - image: debian:buster
+    steps:
+      - build_linux:
+          compiler: arm
+          build_type: Release
+          build_static: true
+          build_with_rti: false
+          run_unit_tests: false
+  windows:
+    executor:
+      name: win/vs2019
+      shell: powershell.exe
+    steps:
+      - build_windows
+    
 workflows:
   version: 2
   check:
@@ -251,4 +285,6 @@ workflows:
       - gcc-release
       #- clang-debug
       - clang-release
+      #- armv7-debug
+      - armv7-release
       - windows

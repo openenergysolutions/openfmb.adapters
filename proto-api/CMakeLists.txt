@@ -1,6 +1,4 @@
-if(OPENFMB_LINK_STATIC)
-	set(Protobuf_USE_STATIC_LIBS TRUE)
-endif()
+set(Protobuf_USE_STATIC_LIBS TRUE)
 find_package(Protobuf REQUIRED)
 message("Protobuf compiler is: ${Protobuf_PROTOC_EXECUTABLE}")
 
