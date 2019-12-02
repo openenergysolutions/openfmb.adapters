@@ -133,14 +133,24 @@ commands:
             COPY openfmb-adapter /\n
             $RTI_COPY\n
             ENTRYPOINT [\"/openfmb-adapter\"]" >> Dockerfile && \
-            docker build -t openfmb-adapter-scratch-<< parameters.compiler >>-x64:latest . && \
-            docker save openfmb-adapter-scratch-<< parameters.compiler >>-x64:latest | gzip > openfmb-adapter-scratch-<< parameters.compiler >>-x64.tar.gz
+            docker build -t openfmb-adapter-scratch-<< parameters.compiler >>:latest . && \
+            docker save openfmb-adapter-scratch-<< parameters.compiler >>:latest | gzip > openfmb-adapter-scratch-<< parameters.compiler >>.tar.gz
       - store_artifacts:
           path: /root/project/build/application/openfmb-adapter
           destination: openfmb-adapter
       - store_artifacts:
-          path: /root/project/build/application/openfmb-adapter-scratch-<< parameters.compiler >>-x64.tar.gz
-          destination: openfmb-adapter-scratch-<< parameters.compiler >>-x64.tar.gz
+          path: /root/project/build/application/openfmb-adapter-scratch-<< parameters.compiler >>.tar.gz
+          destination: openfmb-adapter-scratch-<< parameters.compiler >>.tar.gz
+      - run:
+          name: Prepare for deploy
+          working_directory: build/application
+          command: >
+            mkdir << parameters.compiler >> &&
+            cp openfmb-adapter << parameters.compiler >>/openfmb-adapter &&
+            cp openfmb-adapter-scratch-<< parameters.compiler >>.tar.gz << parameters.compiler >>/openfmb-adapter-scratch-<< parameters.compiler >>.tar.gz
+      - persist_to_workspace:
+          root: build/application
+          paths: << parameters.compiler >>/*
   build_windows:
     description: Build on Windows
     steps:
@@ -209,6 +219,31 @@ commands:
       - store_artifacts:
           path: C:/Users/circleci/project/build/application/Release/openfmb-adapter.exe
           destination: openfmb-adapter.exe
+      - run:
+          name: Prepare for deploy
+          working_directory: build/application/Release
+          command: >
+            mkdir windows;
+            cp openfmb-adapter.exe windows/openfmb-adapter.exe
+      - persist_to_workspace:
+          root: build/application/Release
+          paths: windows/*
+  deploy_bc3:
+    description: Deploy artifacts to Basecamp
+    parameters:
+      vault_id:
+        description: Vault ID to upload to
+        type: string
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+      - checkout
+      - run:
+          name: Install Python dependencies
+          command: pip3 install requests
+      - run:
+          name: Upload the dependencies
+          command: export BC3_VAULT_ID=<< parameters.vault_id >> && python3 .circleci/basecamp_upload.py /tmp/workspace
 jobs:
   gcc-debug:
     docker:
@@ -276,15 +311,91 @@ jobs:
       shell: powershell.exe
     steps:
       - build_windows
-    
+  deploy-develop:
+    docker:
+      - image: circleci/python:3.7-buster
+    steps:
+      - deploy_bc3:
+          vault_id: "2240984322"
+  deploy-experimental:
+    docker:
+      - image: circleci/python:3.7-buster
+    steps:
+      - deploy_bc3:
+          vault_id: "2240985657"
+  deploy-release:
+    docker:
+      - image: circleci/python:3.7-buster
+    steps:
+      - deploy_bc3:
+          vault_id: "2240984921"
 workflows:
   version: 2
-  check:
+  build:
     jobs:
-      #- gcc-debug
-      - gcc-release
-      #- clang-debug
-      - clang-release
-      #- armv7-debug
-      - armv7-release
-      - windows
+      - gcc-release:
+          filters:
+                branches:
+                  only:
+                    - develop
+                    - experimental
+                tags:
+                  only:
+                    - /.*/
+      - clang-release:
+          filters:
+            branches:
+              only:
+                - develop
+                - experimental
+            tags:
+              only:
+                - /.*/
+      - armv7-release:
+          filters:
+            branches:
+              only:
+                - develop
+                - experimental
+            tags:
+              only:
+                - /.*/
+      - windows:
+          filters:
+            branches:
+              only:
+                - develop
+                - experimental
+            tags:
+              only:
+                - /.*/
+      - deploy-develop:
+          requires:
+            - gcc-release
+            - clang-release
+            - armv7-release
+            - windows
+          filters:
+            branches:
+              only:
+                - develop
+      - deploy-experimental:
+          requires:
+            - gcc-release
+            - clang-release
+            - armv7-release
+            - windows
+          filters:
+            branches:
+              only:
+                - experimental
+      - deploy-release:
+          requires:
+            - gcc-release
+            - clang-release
+            - armv7-release
+            - windows
+          filters:
+            tags:
+              only:
+                - /.*/
