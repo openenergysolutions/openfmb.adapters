@@ -10,8 +10,10 @@ yaml-cpp/0.5.3@bincrafters/stable
 protoc_installer/3.5.2@bincrafters/stable
 
 [options]
+OpenSSL:no_dso=True
 libpq:with_openssl=True
 paho-cpp:SSL=True
+boost:header_only=True
 
 [generators]
 cmake
