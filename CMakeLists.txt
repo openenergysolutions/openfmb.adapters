@@ -41,11 +41,14 @@ option(OPENFMB_LINK_STATIC "Link dependencies statically where possible" OFF)
 
 if(OPENFMB_LINK_STATIC AND NOT WIN32)
   set(BUILD_SHARED_LIBS OFF)
-  set(CMAKE_EXE_LINKER_FLAGS "-static")
+  set(CMAKE_EXE_LINKER_FLAGS "-static") # --enable-static-nss
   set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
 endif()
 
 set(CMAKE_CXX_STANDARD 14)
+
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
 
 enable_testing()
 
@@ -59,6 +62,7 @@ include(./deps/catch.cmake)
 include(./deps/exe4cpp.cmake)
 include(./deps/log4cpp.cmake)
 include(./deps/ser4cpp.cmake)
+include(./deps/spdlog.cmake)
 
 # Protobuf C++ objects, used by adapter-util and transitively by all plugins
 add_subdirectory(./proto-api)

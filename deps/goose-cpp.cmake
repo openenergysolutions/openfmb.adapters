@@ -3,8 +3,7 @@ include(FetchContent)
 FetchContent_Declare(
     goose-cpp
     GIT_REPOSITORY git@github.com:openenergysolutions/goose-cpp.git
-    GIT_TAG        develop
-    GIT_SHALLOW    ON
+    GIT_TAG        6e576b73a89892a609bfac1d124c82491ca1a6fc
 )
 
 FetchContent_GetProperties(goose-cpp)

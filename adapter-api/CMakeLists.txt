@@ -21,16 +21,11 @@ SET(CPP_FORMAT_DIRS
 add_library(adapter-api INTERFACE)
 
 if(OPENFMB_USE_CONAN)
-
-target_link_libraries(adapter-api INTERFACE proto-api CONAN_PKG::yaml-cpp)
-
+    target_link_libraries(adapter-api INTERFACE CONAN_PKG::yaml-cpp)
 else()
-
-target_link_libraries(adapter-api INTERFACE proto-api libyaml-cpp.a)
-
+    target_link_libraries(adapter-api INTERFACE libyaml-cpp.a)
 endif()
 
+target_link_libraries(adapter-api INTERFACE proto-api spdlog)
 target_include_directories(adapter-api INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/include)
-target_include_directories(adapter-api INTERFACE ${CMAKE_SOURCE_DIR}/deps/spdlog/include)
 clang_tidy(adapter-api)
-
