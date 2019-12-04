@@ -14,12 +14,12 @@ namespace modbus {
         , period(period)
         , handler(std::move(handler))
     {
-        this->handler->configure(config, this->polls);
+        this->handler->configure(config, *this);
     }
 
     void PollTransaction::start(session_t session, const ITransaction::callback_t& callback)
     {
-        if (polls.requests.empty()) {
+        if (requests.empty()) {
             session->start(std::chrono::seconds(0), [callback]() {
                 callback(true);
             });
@@ -31,11 +31,10 @@ namespace modbus {
 
     void PollTransaction::start_next_request(size_t index, session_t session, const ITransaction::callback_t& callback)
     {
-        const auto read_handler = [self = shared_from_this(), index, session, callback](const ::modbus::Expected<::modbus::ReadHoldingRegistersResponse>& response) {
-            if (response.is_valid()) {
-                self->handler->apply(response.get());
+        const auto read_handler = [self = shared_from_this(), index, session, callback](bool success) {
+            if (success) {
                 const auto next = index + 1;
-                if (next < self->polls.requests.size()) {
+                if (next < self->requests.size()) {
                     // start the next poll
                     self->start_next_request(next, session, callback);
                 } else {
@@ -44,12 +43,11 @@ namespace modbus {
                     callback(true);
                 }
             } else {
-                self->logger.warn("Poll failed: {}", response.get_exception<::modbus::IException>().get_message());
                 callback(false);
             }
         };
 
-        session->send_request(this->polls.requests[index], read_handler);
+        this->requests[index]->start(session, read_handler);
     }
 }
 }

@@ -3,6 +3,7 @@ set(MODBUS_PUBLIC_HEADERS
 )
 
 set(MODBUS_SOURCES
+        src/modbus/Bit.h
         src/modbus/CommandOptions.h
         src/modbus/CommandSinkActions.h
         src/modbus/DoubleWord.h
@@ -46,6 +47,7 @@ set(MODBUS_SOURCES
         src/modbus/CommandSink.cpp
         src/modbus/CommandSink.h
         src/modbus/SessionWrapper.h
+        src/modbus/SinglePollTransaction.h
         src/modbus/SingleRegisterEnumMapping.h
         src/modbus/SingleRegisterEnumMapping.cpp
         src/modbus/WriteRegisterTransaction.h

@@ -22,12 +22,18 @@ namespace adapter {
 namespace modbus {
 
 const char SourceType::none[] = "none";
+const char SourceType::coil[] = "coil";
+const char SourceType::discrete_input[] = "discrete_input";
 const char SourceType::holding_register[] = "holding_register";
+const char SourceType::input_register[] = "input_register";
 
-const std::array<SourceType::Value, 2> SourceType::values =
+const std::array<SourceType::Value, 5> SourceType::values =
 {
     SourceType::Value::none,
+    SourceType::Value::coil,
+    SourceType::Value::discrete_input,
     SourceType::Value::holding_register,
+    SourceType::Value::input_register,
 };
 
 std::string SourceType::to_string(SourceType::Value value)
@@ -35,7 +41,10 @@ std::string SourceType::to_string(SourceType::Value value)
     switch(value)
     {
         case(Value::none): return none;
-        default: return holding_register;
+        case(Value::coil): return coil;
+        case(Value::discrete_input): return discrete_input;
+        case(Value::holding_register): return holding_register;
+        default: return input_register;
     }
 }
 
@@ -44,7 +53,10 @@ SourceType::Value SourceType::from_string(const std::string& name)
     static const std::map<std::string, Value> map = 
     {
         {none, Value::none},
+        {coil, Value::coil},
+        {discrete_input, Value::discrete_input},
         {holding_register, Value::holding_register},
+        {input_register, Value::input_register},
     };
     const auto elem = map.find(name);
     if(elem == map.end()) throw api::Exception("Unknown value name '", name, "' for enum SourceType");

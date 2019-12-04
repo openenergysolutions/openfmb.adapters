@@ -10,6 +10,7 @@
 #include <yaml-cpp/yaml.h>
 
 #include "IConfigurationBuilder.h"
+#include "generated/SourceType.h"
 
 namespace adapter {
 namespace modbus {
@@ -67,21 +68,36 @@ namespace modbus {
         MultipleRegisterEnumMapping(const YAML::Node& node, google::protobuf::EnumDescriptor const* descriptor);
 
         template <class T>
-        void build(IConfigurationBuilder& builder, const util::accessor_t<T, int>& accessor, std::shared_ptr<T> profile);
+        void build(IConfigurationBuilder& builder, SourceType::Value source_type, const util::accessor_t<T, int>& accessor, std::shared_ptr<T> profile);
     };
 
     template <class T>
-    void MultipleRegisterEnumMapping::build(IConfigurationBuilder& builder, const util::accessor_t<T, int>& accessor, std::shared_ptr<T> profile)
+    void MultipleRegisterEnumMapping::build(IConfigurationBuilder& builder, SourceType::Value source_type, const util::accessor_t<T, int>& accessor, std::shared_ptr<T> profile)
     {
         const auto shared_value = std::make_shared<SharedValue>(this->mapping);
 
-        // when the poll sequence starts, clear the shared value
-        builder.add_begin_action([shared_value](api::Logger&) { shared_value->value = 0; });
-
         // each declared bit maps to a register action, this is what writes the actual bits when polls are received
         for (const auto& entry : this->bits) {
-            builder.add_holding_register(entry.second.index, std::make_shared<RegisterAction>(entry.second.bit, entry.first, shared_value));
+            const auto action = std::make_shared<RegisterAction>(entry.second.bit, entry.first, shared_value);
+            switch(source_type)
+            {
+                case SourceType::Value::holding_register:
+                {
+                    builder.add_holding_register(entry.second.index, action);
+                    break;
+                }
+                case SourceType::Value::input_register:
+                {
+                    builder.add_input_register(entry.second.index, action);
+                    break;
+                }
+                default:
+                    throw api::Exception("Unsupported source type: ", SourceType::to_string(source_type));
+            }
         }
+
+        // when the poll sequence starts, clear the shared value
+        builder.add_begin_action([shared_value](api::Logger&) { shared_value->value = 0; });
 
         // at the end of the poll sequence, we try to look up the accumulated value against the mappings
         builder.add_end_action([shared_value, mapping = this->mapping, profile, descriptor = this->descriptor, accessor](api::Logger& logger) {

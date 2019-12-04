@@ -124,6 +124,7 @@ namespace modbus {
     {
         const auto config_node = util::yaml::require(node, keys::auto_polling);
         return AutoPollConfig(
+            util::yaml::require_integer<uint16_t>(config_node, keys::max_bit_gaps),
             util::yaml::require_integer<uint16_t>(config_node, keys::max_register_gaps));
     }
 
@@ -206,6 +207,8 @@ namespace modbus {
             return ::modbus::LoggingLevel::Error;
         case LogLevel::Value::Critical:
             return ::modbus::LoggingLevel::Critical;
+        default:
+            return ::modbus::LoggingLevel::Info;
         }
     }
 
