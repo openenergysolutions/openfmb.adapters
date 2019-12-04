@@ -22,6 +22,8 @@ namespace adapter {
 namespace modbus {
 
 const char OutputType::none[] = "none";
+const char OutputType::write_single_coil[] = "write_single_coil";
+const char OutputType::flip_single_coil[] = "flip_single_coil";
 const char OutputType::write_single_register_uint16[] = "write_single_register_uint16";
 const char OutputType::write_single_register_int16[] = "write_single_register_int16";
 const char OutputType::write_multiple_registers_uint32[] = "write_multiple_registers_uint32";
@@ -29,9 +31,11 @@ const char OutputType::write_multiple_registers_int32[] = "write_multiple_regist
 const char OutputType::write_multiple_registers_float32[] = "write_multiple_registers_float32";
 const char OutputType::read_and_modify_register[] = "read_and_modify_register";
 
-const std::array<OutputType::Value, 7> OutputType::values =
+const std::array<OutputType::Value, 9> OutputType::values =
 {
     OutputType::Value::none,
+    OutputType::Value::write_single_coil,
+    OutputType::Value::flip_single_coil,
     OutputType::Value::write_single_register_uint16,
     OutputType::Value::write_single_register_int16,
     OutputType::Value::write_multiple_registers_uint32,
@@ -45,6 +49,8 @@ std::string OutputType::to_string(OutputType::Value value)
     switch(value)
     {
         case(Value::none): return none;
+        case(Value::write_single_coil): return write_single_coil;
+        case(Value::flip_single_coil): return flip_single_coil;
         case(Value::write_single_register_uint16): return write_single_register_uint16;
         case(Value::write_single_register_int16): return write_single_register_int16;
         case(Value::write_multiple_registers_uint32): return write_multiple_registers_uint32;
@@ -59,6 +65,8 @@ OutputType::Value OutputType::from_string(const std::string& name)
     static const std::map<std::string, Value> map = 
     {
         {none, Value::none},
+        {write_single_coil, Value::write_single_coil},
+        {flip_single_coil, Value::flip_single_coil},
         {write_single_register_uint16, Value::write_single_register_uint16},
         {write_single_register_int16, Value::write_single_register_int16},
         {write_multiple_registers_uint32, Value::write_multiple_registers_uint32},

@@ -54,6 +54,10 @@ set(MODBUS_SOURCES
         src/modbus/WriteRegisterTransaction.cpp
         src/modbus/WriteMultipleRegistersTransaction.h
         src/modbus/WriteMultipleRegistersTransaction.cpp
+        src/modbus/WriteSingleCoilTransaction.h
+        src/modbus/WriteSingleCoilTransaction.cpp
+        src/modbus/FlipSingleCoilTransaction.h
+        src/modbus/FlipSingleCoilTransaction.cpp
         src/modbus/OrderedTransaction.cpp
         src/modbus/OrderedTransaction.h
         src/modbus/CommandSinkActions.h

@@ -93,6 +93,28 @@ namespace modbus {
                     case OutputType::Value::read_and_modify_register:
                         actions.push_back(register_read_and_modify_action(node, priority_source));
                         break;
+                    case OutputType::Value::write_single_coil:
+                    
+                    {
+                        const auto index = util::yaml::get::index(node);
+                        const auto priority = priority_source.get_priority(node);
+                        const auto value = util::yaml::require(node, util::keys::value).as<bool>();
+
+                        actions.push_back([index, priority, value](ICommandSink& sink) {
+                            sink.write_single_coil(index, priority, value);
+                        });
+                        break;
+                    }
+                    case OutputType::Value::flip_single_coil:
+                    {
+                        const auto index = util::yaml::get::index(node);
+                        const auto priority = priority_source.get_priority(node);
+
+                        actions.push_back([index, priority](ICommandSink& sink) {
+                            sink.flip_single_coil(index, priority);
+                        });
+                        break;
+                    }
                     case OutputType::Value::write_single_register_uint16:
                     case OutputType::Value::write_single_register_int16:
                     {

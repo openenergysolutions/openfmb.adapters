@@ -208,6 +208,8 @@ public class Enumerations {
                 Arrays.asList("Output","Type"),
                 Arrays.asList(
                         Enumeration.entry("none", "output is not mapped"),
+                        Enumeration.entry("write_single_coil", "write a single coil"),
+                        Enumeration.entry("flip_single_coil", "flip a single coil"),
                         Enumeration.entry("write_single_register_uint16", "write a value to a single holding register, casted as an unsigned integer"),
                         Enumeration.entry("write_single_register_int16", "write a value to a single holding register, casted as a signed integer"),
                         Enumeration.entry("write_multiple_registers_uint32", "write the low and high words to two (possibly disjoint) registers, casted as an unsigned integer"),
