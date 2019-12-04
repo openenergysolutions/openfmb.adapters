@@ -95,11 +95,11 @@ namespace modbus {
         auto begin = bits.begin()->first;
         auto end = begin;
         for (auto& bit : bits) {
-            if (bit.first > end + config.max_bit_gaps + 1 ||  // There is a discontinuity
-                bit.first - begin + 1 > typename T::max_bits) //
+            if (bit.first > end + config.max_bit_gaps + 1 || // There is a discontinuity
+                bit.first - begin + 1 > T::max_bits)
             {
                 // Add the request
-                builder.add(typename T{ begin, boost::numeric_cast<uint16_t>(end - begin + 1) });
+                builder.add(T{ begin, boost::numeric_cast<uint16_t>(end - begin + 1) });
                 begin = bit.first;
                 end = bit.first;
             } else {
@@ -109,7 +109,7 @@ namespace modbus {
         }
 
         // Add last poll
-        builder.add(typename T{ begin, boost::numeric_cast<uint16_t>(end - begin + 1) });
+        builder.add(T{ begin, boost::numeric_cast<uint16_t>(end - begin + 1) });
     }
 
     template <typename T>
@@ -123,10 +123,10 @@ namespace modbus {
         auto end = begin;
         for (auto& reg : registers) {
             if (reg.first > end + config.max_register_gaps + 1 ||  // There is a discontinuity
-                reg.first - begin + 1 > typename T::max_registers) //
+                reg.first - begin + 1 > T::max_registers)
             {
                 // Add the request
-                builder.add(typename T{ begin, boost::numeric_cast<uint16_t>(end - begin + 1) });
+                builder.add(T{ begin, boost::numeric_cast<uint16_t>(end - begin + 1) });
                 begin = reg.first;
                 end = reg.first;
             } else {
@@ -136,7 +136,7 @@ namespace modbus {
         }
 
         // Add last poll
-        builder.add(typename T{ begin, boost::numeric_cast<uint16_t>(end - begin + 1) });
+        builder.add(T{ begin, boost::numeric_cast<uint16_t>(end - begin + 1) });
     }
 
     template <typename T>

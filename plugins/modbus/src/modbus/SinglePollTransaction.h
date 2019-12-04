@@ -4,6 +4,7 @@
 
 #include "IPollHandler.h"
 #include "ITransaction.h"
+#include <modbus/exceptions/IException.h>
 
 namespace adapter {
 namespace modbus {
@@ -28,12 +29,12 @@ public:
 
     void start(session_t session, const callback_t& callback) override
     {
-        const auto read_handler = [self = shared_from_this(), callback](const ::modbus::Expected<ResponseT>& response) {
+        const auto read_handler = [self = this->shared_from_this(), callback](const ::modbus::Expected<ResponseT>& response) {
             if (response.is_valid()) {
                 self->handler->apply(response.get());
                 callback(true);
             } else {
-                self->logger.warn("Poll failed: {}", response.get_exception<::modbus::IException>().get_message());
+                self->logger.warn("Poll failed: {}", response.template get_exception<::modbus::IException>().get_message());
                 callback(false);
             }
         };

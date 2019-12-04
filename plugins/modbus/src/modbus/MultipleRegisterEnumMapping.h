@@ -6,6 +6,7 @@
 #include <map>
 
 #include <adapter-util/config/IAccessor.h>
+#include <adapter-api/Exception.h>
 #include <google/protobuf/descriptor.h>
 #include <yaml-cpp/yaml.h>
 
