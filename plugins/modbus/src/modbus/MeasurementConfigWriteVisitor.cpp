@@ -1,5 +1,4 @@
 
-
 #include "MeasurementConfigWriteVisitor.h"
 
 #include "ConfigStrings.h"
@@ -16,7 +15,7 @@ namespace modbus {
 
     void write_scaled_register_mapping(YAML::Emitter& out)
     {
-        out << YAML::Key << SourceType::label << YAML::Value << SourceType::none << YAML::Comment(util::enumeration::get_value_set<SourceType>());
+        out << YAML::Key << SourceType::label << YAML::Value << SourceType::none << YAML::Comment(util::enumeration::get_value_set_from_list<SourceType>({SourceType::Value::none, SourceType::Value::holding_register, SourceType::Value::input_register}));
         out << YAML::Key << RegisterMapping::label << YAML::Value << RegisterMapping::sint32 << YAML::Comment(util::enumeration::get_value_set<RegisterMapping>());
         out << YAML::Key << keys::lower_index << 0;
         out << YAML::Key << keys::upper_index << 1;
@@ -53,6 +52,7 @@ namespace modbus {
 
     void MeasurementConfigWriteVisitor::write_mapped_enum_keys(YAML::Emitter& out, google::protobuf::EnumDescriptor const* descriptor)
     {
+        out << YAML::Key << SourceType::label << YAML::Value << SourceType::none << YAML::Comment(util::enumeration::get_value_set<SourceType>());
         out << YAML::Key << EnumMappingType::label << YAML::Value << EnumMappingType::none << YAML::Comment(util::enumeration::get_value_set<EnumMappingType>());
         out << YAML::Key << util::keys::index << YAML::Value << 0;
         out << YAML::Key << keys::mask << YAML::Value << YAML::Hex << 0xFFFF << YAML::Comment("mask the register. map masked values to enum values");
@@ -73,5 +73,6 @@ namespace modbus {
     {
         throw api::Exception("schedule parameter lists not supported for Modbus measurement profiles");
     }
+
 }
 }

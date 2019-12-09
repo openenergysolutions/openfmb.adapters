@@ -1,10 +1,12 @@
 
 #include "CommandSink.h"
 
+#include "FlipSingleCoilTransaction.h"
 #include "ModifyRegisterTransaction.h"
 #include "OrderedTransaction.h"
 #include "WriteMultipleRegistersTransaction.h"
 #include "WriteRegisterTransaction.h"
+#include "WriteSingleCoilTransaction.h"
 
 namespace adapter {
 namespace modbus {
@@ -24,6 +26,24 @@ namespace modbus {
             return this->priority < rhs.priority;
         }
     };
+
+    void CommandSink::write_single_coil(uint16_t index, size_t priority, bool value)
+    {
+        this->transactions.emplace_back(
+            [index, value](api::Logger logger) -> std::shared_ptr<ITransaction> {
+                return std::make_shared<WriteSingleCoilTransaction>(logger, index, value);
+            },
+            priority);
+    }
+
+    void CommandSink::flip_single_coil(uint16_t index, size_t priority)
+    {
+        this->transactions.emplace_back(
+            [index](api::Logger logger) -> std::shared_ptr<ITransaction> {
+                return std::make_shared<FlipSingleCoilTransaction>(logger, index);
+            },
+            priority);
+    }
 
     void CommandSink::write_single_register(uint16_t index, size_t priority, uint16_t value)
     {

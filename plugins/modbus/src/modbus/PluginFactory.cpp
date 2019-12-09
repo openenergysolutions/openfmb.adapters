@@ -78,6 +78,7 @@ namespace modbus {
 
         out << YAML::Key << keys::auto_polling << YAML::Comment("configuration parameters for auto-polling");
         out << YAML::BeginMap;
+        out << YAML::Key << keys::max_bit_gaps << YAML::Value << 0 << YAML::Comment("0 == no gaps allowed when polling for coils/discrete inputs");
         out << YAML::Key << keys::max_register_gaps << YAML::Value << 0 << YAML::Comment("0 == no gaps allowed when polling for registers");
         out << YAML::EndMap;
 

@@ -22,14 +22,16 @@ namespace adapter {
 namespace modbus {
 
 const char EnumMappingType::none[] = "none";
-const char EnumMappingType::holding_register[] = "holding_register";
-const char EnumMappingType::multiple_holding_register[] = "multiple_holding_register";
+const char EnumMappingType::single_bit[] = "single_bit";
+const char EnumMappingType::single_register[] = "single_register";
+const char EnumMappingType::multiple_register[] = "multiple_register";
 
-const std::array<EnumMappingType::Value, 3> EnumMappingType::values =
+const std::array<EnumMappingType::Value, 4> EnumMappingType::values =
 {
     EnumMappingType::Value::none,
-    EnumMappingType::Value::holding_register,
-    EnumMappingType::Value::multiple_holding_register,
+    EnumMappingType::Value::single_bit,
+    EnumMappingType::Value::single_register,
+    EnumMappingType::Value::multiple_register,
 };
 
 std::string EnumMappingType::to_string(EnumMappingType::Value value)
@@ -37,8 +39,9 @@ std::string EnumMappingType::to_string(EnumMappingType::Value value)
     switch(value)
     {
         case(Value::none): return none;
-        case(Value::holding_register): return holding_register;
-        default: return multiple_holding_register;
+        case(Value::single_bit): return single_bit;
+        case(Value::single_register): return single_register;
+        default: return multiple_register;
     }
 }
 
@@ -47,8 +50,9 @@ EnumMappingType::Value EnumMappingType::from_string(const std::string& name)
     static const std::map<std::string, Value> map = 
     {
         {none, Value::none},
-        {holding_register, Value::holding_register},
-        {multiple_holding_register, Value::multiple_holding_register},
+        {single_bit, Value::single_bit},
+        {single_register, Value::single_register},
+        {multiple_register, Value::multiple_register},
     };
     const auto elem = map.find(name);
     if(elem == map.end()) throw api::Exception("Unknown value name '", name, "' for enum EnumMappingType");

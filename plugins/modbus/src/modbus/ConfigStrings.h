@@ -26,6 +26,7 @@ namespace modbus {
         constexpr const char* const poll_period_ms = "poll_period_ms";
         constexpr const char* const response_timeout_ms = "response_timeout_ms";
         constexpr const char* const auto_polling = "auto_polling";
+        constexpr const char* const max_bit_gaps = "max_bit_gaps";
         constexpr const char* const max_register_gaps = "max_register_gaps";
 
         // mapping level

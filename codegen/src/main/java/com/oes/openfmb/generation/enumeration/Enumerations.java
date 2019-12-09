@@ -187,7 +187,10 @@ public class Enumerations {
                 Arrays.asList("Source","Type"),
                 Arrays.asList(
                         Enumeration.entry("none", "field is not mapped"),
-                        Enumeration.entry("holding_register", "field is mapped out of a holding register")
+                        Enumeration.entry("coil", "field is mapped out of a coil"),
+                        Enumeration.entry("discrete_input", "field is mapped out of a discrete input"),
+                        Enumeration.entry("holding_register", "field is mapped out of a holding register"),
+                        Enumeration.entry("input_register", "field is mapped out of an input register")
                 )
         );
 
@@ -195,8 +198,9 @@ public class Enumerations {
                 Arrays.asList("Enum","Mapping","Type"),
                 Arrays.asList(
                         Enumeration.entry("none", "field is not mapped"),
-                        Enumeration.entry("holding_register", "enum is mapped from a single holding register"),
-                        Enumeration.entry("multiple_holding_register", "enum is mapped from bits in multiple holding registers")
+                        Enumeration.entry("single_bit", "enum is mapped from a single bit"),
+                        Enumeration.entry("single_register", "enum is mapped from a single register"),
+                        Enumeration.entry("multiple_register", "enum is mapped from bits in multiple registers")
                 )
         );
 
@@ -204,6 +208,8 @@ public class Enumerations {
                 Arrays.asList("Output","Type"),
                 Arrays.asList(
                         Enumeration.entry("none", "output is not mapped"),
+                        Enumeration.entry("write_single_coil", "write a single coil"),
+                        Enumeration.entry("flip_single_coil", "flip a single coil"),
                         Enumeration.entry("write_single_register_uint16", "write a value to a single holding register, casted as an unsigned integer"),
                         Enumeration.entry("write_single_register_int16", "write a value to a single holding register, casted as a signed integer"),
                         Enumeration.entry("write_multiple_registers_uint32", "write the low and high words to two (possibly disjoint) registers, casted as an unsigned integer"),

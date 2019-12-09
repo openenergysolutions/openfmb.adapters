@@ -27,19 +27,22 @@ struct EnumMappingType
     {
         // field is not mapped
         none,
-        // enum is mapped from a single holding register
-        holding_register,
-        // enum is mapped from bits in multiple holding registers
-        multiple_holding_register,
+        // enum is mapped from a single bit
+        single_bit,
+        // enum is mapped from a single register
+        single_register,
+        // enum is mapped from bits in multiple registers
+        multiple_register,
     };
 
     static const char none[];
-    static const char holding_register[];
-    static const char multiple_holding_register[];
+    static const char single_bit[];
+    static const char single_register[];
+    static const char multiple_register[];
 
     static constexpr const char* label = "enum-mapping-type";
 
-    static const std::array<Value, 3> values;
+    static const std::array<Value, 4> values;
 
     static std::string to_string(Value value);
     static Value from_string(const std::string& name);

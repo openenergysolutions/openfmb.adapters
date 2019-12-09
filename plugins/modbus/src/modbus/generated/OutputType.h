@@ -27,6 +27,10 @@ struct OutputType
     {
         // output is not mapped
         none,
+        // write a single coil
+        write_single_coil,
+        // flip a single coil
+        flip_single_coil,
         // write a value to a single holding register, casted as an unsigned integer
         write_single_register_uint16,
         // write a value to a single holding register, casted as a signed integer
@@ -42,6 +46,8 @@ struct OutputType
     };
 
     static const char none[];
+    static const char write_single_coil[];
+    static const char flip_single_coil[];
     static const char write_single_register_uint16[];
     static const char write_single_register_int16[];
     static const char write_multiple_registers_uint32[];
@@ -51,7 +57,7 @@ struct OutputType
 
     static constexpr const char* label = "output-type";
 
-    static const std::array<Value, 7> values;
+    static const std::array<Value, 9> values;
 
     static std::string to_string(Value value);
     static Value from_string(const std::string& name);
