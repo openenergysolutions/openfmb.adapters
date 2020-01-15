@@ -248,6 +248,7 @@ jobs:
   gcc-debug:
     docker:
       - image: debian:buster
+    resource_class: large
     steps:
       - build_linux:
           compiler: gcc
@@ -258,6 +259,7 @@ jobs:
   gcc-release:
     docker:
       - image: debian:buster
+    resource_class: large
     steps:
       - build_linux:
           compiler: gcc
@@ -288,6 +290,7 @@ jobs:
   armv7-debug:
     docker:
       - image: debian:buster
+    resource_class: large
     steps:
       - build_linux:
           compiler: arm
@@ -298,6 +301,7 @@ jobs:
   armv7-release:
     docker:
       - image: debian:buster
+    resource_class: large
     steps:
       - build_linux:
           compiler: arm
@@ -335,13 +339,13 @@ workflows:
     jobs:
       - gcc-release:
           filters:
-                branches:
-                  only:
-                    - develop
-                    - experimental
-                tags:
-                  only:
-                    - /.*/
+            branches:
+              only:
+                - develop
+                - experimental
+            tags:
+              only:
+                - /.*/
       - clang-release:
           filters:
             branches:
