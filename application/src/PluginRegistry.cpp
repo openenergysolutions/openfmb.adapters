@@ -14,7 +14,8 @@
 #endif
 
 #ifdef OPENFMB_USE_MODBUS
-#include "modbus/PluginFactory.h"
+#include "modbus/master/PluginFactory.h"
+#include "modbus/outstation/PluginFactory.h"
 #endif
 
 #ifdef OPENFMB_USE_GOOSE
@@ -56,7 +57,8 @@ PluginRegistry::PluginRegistry()
 #endif
 
 #ifdef OPENFMB_USE_MODBUS
-    this->add<modbus::PluginFactory>();
+    this->add<modbus::master::PluginFactory>();
+    this->add<modbus::outstation::PluginFactory>();
 #endif
 
 #ifdef OPENFMB_USE_GOOSE

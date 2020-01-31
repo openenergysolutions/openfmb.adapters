@@ -1,8 +1,8 @@
 #include "catch.hpp"
 
-#include "modbus/ModifyRegisterOp.h"
+#include "modbus/master/ModifyRegisterOp.h"
 
-using namespace adapter::modbus;
+using namespace adapter::modbus::master;
 
 TEST_CASE("register operations behave as expected")
 {
