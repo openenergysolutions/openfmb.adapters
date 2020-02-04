@@ -1,8 +1,8 @@
 #include "catch.hpp"
 
-#include "modbus/master/DoubleWord.h"
+#include "modbus/DoubleWord.h"
 
-using namespace adapter::modbus::master;
+using namespace adapter::modbus;
 
 TEST_CASE("double word")
 {

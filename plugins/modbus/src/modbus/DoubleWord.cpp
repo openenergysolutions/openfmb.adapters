@@ -3,7 +3,6 @@
 
 namespace adapter {
 namespace modbus {
-namespace master {
 
     DoubleWord DoubleWord::get(uint32_t value)
     {
@@ -19,6 +18,5 @@ namespace master {
     {
     }
 
-}
 }
 }

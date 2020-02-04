@@ -30,7 +30,7 @@ namespace master {
 
         virtual std::string name() const override
         {
-            return "modbus";
+            return "modbus-master";
         }
 
         virtual void start() override;
@@ -39,7 +39,6 @@ namespace master {
         void configure_session(const YAML::Node& node, api::message_bus_t bus);
 
         std::shared_ptr<::modbus::IClientSession> get_session(const std::string& name, const YAML::Node& node, const CommandOptions& options);
-        ::modbus::LoggingLevel get_modbus_logging_level(const LogLevel::Value level) const;
 
         api::Logger logger;
         std::shared_ptr<exe4cpp::BasicExecutor> executor;

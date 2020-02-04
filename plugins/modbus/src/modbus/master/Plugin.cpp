@@ -21,10 +21,13 @@
 #include "PollTransaction.h"
 
 #include "ConfigStrings.h"
-#include "PublishConfigReadVisitor.h"
-#include "SessionWrapper.h"
-#include "SubscribeConfigReadVisitor.h"
-#include "TransactionProcessor.h"
+#include "LoggingLevelConversion.h"
+#include "master/PublishConfigReadVisitor.h"
+#include "master/SessionWrapper.h"
+#include "master/SubscribeConfigReadVisitor.h"
+#include "master/TransactionProcessor.h"
+
+#include <thread>
 
 namespace adapter {
 namespace modbus {
@@ -101,7 +104,8 @@ namespace master {
     {
         // initialize the Modbus manager
         this->manager = ::modbus::IModbusManager::create(
-            ::modbus::LoggerFactory::create_custom_logger(logger.get_impl()) // TODO - configure thread pool
+            ::modbus::LoggerFactory::create_custom_logger(logger.get_impl()),
+            util::yaml::optionally(node[keys::thread_pool_size], std::thread::hardware_concurrency())
         );
 
         util::yaml::load_template_configs(
@@ -191,26 +195,6 @@ namespace master {
                 util::yaml::require_integer<int32_t>(node, keys::response_timeout_ms)));
 
         return options.always_write_multiple_registers ? std::make_shared<SessionWrapper>(session) : session;
-    }
-
-    ::modbus::LoggingLevel Plugin::get_modbus_logging_level(const LogLevel::Value level) const
-    {
-        switch (level) {
-        case LogLevel::Value::Trace:
-            return ::modbus::LoggingLevel::Trace;
-        case LogLevel::Value::Debug:
-            return ::modbus::LoggingLevel::Debug;
-        case LogLevel::Value::Info:
-            return ::modbus::LoggingLevel::Info;
-        case LogLevel::Value::Warn:
-            return ::modbus::LoggingLevel::Warn;
-        case LogLevel::Value::Error:
-            return ::modbus::LoggingLevel::Error;
-        case LogLevel::Value::Critical:
-            return ::modbus::LoggingLevel::Critical;
-        default:
-            return ::modbus::LoggingLevel::Info;
-        }
     }
 
     void Plugin::start()
