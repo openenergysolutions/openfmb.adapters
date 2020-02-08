@@ -67,6 +67,9 @@ include(./deps/spdlog.cmake)
 # Protobuf C++ objects, used by adapter-util and transitively by all plugins
 add_subdirectory(./proto-api)
 
+# Schema utility library
+add_subdirectory(schema-util)
+
 # API used by the plugins / application
 add_subdirectory(./adapter-api)
 

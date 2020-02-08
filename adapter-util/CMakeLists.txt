@@ -113,7 +113,7 @@ set(SOURCES
 	src/config/generated/SwitchDiscreteControlProfileTypedModelVisitor.cpp
 	src/config/generated/SwitchEventProfileTypedModelVisitor.cpp
 	src/config/generated/SwitchReadingProfileTypedModelVisitor.cpp
-	src/config/generated/SwitchStatusProfileTypedModelVisitor.cpp)
+	src/config/generated/SwitchStatusProfileTypedModelVisitor.cpp ../schema-util/include/schema-util/Types.h)
 
 # directories to be automatically formatted by astyle
 SET(CPP_FORMAT_DIRS
