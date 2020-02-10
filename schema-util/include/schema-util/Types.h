@@ -8,6 +8,22 @@
 namespace adapter {
     namespace schema {
 
+        template <class T>
+        struct Bound {
+            Bound(bool valid, T value) : valid(valid), value(value) {}
+
+            static Bound unused() {
+                return Bound(false, T {});
+            }
+
+            static Bound from(T value) {
+                return Bound(true, value);
+            }
+
+            const bool valid;
+            const T value;
+        };
+
         class IVisitor;
 
         class IProperty {
@@ -31,6 +47,22 @@ namespace adapter {
             void visit(IVisitor& visitor) override;
         };
 
+        template <class T>
+        class NumericProperty : public IProperty {
+        public:
+            Bound<T> min;
+            Bound<T> max;
+
+            NumericProperty(std::string name, bool required, Bound<T> min, Bound<T> max)
+              :
+                 IProperty(std::move(name), required),
+                 min(min),
+                 max(max)
+            {}
+
+            void visit(IVisitor& visitor) override;
+        };
+
         class ObjectProperty : public IProperty {
         public:
             const std::vector<property_ptr_t> fields;
@@ -46,10 +78,18 @@ namespace adapter {
         class IVisitor {
         public:
             virtual ~IVisitor() = default;
+
+            virtual void begin(const ObjectProperty&) = 0;
             virtual void on_property(const StringProperty&) = 0;
-            virtual void on_property(const ObjectProperty&) = 0;
+            virtual void on_property(const NumericProperty<float>&) = 0;
+            virtual void on_property(const NumericProperty<int64_t>&) = 0;
+            virtual void end(const ObjectProperty&) = 0;
         };
 
+        template <class T>
+        void NumericProperty<T>::visit(IVisitor& visitor) {
+            visitor.on_property(*this);
+        }
 
 
         /// ---------  DSL for building up complex schemas -----------

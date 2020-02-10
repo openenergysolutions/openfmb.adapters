@@ -10,7 +10,11 @@ namespace adapter {
         }
 
         void ObjectProperty::visit(IVisitor& visitor) {
-            visitor.on_property(*this);
+            visitor.begin(*this);
+            for(auto& field : this->fields) {
+                field->visit(visitor);
+            }
+            visitor.end(*this);
         }
 
 
