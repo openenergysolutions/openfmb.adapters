@@ -4,7 +4,7 @@
 #include "ConfigStrings.h"
 #include "generated/EnumMappingType.h"
 #include "generated/RegisterMapping.h"
-#include "generated/SourceType.h"
+#include "generated/DestinationType.h"
 
 #include <adapter-api/Exception.h>
 #include <adapter-util/ConfigStrings.h>
@@ -23,8 +23,8 @@ namespace outstation {
     {
         out << YAML::Key << keys::actions << YAML::Value << YAML::BeginSeq;
         out << YAML::BeginMap;
-        out << YAML::Key << SourceType::label << YAML::Value << SourceType::none;
-        out << YAML::Comment(util::enumeration::get_value_set_from_list<SourceType>({SourceType::Value::none, SourceType::Value::coil, SourceType::Value::discrete_input}));
+        out << YAML::Key << DestinationType::label << YAML::Value << DestinationType::none;
+        out << YAML::Comment(util::enumeration::get_value_set_from_list<DestinationType>({DestinationType::Value::none, DestinationType::Value::coil, DestinationType::Value::discrete_input}));
         out << YAML::Key << util::keys::index << YAML::Value << 0;
         out << YAML::Key << util::keys::negate << YAML::Value << false;
         out << YAML::EndMap;
@@ -56,8 +56,8 @@ namespace outstation {
             out << YAML::BeginMap;
             out << YAML::Key << util::keys::name << YAML::Value << value->name();
             out << YAML::Key << keys::actions << YAML::BeginSeq << YAML::BeginMap;
-            out << YAML::Key << SourceType::label << YAML::Value << SourceType::none;
-            out << YAML::Comment(util::enumeration::get_value_set<SourceType>());
+            out << YAML::Key << DestinationType::label << YAML::Value << DestinationType::none;
+            out << YAML::Comment(util::enumeration::get_value_set<DestinationType>());
             out << YAML::Key << util::keys::index << YAML::Value << 0;
             out << YAML::Key << util::keys::value << YAML::Value << value->number();
             out << YAML::EndMap << YAML::EndSeq;
@@ -76,9 +76,9 @@ namespace outstation {
         out << YAML::Key << keys::actions << YAML::Value << YAML::BeginSeq;
         out << YAML::BeginMap;
 
-        out << YAML::Key << SourceType::label << YAML::Value << SourceType::none;
-        out << YAML::Comment(util::enumeration::get_value_set_from_list<SourceType>(
-            {SourceType::Value::none, SourceType::Value::holding_register, SourceType::Value::input_register})
+        out << YAML::Key << DestinationType::label << YAML::Value << DestinationType::none;
+        out << YAML::Comment(util::enumeration::get_value_set_from_list<DestinationType>(
+            {DestinationType::Value::none, DestinationType::Value::holding_register, DestinationType::Value::input_register})
         );
 
         out << YAML::Key << RegisterMapping::label << YAML::Value << RegisterMapping::sint16;
@@ -87,6 +87,7 @@ namespace outstation {
         );
 
         out << YAML::Key << util::keys::index << YAML::Value << 0;
+        out << YAML::Key << util::keys::scale << YAML::Value << 1.0;
 
         out << YAML::EndMap;
         out << YAML::EndSeq;

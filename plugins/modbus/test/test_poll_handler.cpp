@@ -1,7 +1,7 @@
 #include "catch.hpp"
 
-#include "modbus/master/IRequestBuilder.h"
-#include "modbus/master/PollHandler.h"
+#include "master/IRequestBuilder.h"
+#include "master/PollHandler.h"
 
 using namespace adapter::modbus::master;
 

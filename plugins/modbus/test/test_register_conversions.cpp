@@ -1,9 +1,9 @@
 #include "catch.hpp"
 
-#include "modbus/master/Register16.h"
-#include "modbus/master/Register32.h"
+#include "Register16.h"
+#include "Register32.h"
 
-using namespace adapter::modbus::master;
+using namespace adapter::modbus;
 
 TEST_CASE("16-bit registers function as expected")
 {

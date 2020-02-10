@@ -16,7 +16,9 @@
 
 #include "ConfigStrings.h"
 #include "LoggingLevelConversion.h"
+#include "outstation/ControlConfigReadVisitor.h"
 #include "outstation/MeasurementConfigReadVisitor.h"
+#include "outstation/ModbusDatabase.h"
 #include "outstation/SubscriptionHandler.h"
 
 #include <thread>
@@ -35,10 +37,11 @@ namespace outstation {
             const YAML::Node& node,
             const api::Logger& logger,
             api::message_bus_t bus,
-            std::shared_ptr<::modbus::IServerChannel> channel,
-            ::modbus::UnitIdentifier unit_id)
+            std::shared_ptr<ModbusDatabase> db)
         {
-            // TODO: implement this
+            ControlConfigReadVisitor<T> visitor{util::yaml::require(node, util::keys::mapping), *db};
+            util::visit(visitor);
+
             return true;
         }
 
@@ -47,15 +50,10 @@ namespace outstation {
             const YAML::Node& node,
             const api::Logger& logger,
              api::subscriber_one_t<T> bus,
-             std::shared_ptr<::modbus::IServerChannel> channel,
-             ::modbus::UnitIdentifier unit_id)
+             std::shared_ptr<ModbusDatabase> db)
         {
-            auto db = std::make_shared<::modbus::InMemoryDatabase>();
-
             MeasurementConfigReadVisitor<T> visitor{util::yaml::require(node, util::keys::mapping), *db};
             util::visit(visitor);
-
-            channel->add_session(unit_id, db);
 
             bus->subscribe(std::make_shared<SubscriptionHandler<T>>(visitor.get_primary_mrid(), db, visitor.get_handlers()));
 
@@ -84,6 +82,7 @@ namespace outstation {
     {
         auto channel = this->create_channel(node);
         const auto unit_id = ::modbus::UnitIdentifier{util::yaml::require_integer<uint8_t>(node, keys::unit_identifier)};
+        auto db = std::make_shared<ModbusDatabase>(bus);
 
         util::yaml::foreach(util::yaml::require(node, util::keys::profiles), [&](const YAML::Node& node) {
             api::ProfileRegistry::handle_by_name<ProfileReader>(
@@ -91,9 +90,10 @@ namespace outstation {
                 node,
                 this->logger,
                 bus,
-                channel,
-                unit_id);
+                db);
         });
+
+        channel->add_session(unit_id, db);
 
         this->channels.push_back(channel);
     }

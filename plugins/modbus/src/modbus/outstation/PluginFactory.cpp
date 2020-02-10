@@ -7,6 +7,7 @@
 #include <adapter-util/util/YAMLTemplate.h>
 
 #include "ConfigStrings.h"
+#include "outstation/ControlConfigWriteVisitor.h"
 #include "outstation/MeasurementConfigWriteVisitor.h"
 #include "outstation/Plugin.h"
 #include "generated/LogLevel.h"
@@ -23,19 +24,12 @@ namespace outstation {
         {
             std::cout << "Generating: " << T::descriptor()->name() << std::endl;
 
-            if (util::profile_info<T>::type == util::ProfileType::Control) {
-                // TODO: implement this
-                //util::CommandPriorityMap::write_default_list(out);
-                //out << YAML::Key << util::keys::tolerance << YAML::Value << 5000;
-            }
-
             out << YAML::Key << util::keys::mapping << YAML::Comment("profile model starts here");
             out << YAML::BeginMap;
 
             if (util::profile_info<T>::type == util::ProfileType::Control) {
-                // TODO: implement this
-                //ControlConfigWriteVisitor visitor(out);
-                //util::visit<T>(visitor);
+                ControlConfigWriteVisitor visitor(out);
+                util::visit<T>(visitor);
             } else {
                 MeasurementConfigWriteVisitor visitor(out);
                 util::visit<T>(visitor);
@@ -65,11 +59,11 @@ namespace outstation {
 
         out << YAML::Key << util::keys::name << YAML::Value << "device1" << YAML::Comment("This name is pre-pended to each log message");
         out << YAML::Key << keys::log_level << YAML::Value << LogLevel::Info << YAML::Comment(util::enumeration::get_value_set<LogLevel>());
-        
+
         out << YAML::Key << keys::adapter << YAML::Value << "0.0.0.0";
         out << YAML::Key << keys::port << YAML::Value << 502;
         out << YAML::Key << keys::unit_identifier << YAML::Value << 1 << YAML::Comment("aka 'slave address'");
-        
+
         out << YAML::Key << keys::max_num_connections << YAML::Value << 10 << YAML::Comment("Maximum number of concurrent TCP connections to the server");
 
         out << YAML::Key << util::keys::profiles;

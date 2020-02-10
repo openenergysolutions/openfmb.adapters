@@ -20,7 +20,7 @@ namespace master {
 
         virtual std::string description() const override
         {
-            return "maps openFMB to the Modbus protocol";
+            return "maps OpenFMB to the Modbus protocol";
         };
 
         virtual void write_default_config(YAML::Emitter& emitter) const override;

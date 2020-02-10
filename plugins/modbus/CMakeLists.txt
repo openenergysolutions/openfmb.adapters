@@ -8,7 +8,11 @@ set(MODBUS_SOURCES
     ./src/modbus/ConfigStrings.h
     ./src/modbus/DoubleWord.cpp
     ./src/modbus/DoubleWord.h
+    ./src/modbus/ICachedValue.h
+    ./src/modbus/IRegister.h
     ./src/modbus/LoggingLevelConversion.h
+    ./src/modbus/Register16.h
+    ./src/modbus/Register32.h
     # master files
     ./src/modbus/master/Bit.h
     ./src/modbus/master/CommandConfiguration.h
@@ -22,11 +26,9 @@ set(MODBUS_SOURCES
     ./src/modbus/master/FlipSingleCoilTransaction.cpp
     ./src/modbus/master/FlipSingleCoilTransaction.h
     ./src/modbus/master/HeartbeatTransaction.h
-    ./src/modbus/master/ICachedValue.h
     ./src/modbus/master/ICommandConfigBuilder.h
     ./src/modbus/master/IConfigurationBuilder.h
     ./src/modbus/master/IPollHandler.h
-    ./src/modbus/master/IRegister.h
     ./src/modbus/master/IRequestBuilder.h
     ./src/modbus/master/ITransaction.h
     ./src/modbus/master/ITransactionProcessor.h
@@ -49,8 +51,6 @@ set(MODBUS_SOURCES
     ./src/modbus/master/PollTransaction.cpp
     ./src/modbus/master/PollTransaction.h
     ./src/modbus/master/PublishConfigReadVisitor.h
-    ./src/modbus/master/Register16.h
-    ./src/modbus/master/Register32.h
     ./src/modbus/master/SessionWrapper.h
     ./src/modbus/master/SinglePollTransaction.h
     ./src/modbus/master/SingleRegisterEnumMapping.cpp
@@ -65,9 +65,15 @@ set(MODBUS_SOURCES
     ./src/modbus/master/WriteSingleCoilTransaction.cpp
     ./src/modbus/master/WriteSingleCoilTransaction.h
     # outstation files
+    ./src/modbus/outstation/ControlConfigReadVisitor.h
+    ./src/modbus/outstation/ControlConfigWriteVisitor.cpp
+    ./src/modbus/outstation/ControlConfigWriteVisitor.h
+    ./src/modbus/outstation/ControlProfileBuilder.h
     ./src/modbus/outstation/MeasurementConfigReadVisitor.h
     ./src/modbus/outstation/MeasurementConfigWriteVisitor.cpp
     ./src/modbus/outstation/MeasurementConfigWriteVisitor.h
+    ./src/modbus/outstation/ModbusDatabase.h
+    ./src/modbus/outstation/ModbusDatabase.cpp
     ./src/modbus/outstation/Plugin.cpp
     ./src/modbus/outstation/Plugin.h
     ./src/modbus/outstation/PluginFactory.cpp
@@ -76,12 +82,18 @@ set(MODBUS_SOURCES
     # generated enums
     ./src/modbus/generated/BitwiseOperation.h
     ./src/modbus/generated/BitwiseOperation.cpp
+    ./src/modbus/generated/CommandSourceType.h
+    ./src/modbus/generated/CommandSourceType.cpp
+    ./src/modbus/generated/DestinationType.h
+    ./src/modbus/generated/DestinationType.cpp
     ./src/modbus/generated/EnumMappingType.h
     ./src/modbus/generated/EnumMappingType.cpp
     ./src/modbus/generated/LogLevel.h
     ./src/modbus/generated/LogLevel.cpp
     ./src/modbus/generated/OutputType.h
     ./src/modbus/generated/OutputType.cpp
+    ./src/modbus/generated/ProfileAction.h
+    ./src/modbus/generated/ProfileAction.cpp
     ./src/modbus/generated/RegisterMapping.h
     ./src/modbus/generated/RegisterMapping.cpp
     ./src/modbus/generated/SourceType.h

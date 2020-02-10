@@ -5,7 +5,6 @@
 
 namespace adapter {
 namespace modbus {
-namespace master {
 
     class IRegister {
     public:
@@ -14,7 +13,6 @@ namespace master {
         virtual void set(uint16_t value) = 0;
     };
 
-}
 }
 }
 

@@ -11,7 +11,6 @@
 
 namespace adapter {
 namespace modbus {
-namespace master {
 
     class Register32 final : public ICachedValue32 {
         struct Register : public IRegister {
@@ -85,7 +84,6 @@ namespace master {
         const std::shared_ptr<Register> upper = std::make_shared<Register>();
     };
 
-}
 }
 }
 

@@ -20,7 +20,7 @@ namespace outstation {
 
         virtual std::string description() const override
         {
-            return "maps openFMB to the Modbus protocol";
+            return "maps the Modbus protocol to OpenFMB";
         };
 
         virtual void write_default_config(YAML::Emitter& emitter) const override;

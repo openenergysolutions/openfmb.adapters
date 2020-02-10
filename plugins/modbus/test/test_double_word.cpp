@@ -1,6 +1,6 @@
 #include "catch.hpp"
 
-#include "modbus/DoubleWord.h"
+#include "DoubleWord.h"
 
 using namespace adapter::modbus;
 

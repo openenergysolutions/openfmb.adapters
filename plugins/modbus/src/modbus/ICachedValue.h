@@ -5,7 +5,6 @@
 
 namespace adapter {
 namespace modbus {
-namespace master {
 
     class ICachedValue {
 
@@ -43,7 +42,6 @@ namespace master {
         virtual float to_float32() const = 0;
     };
 
-}
 }
 }
 

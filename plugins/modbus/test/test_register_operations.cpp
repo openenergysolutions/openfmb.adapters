@@ -1,6 +1,6 @@
 #include "catch.hpp"
 
-#include "modbus/master/ModifyRegisterOp.h"
+#include "master/ModifyRegisterOp.h"
 
 using namespace adapter::modbus::master;
 

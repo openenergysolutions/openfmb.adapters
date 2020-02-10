@@ -3,7 +3,7 @@ include(FetchContent)
 FetchContent_Declare(
     modbus-cpp
     GIT_REPOSITORY git@github.com:openenergysolutions/modbus-cpp.git
-    GIT_TAG        97f932afbc52f81d42d28130a29d687e98fe5c34
+    GIT_TAG        669b3e47545faa71816c685276f7cdcf64629f9a
 )
 
 FetchContent_GetProperties(modbus-cpp)

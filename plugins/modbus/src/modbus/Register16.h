@@ -7,7 +7,6 @@
 
 namespace adapter {
 namespace modbus {
-namespace master {
 
     class Register16 final : public ICachedValue16, public IRegister {
 
@@ -49,7 +48,6 @@ namespace master {
         uint16_t value = 0;
     };
 
-}
 }
 }
 

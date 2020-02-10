@@ -13,7 +13,7 @@
 #include "DoubleWord.h"
 #include "outstation/SubscriptionTypes.h"
 #include "generated/RegisterMapping.h"
-#include "generated/SourceType.h"
+#include "generated/DestinationType.h"
 
 #include <vector>
 
@@ -160,13 +160,13 @@ namespace outstation {
     template <class T>
     void MeasurementConfigReadVisitor<T>::handle_mapped_boolean(const YAML::Node& node, const util::accessor_t<T, bool>& accessor)
     {
-        const auto dest_type = util::yaml::require_enum<SourceType>(node);
+        const auto dest_type = util::yaml::require_enum<DestinationType>(node);
 
         switch(dest_type)
         {
-            case SourceType::Value::none:
+            case DestinationType::Value::none:
                 break;
-            case SourceType::Value::coil:
+            case DestinationType::Value::coil:
             {
                 const auto index = util::yaml::require_integer<uint16_t>(node, util::keys::index);
                 const auto negate = util::yaml::optionally(node[util::keys::negate], false);
@@ -183,7 +183,7 @@ namespace outstation {
                 });
                 break;
             }
-            case SourceType::Value::discrete_input:
+            case DestinationType::Value::discrete_input:
             {
                 const auto index = util::yaml::require_integer<uint16_t>(node, util::keys::index);
                 const auto negate = util::yaml::optionally(node[util::keys::negate], false);
@@ -201,7 +201,7 @@ namespace outstation {
                 break;
             }
             default:
-                throw api::Exception(node.Mark(), "Unsupported destination type for bool field: ", SourceType::to_string(dest_type));
+                throw api::Exception(node.Mark(), "Unsupported destination type for bool field: ", DestinationType::to_string(dest_type));
         }
     }
 
@@ -252,13 +252,13 @@ namespace outstation {
     template <typename From, typename To>
     void MeasurementConfigReadVisitor<T>::handle_single_register_numeric(const YAML::Node& node, const util::accessor_t<T, From>& accessor)
     {
-        const auto dest_type = util::yaml::require_enum<SourceType>(node);
+        const auto dest_type = util::yaml::require_enum<DestinationType>(node);
 
         switch(dest_type)
         {
-            case SourceType::Value::none:
+            case DestinationType::Value::none:
                 break;
-            case SourceType::Value::holding_register:
+            case DestinationType::Value::holding_register:
             {
                 const auto index = util::yaml::get::index(node);
                 const auto scale = util::yaml::get::scale(node);
@@ -274,7 +274,7 @@ namespace outstation {
                 });
                 break;
             }
-            case SourceType::Value::input_register:
+            case DestinationType::Value::input_register:
             {
                 const auto index = util::yaml::get::index(node);
                 const auto scale = util::yaml::get::scale(node);
@@ -291,7 +291,7 @@ namespace outstation {
                 break;
             }
             default:
-                throw api::Exception(node.Mark(), "Unsupported destination type for numeric field: ", SourceType::to_string(dest_type));
+                throw api::Exception(node.Mark(), "Unsupported destination type for numeric field: ", DestinationType::to_string(dest_type));
         }
     }
 
@@ -299,13 +299,13 @@ namespace outstation {
     template <typename From, typename To>
     void MeasurementConfigReadVisitor<T>::handle_multiple_registers_numeric(const YAML::Node& node, const util::accessor_t<T, From>& accessor)
     {
-        const auto dest_type = util::yaml::require_enum<SourceType>(node);
+        const auto dest_type = util::yaml::require_enum<DestinationType>(node);
 
         switch(dest_type)
         {
-            case SourceType::Value::none:
+            case DestinationType::Value::none:
                 break;
-            case SourceType::Value::holding_register:
+            case DestinationType::Value::holding_register:
             {
                 const auto lower_index = util::yaml::require_integer<uint16_t>(node, keys::lower_index);
                 const auto upper_index = util::yaml::require_integer<uint16_t>(node, keys::upper_index);
@@ -325,7 +325,7 @@ namespace outstation {
                 });
                 break;
             }
-            case SourceType::Value::input_register:
+            case DestinationType::Value::input_register:
             {
                 const auto lower_index = util::yaml::require_integer<uint16_t>(node, keys::lower_index);
                 const auto upper_index = util::yaml::require_integer<uint16_t>(node, keys::upper_index);
@@ -346,7 +346,7 @@ namespace outstation {
                 break;
             }
             default:
-                throw api::Exception(node.Mark(), "Unsupported destination type for numeric field: ", SourceType::to_string(dest_type));
+                throw api::Exception(node.Mark(), "Unsupported destination type for numeric field: ", DestinationType::to_string(dest_type));
         }
     }
 
@@ -366,13 +366,13 @@ namespace outstation {
     template <class T>
     void MeasurementConfigReadVisitor<T>::handle_mapped_enum(const YAML::Node& node, enum_update_handler_vec_t& enum_handlers)
     {
-        const auto dest_type = util::yaml::require_enum<SourceType>(node);
+        const auto dest_type = util::yaml::require_enum<DestinationType>(node);
 
         switch(dest_type)
         {
-            case SourceType::Value::none:
+            case DestinationType::Value::none:
                 break;
-            case SourceType::Value::coil:
+            case DestinationType::Value::coil:
             {
                 const auto index = util::yaml::get::index(node);
                 const auto value = util::yaml::require(node, util::keys::value).as<bool>();
@@ -384,7 +384,7 @@ namespace outstation {
 
                 break;
             }
-            case SourceType::Value::discrete_input:
+            case DestinationType::Value::discrete_input:
             {
                 const auto index = util::yaml::get::index(node);
                 const auto value = util::yaml::require(node, util::keys::value).as<bool>();
@@ -396,7 +396,7 @@ namespace outstation {
 
                 break;
             }
-            case SourceType::Value::holding_register:
+            case DestinationType::Value::holding_register:
             {
                 const auto index = util::yaml::get::index(node);
                 const auto value = util::yaml::require_integer<uint16_t>(node, util::keys::value);
@@ -408,7 +408,7 @@ namespace outstation {
 
                 break;
             }
-            case SourceType::Value::input_register:
+            case DestinationType::Value::input_register:
             {
                 const auto index = util::yaml::get::index(node);
                 const auto value = util::yaml::require_integer<uint16_t>(node, util::keys::value);
@@ -421,7 +421,7 @@ namespace outstation {
                 break;
             }
             default:
-                throw api::Exception(node.Mark(), "Unsupported destination type for enum field: ", SourceType::to_string(dest_type));
+                throw api::Exception(node.Mark(), "Unsupported destination type for enum field: ", DestinationType::to_string(dest_type));
         }
     }
 
