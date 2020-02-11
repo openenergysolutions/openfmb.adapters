@@ -4,11 +4,6 @@
 namespace adapter {
     namespace schema {
 
-
-        void StringProperty::visit(IVisitor& visitor) {
-            visitor.on_property(*this);
-        }
-
         void ObjectProperty::visit(IVisitor& visitor) {
             visitor.begin(*this);
             for(auto& field : this->fields) {
@@ -16,8 +11,6 @@ namespace adapter {
             }
             visitor.end(*this);
         }
-
-
 
     }
 }
