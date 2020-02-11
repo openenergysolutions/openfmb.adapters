@@ -12,6 +12,8 @@ namespace adapter {
             visitor.end(*this);
         }
 
+        void add_properties(std::vector<property_ptr_t>& vector) {}
+
     }
 }
 

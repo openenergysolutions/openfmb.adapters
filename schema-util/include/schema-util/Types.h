@@ -35,7 +35,7 @@ namespace adapter {
             virtual void visit(IVisitor& visitor) = 0;
         };
 
-        using property_ptr_t = std::unique_ptr<IProperty>;
+        using property_ptr_t = std::shared_ptr<IProperty>;
 
         class PropertyBase  : public IProperty {
             const std::string name;
@@ -71,13 +71,19 @@ namespace adapter {
         };
 
         template <class T>
-        class BoundedProperty : public TypedProperty<T> {
+        class BoundedProperty : public PropertyBase {
         public:
+            const T default_value;
             Bound<T> min;
             Bound<T> max;
 
+            const T& get_default_value() const {
+                return this->default_value;
+            }
+
             BoundedProperty(std::string name, bool required, T default_value, Bound<T> min, Bound<T> max) :
-                 TypedProperty<T>(std::move(name), required, default_value),
+                 PropertyBase(std::move(name), required),
+                 default_value(std::move(default_value)),
                  min(min),
                  max(max)
             {}
@@ -101,11 +107,12 @@ namespace adapter {
         public:
             virtual ~IVisitor() = default;
 
-            virtual void begin(const ObjectProperty&) = 0;
-            virtual void on_property(const TypedProperty<std::string>&) = 0;
-            virtual void on_property(const BoundedProperty<float>&) = 0;
-            virtual void on_property(const BoundedProperty<int64_t>&) = 0;
-            virtual void end(const ObjectProperty&) = 0;
+            virtual void begin(const ObjectProperty& prop) = 0;
+            virtual void on_property(const TypedProperty<std::string>& prop) = 0;
+            virtual void on_property(const BoundedProperty<float>& prop) = 0;
+            virtual void on_property(const BoundedProperty<int64_t>& prop) = 0;
+            virtual void on_property(const BoundedProperty<uint16_t>& prop) = 0;
+            virtual void end(const ObjectProperty& prop) = 0;
         };
 
         template <class T>
@@ -121,16 +128,23 @@ namespace adapter {
 
         /// ---------  DSL for building up complex schemas -----------
 
-        property_ptr_t string_property(std::string name, bool required, std::string default_value)
+        template<class T>
+        property_ptr_t typed_property(std::string name, bool required, T default_value)
         {
-            return std::make_unique<TypedProperty<std::string>>(std::move(name), required, std::move(default_value));
+            return std::make_unique<TypedProperty<T>>(std::move(name), required, std::move(default_value));
+        }
+
+        template<class T>
+        property_ptr_t bounded_property(std::string name, bool required, T default_value, Bound<T> min, Bound<T> max)
+        {
+            return std::make_unique<BoundedProperty<T>>(std::move(name), required, std::move(default_value), min, max);
         }
 
         template <class ... Properties>
         property_ptr_t object_property(const std::string& name, bool required, Properties... properties)
         {
             std::vector<property_ptr_t> fields;
-            add_properties(properties ...);
+            add_properties(fields, properties ...);
             return std::make_unique<ObjectProperty>(name, required, std::move(fields));
         }
 
@@ -142,8 +156,7 @@ namespace adapter {
         }
 
         // base case
-        template <class P, class ... Properties>
-        void add_properties(std::vector<property_ptr_t>& vector) {}
+        void add_properties(std::vector<property_ptr_t>& vector);
 
     }
 }
