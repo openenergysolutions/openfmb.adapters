@@ -9,16 +9,26 @@
 namespace adapter {
     namespace schema {
 
-    class JSONSchemaPrinter : public IVisitor {
+    class JSONSchemaPrinter final : public IVisitor {
         size_t indent = 0;
         std::ostream& output;
 
 
         void print_indent();
 
+        // called after construction
+        void declare_schema(std::string schema_id);
+
+        // called during destruction
+        void finalize_schema();
+
     public:
 
-        explicit JSONSchemaPrinter(std::ostream &output);
+        explicit JSONSchemaPrinter(std::ostream &output, std::string schema_id);
+
+        ~JSONSchemaPrinter() override;
+
+        // ----- implement IVisitor -------
 
         void begin(const ObjectProperty &prop) override;
 

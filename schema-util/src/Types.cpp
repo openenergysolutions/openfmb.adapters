@@ -4,6 +4,12 @@
 namespace adapter {
     namespace schema {
 
+        template <>
+        std::string TypedPropertyBase<std::string>::get_schema_type_name()
+        {
+            return "string";
+        }
+
         void ObjectProperty::visit(IVisitor& visitor) {
             visitor.begin(*this);
             for(auto& field : this->fields) {

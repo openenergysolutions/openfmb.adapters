@@ -54,36 +54,42 @@ namespace adapter {
         };
 
         template <class T>
-        class TypedProperty  : public PropertyBase {
+        class TypedPropertyBase  : public PropertyBase {
             const T default_value;
 
         public:
-            TypedProperty(std::string name, bool required, T default_value) :
-                PropertyBase(std::move(name), required),
-                default_value(std::move(default_value))
+            TypedPropertyBase(std::string name, bool required, T default_value) :
+                    PropertyBase(std::move(name), required),
+                    default_value(std::move(default_value))
             {}
 
             const T& get_default_value() const {
                 return this->default_value;
             }
 
+            std::string get_schema_type_name();
+        };
+
+        template <class T>
+        class TypedProperty  : public TypedPropertyBase<T> {
+
+
+        public:
+            TypedProperty(std::string name, bool required, T default_value) :
+                TypedPropertyBase<T>(std::move(name), required, std::move(default_value))
+            {}
+
             void visit(IVisitor& visitor) override;
         };
 
         template <class T>
-        class BoundedProperty : public PropertyBase {
+        class BoundedProperty : public TypedPropertyBase<T> {
         public:
-            const T default_value;
             Bound<T> min;
             Bound<T> max;
 
-            const T& get_default_value() const {
-                return this->default_value;
-            }
-
             BoundedProperty(std::string name, bool required, T default_value, Bound<T> min, Bound<T> max) :
-                 PropertyBase(std::move(name), required),
-                 default_value(std::move(default_value)),
+                 TypedPropertyBase<T>(std::move(name), required, std::move(default_value)),
                  min(min),
                  max(max)
             {}
