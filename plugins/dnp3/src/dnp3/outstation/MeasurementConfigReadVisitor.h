@@ -83,11 +83,11 @@ namespace dnp3 {
         private:
             void map_to_binary(const YAML::Node& node, const util::accessor_t<T, bool>& accessor);
 
-            void map_to_analog(const YAML::Node& node, const util::accessor_t<T, float>& accessor);
+            template <typename IntT>
+            void map_to_analog(const YAML::Node& node, const util::accessor_t<T, IntT>& accessor);
 
-            void map_to_analog(const YAML::Node& node, const util::accessor_t<T, int64_t>& accessor);
-
-            void map_to_counter(const YAML::Node& node, const util::accessor_t<T, int64_t>& accessor);
+            template <typename IntT>
+            void map_to_counter(const YAML::Node& node, const util::accessor_t<T, IntT>& accessor);
 
             void map_to_binary(const YAML::Node& node, const util::accessor_t<T, int>& accessor, google::protobuf::EnumDescriptor const* descriptor);
 
@@ -128,7 +128,19 @@ namespace dnp3 {
         void MeasurementConfigReadVisitor<T>::handle_mapped_field(const YAML::Node& node,
                                                                   const util::accessor_t<T, int32_t>& accessor)
         {
-            throw api::Exception(node.Mark(), "DNP3 outstation subscriptions do not support int32 mapping");
+            const auto dest_type = util::yaml::require_enum<DestinationType>(node);
+            switch (dest_type) {
+            case (DestinationType::Value::none):
+                break;
+            case (DestinationType::Value::analog):
+                this->map_to_analog(node, accessor);
+                break;
+            case (DestinationType::Value::counter):
+                this->map_to_counter(node, accessor);
+                break;
+            default:
+                throw api::Exception(node.Mark(), "Unsupported destination type for int32 field: ", DestinationType::to_string(dest_type));
+            }
         }
 
         template <class T>
@@ -222,7 +234,8 @@ namespace dnp3 {
         }
 
         template <class T>
-        void MeasurementConfigReadVisitor<T>::map_to_analog(const YAML::Node& node, const util::accessor_t<T, float>& accessor)
+        template <typename IntT>
+        void MeasurementConfigReadVisitor<T>::map_to_analog(const YAML::Node& node, const util::accessor_t<T, IntT>& accessor)
         {
             const auto index = util::yaml::require_integer<uint16_t>(node, util::keys::index);
             const auto scale = util::yaml::require(node, util::keys::scale).as<float>();
@@ -231,7 +244,7 @@ namespace dnp3 {
                 [index, scale, accessor](opendnp3::UpdateBuilder& builder, const T& profile) {
                     accessor->if_present(
                         profile,
-                        [&](float value) {
+                        [&](IntT value) {
                             builder.Update(
                                 opendnp3::Analog(
                                     value * scale,
@@ -249,34 +262,8 @@ namespace dnp3 {
         }
 
         template <class T>
-        void MeasurementConfigReadVisitor<T>::map_to_analog(const YAML::Node& node, const util::accessor_t<T, int64_t>& accessor)
-        {
-            const auto index = util::yaml::require_integer<uint16_t>(node, util::keys::index);
-            const auto scale = util::yaml::require(node, util::keys::scale).as<float>();
-
-            this->handlers.push_back(
-                [index, scale, accessor](opendnp3::UpdateBuilder& builder, const T& profile) {
-                    accessor->if_present(
-                        profile,
-                        [&](int64_t value) {
-                            builder.Update(
-                                opendnp3::Analog(
-                                    value * scale,
-                                    opendnp3::Flags(0x01),
-                                    // for the time being, let's use the message timestamp for the DNP3 time
-                                    convert(util::profile_info<T>::get_message_info(profile).messagetimestamp())),
-                                index);
-                        });
-                });
-
-            opendnp3::AnalogConfig config{};
-            config.svariation = default_var.analog_static;
-            config.evariation = default_var.analog_event;
-            this->db_config.analog_input[index] = config;
-        }
-
-        template <class T>
-        void MeasurementConfigReadVisitor<T>::map_to_counter(const YAML::Node& node, const util::accessor_t<T, int64_t>& accessor)
+        template <typename IntT>
+        void MeasurementConfigReadVisitor<T>::map_to_counter(const YAML::Node& node, const util::accessor_t<T, IntT>& accessor)
         {
             const auto index = util::yaml::require_integer<uint16_t>(node, util::keys::index);
 
@@ -284,7 +271,7 @@ namespace dnp3 {
                 [index, accessor](opendnp3::UpdateBuilder& builder, const T& profile) {
                     accessor->if_present(
                         profile,
-                        [&](int64_t value) {
+                        [&](IntT value) {
                             builder.Update(
                                 get_counter(value, util::profile_info<T>::get_message_info(profile).messagetimestamp()),
                                 index);

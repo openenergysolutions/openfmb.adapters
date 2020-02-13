@@ -91,10 +91,32 @@ namespace dnp3 {
 
             void handle_mapped_int32(const YAML::Node& node, const util::accessor_t<T, int32_t>& accessor) override
             {
+                const auto command_type = util::yaml::require_enum<CommandSourceType>(node);
+
+                switch (command_type) {
+                case CommandSourceType::Value::none:
+                    break;
+                case CommandSourceType::Value::analog_output:
+                    this->handle_numeric_mapped_from_ao(node, accessor);
+                    break;
+                default:
+                    throw api::Exception(node.Mark(), "Unsupported command type for int32_t: ", CommandSourceType::to_string(command_type));
+                }
             }
 
             void handle_mapped_int64(const YAML::Node& node, const util::accessor_t<T, int64_t>& accessor) override
             {
+                const auto command_type = util::yaml::require_enum<CommandSourceType>(node);
+
+                switch (command_type) {
+                case CommandSourceType::Value::none:
+                    break;
+                case CommandSourceType::Value::analog_output:
+                    this->handle_numeric_mapped_from_ao(node, accessor);
+                    break;
+                default:
+                    throw api::Exception(node.Mark(), "Unsupported command type for int64_t: ", CommandSourceType::to_string(command_type));
+                }
             }
 
             void handle_mapped_float(const YAML::Node& node, const util::accessor_t<T, float>& accessor) override
@@ -105,7 +127,7 @@ namespace dnp3 {
                 case CommandSourceType::Value::none:
                     break;
                 case CommandSourceType::Value::analog_output:
-                    this->handle_float_mapped_from_ao(node, accessor);
+                    this->handle_numeric_mapped_from_ao(node, accessor);
                     break;
                 default:
                     throw api::Exception(node.Mark(), "Unsupported command type for float: ", CommandSourceType::to_string(command_type));
@@ -166,7 +188,8 @@ namespace dnp3 {
                     });
             }
 
-            void handle_float_mapped_from_ao(const YAML::Node& node, const util::accessor_t<T, float>& accessor)
+            template <typename IntT>
+            void handle_numeric_mapped_from_ao(const YAML::Node& node, const util::accessor_t<T, IntT>& accessor)
             {
                 const auto action = util::yaml::require_enum<ProfileAction>(node);
 
@@ -175,7 +198,7 @@ namespace dnp3 {
                     [action, accessor, data = this->shared_data, scale = util::yaml::require(node, util::keys::scale).as<double>()](api::IPublisher& publisher, const opendnp3::AnalogOutputDouble64& ao, api::Logger& logger) -> opendnp3::CommandStatus {
                         if (action == ProfileAction::Value::clear_and_update)
                             data->init();
-                        data->set(accessor, static_cast<float>(ao.value * scale));
+                        data->set(accessor, static_cast<IntT>(ao.value * scale));
                         if (action == ProfileAction::Value::update_and_publish) {
                             data->publish(publisher);
                         }
