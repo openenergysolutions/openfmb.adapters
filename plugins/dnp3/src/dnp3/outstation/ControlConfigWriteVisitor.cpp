@@ -43,22 +43,17 @@ namespace dnp3 {
 
         void ControlConfigWriteVisitor::write_mapped_int32_keys(YAML::Emitter& out)
         {
-            // throw api::Exception("int32 mapping not supported in DNP3 outstation control profiles");
+            write_mapped_numeric_keys(out);
         }
 
         void ControlConfigWriteVisitor::write_mapped_int64_keys(YAML::Emitter& out)
         {
-            // throw api::Exception("int64 mapping not supported in DNP3 outstation control profiles");
+            write_mapped_numeric_keys(out);
         }
 
         void ControlConfigWriteVisitor::write_mapped_float_keys(YAML::Emitter& out)
         {
-            out << YAML::Key << CommandSourceType::label << YAML::Value << CommandSourceType::none;
-            out << YAML::Comment(util::enumeration::get_value_set_from_list<CommandSourceType>({ CommandSourceType::Value::none, CommandSourceType::Value::analog_output }));
-            out << YAML::Key << ProfileAction::label << YAML::Value << ProfileAction::update;
-            out << YAML::Comment(util::enumeration::get_value_set<ProfileAction>());
-            out << YAML::Key << util::keys::index << YAML::Value << 0;
-            out << YAML::Key << util::keys::scale << YAML::Value << 1.0;
+            write_mapped_numeric_keys(out);
         }
 
         void ControlConfigWriteVisitor::write_mapped_enum_keys(YAML::Emitter& out,
@@ -86,6 +81,16 @@ namespace dnp3 {
         void ControlConfigWriteVisitor::write_mapped_schedule_parameter_keys(YAML::Emitter& out)
         {
             //throw api::Exception("schedule parameter mapping not supported in DNP3 outstation control profiles");
+        }
+
+        void ControlConfigWriteVisitor::write_mapped_numeric_keys(YAML::Emitter& out)
+        {
+            out << YAML::Key << CommandSourceType::label << YAML::Value << CommandSourceType::none;
+            out << YAML::Comment(util::enumeration::get_value_set_from_list<CommandSourceType>({ CommandSourceType::Value::none, CommandSourceType::Value::analog_output }));
+            out << YAML::Key << ProfileAction::label << YAML::Value << ProfileAction::update;
+            out << YAML::Comment(util::enumeration::get_value_set<ProfileAction>());
+            out << YAML::Key << util::keys::index << YAML::Value << 0;
+            out << YAML::Key << util::keys::scale << YAML::Value << 1.0;
         }
     }
 }
