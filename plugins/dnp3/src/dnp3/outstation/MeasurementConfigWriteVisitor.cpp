@@ -38,7 +38,9 @@ namespace dnp3 {
 
         void MeasurementConfigWriteVisitor::write_mapped_int32_keys(YAML::Emitter& out)
         {
-            out << YAML::Comment("int32 mapping not supported in DNP3 outstation measurement profiles");
+            write_scaled_keys(
+                out,
+                { DestinationType::Value::none, DestinationType::Value::analog, DestinationType::Value::counter });
         }
 
         void MeasurementConfigWriteVisitor::write_mapped_int64_keys(YAML::Emitter& out)

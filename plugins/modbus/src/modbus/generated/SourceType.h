@@ -27,16 +27,25 @@ struct SourceType
     {
         // field is not mapped
         none,
+        // field is mapped out of a coil
+        coil,
+        // field is mapped out of a discrete input
+        discrete_input,
         // field is mapped out of a holding register
         holding_register,
+        // field is mapped out of an input register
+        input_register,
     };
 
     static const char none[];
+    static const char coil[];
+    static const char discrete_input[];
     static const char holding_register[];
+    static const char input_register[];
 
     static constexpr const char* label = "source-type";
 
-    static const std::array<Value, 2> values;
+    static const std::array<Value, 5> values;
 
     static std::string to_string(Value value);
     static Value from_string(const std::string& name);

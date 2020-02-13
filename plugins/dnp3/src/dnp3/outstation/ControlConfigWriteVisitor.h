@@ -34,6 +34,9 @@ namespace dnp3 {
             write_mapped_enum_keys(YAML::Emitter& out, google::protobuf::EnumDescriptor const* descriptor) override;
 
             void write_mapped_schedule_parameter_keys(YAML::Emitter& out) override;
+
+        private:
+            void write_mapped_numeric_keys(YAML::Emitter& out);
         };
     }
 }

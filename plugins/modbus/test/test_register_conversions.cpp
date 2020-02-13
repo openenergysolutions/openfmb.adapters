@@ -1,7 +1,7 @@
 #include "catch.hpp"
 
-#include "modbus/Register16.h"
-#include "modbus/Register32.h"
+#include "Register16.h"
+#include "Register32.h"
 
 using namespace adapter::modbus;
 

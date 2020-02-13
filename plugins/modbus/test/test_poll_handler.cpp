@@ -1,18 +1,24 @@
 #include "catch.hpp"
 
-#include "modbus/IRequestBuilder.h"
-#include "modbus/PollHandler.h"
+#include "master/IRequestBuilder.h"
+#include "master/PollHandler.h"
 
-using namespace adapter::modbus;
+using namespace adapter::modbus::master;
 
 class RequestBuilderMock : public IRequestBuilder {
 public:
     std::vector<::modbus::ReadHoldingRegistersRequest> read_holding_register_requests;
 
+    void add(const ::modbus::ReadCoilsRequest& request) override {}
+
+    void add(const ::modbus::ReadDiscreteInputsRequest& request) override {}
+
     void add(const ::modbus::ReadHoldingRegistersRequest& request) override
     {
         read_holding_register_requests.push_back(request);
     }
+
+    void add(const ::modbus::ReadInputRegistersRequest& request) override {}
 };
 
 TEST_CASE("Auto-polling")
@@ -32,7 +38,7 @@ TEST_CASE("Auto-polling")
                 handler.add_holding_register(45, nullptr);
                 handler.add_holding_register(46, nullptr);
 
-                handler.configure(AutoPollConfig(0), builder);
+                handler.configure(AutoPollConfig(0, 0), builder);
 
                 REQUIRE(builder.read_holding_register_requests.size() == 1);
                 REQUIRE(builder.read_holding_register_requests[0].starting_address == 42);
@@ -45,7 +51,7 @@ TEST_CASE("Auto-polling")
                     handler.add_holding_register(i, nullptr);
                 }
 
-                handler.configure(AutoPollConfig(0), builder);
+                handler.configure(AutoPollConfig(0, 0), builder);
 
                 REQUIRE(builder.read_holding_register_requests.size() == 2);
                 REQUIRE(builder.read_holding_register_requests[0].starting_address == 0);
@@ -59,7 +65,7 @@ TEST_CASE("Auto-polling")
                 handler.add_holding_register(0, nullptr);
                 handler.add_holding_register(2, nullptr);
 
-                handler.configure(AutoPollConfig(0), builder);
+                handler.configure(AutoPollConfig(0, 0), builder);
 
                 REQUIRE(builder.read_holding_register_requests.size() == 2);
                 REQUIRE(builder.read_holding_register_requests[0].starting_address == 0x00);
@@ -76,7 +82,7 @@ TEST_CASE("Auto-polling")
                 handler.add_holding_register(5, nullptr);
                 handler.add_holding_register(6, nullptr);
 
-                handler.configure(AutoPollConfig(0), builder);
+                handler.configure(AutoPollConfig(0, 0), builder);
 
                 REQUIRE(builder.read_holding_register_requests.size() == 3);
                 REQUIRE(builder.read_holding_register_requests[0].starting_address == 0);
@@ -100,7 +106,7 @@ TEST_CASE("Auto-polling")
                 handler.add_holding_register(45, nullptr);
                 handler.add_holding_register(46, nullptr);
 
-                handler.configure(AutoPollConfig(allowed_discontinuity), builder);
+                handler.configure(AutoPollConfig(0, allowed_discontinuity), builder);
 
                 REQUIRE(builder.read_holding_register_requests.size() == 1);
                 REQUIRE(builder.read_holding_register_requests[0].starting_address == 42);
@@ -114,7 +120,7 @@ TEST_CASE("Auto-polling")
                 handler.add_holding_register(63, nullptr);
                 handler.add_holding_register(64, nullptr);
 
-                handler.configure(AutoPollConfig(allowed_discontinuity), builder);
+                handler.configure(AutoPollConfig(0, allowed_discontinuity), builder);
 
                 REQUIRE(builder.read_holding_register_requests.size() == 1);
                 REQUIRE(builder.read_holding_register_requests[0].starting_address == 42);
@@ -127,7 +133,7 @@ TEST_CASE("Auto-polling")
                 handler.add_holding_register(43, nullptr);
                 handler.add_holding_register(142, nullptr);
 
-                handler.configure(AutoPollConfig(allowed_discontinuity), builder);
+                handler.configure(AutoPollConfig(0, allowed_discontinuity), builder);
 
                 REQUIRE(builder.read_holding_register_requests.size() == 2);
                 REQUIRE(builder.read_holding_register_requests[0].starting_address == 42);
@@ -141,7 +147,7 @@ TEST_CASE("Auto-polling")
                 handler.add_holding_register(0, nullptr);
                 handler.add_holding_register(125, nullptr);
 
-                handler.configure(AutoPollConfig(1000), builder);
+                handler.configure(AutoPollConfig(0, 1000), builder);
 
                 REQUIRE(builder.read_holding_register_requests.size() == 2);
                 REQUIRE(builder.read_holding_register_requests[0].starting_address == 0);
@@ -156,7 +162,7 @@ TEST_CASE("Auto-polling")
                 handler.add_holding_register(124, nullptr);
                 handler.add_holding_register(125, nullptr);
 
-                handler.configure(AutoPollConfig(1000), builder);
+                handler.configure(AutoPollConfig(0, 1000), builder);
 
                 REQUIRE(builder.read_holding_register_requests.size() == 2);
                 REQUIRE(builder.read_holding_register_requests[0].starting_address == 0);
