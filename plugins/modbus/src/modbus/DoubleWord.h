@@ -15,6 +15,7 @@ namespace modbus {
 
         static DoubleWord get(uint32_t value);
     };
+
 }
 }
 

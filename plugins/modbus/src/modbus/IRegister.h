@@ -12,6 +12,7 @@ namespace modbus {
 
         virtual void set(uint16_t value) = 0;
     };
+
 }
 }
 

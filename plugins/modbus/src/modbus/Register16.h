@@ -47,6 +47,7 @@ namespace modbus {
         bool is_value_set = false;
         uint16_t value = 0;
     };
+
 }
 }
 

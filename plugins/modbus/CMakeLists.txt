@@ -1,85 +1,110 @@
 set(MODBUS_PUBLIC_HEADERS
-        include/modbus/PluginFactory.h
+    ./include/modbus/master/PluginFactory.h
+    ./include/modbus/outstation/PluginFactory.h
 )
 
 set(MODBUS_SOURCES
-        src/modbus/Bit.h
-        src/modbus/CommandOptions.h
-        src/modbus/CommandSinkActions.h
-        src/modbus/DoubleWord.h
-        src/modbus/DoubleWord.cpp
-        src/modbus/PublishConfigReadVisitor.h
-        src/modbus/SubscribeConfigReadVisitor.h
-        src/modbus/ConfigStrings.h
-        src/modbus/HeartbeatTransaction.h
-        src/modbus/ModifyRegisterOp.h
-        src/modbus/ModifyRegisterOp.cpp
-        src/modbus/ModifyRegisterTransaction.h
-        src/modbus/ModifyRegisterTransactionBase.h
-        src/modbus/ModifyRegisterTransactionBase.cpp
-        src/modbus/ICommandConfigBuilder.h
-        src/modbus/CommandConfiguration.h
-        src/modbus/IConfigurationBuilder.h
-        src/modbus/IRegister.h
-        src/modbus/IPollHandler.h
-        src/modbus/IRequestBuilder.h
-        src/modbus/MeasurementConfigWriteVisitor.h
-        src/modbus/MeasurementConfigWriteVisitor.cpp
-        src/modbus/MultipleRegisterEnumMapping.h
-        src/modbus/MultipleRegisterEnumMapping.cpp
-        src/modbus/ControlConfigWriteVisitor.h
-        src/modbus/ControlConfigWriteVisitor.cpp
-        src/modbus/PollHandler.h
-        src/modbus/PollHandler.cpp
-        src/modbus/Plugin.h
-        src/modbus/Plugin.cpp
-        src/modbus/PluginFactory.cpp
-        src/modbus/Register16.h
-        src/modbus/Register32.h
-        src/modbus/ICachedValue.h
-        src/modbus/ITransactionProcessor.h
-        src/modbus/TransactionProcessor.h
-        src/modbus/TransactionProcessor.cpp
-        src/modbus/ITransaction.h
-        src/modbus/PollTransaction.h
-        src/modbus/PollTransaction.cpp
-        src/modbus/CommandSubscriptionHandler.h
-        src/modbus/CommandSink.cpp
-        src/modbus/CommandSink.h
-        src/modbus/SessionWrapper.h
-        src/modbus/SinglePollTransaction.h
-        src/modbus/SingleRegisterEnumMapping.h
-        src/modbus/SingleRegisterEnumMapping.cpp
-        src/modbus/WriteRegisterTransaction.h
-        src/modbus/WriteRegisterTransaction.cpp
-        src/modbus/WriteMultipleRegistersTransaction.h
-        src/modbus/WriteMultipleRegistersTransaction.cpp
-        src/modbus/WriteSingleCoilTransaction.h
-        src/modbus/WriteSingleCoilTransaction.cpp
-        src/modbus/FlipSingleCoilTransaction.h
-        src/modbus/FlipSingleCoilTransaction.cpp
-        src/modbus/OrderedTransaction.cpp
-        src/modbus/OrderedTransaction.h
-        src/modbus/CommandSinkActions.h
-        src/modbus/SessionWrapper.h
-        src/modbus/CommandOptions.h
-        # generated enums
-        src/modbus/generated/BitwiseOperation.h
-        src/modbus/generated/BitwiseOperation.cpp
-        src/modbus/generated/EnumMappingType.h
-        src/modbus/generated/EnumMappingType.cpp
-        src/modbus/generated/LogLevel.h
-        src/modbus/generated/LogLevel.cpp
-        src/modbus/generated/OutputType.h
-        src/modbus/generated/OutputType.cpp
-        src/modbus/generated/RegisterMapping.h
-        src/modbus/generated/RegisterMapping.cpp
-        src/modbus/generated/SourceType.h
-        src/modbus/generated/SourceType.cpp)
+    # shared files
+    ./src/modbus/ConfigStrings.h
+    ./src/modbus/DoubleWord.cpp
+    ./src/modbus/DoubleWord.h
+    ./src/modbus/ICachedValue.h
+    ./src/modbus/IRegister.h
+    ./src/modbus/LoggingLevelConversion.h
+    ./src/modbus/Register16.h
+    ./src/modbus/Register32.h
+    # master files
+    ./src/modbus/master/Bit.h
+    ./src/modbus/master/CommandConfiguration.h
+    ./src/modbus/master/CommandOptions.h
+    ./src/modbus/master/CommandSink.cpp
+    ./src/modbus/master/CommandSink.h
+    ./src/modbus/master/CommandSinkActions.h
+    ./src/modbus/master/CommandSubscriptionHandler.h
+    ./src/modbus/master/ControlConfigWriteVisitor.cpp
+    ./src/modbus/master/ControlConfigWriteVisitor.h
+    ./src/modbus/master/FlipSingleCoilTransaction.cpp
+    ./src/modbus/master/FlipSingleCoilTransaction.h
+    ./src/modbus/master/HeartbeatTransaction.h
+    ./src/modbus/master/ICommandConfigBuilder.h
+    ./src/modbus/master/IConfigurationBuilder.h
+    ./src/modbus/master/IPollHandler.h
+    ./src/modbus/master/IRequestBuilder.h
+    ./src/modbus/master/ITransaction.h
+    ./src/modbus/master/ITransactionProcessor.h
+    ./src/modbus/master/MeasurementConfigWriteVisitor.cpp
+    ./src/modbus/master/MeasurementConfigWriteVisitor.h
+    ./src/modbus/master/ModifyRegisterOp.cpp
+    ./src/modbus/master/ModifyRegisterOp.h
+    ./src/modbus/master/ModifyRegisterTransaction.h
+    ./src/modbus/master/ModifyRegisterTransactionBase.cpp
+    ./src/modbus/master/ModifyRegisterTransactionBase.h
+    ./src/modbus/master/MultipleRegisterEnumMapping.cpp
+    ./src/modbus/master/MultipleRegisterEnumMapping.h
+    ./src/modbus/master/OrderedTransaction.cpp
+    ./src/modbus/master/OrderedTransaction.h
+    ./src/modbus/master/Plugin.cpp
+    ./src/modbus/master/Plugin.h
+    ./src/modbus/master/PluginFactory.cpp
+    ./src/modbus/master/PollHandler.cpp
+    ./src/modbus/master/PollHandler.h
+    ./src/modbus/master/PollTransaction.cpp
+    ./src/modbus/master/PollTransaction.h
+    ./src/modbus/master/PublishConfigReadVisitor.h
+    ./src/modbus/master/SessionWrapper.h
+    ./src/modbus/master/SinglePollTransaction.h
+    ./src/modbus/master/SingleRegisterEnumMapping.cpp
+    ./src/modbus/master/SingleRegisterEnumMapping.h
+    ./src/modbus/master/SubscribeConfigReadVisitor.h
+    ./src/modbus/master/TransactionProcessor.cpp
+    ./src/modbus/master/TransactionProcessor.h
+    ./src/modbus/master/WriteMultipleRegistersTransaction.cpp
+    ./src/modbus/master/WriteMultipleRegistersTransaction.h
+    ./src/modbus/master/WriteRegisterTransaction.cpp
+    ./src/modbus/master/WriteRegisterTransaction.h
+    ./src/modbus/master/WriteSingleCoilTransaction.cpp
+    ./src/modbus/master/WriteSingleCoilTransaction.h
+    # outstation files
+    ./src/modbus/outstation/ControlConfigReadVisitor.h
+    ./src/modbus/outstation/ControlConfigWriteVisitor.cpp
+    ./src/modbus/outstation/ControlConfigWriteVisitor.h
+    ./src/modbus/outstation/ControlProfileBuilder.h
+    ./src/modbus/outstation/MeasurementConfigReadVisitor.h
+    ./src/modbus/outstation/MeasurementConfigWriteVisitor.cpp
+    ./src/modbus/outstation/MeasurementConfigWriteVisitor.h
+    ./src/modbus/outstation/ModbusDatabase.h
+    ./src/modbus/outstation/ModbusDatabase.cpp
+    ./src/modbus/outstation/Plugin.cpp
+    ./src/modbus/outstation/Plugin.h
+    ./src/modbus/outstation/PluginFactory.cpp
+    ./src/modbus/outstation/SubscriptionHandler.h
+    ./src/modbus/outstation/SubscriptionTypes.h
+    # generated enums
+    ./src/modbus/generated/BitwiseOperation.h
+    ./src/modbus/generated/BitwiseOperation.cpp
+    ./src/modbus/generated/CommandSourceType.h
+    ./src/modbus/generated/CommandSourceType.cpp
+    ./src/modbus/generated/DestinationType.h
+    ./src/modbus/generated/DestinationType.cpp
+    ./src/modbus/generated/EnumMappingType.h
+    ./src/modbus/generated/EnumMappingType.cpp
+    ./src/modbus/generated/LogLevel.h
+    ./src/modbus/generated/LogLevel.cpp
+    ./src/modbus/generated/OutputType.h
+    ./src/modbus/generated/OutputType.cpp
+    ./src/modbus/generated/ProfileAction.h
+    ./src/modbus/generated/ProfileAction.cpp
+    ./src/modbus/generated/RegisterMapping.h
+    ./src/modbus/generated/RegisterMapping.cpp
+    ./src/modbus/generated/SourceType.h
+    ./src/modbus/generated/SourceType.cpp)
 
 add_library(modbus-plugin STATIC ${MODBUS_PUBLIC_HEADERS} ${MODBUS_SOURCES})
 target_link_libraries(modbus-plugin PUBLIC adapter-util modbus-cpp PRIVATE exe4cpp ser4cpp asio)
-target_include_directories(modbus-plugin PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_include_directories(modbus-plugin
+    PUBLIC ./include
+    PRIVATE ./src/modbus
+)
 clang_tidy(modbus-plugin)
 clang_format(modbus-plugin EXCLUDES "/generated/")
 

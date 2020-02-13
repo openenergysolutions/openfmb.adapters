@@ -16,6 +16,7 @@ namespace modbus {
         constexpr const char* const adapter = "adapter";
         constexpr const char* const unit_identifier = "unit-identifier";
         constexpr const char* const always_write_multiple_registers = "always-write-multiple-registers";
+        constexpr const char* const max_num_connections = "max-num-connections";
 
         // heartbeat
         constexpr const char* const heartbeats = "heartbeats";
@@ -39,10 +40,12 @@ namespace modbus {
         constexpr const char* const bit = "bit";
         constexpr const char* const bits = "bits";
         constexpr const char* const pattern = "pattern";
+        constexpr const char* const actions = "actions";
 
         // controls
         constexpr const char* const action = "action";
     }
+
 }
 }
 
