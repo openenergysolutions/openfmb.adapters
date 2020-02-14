@@ -6,79 +6,46 @@
 namespace adapter {
     namespace schema {
 
-        void JSONSchemaPrinter::print_indent() {
-            for (auto i = 0; i < indent; ++i) {
-                this->output << "    ";
-            }
-        }
-
         void JSONSchemaPrinter::declare_schema(std::string schema_id)
         {
-            this->output << "{" << std::endl;
-            ++indent;
-            this->print_indent();
-            this->output << output::property("$schema", "http://json-schema.org/schema#") << std::endl;
-            this->print_indent();
-            this->output << output::property("id", schema_id) << std::endl;
-            this->print_indent();
-            this->output << output::begin_object("properties") << std::endl;
-            ++indent;
+            writer.write_property("$schema", "http://json-schema.org/schema#");
+            writer.write_property("id", schema_id);
+            writer.begin_object("properties");
         }
 
-        void JSONSchemaPrinter::finalize_schema()
+        void JSONSchemaPrinter::close_document()
         {
-            // close the properties tag
-            --indent;
-            this->print_indent();
-            this->output << "}" << std::endl;
-
-            //close the main schema braces
-            --indent;
-            this->print_indent();
-            this->output << "}" << std::endl;
+           writer.end_object();
+           writer.close_document();
         }
 
-
-        JSONSchemaPrinter::JSONSchemaPrinter(std::ostream &output, std::string schema_id) : output(output)
+        JSONSchemaPrinter::JSONSchemaPrinter(std::ostream &output, std::string schema_id) : writer(output)
         {
             this->declare_schema(std::move(schema_id));
         }
 
-        JSONSchemaPrinter::~JSONSchemaPrinter()
-        {
-            this->finalize_schema();
-        }
-
         void JSONSchemaPrinter::begin(const ObjectProperty &prop) {
-            print_indent();
-            this->output << output::begin_object(prop.get_name()) << std::endl;
-            ++indent;
+            this->writer.begin_object(prop.get_name());
         }
 
         void JSONSchemaPrinter::on_property(const TypedProperty<std::string> &prop) {
-            print_indent();
-            this->output << output::property(prop.get_name(), prop.get_default_value()) << std::endl;
+            this->writer.write_property(prop.get_name(), prop.get_default_value());
         }
 
         void JSONSchemaPrinter::on_property(const BoundedProperty<float> &prop) {
-            print_indent();
-            this->output << output::property(prop.get_name(), prop.get_default_value()) << std::endl;
+            this->writer.write_property(prop.get_name(), prop.get_default_value());
         }
 
         void JSONSchemaPrinter::on_property(const BoundedProperty<int64_t> &prop) {
-            print_indent();
-            this->output << output::property(prop.get_name(), prop.get_default_value()) << std::endl;
+            this->writer.write_property(prop.get_name(), prop.get_default_value());
         }
 
         void JSONSchemaPrinter::on_property(const BoundedProperty<uint16_t> &prop) {
-            print_indent();
-            this->output << output::property(prop.get_name(), prop.get_default_value()) << std::endl;
+            this->writer.write_property(prop.get_name(), prop.get_default_value());
         }
 
         void JSONSchemaPrinter::end(const ObjectProperty &prop) {
-            --indent;
-            print_indent();
-            this->output << "}" << std::endl;
+            this->writer.end_object();
         }
 
     }

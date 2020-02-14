@@ -4,29 +4,23 @@
 
 #include "Types.h"
 
-#include <ostream>
+#include "JSONWriter.h"
 
 namespace adapter {
     namespace schema {
 
     class JSONSchemaPrinter final : public IVisitor {
-        size_t indent = 0;
-        std::ostream& output;
 
-
-        void print_indent();
+        JSONWriter writer;
 
         // called after construction
         void declare_schema(std::string schema_id);
 
-        // called during destruction
-        void finalize_schema();
-
     public:
 
-        explicit JSONSchemaPrinter(std::ostream &output, std::string schema_id);
+        JSONSchemaPrinter(std::ostream &output, std::string schema_id);
 
-        ~JSONSchemaPrinter() override;
+        void close_document();
 
         // ----- implement IVisitor -------
 

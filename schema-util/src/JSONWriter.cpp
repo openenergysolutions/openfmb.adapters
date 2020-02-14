@@ -41,6 +41,7 @@ namespace adapter {
             switch(this->last_action) {
                 case(LastAction::close_document):
                     throw std::runtime_error("document closed");
+                case(LastAction::end_object):
                 case(LastAction::write_property):
                     this->output << std::endl;
                 default:

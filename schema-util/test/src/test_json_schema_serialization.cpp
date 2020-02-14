@@ -22,6 +22,7 @@ TEST_CASE( "schema serialization" )
 
         JSONSchemaPrinter visitor(std::cout, "https://www.github.com/openenergysolutions");
         schema->visit(visitor);
+        visitor.close_document();
     }
 
 }
