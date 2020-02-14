@@ -1,7 +1,7 @@
 
 #include "schema-util/JSONSchemaPrinter.h"
 
-#include "JSONOutput.h"
+#include "schema-util/JSONOutput.h"
 
 namespace adapter {
     namespace schema {
@@ -17,11 +17,11 @@ namespace adapter {
             this->output << "{" << std::endl;
             ++indent;
             this->print_indent();
-            this->output << property("$schema", "http://json-schema.org/schema#") << std::endl;
+            this->output << output::property("$schema", "http://json-schema.org/schema#") << std::endl;
             this->print_indent();
-            this->output << property("id", schema_id) << std::endl;
+            this->output << output::property("id", schema_id) << std::endl;
             this->print_indent();
-            this->output << begin_object("properties") << std::endl;
+            this->output << output::begin_object("properties") << std::endl;
             ++indent;
         }
 
@@ -51,28 +51,28 @@ namespace adapter {
 
         void JSONSchemaPrinter::begin(const ObjectProperty &prop) {
             print_indent();
-            this->output << begin_object(prop.get_name()) << std::endl;
+            this->output << output::begin_object(prop.get_name()) << std::endl;
             ++indent;
         }
 
         void JSONSchemaPrinter::on_property(const TypedProperty<std::string> &prop) {
             print_indent();
-            this->output << property(prop.get_name(), prop.get_default_value()) << std::endl;
+            this->output << output::property(prop.get_name(), prop.get_default_value()) << std::endl;
         }
 
         void JSONSchemaPrinter::on_property(const BoundedProperty<float> &prop) {
             print_indent();
-            this->output << property(prop.get_name(), prop.get_default_value()) << std::endl;
+            this->output << output::property(prop.get_name(), prop.get_default_value()) << std::endl;
         }
 
         void JSONSchemaPrinter::on_property(const BoundedProperty<int64_t> &prop) {
             print_indent();
-            this->output << property(prop.get_name(), prop.get_default_value()) << std::endl;
+            this->output << output::property(prop.get_name(), prop.get_default_value()) << std::endl;
         }
 
         void JSONSchemaPrinter::on_property(const BoundedProperty<uint16_t> &prop) {
             print_indent();
-            this->output << property(prop.get_name(), prop.get_default_value()) << std::endl;
+            this->output << output::property(prop.get_name(), prop.get_default_value()) << std::endl;
         }
 
         void JSONSchemaPrinter::end(const ObjectProperty &prop) {

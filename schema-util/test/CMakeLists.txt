@@ -2,6 +2,7 @@
 set(TEST_SOURCES
         src/main.cpp
         src/test_json_schema_serialization.cpp
+        src/test_json_writer.cpp
 )
 
 set(CPP_FORMAT_DIRS
