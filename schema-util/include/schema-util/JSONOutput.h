@@ -3,6 +3,7 @@
 #define OPENFMB_ADAPTER_JSONOUTPUT_H
 
 #include <ostream>
+#include <type_traits>
 
 namespace adapter {
     namespace schema {
@@ -44,6 +45,12 @@ namespace adapter {
                 return BeginObject<T>(id);
             }
 
+            template <class T>
+            bool is_type_quoted() {
+                return std::is_same<T, std::string>::value | std::is_array<T>::value;
+            }
+
+
             template<class T, class U>
             struct Property {
                 const T &id;
@@ -52,7 +59,12 @@ namespace adapter {
                 explicit Property(const T &id, const U &value) : id(id), value(value) {}
 
                 friend std::ostream &operator<<(std::ostream &output, const Property &prop) {
-                    output << quoted(prop.id) << ": " << quoted(prop.value);
+                    output << quoted(prop.id) << ": ";
+                    if(is_type_quoted<U>()) {
+                        output << quoted(prop.value);
+                    } else {
+                        output << prop.value;
+                    }
                     return output;
                 }
             };

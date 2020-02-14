@@ -26,13 +26,13 @@ namespace adapter {
 
         void begin(const ObjectProperty &prop) override;
 
-        void on_property(const TypedProperty <std::string> &prop) override;
+        void on_property(const StringProperty& prop) override;
 
         void on_property(const BoundedProperty<float> &prop) override;
 
-        void on_property(const BoundedProperty <int64_t> &prop) override;
+        void on_property(const BoundedProperty<int64_t> &prop) override;
 
-        void on_property(const BoundedProperty <uint16_t> &prop) override;
+        void on_property(const BoundedProperty<uint16_t> &prop) override;
 
         void end(const ObjectProperty &prop) override;
     };

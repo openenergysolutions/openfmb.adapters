@@ -25,11 +25,22 @@ namespace adapter {
         }
 
         void JSONSchemaPrinter::begin(const ObjectProperty &prop) {
-            this->writer.begin_object(prop.get_name());
+            //this->writer.begin_object(prop.get_name());
         }
 
-        void JSONSchemaPrinter::on_property(const TypedProperty<std::string> &prop) {
-            this->writer.write_property(prop.get_name(), prop.get_default_value());
+        void JSONSchemaPrinter::on_property(const StringProperty& prop) {
+            this->writer.begin_object(prop.get_name());
+            this->writer.write_property("description", prop.get_description());
+            this->writer.write_property("type", "string");
+            switch(prop.format) {
+                case(StringFormat::IPv4):
+                    this->writer.write_property("format", "ipv4");
+                    break;
+                default:
+                    break;
+            }
+
+            this->writer.end_object();
         }
 
         void JSONSchemaPrinter::on_property(const BoundedProperty<float> &prop) {
@@ -41,11 +52,20 @@ namespace adapter {
         }
 
         void JSONSchemaPrinter::on_property(const BoundedProperty<uint16_t> &prop) {
-            this->writer.write_property(prop.get_name(), prop.get_default_value());
+            this->writer.begin_object(prop.get_name());
+            this->writer.write_property("description", prop.get_description());
+            this->writer.write_property("type", "integer");
+            if(prop.min.valid) {
+                this->writer.write_property("minimum", prop.min.value);
+            }
+            if(prop.max.valid) {
+                this->writer.write_property("maximum", prop.max.value);
+            }
+            this->writer.end_object();
         }
 
         void JSONSchemaPrinter::end(const ObjectProperty &prop) {
-            this->writer.end_object();
+            //this->writer.end_object();
         }
 
     }
