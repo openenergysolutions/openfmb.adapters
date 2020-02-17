@@ -16,7 +16,7 @@ namespace adapter {
             visitor.on_property(*this);
         }
 
-        property_ptr_t string_property(const std::string& name, bool required, const std::string& default_value, StringFormat format, const std::string& description)
+        property_ptr_t string_property(const std::string& name, Required required, const std::string& default_value, StringFormat format, const std::string& description)
         {
             return std::make_unique<StringProperty>(name, required, default_value, format, description);
         }

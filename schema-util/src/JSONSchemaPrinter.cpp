@@ -1,7 +1,7 @@
 
-#include "schema-util/JSONSchemaPrinter.h"
+#include "JSONSchemaPrinter.h"
 
-#include "schema-util/JSONOutput.h"
+#include "JSONOutput.h"
 
 namespace adapter {
     namespace schema {
@@ -46,15 +46,15 @@ namespace adapter {
             this->writer.end_object();
         }
 
-        void JSONSchemaPrinter::on_property(const BoundedProperty<float> &prop) {
+        void JSONSchemaPrinter::on_property(const NumericProperty<float> &prop) {
             this->writer.write_property(prop.get_name(), prop.get_default_value());
         }
 
-        void JSONSchemaPrinter::on_property(const BoundedProperty<int64_t> &prop) {
+        void JSONSchemaPrinter::on_property(const NumericProperty<int64_t> &prop) {
             this->writer.write_property(prop.get_name(), prop.get_default_value());
         }
 
-        void JSONSchemaPrinter::on_property(const BoundedProperty<uint16_t> &prop) {
+        void JSONSchemaPrinter::on_property(const NumericProperty<uint16_t> &prop) {
             this->writer.begin_object(prop.get_name());
             this->writer.write_property("description", prop.get_description());
             this->writer.write_property("type", "integer");

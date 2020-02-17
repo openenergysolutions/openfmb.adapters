@@ -2,7 +2,7 @@
 #ifndef OPENFMB_ADAPTER_JSONSCHEMAPRINTER_H
 #define OPENFMB_ADAPTER_JSONSCHEMAPRINTER_H
 
-#include "Types.h"
+#include "schema-util/Types.h"
 
 #include "JSONWriter.h"
 
@@ -28,11 +28,11 @@ namespace adapter {
 
         void on_property(const StringProperty& prop) override;
 
-        void on_property(const BoundedProperty<float> &prop) override;
+        void on_property(const NumericProperty<float> &prop) override;
 
-        void on_property(const BoundedProperty<int64_t> &prop) override;
+        void on_property(const NumericProperty<int64_t> &prop) override;
 
-        void on_property(const BoundedProperty<uint16_t> &prop) override;
+        void on_property(const NumericProperty<uint16_t> &prop) override;
 
         void end(const ObjectProperty &prop) override;
     };

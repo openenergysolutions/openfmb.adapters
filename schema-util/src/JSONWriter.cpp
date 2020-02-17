@@ -1,5 +1,5 @@
 
-#include "schema-util/JSONWriter.h"
+#include "JSONWriter.h"
 
 namespace adapter {
     namespace schema {

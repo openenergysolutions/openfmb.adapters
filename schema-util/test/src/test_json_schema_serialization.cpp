@@ -2,7 +2,7 @@
 #include "catch.hpp"
 
 #include "schema-util/Types.h"
-#include "schema-util/JSONSchemaPrinter.h"
+#include "JSONSchemaPrinter.h"
 
 #include <iostream>
 
@@ -15,18 +15,18 @@ TEST_CASE( "schema serialization" )
     {
         const auto schema = object_property(
                 "endpoint",
-                true,
+                Required::yes,
                 "IP endpoint",
                 string_property(
                         "host",
-                        true,
+                        Required::yes,
                         "127.0.0.1",
                         StringFormat::IPv4,
                         "Host IP address"
                 ),
-                bounded_property<uint16_t>(
+                numeric_property<uint16_t>(
                         "port",
-                        true,
+                        Required::yes,
                         20000,
                         "Endpoint port",
                         Bound<uint16_t>::from(1),

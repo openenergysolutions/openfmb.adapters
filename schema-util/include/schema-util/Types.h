@@ -8,6 +8,11 @@
 namespace adapter {
     namespace schema {
 
+        enum class Required {
+            yes,
+            no
+        };
+
         template <class T>
         struct Bound {
             Bound(bool valid, T value) : valid(valid), value(value) {}
@@ -40,11 +45,11 @@ namespace adapter {
 
         class PropertyBase  : public IProperty {
             const std::string name;
-            const bool required;
+            const Required required;
             const std::string description;
 
         public:
-            PropertyBase(std::string name, bool required, std::string description)
+            PropertyBase(std::string name, Required required, std::string description)
                 :
                 name(std::move(name)),
                 required(required),
@@ -60,7 +65,7 @@ namespace adapter {
             }
 
             bool is_required() const override {
-                return this->required;
+                return this->required == Required::yes;
             }
         };
 
@@ -69,7 +74,7 @@ namespace adapter {
             const T default_value;
 
         public:
-            TypedPropertyBase(const std::string& name, bool required, const T& default_value, const std::string& description) :
+            TypedPropertyBase(const std::string& name, Required required, const T& default_value, const std::string& description) :
                     PropertyBase(name, required, description),
                     default_value(default_value)
             {}
@@ -90,7 +95,7 @@ namespace adapter {
 
             const StringFormat format;
 
-            StringProperty(const std::string& name, bool required, const std::string& default_value, StringFormat format, const std::string& description) :
+            StringProperty(const std::string& name, Required required, const std::string& default_value, StringFormat format, const std::string& description) :
                     TypedPropertyBase<std::string>(name, required, default_value, description),
                     format(format)
             {}
@@ -99,12 +104,12 @@ namespace adapter {
         };
 
         template <class T>
-        class BoundedProperty : public TypedPropertyBase<T> {
+        class NumericProperty : public TypedPropertyBase<T> {
         public:
             Bound<T> min;
             Bound<T> max;
 
-            BoundedProperty(const std::string& name, bool required, const T& default_value, const std::string& description, Bound<T> min, Bound<T> max) :
+            NumericProperty(const std::string& name, Required required, const T& default_value, const std::string& description, Bound<T> min, Bound<T> max) :
                  TypedPropertyBase<T>(name, required, default_value, description),
                  min(min),
                  max(max)
@@ -117,8 +122,8 @@ namespace adapter {
         public:
             const std::vector<property_ptr_t> fields;
 
-            ObjectProperty(std::string name, bool required, std::string description, std::vector<property_ptr_t> fields)   :
-                    PropertyBase(std::move(name), required, std::move(description)),
+            ObjectProperty(const std::string& name, Required required, const std::string& description, std::vector<property_ptr_t> fields)   :
+                    PropertyBase(name, required, description),
                     fields(std::move(fields))
             {}
 
@@ -131,30 +136,30 @@ namespace adapter {
 
             virtual void begin(const ObjectProperty& prop) = 0;
             virtual void on_property(const StringProperty& prop) = 0;
-            virtual void on_property(const BoundedProperty<float>& prop) = 0;
-            virtual void on_property(const BoundedProperty<int64_t>& prop) = 0;
-            virtual void on_property(const BoundedProperty<uint16_t>& prop) = 0;
+            virtual void on_property(const NumericProperty<float>& prop) = 0;
+            virtual void on_property(const NumericProperty<int64_t>& prop) = 0;
+            virtual void on_property(const NumericProperty<uint16_t>& prop) = 0;
             virtual void end(const ObjectProperty& prop) = 0;
         };
 
         template <class T>
-        void BoundedProperty<T>::visit(IVisitor& visitor) {
+        void NumericProperty<T>::visit(IVisitor& visitor) {
             visitor.on_property(*this);
         }
 
 
         /// ---------  DSL for building up complex schemas -----------
 
-        property_ptr_t string_property(const std::string& name, bool required, const std::string& default_value, StringFormat format, const std::string& description);
+        property_ptr_t string_property(const std::string& name, Required required, const std::string& default_value, StringFormat format, const std::string& description);
 
         template<class T>
-        property_ptr_t bounded_property(const std::string& name, bool required, T default_value, const std::string& description, Bound<T> min, Bound<T> max)
+        property_ptr_t numeric_property(const std::string& name, Required required, T default_value, const std::string& description, Bound<T> min, Bound<T> max)
         {
-            return std::make_unique<BoundedProperty<T>>(name, required, default_value, description, min, max);
+            return std::make_unique<NumericProperty<T>>(name, required, default_value, description, min, max);
         }
 
         template <class ... Properties>
-        property_ptr_t object_property(const std::string& name, bool required, const std::string& description, Properties... properties)
+        property_ptr_t object_property(const std::string& name, Required required, const std::string& description, Properties... properties)
         {
             std::vector<property_ptr_t> fields;
             add_properties(fields, properties ...);

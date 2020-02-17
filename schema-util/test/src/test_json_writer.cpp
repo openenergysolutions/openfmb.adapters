@@ -1,7 +1,7 @@
 
 #include "catch.hpp"
 
-#include "schema-util/JSONWriter.h"
+#include "JSONWriter.h"
 
 #include <iostream>
 #include <sstream>
