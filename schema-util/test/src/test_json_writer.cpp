@@ -73,5 +73,27 @@ TEST_CASE( "test json writer" )
         REQUIRE(oss.str() == expected);
     }
 
+    SECTION("can write array with two elements")
+    {
+        std::ostringstream  oss;
+        JSONWriter writer(oss);
+        writer.begin_array("names");
+        writer.write_scalar("Jim");
+        writer.write_scalar("Susan");
+        writer.end_array();
+        writer.close_document();
+
+        const auto expected = ""
+                              "{\n"
+                              "    \"names\": [\n"
+                              "        \"Jim\",\n"
+                              "        \"Susan\"\n"
+                              "    ]\n"
+                              "}\n";
+
+
+        REQUIRE(oss.str() == expected);
+    }
+
 }
 

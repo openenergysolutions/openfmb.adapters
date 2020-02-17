@@ -69,9 +69,13 @@ namespace adapter {
 
         void JSONSchemaPrinter::end(const ObjectProperty &prop) {
             this->writer.end_object(); // end properties
-            for(auto field : prop.fields) {  // list required fields
-
+            this->writer.begin_array("required");
+            for(const auto& field : prop.fields) {  // list required fields
+                if(field->is_required()) {
+                    writer.write_scalar(field->get_name());
+                }
             }
+            this->writer.end_array();
             this->writer.end_object(); // end object
         }
 

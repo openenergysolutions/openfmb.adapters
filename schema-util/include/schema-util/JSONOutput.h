@@ -29,20 +29,26 @@ namespace adapter {
             }
 
             template<class T>
-            struct BeginObject {
+            struct BeginIdent {
                 const T &id;
+                const char delimiter;
 
-                explicit BeginObject(const T &id) : id(id) {}
+                explicit BeginIdent(const T &id, char delimiter) : id(id), delimiter(delimiter) {}
 
-                friend std::ostream &operator<<(std::ostream &output, const BeginObject &value) {
-                    output << quoted(value.id) << ": {";
+                friend std::ostream &operator<<(std::ostream &output, const BeginIdent &value) {
+                    output << quoted(value.id) << ": " << value.delimiter;
                     return output;
                 }
             };
 
             template<class T>
-            BeginObject<T> begin_object(const T &id) {
-                return BeginObject<T>(id);
+            BeginIdent<T> begin_object(const T &id) {
+                return BeginIdent<T>(id, '{');
+            }
+
+            template<class T>
+            BeginIdent<T> begin_array(const T &id) {
+                return BeginIdent<T>(id, '[');
             }
 
             template <class T>

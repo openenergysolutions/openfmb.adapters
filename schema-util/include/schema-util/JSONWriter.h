@@ -34,9 +34,16 @@ namespace adapter {
         template <class T>
         void write_property(const std::string& name, const T& value);
 
+        template <class T>
+        void write_scalar(const T& value);
+
         void begin_object(const std::string& name);
 
         void end_object();
+
+        void begin_array(const std::string& name);
+
+        void end_array();
 
         void close_document();
     };
@@ -47,6 +54,25 @@ namespace adapter {
         this->flush_state(true);
         this->print_indent();
         this->output << output::property(name, value);
+        this->needs_new_line = this->allow_delimiter = true;
+    }
+
+    template <class T>
+    void JSONWriter::write_scalar(const T& value)
+    {
+        if(this->indent.empty() && this->indent.back() != JSONWriter::IndentType::array) {
+            throw std::runtime_error("can only write scalars as elements of an array");
+        }
+
+        this->flush_state(true);
+        this->print_indent();
+
+        if(output::is_type_quoted<T>()) {
+            output << output::quoted(value);
+        } else {
+            output << value;
+        }
+
         this->needs_new_line = this->allow_delimiter = true;
     }
 

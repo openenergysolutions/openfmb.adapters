@@ -19,7 +19,7 @@ TEST_CASE( "schema serialization" )
                 "IP endpoint",
                 string_property(
                         "host",
-                        false,
+                        true,
                         "127.0.0.1",
                         StringFormat::IPv4,
                         "Host IP address"

@@ -69,6 +69,27 @@ namespace adapter {
             this->allow_delimiter = true;
         }
 
+        void JSONWriter::begin_array(const std::string& name)
+        {
+            this->flush_state(true);
+            this->print_indent();
+            this->output << output::begin_array(name);
+            this->indent.push_back(IndentType::array);
+            this->needs_new_line = true;
+            this->allow_delimiter = false;
+
+        }
+
+        void JSONWriter::end_array()
+        {
+            this->flush_state(false);
+            this->end_indent(IndentType::array);
+            this->print_indent();
+            this->output << "]";
+            this->needs_new_line = true;
+            this->allow_delimiter = true;
+        }
+
         void JSONWriter::close_document()
         {
             if(!this->indent.empty()) {

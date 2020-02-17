@@ -69,29 +69,15 @@ namespace adapter {
             const T default_value;
 
         public:
-            TypedPropertyBase(std::string name, bool required, T default_value, std::string description) :
-                    PropertyBase(std::move(name), required, std::move(description)),
-                    default_value(std::move(default_value))
+            TypedPropertyBase(const std::string& name, bool required, const T& default_value, const std::string& description) :
+                    PropertyBase(name, required, description),
+                    default_value(default_value)
             {}
 
             const T& get_default_value() const {
                 return this->default_value;
             }
         };
-
-        /*
-        template <class T>
-        class TypedProperty  : public TypedPropertyBase<T> {
-
-
-        public:
-            TypedProperty(std::string name, bool required, T default_value, std::string description) :
-                TypedPropertyBase<T>(std::move(name), required, std::move(default_value), std::move(description))
-            {}
-
-            void visit(IVisitor& visitor) override;
-        };
-        */
 
         enum class StringFormat {
             None,
@@ -104,8 +90,8 @@ namespace adapter {
 
             const StringFormat format;
 
-            StringProperty(std::string name, bool required, std::string default_value, StringFormat format, std::string description) :
-                    TypedPropertyBase<std::string>(std::move(name), required, std::move(default_value), std::move(description)),
+            StringProperty(const std::string& name, bool required, const std::string& default_value, StringFormat format, const std::string& description) :
+                    TypedPropertyBase<std::string>(name, required, default_value, description),
                     format(format)
             {}
 
@@ -118,8 +104,8 @@ namespace adapter {
             Bound<T> min;
             Bound<T> max;
 
-            BoundedProperty(std::string name, bool required, T default_value, std::string description, Bound<T> min, Bound<T> max) :
-                 TypedPropertyBase<T>(std::move(name), required, std::move(default_value), std::move(description)),
+            BoundedProperty(const std::string& name, bool required, const T& default_value, const std::string& description, Bound<T> min, Bound<T> max) :
+                 TypedPropertyBase<T>(name, required, default_value, description),
                  min(min),
                  max(max)
             {}
@@ -159,20 +145,20 @@ namespace adapter {
 
         /// ---------  DSL for building up complex schemas -----------
 
-        property_ptr_t string_property(std::string name, bool required, std::string default_value, StringFormat format, std::string description);
+        property_ptr_t string_property(const std::string& name, bool required, const std::string& default_value, StringFormat format, const std::string& description);
 
         template<class T>
-        property_ptr_t bounded_property(std::string name, bool required, T default_value, std::string description, Bound<T> min, Bound<T> max)
+        property_ptr_t bounded_property(const std::string& name, bool required, T default_value, const std::string& description, Bound<T> min, Bound<T> max)
         {
-            return std::make_unique<BoundedProperty<T>>(std::move(name), required, std::move(default_value), std::move(description), min, max);
+            return std::make_unique<BoundedProperty<T>>(name, required, default_value, description, min, max);
         }
 
         template <class ... Properties>
-        property_ptr_t object_property(const std::string& name, bool required, std::string description, Properties... properties)
+        property_ptr_t object_property(const std::string& name, bool required, const std::string& description, Properties... properties)
         {
             std::vector<property_ptr_t> fields;
             add_properties(fields, properties ...);
-            return std::make_unique<ObjectProperty>(name, required, std::move(description), std::move(fields));
+            return std::make_unique<ObjectProperty>(name, required, description, std::move(fields));
         }
 
         template <class P, class ... Properties>
