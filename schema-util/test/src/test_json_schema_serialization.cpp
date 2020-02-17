@@ -1,7 +1,7 @@
 
 #include "catch.hpp"
 
-#include "schema-util/Types.h"
+#include "schema-util/Builder.h"
 #include "JSONSchemaPrinter.h"
 
 #include <iostream>
@@ -13,7 +13,7 @@ TEST_CASE( "schema serialization" )
 
     SECTION("if_present not invoked if value absent")
     {
-        const auto schema = object_property(
+        const auto endpoint = object_property(
                 "endpoint",
                 Required::yes,
                 "IP endpoint",
@@ -34,9 +34,7 @@ TEST_CASE( "schema serialization" )
                 )
         );
 
-        JSONSchemaPrinter visitor(std::cout, "https://www.github.com/openenergysolutions");
-        schema->visit(visitor);
-        visitor.close_document();
+        write_schema(std::cout, "https://www.github.com/openenergysolutions", { endpoint });
     }
 
 }

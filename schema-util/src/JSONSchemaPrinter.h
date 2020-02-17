@@ -14,13 +14,13 @@ namespace adapter {
         JSONWriter writer;
 
         // called after construction
-        void declare_schema(std::string schema_id);
+        void declare_schema(const std::string& schema_id);
 
     public:
 
-        JSONSchemaPrinter(std::ostream &output, std::string schema_id);
+        JSONSchemaPrinter(std::ostream &output, const std::string& schema_id);
 
-        void close_document();
+        void close_document(const std::initializer_list<property_ptr_t>& fields);
 
         // ----- implement IVisitor -------
 

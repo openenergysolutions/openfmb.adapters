@@ -6,22 +6,29 @@
 namespace adapter {
     namespace schema {
 
-        void JSONSchemaPrinter::declare_schema(std::string schema_id)
+        void JSONSchemaPrinter::declare_schema(const std::string& schema_id)
         {
             writer.write_property("$schema", "http://json-schema.org/schema#");
             writer.write_property("id", schema_id);
             writer.begin_object("properties");
         }
 
-        void JSONSchemaPrinter::close_document()
+        void JSONSchemaPrinter::close_document(const std::initializer_list<property_ptr_t>& fields)
         {
            writer.end_object();
+           writer.begin_array("required");
+           for(const auto& field: fields) {
+               if(field->is_required()) {
+                   writer.write_scalar(field->get_name());
+               }
+           }
+           writer.end_array();
            writer.close_document();
         }
 
-        JSONSchemaPrinter::JSONSchemaPrinter(std::ostream &output, std::string schema_id) : writer(output)
+        JSONSchemaPrinter::JSONSchemaPrinter(std::ostream &output, const std::string& schema_id) : writer(output)
         {
-            this->declare_schema(std::move(schema_id));
+            this->declare_schema(schema_id);
         }
 
         void JSONSchemaPrinter::begin(const ObjectProperty &prop) {

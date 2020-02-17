@@ -1,6 +1,6 @@
 
-#ifndef OPENFMB_ADAPTER_TYPES_H
-#define OPENFMB_ADAPTER_TYPES_H
+#ifndef OPENFMB_ADAPTER_SCHEMAUTIL_TYPES_H
+#define OPENFMB_ADAPTER_SCHEMAUTIL_TYPES_H
 
 #include <memory>
 #include <vector>
@@ -146,35 +146,6 @@ namespace adapter {
         void NumericProperty<T>::visit(IVisitor& visitor) {
             visitor.on_property(*this);
         }
-
-
-        /// ---------  DSL for building up complex schemas -----------
-
-        property_ptr_t string_property(const std::string& name, Required required, const std::string& default_value, StringFormat format, const std::string& description);
-
-        template<class T>
-        property_ptr_t numeric_property(const std::string& name, Required required, T default_value, const std::string& description, Bound<T> min, Bound<T> max)
-        {
-            return std::make_unique<NumericProperty<T>>(name, required, default_value, description, min, max);
-        }
-
-        template <class ... Properties>
-        property_ptr_t object_property(const std::string& name, Required required, const std::string& description, Properties... properties)
-        {
-            std::vector<property_ptr_t> fields;
-            add_properties(fields, properties ...);
-            return std::make_unique<ObjectProperty>(name, required, description, std::move(fields));
-        }
-
-        template <class P, class ... Properties>
-        void add_properties(std::vector<property_ptr_t>& vector, P property, Properties... properties)
-        {
-            vector.emplace_back(property);
-            add_properties(vector, properties ...);
-        }
-
-        // base case
-        void add_properties(std::vector<property_ptr_t>& vector);
 
     }
 }

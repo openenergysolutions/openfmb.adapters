@@ -1,10 +1,12 @@
 
 set(PUBLIC_HEADERS
+        include/schema-util/Builder.h
         include/schema-util/Types.h)
 
 set(PRIVATE_HEADERS)
 
 set(PRIVATE_SOURCES
+        src/Builder.cpp
         src/JSONOutput.h
         src/JSONSchemaPrinter.h
         src/JSONSchemaPrinter.cpp
