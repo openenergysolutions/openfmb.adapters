@@ -22,17 +22,20 @@ namespace adapter {
 namespace util {
 
 const char ControlTimestampFieldType::ignored[] = "ignored";
+const char ControlTimestampFieldType::message[] = "message";
 
-const std::array<ControlTimestampFieldType::Value, 1> ControlTimestampFieldType::values =
+const std::array<ControlTimestampFieldType::Value, 2> ControlTimestampFieldType::values =
 {
     ControlTimestampFieldType::Value::ignored,
+    ControlTimestampFieldType::Value::message,
 };
 
 std::string ControlTimestampFieldType::to_string(ControlTimestampFieldType::Value value)
 {
     switch(value)
     {
-        default: return ignored;
+        case(Value::ignored): return ignored;
+        default: return message;
     }
 }
 
@@ -41,6 +44,7 @@ ControlTimestampFieldType::Value ControlTimestampFieldType::from_string(const st
     static const std::map<std::string, Value> map = 
     {
         {ignored, Value::ignored},
+        {message, Value::message},
     };
     const auto elem = map.find(name);
     if(elem == map.end()) throw api::Exception("Unknown value name '", name, "' for enum ControlTimestampFieldType");

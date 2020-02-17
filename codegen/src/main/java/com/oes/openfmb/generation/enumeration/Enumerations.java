@@ -80,8 +80,9 @@ public class Enumerations {
 
         private final static Enumeration controlTimestampFieldType = new Enumeration(
                 getFieldName("Control","Timestamp"),
-                Collections.singletonList(
-                        Enumeration.entry("ignored", "the timestamp field is ignored in this configuration")
+                Arrays.asList(
+                        Enumeration.entry("ignored", "the timestamp field is ignored in this configuration"),
+                        Enumeration.entry("message", "the main timestamp of the message is used")
                 )
         );
 

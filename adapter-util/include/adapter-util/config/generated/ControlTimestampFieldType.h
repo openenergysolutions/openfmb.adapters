@@ -27,13 +27,16 @@ struct ControlTimestampFieldType
     {
         // the timestamp field is ignored in this configuration
         ignored,
+        // the main timestamp of the message is used
+        message,
     };
 
     static const char ignored[];
+    static const char message[];
 
     static constexpr const char* label = "control-timestamp-field-type";
 
-    static const std::array<Value, 1> values;
+    static const std::array<Value, 2> values;
 
     static std::string to_string(Value value);
     static Value from_string(const std::string& name);
