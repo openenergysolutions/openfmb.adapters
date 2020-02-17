@@ -2,28 +2,30 @@
 #ifndef OPENFMB_ADAPTER_JSONWRITER_H
 #define OPENFMB_ADAPTER_JSONWRITER_H
 
-#include <ostream>
-
 #include "JSONOutput.h"
+
+#include <ostream>
+#include <vector>
 
 namespace adapter {
     namespace schema {
 
     class JSONWriter final {
 
-        enum class LastAction {
-            none,
-            write_property,
-            close_document,
-            begin_object,
-            end_object
+        enum class IndentType {
+            object,
+            array
         };
 
-        LastAction last_action = LastAction::none;
-        size_t indent = 1;
         std::ostream& output;
+        bool closed = false;
+        bool allow_delimiter = false;
+        bool needs_new_line = false;
+        std::vector<IndentType> indent;
 
         void print_indent();
+        void flush_state(bool needs_delimiter);
+        void end_indent(IndentType type);
 
     public:
 
@@ -42,19 +44,10 @@ namespace adapter {
     template <class T>
     void JSONWriter::write_property(const std::string& name, const T& value)
     {
-        switch(this->last_action) {
-            case(LastAction::close_document):
-                throw std::runtime_error("cannot write after close");
-            case(LastAction::write_property):
-                this->output << "," << std::endl;
-                break;
-            default:
-                break;
-        }
-
+        this->flush_state(true);
         this->print_indent();
         this->output << output::property(name, value);
-        this->last_action = LastAction::write_property;
+        this->needs_new_line = this->allow_delimiter = true;
     }
 
 

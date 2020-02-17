@@ -6,10 +6,42 @@ namespace adapter {
 
         void JSONWriter::print_indent()
         {
-            for (auto i = 0; i < indent; ++i) {
+            for (auto i = 0; i <= this->indent.size(); ++i) {
                 this->output << "    ";
             }
         }
+
+        void JSONWriter::flush_state(bool needs_delimiter)
+        {
+            if(this->closed) {
+                throw std::runtime_error("document closed");
+            }
+
+            if(needs_delimiter && this->allow_delimiter) {
+                this->output << ",";
+            }
+
+            this->allow_delimiter = false;
+
+            if(this->needs_new_line) {
+                this->output << std::endl;
+            }
+
+            this->needs_new_line = false;
+        }
+        void JSONWriter::end_indent(IndentType type)
+        {
+            if(this->indent.empty()) {
+                throw std::runtime_error("no indent to pop");
+            }
+
+            if(this->indent.back() != type) {
+                throw std::runtime_error("mismatched indent types");
+            }
+
+            this->indent.pop_back();
+        }
+
 
         JSONWriter::JSONWriter(std::ostream &output) : output(output)
         {
@@ -18,63 +50,35 @@ namespace adapter {
 
         void JSONWriter::begin_object(const std::string& name)
         {
-            switch(this->last_action) {
-                case(LastAction::close_document):
-                    throw std::runtime_error("document closed");
-                case(LastAction::end_object):
-                case(LastAction::write_property):
-                    this->output << "," << std::endl;
-                    break;
-                default:
-                    break;
-            }
+            this->flush_state(true);
 
             this->print_indent();
-            this->output << output::begin_object(name) << std::endl;
-
-            ++this->indent;
-            this->last_action = LastAction::begin_object;
+            this->output << output::begin_object(name);
+            this->indent.push_back(IndentType::object);
+            this->needs_new_line = true;
+            this->allow_delimiter = false;
         }
 
         void JSONWriter::end_object()
         {
-            switch(this->last_action) {
-                case(LastAction::close_document):
-                    throw std::runtime_error("document closed");
-                case(LastAction::end_object):
-                case(LastAction::write_property):
-                    this->output << std::endl;
-                default:
-                    break;
-            }
-
-
-            --this->indent;
-            this->last_action = LastAction::end_object;
+            this->flush_state(false);
+            this->end_indent(IndentType::object);
             this->print_indent();
             this->output << "}";
+            this->needs_new_line = true;
+            this->allow_delimiter = true;
         }
 
         void JSONWriter::close_document()
         {
-            switch(this->last_action) {
-                case(LastAction::close_document):
-                    throw std::runtime_error("document already closed");
-                case(LastAction::end_object):
-                case(LastAction::write_property):
-                    this->output << std::endl;
-                    break;
-                default:
-                    break;
+            if(!this->indent.empty()) {
+                throw std::runtime_error("can't close indented document");
             }
 
-            if(this->indent != 1) {
-                throw std::runtime_error("cannot close document with unterminated objects (indent != 1)");
-            }
+            this->flush_state(false);
 
             this->output << "}" << std::endl;
-            this->indent = 0;
-            this->last_action = LastAction::close_document;
+            this->closed = true;
         }
 
     }

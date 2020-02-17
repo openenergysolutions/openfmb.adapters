@@ -25,7 +25,10 @@ namespace adapter {
         }
 
         void JSONSchemaPrinter::begin(const ObjectProperty &prop) {
-            //this->writer.begin_object(prop.get_name());
+            this->writer.begin_object(prop.get_name());
+            this->writer.write_property("description", prop.get_description());
+            this->writer.write_property("type", "object");
+            this->writer.begin_object("properties");
         }
 
         void JSONSchemaPrinter::on_property(const StringProperty& prop) {
@@ -65,7 +68,11 @@ namespace adapter {
         }
 
         void JSONSchemaPrinter::end(const ObjectProperty &prop) {
-            //this->writer.end_object();
+            this->writer.end_object(); // end properties
+            for(auto field : prop.fields) {  // list required fields
+
+            }
+            this->writer.end_object(); // end object
         }
 
     }
