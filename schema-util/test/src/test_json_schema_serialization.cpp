@@ -29,6 +29,7 @@ const std::array<FooBar::Value, 2> FooBar::values = { FooBar::Value::foo, FooBar
 
 TEST_CASE( "schema serialization" )
 {
+    /*
     SECTION("writes a simple schema")
     {
         const auto endpoint = object_property(
@@ -65,6 +66,34 @@ TEST_CASE( "schema serialization" )
                 FooBar::Value::bar);
 
         write_schema(std::cout, "https://www.github.com/openenergysolutions", { enum_prop });
+    }
+     */
+
+    SECTION("writes a OneOf object")
+    {
+        const auto enum_prop = enum_property<FooBar>(
+                Required::yes,
+                "foo or bar",
+                FooBar::Value::bar);
+
+        const auto foo_prop = string_property("foo", Required::yes, "value when foo", "wat", StringFormat::None);
+        const auto bar_prop = string_property("bar", Required::yes, "value when bar", "wat", StringFormat::None);
+
+        const auto object = object_property(
+                "stuff",
+                Required::yes,
+                "description",
+                { enum_prop, foo_prop, bar_prop},
+                one_of(
+                        {
+                            Variant({ConstantProperty(enum_prop, "foo")}, {foo_prop}),
+                            Variant({ConstantProperty(enum_prop, "bar")}, {bar_prop}),
+                        }
+                )
+        );
+
+
+        write_schema(std::cout, "https://www.github.com/openenergysolutions", { object });
     }
 }
 

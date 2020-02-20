@@ -94,7 +94,32 @@ namespace adapter {
             this->writer.end_object(); // end properties
 
             if(prop.one_of) {
-                // TODO - write a list of the acceptable variants
+
+                this->writer.begin_array("oneOf");
+
+                for(const auto& variant : prop.one_of->variants) {
+                    this->writer.begin_object();
+
+                    // constant properties for this variant
+                    this->writer.begin_object_property("properties");
+                    for(const auto& field : variant.constant_values) {
+                        this->writer.begin_object_property(field.property->get_name());
+                        this->writer.write_property("const", field.value);
+                        this->writer.end_object();
+                    }
+                    this->writer.end_object();
+
+                    // required properties for this variant
+                    this->writer.begin_array("required");
+                    for(const auto& required : variant.required_values) {
+                        this->writer.write_scalar(required->get_name());
+                    }
+                    this->writer.end_array();
+
+                    this->writer.end_object();
+                }
+
+                this->writer.end_array();
             }
             else {
                 this->writer.begin_array("required");
@@ -105,6 +130,7 @@ namespace adapter {
                 }
                 this->writer.end_array();
             }
+
             this->writer.end_object(); // end object
         }
 

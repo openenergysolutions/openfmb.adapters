@@ -35,6 +35,7 @@ namespace adapter {
             return std::make_shared<NumericProperty<T>>(PropertyMetadata(required, name, description), default_value, min, max);
         }
 
+        std::unique_ptr<OneOf> one_of(const std::initializer_list<Variant>& variants);
     }
 }
 

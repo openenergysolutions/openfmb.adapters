@@ -27,6 +27,10 @@ namespace adapter {
             return std::make_shared<ObjectProperty>(PropertyMetadata(required, name, description), properties, std::move(one_of));
         }
 
+        std::unique_ptr<OneOf> one_of(const std::initializer_list<Variant>& variants)
+        {
+            return std::make_unique<OneOf>(variants);
+        }
     }
 }
 
