@@ -102,9 +102,9 @@ namespace adapter {
 
                     // constant properties for this variant
                     this->writer.begin_object_property("properties");
-                    for(const auto& field : variant.constant_values) {
-                        this->writer.begin_object_property(field.property->get_name());
-                        this->writer.write_property("const", field.value);
+                    for(const auto& constants : variant.constant_values) {
+                        this->writer.begin_object_property(constants.property_name);
+                        this->writer.write_property("const", constants.value);
                         this->writer.end_object();
                     }
                     this->writer.end_object();

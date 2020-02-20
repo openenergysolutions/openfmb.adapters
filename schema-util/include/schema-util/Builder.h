@@ -19,14 +19,14 @@ namespace adapter {
         property_ptr_t object_property(const std::string& name, Required required, const std::string& description, std::initializer_list<property_ptr_t> properties, std::unique_ptr<OneOf> one_of = nullptr);
 
         template <class Enum>
-        property_ptr_t enum_property(Required required, const std::string& description, typename Enum::Value default_value)
+        std::shared_ptr<TypedEnumProperty<Enum>> enum_property(Required required, const std::string& description, typename Enum::Value default_value)
         {
             std::vector<std::string> values;
             for(auto value : Enum::values) {
                 values.push_back(Enum::to_string(value));
             }
 
-            return std::make_shared<EnumProperty>(PropertyMetadata(required, Enum::label, description), Enum::to_string(default_value), std::move(values));
+            return std::make_shared<TypedEnumProperty<Enum>>(PropertyMetadata(required, Enum::label, description), Enum::to_string(default_value), std::move(values));
         }
 
         template<class T>

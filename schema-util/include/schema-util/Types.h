@@ -113,6 +113,16 @@ namespace adapter {
             void visit(IVisitor &visitor) override;
         };
 
+        struct ConstantProperty {
+            const std::string property_name;
+            const std::string value;
+
+            ConstantProperty(std::string property_name, std::string value) :
+                    property_name(std::move(property_name)),
+                    value(std::move(value))
+            {}
+        };
+
         class EnumProperty : public TypedPropertyBase<std::string> {
         public:
             const std::vector<std::string> values;
@@ -125,11 +135,23 @@ namespace adapter {
             void visit(IVisitor &visitor) override;
         };
 
+        template <class Enum>
+        class TypedEnumProperty: public EnumProperty {
+        public:
+            TypedEnumProperty(const PropertyMetadata& metadata, const std::string &default_value, const std::vector<std::string>& values) :
+                    EnumProperty(metadata, default_value, values)
+            {}
+
+            ConstantProperty when(typename Enum::Value value) {
+                return ConstantProperty(this->get_name(), Enum::to_string(value));
+            }
+        };
+
         template<class T>
         class NumericProperty : public TypedPropertyBase<T> {
         public:
-            Bound<T> min;
-            Bound<T> max;
+            const Bound<T> min;
+            const Bound<T> max;
 
             NumericProperty(const PropertyMetadata& metadata, const T &default_value, Bound<T> min, Bound<T> max) :
                     TypedPropertyBase<T>(metadata, default_value),
@@ -137,16 +159,6 @@ namespace adapter {
                     max(max) {}
 
             void visit(IVisitor &visitor) override;
-        };
-
-        struct ConstantProperty {
-            const property_ptr_t property;
-            const std::string value;
-
-            ConstantProperty(property_ptr_t property, std::string value) :
-                property(std::move(property)),
-                value(std::move(value))
-            {}
         };
 
         class Variant {
