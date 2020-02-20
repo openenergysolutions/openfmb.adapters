@@ -5,6 +5,7 @@
 #include "IProperty.h"
 
 #include <memory>
+#include <utility>
 #include <vector>
 #include <map>
 #include <set>
@@ -138,38 +139,48 @@ namespace adapter {
             void visit(IVisitor &visitor) override;
         };
 
+        struct ConstantProperty {
+            const property_ptr_t property;
+            const std::string value;
+
+            ConstantProperty(property_ptr_t property, std::string value) :
+                property(std::move(property)),
+                value(std::move(value))
+            {}
+        };
+
+        class Variant {
+        public:
+            const std::vector<ConstantProperty> constant_values;
+            const std::vector<property_ptr_t> required_values;
+
+            Variant(const std::initializer_list<ConstantProperty> &constant_values,
+                    const std::initializer_list<property_ptr_t> &required_values)
+                    : constant_values(constant_values),
+                      required_values(required_values)
+                      {}
+        };
+
+        class OneOf {
+        public:
+            const std::vector<Variant> variants;
+
+            OneOf(const std::initializer_list<Variant> &variants) : variants(variants) {}
+        };
+
         class ObjectProperty : public PropertyBase {
         public:
             const Object object;
+            const std::unique_ptr<OneOf> one_of;
 
-            ObjectProperty(const PropertyMetadata& metadata, Object object) :
+            ObjectProperty(const PropertyMetadata& metadata, Object object, std::unique_ptr<OneOf> one_of) :
                     PropertyBase(metadata),
-                    object(std::move(object)) {}
+                    object(std::move(object)),
+                    one_of(std::move(one_of))
+            {}
 
             void visit(IVisitor &visitor) override;
         };
-
-        template<class Enum>
-        struct Variant {
-            typename Enum::value value;
-            std::set<property_ptr_t> properties;
-
-            static Variant from(typename Enum::value value, std::initializer_list<property_ptr_t> properties) {
-                std::set<property_ptr_t> props;
-                for (const auto &p : properties) {
-                    if (props.count(p) > 0) {
-                        throw std::runtime_error("duplicate property in enum variant");
-                    }
-                    props.insert(p);
-                }
-                return Variant{value, std::move(props)};
-            }
-        };
-
-        template<class Enum>
-        using enum_variant_map_t = std::map<typename Enum::Value, std::set<property_ptr_t>>;
-
-        using enum_string_map_t = std::map<std::string, std::set<property_ptr_t>>;
 
         class IVisitor {
         public:

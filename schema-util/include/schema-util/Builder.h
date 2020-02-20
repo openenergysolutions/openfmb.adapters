@@ -16,7 +16,7 @@ namespace adapter {
 
         property_ptr_t string_property(const std::string& name, Required required, const std::string& description, const std::string& default_value, StringFormat format);
 
-        property_ptr_t object_property(const std::string& name, Required required, const std::string& description, std::initializer_list<property_ptr_t> properties);
+        property_ptr_t object_property(const std::string& name, Required required, const std::string& description, std::initializer_list<property_ptr_t> properties, std::unique_ptr<OneOf> one_of = nullptr);
 
         template <class Enum>
         property_ptr_t enum_property(Required required, const std::string& description, typename Enum::Value default_value)

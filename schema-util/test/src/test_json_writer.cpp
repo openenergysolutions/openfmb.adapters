@@ -33,7 +33,7 @@ TEST_CASE( "test json writer" )
     {
         std::ostringstream  oss;
         JSONWriter writer(oss);
-        writer.begin_object("empty");
+        writer.begin_object_property("empty");
         writer.end_object();
         writer.close_document();
 
@@ -51,11 +51,11 @@ TEST_CASE( "test json writer" )
     {
         std::ostringstream  oss;
         JSONWriter writer(oss);
-        writer.begin_object("endpoint1");
+        writer.begin_object_property("endpoint1");
         writer.write_property("host", "127.0.0.1");
         writer.write_property("port", "20000");
         writer.end_object();
-        writer.begin_object("endpoint2");
+        writer.begin_object_property("endpoint2");
         writer.write_property("host", "127.0.0.1");
         writer.write_property("port", "20000");
         writer.end_object();
@@ -77,7 +77,7 @@ TEST_CASE( "test json writer" )
         REQUIRE(oss.str() == expected);
     }
 
-    SECTION("can write array with two elements")
+    SECTION("can write array with two scalar elements")
     {
         std::ostringstream  oss;
         JSONWriter writer(oss);
@@ -92,6 +92,36 @@ TEST_CASE( "test json writer" )
                               "    \"names\": [\n"
                               "        \"Jim\",\n"
                               "        \"Susan\"\n"
+                              "    ]\n"
+                              "}\n";
+
+
+        REQUIRE(oss.str() == expected);
+    }
+
+    SECTION("can write array of objects two elements")
+    {
+        std::ostringstream  oss;
+        JSONWriter writer(oss);
+        writer.begin_array("items");
+        writer.begin_object();
+        writer.write_property("name","Jim");
+        writer.end_object();
+        writer.begin_object();
+        writer.write_property("name","Susan");
+        writer.end_object();
+        writer.end_array();
+        writer.close_document();
+
+        const auto expected = ""
+                              "{\n"
+                              "    \"items\": [\n"
+                              "        {\n"
+                              "            \"name\": \"Jim\"\n"
+                              "        },\n"
+                              "        {\n"
+                              "            \"name\": \"Susan\"\n"
+                              "        }\n"
                               "    ]\n"
                               "}\n";
 

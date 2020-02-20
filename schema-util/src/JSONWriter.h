@@ -37,7 +37,9 @@ namespace adapter {
         template <class T>
         void write_scalar(const T& value);
 
-        void begin_object(const std::string& name);
+        void begin_object_property(const std::string& name);
+
+        void begin_object();
 
         void end_object();
 

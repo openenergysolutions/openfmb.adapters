@@ -22,9 +22,9 @@ namespace adapter {
             return std::make_shared<StringProperty>(PropertyMetadata(required, name, description), default_value, format);
         }
 
-        property_ptr_t object_property(const std::string& name, Required required, const std::string& description, std::initializer_list<property_ptr_t> properties)
+        property_ptr_t object_property(const std::string& name, Required required, const std::string& description, std::initializer_list<property_ptr_t> properties, std::unique_ptr<OneOf> one_of)
         {
-            return std::make_shared<ObjectProperty>(PropertyMetadata(required, name, description), properties);
+            return std::make_shared<ObjectProperty>(PropertyMetadata(required, name, description), properties, std::move(one_of));
         }
 
     }

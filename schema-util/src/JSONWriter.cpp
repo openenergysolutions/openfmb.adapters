@@ -48,7 +48,7 @@ namespace adapter {
             this->output << "{" << std::endl;
         }
 
-        void JSONWriter::begin_object(const std::string& name)
+        void JSONWriter::begin_object_property(const std::string &name)
         {
             this->flush_state(true);
 
@@ -58,6 +58,18 @@ namespace adapter {
             this->needs_new_line = true;
             this->allow_delimiter = false;
         }
+
+        void JSONWriter::begin_object()
+        {
+            this->flush_state(true);
+
+            this->print_indent();
+            this->output << "{" << std::endl;
+            this->indent.push_back(IndentType::object);
+            this->needs_new_line = false;
+            this->allow_delimiter = false;
+        }
+
 
         void JSONWriter::end_object()
         {

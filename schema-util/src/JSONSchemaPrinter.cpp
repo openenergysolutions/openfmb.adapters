@@ -10,7 +10,7 @@ namespace adapter {
         {
             writer.write_property("$schema", "http://json-schema.org/schema#");
             writer.write_property("id", schema_id);
-            writer.begin_object("properties");
+            writer.begin_object_property("properties");
         }
 
         void JSONSchemaPrinter::close_document(const std::initializer_list<property_ptr_t>& fields)
@@ -32,14 +32,14 @@ namespace adapter {
         }
 
         void JSONSchemaPrinter::begin(const ObjectProperty &prop) {
-            this->writer.begin_object(prop.get_name());
+            this->writer.begin_object_property(prop.get_name());
             this->writer.write_property("description", prop.get_description());
             this->writer.write_property("type", "object");
-            this->writer.begin_object("properties");
+            this->writer.begin_object_property("properties");
         }
 
         void JSONSchemaPrinter::on_property(const StringProperty& prop) {
-            this->writer.begin_object(prop.get_name());
+            this->writer.begin_object_property(prop.get_name());
             this->writer.write_property("description", prop.get_description());
             this->writer.write_property("type", "string");
             switch(prop.format) {
@@ -56,7 +56,7 @@ namespace adapter {
         }
 
         void JSONSchemaPrinter::on_property(const EnumProperty& prop) {
-            this->writer.begin_object(prop.get_name());
+            this->writer.begin_object_property(prop.get_name());
             this->writer.write_property("description", prop.get_description());
             this->writer.write_property("type", "string");
 
@@ -78,7 +78,7 @@ namespace adapter {
         }
 
         void JSONSchemaPrinter::on_property(const NumericProperty<uint16_t> &prop) {
-            this->writer.begin_object(prop.get_name());
+            this->writer.begin_object_property(prop.get_name());
             this->writer.write_property("description", prop.get_description());
             this->writer.write_property("type", "integer");
             if(prop.min.valid) {
@@ -92,13 +92,19 @@ namespace adapter {
 
         void JSONSchemaPrinter::end(const ObjectProperty &prop) {
             this->writer.end_object(); // end properties
-            this->writer.begin_array("required");
-            for(const auto& field : prop.object.properties) {  // list required fields
-                if(field->is_required()) {
-                    writer.write_scalar(field->get_name());
-                }
+
+            if(prop.one_of) {
+                // TODO - write a list of the acceptable variants
             }
-            this->writer.end_array();
+            else {
+                this->writer.begin_array("required");
+                for(const auto& field : prop.object.properties) {  // list required fields
+                    if(field->is_required()) {
+                        writer.write_scalar(field->get_name());
+                    }
+                }
+                this->writer.end_array();
+            }
             this->writer.end_object(); // end object
         }
 
