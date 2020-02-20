@@ -1,5 +1,7 @@
 
 set(TEST_SOURCES
+        src/Lines.h
+        src/Lines.cpp
         src/main.cpp
         src/test_json_schema_serialization.cpp
         src/test_json_writer.cpp

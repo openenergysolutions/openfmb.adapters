@@ -6,13 +6,17 @@ namespace adapter {
 
         void ObjectProperty::visit(IVisitor& visitor) {
             visitor.begin(*this);
-            for(auto& field : this->fields) {
+            for(auto& field : this->object.properties) {
                 field->visit(visitor);
             }
             visitor.end(*this);
         }
 
         void StringProperty::visit(IVisitor& visitor) {
+            visitor.on_property(*this);
+        }
+
+        void EnumProperty::visit(IVisitor &visitor) {
             visitor.on_property(*this);
         }
 

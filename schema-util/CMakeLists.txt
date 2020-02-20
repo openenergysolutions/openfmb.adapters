@@ -1,7 +1,7 @@
 
 set(PUBLIC_HEADERS
         include/schema-util/Builder.h
-        include/schema-util/Types.h)
+        include/schema-util/Types.h include/schema-util/IProperty.h)
 
 set(PRIVATE_HEADERS)
 

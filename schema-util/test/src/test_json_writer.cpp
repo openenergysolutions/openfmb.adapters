@@ -2,6 +2,7 @@
 #include "catch.hpp"
 
 #include "JSONWriter.h"
+#include "Lines.h"
 
 #include <iostream>
 #include <sstream>
@@ -15,14 +16,15 @@ TEST_CASE( "test json writer" )
         std::ostringstream  oss;
         JSONWriter writer(oss);
         writer.write_property("host", "127.0.0.1");
-        writer.write_property("port", "20000");
+        writer.write_property("port", 20000);
         writer.close_document();
 
-        const auto expected =
-                "{\n"
-                "    \"host\": \"127.0.0.1\",\n"
-                "    \"port\": \"20000\"\n"
-                "}\n";
+        const auto expected = lines({
+                "{",
+                R"(    "host": "127.0.0.1",)",
+                R"(    "port": 20000)",
+                "}"
+        });
 
         REQUIRE(oss.str() == expected);
     }
@@ -35,11 +37,12 @@ TEST_CASE( "test json writer" )
         writer.end_object();
         writer.close_document();
 
-        const auto expected = ""
-                              "{\n"
-                              "    \"empty\": {\n"
-                              "    }\n"
-                              "}\n";
+        const auto expected = lines({
+                                            "{",
+                                            R"(    "empty": {)",
+                                              "    }",
+                                            "}"
+                                    });
 
         REQUIRE(oss.str() == expected);
     }
@@ -58,17 +61,18 @@ TEST_CASE( "test json writer" )
         writer.end_object();
         writer.close_document();
 
-        const auto expected = ""
-        "{\n"
-        "    \"endpoint1\": {\n"
-        "        \"host\": \"127.0.0.1\",\n"
-        "        \"port\": \"20000\"\n"
-        "    },\n"
-        "    \"endpoint2\": {\n"
-        "        \"host\": \"127.0.0.1\",\n"
-        "        \"port\": \"20000\"\n"
-        "    }\n"
-        "}\n";
+        const auto expected = lines({
+                                            "{",
+                                            "    \"endpoint1\": {",
+                                            R"(        "host": "127.0.0.1",)",
+                                            R"(        "port": "20000")",
+                                            "    },",
+                                            "    \"endpoint2\": {",
+                                            R"(        "host": "127.0.0.1",)",
+                                            R"(        "port": "20000")",
+                                            "    }",
+                                            "}"
+                                    });
 
         REQUIRE(oss.str() == expected);
     }

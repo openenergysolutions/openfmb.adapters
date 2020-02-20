@@ -28,6 +28,8 @@ namespace adapter {
 
         void on_property(const StringProperty& prop) override;
 
+        void on_property(const EnumProperty& prop) override;
+
         void on_property(const NumericProperty<float> &prop) override;
 
         void on_property(const NumericProperty<int64_t> &prop) override;
@@ -40,3 +42,4 @@ namespace adapter {
 }}
 
 #endif //OPENFMB_ADAPTER_JSONSCHEMAPRINTER_H
+

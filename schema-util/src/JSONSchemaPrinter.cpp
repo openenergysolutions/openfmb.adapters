@@ -46,9 +46,25 @@ namespace adapter {
                 case(StringFormat::IPv4):
                     this->writer.write_property("format", "ipv4");
                     break;
-                default:
+                case(StringFormat::None):
                     break;
+                default:
+                    throw std::runtime_error("unhandled string format");
             }
+
+            this->writer.end_object();
+        }
+
+        void JSONSchemaPrinter::on_property(const EnumProperty& prop) {
+            this->writer.begin_object(prop.get_name());
+            this->writer.write_property("description", prop.get_description());
+            this->writer.write_property("type", "string");
+
+            this->writer.begin_array("enum");
+            for(const auto& value : prop.values) {
+                this->writer.write_scalar(value);
+            }
+            this->writer.end_array();
 
             this->writer.end_object();
         }
@@ -77,7 +93,7 @@ namespace adapter {
         void JSONSchemaPrinter::end(const ObjectProperty &prop) {
             this->writer.end_object(); // end properties
             this->writer.begin_array("required");
-            for(const auto& field : prop.fields) {  // list required fields
+            for(const auto& field : prop.object.properties) {  // list required fields
                 if(field->is_required()) {
                     writer.write_scalar(field->get_name());
                 }
@@ -85,6 +101,8 @@ namespace adapter {
             this->writer.end_array();
             this->writer.end_object(); // end object
         }
+
+
 
     }
 }

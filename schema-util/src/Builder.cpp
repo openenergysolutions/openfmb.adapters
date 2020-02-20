@@ -17,12 +17,15 @@ namespace adapter {
             printer.close_document(properties);
         }
 
-        property_ptr_t string_property(const std::string& name, Required required, const std::string& default_value, StringFormat format, const std::string& description)
+        property_ptr_t string_property(const std::string& name, Required required, const std::string& description, const std::string& default_value, StringFormat format)
         {
-            return std::make_unique<StringProperty>(name, required, default_value, format, description);
+            return std::make_shared<StringProperty>(PropertyMetadata(required, name, description), default_value, format);
         }
 
-        void add_properties(std::vector<property_ptr_t>& vector) {}
+        property_ptr_t object_property(const std::string& name, Required required, const std::string& description, std::initializer_list<property_ptr_t> properties)
+        {
+            return std::make_shared<ObjectProperty>(PropertyMetadata(required, name, description), properties);
+        }
 
     }
 }
