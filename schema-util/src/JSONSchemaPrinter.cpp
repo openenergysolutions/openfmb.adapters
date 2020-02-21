@@ -57,6 +57,7 @@ namespace adapter {
 
         void JSONSchemaPrinter::on_property(const EnumProperty& prop) {
             this->writer.begin_object_property(prop.get_name());
+            
             this->writer.write_property("description", prop.get_description());
             this->writer.write_property("type", "string");
 
@@ -65,6 +66,16 @@ namespace adapter {
                 this->writer.write_scalar(value);
             }
             this->writer.end_array();
+
+            this->writer.end_object();
+        }
+
+        void JSONSchemaPrinter::on_property(const ArrayProperty& prop) {
+            this->writer.begin_object_property(prop.get_name());
+            this->writer.write_property("type", "array");
+
+            ObjectProperty object(PropertyMetadata(Required::yes, "items", ""), prop.array_type);
+            object.visit(*this);
 
             this->writer.end_object();
         }
@@ -93,11 +104,19 @@ namespace adapter {
         void JSONSchemaPrinter::end(const ObjectProperty &prop) {
             this->writer.end_object(); // end properties
 
-            if(prop.one_of) {
-
+            if(prop.object.one_of.variants.empty()) {
+                this->writer.begin_array("required");
+                for(const auto& field : prop.object.properties) {  // list required fields
+                    if(field->is_required()) {
+                        writer.write_scalar(field->get_name());
+                    }
+                }
+                this->writer.end_array();
+            }
+            else {
                 this->writer.begin_array("oneOf");
 
-                for(const auto& variant : prop.one_of->variants) {
+                for(const auto& variant : prop.object.one_of.variants) {
                     this->writer.begin_object();
 
                     // constant properties for this variant
@@ -119,15 +138,6 @@ namespace adapter {
                     this->writer.end_object();
                 }
 
-                this->writer.end_array();
-            }
-            else {
-                this->writer.begin_array("required");
-                for(const auto& field : prop.object.properties) {  // list required fields
-                    if(field->is_required()) {
-                        writer.write_scalar(field->get_name());
-                    }
-                }
                 this->writer.end_array();
             }
 

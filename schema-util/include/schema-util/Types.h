@@ -49,14 +49,45 @@ namespace adapter {
             const T value;
         };
 
+        struct ConstantProperty {
+            const std::string property_name;
+            const std::string value;
+
+            ConstantProperty(std::string property_name, std::string value) :
+                    property_name(std::move(property_name)),
+                    value(std::move(value))
+            {}
+        };
+
+        class Variant {
+        public:
+            const std::vector<ConstantProperty> constant_values;
+            const std::vector<property_ptr_t> required_values;
+
+            Variant(const std::initializer_list<ConstantProperty> &constant_values,
+                    const std::initializer_list<property_ptr_t> &required_values)
+                    : constant_values(constant_values),
+                      required_values(required_values)
+            {}
+        };
+
+        class OneOf {
+        public:
+            const std::vector<Variant> variants;
+
+            OneOf() = default;
+            OneOf(const std::initializer_list<Variant> &variants) : variants(variants) {}
+        };
+
         class Object {
         public:
             /// Collection of all properties in an object
             const std::vector<property_ptr_t> properties;
+            const OneOf one_of;
 
             explicit Object(std::vector<property_ptr_t> properties) : properties(std::move(properties)) {}
 
-            Object(const std::initializer_list<property_ptr_t> &properties) : properties(properties) {}
+            Object(const std::initializer_list<property_ptr_t>& properties, OneOf one_of) : properties(properties), one_of(std::move(one_of)) {}
         };
 
 
@@ -77,6 +108,19 @@ namespace adapter {
             bool is_required() const override {
                 return this->metadata.required == Required::yes;
             }
+        };
+
+        class ArrayProperty : public PropertyBase {
+        public:
+
+            const Object array_type;
+
+            ArrayProperty(const PropertyMetadata &metadata, Object arrayType) :
+                PropertyBase(metadata),
+                array_type(std::move(arrayType))
+            {}
+
+            void visit(IVisitor &visitor) override;
         };
 
         template<class T>
@@ -113,15 +157,7 @@ namespace adapter {
             void visit(IVisitor &visitor) override;
         };
 
-        struct ConstantProperty {
-            const std::string property_name;
-            const std::string value;
 
-            ConstantProperty(std::string property_name, std::string value) :
-                    property_name(std::move(property_name)),
-                    value(std::move(value))
-            {}
-        };
 
         class EnumProperty : public TypedPropertyBase<std::string> {
         public:
@@ -161,34 +197,15 @@ namespace adapter {
             void visit(IVisitor &visitor) override;
         };
 
-        class Variant {
-        public:
-            const std::vector<ConstantProperty> constant_values;
-            const std::vector<property_ptr_t> required_values;
 
-            Variant(const std::initializer_list<ConstantProperty> &constant_values,
-                    const std::initializer_list<property_ptr_t> &required_values)
-                    : constant_values(constant_values),
-                      required_values(required_values)
-                      {}
-        };
-
-        class OneOf {
-        public:
-            const std::vector<Variant> variants;
-
-            OneOf(const std::initializer_list<Variant> &variants) : variants(variants) {}
-        };
 
         class ObjectProperty : public PropertyBase {
         public:
             const Object object;
-            const std::unique_ptr<OneOf> one_of;
 
-            ObjectProperty(const PropertyMetadata& metadata, Object object, std::unique_ptr<OneOf> one_of) :
+            ObjectProperty(const PropertyMetadata& metadata, Object object) :
                     PropertyBase(metadata),
-                    object(std::move(object)),
-                    one_of(std::move(one_of))
+                    object(std::move(object))
             {}
 
             void visit(IVisitor &visitor) override;
@@ -203,6 +220,8 @@ namespace adapter {
             virtual void on_property(const StringProperty &prop) = 0;
 
             virtual void on_property(const EnumProperty &prop) = 0;
+
+            virtual void on_property(const ArrayProperty& prop) = 0;
 
             virtual void on_property(const NumericProperty<float> &prop) = 0;
 

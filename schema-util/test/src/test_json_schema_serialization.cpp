@@ -35,23 +35,26 @@ TEST_CASE( "schema serialization" )
                 "endpoint",
                 Required::yes,
                 "IP endpoint",
-                {
-                        string_property(
-                                "host",
-                                Required::yes,
-                                "Host IP address",
-                                "127.0.0.1",
-                                StringFormat::IPv4
-                        ),
-                        numeric_property<uint16_t>(
-                                "port",
-                                Required::yes,
-                                "Endpoint port",
-                                20000,
-                                Bound<uint16_t>::from(1),
-                                Bound<uint16_t>::from(65535)
-                        )
+                Object {
+                        {
+                                string_property(
+                                        "host",
+                                        Required::yes,
+                                        "Host IP address",
+                                        "127.0.0.1",
+                                        StringFormat::IPv4
+                                ),
+                                numeric_property<uint16_t>(
+                                        "port",
+                                        Required::yes,
+                                        "Endpoint port",
+                                        20000,
+                                        Bound<uint16_t>::from(1),
+                                        Bound<uint16_t>::from(65535)
+                                )
+                        }
                 }
+
         );
 
         write_schema(std::cout, "https://www.github.com/openenergysolutions", { endpoint });
@@ -81,17 +84,45 @@ TEST_CASE( "schema serialization" )
                 "stuff",
                 Required::yes,
                 "description",
-                { enumeration, foo_prop, bar_prop},
-                one_of(
-                        {
-                            Variant({enumeration->when(FooBar::Value::foo)}, {foo_prop}),
-                            Variant({enumeration->when(FooBar::Value::bar)}, {bar_prop}),
-                        }
+                Object(
+                        { enumeration, foo_prop, bar_prop},
+                        OneOf(
+                                {
+                                        Variant({enumeration->when(FooBar::Value::foo)}, {foo_prop}),
+                                        Variant({enumeration->when(FooBar::Value::bar)}, {bar_prop}),
+                                }
+                        )
                 )
+
         );
 
 
         write_schema(std::cout, "https://www.github.com/openenergysolutions", { object });
+    }
+
+
+    SECTION("writes an array property")
+    {
+        const auto array = array_property(
+                "endpoints",
+                Required::yes,
+                "array of endpoints",
+                Object(
+                        {
+                                string_property("address", Required::yes, "IP address", "127.0.0.1", StringFormat::IPv4),
+                                numeric_property<uint16_t>(
+                                        "port",
+                                        Required::yes,
+                                        "Endpoint port",
+                                        20000,
+                                        Bound<uint16_t>::from(1),
+                                        Bound<uint16_t>::from(65535)
+                                )
+                        })
+        );
+
+
+        write_schema(std::cout, "https://www.github.com/openenergysolutions", { array });
     }
 }
 

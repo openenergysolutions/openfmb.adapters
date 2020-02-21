@@ -12,6 +12,10 @@ namespace adapter {
             visitor.end(*this);
         }
 
+        void ArrayProperty::visit(IVisitor &visitor) {
+            visitor.on_property(*this);
+        }
+
         void StringProperty::visit(IVisitor& visitor) {
             visitor.on_property(*this);
         }

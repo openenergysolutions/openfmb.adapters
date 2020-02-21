@@ -16,7 +16,9 @@ namespace adapter {
 
         property_ptr_t string_property(const std::string& name, Required required, const std::string& description, const std::string& default_value, StringFormat format);
 
-        property_ptr_t object_property(const std::string& name, Required required, const std::string& description, std::initializer_list<property_ptr_t> properties, std::unique_ptr<OneOf> one_of = nullptr);
+        property_ptr_t object_property(const std::string& name, Required required, const std::string& description, Object object);
+
+        property_ptr_t array_property(const std::string& name, Required required, const std::string& description, Object object);
 
         template <class Enum>
         std::shared_ptr<TypedEnumProperty<Enum>> enum_property(Required required, const std::string& description, typename Enum::Value default_value)
@@ -35,7 +37,6 @@ namespace adapter {
             return std::make_shared<NumericProperty<T>>(PropertyMetadata(required, name, description), default_value, min, max);
         }
 
-        std::unique_ptr<OneOf> one_of(const std::initializer_list<Variant>& variants);
     }
 }
 
