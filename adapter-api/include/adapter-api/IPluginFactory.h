@@ -5,6 +5,8 @@
 #include "IMessageBus.h"
 #include "IPlugin.h"
 
+#include "schema-util/Types.h"
+
 #include "yaml-cpp/yaml.h"
 
 #include "Logger.h"
@@ -32,6 +34,10 @@ namespace api {
          * @param out YAML emitter
          */
         virtual void write_default_config(YAML::Emitter& out) const = 0;
+
+        virtual schema::Object get_plugin_schema() const {
+            return schema::Object({});
+        };
 
         /**
          * Write the default configuration for a single communication session. Only

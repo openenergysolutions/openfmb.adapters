@@ -16,6 +16,10 @@ namespace adapter {
             visitor.on_property(*this);
         }
 
+        void BoolProperty::visit(IVisitor& visitor) {
+            visitor.on_property(*this);
+        }
+
         void StringProperty::visit(IVisitor& visitor) {
             visitor.on_property(*this);
         }

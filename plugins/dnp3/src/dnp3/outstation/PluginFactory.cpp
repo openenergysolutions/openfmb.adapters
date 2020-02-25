@@ -7,6 +7,7 @@
 #include <adapter-util/config/CommandPriorityMap.h>
 #include <adapter-util/config/generated/ModelVisitors.h>
 #include <adapter-util/util/YAMLTemplate.h>
+#include <schema-util/Builder.h>
 
 #include "../ConfigStrings.h"
 
@@ -53,6 +54,26 @@ namespace dnp3 {
 
                 api::ProfileRegistry::handle_by_name<WriterHandler>(profile, out);
             }
+        }
+
+        schema::Object PluginFactory::get_plugin_schema() const
+        {
+            return schema::Object({
+                schema::numeric_property<int64_t>(
+                    keys::thread_pool_size,
+                    schema::Required::yes,
+                    "number of threads in the pool (defaults to std::thread::hardware_concurrency() if <= 0",
+                    1,
+                    schema::Bound<int64_t>::from(0),
+                    schema::Bound<int64_t>::unused()
+                ),
+                schema::array_property(
+                    keys::outstations,
+                    schema::Required::yes,
+                    "DNP3 outstations",
+                    util::yaml::get_template_schema("dnp3-outstation-template.yaml")
+                )
+            });
         }
 
         void PluginFactory::write_default_config(YAML::Emitter& out) const

@@ -4,6 +4,7 @@
 #include "adapter-util/ConfigStrings.h"
 #include "adapter-util/config/generated/ModelVisitors.h"
 #include "adapter-util/util/YAMLTemplate.h"
+#include "schema-util/Builder.h"
 #include "generated/Type.h"
 #include "pub/PublishingConfigWriteVisitor.h"
 #include "pub/PublishingPlugin.h"
@@ -36,6 +37,18 @@ namespace goose {
     std::unique_ptr<api::IPlugin> PublishingPluginFactory::create(const YAML::Node& node, const api::Logger& logger, api::message_bus_t bus)
     {
         return std::make_unique<PublishingPlugin>(node, logger, bus);
+    }
+
+    schema::Object PublishingPluginFactory::get_plugin_schema() const
+    {
+        return schema::Object({
+            schema::array_property(
+                keys::goCb,
+                schema::Required::yes,
+                "GOOSE control blocks",
+                util::yaml::get_template_schema("goCb-template.yaml")
+            )
+        });
     }
 
     void PublishingPluginFactory::write_default_config(YAML::Emitter& out) const

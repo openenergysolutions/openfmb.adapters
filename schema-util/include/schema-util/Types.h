@@ -57,6 +57,11 @@ namespace adapter {
                     property_name(std::move(property_name)),
                     value(std::move(value))
             {}
+
+            template <typename Enum>
+            static ConstantProperty from_enum(typename Enum::Value value) {
+                return ConstantProperty(Enum::label, Enum::to_string(value));
+            }
         };
 
         class Variant {
@@ -82,7 +87,7 @@ namespace adapter {
         class Object {
         public:
             /// Collection of all properties in an object
-            const std::vector<property_ptr_t> properties;
+            std::vector<property_ptr_t> properties;
             const OneOf one_of;
 
             explicit Object(std::vector<property_ptr_t> properties) : properties(std::move(properties)) {}
@@ -138,9 +143,23 @@ namespace adapter {
             }
         };
 
+        class BoolProperty : public TypedPropertyBase<bool> {
+
+        public:
+
+            BoolProperty(const PropertyMetadata& metadata, bool default_value) :
+                    TypedPropertyBase<bool>(metadata, default_value)
+            {}
+
+            void visit(IVisitor &visitor) override;
+        };
+
+
+
         enum class StringFormat {
             None,
-            IPv4
+            IPv4,
+            Subject
         };
 
         class StringProperty : public TypedPropertyBase<std::string> {
@@ -216,6 +235,8 @@ namespace adapter {
             virtual ~IVisitor() = default;
 
             virtual void begin(const ObjectProperty &prop) = 0;
+
+            virtual void on_property(const BoolProperty &prop) = 0;
 
             virtual void on_property(const StringProperty &prop) = 0;
 

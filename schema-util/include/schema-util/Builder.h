@@ -5,14 +5,16 @@
 #include "Types.h"
 
 #include <ostream>
-#include <initializer_list>
+#include <vector>
 
 namespace adapter {
     namespace schema {
 
-        void write_schema(std::ostream& ostream, const std::string& id, std::initializer_list<property_ptr_t> properties);
+        void write_schema(std::ostream& ostream, const std::string& id, std::vector<property_ptr_t> properties);
 
         /// ---------  DSL for building up complex schemas -----------
+
+        property_ptr_t bool_property(const std::string& name, Required required, const std::string& description, bool default_value);
 
         property_ptr_t string_property(const std::string& name, Required required, const std::string& description, const std::string& default_value, StringFormat format);
 

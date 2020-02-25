@@ -20,11 +20,13 @@ namespace adapter {
 
         JSONSchemaPrinter(std::ostream &output, const std::string& schema_id);
 
-        void close_document(const std::initializer_list<property_ptr_t>& fields);
+        void close_document(const std::vector<property_ptr_t>& fields);
 
         // ----- implement IVisitor -------
 
         void begin(const ObjectProperty &prop) override;
+
+        void on_property(const BoolProperty& prop) override;
 
         void on_property(const StringProperty& prop) override;
 

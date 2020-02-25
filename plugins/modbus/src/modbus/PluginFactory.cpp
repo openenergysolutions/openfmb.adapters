@@ -9,6 +9,7 @@
 #include <adapter-util/config/generated/ModelVisitors.h>
 #include <adapter-util/util/EnumUtil.h>
 #include <adapter-util/util/YAMLTemplate.h>
+#include <schema-util/Builder.h>
 
 #include "ControlConfigWriteVisitor.h"
 #include "MeasurementConfigWriteVisitor.h"
@@ -46,6 +47,26 @@ namespace modbus {
             out << YAML::EndMap;
         }
     };
+
+    schema::Object PluginFactory::get_plugin_schema() const
+    {
+        return schema::Object({
+            schema::numeric_property<int64_t>(
+                keys::thread_pool_size,
+                schema::Required::yes,
+                "number of threads in the pool (defaults to std::thread::hardware_concurrency() if <= 0",
+                1,
+                schema::Bound<int64_t>::from(0),
+                schema::Bound<int64_t>::unused()
+            ),
+            schema::array_property(
+                keys::sessions,
+                schema::Required::yes,
+                "Modbus sessions",
+                util::yaml::get_template_schema("modbus-master-config.yaml")
+            )
+        });
+    }
 
     void PluginFactory::write_default_config(YAML::Emitter& out) const
     {

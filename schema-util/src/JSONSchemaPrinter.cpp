@@ -13,7 +13,7 @@ namespace adapter {
             writer.begin_object_property("properties");
         }
 
-        void JSONSchemaPrinter::close_document(const std::initializer_list<property_ptr_t>& fields)
+        void JSONSchemaPrinter::close_document(const std::vector<property_ptr_t>& fields)
         {
            writer.end_object();
            writer.begin_array("required");
@@ -38,11 +38,21 @@ namespace adapter {
             this->writer.begin_object_property("properties");
         }
 
+        void JSONSchemaPrinter::on_property(const BoolProperty& prop) {
+            this->writer.begin_object_property(prop.get_name());
+            this->writer.write_property("description", prop.get_description());
+            this->writer.write_property("type", "boolean");
+            this->writer.end_object();
+        }
+
         void JSONSchemaPrinter::on_property(const StringProperty& prop) {
             this->writer.begin_object_property(prop.get_name());
             this->writer.write_property("description", prop.get_description());
             this->writer.write_property("type", "string");
             switch(prop.format) {
+                case(StringFormat::Subject):
+                    this->writer.write_property("pattern", "\\\\*|([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})");
+                    break;
                 case(StringFormat::IPv4):
                     this->writer.write_property("format", "ipv4");
                     break;
@@ -72,6 +82,7 @@ namespace adapter {
 
         void JSONSchemaPrinter::on_property(const ArrayProperty& prop) {
             this->writer.begin_object_property(prop.get_name());
+            this->writer.write_property("description", prop.get_description());
             this->writer.write_property("type", "array");
 
             ObjectProperty object(PropertyMetadata(Required::yes, "items", ""), prop.array_type);
@@ -81,11 +92,29 @@ namespace adapter {
         }
 
         void JSONSchemaPrinter::on_property(const NumericProperty<float> &prop) {
-            this->writer.write_property(prop.get_name(), prop.get_default_value());
+            this->writer.begin_object_property(prop.get_name());
+            this->writer.write_property("description", prop.get_description());
+            this->writer.write_property("type", "number");
+            if(prop.min.valid) {
+                this->writer.write_property("minimum", prop.min.value);
+            }
+            if(prop.max.valid) {
+                this->writer.write_property("maximum", prop.max.value);
+            }
+            this->writer.end_object();
         }
 
         void JSONSchemaPrinter::on_property(const NumericProperty<int64_t> &prop) {
-            this->writer.write_property(prop.get_name(), prop.get_default_value());
+            this->writer.begin_object_property(prop.get_name());
+            this->writer.write_property("description", prop.get_description());
+            this->writer.write_property("type", "integer");
+            if(prop.min.valid) {
+                this->writer.write_property("minimum", prop.min.value);
+            }
+            if(prop.max.valid) {
+                this->writer.write_property("maximum", prop.max.value);
+            }
+            this->writer.end_object();
         }
 
         void JSONSchemaPrinter::on_property(const NumericProperty<uint16_t> &prop) {

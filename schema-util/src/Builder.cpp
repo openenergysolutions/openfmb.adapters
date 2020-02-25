@@ -6,7 +6,7 @@
 namespace adapter {
     namespace schema {
 
-        void write_schema(std::ostream& ostream, const std::string& id, std::initializer_list<property_ptr_t> properties)
+        void write_schema(std::ostream& ostream, const std::string& id, std::vector<property_ptr_t> properties)
         {
             JSONSchemaPrinter printer(ostream, id);
 
@@ -15,6 +15,11 @@ namespace adapter {
             }
 
             printer.close_document(properties);
+        }
+
+        property_ptr_t bool_property(const std::string& name, Required required, const std::string& description, bool default_value)
+        {
+            return std::make_shared<BoolProperty>(PropertyMetadata(required, name, description), default_value);
         }
 
         property_ptr_t string_property(const std::string& name, Required required, const std::string& description, const std::string& default_value, StringFormat format)

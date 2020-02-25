@@ -1,4 +1,5 @@
 
+#include <array>
 #include <iostream>
 #include "catch.hpp"
 
@@ -58,6 +59,13 @@ TEST_CASE( "schema serialization" )
         );
 
         write_schema(std::cout, "https://www.github.com/openenergysolutions", { endpoint });
+    }
+
+    SECTION("write a boolean")
+    {
+        const auto bool_prop = bool_property("foo", Required::yes, "foo or !foo", false);
+
+        write_schema(std::cout, "https://www.github.com/openenergysolutions", { bool_prop });
     }
 
     SECTION("writes an enum")

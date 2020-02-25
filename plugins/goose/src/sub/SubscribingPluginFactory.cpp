@@ -5,6 +5,7 @@
 #include "adapter-util/config/generated/ModelVisitors.h"
 #include "adapter-util/util/EnumUtil.h"
 #include "adapter-util/util/YAMLTemplate.h"
+#include "schema-util/Builder.h"
 #include "generated/Type.h"
 #include "sub/SubscribingConfigWriteVisitor.h"
 #include "sub/SubscribingPlugin.h"
@@ -37,6 +38,18 @@ namespace goose {
     std::unique_ptr<api::IPlugin> SubscribingPluginFactory::create(const YAML::Node& node, const api::Logger& logger, api::message_bus_t bus)
     {
         return std::make_unique<SubscribingPlugin>(node, logger, bus);
+    }
+
+    schema::Object SubscribingPluginFactory::get_plugin_schema() const
+    {
+        return schema::Object({
+            schema::array_property(
+                keys::goCb,
+                schema::Required::yes,
+                "GOOSE control blocks",
+                util::yaml::get_template_schema("goCb-template.yaml")
+            )
+        });
     }
 
     void SubscribingPluginFactory::write_default_config(YAML::Emitter& out) const
