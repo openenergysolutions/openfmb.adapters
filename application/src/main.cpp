@@ -5,6 +5,7 @@
 
 #include "adapter-util/Version.h"
 #include "adapter-util/util/YAMLUtil.h"
+#include "adapter-util/config/DefaultConfigWriter.h"
 
 #include "schema-util/Builder.h"
 
@@ -17,6 +18,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <vector>
 
 using namespace adapter;
 
@@ -26,13 +28,15 @@ int run_application(const std::string& config_file_path);
 
 int write_default_config(const std::string& config_file_path);
 
-int write_plugin_schema(const std::string& config_file_path);
+int write_config_schema(const std::string& config_file_path);
 
 int write_default_session_config(const std::string& config_file_path, const api::IPluginFactory& factory, const api::profile_vec_t& profiles);
 
 api::profile_vec_t get_profiles(const argagg::parser_results& args);
 
 std::shared_ptr<const api::IPluginFactory> get_factory(const argagg::parser_results& args);
+
+std::vector<schema::property_ptr_t> get_config_schema();
 
 void print_plugins();
 
@@ -81,7 +85,7 @@ int main(int argc, char** argv)
         }
 
         if (args[flags::generate_schema]) {
-            return write_plugin_schema(args[flags::generate_schema]);
+            return write_config_schema(args[flags::generate_schema]);
         }
 
         std::cerr << "You did not specify an option" << std::endl;
@@ -190,19 +194,12 @@ int write_default_config(const std::string& config_file_path)
     out << YAML::BeginDoc;
     out << YAML::BeginMap;
 
-    out << YAML::Comment("common application settings");
-
-    logging::write_default_logging_config(out);
-
-    out << YAML::Newline << YAML::Newline << YAML::Comment("map of plugin configurations");
-    out << YAML::Key << keys::plugins;
-    out << YAML::BeginMap;
-    registry.foreach_plugin(
-        [&](api::IPluginFactory& factory) {
-            write_default_plugin_config(factory, out);
-            out << YAML::Newline;
-        });
-    out << YAML::EndMap;
+    auto writer = adapter::util::yaml::DefaultConfigWriter{out};
+    const auto schema = get_config_schema();
+    for(const auto& prop : schema)
+    {
+        prop->visit(writer);
+    }
 
     // end primary map
     out << YAML::EndMap;
@@ -215,32 +212,10 @@ int write_default_config(const std::string& config_file_path)
     return 0;
 }
 
-int write_plugin_schema(const std::string& config_file_path)
+int write_config_schema(const std::string& config_file_path)
 {
-    using namespace adapter::schema;
-
-    // Build the "plugins" properties
-    std::vector<property_ptr_t> plugin_properties{};
-    registry.foreach_plugin([&plugin_properties](api::IPluginFactory& factory) {
-        auto plugin_schema = factory.get_plugin_schema();
-
-        // Add the "enable property"
-        plugin_schema.properties.push_back(bool_property(
-            keys::enabled,
-            Required::yes,
-            "enable this plugin",
-            false
-        ));
-
-        plugin_properties.push_back(object_property(factory.name(), Required::no, factory.description(), plugin_schema));
-    });
-    const auto plugins = object_property("plugins", Required::yes, "map of plugin configurations", schema::Object{plugin_properties});
-
     std::ofstream file(config_file_path);
-    write_schema(file, "https://www.github.com/openenergysolutions", {
-        logging::get_logging_config_schema(),
-        plugins
-    });
+    write_schema(file, "https://www.github.com/openenergysolutions", get_config_schema());
 
     return 0;
 }
@@ -288,4 +263,28 @@ std::vector<std::unique_ptr<api::IPlugin>> initialize(const std::string& yaml_pa
     registry.foreach_plugin(try_to_load);
 
     return std::move(plugins);
+}
+
+std::vector<schema::property_ptr_t> get_config_schema()
+{
+    using namespace adapter::schema;
+
+    // Build the "plugins" properties
+    std::vector<property_ptr_t> plugin_properties{};
+    registry.foreach_plugin([&plugin_properties](api::IPluginFactory& factory) {
+        auto plugin_schema = factory.get_plugin_schema();
+
+        // Add the "enable property"
+        plugin_schema.properties.push_back(bool_property(
+            keys::enabled,
+            Required::yes,
+            "enable this plugin",
+            false
+        ));
+
+        plugin_properties.push_back(object_property(factory.name(), Required::no, factory.description(), plugin_schema));
+    });
+    const auto plugins = object_property("plugins", Required::yes, "map of plugin configurations", schema::Object{plugin_properties});
+
+    return {logging::get_logging_config_schema(), plugins};
 }

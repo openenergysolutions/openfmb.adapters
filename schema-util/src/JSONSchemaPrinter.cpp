@@ -148,17 +148,23 @@ namespace adapter {
                 for(const auto& variant : prop.object.one_of.variants) {
                     this->writer.begin_object();
 
-                    // constant properties for this variant
                     this->writer.begin_object_property("properties");
                     for(const auto& constants : variant.constant_values) {
                         this->writer.begin_object_property(constants.property_name);
                         this->writer.write_property("const", constants.value);
                         this->writer.end_object();
                     }
+                    // properties for this variant
+                    for(const auto& value : variant.required_values) {
+                        value->visit(*this);
+                    }
                     this->writer.end_object();
 
                     // required properties for this variant
                     this->writer.begin_array("required");
+                    for(const auto& constant : variant.constant_values) {
+                        this->writer.write_scalar(constant.property_name);
+                    }
                     for(const auto& required : variant.required_values) {
                         this->writer.write_scalar(required->get_name());
                     }
