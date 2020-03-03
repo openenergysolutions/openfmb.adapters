@@ -35,9 +35,7 @@ namespace api {
          */
         virtual void write_default_config(YAML::Emitter& out) const = 0;
 
-        virtual schema::Object get_plugin_schema() const {
-            return schema::Object({});
-        };
+        virtual schema::Object get_plugin_schema() const = 0;
 
         /**
          * Write the default configuration for a single communication session. Only
@@ -47,6 +45,11 @@ namespace api {
          * @param profiles vector of profiles for which to write configuration
          */
         virtual void write_session_config(YAML::Emitter& out, const profile_vec_t& profiles) const = 0;
+
+        virtual std::vector<schema::property_ptr_t> get_session_schema(const profile_vec_t& profiles) const
+        {
+            return {};
+        }
 
         virtual std::unique_ptr<IPlugin> create(const YAML::Node& node, const Logger& logger, message_bus_t bus) = 0;
     };

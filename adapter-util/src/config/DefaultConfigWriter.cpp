@@ -98,7 +98,7 @@ namespace yaml {
             }
 
             // Write required fields
-            for(const auto& field : variant.required_values)
+            for(const auto& field : variant.obj->properties)
             {
                 field->visit(*this);
             }

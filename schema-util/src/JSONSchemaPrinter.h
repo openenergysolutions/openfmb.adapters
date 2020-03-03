@@ -16,6 +16,9 @@ namespace adapter {
         // called after construction
         void declare_schema(const std::string& schema_id);
 
+        void end_object(const Object& object);
+        void write_object_required(const Object& object);
+
     public:
 
         JSONSchemaPrinter(std::ostream &output, const std::string& schema_id);

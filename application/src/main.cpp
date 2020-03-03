@@ -28,9 +28,11 @@ int run_application(const std::string& config_file_path);
 
 int write_default_config(const std::string& config_file_path);
 
-int write_config_schema(const std::string& config_file_path);
+int write_config_schema(const std::string& schema_file_path);
 
 int write_default_session_config(const std::string& config_file_path, const api::IPluginFactory& factory, const api::profile_vec_t& profiles);
+
+int write_session_schema(const std::string& schema_file_path, const api::IPluginFactory& factory, const api::profile_vec_t& profiles);
 
 api::profile_vec_t get_profiles(const argagg::parser_results& args);
 
@@ -85,7 +87,17 @@ int main(int argc, char** argv)
         }
 
         if (args[flags::generate_schema]) {
-            return write_config_schema(args[flags::generate_schema]);
+            if (args[flags::plugin]) {
+                // user wants a session schema for a particular plugin / profile combination
+                return write_session_schema(
+                    args[flags::generate_schema],
+                    *get_factory(args),
+                    get_profiles(args));
+
+            } else {
+                // user is just asking for the main config schema
+                return write_config_schema(args[flags::generate_schema]);
+            }
         }
 
         std::cerr << "You did not specify an option" << std::endl;
@@ -174,18 +186,6 @@ int run_application(const std::string& config_file_path)
     return 0;
 }
 
-int write_default_plugin_config(const api::IPluginFactory& factory, YAML::Emitter& out)
-{
-    out << YAML::Newline << YAML::Comment(factory.description());
-    out << factory.name();
-    out << YAML::BeginMap;
-    out << YAML::Key << keys::enabled << YAML::Value << false;
-    factory.write_default_config(out);
-    out << YAML::EndMap;
-
-    return 0;
-}
-
 int write_default_config(const std::string& config_file_path)
 {
     YAML::Emitter out;
@@ -212,9 +212,9 @@ int write_default_config(const std::string& config_file_path)
     return 0;
 }
 
-int write_config_schema(const std::string& config_file_path)
+int write_config_schema(const std::string& schema_file_path)
 {
-    std::ofstream file(config_file_path);
+    std::ofstream file(schema_file_path);
     write_schema(file, "https://www.github.com/openenergysolutions", get_config_schema());
 
     return 0;
@@ -230,6 +230,14 @@ int write_default_session_config(const std::string& config_file_path, const api:
     std::ofstream output_file(config_file_path);
     output_file << out.c_str();
     output_file << std::endl;
+    return 0;
+}
+
+int write_session_schema(const std::string& schema_file_path, const api::IPluginFactory& factory, const api::profile_vec_t& profiles)
+{
+    std::ofstream file(schema_file_path);
+    write_schema(file, "https://www.github.com/openenergysolutions", factory.get_session_schema(profiles));
+
     return 0;
 }
 

@@ -27,17 +27,25 @@ namespace adapter {
             return std::make_shared<StringProperty>(PropertyMetadata(required, name, description), default_value, format);
         }
 
-        property_ptr_t object_property(const std::string& name, Required required, const std::string& description, Object object)
+        std::shared_ptr<ObjectProperty> object_property(const std::string& name, Required required, const std::string& description, Object object)
         {
             return std::make_shared<ObjectProperty>(PropertyMetadata(required, name, description), std::move(object));
         }
 
-        property_ptr_t array_property(const std::string& name, Required required, const std::string& description, Object object)
+        std::shared_ptr<ArrayProperty> array_property(const std::string& name, Required required, const std::string& description, Object object)
         {
             return std::make_shared<ArrayProperty>(PropertyMetadata(required, name, description), std::move(object));
         }
 
+        std::shared_ptr<EnumProperty> enum_property(const std::string& label, const std::vector<std::string>& valid_values, Required required, const std::string& description, const std::string& default_value)
+        {
+            std::vector<std::string> values;
+            for(auto value : valid_values) {
+                values.push_back(value);
+            }
+
+            return std::make_shared<EnumProperty>(PropertyMetadata(required, label, description), default_value, std::move(values));
+        }
+
     }
 }
-
-

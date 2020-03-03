@@ -53,6 +53,9 @@ namespace adapter {
                 case(StringFormat::Subject):
                     this->writer.write_property("pattern", "\\\\*|([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})");
                     break;
+                case(StringFormat::Uuid):
+                    this->writer.write_property("pattern", "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}");
+                    break;
                 case(StringFormat::IPv4):
                     this->writer.write_property("format", "ipv4");
                     break;
@@ -133,19 +136,23 @@ namespace adapter {
         void JSONSchemaPrinter::end(const ObjectProperty &prop) {
             this->writer.end_object(); // end properties
 
-            if(prop.object.one_of.variants.empty()) {
-                this->writer.begin_array("required");
-                for(const auto& field : prop.object.properties) {  // list required fields
-                    if(field->is_required()) {
-                        writer.write_scalar(field->get_name());
-                    }
-                }
-                this->writer.end_array();
-            }
-            else {
+            // list required fields
+            this->writer.begin_array("required");
+            this->write_object_required(prop.object);
+            this->writer.end_array();
+
+            // write oneofs
+            this->end_object(prop.object);
+
+            this->writer.end_object(); // end object
+        }
+
+        void JSONSchemaPrinter::end_object(const Object& object)
+        {
+            if(!object.one_of.variants.empty()) {
                 this->writer.begin_array("oneOf");
 
-                for(const auto& variant : prop.object.one_of.variants) {
+                for(const auto& variant : object.one_of.variants) {
                     this->writer.begin_object();
 
                     this->writer.begin_object_property("properties");
@@ -154,20 +161,20 @@ namespace adapter {
                         this->writer.write_property("const", constants.value);
                         this->writer.end_object();
                     }
+
                     // properties for this variant
-                    for(const auto& value : variant.required_values) {
+                    for(const auto& value : variant.obj->properties) {
                         value->visit(*this);
                     }
-                    this->writer.end_object();
+                    this->writer.end_object(); // end properties
+                    this->end_object(*variant.obj);
 
                     // required properties for this variant
                     this->writer.begin_array("required");
                     for(const auto& constant : variant.constant_values) {
                         this->writer.write_scalar(constant.property_name);
                     }
-                    for(const auto& required : variant.required_values) {
-                        this->writer.write_scalar(required->get_name());
-                    }
+                    this->write_object_required(*variant.obj);
                     this->writer.end_array();
 
                     this->writer.end_object();
@@ -175,13 +182,16 @@ namespace adapter {
 
                 this->writer.end_array();
             }
-
-            this->writer.end_object(); // end object
         }
 
-
+        void JSONSchemaPrinter::write_object_required(const Object& object)
+        {
+            for(const auto& field : object.properties) {
+                if(field->is_required()) {
+                    writer.write_scalar(field->get_name());
+                }
+            }
+        }
 
     }
 }
-
-

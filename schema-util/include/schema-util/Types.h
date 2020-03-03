@@ -64,21 +64,29 @@ namespace adapter {
             }
         };
 
+        class Object;
+
         class Variant {
         public:
-            const std::vector<ConstantProperty> constant_values;
-            const std::vector<property_ptr_t> required_values;
+            std::vector<ConstantProperty> constant_values;
+            std::shared_ptr<Object> obj;
 
-            Variant(const std::initializer_list<ConstantProperty> &constant_values,
+            Variant(const std::vector<ConstantProperty> &constant_values,
                     const std::initializer_list<property_ptr_t> &required_values)
                     : constant_values(constant_values),
-                      required_values(required_values)
+                      obj(std::make_shared<Object>(required_values))
+            {}
+
+            Variant(const std::vector<ConstantProperty> &constant_values,
+                    std::shared_ptr<Object> obj)
+                    : constant_values(constant_values),
+                      obj(std::move(obj))
             {}
         };
 
         class OneOf {
         public:
-            const std::vector<Variant> variants;
+            std::vector<Variant> variants;
 
             OneOf() = default;
             OneOf(const std::initializer_list<Variant> &variants) : variants(variants) {}
@@ -92,7 +100,7 @@ namespace adapter {
 
             explicit Object(std::vector<property_ptr_t> properties) : properties(std::move(properties)) {}
 
-            Object(const std::initializer_list<property_ptr_t>& properties, OneOf one_of) : properties(properties), one_of(std::move(one_of)) {}
+            Object(std::vector<property_ptr_t> properties, OneOf one_of) : properties(std::move(properties)), one_of(std::move(one_of)) {}
         };
 
 
@@ -159,6 +167,7 @@ namespace adapter {
         enum class StringFormat {
             None,
             IPv4,
+            Uuid,
             Subject
         };
 
@@ -220,7 +229,7 @@ namespace adapter {
 
         class ObjectProperty : public PropertyBase {
         public:
-            const Object object;
+            Object object;
 
             ObjectProperty(const PropertyMetadata& metadata, Object object) :
                     PropertyBase(metadata),

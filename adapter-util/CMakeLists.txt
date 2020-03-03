@@ -28,6 +28,7 @@ set(HEADERS
     ./include/adapter-util/config/SubscribingConfigReadVisitorBase.h
     ./include/adapter-util/config/ConfigReadVisitorBase.h
     ./include/adapter-util/config/ConfigWriteVisitorBase.h
+    ./include/adapter-util/config/SchemaWriteVisitorBase.h
     ./include/adapter-util/config/IAccessor.h
     ./include/adapter-util/config/ICommandPrioritySource.h
     ./include/adapter-util/config/IDescriptorPath.h
@@ -63,6 +64,7 @@ set(SOURCES
     ./src/config/AccessorImpl.h
     ./src/config/CommandPriorityMap.cpp
     ./src/config/ConfigWriteVisitorBase.cpp
+    ./src/config/SchemaWriteVisitorBase.cpp
     ./src/config/DescriptorPath.cpp
     ./src/config/YAMLGetters.cpp
     ./src/config/SubjectNameSuffix.cpp
