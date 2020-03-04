@@ -18,6 +18,7 @@ namespace adapter {
         };
 
         std::ostream& output;
+        const bool pretty_print;
         bool closed = false;
         bool allow_delimiter = false;
         bool needs_new_line = false;
@@ -29,7 +30,7 @@ namespace adapter {
 
     public:
 
-        explicit JSONWriter(std::ostream &output);
+        explicit JSONWriter(std::ostream &output, bool pretty_print = false);
 
         template <class T>
         void write_property(const std::string& name, const T& value);

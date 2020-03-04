@@ -21,7 +21,7 @@ namespace adapter {
 
     public:
 
-        JSONSchemaPrinter(std::ostream &output, const std::string& schema_id);
+        JSONSchemaPrinter(std::ostream &output, const std::string& schema_id, bool pretty_print = false);
 
         void close_document(const std::vector<property_ptr_t>& fields);
 

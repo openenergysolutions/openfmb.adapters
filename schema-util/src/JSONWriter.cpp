@@ -6,8 +6,10 @@ namespace adapter {
 
         void JSONWriter::print_indent()
         {
-            for (auto i = 0; i <= this->indent.size(); ++i) {
-                this->output << "    ";
+            if(pretty_print) {
+                for (auto i = 0; i <= this->indent.size(); ++i) {
+                    this->output << "    ";
+                }
             }
         }
 
@@ -23,7 +25,7 @@ namespace adapter {
 
             this->allow_delimiter = false;
 
-            if(this->needs_new_line) {
+            if(this->needs_new_line && pretty_print) {
                 this->output << std::endl;
             }
 
@@ -43,9 +45,12 @@ namespace adapter {
         }
 
 
-        JSONWriter::JSONWriter(std::ostream &output) : output(output)
+        JSONWriter::JSONWriter(std::ostream &output, bool pretty_print) : output(output), pretty_print(pretty_print)
         {
-            this->output << "{" << std::endl;
+            this->output << "{";
+            if(pretty_print) {
+                this->output << std::endl;
+            }
         }
 
         void JSONWriter::begin_object_property(const std::string &name)
@@ -64,7 +69,10 @@ namespace adapter {
             this->flush_state(true);
 
             this->print_indent();
-            this->output << "{" << std::endl;
+            this->output << "{";
+            if(pretty_print) {
+                this->output << std::endl;
+            }
             this->indent.push_back(IndentType::object);
             this->needs_new_line = false;
             this->allow_delimiter = false;

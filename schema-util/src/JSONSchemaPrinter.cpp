@@ -26,7 +26,7 @@ namespace adapter {
            writer.close_document();
         }
 
-        JSONSchemaPrinter::JSONSchemaPrinter(std::ostream &output, const std::string& schema_id) : writer(output)
+        JSONSchemaPrinter::JSONSchemaPrinter(std::ostream &output, const std::string& schema_id, bool pretty_print) : writer(output, pretty_print)
         {
             this->declare_schema(schema_id);
         }

@@ -106,7 +106,7 @@ namespace master {
                     StringFormat::None
                 ),
                 enum_property(
-                    keys::control_code,
+                    "control-code",
                     {
                         opendnp3::ControlCodeSpec::to_string(opendnp3::ControlCode::NUL),
                         opendnp3::ControlCodeSpec::to_string(opendnp3::ControlCode::NUL_CANCEL),
