@@ -88,8 +88,7 @@ namespace adapter {
             this->writer.write_property("description", prop.get_description());
             this->writer.write_property("type", "array");
 
-            ObjectProperty object(PropertyMetadata(Required::yes, "items", ""), prop.array_type);
-            object.visit(*this);
+            prop.array_items->visit(*this);
 
             this->writer.end_object();
         }

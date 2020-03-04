@@ -22,6 +22,8 @@ namespace adapter {
 
         std::shared_ptr<ArrayProperty> array_property(const std::string& name, Required required, const std::string& description, Object object);
 
+        std::shared_ptr<ArrayProperty> string_array_property(const std::string& name, Required required, const std::string& description, const std::string& default_value, StringFormat format);
+
         template <class Enum>
         std::shared_ptr<TypedEnumProperty<Enum>> enum_property(Required required, const std::string& description, typename Enum::Value default_value)
         {

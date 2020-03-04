@@ -96,7 +96,7 @@ namespace adapter {
         public:
             /// Collection of all properties in an object
             std::vector<property_ptr_t> properties;
-            const OneOf one_of;
+            OneOf one_of;
 
             explicit Object(std::vector<property_ptr_t> properties) : properties(std::move(properties)) {}
 
@@ -126,11 +126,11 @@ namespace adapter {
         class ArrayProperty : public PropertyBase {
         public:
 
-            const Object array_type;
+            property_ptr_t array_items;
 
-            ArrayProperty(const PropertyMetadata &metadata, Object arrayType) :
+            ArrayProperty(const PropertyMetadata &metadata, property_ptr_t arrayItems) :
                 PropertyBase(metadata),
-                array_type(std::move(arrayType))
+                array_items(std::move(arrayItems))
             {}
 
             void visit(IVisitor &visitor) override;

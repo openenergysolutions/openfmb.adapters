@@ -26,23 +26,23 @@ namespace util {
     protected:
         /// ---- handlers for writing protocol specific mappings ----
 
-        virtual std::shared_ptr<schema::Object> get_mapped_bool_schema() = 0;
+        virtual std::shared_ptr<schema::Object> get_mapped_bool_schema() { return nullptr; };
 
-        virtual std::shared_ptr<schema::Object> get_mapped_int32_schema() = 0;
+        virtual std::shared_ptr<schema::Object> get_mapped_int32_schema() { return nullptr; };
 
-        virtual std::shared_ptr<schema::Object> get_mapped_int64_schema() = 0;
+        virtual std::shared_ptr<schema::Object> get_mapped_int64_schema() { return nullptr; };
 
-        virtual std::shared_ptr<schema::Object> get_mapped_float_schema() = 0;
+        virtual std::shared_ptr<schema::Object> get_mapped_float_schema() { return nullptr; };
 
-        virtual std::shared_ptr<schema::Object> get_mapped_string_schema() { return std::make_shared<schema::Object>(std::vector<schema::property_ptr_t>()); }
+        virtual std::shared_ptr<schema::Object> get_mapped_string_schema() { return nullptr; }
 
-        virtual std::shared_ptr<schema::Object> get_mapped_enum_schema(google::protobuf::EnumDescriptor const* descriptor) = 0;
+        virtual std::shared_ptr<schema::Object> get_mapped_enum_schema(google::protobuf::EnumDescriptor const* descriptor) { return nullptr; };
 
-        virtual std::shared_ptr<schema::Object> get_mapped_commonmodule_quality_schema() { return std::make_shared<schema::Object>(std::vector<schema::property_ptr_t>()); }
+        virtual std::shared_ptr<schema::Object> get_mapped_commonmodule_quality_schema() { return nullptr; }
 
-        virtual std::shared_ptr<schema::Object> get_mapped_commonmodule_timestamp_schema() { return std::make_shared<schema::Object>(std::vector<schema::property_ptr_t>()); }
+        virtual std::shared_ptr<schema::Object> get_mapped_commonmodule_timestamp_schema() { return nullptr; }
 
-        virtual std::shared_ptr<schema::Object> get_mapped_schedule_parameter_schema() = 0;
+        virtual std::shared_ptr<schema::Object> get_mapped_schedule_parameter_schema() { return nullptr; };
 
     public:
         SchemaWriteVisitorBase();

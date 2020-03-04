@@ -255,7 +255,7 @@ namespace master {
     std::shared_ptr<schema::Object> MeasurementSchemaWriteVisitor::get_mapped_schedule_parameter_schema()
     {
         // Schedule parameter lists not supported for DNP3 measurement profiles
-        return std::make_shared<Object>(std::vector<property_ptr_t>());
+        return nullptr;
     }
 
 }

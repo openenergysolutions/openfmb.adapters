@@ -10,6 +10,7 @@
 #include <schema-util/Builder.h>
 
 #include "ControlConfigWriteVisitor.h"
+#include "ControlSchemaWriteVisitor.h"
 #include "MeasurementConfigWriteVisitor.h"
 #include "MeasurementSchemaWriteVisitor.h"
 
@@ -36,8 +37,7 @@ namespace master {
             auto& props = variant.obj->properties;
 
             if (util::profile_info<T>::type == util::ProfileType::Control) {
-                // TODO: add command priority map
-                //util::CommandPriorityMap::write_default_list(out);
+                props.emplace_back(util::CommandPriorityMap::get_schema());
                 props.emplace_back(
                     numeric_property<int64_t>(
                         util::keys::tolerance,
@@ -46,6 +46,17 @@ namespace master {
                         5000,
                         Bound<int64_t>::from(0),
                         Bound<int64_t>::unused()
+                    )
+                );
+
+                auto visitor = ControlSchemaWriteVisitor{};
+                util::visit<T>(visitor);
+                props.emplace_back(
+                    object_property(
+                        util::keys::mapping,
+                        Required::yes,
+                        "profile mapping",
+                        visitor.get_schema()
                     )
                 );
             }
@@ -71,20 +82,6 @@ namespace master {
                     )
                 );
             }
-
-            /*out << YAML::Key << util::keys::mapping << YAML::Comment("profile model starts here");
-            out << YAML::BeginMap;
-
-            if (util::profile_info<T>::type == util::ProfileType::Control) {
-                ControlConfigWriteVisitor visitor(out);
-                util::visit<T>(visitor);
-
-            } else {
-                MeasurementConfigWriteVisitor visitor(out);
-                util::visit<T>(visitor);
-            }
-
-            out << YAML::EndMap;*/
 
             oneof.variants.push_back(variant);
         }

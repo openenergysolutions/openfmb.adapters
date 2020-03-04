@@ -13,6 +13,8 @@ set(DNP3_SOURCES
         src/dnp3/master/Control.cpp
         src/dnp3/master/ControlConfigWriteVisitor.h
         src/dnp3/master/ControlConfigWriteVisitor.cpp
+        src/dnp3/master/ControlSchemaWriteVisitor.h
+        src/dnp3/master/ControlSchemaWriteVisitor.cpp
         src/dnp3/master/ControlSubscriptionHandler.h
         src/dnp3/master/MeasurementConfigWriteVisitor.h
         src/dnp3/master/MeasurementConfigWriteVisitor.cpp

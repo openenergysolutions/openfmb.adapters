@@ -55,8 +55,7 @@ namespace yaml {
             << YAML::BeginSeq;
 
         this->is_array = true;
-        ObjectProperty object(PropertyMetadata(Required::yes, "items", ""), prop.array_type);
-        object.visit(*this);
+        prop.array_items->visit(*this);
         this->is_array = false;
 
         out << YAML::EndSeq;

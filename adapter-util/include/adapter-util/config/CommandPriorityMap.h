@@ -3,6 +3,7 @@
 #define OPENFMB_ADAPTER_COMMANDPRIORITYMAP_H
 
 #include <adapter-util/config/ICommandPrioritySource.h>
+#include <schema-util/Types.h>
 
 #include <map>
 
@@ -39,6 +40,8 @@ public:
     // ---- implement ICommandPrioritySource ----
 
     size_t get_priority(const YAML::Node& node) override;
+
+    static schema::property_ptr_t get_schema();
 
     static void write_default_list(YAML::Emitter& out);
 

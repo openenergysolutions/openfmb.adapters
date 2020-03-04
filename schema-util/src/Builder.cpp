@@ -34,7 +34,12 @@ namespace adapter {
 
         std::shared_ptr<ArrayProperty> array_property(const std::string& name, Required required, const std::string& description, Object object)
         {
-            return std::make_shared<ArrayProperty>(PropertyMetadata(required, name, description), std::move(object));
+            return std::make_shared<ArrayProperty>(PropertyMetadata(required, name, description), object_property("items", Required::yes, "", std::move(object)));
+        }
+
+        std::shared_ptr<ArrayProperty> string_array_property(const std::string& name, Required required, const std::string& description, const std::string& default_value, StringFormat format)
+        {
+            return std::make_shared<ArrayProperty>(PropertyMetadata(required, name, description), string_property("items", Required::yes, "", default_value, format));
         }
 
         std::shared_ptr<EnumProperty> enum_property(const std::string& label, const std::vector<std::string>& valid_values, Required required, const std::string& description, const std::string& default_value)

@@ -3,6 +3,7 @@
 
 #include "adapter-util/ConfigStrings.h"
 #include "adapter-util/util/YAMLUtil.h"
+#include "schema-util/Builder.h"
 
 #include <adapter-api/Exception.h>
 
@@ -42,6 +43,17 @@ namespace util {
         }
         elem->second.referenced = true;
         return elem->second.priority;
+    }
+
+    schema::property_ptr_t CommandPriorityMap::get_schema()
+    {
+        return schema::string_array_property(
+            keys::command_order,
+            schema::Required::yes,
+            "order of commands by operation id. First == highest priority, last == lower priority",
+            "operation-id",
+            schema::StringFormat::None
+        );
     }
 
     void CommandPriorityMap::write_default_list(YAML::Emitter& out)
