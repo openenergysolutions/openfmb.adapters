@@ -28,11 +28,11 @@ int run_application(const std::string& config_file_path);
 
 int write_default_config(const std::string& config_file_path);
 
-int write_config_schema(const std::string& schema_file_path);
+int write_config_schema(const std::string& schema_file_path, bool pretty_print);
 
 int write_default_session_config(const std::string& config_file_path, const api::IPluginFactory& factory, const api::profile_vec_t& profiles);
 
-int write_session_schema(const std::string& schema_file_path, const api::IPluginFactory& factory, const api::profile_vec_t& profiles);
+int write_session_schema(const std::string& schema_file_path, const api::IPluginFactory& factory, bool pretty_print);
 
 api::profile_vec_t get_profiles(const argagg::parser_results& args);
 
@@ -92,11 +92,11 @@ int main(int argc, char** argv)
                 return write_session_schema(
                     args[flags::generate_schema],
                     *get_factory(args),
-                    get_profiles(args));
+                    args[flags::pretty_print]);
 
             } else {
                 // user is just asking for the main config schema
-                return write_config_schema(args[flags::generate_schema]);
+                return write_config_schema(args[flags::generate_schema], args[flags::pretty_print]);
             }
         }
 
@@ -212,10 +212,10 @@ int write_default_config(const std::string& config_file_path)
     return 0;
 }
 
-int write_config_schema(const std::string& schema_file_path)
+int write_config_schema(const std::string& schema_file_path, bool pretty_print)
 {
     std::ofstream file(schema_file_path);
-    write_schema(file, "https://www.github.com/openenergysolutions", get_config_schema());
+    write_schema(file, "https://www.github.com/openenergysolutions", get_config_schema(), pretty_print);
 
     return 0;
 }
@@ -233,10 +233,10 @@ int write_default_session_config(const std::string& config_file_path, const api:
     return 0;
 }
 
-int write_session_schema(const std::string& schema_file_path, const api::IPluginFactory& factory, const api::profile_vec_t& profiles)
+int write_session_schema(const std::string& schema_file_path, const api::IPluginFactory& factory, bool pretty_print)
 {
     std::ofstream file(schema_file_path);
-    write_schema(file, "https://www.github.com/openenergysolutions", factory.get_session_schema(profiles));
+    write_schema(file, "https://www.github.com/openenergysolutions", factory.get_session_schema(), pretty_print);
 
     return 0;
 }

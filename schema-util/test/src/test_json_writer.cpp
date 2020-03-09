@@ -14,7 +14,7 @@ TEST_CASE( "test json writer" )
     SECTION("can write 2 properties with correct comma placement")
     {
         std::ostringstream  oss;
-        JSONWriter writer(oss);
+        JSONWriter writer(oss, true);
         writer.write_property("host", "127.0.0.1");
         writer.write_property("port", 20000);
         writer.close_document();
@@ -32,7 +32,7 @@ TEST_CASE( "test json writer" )
     SECTION("empty objects can written")
     {
         std::ostringstream  oss;
-        JSONWriter writer(oss);
+        JSONWriter writer(oss, true);
         writer.begin_object_property("empty");
         writer.end_object();
         writer.close_document();
@@ -50,7 +50,7 @@ TEST_CASE( "test json writer" )
     SECTION("can write 2 properties within 2 objects")
     {
         std::ostringstream  oss;
-        JSONWriter writer(oss);
+        JSONWriter writer(oss, true);
         writer.begin_object_property("endpoint1");
         writer.write_property("host", "127.0.0.1");
         writer.write_property("port", "20000");
@@ -80,7 +80,7 @@ TEST_CASE( "test json writer" )
     SECTION("can write array with two scalar elements")
     {
         std::ostringstream  oss;
-        JSONWriter writer(oss);
+        JSONWriter writer(oss, true);
         writer.begin_array("names");
         writer.write_scalar("Jim");
         writer.write_scalar("Susan");
@@ -102,7 +102,7 @@ TEST_CASE( "test json writer" )
     SECTION("can write array of objects two elements")
     {
         std::ostringstream  oss;
-        JSONWriter writer(oss);
+        JSONWriter writer(oss, true);
         writer.begin_array("items");
         writer.begin_object();
         writer.write_property("name","Jim");

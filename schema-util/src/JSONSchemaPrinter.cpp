@@ -16,13 +16,14 @@ namespace adapter {
         void JSONSchemaPrinter::close_document(const std::vector<property_ptr_t>& fields)
         {
            writer.end_object();
-           writer.begin_array("required");
-           for(const auto& field: fields) {
-               if(field->is_required()) {
-                   writer.write_scalar(field->get_name());
-               }
-           }
-           writer.end_array();
+
+            // list required fields
+           if(this->has_required_fields(fields)) {
+                this->writer.begin_array("required");
+                this->write_object_required(fields);
+                this->writer.end_array();
+            }
+
            writer.close_document();
         }
 
@@ -135,18 +136,20 @@ namespace adapter {
         void JSONSchemaPrinter::end(const ObjectProperty &prop) {
             this->writer.end_object(); // end properties
 
-            // list required fields
-            this->writer.begin_array("required");
-            this->write_object_required(prop.object);
-            this->writer.end_array();
-
             // write oneofs
-            this->end_object(prop.object);
+            this->write_oneofs(prop.object);
+
+            // list required fields
+            if(this->has_required_fields(prop.object.properties)) {
+                this->writer.begin_array("required");
+                this->write_object_required(prop.object.properties);
+                this->writer.end_array();
+            }
 
             this->writer.end_object(); // end object
         }
 
-        void JSONSchemaPrinter::end_object(const Object& object)
+        void JSONSchemaPrinter::write_oneofs(const Object& object)
         {
             if(!object.one_of.variants.empty()) {
                 this->writer.begin_array("oneOf");
@@ -166,14 +169,14 @@ namespace adapter {
                         value->visit(*this);
                     }
                     this->writer.end_object(); // end properties
-                    this->end_object(*variant.obj);
+                    this->write_oneofs(*variant.obj);
 
                     // required properties for this variant
                     this->writer.begin_array("required");
                     for(const auto& constant : variant.constant_values) {
                         this->writer.write_scalar(constant.property_name);
                     }
-                    this->write_object_required(*variant.obj);
+                    this->write_object_required(variant.obj->properties);
                     this->writer.end_array();
 
                     this->writer.end_object();
@@ -183,9 +186,19 @@ namespace adapter {
             }
         }
 
-        void JSONSchemaPrinter::write_object_required(const Object& object)
+        bool JSONSchemaPrinter::has_required_fields(const std::vector<property_ptr_t>& fields)
         {
-            for(const auto& field : object.properties) {
+            for(const auto& field : fields) {
+                if(field->is_required()) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        void JSONSchemaPrinter::write_object_required(const std::vector<property_ptr_t>& fields)
+        {
+            for(const auto& field : fields) {
                 if(field->is_required()) {
                     writer.write_scalar(field->get_name());
                 }

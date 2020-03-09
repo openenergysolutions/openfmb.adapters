@@ -12,7 +12,8 @@ ArgumentParser::ArgumentParser()
                 { flags::generate_config, { "-g", "--generate" }, "generate the specified config file", 1 },
                 { flags::generate_schema, { "-s", "--schema" }, "generate a JSON schema", 1},
                 { flags::plugin, { "-p", "--plugin" }, "the plugin for which to generate configuration", 1 },
-                { flags::profile, { "-f", "--profile" }, "profile to generate", 1 } } }
+                { flags::profile, { "-f", "--profile" }, "profile to generate", 1 },
+                { flags::pretty_print, { "--pretty-print" }, "pretty-print the generated JSON", 0 } } }
 {
 }
 

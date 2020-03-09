@@ -32,23 +32,28 @@ namespace adapter {
             struct BeginIdent {
                 const T &id;
                 const char delimiter;
+                const bool pretty_print;
 
-                explicit BeginIdent(const T &id, char delimiter) : id(id), delimiter(delimiter) {}
+                explicit BeginIdent(const T &id, char delimiter, bool pretty_print) : id(id), delimiter(delimiter), pretty_print(pretty_print) {}
 
                 friend std::ostream &operator<<(std::ostream &output, const BeginIdent &value) {
-                    output << quoted(value.id) << ": " << value.delimiter;
+                    output << quoted(value.id) << ':';
+                    if(value.pretty_print) {
+                        output << ' ';
+                    }
+                    output << value.delimiter;
                     return output;
                 }
             };
 
             template<class T>
-            BeginIdent<T> begin_object(const T &id) {
-                return BeginIdent<T>(id, '{');
+            BeginIdent<T> begin_object(const T &id, bool pretty_print) {
+                return BeginIdent<T>(id, '{', pretty_print);
             }
 
             template<class T>
-            BeginIdent<T> begin_array(const T &id) {
-                return BeginIdent<T>(id, '[');
+            BeginIdent<T> begin_array(const T &id, bool pretty_print) {
+                return BeginIdent<T>(id, '[', pretty_print);
             }
 
             template <class T>
@@ -61,11 +66,15 @@ namespace adapter {
             struct Property {
                 const T &id;
                 const U &value;
+                const bool pretty_print;
 
-                explicit Property(const T &id, const U &value) : id(id), value(value) {}
+                Property(const T &id, const U &value, bool pretty_print) : id(id), value(value), pretty_print(pretty_print) {}
 
                 friend std::ostream &operator<<(std::ostream &output, const Property &prop) {
-                    output << quoted(prop.id) << ": ";
+                    output << quoted(prop.id) << ':';
+                    if(prop.pretty_print) {
+                        output << ' ';
+                    }
                     if(is_type_quoted<U>()) {
                         output << quoted(prop.value);
                     } else {
@@ -76,8 +85,8 @@ namespace adapter {
             };
 
             template<class T, class U>
-            Property<T, U> property(const T &id, const U &value) {
-                return Property<T, U>(id, value);
+            Property<T, U> property(const T &id, const U &value, bool pretty_print) {
+                return Property<T, U>(id, value, pretty_print);
             }
         }
     }

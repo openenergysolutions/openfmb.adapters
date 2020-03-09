@@ -219,6 +219,8 @@ namespace util {
                     })
                 )
             );
+
+            recursive_required();
         }
         else if(type == StringFieldType::Value::generated_uuid) {
             props.back()->object.properties.emplace_back(
@@ -231,6 +233,8 @@ namespace util {
                     })
                 )
             );
+
+            recursive_required();
         }
         else {
             auto obj = Object({}, OneOf({
@@ -388,6 +392,13 @@ namespace util {
                 Object(std::vector<property_ptr_t>(), std::move(oneof))
             )
         );
+    }
+
+    void SchemaWriteVisitorBase::recursive_required()
+    {
+        for(auto& prop : props) {
+            prop->set_required();
+        }
     }
 
 }

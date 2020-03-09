@@ -6,9 +6,9 @@
 namespace adapter {
     namespace schema {
 
-        void write_schema(std::ostream& ostream, const std::string& id, std::vector<property_ptr_t> properties)
+        void write_schema(std::ostream& ostream, const std::string& id, std::vector<property_ptr_t> properties, bool pretty_print)
         {
-            JSONSchemaPrinter printer(ostream, id);
+            JSONSchemaPrinter printer(ostream, id, pretty_print);
 
             for(const auto& prop : properties) {
                 prop->visit(printer);

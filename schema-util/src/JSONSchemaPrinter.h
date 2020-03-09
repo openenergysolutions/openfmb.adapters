@@ -16,12 +16,13 @@ namespace adapter {
         // called after construction
         void declare_schema(const std::string& schema_id);
 
-        void end_object(const Object& object);
-        void write_object_required(const Object& object);
+        void write_oneofs(const Object& object);
+        bool has_required_fields(const std::vector<property_ptr_t>& fields);
+        void write_object_required(const std::vector<property_ptr_t>& fields);
 
     public:
 
-        JSONSchemaPrinter(std::ostream &output, const std::string& schema_id, bool pretty_print = false);
+        JSONSchemaPrinter(std::ostream &output, const std::string& schema_id, bool pretty_print);
 
         void close_document(const std::vector<property_ptr_t>& fields);
 

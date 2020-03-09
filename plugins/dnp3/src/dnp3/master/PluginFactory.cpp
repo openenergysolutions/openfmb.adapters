@@ -149,7 +149,7 @@ namespace master {
         });
     }
 
-    std::vector<schema::property_ptr_t> PluginFactory::get_session_schema(const api::profile_vec_t& profiles) const
+    std::vector<schema::property_ptr_t> PluginFactory::get_session_schema() const
     {
         using namespace adapter::schema;
 

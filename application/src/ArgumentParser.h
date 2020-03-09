@@ -14,6 +14,7 @@ namespace flags {
     constexpr const char* plugin = "plugin";
     constexpr const char* profile = "profile";
     constexpr const char* list = "list";
+    constexpr const char* pretty_print = "pretty_print";
 }
 
 class ArgumentParser {

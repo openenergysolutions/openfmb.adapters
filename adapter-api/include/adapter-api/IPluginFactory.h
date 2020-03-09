@@ -46,7 +46,7 @@ namespace api {
          */
         virtual void write_session_config(YAML::Emitter& out, const profile_vec_t& profiles) const = 0;
 
-        virtual std::vector<schema::property_ptr_t> get_session_schema(const profile_vec_t& profiles) const
+        virtual std::vector<schema::property_ptr_t> get_session_schema() const
         {
             return {};
         }

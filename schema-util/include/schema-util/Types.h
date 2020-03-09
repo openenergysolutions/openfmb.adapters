@@ -19,7 +19,7 @@ namespace adapter {
         };
 
         struct PropertyMetadata {
-            const Required required;
+            Required required;
             const std::string name;
             const std::string description;
 
@@ -105,7 +105,7 @@ namespace adapter {
 
 
         class PropertyBase : public IProperty {
-            const PropertyMetadata metadata;
+            PropertyMetadata metadata;
 
         public:
             explicit PropertyBase(PropertyMetadata metadata): metadata(std::move(metadata)) {}
@@ -120,6 +120,10 @@ namespace adapter {
 
             bool is_required() const override {
                 return this->metadata.required == Required::yes;
+            }
+
+            void set_required() override {
+                this->metadata.required = Required::yes;
             }
         };
 

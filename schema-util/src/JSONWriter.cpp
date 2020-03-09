@@ -47,6 +47,7 @@ namespace adapter {
 
         JSONWriter::JSONWriter(std::ostream &output, bool pretty_print) : output(output), pretty_print(pretty_print)
         {
+            this->output << std::boolalpha;
             this->output << "{";
             if(pretty_print) {
                 this->output << std::endl;
@@ -58,7 +59,7 @@ namespace adapter {
             this->flush_state(true);
 
             this->print_indent();
-            this->output << output::begin_object(name);
+            this->output << output::begin_object(name, pretty_print);
             this->indent.push_back(IndentType::object);
             this->needs_new_line = true;
             this->allow_delimiter = false;
@@ -93,7 +94,7 @@ namespace adapter {
         {
             this->flush_state(true);
             this->print_indent();
-            this->output << output::begin_array(name);
+            this->output << output::begin_array(name, pretty_print);
             this->indent.push_back(IndentType::array);
             this->needs_new_line = true;
             this->allow_delimiter = false;

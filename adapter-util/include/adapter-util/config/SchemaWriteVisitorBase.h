@@ -94,6 +94,9 @@ namespace util {
             }
             return enum_variants;
         }
+
+    private:
+        void recursive_required();
     };
 }
 }
