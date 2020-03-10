@@ -5,13 +5,13 @@
 #include "schema-util/Builder.h"
 
 #include "dnp3/ConfigStrings.h"
-#include "dnp3/generated/SourceType.h"
+#include "dnp3/generated/DestinationType.h"
 
 using namespace adapter::schema;
 
 namespace adapter {
 namespace dnp3 {
-namespace master {
+namespace outstation {
 
     MeasurementSchemaWriteVisitor::MeasurementSchemaWriteVisitor()
         : SchemaWriteVisitorBase()
@@ -23,8 +23,8 @@ namespace master {
     std::shared_ptr<schema::Object> MeasurementSchemaWriteVisitor::get_mapped_bool_schema()
     {
         return std::make_shared<Object>(std::vector<property_ptr_t>(), OneOf({
-            Variant({ConstantProperty::from_enum<SourceType>(SourceType::Value::none)}, {}),
-            Variant({ConstantProperty::from_enum<SourceType>(SourceType::Value::binary)},
+            Variant({ConstantProperty::from_enum<DestinationType>(DestinationType::Value::none)}, {}),
+            Variant({ConstantProperty::from_enum<DestinationType>(DestinationType::Value::binary)},
             {
                 numeric_property<uint16_t>(
                     util::keys::index,
@@ -33,6 +33,12 @@ namespace master {
                     0,
                     Bound<uint16_t>::from(0),
                     Bound<uint16_t>::from(65535)
+                ),
+                bool_property(
+                    util::keys::negate,
+                    Required::no,
+                    "Negate the boolean value before updating the DNP3 point",
+                    false
                 )
             })
         }));
@@ -41,8 +47,8 @@ namespace master {
     std::shared_ptr<schema::Object> MeasurementSchemaWriteVisitor::get_mapped_int32_schema()
     {
         return std::make_shared<Object>(std::vector<property_ptr_t>(), OneOf({
-            Variant({ConstantProperty::from_enum<SourceType>(SourceType::Value::none)}, {}),
-            Variant({ConstantProperty::from_enum<SourceType>(SourceType::Value::analog)},
+            Variant({ConstantProperty::from_enum<DestinationType>(DestinationType::Value::none)}, {}),
+            Variant({ConstantProperty::from_enum<DestinationType>(DestinationType::Value::analog)},
             {
                 numeric_property<uint16_t>(
                     util::keys::index,
@@ -61,7 +67,7 @@ namespace master {
                     Bound<float>::unused()
                 )
             }),
-            Variant({ConstantProperty::from_enum<SourceType>(SourceType::Value::counter)},
+            Variant({ConstantProperty::from_enum<DestinationType>(DestinationType::Value::counter)},
             {
                 numeric_property<uint16_t>(
                     util::keys::index,
@@ -86,8 +92,8 @@ namespace master {
     std::shared_ptr<schema::Object> MeasurementSchemaWriteVisitor::get_mapped_int64_schema()
     {
         return std::make_shared<Object>(std::vector<property_ptr_t>(), OneOf({
-            Variant({ConstantProperty::from_enum<SourceType>(SourceType::Value::none)}, {}),
-            Variant({ConstantProperty::from_enum<SourceType>(SourceType::Value::analog)},
+            Variant({ConstantProperty::from_enum<DestinationType>(DestinationType::Value::none)}, {}),
+            Variant({ConstantProperty::from_enum<DestinationType>(DestinationType::Value::analog)},
             {
                 numeric_property<uint16_t>(
                     util::keys::index,
@@ -106,7 +112,7 @@ namespace master {
                     Bound<float>::unused()
                 )
             }),
-            Variant({ConstantProperty::from_enum<SourceType>(SourceType::Value::counter)},
+            Variant({ConstantProperty::from_enum<DestinationType>(DestinationType::Value::counter)},
             {
                 numeric_property<uint16_t>(
                     util::keys::index,
@@ -131,8 +137,8 @@ namespace master {
     std::shared_ptr<schema::Object> MeasurementSchemaWriteVisitor::get_mapped_float_schema()
     {
         return std::make_shared<Object>(std::vector<property_ptr_t>(), OneOf({
-            Variant({ConstantProperty::from_enum<SourceType>(SourceType::Value::none)}, {}),
-            Variant({ConstantProperty::from_enum<SourceType>(SourceType::Value::analog)},
+            Variant({ConstantProperty::from_enum<DestinationType>(DestinationType::Value::none)}, {}),
+            Variant({ConstantProperty::from_enum<DestinationType>(DestinationType::Value::analog)},
             {
                 numeric_property<uint16_t>(
                     util::keys::index,
@@ -156,9 +162,16 @@ namespace master {
 
     std::shared_ptr<schema::Object> MeasurementSchemaWriteVisitor::get_mapped_enum_schema(google::protobuf::EnumDescriptor const* descriptor)
     {
+        auto binary_variants = Object{{}};
+        auto analog_variants = Object{{}};
+        for(int i = 0; i < descriptor->value_count(); ++i) {
+            binary_variants.one_of.variants.emplace_back(Variant({}, { bool_property(descriptor->value(i)->name(), Required::yes, descriptor->value(i)->name(), false) }));
+            analog_variants.one_of.variants.emplace_back(Variant({}, { numeric_property<float>(descriptor->value(i)->name(), Required::yes, descriptor->value(i)->name(), 0.0f, Bound<float>::unused(), Bound<float>::unused()) }));
+        }
+
         return std::make_shared<Object>(std::vector<property_ptr_t>(), OneOf({
-            Variant({ConstantProperty::from_enum<SourceType>(SourceType::Value::none)}, {}),
-            Variant({ConstantProperty::from_enum<SourceType>(SourceType::Value::binary)},
+            Variant({ConstantProperty::from_enum<DestinationType>(DestinationType::Value::none)}, {}),
+            Variant({ConstantProperty::from_enum<DestinationType>(DestinationType::Value::binary)},
             {
                 numeric_property<uint16_t>(
                     util::keys::index,
@@ -168,55 +181,14 @@ namespace master {
                     Bound<uint16_t>::from(0),
                     Bound<uint16_t>::from(65535)
                 ),
-                enum_property(
-                    util::keys::when_true,
-                    get_enum_variants_from_proto(descriptor),
-                    Required::yes,
-                    "enum value when the binary input is true",
-                    descriptor->value(0)->name()
-                ),
-                enum_property(
-                    util::keys::when_false,
-                    get_enum_variants_from_proto(descriptor),
-                    Required::yes,
-                    "enum value when the binary input is false",
-                    descriptor->value(1)->name()
-                )
-            }),
-            Variant({ConstantProperty::from_enum<SourceType>(SourceType::Value::counter)},
-            {
-                numeric_property<uint16_t>(
-                    util::keys::index,
-                    Required::yes,
-                    "DNP3 index of the counter",
-                    0,
-                    Bound<uint16_t>::from(0),
-                    Bound<uint16_t>::from(65535)
-                ),
                 array_property(
                     util::keys::mapping,
                     Required::yes,
-                    "mapping from the DNP3 value to the enum variant",
-                    Object({
-                        numeric_property<int64_t>(
-                            util::keys::value,
-                            Required::yes,
-                            "counter value",
-                            0,
-                            Bound<int64_t>::from(0),
-                            Bound<int64_t>::from(4294967295)
-                        ),
-                        enum_property(
-                            util::keys::name,
-                            get_enum_variants_from_proto(descriptor),
-                            Required::yes,
-                            "enum variant",
-                            descriptor->value(0)->name()
-                        ),
-                    })
+                    "Mapping from the enum to the boolean value",
+                    binary_variants
                 )
             }),
-            Variant({ConstantProperty::from_enum<SourceType>(SourceType::Value::analog)},
+            Variant({ConstantProperty::from_enum<DestinationType>(DestinationType::Value::analog)},
             {
                 numeric_property<uint16_t>(
                     util::keys::index,
@@ -229,24 +201,8 @@ namespace master {
                 array_property(
                     util::keys::mapping,
                     Required::yes,
-                    "mapping from the DNP3 value to the enum variant",
-                    Object({
-                        numeric_property<float>(
-                            util::keys::value,
-                            Required::yes,
-                            "analog input value",
-                            0.0f,
-                            Bound<float>::unused(),
-                            Bound<float>::unused()
-                        ),
-                        enum_property(
-                            util::keys::name,
-                            get_enum_variants_from_proto(descriptor),
-                            Required::yes,
-                            "enum variant",
-                            descriptor->value(0)->name()
-                        ),
-                    })
+                    "Mapping from the enum to the analog value",
+                    analog_variants
                 )
             })
         }));

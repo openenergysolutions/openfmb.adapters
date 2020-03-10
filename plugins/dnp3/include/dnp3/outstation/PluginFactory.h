@@ -29,6 +29,8 @@ namespace dnp3 {
 
             void write_session_config(YAML::Emitter& out, const api::profile_vec_t& profiles) const override;
 
+            std::vector<schema::property_ptr_t> get_session_schema() const override;
+
             virtual std::unique_ptr<api::IPlugin>
             create(const YAML::Node& node, const api::Logger& logger, api::message_bus_t bus) override;
         };

@@ -210,7 +210,7 @@ namespace master {
                         keys::outstation_address,
                         Required::yes,
                         "DNP3 outstation link-layer address",
-                        1,
+                        10,
                         Bound<uint16_t>::from(0),
                         Bound<uint16_t>::from(65535)
                     ),

@@ -374,12 +374,17 @@ namespace util {
 
     void SchemaWriteVisitorBase::handle_repeated_schedule_parameter(const std::string& field_name)
     {
+        const auto mapped_schema = this->get_mapped_schedule_parameter_schema();
+        if(!mapped_schema) {
+            return;
+        }
+
         auto oneof = OneOf({});
         for (int i = 0; i < commonmodule::ScheduleParameterKind_descriptor()->value_count(); ++i) {
             oneof.variants.push_back(
                 Variant(
                     {ConstantProperty(keys::scheduleParameterType, commonmodule::ScheduleParameterKind_descriptor()->value(i)->name())},
-                    this->get_mapped_schedule_parameter_schema()
+                    mapped_schema
                 )
             );
         }

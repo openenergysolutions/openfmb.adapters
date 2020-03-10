@@ -1,6 +1,6 @@
 
-#ifndef OPENFMB_ADAPTER_DNP3_MASTER_MEASUREMENTSCHEMAWRITEVISITOR_H
-#define OPENFMB_ADAPTER_DNP3_MASTER_MEASUREMENTSCHEMAWRITEVISITOR_H
+#ifndef OPENFMB_ADAPTER_DNP3_OUTSTATION_MEASUREMENTSCHEMAWRITEVISITOR_H
+#define OPENFMB_ADAPTER_DNP3_OUTSTATION_MEASUREMENTSCHEMAWRITEVISITOR_H
 
 #include <adapter-api/Exception.h>
 #include <adapter-util/config/SchemaWriteVisitorBase.h>
@@ -10,7 +10,7 @@
 
 namespace adapter {
 namespace dnp3 {
-namespace master {
+namespace outstation {
 
     class MeasurementSchemaWriteVisitor final : public util::SchemaWriteVisitorBase {
 

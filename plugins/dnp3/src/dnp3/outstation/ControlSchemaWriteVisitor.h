@@ -1,6 +1,6 @@
 
-#ifndef OPENFMB_ADAPTER_DNP3_MASTER_MEASUREMENTSCHEMAWRITEVISITOR_H
-#define OPENFMB_ADAPTER_DNP3_MASTER_MEASUREMENTSCHEMAWRITEVISITOR_H
+#ifndef OPENFMB_ADAPTER_DNP3_OUTSTATION_CONTROLSCHEMAWRITEVISITOR_H
+#define OPENFMB_ADAPTER_DNP3_OUTSTATION_CONTROLSCHEMAWRITEVISITOR_H
 
 #include <adapter-api/Exception.h>
 #include <adapter-util/config/SchemaWriteVisitorBase.h>
@@ -10,12 +10,12 @@
 
 namespace adapter {
 namespace dnp3 {
-namespace master {
+namespace outstation {
 
-    class MeasurementSchemaWriteVisitor final : public util::SchemaWriteVisitorBase {
+    class ControlSchemaWriteVisitor final : public util::SchemaWriteVisitorBase {
 
     public:
-        MeasurementSchemaWriteVisitor();
+        ControlSchemaWriteVisitor();
 
     protected:
         // --- mapping functions from base class  ---
@@ -29,6 +29,9 @@ namespace master {
         std::shared_ptr<schema::Object> get_mapped_float_schema() override;
 
         std::shared_ptr<schema::Object> get_mapped_enum_schema(google::protobuf::EnumDescriptor const* descriptor) override;
+
+    private:
+        std::shared_ptr<schema::Object> get_numeric_schema();
     };
 
 }
