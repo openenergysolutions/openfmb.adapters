@@ -5,6 +5,8 @@
 #include <adapter-util/config/ICommandPrioritySource.h>
 #include <schema-util/Types.h>
 
+#include <yaml-cpp/yaml.h>
+
 #include <map>
 
 namespace adapter { namespace util {

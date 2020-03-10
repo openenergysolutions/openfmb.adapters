@@ -11,13 +11,9 @@ set(DNP3_SOURCES
         # master components
         src/dnp3/master/Control.h
         src/dnp3/master/Control.cpp
-        src/dnp3/master/ControlConfigWriteVisitor.h
-        src/dnp3/master/ControlConfigWriteVisitor.cpp
         src/dnp3/master/ControlSchemaWriteVisitor.h
         src/dnp3/master/ControlSchemaWriteVisitor.cpp
         src/dnp3/master/ControlSubscriptionHandler.h
-        src/dnp3/master/MeasurementConfigWriteVisitor.h
-        src/dnp3/master/MeasurementConfigWriteVisitor.cpp
         src/dnp3/master/MeasurementSchemaWriteVisitor.h
         src/dnp3/master/MeasurementSchemaWriteVisitor.cpp
         src/dnp3/master/IPublishConfigBuilder.h
@@ -41,8 +37,6 @@ set(DNP3_SOURCES
         src/dnp3/outstation/ICommandConfig.h
         src/dnp3/outstation/ControlConfigReadVisitor.h
         src/dnp3/outstation/ControlConfigReadVisitor.cpp
-        src/dnp3/outstation/ControlConfigWriteVisitor.h
-        src/dnp3/outstation/ControlConfigWriteVisitor.cpp
         src/dnp3/outstation/ControlSchemaWriteVisitor.h
         src/dnp3/outstation/ControlSchemaWriteVisitor.cpp
         src/dnp3/outstation/DefaultVariations.h
@@ -50,8 +44,6 @@ set(DNP3_SOURCES
         src/dnp3/outstation/Plugin.h
         src/dnp3/outstation/Plugin.cpp
         src/dnp3/outstation/MeasurementConfigReadVisitor.h
-        src/dnp3/outstation/MeasurementConfigWriteVisitor.h
-        src/dnp3/outstation/MeasurementConfigWriteVisitor.cpp
         src/dnp3/outstation/MeasurementSchemaWriteVisitor.h
         src/dnp3/outstation/MeasurementSchemaWriteVisitor.cpp
         src/dnp3/outstation/SubscriptionTypes.h

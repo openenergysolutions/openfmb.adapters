@@ -78,12 +78,12 @@ namespace util {
 
     void SchemaWriteVisitorBase::start_iteration(int i)
     {
-        //out << YAML::BeginMap;
+
     }
 
     void SchemaWriteVisitorBase::end_iteration()
     {
-        //out << YAML::EndMap;
+
     }
 
     void SchemaWriteVisitorBase::end_repeated_message_field()
@@ -94,8 +94,8 @@ namespace util {
     void SchemaWriteVisitorBase::handle(const std::string& field_name, BoolFieldType::Value type)
     {
         auto obj = Object({}, OneOf({
-            Variant({ConstantProperty::from_enum<BoolFieldType>(BoolFieldType::Value::ignored)}, {}),
-            Variant({ConstantProperty::from_enum<BoolFieldType>(BoolFieldType::Value::constant)},
+            variant<BoolFieldType>(BoolFieldType::Value::ignored, type, {}),
+            variant<BoolFieldType>(BoolFieldType::Value::constant, type,
             {
                 bool_property(keys::value, Required::yes, "", false)
             })
@@ -104,7 +104,7 @@ namespace util {
         const auto mapped_schema = this->get_mapped_bool_schema();
         if(mapped_schema) {
             obj.one_of.variants.push_back(
-                Variant({ConstantProperty::from_enum<BoolFieldType>(BoolFieldType::Value::mapped)}, mapped_schema)
+                variant_obj<BoolFieldType>(BoolFieldType::Value::mapped, type, mapped_schema)
             );
         }
 
@@ -121,8 +121,8 @@ namespace util {
     void SchemaWriteVisitorBase::handle(const std::string& field_name, Int32FieldType::Value type)
     {
         auto obj = Object({}, OneOf({
-            Variant({ConstantProperty::from_enum<Int32FieldType>(Int32FieldType::Value::ignored)}, {}),
-            Variant({ConstantProperty::from_enum<Int32FieldType>(Int32FieldType::Value::constant)},
+            variant<Int32FieldType>(Int32FieldType::Value::ignored, type, {}),
+            variant<Int32FieldType>(Int32FieldType::Value::constant, type,
             {
                 numeric_property<int64_t>(keys::value, Required::yes, "", 0, Bound<int64_t>::unused(), Bound<int64_t>::unused())
             })
@@ -131,7 +131,7 @@ namespace util {
         const auto mapped_schema = this->get_mapped_int32_schema();
         if(mapped_schema) {
             obj.one_of.variants.push_back(
-                Variant({ConstantProperty::from_enum<Int32FieldType>(Int32FieldType::Value::mapped)}, mapped_schema)
+                variant_obj<Int32FieldType>(Int32FieldType::Value::mapped, type, mapped_schema)
             );
         }
 
@@ -148,8 +148,8 @@ namespace util {
     void SchemaWriteVisitorBase::handle(const std::string& field_name, Int64FieldType::Value type)
     {
         auto obj = Object({}, OneOf({
-            Variant({ConstantProperty::from_enum<Int64FieldType>(Int64FieldType::Value::ignored)}, {}),
-            Variant({ConstantProperty::from_enum<Int64FieldType>(Int64FieldType::Value::constant)},
+            variant<Int64FieldType>(Int64FieldType::Value::ignored, type, {}),
+            variant<Int64FieldType>(Int64FieldType::Value::constant, type,
             {
                 numeric_property<int64_t>(keys::value, Required::yes, "", 0, Bound<int64_t>::unused(), Bound<int64_t>::unused())
             })
@@ -158,7 +158,7 @@ namespace util {
         const auto mapped_schema = this->get_mapped_int64_schema();
         if(mapped_schema) {
             obj.one_of.variants.push_back(
-                Variant({ConstantProperty::from_enum<Int64FieldType>(Int64FieldType::Value::mapped)}, mapped_schema)
+                variant_obj<Int64FieldType>(Int64FieldType::Value::mapped, type, mapped_schema)
             );
         }
 
@@ -175,8 +175,8 @@ namespace util {
     void SchemaWriteVisitorBase::handle(const std::string& field_name, FloatFieldType::Value type)
     {
         auto obj = Object({}, OneOf({
-            Variant({ConstantProperty::from_enum<FloatFieldType>(FloatFieldType::Value::ignored)}, {}),
-            Variant({ConstantProperty::from_enum<FloatFieldType>(FloatFieldType::Value::constant)},
+            variant<FloatFieldType>(FloatFieldType::Value::ignored, type, {}),
+            variant<FloatFieldType>(FloatFieldType::Value::constant, type,
             {
                 numeric_property<float>(keys::value, Required::yes, "", 0, Bound<float>::unused(), Bound<float>::unused())
             })
@@ -185,7 +185,7 @@ namespace util {
         const auto mapped_schema = this->get_mapped_float_schema();
         if(mapped_schema) {
             obj.one_of.variants.push_back(
-                Variant({ConstantProperty::from_enum<FloatFieldType>(FloatFieldType::Value::mapped)}, mapped_schema)
+                variant_obj<FloatFieldType>(FloatFieldType::Value::mapped, type, mapped_schema)
             );
         }
 
@@ -238,8 +238,8 @@ namespace util {
         }
         else {
             auto obj = Object({}, OneOf({
-                Variant({ConstantProperty::from_enum<StringFieldType>(StringFieldType::Value::ignored)}, {}),
-                Variant({ConstantProperty::from_enum<StringFieldType>(StringFieldType::Value::constant_uuid)},
+                variant<StringFieldType>(StringFieldType::Value::ignored, type, {}),
+                variant<StringFieldType>(StringFieldType::Value::constant_uuid, type,
                 {
                     string_property(
                         keys::value,
@@ -249,7 +249,7 @@ namespace util {
                         StringFormat::Uuid
                     )
                 }),
-                Variant({ConstantProperty::from_enum<StringFieldType>(StringFieldType::Value::constant)},
+                variant<StringFieldType>(StringFieldType::Value::constant, type,
                 {
                     string_property(
                         keys::value,
@@ -264,7 +264,7 @@ namespace util {
             const auto mapped_schema = this->get_mapped_string_schema();
             if(mapped_schema) {
                 obj.one_of.variants.push_back(
-                    Variant({ConstantProperty::from_enum<StringFieldType>(StringFieldType::Value::mapped)}, mapped_schema)
+                    variant_obj<StringFieldType>(StringFieldType::Value::mapped, type, mapped_schema)
                 );
             }
 
@@ -287,8 +287,8 @@ namespace util {
         }
 
         auto obj = Object({}, OneOf({
-            Variant({ConstantProperty::from_enum<EnumFieldType>(EnumFieldType::Value::ignored)}, {}),
-            Variant({ConstantProperty::from_enum<EnumFieldType>(EnumFieldType::Value::constant)},
+            variant<EnumFieldType>(EnumFieldType::Value::ignored, type, {}),
+            variant<EnumFieldType>(EnumFieldType::Value::constant, type,
             {
                 enum_property(keys::value, get_enum_variants_from_proto(descriptor), Required::yes, "", "")
             })
@@ -297,7 +297,7 @@ namespace util {
         const auto mapped_schema = this->get_mapped_enum_schema(descriptor);
         if(mapped_schema) {
             obj.one_of.variants.push_back(
-                Variant({ConstantProperty::from_enum<EnumFieldType>(EnumFieldType::Value::mapped)}, mapped_schema)
+                variant_obj<EnumFieldType>(EnumFieldType::Value::mapped, type, mapped_schema)
             );
         }
 
@@ -314,13 +314,13 @@ namespace util {
     void SchemaWriteVisitorBase::handle(const std::string& field_name, QualityFieldType::Value type)
     {
         auto obj = Object({}, OneOf({
-            Variant({ConstantProperty::from_enum<QualityFieldType>(QualityFieldType::Value::ignored)}, {})
+            variant<QualityFieldType>(QualityFieldType::Value::ignored, type, {})
         }));
 
         const auto mapped_schema = this->get_mapped_commonmodule_quality_schema();
         if(mapped_schema) {
             obj.one_of.variants.push_back(
-                Variant({ConstantProperty::from_enum<QualityFieldType>(QualityFieldType::Value::mapped)}, mapped_schema)
+                variant_obj<QualityFieldType>(QualityFieldType::Value::mapped, type, mapped_schema)
             );
         }
 
@@ -337,14 +337,14 @@ namespace util {
     void SchemaWriteVisitorBase::handle(const std::string& field_name, TimestampFieldType::Value type)
     {
         auto obj = Object({}, OneOf({
-            Variant({ConstantProperty::from_enum<TimestampFieldType>(TimestampFieldType::Value::ignored)}, {}),
-            Variant({ConstantProperty::from_enum<TimestampFieldType>(TimestampFieldType::Value::message)}, {})
+            variant<TimestampFieldType>(TimestampFieldType::Value::ignored, type, {}),
+            variant<TimestampFieldType>(TimestampFieldType::Value::message, type, {})
         }));
 
         const auto mapped_schema = this->get_mapped_commonmodule_timestamp_schema();
         if(mapped_schema) {
             obj.one_of.variants.push_back(
-                Variant({ConstantProperty::from_enum<TimestampFieldType>(TimestampFieldType::Value::mapped)}, mapped_schema)
+                variant_obj<TimestampFieldType>(TimestampFieldType::Value::mapped, type, mapped_schema)
             );
         }
 
@@ -366,7 +366,7 @@ namespace util {
                 Required::no,
                 "",
                 Object({}, OneOf({
-                    Variant({ConstantProperty::from_enum<ControlTimestampFieldType>(ControlTimestampFieldType::Value::ignored)}, {})
+                    variant<ControlTimestampFieldType>(ControlTimestampFieldType::Value::ignored, type, {})
                 }))
             )
         );
@@ -403,6 +403,97 @@ namespace util {
     {
         for(auto& prop : props) {
             prop->set_required();
+        }
+    }
+
+    BoolFieldType::Value SchemaWriteVisitorBase::remap(BoolFieldType::Value type)
+    {
+        switch (type) {
+        // it's impossible to provide intelligent defaults for constants, so let the user override it if they want a constant
+        case (BoolFieldType::Value::constant):
+            return BoolFieldType::Value::ignored;
+        default:
+            return type;
+        }
+    }
+
+    Int32FieldType::Value SchemaWriteVisitorBase::remap(Int32FieldType::Value type)
+    {
+        switch (type) {
+        // it's impossible to provide intelligent defaults for constants, so let the user override it if they want a constant
+        case (Int32FieldType::Value::constant):
+            return Int32FieldType::Value::ignored;
+        default:
+            return type;
+        }
+    }
+
+    Int64FieldType::Value SchemaWriteVisitorBase::remap(Int64FieldType::Value type)
+    {
+        switch (type) {
+        // it's impossible to provide intelligent defaults for constants, so let the user override it if they want a constant
+        case (Int64FieldType::Value::constant):
+            return Int64FieldType::Value::ignored;
+        default:
+            return type;
+        }
+    }
+
+    FloatFieldType::Value SchemaWriteVisitorBase::remap(FloatFieldType::Value type)
+    {
+        switch (type) {
+        // it's impossible to provide intelligent defaults for constants, so let the user override it if they want a constant
+        case (FloatFieldType::Value::constant):
+            return FloatFieldType::Value::ignored;
+        default:
+            return type;
+        }
+    }
+
+    StringFieldType::Value SchemaWriteVisitorBase::remap(StringFieldType::Value type)
+    {
+        switch (type) {
+        // it's impossible to provide intelligent defaults for constants, so let the user override it if they want a constant
+        case (StringFieldType::Value::constant):
+        case (StringFieldType::Value::constant_uuid):
+            return StringFieldType::Value::ignored;
+        default:
+            return type;
+        }
+    }
+
+    EnumFieldType::Value SchemaWriteVisitorBase::remap(EnumFieldType::Value type)
+    {
+        switch (type) {
+        // it's impossible to provide intelligent defaults for constants, so let the user override it if they want a constant
+        case (EnumFieldType::Value::constant):
+            return EnumFieldType::Value::ignored;
+        default:
+            return type;
+        }
+    }
+
+    QualityFieldType::Value SchemaWriteVisitorBase::remap(QualityFieldType::Value type)
+    {
+        switch (type) {
+        default:
+            return type;
+        }
+    }
+
+    TimestampFieldType::Value SchemaWriteVisitorBase::remap(TimestampFieldType::Value type)
+    {
+        switch (type) {
+        default:
+            return type;
+        }
+    }
+
+    ControlTimestampFieldType::Value SchemaWriteVisitorBase::remap(ControlTimestampFieldType::Value type)
+    {
+        switch (type) {
+        default:
+            return type;
         }
     }
 

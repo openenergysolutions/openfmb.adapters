@@ -97,6 +97,29 @@ namespace util {
 
     private:
         void recursive_required();
+
+        static BoolFieldType::Value remap(BoolFieldType::Value type);
+        static Int32FieldType::Value remap(Int32FieldType::Value type);
+        static Int64FieldType::Value remap(Int64FieldType::Value type);
+        static FloatFieldType::Value remap(FloatFieldType::Value type);
+        static StringFieldType::Value remap(StringFieldType::Value type);
+        static EnumFieldType::Value remap(EnumFieldType::Value type);
+        static QualityFieldType::Value remap(QualityFieldType::Value type);
+        static TimestampFieldType::Value remap(TimestampFieldType::Value type);
+        static ControlTimestampFieldType::Value remap(ControlTimestampFieldType::Value type);
+
+        template <typename T>
+        schema::Variant variant_obj(typename T::Value value, typename T::Value mapped_value, std::shared_ptr<schema::Object> obj) const
+        {
+            schema::Default is_default = (value == remap(mapped_value)) ? schema::Default::yes : schema::Default::no;
+            return schema::Variant({schema::ConstantProperty::from_enum<T>(value)}, obj, is_default);
+        }
+
+        template <typename T>
+        schema::Variant variant(typename T::Value value, typename T::Value mapped_value, std::vector<schema::property_ptr_t> props) const
+        {
+            return variant_obj<T>(value, mapped_value, std::make_shared<Object>(props));
+        }
     };
 }
 }

@@ -23,13 +23,11 @@ namespace dnp3 {
                 return "maps openFMB to the outstation side of the DNP3 protocol";
             };
 
-            virtual void write_default_config(YAML::Emitter& emitter) const override;
-
             schema::Object get_plugin_schema() const override;
 
-            void write_session_config(YAML::Emitter& out, const api::profile_vec_t& profiles) const override;
-
             std::vector<schema::property_ptr_t> get_session_schema() const override;
+
+            std::vector<schema::property_ptr_t> get_profile_schema(const std::string& profile) const override;
 
             virtual std::unique_ptr<api::IPlugin>
             create(const YAML::Node& node, const api::Logger& logger, api::message_bus_t bus) override;

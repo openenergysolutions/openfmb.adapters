@@ -18,6 +18,11 @@ namespace adapter {
             no
         };
 
+        enum class Default {
+            yes,
+            no
+        };
+
         struct PropertyMetadata {
             Required required;
             const std::string name;
@@ -70,17 +75,22 @@ namespace adapter {
         public:
             std::vector<ConstantProperty> constant_values;
             std::shared_ptr<Object> obj;
+            const Default is_default;
 
             Variant(const std::vector<ConstantProperty> &constant_values,
-                    const std::initializer_list<property_ptr_t> &required_values)
+                    const std::initializer_list<property_ptr_t> &required_values,
+                    Default is_default = Default::no)
                     : constant_values(constant_values),
-                      obj(std::make_shared<Object>(required_values))
+                      obj(std::make_shared<Object>(required_values)),
+                      is_default(is_default)
             {}
 
             Variant(const std::vector<ConstantProperty> &constant_values,
-                    std::shared_ptr<Object> obj)
+                    std::shared_ptr<Object> obj,
+                    Default is_default = Default::no)
                     : constant_values(constant_values),
-                      obj(std::move(obj))
+                      obj(std::move(obj)),
+                      is_default(is_default)
             {}
         };
 

@@ -222,21 +222,77 @@ int write_config_schema(const std::string& schema_file_path, bool pretty_print)
 
 int write_default_session_config(const std::string& config_file_path, const api::IPluginFactory& factory, const api::profile_vec_t& profiles)
 {
+    using namespace adapter::schema;
+
     YAML::Emitter out;
+
+    // begin primary map
     out << YAML::BeginDoc;
-    factory.write_session_config(out, profiles);
+    out << YAML::BeginMap;
+
+    auto writer = adapter::util::yaml::DefaultConfigWriter{out};
+
+    // Write top config
+    for(const auto& prop : factory.get_session_schema())
+    {
+        prop->visit(writer);
+    }
+
+    out << YAML::Key << "profiles";
+    out << YAML::Value << YAML::BeginSeq;
+
+    for(const auto& name : profiles) {
+        out << YAML::BeginMap;
+
+        enum_property("name", { name }, Required::yes, "profile name", name)->visit(writer);
+
+        for(const auto& prop : factory.get_profile_schema(name)) {
+            prop->visit(writer);
+        }
+
+        out << YAML::EndMap;
+    }
+
+    out << YAML::EndSeq;
+
+    // end primary map
+    out << YAML::EndMap;
     out << YAML::EndDoc;
 
     std::ofstream output_file(config_file_path);
     output_file << out.c_str();
     output_file << std::endl;
+
     return 0;
 }
 
 int write_session_schema(const std::string& schema_file_path, const api::IPluginFactory& factory, bool pretty_print)
 {
+    using namespace adapter::schema;
+
+    // Get the session schema
+    auto schema = factory.get_session_schema();
+    auto mappings = Object({}, {});
+
+    // Append all the profile mappings
+    api::ProfileRegistry::foreach_descriptor([&mappings, &factory](const google::protobuf::Descriptor* desc) {
+        mappings.one_of.variants.emplace_back(
+            Variant({ConstantProperty("name", desc->name())}, std::make_shared<Object>(factory.get_profile_schema(desc->name())))
+        );
+    });
+
+    schema.emplace_back(
+        array_property(
+            "profiles",
+            Required::yes,
+            "profile mapping",
+            mappings
+        )
+    );
+
+    // Print schema to file
     std::ofstream file(schema_file_path);
-    write_schema(file, "https://www.github.com/openenergysolutions", factory.get_session_schema(), pretty_print);
+    write_schema(file, "https://www.github.com/openenergysolutions", schema, pretty_print);
 
     return 0;
 }

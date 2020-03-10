@@ -29,6 +29,8 @@ namespace yaml {
         void end(const schema::ObjectProperty& prop) override;
 
     private:
+        void write_oneofs(const schema::Object& obj);
+
         YAML::Emitter& out;
         bool is_array;
     };

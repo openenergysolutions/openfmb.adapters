@@ -84,27 +84,42 @@ namespace yaml {
 
     void DefaultConfigWriter::end(const ObjectProperty& prop)
     {
+        write_oneofs(prop.object);
+
+        // close the object
+        out << YAML::EndMap;
+    }
+
+    void DefaultConfigWriter::write_oneofs(const schema::Object& obj)
+    {
         // write the first oneOf variant
-        if(!prop.object.one_of.variants.empty())
+        if(!obj.one_of.variants.empty())
         {
-            const auto& variant = prop.object.one_of.variants.front();
+            // Take the first default variant, or the first variant if there's no default
+            auto variant = &obj.one_of.variants.front();
+            for(const auto& var : obj.one_of.variants) {
+                if(var.is_default == Default::yes) {
+                    variant = &var;
+                    break;
+                }
+            }
 
             // Write constant fields
-            for(const auto& constant : variant.constant_values)
+            for(const auto& constant : variant->constant_values)
             {
                 out << YAML::Key << constant.property_name
                     << YAML::Value << constant.value;
             }
 
-            // Write required fields
-            for(const auto& field : variant.obj->properties)
+            // Write properties
+            for(const auto& field : variant->obj->properties)
             {
                 field->visit(*this);
             }
-        }
 
-        // close the object
-        out << YAML::EndMap;
+            // Write oneofs
+            write_oneofs(*variant->obj);
+        }
     }
 
 }

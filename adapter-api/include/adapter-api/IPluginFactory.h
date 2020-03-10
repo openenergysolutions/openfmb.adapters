@@ -33,7 +33,7 @@ namespace api {
          *
          * @param out YAML emitter
          */
-        virtual void write_default_config(YAML::Emitter& out) const = 0;
+        virtual void write_default_config(YAML::Emitter& out) const {};
 
         virtual schema::Object get_plugin_schema() const = 0;
 
@@ -44,9 +44,14 @@ namespace api {
          * @param out YAML emitter
          * @param profiles vector of profiles for which to write configuration
          */
-        virtual void write_session_config(YAML::Emitter& out, const profile_vec_t& profiles) const = 0;
+        virtual void write_session_config(YAML::Emitter& out, const profile_vec_t& profiles) const {};
 
         virtual std::vector<schema::property_ptr_t> get_session_schema() const
+        {
+            return {};
+        }
+
+        virtual std::vector<schema::property_ptr_t> get_profile_schema(const std::string& profile) const
         {
             return {};
         }
