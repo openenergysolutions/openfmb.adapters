@@ -96,11 +96,6 @@ namespace outstation {
 
     std::shared_ptr<schema::Object> ControlSchemaWriteVisitor::get_mapped_enum_schema(google::protobuf::EnumDescriptor const* descriptor)
     {
-        auto enum_values = std::vector<std::string>(descriptor->value_count());
-        for(int i = 0; i < descriptor->value_count(); ++i) {
-            enum_values.emplace_back(descriptor->value(i)->name());
-        }
-
         return std::make_shared<Object>(std::vector<property_ptr_t>(), OneOf({
             Variant({ConstantProperty::from_enum<CommandSourceType>(CommandSourceType::Value::none)}, {}),
             Variant({ConstantProperty::from_enum<CommandSourceType>(CommandSourceType::Value::analog_output)},
@@ -125,7 +120,7 @@ namespace outstation {
                     Object({
                         enum_property(
                             util::keys::name,
-                            enum_values,
+                            get_enum_variants_from_proto(descriptor),
                             Required::yes,
                             "OpenFMB enum variant",
                             descriptor->value(0)->name()

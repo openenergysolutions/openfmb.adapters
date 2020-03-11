@@ -8,8 +8,8 @@
 #include <schema-util/Builder.h>
 
 #include "ConfigStrings.h"
-#include "outstation/ControlConfigWriteVisitor.h"
-#include "outstation/MeasurementConfigWriteVisitor.h"
+#include "outstation/ControlSchemaWriteVisitor.h"
+#include "outstation/MeasurementSchemaWriteVisitor.h"
 #include "outstation/Plugin.h"
 #include "generated/LogLevel.h"
 
@@ -19,24 +19,36 @@ namespace adapter {
 namespace modbus {
 namespace outstation {
 
-    template <class T>
-    struct ProfileWriter {
-        static void handle(YAML::Emitter& out)
+    template <typename T>
+    struct SchemaWriter {
+        static void handle(std::vector<schema::property_ptr_t>& props)
         {
-            std::cout << "Generating: " << T::descriptor()->name() << std::endl;
-
-            out << YAML::Key << util::keys::mapping << YAML::Comment("profile model starts here");
-            out << YAML::BeginMap;
+            using namespace adapter::schema;
 
             if (util::profile_info<T>::type == util::ProfileType::Control) {
-                ControlConfigWriteVisitor visitor(out);
+                auto visitor = ControlSchemaWriteVisitor{};
                 util::visit<T>(visitor);
-            } else {
-                MeasurementConfigWriteVisitor visitor(out);
-                util::visit<T>(visitor);
+                props.emplace_back(
+                    object_property(
+                        util::keys::mapping,
+                        Required::yes,
+                        "profile mapping",
+                        visitor.get_schema()
+                    )
+                );
             }
-
-            out << YAML::EndMap;
+            else {
+                auto visitor = MeasurementSchemaWriteVisitor{};
+                util::visit<T>(visitor);
+                props.emplace_back(
+                    object_property(
+                        util::keys::mapping,
+                        Required::yes,
+                        "profile mapping",
+                        visitor.get_schema()
+                    )
+                );
+            }
         }
     };
 
@@ -60,35 +72,62 @@ namespace outstation {
         });
     }
 
-    void PluginFactory::write_session_config(YAML::Emitter& out, const api::profile_vec_t& profiles) const
+    std::vector<schema::property_ptr_t> PluginFactory::get_session_schema() const
     {
-        if (profiles.empty()) {
-            throw api::Exception(
-                "You must specify at least one profile when generating Modbus outstation session configuration");
-        }
+        using namespace adapter::schema;
 
-        out << YAML::BeginMap;
+        return {
+            string_property(
+                util::keys::name,
+                Required::yes,
+                "Name used in the logs",
+                "device1",
+                StringFormat::None
+            ),
+            enum_property<LogLevel>(
+                Required::yes,
+                "Protocol log level",
+                LogLevel::Value::Info
+            ),
+            string_property(
+                keys::adapter,
+                Required::yes,
+                "Network adapter to use",
+                "0.0.0.0",
+                StringFormat::None
+            ),
+            numeric_property<uint16_t>(
+                keys::port,
+                Required::yes,
+                "TCP port on which the outstation will be listening",
+                502,
+                Bound<uint16_t>::from(0),
+                Bound<uint16_t>::from(65535)
+            ),
+            numeric_property<uint16_t>(
+                keys::unit_identifier,
+                Required::yes,
+                "Modbus unit identifier (aka slave address)",
+                1,
+                Bound<uint16_t>::from(0),
+                Bound<uint16_t>::from(255)
+            ),
+            numeric_property<int64_t>(
+                keys::max_num_connections,
+                Required::yes,
+                "Maximum number of concurrent TCP connections",
+                10,
+                Bound<int64_t>::from(0),
+                Bound<int64_t>::unused()
+            )
+        };
+    }
 
-        out << YAML::Key << util::keys::name << YAML::Value << "device1" << YAML::Comment("This name is pre-pended to each log message");
-        out << YAML::Key << keys::log_level << YAML::Value << LogLevel::Info << YAML::Comment(util::enumeration::get_value_set<LogLevel>());
-
-        out << YAML::Key << keys::adapter << YAML::Value << "0.0.0.0";
-        out << YAML::Key << keys::port << YAML::Value << 502;
-        out << YAML::Key << keys::unit_identifier << YAML::Value << 1 << YAML::Comment("aka 'slave address'");
-
-        out << YAML::Key << keys::max_num_connections << YAML::Value << 10 << YAML::Comment("Maximum number of concurrent TCP connections to the server");
-
-        out << YAML::Key << util::keys::profiles;
-        out << YAML::BeginSeq;
-        for (const auto& profile : profiles) {
-            out << YAML::BeginMap;
-            out << YAML::Key << util::keys::name << YAML::Value << profile;
-            api::ProfileRegistry::handle_by_name<ProfileWriter>(profile, out);
-            out << YAML::EndMap;
-        }
-        out << YAML::EndSeq;
-
-        out << YAML::EndMap;
+    std::vector<schema::property_ptr_t> PluginFactory::get_profile_schema(const std::string& profile) const
+    {
+        auto props = std::vector<schema::property_ptr_t>{};
+        api::ProfileRegistry::handle_by_name<SchemaWriter>(profile, props);
+        return props;
     }
 
     std::unique_ptr<api::IPlugin> PluginFactory::create(const YAML::Node& node, const api::Logger& logger, api::message_bus_t bus)

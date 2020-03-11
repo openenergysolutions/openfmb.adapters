@@ -66,12 +66,12 @@ set(MODBUS_SOURCES
     ./src/modbus/master/WriteSingleCoilTransaction.h
     # outstation files
     ./src/modbus/outstation/ControlConfigReadVisitor.h
-    ./src/modbus/outstation/ControlConfigWriteVisitor.cpp
-    ./src/modbus/outstation/ControlConfigWriteVisitor.h
+    ./src/modbus/outstation/ControlSchemaWriteVisitor.cpp
+    ./src/modbus/outstation/ControlSchemaWriteVisitor.h
     ./src/modbus/outstation/ControlProfileBuilder.h
     ./src/modbus/outstation/MeasurementConfigReadVisitor.h
-    ./src/modbus/outstation/MeasurementConfigWriteVisitor.cpp
-    ./src/modbus/outstation/MeasurementConfigWriteVisitor.h
+    ./src/modbus/outstation/MeasurementSchemaWriteVisitor.cpp
+    ./src/modbus/outstation/MeasurementSchemaWriteVisitor.h
     ./src/modbus/outstation/ModbusDatabase.h
     ./src/modbus/outstation/ModbusDatabase.cpp
     ./src/modbus/outstation/Plugin.cpp
