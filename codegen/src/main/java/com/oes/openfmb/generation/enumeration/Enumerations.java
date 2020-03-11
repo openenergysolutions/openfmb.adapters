@@ -81,8 +81,9 @@ public class Enumerations {
 
         private final static Enumeration controlTimestampFieldType = new Enumeration(
                 getFieldName("Control","Timestamp"),
-                Collections.singletonList(
-                        Enumeration.entry("ignored", "the timestamp field is ignored in this configuration")
+                Arrays.asList(
+                        Enumeration.entry("ignored", "the timestamp field is ignored in this configuration"),
+                        Enumeration.entry("message", "the main timestamp of the message is used")
                 )
         );
 
@@ -179,18 +180,7 @@ public class Enumerations {
 
     private static class Modbus {
 
-        private final static Enumeration registerMapping = new Enumeration(
-                Arrays.asList("Register", "Mapping"),
-                Arrays.asList(
-                        Enumeration.entry("sint16", "single signed register"),
-                        Enumeration.entry("uint16", "single unsigned register"),
-                        Enumeration.entry("sint32", "32-bit signed register, formed from two modbus 16-bit registers"),
-                        Enumeration.entry("uint32", "32-bit unsigned register, formed from two modbus 16-bit registers"),
-                        Enumeration.entry("sint32_with_modulus", "32-bit signed register, formed from two modbus 16-bit registers, custom modulus"),
-                        Enumeration.entry("uint32_with_modulus", "32-bit unsigned register, formed from two modbus 16-bit registers, custom modulus"),
-                        Enumeration.entry("float32", "32-bit IEEE 754 floating point value")
-                )
-        );
+        // Master stuff
 
         private final static Enumeration sourceType = new Enumeration(
                 Arrays.asList("Source","Type"),
@@ -238,6 +228,39 @@ public class Enumerations {
                 )
         );
 
+        // Outstation stuff
+
+        private final static Enumeration destinationType = new Enumeration(
+                Arrays.asList("Destination","Type"),
+                Arrays.asList(
+                        Enumeration.entry("none", "field is not mapped"),
+                        Enumeration.entry("coil", "field is mapped out to a coil"),
+                        Enumeration.entry("discrete_input", "field is mapped out to a discrete input"),
+                        Enumeration.entry("holding_register", "field is mapped out to a holding register"),
+                        Enumeration.entry("input_register", "field is mapped out to an input register")
+                )
+        );
+
+        private final static Enumeration profileAction = new Enumeration(
+                Arrays.asList("Profile", "Action"),
+                Arrays.asList(
+                        Enumeration.entry("update", "update the value"),
+                        Enumeration.entry("clear_and_update", "clear the profile, then update the value"),
+                        Enumeration.entry("update_and_publish", "update the value, publish the profile, then clear the profile")
+                )
+        );
+
+        private final static Enumeration commandSourceType = new Enumeration(
+                Arrays.asList("Command", "Source", "Type"),
+                Arrays.asList(
+                        Enumeration.entry("none", "not mapped"),
+                        Enumeration.entry("coil", "the value is mapped from a coil write"),
+                        Enumeration.entry("holding_register", "the value is mapped from a register write")
+                )
+        );
+
+        // Shared stuff
+
         private final static Enumeration logLevel = new Enumeration(
                 Arrays.asList("Log", "Level"),
                 Arrays.asList(
@@ -250,8 +273,21 @@ public class Enumerations {
                 )
         );
 
+        private final static Enumeration registerMapping = new Enumeration(
+                Arrays.asList("Register", "Mapping"),
+                Arrays.asList(
+                        Enumeration.entry("sint16", "single signed register"),
+                        Enumeration.entry("uint16", "single unsigned register"),
+                        Enumeration.entry("sint32", "32-bit signed register, formed from two modbus 16-bit registers"),
+                        Enumeration.entry("uint32", "32-bit unsigned register, formed from two modbus 16-bit registers"),
+                        Enumeration.entry("sint32_with_modulus", "32-bit signed register, formed from two modbus 16-bit registers, custom modulus"),
+                        Enumeration.entry("uint32_with_modulus", "32-bit unsigned register, formed from two modbus 16-bit registers, custom modulus"),
+                        Enumeration.entry("float32", "32-bit IEEE 754 floating point value")
+                )
+        );
+
         private static List<Enumeration> enums() {
-            return Arrays.asList(registerMapping, sourceType, enumMappingType, outputType, bitwiseOperation, logLevel);
+            return Arrays.asList(sourceType, enumMappingType, outputType, bitwiseOperation, destinationType, profileAction, commandSourceType, logLevel, registerMapping);
         }
 
         private static final Path path = Paths.get("../plugins/modbus/src/modbus/generated");

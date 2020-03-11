@@ -83,6 +83,7 @@ namespace modbus {
         const std::shared_ptr<Register> lower = std::make_shared<Register>();
         const std::shared_ptr<Register> upper = std::make_shared<Register>();
     };
+
 }
 }
 

@@ -1,9 +1,9 @@
 #include "catch.hpp"
 
-#include "modbus/IRequestBuilder.h"
-#include "modbus/PollHandler.h"
+#include "master/IRequestBuilder.h"
+#include "master/PollHandler.h"
 
-using namespace adapter::modbus;
+using namespace adapter::modbus::master;
 
 class RequestBuilderMock : public IRequestBuilder {
 public:
