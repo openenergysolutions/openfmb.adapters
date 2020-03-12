@@ -60,6 +60,9 @@ namespace adapter {
                 case(StringFormat::IPv4):
                     this->writer.write_property("format", "ipv4");
                     break;
+                case(StringFormat::BitString):
+                    this->writer.write_property("pattern", "[01]+");
+                    break;
                 case(StringFormat::None):
                     break;
                 default:

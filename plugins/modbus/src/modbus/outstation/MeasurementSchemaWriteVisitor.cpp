@@ -178,7 +178,7 @@ namespace outstation {
             numeric_property<uint16_t>(
                 util::keys::index,
                 Required::yes,
-                "index of the point",
+                "Index of the point",
                 0,
                 Bound<uint16_t>::from(0),
                 Bound<uint16_t>::from(65535)
@@ -186,7 +186,7 @@ namespace outstation {
             numeric_property<float>(
                 util::keys::scale,
                 Required::yes,
-                "scaling factor",
+                "Scaling factor",
                 1.0f,
                 Bound<float>::unused(),
                 Bound<float>::unused()
@@ -197,7 +197,7 @@ namespace outstation {
             numeric_property<uint16_t>(
                 keys::lower_index,
                 Required::yes,
-                "index of the point containing the two LSB",
+                "Index of the point containing the two LSBs",
                 0,
                 Bound<uint16_t>::from(0),
                 Bound<uint16_t>::from(65535)
@@ -205,15 +205,15 @@ namespace outstation {
             numeric_property<uint16_t>(
                 keys::upper_index,
                 Required::yes,
-                "index of the point containing the two LSB",
-                0,
+                "Index of the point containing the two MSBs",
+                1,
                 Bound<uint16_t>::from(0),
                 Bound<uint16_t>::from(65535)
             ),
             numeric_property<float>(
                 util::keys::scale,
                 Required::yes,
-                "scaling factor",
+                "Scaling factor",
                 1.0f,
                 Bound<float>::unused(),
                 Bound<float>::unused()

@@ -21,8 +21,8 @@ set(MODBUS_SOURCES
     ./src/modbus/master/CommandSink.h
     ./src/modbus/master/CommandSinkActions.h
     ./src/modbus/master/CommandSubscriptionHandler.h
-    ./src/modbus/master/ControlConfigWriteVisitor.cpp
-    ./src/modbus/master/ControlConfigWriteVisitor.h
+    ./src/modbus/master/ControlSchemaWriteVisitor.cpp
+    ./src/modbus/master/ControlSchemaWriteVisitor.h
     ./src/modbus/master/FlipSingleCoilTransaction.cpp
     ./src/modbus/master/FlipSingleCoilTransaction.h
     ./src/modbus/master/HeartbeatTransaction.h
@@ -32,8 +32,8 @@ set(MODBUS_SOURCES
     ./src/modbus/master/IRequestBuilder.h
     ./src/modbus/master/ITransaction.h
     ./src/modbus/master/ITransactionProcessor.h
-    ./src/modbus/master/MeasurementConfigWriteVisitor.cpp
-    ./src/modbus/master/MeasurementConfigWriteVisitor.h
+    ./src/modbus/master/MeasurementSchemaWriteVisitor.cpp
+    ./src/modbus/master/MeasurementSchemaWriteVisitor.h
     ./src/modbus/master/ModifyRegisterOp.cpp
     ./src/modbus/master/ModifyRegisterOp.h
     ./src/modbus/master/ModifyRegisterTransaction.h
