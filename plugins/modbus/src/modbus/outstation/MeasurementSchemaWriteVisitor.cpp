@@ -23,42 +23,49 @@ namespace outstation {
 
     std::shared_ptr<schema::Object> MeasurementSchemaWriteVisitor::get_mapped_bool_schema()
     {
-        return std::make_shared<Object>(std::vector<property_ptr_t>(), OneOf({
-            Variant({ConstantProperty::from_enum<DestinationType>(DestinationType::Value::none)}, {}),
-            Variant({ConstantProperty::from_enum<DestinationType>(DestinationType::Value::coil)},
-            {
-                numeric_property<uint16_t>(
-                    util::keys::index,
-                    Required::yes,
-                    "index of the coil",
-                    0,
-                    Bound<uint16_t>::from(0),
-                    Bound<uint16_t>::from(65535)
-                ),
-                bool_property(
-                    util::keys::negate,
-                    Required::no,
-                    "Negate the boolean value before updating the Modbus point",
-                    false
-                )
-            }),
-            Variant({ConstantProperty::from_enum<DestinationType>(DestinationType::Value::discrete_input)},
-            {
-                numeric_property<uint16_t>(
-                    util::keys::index,
-                    Required::yes,
-                    "index of the discrete input",
-                    0,
-                    Bound<uint16_t>::from(0),
-                    Bound<uint16_t>::from(65535)
-                ),
-                bool_property(
-                    util::keys::negate,
-                    Required::no,
-                    "Negate the boolean value before updating the Modbus point",
-                    false
-                )
-            })
+        return std::make_shared<Object>(std::vector<property_ptr_t>({
+            array_property(
+                keys::actions,
+                Required::yes,
+                "Actions to execute",
+                Object({}, OneOf({
+                    Variant({ConstantProperty::from_enum<DestinationType>(DestinationType::Value::none)}, {}),
+                    Variant({ConstantProperty::from_enum<DestinationType>(DestinationType::Value::coil)},
+                    {
+                        numeric_property<uint16_t>(
+                            util::keys::index,
+                            Required::yes,
+                            "index of the coil",
+                            0,
+                            Bound<uint16_t>::from(0),
+                            Bound<uint16_t>::from(65535)
+                        ),
+                        bool_property(
+                            util::keys::negate,
+                            Required::no,
+                            "Negate the boolean value before updating the Modbus point",
+                            false
+                        )
+                    }),
+                    Variant({ConstantProperty::from_enum<DestinationType>(DestinationType::Value::discrete_input)},
+                    {
+                        numeric_property<uint16_t>(
+                            util::keys::index,
+                            Required::yes,
+                            "index of the discrete input",
+                            0,
+                            Bound<uint16_t>::from(0),
+                            Bound<uint16_t>::from(65535)
+                        ),
+                        bool_property(
+                            util::keys::negate,
+                            Required::no,
+                            "Negate the boolean value before updating the Modbus point",
+                            false
+                        )
+                    })
+                }))
+            )
         }));
     }
 
@@ -97,6 +104,7 @@ namespace outstation {
                         Required::yes,
                         "Actions to perform",
                         Object({}, OneOf({
+                            Variant({ConstantProperty::from_enum<DestinationType>(DestinationType::Value::none)}, {}),
                             Variant({ConstantProperty::from_enum<DestinationType>(DestinationType::Value::coil)}, {
                                 numeric_property<uint16_t>(
                                     util::keys::index,
@@ -228,10 +236,17 @@ namespace outstation {
             Variant({ConstantProperty::from_enum<RegisterMapping>(RegisterMapping::Value::float32)}, mapping_32bit),
         }));
 
-        return std::make_shared<Object>(std::vector<property_ptr_t>(), OneOf({
-            Variant({ConstantProperty::from_enum<DestinationType>(DestinationType::Value::none)}, {}),
-            Variant({ConstantProperty::from_enum<DestinationType>(DestinationType::Value::holding_register)}, register_mapping),
-            Variant({ConstantProperty::from_enum<DestinationType>(DestinationType::Value::discrete_input)}, register_mapping)
+        return std::make_shared<Object>(std::vector<property_ptr_t>({
+            array_property(
+                keys::actions,
+                Required::yes,
+                "Actions to perform",
+                Object({}, OneOf({
+                    Variant({ConstantProperty::from_enum<DestinationType>(DestinationType::Value::none)}, {}),
+                    Variant({ConstantProperty::from_enum<DestinationType>(DestinationType::Value::holding_register)}, register_mapping),
+                    Variant({ConstantProperty::from_enum<DestinationType>(DestinationType::Value::input_register)}, register_mapping)
+                }))
+            )
         }));
     }
 
