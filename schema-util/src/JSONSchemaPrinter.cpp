@@ -63,6 +63,9 @@ namespace adapter {
                 case(StringFormat::BitString):
                     this->writer.write_property("pattern", "[01]+");
                     break;
+                case(StringFormat::MacAddress):
+                    this->writer.write_property("pattern", "([0-9A-F]{2}[:-]){5}([0-9A-F]{2})");
+                    break;
                 case(StringFormat::None):
                     break;
                 default:

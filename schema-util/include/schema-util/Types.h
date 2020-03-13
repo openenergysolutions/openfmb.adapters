@@ -183,7 +183,8 @@ namespace adapter {
             IPv4,
             Uuid,
             Subject,
-            BitString
+            BitString,
+            MacAddress
         };
 
         class StringProperty : public TypedPropertyBase<std::string> {

@@ -7,7 +7,7 @@
 #include "adapter-util/util/YAMLTemplate.h"
 #include "schema-util/Builder.h"
 #include "generated/Type.h"
-#include "sub/SubscribingConfigWriteVisitor.h"
+#include "sub/SubscribingSchemaWriteVisitor.h"
 #include "sub/SubscribingPlugin.h"
 
 #include <iostream>
@@ -16,12 +16,156 @@ namespace adapter {
 namespace goose {
 
     template <class T>
-    struct SubWriterHandler {
-        static void handle(YAML::Emitter& out)
+    struct SubSchemaWriter {
+        static void handle(std::vector<schema::property_ptr_t>& props)
         {
-            std::cout << "Generating: " << T::descriptor()->name() << std::endl;
-            SubscribingConfigWriteVisitor visitor(out);
+            using namespace adapter::schema;
+
+            // Quality templates
+            props.emplace_back(
+                array_property(
+                    keys::quality_templates,
+                    Required::yes,
+                    "Quality templates",
+                    Object({
+                        string_property(
+                            keys::quality_id,
+                            Required::yes,
+                            "unique ID",
+                            "default-quality",
+                            StringFormat::None
+                        ),
+                        enum_property(
+                            keys::quality_validity,
+                            util::SchemaWriteVisitorBase::get_enum_variants_from_proto(commonmodule::ValidityKind_descriptor()),
+                            Required::yes,
+                            "Quality validity",
+                            commonmodule::ValidityKind_Name(commonmodule::ValidityKind_good)
+                        ),
+                        bool_property(
+                            keys::quality_overflow,
+                            Required::yes,
+                            "Overflow",
+                            false
+                        ),
+                        bool_property(
+                            keys::quality_outofrange,
+                            Required::yes,
+                            "Out of range",
+                            false
+                        ),
+                        bool_property(
+                            keys::quality_badreference,
+                            Required::yes,
+                            "Bad reference",
+                            false
+                        ),
+                        bool_property(
+                            keys::quality_oscillatory,
+                            Required::yes,
+                            "Oscillatory",
+                            false
+                        ),
+                        bool_property(
+                            keys::quality_failure,
+                            Required::yes,
+                            "Failure",
+                            false
+                        ),
+                        bool_property(
+                            keys::quality_olddata,
+                            Required::yes,
+                            "Old data",
+                            false
+                        ),
+                        bool_property(
+                            keys::quality_inconsistent,
+                            Required::yes,
+                            "Inconsistent",
+                            false
+                        ),
+                        bool_property(
+                            keys::quality_inaccurate,
+                            Required::yes,
+                            "Inaccurate",
+                            false
+                        ),
+                        enum_property(
+                            keys::quality_source,
+                            util::SchemaWriteVisitorBase::get_enum_variants_from_proto(commonmodule::SourceKind_descriptor()),
+                            Required::yes,
+                            "Source",
+                            commonmodule::SourceKind_Name(commonmodule::SourceKind_process)
+                        ),
+                        bool_property(
+                            keys::quality_test,
+                            Required::yes,
+                            "Test",
+                            false
+                        ),
+                        bool_property(
+                            keys::quality_operatorblocked,
+                            Required::yes,
+                            "Operator blocked",
+                            false
+                        ),
+                    })
+                )
+            );
+
+            // Timequality templates
+            props.emplace_back(
+                array_property(
+                    keys::timequality_templates,
+                    Required::yes,
+                    "Timequality templates",
+                    Object({
+                        string_property(
+                            keys::timequality_id,
+                            Required::yes,
+                            "unique ID",
+                            "default-time-quality",
+                            StringFormat::None
+                        ),
+                        bool_property(
+                            keys::timequality_clock_failure,
+                            Required::yes,
+                            "Clock failure",
+                            false
+                        ),
+                        bool_property(
+                            keys::timequality_clock_not_synchronized,
+                            Required::yes,
+                            "Clock not synchronized",
+                            false
+                        ),
+                        bool_property(
+                            keys::timequality_leap_seconds_known,
+                            Required::yes,
+                            "Lead seconds known",
+                            false
+                        ),
+                        enum_property(
+                            keys::timequality_time_accuracy,
+                            util::SchemaWriteVisitorBase::get_enum_variants_from_proto(commonmodule::TimeAccuracyKind_descriptor()),
+                            Required::yes,
+                            "Time accuracy",
+                            commonmodule::TimeAccuracyKind_Name(commonmodule::TimeAccuracyKind_T0)
+                        )
+                    })
+                )
+            );
+
+            auto visitor = SubscribingSchemaWriteVisitor{};
             util::visit<T>(visitor);
+            props.emplace_back(
+                object_property(
+                    util::keys::mapping,
+                    Required::yes,
+                    "profile mapping",
+                    visitor.get_schema()
+                )
+            );
         }
     };
 
@@ -52,98 +196,86 @@ namespace goose {
         });
     }
 
-    void SubscribingPluginFactory::write_default_config(YAML::Emitter& out) const
+    std::vector<schema::property_ptr_t> SubscribingPluginFactory::get_session_schema() const
     {
-        out << YAML::Key << keys::goCb;
-        util::yaml::write_default_template_config(out, "goCb-template.yaml");
+        using namespace adapter::schema;
+
+        return {
+            string_property(
+                keys::networkAdapter,
+                Required::yes,
+                "Network adapter to use",
+                "ens1",
+                StringFormat::None
+            ),
+            string_property(
+                keys::src_mac,
+                Required::yes,
+                "Source MAC address",
+                "08:42:70:00:00:00",
+                StringFormat::MacAddress
+            ),
+            string_property(
+                keys::dest_mac,
+                Required::yes,
+                "Destination MAC address",
+                "01:0C:CD:02:00:01",
+                StringFormat::MacAddress
+            ),
+            numeric_property<uint16_t>(
+                keys::appId,
+                Required::yes,
+                "APPID",
+                1000,
+                Bound<uint16_t>::from(0),
+                Bound<uint16_t>::from(65535)
+            ),
+            string_property(
+                keys::goCbRef,
+                Required::yes,
+                "GOOSE Control Block Reference",
+                "REF615A_204LD0/LLN0$GO$OpenFMBheartbeat",
+                StringFormat::None
+            ),
+            string_property(
+                keys::datSet,
+                Required::yes,
+                "GOOSE datSet",
+                "REF615A_204LD0/LLN0$OpenFMBGDS",
+                StringFormat::None
+            ),
+            string_property(
+                keys::goID,
+                Required::yes,
+                "GOOSE goId",
+                "REF615A_204LD0/LLN0.OpenFMBheartbeat",
+                StringFormat::None
+            ),
+            numeric_property<int64_t>(
+                keys::confRev,
+                Required::yes,
+                "Configuration revision",
+                100,
+                Bound<int64_t>::from(0),
+                Bound<int64_t>::from(4294967295)
+            ),
+            numeric_property<int64_t>(
+                keys::ttl,
+                Required::yes,
+                "Retransmission interval (in milliseconds)",
+                100,
+                Bound<int64_t>::from(0),
+                Bound<int64_t>::unused()
+            ),
+            // TODO: add GOOSE structure
+        };
     }
 
-    void SubscribingPluginFactory::write_session_config(YAML::Emitter& out, const api::profile_vec_t& profiles) const
+    std::vector<schema::property_ptr_t> SubscribingPluginFactory::get_profile_schema(const std::string& profile) const
     {
-        if (profiles.size() != 1) {
-            throw api::Exception("You must specify exactly one profile when generating goose-sub session configuration");
-        }
-        auto profile = profiles[0];
-
-        out << YAML::BeginMap;
-
-        out << YAML::Key << keys::networkAdapter << YAML::Value << "ens1" << YAML::Comment("Network adapter name");
-        out << YAML::Key << keys::src_mac << YAML::Value << "08:42:70:00:00:00" << YAML::Comment("source MAC address");
-        out << YAML::Key << keys::dest_mac << YAML::Value << "01:0c:cd:02:00:01" << YAML::Comment("destination MAC address");
-        out << YAML::Key << keys::appId << YAML::Value << 1000 << YAML::Comment("APPID");
-        out << YAML::Key << keys::goCbRef << YAML::Value << "REF615A_204LD0/LLN0$GO$OpenFMBheartbeat" << YAML::Comment("GOOSE Control Block Reference");
-        out << YAML::Key << keys::datSet << YAML::Value << "REF615A_204LD0/LLN0$OpenFMBGDS" << YAML::Comment("datSet");
-        out << YAML::Key << keys::goID << YAML::Value << "REF615A_204LD0/LLN0.OpenFMBheartbeat" << YAML::Comment("goID");
-        out << YAML::Key << keys::confRev << YAML::Value << 100 << YAML::Comment("Configuration revision");
-        out << YAML::Key << keys::ttl << YAML::Value << 1000 << YAML::Comment("Retransmission interval (in ms)");
-        out << YAML::Key << util::keys::profile << YAML::Value << profile;
-        write_goose_structure(out);
-        write_quality_template(out);
-        write_time_quality_template(out);
-        out << YAML::Key << keys::mapping;
-        out << YAML::BeginMap;
-        api::ProfileRegistry::handle_by_name<SubWriterHandler>(profile, out);
-        out << YAML::EndMap;
-        out << YAML::EndMap;
-    }
-
-    void SubscribingPluginFactory::write_quality_template(YAML::Emitter& out) const
-    {
-        out << YAML::Key << keys::quality_templates << YAML::Comment("Quality templates");
-        out << YAML::BeginSeq;
-        out << YAML::BeginMap;
-        out << YAML::Key << keys::quality_id << YAML::Value << "default-quality" << YAML::Comment("unique id");
-        out << YAML::Key << keys::quality_validity << YAML::Value << commonmodule::ValidityKind_Name(commonmodule::ValidityKind::ValidityKind_good) << YAML::Comment(util::enumeration::get_enum_set(*commonmodule::ValidityKind_descriptor()));
-        out << YAML::Key << keys::quality_overflow << YAML::Value << false;
-        out << YAML::Key << keys::quality_outofrange << YAML::Value << false;
-        out << YAML::Key << keys::quality_badreference << YAML::Value << false;
-        out << YAML::Key << keys::quality_oscillatory << YAML::Value << false;
-        out << YAML::Key << keys::quality_failure << YAML::Value << false;
-        out << YAML::Key << keys::quality_olddata << YAML::Value << false;
-        out << YAML::Key << keys::quality_inconsistent << YAML::Value << false;
-        out << YAML::Key << keys::quality_inaccurate << YAML::Value << false;
-        out << YAML::Key << keys::quality_source << YAML::Value << commonmodule::SourceKind_Name(commonmodule::SourceKind::SourceKind_process) << YAML::Comment(util::enumeration::get_enum_set(*commonmodule::SourceKind_descriptor()));
-        out << YAML::Key << keys::quality_test << YAML::Value << false;
-        out << YAML::Key << keys::quality_operatorblocked << YAML::Value << false;
-        out << YAML::EndMap;
-        out << YAML::EndSeq;
-    }
-
-    void SubscribingPluginFactory::write_time_quality_template(YAML::Emitter& out) const
-    {
-        out << YAML::Key << keys::timequality_templates << YAML::Comment("Time quality templates");
-        out << YAML::BeginSeq;
-        out << YAML::BeginMap;
-        out << YAML::Key << keys::timequality_id << YAML::Value << "default-time-quality" << YAML::Comment("unique id");
-        out << YAML::Key << keys::timequality_clock_failure << YAML::Value << false;
-        out << YAML::Key << keys::timequality_clock_not_synchronized << YAML::Value << false;
-        out << YAML::Key << keys::timequality_leap_seconds_known << YAML::Value << false;
-        out << YAML::Key << keys::timequality_time_accuracy << YAML::Value << commonmodule::TimeAccuracyKind_Name(commonmodule::TimeAccuracyKind::TimeAccuracyKind_T0) << YAML::Comment(util::enumeration::get_enum_set(*commonmodule::TimeAccuracyKind_descriptor()));
-        out << YAML::EndMap;
-        out << YAML::EndSeq;
-    }
-
-    void SubscribingPluginFactory::write_goose_structure(YAML::Emitter& out) const
-    {
-        out << YAML::Key << keys::goose_struct << YAML::Comment("GOOSE structure definition");
-        out << YAML::BeginSeq;
-        out << YAML::BeginMap << YAML::Key << Type::to_string(Type::Value::floating) << YAML::Value << "PhV.net" << YAML::EndMap;
-        out << YAML::BeginMap;
-        out << YAML::Key << Type::to_string(Type::Value::structure) << YAML::Value;
-        out << YAML::BeginSeq;
-        out << YAML::BeginMap << YAML::Key << Type::to_string(Type::Value::floating) << YAML::Value << "PhV.phsA" << YAML::EndMap;
-        out << YAML::BeginMap << YAML::Key << Type::to_string(Type::Value::floating) << YAML::Value << "PhV.phsB" << YAML::EndMap;
-        out << YAML::BeginMap << YAML::Key << Type::to_string(Type::Value::floating) << YAML::Value << "PhV.phsC" << YAML::EndMap;
-        out << YAML::EndSeq;
-        out << YAML::EndMap;
-        out << YAML::BeginMap << YAML::Key << Type::to_string(Type::Value::array) << YAML::Value;
-        out << YAML::BeginSeq;
-        out << YAML::BeginMap << YAML::Key << Type::to_string(Type::Value::integer) << YAML::Value << "W.phsA" << YAML::EndMap;
-        out << YAML::BeginMap << YAML::Key << Type::to_string(Type::Value::integer) << YAML::Value << "W.phsB" << YAML::EndMap;
-        out << YAML::BeginMap << YAML::Key << Type::to_string(Type::Value::integer) << YAML::Value << "W.phsC" << YAML::EndMap;
-        out << YAML::EndSeq;
-        out << YAML::EndMap;
-        out << YAML::EndSeq;
+        auto props = std::vector<schema::property_ptr_t>{};
+        api::ProfileRegistry::handle_by_name<SubSchemaWriter>(profile, props);
+        return props;
     }
 
 } // namespace goose
