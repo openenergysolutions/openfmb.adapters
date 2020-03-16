@@ -11,17 +11,6 @@
 namespace adapter {
 namespace util {
     namespace yaml {
-        /**
-         * Write a default template configuration:
-         *
-         * - path: <filename>  # possibly a template
-         *   overrides:
-         *     - a.b.c = 4  # a sequence of override specifications to apply to the template
-         *
-         * @param out YAML emitter
-         * @param filename Name of the file to place in the configuration
-         */
-        void write_default_template_config(YAML::Emitter& out, const std::string& filename);
 
         schema::Object get_template_schema(const std::string& filename);
 

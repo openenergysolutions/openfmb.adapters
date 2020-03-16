@@ -56,13 +56,5 @@ namespace util {
         );
     }
 
-    void CommandPriorityMap::write_default_list(YAML::Emitter& out)
-    {
-        out << YAML::Key << keys::command_order << YAML::Comment("order of commands by operation id, first == highest priority, last == lowest priority");
-        out << YAML::BeginSeq;
-        out << YAML::Value << "operation-id-1";
-        out << YAML::Value << "operation-id-2";
-        out << YAML::EndSeq;
-    }
 }
 }

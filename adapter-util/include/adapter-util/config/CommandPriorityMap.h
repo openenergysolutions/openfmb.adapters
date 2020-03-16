@@ -45,8 +45,6 @@ public:
 
     static schema::property_ptr_t get_schema();
 
-    static void write_default_list(YAML::Emitter& out);
-
 private:
     std::map<std::string, Value> priority_map;
 };

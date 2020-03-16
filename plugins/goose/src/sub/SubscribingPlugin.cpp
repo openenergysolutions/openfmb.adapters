@@ -43,7 +43,9 @@ namespace goose {
         auto go_id = util::yaml::require_string(node, keys::goID);
         auto conf_rev = util::yaml::require(node, keys::confRev).as<uint16_t>();
         auto ttl = util::yaml::require(node, keys::ttl).as<uint16_t>();
-        auto profile = util::yaml::require_string(node, util::keys::profile);
+
+        const auto profile_node = node[util::keys::profiles][0];
+        auto profile = util::yaml::require_string(profile_node, util::keys::name);
 
         auto control_block_publisher = network_publisher->make_control_block_publisher(
             goose_cpp::MacAddress::from_string(src_mac),
@@ -57,7 +59,7 @@ namespace goose {
 
         api::ProfileRegistry::handle_by_name<SubscribingProfileReader>(
             profile,
-            node,
+            profile_node,
             m_logger,
             bus,
             std::shared_ptr<goose_cpp::IControlBlockPublisher>{ std::move(control_block_publisher) });

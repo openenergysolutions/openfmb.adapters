@@ -23,19 +23,10 @@ namespace capture {
         });
     }
 
-    void PluginFactory::write_default_config(YAML::Emitter& emitter) const
-    {
-        emitter << YAML::Key << keys::file << YAML::Value << "capture.txt";
-    }
-
     std::unique_ptr<api::IPlugin> PluginFactory::create(const YAML::Node& node, const api::Logger& logger, api::message_bus_t bus)
     {
         return std::make_unique<Plugin>(node, logger, std::move(bus));
     }
 
-    void PluginFactory::write_session_config(YAML::Emitter& out, const api::profile_vec_t& profiles) const
-    {
-        throw api::Exception("Capture plugin does not support writing session configuration");
-    }
 }
 }

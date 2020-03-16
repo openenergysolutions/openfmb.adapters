@@ -157,6 +157,16 @@ namespace goose {
                 )
             );
 
+            // GOOSE structure
+            props.emplace_back(
+                array_property(
+                    keys::goose_struct,
+                    Required::yes,
+                    "GOOSE message structure",
+                    GooseStructureConfigVisitor::get_schema()
+                )
+            );
+
             auto visitor = SubscribingSchemaWriteVisitor{};
             util::visit<T>(visitor);
             props.emplace_back(
@@ -267,12 +277,6 @@ namespace goose {
                 100,
                 Bound<int64_t>::from(0),
                 Bound<int64_t>::unused()
-            ),
-            array_property(
-                keys::goose_struct,
-                Required::yes,
-                "GOOSE message structure",
-                GooseStructureConfigVisitor::get_schema()
             )
         };
     }

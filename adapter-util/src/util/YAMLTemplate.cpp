@@ -228,22 +228,6 @@ namespace util {
                 )
             });
         }
-
-        void write_default_template_config(YAML::Emitter& out, const std::string& filename)
-        {
-            out << YAML::BeginSeq;
-
-            out << YAML::BeginMap;
-            out << YAML::Key << keys::path << YAML::Value << filename << YAML::Comment("possibly a template");
-            out << YAML::Key << keys::overrides;
-            out << YAML::BeginSeq;
-            out << YAML::Value << "a.b.c = 4"
-                << YAML::Comment("a sequence of override specifications to apply to the template");
-            out << YAML::EndSeq;
-            out << YAML::EndMap;
-
-            out << YAML::EndSeq;
-        }
     }
 }
 }
