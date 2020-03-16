@@ -96,6 +96,14 @@ namespace goose {
                 )
             }),
             Variant({}, {
+                ref_array_property(
+                    Type::array,
+                    Required::yes,
+                    "Array of values",
+                    ref_name
+                )
+            }),
+            Variant({}, {
                 string_property(
                     Type::boolean,
                     Required::yes,
