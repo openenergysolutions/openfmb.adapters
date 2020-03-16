@@ -24,6 +24,15 @@ namespace adapter {
                 this->writer.end_array();
             }
 
+            // Write reference objects
+            this->writer.begin_object_property("definitions");
+            for(auto& it : references) {
+                it.second.set_name(it.first);
+                it.second.object.ref.reset();
+                it.second.visit(*this);
+            }
+            this->writer.end_object();
+
            writer.close_document();
         }
 
@@ -34,9 +43,28 @@ namespace adapter {
 
         void JSONSchemaPrinter::begin(const ObjectProperty &prop) {
             this->writer.begin_object_property(prop.get_name());
+
+            // Object is a reference, we will write it at root-level at a later stage
+            if(prop.object.ref) {
+                references.insert({prop.object.ref->ref_name, prop});
+
+                // Write the pointer
+                const auto name = "#/definitions/" + prop.object.ref->ref_name;
+                this->writer.write_property("$ref", name);
+
+                return;
+            }
+
             this->writer.write_property("description", prop.get_description());
             this->writer.write_property("type", "object");
             this->writer.begin_object_property("properties");
+        }
+
+        void JSONSchemaPrinter::on_property(const ObjectRef& ref) {
+            const auto name = "#/definitions/" + ref.ref_name.ref_name;
+            this->writer.begin_object_property(ref.get_name());
+            this->writer.write_property("$ref", name);
+            this->writer.end_object();
         }
 
         void JSONSchemaPrinter::on_property(const BoolProperty& prop) {
@@ -141,6 +169,11 @@ namespace adapter {
 
         void JSONSchemaPrinter::end(const ObjectProperty &prop) {
             this->writer.end_object(); // end properties
+
+            // Object is a reference, nothing else to do
+            if(prop.object.ref) {
+                return;
+            }
 
             // write oneofs
             this->write_oneofs(prop.object);

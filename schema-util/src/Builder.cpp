@@ -37,6 +37,11 @@ namespace adapter {
             return std::make_shared<ArrayProperty>(PropertyMetadata(required, name, description), object_property("items", Required::yes, "", std::move(object)));
         }
 
+        std::shared_ptr<ArrayProperty> ref_array_property(const std::string& name, Required required, const std::string& description, const ObjectRefName& ref_name)
+        {
+            return std::make_shared<ArrayProperty>(PropertyMetadata(required, name, description), std::make_shared<ObjectRef>(PropertyMetadata(Required::yes, "items", ""), ref_name));
+        }
+
         std::shared_ptr<ArrayProperty> string_array_property(const std::string& name, Required required, const std::string& description, const std::string& default_value, StringFormat format)
         {
             return std::make_shared<ArrayProperty>(PropertyMetadata(required, name, description), string_property("items", Required::yes, "", default_value, format));

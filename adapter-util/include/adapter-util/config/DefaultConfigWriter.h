@@ -18,6 +18,7 @@ namespace yaml {
 
         void begin(const schema::ObjectProperty& prop) override;
 
+        void on_property(const schema::ObjectRef& prop) override;
         void on_property(const schema::BoolProperty& prop) override;
         void on_property(const schema::StringProperty& prop) override;
         void on_property(const schema::EnumProperty& prop) override;

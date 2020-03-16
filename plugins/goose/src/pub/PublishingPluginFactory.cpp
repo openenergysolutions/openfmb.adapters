@@ -1,6 +1,7 @@
 #include "goose/PublishingPluginFactory.h"
 
 #include "ConfigStrings.h"
+#include "GooseStructureConfigVisitor.h"
 #include "adapter-util/ConfigStrings.h"
 #include "adapter-util/config/generated/ModelVisitors.h"
 #include "adapter-util/util/YAMLTemplate.h"
@@ -87,7 +88,12 @@ namespace goose {
                 "REF615A_204LD0/LLN0$GO$OpenFMBheartbeat",
                 StringFormat::None
             ),
-            // TODO: add GOOSE structure
+            array_property(
+                keys::goose_struct,
+                Required::yes,
+                "GOOSE message structure",
+                GooseStructureConfigVisitor::get_schema()
+            )
         };
     }
 

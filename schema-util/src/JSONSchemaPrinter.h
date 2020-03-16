@@ -6,12 +6,15 @@
 
 #include "JSONWriter.h"
 
+#include <unordered_map>
+
 namespace adapter {
     namespace schema {
 
     class JSONSchemaPrinter final : public IVisitor {
 
         JSONWriter writer;
+        std::unordered_map<std::string, ObjectProperty> references;
 
         // called after construction
         void declare_schema(const std::string& schema_id);
@@ -29,6 +32,8 @@ namespace adapter {
         // ----- implement IVisitor -------
 
         void begin(const ObjectProperty &prop) override;
+
+        void on_property(const ObjectRef& ref) override;
 
         void on_property(const BoolProperty& prop) override;
 

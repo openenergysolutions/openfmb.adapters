@@ -7,6 +7,7 @@
 #include "adapter-util/util/YAMLTemplate.h"
 #include "schema-util/Builder.h"
 #include "generated/Type.h"
+#include "GooseStructureConfigVisitor.h"
 #include "sub/SubscribingSchemaWriteVisitor.h"
 #include "sub/SubscribingPlugin.h"
 
@@ -267,7 +268,12 @@ namespace goose {
                 Bound<int64_t>::from(0),
                 Bound<int64_t>::unused()
             ),
-            // TODO: add GOOSE structure
+            array_property(
+                keys::goose_struct,
+                Required::yes,
+                "GOOSE message structure",
+                GooseStructureConfigVisitor::get_schema()
+            )
         };
     }
 

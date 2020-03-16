@@ -25,7 +25,7 @@ namespace adapter {
 
         struct PropertyMetadata {
             Required required;
-            const std::string name;
+            std::string name;
             const std::string description;
 
             PropertyMetadata(
@@ -102,17 +102,30 @@ namespace adapter {
             OneOf(const std::initializer_list<Variant> &variants) : variants(variants) {}
         };
 
+        class ObjectRefName {
+        public:
+            const std::string ref_name;
+
+            ObjectRefName(std::string ref_name) : ref_name(std::move(ref_name)) {}
+        };
+
         class Object {
         public:
             /// Collection of all properties in an object
             std::vector<property_ptr_t> properties;
             OneOf one_of;
+            std::shared_ptr<ObjectRefName> ref;
 
             explicit Object(std::vector<property_ptr_t> properties) : properties(std::move(properties)) {}
 
             Object(std::vector<property_ptr_t> properties, OneOf one_of) : properties(std::move(properties)), one_of(std::move(one_of)) {}
-        };
 
+            static Object create_ref(ObjectRefName ref_name, std::vector<property_ptr_t> properties, OneOf one_of) {
+                auto obj = Object(properties, one_of);
+                obj.ref = std::make_shared<ObjectRefName>(ref_name);
+                return obj;
+            }
+        };
 
         class PropertyBase : public IProperty {
             PropertyMetadata metadata;
@@ -128,6 +141,10 @@ namespace adapter {
                 return this->metadata.name;
             }
 
+            void set_name(const std::string& name) {
+                this->metadata.name = name;
+            }
+
             bool is_required() const override {
                 return this->metadata.required == Required::yes;
             }
@@ -135,6 +152,18 @@ namespace adapter {
             void set_required() override {
                 this->metadata.required = Required::yes;
             }
+        };
+
+        class ObjectRef : public PropertyBase {
+        public:
+            const ObjectRefName ref_name;
+
+            ObjectRef(const PropertyMetadata& metadata, ObjectRefName ref_name) :
+                PropertyBase(metadata),
+                ref_name(std::move(ref_name))
+            {}
+
+            void visit(IVisitor& visitor) override;
         };
 
         class ArrayProperty : public PropertyBase {
@@ -260,6 +289,8 @@ namespace adapter {
             virtual ~IVisitor() = default;
 
             virtual void begin(const ObjectProperty &prop) = 0;
+
+            virtual void on_property(const ObjectRef & ref) = 0;
 
             virtual void on_property(const BoolProperty &prop) = 0;
 

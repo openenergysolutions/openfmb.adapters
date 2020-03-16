@@ -27,6 +27,11 @@ namespace yaml {
             << YAML::BeginMap;
     }
 
+    void DefaultConfigWriter::on_property(const schema::ObjectRef& prop)
+    {
+        // Do nothing
+    }
+
     void DefaultConfigWriter::on_property(const BoolProperty& prop)
     {
         out << YAML::Key << prop.get_name()
