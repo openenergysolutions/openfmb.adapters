@@ -23,7 +23,7 @@ namespace master {
             return "maps OpenFMB to the Modbus protocol";
         };
 
-        schema::Object PluginFactory::get_plugin_schema() const override;
+        schema::Object get_plugin_schema() const override;
 
         std::vector<schema::property_ptr_t> get_session_schema() const override;
 
