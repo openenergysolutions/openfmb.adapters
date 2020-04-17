@@ -118,7 +118,7 @@ namespace util {
         template <typename T>
         schema::Variant variant(typename T::Value value, typename T::Value mapped_value, std::vector<schema::property_ptr_t> props) const
         {
-            return variant_obj<T>(value, mapped_value, std::make_shared<Object>(props));
+            return variant_obj<T>(value, mapped_value, std::make_shared<schema::Object>(props));
         }
     };
 }
