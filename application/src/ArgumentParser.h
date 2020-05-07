@@ -10,9 +10,11 @@ namespace flags {
     constexpr const char* version = "version";
     constexpr const char* config_file = "config_file";
     constexpr const char* generate_config = "generate_config";
+    constexpr const char* generate_schema = "generate_schema";
     constexpr const char* plugin = "plugin";
     constexpr const char* profile = "profile";
     constexpr const char* list = "list";
+    constexpr const char* pretty_print = "pretty_print";
 }
 
 class ArgumentParser {

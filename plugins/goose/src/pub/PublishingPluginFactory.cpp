@@ -1,11 +1,13 @@
 #include "goose/PublishingPluginFactory.h"
 
 #include "ConfigStrings.h"
+#include "GooseStructureConfigVisitor.h"
 #include "adapter-util/ConfigStrings.h"
 #include "adapter-util/config/generated/ModelVisitors.h"
 #include "adapter-util/util/YAMLTemplate.h"
+#include "schema-util/Builder.h"
 #include "generated/Type.h"
-#include "pub/PublishingConfigWriteVisitor.h"
+#include "pub/PublishingSchemaWriteVisitor.h"
 #include "pub/PublishingPlugin.h"
 
 #include <iostream>
@@ -14,12 +16,21 @@ namespace adapter {
 namespace goose {
 
     template <class T>
-    struct WriterHandler {
-        static void handle(YAML::Emitter& out)
+    struct SchemaWriter {
+        static void handle(std::vector<schema::property_ptr_t>& props)
         {
-            std::cout << "Generating: " << T::descriptor()->name() << std::endl;
-            PublishingConfigWriteVisitor visitor(out);
+            using namespace adapter::schema;
+
+            auto visitor = PublishingSchemaWriteVisitor{};
             util::visit<T>(visitor);
+            props.emplace_back(
+                object_property(
+                    util::keys::mapping,
+                    Required::yes,
+                    "profile mapping",
+                    visitor.get_schema()
+                )
+            );
         }
     };
 
@@ -38,64 +49,59 @@ namespace goose {
         return std::make_unique<PublishingPlugin>(node, logger, bus);
     }
 
-    void PublishingPluginFactory::write_default_config(YAML::Emitter& out) const
+    schema::Object PublishingPluginFactory::get_plugin_schema() const
     {
-        out << YAML::Key << keys::goCb;
-        util::yaml::write_default_template_config(out, "goCb-template.yaml");
+        return schema::Object({
+            schema::array_property(
+                keys::goCb,
+                schema::Required::yes,
+                "GOOSE control blocks",
+                util::yaml::get_template_schema("goCb-template.yaml")
+            )
+        });
     }
 
-    void PublishingPluginFactory::write_session_config(YAML::Emitter& out, const api::profile_vec_t& profiles) const
+    std::vector<schema::property_ptr_t> PublishingPluginFactory::get_session_schema() const
     {
-        if (profiles.empty()) {
-            throw api::Exception("You must specify at least one profile when generating GOOSE session configuration");
-        }
+        using namespace adapter::schema;
 
-        out << YAML::BeginMap;
-
-        out << YAML::Key << keys::networkAdapter << YAML::Value << "ens1" << YAML::Comment("Network adapter name");
-        out << YAML::Key << keys::appId << YAML::Value << 1000 << YAML::Comment("APPID");
-        out << YAML::Key << keys::goCbRef << YAML::Value << "REF615A_204LD0/LLN0$GO$OpenFMBheartbeat" << YAML::Comment("GOOSE Control Block Reference");
-        write_goose_structure(out);
-
-        out << YAML::Key << keys::profiles;
-        out << YAML::BeginSeq;
-        write_profile_configs(out, profiles);
-        out << YAML::EndSeq;
-
-        out << YAML::EndMap;
+        return {
+            string_property(
+                keys::networkAdapter,
+                Required::yes,
+                "Network adapter to use",
+                "ens1",
+                StringFormat::None
+            ),
+            numeric_property<uint16_t>(
+                keys::appId,
+                Required::yes,
+                "APPID",
+                1000,
+                Bound<uint16_t>::from(0),
+                Bound<uint16_t>::from(65535)
+            ),
+            string_property(
+                keys::goCbRef,
+                Required::yes,
+                "GOOSE Control Block Reference",
+                "REF615A_204LD0/LLN0$GO$OpenFMBheartbeat",
+                StringFormat::None
+            ),
+            array_property(
+                keys::goose_struct,
+                Required::yes,
+                "GOOSE message structure",
+                GooseStructureConfigVisitor::get_schema()
+            )
+        };
     }
 
-    void PublishingPluginFactory::write_goose_structure(YAML::Emitter& out) const
+    std::vector<schema::property_ptr_t> PublishingPluginFactory::get_profile_schema(const std::string& profile) const
     {
-        out << YAML::Key << keys::goose_struct << YAML::Comment("GOOSE structure definition");
-        out << YAML::BeginSeq;
-        out << YAML::BeginMap << YAML::Key << Type::to_string(Type::Value::structure) << YAML::Value << YAML::BeginSeq;
-        out << YAML::BeginMap << YAML::Key << Type::to_string(Type::Value::floating) << YAML::Value << "PhV.phsA" << YAML::EndMap;
-        out << YAML::BeginMap << YAML::Key << Type::to_string(Type::Value::floating) << YAML::Value << "PhV.phsB" << YAML::EndMap;
-        out << YAML::BeginMap << YAML::Key << Type::to_string(Type::Value::floating) << YAML::Value << "PhV.phsC" << YAML::EndMap;
-        out << YAML::BeginMap << YAML::Key << Type::to_string(Type::Value::ignored) << YAML::Value << "PhV.net" << YAML::EndMap;
-        out << YAML::EndSeq << YAML::EndMap;
-        out << YAML::BeginMap << YAML::Key << Type::to_string(Type::Value::array) << YAML::Value << YAML::BeginSeq;
-        out << YAML::BeginMap << YAML::Key << Type::to_string(Type::Value::integer) << YAML::Value << "W.phsA" << YAML::EndMap;
-        out << YAML::BeginMap << YAML::Key << Type::to_string(Type::Value::integer) << YAML::Value << "W.phsB" << YAML::EndMap;
-        out << YAML::BeginMap << YAML::Key << Type::to_string(Type::Value::integer) << YAML::Value << "W.phsC" << YAML::EndMap;
-        out << YAML::EndSeq << YAML::EndMap;
-        out << YAML::EndSeq;
-    }
-
-    void PublishingPluginFactory::write_profile_configs(YAML::Emitter& out, const api::profile_vec_t& profiles) const
-    {
-        for (const auto& profile : profiles) {
-            out << YAML::BeginMap;
-            out << YAML::Key << util::keys::name << YAML::Value << profile;
-
-            out << YAML::Key << keys::mapping << YAML::Comment("profile model starts here");
-            out << YAML::BeginMap;
-            api::ProfileRegistry::handle_by_name<WriterHandler>(profile, out);
-            out << YAML::EndMap;
-
-            out << YAML::EndMap;
-        }
+        auto props = std::vector<schema::property_ptr_t>{};
+        api::ProfileRegistry::handle_by_name<SchemaWriter>(profile, props);
+        return props;
     }
 
 } // namespace goose

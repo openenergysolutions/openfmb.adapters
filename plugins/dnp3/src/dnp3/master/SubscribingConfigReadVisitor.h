@@ -6,6 +6,7 @@
 #include <adapter-util/config/SubscribingConfigReadVisitorBase.h>
 #include <adapter-util/config/YAMLGetters.h>
 #include <adapter-util/schedule/ScheduleExecutor.h>
+#include <adapter-api/Exception.h>
 
 #include "dnp3/generated/CommandActionType.h"
 #include "dnp3/master/ControlSubscriptionHandler.h"
@@ -60,8 +61,9 @@ namespace dnp3 {
                             processor.DirectOperate(opendnp3::AnalogOutputDouble64(value), index, callback);
                         }, priority);
                     }
+                    default:
+                        throw api::Exception("Unhandled g41 CommandActionType");
                 }
-                
             }
 
             PrioritizedCommand single_control(const YAML::Node& node, util::ICommandPrioritySource& priority_source)
@@ -76,6 +78,8 @@ namespace dnp3 {
                 case CommandActionType::Value::g41v3:
                 case CommandActionType::Value::g41v4:
                     return single_fixed_analog(node, action_type, priority_source);
+                default:
+                    throw api::Exception("Unhandled CommandActionType");
                 }
             }
 

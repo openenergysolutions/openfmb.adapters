@@ -1,5 +1,6 @@
 package com.oes.openfmb.generation.enumeration;
 
+import com.oes.openfmb.generation.Profiles;
 import com.oes.openfmb.generation.document.FileGenerator;
 import com.oes.openfmb.generation.document.GeneratedFileSet;
 
@@ -86,6 +87,13 @@ public class Enumerations {
                 )
         );
 
+        private final static Enumeration profile = new Enumeration(
+            Collections.singletonList("Profile"),
+            Profiles.list.stream().map((descriptor) -> {
+                return Enumeration.entry(descriptor.getName(), descriptor.getFullName());
+            }).collect(Collectors.toList())
+        );
+
         private static List<Enumeration> enums() {
             return Arrays.asList(
                     getBasicFieldType("Int32"),
@@ -96,7 +104,8 @@ public class Enumerations {
                     enumFieldType,
                     timestampFieldType,
                     qualityFieldType,
-                    controlTimestampFieldType
+                    controlTimestampFieldType,
+                    profile
             );
         }
 

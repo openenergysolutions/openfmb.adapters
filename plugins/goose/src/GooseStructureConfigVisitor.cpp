@@ -1,6 +1,7 @@
 #include "GooseStructureConfigVisitor.h"
 
 #include "adapter-api/Exception.h"
+#include "schema-util/Builder.h"
 #include "generated/Type.h"
 
 namespace adapter {
@@ -68,6 +69,122 @@ namespace goose {
                 }
             }
         }
+    }
+
+    schema::Object GooseStructureConfigVisitor::get_schema()
+    {
+        using namespace adapter::schema;
+
+        const auto ref_name = ObjectRefName("goose-struct");
+
+        return Object::create_ref(ref_name, std::vector<property_ptr_t>(), OneOf{
+            Variant({}, {
+                string_property(
+                    Type::ignored,
+                    Required::yes,
+                    "Value is ignored",
+                    "ignored",
+                    StringFormat::None
+                )
+            }),
+            Variant({}, {
+                ref_array_property(
+                    Type::structure,
+                    Required::yes,
+                    "Structure of values",
+                    ref_name
+                )
+            }),
+            Variant({}, {
+                ref_array_property(
+                    Type::array,
+                    Required::yes,
+                    "Array of values",
+                    ref_name
+                )
+            }),
+            Variant({}, {
+                string_property(
+                    Type::boolean,
+                    Required::yes,
+                    "true or false value",
+                    "bool1",
+                    StringFormat::None
+                )
+            }),
+            Variant({}, {
+                string_property(
+                    Type::integer,
+                    Required::yes,
+                    "Int64 value",
+                    "int1",
+                    StringFormat::None
+                )
+            }),
+            Variant({}, {
+                string_property(
+                    Type::floating,
+                    Required::yes,
+                    "Double-precision floating point value",
+                    "float1",
+                    StringFormat::None
+                )
+            }),
+            Variant({}, {
+                string_property(
+                    Type::visible_string,
+                    Required::yes,
+                    "ASCII string",
+                    "str1",
+                    StringFormat::None
+                )
+            }),
+            Variant({}, {
+                string_property(
+                    Type::mms_string,
+                    Required::yes,
+                    "UTF8 string",
+                    "str1",
+                    StringFormat::None
+                )
+            }),
+            Variant({}, {
+                string_property(
+                    Type::bitstring,
+                    Required::yes,
+                    "Bitstring value",
+                    "bitstring1",
+                    StringFormat::None
+                )
+            }),
+            Variant({}, {
+                string_property(
+                    Type::generalized_time,
+                    Required::yes,
+                    "Datetime possibly with timezone calculations. Precise to the milliseconds.",
+                    "datetime1",
+                    StringFormat::None
+                )
+            }),
+            Variant({}, {
+                string_property(
+                    Type::binary_time,
+                    Required::yes,
+                    "Datetime based on epoch or 1984. Date and time after midnight are stored separately. Precise to the second.",
+                    "datetime1",
+                    StringFormat::None
+                )
+            }),
+            Variant({}, {
+                string_property(
+                    Type::utc_time,
+                    Required::yes,
+                    "Datetime based on epoch. Precise to the microseconds.",
+                    "datetime1",
+                    StringFormat::None
+                )
+            }),
+        });
     }
 
 } // namespace goose

@@ -1,6 +1,7 @@
 #ifndef OPENFMB_ADAPTER_GOOSE_GOOSESTRUCTURECONFIGREADER_H
 #define OPENFMB_ADAPTER_GOOSE_GOOSESTRUCTURECONFIGREADER_H
 
+#include "schema-util/Types.h"
 #include "yaml-cpp/yaml.h"
 #include <string>
 
@@ -10,6 +11,7 @@ namespace goose {
     class GooseStructureConfigVisitor {
     public:
         void visit(const YAML::Node& node);
+        static schema::Object get_schema();
 
     protected:
         virtual void on_ignore() = 0;

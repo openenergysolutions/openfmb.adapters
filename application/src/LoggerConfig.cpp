@@ -6,6 +6,7 @@
 #include <spdlog/sinks/stdout_sinks.h>
 
 #include "ConfigKeys.h"
+#include "schema-util/Builder.h"
 
 namespace adapter {
 
@@ -65,6 +66,25 @@ namespace logging {
         /**/ /**/ out << YAML::Key << keys::max_files << YAML::Value << 3;
         /**/ out << YAML::EndMap;
         out << YAML::EndMap;
+    }
+
+    schema::property_ptr_t get_logging_config_schema()
+    {
+        return schema::object_property(
+            keys::logging, schema::Required::yes, "common application settings",
+            schema::Object({
+                schema::string_property(adapter::keys::logger_name, schema::Required::yes, "name of the logger", "application", schema::StringFormat::None),
+                schema::object_property(keys::console, schema::Required::yes, "log messages to the console", schema::Object({
+                    schema::bool_property(adapter::keys::enabled, schema::Required::yes, "enable console logging", true)
+                })),
+                schema::object_property(keys::rotating_file, schema::Required::yes, "log messages to rotating files", schema::Object({
+                    schema::bool_property(adapter::keys::enabled, schema::Required::yes, "enable rotating files logging", false),
+                    schema::string_property(keys::path, schema::Required::yes, "filename to use", "adapter.log", schema::StringFormat::None),
+                    schema::numeric_property<int64_t>(keys::max_size, schema::Required::yes, "maximum size of a single file in bytes", 1048576, schema::Bound<int64_t>::from(0), schema::Bound<int64_t>::unused()),
+                    schema::numeric_property<int64_t>(keys::max_files, schema::Required::yes, "maximum number of files to keep before starting to remove old data", 3, schema::Bound<int64_t>::from(0), schema::Bound<int64_t>::unused())
+                }))
+            })
+        );
     }
 }
 }

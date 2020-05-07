@@ -18,7 +18,7 @@ set(goose_private_headers
     ./src/pub/NetworkAdapter.h
     ./src/pub/PubGooseStructureConfigReader.h
     ./src/pub/PublishingConfigReadVisitor.h
-    ./src/pub/PublishingConfigWriteVisitor.h
+    ./src/pub/PublishingSchemaWriteVisitor.h
     ./src/pub/PublishingPlugin.h
     ./src/pub/PublishingProfileReader.h
 
@@ -26,7 +26,7 @@ set(goose_private_headers
     ./src/sub/QualityTemplatesConfigReader.h
     ./src/sub/SubGooseStructureConfigReader.h
     ./src/sub/SubscribingConfigReadVisitor.h
-    ./src/sub/SubscribingConfigWriteVisitor.h
+    ./src/sub/SubscribingSchemaWriteVisitor.h
     ./src/sub/SubscribingPlugin.h
     ./src/sub/SubscribingProfileReader.h
     ./src/sub/SubscriptionHandler.h
@@ -44,12 +44,12 @@ set(goose_src
     ./src/pub/GooseMessageVisitor.cpp
     ./src/pub/Mappings.cpp
     ./src/pub/PubGooseStructureConfigReader.cpp
-    ./src/pub/PublishingConfigWriteVisitor.cpp
+    ./src/pub/PublishingSchemaWriteVisitor.cpp
     ./src/pub/PublishingPlugin.cpp
     ./src/pub/PublishingPluginFactory.cpp
 
     ./src/sub/QualityTemplatesConfigReader.cpp
-    ./src/sub/SubscribingConfigWriteVisitor.cpp
+    ./src/sub/SubscribingSchemaWriteVisitor.cpp
     ./src/sub/SubscribingPlugin.cpp
     ./src/sub/SubscribingPluginFactory.cpp
     ./src/sub/TimeQualityTemplatesConfigReader.cpp
