@@ -21,8 +21,8 @@ set(MODBUS_SOURCES
     ./src/modbus/master/CommandSink.h
     ./src/modbus/master/CommandSinkActions.h
     ./src/modbus/master/CommandSubscriptionHandler.h
-    ./src/modbus/master/ControlConfigWriteVisitor.cpp
-    ./src/modbus/master/ControlConfigWriteVisitor.h
+    ./src/modbus/master/ControlSchemaWriteVisitor.cpp
+    ./src/modbus/master/ControlSchemaWriteVisitor.h
     ./src/modbus/master/FlipSingleCoilTransaction.cpp
     ./src/modbus/master/FlipSingleCoilTransaction.h
     ./src/modbus/master/HeartbeatTransaction.h
@@ -32,8 +32,8 @@ set(MODBUS_SOURCES
     ./src/modbus/master/IRequestBuilder.h
     ./src/modbus/master/ITransaction.h
     ./src/modbus/master/ITransactionProcessor.h
-    ./src/modbus/master/MeasurementConfigWriteVisitor.cpp
-    ./src/modbus/master/MeasurementConfigWriteVisitor.h
+    ./src/modbus/master/MeasurementSchemaWriteVisitor.cpp
+    ./src/modbus/master/MeasurementSchemaWriteVisitor.h
     ./src/modbus/master/ModifyRegisterOp.cpp
     ./src/modbus/master/ModifyRegisterOp.h
     ./src/modbus/master/ModifyRegisterTransaction.h
@@ -66,12 +66,12 @@ set(MODBUS_SOURCES
     ./src/modbus/master/WriteSingleCoilTransaction.h
     # outstation files
     ./src/modbus/outstation/ControlConfigReadVisitor.h
-    ./src/modbus/outstation/ControlConfigWriteVisitor.cpp
-    ./src/modbus/outstation/ControlConfigWriteVisitor.h
+    ./src/modbus/outstation/ControlSchemaWriteVisitor.cpp
+    ./src/modbus/outstation/ControlSchemaWriteVisitor.h
     ./src/modbus/outstation/ControlProfileBuilder.h
     ./src/modbus/outstation/MeasurementConfigReadVisitor.h
-    ./src/modbus/outstation/MeasurementConfigWriteVisitor.cpp
-    ./src/modbus/outstation/MeasurementConfigWriteVisitor.h
+    ./src/modbus/outstation/MeasurementSchemaWriteVisitor.cpp
+    ./src/modbus/outstation/MeasurementSchemaWriteVisitor.h
     ./src/modbus/outstation/ModbusDatabase.h
     ./src/modbus/outstation/ModbusDatabase.cpp
     ./src/modbus/outstation/Plugin.cpp

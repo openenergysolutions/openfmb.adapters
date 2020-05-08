@@ -22,9 +22,7 @@ namespace replay {
             return "replays captured OpenFMB messages from a file";
         };
 
-        virtual void write_default_config(YAML::Emitter& emitter) const override;
-
-        void write_session_config(YAML::Emitter& out, const api::profile_vec_t& profiles) const override;
+        schema::Object get_plugin_schema() const override;
 
         virtual std::unique_ptr<api::IPlugin> create(const YAML::Node& node, const api::Logger& logger, api::message_bus_t bus) override;
     };

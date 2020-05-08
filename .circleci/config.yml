@@ -129,7 +129,7 @@ commands:
           working_directory: build/application
           command: |
             if [ "<< parameters.build_with_rti >>" = "true" ]; then cp /root/project/deps/rti-dds/rti_license.dat ./rti_license.dat && RTI_COPY="COPY rti_license.dat /"; else RTI_COPY=""; fi && \
-            echo -e "FROM scratch\n
+            echo -e "FROM gcr.io/distroless/cc-debian10:fd0d99e8c54d7d7b2f3dd29f5093d030d192cbbc\n
             COPY openfmb-adapter /\n
             $RTI_COPY\n
             ENTRYPOINT [\"/openfmb-adapter\"]" >> Dockerfile && \

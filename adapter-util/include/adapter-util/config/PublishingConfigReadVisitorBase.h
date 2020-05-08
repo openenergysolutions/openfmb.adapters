@@ -261,7 +261,20 @@ namespace util {
     template <class T>
     void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, const message_accessor_t<T, commonmodule::ControlTimestamp>& accessor)
     {
-        // ignore for now
+        const auto node = this->get_config_node(field_name);
+        const auto field_type = yaml::require_enum<ControlTimestampFieldType>(node);
+
+        switch (field_type) {
+        case ControlTimestampFieldType::Value::message:
+            this->add_message_complete_action(
+                [accessor](T& profile) {
+                    time::set(std::chrono::system_clock::now(), *accessor->mutable_get(profile));
+                });
+            break;
+        default:
+            // ignore
+            break;
+        }
     }
 
     template <class T>

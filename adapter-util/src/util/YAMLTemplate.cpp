@@ -3,6 +3,7 @@
 
 #include "adapter-util/ConfigStrings.h"
 #include "adapter-util/util/YAMLUtil.h"
+#include "schema-util/Builder.h"
 
 #include <boost/algorithm/string.hpp>
 
@@ -148,16 +149,9 @@ namespace util {
             }
         }
 
-        void apply_template_override(const YAML::Node& node, const std::string& spec)
+        void apply_template_override(const YAML::Node& node, const std::string& key, const std::string& value)
         {
-            std::vector<std::string> tokens;
-            boost::split(tokens, spec, boost::is_any_of("="));
-
-            if (tokens.size() != 2) {
-                throw api::Exception("override spec doesn't contain a single equals(=) operator: ", spec);
-            }
-
-            find(node, tokens[0]) = tokens[1];
+            find(node, key) = value;
         }
 
         YAML::Node load_file(const std::string& path)
@@ -182,12 +176,10 @@ namespace util {
                 const auto configuration = load_file(path);
 
                 const auto apply_override = [&](const YAML::Node& override) {
-                    auto value = override.as<std::string>();
+                    const auto key = yaml::require_string(override, keys::key);
+                    const auto value = yaml::require_string(override, keys::value);
 
-                    // clear whitespace before parsing
-                    value.erase(std::remove_if(value.begin(), value.end(), isspace), value.end());
-
-                    apply_template_override(configuration, value);
+                    apply_template_override(configuration, key, value);
                 };
 
                 // apply each override to the configuration
@@ -203,20 +195,38 @@ namespace util {
             yaml::foreach (node, load_config);
         }
 
-        void write_default_template_config(YAML::Emitter& out, const std::string& filename)
+        schema::Object get_template_schema(const std::string& filename)
         {
-            out << YAML::BeginSeq;
-
-            out << YAML::BeginMap;
-            out << YAML::Key << keys::path << YAML::Value << filename << YAML::Comment("possibly a template");
-            out << YAML::Key << keys::overrides;
-            out << YAML::BeginSeq;
-            out << YAML::Value << "a.b.c = 4"
-                << YAML::Comment("a sequence of override specifications to apply to the template");
-            out << YAML::EndSeq;
-            out << YAML::EndMap;
-
-            out << YAML::EndSeq;
+            return schema::Object({
+                schema::string_property(
+                    keys::path,
+                    schema::Required::yes,
+                    "file to load, possibly a template",
+                    filename,
+                    schema::StringFormat::None
+                ),
+                schema::array_property(
+                    keys::overrides,
+                    schema::Required::yes,
+                    "a sequence of override specifications to apply to the template",
+                    schema::Object({
+                        schema::string_property(
+                            keys::key,
+                            schema::Required::yes,
+                            "key",
+                            "a.b.c",
+                            schema::StringFormat::None
+                        ),
+                        schema::string_property(
+                            keys::value,
+                            schema::Required::yes,
+                            "value",
+                            "4",
+                            schema::StringFormat::None
+                        )
+                    })
+                )
+            });
         }
     }
 }

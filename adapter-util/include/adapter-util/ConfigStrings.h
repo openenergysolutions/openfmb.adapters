@@ -14,6 +14,7 @@ namespace util {
         constexpr const char* const subscribe = "subscribe";
         constexpr const char* const path = "path";
         constexpr const char* const overrides = "overrides";
+        constexpr const char* const key = "key";
         constexpr const char* const scale = "scale";
         constexpr const char* const index = "index";
         constexpr const char* const negate = "negate";
