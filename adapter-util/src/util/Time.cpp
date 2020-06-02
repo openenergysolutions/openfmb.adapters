@@ -5,19 +5,15 @@ namespace adapter {
 namespace util {
     namespace time {
 
-        const uint32_t fraction_to_millisec_ratio = std::numeric_limits<uint32_t>::max() / 1000;
-
         template <typename T>
         void set_generic(const std::chrono::system_clock::time_point& time, T& timestamp)
         {
             const auto elapsed = time.time_since_epoch();
             const auto seconds = std::chrono::duration_cast<std::chrono::seconds>(elapsed).count();
-            const auto millisec = std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count() % 1000;
+            const auto nanos = std::chrono::duration_cast<std::chrono::nanoseconds>(elapsed).count() % 1'000'000'000;
 
             timestamp.set_seconds(static_cast<uint64_t>(seconds));
-            // fractional seconds are scaled as a percentage of a second to the full range of a uint32_t
-            timestamp.set_fraction(
-                static_cast<uint32_t>((millisec / 1000.0) * std::numeric_limits<uint32_t>::max()));
+            timestamp.set_nanoseconds(static_cast<uint32_t>(nanos));
         }
 
         void set(const std::chrono::system_clock::time_point& time, commonmodule::Timestamp& timestamp)
@@ -30,22 +26,23 @@ namespace util {
             set_generic(time, timestamp);
         }
 
-        std::chrono::system_clock::time_point get(uint64_t seconds, uint32_t fraction)
+        std::chrono::system_clock::time_point get(uint64_t seconds, uint32_t nanoseconds)
         {
             std::chrono::seconds sec { seconds };
-            std::chrono::milliseconds ms {fraction / fraction_to_millisec_ratio };
+            std::chrono::nanoseconds ns { nanoseconds };
+            auto result = std::chrono::system_clock::time_point() + sec + ns;
 
-            return std::chrono::time_point<std::chrono::system_clock>() + sec + ms;
+            return std::chrono::time_point_cast<std::chrono::system_clock::duration>(result);
         }
 
         std::chrono::system_clock::time_point get(const commonmodule::Timestamp& timestamp)
         {
-            return get(timestamp.seconds(), timestamp.fraction());
+            return get(timestamp.seconds(), timestamp.nanoseconds());
         }
 
         std::chrono::system_clock::time_point get(const commonmodule::ControlTimestamp& timestamp)
         {
-            return get(timestamp.seconds(), timestamp.fraction());
+            return get(timestamp.seconds(), timestamp.nanoseconds());
         }
 
 

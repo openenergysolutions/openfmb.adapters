@@ -53,13 +53,18 @@ const char Profile::SolarControlProfile[] = "SolarControlProfile";
 const char Profile::SolarEventProfile[] = "SolarEventProfile";
 const char Profile::SolarReadingProfile[] = "SolarReadingProfile";
 const char Profile::SolarStatusProfile[] = "SolarStatusProfile";
+const char Profile::ShuntControlProfile[] = "ShuntControlProfile";
+const char Profile::ShuntDiscreteControlProfile[] = "ShuntDiscreteControlProfile";
+const char Profile::ShuntEventProfile[] = "ShuntEventProfile";
+const char Profile::ShuntStatusProfile[] = "ShuntStatusProfile";
+const char Profile::ShuntReadingProfile[] = "ShuntReadingProfile";
 const char Profile::SwitchControlProfile[] = "SwitchControlProfile";
 const char Profile::SwitchDiscreteControlProfile[] = "SwitchDiscreteControlProfile";
 const char Profile::SwitchEventProfile[] = "SwitchEventProfile";
 const char Profile::SwitchReadingProfile[] = "SwitchReadingProfile";
 const char Profile::SwitchStatusProfile[] = "SwitchStatusProfile";
 
-const std::array<Profile::Value, 37> Profile::values =
+const std::array<Profile::Value, 42> Profile::values =
 {
     Profile::Value::BreakerDiscreteControlProfile,
     Profile::Value::BreakerEventProfile,
@@ -93,6 +98,11 @@ const std::array<Profile::Value, 37> Profile::values =
     Profile::Value::SolarEventProfile,
     Profile::Value::SolarReadingProfile,
     Profile::Value::SolarStatusProfile,
+    Profile::Value::ShuntControlProfile,
+    Profile::Value::ShuntDiscreteControlProfile,
+    Profile::Value::ShuntEventProfile,
+    Profile::Value::ShuntStatusProfile,
+    Profile::Value::ShuntReadingProfile,
     Profile::Value::SwitchControlProfile,
     Profile::Value::SwitchDiscreteControlProfile,
     Profile::Value::SwitchEventProfile,
@@ -136,6 +146,11 @@ std::string Profile::to_string(Profile::Value value)
         case(Value::SolarEventProfile): return SolarEventProfile;
         case(Value::SolarReadingProfile): return SolarReadingProfile;
         case(Value::SolarStatusProfile): return SolarStatusProfile;
+        case(Value::ShuntControlProfile): return ShuntControlProfile;
+        case(Value::ShuntDiscreteControlProfile): return ShuntDiscreteControlProfile;
+        case(Value::ShuntEventProfile): return ShuntEventProfile;
+        case(Value::ShuntStatusProfile): return ShuntStatusProfile;
+        case(Value::ShuntReadingProfile): return ShuntReadingProfile;
         case(Value::SwitchControlProfile): return SwitchControlProfile;
         case(Value::SwitchDiscreteControlProfile): return SwitchDiscreteControlProfile;
         case(Value::SwitchEventProfile): return SwitchEventProfile;
@@ -180,6 +195,11 @@ Profile::Value Profile::from_string(const std::string& name)
         {SolarEventProfile, Value::SolarEventProfile},
         {SolarReadingProfile, Value::SolarReadingProfile},
         {SolarStatusProfile, Value::SolarStatusProfile},
+        {ShuntControlProfile, Value::ShuntControlProfile},
+        {ShuntDiscreteControlProfile, Value::ShuntDiscreteControlProfile},
+        {ShuntEventProfile, Value::ShuntEventProfile},
+        {ShuntStatusProfile, Value::ShuntStatusProfile},
+        {ShuntReadingProfile, Value::ShuntReadingProfile},
         {SwitchControlProfile, Value::SwitchControlProfile},
         {SwitchDiscreteControlProfile, Value::SwitchDiscreteControlProfile},
         {SwitchEventProfile, Value::SwitchEventProfile},

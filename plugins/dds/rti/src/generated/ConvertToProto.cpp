@@ -993,11 +993,11 @@ void convert_to_proto(const openfmb::commonmodule::Timestamp& in, commonmodule::
 {
     out.Clear();
 
-    out.set_fraction(in.fraction());
-
     out.set_seconds(in.seconds());
 
     if(in.tq().is_set()) convert_to_proto(in.tq().get(), *out.mutable_tq());
+
+    out.set_nanoseconds(in.nanoseconds());
 }
 
 void convert_to_proto(const openfmb::commonmodule::TimeQuality& in, commonmodule::TimeQuality& out)
@@ -1350,9 +1350,9 @@ void convert_to_proto(const openfmb::commonmodule::CMV& in, commonmodule::CMV& o
 
     convert_to_proto(in.cVal(), *out.mutable_cval()); // required field in DDS
 
-    convert_to_proto(in.q(), *out.mutable_q()); // required field in DDS
+    if(in.q().is_set()) convert_to_proto(in.q().get(), *out.mutable_q());
 
-    convert_to_proto(in.t(), *out.mutable_t()); // required field in DDS
+    if(in.t().is_set()) convert_to_proto(in.t().get(), *out.mutable_t());
 
     if(in.units().is_set()) convert_to_proto(in.units().get(), *out.mutable_units());
 }
@@ -1397,9 +1397,9 @@ void convert_to_proto(const openfmb::commonmodule::MV& in, commonmodule::MV& out
 
     convert_to_proto(in.mag(), *out.mutable_mag()); // required field in DDS
 
-    convert_to_proto(in.q(), *out.mutable_q()); // required field in DDS
+    if(in.q().is_set()) convert_to_proto(in.q().get(), *out.mutable_q());
 
-    convert_to_proto(in.t(), *out.mutable_t()); // required field in DDS
+    if(in.t().is_set()) convert_to_proto(in.t().get(), *out.mutable_t());
 
     if(in.units().is_set()) convert_to_proto(in.units().get(), *out.mutable_units());
 }
@@ -1637,9 +1637,9 @@ void convert_to_proto(const openfmb::commonmodule::ControlTimestamp& in, commonm
 {
     out.Clear();
 
-    out.set_fraction(in.fraction());
-
     out.set_seconds(in.seconds());
+
+    out.set_nanoseconds(in.nanoseconds());
 }
 
 void convert_to_proto(const openfmb::essmodule::ESSControlScheduleFSCH& in, essmodule::ESSControlScheduleFSCH& out)

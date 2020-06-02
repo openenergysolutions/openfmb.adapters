@@ -38,7 +38,7 @@ TEST_CASE("ScheduleExecutor")
         {
             const auto point = schpts->Add();
             point->mutable_starttime()->set_seconds(start);
-            point->mutable_starttime()->set_fraction(0);
+            point->mutable_starttime()->set_nanoseconds(0);
             const auto param = point->mutable_scheduleparameter()->Add();
             param->set_value(47.3f);
             param->set_scheduleparametertype(commonmodule::ScheduleParameterKind::ScheduleParameterKind_A_net_mag);
@@ -46,7 +46,7 @@ TEST_CASE("ScheduleExecutor")
         {
             const auto point = schpts->Add();
             point->mutable_starttime()->set_seconds(start + 24);
-            point->mutable_starttime()->set_fraction(0);
+            point->mutable_starttime()->set_nanoseconds(0);
             const auto param = point->mutable_scheduleparameter()->Add();
             param->set_value(103);
             param->set_scheduleparametertype(commonmodule::ScheduleParameterKind::ScheduleParameterKind_PhV_net_mag);
@@ -55,7 +55,7 @@ TEST_CASE("ScheduleExecutor")
             // create a 3rd point with the same time as the 2nd
             const auto point = schpts->Add();
             point->mutable_starttime()->set_seconds(start + 24);
-            point->mutable_starttime()->set_fraction(0);
+            point->mutable_starttime()->set_nanoseconds(0);
             const auto param = point->mutable_scheduleparameter()->Add();
             param->set_value(104);
             param->set_scheduleparametertype(commonmodule::ScheduleParameterKind::ScheduleParameterKind_W_net_mag);

@@ -12,7 +12,7 @@ TEST_CASE("Proto conversions")
     solarmodule::SolarReadingProfile final_proto{};
 
     auto timestamp = original_proto.mutable_readingmessageinfo()->mutable_messageinfo()->mutable_messagetimestamp();
-    timestamp->set_fraction(24); // uint32
+    timestamp->set_nanoseconds(24); // uint32
     timestamp->set_seconds(99999); // uint 64
     timestamp->mutable_tq()->set_clockfailure(true); // boolean
     timestamp->mutable_tq()->set_timeaccuracy(commonmodule::TimeAccuracyKind::TimeAccuracyKind_T3); // enum
@@ -22,7 +22,7 @@ TEST_CASE("Proto conversions")
     convert_from_proto(original_proto, dds_object);
     convert_to_proto(dds_object, final_proto);
 
-    CHECK(final_proto.readingmessageinfo().messageinfo().messagetimestamp().fraction() == 24);
+    CHECK(final_proto.readingmessageinfo().messageinfo().messagetimestamp().nanoseconds() == 24);
     CHECK(final_proto.readingmessageinfo().messageinfo().messagetimestamp().seconds() == 99999);
     CHECK(final_proto.readingmessageinfo().messageinfo().messagetimestamp().tq().clockfailure() == true);
     CHECK(final_proto.readingmessageinfo().messageinfo().messagetimestamp().tq().timeaccuracy() == commonmodule::TimeAccuracyKind::TimeAccuracyKind_T3);

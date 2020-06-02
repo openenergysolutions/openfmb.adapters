@@ -820,8 +820,8 @@ void visit(const commonmodule::ControlScheduleFSCH& message, IMessageVisitor& vi
 
 void visit(const commonmodule::ControlTimestamp& message, IMessageVisitor& visitor)
 {
-    visitor.handle("fraction", message.fraction());
     visitor.handle("seconds", message.seconds());
+    visitor.handle("nanoseconds", message.nanoseconds());
 }
 
 void visit(const commonmodule::ControlValue& message, IMessageVisitor& visitor)
@@ -1803,7 +1803,6 @@ void visit(const commonmodule::TimeQuality& message, IMessageVisitor& visitor)
 
 void visit(const commonmodule::Timestamp& message, IMessageVisitor& visitor)
 {
-    visitor.handle("fraction", message.fraction());
     visitor.handle("seconds", message.seconds());
     if(message.has_tq())
     {
@@ -1811,6 +1810,7 @@ void visit(const commonmodule::Timestamp& message, IMessageVisitor& visitor)
         visit(message.tq(), visitor);
         visitor.end_message_field();
     }
+    visitor.handle("nanoseconds", message.nanoseconds());
 }
 
 void visit(const commonmodule::Unit& message, IMessageVisitor& visitor)

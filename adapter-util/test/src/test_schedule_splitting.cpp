@@ -55,7 +55,7 @@ TEST_CASE("ScheduleSplit")
                 {
                     const auto point = schpts->Add();
                     point->mutable_starttime()->set_seconds(now + 1);
-                    point->mutable_starttime()->set_fraction(1);
+                    point->mutable_starttime()->set_nanoseconds(1);
                     const auto param = point->mutable_scheduleparameter()->Add();
                     param->set_value(47.3f);
                     param->set_scheduleparametertype(commonmodule::ScheduleParameterKind::ScheduleParameterKind_A_net_mag);
@@ -63,7 +63,7 @@ TEST_CASE("ScheduleSplit")
                 {
                     const auto point = schpts->Add();
                     point->mutable_starttime()->set_seconds(now + 24);
-                    point->mutable_starttime()->set_fraction(2);
+                    point->mutable_starttime()->set_nanoseconds(2);
                     const auto param = point->mutable_scheduleparameter()->Add();
                     param->set_value(103);
                     param->set_scheduleparametertype(commonmodule::ScheduleParameterKind::ScheduleParameterKind_PhV_net_mag);
@@ -72,7 +72,7 @@ TEST_CASE("ScheduleSplit")
                     // create a 3rd point with the same time as the 2nd
                     const auto point = schpts->Add();
                     point->mutable_starttime()->set_seconds(now + 24);
-                    point->mutable_starttime()->set_fraction(2);
+                    point->mutable_starttime()->set_nanoseconds(2);
                     const auto param = point->mutable_scheduleparameter()->Add();
                     param->set_value(104);
                     param->set_scheduleparametertype(commonmodule::ScheduleParameterKind::ScheduleParameterKind_W_net_mag);
@@ -85,7 +85,7 @@ TEST_CASE("ScheduleSplit")
                     // create an islanded point
                     const auto point = schpts->Add();
                     point->mutable_starttime()->set_seconds(now + 2);
-                    point->mutable_starttime()->set_fraction(3);
+                    point->mutable_starttime()->set_nanoseconds(3);
                     const auto param = point->mutable_scheduleparameter()->Add();
                     param->set_value(105);
                     param->set_scheduleparametertype(commonmodule::ScheduleParameterKind::ScheduleParameterKind_A_phsC_mag);
@@ -96,7 +96,7 @@ TEST_CASE("ScheduleSplit")
                 const auto crvpts = profile.mutable_esscontrol()->mutable_esscontrolfscc()->mutable_esscontrolschedulefsch()->mutable_valdcsg()->mutable_crvpts();
                 const auto point = crvpts->Add();
                 point->mutable_starttime()->set_seconds(now + 3);
-                point->mutable_starttime()->set_fraction(4);
+                point->mutable_starttime()->set_nanoseconds(4);
                 point->mutable_pcthzdroop()->set_value(56.78f);
             }
             return profile;

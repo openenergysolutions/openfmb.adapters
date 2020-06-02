@@ -69,7 +69,7 @@ static void extract_points(T& profile, schedule_map_t<T>& later, boost::uuids::r
                     // set the message timestamp to the point timestamp, as this is when it will be published
                     auto ts = schedule_extractor<T>::get_message_timestamp(*new_profile);
                     ts->set_seconds(point.starttime().seconds());
-                    ts->set_fraction(point.starttime().fraction());
+                    ts->set_nanoseconds(point.starttime().nanoseconds());
                 }
                 add_point_fn(point, *new_profile);
 

@@ -993,11 +993,11 @@ void convert_to_proto(const twinoaks::commonmodule::Timestamp& in, commonmodule:
 {
     out.Clear();
 
-    out.set_fraction(in.fraction);
-
     out.set_seconds(in.seconds);
 
     if(in.tq) convert_to_proto(*in.tq, *out.mutable_tq());
+
+    out.set_nanoseconds(in.nanoseconds);
 }
 
 void convert_to_proto(const twinoaks::commonmodule::TimeQuality& in, commonmodule::TimeQuality& out)
@@ -1350,9 +1350,9 @@ void convert_to_proto(const twinoaks::commonmodule::CMV& in, commonmodule::CMV& 
 
     convert_to_proto(in.cVal, *out.mutable_cval()); // required field in DDS
 
-    convert_to_proto(in.q, *out.mutable_q()); // required field in DDS
+    if(in.q) convert_to_proto(*in.q, *out.mutable_q());
 
-    convert_to_proto(in.t, *out.mutable_t()); // required field in DDS
+    if(in.t) convert_to_proto(*in.t, *out.mutable_t());
 
     if(in.units) convert_to_proto(*in.units, *out.mutable_units());
 }
@@ -1397,9 +1397,9 @@ void convert_to_proto(const twinoaks::commonmodule::MV& in, commonmodule::MV& ou
 
     convert_to_proto(in.mag, *out.mutable_mag()); // required field in DDS
 
-    convert_to_proto(in.q, *out.mutable_q()); // required field in DDS
+    if(in.q) convert_to_proto(*in.q, *out.mutable_q());
 
-    convert_to_proto(in.t, *out.mutable_t()); // required field in DDS
+    if(in.t) convert_to_proto(*in.t, *out.mutable_t());
 
     if(in.units) convert_to_proto(*in.units, *out.mutable_units());
 }
@@ -1637,9 +1637,9 @@ void convert_to_proto(const twinoaks::commonmodule::ControlTimestamp& in, common
 {
     out.Clear();
 
-    out.set_fraction(in.fraction);
-
     out.set_seconds(in.seconds);
+
+    out.set_nanoseconds(in.nanoseconds);
 }
 
 void convert_to_proto(const twinoaks::essmodule::ESSControlScheduleFSCH& in, essmodule::ESSControlScheduleFSCH& out)

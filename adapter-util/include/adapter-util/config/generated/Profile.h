@@ -89,6 +89,16 @@ struct Profile
         SolarReadingProfile,
         // solarmodule.SolarStatusProfile
         SolarStatusProfile,
+        // shuntmodule.ShuntControlProfile
+        ShuntControlProfile,
+        // shuntmodule.ShuntDiscreteControlProfile
+        ShuntDiscreteControlProfile,
+        // shuntmodule.ShuntEventProfile
+        ShuntEventProfile,
+        // shuntmodule.ShuntStatusProfile
+        ShuntStatusProfile,
+        // shuntmodule.ShuntReadingProfile
+        ShuntReadingProfile,
         // switchmodule.SwitchControlProfile
         SwitchControlProfile,
         // switchmodule.SwitchDiscreteControlProfile
@@ -133,6 +143,11 @@ struct Profile
     static const char SolarEventProfile[];
     static const char SolarReadingProfile[];
     static const char SolarStatusProfile[];
+    static const char ShuntControlProfile[];
+    static const char ShuntDiscreteControlProfile[];
+    static const char ShuntEventProfile[];
+    static const char ShuntStatusProfile[];
+    static const char ShuntReadingProfile[];
     static const char SwitchControlProfile[];
     static const char SwitchDiscreteControlProfile[];
     static const char SwitchEventProfile[];
@@ -141,7 +156,7 @@ struct Profile
 
     static constexpr const char* label = "profile";
 
-    static const std::array<Value, 37> values;
+    static const std::array<Value, 42> values;
 
     static std::string to_string(Value value);
     static Value from_string(const std::string& name);

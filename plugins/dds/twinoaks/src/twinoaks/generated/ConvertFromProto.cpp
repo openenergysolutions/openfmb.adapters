@@ -1001,8 +1001,6 @@ void convert_from_proto(const commonmodule::Timestamp& in, twinoaks::commonmodul
 {
     out.clear();
 
-    out.fraction = in.fraction(); // required UINT32 primitive
-
     out.seconds = in.seconds(); // required UINT64 primitive
 
     if(in.has_tq()) // optional field in DDS
@@ -1010,6 +1008,8 @@ void convert_from_proto(const commonmodule::Timestamp& in, twinoaks::commonmodul
         out.tq = new twinoaks::commonmodule::TimeQuality();
         convert_from_proto(in.tq(), *out.tq);
     }
+
+    out.nanoseconds = in.nanoseconds(); // required UINT32 primitive
 }
 
 void convert_from_proto(const commonmodule::TimeQuality& in, twinoaks::commonmodule::TimeQuality& out)
@@ -1508,9 +1508,17 @@ void convert_from_proto(const commonmodule::CMV& in, twinoaks::commonmodule::CMV
 
     convert_from_proto(in.cval(), out.cVal); // required field in DDS
 
-    convert_from_proto(in.q(), out.q); // required field in DDS
+    if(in.has_q()) // optional field in DDS
+    {
+        out.q = new twinoaks::commonmodule::Quality();
+        convert_from_proto(in.q(), *out.q);
+    }
 
-    convert_from_proto(in.t(), out.t); // required field in DDS
+    if(in.has_t()) // optional field in DDS
+    {
+        out.t = new twinoaks::commonmodule::Timestamp();
+        convert_from_proto(in.t(), *out.t);
+    }
 
     if(in.has_units()) // optional field in DDS
     {
@@ -1569,9 +1577,17 @@ void convert_from_proto(const commonmodule::MV& in, twinoaks::commonmodule::MV& 
 
     convert_from_proto(in.mag(), out.mag); // required field in DDS
 
-    convert_from_proto(in.q(), out.q); // required field in DDS
+    if(in.has_q()) // optional field in DDS
+    {
+        out.q = new twinoaks::commonmodule::Quality();
+        convert_from_proto(in.q(), *out.q);
+    }
 
-    convert_from_proto(in.t(), out.t); // required field in DDS
+    if(in.has_t()) // optional field in DDS
+    {
+        out.t = new twinoaks::commonmodule::Timestamp();
+        convert_from_proto(in.t(), *out.t);
+    }
 
     if(in.has_units()) // optional field in DDS
     {
@@ -1978,9 +1994,9 @@ void convert_from_proto(const commonmodule::ControlTimestamp& in, twinoaks::comm
 {
     out.clear();
 
-    out.fraction = in.fraction(); // required UINT32 primitive
-
     out.seconds = in.seconds(); // required UINT64 primitive
+
+    out.nanoseconds = in.nanoseconds(); // required UINT32 primitive
 }
 
 void convert_from_proto(const essmodule::ESSControlScheduleFSCH& in, twinoaks::essmodule::ESSControlScheduleFSCH& out)
