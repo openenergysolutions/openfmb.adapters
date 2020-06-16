@@ -8,6 +8,9 @@
 #include "dnp3/generated/CommandActionType.h"
 #include "dnp3/generated/SourceType.h"
 
+#include <opendnp3/gen/OperationType.h>
+#include <opendnp3/gen/TripCloseCode.h>
+
 using namespace adapter::schema;
 
 namespace adapter {
@@ -106,26 +109,28 @@ namespace master {
                     StringFormat::None
                 ),
                 enum_property(
-                    "control-code",
+                    "operation-type",
                     {
-                        opendnp3::ControlCodeSpec::to_string(opendnp3::ControlCode::NUL),
-                        opendnp3::ControlCodeSpec::to_string(opendnp3::ControlCode::NUL_CANCEL),
-                        opendnp3::ControlCodeSpec::to_string(opendnp3::ControlCode::PULSE_ON),
-                        opendnp3::ControlCodeSpec::to_string(opendnp3::ControlCode::PULSE_ON_CANCEL),
-                        opendnp3::ControlCodeSpec::to_string(opendnp3::ControlCode::PULSE_OFF),
-                        opendnp3::ControlCodeSpec::to_string(opendnp3::ControlCode::PULSE_OFF_CANCEL),
-                        opendnp3::ControlCodeSpec::to_string(opendnp3::ControlCode::LATCH_ON),
-                        opendnp3::ControlCodeSpec::to_string(opendnp3::ControlCode::LATCH_ON_CANCEL),
-                        opendnp3::ControlCodeSpec::to_string(opendnp3::ControlCode::LATCH_OFF),
-                        opendnp3::ControlCodeSpec::to_string(opendnp3::ControlCode::LATCH_OFF_CANCEL),
-                        opendnp3::ControlCodeSpec::to_string(opendnp3::ControlCode::CLOSE_PULSE_ON),
-                        opendnp3::ControlCodeSpec::to_string(opendnp3::ControlCode::CLOSE_PULSE_ON_CANCEL),
-                        opendnp3::ControlCodeSpec::to_string(opendnp3::ControlCode::TRIP_PULSE_ON),
-                        opendnp3::ControlCodeSpec::to_string(opendnp3::ControlCode::TRIP_PULSE_ON_CANCEL),
+                        opendnp3::OperationTypeSpec::to_string(opendnp3::OperationType::NUL),
+                        opendnp3::OperationTypeSpec::to_string(opendnp3::OperationType::LATCH_OFF),
+                        opendnp3::OperationTypeSpec::to_string(opendnp3::OperationType::LATCH_ON),
+                        opendnp3::OperationTypeSpec::to_string(opendnp3::OperationType::PULSE_OFF),
+                        opendnp3::OperationTypeSpec::to_string(opendnp3::OperationType::PULSE_ON),
                     },
                     Required::yes,
-                    "DNP3 CROB control code",
-                    opendnp3::ControlCodeSpec::to_string(opendnp3::ControlCode::LATCH_OFF)
+                    "DNP3 CROB 'operation type'",
+                    opendnp3::OperationTypeSpec::to_string(opendnp3::OperationType::LATCH_OFF)
+                ),
+                enum_property(
+                    "trip-close-code",
+                    {
+                        opendnp3::TripCloseCodeSpec::to_string(opendnp3::TripCloseCode::NUL),
+                        opendnp3::TripCloseCodeSpec::to_string(opendnp3::TripCloseCode::TRIP),
+                        opendnp3::TripCloseCodeSpec::to_string(opendnp3::TripCloseCode::CLOSE),
+                    },
+                    Required::yes,
+                    "DNP3 CROB 'trip close code'",
+                    opendnp3::TripCloseCodeSpec::to_string(opendnp3::TripCloseCode::NUL)
                 ),
                 numeric_property<int64_t>(
                     "count",

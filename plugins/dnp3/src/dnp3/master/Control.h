@@ -10,17 +10,15 @@ namespace dnp3 {
     namespace master {
 
         /**
-             * Control is a index + CROB w/ static helper methods for YAML (de)serialization
-             */
+        * Control is a index + CROB w/ static helper methods for YAML (de)serialization
+        */
         struct Control {
             uint16_t index;
             opendnp3::ControlRelayOutputBlock crob;
 
             Control(uint16_t index, const opendnp3::ControlRelayOutputBlock& crob);
 
-            static Control read(const YAML::Node& node);
-
-            static void write(const Control& control, YAML::Emitter& out);
+            static Control read(const YAML::Node& node);            
         };
     }
 }

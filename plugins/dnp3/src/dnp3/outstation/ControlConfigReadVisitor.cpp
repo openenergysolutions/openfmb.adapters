@@ -2,26 +2,28 @@
 #include "ControlConfigReadVisitor.h"
 #include "dnp3/ConfigStrings.h"
 
-#include <opendnp3/gen/ControlCode.h>
-
 namespace adapter {
 namespace dnp3 {
     namespace outstation {
 
-        std::map<opendnp3::ControlCode, bool> read_bool_mapping(const YAML::Node& node)
+        std::map<ControlKey, bool> read_bool_mapping(const YAML::Node& node)
         {
-            std::map<opendnp3::ControlCode, bool> mapping;
+            std::map<ControlKey, bool> mapping;
             util::yaml::foreach (
                 util::yaml::require(node, util::keys::mapping),
                 [&mapping](const YAML::Node& elem) {
-                    const auto code = opendnp3::ControlCodeSpec::from_string(util::yaml::require_string(elem, keys::control_code));
+                    ControlKey key {
+                        opendnp3::OperationTypeSpec::from_string(util::yaml::require_string(elem, keys::operation_type)),
+                        opendnp3::TripCloseCodeSpec::from_string(util::yaml::require_string(elem, keys::trip_close_code)),
+                    };                    
+
                     const auto value = util::yaml::require(elem, util::keys::value).as<bool>();
 
-                    if (mapping.find(code) != mapping.end()) {
-                        throw api::Exception(elem.Mark(), "Duplicate control code in mapping: ", opendnp3::ControlCodeSpec::to_string(code));
+                    if (mapping.find(key) != mapping.end()) {
+                        throw api::Exception(elem.Mark(), "Duplicate control mapping, op type = ", opendnp3::OperationTypeSpec::to_string(key.first), " tcc = ", opendnp3::TripCloseCodeSpec::to_string(key.second));
                     }
 
-                    mapping[code] = value;
+                    mapping[key] = value;
                 });
             return mapping;
         }

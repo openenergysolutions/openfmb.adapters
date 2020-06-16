@@ -16,8 +16,11 @@ namespace dnp3 {
 
         /// -----  Helper methods implemented in the cpp -------
 
+        using ControlKey = std::pair<opendnp3::OperationType, opendnp3::TripCloseCode>;
+
+
         // convert from dnp3 control code to boolean
-        std::map<opendnp3::ControlCode, bool> read_bool_mapping(const YAML::Node& node);
+        std::map<ControlKey, bool> read_bool_mapping(const YAML::Node& node);
 
         // convert from DNP3 AO value to raw enum value
         std::map<int, int> read_enum_mapping(const YAML::Node& node, google::protobuf::EnumDescriptor const* descriptor);
@@ -168,8 +171,8 @@ namespace dnp3 {
                 this->config.add_handler(
                     util::yaml::require_integer<uint16_t>(node, util::keys::index),
                     [action, accessor, data = this->shared_data, mapping = read_bool_mapping(node)](api::IPublisher& publisher, const opendnp3::ControlRelayOutputBlock& crob, api::Logger& logger) -> opendnp3::CommandStatus {
-                        // first determine if there's a mapping
-                        const auto iter = mapping.find(crob.functionCode);
+                        // first determine if there's a mapping                    
+                        const auto iter = mapping.find(ControlKey{ crob.opType, crob.tcc });
                         if (iter == mapping.end()) {
                             logger.info("No enum mapping for CROB function: ", crob.rawCode);
                             return opendnp3::CommandStatus::NOT_SUPPORTED;
