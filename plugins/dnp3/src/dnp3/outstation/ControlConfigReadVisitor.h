@@ -174,7 +174,7 @@ namespace dnp3 {
                         // first determine if there's a mapping                    
                         const auto iter = mapping.find(ControlKey{ crob.opType, crob.tcc });
                         if (iter == mapping.end()) {
-                            logger.info("No enum mapping for CROB function: ", crob.rawCode);
+                            logger.info("No mapping for g12v1 w/ op_type == {} tcc = {}", opendnp3::OperationTypeSpec::to_string(crob.opType), opendnp3::TripCloseCodeSpec::to_string(crob.tcc));
                             return opendnp3::CommandStatus::NOT_SUPPORTED;
                         }
 

@@ -57,7 +57,7 @@ namespace master {
                         keys::poll_name,
                         Required::yes,
                         "name of the poll that retrieves the values for this profile",
-                        "integrity_poll",
+                        "static_data_scan",
                         StringFormat::None
                     )
                 );
@@ -168,7 +168,7 @@ namespace master {
                                     keys::class0,
                                     Required::yes,
                                     "read class 0",
-                                    true
+                                    false
                                 ),
                                 bool_property(
                                     keys::class1,
@@ -201,19 +201,19 @@ namespace master {
                                     keys::class1,
                                     Required::yes,
                                     "enable class 1 unsolicited responses",
-                                    false
+                                    true
                                 ),
                                 bool_property(
                                     keys::class2,
                                     Required::yes,
                                     "enable class 2 unsolicited responses",
-                                    false
+                                    true
                                 ),
                                 bool_property(
                                     keys::class3,
                                     Required::yes,
                                     "enable class 3 unsolicited responses",
-                                    false
+                                    true
                                 )
                             }
                         )
@@ -229,7 +229,7 @@ namespace master {
                         util::keys::name,
                         Required::yes,
                         "name associated with that poll",
-                        "integrity_poll",
+                        "static_data_scan",
                         StringFormat::None
                     ),
                     numeric_property<uint16_t>(
@@ -256,19 +256,19 @@ namespace master {
                                     keys::class1,
                                     Required::yes,
                                     "request class 1 events",
-                                    true
+                                    false
                                 ),
                                 bool_property(
                                     keys::class2,
                                     Required::yes,
                                     "request class 2 events",
-                                    true
+                                    false
                                 ),
                                 bool_property(
                                     keys::class3,
                                     Required::yes,
                                     "request class 3 events",
-                                    true
+                                    false
                                 )
                             }
                         )
