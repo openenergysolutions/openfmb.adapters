@@ -10,6 +10,7 @@
 
 #include "dnp3/generated/CommandActionType.h"
 #include "dnp3/master/ControlSubscriptionHandler.h"
+#include "ConfigReaders.h"
 
 namespace adapter {
 namespace dnp3 {
@@ -20,7 +21,7 @@ namespace dnp3 {
 
             PrioritizedCommand single_crob(const YAML::Node& node, util::ICommandPrioritySource& priority_source)
             {
-                const auto control = Control::read(node);
+                const auto control = read_control(node);
                 return PrioritizedCommand([crob = control.crob, index = control.index](opendnp3::ICommandProcessor& processor, const opendnp3::CommandResultCallbackT& callback) {
                     processor.DirectOperate(crob, index, callback);
                 }, priority_source.get_priority(node));

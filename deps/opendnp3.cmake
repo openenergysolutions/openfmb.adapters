@@ -2,7 +2,8 @@ include(FetchContent)
 
 FetchContent_Declare(
     opendnp3
-    URL      https://github.com/dnp3/opendnp3/archive/3.0.3.zip
+    GIT_REPOSITORY https://github.com/dnp3/opendnp3.git
+    GIT_TAG        3.0.3
 )
 
 FetchContent_GetProperties(opendnp3)

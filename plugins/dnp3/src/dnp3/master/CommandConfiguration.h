@@ -4,8 +4,6 @@
 
 #include <opendnp3/master/ICommandProcessor.h>
 
-#include "Control.h"
-
 #include <adapter-api/Exception.h>
 #include <functional>
 #include <map>
