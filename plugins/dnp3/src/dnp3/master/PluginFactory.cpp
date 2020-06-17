@@ -158,24 +158,66 @@ namespace master {
                         Bound<uint16_t>::from(0),
                         Bound<uint16_t>::from(65535)
                     ),
-                    bool_property(
-                        keys::unsolicited_class_1,
+                    object_property(
+                        keys::startup_integrity,
                         Required::yes,
-                        "enable class 1 unsolicited responses",
-                        false
+                        "configures which classes are read during the startup integrity scan",
+                        Object(
+                            {
+                                bool_property(
+                                    keys::class0,
+                                    Required::yes,
+                                    "read class 0",
+                                    true
+                                ),
+                                bool_property(
+                                    keys::class1,
+                                    Required::yes,
+                                    "read class 1",
+                                    false
+                                ),
+                                bool_property(
+                                    keys::class2,
+                                    Required::yes,
+                                    "read class 2",
+                                    false
+                                ),
+                                bool_property(
+                                    keys::class3,
+                                    Required::yes,
+                                    "read class 3",
+                                    false
+                                )
+                            }
+                        )
                     ),
-                    bool_property(
-                        keys::unsolicited_class_2,
+                    object_property(
+                        keys::unsolicited,
                         Required::yes,
-                        "enable class 2 unsolicited responses",
-                        false
-                    ),
-                    bool_property(
-                        keys::unsolicited_class_3,
-                        Required::yes,
-                        "enable class 3 unsolicited responses",
-                        false
-                    )
+                        "configures which event classes to will be reported via unsolicited",
+                        Object(
+                            {
+                                bool_property(
+                                    keys::class1,
+                                    Required::yes,
+                                    "enable class 1 unsolicited responses",
+                                    false
+                                ),
+                                bool_property(
+                                    keys::class2,
+                                    Required::yes,
+                                    "enable class 2 unsolicited responses",
+                                    false
+                                ),
+                                bool_property(
+                                    keys::class3,
+                                    Required::yes,
+                                    "enable class 3 unsolicited responses",
+                                    false
+                                )
+                            }
+                        )
+                    )                   
                 })
             ),
             array_property(
@@ -197,38 +239,42 @@ namespace master {
                         5000,
                         Bound<uint16_t>::from(0),
                         Bound<uint16_t>::unused()
-                    )
-                },
-                OneOf({
-                    Variant(
-                        {ConstantProperty(keys::poll_type, keys::poll_type_integrity)},
-                        {}
                     ),
-                    Variant(
-                        {ConstantProperty(keys::poll_type, keys::poll_type_event)},
-                        {
-                            bool_property(
-                                keys::poll_class1,
-                                Required::yes,
-                                "ask for class 1 events",
-                                true
-                            ),
-                            bool_property(
-                                keys::poll_class2,
-                                Required::yes,
-                                "ask for class 2 events",
-                                true
-                            ),
-                            bool_property(
-                                keys::poll_class3,
-                                Required::yes,
-                                "ask for class 3 events",
-                                true
-                            )
-                        }
+                    object_property(
+                        keys::classes,
+                        Required::yes,
+                        "configuration for a class poll (g60v{1,2,3,4)",
+                        Object(
+                            {
+                                bool_property(
+                                    keys::class0,
+                                    Required::yes,
+                                    "request class 0 static data",
+                                    true
+                                ),
+                                bool_property(
+                                    keys::class1,
+                                    Required::yes,
+                                    "request class 1 events",
+                                    true
+                                ),
+                                bool_property(
+                                    keys::class2,
+                                    Required::yes,
+                                    "request class 2 events",
+                                    true
+                                ),
+                                bool_property(
+                                    keys::class3,
+                                    Required::yes,
+                                    "request class 3 events",
+                                    true
+                                )
+                            }
+                        )
                     )
-                }))
-            )
+                }                
+            ))
         };
     }
 

@@ -97,20 +97,14 @@ namespace dnp3 {
         {
             const auto channel = this->create_channel(node);
 
-            MasterStackConfig config;
-
             const auto protocol = util::yaml::require(node, keys::protocol);
 
-            config.link.LocalAddr = util::yaml::require_integer<uint16_t>(protocol, keys::master_address);
-            config.link.RemoteAddr = util::yaml::require_integer<uint16_t>(protocol, keys::outstation_address);
 
-            // actively disable unsolicited mode, and don't re-enable it after integrity scan
-            config.master.disableUnsolOnStartup = true;
-            ClassField unsol_class_mask = ClassField::None();
-            if(util::yaml::require(protocol, keys::unsolicited_class_1).as<bool>()) unsol_class_mask.Set(PointClass::Class1);
-            if(util::yaml::require(protocol, keys::unsolicited_class_2).as<bool>()) unsol_class_mask.Set(PointClass::Class2);
-            if(util::yaml::require(protocol, keys::unsolicited_class_3).as<bool>()) unsol_class_mask.Set(PointClass::Class3);
-            config.master.unsolClassMask = unsol_class_mask;
+            MasterStackConfig config;                      
+            config.link.LocalAddr = util::yaml::require_integer<uint16_t>(protocol, keys::master_address);
+            config.link.RemoteAddr = util::yaml::require_integer<uint16_t>(protocol, keys::outstation_address);            
+            config.master.startupIntegrityClassMask = read_class_field(util::yaml::require(protocol, keys::startup_integrity));
+            config.master.unsolClassMask = read_event_class_field(util::yaml::require(protocol, keys::unsolicited));
 
             const auto unsolicited_handler = std::make_shared<SOEHandler>();
             const auto command_executor = std::make_shared<CommandSequenceExecutor>(this->logger);
