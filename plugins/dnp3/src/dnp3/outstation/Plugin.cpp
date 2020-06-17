@@ -6,7 +6,7 @@
 #include <adapter-util/config/generated/TypedModelVisitors.h>
 #include <adapter-util/util/YAMLTemplate.h>
 
-#include <opendnp3/LogLevels.h>
+#include <opendnp3/logging/LogLevels.h>
 #include <opendnp3/outstation/DatabaseConfig.h>
 #include <opendnp3/outstation/DefaultOutstationApplication.h>
 

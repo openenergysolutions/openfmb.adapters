@@ -42,7 +42,7 @@ namespace dnp3 {
             process_any(values, this->counter_handlers);
         }
 
-        void SOEHandler::begin_fragment(const opendnp3::ResponseInfo& info)
+        void SOEHandler::BeginFragment(const opendnp3::ResponseInfo& info)
         {
             if(info.fir)
             {
@@ -51,7 +51,7 @@ namespace dnp3 {
             }
         }
 
-        void SOEHandler::end_fragment(const opendnp3::ResponseInfo& info)
+        void SOEHandler::EndFragment(const opendnp3::ResponseInfo& info)
         {
             if(info.fin)
             {

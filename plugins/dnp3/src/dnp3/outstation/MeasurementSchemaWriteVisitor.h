@@ -6,8 +6,6 @@
 #include <adapter-util/config/SchemaWriteVisitorBase.h>
 #include <adapter-util/util/EnumUtil.h>
 
-#include <opendnp3/gen/ControlCode.h>
-
 namespace adapter {
 namespace dnp3 {
 namespace outstation {

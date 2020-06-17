@@ -2,7 +2,7 @@
 #include "Plugin.h"
 
 #include <opendnp3/master/DefaultMasterApplication.h>
-#include <opendnp3/LogLevels.h>
+#include <opendnp3/logging/LogLevels.h>
 
 #include <adapter-util/ConfigStrings.h>
 #include <adapter-util/ProfileInfo.h>
