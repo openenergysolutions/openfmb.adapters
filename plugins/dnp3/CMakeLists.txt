@@ -9,8 +9,8 @@ set(DNP3_SOURCES
         src/dnp3/PluginBase.h
         src/dnp3/PluginBase.cpp
         # master components
-        src/dnp3/master/Control.h
-        src/dnp3/master/Control.cpp
+        src/dnp3/master/ConfigReaders.h
+        src/dnp3/master/ConfigReaders.cpp
         src/dnp3/master/ControlSchemaWriteVisitor.h
         src/dnp3/master/ControlSchemaWriteVisitor.cpp
         src/dnp3/master/ControlSubscriptionHandler.h

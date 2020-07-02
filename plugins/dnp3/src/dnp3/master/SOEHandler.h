@@ -53,10 +53,7 @@ namespace dnp3 {
                          const opendnp3::ICollection<opendnp3::Indexed<opendnp3::BinaryCommandEvent>>& values) override {}
 
             void Process(const opendnp3::HeaderInfo& info,
-                         const opendnp3::ICollection<opendnp3::Indexed<opendnp3::AnalogCommandEvent>>& values) override {}
-
-            void Process(const opendnp3::HeaderInfo& info,
-                         const opendnp3::ICollection<opendnp3::Indexed<opendnp3::SecurityStat>>& values) override {}
+                         const opendnp3::ICollection<opendnp3::Indexed<opendnp3::AnalogCommandEvent>>& values) override {}            
 
             void Process(const opendnp3::HeaderInfo& info,
                          const opendnp3::ICollection<opendnp3::DNPTime>& values) override {}
@@ -95,9 +92,9 @@ namespace dnp3 {
             }
 
         private:
-            void begin_fragment(const opendnp3::ResponseInfo& info) override;
+            void BeginFragment(const opendnp3::ResponseInfo& info) override;
 
-            void end_fragment(const opendnp3::ResponseInfo& info) override;
+            void EndFragment(const opendnp3::ResponseInfo& info) override;
 
             std::vector<std::function<void()>> start_handlers;
 

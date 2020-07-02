@@ -5,40 +5,24 @@
 #include <adapter-util/ConfigStrings.h>
 #include <adapter-util/util/YAMLUtil.h>
 
+#include "ConfigReaders.h"
+
 namespace adapter {
 namespace dnp3 {
 namespace master {
 
 PollRepository::PollRepository(std::shared_ptr<SOEHandler> unsolicited_soe_handler)
 {
-    m_handlers.insert({keys::unsolicited_poll_name, unsolicited_soe_handler});
+    m_handlers.insert({keys::unsolicited, unsolicited_soe_handler});
 }
 
 void PollRepository::load(const YAML::Node& node, opendnp3::IMaster& master)
 {
     util::yaml::foreach(node, [this, &master](const YAML::Node& poll_node) {
         const auto name = util::yaml::require_string(poll_node, util::keys::name);
-        const auto interval_ms = util::yaml::require_integer<int>(poll_node, keys::poll_interval);
-        const auto type = util::yaml::require_string(poll_node, keys::poll_type);
-        if(type == keys::poll_type_integrity)
-        {
-            auto handler = add_handler(name);
-            master.AddClassScan(opendnp3::ClassField::AllClasses(), opendnp3::TimeDuration::Milliseconds(interval_ms), handler);
-        }
-        else if(type == keys::poll_type_event)
-        {
-            auto class_field = opendnp3::ClassField::None();
-            if(util::yaml::require(poll_node, keys::poll_class1).as<bool>()) class_field.Set(opendnp3::PointClass::Class1);
-            if(util::yaml::require(poll_node, keys::poll_class2).as<bool>()) class_field.Set(opendnp3::PointClass::Class2);
-            if(util::yaml::require(poll_node, keys::poll_class3).as<bool>()) class_field.Set(opendnp3::PointClass::Class3);
-
-            auto handler = add_handler(name);
-            master.AddClassScan(class_field, opendnp3::TimeDuration::Milliseconds(interval_ms), handler);
-        }
-        else
-        {
-            throw api::Exception("Invalid poll type. Expected ", keys::poll_type_integrity, " or ", keys::poll_type_event, ", got ", type, " (line: ", poll_node.Mark().line, ")");
-        }
+        const auto interval_ms = util::yaml::require_integer<int>(poll_node, keys::poll_interval);        
+        const auto class_field = read_class_field(util::yaml::require(poll_node, keys::classes));
+        master.AddClassScan(class_field, opendnp3::TimeDuration::Milliseconds(interval_ms), add_handler(name));
     });
 }
 
