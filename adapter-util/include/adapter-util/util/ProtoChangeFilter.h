@@ -182,19 +182,25 @@ public:
 
     void publish(const T& msg) override
     {
+        MessageInfoDiff<T> diff{};
+        m_message_differencer.ReportDifferencesTo(&diff);
+
         auto mrid = profile_info<T>::get_conducting_equip(msg).mrid();
         auto cache_it = m_message_cache.find(mrid);
         if(cache_it == m_message_cache.end())
         {
-            m_message_cache.insert({mrid, msg});
-            m_publisher->publish(msg);
+            m_message_differencer.Compare(T{}, msg);
+
+            if(diff.is_changed())
+            {
+                m_message_cache.insert({mrid, msg});
+                m_publisher->publish(msg);
+            }
         }
         else
         {
-            MessageInfoDiff<T> diff{};
-            m_message_differencer.ReportDifferencesTo(&diff);
             m_message_differencer.Compare(cache_it->second, msg);
-            
+
             if(diff.is_changed())
             {
                 cache_it->second = msg;
