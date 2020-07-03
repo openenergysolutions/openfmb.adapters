@@ -3,7 +3,7 @@ include(FetchContent)
 FetchContent_Declare(
     opendnp3
     GIT_REPOSITORY https://github.com/dnp3/opendnp3.git
-    GIT_TAG        3.0.3
+    GIT_TAG        3.0.4
 )
 
 FetchContent_GetProperties(opendnp3)
