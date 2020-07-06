@@ -8,6 +8,7 @@
 #include <adapter-util/ProfileInfo.h>
 #include <adapter-util/config/CommandPriorityMap.h>
 #include <adapter-util/config/generated/TypedModelVisitors.h>
+#include <adapter-util/util/ProtoChangeFilter.h>
 #include <adapter-util/util/YAMLTemplate.h>
 #include <adapter-util/util/YAMLUtil.h>
 
@@ -46,7 +47,9 @@ namespace dnp3 {
             }
 
             template <class U = T>
-            static return_t<util::profile_info<U>::type != util::ProfileType::Control>
+            static return_t<
+                util::profile_info<U>::type == util::ProfileType::Reading ||
+                util::profile_info<U>::type == util::ProfileType::Status>
             handle(const YAML::Node& node, const api::Logger& logger, api::message_bus_t bus,
                    const PollRepository& poll_repo, std::shared_ptr<exe4cpp::IExecutor>, std::shared_ptr<ICommandSequenceExecutor>)
             {
@@ -55,6 +58,21 @@ namespace dnp3 {
 
                 PublishingConfigReadVisitor<T> visitor(util::yaml::require(node, util::keys::mapping),
                                                        std::move(bus), builder);
+                util::visit(visitor);
+                return true;
+            }
+
+            template <class U = T>
+            static return_t<util::profile_info<U>::type == util::ProfileType::Event>
+            handle(const YAML::Node& node, const api::Logger& logger, api::message_bus_t bus,
+                   const PollRepository& poll_repo, std::shared_ptr<exe4cpp::IExecutor>, std::shared_ptr<ICommandSequenceExecutor>)
+            {
+                auto poll_name = util::yaml::require_string(node, keys::poll_name);
+                auto builder = poll_repo.get(poll_name);
+
+                auto filter = std::make_shared<util::ProtoChangeFilter<T>>(bus);
+                PublishingConfigReadVisitor<T> visitor(util::yaml::require(node, util::keys::mapping),
+                                                       std::move(filter), builder);
                 util::visit(visitor);
                 return true;
             }

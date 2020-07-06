@@ -41,7 +41,7 @@ public:
                              const google::protobuf::Message& message2,
                              const std::vector<google::protobuf::util::MessageDifferencer::SpecificField>& field_path) override
     {
-        recursive_update(message2, m_message, field_path, true);
+        recursive_update(message2, m_message, field_path, true, false);
     }
 
     // Reports that a field has been deleted from Message1.
@@ -57,7 +57,7 @@ public:
                                 const google::protobuf::Message& message2,
                                 const std::vector<google::protobuf::util::MessageDifferencer::SpecificField>& field_path) override
     {
-        recursive_update(message2, m_message, field_path, false);
+        recursive_update(message2, m_message, field_path, false, false);
     }
 
     // Reports that the value of a field has been ignored during comparison.
@@ -65,7 +65,7 @@ public:
                                const google::protobuf::Message& message2,
                                const std::vector<google::protobuf::util::MessageDifferencer::SpecificField>& field_path) override
     {
-        recursive_update(message2, m_message, field_path, true);
+        recursive_update(message2, m_message, field_path, true, true);
     }
 
     const T& get_message() const
@@ -73,11 +73,16 @@ public:
         return m_message;
     }
 
+    bool is_changed() const
+    {
+        return m_is_changed;
+    }
+
 private:
     void recursive_update(const google::protobuf::Message& received_msg,
                           google::protobuf::Message& current_msg,
                           const std::vector<google::protobuf::util::MessageDifferencer::SpecificField>& field_path,
-                          bool add_end_message)
+                          bool add_end_message, bool is_ignored)
     {
         auto reflection = current_msg.GetReflection();
         
@@ -87,46 +92,55 @@ private:
             case google::protobuf::FieldDescriptor::CppType::CPPTYPE_INT32:
             {
                 reflection->SetInt32(&current_msg, field_descriptor, reflection->GetInt32(received_msg, field_descriptor));
+                if (!is_ignored) m_is_changed = true;
                 break;
             }
             case google::protobuf::FieldDescriptor::CppType::CPPTYPE_INT64:
             {
                 reflection->SetInt64(&current_msg, field_descriptor, reflection->GetInt64(received_msg, field_descriptor));
+                if (!is_ignored) m_is_changed = true;
                 break;
             }
             case google::protobuf::FieldDescriptor::CppType::CPPTYPE_UINT32:
             {
                 reflection->SetUInt32(&current_msg, field_descriptor, reflection->GetUInt32(received_msg, field_descriptor));
+                if (!is_ignored) m_is_changed = true;
                 break;
             }
             case google::protobuf::FieldDescriptor::CppType::CPPTYPE_UINT64:
             {
                 reflection->SetUInt64(&current_msg, field_descriptor, reflection->GetUInt64(received_msg, field_descriptor));
+                if (!is_ignored) m_is_changed = true;
                 break;
             }
             case google::protobuf::FieldDescriptor::CppType::CPPTYPE_DOUBLE:
             {
                 reflection->SetDouble(&current_msg, field_descriptor, reflection->GetDouble(received_msg, field_descriptor));
+                if (!is_ignored) m_is_changed = true;
                 break;
             }
             case google::protobuf::FieldDescriptor::CppType::CPPTYPE_FLOAT:
             {
                 reflection->SetFloat(&current_msg, field_descriptor, reflection->GetFloat(received_msg, field_descriptor));
+                if (!is_ignored) m_is_changed = true;
                 break;
             }
             case google::protobuf::FieldDescriptor::CppType::CPPTYPE_BOOL:
             {
                 reflection->SetBool(&current_msg, field_descriptor, reflection->GetBool(received_msg, field_descriptor));
+                if (!is_ignored) m_is_changed = true;
                 break;
             }
             case google::protobuf::FieldDescriptor::CppType::CPPTYPE_ENUM:
             {
                 reflection->SetEnum(&current_msg, field_descriptor, reflection->GetEnum(received_msg, field_descriptor));
+                if (!is_ignored) m_is_changed = true;
                 break;
             }
             case google::protobuf::FieldDescriptor::CppType::CPPTYPE_STRING:
             {
                 reflection->SetString(&current_msg, field_descriptor, reflection->GetString(received_msg, field_descriptor));
+                if (!is_ignored) m_is_changed = true;
                 break;
             }
             case google::protobuf::FieldDescriptor::CppType::CPPTYPE_MESSAGE:
@@ -137,6 +151,7 @@ private:
                     auto sub_current_msg = reflection->MutableMessage(&current_msg, field_descriptor);
                     const auto& sub_received_msg = reflection->GetMessage(received_msg, field_descriptor);
                     sub_current_msg->CopyFrom(sub_received_msg);
+                    if (!is_ignored) m_is_changed = true;
                 }
                 else if(field_path.size() > 1)
                 {
@@ -145,13 +160,14 @@ private:
                     std::copy(++field_path.begin(), field_path.end(), std::back_inserter(sub_field_path));
 
                     auto sub_msg = reflection->MutableMessage(&current_msg, field_descriptor);
-                    recursive_update(received_msg, *sub_msg, sub_field_path, add_end_message);
+                    recursive_update(received_msg, *sub_msg, sub_field_path, add_end_message, is_ignored);
                 }
                 break;
             }
         }
     }
     T m_message;
+    bool m_is_changed = false;
 };
 
 template <typename T>
@@ -166,19 +182,26 @@ public:
 
     void publish(const T& msg) override
     {
+        MessageInfoDiff<T> diff{};
+        m_message_differencer.ReportDifferencesTo(&diff);
+
         auto mrid = profile_info<T>::get_conducting_equip(msg).mrid();
         auto cache_it = m_message_cache.find(mrid);
         if(cache_it == m_message_cache.end())
         {
-            m_message_cache.insert({mrid, msg});
-            m_publisher->publish(msg);
+            m_message_differencer.Compare(T{}, msg);
+
+            if(diff.is_changed())
+            {
+                m_message_cache.insert({mrid, msg});
+                m_publisher->publish(msg);
+            }
         }
         else
         {
-            MessageInfoDiff<T> diff{};
-            m_message_differencer.ReportDifferencesTo(&diff);
-            
-            if(!m_message_differencer.Compare(cache_it->second, msg))
+            m_message_differencer.Compare(cache_it->second, msg);
+
+            if(diff.is_changed())
             {
                 cache_it->second = msg;
                 auto diff_msg = diff.get_message();

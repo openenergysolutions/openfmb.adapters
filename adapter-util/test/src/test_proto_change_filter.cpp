@@ -75,6 +75,13 @@ TEST_CASE("ProtoChangeFilter")
         CHECK(publisher->last_message.eventmessageinfo().messageinfo().DebugString() == msg.eventmessageinfo().messageinfo().DebugString()); // Keep message info
     }
 
+    SECTION("Remove value")
+    {
+        msg.mutable_breakerevent()->mutable_statusandeventxcbr()->clear_pos();
+        filter.publish(msg);
+        CHECK(publisher->num_calls == 1);
+    }
+
     SECTION("Change value in message identifier")
     {
         msg.mutable_eventmessageinfo()->mutable_messageinfo()->mutable_identifiedobject()->mutable_mrid()->set_value("2c7e7334-48b2-4948-9c09-77968e07ee95");
