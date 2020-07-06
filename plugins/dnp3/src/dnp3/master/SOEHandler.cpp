@@ -8,12 +8,12 @@ namespace dnp3 {
     namespace master {
 
         template <class T>
-        void
-        process_any(const opendnp3::ICollection<opendnp3::Indexed<T>>& values, SOEHandler::handler_map<T>& map)
+        void SOEHandler::process_any(const opendnp3::ICollection<opendnp3::Indexed<T>>& values, SOEHandler::handler_map<T>& map)
         {
             auto process = [&](const opendnp3::Indexed<T>& pair) {
                 auto it = map.find(pair.index);
                 if (it != map.end()) {
+                    has_changes = true;
                     for(auto& handler : it->second)
                     {
                         handler(pair.value);
@@ -46,6 +46,7 @@ namespace dnp3 {
         {
             if(info.fir)
             {
+                has_changes = false;
                 for (auto& action : this->start_handlers)
                     action();
             }
@@ -53,7 +54,7 @@ namespace dnp3 {
 
         void SOEHandler::EndFragment(const opendnp3::ResponseInfo& info)
         {
-            if(info.fin)
+            if(info.fin && has_changes)
             {
                 for (auto& action : this->end_handlers)
                     action();

@@ -93,8 +93,10 @@ namespace dnp3 {
 
         private:
             void BeginFragment(const opendnp3::ResponseInfo& info) override;
-
             void EndFragment(const opendnp3::ResponseInfo& info) override;
+
+            template <class T>
+            void process_any(const opendnp3::ICollection<opendnp3::Indexed<T>>& values, handler_map<T>& map);
 
             std::vector<std::function<void()>> start_handlers;
 
@@ -103,6 +105,8 @@ namespace dnp3 {
             handler_map<opendnp3::Counter> counter_handlers;
 
             std::vector<std::function<void()>> end_handlers;
+
+            bool has_changes = false;
         };
     }
 }
