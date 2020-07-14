@@ -75,6 +75,36 @@ TEST_CASE("ProtoChangeFilter")
         CHECK(publisher->last_message.eventmessageinfo().messageinfo().DebugString() == msg.eventmessageinfo().messageinfo().DebugString()); // Keep message info
     }
 
+    SECTION("Remove value")
+    {
+        msg.mutable_breakerevent()->mutable_statusandeventxcbr()->clear_pos();
+        filter.publish(msg);
+        CHECK(publisher->num_calls == 1);
+    }
+
+    SECTION("Set to default value")
+    {
+        msg.mutable_breakerevent()->mutable_statusandeventxcbr()->mutable_pos()->set_stval(commonmodule::DbPosKind::DbPosKind_transient);
+        filter.publish(msg);
+        CHECK(publisher->num_calls == 2);
+        CHECK(publisher->last_message.breakerevent().statusandeventxcbr().pos().stval() == commonmodule::DbPosKind::DbPosKind_transient);
+        CHECK(publisher->last_message.breakerevent().statusandeventxcbr().pos().has_q() == false); // Should not contain other events
+        CHECK(publisher->last_message.breaker().conductingequipment().DebugString() == msg.breaker().conductingequipment().DebugString()); // Keep conducting equipment
+        CHECK(publisher->last_message.eventmessageinfo().messageinfo().DebugString() == msg.eventmessageinfo().messageinfo().DebugString()); // Keep message info
+    }
+
+    SECTION("Set to default value whole section")
+    {
+        msg.mutable_breakerevent()->mutable_statusandeventxcbr()->mutable_pos()->set_stval(commonmodule::DbPosKind::DbPosKind_transient);
+        msg.mutable_breakerevent()->mutable_statusandeventxcbr()->mutable_pos()->clear_q();
+        filter.publish(msg);
+        CHECK(publisher->num_calls == 2);
+        CHECK(publisher->last_message.breakerevent().statusandeventxcbr().pos().stval() == commonmodule::DbPosKind::DbPosKind_transient);
+        CHECK(publisher->last_message.breakerevent().statusandeventxcbr().pos().has_q() == false); // Should not contain other events
+        CHECK(publisher->last_message.breaker().conductingequipment().DebugString() == msg.breaker().conductingequipment().DebugString()); // Keep conducting equipment
+        CHECK(publisher->last_message.eventmessageinfo().messageinfo().DebugString() == msg.eventmessageinfo().messageinfo().DebugString()); // Keep message info
+    }
+
     SECTION("Change value in message identifier")
     {
         msg.mutable_eventmessageinfo()->mutable_messageinfo()->mutable_identifiedobject()->mutable_mrid()->set_value("2c7e7334-48b2-4948-9c09-77968e07ee95");

@@ -31,7 +31,6 @@ function(clang_format target)
 
         endforeach()
         set_property(GLOBAL PROPERTY CLANG_FORMAT_FILES "${all_source_files}")
-        message(STATUS ${CLANG_FORMAT_FILES})
     else()
         message(WARNING "Target ${target} does not exists.")
     endif()
