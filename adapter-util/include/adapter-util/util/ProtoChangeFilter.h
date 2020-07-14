@@ -41,7 +41,7 @@ public:
                              const google::protobuf::Message& message2,
                              const std::vector<google::protobuf::util::MessageDifferencer::SpecificField>& field_path) override
     {
-        recursive_update(message2, m_message, field_path, true, false);
+        recursive_update(message2, m_message, field_path, true, false, false);
     }
 
     // Reports that a field has been deleted from Message1.
@@ -49,7 +49,7 @@ public:
                                const google::protobuf::Message& message2,
                                const std::vector<google::protobuf::util::MessageDifferencer::SpecificField>& field_path) override
     {
-
+        recursive_update(message2, m_message, field_path, false, false, true);
     }
 
     // Reports that the value of a field has been modified.
@@ -57,7 +57,7 @@ public:
                                 const google::protobuf::Message& message2,
                                 const std::vector<google::protobuf::util::MessageDifferencer::SpecificField>& field_path) override
     {
-        recursive_update(message2, m_message, field_path, false, false);
+        recursive_update(message2, m_message, field_path, false, false, false);
     }
 
     // Reports that the value of a field has been ignored during comparison.
@@ -65,7 +65,7 @@ public:
                                const google::protobuf::Message& message2,
                                const std::vector<google::protobuf::util::MessageDifferencer::SpecificField>& field_path) override
     {
-        recursive_update(message2, m_message, field_path, true, true);
+        recursive_update(message2, m_message, field_path, true, true, false);
     }
 
     const T& get_message() const
@@ -82,7 +82,7 @@ private:
     void recursive_update(const google::protobuf::Message& received_msg,
                           google::protobuf::Message& current_msg,
                           const std::vector<google::protobuf::util::MessageDifferencer::SpecificField>& field_path,
-                          bool add_end_message, bool is_ignored)
+                          bool add_end_message, bool is_ignored, bool is_deleted)
     {
         auto reflection = current_msg.GetReflection();
         
@@ -145,7 +145,7 @@ private:
             }
             case google::protobuf::FieldDescriptor::CppType::CPPTYPE_MESSAGE:
             {
-                if(field_path.size() == 1 && add_end_message)
+                if(field_path.size() == 1 && add_end_message && !is_deleted)
                 {
                     // Copy the whole message because it was added, not modified
                     auto sub_current_msg = reflection->MutableMessage(&current_msg, field_descriptor);
@@ -160,7 +160,7 @@ private:
                     std::copy(++field_path.begin(), field_path.end(), std::back_inserter(sub_field_path));
 
                     auto sub_msg = reflection->MutableMessage(&current_msg, field_descriptor);
-                    recursive_update(received_msg, *sub_msg, sub_field_path, add_end_message, is_ignored);
+                    recursive_update(received_msg, *sub_msg, sub_field_path, add_end_message, is_ignored, is_deleted);
                 }
                 break;
             }
