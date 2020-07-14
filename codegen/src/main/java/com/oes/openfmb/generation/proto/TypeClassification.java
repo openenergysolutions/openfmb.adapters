@@ -3,7 +3,8 @@ package com.oes.openfmb.generation.proto;
 import com.google.protobuf.*;
 import openfmb.commonmodule.*;
 import openfmb.commonmodule.Timestamp;
-import openfmb.shuntmodule.SwitchingCapabilityKind;
+import openfmb.generationmodule.ReactivePowerControlKind;
+import openfmb.generationmodule.RealPowerControlKind;
 
 import java.util.*;
 
@@ -319,6 +320,10 @@ public class TypeClassification {
             return Types.string.mapped;
         }
 
+        if(path.hasName("ctlVal")) {
+            return Types.string.mapped;
+        }
+
         if(path.matches("mRID", ConductingEquipment.getDescriptor())) {
             return Types.string.primaryUUID;
         }
@@ -345,12 +350,15 @@ public class TypeClassification {
         temp.put(UnitMultiplierKind.getDescriptor(), Types.enumeration.constant);
         temp.put(UnitSymbolKind.getDescriptor(), Types.enumeration.constant);
         temp.put(SwitchingCapabilityKind.getDescriptor(), Types.enumeration.constant);
+        temp.put(ReactivePowerControlKind.getDescriptor(), Types.enumeration.constant);
+        temp.put(RealPowerControlKind.getDescriptor(), Types.enumeration.constant);
 
         // mapped types
         temp.put(GridConnectModeKind.getDescriptor(), Types.enumeration.mapped);
         temp.put(DynamicTestKind.getDescriptor(), Types.enumeration.mapped);
         temp.put(DbPosKind.getDescriptor(), Types.enumeration.mapped);
         temp.put(StateKind.getDescriptor(), Types.enumeration.mapped);
+        temp.put(RecloseActionKind.getDescriptor(), Types.enumeration.mapped);
 
         enumMap = Collections.unmodifiableMap(temp);
     }
