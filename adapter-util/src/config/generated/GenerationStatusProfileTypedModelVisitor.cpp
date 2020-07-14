@@ -30,8 +30,6 @@ void visit_commonmodule_ActivePower(const set_t<commonmodule::ActivePower>& sett
 
 void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::ConductingEquipment>& setter, const get_t<commonmodule::ConductingEquipment>& getter, ITypedModelVisitor<generationmodule::GenerationStatusProfile>& visitor);
 
-void visit_commonmodule_ControlDPC(const set_t<commonmodule::ControlDPC>& setter, const get_t<commonmodule::ControlDPC>& getter, ITypedModelVisitor<generationmodule::GenerationStatusProfile>& visitor);
-
 void visit_commonmodule_ENS_BehaviourModeKind(const set_t<commonmodule::ENS_BehaviourModeKind>& setter, const get_t<commonmodule::ENS_BehaviourModeKind>& getter, ITypedModelVisitor<generationmodule::GenerationStatusProfile>& visitor);
 
 void visit_commonmodule_ENS_DynamicTestKind(const set_t<commonmodule::ENS_DynamicTestKind>& setter, const get_t<commonmodule::ENS_DynamicTestKind>& getter, ITypedModelVisitor<generationmodule::GenerationStatusProfile>& visitor);
@@ -58,6 +56,8 @@ void visit_commonmodule_Optional_UnitSymbolKind(const set_t<commonmodule::Option
 
 void visit_commonmodule_RampRate(const set_t<commonmodule::RampRate>& setter, const get_t<commonmodule::RampRate>& getter, ITypedModelVisitor<generationmodule::GenerationStatusProfile>& visitor);
 
+void visit_commonmodule_StatusDPS(const set_t<commonmodule::StatusDPS>& setter, const get_t<commonmodule::StatusDPS>& getter, ITypedModelVisitor<generationmodule::GenerationStatusProfile>& visitor);
+
 void visit_commonmodule_StatusMessageInfo(const set_t<commonmodule::StatusMessageInfo>& setter, const get_t<commonmodule::StatusMessageInfo>& getter, ITypedModelVisitor<generationmodule::GenerationStatusProfile>& visitor);
 
 void visit_commonmodule_StatusSPS(const set_t<commonmodule::StatusSPS>& setter, const get_t<commonmodule::StatusSPS>& getter, ITypedModelVisitor<generationmodule::GenerationStatusProfile>& visitor);
@@ -73,6 +73,8 @@ void visit_generationmodule_GenerationPointStatus(const set_t<generationmodule::
 void visit_generationmodule_GenerationStatus(const set_t<generationmodule::GenerationStatus>& setter, const get_t<generationmodule::GenerationStatus>& getter, ITypedModelVisitor<generationmodule::GenerationStatusProfile>& visitor);
 
 void visit_generationmodule_GenerationStatusZGEN(const set_t<generationmodule::GenerationStatusZGEN>& setter, const get_t<generationmodule::GenerationStatusZGEN>& getter, ITypedModelVisitor<generationmodule::GenerationStatusProfile>& visitor);
+
+void visit_google_protobuf_BoolValue(const set_t<google::protobuf::BoolValue>& setter, const get_t<google::protobuf::BoolValue>& getter, ITypedModelVisitor<generationmodule::GenerationStatusProfile>& visitor);
 
 void visit_google_protobuf_FloatValue(const set_t<google::protobuf::FloatValue>& setter, const get_t<google::protobuf::FloatValue>& getter, ITypedModelVisitor<generationmodule::GenerationStatusProfile>& visitor);
 
@@ -295,23 +297,6 @@ void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::Conducting
                 const auto parent = getter(profile);
                 if(!parent) return false;
                 handler(parent->mrid());
-                return true;
-            }
-        )
-    );
-}
-
-void visit_commonmodule_ControlDPC(const set_t<commonmodule::ControlDPC>& setter, const get_t<commonmodule::ControlDPC>& getter, ITypedModelVisitor<generationmodule::GenerationStatusProfile>& visitor)
-{
-    visitor.handle(
-        "ctlVal",
-        AccessorBuilder<generationmodule::GenerationStatusProfile,bool>::build(
-            [setter](generationmodule::GenerationStatusProfile& profile, const bool& value) { setter(profile)->set_ctlval(value); },
-            [getter](const generationmodule::GenerationStatusProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->ctlval());
                 return true;
             }
         )
@@ -654,6 +639,54 @@ void visit_commonmodule_LogicalNodeForEventAndStatus(const set_t<commonmodule::L
         );
         visitor.end_message_field();
     }
+
+    if(visitor.start_message_field("HotLineTag", commonmodule::StatusSPS::descriptor()))
+    {
+        visit_commonmodule_StatusSPS(
+            [setter](generationmodule::GenerationStatusProfile& profile)
+            {
+                return setter(profile)->mutable_hotlinetag();
+            },
+            [getter](const generationmodule::GenerationStatusProfile& profile) -> commonmodule::StatusSPS const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_hotlinetag() ? &value->hotlinetag() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("RemoteBlk", commonmodule::StatusSPS::descriptor()))
+    {
+        visit_commonmodule_StatusSPS(
+            [setter](generationmodule::GenerationStatusProfile& profile)
+            {
+                return setter(profile)->mutable_remoteblk();
+            },
+            [getter](const generationmodule::GenerationStatusProfile& profile) -> commonmodule::StatusSPS const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_remoteblk() ? &value->remoteblk() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
 }
 
 void visit_commonmodule_MessageInfo(const set_t<commonmodule::MessageInfo>& setter, const get_t<commonmodule::MessageInfo>& getter, ITypedModelVisitor<generationmodule::GenerationStatusProfile>& visitor)
@@ -901,6 +934,52 @@ void visit_commonmodule_RampRate(const set_t<commonmodule::RampRate>& setter, co
     }
 }
 
+void visit_commonmodule_StatusDPS(const set_t<commonmodule::StatusDPS>& setter, const get_t<commonmodule::StatusDPS>& getter, ITypedModelVisitor<generationmodule::GenerationStatusProfile>& visitor)
+{
+    visitor.handle(
+        "q",
+        MessageAccessorBuilder<generationmodule::GenerationStatusProfile,commonmodule::Quality>::build(
+            [setter](generationmodule::GenerationStatusProfile& profile) { return setter(profile)->mutable_q(); },
+            [getter](const generationmodule::GenerationStatusProfile& profile, const handler_t<commonmodule::Quality>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent || !parent->has_q()) return false;
+                handler(parent->q());
+                return true;
+            }
+        )
+    );
+
+    visitor.handle(
+        "stVal",
+        AccessorBuilder<generationmodule::GenerationStatusProfile,int>::build(
+            [setter](generationmodule::GenerationStatusProfile& profile, const int& value) { setter(profile)->set_stval(static_cast<commonmodule::DbPosKind>(value)); },
+            [getter](const generationmodule::GenerationStatusProfile& profile, const handler_t<int>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->stval());
+                return true;
+            }
+        ),
+        commonmodule::DbPosKind_descriptor()
+    );
+
+    visitor.handle(
+        "t",
+        MessageAccessorBuilder<generationmodule::GenerationStatusProfile,commonmodule::Timestamp>::build(
+            [setter](generationmodule::GenerationStatusProfile& profile) { return setter(profile)->mutable_t(); },
+            [getter](const generationmodule::GenerationStatusProfile& profile, const handler_t<commonmodule::Timestamp>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent || !parent->has_t()) return false;
+                handler(parent->t());
+                return true;
+            }
+        )
+    );
+}
+
 void visit_commonmodule_StatusMessageInfo(const set_t<commonmodule::StatusMessageInfo>& setter, const get_t<commonmodule::StatusMessageInfo>& getter, ITypedModelVisitor<generationmodule::GenerationStatusProfile>& visitor)
 {
     if(visitor.start_message_field("messageInfo", commonmodule::MessageInfo::descriptor()))
@@ -988,6 +1067,30 @@ void visit_commonmodule_StatusValue(const set_t<commonmodule::StatusValue>& sett
                 if(value)
                 {
                     return value->has_identifiedobject() ? &value->identifiedobject() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("modBlk", google::protobuf::BoolValue::descriptor()))
+    {
+        visit_google_protobuf_BoolValue(
+            [setter](generationmodule::GenerationStatusProfile& profile)
+            {
+                return setter(profile)->mutable_modblk();
+            },
+            [getter](const generationmodule::GenerationStatusProfile& profile) -> google::protobuf::BoolValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_modblk() ? &value->modblk() : nullptr;
                 }
                 else
                 {
@@ -1200,14 +1303,14 @@ void visit_generationmodule_GenerationEventAndStatusZGEN(const set_t<generationm
 
 void visit_generationmodule_GenerationPointStatus(const set_t<generationmodule::GenerationPointStatus>& setter, const get_t<generationmodule::GenerationPointStatus>& getter, ITypedModelVisitor<generationmodule::GenerationStatusProfile>& visitor)
 {
-    if(visitor.start_message_field("blackStartEnabled", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("blackStartEnabled", commonmodule::StatusDPS::descriptor()))
     {
-        visit_commonmodule_ControlDPC(
+        visit_commonmodule_StatusDPS(
             [setter](generationmodule::GenerationStatusProfile& profile)
             {
                 return setter(profile)->mutable_blackstartenabled();
             },
-            [getter](const generationmodule::GenerationStatusProfile& profile) -> commonmodule::ControlDPC const *
+            [getter](const generationmodule::GenerationStatusProfile& profile) -> commonmodule::StatusDPS const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1224,14 +1327,14 @@ void visit_generationmodule_GenerationPointStatus(const set_t<generationmodule::
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("frequencySetPointEnabled", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("frequencySetPointEnabled", commonmodule::StatusDPS::descriptor()))
     {
-        visit_commonmodule_ControlDPC(
+        visit_commonmodule_StatusDPS(
             [setter](generationmodule::GenerationStatusProfile& profile)
             {
                 return setter(profile)->mutable_frequencysetpointenabled();
             },
-            [getter](const generationmodule::GenerationStatusProfile& profile) -> commonmodule::ControlDPC const *
+            [getter](const generationmodule::GenerationStatusProfile& profile) -> commonmodule::StatusDPS const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1320,14 +1423,14 @@ void visit_generationmodule_GenerationPointStatus(const set_t<generationmodule::
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("reactivePwrSetPointEnabled", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("reactivePwrSetPointEnabled", commonmodule::StatusDPS::descriptor()))
     {
-        visit_commonmodule_ControlDPC(
+        visit_commonmodule_StatusDPS(
             [setter](generationmodule::GenerationStatusProfile& profile)
             {
                 return setter(profile)->mutable_reactivepwrsetpointenabled();
             },
-            [getter](const generationmodule::GenerationStatusProfile& profile) -> commonmodule::ControlDPC const *
+            [getter](const generationmodule::GenerationStatusProfile& profile) -> commonmodule::StatusDPS const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1344,14 +1447,14 @@ void visit_generationmodule_GenerationPointStatus(const set_t<generationmodule::
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("realPwrSetPointEnabled", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("realPwrSetPointEnabled", commonmodule::StatusDPS::descriptor()))
     {
-        visit_commonmodule_ControlDPC(
+        visit_commonmodule_StatusDPS(
             [setter](generationmodule::GenerationStatusProfile& profile)
             {
                 return setter(profile)->mutable_realpwrsetpointenabled();
             },
-            [getter](const generationmodule::GenerationStatusProfile& profile) -> commonmodule::ControlDPC const *
+            [getter](const generationmodule::GenerationStatusProfile& profile) -> commonmodule::StatusDPS const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1392,14 +1495,14 @@ void visit_generationmodule_GenerationPointStatus(const set_t<generationmodule::
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("syncBackToGrid", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("syncBackToGrid", commonmodule::StatusDPS::descriptor()))
     {
-        visit_commonmodule_ControlDPC(
+        visit_commonmodule_StatusDPS(
             [setter](generationmodule::GenerationStatusProfile& profile)
             {
                 return setter(profile)->mutable_syncbacktogrid();
             },
-            [getter](const generationmodule::GenerationStatusProfile& profile) -> commonmodule::ControlDPC const *
+            [getter](const generationmodule::GenerationStatusProfile& profile) -> commonmodule::StatusDPS const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1416,14 +1519,14 @@ void visit_generationmodule_GenerationPointStatus(const set_t<generationmodule::
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("transToIslndOnGridLossEnabled", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("transToIslndOnGridLossEnabled", commonmodule::StatusDPS::descriptor()))
     {
-        visit_commonmodule_ControlDPC(
+        visit_commonmodule_StatusDPS(
             [setter](generationmodule::GenerationStatusProfile& profile)
             {
                 return setter(profile)->mutable_transtoislndongridlossenabled();
             },
-            [getter](const generationmodule::GenerationStatusProfile& profile) -> commonmodule::ControlDPC const *
+            [getter](const generationmodule::GenerationStatusProfile& profile) -> commonmodule::StatusDPS const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1440,14 +1543,14 @@ void visit_generationmodule_GenerationPointStatus(const set_t<generationmodule::
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("voltageSetPointEnabled", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("voltageSetPointEnabled", commonmodule::StatusDPS::descriptor()))
     {
-        visit_commonmodule_ControlDPC(
+        visit_commonmodule_StatusDPS(
             [setter](generationmodule::GenerationStatusProfile& profile)
             {
                 return setter(profile)->mutable_voltagesetpointenabled();
             },
-            [getter](const generationmodule::GenerationStatusProfile& profile) -> commonmodule::ControlDPC const *
+            [getter](const generationmodule::GenerationStatusProfile& profile) -> commonmodule::StatusDPS const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1541,6 +1644,23 @@ void visit_generationmodule_GenerationStatusZGEN(const set_t<generationmodule::G
         );
         visitor.end_message_field();
     }
+}
+
+void visit_google_protobuf_BoolValue(const set_t<google::protobuf::BoolValue>& setter, const get_t<google::protobuf::BoolValue>& getter, ITypedModelVisitor<generationmodule::GenerationStatusProfile>& visitor)
+{
+    visitor.handle(
+        "value",
+        AccessorBuilder<generationmodule::GenerationStatusProfile,bool>::build(
+            [setter](generationmodule::GenerationStatusProfile& profile, const bool& value) { setter(profile)->set_value(value); },
+            [getter](const generationmodule::GenerationStatusProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->value());
+                return true;
+            }
+        )
+    );
 }
 
 void visit_google_protobuf_FloatValue(const set_t<google::protobuf::FloatValue>& setter, const get_t<google::protobuf::FloatValue>& getter, ITypedModelVisitor<generationmodule::GenerationStatusProfile>& visitor)

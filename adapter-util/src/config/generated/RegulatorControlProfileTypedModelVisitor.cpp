@@ -66,6 +66,8 @@ void visit_commonmodule_Optional_StateKind(const set_t<commonmodule::Optional_St
 
 void visit_commonmodule_Optional_UnitMultiplierKind(const set_t<commonmodule::Optional_UnitMultiplierKind>& setter, const get_t<commonmodule::Optional_UnitMultiplierKind>& getter, ITypedModelVisitor<regulatormodule::RegulatorControlProfile>& visitor);
 
+void visit_commonmodule_PhaseISC(const set_t<commonmodule::PhaseISC>& setter, const get_t<commonmodule::PhaseISC>& getter, ITypedModelVisitor<regulatormodule::RegulatorControlProfile>& visitor);
+
 void visit_commonmodule_RampRate(const set_t<commonmodule::RampRate>& setter, const get_t<commonmodule::RampRate>& getter, ITypedModelVisitor<regulatormodule::RegulatorControlProfile>& visitor);
 
 void visit_commonmodule_ScheduleCSG(const set_t<commonmodule::ScheduleCSG>& setter, const get_t<commonmodule::ScheduleCSG>& getter, ITypedModelVisitor<regulatormodule::RegulatorControlProfile>& visitor);
@@ -589,6 +591,58 @@ void visit_commonmodule_ControlSPC(const set_t<commonmodule::ControlSPC>& setter
             }
         )
     );
+
+    visitor.handle(
+        "q",
+        MessageAccessorBuilder<regulatormodule::RegulatorControlProfile,commonmodule::Quality>::build(
+            [setter](regulatormodule::RegulatorControlProfile& profile) { return setter(profile)->mutable_q(); },
+            [getter](const regulatormodule::RegulatorControlProfile& profile, const handler_t<commonmodule::Quality>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent || !parent->has_q()) return false;
+                handler(parent->q());
+                return true;
+            }
+        )
+    );
+
+    visitor.handle(
+        "t",
+        MessageAccessorBuilder<regulatormodule::RegulatorControlProfile,commonmodule::Timestamp>::build(
+            [setter](regulatormodule::RegulatorControlProfile& profile) { return setter(profile)->mutable_t(); },
+            [getter](const regulatormodule::RegulatorControlProfile& profile, const handler_t<commonmodule::Timestamp>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent || !parent->has_t()) return false;
+                handler(parent->t());
+                return true;
+            }
+        )
+    );
+
+    if(visitor.start_message_field("units", commonmodule::Unit::descriptor()))
+    {
+        visit_commonmodule_Unit(
+            [setter](regulatormodule::RegulatorControlProfile& profile)
+            {
+                return setter(profile)->mutable_units();
+            },
+            [getter](const regulatormodule::RegulatorControlProfile& profile) -> commonmodule::Unit const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_units() ? &value->units() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
 }
 
 void visit_commonmodule_ControlScheduleFSCH(const set_t<commonmodule::ControlScheduleFSCH>& setter, const get_t<commonmodule::ControlScheduleFSCH>& getter, ITypedModelVisitor<regulatormodule::RegulatorControlProfile>& visitor)
@@ -657,6 +711,30 @@ void visit_commonmodule_ControlValue(const set_t<commonmodule::ControlValue>& se
                 if(value)
                 {
                     return value->has_modblk() ? &value->modblk() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("reset", google::protobuf::BoolValue::descriptor()))
+    {
+        visit_google_protobuf_BoolValue(
+            [setter](regulatormodule::RegulatorControlProfile& profile)
+            {
+                return setter(profile)->mutable_reset();
+            },
+            [getter](const regulatormodule::RegulatorControlProfile& profile) -> google::protobuf::BoolValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_reset() ? &value->reset() : nullptr;
                 }
                 else
                 {
@@ -951,6 +1029,105 @@ void visit_commonmodule_Optional_UnitMultiplierKind(const set_t<commonmodule::Op
         ),
         commonmodule::UnitMultiplierKind_descriptor()
     );
+}
+
+void visit_commonmodule_PhaseISC(const set_t<commonmodule::PhaseISC>& setter, const get_t<commonmodule::PhaseISC>& getter, ITypedModelVisitor<regulatormodule::RegulatorControlProfile>& visitor)
+{
+    if(visitor.start_message_field("phs3", commonmodule::ControlISC::descriptor()))
+    {
+        visit_commonmodule_ControlISC(
+            [setter](regulatormodule::RegulatorControlProfile& profile)
+            {
+                return setter(profile)->mutable_phs3();
+            },
+            [getter](const regulatormodule::RegulatorControlProfile& profile) -> commonmodule::ControlISC const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_phs3() ? &value->phs3() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("phsA", commonmodule::ControlISC::descriptor()))
+    {
+        visit_commonmodule_ControlISC(
+            [setter](regulatormodule::RegulatorControlProfile& profile)
+            {
+                return setter(profile)->mutable_phsa();
+            },
+            [getter](const regulatormodule::RegulatorControlProfile& profile) -> commonmodule::ControlISC const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_phsa() ? &value->phsa() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("phsB", commonmodule::ControlISC::descriptor()))
+    {
+        visit_commonmodule_ControlISC(
+            [setter](regulatormodule::RegulatorControlProfile& profile)
+            {
+                return setter(profile)->mutable_phsb();
+            },
+            [getter](const regulatormodule::RegulatorControlProfile& profile) -> commonmodule::ControlISC const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_phsb() ? &value->phsb() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("phsC", commonmodule::ControlISC::descriptor()))
+    {
+        visit_commonmodule_ControlISC(
+            [setter](regulatormodule::RegulatorControlProfile& profile)
+            {
+                return setter(profile)->mutable_phsc();
+            },
+            [getter](const regulatormodule::RegulatorControlProfile& profile) -> commonmodule::ControlISC const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_phsc() ? &value->phsc() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
 }
 
 void visit_commonmodule_RampRate(const set_t<commonmodule::RampRate>& setter, const get_t<commonmodule::RampRate>& getter, ITypedModelVisitor<regulatormodule::RegulatorControlProfile>& visitor)
@@ -1521,14 +1698,14 @@ void visit_regulatormodule_RegulatorControlATCC(const set_t<regulatormodule::Reg
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("TapPos", commonmodule::ControlISC::descriptor()))
+    if(visitor.start_message_field("TapPos", commonmodule::PhaseISC::descriptor()))
     {
-        visit_commonmodule_ControlISC(
+        visit_commonmodule_PhaseISC(
             [setter](regulatormodule::RegulatorControlProfile& profile)
             {
                 return setter(profile)->mutable_tappos();
             },
-            [getter](const regulatormodule::RegulatorControlProfile& profile) -> commonmodule::ControlISC const *
+            [getter](const regulatormodule::RegulatorControlProfile& profile) -> commonmodule::PhaseISC const *
             {
                 const auto value = getter(profile);
                 if(value)

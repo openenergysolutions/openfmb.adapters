@@ -15,9 +15,9 @@
 #define OPENFMB_TYPEDMODELVISITORS_H
 
 #include "reclosermodule/reclosermodule.pb.h"
-#include "shuntmodule/shuntmodule.pb.h"
 #include "solarmodule/solarmodule.pb.h"
 #include "breakermodule/breakermodule.pb.h"
+#include "capbankmodule/capbankmodule.pb.h"
 #include "switchmodule/switchmodule.pb.h"
 #include "generationmodule/generationmodule.pb.h"
 #include "loadmodule/loadmodule.pb.h"
@@ -40,6 +40,16 @@ void visit(ITypedModelVisitor<breakermodule::BreakerReadingProfile>& visitor);
 
 void visit(ITypedModelVisitor<breakermodule::BreakerStatusProfile>& visitor);
 
+void visit(ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor);
+
+void visit(ITypedModelVisitor<capbankmodule::CapBankDiscreteControlProfile>& visitor);
+
+void visit(ITypedModelVisitor<capbankmodule::CapBankEventProfile>& visitor);
+
+void visit(ITypedModelVisitor<capbankmodule::CapBankReadingProfile>& visitor);
+
+void visit(ITypedModelVisitor<capbankmodule::CapBankStatusProfile>& visitor);
+
 void visit(ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
 
 void visit(ITypedModelVisitor<essmodule::ESSEventProfile>& visitor);
@@ -49,6 +59,8 @@ void visit(ITypedModelVisitor<essmodule::ESSReadingProfile>& visitor);
 void visit(ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 void visit(ITypedModelVisitor<generationmodule::GenerationControlProfile>& visitor);
+
+void visit(ITypedModelVisitor<generationmodule::GenerationDiscreteControlProfile>& visitor);
 
 void visit(ITypedModelVisitor<generationmodule::GenerationEventProfile>& visitor);
 
@@ -84,6 +96,10 @@ void visit(ITypedModelVisitor<regulatormodule::RegulatorReadingProfile>& visitor
 
 void visit(ITypedModelVisitor<regulatormodule::RegulatorStatusProfile>& visitor);
 
+void visit(ITypedModelVisitor<resourcemodule::ResourceDiscreteControlProfile>& visitor);
+
+void visit(ITypedModelVisitor<resourcemodule::ResourceEventProfile>& visitor);
+
 void visit(ITypedModelVisitor<resourcemodule::ResourceReadingProfile>& visitor);
 
 void visit(ITypedModelVisitor<resourcemodule::ResourceStatusProfile>& visitor);
@@ -95,16 +111,6 @@ void visit(ITypedModelVisitor<solarmodule::SolarEventProfile>& visitor);
 void visit(ITypedModelVisitor<solarmodule::SolarReadingProfile>& visitor);
 
 void visit(ITypedModelVisitor<solarmodule::SolarStatusProfile>& visitor);
-
-void visit(ITypedModelVisitor<shuntmodule::ShuntControlProfile>& visitor);
-
-void visit(ITypedModelVisitor<shuntmodule::ShuntDiscreteControlProfile>& visitor);
-
-void visit(ITypedModelVisitor<shuntmodule::ShuntEventProfile>& visitor);
-
-void visit(ITypedModelVisitor<shuntmodule::ShuntStatusProfile>& visitor);
-
-void visit(ITypedModelVisitor<shuntmodule::ShuntReadingProfile>& visitor);
 
 void visit(ITypedModelVisitor<switchmodule::SwitchControlProfile>& visitor);
 

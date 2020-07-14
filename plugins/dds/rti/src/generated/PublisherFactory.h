@@ -21,9 +21,9 @@
 #include "adapter-util/config/SubjectNameSuffix.h"
 
 #include "reclosermodule/reclosermodule.pb.h"
-#include "shuntmodule/shuntmodule.pb.h"
 #include "solarmodule/solarmodule.pb.h"
 #include "breakermodule/breakermodule.pb.h"
+#include "capbankmodule/capbankmodule.pb.h"
 #include "switchmodule/switchmodule.pb.h"
 #include "generationmodule/generationmodule.pb.h"
 #include "loadmodule/loadmodule.pb.h"
@@ -80,6 +80,51 @@ struct PublisherFactory<breakermodule::BreakerStatusProfile>
 };
 
 template<>
+struct PublisherFactory<capbankmodule::CapBankControlProfile>
+{
+    static std::shared_ptr<api::ISubscriptionHandler<capbankmodule::CapBankControlProfile>> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::pub::Publisher> dds_publisher)
+    {
+        return std::make_shared<DDSPublisher<capbankmodule::CapBankControlProfile, openfmb::capbankmodule::CapBankControlProfile>>(logger, subject, dds_publisher, topic_repo.capbankcontrolprofile);
+    }
+};
+
+template<>
+struct PublisherFactory<capbankmodule::CapBankDiscreteControlProfile>
+{
+    static std::shared_ptr<api::ISubscriptionHandler<capbankmodule::CapBankDiscreteControlProfile>> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::pub::Publisher> dds_publisher)
+    {
+        return std::make_shared<DDSPublisher<capbankmodule::CapBankDiscreteControlProfile, openfmb::capbankmodule::CapBankDiscreteControlProfile>>(logger, subject, dds_publisher, topic_repo.capbankdiscretecontrolprofile);
+    }
+};
+
+template<>
+struct PublisherFactory<capbankmodule::CapBankEventProfile>
+{
+    static std::shared_ptr<api::ISubscriptionHandler<capbankmodule::CapBankEventProfile>> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::pub::Publisher> dds_publisher)
+    {
+        return std::make_shared<DDSPublisher<capbankmodule::CapBankEventProfile, openfmb::capbankmodule::CapBankEventProfile>>(logger, subject, dds_publisher, topic_repo.capbankeventprofile);
+    }
+};
+
+template<>
+struct PublisherFactory<capbankmodule::CapBankReadingProfile>
+{
+    static std::shared_ptr<api::ISubscriptionHandler<capbankmodule::CapBankReadingProfile>> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::pub::Publisher> dds_publisher)
+    {
+        return std::make_shared<DDSPublisher<capbankmodule::CapBankReadingProfile, openfmb::capbankmodule::CapBankReadingProfile>>(logger, subject, dds_publisher, topic_repo.capbankreadingprofile);
+    }
+};
+
+template<>
+struct PublisherFactory<capbankmodule::CapBankStatusProfile>
+{
+    static std::shared_ptr<api::ISubscriptionHandler<capbankmodule::CapBankStatusProfile>> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::pub::Publisher> dds_publisher)
+    {
+        return std::make_shared<DDSPublisher<capbankmodule::CapBankStatusProfile, openfmb::capbankmodule::CapBankStatusProfile>>(logger, subject, dds_publisher, topic_repo.capbankstatusprofile);
+    }
+};
+
+template<>
 struct PublisherFactory<essmodule::ESSControlProfile>
 {
     static std::shared_ptr<api::ISubscriptionHandler<essmodule::ESSControlProfile>> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::pub::Publisher> dds_publisher)
@@ -121,6 +166,15 @@ struct PublisherFactory<generationmodule::GenerationControlProfile>
     static std::shared_ptr<api::ISubscriptionHandler<generationmodule::GenerationControlProfile>> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::pub::Publisher> dds_publisher)
     {
         return std::make_shared<DDSPublisher<generationmodule::GenerationControlProfile, openfmb::generationmodule::GenerationControlProfile>>(logger, subject, dds_publisher, topic_repo.generationcontrolprofile);
+    }
+};
+
+template<>
+struct PublisherFactory<generationmodule::GenerationDiscreteControlProfile>
+{
+    static std::shared_ptr<api::ISubscriptionHandler<generationmodule::GenerationDiscreteControlProfile>> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::pub::Publisher> dds_publisher)
+    {
+        return std::make_shared<DDSPublisher<generationmodule::GenerationDiscreteControlProfile, openfmb::generationmodule::GenerationDiscreteControlProfile>>(logger, subject, dds_publisher, topic_repo.generationdiscretecontrolprofile);
     }
 };
 
@@ -278,6 +332,24 @@ struct PublisherFactory<regulatormodule::RegulatorStatusProfile>
 };
 
 template<>
+struct PublisherFactory<resourcemodule::ResourceDiscreteControlProfile>
+{
+    static std::shared_ptr<api::ISubscriptionHandler<resourcemodule::ResourceDiscreteControlProfile>> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::pub::Publisher> dds_publisher)
+    {
+        return std::make_shared<DDSPublisher<resourcemodule::ResourceDiscreteControlProfile, openfmb::resourcemodule::ResourceDiscreteControlProfile>>(logger, subject, dds_publisher, topic_repo.resourcediscretecontrolprofile);
+    }
+};
+
+template<>
+struct PublisherFactory<resourcemodule::ResourceEventProfile>
+{
+    static std::shared_ptr<api::ISubscriptionHandler<resourcemodule::ResourceEventProfile>> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::pub::Publisher> dds_publisher)
+    {
+        return std::make_shared<DDSPublisher<resourcemodule::ResourceEventProfile, openfmb::resourcemodule::ResourceEventProfile>>(logger, subject, dds_publisher, topic_repo.resourceeventprofile);
+    }
+};
+
+template<>
 struct PublisherFactory<resourcemodule::ResourceReadingProfile>
 {
     static std::shared_ptr<api::ISubscriptionHandler<resourcemodule::ResourceReadingProfile>> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::pub::Publisher> dds_publisher)
@@ -328,51 +400,6 @@ struct PublisherFactory<solarmodule::SolarStatusProfile>
     static std::shared_ptr<api::ISubscriptionHandler<solarmodule::SolarStatusProfile>> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::pub::Publisher> dds_publisher)
     {
         return std::make_shared<DDSPublisher<solarmodule::SolarStatusProfile, openfmb::solarmodule::SolarStatusProfile>>(logger, subject, dds_publisher, topic_repo.solarstatusprofile);
-    }
-};
-
-template<>
-struct PublisherFactory<shuntmodule::ShuntControlProfile>
-{
-    static std::shared_ptr<api::ISubscriptionHandler<shuntmodule::ShuntControlProfile>> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::pub::Publisher> dds_publisher)
-    {
-        return std::make_shared<DDSPublisher<shuntmodule::ShuntControlProfile, openfmb::shuntmodule::ShuntControlProfile>>(logger, subject, dds_publisher, topic_repo.shuntcontrolprofile);
-    }
-};
-
-template<>
-struct PublisherFactory<shuntmodule::ShuntDiscreteControlProfile>
-{
-    static std::shared_ptr<api::ISubscriptionHandler<shuntmodule::ShuntDiscreteControlProfile>> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::pub::Publisher> dds_publisher)
-    {
-        return std::make_shared<DDSPublisher<shuntmodule::ShuntDiscreteControlProfile, openfmb::shuntmodule::ShuntDiscreteControlProfile>>(logger, subject, dds_publisher, topic_repo.shuntdiscretecontrolprofile);
-    }
-};
-
-template<>
-struct PublisherFactory<shuntmodule::ShuntEventProfile>
-{
-    static std::shared_ptr<api::ISubscriptionHandler<shuntmodule::ShuntEventProfile>> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::pub::Publisher> dds_publisher)
-    {
-        return std::make_shared<DDSPublisher<shuntmodule::ShuntEventProfile, openfmb::shuntmodule::ShuntEventProfile>>(logger, subject, dds_publisher, topic_repo.shunteventprofile);
-    }
-};
-
-template<>
-struct PublisherFactory<shuntmodule::ShuntStatusProfile>
-{
-    static std::shared_ptr<api::ISubscriptionHandler<shuntmodule::ShuntStatusProfile>> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::pub::Publisher> dds_publisher)
-    {
-        return std::make_shared<DDSPublisher<shuntmodule::ShuntStatusProfile, openfmb::shuntmodule::ShuntStatusProfile>>(logger, subject, dds_publisher, topic_repo.shuntstatusprofile);
-    }
-};
-
-template<>
-struct PublisherFactory<shuntmodule::ShuntReadingProfile>
-{
-    static std::shared_ptr<api::ISubscriptionHandler<shuntmodule::ShuntReadingProfile>> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::pub::Publisher> dds_publisher)
-    {
-        return std::make_shared<DDSPublisher<shuntmodule::ShuntReadingProfile, openfmb::shuntmodule::ShuntReadingProfile>>(logger, subject, dds_publisher, topic_repo.shuntreadingprofile);
     }
 };
 

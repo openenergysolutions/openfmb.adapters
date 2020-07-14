@@ -472,6 +472,30 @@ void visit_commonmodule_ControlValue(const set_t<commonmodule::ControlValue>& se
         );
         visitor.end_message_field();
     }
+
+    if(visitor.start_message_field("reset", google::protobuf::BoolValue::descriptor()))
+    {
+        visit_google_protobuf_BoolValue(
+            [setter](loadmodule::LoadControlProfile& profile)
+            {
+                return setter(profile)->mutable_reset();
+            },
+            [getter](const loadmodule::LoadControlProfile& profile) -> google::protobuf::BoolValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_reset() ? &value->reset() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
 }
 
 void visit_commonmodule_EnergyConsumer(const set_t<commonmodule::EnergyConsumer>& setter, const get_t<commonmodule::EnergyConsumer>& getter, ITypedModelVisitor<loadmodule::LoadControlProfile>& visitor)

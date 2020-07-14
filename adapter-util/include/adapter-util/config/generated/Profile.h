@@ -33,6 +33,16 @@ struct Profile
         BreakerReadingProfile,
         // breakermodule.BreakerStatusProfile
         BreakerStatusProfile,
+        // capbankmodule.CapBankControlProfile
+        CapBankControlProfile,
+        // capbankmodule.CapBankDiscreteControlProfile
+        CapBankDiscreteControlProfile,
+        // capbankmodule.CapBankEventProfile
+        CapBankEventProfile,
+        // capbankmodule.CapBankReadingProfile
+        CapBankReadingProfile,
+        // capbankmodule.CapBankStatusProfile
+        CapBankStatusProfile,
         // essmodule.ESSControlProfile
         ESSControlProfile,
         // essmodule.ESSEventProfile
@@ -43,6 +53,8 @@ struct Profile
         ESSStatusProfile,
         // generationmodule.GenerationControlProfile
         GenerationControlProfile,
+        // generationmodule.GenerationDiscreteControlProfile
+        GenerationDiscreteControlProfile,
         // generationmodule.GenerationEventProfile
         GenerationEventProfile,
         // generationmodule.GenerationReadingProfile
@@ -77,6 +89,10 @@ struct Profile
         RegulatorReadingProfile,
         // regulatormodule.RegulatorStatusProfile
         RegulatorStatusProfile,
+        // resourcemodule.ResourceDiscreteControlProfile
+        ResourceDiscreteControlProfile,
+        // resourcemodule.ResourceEventProfile
+        ResourceEventProfile,
         // resourcemodule.ResourceReadingProfile
         ResourceReadingProfile,
         // resourcemodule.ResourceStatusProfile
@@ -89,16 +105,6 @@ struct Profile
         SolarReadingProfile,
         // solarmodule.SolarStatusProfile
         SolarStatusProfile,
-        // shuntmodule.ShuntControlProfile
-        ShuntControlProfile,
-        // shuntmodule.ShuntDiscreteControlProfile
-        ShuntDiscreteControlProfile,
-        // shuntmodule.ShuntEventProfile
-        ShuntEventProfile,
-        // shuntmodule.ShuntStatusProfile
-        ShuntStatusProfile,
-        // shuntmodule.ShuntReadingProfile
-        ShuntReadingProfile,
         // switchmodule.SwitchControlProfile
         SwitchControlProfile,
         // switchmodule.SwitchDiscreteControlProfile
@@ -115,11 +121,17 @@ struct Profile
     static const char BreakerEventProfile[];
     static const char BreakerReadingProfile[];
     static const char BreakerStatusProfile[];
+    static const char CapBankControlProfile[];
+    static const char CapBankDiscreteControlProfile[];
+    static const char CapBankEventProfile[];
+    static const char CapBankReadingProfile[];
+    static const char CapBankStatusProfile[];
     static const char ESSControlProfile[];
     static const char ESSEventProfile[];
     static const char ESSReadingProfile[];
     static const char ESSStatusProfile[];
     static const char GenerationControlProfile[];
+    static const char GenerationDiscreteControlProfile[];
     static const char GenerationEventProfile[];
     static const char GenerationReadingProfile[];
     static const char GenerationStatusProfile[];
@@ -137,17 +149,14 @@ struct Profile
     static const char RegulatorEventProfile[];
     static const char RegulatorReadingProfile[];
     static const char RegulatorStatusProfile[];
+    static const char ResourceDiscreteControlProfile[];
+    static const char ResourceEventProfile[];
     static const char ResourceReadingProfile[];
     static const char ResourceStatusProfile[];
     static const char SolarControlProfile[];
     static const char SolarEventProfile[];
     static const char SolarReadingProfile[];
     static const char SolarStatusProfile[];
-    static const char ShuntControlProfile[];
-    static const char ShuntDiscreteControlProfile[];
-    static const char ShuntEventProfile[];
-    static const char ShuntStatusProfile[];
-    static const char ShuntReadingProfile[];
     static const char SwitchControlProfile[];
     static const char SwitchDiscreteControlProfile[];
     static const char SwitchEventProfile[];
@@ -156,7 +165,7 @@ struct Profile
 
     static constexpr const char* label = "profile";
 
-    static const std::array<Value, 42> values;
+    static const std::array<Value, 45> values;
 
     static std::string to_string(Value value);
     static Value from_string(const std::string& name);

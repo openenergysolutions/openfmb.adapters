@@ -54,9 +54,11 @@ void visit_commonmodule_Optional_StateKind(const set_t<commonmodule::Optional_St
 
 void visit_commonmodule_Optional_UnitMultiplierKind(const set_t<commonmodule::Optional_UnitMultiplierKind>& setter, const get_t<commonmodule::Optional_UnitMultiplierKind>& getter, ITypedModelVisitor<regulatormodule::RegulatorStatusProfile>& visitor);
 
+void visit_commonmodule_PhaseINS(const set_t<commonmodule::PhaseINS>& setter, const get_t<commonmodule::PhaseINS>& getter, ITypedModelVisitor<regulatormodule::RegulatorStatusProfile>& visitor);
+
 void visit_commonmodule_RampRate(const set_t<commonmodule::RampRate>& setter, const get_t<commonmodule::RampRate>& getter, ITypedModelVisitor<regulatormodule::RegulatorStatusProfile>& visitor);
 
-void visit_commonmodule_StatusISC(const set_t<commonmodule::StatusISC>& setter, const get_t<commonmodule::StatusISC>& getter, ITypedModelVisitor<regulatormodule::RegulatorStatusProfile>& visitor);
+void visit_commonmodule_StatusINS(const set_t<commonmodule::StatusINS>& setter, const get_t<commonmodule::StatusINS>& getter, ITypedModelVisitor<regulatormodule::RegulatorStatusProfile>& visitor);
 
 void visit_commonmodule_StatusMessageInfo(const set_t<commonmodule::StatusMessageInfo>& setter, const get_t<commonmodule::StatusMessageInfo>& getter, ITypedModelVisitor<regulatormodule::RegulatorStatusProfile>& visitor);
 
@@ -67,6 +69,8 @@ void visit_commonmodule_StatusSPS(const set_t<commonmodule::StatusSPS>& setter, 
 void visit_commonmodule_StatusValue(const set_t<commonmodule::StatusValue>& setter, const get_t<commonmodule::StatusValue>& getter, ITypedModelVisitor<regulatormodule::RegulatorStatusProfile>& visitor);
 
 void visit_commonmodule_Unit(const set_t<commonmodule::Unit>& setter, const get_t<commonmodule::Unit>& getter, ITypedModelVisitor<regulatormodule::RegulatorStatusProfile>& visitor);
+
+void visit_google_protobuf_BoolValue(const set_t<google::protobuf::BoolValue>& setter, const get_t<google::protobuf::BoolValue>& getter, ITypedModelVisitor<regulatormodule::RegulatorStatusProfile>& visitor);
 
 void visit_google_protobuf_FloatValue(const set_t<google::protobuf::FloatValue>& setter, const get_t<google::protobuf::FloatValue>& getter, ITypedModelVisitor<regulatormodule::RegulatorStatusProfile>& visitor);
 
@@ -670,6 +674,54 @@ void visit_commonmodule_LogicalNodeForEventAndStatus(const set_t<commonmodule::L
         );
         visitor.end_message_field();
     }
+
+    if(visitor.start_message_field("HotLineTag", commonmodule::StatusSPS::descriptor()))
+    {
+        visit_commonmodule_StatusSPS(
+            [setter](regulatormodule::RegulatorStatusProfile& profile)
+            {
+                return setter(profile)->mutable_hotlinetag();
+            },
+            [getter](const regulatormodule::RegulatorStatusProfile& profile) -> commonmodule::StatusSPS const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_hotlinetag() ? &value->hotlinetag() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("RemoteBlk", commonmodule::StatusSPS::descriptor()))
+    {
+        visit_commonmodule_StatusSPS(
+            [setter](regulatormodule::RegulatorStatusProfile& profile)
+            {
+                return setter(profile)->mutable_remoteblk();
+            },
+            [getter](const regulatormodule::RegulatorStatusProfile& profile) -> commonmodule::StatusSPS const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_remoteblk() ? &value->remoteblk() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
 }
 
 void visit_commonmodule_MessageInfo(const set_t<commonmodule::MessageInfo>& setter, const get_t<commonmodule::MessageInfo>& getter, ITypedModelVisitor<regulatormodule::RegulatorStatusProfile>& visitor)
@@ -800,6 +852,105 @@ void visit_commonmodule_Optional_UnitMultiplierKind(const set_t<commonmodule::Op
     );
 }
 
+void visit_commonmodule_PhaseINS(const set_t<commonmodule::PhaseINS>& setter, const get_t<commonmodule::PhaseINS>& getter, ITypedModelVisitor<regulatormodule::RegulatorStatusProfile>& visitor)
+{
+    if(visitor.start_message_field("phs3", commonmodule::StatusINS::descriptor()))
+    {
+        visit_commonmodule_StatusINS(
+            [setter](regulatormodule::RegulatorStatusProfile& profile)
+            {
+                return setter(profile)->mutable_phs3();
+            },
+            [getter](const regulatormodule::RegulatorStatusProfile& profile) -> commonmodule::StatusINS const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_phs3() ? &value->phs3() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("phsA", commonmodule::StatusINS::descriptor()))
+    {
+        visit_commonmodule_StatusINS(
+            [setter](regulatormodule::RegulatorStatusProfile& profile)
+            {
+                return setter(profile)->mutable_phsa();
+            },
+            [getter](const regulatormodule::RegulatorStatusProfile& profile) -> commonmodule::StatusINS const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_phsa() ? &value->phsa() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("phsB", commonmodule::StatusINS::descriptor()))
+    {
+        visit_commonmodule_StatusINS(
+            [setter](regulatormodule::RegulatorStatusProfile& profile)
+            {
+                return setter(profile)->mutable_phsb();
+            },
+            [getter](const regulatormodule::RegulatorStatusProfile& profile) -> commonmodule::StatusINS const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_phsb() ? &value->phsb() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("phsC", commonmodule::StatusINS::descriptor()))
+    {
+        visit_commonmodule_StatusINS(
+            [setter](regulatormodule::RegulatorStatusProfile& profile)
+            {
+                return setter(profile)->mutable_phsc();
+            },
+            [getter](const regulatormodule::RegulatorStatusProfile& profile) -> commonmodule::StatusINS const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_phsc() ? &value->phsc() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+}
+
 void visit_commonmodule_RampRate(const set_t<commonmodule::RampRate>& setter, const get_t<commonmodule::RampRate>& getter, ITypedModelVisitor<regulatormodule::RegulatorStatusProfile>& visitor)
 {
     if(visitor.start_message_field("negativeReactivePowerKVArPerMin", google::protobuf::FloatValue::descriptor()))
@@ -899,7 +1050,7 @@ void visit_commonmodule_RampRate(const set_t<commonmodule::RampRate>& setter, co
     }
 }
 
-void visit_commonmodule_StatusISC(const set_t<commonmodule::StatusISC>& setter, const get_t<commonmodule::StatusISC>& getter, ITypedModelVisitor<regulatormodule::RegulatorStatusProfile>& visitor)
+void visit_commonmodule_StatusINS(const set_t<commonmodule::StatusINS>& setter, const get_t<commonmodule::StatusINS>& getter, ITypedModelVisitor<regulatormodule::RegulatorStatusProfile>& visitor)
 {
     visitor.handle(
         "q",
@@ -942,6 +1093,30 @@ void visit_commonmodule_StatusISC(const set_t<commonmodule::StatusISC>& setter, 
             }
         )
     );
+
+    if(visitor.start_message_field("units", commonmodule::Unit::descriptor()))
+    {
+        visit_commonmodule_Unit(
+            [setter](regulatormodule::RegulatorStatusProfile& profile)
+            {
+                return setter(profile)->mutable_units();
+            },
+            [getter](const regulatormodule::RegulatorStatusProfile& profile) -> commonmodule::Unit const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_units() ? &value->units() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
 }
 
 void visit_commonmodule_StatusMessageInfo(const set_t<commonmodule::StatusMessageInfo>& setter, const get_t<commonmodule::StatusMessageInfo>& getter, ITypedModelVisitor<regulatormodule::RegulatorStatusProfile>& visitor)
@@ -1086,6 +1261,30 @@ void visit_commonmodule_StatusValue(const set_t<commonmodule::StatusValue>& sett
         );
         visitor.end_message_field();
     }
+
+    if(visitor.start_message_field("modBlk", google::protobuf::BoolValue::descriptor()))
+    {
+        visit_google_protobuf_BoolValue(
+            [setter](regulatormodule::RegulatorStatusProfile& profile)
+            {
+                return setter(profile)->mutable_modblk();
+            },
+            [getter](const regulatormodule::RegulatorStatusProfile& profile) -> google::protobuf::BoolValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_modblk() ? &value->modblk() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
 }
 
 void visit_commonmodule_Unit(const set_t<commonmodule::Unit>& setter, const get_t<commonmodule::Unit>& getter, ITypedModelVisitor<regulatormodule::RegulatorStatusProfile>& visitor)
@@ -1127,6 +1326,23 @@ void visit_commonmodule_Unit(const set_t<commonmodule::Unit>& setter, const get_
             }
         ),
         commonmodule::UnitSymbolKind_descriptor()
+    );
+}
+
+void visit_google_protobuf_BoolValue(const set_t<google::protobuf::BoolValue>& setter, const get_t<google::protobuf::BoolValue>& getter, ITypedModelVisitor<regulatormodule::RegulatorStatusProfile>& visitor)
+{
+    visitor.handle(
+        "value",
+        AccessorBuilder<regulatormodule::RegulatorStatusProfile,bool>::build(
+            [setter](regulatormodule::RegulatorStatusProfile& profile, const bool& value) { setter(profile)->set_value(value); },
+            [getter](const regulatormodule::RegulatorStatusProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->value());
+                return true;
+            }
+        )
     );
 }
 
@@ -1378,14 +1594,14 @@ void visit_regulatormodule_RegulatorEventAndStatusATCC(const set_t<regulatormodu
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("ParOp", commonmodule::StatusSPC::descriptor()))
+    if(visitor.start_message_field("ParOp", commonmodule::StatusSPS::descriptor()))
     {
-        visit_commonmodule_StatusSPC(
+        visit_commonmodule_StatusSPS(
             [setter](regulatormodule::RegulatorStatusProfile& profile)
             {
                 return setter(profile)->mutable_parop();
             },
-            [getter](const regulatormodule::RegulatorStatusProfile& profile) -> commonmodule::StatusSPC const *
+            [getter](const regulatormodule::RegulatorStatusProfile& profile) -> commonmodule::StatusSPS const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1426,14 +1642,14 @@ void visit_regulatormodule_RegulatorEventAndStatusATCC(const set_t<regulatormodu
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("TapPos", commonmodule::StatusISC::descriptor()))
+    if(visitor.start_message_field("TapPos", commonmodule::PhaseINS::descriptor()))
     {
-        visit_commonmodule_StatusISC(
+        visit_commonmodule_PhaseINS(
             [setter](regulatormodule::RegulatorStatusProfile& profile)
             {
                 return setter(profile)->mutable_tappos();
             },
-            [getter](const regulatormodule::RegulatorStatusProfile& profile) -> commonmodule::StatusISC const *
+            [getter](const regulatormodule::RegulatorStatusProfile& profile) -> commonmodule::PhaseINS const *
             {
                 const auto value = getter(profile);
                 if(value)

@@ -16,13 +16,41 @@ void visit(const breakermodule::BreakerReading& message, IMessageVisitor& visito
 
 void visit(const breakermodule::BreakerStatus& message, IMessageVisitor& visitor);
 
+void visit(const capbankmodule::CapBankCSG& message, IMessageVisitor& visitor);
+
+void visit(const capbankmodule::CapBankControl& message, IMessageVisitor& visitor);
+
+void visit(const capbankmodule::CapBankControlFSCC& message, IMessageVisitor& visitor);
+
+void visit(const capbankmodule::CapBankControlScheduleFSCH& message, IMessageVisitor& visitor);
+
+void visit(const capbankmodule::CapBankDiscreteControl& message, IMessageVisitor& visitor);
+
+void visit(const capbankmodule::CapBankDiscreteControlZCAP& message, IMessageVisitor& visitor);
+
+void visit(const capbankmodule::CapBankEvent& message, IMessageVisitor& visitor);
+
+void visit(const capbankmodule::CapBankEventAndStatusPoint& message, IMessageVisitor& visitor);
+
+void visit(const capbankmodule::CapBankEventAndStatusYPSH& message, IMessageVisitor& visitor);
+
+void visit(const capbankmodule::CapBankEventAndStatusZCAP& message, IMessageVisitor& visitor);
+
+void visit(const capbankmodule::CapBankPoint& message, IMessageVisitor& visitor);
+
+void visit(const capbankmodule::CapBankReading& message, IMessageVisitor& visitor);
+
+void visit(const capbankmodule::CapBankStatus& message, IMessageVisitor& visitor);
+
+void visit(const capbankmodule::CapBankSystem& message, IMessageVisitor& visitor);
+
 void visit(const commonmodule::ACDCTerminal& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::ASG& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::ActivePower& message, IMessageVisitor& visitor);
 
-void visit(const commonmodule::AnalogStatusGGIO& message, IMessageVisitor& visitor);
+void visit(const commonmodule::AnalogEventAndStatusGGIO& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::AnalogueValue& message, IMessageVisitor& visitor);
 
@@ -30,7 +58,7 @@ void visit(const commonmodule::AnalogueValueCtl& message, IMessageVisitor& visit
 
 void visit(const commonmodule::BCR& message, IMessageVisitor& visitor);
 
-void visit(const commonmodule::BooleanStatusGGIO& message, IMessageVisitor& visitor);
+void visit(const commonmodule::BooleanEventAndStatusGGIO& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::CMV& message, IMessageVisitor& visitor);
 
@@ -40,9 +68,13 @@ void visit(const commonmodule::ConductingEquipment& message, IMessageVisitor& vi
 
 void visit(const commonmodule::ConductingEquipmentTerminalReading& message, IMessageVisitor& visitor);
 
+void visit(const commonmodule::ControlAPC& message, IMessageVisitor& visitor);
+
 void visit(const commonmodule::ControlDPC& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::ControlFSCC& message, IMessageVisitor& visitor);
+
+void visit(const commonmodule::ControlINC& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::ControlING& message, IMessageVisitor& visitor);
 
@@ -62,10 +94,6 @@ void visit(const commonmodule::DEL& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::DetailQual& message, IMessageVisitor& visitor);
 
-void visit(const commonmodule::DeviceControl& message, IMessageVisitor& visitor);
-
-void visit(const commonmodule::DeviceStatus& message, IMessageVisitor& visitor);
-
 void visit(const commonmodule::ENG_CalcMethodKind& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::ENG_GridConnectModeKind& message, IMessageVisitor& visitor);
@@ -80,6 +108,8 @@ void visit(const commonmodule::ENS_DynamicTestKind& message, IMessageVisitor& vi
 
 void visit(const commonmodule::ENS_HealthKind& message, IMessageVisitor& visitor);
 
+void visit(const commonmodule::ENS_SwitchingCapabilityKind& message, IMessageVisitor& visitor);
+
 void visit(const commonmodule::ESS& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::EnergyConsumer& message, IMessageVisitor& visitor);
@@ -92,7 +122,7 @@ void visit(const commonmodule::IED& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::IdentifiedObject& message, IMessageVisitor& visitor);
 
-void visit(const commonmodule::IntegerStatusGGIO& message, IMessageVisitor& visitor);
+void visit(const commonmodule::IntegerEventAndStatusGGIO& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::LogicalNode& message, IMessageVisitor& visitor);
 
@@ -110,13 +140,27 @@ void visit(const commonmodule::NamedObject& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::Optional_PhaseCodeKind& message, IMessageVisitor& visitor);
 
+void visit(const commonmodule::Optional_RecloseActionKind& message, IMessageVisitor& visitor);
+
 void visit(const commonmodule::Optional_StateKind& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::Optional_UnitMultiplierKind& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::Optional_UnitSymbolKind& message, IMessageVisitor& visitor);
 
+void visit(const commonmodule::PhaseDPC& message, IMessageVisitor& visitor);
+
+void visit(const commonmodule::PhaseDPS& message, IMessageVisitor& visitor);
+
+void visit(const commonmodule::PhaseINS& message, IMessageVisitor& visitor);
+
+void visit(const commonmodule::PhaseISC& message, IMessageVisitor& visitor);
+
 void visit(const commonmodule::PhaseMMTN& message, IMessageVisitor& visitor);
+
+void visit(const commonmodule::PhaseRecloseAction& message, IMessageVisitor& visitor);
+
+void visit(const commonmodule::PhaseSPS& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::Quality& message, IMessageVisitor& visitor);
 
@@ -140,8 +184,6 @@ void visit(const commonmodule::StatusDPS& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::StatusINS& message, IMessageVisitor& visitor);
 
-void visit(const commonmodule::StatusISC& message, IMessageVisitor& visitor);
-
 void visit(const commonmodule::StatusMessageInfo& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::StatusSPC& message, IMessageVisitor& visitor);
@@ -150,7 +192,7 @@ void visit(const commonmodule::StatusSPS& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::StatusValue& message, IMessageVisitor& visitor);
 
-void visit(const commonmodule::StringStatusGGIO& message, IMessageVisitor& visitor);
+void visit(const commonmodule::StringEventAndStatusGGIO& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::SwitchCSG& message, IMessageVisitor& visitor);
 
@@ -165,6 +207,8 @@ void visit(const commonmodule::TimeQuality& message, IMessageVisitor& visitor);
 void visit(const commonmodule::Timestamp& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::Unit& message, IMessageVisitor& visitor);
+
+void visit(const commonmodule::VSC& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::VSS& message, IMessageVisitor& visitor);
 
@@ -228,6 +272,8 @@ void visit(const generationmodule::GenerationControlFSCC& message, IMessageVisit
 
 void visit(const generationmodule::GenerationControlScheduleFSCH& message, IMessageVisitor& visitor);
 
+void visit(const generationmodule::GenerationDiscreteControl& message, IMessageVisitor& visitor);
+
 void visit(const generationmodule::GenerationEvent& message, IMessageVisitor& visitor);
 
 void visit(const generationmodule::GenerationEventAndStatusZGEN& message, IMessageVisitor& visitor);
@@ -243,6 +289,10 @@ void visit(const generationmodule::GenerationReading& message, IMessageVisitor& 
 void visit(const generationmodule::GenerationStatus& message, IMessageVisitor& visitor);
 
 void visit(const generationmodule::GenerationStatusZGEN& message, IMessageVisitor& visitor);
+
+void visit(const generationmodule::Optional_ReactivePowerControlKind& message, IMessageVisitor& visitor);
+
+void visit(const generationmodule::Optional_RealPowerControlKind& message, IMessageVisitor& visitor);
 
 void visit(const google::protobuf::BoolValue& message, IMessageVisitor& visitor);
 
@@ -320,39 +370,21 @@ void visit(const regulatormodule::RegulatorStatus& message, IMessageVisitor& vis
 
 void visit(const regulatormodule::RegulatorSystem& message, IMessageVisitor& visitor);
 
+void visit(const resourcemodule::AnalogControlGGIO& message, IMessageVisitor& visitor);
+
+void visit(const resourcemodule::BooleanControlGGIO& message, IMessageVisitor& visitor);
+
+void visit(const resourcemodule::IntegerControlGGIO& message, IMessageVisitor& visitor);
+
+void visit(const resourcemodule::ResourceDiscreteControl& message, IMessageVisitor& visitor);
+
+void visit(const resourcemodule::ResourceEvent& message, IMessageVisitor& visitor);
+
 void visit(const resourcemodule::ResourceReading& message, IMessageVisitor& visitor);
 
 void visit(const resourcemodule::ResourceStatus& message, IMessageVisitor& visitor);
 
-void visit(const shuntmodule::ENS_SwitchingCapabilityKind& message, IMessageVisitor& visitor);
-
-void visit(const shuntmodule::ShuntCSG& message, IMessageVisitor& visitor);
-
-void visit(const shuntmodule::ShuntControl& message, IMessageVisitor& visitor);
-
-void visit(const shuntmodule::ShuntControlFSCC& message, IMessageVisitor& visitor);
-
-void visit(const shuntmodule::ShuntControlScheduleFSCH& message, IMessageVisitor& visitor);
-
-void visit(const shuntmodule::ShuntDiscreteControl& message, IMessageVisitor& visitor);
-
-void visit(const shuntmodule::ShuntDiscreteControlZCAP& message, IMessageVisitor& visitor);
-
-void visit(const shuntmodule::ShuntEvent& message, IMessageVisitor& visitor);
-
-void visit(const shuntmodule::ShuntEventAndStatusPoint& message, IMessageVisitor& visitor);
-
-void visit(const shuntmodule::ShuntEventAndStatusYPSH& message, IMessageVisitor& visitor);
-
-void visit(const shuntmodule::ShuntEventAndStatusZCAP& message, IMessageVisitor& visitor);
-
-void visit(const shuntmodule::ShuntPoint& message, IMessageVisitor& visitor);
-
-void visit(const shuntmodule::ShuntReading& message, IMessageVisitor& visitor);
-
-void visit(const shuntmodule::ShuntStatus& message, IMessageVisitor& visitor);
-
-void visit(const shuntmodule::ShuntSystem& message, IMessageVisitor& visitor);
+void visit(const resourcemodule::StringControlGGIO& message, IMessageVisitor& visitor);
 
 void visit(const solarmodule::SolarCSG& message, IMessageVisitor& visitor);
 
@@ -430,12 +462,6 @@ void visit(const breakermodule::BreakerDiscreteControl& message, IMessageVisitor
         visit(message.breakerdiscretecontrolxcbr(), visitor);
         visitor.end_message_field();
     }
-    if(message.has_devicecontrol())
-    {
-        visitor.start_message_field("deviceControl");
-        visit(message.devicecontrol(), visitor);
-        visitor.end_message_field();
-    }
 }
 
 void visit(const breakermodule::BreakerDiscreteControlXCBR& message, IMessageVisitor& visitor)
@@ -450,6 +476,24 @@ void visit(const breakermodule::BreakerDiscreteControlXCBR& message, IMessageVis
     {
         visitor.start_message_field("Pos");
         visit(message.pos(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_protectionmode())
+    {
+        visitor.start_message_field("ProtectionMode");
+        visit(message.protectionmode(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_recloseenabled())
+    {
+        visitor.start_message_field("RecloseEnabled");
+        visit(message.recloseenabled(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_resetprotectionpickup())
+    {
+        visitor.start_message_field("ResetProtectionPickup");
+        visit(message.resetprotectionpickup(), visitor);
         visitor.end_message_field();
     }
 }
@@ -518,10 +562,248 @@ void visit(const breakermodule::BreakerStatus& message, IMessageVisitor& visitor
         visit(message.statusandeventxcbr(), visitor);
         visitor.end_message_field();
     }
-    if(message.has_devicestatus())
+}
+
+void visit(const capbankmodule::CapBankCSG& message, IMessageVisitor& visitor)
+{
+    visitor.start_message_field("crvpts");
+    for(decltype(message.crvpts_size()) i = 0; i < message.crvpts_size(); ++i)
     {
-        visitor.start_message_field("deviceStatus");
-        visit(message.devicestatus(), visitor);
+        visitor.start_iteration(i);
+        visit(message.crvpts(i), visitor);
+        visitor.end_iteration();
+    }
+    visitor.end_message_field();
+}
+
+void visit(const capbankmodule::CapBankControl& message, IMessageVisitor& visitor)
+{
+    if(message.has_controlvalue())
+    {
+        visitor.start_message_field("controlValue");
+        visit(message.controlvalue(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_check())
+    {
+        visitor.start_message_field("check");
+        visit(message.check(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_capbankcontrolfscc())
+    {
+        visitor.start_message_field("capBankControlFSCC");
+        visit(message.capbankcontrolfscc(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const capbankmodule::CapBankControlFSCC& message, IMessageVisitor& visitor)
+{
+    if(message.has_controlfscc())
+    {
+        visitor.start_message_field("controlFSCC");
+        visit(message.controlfscc(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_capbankcontrolschedulefsch())
+    {
+        visitor.start_message_field("capBankControlScheduleFSCH");
+        visit(message.capbankcontrolschedulefsch(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const capbankmodule::CapBankControlScheduleFSCH& message, IMessageVisitor& visitor)
+{
+    if(message.has_valcsg())
+    {
+        visitor.start_message_field("ValCSG");
+        visit(message.valcsg(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const capbankmodule::CapBankDiscreteControl& message, IMessageVisitor& visitor)
+{
+    if(message.has_controlvalue())
+    {
+        visitor.start_message_field("controlValue");
+        visit(message.controlvalue(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_check())
+    {
+        visitor.start_message_field("check");
+        visit(message.check(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_capbankdiscretecontrolzcap())
+    {
+        visitor.start_message_field("capBankDiscreteControlZCAP");
+        visit(message.capbankdiscretecontrolzcap(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const capbankmodule::CapBankDiscreteControlZCAP& message, IMessageVisitor& visitor)
+{
+    if(message.has_logicalnodeforcontrol())
+    {
+        visitor.start_message_field("logicalNodeForControl");
+        visit(message.logicalnodeforcontrol(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_pos())
+    {
+        visitor.start_message_field("Pos");
+        visit(message.pos(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const capbankmodule::CapBankEvent& message, IMessageVisitor& visitor)
+{
+    if(message.has_eventvalue())
+    {
+        visitor.start_message_field("eventValue");
+        visit(message.eventvalue(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_capbankeventandstatuszcap())
+    {
+        visitor.start_message_field("capBankEventAndStatusZCAP");
+        visit(message.capbankeventandstatuszcap(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const capbankmodule::CapBankEventAndStatusPoint& message, IMessageVisitor& visitor)
+{
+    if(message.has_eventandstatus())
+    {
+        visitor.start_message_field("eventAndStatus");
+        visit(message.eventandstatus(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const capbankmodule::CapBankEventAndStatusYPSH& message, IMessageVisitor& visitor)
+{
+    if(message.has_blkcls())
+    {
+        visitor.start_message_field("BlkCls");
+        visit(message.blkcls(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_blkopn())
+    {
+        visitor.start_message_field("BlkOpn");
+        visit(message.blkopn(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_pos())
+    {
+        visitor.start_message_field("Pos");
+        visit(message.pos(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_shopcap())
+    {
+        visitor.start_message_field("ShOpCap");
+        visit(message.shopcap(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const capbankmodule::CapBankEventAndStatusZCAP& message, IMessageVisitor& visitor)
+{
+    if(message.has_logicalnodeforeventandstatus())
+    {
+        visitor.start_message_field("logicalNodeForEventAndStatus");
+        visit(message.logicalnodeforeventandstatus(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_dynamictest())
+    {
+        visitor.start_message_field("DynamicTest");
+        visit(message.dynamictest(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_pointstatus())
+    {
+        visitor.start_message_field("PointStatus");
+        visit(message.pointstatus(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const capbankmodule::CapBankPoint& message, IMessageVisitor& visitor)
+{
+    if(message.has_control())
+    {
+        visitor.start_message_field("control");
+        visit(message.control(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_starttime())
+    {
+        visitor.start_message_field("startTime");
+        visit(message.starttime(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const capbankmodule::CapBankReading& message, IMessageVisitor& visitor)
+{
+    if(message.has_conductingequipmentterminalreading())
+    {
+        visitor.start_message_field("conductingEquipmentTerminalReading");
+        visit(message.conductingequipmentterminalreading(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_phasemmtn())
+    {
+        visitor.start_message_field("phaseMMTN");
+        visit(message.phasemmtn(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_readingmmtr())
+    {
+        visitor.start_message_field("readingMMTR");
+        visit(message.readingmmtr(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_readingmmxu())
+    {
+        visitor.start_message_field("readingMMXU");
+        visit(message.readingmmxu(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const capbankmodule::CapBankStatus& message, IMessageVisitor& visitor)
+{
+    if(message.has_statusvalue())
+    {
+        visitor.start_message_field("statusValue");
+        visit(message.statusvalue(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_capbankeventandstatuszcap())
+    {
+        visitor.start_message_field("capBankEventAndStatusZCAP");
+        visit(message.capbankeventandstatuszcap(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const capbankmodule::CapBankSystem& message, IMessageVisitor& visitor)
+{
+    if(message.has_conductingequipment())
+    {
+        visitor.start_message_field("conductingEquipment");
+        visit(message.conductingequipment(), visitor);
         visitor.end_message_field();
     }
 }
@@ -586,7 +868,7 @@ void visit(const commonmodule::ActivePower& message, IMessageVisitor& visitor)
     }
 }
 
-void visit(const commonmodule::AnalogStatusGGIO& message, IMessageVisitor& visitor)
+void visit(const commonmodule::AnalogEventAndStatusGGIO& message, IMessageVisitor& visitor)
 {
     if(message.has_logicalnode())
     {
@@ -663,7 +945,7 @@ void visit(const commonmodule::BCR& message, IMessageVisitor& visitor)
     }
 }
 
-void visit(const commonmodule::BooleanStatusGGIO& message, IMessageVisitor& visitor)
+void visit(const commonmodule::BooleanEventAndStatusGGIO& message, IMessageVisitor& visitor)
 {
     if(message.has_logicalnode())
     {
@@ -750,6 +1032,34 @@ void visit(const commonmodule::ConductingEquipmentTerminalReading& message, IMes
     }
 }
 
+void visit(const commonmodule::ControlAPC& message, IMessageVisitor& visitor)
+{
+    if(message.has_ctlval())
+    {
+        visitor.start_message_field("ctlVal");
+        visit(message.ctlval(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_q())
+    {
+        visitor.start_message_field("q");
+        visit(message.q(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_t())
+    {
+        visitor.start_message_field("t");
+        visit(message.t(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_units())
+    {
+        visitor.start_message_field("units");
+        visit(message.units(), visitor);
+        visitor.end_message_field();
+    }
+}
+
 void visit(const commonmodule::ControlDPC& message, IMessageVisitor& visitor)
 {
     visitor.handle("ctlVal", message.ctlval());
@@ -773,6 +1083,34 @@ void visit(const commonmodule::ControlFSCC& message, IMessageVisitor& visitor)
     {
         visitor.start_message_field("islandControlScheduleFSCH");
         visit(message.islandcontrolschedulefsch(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const commonmodule::ControlINC& message, IMessageVisitor& visitor)
+{
+    if(message.has_ctlval())
+    {
+        visitor.start_message_field("ctlVal");
+        visit(message.ctlval(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_q())
+    {
+        visitor.start_message_field("q");
+        visit(message.q(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_t())
+    {
+        visitor.start_message_field("t");
+        visit(message.t(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_units())
+    {
+        visitor.start_message_field("units");
+        visit(message.units(), visitor);
         visitor.end_message_field();
     }
 }
@@ -806,6 +1144,24 @@ void visit(const commonmodule::ControlMessageInfo& message, IMessageVisitor& vis
 void visit(const commonmodule::ControlSPC& message, IMessageVisitor& visitor)
 {
     visitor.handle("ctlVal", message.ctlval());
+    if(message.has_q())
+    {
+        visitor.start_message_field("q");
+        visit(message.q(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_t())
+    {
+        visitor.start_message_field("t");
+        visit(message.t(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_units())
+    {
+        visitor.start_message_field("units");
+        visit(message.units(), visitor);
+        visitor.end_message_field();
+    }
 }
 
 void visit(const commonmodule::ControlScheduleFSCH& message, IMessageVisitor& visitor)
@@ -836,6 +1192,12 @@ void visit(const commonmodule::ControlValue& message, IMessageVisitor& visitor)
     {
         visitor.start_message_field("modBlk");
         visit(message.modblk(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_reset())
+    {
+        visitor.start_message_field("reset");
+        visit(message.reset(), visitor);
         visitor.end_message_field();
     }
 }
@@ -872,92 +1234,6 @@ void visit(const commonmodule::DetailQual& message, IMessageVisitor& visitor)
     visitor.handle("oscillatory", message.oscillatory());
     visitor.handle("outOfRange", message.outofrange());
     visitor.handle("overflow", message.overflow());
-}
-
-void visit(const commonmodule::DeviceControl& message, IMessageVisitor& visitor)
-{
-    if(message.has_logicalnodeforcontrol())
-    {
-        visitor.start_message_field("logicalNodeForControl");
-        visit(message.logicalnodeforcontrol(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_ansi79lo())
-    {
-        visitor.start_message_field("ANSI79LO");
-        visit(message.ansi79lo(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_faultlatch())
-    {
-        visitor.start_message_field("FaultLatch");
-        visit(message.faultlatch(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_hotlinetag())
-    {
-        visitor.start_message_field("HotLineTag");
-        visit(message.hotlinetag(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_iedtrouble())
-    {
-        visitor.start_message_field("IEDTrouble");
-        visit(message.iedtrouble(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_recloseenabled())
-    {
-        visitor.start_message_field("RecloseEnabled");
-        visit(message.recloseenabled(), visitor);
-        visitor.end_message_field();
-    }
-}
-
-void visit(const commonmodule::DeviceStatus& message, IMessageVisitor& visitor)
-{
-    if(message.has_logicalnodeforeventandstatus())
-    {
-        visitor.start_message_field("logicalNodeForEventAndStatus");
-        visit(message.logicalnodeforeventandstatus(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_ansi79lo())
-    {
-        visitor.start_message_field("ANSI79LO");
-        visit(message.ansi79lo(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_faultlatch())
-    {
-        visitor.start_message_field("FaultLatch");
-        visit(message.faultlatch(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_hotlinetag())
-    {
-        visitor.start_message_field("HotLineTag");
-        visit(message.hotlinetag(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_iedtrouble())
-    {
-        visitor.start_message_field("IEDTrouble");
-        visit(message.iedtrouble(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_recloseenabled())
-    {
-        visitor.start_message_field("RecloseEnabled");
-        visit(message.recloseenabled(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_remoteenabled())
-    {
-        visitor.start_message_field("RemoteEnabled");
-        visit(message.remoteenabled(), visitor);
-        visitor.end_message_field();
-    }
 }
 
 void visit(const commonmodule::ENG_CalcMethodKind& message, IMessageVisitor& visitor)
@@ -1032,6 +1308,29 @@ void visit(const commonmodule::ENS_HealthKind& message, IMessageVisitor& visitor
     visitor.handle("stVal", static_cast<int>(message.stval()), *commonmodule::HealthKind_descriptor());
 }
 
+void visit(const commonmodule::ENS_SwitchingCapabilityKind& message, IMessageVisitor& visitor)
+{
+    if(message.has_blkena())
+    {
+        visitor.start_message_field("blkEna");
+        visit(message.blkena(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_q())
+    {
+        visitor.start_message_field("q");
+        visit(message.q(), visitor);
+        visitor.end_message_field();
+    }
+    visitor.handle("stVal", static_cast<int>(message.stval()), *commonmodule::SwitchingCapabilityKind_descriptor());
+    if(message.has_t())
+    {
+        visitor.start_message_field("t");
+        visit(message.t(), visitor);
+        visitor.end_message_field();
+    }
+}
+
 void visit(const commonmodule::ESS& message, IMessageVisitor& visitor)
 {
     if(message.has_conductingequipment())
@@ -1076,6 +1375,12 @@ void visit(const commonmodule::EventValue& message, IMessageVisitor& visitor)
         visit(message.identifiedobject(), visitor);
         visitor.end_message_field();
     }
+    if(message.has_modblk())
+    {
+        visitor.start_message_field("modBlk");
+        visit(message.modblk(), visitor);
+        visitor.end_message_field();
+    }
 }
 
 void visit(const commonmodule::IED& message, IMessageVisitor& visitor)
@@ -1110,7 +1415,7 @@ void visit(const commonmodule::IdentifiedObject& message, IMessageVisitor& visit
     }
 }
 
-void visit(const commonmodule::IntegerStatusGGIO& message, IMessageVisitor& visitor)
+void visit(const commonmodule::IntegerEventAndStatusGGIO& message, IMessageVisitor& visitor)
 {
     if(message.has_logicalnode())
     {
@@ -1170,6 +1475,18 @@ void visit(const commonmodule::LogicalNodeForEventAndStatus& message, IMessageVi
     {
         visitor.start_message_field("EEHealth");
         visit(message.eehealth(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_hotlinetag())
+    {
+        visitor.start_message_field("HotLineTag");
+        visit(message.hotlinetag(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_remoteblk())
+    {
+        visitor.start_message_field("RemoteBlk");
+        visit(message.remoteblk(), visitor);
         visitor.end_message_field();
     }
 }
@@ -1249,6 +1566,11 @@ void visit(const commonmodule::Optional_PhaseCodeKind& message, IMessageVisitor&
     visitor.handle("value", static_cast<int>(message.value()), *commonmodule::PhaseCodeKind_descriptor());
 }
 
+void visit(const commonmodule::Optional_RecloseActionKind& message, IMessageVisitor& visitor)
+{
+    visitor.handle("value", static_cast<int>(message.value()), *commonmodule::RecloseActionKind_descriptor());
+}
+
 void visit(const commonmodule::Optional_StateKind& message, IMessageVisitor& visitor)
 {
     visitor.handle("value", static_cast<int>(message.value()), *commonmodule::StateKind_descriptor());
@@ -1262,6 +1584,118 @@ void visit(const commonmodule::Optional_UnitMultiplierKind& message, IMessageVis
 void visit(const commonmodule::Optional_UnitSymbolKind& message, IMessageVisitor& visitor)
 {
     visitor.handle("value", static_cast<int>(message.value()), *commonmodule::UnitSymbolKind_descriptor());
+}
+
+void visit(const commonmodule::PhaseDPC& message, IMessageVisitor& visitor)
+{
+    if(message.has_phs3())
+    {
+        visitor.start_message_field("phs3");
+        visit(message.phs3(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_phsa())
+    {
+        visitor.start_message_field("phsA");
+        visit(message.phsa(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_phsb())
+    {
+        visitor.start_message_field("phsB");
+        visit(message.phsb(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_phsc())
+    {
+        visitor.start_message_field("phsC");
+        visit(message.phsc(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const commonmodule::PhaseDPS& message, IMessageVisitor& visitor)
+{
+    if(message.has_phs3())
+    {
+        visitor.start_message_field("phs3");
+        visit(message.phs3(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_phsa())
+    {
+        visitor.start_message_field("phsA");
+        visit(message.phsa(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_phsb())
+    {
+        visitor.start_message_field("phsB");
+        visit(message.phsb(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_phsc())
+    {
+        visitor.start_message_field("phsC");
+        visit(message.phsc(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const commonmodule::PhaseINS& message, IMessageVisitor& visitor)
+{
+    if(message.has_phs3())
+    {
+        visitor.start_message_field("phs3");
+        visit(message.phs3(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_phsa())
+    {
+        visitor.start_message_field("phsA");
+        visit(message.phsa(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_phsb())
+    {
+        visitor.start_message_field("phsB");
+        visit(message.phsb(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_phsc())
+    {
+        visitor.start_message_field("phsC");
+        visit(message.phsc(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const commonmodule::PhaseISC& message, IMessageVisitor& visitor)
+{
+    if(message.has_phs3())
+    {
+        visitor.start_message_field("phs3");
+        visit(message.phs3(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_phsa())
+    {
+        visitor.start_message_field("phsA");
+        visit(message.phsa(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_phsb())
+    {
+        visitor.start_message_field("phsB");
+        visit(message.phsb(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_phsc())
+    {
+        visitor.start_message_field("phsC");
+        visit(message.phsc(), visitor);
+        visitor.end_message_field();
+    }
 }
 
 void visit(const commonmodule::PhaseMMTN& message, IMessageVisitor& visitor)
@@ -1300,6 +1734,62 @@ void visit(const commonmodule::PhaseMMTN& message, IMessageVisitor& visitor)
     {
         visitor.start_message_field("phsCA");
         visit(message.phsca(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const commonmodule::PhaseRecloseAction& message, IMessageVisitor& visitor)
+{
+    if(message.has_phs3())
+    {
+        visitor.start_message_field("phs3");
+        visit(message.phs3(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_phsa())
+    {
+        visitor.start_message_field("phsA");
+        visit(message.phsa(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_phsb())
+    {
+        visitor.start_message_field("phsB");
+        visit(message.phsb(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_phsc())
+    {
+        visitor.start_message_field("phsC");
+        visit(message.phsc(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const commonmodule::PhaseSPS& message, IMessageVisitor& visitor)
+{
+    if(message.has_phs3())
+    {
+        visitor.start_message_field("phs3");
+        visit(message.phs3(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_phsa())
+    {
+        visitor.start_message_field("phsA");
+        visit(message.phsa(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_phsb())
+    {
+        visitor.start_message_field("phsB");
+        visit(message.phsb(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_phsc())
+    {
+        visitor.start_message_field("phsC");
+        visit(message.phsc(), visitor);
         visitor.end_message_field();
     }
 }
@@ -1604,6 +2094,30 @@ void visit(const commonmodule::StatusAndEventXCBR& message, IMessageVisitor& vis
         visit(message.pos(), visitor);
         visitor.end_message_field();
     }
+    if(message.has_protectionpickup())
+    {
+        visitor.start_message_field("ProtectionPickup");
+        visit(message.protectionpickup(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_protectionmode())
+    {
+        visitor.start_message_field("ProtectionMode");
+        visit(message.protectionmode(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_recloseenabled())
+    {
+        visitor.start_message_field("RecloseEnabled");
+        visit(message.recloseenabled(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_reclosingaction())
+    {
+        visitor.start_message_field("ReclosingAction");
+        visit(message.reclosingaction(), visitor);
+        visitor.end_message_field();
+    }
 }
 
 void visit(const commonmodule::StatusDPS& message, IMessageVisitor& visitor)
@@ -1642,23 +2156,6 @@ void visit(const commonmodule::StatusINS& message, IMessageVisitor& visitor)
     {
         visitor.start_message_field("units");
         visit(message.units(), visitor);
-        visitor.end_message_field();
-    }
-}
-
-void visit(const commonmodule::StatusISC& message, IMessageVisitor& visitor)
-{
-    if(message.has_q())
-    {
-        visitor.start_message_field("q");
-        visit(message.q(), visitor);
-        visitor.end_message_field();
-    }
-    visitor.handle("stVal", message.stval());
-    if(message.has_t())
-    {
-        visitor.start_message_field("t");
-        visit(message.t(), visitor);
         visitor.end_message_field();
     }
 }
@@ -1715,9 +2212,15 @@ void visit(const commonmodule::StatusValue& message, IMessageVisitor& visitor)
         visit(message.identifiedobject(), visitor);
         visitor.end_message_field();
     }
+    if(message.has_modblk())
+    {
+        visitor.start_message_field("modBlk");
+        visit(message.modblk(), visitor);
+        visitor.end_message_field();
+    }
 }
 
-void visit(const commonmodule::StringStatusGGIO& message, IMessageVisitor& visitor)
+void visit(const commonmodule::StringEventAndStatusGGIO& message, IMessageVisitor& visitor)
 {
     if(message.has_logicalnode())
     {
@@ -1822,6 +2325,23 @@ void visit(const commonmodule::Unit& message, IMessageVisitor& visitor)
         visitor.end_message_field();
     }
     visitor.handle("SIUnit", static_cast<int>(message.siunit()), *commonmodule::UnitSymbolKind_descriptor());
+}
+
+void visit(const commonmodule::VSC& message, IMessageVisitor& visitor)
+{
+    if(message.has_q())
+    {
+        visitor.start_message_field("q");
+        visit(message.q(), visitor);
+        visitor.end_message_field();
+    }
+    visitor.handle("ctlVal", message.ctlval());
+    if(message.has_t())
+    {
+        visitor.start_message_field("t");
+        visit(message.t(), visitor);
+        visitor.end_message_field();
+    }
 }
 
 void visit(const commonmodule::VSS& message, IMessageVisitor& visitor)
@@ -2697,6 +3217,34 @@ void visit(const generationmodule::GenerationControlScheduleFSCH& message, IMess
     }
 }
 
+void visit(const generationmodule::GenerationDiscreteControl& message, IMessageVisitor& visitor)
+{
+    if(message.has_controlvalue())
+    {
+        visitor.start_message_field("controlValue");
+        visit(message.controlvalue(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_check())
+    {
+        visitor.start_message_field("check");
+        visit(message.check(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_reactivepowercontrolmode())
+    {
+        visitor.start_message_field("reactivePowerControlMode");
+        visit(message.reactivepowercontrolmode(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_realpowercontrolmode())
+    {
+        visitor.start_message_field("realPowerControlMode");
+        visit(message.realpowercontrolmode(), visitor);
+        visitor.end_message_field();
+    }
+}
+
 void visit(const generationmodule::GenerationEvent& message, IMessageVisitor& visitor)
 {
     if(message.has_eventvalue())
@@ -2967,6 +3515,16 @@ void visit(const generationmodule::GenerationStatusZGEN& message, IMessageVisito
         visit(message.generationeventandstatuszgen(), visitor);
         visitor.end_message_field();
     }
+}
+
+void visit(const generationmodule::Optional_ReactivePowerControlKind& message, IMessageVisitor& visitor)
+{
+    visitor.handle("value", static_cast<int>(message.value()), *generationmodule::ReactivePowerControlKind_descriptor());
+}
+
+void visit(const generationmodule::Optional_RealPowerControlKind& message, IMessageVisitor& visitor)
+{
+    visitor.handle("value", static_cast<int>(message.value()), *generationmodule::RealPowerControlKind_descriptor());
 }
 
 void visit(const google::protobuf::BoolValue& message, IMessageVisitor& visitor)
@@ -3333,26 +3891,14 @@ void visit(const reclosermodule::RecloserDiscreteControl& message, IMessageVisit
         visit(message.recloserdiscretecontrolxcbr(), visitor);
         visitor.end_message_field();
     }
-    if(message.has_devicecontrol())
-    {
-        visitor.start_message_field("deviceControl");
-        visit(message.devicecontrol(), visitor);
-        visitor.end_message_field();
-    }
 }
 
 void visit(const reclosermodule::RecloserDiscreteControlXCBR& message, IMessageVisitor& visitor)
 {
-    if(message.has_logicalnodeforcontrol())
+    if(message.has_breakerdiscretecontrolxcbr())
     {
-        visitor.start_message_field("logicalNodeForControl");
-        visit(message.logicalnodeforcontrol(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_pos())
-    {
-        visitor.start_message_field("Pos");
-        visit(message.pos(), visitor);
+        visitor.start_message_field("breakerDiscreteControlXCBR");
+        visit(message.breakerdiscretecontrolxcbr(), visitor);
         visitor.end_message_field();
     }
 }
@@ -3419,12 +3965,6 @@ void visit(const reclosermodule::RecloserStatus& message, IMessageVisitor& visit
     {
         visitor.start_message_field("statusAndEventXCBR");
         visit(message.statusandeventxcbr(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_devicestatus())
-    {
-        visitor.start_message_field("deviceStatus");
-        visit(message.devicestatus(), visitor);
         visitor.end_message_field();
     }
 }
@@ -3777,6 +4317,162 @@ void visit(const regulatormodule::RegulatorSystem& message, IMessageVisitor& vis
     }
 }
 
+void visit(const resourcemodule::AnalogControlGGIO& message, IMessageVisitor& visitor)
+{
+    if(message.has_logicalnode())
+    {
+        visitor.start_message_field("logicalNode");
+        visit(message.logicalnode(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_anout())
+    {
+        visitor.start_message_field("AnOut");
+        visit(message.anout(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_phase())
+    {
+        visitor.start_message_field("Phase");
+        visit(message.phase(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const resourcemodule::BooleanControlGGIO& message, IMessageVisitor& visitor)
+{
+    if(message.has_logicalnode())
+    {
+        visitor.start_message_field("logicalNode");
+        visit(message.logicalnode(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_phase())
+    {
+        visitor.start_message_field("Phase");
+        visit(message.phase(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_spcso())
+    {
+        visitor.start_message_field("SPCSO");
+        visit(message.spcso(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const resourcemodule::IntegerControlGGIO& message, IMessageVisitor& visitor)
+{
+    if(message.has_logicalnode())
+    {
+        visitor.start_message_field("logicalNode");
+        visit(message.logicalnode(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_iscso())
+    {
+        visitor.start_message_field("ISCSO");
+        visit(message.iscso(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_phase())
+    {
+        visitor.start_message_field("Phase");
+        visit(message.phase(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const resourcemodule::ResourceDiscreteControl& message, IMessageVisitor& visitor)
+{
+    if(message.has_identifiedobject())
+    {
+        visitor.start_message_field("identifiedObject");
+        visit(message.identifiedobject(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_check())
+    {
+        visitor.start_message_field("check");
+        visit(message.check(), visitor);
+        visitor.end_message_field();
+    }
+    visitor.start_message_field("analogcontrolggio");
+    for(decltype(message.analogcontrolggio_size()) i = 0; i < message.analogcontrolggio_size(); ++i)
+    {
+        visitor.start_iteration(i);
+        visit(message.analogcontrolggio(i), visitor);
+        visitor.end_iteration();
+    }
+    visitor.end_message_field();
+    visitor.start_message_field("booleancontrolggio");
+    for(decltype(message.booleancontrolggio_size()) i = 0; i < message.booleancontrolggio_size(); ++i)
+    {
+        visitor.start_iteration(i);
+        visit(message.booleancontrolggio(i), visitor);
+        visitor.end_iteration();
+    }
+    visitor.end_message_field();
+    visitor.start_message_field("integercontrolggio");
+    for(decltype(message.integercontrolggio_size()) i = 0; i < message.integercontrolggio_size(); ++i)
+    {
+        visitor.start_iteration(i);
+        visit(message.integercontrolggio(i), visitor);
+        visitor.end_iteration();
+    }
+    visitor.end_message_field();
+    visitor.start_message_field("stringcontrolggio");
+    for(decltype(message.stringcontrolggio_size()) i = 0; i < message.stringcontrolggio_size(); ++i)
+    {
+        visitor.start_iteration(i);
+        visit(message.stringcontrolggio(i), visitor);
+        visitor.end_iteration();
+    }
+    visitor.end_message_field();
+}
+
+void visit(const resourcemodule::ResourceEvent& message, IMessageVisitor& visitor)
+{
+    if(message.has_identifiedobject())
+    {
+        visitor.start_message_field("identifiedObject");
+        visit(message.identifiedobject(), visitor);
+        visitor.end_message_field();
+    }
+    visitor.start_message_field("analogeventandstatusggio");
+    for(decltype(message.analogeventandstatusggio_size()) i = 0; i < message.analogeventandstatusggio_size(); ++i)
+    {
+        visitor.start_iteration(i);
+        visit(message.analogeventandstatusggio(i), visitor);
+        visitor.end_iteration();
+    }
+    visitor.end_message_field();
+    visitor.start_message_field("booleaneventandstatusggio");
+    for(decltype(message.booleaneventandstatusggio_size()) i = 0; i < message.booleaneventandstatusggio_size(); ++i)
+    {
+        visitor.start_iteration(i);
+        visit(message.booleaneventandstatusggio(i), visitor);
+        visitor.end_iteration();
+    }
+    visitor.end_message_field();
+    visitor.start_message_field("integereventandstatusggio");
+    for(decltype(message.integereventandstatusggio_size()) i = 0; i < message.integereventandstatusggio_size(); ++i)
+    {
+        visitor.start_iteration(i);
+        visit(message.integereventandstatusggio(i), visitor);
+        visitor.end_iteration();
+    }
+    visitor.end_message_field();
+    visitor.start_message_field("stringeventandstatusggio");
+    for(decltype(message.stringeventandstatusggio_size()) i = 0; i < message.stringeventandstatusggio_size(); ++i)
+    {
+        visitor.start_iteration(i);
+        visit(message.stringeventandstatusggio(i), visitor);
+        visitor.end_iteration();
+    }
+    visitor.end_message_field();
+}
+
 void visit(const resourcemodule::ResourceReading& message, IMessageVisitor& visitor)
 {
     if(message.has_conductingequipmentterminalreading())
@@ -3807,309 +4503,64 @@ void visit(const resourcemodule::ResourceReading& message, IMessageVisitor& visi
 
 void visit(const resourcemodule::ResourceStatus& message, IMessageVisitor& visitor)
 {
-    if(message.has_statusvalue())
+    if(message.has_identifiedobject())
     {
-        visitor.start_message_field("statusValue");
-        visit(message.statusvalue(), visitor);
+        visitor.start_message_field("identifiedObject");
+        visit(message.identifiedobject(), visitor);
         visitor.end_message_field();
     }
-    visitor.start_message_field("analogstatusggio");
-    for(decltype(message.analogstatusggio_size()) i = 0; i < message.analogstatusggio_size(); ++i)
+    visitor.start_message_field("analogeventandstatusggio");
+    for(decltype(message.analogeventandstatusggio_size()) i = 0; i < message.analogeventandstatusggio_size(); ++i)
     {
         visitor.start_iteration(i);
-        visit(message.analogstatusggio(i), visitor);
+        visit(message.analogeventandstatusggio(i), visitor);
         visitor.end_iteration();
     }
     visitor.end_message_field();
-    visitor.start_message_field("booleanstatusggio");
-    for(decltype(message.booleanstatusggio_size()) i = 0; i < message.booleanstatusggio_size(); ++i)
+    visitor.start_message_field("booleaneventandstatusggio");
+    for(decltype(message.booleaneventandstatusggio_size()) i = 0; i < message.booleaneventandstatusggio_size(); ++i)
     {
         visitor.start_iteration(i);
-        visit(message.booleanstatusggio(i), visitor);
+        visit(message.booleaneventandstatusggio(i), visitor);
         visitor.end_iteration();
     }
     visitor.end_message_field();
-    visitor.start_message_field("integerstatusggio");
-    for(decltype(message.integerstatusggio_size()) i = 0; i < message.integerstatusggio_size(); ++i)
+    visitor.start_message_field("integereventandstatusggio");
+    for(decltype(message.integereventandstatusggio_size()) i = 0; i < message.integereventandstatusggio_size(); ++i)
     {
         visitor.start_iteration(i);
-        visit(message.integerstatusggio(i), visitor);
+        visit(message.integereventandstatusggio(i), visitor);
         visitor.end_iteration();
     }
     visitor.end_message_field();
-    visitor.start_message_field("stringstatusggio");
-    for(decltype(message.stringstatusggio_size()) i = 0; i < message.stringstatusggio_size(); ++i)
+    visitor.start_message_field("stringeventandstatusggio");
+    for(decltype(message.stringeventandstatusggio_size()) i = 0; i < message.stringeventandstatusggio_size(); ++i)
     {
         visitor.start_iteration(i);
-        visit(message.stringstatusggio(i), visitor);
-        visitor.end_iteration();
-    }
-    visitor.end_message_field();
-}
-
-void visit(const shuntmodule::ENS_SwitchingCapabilityKind& message, IMessageVisitor& visitor)
-{
-    if(message.has_blkena())
-    {
-        visitor.start_message_field("blkEna");
-        visit(message.blkena(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_q())
-    {
-        visitor.start_message_field("q");
-        visit(message.q(), visitor);
-        visitor.end_message_field();
-    }
-    visitor.handle("stVal", static_cast<int>(message.stval()), *shuntmodule::SwitchingCapabilityKind_descriptor());
-    if(message.has_t())
-    {
-        visitor.start_message_field("t");
-        visit(message.t(), visitor);
-        visitor.end_message_field();
-    }
-}
-
-void visit(const shuntmodule::ShuntCSG& message, IMessageVisitor& visitor)
-{
-    visitor.start_message_field("crvpts");
-    for(decltype(message.crvpts_size()) i = 0; i < message.crvpts_size(); ++i)
-    {
-        visitor.start_iteration(i);
-        visit(message.crvpts(i), visitor);
+        visit(message.stringeventandstatusggio(i), visitor);
         visitor.end_iteration();
     }
     visitor.end_message_field();
 }
 
-void visit(const shuntmodule::ShuntControl& message, IMessageVisitor& visitor)
+void visit(const resourcemodule::StringControlGGIO& message, IMessageVisitor& visitor)
 {
-    if(message.has_controlvalue())
+    if(message.has_logicalnode())
     {
-        visitor.start_message_field("controlValue");
-        visit(message.controlvalue(), visitor);
+        visitor.start_message_field("logicalNode");
+        visit(message.logicalnode(), visitor);
         visitor.end_message_field();
     }
-    if(message.has_check())
+    if(message.has_phase())
     {
-        visitor.start_message_field("check");
-        visit(message.check(), visitor);
+        visitor.start_message_field("Phase");
+        visit(message.phase(), visitor);
         visitor.end_message_field();
     }
-    if(message.has_shuntcontrolfscc())
+    if(message.has_strout())
     {
-        visitor.start_message_field("shuntControlFSCC");
-        visit(message.shuntcontrolfscc(), visitor);
-        visitor.end_message_field();
-    }
-}
-
-void visit(const shuntmodule::ShuntControlFSCC& message, IMessageVisitor& visitor)
-{
-    if(message.has_controlfscc())
-    {
-        visitor.start_message_field("controlFSCC");
-        visit(message.controlfscc(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_shuntcontrolschedulefsch())
-    {
-        visitor.start_message_field("shuntControlScheduleFSCH");
-        visit(message.shuntcontrolschedulefsch(), visitor);
-        visitor.end_message_field();
-    }
-}
-
-void visit(const shuntmodule::ShuntControlScheduleFSCH& message, IMessageVisitor& visitor)
-{
-    if(message.has_valcsg())
-    {
-        visitor.start_message_field("ValCSG");
-        visit(message.valcsg(), visitor);
-        visitor.end_message_field();
-    }
-}
-
-void visit(const shuntmodule::ShuntDiscreteControl& message, IMessageVisitor& visitor)
-{
-    if(message.has_controlvalue())
-    {
-        visitor.start_message_field("controlValue");
-        visit(message.controlvalue(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_check())
-    {
-        visitor.start_message_field("check");
-        visit(message.check(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_shuntdiscretecontrolzcap())
-    {
-        visitor.start_message_field("shuntDiscreteControlZCAP");
-        visit(message.shuntdiscretecontrolzcap(), visitor);
-        visitor.end_message_field();
-    }
-}
-
-void visit(const shuntmodule::ShuntDiscreteControlZCAP& message, IMessageVisitor& visitor)
-{
-    if(message.has_logicalnodeforcontrol())
-    {
-        visitor.start_message_field("logicalNodeForControl");
-        visit(message.logicalnodeforcontrol(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_pos())
-    {
-        visitor.start_message_field("Pos");
-        visit(message.pos(), visitor);
-        visitor.end_message_field();
-    }
-}
-
-void visit(const shuntmodule::ShuntEvent& message, IMessageVisitor& visitor)
-{
-    if(message.has_eventvalue())
-    {
-        visitor.start_message_field("eventValue");
-        visit(message.eventvalue(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_shunteventandstatuszcap())
-    {
-        visitor.start_message_field("shuntEventAndStatusZCAP");
-        visit(message.shunteventandstatuszcap(), visitor);
-        visitor.end_message_field();
-    }
-}
-
-void visit(const shuntmodule::ShuntEventAndStatusPoint& message, IMessageVisitor& visitor)
-{
-    if(message.has_eventandstatus())
-    {
-        visitor.start_message_field("eventAndStatus");
-        visit(message.eventandstatus(), visitor);
-        visitor.end_message_field();
-    }
-}
-
-void visit(const shuntmodule::ShuntEventAndStatusYPSH& message, IMessageVisitor& visitor)
-{
-    if(message.has_blkcls())
-    {
-        visitor.start_message_field("BlkCls");
-        visit(message.blkcls(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_blkopn())
-    {
-        visitor.start_message_field("BlkOpn");
-        visit(message.blkopn(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_pos())
-    {
-        visitor.start_message_field("Pos");
-        visit(message.pos(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_shopcap())
-    {
-        visitor.start_message_field("ShOpCap");
-        visit(message.shopcap(), visitor);
-        visitor.end_message_field();
-    }
-}
-
-void visit(const shuntmodule::ShuntEventAndStatusZCAP& message, IMessageVisitor& visitor)
-{
-    if(message.has_logicalnodeforeventandstatus())
-    {
-        visitor.start_message_field("logicalNodeForEventAndStatus");
-        visit(message.logicalnodeforeventandstatus(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_dynamictest())
-    {
-        visitor.start_message_field("DynamicTest");
-        visit(message.dynamictest(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_pointstatus())
-    {
-        visitor.start_message_field("PointStatus");
-        visit(message.pointstatus(), visitor);
-        visitor.end_message_field();
-    }
-}
-
-void visit(const shuntmodule::ShuntPoint& message, IMessageVisitor& visitor)
-{
-    if(message.has_control())
-    {
-        visitor.start_message_field("control");
-        visit(message.control(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_starttime())
-    {
-        visitor.start_message_field("startTime");
-        visit(message.starttime(), visitor);
-        visitor.end_message_field();
-    }
-}
-
-void visit(const shuntmodule::ShuntReading& message, IMessageVisitor& visitor)
-{
-    if(message.has_conductingequipmentterminalreading())
-    {
-        visitor.start_message_field("conductingEquipmentTerminalReading");
-        visit(message.conductingequipmentterminalreading(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_phasemmtn())
-    {
-        visitor.start_message_field("phaseMMTN");
-        visit(message.phasemmtn(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_readingmmtr())
-    {
-        visitor.start_message_field("readingMMTR");
-        visit(message.readingmmtr(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_readingmmxu())
-    {
-        visitor.start_message_field("readingMMXU");
-        visit(message.readingmmxu(), visitor);
-        visitor.end_message_field();
-    }
-}
-
-void visit(const shuntmodule::ShuntStatus& message, IMessageVisitor& visitor)
-{
-    if(message.has_statusvalue())
-    {
-        visitor.start_message_field("statusValue");
-        visit(message.statusvalue(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_shunteventandstatuszcap())
-    {
-        visitor.start_message_field("shuntEventAndStatusZCAP");
-        visit(message.shunteventandstatuszcap(), visitor);
-        visitor.end_message_field();
-    }
-}
-
-void visit(const shuntmodule::ShuntSystem& message, IMessageVisitor& visitor)
-{
-    if(message.has_conductingequipment())
-    {
-        visitor.start_message_field("conductingEquipment");
-        visit(message.conductingequipment(), visitor);
+        visitor.start_message_field("StrOut");
+        visit(message.strout(), visitor);
         visitor.end_message_field();
     }
 }
@@ -4506,12 +4957,6 @@ void visit(const switchmodule::SwitchDiscreteControl& message, IMessageVisitor& 
         visit(message.switchdiscretecontrolxswi(), visitor);
         visitor.end_message_field();
     }
-    if(message.has_devicecontrol())
-    {
-        visitor.start_message_field("deviceControl");
-        visit(message.devicecontrol(), visitor);
-        visitor.end_message_field();
-    }
 }
 
 void visit(const switchmodule::SwitchDiscreteControlXSWI& message, IMessageVisitor& visitor)
@@ -4526,6 +4971,12 @@ void visit(const switchmodule::SwitchDiscreteControlXSWI& message, IMessageVisit
     {
         visitor.start_message_field("Pos");
         visit(message.pos(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_resetprotectionpickup())
+    {
+        visitor.start_message_field("ResetProtectionPickup");
+        visit(message.resetprotectionpickup(), visitor);
         visitor.end_message_field();
     }
 }
@@ -4616,12 +5067,6 @@ void visit(const switchmodule::SwitchStatus& message, IMessageVisitor& visitor)
         visit(message.switchstatusxswi(), visitor);
         visitor.end_message_field();
     }
-    if(message.has_devicestatus())
-    {
-        visitor.start_message_field("deviceStatus");
-        visit(message.devicestatus(), visitor);
-        visitor.end_message_field();
-    }
 }
 
 void visit(const switchmodule::SwitchStatusXSWI& message, IMessageVisitor& visitor)
@@ -4642,6 +5087,12 @@ void visit(const switchmodule::SwitchStatusXSWI& message, IMessageVisitor& visit
     {
         visitor.start_message_field("Pos");
         visit(message.pos(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_protectionpickup())
+    {
+        visitor.start_message_field("ProtectionPickup");
+        visit(message.protectionpickup(), visitor);
         visitor.end_message_field();
     }
 }
@@ -4749,6 +5200,146 @@ void visit(const breakermodule::BreakerStatusProfile& message, IMessageVisitor& 
     {
         visitor.start_message_field("breakerStatus");
         visit(message.breakerstatus(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_ied())
+    {
+        visitor.start_message_field("ied");
+        visit(message.ied(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const capbankmodule::CapBankControlProfile& message, IMessageVisitor& visitor)
+{
+    if(message.has_controlmessageinfo())
+    {
+        visitor.start_message_field("controlMessageInfo");
+        visit(message.controlmessageinfo(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_capbankcontrol())
+    {
+        visitor.start_message_field("capBankControl");
+        visit(message.capbankcontrol(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_capbanksystem())
+    {
+        visitor.start_message_field("capBankSystem");
+        visit(message.capbanksystem(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_ied())
+    {
+        visitor.start_message_field("ied");
+        visit(message.ied(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const capbankmodule::CapBankDiscreteControlProfile& message, IMessageVisitor& visitor)
+{
+    if(message.has_controlmessageinfo())
+    {
+        visitor.start_message_field("controlMessageInfo");
+        visit(message.controlmessageinfo(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_capbankcontrol())
+    {
+        visitor.start_message_field("capBankControl");
+        visit(message.capbankcontrol(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_capbanksystem())
+    {
+        visitor.start_message_field("capBankSystem");
+        visit(message.capbanksystem(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_ied())
+    {
+        visitor.start_message_field("ied");
+        visit(message.ied(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const capbankmodule::CapBankEventProfile& message, IMessageVisitor& visitor)
+{
+    if(message.has_eventmessageinfo())
+    {
+        visitor.start_message_field("eventMessageInfo");
+        visit(message.eventmessageinfo(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_capbankevent())
+    {
+        visitor.start_message_field("capBankEvent");
+        visit(message.capbankevent(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_capbanksystem())
+    {
+        visitor.start_message_field("capBankSystem");
+        visit(message.capbanksystem(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_ied())
+    {
+        visitor.start_message_field("ied");
+        visit(message.ied(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const capbankmodule::CapBankReadingProfile& message, IMessageVisitor& visitor)
+{
+    if(message.has_readingmessageinfo())
+    {
+        visitor.start_message_field("readingMessageInfo");
+        visit(message.readingmessageinfo(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_ied())
+    {
+        visitor.start_message_field("ied");
+        visit(message.ied(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_capbankreading())
+    {
+        visitor.start_message_field("capBankReading");
+        visit(message.capbankreading(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_capbanksystem())
+    {
+        visitor.start_message_field("capBankSystem");
+        visit(message.capbanksystem(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const capbankmodule::CapBankStatusProfile& message, IMessageVisitor& visitor)
+{
+    if(message.has_statusmessageinfo())
+    {
+        visitor.start_message_field("statusMessageInfo");
+        visit(message.statusmessageinfo(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_capbankstatus())
+    {
+        visitor.start_message_field("capBankStatus");
+        visit(message.capbankstatus(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_capbanksystem())
+    {
+        visitor.start_message_field("capBankSystem");
+        visit(message.capbanksystem(), visitor);
         visitor.end_message_field();
     }
     if(message.has_ied())
@@ -4889,6 +5480,34 @@ void visit(const generationmodule::GenerationControlProfile& message, IMessageVi
     {
         visitor.start_message_field("generationControl");
         visit(message.generationcontrol(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_ied())
+    {
+        visitor.start_message_field("ied");
+        visit(message.ied(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const generationmodule::GenerationDiscreteControlProfile& message, IMessageVisitor& visitor)
+{
+    if(message.has_controlmessageinfo())
+    {
+        visitor.start_message_field("controlMessageInfo");
+        visit(message.controlmessageinfo(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_generatingunit())
+    {
+        visitor.start_message_field("generatingUnit");
+        visit(message.generatingunit(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_generationdiscretecontrol())
+    {
+        visitor.start_message_field("generationDiscreteControl");
+        visit(message.generationdiscretecontrol(), visitor);
         visitor.end_message_field();
     }
     if(message.has_ied())
@@ -5379,6 +5998,62 @@ void visit(const regulatormodule::RegulatorStatusProfile& message, IMessageVisit
     }
 }
 
+void visit(const resourcemodule::ResourceDiscreteControlProfile& message, IMessageVisitor& visitor)
+{
+    if(message.has_controlmessageinfo())
+    {
+        visitor.start_message_field("controlMessageInfo");
+        visit(message.controlmessageinfo(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_conductingequipment())
+    {
+        visitor.start_message_field("conductingEquipment");
+        visit(message.conductingequipment(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_ied())
+    {
+        visitor.start_message_field("ied");
+        visit(message.ied(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_resourcediscretecontrol())
+    {
+        visitor.start_message_field("resourceDiscreteControl");
+        visit(message.resourcediscretecontrol(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const resourcemodule::ResourceEventProfile& message, IMessageVisitor& visitor)
+{
+    if(message.has_eventmessageinfo())
+    {
+        visitor.start_message_field("eventMessageInfo");
+        visit(message.eventmessageinfo(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_conductingequipment())
+    {
+        visitor.start_message_field("conductingEquipment");
+        visit(message.conductingequipment(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_ied())
+    {
+        visitor.start_message_field("ied");
+        visit(message.ied(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_resourceevent())
+    {
+        visitor.start_message_field("resourceEvent");
+        visit(message.resourceevent(), visitor);
+        visitor.end_message_field();
+    }
+}
+
 void visit(const resourcemodule::ResourceReadingProfile& message, IMessageVisitor& visitor)
 {
     if(message.has_readingmessageinfo())
@@ -5543,146 +6218,6 @@ void visit(const solarmodule::SolarStatusProfile& message, IMessageVisitor& visi
     {
         visitor.start_message_field("solarStatus");
         visit(message.solarstatus(), visitor);
-        visitor.end_message_field();
-    }
-}
-
-void visit(const shuntmodule::ShuntControlProfile& message, IMessageVisitor& visitor)
-{
-    if(message.has_controlmessageinfo())
-    {
-        visitor.start_message_field("controlMessageInfo");
-        visit(message.controlmessageinfo(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_ied())
-    {
-        visitor.start_message_field("ied");
-        visit(message.ied(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_shuntcontrol())
-    {
-        visitor.start_message_field("shuntControl");
-        visit(message.shuntcontrol(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_shuntsystem())
-    {
-        visitor.start_message_field("shuntSystem");
-        visit(message.shuntsystem(), visitor);
-        visitor.end_message_field();
-    }
-}
-
-void visit(const shuntmodule::ShuntDiscreteControlProfile& message, IMessageVisitor& visitor)
-{
-    if(message.has_controlmessageinfo())
-    {
-        visitor.start_message_field("controlMessageInfo");
-        visit(message.controlmessageinfo(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_ied())
-    {
-        visitor.start_message_field("ied");
-        visit(message.ied(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_shuntcontrol())
-    {
-        visitor.start_message_field("shuntControl");
-        visit(message.shuntcontrol(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_shuntsystem())
-    {
-        visitor.start_message_field("shuntSystem");
-        visit(message.shuntsystem(), visitor);
-        visitor.end_message_field();
-    }
-}
-
-void visit(const shuntmodule::ShuntEventProfile& message, IMessageVisitor& visitor)
-{
-    if(message.has_eventmessageinfo())
-    {
-        visitor.start_message_field("eventMessageInfo");
-        visit(message.eventmessageinfo(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_ied())
-    {
-        visitor.start_message_field("ied");
-        visit(message.ied(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_shuntevent())
-    {
-        visitor.start_message_field("shuntEvent");
-        visit(message.shuntevent(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_shuntsystem())
-    {
-        visitor.start_message_field("shuntSystem");
-        visit(message.shuntsystem(), visitor);
-        visitor.end_message_field();
-    }
-}
-
-void visit(const shuntmodule::ShuntStatusProfile& message, IMessageVisitor& visitor)
-{
-    if(message.has_statusmessageinfo())
-    {
-        visitor.start_message_field("statusMessageInfo");
-        visit(message.statusmessageinfo(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_ied())
-    {
-        visitor.start_message_field("ied");
-        visit(message.ied(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_shuntstatus())
-    {
-        visitor.start_message_field("shuntStatus");
-        visit(message.shuntstatus(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_shuntsystem())
-    {
-        visitor.start_message_field("shuntSystem");
-        visit(message.shuntsystem(), visitor);
-        visitor.end_message_field();
-    }
-}
-
-void visit(const shuntmodule::ShuntReadingProfile& message, IMessageVisitor& visitor)
-{
-    if(message.has_readingmessageinfo())
-    {
-        visitor.start_message_field("readingMessageInfo");
-        visit(message.readingmessageinfo(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_ied())
-    {
-        visitor.start_message_field("ied");
-        visit(message.ied(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_shuntreading())
-    {
-        visitor.start_message_field("shuntReading");
-        visit(message.shuntreading(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_shuntsystem())
-    {
-        visitor.start_message_field("shuntSystem");
-        visit(message.shuntsystem(), visitor);
         visitor.end_message_field();
     }
 }

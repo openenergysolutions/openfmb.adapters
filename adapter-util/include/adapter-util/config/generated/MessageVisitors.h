@@ -15,9 +15,9 @@
 #define OPENFMB_MESSAGEVISITORS_H
 
 #include "reclosermodule/reclosermodule.pb.h"
-#include "shuntmodule/shuntmodule.pb.h"
 #include "solarmodule/solarmodule.pb.h"
 #include "breakermodule/breakermodule.pb.h"
+#include "capbankmodule/capbankmodule.pb.h"
 #include "switchmodule/switchmodule.pb.h"
 #include "generationmodule/generationmodule.pb.h"
 #include "loadmodule/loadmodule.pb.h"
@@ -39,6 +39,16 @@ void visit(const breakermodule::BreakerReadingProfile& message, IMessageVisitor&
 
 void visit(const breakermodule::BreakerStatusProfile& message, IMessageVisitor& visitor);
 
+void visit(const capbankmodule::CapBankControlProfile& message, IMessageVisitor& visitor);
+
+void visit(const capbankmodule::CapBankDiscreteControlProfile& message, IMessageVisitor& visitor);
+
+void visit(const capbankmodule::CapBankEventProfile& message, IMessageVisitor& visitor);
+
+void visit(const capbankmodule::CapBankReadingProfile& message, IMessageVisitor& visitor);
+
+void visit(const capbankmodule::CapBankStatusProfile& message, IMessageVisitor& visitor);
+
 void visit(const essmodule::ESSControlProfile& message, IMessageVisitor& visitor);
 
 void visit(const essmodule::ESSEventProfile& message, IMessageVisitor& visitor);
@@ -48,6 +58,8 @@ void visit(const essmodule::ESSReadingProfile& message, IMessageVisitor& visitor
 void visit(const essmodule::ESSStatusProfile& message, IMessageVisitor& visitor);
 
 void visit(const generationmodule::GenerationControlProfile& message, IMessageVisitor& visitor);
+
+void visit(const generationmodule::GenerationDiscreteControlProfile& message, IMessageVisitor& visitor);
 
 void visit(const generationmodule::GenerationEventProfile& message, IMessageVisitor& visitor);
 
@@ -83,6 +95,10 @@ void visit(const regulatormodule::RegulatorReadingProfile& message, IMessageVisi
 
 void visit(const regulatormodule::RegulatorStatusProfile& message, IMessageVisitor& visitor);
 
+void visit(const resourcemodule::ResourceDiscreteControlProfile& message, IMessageVisitor& visitor);
+
+void visit(const resourcemodule::ResourceEventProfile& message, IMessageVisitor& visitor);
+
 void visit(const resourcemodule::ResourceReadingProfile& message, IMessageVisitor& visitor);
 
 void visit(const resourcemodule::ResourceStatusProfile& message, IMessageVisitor& visitor);
@@ -94,16 +110,6 @@ void visit(const solarmodule::SolarEventProfile& message, IMessageVisitor& visit
 void visit(const solarmodule::SolarReadingProfile& message, IMessageVisitor& visitor);
 
 void visit(const solarmodule::SolarStatusProfile& message, IMessageVisitor& visitor);
-
-void visit(const shuntmodule::ShuntControlProfile& message, IMessageVisitor& visitor);
-
-void visit(const shuntmodule::ShuntDiscreteControlProfile& message, IMessageVisitor& visitor);
-
-void visit(const shuntmodule::ShuntEventProfile& message, IMessageVisitor& visitor);
-
-void visit(const shuntmodule::ShuntStatusProfile& message, IMessageVisitor& visitor);
-
-void visit(const shuntmodule::ShuntReadingProfile& message, IMessageVisitor& visitor);
 
 void visit(const switchmodule::SwitchControlProfile& message, IMessageVisitor& visitor);
 

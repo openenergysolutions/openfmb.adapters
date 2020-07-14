@@ -38,8 +38,6 @@ void visit_commonmodule_ControlSPC(const set_t<commonmodule::ControlSPC>& setter
 
 void visit_commonmodule_ControlValue(const set_t<commonmodule::ControlValue>& setter, const get_t<commonmodule::ControlValue>& getter, ITypedModelVisitor<switchmodule::SwitchDiscreteControlProfile>& visitor);
 
-void visit_commonmodule_DeviceControl(const set_t<commonmodule::DeviceControl>& setter, const get_t<commonmodule::DeviceControl>& getter, ITypedModelVisitor<switchmodule::SwitchDiscreteControlProfile>& visitor);
-
 void visit_commonmodule_IED(const set_t<commonmodule::IED>& setter, const get_t<commonmodule::IED>& getter, ITypedModelVisitor<switchmodule::SwitchDiscreteControlProfile>& visitor);
 
 void visit_commonmodule_IdentifiedObject(const set_t<commonmodule::IdentifiedObject>& setter, const get_t<commonmodule::IdentifiedObject>& getter, ITypedModelVisitor<switchmodule::SwitchDiscreteControlProfile>& visitor);
@@ -51,6 +49,12 @@ void visit_commonmodule_LogicalNodeForControl(const set_t<commonmodule::LogicalN
 void visit_commonmodule_MessageInfo(const set_t<commonmodule::MessageInfo>& setter, const get_t<commonmodule::MessageInfo>& getter, ITypedModelVisitor<switchmodule::SwitchDiscreteControlProfile>& visitor);
 
 void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& setter, const get_t<commonmodule::NamedObject>& getter, ITypedModelVisitor<switchmodule::SwitchDiscreteControlProfile>& visitor);
+
+void visit_commonmodule_Optional_UnitMultiplierKind(const set_t<commonmodule::Optional_UnitMultiplierKind>& setter, const get_t<commonmodule::Optional_UnitMultiplierKind>& getter, ITypedModelVisitor<switchmodule::SwitchDiscreteControlProfile>& visitor);
+
+void visit_commonmodule_PhaseDPC(const set_t<commonmodule::PhaseDPC>& setter, const get_t<commonmodule::PhaseDPC>& getter, ITypedModelVisitor<switchmodule::SwitchDiscreteControlProfile>& visitor);
+
+void visit_commonmodule_Unit(const set_t<commonmodule::Unit>& setter, const get_t<commonmodule::Unit>& getter, ITypedModelVisitor<switchmodule::SwitchDiscreteControlProfile>& visitor);
 
 void visit_google_protobuf_BoolValue(const set_t<google::protobuf::BoolValue>& setter, const get_t<google::protobuf::BoolValue>& getter, ITypedModelVisitor<switchmodule::SwitchDiscreteControlProfile>& visitor);
 
@@ -320,6 +324,58 @@ void visit_commonmodule_ControlSPC(const set_t<commonmodule::ControlSPC>& setter
             }
         )
     );
+
+    visitor.handle(
+        "q",
+        MessageAccessorBuilder<switchmodule::SwitchDiscreteControlProfile,commonmodule::Quality>::build(
+            [setter](switchmodule::SwitchDiscreteControlProfile& profile) { return setter(profile)->mutable_q(); },
+            [getter](const switchmodule::SwitchDiscreteControlProfile& profile, const handler_t<commonmodule::Quality>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent || !parent->has_q()) return false;
+                handler(parent->q());
+                return true;
+            }
+        )
+    );
+
+    visitor.handle(
+        "t",
+        MessageAccessorBuilder<switchmodule::SwitchDiscreteControlProfile,commonmodule::Timestamp>::build(
+            [setter](switchmodule::SwitchDiscreteControlProfile& profile) { return setter(profile)->mutable_t(); },
+            [getter](const switchmodule::SwitchDiscreteControlProfile& profile, const handler_t<commonmodule::Timestamp>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent || !parent->has_t()) return false;
+                handler(parent->t());
+                return true;
+            }
+        )
+    );
+
+    if(visitor.start_message_field("units", commonmodule::Unit::descriptor()))
+    {
+        visit_commonmodule_Unit(
+            [setter](switchmodule::SwitchDiscreteControlProfile& profile)
+            {
+                return setter(profile)->mutable_units();
+            },
+            [getter](const switchmodule::SwitchDiscreteControlProfile& profile) -> commonmodule::Unit const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_units() ? &value->units() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
 }
 
 void visit_commonmodule_ControlValue(const set_t<commonmodule::ControlValue>& setter, const get_t<commonmodule::ControlValue>& getter, ITypedModelVisitor<switchmodule::SwitchDiscreteControlProfile>& visitor)
@@ -371,143 +427,20 @@ void visit_commonmodule_ControlValue(const set_t<commonmodule::ControlValue>& se
         );
         visitor.end_message_field();
     }
-}
 
-void visit_commonmodule_DeviceControl(const set_t<commonmodule::DeviceControl>& setter, const get_t<commonmodule::DeviceControl>& getter, ITypedModelVisitor<switchmodule::SwitchDiscreteControlProfile>& visitor)
-{
-    if(visitor.start_message_field("logicalNodeForControl", commonmodule::LogicalNodeForControl::descriptor()))
+    if(visitor.start_message_field("reset", google::protobuf::BoolValue::descriptor()))
     {
-        visit_commonmodule_LogicalNodeForControl(
+        visit_google_protobuf_BoolValue(
             [setter](switchmodule::SwitchDiscreteControlProfile& profile)
             {
-                return setter(profile)->mutable_logicalnodeforcontrol();
+                return setter(profile)->mutable_reset();
             },
-            [getter](const switchmodule::SwitchDiscreteControlProfile& profile) -> commonmodule::LogicalNodeForControl const *
+            [getter](const switchmodule::SwitchDiscreteControlProfile& profile) -> google::protobuf::BoolValue const *
             {
                 const auto value = getter(profile);
                 if(value)
                 {
-                    return value->has_logicalnodeforcontrol() ? &value->logicalnodeforcontrol() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("ANSI79LO", commonmodule::ControlSPC::descriptor()))
-    {
-        visit_commonmodule_ControlSPC(
-            [setter](switchmodule::SwitchDiscreteControlProfile& profile)
-            {
-                return setter(profile)->mutable_ansi79lo();
-            },
-            [getter](const switchmodule::SwitchDiscreteControlProfile& profile) -> commonmodule::ControlSPC const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_ansi79lo() ? &value->ansi79lo() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("FaultLatch", commonmodule::ControlSPC::descriptor()))
-    {
-        visit_commonmodule_ControlSPC(
-            [setter](switchmodule::SwitchDiscreteControlProfile& profile)
-            {
-                return setter(profile)->mutable_faultlatch();
-            },
-            [getter](const switchmodule::SwitchDiscreteControlProfile& profile) -> commonmodule::ControlSPC const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_faultlatch() ? &value->faultlatch() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("HotLineTag", commonmodule::ControlSPC::descriptor()))
-    {
-        visit_commonmodule_ControlSPC(
-            [setter](switchmodule::SwitchDiscreteControlProfile& profile)
-            {
-                return setter(profile)->mutable_hotlinetag();
-            },
-            [getter](const switchmodule::SwitchDiscreteControlProfile& profile) -> commonmodule::ControlSPC const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_hotlinetag() ? &value->hotlinetag() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("IEDTrouble", commonmodule::ControlSPC::descriptor()))
-    {
-        visit_commonmodule_ControlSPC(
-            [setter](switchmodule::SwitchDiscreteControlProfile& profile)
-            {
-                return setter(profile)->mutable_iedtrouble();
-            },
-            [getter](const switchmodule::SwitchDiscreteControlProfile& profile) -> commonmodule::ControlSPC const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_iedtrouble() ? &value->iedtrouble() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("RecloseEnabled", commonmodule::ControlSPC::descriptor()))
-    {
-        visit_commonmodule_ControlSPC(
-            [setter](switchmodule::SwitchDiscreteControlProfile& profile)
-            {
-                return setter(profile)->mutable_recloseenabled();
-            },
-            [getter](const switchmodule::SwitchDiscreteControlProfile& profile) -> commonmodule::ControlSPC const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_recloseenabled() ? &value->recloseenabled() : nullptr;
+                    return value->has_reset() ? &value->reset() : nullptr;
                 }
                 else
                 {
@@ -768,6 +701,165 @@ void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& sett
     }
 }
 
+void visit_commonmodule_Optional_UnitMultiplierKind(const set_t<commonmodule::Optional_UnitMultiplierKind>& setter, const get_t<commonmodule::Optional_UnitMultiplierKind>& getter, ITypedModelVisitor<switchmodule::SwitchDiscreteControlProfile>& visitor)
+{
+    visitor.handle(
+        "value",
+        AccessorBuilder<switchmodule::SwitchDiscreteControlProfile,int>::build(
+            [setter](switchmodule::SwitchDiscreteControlProfile& profile, const int& value) { setter(profile)->set_value(static_cast<commonmodule::UnitMultiplierKind>(value)); },
+            [getter](const switchmodule::SwitchDiscreteControlProfile& profile, const handler_t<int>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->value());
+                return true;
+            }
+        ),
+        commonmodule::UnitMultiplierKind_descriptor()
+    );
+}
+
+void visit_commonmodule_PhaseDPC(const set_t<commonmodule::PhaseDPC>& setter, const get_t<commonmodule::PhaseDPC>& getter, ITypedModelVisitor<switchmodule::SwitchDiscreteControlProfile>& visitor)
+{
+    if(visitor.start_message_field("phs3", commonmodule::ControlDPC::descriptor()))
+    {
+        visit_commonmodule_ControlDPC(
+            [setter](switchmodule::SwitchDiscreteControlProfile& profile)
+            {
+                return setter(profile)->mutable_phs3();
+            },
+            [getter](const switchmodule::SwitchDiscreteControlProfile& profile) -> commonmodule::ControlDPC const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_phs3() ? &value->phs3() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("phsA", commonmodule::ControlDPC::descriptor()))
+    {
+        visit_commonmodule_ControlDPC(
+            [setter](switchmodule::SwitchDiscreteControlProfile& profile)
+            {
+                return setter(profile)->mutable_phsa();
+            },
+            [getter](const switchmodule::SwitchDiscreteControlProfile& profile) -> commonmodule::ControlDPC const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_phsa() ? &value->phsa() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("phsB", commonmodule::ControlDPC::descriptor()))
+    {
+        visit_commonmodule_ControlDPC(
+            [setter](switchmodule::SwitchDiscreteControlProfile& profile)
+            {
+                return setter(profile)->mutable_phsb();
+            },
+            [getter](const switchmodule::SwitchDiscreteControlProfile& profile) -> commonmodule::ControlDPC const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_phsb() ? &value->phsb() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("phsC", commonmodule::ControlDPC::descriptor()))
+    {
+        visit_commonmodule_ControlDPC(
+            [setter](switchmodule::SwitchDiscreteControlProfile& profile)
+            {
+                return setter(profile)->mutable_phsc();
+            },
+            [getter](const switchmodule::SwitchDiscreteControlProfile& profile) -> commonmodule::ControlDPC const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_phsc() ? &value->phsc() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+}
+
+void visit_commonmodule_Unit(const set_t<commonmodule::Unit>& setter, const get_t<commonmodule::Unit>& getter, ITypedModelVisitor<switchmodule::SwitchDiscreteControlProfile>& visitor)
+{
+    if(visitor.start_message_field("multiplier", commonmodule::Optional_UnitMultiplierKind::descriptor()))
+    {
+        visit_commonmodule_Optional_UnitMultiplierKind(
+            [setter](switchmodule::SwitchDiscreteControlProfile& profile)
+            {
+                return setter(profile)->mutable_multiplier();
+            },
+            [getter](const switchmodule::SwitchDiscreteControlProfile& profile) -> commonmodule::Optional_UnitMultiplierKind const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_multiplier() ? &value->multiplier() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    visitor.handle(
+        "SIUnit",
+        AccessorBuilder<switchmodule::SwitchDiscreteControlProfile,int>::build(
+            [setter](switchmodule::SwitchDiscreteControlProfile& profile, const int& value) { setter(profile)->set_siunit(static_cast<commonmodule::UnitSymbolKind>(value)); },
+            [getter](const switchmodule::SwitchDiscreteControlProfile& profile, const handler_t<int>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->siunit());
+                return true;
+            }
+        ),
+        commonmodule::UnitSymbolKind_descriptor()
+    );
+}
+
 void visit_google_protobuf_BoolValue(const set_t<google::protobuf::BoolValue>& setter, const get_t<google::protobuf::BoolValue>& getter, ITypedModelVisitor<switchmodule::SwitchDiscreteControlProfile>& visitor)
 {
     visitor.handle(
@@ -902,30 +994,6 @@ void visit_switchmodule_SwitchDiscreteControl(const set_t<switchmodule::SwitchDi
         );
         visitor.end_message_field();
     }
-
-    if(visitor.start_message_field("deviceControl", commonmodule::DeviceControl::descriptor()))
-    {
-        visit_commonmodule_DeviceControl(
-            [setter](switchmodule::SwitchDiscreteControlProfile& profile)
-            {
-                return setter(profile)->mutable_devicecontrol();
-            },
-            [getter](const switchmodule::SwitchDiscreteControlProfile& profile) -> commonmodule::DeviceControl const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_devicecontrol() ? &value->devicecontrol() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
 }
 
 void visit_switchmodule_SwitchDiscreteControlXSWI(const set_t<switchmodule::SwitchDiscreteControlXSWI>& setter, const get_t<switchmodule::SwitchDiscreteControlXSWI>& getter, ITypedModelVisitor<switchmodule::SwitchDiscreteControlProfile>& visitor)
@@ -954,19 +1022,43 @@ void visit_switchmodule_SwitchDiscreteControlXSWI(const set_t<switchmodule::Swit
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("Pos", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("Pos", commonmodule::PhaseDPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC(
+        visit_commonmodule_PhaseDPC(
             [setter](switchmodule::SwitchDiscreteControlProfile& profile)
             {
                 return setter(profile)->mutable_pos();
             },
-            [getter](const switchmodule::SwitchDiscreteControlProfile& profile) -> commonmodule::ControlDPC const *
+            [getter](const switchmodule::SwitchDiscreteControlProfile& profile) -> commonmodule::PhaseDPC const *
             {
                 const auto value = getter(profile);
                 if(value)
                 {
                     return value->has_pos() ? &value->pos() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("ResetProtectionPickup", commonmodule::ControlSPC::descriptor()))
+    {
+        visit_commonmodule_ControlSPC(
+            [setter](switchmodule::SwitchDiscreteControlProfile& profile)
+            {
+                return setter(profile)->mutable_resetprotectionpickup();
+            },
+            [getter](const switchmodule::SwitchDiscreteControlProfile& profile) -> commonmodule::ControlSPC const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_resetprotectionpickup() ? &value->resetprotectionpickup() : nullptr;
                 }
                 else
                 {

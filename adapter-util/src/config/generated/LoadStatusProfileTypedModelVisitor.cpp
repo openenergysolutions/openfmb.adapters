@@ -28,8 +28,6 @@ using get_t = getter_t<loadmodule::LoadStatusProfile, V>;
 
 void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::ConductingEquipment>& setter, const get_t<commonmodule::ConductingEquipment>& getter, ITypedModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
-void visit_commonmodule_ControlDPC(const set_t<commonmodule::ControlDPC>& setter, const get_t<commonmodule::ControlDPC>& getter, ITypedModelVisitor<loadmodule::LoadStatusProfile>& visitor);
-
 void visit_commonmodule_ENS_BehaviourModeKind(const set_t<commonmodule::ENS_BehaviourModeKind>& setter, const get_t<commonmodule::ENS_BehaviourModeKind>& getter, ITypedModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 void visit_commonmodule_ENS_DynamicTestKind(const set_t<commonmodule::ENS_DynamicTestKind>& setter, const get_t<commonmodule::ENS_DynamicTestKind>& getter, ITypedModelVisitor<loadmodule::LoadStatusProfile>& visitor);
@@ -54,11 +52,15 @@ void visit_commonmodule_Optional_StateKind(const set_t<commonmodule::Optional_St
 
 void visit_commonmodule_RampRate(const set_t<commonmodule::RampRate>& setter, const get_t<commonmodule::RampRate>& getter, ITypedModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
+void visit_commonmodule_StatusDPS(const set_t<commonmodule::StatusDPS>& setter, const get_t<commonmodule::StatusDPS>& getter, ITypedModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+
 void visit_commonmodule_StatusMessageInfo(const set_t<commonmodule::StatusMessageInfo>& setter, const get_t<commonmodule::StatusMessageInfo>& getter, ITypedModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 void visit_commonmodule_StatusSPS(const set_t<commonmodule::StatusSPS>& setter, const get_t<commonmodule::StatusSPS>& getter, ITypedModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 void visit_commonmodule_StatusValue(const set_t<commonmodule::StatusValue>& setter, const get_t<commonmodule::StatusValue>& getter, ITypedModelVisitor<loadmodule::LoadStatusProfile>& visitor);
+
+void visit_google_protobuf_BoolValue(const set_t<google::protobuf::BoolValue>& setter, const get_t<google::protobuf::BoolValue>& getter, ITypedModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 void visit_google_protobuf_FloatValue(const set_t<google::protobuf::FloatValue>& setter, const get_t<google::protobuf::FloatValue>& getter, ITypedModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
@@ -214,23 +216,6 @@ void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::Conducting
                 const auto parent = getter(profile);
                 if(!parent) return false;
                 handler(parent->mrid());
-                return true;
-            }
-        )
-    );
-}
-
-void visit_commonmodule_ControlDPC(const set_t<commonmodule::ControlDPC>& setter, const get_t<commonmodule::ControlDPC>& getter, ITypedModelVisitor<loadmodule::LoadStatusProfile>& visitor)
-{
-    visitor.handle(
-        "ctlVal",
-        AccessorBuilder<loadmodule::LoadStatusProfile,bool>::build(
-            [setter](loadmodule::LoadStatusProfile& profile, const bool& value) { setter(profile)->set_ctlval(value); },
-            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->ctlval());
                 return true;
             }
         )
@@ -624,6 +609,54 @@ void visit_commonmodule_LogicalNodeForEventAndStatus(const set_t<commonmodule::L
         );
         visitor.end_message_field();
     }
+
+    if(visitor.start_message_field("HotLineTag", commonmodule::StatusSPS::descriptor()))
+    {
+        visit_commonmodule_StatusSPS(
+            [setter](loadmodule::LoadStatusProfile& profile)
+            {
+                return setter(profile)->mutable_hotlinetag();
+            },
+            [getter](const loadmodule::LoadStatusProfile& profile) -> commonmodule::StatusSPS const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_hotlinetag() ? &value->hotlinetag() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("RemoteBlk", commonmodule::StatusSPS::descriptor()))
+    {
+        visit_commonmodule_StatusSPS(
+            [setter](loadmodule::LoadStatusProfile& profile)
+            {
+                return setter(profile)->mutable_remoteblk();
+            },
+            [getter](const loadmodule::LoadStatusProfile& profile) -> commonmodule::StatusSPS const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_remoteblk() ? &value->remoteblk() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
 }
 
 void visit_commonmodule_MessageInfo(const set_t<commonmodule::MessageInfo>& setter, const get_t<commonmodule::MessageInfo>& getter, ITypedModelVisitor<loadmodule::LoadStatusProfile>& visitor)
@@ -835,6 +868,52 @@ void visit_commonmodule_RampRate(const set_t<commonmodule::RampRate>& setter, co
     }
 }
 
+void visit_commonmodule_StatusDPS(const set_t<commonmodule::StatusDPS>& setter, const get_t<commonmodule::StatusDPS>& getter, ITypedModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+{
+    visitor.handle(
+        "q",
+        MessageAccessorBuilder<loadmodule::LoadStatusProfile,commonmodule::Quality>::build(
+            [setter](loadmodule::LoadStatusProfile& profile) { return setter(profile)->mutable_q(); },
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<commonmodule::Quality>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent || !parent->has_q()) return false;
+                handler(parent->q());
+                return true;
+            }
+        )
+    );
+
+    visitor.handle(
+        "stVal",
+        AccessorBuilder<loadmodule::LoadStatusProfile,int>::build(
+            [setter](loadmodule::LoadStatusProfile& profile, const int& value) { setter(profile)->set_stval(static_cast<commonmodule::DbPosKind>(value)); },
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<int>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->stval());
+                return true;
+            }
+        ),
+        commonmodule::DbPosKind_descriptor()
+    );
+
+    visitor.handle(
+        "t",
+        MessageAccessorBuilder<loadmodule::LoadStatusProfile,commonmodule::Timestamp>::build(
+            [setter](loadmodule::LoadStatusProfile& profile) { return setter(profile)->mutable_t(); },
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<commonmodule::Timestamp>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent || !parent->has_t()) return false;
+                handler(parent->t());
+                return true;
+            }
+        )
+    );
+}
+
 void visit_commonmodule_StatusMessageInfo(const set_t<commonmodule::StatusMessageInfo>& setter, const get_t<commonmodule::StatusMessageInfo>& getter, ITypedModelVisitor<loadmodule::LoadStatusProfile>& visitor)
 {
     if(visitor.start_message_field("messageInfo", commonmodule::MessageInfo::descriptor()))
@@ -932,6 +1011,47 @@ void visit_commonmodule_StatusValue(const set_t<commonmodule::StatusValue>& sett
         );
         visitor.end_message_field();
     }
+
+    if(visitor.start_message_field("modBlk", google::protobuf::BoolValue::descriptor()))
+    {
+        visit_google_protobuf_BoolValue(
+            [setter](loadmodule::LoadStatusProfile& profile)
+            {
+                return setter(profile)->mutable_modblk();
+            },
+            [getter](const loadmodule::LoadStatusProfile& profile) -> google::protobuf::BoolValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_modblk() ? &value->modblk() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+}
+
+void visit_google_protobuf_BoolValue(const set_t<google::protobuf::BoolValue>& setter, const get_t<google::protobuf::BoolValue>& getter, ITypedModelVisitor<loadmodule::LoadStatusProfile>& visitor)
+{
+    visitor.handle(
+        "value",
+        AccessorBuilder<loadmodule::LoadStatusProfile,bool>::build(
+            [setter](loadmodule::LoadStatusProfile& profile, const bool& value) { setter(profile)->set_value(value); },
+            [getter](const loadmodule::LoadStatusProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->value());
+                return true;
+            }
+        )
+    );
 }
 
 void visit_google_protobuf_FloatValue(const set_t<google::protobuf::FloatValue>& setter, const get_t<google::protobuf::FloatValue>& getter, ITypedModelVisitor<loadmodule::LoadStatusProfile>& visitor)
@@ -1093,14 +1213,14 @@ void visit_loadmodule_LoadPointStatus(const set_t<loadmodule::LoadPointStatus>& 
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("reactivePwrSetPointEnabled", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("reactivePwrSetPointEnabled", commonmodule::StatusDPS::descriptor()))
     {
-        visit_commonmodule_ControlDPC(
+        visit_commonmodule_StatusDPS(
             [setter](loadmodule::LoadStatusProfile& profile)
             {
                 return setter(profile)->mutable_reactivepwrsetpointenabled();
             },
-            [getter](const loadmodule::LoadStatusProfile& profile) -> commonmodule::ControlDPC const *
+            [getter](const loadmodule::LoadStatusProfile& profile) -> commonmodule::StatusDPS const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1117,14 +1237,14 @@ void visit_loadmodule_LoadPointStatus(const set_t<loadmodule::LoadPointStatus>& 
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("realPwrSetPointEnabled", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("realPwrSetPointEnabled", commonmodule::StatusDPS::descriptor()))
     {
-        visit_commonmodule_ControlDPC(
+        visit_commonmodule_StatusDPS(
             [setter](loadmodule::LoadStatusProfile& profile)
             {
                 return setter(profile)->mutable_realpwrsetpointenabled();
             },
-            [getter](const loadmodule::LoadStatusProfile& profile) -> commonmodule::ControlDPC const *
+            [getter](const loadmodule::LoadStatusProfile& profile) -> commonmodule::StatusDPS const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1141,14 +1261,14 @@ void visit_loadmodule_LoadPointStatus(const set_t<loadmodule::LoadPointStatus>& 
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("reset", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("reset", commonmodule::StatusDPS::descriptor()))
     {
-        visit_commonmodule_ControlDPC(
+        visit_commonmodule_StatusDPS(
             [setter](loadmodule::LoadStatusProfile& profile)
             {
                 return setter(profile)->mutable_reset();
             },
-            [getter](const loadmodule::LoadStatusProfile& profile) -> commonmodule::ControlDPC const *
+            [getter](const loadmodule::LoadStatusProfile& profile) -> commonmodule::StatusDPS const *
             {
                 const auto value = getter(profile);
                 if(value)

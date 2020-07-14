@@ -15,9 +15,9 @@
 #define OPENFMB_CONVERTTOPROTO_H
 
 #include "reclosermodule/reclosermodule.pb.h"
-#include "shuntmodule/shuntmodule.pb.h"
 #include "solarmodule/solarmodule.pb.h"
 #include "breakermodule/breakermodule.pb.h"
+#include "capbankmodule/capbankmodule.pb.h"
 #include "switchmodule/switchmodule.pb.h"
 #include "generationmodule/generationmodule.pb.h"
 #include "loadmodule/loadmodule.pb.h"
@@ -42,6 +42,16 @@ void convert_to_proto(const openfmb::breakermodule::BreakerReadingProfile& in, b
 
 void convert_to_proto(const openfmb::breakermodule::BreakerStatusProfile& in, breakermodule::BreakerStatusProfile& out);
 
+void convert_to_proto(const openfmb::capbankmodule::CapBankControlProfile& in, capbankmodule::CapBankControlProfile& out);
+
+void convert_to_proto(const openfmb::capbankmodule::CapBankDiscreteControlProfile& in, capbankmodule::CapBankDiscreteControlProfile& out);
+
+void convert_to_proto(const openfmb::capbankmodule::CapBankEventProfile& in, capbankmodule::CapBankEventProfile& out);
+
+void convert_to_proto(const openfmb::capbankmodule::CapBankReadingProfile& in, capbankmodule::CapBankReadingProfile& out);
+
+void convert_to_proto(const openfmb::capbankmodule::CapBankStatusProfile& in, capbankmodule::CapBankStatusProfile& out);
+
 void convert_to_proto(const openfmb::essmodule::ESSControlProfile& in, essmodule::ESSControlProfile& out);
 
 void convert_to_proto(const openfmb::essmodule::ESSEventProfile& in, essmodule::ESSEventProfile& out);
@@ -51,6 +61,8 @@ void convert_to_proto(const openfmb::essmodule::ESSReadingProfile& in, essmodule
 void convert_to_proto(const openfmb::essmodule::ESSStatusProfile& in, essmodule::ESSStatusProfile& out);
 
 void convert_to_proto(const openfmb::generationmodule::GenerationControlProfile& in, generationmodule::GenerationControlProfile& out);
+
+void convert_to_proto(const openfmb::generationmodule::GenerationDiscreteControlProfile& in, generationmodule::GenerationDiscreteControlProfile& out);
 
 void convert_to_proto(const openfmb::generationmodule::GenerationEventProfile& in, generationmodule::GenerationEventProfile& out);
 
@@ -86,6 +98,10 @@ void convert_to_proto(const openfmb::regulatormodule::RegulatorReadingProfile& i
 
 void convert_to_proto(const openfmb::regulatormodule::RegulatorStatusProfile& in, regulatormodule::RegulatorStatusProfile& out);
 
+void convert_to_proto(const openfmb::resourcemodule::ResourceDiscreteControlProfile& in, resourcemodule::ResourceDiscreteControlProfile& out);
+
+void convert_to_proto(const openfmb::resourcemodule::ResourceEventProfile& in, resourcemodule::ResourceEventProfile& out);
+
 void convert_to_proto(const openfmb::resourcemodule::ResourceReadingProfile& in, resourcemodule::ResourceReadingProfile& out);
 
 void convert_to_proto(const openfmb::resourcemodule::ResourceStatusProfile& in, resourcemodule::ResourceStatusProfile& out);
@@ -97,16 +113,6 @@ void convert_to_proto(const openfmb::solarmodule::SolarEventProfile& in, solarmo
 void convert_to_proto(const openfmb::solarmodule::SolarReadingProfile& in, solarmodule::SolarReadingProfile& out);
 
 void convert_to_proto(const openfmb::solarmodule::SolarStatusProfile& in, solarmodule::SolarStatusProfile& out);
-
-void convert_to_proto(const openfmb::shuntmodule::ShuntControlProfile& in, shuntmodule::ShuntControlProfile& out);
-
-void convert_to_proto(const openfmb::shuntmodule::ShuntDiscreteControlProfile& in, shuntmodule::ShuntDiscreteControlProfile& out);
-
-void convert_to_proto(const openfmb::shuntmodule::ShuntEventProfile& in, shuntmodule::ShuntEventProfile& out);
-
-void convert_to_proto(const openfmb::shuntmodule::ShuntStatusProfile& in, shuntmodule::ShuntStatusProfile& out);
-
-void convert_to_proto(const openfmb::shuntmodule::ShuntReadingProfile& in, shuntmodule::ShuntReadingProfile& out);
 
 void convert_to_proto(const openfmb::switchmodule::SwitchControlProfile& in, switchmodule::SwitchControlProfile& out);
 

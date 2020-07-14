@@ -50,7 +50,13 @@ void visit_commonmodule_MessageInfo(const set_t<commonmodule::MessageInfo>& sett
 
 void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& setter, const get_t<commonmodule::NamedObject>& getter, ITypedModelVisitor<switchmodule::SwitchEventProfile>& visitor);
 
+void visit_commonmodule_PhaseDPS(const set_t<commonmodule::PhaseDPS>& setter, const get_t<commonmodule::PhaseDPS>& getter, ITypedModelVisitor<switchmodule::SwitchEventProfile>& visitor);
+
 void visit_commonmodule_StatusDPS(const set_t<commonmodule::StatusDPS>& setter, const get_t<commonmodule::StatusDPS>& getter, ITypedModelVisitor<switchmodule::SwitchEventProfile>& visitor);
+
+void visit_commonmodule_StatusSPS(const set_t<commonmodule::StatusSPS>& setter, const get_t<commonmodule::StatusSPS>& getter, ITypedModelVisitor<switchmodule::SwitchEventProfile>& visitor);
+
+void visit_google_protobuf_BoolValue(const set_t<google::protobuf::BoolValue>& setter, const get_t<google::protobuf::BoolValue>& getter, ITypedModelVisitor<switchmodule::SwitchEventProfile>& visitor);
 
 void visit_google_protobuf_StringValue(const set_t<google::protobuf::StringValue>& setter, const get_t<google::protobuf::StringValue>& getter, ITypedModelVisitor<switchmodule::SwitchEventProfile>& visitor);
 
@@ -394,6 +400,30 @@ void visit_commonmodule_EventValue(const set_t<commonmodule::EventValue>& setter
         );
         visitor.end_message_field();
     }
+
+    if(visitor.start_message_field("modBlk", google::protobuf::BoolValue::descriptor()))
+    {
+        visit_google_protobuf_BoolValue(
+            [setter](switchmodule::SwitchEventProfile& profile)
+            {
+                return setter(profile)->mutable_modblk();
+            },
+            [getter](const switchmodule::SwitchEventProfile& profile) -> google::protobuf::BoolValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_modblk() ? &value->modblk() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
 }
 
 void visit_commonmodule_IED(const set_t<commonmodule::IED>& setter, const get_t<commonmodule::IED>& getter, ITypedModelVisitor<switchmodule::SwitchEventProfile>& visitor)
@@ -598,6 +628,54 @@ void visit_commonmodule_LogicalNodeForEventAndStatus(const set_t<commonmodule::L
         );
         visitor.end_message_field();
     }
+
+    if(visitor.start_message_field("HotLineTag", commonmodule::StatusSPS::descriptor()))
+    {
+        visit_commonmodule_StatusSPS(
+            [setter](switchmodule::SwitchEventProfile& profile)
+            {
+                return setter(profile)->mutable_hotlinetag();
+            },
+            [getter](const switchmodule::SwitchEventProfile& profile) -> commonmodule::StatusSPS const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_hotlinetag() ? &value->hotlinetag() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("RemoteBlk", commonmodule::StatusSPS::descriptor()))
+    {
+        visit_commonmodule_StatusSPS(
+            [setter](switchmodule::SwitchEventProfile& profile)
+            {
+                return setter(profile)->mutable_remoteblk();
+            },
+            [getter](const switchmodule::SwitchEventProfile& profile) -> commonmodule::StatusSPS const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_remoteblk() ? &value->remoteblk() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
 }
 
 void visit_commonmodule_MessageInfo(const set_t<commonmodule::MessageInfo>& setter, const get_t<commonmodule::MessageInfo>& getter, ITypedModelVisitor<switchmodule::SwitchEventProfile>& visitor)
@@ -692,6 +770,105 @@ void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& sett
     }
 }
 
+void visit_commonmodule_PhaseDPS(const set_t<commonmodule::PhaseDPS>& setter, const get_t<commonmodule::PhaseDPS>& getter, ITypedModelVisitor<switchmodule::SwitchEventProfile>& visitor)
+{
+    if(visitor.start_message_field("phs3", commonmodule::StatusDPS::descriptor()))
+    {
+        visit_commonmodule_StatusDPS(
+            [setter](switchmodule::SwitchEventProfile& profile)
+            {
+                return setter(profile)->mutable_phs3();
+            },
+            [getter](const switchmodule::SwitchEventProfile& profile) -> commonmodule::StatusDPS const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_phs3() ? &value->phs3() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("phsA", commonmodule::StatusDPS::descriptor()))
+    {
+        visit_commonmodule_StatusDPS(
+            [setter](switchmodule::SwitchEventProfile& profile)
+            {
+                return setter(profile)->mutable_phsa();
+            },
+            [getter](const switchmodule::SwitchEventProfile& profile) -> commonmodule::StatusDPS const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_phsa() ? &value->phsa() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("phsB", commonmodule::StatusDPS::descriptor()))
+    {
+        visit_commonmodule_StatusDPS(
+            [setter](switchmodule::SwitchEventProfile& profile)
+            {
+                return setter(profile)->mutable_phsb();
+            },
+            [getter](const switchmodule::SwitchEventProfile& profile) -> commonmodule::StatusDPS const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_phsb() ? &value->phsb() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("phsC", commonmodule::StatusDPS::descriptor()))
+    {
+        visit_commonmodule_StatusDPS(
+            [setter](switchmodule::SwitchEventProfile& profile)
+            {
+                return setter(profile)->mutable_phsc();
+            },
+            [getter](const switchmodule::SwitchEventProfile& profile) -> commonmodule::StatusDPS const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_phsc() ? &value->phsc() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+}
+
 void visit_commonmodule_StatusDPS(const set_t<commonmodule::StatusDPS>& setter, const get_t<commonmodule::StatusDPS>& getter, ITypedModelVisitor<switchmodule::SwitchEventProfile>& visitor)
 {
     visitor.handle(
@@ -732,6 +909,68 @@ void visit_commonmodule_StatusDPS(const set_t<commonmodule::StatusDPS>& setter, 
                 const auto parent = getter(profile);
                 if(!parent || !parent->has_t()) return false;
                 handler(parent->t());
+                return true;
+            }
+        )
+    );
+}
+
+void visit_commonmodule_StatusSPS(const set_t<commonmodule::StatusSPS>& setter, const get_t<commonmodule::StatusSPS>& getter, ITypedModelVisitor<switchmodule::SwitchEventProfile>& visitor)
+{
+    visitor.handle(
+        "q",
+        MessageAccessorBuilder<switchmodule::SwitchEventProfile,commonmodule::Quality>::build(
+            [setter](switchmodule::SwitchEventProfile& profile) { return setter(profile)->mutable_q(); },
+            [getter](const switchmodule::SwitchEventProfile& profile, const handler_t<commonmodule::Quality>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent || !parent->has_q()) return false;
+                handler(parent->q());
+                return true;
+            }
+        )
+    );
+
+    visitor.handle(
+        "stVal",
+        AccessorBuilder<switchmodule::SwitchEventProfile,bool>::build(
+            [setter](switchmodule::SwitchEventProfile& profile, const bool& value) { setter(profile)->set_stval(value); },
+            [getter](const switchmodule::SwitchEventProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->stval());
+                return true;
+            }
+        )
+    );
+
+    visitor.handle(
+        "t",
+        MessageAccessorBuilder<switchmodule::SwitchEventProfile,commonmodule::Timestamp>::build(
+            [setter](switchmodule::SwitchEventProfile& profile) { return setter(profile)->mutable_t(); },
+            [getter](const switchmodule::SwitchEventProfile& profile, const handler_t<commonmodule::Timestamp>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent || !parent->has_t()) return false;
+                handler(parent->t());
+                return true;
+            }
+        )
+    );
+}
+
+void visit_google_protobuf_BoolValue(const set_t<google::protobuf::BoolValue>& setter, const get_t<google::protobuf::BoolValue>& getter, ITypedModelVisitor<switchmodule::SwitchEventProfile>& visitor)
+{
+    visitor.handle(
+        "value",
+        AccessorBuilder<switchmodule::SwitchEventProfile,bool>::build(
+            [setter](switchmodule::SwitchEventProfile& profile, const bool& value) { setter(profile)->set_value(value); },
+            [getter](const switchmodule::SwitchEventProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->value());
                 return true;
             }
         )
@@ -883,14 +1122,14 @@ void visit_switchmodule_SwitchEventXSWI(const set_t<switchmodule::SwitchEventXSW
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("Pos", commonmodule::StatusDPS::descriptor()))
+    if(visitor.start_message_field("Pos", commonmodule::PhaseDPS::descriptor()))
     {
-        visit_commonmodule_StatusDPS(
+        visit_commonmodule_PhaseDPS(
             [setter](switchmodule::SwitchEventProfile& profile)
             {
                 return setter(profile)->mutable_pos();
             },
-            [getter](const switchmodule::SwitchEventProfile& profile) -> commonmodule::StatusDPS const *
+            [getter](const switchmodule::SwitchEventProfile& profile) -> commonmodule::PhaseDPS const *
             {
                 const auto value = getter(profile);
                 if(value)
