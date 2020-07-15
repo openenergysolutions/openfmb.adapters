@@ -20,22 +20,6 @@ namespace util {
     struct profile_info;
 
     template <>
-    struct profile_info<breakermodule::BreakerReadingProfile> {
-
-        static constexpr ProfileType type = ProfileType::Reading;
-
-        static const commonmodule::MessageInfo& get_message_info(const breakermodule::BreakerReadingProfile& profile)
-        {
-            return profile.readingmessageinfo().messageinfo();
-        }
-
-        static const commonmodule::ConductingEquipment& get_conducting_equip(const breakermodule::BreakerReadingProfile& profile)
-        {
-            return profile.breaker().conductingequipment();
-        }
-    };
-
-    template <>
     struct profile_info<breakermodule::BreakerDiscreteControlProfile> {
 
         static constexpr ProfileType type = ProfileType::Control;
@@ -68,6 +52,22 @@ namespace util {
     };
 
     template <>
+    struct profile_info<breakermodule::BreakerReadingProfile> {
+
+        static constexpr ProfileType type = ProfileType::Reading;
+
+        static const commonmodule::MessageInfo& get_message_info(const breakermodule::BreakerReadingProfile& profile)
+        {
+            return profile.readingmessageinfo().messageinfo();
+        }
+
+        static const commonmodule::ConductingEquipment& get_conducting_equip(const breakermodule::BreakerReadingProfile& profile)
+        {
+            return profile.breaker().conductingequipment();
+        }
+    };
+
+    template <>
     struct profile_info<breakermodule::BreakerStatusProfile> {
 
         static constexpr ProfileType type = ProfileType::Status;
@@ -80,6 +80,86 @@ namespace util {
         static const commonmodule::ConductingEquipment& get_conducting_equip(const breakermodule::BreakerStatusProfile& profile)
         {
             return profile.breaker().conductingequipment();
+        }
+    };
+
+    template <>
+    struct profile_info<capbankmodule::CapBankControlProfile> {
+
+        static constexpr ProfileType type = ProfileType::Control;
+
+        static const commonmodule::MessageInfo& get_message_info(const capbankmodule::CapBankControlProfile& profile)
+        {
+            return profile.controlmessageinfo().messageinfo();
+        }
+
+        static const commonmodule::ConductingEquipment& get_conducting_equip(const capbankmodule::CapBankControlProfile& profile)
+        {
+            return profile.capbanksystem().conductingequipment();
+        }
+    };
+
+    template <>
+    struct profile_info<capbankmodule::CapBankDiscreteControlProfile> {
+
+        static constexpr ProfileType type = ProfileType::Control;
+
+        static const commonmodule::MessageInfo& get_message_info(const capbankmodule::CapBankDiscreteControlProfile& profile)
+        {
+            return profile.controlmessageinfo().messageinfo();
+        }
+
+        static const commonmodule::ConductingEquipment& get_conducting_equip(const capbankmodule::CapBankDiscreteControlProfile& profile)
+        {
+            return profile.capbanksystem().conductingequipment();
+        }
+    };
+
+    template <>
+    struct profile_info<capbankmodule::CapBankEventProfile> {
+
+        static constexpr ProfileType type = ProfileType::Event;
+
+        static const commonmodule::MessageInfo& get_message_info(const capbankmodule::CapBankEventProfile& profile)
+        {
+            return profile.eventmessageinfo().messageinfo();
+        }
+
+        static const commonmodule::ConductingEquipment& get_conducting_equip(const capbankmodule::CapBankEventProfile& profile)
+        {
+            return profile.capbanksystem().conductingequipment();
+        }
+    };
+
+    template <>
+    struct profile_info<capbankmodule::CapBankReadingProfile> {
+
+        static constexpr ProfileType type = ProfileType::Reading;
+
+        static const commonmodule::MessageInfo& get_message_info(const capbankmodule::CapBankReadingProfile& profile)
+        {
+            return profile.readingmessageinfo().messageinfo();
+        }
+
+        static const commonmodule::ConductingEquipment& get_conducting_equip(const capbankmodule::CapBankReadingProfile& profile)
+        {
+            return profile.capbanksystem().conductingequipment();
+        }
+    };
+
+    template <>
+    struct profile_info<capbankmodule::CapBankStatusProfile> {
+
+        static constexpr ProfileType type = ProfileType::Status;
+
+        static const commonmodule::MessageInfo& get_message_info(const capbankmodule::CapBankStatusProfile& profile)
+        {
+            return profile.statusmessageinfo().messageinfo();
+        }
+
+        static const commonmodule::ConductingEquipment& get_conducting_equip(const capbankmodule::CapBankStatusProfile& profile)
+        {
+            return profile.capbanksystem().conductingequipment();
         }
     };
 
@@ -158,6 +238,22 @@ namespace util {
         }
 
         static const commonmodule::ConductingEquipment& get_conducting_equip(const generationmodule::GenerationControlProfile& profile)
+        {
+            return profile.generatingunit().conductingequipment();
+        }
+    };
+
+    template <>
+    struct profile_info<generationmodule::GenerationDiscreteControlProfile> {
+
+        static constexpr ProfileType type = ProfileType::Control;
+
+        static const commonmodule::MessageInfo& get_message_info(const generationmodule::GenerationDiscreteControlProfile& profile)
+        {
+            return profile.controlmessageinfo().messageinfo();
+        }
+
+        static const commonmodule::ConductingEquipment& get_conducting_equip(const generationmodule::GenerationDiscreteControlProfile& profile)
         {
             return profile.generatingunit().conductingequipment();
         }
@@ -432,6 +528,38 @@ namespace util {
         static const commonmodule::ConductingEquipment& get_conducting_equip(const regulatormodule::RegulatorStatusProfile& profile)
         {
             return profile.regulatorsystem().conductingequipment();
+        }
+    };
+
+    template <>
+    struct profile_info<resourcemodule::ResourceDiscreteControlProfile> {
+
+        static constexpr ProfileType type = ProfileType::Control;
+
+        static const commonmodule::MessageInfo& get_message_info(const resourcemodule::ResourceDiscreteControlProfile& profile)
+        {
+            return profile.controlmessageinfo().messageinfo();
+        }
+
+        static const commonmodule::ConductingEquipment& get_conducting_equip(const resourcemodule::ResourceDiscreteControlProfile& profile)
+        {
+            return profile.conductingequipment();
+        }
+    };
+
+    template <>
+    struct profile_info<resourcemodule::ResourceEventProfile> {
+
+        static constexpr ProfileType type = ProfileType::Event;
+
+        static const commonmodule::MessageInfo& get_message_info(const resourcemodule::ResourceEventProfile& profile)
+        {
+            return profile.eventmessageinfo().messageinfo();
+        }
+
+        static const commonmodule::ConductingEquipment& get_conducting_equip(const resourcemodule::ResourceEventProfile& profile)
+        {
+            return profile.conductingequipment();
         }
     };
 

@@ -3,6 +3,7 @@
 #define OPENFMB_ADAPTER_PROFILEREGISTRY_H
 
 #include <proto-api/breakermodule/breakermodule.pb.h>
+#include <proto-api/capbankmodule/capbankmodule.pb.h>
 #include <proto-api/essmodule/essmodule.pb.h>
 #include <proto-api/generationmodule/generationmodule.pb.h>
 #include <proto-api/loadmodule/loadmodule.pb.h>
@@ -84,11 +85,17 @@ namespace api {
      * This list is used by other components to automatically add support for profiles.
      */
     using ProfileRegistry = impl::ProfileList<
-        // ess module
+        // breaker module
         breakermodule::BreakerDiscreteControlProfile,
         breakermodule::BreakerEventProfile,
         breakermodule::BreakerReadingProfile,
         breakermodule::BreakerStatusProfile,
+        // capbank module
+        capbankmodule::CapBankControlProfile,
+        capbankmodule::CapBankDiscreteControlProfile,
+        capbankmodule::CapBankEventProfile,
+        capbankmodule::CapBankReadingProfile,
+        capbankmodule::CapBankStatusProfile,
         // ess module
         essmodule::ESSControlProfile,
         essmodule::ESSEventProfile,
@@ -96,6 +103,7 @@ namespace api {
         essmodule::ESSStatusProfile,
         // generation module
         generationmodule::GenerationControlProfile,
+        generationmodule::GenerationDiscreteControlProfile,
         generationmodule::GenerationEventProfile,
         generationmodule::GenerationReadingProfile,
         generationmodule::GenerationStatusProfile,
@@ -118,6 +126,8 @@ namespace api {
         regulatormodule::RegulatorReadingProfile,
         regulatormodule::RegulatorStatusProfile,
         // resource module
+        resourcemodule::ResourceDiscreteControlProfile,
+        resourcemodule::ResourceEventProfile,
         resourcemodule::ResourceReadingProfile,
         resourcemodule::ResourceStatusProfile,
         // solar module

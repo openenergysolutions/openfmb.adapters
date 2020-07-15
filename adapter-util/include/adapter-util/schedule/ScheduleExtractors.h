@@ -2,13 +2,13 @@
 #define OPENFMB_ADAPTER_SCHEDULEEXTRACTORS_H
 
 #include <proto-api/breakermodule/breakermodule.pb.h>
+#include <proto-api/capbankmodule/capbankmodule.pb.h>
 #include <proto-api/essmodule/essmodule.pb.h>
 #include <proto-api/generationmodule/generationmodule.pb.h>
 #include <proto-api/loadmodule/loadmodule.pb.h>
 #include <proto-api/reclosermodule/reclosermodule.pb.h>
 #include <proto-api/regulatormodule/regulatormodule.pb.h>
 #include <proto-api/solarmodule/solarmodule.pb.h>
-#include <proto-api/shuntmodule/shuntmodule.pb.h>
 #include <proto-api/switchmodule/switchmodule.pb.h>
 
 namespace adapter
@@ -33,6 +33,65 @@ struct schedule_extractor<breakermodule::BreakerDiscreteControlProfile>
     }
 
     static commonmodule::Timestamp* get_message_timestamp(breakermodule::BreakerDiscreteControlProfile& profile)
+    {
+        return profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_messagetimestamp();
+    }
+
+    // No control FSCC
+
+    // No custom points
+};
+
+template <>
+struct schedule_extractor<capbankmodule::CapBankControlProfile>
+{
+    static void set_source_mrid(capbankmodule::CapBankControlProfile& profile, const std::string& mrid)
+    {
+        profile.mutable_capbanksystem()->mutable_conductingequipment()->set_mrid(mrid);
+    }
+
+    static void set_message_mrid(capbankmodule::CapBankControlProfile& profile, const std::string& mrid)
+    {
+        profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_identifiedobject()->mutable_mrid()->set_value(mrid);
+    }
+
+    static commonmodule::Timestamp* get_message_timestamp(capbankmodule::CapBankControlProfile& profile)
+    {
+        return profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_messagetimestamp();
+    }
+
+    static commonmodule::ControlFSCC* get_control_fscc(capbankmodule::CapBankControlProfile& profile)
+    {
+        return profile.mutable_capbankcontrol()->mutable_capbankcontrolfscc()->mutable_controlfscc();
+    }
+
+    using custom_point_t = capbankmodule::CapBankPoint;
+
+    static bool has_custom_points(const capbankmodule::CapBankControlProfile& profile)
+    {
+        return profile.capbankcontrol().capbankcontrolfscc().capbankcontrolschedulefsch().has_valcsg();
+    }
+
+    static google::protobuf::RepeatedPtrField<custom_point_t>* get_custom_points(capbankmodule::CapBankControlProfile& profile)
+    {
+        return profile.mutable_capbankcontrol()->mutable_capbankcontrolfscc()->mutable_capbankcontrolschedulefsch()->mutable_valcsg()->mutable_crvpts();
+    }
+};
+
+template <>
+struct schedule_extractor<capbankmodule::CapBankDiscreteControlProfile>
+{
+    static void set_source_mrid(capbankmodule::CapBankDiscreteControlProfile& profile, const std::string& mrid)
+    {
+        profile.mutable_capbanksystem()->mutable_conductingequipment()->set_mrid(mrid);
+    }
+
+    static void set_message_mrid(capbankmodule::CapBankDiscreteControlProfile& profile, const std::string& mrid)
+    {
+        profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_identifiedobject()->mutable_mrid()->set_value(mrid);
+    }
+
+    static commonmodule::Timestamp* get_message_timestamp(capbankmodule::CapBankDiscreteControlProfile& profile)
     {
         return profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_messagetimestamp();
     }
@@ -112,6 +171,29 @@ struct schedule_extractor<generationmodule::GenerationControlProfile>
     {
         return profile.mutable_generationcontrol()->mutable_generationcontrolfscc()->mutable_generationcontrolschedulefsch()->mutable_valdcsg()->mutable_crvpts();
     }
+};
+
+template <>
+struct schedule_extractor<generationmodule::GenerationDiscreteControlProfile>
+{
+    static void set_source_mrid(generationmodule::GenerationDiscreteControlProfile& profile, const std::string& mrid)
+    {
+        profile.mutable_generatingunit()->mutable_conductingequipment()->set_mrid(mrid);
+    }
+
+    static void set_message_mrid(generationmodule::GenerationDiscreteControlProfile& profile, const std::string& mrid)
+    {
+        profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_identifiedobject()->mutable_mrid()->set_value(mrid);
+    }
+
+    static commonmodule::Timestamp* get_message_timestamp(generationmodule::GenerationDiscreteControlProfile& profile)
+    {
+        return profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_messagetimestamp();
+    }
+
+    // No control FSCC
+
+    // No custom points
 };
 
 template <>
@@ -243,6 +325,29 @@ struct schedule_extractor<regulatormodule::RegulatorControlProfile>
 };
 
 template <>
+struct schedule_extractor<resourcemodule::ResourceDiscreteControlProfile>
+{
+    static void set_source_mrid(resourcemodule::ResourceDiscreteControlProfile& profile, const std::string& mrid)
+    {
+        profile.mutable_conductingequipment()->set_mrid(mrid);
+    }
+
+    static void set_message_mrid(resourcemodule::ResourceDiscreteControlProfile& profile, const std::string& mrid)
+    {
+        profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_identifiedobject()->mutable_mrid()->set_value(mrid);
+    }
+
+    static commonmodule::Timestamp* get_message_timestamp(resourcemodule::ResourceDiscreteControlProfile& profile)
+    {
+        return profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_messagetimestamp();
+    }
+
+    // No control FSCC
+
+    // No custom points
+};
+
+template <>
 struct schedule_extractor<solarmodule::SolarControlProfile>
 {
     static void set_source_mrid(solarmodule::SolarControlProfile& profile, const std::string& mrid)
@@ -276,65 +381,6 @@ struct schedule_extractor<solarmodule::SolarControlProfile>
     {
         return profile.mutable_solarcontrol()->mutable_solarcontrolfscc()->mutable_solarcontrolschedulefsch()->mutable_valdcsg()->mutable_crvpts();
     }
-};
-
-template <>
-struct schedule_extractor<shuntmodule::ShuntControlProfile>
-{
-    static void set_source_mrid(shuntmodule::ShuntControlProfile& profile, const std::string& mrid)
-    {
-        profile.mutable_shuntsystem()->mutable_conductingequipment()->set_mrid(mrid);
-    }
-
-    static void set_message_mrid(shuntmodule::ShuntControlProfile& profile, const std::string& mrid)
-    {
-        profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_identifiedobject()->mutable_mrid()->set_value(mrid);
-    }
-
-    static commonmodule::Timestamp* get_message_timestamp(shuntmodule::ShuntControlProfile& profile)
-    {
-        return profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_messagetimestamp();
-    }
-
-    static commonmodule::ControlFSCC* get_control_fscc(shuntmodule::ShuntControlProfile& profile)
-    {
-        return profile.mutable_shuntcontrol()->mutable_shuntcontrolfscc()->mutable_controlfscc();
-    }
-
-    using custom_point_t = shuntmodule::ShuntPoint;
-
-    static bool has_custom_points(const shuntmodule::ShuntControlProfile& profile)
-    {
-        return profile.shuntcontrol().shuntcontrolfscc().shuntcontrolschedulefsch().has_valcsg();
-    }
-
-    static google::protobuf::RepeatedPtrField<custom_point_t>* get_custom_points(shuntmodule::ShuntControlProfile& profile)
-    {
-        return profile.mutable_shuntcontrol()->mutable_shuntcontrolfscc()->mutable_shuntcontrolschedulefsch()->mutable_valcsg()->mutable_crvpts();
-    }
-};
-
-template <>
-struct schedule_extractor<shuntmodule::ShuntDiscreteControlProfile>
-{
-    static void set_source_mrid(shuntmodule::ShuntDiscreteControlProfile& profile, const std::string& mrid)
-    {
-        profile.mutable_shuntsystem()->mutable_conductingequipment()->set_mrid(mrid);
-    }
-
-    static void set_message_mrid(shuntmodule::ShuntDiscreteControlProfile& profile, const std::string& mrid)
-    {
-        profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_identifiedobject()->mutable_mrid()->set_value(mrid);
-    }
-
-    static commonmodule::Timestamp* get_message_timestamp(shuntmodule::ShuntDiscreteControlProfile& profile)
-    {
-        return profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_messagetimestamp();
-    }
-
-    // No control FSCC
-
-    // No custom points
 };
 
 template <>
