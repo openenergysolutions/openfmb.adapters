@@ -84,12 +84,17 @@ set(SOURCES
     ./src/config/generated/BreakerEventProfileTypedModelVisitor.cpp
     ./src/config/generated/BreakerReadingProfileTypedModelVisitor.cpp
     ./src/config/generated/BreakerStatusProfileTypedModelVisitor.cpp
-    ./src/config/generated/ControlTimestampFieldType.cpp
+    ./src/config/generated/CapBankControlProfileTypedModelVisitor.cpp
+    ./src/config/generated/CapBankDiscreteControlProfileTypedModelVisitor.cpp
+    ./src/config/generated/CapBankEventProfileTypedModelVisitor.cpp
+    ./src/config/generated/CapBankReadingProfileTypedModelVisitor.cpp
+    ./src/config/generated/CapBankStatusProfileTypedModelVisitor.cpp
     ./src/config/generated/ESSControlProfileTypedModelVisitor.cpp
     ./src/config/generated/ESSEventProfileTypedModelVisitor.cpp
     ./src/config/generated/ESSReadingProfileTypedModelVisitor.cpp
     ./src/config/generated/ESSStatusProfileTypedModelVisitor.cpp
     ./src/config/generated/GenerationControlProfileTypedModelVisitor.cpp
+    ./src/config/generated/GenerationDiscreteControlProfileTypedModelVisitor.cpp
     ./src/config/generated/GenerationEventProfileTypedModelVisitor.cpp
     ./src/config/generated/GenerationReadingProfileTypedModelVisitor.cpp
     ./src/config/generated/GenerationStatusProfileTypedModelVisitor.cpp
@@ -107,17 +112,14 @@ set(SOURCES
     ./src/config/generated/RegulatorEventProfileTypedModelVisitor.cpp
     ./src/config/generated/RegulatorReadingProfileTypedModelVisitor.cpp
     ./src/config/generated/RegulatorStatusProfileTypedModelVisitor.cpp
+    ./src/config/generated/ResourceDiscreteControlProfileTypedModelVisitor.cpp
+    ./src/config/generated/ResourceEventProfileTypedModelVisitor.cpp
     ./src/config/generated/ResourceReadingProfileTypedModelVisitor.cpp
     ./src/config/generated/ResourceStatusProfileTypedModelVisitor.cpp
     ./src/config/generated/SolarControlProfileTypedModelVisitor.cpp
     ./src/config/generated/SolarEventProfileTypedModelVisitor.cpp
     ./src/config/generated/SolarReadingProfileTypedModelVisitor.cpp
     ./src/config/generated/SolarStatusProfileTypedModelVisitor.cpp
-    ./src/config/generated/ShuntControlProfileTypedModelVisitor.cpp
-    ./src/config/generated/ShuntDiscreteControlProfileTypedModelVisitor.cpp
-    ./src/config/generated/ShuntEventProfileTypedModelVisitor.cpp
-    ./src/config/generated/ShuntReadingProfileTypedModelVisitor.cpp
-    ./src/config/generated/ShuntStatusProfileTypedModelVisitor.cpp
     ./src/config/generated/SwitchControlProfileTypedModelVisitor.cpp
     ./src/config/generated/SwitchDiscreteControlProfileTypedModelVisitor.cpp
     ./src/config/generated/SwitchEventProfileTypedModelVisitor.cpp

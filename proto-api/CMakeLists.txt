@@ -13,6 +13,7 @@ set(PROTO_OUTPUT_DIR ${GENERATED_SOURCES_BASE_DIR}/proto-api)
 # and then use this list to build the header/source/proto file lists
 set(PROTO_MODULES
     breaker
+    capbank
     common
     ess
     generation
@@ -22,7 +23,6 @@ set(PROTO_MODULES
     regulator
     resource
     solar
-    shunt
     switch
 )
 

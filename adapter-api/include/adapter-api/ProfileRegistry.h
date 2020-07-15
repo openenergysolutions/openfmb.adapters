@@ -11,7 +11,6 @@
 #include <proto-api/regulatormodule/regulatormodule.pb.h>
 #include <proto-api/resourcemodule/resourcemodule.pb.h>
 #include <proto-api/solarmodule/solarmodule.pb.h>
-#include <proto-api/shuntmodule/shuntmodule.pb.h>
 #include <proto-api/switchmodule/switchmodule.pb.h>
 
 #include "Exception.h"
@@ -126,12 +125,6 @@ namespace api {
         solarmodule::SolarEventProfile,
         solarmodule::SolarReadingProfile,
         solarmodule::SolarStatusProfile,
-        // shunt module
-        shuntmodule::ShuntControlProfile,
-        shuntmodule::ShuntDiscreteControlProfile,
-        shuntmodule::ShuntEventProfile,
-        shuntmodule::ShuntReadingProfile,
-        shuntmodule::ShuntStatusProfile,
         // switch module
         switchmodule::SwitchControlProfile,
         switchmodule::SwitchDiscreteControlProfile,
