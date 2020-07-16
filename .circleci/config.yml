@@ -204,7 +204,7 @@ commands:
             -DCMAKE_BUILD_TYPE=Release
             -DCMAKE_PREFIX_PATH="C:/Users/circleci/project/deps/npcap-sdk;C:/Users/circleci/project/deps/cnats"
             -DOPENFMB_LINK_STATIC=OFF
-            -DOPENFMB_USE_RTI_DDS=ON
+            -DOPENFMB_USE_RTI_DDS=OFF
             -DCONNEXTDDS_DIR="C:/Users/circleci/project/deps/rti-dds"
             -DCONNEXTDDS_ARCH="x64Win64VS2017"
             ..
