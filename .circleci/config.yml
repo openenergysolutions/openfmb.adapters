@@ -254,7 +254,7 @@ jobs:
           compiler: gcc
           build_type: Debug
           build_static: true
-          build_with_rti: true
+          build_with_rti: false
           run_unit_tests: true
   gcc-release:
     docker:
@@ -265,7 +265,7 @@ jobs:
           compiler: gcc
           build_type: Release
           build_static: true
-          build_with_rti: true
+          build_with_rti: false
           run_unit_tests: true
   clang-debug:
     docker:
@@ -275,7 +275,7 @@ jobs:
           compiler: clang
           build_type: Debug
           build_static: false
-          build_with_rti: true
+          build_with_rti: false
           run_unit_tests: true
   clang-release:
     docker:
@@ -285,7 +285,7 @@ jobs:
           compiler: clang
           build_type: Release
           build_static: false
-          build_with_rti: true
+          build_with_rti: false
           run_unit_tests: true
   armv7-debug:
     docker:
@@ -327,6 +327,12 @@ jobs:
     steps:
       - deploy_bc3:
           vault_id: "2240985657"
+  deploy-v2-working:
+    docker:
+      - image: circleci/python:3.7-buster
+    steps:
+      - deploy_bc3:
+          vault_id: "2851663050"
   deploy-release:
     docker:
       - image: circleci/python:3.7-buster
@@ -343,6 +349,7 @@ workflows:
               only:
                 - develop
                 - experimental
+                - v2_working
             tags:
               only:
                 - /.*/
@@ -352,6 +359,7 @@ workflows:
               only:
                 - develop
                 - experimental
+                - v2_working
             tags:
               only:
                 - /.*/
@@ -361,6 +369,7 @@ workflows:
               only:
                 - develop
                 - experimental
+                - v2_working
             tags:
               only:
                 - /.*/
@@ -370,6 +379,7 @@ workflows:
               only:
                 - develop
                 - experimental
+                - v2_working
             tags:
               only:
                 - /.*/
@@ -393,13 +403,23 @@ workflows:
             branches:
               only:
                 - experimental
-      - deploy-release:
+      - deploy-v2-working:
           requires:
             - gcc-release
             - clang-release
             - armv7-release
             - windows
           filters:
-            tags:
+            branches:
               only:
-                - /.*/
+                - v2_working
+      # - deploy-release:
+      #     requires:
+      #       - gcc-release
+      #       - clang-release
+      #       - armv7-release
+      #       - windows
+      #     filters:
+      #       tags:
+      #         only:
+      #           - /.*/
