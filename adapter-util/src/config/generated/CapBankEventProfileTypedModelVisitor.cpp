@@ -660,20 +660,6 @@ void visit_commonmodule_ENS_SwitchingCapabilityKind(const set_t<commonmodule::EN
     }
 
     visitor.handle(
-        "q",
-        MessageAccessorBuilder<capbankmodule::CapBankEventProfile,commonmodule::Quality>::build(
-            [setter](capbankmodule::CapBankEventProfile& profile) { return setter(profile)->mutable_q(); },
-            [getter](const capbankmodule::CapBankEventProfile& profile, const handler_t<commonmodule::Quality>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent || !parent->has_q()) return false;
-                handler(parent->q());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
         "stVal",
         AccessorBuilder<capbankmodule::CapBankEventProfile,int>::build(
             [setter](capbankmodule::CapBankEventProfile& profile, const int& value) { setter(profile)->set_stval(static_cast<commonmodule::SwitchingCapabilityKind>(value)); },
@@ -686,20 +672,6 @@ void visit_commonmodule_ENS_SwitchingCapabilityKind(const set_t<commonmodule::EN
             }
         ),
         commonmodule::SwitchingCapabilityKind_descriptor()
-    );
-
-    visitor.handle(
-        "t",
-        MessageAccessorBuilder<capbankmodule::CapBankEventProfile,commonmodule::Timestamp>::build(
-            [setter](capbankmodule::CapBankEventProfile& profile) { return setter(profile)->mutable_t(); },
-            [getter](const capbankmodule::CapBankEventProfile& profile, const handler_t<commonmodule::Timestamp>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent || !parent->has_t()) return false;
-                handler(parent->t());
-                return true;
-            }
-        )
     );
 }
 

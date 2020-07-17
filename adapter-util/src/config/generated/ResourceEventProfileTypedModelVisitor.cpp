@@ -902,30 +902,6 @@ void visit_commonmodule_StatusINS(const set_t<commonmodule::StatusINS>& setter, 
             }
         )
     );
-
-    if(visitor.start_message_field("units", commonmodule::Unit::descriptor()))
-    {
-        visit_commonmodule_Unit(
-            [setter](resourcemodule::ResourceEventProfile& profile)
-            {
-                return setter(profile)->mutable_units();
-            },
-            [getter](const resourcemodule::ResourceEventProfile& profile) -> commonmodule::Unit const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_units() ? &value->units() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
 }
 
 void visit_commonmodule_StatusSPS(const set_t<commonmodule::StatusSPS>& setter, const get_t<commonmodule::StatusSPS>& getter, ITypedModelVisitor<resourcemodule::ResourceEventProfile>& visitor)

@@ -52,10 +52,6 @@ void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& sett
 
 void visit_commonmodule_Optional_PhaseCodeKind(const set_t<commonmodule::Optional_PhaseCodeKind>& setter, const get_t<commonmodule::Optional_PhaseCodeKind>& getter, ITypedModelVisitor<resourcemodule::ResourceDiscreteControlProfile>& visitor);
 
-void visit_commonmodule_Optional_UnitMultiplierKind(const set_t<commonmodule::Optional_UnitMultiplierKind>& setter, const get_t<commonmodule::Optional_UnitMultiplierKind>& getter, ITypedModelVisitor<resourcemodule::ResourceDiscreteControlProfile>& visitor);
-
-void visit_commonmodule_Unit(const set_t<commonmodule::Unit>& setter, const get_t<commonmodule::Unit>& getter, ITypedModelVisitor<resourcemodule::ResourceDiscreteControlProfile>& visitor);
-
 void visit_commonmodule_VSC(const set_t<commonmodule::VSC>& setter, const get_t<commonmodule::VSC>& getter, ITypedModelVisitor<resourcemodule::ResourceDiscreteControlProfile>& visitor);
 
 void visit_google_protobuf_BoolValue(const set_t<google::protobuf::BoolValue>& setter, const get_t<google::protobuf::BoolValue>& getter, ITypedModelVisitor<resourcemodule::ResourceDiscreteControlProfile>& visitor);
@@ -351,137 +347,23 @@ void visit_commonmodule_ControlAPC(const set_t<commonmodule::ControlAPC>& setter
         );
         visitor.end_message_field();
     }
-
-    visitor.handle(
-        "q",
-        MessageAccessorBuilder<resourcemodule::ResourceDiscreteControlProfile,commonmodule::Quality>::build(
-            [setter](resourcemodule::ResourceDiscreteControlProfile& profile) { return setter(profile)->mutable_q(); },
-            [getter](const resourcemodule::ResourceDiscreteControlProfile& profile, const handler_t<commonmodule::Quality>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent || !parent->has_q()) return false;
-                handler(parent->q());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "t",
-        MessageAccessorBuilder<resourcemodule::ResourceDiscreteControlProfile,commonmodule::Timestamp>::build(
-            [setter](resourcemodule::ResourceDiscreteControlProfile& profile) { return setter(profile)->mutable_t(); },
-            [getter](const resourcemodule::ResourceDiscreteControlProfile& profile, const handler_t<commonmodule::Timestamp>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent || !parent->has_t()) return false;
-                handler(parent->t());
-                return true;
-            }
-        )
-    );
-
-    if(visitor.start_message_field("units", commonmodule::Unit::descriptor()))
-    {
-        visit_commonmodule_Unit(
-            [setter](resourcemodule::ResourceDiscreteControlProfile& profile)
-            {
-                return setter(profile)->mutable_units();
-            },
-            [getter](const resourcemodule::ResourceDiscreteControlProfile& profile) -> commonmodule::Unit const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_units() ? &value->units() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
 }
 
 void visit_commonmodule_ControlINC(const set_t<commonmodule::ControlINC>& setter, const get_t<commonmodule::ControlINC>& getter, ITypedModelVisitor<resourcemodule::ResourceDiscreteControlProfile>& visitor)
 {
-    if(visitor.start_message_field("ctlVal", google::protobuf::Int32Value::descriptor()))
-    {
-        visit_google_protobuf_Int32Value(
-            [setter](resourcemodule::ResourceDiscreteControlProfile& profile)
-            {
-                return setter(profile)->mutable_ctlval();
-            },
-            [getter](const resourcemodule::ResourceDiscreteControlProfile& profile) -> google::protobuf::Int32Value const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_ctlval() ? &value->ctlval() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
     visitor.handle(
-        "q",
-        MessageAccessorBuilder<resourcemodule::ResourceDiscreteControlProfile,commonmodule::Quality>::build(
-            [setter](resourcemodule::ResourceDiscreteControlProfile& profile) { return setter(profile)->mutable_q(); },
-            [getter](const resourcemodule::ResourceDiscreteControlProfile& profile, const handler_t<commonmodule::Quality>& handler)
+        "ctlVal",
+        AccessorBuilder<resourcemodule::ResourceDiscreteControlProfile,int32_t>::build(
+            [setter](resourcemodule::ResourceDiscreteControlProfile& profile, const int32_t& value) { setter(profile)->set_ctlval(value); },
+            [getter](const resourcemodule::ResourceDiscreteControlProfile& profile, const handler_t<int32_t>& handler)
             {
                 const auto parent = getter(profile);
-                if(!parent || !parent->has_q()) return false;
-                handler(parent->q());
+                if(!parent) return false;
+                handler(parent->ctlval());
                 return true;
             }
         )
     );
-
-    visitor.handle(
-        "t",
-        MessageAccessorBuilder<resourcemodule::ResourceDiscreteControlProfile,commonmodule::Timestamp>::build(
-            [setter](resourcemodule::ResourceDiscreteControlProfile& profile) { return setter(profile)->mutable_t(); },
-            [getter](const resourcemodule::ResourceDiscreteControlProfile& profile, const handler_t<commonmodule::Timestamp>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent || !parent->has_t()) return false;
-                handler(parent->t());
-                return true;
-            }
-        )
-    );
-
-    if(visitor.start_message_field("units", commonmodule::Unit::descriptor()))
-    {
-        visit_commonmodule_Unit(
-            [setter](resourcemodule::ResourceDiscreteControlProfile& profile)
-            {
-                return setter(profile)->mutable_units();
-            },
-            [getter](const resourcemodule::ResourceDiscreteControlProfile& profile) -> commonmodule::Unit const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_units() ? &value->units() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
 }
 
 void visit_commonmodule_ControlMessageInfo(const set_t<commonmodule::ControlMessageInfo>& setter, const get_t<commonmodule::ControlMessageInfo>& getter, ITypedModelVisitor<resourcemodule::ResourceDiscreteControlProfile>& visitor)
@@ -526,58 +408,6 @@ void visit_commonmodule_ControlSPC(const set_t<commonmodule::ControlSPC>& setter
             }
         )
     );
-
-    visitor.handle(
-        "q",
-        MessageAccessorBuilder<resourcemodule::ResourceDiscreteControlProfile,commonmodule::Quality>::build(
-            [setter](resourcemodule::ResourceDiscreteControlProfile& profile) { return setter(profile)->mutable_q(); },
-            [getter](const resourcemodule::ResourceDiscreteControlProfile& profile, const handler_t<commonmodule::Quality>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent || !parent->has_q()) return false;
-                handler(parent->q());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "t",
-        MessageAccessorBuilder<resourcemodule::ResourceDiscreteControlProfile,commonmodule::Timestamp>::build(
-            [setter](resourcemodule::ResourceDiscreteControlProfile& profile) { return setter(profile)->mutable_t(); },
-            [getter](const resourcemodule::ResourceDiscreteControlProfile& profile, const handler_t<commonmodule::Timestamp>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent || !parent->has_t()) return false;
-                handler(parent->t());
-                return true;
-            }
-        )
-    );
-
-    if(visitor.start_message_field("units", commonmodule::Unit::descriptor()))
-    {
-        visit_commonmodule_Unit(
-            [setter](resourcemodule::ResourceDiscreteControlProfile& profile)
-            {
-                return setter(profile)->mutable_units();
-            },
-            [getter](const resourcemodule::ResourceDiscreteControlProfile& profile) -> commonmodule::Unit const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_units() ? &value->units() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
 }
 
 void visit_commonmodule_IED(const set_t<commonmodule::IED>& setter, const get_t<commonmodule::IED>& getter, ITypedModelVisitor<resourcemodule::ResourceDiscreteControlProfile>& visitor)
@@ -819,82 +649,8 @@ void visit_commonmodule_Optional_PhaseCodeKind(const set_t<commonmodule::Optiona
     );
 }
 
-void visit_commonmodule_Optional_UnitMultiplierKind(const set_t<commonmodule::Optional_UnitMultiplierKind>& setter, const get_t<commonmodule::Optional_UnitMultiplierKind>& getter, ITypedModelVisitor<resourcemodule::ResourceDiscreteControlProfile>& visitor)
-{
-    visitor.handle(
-        "value",
-        AccessorBuilder<resourcemodule::ResourceDiscreteControlProfile,int>::build(
-            [setter](resourcemodule::ResourceDiscreteControlProfile& profile, const int& value) { setter(profile)->set_value(static_cast<commonmodule::UnitMultiplierKind>(value)); },
-            [getter](const resourcemodule::ResourceDiscreteControlProfile& profile, const handler_t<int>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->value());
-                return true;
-            }
-        ),
-        commonmodule::UnitMultiplierKind_descriptor()
-    );
-}
-
-void visit_commonmodule_Unit(const set_t<commonmodule::Unit>& setter, const get_t<commonmodule::Unit>& getter, ITypedModelVisitor<resourcemodule::ResourceDiscreteControlProfile>& visitor)
-{
-    if(visitor.start_message_field("multiplier", commonmodule::Optional_UnitMultiplierKind::descriptor()))
-    {
-        visit_commonmodule_Optional_UnitMultiplierKind(
-            [setter](resourcemodule::ResourceDiscreteControlProfile& profile)
-            {
-                return setter(profile)->mutable_multiplier();
-            },
-            [getter](const resourcemodule::ResourceDiscreteControlProfile& profile) -> commonmodule::Optional_UnitMultiplierKind const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_multiplier() ? &value->multiplier() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    visitor.handle(
-        "SIUnit",
-        AccessorBuilder<resourcemodule::ResourceDiscreteControlProfile,int>::build(
-            [setter](resourcemodule::ResourceDiscreteControlProfile& profile, const int& value) { setter(profile)->set_siunit(static_cast<commonmodule::UnitSymbolKind>(value)); },
-            [getter](const resourcemodule::ResourceDiscreteControlProfile& profile, const handler_t<int>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->siunit());
-                return true;
-            }
-        ),
-        commonmodule::UnitSymbolKind_descriptor()
-    );
-}
-
 void visit_commonmodule_VSC(const set_t<commonmodule::VSC>& setter, const get_t<commonmodule::VSC>& getter, ITypedModelVisitor<resourcemodule::ResourceDiscreteControlProfile>& visitor)
 {
-    visitor.handle(
-        "q",
-        MessageAccessorBuilder<resourcemodule::ResourceDiscreteControlProfile,commonmodule::Quality>::build(
-            [setter](resourcemodule::ResourceDiscreteControlProfile& profile) { return setter(profile)->mutable_q(); },
-            [getter](const resourcemodule::ResourceDiscreteControlProfile& profile, const handler_t<commonmodule::Quality>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent || !parent->has_q()) return false;
-                handler(parent->q());
-                return true;
-            }
-        )
-    );
-
     visitor.handle(
         "ctlVal",
         AccessorBuilder<resourcemodule::ResourceDiscreteControlProfile,std::string>::build(
@@ -904,20 +660,6 @@ void visit_commonmodule_VSC(const set_t<commonmodule::VSC>& setter, const get_t<
                 const auto parent = getter(profile);
                 if(!parent) return false;
                 handler(parent->ctlval());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "t",
-        MessageAccessorBuilder<resourcemodule::ResourceDiscreteControlProfile,commonmodule::Timestamp>::build(
-            [setter](resourcemodule::ResourceDiscreteControlProfile& profile) { return setter(profile)->mutable_t(); },
-            [getter](const resourcemodule::ResourceDiscreteControlProfile& profile, const handler_t<commonmodule::Timestamp>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent || !parent->has_t()) return false;
-                handler(parent->t());
                 return true;
             }
         )

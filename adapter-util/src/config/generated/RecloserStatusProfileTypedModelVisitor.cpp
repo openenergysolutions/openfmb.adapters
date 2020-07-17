@@ -48,8 +48,6 @@ void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& sett
 
 void visit_commonmodule_Optional_RecloseActionKind(const set_t<commonmodule::Optional_RecloseActionKind>& setter, const get_t<commonmodule::Optional_RecloseActionKind>& getter, ITypedModelVisitor<reclosermodule::RecloserStatusProfile>& visitor);
 
-void visit_commonmodule_Optional_UnitMultiplierKind(const set_t<commonmodule::Optional_UnitMultiplierKind>& setter, const get_t<commonmodule::Optional_UnitMultiplierKind>& getter, ITypedModelVisitor<reclosermodule::RecloserStatusProfile>& visitor);
-
 void visit_commonmodule_PhaseDPS(const set_t<commonmodule::PhaseDPS>& setter, const get_t<commonmodule::PhaseDPS>& getter, ITypedModelVisitor<reclosermodule::RecloserStatusProfile>& visitor);
 
 void visit_commonmodule_PhaseRecloseAction(const set_t<commonmodule::PhaseRecloseAction>& setter, const get_t<commonmodule::PhaseRecloseAction>& getter, ITypedModelVisitor<reclosermodule::RecloserStatusProfile>& visitor);
@@ -67,8 +65,6 @@ void visit_commonmodule_StatusMessageInfo(const set_t<commonmodule::StatusMessag
 void visit_commonmodule_StatusSPS(const set_t<commonmodule::StatusSPS>& setter, const get_t<commonmodule::StatusSPS>& getter, ITypedModelVisitor<reclosermodule::RecloserStatusProfile>& visitor);
 
 void visit_commonmodule_StatusValue(const set_t<commonmodule::StatusValue>& setter, const get_t<commonmodule::StatusValue>& getter, ITypedModelVisitor<reclosermodule::RecloserStatusProfile>& visitor);
-
-void visit_commonmodule_Unit(const set_t<commonmodule::Unit>& setter, const get_t<commonmodule::Unit>& getter, ITypedModelVisitor<reclosermodule::RecloserStatusProfile>& visitor);
 
 void visit_google_protobuf_BoolValue(const set_t<google::protobuf::BoolValue>& setter, const get_t<google::protobuf::BoolValue>& getter, ITypedModelVisitor<reclosermodule::RecloserStatusProfile>& visitor);
 
@@ -722,24 +718,6 @@ void visit_commonmodule_Optional_RecloseActionKind(const set_t<commonmodule::Opt
     );
 }
 
-void visit_commonmodule_Optional_UnitMultiplierKind(const set_t<commonmodule::Optional_UnitMultiplierKind>& setter, const get_t<commonmodule::Optional_UnitMultiplierKind>& getter, ITypedModelVisitor<reclosermodule::RecloserStatusProfile>& visitor)
-{
-    visitor.handle(
-        "value",
-        AccessorBuilder<reclosermodule::RecloserStatusProfile,int>::build(
-            [setter](reclosermodule::RecloserStatusProfile& profile, const int& value) { setter(profile)->set_value(static_cast<commonmodule::UnitMultiplierKind>(value)); },
-            [getter](const reclosermodule::RecloserStatusProfile& profile, const handler_t<int>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->value());
-                return true;
-            }
-        ),
-        commonmodule::UnitMultiplierKind_descriptor()
-    );
-}
-
 void visit_commonmodule_PhaseDPS(const set_t<commonmodule::PhaseDPS>& setter, const get_t<commonmodule::PhaseDPS>& getter, ITypedModelVisitor<reclosermodule::RecloserStatusProfile>& visitor)
 {
     if(visitor.start_message_field("phs3", commonmodule::StatusDPS::descriptor()))
@@ -1297,30 +1275,6 @@ void visit_commonmodule_StatusINS(const set_t<commonmodule::StatusINS>& setter, 
             }
         )
     );
-
-    if(visitor.start_message_field("units", commonmodule::Unit::descriptor()))
-    {
-        visit_commonmodule_Unit(
-            [setter](reclosermodule::RecloserStatusProfile& profile)
-            {
-                return setter(profile)->mutable_units();
-            },
-            [getter](const reclosermodule::RecloserStatusProfile& profile) -> commonmodule::Unit const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_units() ? &value->units() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
 }
 
 void visit_commonmodule_StatusMessageInfo(const set_t<commonmodule::StatusMessageInfo>& setter, const get_t<commonmodule::StatusMessageInfo>& getter, ITypedModelVisitor<reclosermodule::RecloserStatusProfile>& visitor)
@@ -1444,48 +1398,6 @@ void visit_commonmodule_StatusValue(const set_t<commonmodule::StatusValue>& sett
         );
         visitor.end_message_field();
     }
-}
-
-void visit_commonmodule_Unit(const set_t<commonmodule::Unit>& setter, const get_t<commonmodule::Unit>& getter, ITypedModelVisitor<reclosermodule::RecloserStatusProfile>& visitor)
-{
-    if(visitor.start_message_field("multiplier", commonmodule::Optional_UnitMultiplierKind::descriptor()))
-    {
-        visit_commonmodule_Optional_UnitMultiplierKind(
-            [setter](reclosermodule::RecloserStatusProfile& profile)
-            {
-                return setter(profile)->mutable_multiplier();
-            },
-            [getter](const reclosermodule::RecloserStatusProfile& profile) -> commonmodule::Optional_UnitMultiplierKind const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_multiplier() ? &value->multiplier() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    visitor.handle(
-        "SIUnit",
-        AccessorBuilder<reclosermodule::RecloserStatusProfile,int>::build(
-            [setter](reclosermodule::RecloserStatusProfile& profile, const int& value) { setter(profile)->set_siunit(static_cast<commonmodule::UnitSymbolKind>(value)); },
-            [getter](const reclosermodule::RecloserStatusProfile& profile, const handler_t<int>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->siunit());
-                return true;
-            }
-        ),
-        commonmodule::UnitSymbolKind_descriptor()
-    );
 }
 
 void visit_google_protobuf_BoolValue(const set_t<google::protobuf::BoolValue>& setter, const get_t<google::protobuf::BoolValue>& getter, ITypedModelVisitor<reclosermodule::RecloserStatusProfile>& visitor)

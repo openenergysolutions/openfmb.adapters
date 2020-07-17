@@ -229,6 +229,10 @@ public class TypeClassification {
             return Types.float32.mapped;
         }
 
+        if(path.hasName("point")) {
+            return Types.float32.mapped;
+        }
+
         throw new NoClassificationException(path);
     }
 

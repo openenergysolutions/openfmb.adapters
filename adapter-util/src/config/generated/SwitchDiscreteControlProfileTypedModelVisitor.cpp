@@ -50,11 +50,7 @@ void visit_commonmodule_MessageInfo(const set_t<commonmodule::MessageInfo>& sett
 
 void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& setter, const get_t<commonmodule::NamedObject>& getter, ITypedModelVisitor<switchmodule::SwitchDiscreteControlProfile>& visitor);
 
-void visit_commonmodule_Optional_UnitMultiplierKind(const set_t<commonmodule::Optional_UnitMultiplierKind>& setter, const get_t<commonmodule::Optional_UnitMultiplierKind>& getter, ITypedModelVisitor<switchmodule::SwitchDiscreteControlProfile>& visitor);
-
 void visit_commonmodule_PhaseDPC(const set_t<commonmodule::PhaseDPC>& setter, const get_t<commonmodule::PhaseDPC>& getter, ITypedModelVisitor<switchmodule::SwitchDiscreteControlProfile>& visitor);
-
-void visit_commonmodule_Unit(const set_t<commonmodule::Unit>& setter, const get_t<commonmodule::Unit>& getter, ITypedModelVisitor<switchmodule::SwitchDiscreteControlProfile>& visitor);
 
 void visit_google_protobuf_BoolValue(const set_t<google::protobuf::BoolValue>& setter, const get_t<google::protobuf::BoolValue>& getter, ITypedModelVisitor<switchmodule::SwitchDiscreteControlProfile>& visitor);
 
@@ -324,58 +320,6 @@ void visit_commonmodule_ControlSPC(const set_t<commonmodule::ControlSPC>& setter
             }
         )
     );
-
-    visitor.handle(
-        "q",
-        MessageAccessorBuilder<switchmodule::SwitchDiscreteControlProfile,commonmodule::Quality>::build(
-            [setter](switchmodule::SwitchDiscreteControlProfile& profile) { return setter(profile)->mutable_q(); },
-            [getter](const switchmodule::SwitchDiscreteControlProfile& profile, const handler_t<commonmodule::Quality>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent || !parent->has_q()) return false;
-                handler(parent->q());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "t",
-        MessageAccessorBuilder<switchmodule::SwitchDiscreteControlProfile,commonmodule::Timestamp>::build(
-            [setter](switchmodule::SwitchDiscreteControlProfile& profile) { return setter(profile)->mutable_t(); },
-            [getter](const switchmodule::SwitchDiscreteControlProfile& profile, const handler_t<commonmodule::Timestamp>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent || !parent->has_t()) return false;
-                handler(parent->t());
-                return true;
-            }
-        )
-    );
-
-    if(visitor.start_message_field("units", commonmodule::Unit::descriptor()))
-    {
-        visit_commonmodule_Unit(
-            [setter](switchmodule::SwitchDiscreteControlProfile& profile)
-            {
-                return setter(profile)->mutable_units();
-            },
-            [getter](const switchmodule::SwitchDiscreteControlProfile& profile) -> commonmodule::Unit const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_units() ? &value->units() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
 }
 
 void visit_commonmodule_ControlValue(const set_t<commonmodule::ControlValue>& setter, const get_t<commonmodule::ControlValue>& getter, ITypedModelVisitor<switchmodule::SwitchDiscreteControlProfile>& visitor)
@@ -701,24 +645,6 @@ void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& sett
     }
 }
 
-void visit_commonmodule_Optional_UnitMultiplierKind(const set_t<commonmodule::Optional_UnitMultiplierKind>& setter, const get_t<commonmodule::Optional_UnitMultiplierKind>& getter, ITypedModelVisitor<switchmodule::SwitchDiscreteControlProfile>& visitor)
-{
-    visitor.handle(
-        "value",
-        AccessorBuilder<switchmodule::SwitchDiscreteControlProfile,int>::build(
-            [setter](switchmodule::SwitchDiscreteControlProfile& profile, const int& value) { setter(profile)->set_value(static_cast<commonmodule::UnitMultiplierKind>(value)); },
-            [getter](const switchmodule::SwitchDiscreteControlProfile& profile, const handler_t<int>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->value());
-                return true;
-            }
-        ),
-        commonmodule::UnitMultiplierKind_descriptor()
-    );
-}
-
 void visit_commonmodule_PhaseDPC(const set_t<commonmodule::PhaseDPC>& setter, const get_t<commonmodule::PhaseDPC>& getter, ITypedModelVisitor<switchmodule::SwitchDiscreteControlProfile>& visitor)
 {
     if(visitor.start_message_field("phs3", commonmodule::ControlDPC::descriptor()))
@@ -816,48 +742,6 @@ void visit_commonmodule_PhaseDPC(const set_t<commonmodule::PhaseDPC>& setter, co
         );
         visitor.end_message_field();
     }
-}
-
-void visit_commonmodule_Unit(const set_t<commonmodule::Unit>& setter, const get_t<commonmodule::Unit>& getter, ITypedModelVisitor<switchmodule::SwitchDiscreteControlProfile>& visitor)
-{
-    if(visitor.start_message_field("multiplier", commonmodule::Optional_UnitMultiplierKind::descriptor()))
-    {
-        visit_commonmodule_Optional_UnitMultiplierKind(
-            [setter](switchmodule::SwitchDiscreteControlProfile& profile)
-            {
-                return setter(profile)->mutable_multiplier();
-            },
-            [getter](const switchmodule::SwitchDiscreteControlProfile& profile) -> commonmodule::Optional_UnitMultiplierKind const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_multiplier() ? &value->multiplier() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    visitor.handle(
-        "SIUnit",
-        AccessorBuilder<switchmodule::SwitchDiscreteControlProfile,int>::build(
-            [setter](switchmodule::SwitchDiscreteControlProfile& profile, const int& value) { setter(profile)->set_siunit(static_cast<commonmodule::UnitSymbolKind>(value)); },
-            [getter](const switchmodule::SwitchDiscreteControlProfile& profile, const handler_t<int>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->siunit());
-                return true;
-            }
-        ),
-        commonmodule::UnitSymbolKind_descriptor()
-    );
 }
 
 void visit_google_protobuf_BoolValue(const set_t<google::protobuf::BoolValue>& setter, const get_t<google::protobuf::BoolValue>& getter, ITypedModelVisitor<switchmodule::SwitchDiscreteControlProfile>& visitor)

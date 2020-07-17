@@ -48,6 +48,8 @@ void visit_commonmodule_Optional_UnitMultiplierKind(const set_t<commonmodule::Op
 
 void visit_commonmodule_Optional_UnitSymbolKind(const set_t<commonmodule::Optional_UnitSymbolKind>& setter, const get_t<commonmodule::Optional_UnitSymbolKind>& getter, ITypedModelVisitor<generationmodule::GenerationDiscreteControlProfile>& visitor);
 
+void visit_generationmodule_DroopParameter(const set_t<generationmodule::DroopParameter>& setter, const get_t<generationmodule::DroopParameter>& getter, ITypedModelVisitor<generationmodule::GenerationDiscreteControlProfile>& visitor);
+
 void visit_generationmodule_GeneratingUnit(const set_t<generationmodule::GeneratingUnit>& setter, const get_t<generationmodule::GeneratingUnit>& getter, ITypedModelVisitor<generationmodule::GenerationDiscreteControlProfile>& visitor);
 
 void visit_generationmodule_GenerationDiscreteControl(const set_t<generationmodule::GenerationDiscreteControl>& setter, const get_t<generationmodule::GenerationDiscreteControl>& getter, ITypedModelVisitor<generationmodule::GenerationDiscreteControlProfile>& visitor);
@@ -55,6 +57,12 @@ void visit_generationmodule_GenerationDiscreteControl(const set_t<generationmodu
 void visit_generationmodule_Optional_ReactivePowerControlKind(const set_t<generationmodule::Optional_ReactivePowerControlKind>& setter, const get_t<generationmodule::Optional_ReactivePowerControlKind>& getter, ITypedModelVisitor<generationmodule::GenerationDiscreteControlProfile>& visitor);
 
 void visit_generationmodule_Optional_RealPowerControlKind(const set_t<generationmodule::Optional_RealPowerControlKind>& setter, const get_t<generationmodule::Optional_RealPowerControlKind>& getter, ITypedModelVisitor<generationmodule::GenerationDiscreteControlProfile>& visitor);
+
+void visit_generationmodule_ReactivePowerControl(const set_t<generationmodule::ReactivePowerControl>& setter, const get_t<generationmodule::ReactivePowerControl>& getter, ITypedModelVisitor<generationmodule::GenerationDiscreteControlProfile>& visitor);
+
+void visit_generationmodule_RealPowerControl(const set_t<generationmodule::RealPowerControl>& setter, const get_t<generationmodule::RealPowerControl>& getter, ITypedModelVisitor<generationmodule::GenerationDiscreteControlProfile>& visitor);
+
+void visit_generationmodule_VV11PlaceHolder(const set_t<generationmodule::VV11PlaceHolder>& setter, const get_t<generationmodule::VV11PlaceHolder>& getter, ITypedModelVisitor<generationmodule::GenerationDiscreteControlProfile>& visitor);
 
 void visit_google_protobuf_BoolValue(const set_t<google::protobuf::BoolValue>& setter, const get_t<google::protobuf::BoolValue>& getter, ITypedModelVisitor<generationmodule::GenerationDiscreteControlProfile>& visitor);
 
@@ -668,6 +676,57 @@ void visit_commonmodule_Optional_UnitSymbolKind(const set_t<commonmodule::Option
     );
 }
 
+void visit_generationmodule_DroopParameter(const set_t<generationmodule::DroopParameter>& setter, const get_t<generationmodule::DroopParameter>& getter, ITypedModelVisitor<generationmodule::GenerationDiscreteControlProfile>& visitor)
+{
+    if(visitor.start_message_field("slope", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(
+            [setter](generationmodule::GenerationDiscreteControlProfile& profile)
+            {
+                return setter(profile)->mutable_slope();
+            },
+            [getter](const generationmodule::GenerationDiscreteControlProfile& profile) -> google::protobuf::FloatValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_slope() ? &value->slope() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("unloadedOffset", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(
+            [setter](generationmodule::GenerationDiscreteControlProfile& profile)
+            {
+                return setter(profile)->mutable_unloadedoffset();
+            },
+            [getter](const generationmodule::GenerationDiscreteControlProfile& profile) -> google::protobuf::FloatValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_unloadedoffset() ? &value->unloadedoffset() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+}
+
 void visit_generationmodule_GeneratingUnit(const set_t<generationmodule::GeneratingUnit>& setter, const get_t<generationmodule::GeneratingUnit>& getter, ITypedModelVisitor<generationmodule::GenerationDiscreteControlProfile>& visitor)
 {
     if(visitor.start_message_field("conductingEquipment", commonmodule::ConductingEquipment::descriptor()))
@@ -769,19 +828,19 @@ void visit_generationmodule_GenerationDiscreteControl(const set_t<generationmodu
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("reactivePowerControlMode", generationmodule::Optional_ReactivePowerControlKind::descriptor()))
+    if(visitor.start_message_field("ReactivePowerControl", generationmodule::ReactivePowerControl::descriptor()))
     {
-        visit_generationmodule_Optional_ReactivePowerControlKind(
+        visit_generationmodule_ReactivePowerControl(
             [setter](generationmodule::GenerationDiscreteControlProfile& profile)
             {
-                return setter(profile)->mutable_reactivepowercontrolmode();
+                return setter(profile)->mutable_reactivepowercontrol();
             },
-            [getter](const generationmodule::GenerationDiscreteControlProfile& profile) -> generationmodule::Optional_ReactivePowerControlKind const *
+            [getter](const generationmodule::GenerationDiscreteControlProfile& profile) -> generationmodule::ReactivePowerControl const *
             {
                 const auto value = getter(profile);
                 if(value)
                 {
-                    return value->has_reactivepowercontrolmode() ? &value->reactivepowercontrolmode() : nullptr;
+                    return value->has_reactivepowercontrol() ? &value->reactivepowercontrol() : nullptr;
                 }
                 else
                 {
@@ -793,19 +852,19 @@ void visit_generationmodule_GenerationDiscreteControl(const set_t<generationmodu
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("realPowerControlMode", generationmodule::Optional_RealPowerControlKind::descriptor()))
+    if(visitor.start_message_field("RealPowerControl", generationmodule::RealPowerControl::descriptor()))
     {
-        visit_generationmodule_Optional_RealPowerControlKind(
+        visit_generationmodule_RealPowerControl(
             [setter](generationmodule::GenerationDiscreteControlProfile& profile)
             {
-                return setter(profile)->mutable_realpowercontrolmode();
+                return setter(profile)->mutable_realpowercontrol();
             },
-            [getter](const generationmodule::GenerationDiscreteControlProfile& profile) -> generationmodule::Optional_RealPowerControlKind const *
+            [getter](const generationmodule::GenerationDiscreteControlProfile& profile) -> generationmodule::RealPowerControl const *
             {
                 const auto value = getter(profile);
                 if(value)
                 {
-                    return value->has_realpowercontrolmode() ? &value->realpowercontrolmode() : nullptr;
+                    return value->has_realpowercontrol() ? &value->realpowercontrol() : nullptr;
                 }
                 else
                 {
@@ -852,6 +911,317 @@ void visit_generationmodule_Optional_RealPowerControlKind(const set_t<generation
         ),
         generationmodule::RealPowerControlKind_descriptor()
     );
+}
+
+void visit_generationmodule_ReactivePowerControl(const set_t<generationmodule::ReactivePowerControl>& setter, const get_t<generationmodule::ReactivePowerControl>& getter, ITypedModelVisitor<generationmodule::GenerationDiscreteControlProfile>& visitor)
+{
+    if(visitor.start_message_field("advancedSetpoint", generationmodule::VV11PlaceHolder::descriptor()))
+    {
+        visit_generationmodule_VV11PlaceHolder(
+            [setter](generationmodule::GenerationDiscreteControlProfile& profile)
+            {
+                return setter(profile)->mutable_advancedsetpoint();
+            },
+            [getter](const generationmodule::GenerationDiscreteControlProfile& profile) -> generationmodule::VV11PlaceHolder const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_advancedsetpoint() ? &value->advancedsetpoint() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("droopSetpoint", generationmodule::DroopParameter::descriptor()))
+    {
+        visit_generationmodule_DroopParameter(
+            [setter](generationmodule::GenerationDiscreteControlProfile& profile)
+            {
+                return setter(profile)->mutable_droopsetpoint();
+            },
+            [getter](const generationmodule::GenerationDiscreteControlProfile& profile) -> generationmodule::DroopParameter const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_droopsetpoint() ? &value->droopsetpoint() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("powerFactorSetpoint", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(
+            [setter](generationmodule::GenerationDiscreteControlProfile& profile)
+            {
+                return setter(profile)->mutable_powerfactorsetpoint();
+            },
+            [getter](const generationmodule::GenerationDiscreteControlProfile& profile) -> google::protobuf::FloatValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_powerfactorsetpoint() ? &value->powerfactorsetpoint() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("reactivePowerControlMode", generationmodule::Optional_ReactivePowerControlKind::descriptor()))
+    {
+        visit_generationmodule_Optional_ReactivePowerControlKind(
+            [setter](generationmodule::GenerationDiscreteControlProfile& profile)
+            {
+                return setter(profile)->mutable_reactivepowercontrolmode();
+            },
+            [getter](const generationmodule::GenerationDiscreteControlProfile& profile) -> generationmodule::Optional_ReactivePowerControlKind const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_reactivepowercontrolmode() ? &value->reactivepowercontrolmode() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("reactivePowerSetpoint", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(
+            [setter](generationmodule::GenerationDiscreteControlProfile& profile)
+            {
+                return setter(profile)->mutable_reactivepowersetpoint();
+            },
+            [getter](const generationmodule::GenerationDiscreteControlProfile& profile) -> google::protobuf::FloatValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_reactivepowersetpoint() ? &value->reactivepowersetpoint() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("voltageSetpoint", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(
+            [setter](generationmodule::GenerationDiscreteControlProfile& profile)
+            {
+                return setter(profile)->mutable_voltagesetpoint();
+            },
+            [getter](const generationmodule::GenerationDiscreteControlProfile& profile) -> google::protobuf::FloatValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_voltagesetpoint() ? &value->voltagesetpoint() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+}
+
+void visit_generationmodule_RealPowerControl(const set_t<generationmodule::RealPowerControl>& setter, const get_t<generationmodule::RealPowerControl>& getter, ITypedModelVisitor<generationmodule::GenerationDiscreteControlProfile>& visitor)
+{
+    if(visitor.start_message_field("advancedSetpoint", generationmodule::VV11PlaceHolder::descriptor()))
+    {
+        visit_generationmodule_VV11PlaceHolder(
+            [setter](generationmodule::GenerationDiscreteControlProfile& profile)
+            {
+                return setter(profile)->mutable_advancedsetpoint();
+            },
+            [getter](const generationmodule::GenerationDiscreteControlProfile& profile) -> generationmodule::VV11PlaceHolder const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_advancedsetpoint() ? &value->advancedsetpoint() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("droopSetpoint", generationmodule::DroopParameter::descriptor()))
+    {
+        visit_generationmodule_DroopParameter(
+            [setter](generationmodule::GenerationDiscreteControlProfile& profile)
+            {
+                return setter(profile)->mutable_droopsetpoint();
+            },
+            [getter](const generationmodule::GenerationDiscreteControlProfile& profile) -> generationmodule::DroopParameter const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_droopsetpoint() ? &value->droopsetpoint() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("isochronousSetpoint", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(
+            [setter](generationmodule::GenerationDiscreteControlProfile& profile)
+            {
+                return setter(profile)->mutable_isochronoussetpoint();
+            },
+            [getter](const generationmodule::GenerationDiscreteControlProfile& profile) -> google::protobuf::FloatValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_isochronoussetpoint() ? &value->isochronoussetpoint() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("realPowerControlMode", generationmodule::Optional_RealPowerControlKind::descriptor()))
+    {
+        visit_generationmodule_Optional_RealPowerControlKind(
+            [setter](generationmodule::GenerationDiscreteControlProfile& profile)
+            {
+                return setter(profile)->mutable_realpowercontrolmode();
+            },
+            [getter](const generationmodule::GenerationDiscreteControlProfile& profile) -> generationmodule::Optional_RealPowerControlKind const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_realpowercontrolmode() ? &value->realpowercontrolmode() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("realPowerSetpoint", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(
+            [setter](generationmodule::GenerationDiscreteControlProfile& profile)
+            {
+                return setter(profile)->mutable_realpowersetpoint();
+            },
+            [getter](const generationmodule::GenerationDiscreteControlProfile& profile) -> google::protobuf::FloatValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_realpowersetpoint() ? &value->realpowersetpoint() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+}
+
+void visit_generationmodule_VV11PlaceHolder(const set_t<generationmodule::VV11PlaceHolder>& setter, const get_t<generationmodule::VV11PlaceHolder>& getter, ITypedModelVisitor<generationmodule::GenerationDiscreteControlProfile>& visitor)
+{
+    visitor.handle(
+        "point",
+        AccessorBuilder<generationmodule::GenerationDiscreteControlProfile,float>::build(
+            [setter](generationmodule::GenerationDiscreteControlProfile& profile, const float& value) { setter(profile)->set_point(value); },
+            [getter](const generationmodule::GenerationDiscreteControlProfile& profile, const handler_t<float>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->point());
+                return true;
+            }
+        )
+    );
+
+    if(visitor.start_message_field("unloadedOffset", google::protobuf::FloatValue::descriptor()))
+    {
+        visit_google_protobuf_FloatValue(
+            [setter](generationmodule::GenerationDiscreteControlProfile& profile)
+            {
+                return setter(profile)->mutable_unloadedoffset();
+            },
+            [getter](const generationmodule::GenerationDiscreteControlProfile& profile) -> google::protobuf::FloatValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_unloadedoffset() ? &value->unloadedoffset() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
 }
 
 void visit_google_protobuf_BoolValue(const set_t<google::protobuf::BoolValue>& setter, const get_t<google::protobuf::BoolValue>& getter, ITypedModelVisitor<generationmodule::GenerationDiscreteControlProfile>& visitor)

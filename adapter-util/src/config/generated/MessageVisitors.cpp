@@ -262,6 +262,8 @@ void visit(const essmodule::VoltagePI& message, IMessageVisitor& visitor);
 
 void visit(const essmodule::VoltageRegulation& message, IMessageVisitor& visitor);
 
+void visit(const generationmodule::DroopParameter& message, IMessageVisitor& visitor);
+
 void visit(const generationmodule::GeneratingUnit& message, IMessageVisitor& visitor);
 
 void visit(const generationmodule::GenerationCSG& message, IMessageVisitor& visitor);
@@ -293,6 +295,12 @@ void visit(const generationmodule::GenerationStatusZGEN& message, IMessageVisito
 void visit(const generationmodule::Optional_ReactivePowerControlKind& message, IMessageVisitor& visitor);
 
 void visit(const generationmodule::Optional_RealPowerControlKind& message, IMessageVisitor& visitor);
+
+void visit(const generationmodule::ReactivePowerControl& message, IMessageVisitor& visitor);
+
+void visit(const generationmodule::RealPowerControl& message, IMessageVisitor& visitor);
+
+void visit(const generationmodule::VV11PlaceHolder& message, IMessageVisitor& visitor);
 
 void visit(const google::protobuf::BoolValue& message, IMessageVisitor& visitor);
 
@@ -937,12 +945,6 @@ void visit(const commonmodule::BCR& message, IMessageVisitor& visitor)
         visit(message.t(), visitor);
         visitor.end_message_field();
     }
-    if(message.has_units())
-    {
-        visitor.start_message_field("units");
-        visit(message.units(), visitor);
-        visitor.end_message_field();
-    }
 }
 
 void visit(const commonmodule::BooleanEventAndStatusGGIO& message, IMessageVisitor& visitor)
@@ -985,12 +987,6 @@ void visit(const commonmodule::CMV& message, IMessageVisitor& visitor)
     {
         visitor.start_message_field("t");
         visit(message.t(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_units())
-    {
-        visitor.start_message_field("units");
-        visit(message.units(), visitor);
         visitor.end_message_field();
     }
 }
@@ -1040,24 +1036,6 @@ void visit(const commonmodule::ControlAPC& message, IMessageVisitor& visitor)
         visit(message.ctlval(), visitor);
         visitor.end_message_field();
     }
-    if(message.has_q())
-    {
-        visitor.start_message_field("q");
-        visit(message.q(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_t())
-    {
-        visitor.start_message_field("t");
-        visit(message.t(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_units())
-    {
-        visitor.start_message_field("units");
-        visit(message.units(), visitor);
-        visitor.end_message_field();
-    }
 }
 
 void visit(const commonmodule::ControlDPC& message, IMessageVisitor& visitor)
@@ -1089,30 +1067,7 @@ void visit(const commonmodule::ControlFSCC& message, IMessageVisitor& visitor)
 
 void visit(const commonmodule::ControlINC& message, IMessageVisitor& visitor)
 {
-    if(message.has_ctlval())
-    {
-        visitor.start_message_field("ctlVal");
-        visit(message.ctlval(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_q())
-    {
-        visitor.start_message_field("q");
-        visit(message.q(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_t())
-    {
-        visitor.start_message_field("t");
-        visit(message.t(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_units())
-    {
-        visitor.start_message_field("units");
-        visit(message.units(), visitor);
-        visitor.end_message_field();
-    }
+    visitor.handle("ctlVal", message.ctlval());
 }
 
 void visit(const commonmodule::ControlING& message, IMessageVisitor& visitor)
@@ -1144,24 +1099,6 @@ void visit(const commonmodule::ControlMessageInfo& message, IMessageVisitor& vis
 void visit(const commonmodule::ControlSPC& message, IMessageVisitor& visitor)
 {
     visitor.handle("ctlVal", message.ctlval());
-    if(message.has_q())
-    {
-        visitor.start_message_field("q");
-        visit(message.q(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_t())
-    {
-        visitor.start_message_field("t");
-        visit(message.t(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_units())
-    {
-        visitor.start_message_field("units");
-        visit(message.units(), visitor);
-        visitor.end_message_field();
-    }
 }
 
 void visit(const commonmodule::ControlScheduleFSCH& message, IMessageVisitor& visitor)
@@ -1316,19 +1253,7 @@ void visit(const commonmodule::ENS_SwitchingCapabilityKind& message, IMessageVis
         visit(message.blkena(), visitor);
         visitor.end_message_field();
     }
-    if(message.has_q())
-    {
-        visitor.start_message_field("q");
-        visit(message.q(), visitor);
-        visitor.end_message_field();
-    }
     visitor.handle("stVal", static_cast<int>(message.stval()), *commonmodule::SwitchingCapabilityKind_descriptor());
-    if(message.has_t())
-    {
-        visitor.start_message_field("t");
-        visit(message.t(), visitor);
-        visitor.end_message_field();
-    }
 }
 
 void visit(const commonmodule::ESS& message, IMessageVisitor& visitor)
@@ -2152,12 +2077,6 @@ void visit(const commonmodule::StatusINS& message, IMessageVisitor& visitor)
         visit(message.t(), visitor);
         visitor.end_message_field();
     }
-    if(message.has_units())
-    {
-        visitor.start_message_field("units");
-        visit(message.units(), visitor);
-        visitor.end_message_field();
-    }
 }
 
 void visit(const commonmodule::StatusMessageInfo& message, IMessageVisitor& visitor)
@@ -2329,19 +2248,7 @@ void visit(const commonmodule::Unit& message, IMessageVisitor& visitor)
 
 void visit(const commonmodule::VSC& message, IMessageVisitor& visitor)
 {
-    if(message.has_q())
-    {
-        visitor.start_message_field("q");
-        visit(message.q(), visitor);
-        visitor.end_message_field();
-    }
     visitor.handle("ctlVal", message.ctlval());
-    if(message.has_t())
-    {
-        visitor.start_message_field("t");
-        visit(message.t(), visitor);
-        visitor.end_message_field();
-    }
 }
 
 void visit(const commonmodule::VSS& message, IMessageVisitor& visitor)
@@ -3141,6 +3048,22 @@ void visit(const essmodule::VoltageRegulation& message, IMessageVisitor& visitor
     }
 }
 
+void visit(const generationmodule::DroopParameter& message, IMessageVisitor& visitor)
+{
+    if(message.has_slope())
+    {
+        visitor.start_message_field("slope");
+        visit(message.slope(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_unloadedoffset())
+    {
+        visitor.start_message_field("unloadedOffset");
+        visit(message.unloadedoffset(), visitor);
+        visitor.end_message_field();
+    }
+}
+
 void visit(const generationmodule::GeneratingUnit& message, IMessageVisitor& visitor)
 {
     if(message.has_conductingequipment())
@@ -3231,16 +3154,16 @@ void visit(const generationmodule::GenerationDiscreteControl& message, IMessageV
         visit(message.check(), visitor);
         visitor.end_message_field();
     }
-    if(message.has_reactivepowercontrolmode())
+    if(message.has_reactivepowercontrol())
     {
-        visitor.start_message_field("reactivePowerControlMode");
-        visit(message.reactivepowercontrolmode(), visitor);
+        visitor.start_message_field("ReactivePowerControl");
+        visit(message.reactivepowercontrol(), visitor);
         visitor.end_message_field();
     }
-    if(message.has_realpowercontrolmode())
+    if(message.has_realpowercontrol())
     {
-        visitor.start_message_field("realPowerControlMode");
-        visit(message.realpowercontrolmode(), visitor);
+        visitor.start_message_field("RealPowerControl");
+        visit(message.realpowercontrol(), visitor);
         visitor.end_message_field();
     }
 }
@@ -3525,6 +3448,91 @@ void visit(const generationmodule::Optional_ReactivePowerControlKind& message, I
 void visit(const generationmodule::Optional_RealPowerControlKind& message, IMessageVisitor& visitor)
 {
     visitor.handle("value", static_cast<int>(message.value()), *generationmodule::RealPowerControlKind_descriptor());
+}
+
+void visit(const generationmodule::ReactivePowerControl& message, IMessageVisitor& visitor)
+{
+    if(message.has_advancedsetpoint())
+    {
+        visitor.start_message_field("advancedSetpoint");
+        visit(message.advancedsetpoint(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_droopsetpoint())
+    {
+        visitor.start_message_field("droopSetpoint");
+        visit(message.droopsetpoint(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_powerfactorsetpoint())
+    {
+        visitor.start_message_field("powerFactorSetpoint");
+        visit(message.powerfactorsetpoint(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_reactivepowercontrolmode())
+    {
+        visitor.start_message_field("reactivePowerControlMode");
+        visit(message.reactivepowercontrolmode(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_reactivepowersetpoint())
+    {
+        visitor.start_message_field("reactivePowerSetpoint");
+        visit(message.reactivepowersetpoint(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_voltagesetpoint())
+    {
+        visitor.start_message_field("voltageSetpoint");
+        visit(message.voltagesetpoint(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const generationmodule::RealPowerControl& message, IMessageVisitor& visitor)
+{
+    if(message.has_advancedsetpoint())
+    {
+        visitor.start_message_field("advancedSetpoint");
+        visit(message.advancedsetpoint(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_droopsetpoint())
+    {
+        visitor.start_message_field("droopSetpoint");
+        visit(message.droopsetpoint(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_isochronoussetpoint())
+    {
+        visitor.start_message_field("isochronousSetpoint");
+        visit(message.isochronoussetpoint(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_realpowercontrolmode())
+    {
+        visitor.start_message_field("realPowerControlMode");
+        visit(message.realpowercontrolmode(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_realpowersetpoint())
+    {
+        visitor.start_message_field("realPowerSetpoint");
+        visit(message.realpowersetpoint(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const generationmodule::VV11PlaceHolder& message, IMessageVisitor& visitor)
+{
+    visitor.handle("point", message.point());
+    if(message.has_unloadedoffset())
+    {
+        visitor.start_message_field("unloadedOffset");
+        visit(message.unloadedoffset(), visitor);
+        visitor.end_message_field();
+    }
 }
 
 void visit(const google::protobuf::BoolValue& message, IMessageVisitor& visitor)

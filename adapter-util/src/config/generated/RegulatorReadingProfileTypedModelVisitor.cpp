@@ -60,8 +60,6 @@ void visit_commonmodule_Optional_PhaseCodeKind(const set_t<commonmodule::Optiona
 
 void visit_commonmodule_Optional_UnitMultiplierKind(const set_t<commonmodule::Optional_UnitMultiplierKind>& setter, const get_t<commonmodule::Optional_UnitMultiplierKind>& getter, ITypedModelVisitor<regulatormodule::RegulatorReadingProfile>& visitor);
 
-void visit_commonmodule_Optional_UnitSymbolKind(const set_t<commonmodule::Optional_UnitSymbolKind>& setter, const get_t<commonmodule::Optional_UnitSymbolKind>& getter, ITypedModelVisitor<regulatormodule::RegulatorReadingProfile>& visitor);
-
 void visit_commonmodule_PhaseMMTN(const set_t<commonmodule::PhaseMMTN>& setter, const get_t<commonmodule::PhaseMMTN>& getter, ITypedModelVisitor<regulatormodule::RegulatorReadingProfile>& visitor);
 
 void visit_commonmodule_ReadingMMTN(const set_t<commonmodule::ReadingMMTN>& setter, const get_t<commonmodule::ReadingMMTN>& getter, ITypedModelVisitor<regulatormodule::RegulatorReadingProfile>& visitor);
@@ -381,30 +379,6 @@ void visit_commonmodule_BCR(const set_t<commonmodule::BCR>& setter, const get_t<
             }
         )
     );
-
-    if(visitor.start_message_field("units", commonmodule::Optional_UnitSymbolKind::descriptor()))
-    {
-        visit_commonmodule_Optional_UnitSymbolKind(
-            [setter](regulatormodule::RegulatorReadingProfile& profile)
-            {
-                return setter(profile)->mutable_units();
-            },
-            [getter](const regulatormodule::RegulatorReadingProfile& profile) -> commonmodule::Optional_UnitSymbolKind const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_units() ? &value->units() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
 }
 
 void visit_commonmodule_CMV(const set_t<commonmodule::CMV>& setter, const get_t<commonmodule::CMV>& getter, ITypedModelVisitor<regulatormodule::RegulatorReadingProfile>& visitor)
@@ -460,30 +434,6 @@ void visit_commonmodule_CMV(const set_t<commonmodule::CMV>& setter, const get_t<
             }
         )
     );
-
-    if(visitor.start_message_field("units", commonmodule::Unit::descriptor()))
-    {
-        visit_commonmodule_Unit(
-            [setter](regulatormodule::RegulatorReadingProfile& profile)
-            {
-                return setter(profile)->mutable_units();
-            },
-            [getter](const regulatormodule::RegulatorReadingProfile& profile) -> commonmodule::Unit const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_units() ? &value->units() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
 }
 
 void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::ConductingEquipment>& setter, const get_t<commonmodule::ConductingEquipment>& getter, ITypedModelVisitor<regulatormodule::RegulatorReadingProfile>& visitor)
@@ -998,24 +948,6 @@ void visit_commonmodule_Optional_UnitMultiplierKind(const set_t<commonmodule::Op
             }
         ),
         commonmodule::UnitMultiplierKind_descriptor()
-    );
-}
-
-void visit_commonmodule_Optional_UnitSymbolKind(const set_t<commonmodule::Optional_UnitSymbolKind>& setter, const get_t<commonmodule::Optional_UnitSymbolKind>& getter, ITypedModelVisitor<regulatormodule::RegulatorReadingProfile>& visitor)
-{
-    visitor.handle(
-        "value",
-        AccessorBuilder<regulatormodule::RegulatorReadingProfile,int>::build(
-            [setter](regulatormodule::RegulatorReadingProfile& profile, const int& value) { setter(profile)->set_value(static_cast<commonmodule::UnitSymbolKind>(value)); },
-            [getter](const regulatormodule::RegulatorReadingProfile& profile, const handler_t<int>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->value());
-                return true;
-            }
-        ),
-        commonmodule::UnitSymbolKind_descriptor()
     );
 }
 

@@ -591,58 +591,6 @@ void visit_commonmodule_ControlSPC(const set_t<commonmodule::ControlSPC>& setter
             }
         )
     );
-
-    visitor.handle(
-        "q",
-        MessageAccessorBuilder<regulatormodule::RegulatorControlProfile,commonmodule::Quality>::build(
-            [setter](regulatormodule::RegulatorControlProfile& profile) { return setter(profile)->mutable_q(); },
-            [getter](const regulatormodule::RegulatorControlProfile& profile, const handler_t<commonmodule::Quality>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent || !parent->has_q()) return false;
-                handler(parent->q());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "t",
-        MessageAccessorBuilder<regulatormodule::RegulatorControlProfile,commonmodule::Timestamp>::build(
-            [setter](regulatormodule::RegulatorControlProfile& profile) { return setter(profile)->mutable_t(); },
-            [getter](const regulatormodule::RegulatorControlProfile& profile, const handler_t<commonmodule::Timestamp>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent || !parent->has_t()) return false;
-                handler(parent->t());
-                return true;
-            }
-        )
-    );
-
-    if(visitor.start_message_field("units", commonmodule::Unit::descriptor()))
-    {
-        visit_commonmodule_Unit(
-            [setter](regulatormodule::RegulatorControlProfile& profile)
-            {
-                return setter(profile)->mutable_units();
-            },
-            [getter](const regulatormodule::RegulatorControlProfile& profile) -> commonmodule::Unit const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_units() ? &value->units() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
 }
 
 void visit_commonmodule_ControlScheduleFSCH(const set_t<commonmodule::ControlScheduleFSCH>& setter, const get_t<commonmodule::ControlScheduleFSCH>& getter, ITypedModelVisitor<regulatormodule::RegulatorControlProfile>& visitor)

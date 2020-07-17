@@ -58,15 +58,9 @@ void visit_commonmodule_MessageInfo(const set_t<commonmodule::MessageInfo>& sett
 
 void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& setter, const get_t<commonmodule::NamedObject>& getter, ITypedModelVisitor<breakermodule::BreakerDiscreteControlProfile>& visitor);
 
-void visit_commonmodule_Optional_UnitMultiplierKind(const set_t<commonmodule::Optional_UnitMultiplierKind>& setter, const get_t<commonmodule::Optional_UnitMultiplierKind>& getter, ITypedModelVisitor<breakermodule::BreakerDiscreteControlProfile>& visitor);
-
 void visit_commonmodule_PhaseDPC(const set_t<commonmodule::PhaseDPC>& setter, const get_t<commonmodule::PhaseDPC>& getter, ITypedModelVisitor<breakermodule::BreakerDiscreteControlProfile>& visitor);
 
-void visit_commonmodule_Unit(const set_t<commonmodule::Unit>& setter, const get_t<commonmodule::Unit>& getter, ITypedModelVisitor<breakermodule::BreakerDiscreteControlProfile>& visitor);
-
 void visit_google_protobuf_BoolValue(const set_t<google::protobuf::BoolValue>& setter, const get_t<google::protobuf::BoolValue>& getter, ITypedModelVisitor<breakermodule::BreakerDiscreteControlProfile>& visitor);
-
-void visit_google_protobuf_Int32Value(const set_t<google::protobuf::Int32Value>& setter, const get_t<google::protobuf::Int32Value>& getter, ITypedModelVisitor<breakermodule::BreakerDiscreteControlProfile>& visitor);
 
 void visit_google_protobuf_StringValue(const set_t<google::protobuf::StringValue>& setter, const get_t<google::protobuf::StringValue>& getter, ITypedModelVisitor<breakermodule::BreakerDiscreteControlProfile>& visitor);
 
@@ -513,81 +507,19 @@ void visit_commonmodule_ControlDPC(const set_t<commonmodule::ControlDPC>& setter
 
 void visit_commonmodule_ControlINC(const set_t<commonmodule::ControlINC>& setter, const get_t<commonmodule::ControlINC>& getter, ITypedModelVisitor<breakermodule::BreakerDiscreteControlProfile>& visitor)
 {
-    if(visitor.start_message_field("ctlVal", google::protobuf::Int32Value::descriptor()))
-    {
-        visit_google_protobuf_Int32Value(
-            [setter](breakermodule::BreakerDiscreteControlProfile& profile)
-            {
-                return setter(profile)->mutable_ctlval();
-            },
-            [getter](const breakermodule::BreakerDiscreteControlProfile& profile) -> google::protobuf::Int32Value const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_ctlval() ? &value->ctlval() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
     visitor.handle(
-        "q",
-        MessageAccessorBuilder<breakermodule::BreakerDiscreteControlProfile,commonmodule::Quality>::build(
-            [setter](breakermodule::BreakerDiscreteControlProfile& profile) { return setter(profile)->mutable_q(); },
-            [getter](const breakermodule::BreakerDiscreteControlProfile& profile, const handler_t<commonmodule::Quality>& handler)
+        "ctlVal",
+        AccessorBuilder<breakermodule::BreakerDiscreteControlProfile,int32_t>::build(
+            [setter](breakermodule::BreakerDiscreteControlProfile& profile, const int32_t& value) { setter(profile)->set_ctlval(value); },
+            [getter](const breakermodule::BreakerDiscreteControlProfile& profile, const handler_t<int32_t>& handler)
             {
                 const auto parent = getter(profile);
-                if(!parent || !parent->has_q()) return false;
-                handler(parent->q());
+                if(!parent) return false;
+                handler(parent->ctlval());
                 return true;
             }
         )
     );
-
-    visitor.handle(
-        "t",
-        MessageAccessorBuilder<breakermodule::BreakerDiscreteControlProfile,commonmodule::Timestamp>::build(
-            [setter](breakermodule::BreakerDiscreteControlProfile& profile) { return setter(profile)->mutable_t(); },
-            [getter](const breakermodule::BreakerDiscreteControlProfile& profile, const handler_t<commonmodule::Timestamp>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent || !parent->has_t()) return false;
-                handler(parent->t());
-                return true;
-            }
-        )
-    );
-
-    if(visitor.start_message_field("units", commonmodule::Unit::descriptor()))
-    {
-        visit_commonmodule_Unit(
-            [setter](breakermodule::BreakerDiscreteControlProfile& profile)
-            {
-                return setter(profile)->mutable_units();
-            },
-            [getter](const breakermodule::BreakerDiscreteControlProfile& profile) -> commonmodule::Unit const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_units() ? &value->units() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
 }
 
 void visit_commonmodule_ControlMessageInfo(const set_t<commonmodule::ControlMessageInfo>& setter, const get_t<commonmodule::ControlMessageInfo>& getter, ITypedModelVisitor<breakermodule::BreakerDiscreteControlProfile>& visitor)
@@ -632,58 +564,6 @@ void visit_commonmodule_ControlSPC(const set_t<commonmodule::ControlSPC>& setter
             }
         )
     );
-
-    visitor.handle(
-        "q",
-        MessageAccessorBuilder<breakermodule::BreakerDiscreteControlProfile,commonmodule::Quality>::build(
-            [setter](breakermodule::BreakerDiscreteControlProfile& profile) { return setter(profile)->mutable_q(); },
-            [getter](const breakermodule::BreakerDiscreteControlProfile& profile, const handler_t<commonmodule::Quality>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent || !parent->has_q()) return false;
-                handler(parent->q());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "t",
-        MessageAccessorBuilder<breakermodule::BreakerDiscreteControlProfile,commonmodule::Timestamp>::build(
-            [setter](breakermodule::BreakerDiscreteControlProfile& profile) { return setter(profile)->mutable_t(); },
-            [getter](const breakermodule::BreakerDiscreteControlProfile& profile, const handler_t<commonmodule::Timestamp>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent || !parent->has_t()) return false;
-                handler(parent->t());
-                return true;
-            }
-        )
-    );
-
-    if(visitor.start_message_field("units", commonmodule::Unit::descriptor()))
-    {
-        visit_commonmodule_Unit(
-            [setter](breakermodule::BreakerDiscreteControlProfile& profile)
-            {
-                return setter(profile)->mutable_units();
-            },
-            [getter](const breakermodule::BreakerDiscreteControlProfile& profile) -> commonmodule::Unit const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_units() ? &value->units() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
 }
 
 void visit_commonmodule_ControlValue(const set_t<commonmodule::ControlValue>& setter, const get_t<commonmodule::ControlValue>& getter, ITypedModelVisitor<breakermodule::BreakerDiscreteControlProfile>& visitor)
@@ -1009,24 +889,6 @@ void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& sett
     }
 }
 
-void visit_commonmodule_Optional_UnitMultiplierKind(const set_t<commonmodule::Optional_UnitMultiplierKind>& setter, const get_t<commonmodule::Optional_UnitMultiplierKind>& getter, ITypedModelVisitor<breakermodule::BreakerDiscreteControlProfile>& visitor)
-{
-    visitor.handle(
-        "value",
-        AccessorBuilder<breakermodule::BreakerDiscreteControlProfile,int>::build(
-            [setter](breakermodule::BreakerDiscreteControlProfile& profile, const int& value) { setter(profile)->set_value(static_cast<commonmodule::UnitMultiplierKind>(value)); },
-            [getter](const breakermodule::BreakerDiscreteControlProfile& profile, const handler_t<int>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->value());
-                return true;
-            }
-        ),
-        commonmodule::UnitMultiplierKind_descriptor()
-    );
-}
-
 void visit_commonmodule_PhaseDPC(const set_t<commonmodule::PhaseDPC>& setter, const get_t<commonmodule::PhaseDPC>& getter, ITypedModelVisitor<breakermodule::BreakerDiscreteControlProfile>& visitor)
 {
     if(visitor.start_message_field("phs3", commonmodule::ControlDPC::descriptor()))
@@ -1126,48 +988,6 @@ void visit_commonmodule_PhaseDPC(const set_t<commonmodule::PhaseDPC>& setter, co
     }
 }
 
-void visit_commonmodule_Unit(const set_t<commonmodule::Unit>& setter, const get_t<commonmodule::Unit>& getter, ITypedModelVisitor<breakermodule::BreakerDiscreteControlProfile>& visitor)
-{
-    if(visitor.start_message_field("multiplier", commonmodule::Optional_UnitMultiplierKind::descriptor()))
-    {
-        visit_commonmodule_Optional_UnitMultiplierKind(
-            [setter](breakermodule::BreakerDiscreteControlProfile& profile)
-            {
-                return setter(profile)->mutable_multiplier();
-            },
-            [getter](const breakermodule::BreakerDiscreteControlProfile& profile) -> commonmodule::Optional_UnitMultiplierKind const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_multiplier() ? &value->multiplier() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    visitor.handle(
-        "SIUnit",
-        AccessorBuilder<breakermodule::BreakerDiscreteControlProfile,int>::build(
-            [setter](breakermodule::BreakerDiscreteControlProfile& profile, const int& value) { setter(profile)->set_siunit(static_cast<commonmodule::UnitSymbolKind>(value)); },
-            [getter](const breakermodule::BreakerDiscreteControlProfile& profile, const handler_t<int>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->siunit());
-                return true;
-            }
-        ),
-        commonmodule::UnitSymbolKind_descriptor()
-    );
-}
-
 void visit_google_protobuf_BoolValue(const set_t<google::protobuf::BoolValue>& setter, const get_t<google::protobuf::BoolValue>& getter, ITypedModelVisitor<breakermodule::BreakerDiscreteControlProfile>& visitor)
 {
     visitor.handle(
@@ -1175,23 +995,6 @@ void visit_google_protobuf_BoolValue(const set_t<google::protobuf::BoolValue>& s
         AccessorBuilder<breakermodule::BreakerDiscreteControlProfile,bool>::build(
             [setter](breakermodule::BreakerDiscreteControlProfile& profile, const bool& value) { setter(profile)->set_value(value); },
             [getter](const breakermodule::BreakerDiscreteControlProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->value());
-                return true;
-            }
-        )
-    );
-}
-
-void visit_google_protobuf_Int32Value(const set_t<google::protobuf::Int32Value>& setter, const get_t<google::protobuf::Int32Value>& getter, ITypedModelVisitor<breakermodule::BreakerDiscreteControlProfile>& visitor)
-{
-    visitor.handle(
-        "value",
-        AccessorBuilder<breakermodule::BreakerDiscreteControlProfile,int32_t>::build(
-            [setter](breakermodule::BreakerDiscreteControlProfile& profile, const int32_t& value) { setter(profile)->set_value(value); },
-            [getter](const breakermodule::BreakerDiscreteControlProfile& profile, const handler_t<int32_t>& handler)
             {
                 const auto parent = getter(profile);
                 if(!parent) return false;
