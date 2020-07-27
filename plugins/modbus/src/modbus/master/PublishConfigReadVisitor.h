@@ -255,6 +255,9 @@ namespace master {
     {
         const auto source_type = util::yaml::require_enum<SourceType>(node);
 
+        if (source_type == SourceType::Value::none)
+            return;
+
         const auto mapping = util::yaml::require_enum<RegisterMapping>(node);
         const auto scale = util::yaml::get::scale(node);
 
