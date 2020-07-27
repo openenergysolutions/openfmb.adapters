@@ -236,14 +236,14 @@ namespace master {
                         keys::poll_interval,
                         Required::yes,
                         "poll interval (in milliseconds)",
-                        5000,
+                        1000,
                         Bound<uint16_t>::from(0),
                         Bound<uint16_t>::unused()
                     ),
                     object_property(
                         keys::classes,
                         Required::yes,
-                        "configuration for a class poll (g60v{1,2,3,4)",
+                        "configuration for a class poll (g60v{1,2,3,4})",
                         Object(
                             {
                                 bool_property(
