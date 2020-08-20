@@ -8,6 +8,12 @@
   <name>adapter-codegen</name>
   <url>http://maven.apache.org</url>
 
+   <properties>
+        <project.java.version>1.8</project.java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
+
   <build>
     <plugins>
       <plugin>
@@ -24,7 +30,6 @@
         <artifactId>protobuf-maven-plugin</artifactId>
         <version>0.5.1</version>
         <configuration>
-          <protocExecutable>C:/.conan/6e73a2/1/bin/protoc.exe</protocExecutable>
           <protoSourceRoot>../deps/openfmb-schemas/protobuf/openfmb</protoSourceRoot>
         </configuration>
         <executions>

@@ -54,7 +54,7 @@ public class Profiles {
                         // Meter
                         MeterReadingProfile.getDescriptor(),
                         // Recloser
-                        RecloserControlProfile.getDescriptor(),
+                        //RecloserControlProfile.getDescriptor(),
                         RecloserDiscreteControlProfile.getDescriptor(),
                         RecloserEventProfile.getDescriptor(),
                         RecloserReadingProfile.getDescriptor(),
@@ -75,7 +75,7 @@ public class Profiles {
                         SolarReadingProfile.getDescriptor(),
                         SolarStatusProfile.getDescriptor(),
                         // Switch
-                        SwitchControlProfile.getDescriptor(),
+                        //SwitchControlProfile.getDescriptor(),
                         SwitchDiscreteControlProfile.getDescriptor(),
                         SwitchEventProfile.getDescriptor(),
                         SwitchReadingProfile.getDescriptor(),
