@@ -338,7 +338,7 @@ jobs:
       - image: circleci/python:3.7-buster
     steps:
       - deploy_bc3:
-          vault_id: "2851663050"
+          vault_id: "2953825585"
   deploy-release:
     docker:
       - image: circleci/python:3.7-buster
@@ -432,7 +432,7 @@ workflows:
           filters:
             branches:
               only:
-                - v2_working
+                - v2_final
 
       # - deploy-release:
       #     requires:
