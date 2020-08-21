@@ -44,8 +44,6 @@ void visit_commonmodule_ENS_DynamicTestKind(const set_t<commonmodule::ENS_Dynami
 
 void visit_commonmodule_ENS_HealthKind(const set_t<commonmodule::ENS_HealthKind>& setter, const get_t<commonmodule::ENS_HealthKind>& getter, ITypedModelVisitor<capbankmodule::CapBankEventProfile>& visitor);
 
-void visit_commonmodule_ENS_SwitchingCapabilityKind(const set_t<commonmodule::ENS_SwitchingCapabilityKind>& setter, const get_t<commonmodule::ENS_SwitchingCapabilityKind>& getter, ITypedModelVisitor<capbankmodule::CapBankEventProfile>& visitor);
-
 void visit_commonmodule_EventMessageInfo(const set_t<commonmodule::EventMessageInfo>& setter, const get_t<commonmodule::EventMessageInfo>& getter, ITypedModelVisitor<capbankmodule::CapBankEventProfile>& visitor);
 
 void visit_commonmodule_EventValue(const set_t<commonmodule::EventValue>& setter, const get_t<commonmodule::EventValue>& getter, ITypedModelVisitor<capbankmodule::CapBankEventProfile>& visitor);
@@ -320,30 +318,6 @@ void visit_capbankmodule_CapBankEventAndStatusYPSH(const set_t<capbankmodule::Ca
                 if(value)
                 {
                     return value->has_pos() ? &value->pos() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("ShOpCap", commonmodule::ENS_SwitchingCapabilityKind::descriptor()))
-    {
-        visit_commonmodule_ENS_SwitchingCapabilityKind(
-            [setter](capbankmodule::CapBankEventProfile& profile)
-            {
-                return setter(profile)->mutable_shopcap();
-            },
-            [getter](const capbankmodule::CapBankEventProfile& profile) -> commonmodule::ENS_SwitchingCapabilityKind const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_shopcap() ? &value->shopcap() : nullptr;
                 }
                 else
                 {
@@ -630,48 +604,6 @@ void visit_commonmodule_ENS_HealthKind(const set_t<commonmodule::ENS_HealthKind>
             }
         ),
         commonmodule::HealthKind_descriptor()
-    );
-}
-
-void visit_commonmodule_ENS_SwitchingCapabilityKind(const set_t<commonmodule::ENS_SwitchingCapabilityKind>& setter, const get_t<commonmodule::ENS_SwitchingCapabilityKind>& getter, ITypedModelVisitor<capbankmodule::CapBankEventProfile>& visitor)
-{
-    if(visitor.start_message_field("blkEna", google::protobuf::BoolValue::descriptor()))
-    {
-        visit_google_protobuf_BoolValue(
-            [setter](capbankmodule::CapBankEventProfile& profile)
-            {
-                return setter(profile)->mutable_blkena();
-            },
-            [getter](const capbankmodule::CapBankEventProfile& profile) -> google::protobuf::BoolValue const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_blkena() ? &value->blkena() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    visitor.handle(
-        "stVal",
-        AccessorBuilder<capbankmodule::CapBankEventProfile,int>::build(
-            [setter](capbankmodule::CapBankEventProfile& profile, const int& value) { setter(profile)->set_stval(static_cast<commonmodule::SwitchingCapabilityKind>(value)); },
-            [getter](const capbankmodule::CapBankEventProfile& profile, const handler_t<int>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->stval());
-                return true;
-            }
-        ),
-        commonmodule::SwitchingCapabilityKind_descriptor()
     );
 }
 

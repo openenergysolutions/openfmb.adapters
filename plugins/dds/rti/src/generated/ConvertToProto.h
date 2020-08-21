@@ -80,8 +80,6 @@ void convert_to_proto(const openfmb::loadmodule::LoadStatusProfile& in, loadmodu
 
 void convert_to_proto(const openfmb::metermodule::MeterReadingProfile& in, metermodule::MeterReadingProfile& out);
 
-void convert_to_proto(const openfmb::reclosermodule::RecloserControlProfile& in, reclosermodule::RecloserControlProfile& out);
-
 void convert_to_proto(const openfmb::reclosermodule::RecloserDiscreteControlProfile& in, reclosermodule::RecloserDiscreteControlProfile& out);
 
 void convert_to_proto(const openfmb::reclosermodule::RecloserEventProfile& in, reclosermodule::RecloserEventProfile& out);
@@ -89,6 +87,8 @@ void convert_to_proto(const openfmb::reclosermodule::RecloserEventProfile& in, r
 void convert_to_proto(const openfmb::reclosermodule::RecloserReadingProfile& in, reclosermodule::RecloserReadingProfile& out);
 
 void convert_to_proto(const openfmb::reclosermodule::RecloserStatusProfile& in, reclosermodule::RecloserStatusProfile& out);
+
+void convert_to_proto(const openfmb::regulatormodule::RegulatorDiscreteControlProfile& in, regulatormodule::RegulatorDiscreteControlProfile& out);
 
 void convert_to_proto(const openfmb::regulatormodule::RegulatorControlProfile& in, regulatormodule::RegulatorControlProfile& out);
 
@@ -113,8 +113,6 @@ void convert_to_proto(const openfmb::solarmodule::SolarEventProfile& in, solarmo
 void convert_to_proto(const openfmb::solarmodule::SolarReadingProfile& in, solarmodule::SolarReadingProfile& out);
 
 void convert_to_proto(const openfmb::solarmodule::SolarStatusProfile& in, solarmodule::SolarStatusProfile& out);
-
-void convert_to_proto(const openfmb::switchmodule::SwitchControlProfile& in, switchmodule::SwitchControlProfile& out);
 
 void convert_to_proto(const openfmb::switchmodule::SwitchDiscreteControlProfile& in, switchmodule::SwitchDiscreteControlProfile& out);
 

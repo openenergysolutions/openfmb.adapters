@@ -197,7 +197,7 @@ public class TypeClassification {
 
     private static String getBool(FieldPath path)
     {
-        if(path.hasName("ctlVal", "stVal", "value")) {
+        if(path.hasName("ctlVal", "stVal", "value", "general")) {
             return Types.bool.mapped;
         }
 
@@ -356,6 +356,8 @@ public class TypeClassification {
         temp.put(SwitchingCapabilityKind.getDescriptor(), Types.enumeration.constant);
         temp.put(ReactivePowerControlKind.getDescriptor(), Types.enumeration.constant);
         temp.put(RealPowerControlKind.getDescriptor(), Types.enumeration.constant);
+        temp.put(FaultDirectionKind.getDescriptor(), Types.enumeration.constant);
+        temp.put(PhaseFaultDirectionKind.getDescriptor(), Types.enumeration.constant);
 
         // mapped types
         temp.put(GridConnectModeKind.getDescriptor(), Types.enumeration.mapped);

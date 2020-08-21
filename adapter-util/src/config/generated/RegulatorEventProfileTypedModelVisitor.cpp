@@ -32,6 +32,8 @@ void visit_commonmodule_AnalogueValueCtl(const set_t<commonmodule::AnalogueValue
 
 void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::ConductingEquipment>& setter, const get_t<commonmodule::ConductingEquipment>& getter, ITypedModelVisitor<regulatormodule::RegulatorEventProfile>& visitor);
 
+void visit_commonmodule_ControlAPC(const set_t<commonmodule::ControlAPC>& setter, const get_t<commonmodule::ControlAPC>& getter, ITypedModelVisitor<regulatormodule::RegulatorEventProfile>& visitor);
+
 void visit_commonmodule_ENS_BehaviourModeKind(const set_t<commonmodule::ENS_BehaviourModeKind>& setter, const get_t<commonmodule::ENS_BehaviourModeKind>& getter, ITypedModelVisitor<regulatormodule::RegulatorEventProfile>& visitor);
 
 void visit_commonmodule_ENS_DynamicTestKind(const set_t<commonmodule::ENS_DynamicTestKind>& setter, const get_t<commonmodule::ENS_DynamicTestKind>& getter, ITypedModelVisitor<regulatormodule::RegulatorEventProfile>& visitor);
@@ -58,9 +60,13 @@ void visit_commonmodule_Optional_StateKind(const set_t<commonmodule::Optional_St
 
 void visit_commonmodule_Optional_UnitMultiplierKind(const set_t<commonmodule::Optional_UnitMultiplierKind>& setter, const get_t<commonmodule::Optional_UnitMultiplierKind>& getter, ITypedModelVisitor<regulatormodule::RegulatorEventProfile>& visitor);
 
+void visit_commonmodule_PhaseAPC(const set_t<commonmodule::PhaseAPC>& setter, const get_t<commonmodule::PhaseAPC>& getter, ITypedModelVisitor<regulatormodule::RegulatorEventProfile>& visitor);
+
 void visit_commonmodule_PhaseINS(const set_t<commonmodule::PhaseINS>& setter, const get_t<commonmodule::PhaseINS>& getter, ITypedModelVisitor<regulatormodule::RegulatorEventProfile>& visitor);
 
 void visit_commonmodule_RampRate(const set_t<commonmodule::RampRate>& setter, const get_t<commonmodule::RampRate>& getter, ITypedModelVisitor<regulatormodule::RegulatorEventProfile>& visitor);
+
+void visit_commonmodule_StatusINC(const set_t<commonmodule::StatusINC>& setter, const get_t<commonmodule::StatusINC>& getter, ITypedModelVisitor<regulatormodule::RegulatorEventProfile>& visitor);
 
 void visit_commonmodule_StatusINS(const set_t<commonmodule::StatusINS>& setter, const get_t<commonmodule::StatusINS>& getter, ITypedModelVisitor<regulatormodule::RegulatorEventProfile>& visitor);
 
@@ -83,8 +89,6 @@ void visit_regulatormodule_RegulatorEvent(const set_t<regulatormodule::Regulator
 void visit_regulatormodule_RegulatorEventAndStatusANCR(const set_t<regulatormodule::RegulatorEventAndStatusANCR>& setter, const get_t<regulatormodule::RegulatorEventAndStatusANCR>& getter, ITypedModelVisitor<regulatormodule::RegulatorEventProfile>& visitor);
 
 void visit_regulatormodule_RegulatorEventAndStatusATCC(const set_t<regulatormodule::RegulatorEventAndStatusATCC>& setter, const get_t<regulatormodule::RegulatorEventAndStatusATCC>& getter, ITypedModelVisitor<regulatormodule::RegulatorEventProfile>& visitor);
-
-void visit_regulatormodule_RegulatorEventAndStatusPoint(const set_t<regulatormodule::RegulatorEventAndStatusPoint>& setter, const get_t<regulatormodule::RegulatorEventAndStatusPoint>& getter, ITypedModelVisitor<regulatormodule::RegulatorEventProfile>& visitor);
 
 void visit_regulatormodule_RegulatorSystem(const set_t<regulatormodule::RegulatorSystem>& setter, const get_t<regulatormodule::RegulatorSystem>& getter, ITypedModelVisitor<regulatormodule::RegulatorEventProfile>& visitor);
 
@@ -336,6 +340,33 @@ void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::Conducting
             }
         )
     );
+}
+
+void visit_commonmodule_ControlAPC(const set_t<commonmodule::ControlAPC>& setter, const get_t<commonmodule::ControlAPC>& getter, ITypedModelVisitor<regulatormodule::RegulatorEventProfile>& visitor)
+{
+    if(visitor.start_message_field("ctlVal", commonmodule::AnalogueValueCtl::descriptor()))
+    {
+        visit_commonmodule_AnalogueValueCtl(
+            [setter](regulatormodule::RegulatorEventProfile& profile)
+            {
+                return setter(profile)->mutable_ctlval();
+            },
+            [getter](const regulatormodule::RegulatorEventProfile& profile) -> commonmodule::AnalogueValueCtl const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_ctlval() ? &value->ctlval() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
 }
 
 void visit_commonmodule_ENS_BehaviourModeKind(const set_t<commonmodule::ENS_BehaviourModeKind>& setter, const get_t<commonmodule::ENS_BehaviourModeKind>& getter, ITypedModelVisitor<regulatormodule::RegulatorEventProfile>& visitor)
@@ -930,6 +961,105 @@ void visit_commonmodule_Optional_UnitMultiplierKind(const set_t<commonmodule::Op
     );
 }
 
+void visit_commonmodule_PhaseAPC(const set_t<commonmodule::PhaseAPC>& setter, const get_t<commonmodule::PhaseAPC>& getter, ITypedModelVisitor<regulatormodule::RegulatorEventProfile>& visitor)
+{
+    if(visitor.start_message_field("phs3", commonmodule::ControlAPC::descriptor()))
+    {
+        visit_commonmodule_ControlAPC(
+            [setter](regulatormodule::RegulatorEventProfile& profile)
+            {
+                return setter(profile)->mutable_phs3();
+            },
+            [getter](const regulatormodule::RegulatorEventProfile& profile) -> commonmodule::ControlAPC const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_phs3() ? &value->phs3() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("phsA", commonmodule::ControlAPC::descriptor()))
+    {
+        visit_commonmodule_ControlAPC(
+            [setter](regulatormodule::RegulatorEventProfile& profile)
+            {
+                return setter(profile)->mutable_phsa();
+            },
+            [getter](const regulatormodule::RegulatorEventProfile& profile) -> commonmodule::ControlAPC const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_phsa() ? &value->phsa() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("phsB", commonmodule::ControlAPC::descriptor()))
+    {
+        visit_commonmodule_ControlAPC(
+            [setter](regulatormodule::RegulatorEventProfile& profile)
+            {
+                return setter(profile)->mutable_phsb();
+            },
+            [getter](const regulatormodule::RegulatorEventProfile& profile) -> commonmodule::ControlAPC const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_phsb() ? &value->phsb() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("phsC", commonmodule::ControlAPC::descriptor()))
+    {
+        visit_commonmodule_ControlAPC(
+            [setter](regulatormodule::RegulatorEventProfile& profile)
+            {
+                return setter(profile)->mutable_phsc();
+            },
+            [getter](const regulatormodule::RegulatorEventProfile& profile) -> commonmodule::ControlAPC const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_phsc() ? &value->phsc() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+}
+
 void visit_commonmodule_PhaseINS(const set_t<commonmodule::PhaseINS>& setter, const get_t<commonmodule::PhaseINS>& getter, ITypedModelVisitor<regulatormodule::RegulatorEventProfile>& visitor)
 {
     if(visitor.start_message_field("phs3", commonmodule::StatusINS::descriptor()))
@@ -1126,6 +1256,51 @@ void visit_commonmodule_RampRate(const set_t<commonmodule::RampRate>& setter, co
         );
         visitor.end_message_field();
     }
+}
+
+void visit_commonmodule_StatusINC(const set_t<commonmodule::StatusINC>& setter, const get_t<commonmodule::StatusINC>& getter, ITypedModelVisitor<regulatormodule::RegulatorEventProfile>& visitor)
+{
+    visitor.handle(
+        "q",
+        MessageAccessorBuilder<regulatormodule::RegulatorEventProfile,commonmodule::Quality>::build(
+            [setter](regulatormodule::RegulatorEventProfile& profile) { return setter(profile)->mutable_q(); },
+            [getter](const regulatormodule::RegulatorEventProfile& profile, const handler_t<commonmodule::Quality>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent || !parent->has_q()) return false;
+                handler(parent->q());
+                return true;
+            }
+        )
+    );
+
+    visitor.handle(
+        "stVal",
+        AccessorBuilder<regulatormodule::RegulatorEventProfile,int32_t>::build(
+            [setter](regulatormodule::RegulatorEventProfile& profile, const int32_t& value) { setter(profile)->set_stval(value); },
+            [getter](const regulatormodule::RegulatorEventProfile& profile, const handler_t<int32_t>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->stval());
+                return true;
+            }
+        )
+    );
+
+    visitor.handle(
+        "t",
+        MessageAccessorBuilder<regulatormodule::RegulatorEventProfile,commonmodule::Timestamp>::build(
+            [setter](regulatormodule::RegulatorEventProfile& profile) { return setter(profile)->mutable_t(); },
+            [getter](const regulatormodule::RegulatorEventProfile& profile, const handler_t<commonmodule::Timestamp>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent || !parent->has_t()) return false;
+                handler(parent->t());
+                return true;
+            }
+        )
+    );
 }
 
 void visit_commonmodule_StatusINS(const set_t<commonmodule::StatusINS>& setter, const get_t<commonmodule::StatusINS>& getter, ITypedModelVisitor<regulatormodule::RegulatorEventProfile>& visitor)
@@ -1474,14 +1649,14 @@ void visit_regulatormodule_RegulatorEventAndStatusANCR(const set_t<regulatormodu
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("PointStatus", regulatormodule::RegulatorEventAndStatusPoint::descriptor()))
+    if(visitor.start_message_field("PointStatus", regulatormodule::RegulatorEventAndStatusATCC::descriptor()))
     {
-        visit_regulatormodule_RegulatorEventAndStatusPoint(
+        visit_regulatormodule_RegulatorEventAndStatusATCC(
             [setter](regulatormodule::RegulatorEventProfile& profile)
             {
                 return setter(profile)->mutable_pointstatus();
             },
-            [getter](const regulatormodule::RegulatorEventProfile& profile) -> regulatormodule::RegulatorEventAndStatusPoint const *
+            [getter](const regulatormodule::RegulatorEventProfile& profile) -> regulatormodule::RegulatorEventAndStatusATCC const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1597,30 +1772,6 @@ void visit_regulatormodule_RegulatorEventAndStatusATCC(const set_t<regulatormodu
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("LDCZ", commonmodule::ASG::descriptor()))
-    {
-        visit_commonmodule_ASG(
-            [setter](regulatormodule::RegulatorEventProfile& profile)
-            {
-                return setter(profile)->mutable_ldcz();
-            },
-            [getter](const regulatormodule::RegulatorEventProfile& profile) -> commonmodule::ASG const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_ldcz() ? &value->ldcz() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
     if(visitor.start_message_field("ParOp", commonmodule::StatusSPS::descriptor()))
     {
         visit_commonmodule_StatusSPS(
@@ -1634,6 +1785,78 @@ void visit_regulatormodule_RegulatorEventAndStatusATCC(const set_t<regulatormodu
                 if(value)
                 {
                     return value->has_parop() ? &value->parop() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("rampRates", commonmodule::RampRate::descriptor()))
+    {
+        visit_commonmodule_RampRate(
+            [setter](regulatormodule::RegulatorEventProfile& profile)
+            {
+                return setter(profile)->mutable_ramprates();
+            },
+            [getter](const regulatormodule::RegulatorEventProfile& profile) -> commonmodule::RampRate const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_ramprates() ? &value->ramprates() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("state", commonmodule::Optional_StateKind::descriptor()))
+    {
+        visit_commonmodule_Optional_StateKind(
+            [setter](regulatormodule::RegulatorEventProfile& profile)
+            {
+                return setter(profile)->mutable_state();
+            },
+            [getter](const regulatormodule::RegulatorEventProfile& profile) -> commonmodule::Optional_StateKind const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_state() ? &value->state() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("StDlTmms", commonmodule::StatusINC::descriptor()))
+    {
+        visit_commonmodule_StatusINC(
+            [setter](regulatormodule::RegulatorEventProfile& profile)
+            {
+                return setter(profile)->mutable_stdltmms();
+            },
+            [getter](const regulatormodule::RegulatorEventProfile& profile) -> commonmodule::StatusINC const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_stdltmms() ? &value->stdltmms() : nullptr;
                 }
                 else
                 {
@@ -1692,119 +1915,20 @@ void visit_regulatormodule_RegulatorEventAndStatusATCC(const set_t<regulatormodu
         );
         visitor.end_message_field();
     }
-}
 
-void visit_regulatormodule_RegulatorEventAndStatusPoint(const set_t<regulatormodule::RegulatorEventAndStatusPoint>& setter, const get_t<regulatormodule::RegulatorEventAndStatusPoint>& getter, ITypedModelVisitor<regulatormodule::RegulatorEventProfile>& visitor)
-{
-    if(visitor.start_message_field("eventAndStatus", regulatormodule::RegulatorEventAndStatusATCC::descriptor()))
+    if(visitor.start_message_field("VolSpt", commonmodule::PhaseAPC::descriptor()))
     {
-        visit_regulatormodule_RegulatorEventAndStatusATCC(
+        visit_commonmodule_PhaseAPC(
             [setter](regulatormodule::RegulatorEventProfile& profile)
             {
-                return setter(profile)->mutable_eventandstatus();
+                return setter(profile)->mutable_volspt();
             },
-            [getter](const regulatormodule::RegulatorEventProfile& profile) -> regulatormodule::RegulatorEventAndStatusATCC const *
+            [getter](const regulatormodule::RegulatorEventProfile& profile) -> commonmodule::PhaseAPC const *
             {
                 const auto value = getter(profile);
                 if(value)
                 {
-                    return value->has_eventandstatus() ? &value->eventandstatus() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("pctVDroop", google::protobuf::FloatValue::descriptor()))
-    {
-        visit_google_protobuf_FloatValue(
-            [setter](regulatormodule::RegulatorEventProfile& profile)
-            {
-                return setter(profile)->mutable_pctvdroop();
-            },
-            [getter](const regulatormodule::RegulatorEventProfile& profile) -> google::protobuf::FloatValue const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_pctvdroop() ? &value->pctvdroop() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("rampRates", commonmodule::RampRate::descriptor()))
-    {
-        visit_commonmodule_RampRate(
-            [setter](regulatormodule::RegulatorEventProfile& profile)
-            {
-                return setter(profile)->mutable_ramprates();
-            },
-            [getter](const regulatormodule::RegulatorEventProfile& profile) -> commonmodule::RampRate const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_ramprates() ? &value->ramprates() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("reactivePwrSetPointEnabled", commonmodule::StatusSPC::descriptor()))
-    {
-        visit_commonmodule_StatusSPC(
-            [setter](regulatormodule::RegulatorEventProfile& profile)
-            {
-                return setter(profile)->mutable_reactivepwrsetpointenabled();
-            },
-            [getter](const regulatormodule::RegulatorEventProfile& profile) -> commonmodule::StatusSPC const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_reactivepwrsetpointenabled() ? &value->reactivepwrsetpointenabled() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("state", commonmodule::Optional_StateKind::descriptor()))
-    {
-        visit_commonmodule_Optional_StateKind(
-            [setter](regulatormodule::RegulatorEventProfile& profile)
-            {
-                return setter(profile)->mutable_state();
-            },
-            [getter](const regulatormodule::RegulatorEventProfile& profile) -> commonmodule::Optional_StateKind const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_state() ? &value->state() : nullptr;
+                    return value->has_volspt() ? &value->volspt() : nullptr;
                 }
                 else
                 {

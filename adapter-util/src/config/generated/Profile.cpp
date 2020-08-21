@@ -44,11 +44,11 @@ const char Profile::LoadEventProfile[] = "LoadEventProfile";
 const char Profile::LoadReadingProfile[] = "LoadReadingProfile";
 const char Profile::LoadStatusProfile[] = "LoadStatusProfile";
 const char Profile::MeterReadingProfile[] = "MeterReadingProfile";
-const char Profile::RecloserControlProfile[] = "RecloserControlProfile";
 const char Profile::RecloserDiscreteControlProfile[] = "RecloserDiscreteControlProfile";
 const char Profile::RecloserEventProfile[] = "RecloserEventProfile";
 const char Profile::RecloserReadingProfile[] = "RecloserReadingProfile";
 const char Profile::RecloserStatusProfile[] = "RecloserStatusProfile";
+const char Profile::RegulatorDiscreteControlProfile[] = "RegulatorDiscreteControlProfile";
 const char Profile::RegulatorControlProfile[] = "RegulatorControlProfile";
 const char Profile::RegulatorEventProfile[] = "RegulatorEventProfile";
 const char Profile::RegulatorReadingProfile[] = "RegulatorReadingProfile";
@@ -61,13 +61,12 @@ const char Profile::SolarControlProfile[] = "SolarControlProfile";
 const char Profile::SolarEventProfile[] = "SolarEventProfile";
 const char Profile::SolarReadingProfile[] = "SolarReadingProfile";
 const char Profile::SolarStatusProfile[] = "SolarStatusProfile";
-const char Profile::SwitchControlProfile[] = "SwitchControlProfile";
 const char Profile::SwitchDiscreteControlProfile[] = "SwitchDiscreteControlProfile";
 const char Profile::SwitchEventProfile[] = "SwitchEventProfile";
 const char Profile::SwitchReadingProfile[] = "SwitchReadingProfile";
 const char Profile::SwitchStatusProfile[] = "SwitchStatusProfile";
 
-const std::array<Profile::Value, 45> Profile::values =
+const std::array<Profile::Value, 44> Profile::values =
 {
     Profile::Value::BreakerDiscreteControlProfile,
     Profile::Value::BreakerEventProfile,
@@ -92,11 +91,11 @@ const std::array<Profile::Value, 45> Profile::values =
     Profile::Value::LoadReadingProfile,
     Profile::Value::LoadStatusProfile,
     Profile::Value::MeterReadingProfile,
-    Profile::Value::RecloserControlProfile,
     Profile::Value::RecloserDiscreteControlProfile,
     Profile::Value::RecloserEventProfile,
     Profile::Value::RecloserReadingProfile,
     Profile::Value::RecloserStatusProfile,
+    Profile::Value::RegulatorDiscreteControlProfile,
     Profile::Value::RegulatorControlProfile,
     Profile::Value::RegulatorEventProfile,
     Profile::Value::RegulatorReadingProfile,
@@ -109,7 +108,6 @@ const std::array<Profile::Value, 45> Profile::values =
     Profile::Value::SolarEventProfile,
     Profile::Value::SolarReadingProfile,
     Profile::Value::SolarStatusProfile,
-    Profile::Value::SwitchControlProfile,
     Profile::Value::SwitchDiscreteControlProfile,
     Profile::Value::SwitchEventProfile,
     Profile::Value::SwitchReadingProfile,
@@ -143,11 +141,11 @@ std::string Profile::to_string(Profile::Value value)
         case(Value::LoadReadingProfile): return LoadReadingProfile;
         case(Value::LoadStatusProfile): return LoadStatusProfile;
         case(Value::MeterReadingProfile): return MeterReadingProfile;
-        case(Value::RecloserControlProfile): return RecloserControlProfile;
         case(Value::RecloserDiscreteControlProfile): return RecloserDiscreteControlProfile;
         case(Value::RecloserEventProfile): return RecloserEventProfile;
         case(Value::RecloserReadingProfile): return RecloserReadingProfile;
         case(Value::RecloserStatusProfile): return RecloserStatusProfile;
+        case(Value::RegulatorDiscreteControlProfile): return RegulatorDiscreteControlProfile;
         case(Value::RegulatorControlProfile): return RegulatorControlProfile;
         case(Value::RegulatorEventProfile): return RegulatorEventProfile;
         case(Value::RegulatorReadingProfile): return RegulatorReadingProfile;
@@ -160,7 +158,6 @@ std::string Profile::to_string(Profile::Value value)
         case(Value::SolarEventProfile): return SolarEventProfile;
         case(Value::SolarReadingProfile): return SolarReadingProfile;
         case(Value::SolarStatusProfile): return SolarStatusProfile;
-        case(Value::SwitchControlProfile): return SwitchControlProfile;
         case(Value::SwitchDiscreteControlProfile): return SwitchDiscreteControlProfile;
         case(Value::SwitchEventProfile): return SwitchEventProfile;
         case(Value::SwitchReadingProfile): return SwitchReadingProfile;
@@ -195,11 +192,11 @@ Profile::Value Profile::from_string(const std::string& name)
         {LoadReadingProfile, Value::LoadReadingProfile},
         {LoadStatusProfile, Value::LoadStatusProfile},
         {MeterReadingProfile, Value::MeterReadingProfile},
-        {RecloserControlProfile, Value::RecloserControlProfile},
         {RecloserDiscreteControlProfile, Value::RecloserDiscreteControlProfile},
         {RecloserEventProfile, Value::RecloserEventProfile},
         {RecloserReadingProfile, Value::RecloserReadingProfile},
         {RecloserStatusProfile, Value::RecloserStatusProfile},
+        {RegulatorDiscreteControlProfile, Value::RegulatorDiscreteControlProfile},
         {RegulatorControlProfile, Value::RegulatorControlProfile},
         {RegulatorEventProfile, Value::RegulatorEventProfile},
         {RegulatorReadingProfile, Value::RegulatorReadingProfile},
@@ -212,7 +209,6 @@ Profile::Value Profile::from_string(const std::string& name)
         {SolarEventProfile, Value::SolarEventProfile},
         {SolarReadingProfile, Value::SolarReadingProfile},
         {SolarStatusProfile, Value::SolarStatusProfile},
-        {SwitchControlProfile, Value::SwitchControlProfile},
         {SwitchDiscreteControlProfile, Value::SwitchDiscreteControlProfile},
         {SwitchEventProfile, Value::SwitchEventProfile},
         {SwitchReadingProfile, Value::SwitchReadingProfile},

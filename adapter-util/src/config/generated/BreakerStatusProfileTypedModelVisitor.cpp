@@ -30,6 +30,8 @@ void visit_breakermodule_Breaker(const set_t<breakermodule::Breaker>& setter, co
 
 void visit_breakermodule_BreakerStatus(const set_t<breakermodule::BreakerStatus>& setter, const get_t<breakermodule::BreakerStatus>& getter, ITypedModelVisitor<breakermodule::BreakerStatusProfile>& visitor);
 
+void visit_commonmodule_ACD(const set_t<commonmodule::ACD>& setter, const get_t<commonmodule::ACD>& getter, ITypedModelVisitor<breakermodule::BreakerStatusProfile>& visitor);
+
 void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::ConductingEquipment>& setter, const get_t<commonmodule::ConductingEquipment>& getter, ITypedModelVisitor<breakermodule::BreakerStatusProfile>& visitor);
 
 void visit_commonmodule_ENS_BehaviourModeKind(const set_t<commonmodule::ENS_BehaviourModeKind>& setter, const get_t<commonmodule::ENS_BehaviourModeKind>& getter, ITypedModelVisitor<breakermodule::BreakerStatusProfile>& visitor);
@@ -49,6 +51,8 @@ void visit_commonmodule_LogicalNodeForEventAndStatus(const set_t<commonmodule::L
 void visit_commonmodule_MessageInfo(const set_t<commonmodule::MessageInfo>& setter, const get_t<commonmodule::MessageInfo>& getter, ITypedModelVisitor<breakermodule::BreakerStatusProfile>& visitor);
 
 void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& setter, const get_t<commonmodule::NamedObject>& getter, ITypedModelVisitor<breakermodule::BreakerStatusProfile>& visitor);
+
+void visit_commonmodule_Optional_PhaseFaultDirectionKind(const set_t<commonmodule::Optional_PhaseFaultDirectionKind>& setter, const get_t<commonmodule::Optional_PhaseFaultDirectionKind>& getter, ITypedModelVisitor<breakermodule::BreakerStatusProfile>& visitor);
 
 void visit_commonmodule_Optional_RecloseActionKind(const set_t<commonmodule::Optional_RecloseActionKind>& setter, const get_t<commonmodule::Optional_RecloseActionKind>& getter, ITypedModelVisitor<breakermodule::BreakerStatusProfile>& visitor);
 
@@ -247,6 +251,230 @@ void visit_breakermodule_BreakerStatus(const set_t<breakermodule::BreakerStatus>
                 if(value)
                 {
                     return value->has_statusandeventxcbr() ? &value->statusandeventxcbr() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+}
+
+void visit_commonmodule_ACD(const set_t<commonmodule::ACD>& setter, const get_t<commonmodule::ACD>& getter, ITypedModelVisitor<breakermodule::BreakerStatusProfile>& visitor)
+{
+    visitor.handle(
+        "dirGeneral",
+        AccessorBuilder<breakermodule::BreakerStatusProfile,int>::build(
+            [setter](breakermodule::BreakerStatusProfile& profile, const int& value) { setter(profile)->set_dirgeneral(static_cast<commonmodule::FaultDirectionKind>(value)); },
+            [getter](const breakermodule::BreakerStatusProfile& profile, const handler_t<int>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->dirgeneral());
+                return true;
+            }
+        ),
+        commonmodule::FaultDirectionKind_descriptor()
+    );
+
+    if(visitor.start_message_field("dirNeut", commonmodule::Optional_PhaseFaultDirectionKind::descriptor()))
+    {
+        visit_commonmodule_Optional_PhaseFaultDirectionKind(
+            [setter](breakermodule::BreakerStatusProfile& profile)
+            {
+                return setter(profile)->mutable_dirneut();
+            },
+            [getter](const breakermodule::BreakerStatusProfile& profile) -> commonmodule::Optional_PhaseFaultDirectionKind const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_dirneut() ? &value->dirneut() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("dirPhsA", commonmodule::Optional_PhaseFaultDirectionKind::descriptor()))
+    {
+        visit_commonmodule_Optional_PhaseFaultDirectionKind(
+            [setter](breakermodule::BreakerStatusProfile& profile)
+            {
+                return setter(profile)->mutable_dirphsa();
+            },
+            [getter](const breakermodule::BreakerStatusProfile& profile) -> commonmodule::Optional_PhaseFaultDirectionKind const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_dirphsa() ? &value->dirphsa() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("dirPhsB", commonmodule::Optional_PhaseFaultDirectionKind::descriptor()))
+    {
+        visit_commonmodule_Optional_PhaseFaultDirectionKind(
+            [setter](breakermodule::BreakerStatusProfile& profile)
+            {
+                return setter(profile)->mutable_dirphsb();
+            },
+            [getter](const breakermodule::BreakerStatusProfile& profile) -> commonmodule::Optional_PhaseFaultDirectionKind const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_dirphsb() ? &value->dirphsb() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("dirPhsC", commonmodule::Optional_PhaseFaultDirectionKind::descriptor()))
+    {
+        visit_commonmodule_Optional_PhaseFaultDirectionKind(
+            [setter](breakermodule::BreakerStatusProfile& profile)
+            {
+                return setter(profile)->mutable_dirphsc();
+            },
+            [getter](const breakermodule::BreakerStatusProfile& profile) -> commonmodule::Optional_PhaseFaultDirectionKind const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_dirphsc() ? &value->dirphsc() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    visitor.handle(
+        "general",
+        AccessorBuilder<breakermodule::BreakerStatusProfile,bool>::build(
+            [setter](breakermodule::BreakerStatusProfile& profile, const bool& value) { setter(profile)->set_general(value); },
+            [getter](const breakermodule::BreakerStatusProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->general());
+                return true;
+            }
+        )
+    );
+
+    if(visitor.start_message_field("neut", google::protobuf::BoolValue::descriptor()))
+    {
+        visit_google_protobuf_BoolValue(
+            [setter](breakermodule::BreakerStatusProfile& profile)
+            {
+                return setter(profile)->mutable_neut();
+            },
+            [getter](const breakermodule::BreakerStatusProfile& profile) -> google::protobuf::BoolValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_neut() ? &value->neut() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("phsA", google::protobuf::BoolValue::descriptor()))
+    {
+        visit_google_protobuf_BoolValue(
+            [setter](breakermodule::BreakerStatusProfile& profile)
+            {
+                return setter(profile)->mutable_phsa();
+            },
+            [getter](const breakermodule::BreakerStatusProfile& profile) -> google::protobuf::BoolValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_phsa() ? &value->phsa() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("phsB", google::protobuf::BoolValue::descriptor()))
+    {
+        visit_google_protobuf_BoolValue(
+            [setter](breakermodule::BreakerStatusProfile& profile)
+            {
+                return setter(profile)->mutable_phsb();
+            },
+            [getter](const breakermodule::BreakerStatusProfile& profile) -> google::protobuf::BoolValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_phsb() ? &value->phsb() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("phsC", google::protobuf::BoolValue::descriptor()))
+    {
+        visit_google_protobuf_BoolValue(
+            [setter](breakermodule::BreakerStatusProfile& profile)
+            {
+                return setter(profile)->mutable_phsc();
+            },
+            [getter](const breakermodule::BreakerStatusProfile& profile) -> google::protobuf::BoolValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_phsc() ? &value->phsc() : nullptr;
                 }
                 else
                 {
@@ -778,6 +1006,24 @@ void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& sett
     }
 }
 
+void visit_commonmodule_Optional_PhaseFaultDirectionKind(const set_t<commonmodule::Optional_PhaseFaultDirectionKind>& setter, const get_t<commonmodule::Optional_PhaseFaultDirectionKind>& getter, ITypedModelVisitor<breakermodule::BreakerStatusProfile>& visitor)
+{
+    visitor.handle(
+        "value",
+        AccessorBuilder<breakermodule::BreakerStatusProfile,int>::build(
+            [setter](breakermodule::BreakerStatusProfile& profile, const int& value) { setter(profile)->set_value(static_cast<commonmodule::PhaseFaultDirectionKind>(value)); },
+            [getter](const breakermodule::BreakerStatusProfile& profile, const handler_t<int>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->value());
+                return true;
+            }
+        ),
+        commonmodule::PhaseFaultDirectionKind_descriptor()
+    );
+}
+
 void visit_commonmodule_Optional_RecloseActionKind(const set_t<commonmodule::Optional_RecloseActionKind>& setter, const get_t<commonmodule::Optional_RecloseActionKind>& getter, ITypedModelVisitor<breakermodule::BreakerStatusProfile>& visitor)
 {
     visitor.handle(
@@ -1167,14 +1413,14 @@ void visit_commonmodule_StatusAndEventXCBR(const set_t<commonmodule::StatusAndEv
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("ProtectionPickup", commonmodule::PhaseSPS::descriptor()))
+    if(visitor.start_message_field("ProtectionPickup", commonmodule::ACD::descriptor()))
     {
-        visit_commonmodule_PhaseSPS(
+        visit_commonmodule_ACD(
             [setter](breakermodule::BreakerStatusProfile& profile)
             {
                 return setter(profile)->mutable_protectionpickup();
             },
-            [getter](const breakermodule::BreakerStatusProfile& profile) -> commonmodule::PhaseSPS const *
+            [getter](const breakermodule::BreakerStatusProfile& profile) -> commonmodule::ACD const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1215,14 +1461,14 @@ void visit_commonmodule_StatusAndEventXCBR(const set_t<commonmodule::StatusAndEv
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("RecloseEnabled", commonmodule::PhaseDPS::descriptor()))
+    if(visitor.start_message_field("RecloseEnabled", commonmodule::PhaseSPS::descriptor()))
     {
-        visit_commonmodule_PhaseDPS(
+        visit_commonmodule_PhaseSPS(
             [setter](breakermodule::BreakerStatusProfile& profile)
             {
                 return setter(profile)->mutable_recloseenabled();
             },
-            [getter](const breakermodule::BreakerStatusProfile& profile) -> commonmodule::PhaseDPS const *
+            [getter](const breakermodule::BreakerStatusProfile& profile) -> commonmodule::PhaseSPS const *
             {
                 const auto value = getter(profile);
                 if(value)

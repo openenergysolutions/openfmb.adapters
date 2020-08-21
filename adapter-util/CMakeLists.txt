@@ -102,13 +102,13 @@ set(SOURCES
     ./src/config/generated/LoadEventProfileTypedModelVisitor.cpp
     ./src/config/generated/LoadReadingProfileTypedModelVisitor.cpp
     ./src/config/generated/LoadStatusProfileTypedModelVisitor.cpp
-    ./src/config/generated/MeterReadingProfileTypedModelVisitor.cpp
-    ./src/config/generated/RecloserControlProfileTypedModelVisitor.cpp
+    ./src/config/generated/MeterReadingProfileTypedModelVisitor.cpp    
     ./src/config/generated/RecloserDiscreteControlProfileTypedModelVisitor.cpp
     ./src/config/generated/RecloserEventProfileTypedModelVisitor.cpp
     ./src/config/generated/RecloserReadingProfileTypedModelVisitor.cpp
     ./src/config/generated/RecloserStatusProfileTypedModelVisitor.cpp
     ./src/config/generated/RegulatorControlProfileTypedModelVisitor.cpp
+    ./src/config/generated/RegulatorDiscreteControlProfileTypedModelVisitor.cpp
     ./src/config/generated/RegulatorEventProfileTypedModelVisitor.cpp
     ./src/config/generated/RegulatorReadingProfileTypedModelVisitor.cpp
     ./src/config/generated/RegulatorStatusProfileTypedModelVisitor.cpp
@@ -119,8 +119,7 @@ set(SOURCES
     ./src/config/generated/SolarControlProfileTypedModelVisitor.cpp
     ./src/config/generated/SolarEventProfileTypedModelVisitor.cpp
     ./src/config/generated/SolarReadingProfileTypedModelVisitor.cpp
-    ./src/config/generated/SolarStatusProfileTypedModelVisitor.cpp
-    ./src/config/generated/SwitchControlProfileTypedModelVisitor.cpp
+    ./src/config/generated/SolarStatusProfileTypedModelVisitor.cpp    .
     ./src/config/generated/SwitchDiscreteControlProfileTypedModelVisitor.cpp
     ./src/config/generated/SwitchEventProfileTypedModelVisitor.cpp
     ./src/config/generated/SwitchReadingProfileTypedModelVisitor.cpp

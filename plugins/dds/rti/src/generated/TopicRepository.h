@@ -52,11 +52,11 @@ struct TopicRepository
     ::dds::topic::Topic<openfmb::loadmodule::LoadReadingProfile> loadreadingprofile;
     ::dds::topic::Topic<openfmb::loadmodule::LoadStatusProfile> loadstatusprofile;
     ::dds::topic::Topic<openfmb::metermodule::MeterReadingProfile> meterreadingprofile;
-    ::dds::topic::Topic<openfmb::reclosermodule::RecloserControlProfile> reclosercontrolprofile;
     ::dds::topic::Topic<openfmb::reclosermodule::RecloserDiscreteControlProfile> recloserdiscretecontrolprofile;
     ::dds::topic::Topic<openfmb::reclosermodule::RecloserEventProfile> reclosereventprofile;
     ::dds::topic::Topic<openfmb::reclosermodule::RecloserReadingProfile> recloserreadingprofile;
     ::dds::topic::Topic<openfmb::reclosermodule::RecloserStatusProfile> recloserstatusprofile;
+    ::dds::topic::Topic<openfmb::regulatormodule::RegulatorDiscreteControlProfile> regulatordiscretecontrolprofile;
     ::dds::topic::Topic<openfmb::regulatormodule::RegulatorControlProfile> regulatorcontrolprofile;
     ::dds::topic::Topic<openfmb::regulatormodule::RegulatorEventProfile> regulatoreventprofile;
     ::dds::topic::Topic<openfmb::regulatormodule::RegulatorReadingProfile> regulatorreadingprofile;
@@ -69,7 +69,6 @@ struct TopicRepository
     ::dds::topic::Topic<openfmb::solarmodule::SolarEventProfile> solareventprofile;
     ::dds::topic::Topic<openfmb::solarmodule::SolarReadingProfile> solarreadingprofile;
     ::dds::topic::Topic<openfmb::solarmodule::SolarStatusProfile> solarstatusprofile;
-    ::dds::topic::Topic<openfmb::switchmodule::SwitchControlProfile> switchcontrolprofile;
     ::dds::topic::Topic<openfmb::switchmodule::SwitchDiscreteControlProfile> switchdiscretecontrolprofile;
     ::dds::topic::Topic<openfmb::switchmodule::SwitchEventProfile> switcheventprofile;
     ::dds::topic::Topic<openfmb::switchmodule::SwitchReadingProfile> switchreadingprofile;

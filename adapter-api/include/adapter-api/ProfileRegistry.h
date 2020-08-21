@@ -114,14 +114,14 @@ namespace api {
         loadmodule::LoadStatusProfile,
         // meter module
         metermodule::MeterReadingProfile,
-        // recloser module
-        reclosermodule::RecloserControlProfile,
+        // recloser module        
         reclosermodule::RecloserDiscreteControlProfile,
         reclosermodule::RecloserEventProfile,
         reclosermodule::RecloserReadingProfile,
         reclosermodule::RecloserStatusProfile,
         // regulator module
         regulatormodule::RegulatorControlProfile,
+        regulatormodule::RegulatorDiscreteControlProfile,
         regulatormodule::RegulatorEventProfile,
         regulatormodule::RegulatorReadingProfile,
         regulatormodule::RegulatorStatusProfile,
@@ -135,8 +135,7 @@ namespace api {
         solarmodule::SolarEventProfile,
         solarmodule::SolarReadingProfile,
         solarmodule::SolarStatusProfile,
-        // switch module
-        switchmodule::SwitchControlProfile,
+        // switch module        
         switchmodule::SwitchDiscreteControlProfile,
         switchmodule::SwitchEventProfile,
         switchmodule::SwitchReadingProfile,

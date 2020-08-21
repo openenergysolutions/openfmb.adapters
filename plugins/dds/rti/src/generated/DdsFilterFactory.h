@@ -268,16 +268,6 @@ struct DdsFilterFactory<openfmb::metermodule::MeterReadingProfile>
 };
 
 template<>
-struct DdsFilterFactory<openfmb::reclosermodule::RecloserControlProfile>
-{
-    static ::dds::topic::ContentFilteredTopic<openfmb::reclosermodule::RecloserControlProfile> build(const ::dds::topic::Topic<openfmb::reclosermodule::RecloserControlProfile>& topic, const std::string& mRID)
-    {
-        std::string filter_string{"recloser.mRID = '" + mRID + "'"};
-        return ::dds::topic::ContentFilteredTopic<openfmb::reclosermodule::RecloserControlProfile>{topic, "reclosermodule::RecloserControlProfile - " + mRID, ::dds::topic::Filter{filter_string}};
-    }
-};
-
-template<>
 struct DdsFilterFactory<openfmb::reclosermodule::RecloserDiscreteControlProfile>
 {
     static ::dds::topic::ContentFilteredTopic<openfmb::reclosermodule::RecloserDiscreteControlProfile> build(const ::dds::topic::Topic<openfmb::reclosermodule::RecloserDiscreteControlProfile>& topic, const std::string& mRID)
@@ -314,6 +304,16 @@ struct DdsFilterFactory<openfmb::reclosermodule::RecloserStatusProfile>
     {
         std::string filter_string{"recloser.mRID = '" + mRID + "'"};
         return ::dds::topic::ContentFilteredTopic<openfmb::reclosermodule::RecloserStatusProfile>{topic, "reclosermodule::RecloserStatusProfile - " + mRID, ::dds::topic::Filter{filter_string}};
+    }
+};
+
+template<>
+struct DdsFilterFactory<openfmb::regulatormodule::RegulatorDiscreteControlProfile>
+{
+    static ::dds::topic::ContentFilteredTopic<openfmb::regulatormodule::RegulatorDiscreteControlProfile> build(const ::dds::topic::Topic<openfmb::regulatormodule::RegulatorDiscreteControlProfile>& topic, const std::string& mRID)
+    {
+        std::string filter_string{"regulatorSystem.mRID = '" + mRID + "'"};
+        return ::dds::topic::ContentFilteredTopic<openfmb::regulatormodule::RegulatorDiscreteControlProfile>{topic, "regulatormodule::RegulatorDiscreteControlProfile - " + mRID, ::dds::topic::Filter{filter_string}};
     }
 };
 
@@ -434,16 +434,6 @@ struct DdsFilterFactory<openfmb::solarmodule::SolarStatusProfile>
     {
         std::string filter_string{"solarInverter.mRID = '" + mRID + "'"};
         return ::dds::topic::ContentFilteredTopic<openfmb::solarmodule::SolarStatusProfile>{topic, "solarmodule::SolarStatusProfile - " + mRID, ::dds::topic::Filter{filter_string}};
-    }
-};
-
-template<>
-struct DdsFilterFactory<openfmb::switchmodule::SwitchControlProfile>
-{
-    static ::dds::topic::ContentFilteredTopic<openfmb::switchmodule::SwitchControlProfile> build(const ::dds::topic::Topic<openfmb::switchmodule::SwitchControlProfile>& topic, const std::string& mRID)
-    {
-        std::string filter_string{"protectedSwitch.mRID = '" + mRID + "'"};
-        return ::dds::topic::ContentFilteredTopic<openfmb::switchmodule::SwitchControlProfile>{topic, "switchmodule::SwitchControlProfile - " + mRID, ::dds::topic::Filter{filter_string}};
     }
 };
 

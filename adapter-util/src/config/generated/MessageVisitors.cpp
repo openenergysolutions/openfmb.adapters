@@ -24,6 +24,8 @@ void visit(const capbankmodule::CapBankControlFSCC& message, IMessageVisitor& vi
 
 void visit(const capbankmodule::CapBankControlScheduleFSCH& message, IMessageVisitor& visitor);
 
+void visit(const capbankmodule::CapBankControlYPSH& message, IMessageVisitor& visitor);
+
 void visit(const capbankmodule::CapBankDiscreteControl& message, IMessageVisitor& visitor);
 
 void visit(const capbankmodule::CapBankDiscreteControlZCAP& message, IMessageVisitor& visitor);
@@ -43,6 +45,8 @@ void visit(const capbankmodule::CapBankReading& message, IMessageVisitor& visito
 void visit(const capbankmodule::CapBankStatus& message, IMessageVisitor& visitor);
 
 void visit(const capbankmodule::CapBankSystem& message, IMessageVisitor& visitor);
+
+void visit(const commonmodule::ACD& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::ACDCTerminal& message, IMessageVisitor& visitor);
 
@@ -108,8 +112,6 @@ void visit(const commonmodule::ENS_DynamicTestKind& message, IMessageVisitor& vi
 
 void visit(const commonmodule::ENS_HealthKind& message, IMessageVisitor& visitor);
 
-void visit(const commonmodule::ENS_SwitchingCapabilityKind& message, IMessageVisitor& visitor);
-
 void visit(const commonmodule::ESS& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::EnergyConsumer& message, IMessageVisitor& visitor);
@@ -140,6 +142,8 @@ void visit(const commonmodule::NamedObject& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::Optional_PhaseCodeKind& message, IMessageVisitor& visitor);
 
+void visit(const commonmodule::Optional_PhaseFaultDirectionKind& message, IMessageVisitor& visitor);
+
 void visit(const commonmodule::Optional_RecloseActionKind& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::Optional_StateKind& message, IMessageVisitor& visitor);
@@ -147,6 +151,8 @@ void visit(const commonmodule::Optional_StateKind& message, IMessageVisitor& vis
 void visit(const commonmodule::Optional_UnitMultiplierKind& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::Optional_UnitSymbolKind& message, IMessageVisitor& visitor);
+
+void visit(const commonmodule::PhaseAPC& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::PhaseDPC& message, IMessageVisitor& visitor);
 
@@ -182,6 +188,8 @@ void visit(const commonmodule::StatusAndEventXCBR& message, IMessageVisitor& vis
 
 void visit(const commonmodule::StatusDPS& message, IMessageVisitor& visitor);
 
+void visit(const commonmodule::StatusINC& message, IMessageVisitor& visitor);
+
 void visit(const commonmodule::StatusINS& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::StatusMessageInfo& message, IMessageVisitor& visitor);
@@ -193,12 +201,6 @@ void visit(const commonmodule::StatusSPS& message, IMessageVisitor& visitor);
 void visit(const commonmodule::StatusValue& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::StringEventAndStatusGGIO& message, IMessageVisitor& visitor);
-
-void visit(const commonmodule::SwitchCSG& message, IMessageVisitor& visitor);
-
-void visit(const commonmodule::SwitchControlScheduleFSCH& message, IMessageVisitor& visitor);
-
-void visit(const commonmodule::SwitchPoint& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::Terminal& message, IMessageVisitor& visitor);
 
@@ -300,8 +302,6 @@ void visit(const generationmodule::ReactivePowerControl& message, IMessageVisito
 
 void visit(const generationmodule::RealPowerControl& message, IMessageVisitor& visitor);
 
-void visit(const generationmodule::VV11PlaceHolder& message, IMessageVisitor& visitor);
-
 void visit(const google::protobuf::BoolValue& message, IMessageVisitor& visitor);
 
 void visit(const google::protobuf::FloatValue& message, IMessageVisitor& visitor);
@@ -338,10 +338,6 @@ void visit(const metermodule::MeterReading& message, IMessageVisitor& visitor);
 
 void visit(const reclosermodule::Recloser& message, IMessageVisitor& visitor);
 
-void visit(const reclosermodule::RecloserControl& message, IMessageVisitor& visitor);
-
-void visit(const reclosermodule::RecloserControlFSCC& message, IMessageVisitor& visitor);
-
 void visit(const reclosermodule::RecloserDiscreteControl& message, IMessageVisitor& visitor);
 
 void visit(const reclosermodule::RecloserDiscreteControlXCBR& message, IMessageVisitor& visitor);
@@ -362,13 +358,13 @@ void visit(const regulatormodule::RegulatorControlFSCC& message, IMessageVisitor
 
 void visit(const regulatormodule::RegulatorControlScheduleFSCH& message, IMessageVisitor& visitor);
 
+void visit(const regulatormodule::RegulatorDiscreteControl& message, IMessageVisitor& visitor);
+
 void visit(const regulatormodule::RegulatorEvent& message, IMessageVisitor& visitor);
 
 void visit(const regulatormodule::RegulatorEventAndStatusANCR& message, IMessageVisitor& visitor);
 
 void visit(const regulatormodule::RegulatorEventAndStatusATCC& message, IMessageVisitor& visitor);
-
-void visit(const regulatormodule::RegulatorEventAndStatusPoint& message, IMessageVisitor& visitor);
 
 void visit(const regulatormodule::RegulatorPoint& message, IMessageVisitor& visitor);
 
@@ -421,10 +417,6 @@ void visit(const solarmodule::SolarStatus& message, IMessageVisitor& visitor);
 void visit(const solarmodule::SolarStatusZGEN& message, IMessageVisitor& visitor);
 
 void visit(const switchmodule::ProtectedSwitch& message, IMessageVisitor& visitor);
-
-void visit(const switchmodule::SwitchControl& message, IMessageVisitor& visitor);
-
-void visit(const switchmodule::SwitchControlFSCC& message, IMessageVisitor& visitor);
 
 void visit(const switchmodule::SwitchDiscreteControl& message, IMessageVisitor& visitor);
 
@@ -632,6 +624,28 @@ void visit(const capbankmodule::CapBankControlScheduleFSCH& message, IMessageVis
     }
 }
 
+void visit(const capbankmodule::CapBankControlYPSH& message, IMessageVisitor& visitor)
+{
+    if(message.has_blkcls())
+    {
+        visitor.start_message_field("BlkCls");
+        visit(message.blkcls(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_blkopn())
+    {
+        visitor.start_message_field("BlkOpn");
+        visit(message.blkopn(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_pos())
+    {
+        visitor.start_message_field("Pos");
+        visit(message.pos(), visitor);
+        visitor.end_message_field();
+    }
+}
+
 void visit(const capbankmodule::CapBankDiscreteControl& message, IMessageVisitor& visitor)
 {
     if(message.has_controlvalue())
@@ -714,12 +728,6 @@ void visit(const capbankmodule::CapBankEventAndStatusYPSH& message, IMessageVisi
     {
         visitor.start_message_field("Pos");
         visit(message.pos(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_shopcap())
-    {
-        visitor.start_message_field("ShOpCap");
-        visit(message.shopcap(), visitor);
         visitor.end_message_field();
     }
 }
@@ -812,6 +820,60 @@ void visit(const capbankmodule::CapBankSystem& message, IMessageVisitor& visitor
     {
         visitor.start_message_field("conductingEquipment");
         visit(message.conductingequipment(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const commonmodule::ACD& message, IMessageVisitor& visitor)
+{
+    visitor.handle("dirGeneral", static_cast<int>(message.dirgeneral()), *commonmodule::FaultDirectionKind_descriptor());
+    if(message.has_dirneut())
+    {
+        visitor.start_message_field("dirNeut");
+        visit(message.dirneut(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_dirphsa())
+    {
+        visitor.start_message_field("dirPhsA");
+        visit(message.dirphsa(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_dirphsb())
+    {
+        visitor.start_message_field("dirPhsB");
+        visit(message.dirphsb(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_dirphsc())
+    {
+        visitor.start_message_field("dirPhsC");
+        visit(message.dirphsc(), visitor);
+        visitor.end_message_field();
+    }
+    visitor.handle("general", message.general());
+    if(message.has_neut())
+    {
+        visitor.start_message_field("neut");
+        visit(message.neut(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_phsa())
+    {
+        visitor.start_message_field("phsA");
+        visit(message.phsa(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_phsb())
+    {
+        visitor.start_message_field("phsB");
+        visit(message.phsb(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_phsc())
+    {
+        visitor.start_message_field("phsC");
+        visit(message.phsc(), visitor);
         visitor.end_message_field();
     }
 }
@@ -1245,17 +1307,6 @@ void visit(const commonmodule::ENS_HealthKind& message, IMessageVisitor& visitor
     visitor.handle("stVal", static_cast<int>(message.stval()), *commonmodule::HealthKind_descriptor());
 }
 
-void visit(const commonmodule::ENS_SwitchingCapabilityKind& message, IMessageVisitor& visitor)
-{
-    if(message.has_blkena())
-    {
-        visitor.start_message_field("blkEna");
-        visit(message.blkena(), visitor);
-        visitor.end_message_field();
-    }
-    visitor.handle("stVal", static_cast<int>(message.stval()), *commonmodule::SwitchingCapabilityKind_descriptor());
-}
-
 void visit(const commonmodule::ESS& message, IMessageVisitor& visitor)
 {
     if(message.has_conductingequipment())
@@ -1491,6 +1542,11 @@ void visit(const commonmodule::Optional_PhaseCodeKind& message, IMessageVisitor&
     visitor.handle("value", static_cast<int>(message.value()), *commonmodule::PhaseCodeKind_descriptor());
 }
 
+void visit(const commonmodule::Optional_PhaseFaultDirectionKind& message, IMessageVisitor& visitor)
+{
+    visitor.handle("value", static_cast<int>(message.value()), *commonmodule::PhaseFaultDirectionKind_descriptor());
+}
+
 void visit(const commonmodule::Optional_RecloseActionKind& message, IMessageVisitor& visitor)
 {
     visitor.handle("value", static_cast<int>(message.value()), *commonmodule::RecloseActionKind_descriptor());
@@ -1509,6 +1565,34 @@ void visit(const commonmodule::Optional_UnitMultiplierKind& message, IMessageVis
 void visit(const commonmodule::Optional_UnitSymbolKind& message, IMessageVisitor& visitor)
 {
     visitor.handle("value", static_cast<int>(message.value()), *commonmodule::UnitSymbolKind_descriptor());
+}
+
+void visit(const commonmodule::PhaseAPC& message, IMessageVisitor& visitor)
+{
+    if(message.has_phs3())
+    {
+        visitor.start_message_field("phs3");
+        visit(message.phs3(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_phsa())
+    {
+        visitor.start_message_field("phsA");
+        visit(message.phsa(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_phsb())
+    {
+        visitor.start_message_field("phsB");
+        visit(message.phsb(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_phsc())
+    {
+        visitor.start_message_field("phsC");
+        visit(message.phsc(), visitor);
+        visitor.end_message_field();
+    }
 }
 
 void visit(const commonmodule::PhaseDPC& message, IMessageVisitor& visitor)
@@ -2062,6 +2146,23 @@ void visit(const commonmodule::StatusDPS& message, IMessageVisitor& visitor)
     }
 }
 
+void visit(const commonmodule::StatusINC& message, IMessageVisitor& visitor)
+{
+    if(message.has_q())
+    {
+        visitor.start_message_field("q");
+        visit(message.q(), visitor);
+        visitor.end_message_field();
+    }
+    visitor.handle("stVal", message.stval());
+    if(message.has_t())
+    {
+        visitor.start_message_field("t");
+        visit(message.t(), visitor);
+        visitor.end_message_field();
+    }
+}
+
 void visit(const commonmodule::StatusINS& message, IMessageVisitor& visitor)
 {
     if(message.has_q())
@@ -2157,44 +2258,6 @@ void visit(const commonmodule::StringEventAndStatusGGIO& message, IMessageVisito
     {
         visitor.start_message_field("StrIn");
         visit(message.strin(), visitor);
-        visitor.end_message_field();
-    }
-}
-
-void visit(const commonmodule::SwitchCSG& message, IMessageVisitor& visitor)
-{
-    visitor.start_message_field("crvpts");
-    for(decltype(message.crvpts_size()) i = 0; i < message.crvpts_size(); ++i)
-    {
-        visitor.start_iteration(i);
-        visit(message.crvpts(i), visitor);
-        visitor.end_iteration();
-    }
-    visitor.end_message_field();
-}
-
-void visit(const commonmodule::SwitchControlScheduleFSCH& message, IMessageVisitor& visitor)
-{
-    if(message.has_valdcsg())
-    {
-        visitor.start_message_field("ValDCSG");
-        visit(message.valdcsg(), visitor);
-        visitor.end_message_field();
-    }
-}
-
-void visit(const commonmodule::SwitchPoint& message, IMessageVisitor& visitor)
-{
-    if(message.has_pos())
-    {
-        visitor.start_message_field("Pos");
-        visit(message.pos(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_starttime())
-    {
-        visitor.start_message_field("startTime");
-        visit(message.starttime(), visitor);
         visitor.end_message_field();
     }
 }
@@ -3452,12 +3515,6 @@ void visit(const generationmodule::Optional_RealPowerControlKind& message, IMess
 
 void visit(const generationmodule::ReactivePowerControl& message, IMessageVisitor& visitor)
 {
-    if(message.has_advancedsetpoint())
-    {
-        visitor.start_message_field("advancedSetpoint");
-        visit(message.advancedsetpoint(), visitor);
-        visitor.end_message_field();
-    }
     if(message.has_droopsetpoint())
     {
         visitor.start_message_field("droopSetpoint");
@@ -3492,12 +3549,6 @@ void visit(const generationmodule::ReactivePowerControl& message, IMessageVisito
 
 void visit(const generationmodule::RealPowerControl& message, IMessageVisitor& visitor)
 {
-    if(message.has_advancedsetpoint())
-    {
-        visitor.start_message_field("advancedSetpoint");
-        visit(message.advancedsetpoint(), visitor);
-        visitor.end_message_field();
-    }
     if(message.has_droopsetpoint())
     {
         visitor.start_message_field("droopSetpoint");
@@ -3520,17 +3571,6 @@ void visit(const generationmodule::RealPowerControl& message, IMessageVisitor& v
     {
         visitor.start_message_field("realPowerSetpoint");
         visit(message.realpowersetpoint(), visitor);
-        visitor.end_message_field();
-    }
-}
-
-void visit(const generationmodule::VV11PlaceHolder& message, IMessageVisitor& visitor)
-{
-    visitor.handle("point", message.point());
-    if(message.has_unloadedoffset())
-    {
-        visitor.start_message_field("unloadedOffset");
-        visit(message.unloadedoffset(), visitor);
         visitor.end_message_field();
     }
 }
@@ -3841,44 +3881,6 @@ void visit(const reclosermodule::Recloser& message, IMessageVisitor& visitor)
     }
 }
 
-void visit(const reclosermodule::RecloserControl& message, IMessageVisitor& visitor)
-{
-    if(message.has_controlvalue())
-    {
-        visitor.start_message_field("controlValue");
-        visit(message.controlvalue(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_check())
-    {
-        visitor.start_message_field("check");
-        visit(message.check(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_reclosercontrolfscc())
-    {
-        visitor.start_message_field("recloserControlFSCC");
-        visit(message.reclosercontrolfscc(), visitor);
-        visitor.end_message_field();
-    }
-}
-
-void visit(const reclosermodule::RecloserControlFSCC& message, IMessageVisitor& visitor)
-{
-    if(message.has_logicalnodeforcontrol())
-    {
-        visitor.start_message_field("logicalNodeForControl");
-        visit(message.logicalnodeforcontrol(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_switchcontrolschedulefsch())
-    {
-        visitor.start_message_field("switchControlScheduleFSCH");
-        visit(message.switchcontrolschedulefsch(), visitor);
-        visitor.end_message_field();
-    }
-}
-
 void visit(const reclosermodule::RecloserDiscreteControl& message, IMessageVisitor& visitor)
 {
     if(message.has_controlvalue())
@@ -4013,6 +4015,12 @@ void visit(const regulatormodule::RegulatorControl& message, IMessageVisitor& vi
 
 void visit(const regulatormodule::RegulatorControlATCC& message, IMessageVisitor& visitor)
 {
+    if(message.has_logicalnodeforcontrol())
+    {
+        visitor.start_message_field("logicalNodeForControl");
+        visit(message.logicalnodeforcontrol(), visitor);
+        visitor.end_message_field();
+    }
     if(message.has_bndctr())
     {
         visitor.start_message_field("BndCtr");
@@ -4043,22 +4051,40 @@ void visit(const regulatormodule::RegulatorControlATCC& message, IMessageVisitor
         visit(message.ldcx(), visitor);
         visitor.end_message_field();
     }
-    if(message.has_ldcz())
-    {
-        visitor.start_message_field("LDCZ");
-        visit(message.ldcz(), visitor);
-        visitor.end_message_field();
-    }
     if(message.has_parop())
     {
         visitor.start_message_field("ParOp");
         visit(message.parop(), visitor);
         visitor.end_message_field();
     }
+    if(message.has_ramprates())
+    {
+        visitor.start_message_field("rampRates");
+        visit(message.ramprates(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_state())
+    {
+        visitor.start_message_field("state");
+        visit(message.state(), visitor);
+        visitor.end_message_field();
+    }
     if(message.has_tappos())
     {
         visitor.start_message_field("TapPos");
         visit(message.tappos(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_volspt())
+    {
+        visitor.start_message_field("VolSpt");
+        visit(message.volspt(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_voltagesetpointenabled())
+    {
+        visitor.start_message_field("voltageSetPointEnabled");
+        visit(message.voltagesetpointenabled(), visitor);
         visitor.end_message_field();
     }
 }
@@ -4085,6 +4111,28 @@ void visit(const regulatormodule::RegulatorControlScheduleFSCH& message, IMessag
     {
         visitor.start_message_field("ValDCSG");
         visit(message.valdcsg(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const regulatormodule::RegulatorDiscreteControl& message, IMessageVisitor& visitor)
+{
+    if(message.has_controlvalue())
+    {
+        visitor.start_message_field("controlValue");
+        visit(message.controlvalue(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_check())
+    {
+        visitor.start_message_field("check");
+        visit(message.check(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_regulatorcontrolatcc())
+    {
+        visitor.start_message_field("regulatorControlATCC");
+        visit(message.regulatorcontrolatcc(), visitor);
         visitor.end_message_field();
     }
 }
@@ -4153,16 +4201,28 @@ void visit(const regulatormodule::RegulatorEventAndStatusATCC& message, IMessage
         visit(message.ldcx(), visitor);
         visitor.end_message_field();
     }
-    if(message.has_ldcz())
-    {
-        visitor.start_message_field("LDCZ");
-        visit(message.ldcz(), visitor);
-        visitor.end_message_field();
-    }
     if(message.has_parop())
     {
         visitor.start_message_field("ParOp");
         visit(message.parop(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_ramprates())
+    {
+        visitor.start_message_field("rampRates");
+        visit(message.ramprates(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_state())
+    {
+        visitor.start_message_field("state");
+        visit(message.state(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_stdltmms())
+    {
+        visitor.start_message_field("StDlTmms");
+        visit(message.stdltmms(), visitor);
         visitor.end_message_field();
     }
     if(message.has_tapoperr())
@@ -4177,38 +4237,10 @@ void visit(const regulatormodule::RegulatorEventAndStatusATCC& message, IMessage
         visit(message.tappos(), visitor);
         visitor.end_message_field();
     }
-}
-
-void visit(const regulatormodule::RegulatorEventAndStatusPoint& message, IMessageVisitor& visitor)
-{
-    if(message.has_eventandstatus())
+    if(message.has_volspt())
     {
-        visitor.start_message_field("eventAndStatus");
-        visit(message.eventandstatus(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_pctvdroop())
-    {
-        visitor.start_message_field("pctVDroop");
-        visit(message.pctvdroop(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_ramprates())
-    {
-        visitor.start_message_field("rampRates");
-        visit(message.ramprates(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_reactivepwrsetpointenabled())
-    {
-        visitor.start_message_field("reactivePwrSetPointEnabled");
-        visit(message.reactivepwrsetpointenabled(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_state())
-    {
-        visitor.start_message_field("state");
-        visit(message.state(), visitor);
+        visitor.start_message_field("VolSpt");
+        visit(message.volspt(), visitor);
         visitor.end_message_field();
     }
     if(message.has_voltagesetpointenabled())
@@ -4225,42 +4257,6 @@ void visit(const regulatormodule::RegulatorPoint& message, IMessageVisitor& visi
     {
         visitor.start_message_field("control");
         visit(message.control(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_pctvdroop())
-    {
-        visitor.start_message_field("pctVDroop");
-        visit(message.pctvdroop(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_ramprates())
-    {
-        visitor.start_message_field("rampRates");
-        visit(message.ramprates(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_reactivepwrsetpointenabled())
-    {
-        visitor.start_message_field("reactivePwrSetPointEnabled");
-        visit(message.reactivepwrsetpointenabled(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_reset())
-    {
-        visitor.start_message_field("reset");
-        visit(message.reset(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_state())
-    {
-        visitor.start_message_field("state");
-        visit(message.state(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_voltagesetpointenabled())
-    {
-        visitor.start_message_field("voltageSetPointEnabled");
-        visit(message.voltagesetpointenabled(), visitor);
         visitor.end_message_field();
     }
     if(message.has_starttime())
@@ -4903,44 +4899,6 @@ void visit(const switchmodule::ProtectedSwitch& message, IMessageVisitor& visito
     {
         visitor.start_message_field("conductingEquipment");
         visit(message.conductingequipment(), visitor);
-        visitor.end_message_field();
-    }
-}
-
-void visit(const switchmodule::SwitchControl& message, IMessageVisitor& visitor)
-{
-    if(message.has_controlvalue())
-    {
-        visitor.start_message_field("controlValue");
-        visit(message.controlvalue(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_check())
-    {
-        visitor.start_message_field("check");
-        visit(message.check(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_switchcontrolfscc())
-    {
-        visitor.start_message_field("SwitchControlFSCC");
-        visit(message.switchcontrolfscc(), visitor);
-        visitor.end_message_field();
-    }
-}
-
-void visit(const switchmodule::SwitchControlFSCC& message, IMessageVisitor& visitor)
-{
-    if(message.has_logicalnodeforcontrol())
-    {
-        visitor.start_message_field("logicalNodeForControl");
-        visit(message.logicalnodeforcontrol(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_switchcontrolschedulefsch())
-    {
-        visitor.start_message_field("switchControlScheduleFSCH");
-        visit(message.switchcontrolschedulefsch(), visitor);
         visitor.end_message_field();
     }
 }
@@ -5750,34 +5708,6 @@ void visit(const metermodule::MeterReadingProfile& message, IMessageVisitor& vis
     }
 }
 
-void visit(const reclosermodule::RecloserControlProfile& message, IMessageVisitor& visitor)
-{
-    if(message.has_controlmessageinfo())
-    {
-        visitor.start_message_field("controlMessageInfo");
-        visit(message.controlmessageinfo(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_ied())
-    {
-        visitor.start_message_field("ied");
-        visit(message.ied(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_recloser())
-    {
-        visitor.start_message_field("recloser");
-        visit(message.recloser(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_reclosercontrol())
-    {
-        visitor.start_message_field("recloserControl");
-        visit(message.reclosercontrol(), visitor);
-        visitor.end_message_field();
-    }
-}
-
 void visit(const reclosermodule::RecloserDiscreteControlProfile& message, IMessageVisitor& visitor)
 {
     if(message.has_controlmessageinfo())
@@ -5888,6 +5818,34 @@ void visit(const reclosermodule::RecloserStatusProfile& message, IMessageVisitor
     {
         visitor.start_message_field("recloserStatus");
         visit(message.recloserstatus(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const regulatormodule::RegulatorDiscreteControlProfile& message, IMessageVisitor& visitor)
+{
+    if(message.has_controlmessageinfo())
+    {
+        visitor.start_message_field("controlMessageInfo");
+        visit(message.controlmessageinfo(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_ied())
+    {
+        visitor.start_message_field("ied");
+        visit(message.ied(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_regulatordiscretecontrol())
+    {
+        visitor.start_message_field("regulatorDiscreteControl");
+        visit(message.regulatordiscretecontrol(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_regulatorsystem())
+    {
+        visitor.start_message_field("regulatorSystem");
+        visit(message.regulatorsystem(), visitor);
         visitor.end_message_field();
     }
 }
@@ -6226,34 +6184,6 @@ void visit(const solarmodule::SolarStatusProfile& message, IMessageVisitor& visi
     {
         visitor.start_message_field("solarStatus");
         visit(message.solarstatus(), visitor);
-        visitor.end_message_field();
-    }
-}
-
-void visit(const switchmodule::SwitchControlProfile& message, IMessageVisitor& visitor)
-{
-    if(message.has_controlmessageinfo())
-    {
-        visitor.start_message_field("controlMessageInfo");
-        visit(message.controlmessageinfo(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_ied())
-    {
-        visitor.start_message_field("ied");
-        visit(message.ied(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_protectedswitch())
-    {
-        visitor.start_message_field("protectedSwitch");
-        visit(message.protectedswitch(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_switchcontrol())
-    {
-        visitor.start_message_field("switchControl");
-        visit(message.switchcontrol(), visitor);
         visitor.end_message_field();
     }
 }

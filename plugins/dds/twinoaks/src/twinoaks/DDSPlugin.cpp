@@ -121,7 +121,7 @@ DDSPlugin::DDSPlugin(const YAML::Node& node, const Logger& logger, message_bus_t
 
     this->configure<switchmodule::SwitchReadingProfile, twinoaks::switchmodule::SwitchReadingProfile>(profiles, participant, bus);
     this->configure<switchmodule::SwitchStatusProfile, twinoaks::switchmodule::SwitchStatusProfile>(profiles, participant, bus);
-    this->configure<switchmodule::SwitchControlProfile, twinoaks::switchmodule::SwitchControlProfile>(profiles, participant, bus);
+    //this->configure<switchmodule::SwitchControlProfile, twinoaks::switchmodule::SwitchControlProfile>(profiles, participant, bus);
 
     this->configure<essmodule::ESSReadingProfile, twinoaks::essmodule::ESSReadingProfile>(profiles, participant, bus);
     this->configure<essmodule::ESSStatusProfile, twinoaks::essmodule::ESSStatusProfile>(profiles, participant, bus);

@@ -77,8 +77,6 @@ void visit(const loadmodule::LoadStatusProfile& message, IMessageVisitor& visito
 
 void visit(const metermodule::MeterReadingProfile& message, IMessageVisitor& visitor);
 
-void visit(const reclosermodule::RecloserControlProfile& message, IMessageVisitor& visitor);
-
 void visit(const reclosermodule::RecloserDiscreteControlProfile& message, IMessageVisitor& visitor);
 
 void visit(const reclosermodule::RecloserEventProfile& message, IMessageVisitor& visitor);
@@ -86,6 +84,8 @@ void visit(const reclosermodule::RecloserEventProfile& message, IMessageVisitor&
 void visit(const reclosermodule::RecloserReadingProfile& message, IMessageVisitor& visitor);
 
 void visit(const reclosermodule::RecloserStatusProfile& message, IMessageVisitor& visitor);
+
+void visit(const regulatormodule::RegulatorDiscreteControlProfile& message, IMessageVisitor& visitor);
 
 void visit(const regulatormodule::RegulatorControlProfile& message, IMessageVisitor& visitor);
 
@@ -110,8 +110,6 @@ void visit(const solarmodule::SolarEventProfile& message, IMessageVisitor& visit
 void visit(const solarmodule::SolarReadingProfile& message, IMessageVisitor& visitor);
 
 void visit(const solarmodule::SolarStatusProfile& message, IMessageVisitor& visitor);
-
-void visit(const switchmodule::SwitchControlProfile& message, IMessageVisitor& visitor);
 
 void visit(const switchmodule::SwitchDiscreteControlProfile& message, IMessageVisitor& visitor);
 

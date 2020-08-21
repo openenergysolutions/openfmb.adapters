@@ -388,22 +388,6 @@ namespace util {
     };
 
     template <>
-    struct profile_info<reclosermodule::RecloserControlProfile> {
-
-        static constexpr ProfileType type = ProfileType::Control;
-
-        static const commonmodule::MessageInfo& get_message_info(const reclosermodule::RecloserControlProfile& profile)
-        {
-            return profile.controlmessageinfo().messageinfo();
-        }
-
-        static const commonmodule::ConductingEquipment& get_conducting_equip(const reclosermodule::RecloserControlProfile& profile)
-        {
-            return profile.recloser().conductingequipment();
-        }
-    };
-
-    template <>
     struct profile_info<reclosermodule::RecloserDiscreteControlProfile> {
 
         static constexpr ProfileType type = ProfileType::Control;
@@ -478,6 +462,22 @@ namespace util {
         }
 
         static const commonmodule::ConductingEquipment& get_conducting_equip(const regulatormodule::RegulatorControlProfile& profile)
+        {
+            return profile.regulatorsystem().conductingequipment();
+        }
+    };
+
+    template <>
+    struct profile_info<regulatormodule::RegulatorDiscreteControlProfile> {
+
+        static constexpr ProfileType type = ProfileType::Control;
+
+        static const commonmodule::MessageInfo& get_message_info(const regulatormodule::RegulatorDiscreteControlProfile& profile)
+        {
+            return profile.controlmessageinfo().messageinfo();
+        }
+
+        static const commonmodule::ConductingEquipment& get_conducting_equip(const regulatormodule::RegulatorDiscreteControlProfile& profile)
         {
             return profile.regulatorsystem().conductingequipment();
         }
@@ -657,23 +657,7 @@ namespace util {
         {
             return profile.solarinverter().conductingequipment();
         }
-    };
-
-    template <>
-    struct profile_info<switchmodule::SwitchControlProfile> {
-
-        static constexpr ProfileType type = ProfileType::Control;
-
-        static const commonmodule::MessageInfo& get_message_info(const switchmodule::SwitchControlProfile& profile)
-        {
-            return profile.controlmessageinfo().messageinfo();
-        }
-
-        static const commonmodule::ConductingEquipment& get_conducting_equip(const switchmodule::SwitchControlProfile& profile)
-        {
-            return profile.protectedswitch().conductingequipment();
-        }
-    };
+    };    
 
     template <>
     struct profile_info<switchmodule::SwitchDiscreteControlProfile> {

@@ -34,7 +34,7 @@ void visit_capbankmodule_CapBankControlFSCC(const set_t<capbankmodule::CapBankCo
 
 void visit_capbankmodule_CapBankControlScheduleFSCH(const set_t<capbankmodule::CapBankControlScheduleFSCH>& setter, const get_t<capbankmodule::CapBankControlScheduleFSCH>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor);
 
-void visit_capbankmodule_CapBankEventAndStatusYPSH(const set_t<capbankmodule::CapBankEventAndStatusYPSH>& setter, const get_t<capbankmodule::CapBankEventAndStatusYPSH>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor);
+void visit_capbankmodule_CapBankControlYPSH(const set_t<capbankmodule::CapBankControlYPSH>& setter, const get_t<capbankmodule::CapBankControlYPSH>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor);
 
 void visit_capbankmodule_CapBankPoint(const set_t<capbankmodule::CapBankPoint>& setter, const get_t<capbankmodule::CapBankPoint>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor);
 
@@ -44,15 +44,17 @@ void visit_commonmodule_CheckConditions(const set_t<commonmodule::CheckCondition
 
 void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::ConductingEquipment>& setter, const get_t<commonmodule::ConductingEquipment>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor);
 
+void visit_commonmodule_ControlDPC(const set_t<commonmodule::ControlDPC>& setter, const get_t<commonmodule::ControlDPC>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor);
+
 void visit_commonmodule_ControlFSCC(const set_t<commonmodule::ControlFSCC>& setter, const get_t<commonmodule::ControlFSCC>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor);
 
 void visit_commonmodule_ControlMessageInfo(const set_t<commonmodule::ControlMessageInfo>& setter, const get_t<commonmodule::ControlMessageInfo>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor);
 
+void visit_commonmodule_ControlSPC(const set_t<commonmodule::ControlSPC>& setter, const get_t<commonmodule::ControlSPC>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor);
+
 void visit_commonmodule_ControlScheduleFSCH(const set_t<commonmodule::ControlScheduleFSCH>& setter, const get_t<commonmodule::ControlScheduleFSCH>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor);
 
 void visit_commonmodule_ControlValue(const set_t<commonmodule::ControlValue>& setter, const get_t<commonmodule::ControlValue>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor);
-
-void visit_commonmodule_ENS_SwitchingCapabilityKind(const set_t<commonmodule::ENS_SwitchingCapabilityKind>& setter, const get_t<commonmodule::ENS_SwitchingCapabilityKind>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor);
 
 void visit_commonmodule_IED(const set_t<commonmodule::IED>& setter, const get_t<commonmodule::IED>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor);
 
@@ -66,15 +68,11 @@ void visit_commonmodule_MessageInfo(const set_t<commonmodule::MessageInfo>& sett
 
 void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& setter, const get_t<commonmodule::NamedObject>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor);
 
-void visit_commonmodule_PhaseDPS(const set_t<commonmodule::PhaseDPS>& setter, const get_t<commonmodule::PhaseDPS>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor);
+void visit_commonmodule_PhaseDPC(const set_t<commonmodule::PhaseDPC>& setter, const get_t<commonmodule::PhaseDPC>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor);
 
 void visit_commonmodule_ScheduleCSG(const set_t<commonmodule::ScheduleCSG>& setter, const get_t<commonmodule::ScheduleCSG>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor);
 
 void visit_commonmodule_SchedulePoint(const set_t<commonmodule::SchedulePoint>& setter, const get_t<commonmodule::SchedulePoint>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor);
-
-void visit_commonmodule_StatusDPS(const set_t<commonmodule::StatusDPS>& setter, const get_t<commonmodule::StatusDPS>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor);
-
-void visit_commonmodule_StatusSPS(const set_t<commonmodule::StatusSPS>& setter, const get_t<commonmodule::StatusSPS>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor);
 
 void visit_google_protobuf_BoolValue(const set_t<google::protobuf::BoolValue>& setter, const get_t<google::protobuf::BoolValue>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor);
 
@@ -380,16 +378,16 @@ void visit_capbankmodule_CapBankControlScheduleFSCH(const set_t<capbankmodule::C
     }
 }
 
-void visit_capbankmodule_CapBankEventAndStatusYPSH(const set_t<capbankmodule::CapBankEventAndStatusYPSH>& setter, const get_t<capbankmodule::CapBankEventAndStatusYPSH>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor)
+void visit_capbankmodule_CapBankControlYPSH(const set_t<capbankmodule::CapBankControlYPSH>& setter, const get_t<capbankmodule::CapBankControlYPSH>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor)
 {
-    if(visitor.start_message_field("BlkCls", commonmodule::StatusSPS::descriptor()))
+    if(visitor.start_message_field("BlkCls", commonmodule::ControlSPC::descriptor()))
     {
-        visit_commonmodule_StatusSPS(
+        visit_commonmodule_ControlSPC(
             [setter](capbankmodule::CapBankControlProfile& profile)
             {
                 return setter(profile)->mutable_blkcls();
             },
-            [getter](const capbankmodule::CapBankControlProfile& profile) -> commonmodule::StatusSPS const *
+            [getter](const capbankmodule::CapBankControlProfile& profile) -> commonmodule::ControlSPC const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -406,14 +404,14 @@ void visit_capbankmodule_CapBankEventAndStatusYPSH(const set_t<capbankmodule::Ca
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("BlkOpn", commonmodule::StatusSPS::descriptor()))
+    if(visitor.start_message_field("BlkOpn", commonmodule::ControlSPC::descriptor()))
     {
-        visit_commonmodule_StatusSPS(
+        visit_commonmodule_ControlSPC(
             [setter](capbankmodule::CapBankControlProfile& profile)
             {
                 return setter(profile)->mutable_blkopn();
             },
-            [getter](const capbankmodule::CapBankControlProfile& profile) -> commonmodule::StatusSPS const *
+            [getter](const capbankmodule::CapBankControlProfile& profile) -> commonmodule::ControlSPC const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -430,14 +428,14 @@ void visit_capbankmodule_CapBankEventAndStatusYPSH(const set_t<capbankmodule::Ca
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("Pos", commonmodule::PhaseDPS::descriptor()))
+    if(visitor.start_message_field("Pos", commonmodule::PhaseDPC::descriptor()))
     {
-        visit_commonmodule_PhaseDPS(
+        visit_commonmodule_PhaseDPC(
             [setter](capbankmodule::CapBankControlProfile& profile)
             {
                 return setter(profile)->mutable_pos();
             },
-            [getter](const capbankmodule::CapBankControlProfile& profile) -> commonmodule::PhaseDPS const *
+            [getter](const capbankmodule::CapBankControlProfile& profile) -> commonmodule::PhaseDPC const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -453,42 +451,18 @@ void visit_capbankmodule_CapBankEventAndStatusYPSH(const set_t<capbankmodule::Ca
         );
         visitor.end_message_field();
     }
-
-    if(visitor.start_message_field("ShOpCap", commonmodule::ENS_SwitchingCapabilityKind::descriptor()))
-    {
-        visit_commonmodule_ENS_SwitchingCapabilityKind(
-            [setter](capbankmodule::CapBankControlProfile& profile)
-            {
-                return setter(profile)->mutable_shopcap();
-            },
-            [getter](const capbankmodule::CapBankControlProfile& profile) -> commonmodule::ENS_SwitchingCapabilityKind const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_shopcap() ? &value->shopcap() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
 }
 
 void visit_capbankmodule_CapBankPoint(const set_t<capbankmodule::CapBankPoint>& setter, const get_t<capbankmodule::CapBankPoint>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor)
 {
-    if(visitor.start_message_field("control", capbankmodule::CapBankEventAndStatusYPSH::descriptor()))
+    if(visitor.start_message_field("control", capbankmodule::CapBankControlYPSH::descriptor()))
     {
-        visit_capbankmodule_CapBankEventAndStatusYPSH(
+        visit_capbankmodule_CapBankControlYPSH(
             [setter](capbankmodule::CapBankControlProfile& profile)
             {
                 return setter(profile)->mutable_control();
             },
-            [getter](const capbankmodule::CapBankControlProfile& profile) -> capbankmodule::CapBankEventAndStatusYPSH const *
+            [getter](const capbankmodule::CapBankControlProfile& profile) -> capbankmodule::CapBankControlYPSH const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -639,6 +613,23 @@ void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::Conducting
     );
 }
 
+void visit_commonmodule_ControlDPC(const set_t<commonmodule::ControlDPC>& setter, const get_t<commonmodule::ControlDPC>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor)
+{
+    visitor.handle(
+        "ctlVal",
+        AccessorBuilder<capbankmodule::CapBankControlProfile,bool>::build(
+            [setter](capbankmodule::CapBankControlProfile& profile, const bool& value) { setter(profile)->set_ctlval(value); },
+            [getter](const capbankmodule::CapBankControlProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->ctlval());
+                return true;
+            }
+        )
+    );
+}
+
 void visit_commonmodule_ControlFSCC(const set_t<commonmodule::ControlFSCC>& setter, const get_t<commonmodule::ControlFSCC>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor)
 {
     if(visitor.start_message_field("logicalNodeForControl", commonmodule::LogicalNodeForControl::descriptor()))
@@ -741,6 +732,23 @@ void visit_commonmodule_ControlMessageInfo(const set_t<commonmodule::ControlMess
     }
 }
 
+void visit_commonmodule_ControlSPC(const set_t<commonmodule::ControlSPC>& setter, const get_t<commonmodule::ControlSPC>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor)
+{
+    visitor.handle(
+        "ctlVal",
+        AccessorBuilder<capbankmodule::CapBankControlProfile,bool>::build(
+            [setter](capbankmodule::CapBankControlProfile& profile, const bool& value) { setter(profile)->set_ctlval(value); },
+            [getter](const capbankmodule::CapBankControlProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->ctlval());
+                return true;
+            }
+        )
+    );
+}
+
 void visit_commonmodule_ControlScheduleFSCH(const set_t<commonmodule::ControlScheduleFSCH>& setter, const get_t<commonmodule::ControlScheduleFSCH>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor)
 {
     if(visitor.start_message_field("ValACSG", commonmodule::ScheduleCSG::descriptor()))
@@ -841,48 +849,6 @@ void visit_commonmodule_ControlValue(const set_t<commonmodule::ControlValue>& se
         );
         visitor.end_message_field();
     }
-}
-
-void visit_commonmodule_ENS_SwitchingCapabilityKind(const set_t<commonmodule::ENS_SwitchingCapabilityKind>& setter, const get_t<commonmodule::ENS_SwitchingCapabilityKind>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor)
-{
-    if(visitor.start_message_field("blkEna", google::protobuf::BoolValue::descriptor()))
-    {
-        visit_google_protobuf_BoolValue(
-            [setter](capbankmodule::CapBankControlProfile& profile)
-            {
-                return setter(profile)->mutable_blkena();
-            },
-            [getter](const capbankmodule::CapBankControlProfile& profile) -> google::protobuf::BoolValue const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_blkena() ? &value->blkena() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    visitor.handle(
-        "stVal",
-        AccessorBuilder<capbankmodule::CapBankControlProfile,int>::build(
-            [setter](capbankmodule::CapBankControlProfile& profile, const int& value) { setter(profile)->set_stval(static_cast<commonmodule::SwitchingCapabilityKind>(value)); },
-            [getter](const capbankmodule::CapBankControlProfile& profile, const handler_t<int>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->stval());
-                return true;
-            }
-        ),
-        commonmodule::SwitchingCapabilityKind_descriptor()
-    );
 }
 
 void visit_commonmodule_IED(const set_t<commonmodule::IED>& setter, const get_t<commonmodule::IED>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor)
@@ -1133,16 +1099,16 @@ void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& sett
     }
 }
 
-void visit_commonmodule_PhaseDPS(const set_t<commonmodule::PhaseDPS>& setter, const get_t<commonmodule::PhaseDPS>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor)
+void visit_commonmodule_PhaseDPC(const set_t<commonmodule::PhaseDPC>& setter, const get_t<commonmodule::PhaseDPC>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor)
 {
-    if(visitor.start_message_field("phs3", commonmodule::StatusDPS::descriptor()))
+    if(visitor.start_message_field("phs3", commonmodule::ControlDPC::descriptor()))
     {
-        visit_commonmodule_StatusDPS(
+        visit_commonmodule_ControlDPC(
             [setter](capbankmodule::CapBankControlProfile& profile)
             {
                 return setter(profile)->mutable_phs3();
             },
-            [getter](const capbankmodule::CapBankControlProfile& profile) -> commonmodule::StatusDPS const *
+            [getter](const capbankmodule::CapBankControlProfile& profile) -> commonmodule::ControlDPC const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1159,14 +1125,14 @@ void visit_commonmodule_PhaseDPS(const set_t<commonmodule::PhaseDPS>& setter, co
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("phsA", commonmodule::StatusDPS::descriptor()))
+    if(visitor.start_message_field("phsA", commonmodule::ControlDPC::descriptor()))
     {
-        visit_commonmodule_StatusDPS(
+        visit_commonmodule_ControlDPC(
             [setter](capbankmodule::CapBankControlProfile& profile)
             {
                 return setter(profile)->mutable_phsa();
             },
-            [getter](const capbankmodule::CapBankControlProfile& profile) -> commonmodule::StatusDPS const *
+            [getter](const capbankmodule::CapBankControlProfile& profile) -> commonmodule::ControlDPC const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1183,14 +1149,14 @@ void visit_commonmodule_PhaseDPS(const set_t<commonmodule::PhaseDPS>& setter, co
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("phsB", commonmodule::StatusDPS::descriptor()))
+    if(visitor.start_message_field("phsB", commonmodule::ControlDPC::descriptor()))
     {
-        visit_commonmodule_StatusDPS(
+        visit_commonmodule_ControlDPC(
             [setter](capbankmodule::CapBankControlProfile& profile)
             {
                 return setter(profile)->mutable_phsb();
             },
-            [getter](const capbankmodule::CapBankControlProfile& profile) -> commonmodule::StatusDPS const *
+            [getter](const capbankmodule::CapBankControlProfile& profile) -> commonmodule::ControlDPC const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1207,14 +1173,14 @@ void visit_commonmodule_PhaseDPS(const set_t<commonmodule::PhaseDPS>& setter, co
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("phsC", commonmodule::StatusDPS::descriptor()))
+    if(visitor.start_message_field("phsC", commonmodule::ControlDPC::descriptor()))
     {
-        visit_commonmodule_StatusDPS(
+        visit_commonmodule_ControlDPC(
             [setter](capbankmodule::CapBankControlProfile& profile)
             {
                 return setter(profile)->mutable_phsc();
             },
-            [getter](const capbankmodule::CapBankControlProfile& profile) -> commonmodule::StatusDPS const *
+            [getter](const capbankmodule::CapBankControlProfile& profile) -> commonmodule::ControlDPC const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1300,97 +1266,6 @@ void visit_commonmodule_SchedulePoint(const set_t<commonmodule::SchedulePoint>& 
                 const auto parent = getter(profile);
                 if(!parent || !parent->has_starttime()) return false;
                 handler(parent->starttime());
-                return true;
-            }
-        )
-    );
-}
-
-void visit_commonmodule_StatusDPS(const set_t<commonmodule::StatusDPS>& setter, const get_t<commonmodule::StatusDPS>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor)
-{
-    visitor.handle(
-        "q",
-        MessageAccessorBuilder<capbankmodule::CapBankControlProfile,commonmodule::Quality>::build(
-            [setter](capbankmodule::CapBankControlProfile& profile) { return setter(profile)->mutable_q(); },
-            [getter](const capbankmodule::CapBankControlProfile& profile, const handler_t<commonmodule::Quality>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent || !parent->has_q()) return false;
-                handler(parent->q());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "stVal",
-        AccessorBuilder<capbankmodule::CapBankControlProfile,int>::build(
-            [setter](capbankmodule::CapBankControlProfile& profile, const int& value) { setter(profile)->set_stval(static_cast<commonmodule::DbPosKind>(value)); },
-            [getter](const capbankmodule::CapBankControlProfile& profile, const handler_t<int>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->stval());
-                return true;
-            }
-        ),
-        commonmodule::DbPosKind_descriptor()
-    );
-
-    visitor.handle(
-        "t",
-        MessageAccessorBuilder<capbankmodule::CapBankControlProfile,commonmodule::Timestamp>::build(
-            [setter](capbankmodule::CapBankControlProfile& profile) { return setter(profile)->mutable_t(); },
-            [getter](const capbankmodule::CapBankControlProfile& profile, const handler_t<commonmodule::Timestamp>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent || !parent->has_t()) return false;
-                handler(parent->t());
-                return true;
-            }
-        )
-    );
-}
-
-void visit_commonmodule_StatusSPS(const set_t<commonmodule::StatusSPS>& setter, const get_t<commonmodule::StatusSPS>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor)
-{
-    visitor.handle(
-        "q",
-        MessageAccessorBuilder<capbankmodule::CapBankControlProfile,commonmodule::Quality>::build(
-            [setter](capbankmodule::CapBankControlProfile& profile) { return setter(profile)->mutable_q(); },
-            [getter](const capbankmodule::CapBankControlProfile& profile, const handler_t<commonmodule::Quality>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent || !parent->has_q()) return false;
-                handler(parent->q());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "stVal",
-        AccessorBuilder<capbankmodule::CapBankControlProfile,bool>::build(
-            [setter](capbankmodule::CapBankControlProfile& profile, const bool& value) { setter(profile)->set_stval(value); },
-            [getter](const capbankmodule::CapBankControlProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->stval());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "t",
-        MessageAccessorBuilder<capbankmodule::CapBankControlProfile,commonmodule::Timestamp>::build(
-            [setter](capbankmodule::CapBankControlProfile& profile) { return setter(profile)->mutable_t(); },
-            [getter](const capbankmodule::CapBankControlProfile& profile, const handler_t<commonmodule::Timestamp>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent || !parent->has_t()) return false;
-                handler(parent->t());
                 return true;
             }
         )

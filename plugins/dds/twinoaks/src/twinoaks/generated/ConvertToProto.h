@@ -80,8 +80,6 @@ void convert_to_proto(const twinoaks::loadmodule::LoadStatusProfile& in, loadmod
 
 void convert_to_proto(const twinoaks::metermodule::MeterReadingProfile& in, metermodule::MeterReadingProfile& out);
 
-void convert_to_proto(const twinoaks::reclosermodule::RecloserControlProfile& in, reclosermodule::RecloserControlProfile& out);
-
 void convert_to_proto(const twinoaks::reclosermodule::RecloserDiscreteControlProfile& in, reclosermodule::RecloserDiscreteControlProfile& out);
 
 void convert_to_proto(const twinoaks::reclosermodule::RecloserEventProfile& in, reclosermodule::RecloserEventProfile& out);
@@ -89,6 +87,8 @@ void convert_to_proto(const twinoaks::reclosermodule::RecloserEventProfile& in, 
 void convert_to_proto(const twinoaks::reclosermodule::RecloserReadingProfile& in, reclosermodule::RecloserReadingProfile& out);
 
 void convert_to_proto(const twinoaks::reclosermodule::RecloserStatusProfile& in, reclosermodule::RecloserStatusProfile& out);
+
+void convert_to_proto(const twinoaks::regulatormodule::RegulatorDiscreteControlProfile& in, regulatormodule::RegulatorDiscreteControlProfile& out);
 
 void convert_to_proto(const twinoaks::regulatormodule::RegulatorControlProfile& in, regulatormodule::RegulatorControlProfile& out);
 
@@ -113,8 +113,6 @@ void convert_to_proto(const twinoaks::solarmodule::SolarEventProfile& in, solarm
 void convert_to_proto(const twinoaks::solarmodule::SolarReadingProfile& in, solarmodule::SolarReadingProfile& out);
 
 void convert_to_proto(const twinoaks::solarmodule::SolarStatusProfile& in, solarmodule::SolarStatusProfile& out);
-
-void convert_to_proto(const twinoaks::switchmodule::SwitchControlProfile& in, switchmodule::SwitchControlProfile& out);
 
 void convert_to_proto(const twinoaks::switchmodule::SwitchDiscreteControlProfile& in, switchmodule::SwitchDiscreteControlProfile& out);
 

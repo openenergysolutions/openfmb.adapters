@@ -78,8 +78,6 @@ void visit(ITypedModelVisitor<loadmodule::LoadStatusProfile>& visitor);
 
 void visit(ITypedModelVisitor<metermodule::MeterReadingProfile>& visitor);
 
-void visit(ITypedModelVisitor<reclosermodule::RecloserControlProfile>& visitor);
-
 void visit(ITypedModelVisitor<reclosermodule::RecloserDiscreteControlProfile>& visitor);
 
 void visit(ITypedModelVisitor<reclosermodule::RecloserEventProfile>& visitor);
@@ -87,6 +85,8 @@ void visit(ITypedModelVisitor<reclosermodule::RecloserEventProfile>& visitor);
 void visit(ITypedModelVisitor<reclosermodule::RecloserReadingProfile>& visitor);
 
 void visit(ITypedModelVisitor<reclosermodule::RecloserStatusProfile>& visitor);
+
+void visit(ITypedModelVisitor<regulatormodule::RegulatorDiscreteControlProfile>& visitor);
 
 void visit(ITypedModelVisitor<regulatormodule::RegulatorControlProfile>& visitor);
 
@@ -111,8 +111,6 @@ void visit(ITypedModelVisitor<solarmodule::SolarEventProfile>& visitor);
 void visit(ITypedModelVisitor<solarmodule::SolarReadingProfile>& visitor);
 
 void visit(ITypedModelVisitor<solarmodule::SolarStatusProfile>& visitor);
-
-void visit(ITypedModelVisitor<switchmodule::SwitchControlProfile>& visitor);
 
 void visit(ITypedModelVisitor<switchmodule::SwitchDiscreteControlProfile>& visitor);
 

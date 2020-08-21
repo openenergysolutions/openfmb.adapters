@@ -71,8 +71,6 @@ struct Profile
         LoadStatusProfile,
         // metermodule.MeterReadingProfile
         MeterReadingProfile,
-        // reclosermodule.RecloserControlProfile
-        RecloserControlProfile,
         // reclosermodule.RecloserDiscreteControlProfile
         RecloserDiscreteControlProfile,
         // reclosermodule.RecloserEventProfile
@@ -81,6 +79,8 @@ struct Profile
         RecloserReadingProfile,
         // reclosermodule.RecloserStatusProfile
         RecloserStatusProfile,
+        // regulatormodule.RegulatorDiscreteControlProfile
+        RegulatorDiscreteControlProfile,
         // regulatormodule.RegulatorControlProfile
         RegulatorControlProfile,
         // regulatormodule.RegulatorEventProfile
@@ -105,8 +105,6 @@ struct Profile
         SolarReadingProfile,
         // solarmodule.SolarStatusProfile
         SolarStatusProfile,
-        // switchmodule.SwitchControlProfile
-        SwitchControlProfile,
         // switchmodule.SwitchDiscreteControlProfile
         SwitchDiscreteControlProfile,
         // switchmodule.SwitchEventProfile
@@ -140,11 +138,11 @@ struct Profile
     static const char LoadReadingProfile[];
     static const char LoadStatusProfile[];
     static const char MeterReadingProfile[];
-    static const char RecloserControlProfile[];
     static const char RecloserDiscreteControlProfile[];
     static const char RecloserEventProfile[];
     static const char RecloserReadingProfile[];
     static const char RecloserStatusProfile[];
+    static const char RegulatorDiscreteControlProfile[];
     static const char RegulatorControlProfile[];
     static const char RegulatorEventProfile[];
     static const char RegulatorReadingProfile[];
@@ -157,7 +155,6 @@ struct Profile
     static const char SolarEventProfile[];
     static const char SolarReadingProfile[];
     static const char SolarStatusProfile[];
-    static const char SwitchControlProfile[];
     static const char SwitchDiscreteControlProfile[];
     static const char SwitchEventProfile[];
     static const char SwitchReadingProfile[];
@@ -165,7 +162,7 @@ struct Profile
 
     static constexpr const char* label = "profile";
 
-    static const std::array<Value, 45> values;
+    static const std::array<Value, 44> values;
 
     static std::string to_string(Value value);
     static Value from_string(const std::string& name);

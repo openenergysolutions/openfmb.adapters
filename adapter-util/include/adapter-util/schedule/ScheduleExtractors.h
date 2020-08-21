@@ -233,39 +233,6 @@ struct schedule_extractor<loadmodule::LoadControlProfile>
 };
 
 template <>
-struct schedule_extractor<reclosermodule::RecloserControlProfile>
-{
-    static void set_source_mrid(reclosermodule::RecloserControlProfile& profile, const std::string& mrid)
-    {
-        profile.mutable_recloser()->mutable_conductingequipment()->set_mrid(mrid);
-    }
-
-    static void set_message_mrid(reclosermodule::RecloserControlProfile& profile, const std::string& mrid)
-    {
-        profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_identifiedobject()->mutable_mrid()->set_value(mrid);
-    }
-
-    static commonmodule::Timestamp* get_message_timestamp(reclosermodule::RecloserControlProfile& profile)
-    {
-        return profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_messagetimestamp();
-    }
-
-    // No control FSCC
-
-    using custom_point_t = commonmodule::SwitchPoint;
-
-    static bool has_custom_points(const reclosermodule::RecloserControlProfile& profile)
-    {
-        return profile.reclosercontrol().reclosercontrolfscc().switchcontrolschedulefsch().has_valdcsg();
-    }
-
-    static google::protobuf::RepeatedPtrField<custom_point_t>* get_custom_points(reclosermodule::RecloserControlProfile& profile)
-    {
-        return profile.mutable_reclosercontrol()->mutable_reclosercontrolfscc()->mutable_switchcontrolschedulefsch()->mutable_valdcsg()->mutable_crvpts();
-    }
-};
-
-template <>
 struct schedule_extractor<reclosermodule::RecloserDiscreteControlProfile>
 {
     static void set_source_mrid(reclosermodule::RecloserDiscreteControlProfile& profile, const std::string& mrid)
@@ -325,6 +292,29 @@ struct schedule_extractor<regulatormodule::RegulatorControlProfile>
 };
 
 template <>
+struct schedule_extractor<regulatormodule::RegulatorDiscreteControlProfile>
+{
+    static void set_source_mrid(regulatormodule::RegulatorDiscreteControlProfile& profile, const std::string& mrid)
+    {
+        profile.mutable_regulatorsystem()->mutable_conductingequipment()->set_mrid(mrid);
+    }
+
+    static void set_message_mrid(regulatormodule::RegulatorDiscreteControlProfile& profile, const std::string& mrid)
+    {
+        profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_identifiedobject()->mutable_mrid()->set_value(mrid);
+    }
+
+    static commonmodule::Timestamp* get_message_timestamp(regulatormodule::RegulatorDiscreteControlProfile& profile)
+    {
+        return profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_messagetimestamp();
+    }
+
+    // No control FSCC
+
+    // No custom points
+};
+
+template <>
 struct schedule_extractor<resourcemodule::ResourceDiscreteControlProfile>
 {
     static void set_source_mrid(resourcemodule::ResourceDiscreteControlProfile& profile, const std::string& mrid)
@@ -380,39 +370,6 @@ struct schedule_extractor<solarmodule::SolarControlProfile>
     static google::protobuf::RepeatedPtrField<custom_point_t>* get_custom_points(solarmodule::SolarControlProfile& profile)
     {
         return profile.mutable_solarcontrol()->mutable_solarcontrolfscc()->mutable_solarcontrolschedulefsch()->mutable_valdcsg()->mutable_crvpts();
-    }
-};
-
-template <>
-struct schedule_extractor<switchmodule::SwitchControlProfile>
-{
-    static void set_source_mrid(switchmodule::SwitchControlProfile& profile, const std::string& mrid)
-    {
-        profile.mutable_protectedswitch()->mutable_conductingequipment()->set_mrid(mrid);
-    }
-
-    static void set_message_mrid(switchmodule::SwitchControlProfile& profile, const std::string& mrid)
-    {
-        profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_identifiedobject()->mutable_mrid()->set_value(mrid);
-    }
-
-    static commonmodule::Timestamp* get_message_timestamp(switchmodule::SwitchControlProfile& profile)
-    {
-        return profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_messagetimestamp();
-    }
-
-    // No control FSCC
-
-    using custom_point_t = commonmodule::SwitchPoint;
-
-    static bool has_custom_points(const switchmodule::SwitchControlProfile& profile)
-    {
-        return profile.switchcontrol().switchcontrolfscc().switchcontrolschedulefsch().has_valdcsg();
-    }
-
-    static google::protobuf::RepeatedPtrField<custom_point_t>* get_custom_points(switchmodule::SwitchControlProfile& profile)
-    {
-        return profile.mutable_switchcontrol()->mutable_switchcontrolfscc()->mutable_switchcontrolschedulefsch()->mutable_valdcsg()->mutable_crvpts();
     }
 };
 

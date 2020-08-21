@@ -85,9 +85,11 @@ void convert_from_proto(const commonmodule::PhaseDPS& in, openfmb::commonmodule:
 
 void convert_from_proto(const commonmodule::StatusDPS& in, openfmb::commonmodule::StatusDPS& out);
 
-void convert_from_proto(const commonmodule::PhaseSPS& in, openfmb::commonmodule::PhaseSPS& out);
+void convert_from_proto(const commonmodule::ACD& in, openfmb::commonmodule::ACD& out);
 
 void convert_from_proto(const commonmodule::StatusINS& in, openfmb::commonmodule::StatusINS& out);
+
+void convert_from_proto(const commonmodule::PhaseSPS& in, openfmb::commonmodule::PhaseSPS& out);
 
 void convert_from_proto(const commonmodule::PhaseRecloseAction& in, openfmb::commonmodule::PhaseRecloseAction& out);
 
@@ -157,9 +159,7 @@ void convert_from_proto(const capbankmodule::CapBankCSG& in, openfmb::capbankmod
 
 void convert_from_proto(const capbankmodule::CapBankPoint& in, openfmb::capbankmodule::CapBankPoint& out);
 
-void convert_from_proto(const capbankmodule::CapBankEventAndStatusYPSH& in, openfmb::capbankmodule::CapBankEventAndStatusYPSH& out);
-
-void convert_from_proto(const commonmodule::ENS_SwitchingCapabilityKind& in, openfmb::commonmodule::ENS_SwitchingCapabilityKind& out);
+void convert_from_proto(const capbankmodule::CapBankControlYPSH& in, openfmb::capbankmodule::CapBankControlYPSH& out);
 
 void convert_from_proto(const capbankmodule::CapBankSystem& in, openfmb::capbankmodule::CapBankSystem& out);
 
@@ -172,6 +172,8 @@ void convert_from_proto(const capbankmodule::CapBankEvent& in, openfmb::capbankm
 void convert_from_proto(const capbankmodule::CapBankEventAndStatusZCAP& in, openfmb::capbankmodule::CapBankEventAndStatusZCAP& out);
 
 void convert_from_proto(const capbankmodule::CapBankEventAndStatusPoint& in, openfmb::capbankmodule::CapBankEventAndStatusPoint& out);
+
+void convert_from_proto(const capbankmodule::CapBankEventAndStatusYPSH& in, openfmb::capbankmodule::CapBankEventAndStatusYPSH& out);
 
 void convert_from_proto(const capbankmodule::CapBankReading& in, openfmb::capbankmodule::CapBankReading& out);
 
@@ -247,8 +249,6 @@ void convert_from_proto(const generationmodule::GenerationDiscreteControl& in, o
 
 void convert_from_proto(const generationmodule::ReactivePowerControl& in, openfmb::generationmodule::ReactivePowerControl& out);
 
-void convert_from_proto(const generationmodule::VV11PlaceHolder& in, openfmb::generationmodule::VV11PlaceHolder& out);
-
 void convert_from_proto(const generationmodule::DroopParameter& in, openfmb::generationmodule::DroopParameter& out);
 
 void convert_from_proto(const generationmodule::RealPowerControl& in, openfmb::generationmodule::RealPowerControl& out);
@@ -299,16 +299,6 @@ void convert_from_proto(const metermodule::MeterReading& in, openfmb::metermodul
 
 void convert_from_proto(const reclosermodule::Recloser& in, openfmb::reclosermodule::Recloser& out);
 
-void convert_from_proto(const reclosermodule::RecloserControl& in, openfmb::reclosermodule::RecloserControl& out);
-
-void convert_from_proto(const reclosermodule::RecloserControlFSCC& in, openfmb::reclosermodule::RecloserControlFSCC& out);
-
-void convert_from_proto(const commonmodule::SwitchControlScheduleFSCH& in, openfmb::commonmodule::SwitchControlScheduleFSCH& out);
-
-void convert_from_proto(const commonmodule::SwitchCSG& in, openfmb::commonmodule::SwitchCSG& out);
-
-void convert_from_proto(const commonmodule::SwitchPoint& in, openfmb::commonmodule::SwitchPoint& out);
-
 void convert_from_proto(const reclosermodule::RecloserDiscreteControl& in, openfmb::reclosermodule::RecloserDiscreteControl& out);
 
 void convert_from_proto(const reclosermodule::RecloserDiscreteControlXCBR& in, openfmb::reclosermodule::RecloserDiscreteControlXCBR& out);
@@ -319,15 +309,7 @@ void convert_from_proto(const reclosermodule::RecloserReading& in, openfmb::recl
 
 void convert_from_proto(const reclosermodule::RecloserStatus& in, openfmb::reclosermodule::RecloserStatus& out);
 
-void convert_from_proto(const regulatormodule::RegulatorControl& in, openfmb::regulatormodule::RegulatorControl& out);
-
-void convert_from_proto(const regulatormodule::RegulatorControlFSCC& in, openfmb::regulatormodule::RegulatorControlFSCC& out);
-
-void convert_from_proto(const regulatormodule::RegulatorControlScheduleFSCH& in, openfmb::regulatormodule::RegulatorControlScheduleFSCH& out);
-
-void convert_from_proto(const regulatormodule::RegulatorCSG& in, openfmb::regulatormodule::RegulatorCSG& out);
-
-void convert_from_proto(const regulatormodule::RegulatorPoint& in, openfmb::regulatormodule::RegulatorPoint& out);
+void convert_from_proto(const regulatormodule::RegulatorDiscreteControl& in, openfmb::regulatormodule::RegulatorDiscreteControl& out);
 
 void convert_from_proto(const regulatormodule::RegulatorControlATCC& in, openfmb::regulatormodule::RegulatorControlATCC& out);
 
@@ -341,15 +323,29 @@ void convert_from_proto(const commonmodule::PhaseISC& in, openfmb::commonmodule:
 
 void convert_from_proto(const commonmodule::ControlISC& in, openfmb::commonmodule::ControlISC& out);
 
+void convert_from_proto(const commonmodule::PhaseAPC& in, openfmb::commonmodule::PhaseAPC& out);
+
+void convert_from_proto(const commonmodule::ControlAPC& in, openfmb::commonmodule::ControlAPC& out);
+
 void convert_from_proto(const regulatormodule::RegulatorSystem& in, openfmb::regulatormodule::RegulatorSystem& out);
+
+void convert_from_proto(const regulatormodule::RegulatorControl& in, openfmb::regulatormodule::RegulatorControl& out);
+
+void convert_from_proto(const regulatormodule::RegulatorControlFSCC& in, openfmb::regulatormodule::RegulatorControlFSCC& out);
+
+void convert_from_proto(const regulatormodule::RegulatorControlScheduleFSCH& in, openfmb::regulatormodule::RegulatorControlScheduleFSCH& out);
+
+void convert_from_proto(const regulatormodule::RegulatorCSG& in, openfmb::regulatormodule::RegulatorCSG& out);
+
+void convert_from_proto(const regulatormodule::RegulatorPoint& in, openfmb::regulatormodule::RegulatorPoint& out);
 
 void convert_from_proto(const regulatormodule::RegulatorEvent& in, openfmb::regulatormodule::RegulatorEvent& out);
 
 void convert_from_proto(const regulatormodule::RegulatorEventAndStatusANCR& in, openfmb::regulatormodule::RegulatorEventAndStatusANCR& out);
 
-void convert_from_proto(const regulatormodule::RegulatorEventAndStatusPoint& in, openfmb::regulatormodule::RegulatorEventAndStatusPoint& out);
-
 void convert_from_proto(const regulatormodule::RegulatorEventAndStatusATCC& in, openfmb::regulatormodule::RegulatorEventAndStatusATCC& out);
+
+void convert_from_proto(const commonmodule::StatusINC& in, openfmb::commonmodule::StatusINC& out);
 
 void convert_from_proto(const commonmodule::PhaseINS& in, openfmb::commonmodule::PhaseINS& out);
 
@@ -362,8 +358,6 @@ void convert_from_proto(const regulatormodule::RegulatorStatus& in, openfmb::reg
 void convert_from_proto(const resourcemodule::ResourceDiscreteControl& in, openfmb::resourcemodule::ResourceDiscreteControl& out);
 
 void convert_from_proto(const resourcemodule::AnalogControlGGIO& in, openfmb::resourcemodule::AnalogControlGGIO& out);
-
-void convert_from_proto(const commonmodule::ControlAPC& in, openfmb::commonmodule::ControlAPC& out);
 
 void convert_from_proto(const resourcemodule::BooleanControlGGIO& in, openfmb::resourcemodule::BooleanControlGGIO& out);
 
@@ -416,10 +410,6 @@ void convert_from_proto(const solarmodule::SolarStatus& in, openfmb::solarmodule
 void convert_from_proto(const solarmodule::SolarStatusZGEN& in, openfmb::solarmodule::SolarStatusZGEN& out);
 
 void convert_from_proto(const switchmodule::ProtectedSwitch& in, openfmb::switchmodule::ProtectedSwitch& out);
-
-void convert_from_proto(const switchmodule::SwitchControl& in, openfmb::switchmodule::SwitchControl& out);
-
-void convert_from_proto(const switchmodule::SwitchControlFSCC& in, openfmb::switchmodule::SwitchControlFSCC& out);
 
 void convert_from_proto(const switchmodule::SwitchDiscreteControl& in, openfmb::switchmodule::SwitchDiscreteControl& out);
 
@@ -695,17 +685,6 @@ void convert_from_proto(const metermodule::MeterReadingProfile& in, openfmb::met
     convert_from_proto(in.meterreading(), out.meterReading()); // required field in DDS
 }
 
-void convert_from_proto(const reclosermodule::RecloserControlProfile& in, openfmb::reclosermodule::RecloserControlProfile& out)
-{
-    if(in.has_controlmessageinfo()) convert_from_proto(in.controlmessageinfo(), out); // inherited type
-
-    convert_from_proto(in.ied(), out.ied()); // required field in DDS
-
-    convert_from_proto(in.recloser(), out.recloser()); // required field in DDS
-
-    convert_from_proto(in.reclosercontrol(), out.recloserControl()); // required field in DDS
-}
-
 void convert_from_proto(const reclosermodule::RecloserDiscreteControlProfile& in, openfmb::reclosermodule::RecloserDiscreteControlProfile& out)
 {
     if(in.has_controlmessageinfo()) convert_from_proto(in.controlmessageinfo(), out); // inherited type
@@ -753,6 +732,17 @@ void convert_from_proto(const reclosermodule::RecloserStatusProfile& in, openfmb
     convert_from_proto(in.recloser(), out.recloser()); // required field in DDS
 
     convert_from_proto(in.recloserstatus(), out.recloserStatus()); // required field in DDS
+}
+
+void convert_from_proto(const regulatormodule::RegulatorDiscreteControlProfile& in, openfmb::regulatormodule::RegulatorDiscreteControlProfile& out)
+{
+    if(in.has_controlmessageinfo()) convert_from_proto(in.controlmessageinfo(), out); // inherited type
+
+    convert_from_proto(in.ied(), out.ied()); // required field in DDS
+
+    convert_from_proto(in.regulatordiscretecontrol(), out.regulatorDiscreteControl()); // required field in DDS
+
+    convert_from_proto(in.regulatorsystem(), out.regulatorSystem()); // required field in DDS
 }
 
 void convert_from_proto(const regulatormodule::RegulatorControlProfile& in, openfmb::regulatormodule::RegulatorControlProfile& out)
@@ -890,17 +880,6 @@ void convert_from_proto(const solarmodule::SolarStatusProfile& in, openfmb::sola
     convert_from_proto(in.solarinverter(), out.solarInverter()); // required field in DDS
 
     convert_from_proto(in.solarstatus(), out.solarStatus()); // required field in DDS
-}
-
-void convert_from_proto(const switchmodule::SwitchControlProfile& in, openfmb::switchmodule::SwitchControlProfile& out)
-{
-    if(in.has_controlmessageinfo()) convert_from_proto(in.controlmessageinfo(), out); // inherited type
-
-    convert_from_proto(in.ied(), out.ied()); // required field in DDS
-
-    convert_from_proto(in.protectedswitch(), out.protectedSwitch()); // required field in DDS
-
-    convert_from_proto(in.switchcontrol(), out.switchControl()); // required field in DDS
 }
 
 void convert_from_proto(const switchmodule::SwitchDiscreteControlProfile& in, openfmb::switchmodule::SwitchDiscreteControlProfile& out)
@@ -1206,7 +1185,7 @@ void convert_from_proto(const commonmodule::StatusAndEventXCBR& in, openfmb::com
 
     if(in.has_protectionpickup()) // optional field in DDS
     {
-        openfmb::commonmodule::PhaseSPS temp{};
+        openfmb::commonmodule::ACD temp{};
         convert_from_proto(in.protectionpickup(), temp);
         out.ProtectionPickup() = temp;
     }
@@ -1220,7 +1199,7 @@ void convert_from_proto(const commonmodule::StatusAndEventXCBR& in, openfmb::com
 
     if(in.has_recloseenabled()) // optional field in DDS
     {
-        openfmb::commonmodule::PhaseDPS temp{};
+        openfmb::commonmodule::PhaseSPS temp{};
         convert_from_proto(in.recloseenabled(), temp);
         out.RecloseEnabled() = temp;
     }
@@ -1412,6 +1391,72 @@ void convert_from_proto(const commonmodule::StatusDPS& in, openfmb::commonmodule
     }
 }
 
+void convert_from_proto(const commonmodule::ACD& in, openfmb::commonmodule::ACD& out)
+{
+    out.dirGeneral() = static_cast<openfmb::commonmodule::FaultDirectionKind::inner_enum>(in.dirgeneral());
+
+    if(in.has_dirneut()) // optional enum in DDS
+    {
+        out.dirNeut() = static_cast<openfmb::commonmodule::PhaseFaultDirectionKind::inner_enum>(in.dirneut().value());
+    }
+
+    if(in.has_dirphsa()) // optional enum in DDS
+    {
+        out.dirPhsA() = static_cast<openfmb::commonmodule::PhaseFaultDirectionKind::inner_enum>(in.dirphsa().value());
+    }
+
+    if(in.has_dirphsb()) // optional enum in DDS
+    {
+        out.dirPhsB() = static_cast<openfmb::commonmodule::PhaseFaultDirectionKind::inner_enum>(in.dirphsb().value());
+    }
+
+    if(in.has_dirphsc()) // optional enum in DDS
+    {
+        out.dirPhsC() = static_cast<openfmb::commonmodule::PhaseFaultDirectionKind::inner_enum>(in.dirphsc().value());
+    }
+
+    out.general() = in.general(); // required BOOL primitive
+
+    if(in.has_neut())
+    {
+        out.neut() = in.neut().value();
+    }
+
+    if(in.has_phsa())
+    {
+        out.phsA() = in.phsa().value();
+    }
+
+    if(in.has_phsb())
+    {
+        out.phsB() = in.phsb().value();
+    }
+
+    if(in.has_phsc())
+    {
+        out.phsC() = in.phsc().value();
+    }
+}
+
+void convert_from_proto(const commonmodule::StatusINS& in, openfmb::commonmodule::StatusINS& out)
+{
+    if(in.has_q()) // optional field in DDS
+    {
+        openfmb::commonmodule::Quality temp{};
+        convert_from_proto(in.q(), temp);
+        out.q() = temp;
+    }
+
+    out.stVal() = in.stval(); // required INT32 primitive
+
+    if(in.has_t()) // optional field in DDS
+    {
+        openfmb::commonmodule::Timestamp temp{};
+        convert_from_proto(in.t(), temp);
+        out.t() = temp;
+    }
+}
+
 void convert_from_proto(const commonmodule::PhaseSPS& in, openfmb::commonmodule::PhaseSPS& out)
 {
     if(in.has_phs3()) // optional field in DDS
@@ -1440,25 +1485,6 @@ void convert_from_proto(const commonmodule::PhaseSPS& in, openfmb::commonmodule:
         openfmb::commonmodule::StatusSPS temp{};
         convert_from_proto(in.phsc(), temp);
         out.phsC() = temp;
-    }
-}
-
-void convert_from_proto(const commonmodule::StatusINS& in, openfmb::commonmodule::StatusINS& out)
-{
-    if(in.has_q()) // optional field in DDS
-    {
-        openfmb::commonmodule::Quality temp{};
-        convert_from_proto(in.q(), temp);
-        out.q() = temp;
-    }
-
-    out.stVal() = in.stval(); // required INT32 primitive
-
-    if(in.has_t()) // optional field in DDS
-    {
-        openfmb::commonmodule::Timestamp temp{};
-        convert_from_proto(in.t(), temp);
-        out.t() = temp;
     }
 }
 
@@ -2117,7 +2143,7 @@ void convert_from_proto(const capbankmodule::CapBankPoint& in, openfmb::capbankm
 {
     if(in.has_control()) // optional field in DDS
     {
-        openfmb::capbankmodule::CapBankEventAndStatusYPSH temp{};
+        openfmb::capbankmodule::CapBankControlYPSH temp{};
         convert_from_proto(in.control(), temp);
         out.control() = temp;
     }
@@ -2125,45 +2151,28 @@ void convert_from_proto(const capbankmodule::CapBankPoint& in, openfmb::capbankm
     convert_from_proto(in.starttime(), out.startTime()); // required field in DDS
 }
 
-void convert_from_proto(const capbankmodule::CapBankEventAndStatusYPSH& in, openfmb::capbankmodule::CapBankEventAndStatusYPSH& out)
+void convert_from_proto(const capbankmodule::CapBankControlYPSH& in, openfmb::capbankmodule::CapBankControlYPSH& out)
 {
     if(in.has_blkcls()) // optional field in DDS
     {
-        openfmb::commonmodule::StatusSPS temp{};
+        openfmb::commonmodule::ControlSPC temp{};
         convert_from_proto(in.blkcls(), temp);
         out.BlkCls() = temp;
     }
 
     if(in.has_blkopn()) // optional field in DDS
     {
-        openfmb::commonmodule::StatusSPS temp{};
+        openfmb::commonmodule::ControlSPC temp{};
         convert_from_proto(in.blkopn(), temp);
         out.BlkOpn() = temp;
     }
 
     if(in.has_pos()) // optional field in DDS
     {
-        openfmb::commonmodule::PhaseDPS temp{};
+        openfmb::commonmodule::PhaseDPC temp{};
         convert_from_proto(in.pos(), temp);
         out.Pos() = temp;
     }
-
-    if(in.has_shopcap()) // optional field in DDS
-    {
-        openfmb::commonmodule::ENS_SwitchingCapabilityKind temp{};
-        convert_from_proto(in.shopcap(), temp);
-        out.ShOpCap() = temp;
-    }
-}
-
-void convert_from_proto(const commonmodule::ENS_SwitchingCapabilityKind& in, openfmb::commonmodule::ENS_SwitchingCapabilityKind& out)
-{
-    if(in.has_blkena())
-    {
-        out.blkEna() = in.blkena().value();
-    }
-
-    out.stVal() = static_cast<openfmb::commonmodule::SwitchingCapabilityKind::inner_enum>(in.stval());
 }
 
 void convert_from_proto(const capbankmodule::CapBankSystem& in, openfmb::capbankmodule::CapBankSystem& out)
@@ -2240,6 +2249,30 @@ void convert_from_proto(const capbankmodule::CapBankEventAndStatusPoint& in, ope
         openfmb::capbankmodule::CapBankEventAndStatusYPSH temp{};
         convert_from_proto(in.eventandstatus(), temp);
         out.eventAndStatus() = temp;
+    }
+}
+
+void convert_from_proto(const capbankmodule::CapBankEventAndStatusYPSH& in, openfmb::capbankmodule::CapBankEventAndStatusYPSH& out)
+{
+    if(in.has_blkcls()) // optional field in DDS
+    {
+        openfmb::commonmodule::StatusSPS temp{};
+        convert_from_proto(in.blkcls(), temp);
+        out.BlkCls() = temp;
+    }
+
+    if(in.has_blkopn()) // optional field in DDS
+    {
+        openfmb::commonmodule::StatusSPS temp{};
+        convert_from_proto(in.blkopn(), temp);
+        out.BlkOpn() = temp;
+    }
+
+    if(in.has_pos()) // optional field in DDS
+    {
+        openfmb::commonmodule::PhaseDPS temp{};
+        convert_from_proto(in.pos(), temp);
+        out.Pos() = temp;
     }
 }
 
@@ -3176,13 +3209,6 @@ void convert_from_proto(const generationmodule::GenerationDiscreteControl& in, o
 
 void convert_from_proto(const generationmodule::ReactivePowerControl& in, openfmb::generationmodule::ReactivePowerControl& out)
 {
-    if(in.has_advancedsetpoint()) // optional field in DDS
-    {
-        openfmb::generationmodule::VV11PlaceHolder temp{};
-        convert_from_proto(in.advancedsetpoint(), temp);
-        out.advancedSetpoint() = temp;
-    }
-
     if(in.has_droopsetpoint()) // optional field in DDS
     {
         openfmb::generationmodule::DroopParameter temp{};
@@ -3211,16 +3237,6 @@ void convert_from_proto(const generationmodule::ReactivePowerControl& in, openfm
     }
 }
 
-void convert_from_proto(const generationmodule::VV11PlaceHolder& in, openfmb::generationmodule::VV11PlaceHolder& out)
-{
-    out.point() = in.point(); // required FLOAT primitive
-
-    if(in.has_unloadedoffset())
-    {
-        out.unloadedOffset() = in.unloadedoffset().value();
-    }
-}
-
 void convert_from_proto(const generationmodule::DroopParameter& in, openfmb::generationmodule::DroopParameter& out)
 {
     if(in.has_slope())
@@ -3236,13 +3252,6 @@ void convert_from_proto(const generationmodule::DroopParameter& in, openfmb::gen
 
 void convert_from_proto(const generationmodule::RealPowerControl& in, openfmb::generationmodule::RealPowerControl& out)
 {
-    if(in.has_advancedsetpoint()) // optional field in DDS
-    {
-        openfmb::generationmodule::VV11PlaceHolder temp{};
-        convert_from_proto(in.advancedsetpoint(), temp);
-        out.advancedSetpoint() = temp;
-    }
-
     if(in.has_droopsetpoint()) // optional field in DDS
     {
         openfmb::generationmodule::DroopParameter temp{};
@@ -3694,59 +3703,6 @@ void convert_from_proto(const reclosermodule::Recloser& in, openfmb::reclosermod
     }
 }
 
-void convert_from_proto(const reclosermodule::RecloserControl& in, openfmb::reclosermodule::RecloserControl& out)
-{
-    if(in.has_controlvalue()) convert_from_proto(in.controlvalue(), out); // inherited type
-
-    if(in.has_check()) // optional field in DDS
-    {
-        openfmb::commonmodule::CheckConditions temp{};
-        convert_from_proto(in.check(), temp);
-        out.check() = temp;
-    }
-
-    if(in.has_reclosercontrolfscc()) // optional field in DDS
-    {
-        openfmb::reclosermodule::RecloserControlFSCC temp{};
-        convert_from_proto(in.reclosercontrolfscc(), temp);
-        out.recloserControlFSCC() = temp;
-    }
-}
-
-void convert_from_proto(const reclosermodule::RecloserControlFSCC& in, openfmb::reclosermodule::RecloserControlFSCC& out)
-{
-    if(in.has_logicalnodeforcontrol()) convert_from_proto(in.logicalnodeforcontrol(), out); // inherited type
-
-    if(in.has_switchcontrolschedulefsch()) // optional field in DDS
-    {
-        openfmb::commonmodule::SwitchControlScheduleFSCH temp{};
-        convert_from_proto(in.switchcontrolschedulefsch(), temp);
-        out.switchControlScheduleFSCH() = temp;
-    }
-}
-
-void convert_from_proto(const commonmodule::SwitchControlScheduleFSCH& in, openfmb::commonmodule::SwitchControlScheduleFSCH& out)
-{
-    convert_from_proto(in.valdcsg(), out.ValDCSG()); // required field in DDS
-}
-
-void convert_from_proto(const commonmodule::SwitchCSG& in, openfmb::commonmodule::SwitchCSG& out)
-{
-    for(const auto& input : in.crvpts())
-    {
-        openfmb::commonmodule::SwitchPoint output;
-        convert_from_proto(input, output);
-        out.crvPts().push_back(output);
-    }
-}
-
-void convert_from_proto(const commonmodule::SwitchPoint& in, openfmb::commonmodule::SwitchPoint& out)
-{
-    convert_from_proto(in.pos(), out.Pos()); // required field in DDS
-
-    convert_from_proto(in.starttime(), out.startTime()); // required field in DDS
-}
-
 void convert_from_proto(const reclosermodule::RecloserDiscreteControl& in, openfmb::reclosermodule::RecloserDiscreteControl& out)
 {
     if(in.has_controlvalue()) convert_from_proto(in.controlvalue(), out); // inherited type
@@ -3828,7 +3784,7 @@ void convert_from_proto(const reclosermodule::RecloserStatus& in, openfmb::reclo
     }
 }
 
-void convert_from_proto(const regulatormodule::RegulatorControl& in, openfmb::regulatormodule::RegulatorControl& out)
+void convert_from_proto(const regulatormodule::RegulatorDiscreteControl& in, openfmb::regulatormodule::RegulatorDiscreteControl& out)
 {
     if(in.has_controlvalue()) convert_from_proto(in.controlvalue(), out); // inherited type
 
@@ -3839,93 +3795,18 @@ void convert_from_proto(const regulatormodule::RegulatorControl& in, openfmb::re
         out.check() = temp;
     }
 
-    if(in.has_regulatorcontrolfscc()) // optional field in DDS
-    {
-        openfmb::regulatormodule::RegulatorControlFSCC temp{};
-        convert_from_proto(in.regulatorcontrolfscc(), temp);
-        out.regulatorControlFSCC() = temp;
-    }
-}
-
-void convert_from_proto(const regulatormodule::RegulatorControlFSCC& in, openfmb::regulatormodule::RegulatorControlFSCC& out)
-{
-    if(in.has_controlfscc()) convert_from_proto(in.controlfscc(), out); // inherited type
-
-    if(in.has_regulatorcontrolschedulefsch()) // optional field in DDS
-    {
-        openfmb::regulatormodule::RegulatorControlScheduleFSCH temp{};
-        convert_from_proto(in.regulatorcontrolschedulefsch(), temp);
-        out.regulatorControlScheduleFSCH() = temp;
-    }
-}
-
-void convert_from_proto(const regulatormodule::RegulatorControlScheduleFSCH& in, openfmb::regulatormodule::RegulatorControlScheduleFSCH& out)
-{
-    convert_from_proto(in.valdcsg(), out.ValDCSG()); // required field in DDS
-}
-
-void convert_from_proto(const regulatormodule::RegulatorCSG& in, openfmb::regulatormodule::RegulatorCSG& out)
-{
-    for(const auto& input : in.crvpts())
-    {
-        openfmb::regulatormodule::RegulatorPoint output;
-        convert_from_proto(input, output);
-        out.crvPts().push_back(output);
-    }
-}
-
-void convert_from_proto(const regulatormodule::RegulatorPoint& in, openfmb::regulatormodule::RegulatorPoint& out)
-{
-    if(in.has_control()) // optional field in DDS
+    if(in.has_regulatorcontrolatcc()) // optional field in DDS
     {
         openfmb::regulatormodule::RegulatorControlATCC temp{};
-        convert_from_proto(in.control(), temp);
-        out.control() = temp;
+        convert_from_proto(in.regulatorcontrolatcc(), temp);
+        out.regulatorControlATCC() = temp;
     }
-
-    if(in.has_pctvdroop())
-    {
-        out.pctVDroop() = in.pctvdroop().value();
-    }
-
-    if(in.has_ramprates()) // optional field in DDS
-    {
-        openfmb::commonmodule::RampRate temp{};
-        convert_from_proto(in.ramprates(), temp);
-        out.rampRates() = temp;
-    }
-
-    if(in.has_reactivepwrsetpointenabled()) // optional field in DDS
-    {
-        openfmb::commonmodule::ControlDPC temp{};
-        convert_from_proto(in.reactivepwrsetpointenabled(), temp);
-        out.reactivePwrSetPointEnabled() = temp;
-    }
-
-    if(in.has_reset()) // optional field in DDS
-    {
-        openfmb::commonmodule::ControlDPC temp{};
-        convert_from_proto(in.reset(), temp);
-        out.reset() = temp;
-    }
-
-    if(in.has_state()) // optional enum in DDS
-    {
-        out.state() = static_cast<openfmb::commonmodule::StateKind::inner_enum>(in.state().value());
-    }
-
-    if(in.has_voltagesetpointenabled()) // optional field in DDS
-    {
-        openfmb::commonmodule::ControlDPC temp{};
-        convert_from_proto(in.voltagesetpointenabled(), temp);
-        out.voltageSetPointEnabled() = temp;
-    }
-
-    convert_from_proto(in.starttime(), out.startTime()); // required field in DDS
 }
 
 void convert_from_proto(const regulatormodule::RegulatorControlATCC& in, openfmb::regulatormodule::RegulatorControlATCC& out)
 {
+    if(in.has_logicalnodeforcontrol()) convert_from_proto(in.logicalnodeforcontrol(), out); // inherited type
+
     if(in.has_bndctr()) // optional field in DDS
     {
         openfmb::commonmodule::ASG temp{};
@@ -3961,13 +3842,6 @@ void convert_from_proto(const regulatormodule::RegulatorControlATCC& in, openfmb
         out.LDCX() = temp;
     }
 
-    if(in.has_ldcz()) // optional field in DDS
-    {
-        openfmb::commonmodule::ASG temp{};
-        convert_from_proto(in.ldcz(), temp);
-        out.LDCZ() = temp;
-    }
-
     if(in.has_parop()) // optional field in DDS
     {
         openfmb::commonmodule::ControlSPC temp{};
@@ -3975,11 +3849,37 @@ void convert_from_proto(const regulatormodule::RegulatorControlATCC& in, openfmb
         out.ParOp() = temp;
     }
 
+    if(in.has_ramprates()) // optional field in DDS
+    {
+        openfmb::commonmodule::RampRate temp{};
+        convert_from_proto(in.ramprates(), temp);
+        out.rampRates() = temp;
+    }
+
+    if(in.has_state()) // optional enum in DDS
+    {
+        out.state() = static_cast<openfmb::commonmodule::StateKind::inner_enum>(in.state().value());
+    }
+
     if(in.has_tappos()) // optional field in DDS
     {
         openfmb::commonmodule::PhaseISC temp{};
         convert_from_proto(in.tappos(), temp);
         out.TapPos() = temp;
+    }
+
+    if(in.has_volspt()) // optional field in DDS
+    {
+        openfmb::commonmodule::PhaseAPC temp{};
+        convert_from_proto(in.volspt(), temp);
+        out.VolSpt() = temp;
+    }
+
+    if(in.has_voltagesetpointenabled()) // optional field in DDS
+    {
+        openfmb::commonmodule::ControlDPC temp{};
+        convert_from_proto(in.voltagesetpointenabled(), temp);
+        out.voltageSetPointEnabled() = temp;
     }
 }
 
@@ -4056,9 +3956,103 @@ void convert_from_proto(const commonmodule::ControlISC& in, openfmb::commonmodul
     out.ctlVal() = in.ctlval(); // required INT32 primitive
 }
 
+void convert_from_proto(const commonmodule::PhaseAPC& in, openfmb::commonmodule::PhaseAPC& out)
+{
+    if(in.has_phs3()) // optional field in DDS
+    {
+        openfmb::commonmodule::ControlAPC temp{};
+        convert_from_proto(in.phs3(), temp);
+        out.phs3() = temp;
+    }
+
+    if(in.has_phsa()) // optional field in DDS
+    {
+        openfmb::commonmodule::ControlAPC temp{};
+        convert_from_proto(in.phsa(), temp);
+        out.phsA() = temp;
+    }
+
+    if(in.has_phsb()) // optional field in DDS
+    {
+        openfmb::commonmodule::ControlAPC temp{};
+        convert_from_proto(in.phsb(), temp);
+        out.phsB() = temp;
+    }
+
+    if(in.has_phsc()) // optional field in DDS
+    {
+        openfmb::commonmodule::ControlAPC temp{};
+        convert_from_proto(in.phsc(), temp);
+        out.phsC() = temp;
+    }
+}
+
+void convert_from_proto(const commonmodule::ControlAPC& in, openfmb::commonmodule::ControlAPC& out)
+{
+    convert_from_proto(in.ctlval(), out.ctlVal()); // required field in DDS
+}
+
 void convert_from_proto(const regulatormodule::RegulatorSystem& in, openfmb::regulatormodule::RegulatorSystem& out)
 {
     if(in.has_conductingequipment()) convert_from_proto(in.conductingequipment(), out); // inherited type
+}
+
+void convert_from_proto(const regulatormodule::RegulatorControl& in, openfmb::regulatormodule::RegulatorControl& out)
+{
+    if(in.has_controlvalue()) convert_from_proto(in.controlvalue(), out); // inherited type
+
+    if(in.has_check()) // optional field in DDS
+    {
+        openfmb::commonmodule::CheckConditions temp{};
+        convert_from_proto(in.check(), temp);
+        out.check() = temp;
+    }
+
+    if(in.has_regulatorcontrolfscc()) // optional field in DDS
+    {
+        openfmb::regulatormodule::RegulatorControlFSCC temp{};
+        convert_from_proto(in.regulatorcontrolfscc(), temp);
+        out.regulatorControlFSCC() = temp;
+    }
+}
+
+void convert_from_proto(const regulatormodule::RegulatorControlFSCC& in, openfmb::regulatormodule::RegulatorControlFSCC& out)
+{
+    if(in.has_controlfscc()) convert_from_proto(in.controlfscc(), out); // inherited type
+
+    if(in.has_regulatorcontrolschedulefsch()) // optional field in DDS
+    {
+        openfmb::regulatormodule::RegulatorControlScheduleFSCH temp{};
+        convert_from_proto(in.regulatorcontrolschedulefsch(), temp);
+        out.regulatorControlScheduleFSCH() = temp;
+    }
+}
+
+void convert_from_proto(const regulatormodule::RegulatorControlScheduleFSCH& in, openfmb::regulatormodule::RegulatorControlScheduleFSCH& out)
+{
+    convert_from_proto(in.valdcsg(), out.ValDCSG()); // required field in DDS
+}
+
+void convert_from_proto(const regulatormodule::RegulatorCSG& in, openfmb::regulatormodule::RegulatorCSG& out)
+{
+    for(const auto& input : in.crvpts())
+    {
+        openfmb::regulatormodule::RegulatorPoint output;
+        convert_from_proto(input, output);
+        out.crvPts().push_back(output);
+    }
+}
+
+void convert_from_proto(const regulatormodule::RegulatorPoint& in, openfmb::regulatormodule::RegulatorPoint& out)
+{
+    if(in.has_control()) // optional field in DDS
+    {
+        openfmb::regulatormodule::RegulatorControlATCC temp{};
+        convert_from_proto(in.control(), temp);
+        out.control() = temp;
+    }
+
+    convert_from_proto(in.starttime(), out.startTime()); // required field in DDS
 }
 
 void convert_from_proto(const regulatormodule::RegulatorEvent& in, openfmb::regulatormodule::RegulatorEvent& out)
@@ -4086,50 +4080,9 @@ void convert_from_proto(const regulatormodule::RegulatorEventAndStatusANCR& in, 
 
     if(in.has_pointstatus()) // optional field in DDS
     {
-        openfmb::regulatormodule::RegulatorEventAndStatusPoint temp{};
+        openfmb::regulatormodule::RegulatorEventAndStatusATCC temp{};
         convert_from_proto(in.pointstatus(), temp);
         out.PointStatus() = temp;
-    }
-}
-
-void convert_from_proto(const regulatormodule::RegulatorEventAndStatusPoint& in, openfmb::regulatormodule::RegulatorEventAndStatusPoint& out)
-{
-    if(in.has_eventandstatus()) // optional field in DDS
-    {
-        openfmb::regulatormodule::RegulatorEventAndStatusATCC temp{};
-        convert_from_proto(in.eventandstatus(), temp);
-        out.eventAndStatus() = temp;
-    }
-
-    if(in.has_pctvdroop())
-    {
-        out.pctVDroop() = in.pctvdroop().value();
-    }
-
-    if(in.has_ramprates()) // optional field in DDS
-    {
-        openfmb::commonmodule::RampRate temp{};
-        convert_from_proto(in.ramprates(), temp);
-        out.rampRates() = temp;
-    }
-
-    if(in.has_reactivepwrsetpointenabled()) // optional field in DDS
-    {
-        openfmb::commonmodule::StatusSPC temp{};
-        convert_from_proto(in.reactivepwrsetpointenabled(), temp);
-        out.reactivePwrSetPointEnabled() = temp;
-    }
-
-    if(in.has_state()) // optional enum in DDS
-    {
-        out.state() = static_cast<openfmb::commonmodule::StateKind::inner_enum>(in.state().value());
-    }
-
-    if(in.has_voltagesetpointenabled()) // optional field in DDS
-    {
-        openfmb::commonmodule::StatusSPC temp{};
-        convert_from_proto(in.voltagesetpointenabled(), temp);
-        out.voltageSetPointEnabled() = temp;
     }
 }
 
@@ -4163,18 +4116,30 @@ void convert_from_proto(const regulatormodule::RegulatorEventAndStatusATCC& in, 
         out.LDCX() = temp;
     }
 
-    if(in.has_ldcz()) // optional field in DDS
-    {
-        openfmb::commonmodule::ASG temp{};
-        convert_from_proto(in.ldcz(), temp);
-        out.LDCZ() = temp;
-    }
-
     if(in.has_parop()) // optional field in DDS
     {
         openfmb::commonmodule::StatusSPS temp{};
         convert_from_proto(in.parop(), temp);
         out.ParOp() = temp;
+    }
+
+    if(in.has_ramprates()) // optional field in DDS
+    {
+        openfmb::commonmodule::RampRate temp{};
+        convert_from_proto(in.ramprates(), temp);
+        out.rampRates() = temp;
+    }
+
+    if(in.has_state()) // optional enum in DDS
+    {
+        out.state() = static_cast<openfmb::commonmodule::StateKind::inner_enum>(in.state().value());
+    }
+
+    if(in.has_stdltmms()) // optional field in DDS
+    {
+        openfmb::commonmodule::StatusINC temp{};
+        convert_from_proto(in.stdltmms(), temp);
+        out.StDlTmms() = temp;
     }
 
     if(in.has_tapoperr()) // optional field in DDS
@@ -4189,6 +4154,39 @@ void convert_from_proto(const regulatormodule::RegulatorEventAndStatusATCC& in, 
         openfmb::commonmodule::PhaseINS temp{};
         convert_from_proto(in.tappos(), temp);
         out.TapPos() = temp;
+    }
+
+    if(in.has_volspt()) // optional field in DDS
+    {
+        openfmb::commonmodule::PhaseAPC temp{};
+        convert_from_proto(in.volspt(), temp);
+        out.VolSpt() = temp;
+    }
+
+    if(in.has_voltagesetpointenabled()) // optional field in DDS
+    {
+        openfmb::commonmodule::StatusSPC temp{};
+        convert_from_proto(in.voltagesetpointenabled(), temp);
+        out.voltageSetPointEnabled() = temp;
+    }
+}
+
+void convert_from_proto(const commonmodule::StatusINC& in, openfmb::commonmodule::StatusINC& out)
+{
+    if(in.has_q()) // optional field in DDS
+    {
+        openfmb::commonmodule::Quality temp{};
+        convert_from_proto(in.q(), temp);
+        out.q() = temp;
+    }
+
+    out.stVal() = in.stval(); // required INT32 primitive
+
+    if(in.has_t()) // optional field in DDS
+    {
+        openfmb::commonmodule::Timestamp temp{};
+        convert_from_proto(in.t(), temp);
+        out.t() = temp;
     }
 }
 
@@ -4330,11 +4328,6 @@ void convert_from_proto(const resourcemodule::AnalogControlGGIO& in, openfmb::re
     {
         out.Phase() = static_cast<openfmb::commonmodule::PhaseCodeKind::inner_enum>(in.phase().value());
     }
-}
-
-void convert_from_proto(const commonmodule::ControlAPC& in, openfmb::commonmodule::ControlAPC& out)
-{
-    convert_from_proto(in.ctlval(), out.ctlVal()); // required field in DDS
 }
 
 void convert_from_proto(const resourcemodule::BooleanControlGGIO& in, openfmb::resourcemodule::BooleanControlGGIO& out)
@@ -4819,37 +4812,6 @@ void convert_from_proto(const switchmodule::ProtectedSwitch& in, openfmb::switch
     if(in.has_conductingequipment()) convert_from_proto(in.conductingequipment(), out); // inherited type
 }
 
-void convert_from_proto(const switchmodule::SwitchControl& in, openfmb::switchmodule::SwitchControl& out)
-{
-    if(in.has_controlvalue()) convert_from_proto(in.controlvalue(), out); // inherited type
-
-    if(in.has_check()) // optional field in DDS
-    {
-        openfmb::commonmodule::CheckConditions temp{};
-        convert_from_proto(in.check(), temp);
-        out.check() = temp;
-    }
-
-    if(in.has_switchcontrolfscc()) // optional field in DDS
-    {
-        openfmb::switchmodule::SwitchControlFSCC temp{};
-        convert_from_proto(in.switchcontrolfscc(), temp);
-        out.SwitchControlFSCC() = temp;
-    }
-}
-
-void convert_from_proto(const switchmodule::SwitchControlFSCC& in, openfmb::switchmodule::SwitchControlFSCC& out)
-{
-    if(in.has_logicalnodeforcontrol()) convert_from_proto(in.logicalnodeforcontrol(), out); // inherited type
-
-    if(in.has_switchcontrolschedulefsch()) // optional field in DDS
-    {
-        openfmb::commonmodule::SwitchControlScheduleFSCH temp{};
-        convert_from_proto(in.switchcontrolschedulefsch(), temp);
-        out.switchControlScheduleFSCH() = temp;
-    }
-}
-
 void convert_from_proto(const switchmodule::SwitchDiscreteControl& in, openfmb::switchmodule::SwitchDiscreteControl& out)
 {
     if(in.has_controlvalue()) convert_from_proto(in.controlvalue(), out); // inherited type
@@ -5023,6 +4985,15 @@ static_assert(static_cast<int>(commonmodule::DbPosKind::DbPosKind_closed) == sta
 static_assert(static_cast<int>(commonmodule::DbPosKind::DbPosKind_open) == static_cast<int>(openfmb::commonmodule::DbPosKind::DbPosKind_open), "mismatched enum values");
 static_assert(static_cast<int>(commonmodule::DbPosKind::DbPosKind_invalid) == static_cast<int>(openfmb::commonmodule::DbPosKind::DbPosKind_invalid), "mismatched enum values");
 
+static_assert(static_cast<int>(commonmodule::FaultDirectionKind::FaultDirectionKind_unknown) == static_cast<int>(openfmb::commonmodule::FaultDirectionKind::FaultDirectionKind_unknown), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::FaultDirectionKind::FaultDirectionKind_forward) == static_cast<int>(openfmb::commonmodule::FaultDirectionKind::FaultDirectionKind_forward), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::FaultDirectionKind::FaultDirectionKind_backward) == static_cast<int>(openfmb::commonmodule::FaultDirectionKind::FaultDirectionKind_backward), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::FaultDirectionKind::FaultDirectionKind_both) == static_cast<int>(openfmb::commonmodule::FaultDirectionKind::FaultDirectionKind_both), "mismatched enum values");
+
+static_assert(static_cast<int>(commonmodule::PhaseFaultDirectionKind::PhaseFaultDirectionKind_unknown) == static_cast<int>(openfmb::commonmodule::PhaseFaultDirectionKind::PhaseFaultDirectionKind_unknown), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::PhaseFaultDirectionKind::PhaseFaultDirectionKind_forward) == static_cast<int>(openfmb::commonmodule::PhaseFaultDirectionKind::PhaseFaultDirectionKind_forward), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::PhaseFaultDirectionKind::PhaseFaultDirectionKind_backward) == static_cast<int>(openfmb::commonmodule::PhaseFaultDirectionKind::PhaseFaultDirectionKind_backward), "mismatched enum values");
+
 static_assert(static_cast<int>(commonmodule::RecloseActionKind::RecloseActionKind_idle) == static_cast<int>(openfmb::commonmodule::RecloseActionKind::RecloseActionKind_idle), "mismatched enum values");
 static_assert(static_cast<int>(commonmodule::RecloseActionKind::RecloseActionKind_cycling) == static_cast<int>(openfmb::commonmodule::RecloseActionKind::RecloseActionKind_cycling), "mismatched enum values");
 static_assert(static_cast<int>(commonmodule::RecloseActionKind::RecloseActionKind_lockout) == static_cast<int>(openfmb::commonmodule::RecloseActionKind::RecloseActionKind_lockout), "mismatched enum values");
@@ -5151,11 +5122,6 @@ static_assert(static_cast<int>(commonmodule::ScheduleParameterKind::SchedulePara
 static_assert(static_cast<int>(commonmodule::ScheduleParameterKind::ScheduleParameterKind_W_phsA_mag) == static_cast<int>(openfmb::commonmodule::ScheduleParameterKind::ScheduleParameterKind_W_phsA_mag), "mismatched enum values");
 static_assert(static_cast<int>(commonmodule::ScheduleParameterKind::ScheduleParameterKind_W_phsB_mag) == static_cast<int>(openfmb::commonmodule::ScheduleParameterKind::ScheduleParameterKind_W_phsB_mag), "mismatched enum values");
 static_assert(static_cast<int>(commonmodule::ScheduleParameterKind::ScheduleParameterKind_W_phsC_mag) == static_cast<int>(openfmb::commonmodule::ScheduleParameterKind::ScheduleParameterKind_W_phsC_mag), "mismatched enum values");
-
-static_assert(static_cast<int>(commonmodule::SwitchingCapabilityKind::SwitchingCapabilityKind_none) == static_cast<int>(openfmb::commonmodule::SwitchingCapabilityKind::SwitchingCapabilityKind_none), "mismatched enum values");
-static_assert(static_cast<int>(commonmodule::SwitchingCapabilityKind::SwitchingCapabilityKind_open) == static_cast<int>(openfmb::commonmodule::SwitchingCapabilityKind::SwitchingCapabilityKind_open), "mismatched enum values");
-static_assert(static_cast<int>(commonmodule::SwitchingCapabilityKind::SwitchingCapabilityKind_close) == static_cast<int>(openfmb::commonmodule::SwitchingCapabilityKind::SwitchingCapabilityKind_close), "mismatched enum values");
-static_assert(static_cast<int>(commonmodule::SwitchingCapabilityKind::SwitchingCapabilityKind_open_and_close) == static_cast<int>(openfmb::commonmodule::SwitchingCapabilityKind::SwitchingCapabilityKind_open_and_close), "mismatched enum values");
 
 static_assert(static_cast<int>(commonmodule::GridConnectModeKind::GridConnectModeKind_CSI) == static_cast<int>(openfmb::commonmodule::GridConnectModeKind::GridConnectModeKind_CSI), "mismatched enum values");
 static_assert(static_cast<int>(commonmodule::GridConnectModeKind::GridConnectModeKind_VC_VSI) == static_cast<int>(openfmb::commonmodule::GridConnectModeKind::GridConnectModeKind_VC_VSI), "mismatched enum values");

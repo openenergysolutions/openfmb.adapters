@@ -38,6 +38,8 @@ void visit_capbankmodule_CapBankControlFSCC(IModelVisitor& visitor);
 
 void visit_capbankmodule_CapBankControlScheduleFSCH(IModelVisitor& visitor);
 
+void visit_capbankmodule_CapBankControlYPSH(IModelVisitor& visitor);
+
 void visit_capbankmodule_CapBankDiscreteControl(IModelVisitor& visitor);
 
 void visit_capbankmodule_CapBankDiscreteControlZCAP(IModelVisitor& visitor);
@@ -57,6 +59,8 @@ void visit_capbankmodule_CapBankReading(IModelVisitor& visitor);
 void visit_capbankmodule_CapBankStatus(IModelVisitor& visitor);
 
 void visit_capbankmodule_CapBankSystem(IModelVisitor& visitor);
+
+void visit_commonmodule_ACD(IModelVisitor& visitor);
 
 void visit_commonmodule_ACDCTerminal(IModelVisitor& visitor);
 
@@ -116,8 +120,6 @@ void visit_commonmodule_ENS_DynamicTestKind(IModelVisitor& visitor);
 
 void visit_commonmodule_ENS_HealthKind(IModelVisitor& visitor);
 
-void visit_commonmodule_ENS_SwitchingCapabilityKind(IModelVisitor& visitor);
-
 void visit_commonmodule_ESS(IModelVisitor& visitor);
 
 void visit_commonmodule_EnergyConsumer(IModelVisitor& visitor);
@@ -146,6 +148,8 @@ void visit_commonmodule_NamedObject(IModelVisitor& visitor);
 
 void visit_commonmodule_Optional_PhaseCodeKind(IModelVisitor& visitor);
 
+void visit_commonmodule_Optional_PhaseFaultDirectionKind(IModelVisitor& visitor);
+
 void visit_commonmodule_Optional_RecloseActionKind(IModelVisitor& visitor);
 
 void visit_commonmodule_Optional_StateKind(IModelVisitor& visitor);
@@ -153,6 +157,8 @@ void visit_commonmodule_Optional_StateKind(IModelVisitor& visitor);
 void visit_commonmodule_Optional_UnitMultiplierKind(IModelVisitor& visitor);
 
 void visit_commonmodule_Optional_UnitSymbolKind(IModelVisitor& visitor);
+
+void visit_commonmodule_PhaseAPC(IModelVisitor& visitor);
 
 void visit_commonmodule_PhaseDPC(IModelVisitor& visitor);
 
@@ -186,6 +192,8 @@ void visit_commonmodule_StatusAndEventXCBR(IModelVisitor& visitor);
 
 void visit_commonmodule_StatusDPS(IModelVisitor& visitor);
 
+void visit_commonmodule_StatusINC(IModelVisitor& visitor);
+
 void visit_commonmodule_StatusINS(IModelVisitor& visitor);
 
 void visit_commonmodule_StatusMessageInfo(IModelVisitor& visitor);
@@ -197,12 +205,6 @@ void visit_commonmodule_StatusSPS(IModelVisitor& visitor);
 void visit_commonmodule_StatusValue(IModelVisitor& visitor);
 
 void visit_commonmodule_StringEventAndStatusGGIO(IModelVisitor& visitor);
-
-void visit_commonmodule_SwitchCSG(IModelVisitor& visitor);
-
-void visit_commonmodule_SwitchControlScheduleFSCH(IModelVisitor& visitor);
-
-void visit_commonmodule_SwitchPoint(IModelVisitor& visitor);
 
 void visit_commonmodule_Terminal(IModelVisitor& visitor);
 
@@ -300,8 +302,6 @@ void visit_generationmodule_ReactivePowerControl(IModelVisitor& visitor);
 
 void visit_generationmodule_RealPowerControl(IModelVisitor& visitor);
 
-void visit_generationmodule_VV11PlaceHolder(IModelVisitor& visitor);
-
 void visit_loadmodule_LoadCSG(IModelVisitor& visitor);
 
 void visit_loadmodule_LoadControl(IModelVisitor& visitor);
@@ -330,10 +330,6 @@ void visit_metermodule_MeterReading(IModelVisitor& visitor);
 
 void visit_reclosermodule_Recloser(IModelVisitor& visitor);
 
-void visit_reclosermodule_RecloserControl(IModelVisitor& visitor);
-
-void visit_reclosermodule_RecloserControlFSCC(IModelVisitor& visitor);
-
 void visit_reclosermodule_RecloserDiscreteControl(IModelVisitor& visitor);
 
 void visit_reclosermodule_RecloserDiscreteControlXCBR(IModelVisitor& visitor);
@@ -354,13 +350,13 @@ void visit_regulatormodule_RegulatorControlFSCC(IModelVisitor& visitor);
 
 void visit_regulatormodule_RegulatorControlScheduleFSCH(IModelVisitor& visitor);
 
+void visit_regulatormodule_RegulatorDiscreteControl(IModelVisitor& visitor);
+
 void visit_regulatormodule_RegulatorEvent(IModelVisitor& visitor);
 
 void visit_regulatormodule_RegulatorEventAndStatusANCR(IModelVisitor& visitor);
 
 void visit_regulatormodule_RegulatorEventAndStatusATCC(IModelVisitor& visitor);
-
-void visit_regulatormodule_RegulatorEventAndStatusPoint(IModelVisitor& visitor);
 
 void visit_regulatormodule_RegulatorPoint(IModelVisitor& visitor);
 
@@ -413,10 +409,6 @@ void visit_solarmodule_SolarStatus(IModelVisitor& visitor);
 void visit_solarmodule_SolarStatusZGEN(IModelVisitor& visitor);
 
 void visit_switchmodule_ProtectedSwitch(IModelVisitor& visitor);
-
-void visit_switchmodule_SwitchControl(IModelVisitor& visitor);
-
-void visit_switchmodule_SwitchControlFSCC(IModelVisitor& visitor);
 
 void visit_switchmodule_SwitchDiscreteControl(IModelVisitor& visitor);
 
@@ -1084,34 +1076,6 @@ void visit<metermodule::MeterReadingProfile>(IModelVisitor& visitor)
 }
 
 template <>
-void visit<reclosermodule::RecloserControlProfile>(IModelVisitor& visitor)
-{
-    if(visitor.start_message_field("controlMessageInfo", commonmodule::ControlMessageInfo::descriptor()))
-    {
-        visit_commonmodule_ControlMessageInfo(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
-    {
-        visit_commonmodule_IED(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("recloser", reclosermodule::Recloser::descriptor()))
-    {
-        visit_reclosermodule_Recloser(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("recloserControl", reclosermodule::RecloserControl::descriptor()))
-    {
-        visit_reclosermodule_RecloserControl(visitor);
-        visitor.end_message_field();
-    }
-}
-
-template <>
 void visit<reclosermodule::RecloserDiscreteControlProfile>(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("controlMessageInfo", commonmodule::ControlMessageInfo::descriptor()))
@@ -1224,6 +1188,34 @@ void visit<reclosermodule::RecloserStatusProfile>(IModelVisitor& visitor)
     if(visitor.start_message_field("recloserStatus", reclosermodule::RecloserStatus::descriptor()))
     {
         visit_reclosermodule_RecloserStatus(visitor);
+        visitor.end_message_field();
+    }
+}
+
+template <>
+void visit<regulatormodule::RegulatorDiscreteControlProfile>(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("controlMessageInfo", commonmodule::ControlMessageInfo::descriptor()))
+    {
+        visit_commonmodule_ControlMessageInfo(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
+    {
+        visit_commonmodule_IED(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("regulatorDiscreteControl", regulatormodule::RegulatorDiscreteControl::descriptor()))
+    {
+        visit_regulatormodule_RegulatorDiscreteControl(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("regulatorSystem", regulatormodule::RegulatorSystem::descriptor()))
+    {
+        visit_regulatormodule_RegulatorSystem(visitor);
         visitor.end_message_field();
     }
 }
@@ -1570,34 +1562,6 @@ void visit<solarmodule::SolarStatusProfile>(IModelVisitor& visitor)
 }
 
 template <>
-void visit<switchmodule::SwitchControlProfile>(IModelVisitor& visitor)
-{
-    if(visitor.start_message_field("controlMessageInfo", commonmodule::ControlMessageInfo::descriptor()))
-    {
-        visit_commonmodule_ControlMessageInfo(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
-    {
-        visit_commonmodule_IED(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("protectedSwitch", switchmodule::ProtectedSwitch::descriptor()))
-    {
-        visit_switchmodule_ProtectedSwitch(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("switchControl", switchmodule::SwitchControl::descriptor()))
-    {
-        visit_switchmodule_SwitchControl(visitor);
-        visitor.end_message_field();
-    }
-}
-
-template <>
 void visit<switchmodule::SwitchDiscreteControlProfile>(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("controlMessageInfo", commonmodule::ControlMessageInfo::descriptor()))
@@ -1901,6 +1865,27 @@ void visit_capbankmodule_CapBankControlScheduleFSCH(IModelVisitor& visitor)
     }
 }
 
+void visit_capbankmodule_CapBankControlYPSH(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("BlkCls", commonmodule::ControlSPC::descriptor()))
+    {
+        visit_commonmodule_ControlSPC(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("BlkOpn", commonmodule::ControlSPC::descriptor()))
+    {
+        visit_commonmodule_ControlSPC(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("Pos", commonmodule::PhaseDPC::descriptor()))
+    {
+        visit_commonmodule_PhaseDPC(visitor);
+        visitor.end_message_field();
+    }
+}
+
 void visit_capbankmodule_CapBankDiscreteControl(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("controlValue", commonmodule::ControlValue::descriptor()))
@@ -1980,12 +1965,6 @@ void visit_capbankmodule_CapBankEventAndStatusYPSH(IModelVisitor& visitor)
         visit_commonmodule_PhaseDPS(visitor);
         visitor.end_message_field();
     }
-
-    if(visitor.start_message_field("ShOpCap", commonmodule::ENS_SwitchingCapabilityKind::descriptor()))
-    {
-        visit_commonmodule_ENS_SwitchingCapabilityKind(visitor);
-        visitor.end_message_field();
-    }
 }
 
 void visit_capbankmodule_CapBankEventAndStatusZCAP(IModelVisitor& visitor)
@@ -2011,9 +1990,9 @@ void visit_capbankmodule_CapBankEventAndStatusZCAP(IModelVisitor& visitor)
 
 void visit_capbankmodule_CapBankPoint(IModelVisitor& visitor)
 {
-    if(visitor.start_message_field("control", capbankmodule::CapBankEventAndStatusYPSH::descriptor()))
+    if(visitor.start_message_field("control", capbankmodule::CapBankControlYPSH::descriptor()))
     {
-        visit_capbankmodule_CapBankEventAndStatusYPSH(visitor);
+        visit_capbankmodule_CapBankControlYPSH(visitor);
         visitor.end_message_field();
     }
 
@@ -2067,6 +2046,61 @@ void visit_capbankmodule_CapBankSystem(IModelVisitor& visitor)
     if(visitor.start_message_field("conductingEquipment", commonmodule::ConductingEquipment::descriptor()))
     {
         visit_commonmodule_ConductingEquipment(visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit_commonmodule_ACD(IModelVisitor& visitor)
+{
+    visitor.handle("dirGeneral", commonmodule::FaultDirectionKind_descriptor(), EnumFieldType::Value::constant);
+
+    if(visitor.start_message_field("dirNeut", commonmodule::Optional_PhaseFaultDirectionKind::descriptor()))
+    {
+        visit_commonmodule_Optional_PhaseFaultDirectionKind(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("dirPhsA", commonmodule::Optional_PhaseFaultDirectionKind::descriptor()))
+    {
+        visit_commonmodule_Optional_PhaseFaultDirectionKind(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("dirPhsB", commonmodule::Optional_PhaseFaultDirectionKind::descriptor()))
+    {
+        visit_commonmodule_Optional_PhaseFaultDirectionKind(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("dirPhsC", commonmodule::Optional_PhaseFaultDirectionKind::descriptor()))
+    {
+        visit_commonmodule_Optional_PhaseFaultDirectionKind(visitor);
+        visitor.end_message_field();
+    }
+
+    visitor.handle("general", BoolFieldType::Value::mapped);
+
+    if(visitor.start_message_field("neut", google::protobuf::BoolValue::descriptor()))
+    {
+        visitor.handle("value", BoolFieldType::Value::mapped);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("phsA", google::protobuf::BoolValue::descriptor()))
+    {
+        visitor.handle("value", BoolFieldType::Value::mapped);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("phsB", google::protobuf::BoolValue::descriptor()))
+    {
+        visitor.handle("value", BoolFieldType::Value::mapped);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("phsC", google::protobuf::BoolValue::descriptor()))
+    {
+        visitor.handle("value", BoolFieldType::Value::mapped);
         visitor.end_message_field();
     }
 }
@@ -2456,17 +2490,6 @@ void visit_commonmodule_ENS_HealthKind(IModelVisitor& visitor)
     visitor.handle("stVal", commonmodule::HealthKind_descriptor(), EnumFieldType::Value::constant);
 }
 
-void visit_commonmodule_ENS_SwitchingCapabilityKind(IModelVisitor& visitor)
-{
-    if(visitor.start_message_field("blkEna", google::protobuf::BoolValue::descriptor()))
-    {
-        visitor.handle("value", BoolFieldType::Value::mapped);
-        visitor.end_message_field();
-    }
-
-    visitor.handle("stVal", commonmodule::SwitchingCapabilityKind_descriptor(), EnumFieldType::Value::constant);
-}
-
 void visit_commonmodule_ESS(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("conductingEquipment", commonmodule::ConductingEquipment::descriptor()))
@@ -2711,6 +2734,11 @@ void visit_commonmodule_Optional_PhaseCodeKind(IModelVisitor& visitor)
     visitor.handle("value", commonmodule::PhaseCodeKind_descriptor(), EnumFieldType::Value::constant);
 }
 
+void visit_commonmodule_Optional_PhaseFaultDirectionKind(IModelVisitor& visitor)
+{
+    visitor.handle("value", commonmodule::PhaseFaultDirectionKind_descriptor(), EnumFieldType::Value::constant);
+}
+
 void visit_commonmodule_Optional_RecloseActionKind(IModelVisitor& visitor)
 {
     visitor.handle("value", commonmodule::RecloseActionKind_descriptor(), EnumFieldType::Value::mapped);
@@ -2729,6 +2757,33 @@ void visit_commonmodule_Optional_UnitMultiplierKind(IModelVisitor& visitor)
 void visit_commonmodule_Optional_UnitSymbolKind(IModelVisitor& visitor)
 {
     visitor.handle("value", commonmodule::UnitSymbolKind_descriptor(), EnumFieldType::Value::constant);
+}
+
+void visit_commonmodule_PhaseAPC(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("phs3", commonmodule::ControlAPC::descriptor()))
+    {
+        visit_commonmodule_ControlAPC(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("phsA", commonmodule::ControlAPC::descriptor()))
+    {
+        visit_commonmodule_ControlAPC(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("phsB", commonmodule::ControlAPC::descriptor()))
+    {
+        visit_commonmodule_ControlAPC(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("phsC", commonmodule::ControlAPC::descriptor()))
+    {
+        visit_commonmodule_ControlAPC(visitor);
+        visitor.end_message_field();
+    }
 }
 
 void visit_commonmodule_PhaseDPC(IModelVisitor& visitor)
@@ -3205,9 +3260,9 @@ void visit_commonmodule_StatusAndEventXCBR(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("ProtectionPickup", commonmodule::PhaseSPS::descriptor()))
+    if(visitor.start_message_field("ProtectionPickup", commonmodule::ACD::descriptor()))
     {
-        visit_commonmodule_PhaseSPS(visitor);
+        visit_commonmodule_ACD(visitor);
         visitor.end_message_field();
     }
 
@@ -3217,9 +3272,9 @@ void visit_commonmodule_StatusAndEventXCBR(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("RecloseEnabled", commonmodule::PhaseDPS::descriptor()))
+    if(visitor.start_message_field("RecloseEnabled", commonmodule::PhaseSPS::descriptor()))
     {
-        visit_commonmodule_PhaseDPS(visitor);
+        visit_commonmodule_PhaseSPS(visitor);
         visitor.end_message_field();
     }
 
@@ -3235,6 +3290,15 @@ void visit_commonmodule_StatusDPS(IModelVisitor& visitor)
     visitor.handle("q", QualityFieldType::Value::ignored);
 
     visitor.handle("stVal", commonmodule::DbPosKind_descriptor(), EnumFieldType::Value::mapped);
+
+    visitor.handle("t", TimestampFieldType::Value::ignored);
+}
+
+void visit_commonmodule_StatusINC(IModelVisitor& visitor)
+{
+    visitor.handle("q", QualityFieldType::Value::ignored);
+
+    visitor.handle("stVal", Int32FieldType::Value::mapped);
 
     visitor.handle("t", TimestampFieldType::Value::ignored);
 }
@@ -3323,40 +3387,6 @@ void visit_commonmodule_StringEventAndStatusGGIO(IModelVisitor& visitor)
         visit_commonmodule_VSS(visitor);
         visitor.end_message_field();
     }
-}
-
-void visit_commonmodule_SwitchCSG(IModelVisitor& visitor)
-{
-    {
-        const auto count = visitor.start_repeated_message_field("crvpts", commonmodule::SwitchPoint::descriptor());
-        for(int i = 0; i < count; ++i)
-        {
-            visitor.start_iteration(i);
-            visit_commonmodule_SwitchPoint(visitor);
-            visitor.end_iteration();
-        }
-        visitor.end_repeated_message_field();
-    }
-}
-
-void visit_commonmodule_SwitchControlScheduleFSCH(IModelVisitor& visitor)
-{
-    if(visitor.start_message_field("ValDCSG", commonmodule::SwitchCSG::descriptor()))
-    {
-        visit_commonmodule_SwitchCSG(visitor);
-        visitor.end_message_field();
-    }
-}
-
-void visit_commonmodule_SwitchPoint(IModelVisitor& visitor)
-{
-    if(visitor.start_message_field("Pos", commonmodule::ControlDPC::descriptor()))
-    {
-        visit_commonmodule_ControlDPC(visitor);
-        visitor.end_message_field();
-    }
-
-    visitor.handle("startTime", ControlTimestampFieldType::Value::ignored);
 }
 
 void visit_commonmodule_Terminal(IModelVisitor& visitor)
@@ -4541,12 +4571,6 @@ void visit_generationmodule_Optional_RealPowerControlKind(IModelVisitor& visitor
 
 void visit_generationmodule_ReactivePowerControl(IModelVisitor& visitor)
 {
-    if(visitor.start_message_field("advancedSetpoint", generationmodule::VV11PlaceHolder::descriptor()))
-    {
-        visit_generationmodule_VV11PlaceHolder(visitor);
-        visitor.end_message_field();
-    }
-
     if(visitor.start_message_field("droopSetpoint", generationmodule::DroopParameter::descriptor()))
     {
         visit_generationmodule_DroopParameter(visitor);
@@ -4580,12 +4604,6 @@ void visit_generationmodule_ReactivePowerControl(IModelVisitor& visitor)
 
 void visit_generationmodule_RealPowerControl(IModelVisitor& visitor)
 {
-    if(visitor.start_message_field("advancedSetpoint", generationmodule::VV11PlaceHolder::descriptor()))
-    {
-        visit_generationmodule_VV11PlaceHolder(visitor);
-        visitor.end_message_field();
-    }
-
     if(visitor.start_message_field("droopSetpoint", generationmodule::DroopParameter::descriptor()))
     {
         visit_generationmodule_DroopParameter(visitor);
@@ -4605,17 +4623,6 @@ void visit_generationmodule_RealPowerControl(IModelVisitor& visitor)
     }
 
     if(visitor.start_message_field("realPowerSetpoint", google::protobuf::FloatValue::descriptor()))
-    {
-        visitor.handle("value", FloatFieldType::Value::mapped);
-        visitor.end_message_field();
-    }
-}
-
-void visit_generationmodule_VV11PlaceHolder(IModelVisitor& visitor)
-{
-    visitor.handle("point", FloatFieldType::Value::mapped);
-
-    if(visitor.start_message_field("unloadedOffset", google::protobuf::FloatValue::descriptor()))
     {
         visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
@@ -4893,42 +4900,6 @@ void visit_reclosermodule_Recloser(IModelVisitor& visitor)
     }
 }
 
-void visit_reclosermodule_RecloserControl(IModelVisitor& visitor)
-{
-    if(visitor.start_message_field("controlValue", commonmodule::ControlValue::descriptor()))
-    {
-        visit_commonmodule_ControlValue(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("check", commonmodule::CheckConditions::descriptor()))
-    {
-        visit_commonmodule_CheckConditions(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("recloserControlFSCC", reclosermodule::RecloserControlFSCC::descriptor()))
-    {
-        visit_reclosermodule_RecloserControlFSCC(visitor);
-        visitor.end_message_field();
-    }
-}
-
-void visit_reclosermodule_RecloserControlFSCC(IModelVisitor& visitor)
-{
-    if(visitor.start_message_field("logicalNodeForControl", commonmodule::LogicalNodeForControl::descriptor()))
-    {
-        visit_commonmodule_LogicalNodeForControl(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("switchControlScheduleFSCH", commonmodule::SwitchControlScheduleFSCH::descriptor()))
-    {
-        visit_commonmodule_SwitchControlScheduleFSCH(visitor);
-        visitor.end_message_field();
-    }
-}
-
 void visit_reclosermodule_RecloserDiscreteControl(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("controlValue", commonmodule::ControlValue::descriptor()))
@@ -5059,6 +5030,12 @@ void visit_regulatormodule_RegulatorControl(IModelVisitor& visitor)
 
 void visit_regulatormodule_RegulatorControlATCC(IModelVisitor& visitor)
 {
+    if(visitor.start_message_field("logicalNodeForControl", commonmodule::LogicalNodeForControl::descriptor()))
+    {
+        visit_commonmodule_LogicalNodeForControl(visitor);
+        visitor.end_message_field();
+    }
+
     if(visitor.start_message_field("BndCtr", commonmodule::ASG::descriptor()))
     {
         visit_commonmodule_ASG(visitor);
@@ -5089,21 +5066,39 @@ void visit_regulatormodule_RegulatorControlATCC(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("LDCZ", commonmodule::ASG::descriptor()))
-    {
-        visit_commonmodule_ASG(visitor);
-        visitor.end_message_field();
-    }
-
     if(visitor.start_message_field("ParOp", commonmodule::ControlSPC::descriptor()))
     {
         visit_commonmodule_ControlSPC(visitor);
         visitor.end_message_field();
     }
 
+    if(visitor.start_message_field("rampRates", commonmodule::RampRate::descriptor()))
+    {
+        visit_commonmodule_RampRate(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("state", commonmodule::Optional_StateKind::descriptor()))
+    {
+        visit_commonmodule_Optional_StateKind(visitor);
+        visitor.end_message_field();
+    }
+
     if(visitor.start_message_field("TapPos", commonmodule::PhaseISC::descriptor()))
     {
         visit_commonmodule_PhaseISC(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("VolSpt", commonmodule::PhaseAPC::descriptor()))
+    {
+        visit_commonmodule_PhaseAPC(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("voltageSetPointEnabled", commonmodule::ControlDPC::descriptor()))
+    {
+        visit_commonmodule_ControlDPC(visitor);
         visitor.end_message_field();
     }
 }
@@ -5128,6 +5123,27 @@ void visit_regulatormodule_RegulatorControlScheduleFSCH(IModelVisitor& visitor)
     if(visitor.start_message_field("ValDCSG", regulatormodule::RegulatorCSG::descriptor()))
     {
         visit_regulatormodule_RegulatorCSG(visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit_regulatormodule_RegulatorDiscreteControl(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("controlValue", commonmodule::ControlValue::descriptor()))
+    {
+        visit_commonmodule_ControlValue(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("check", commonmodule::CheckConditions::descriptor()))
+    {
+        visit_commonmodule_CheckConditions(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("regulatorControlATCC", regulatormodule::RegulatorControlATCC::descriptor()))
+    {
+        visit_regulatormodule_RegulatorControlATCC(visitor);
         visitor.end_message_field();
     }
 }
@@ -5161,9 +5177,9 @@ void visit_regulatormodule_RegulatorEventAndStatusANCR(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("PointStatus", regulatormodule::RegulatorEventAndStatusPoint::descriptor()))
+    if(visitor.start_message_field("PointStatus", regulatormodule::RegulatorEventAndStatusATCC::descriptor()))
     {
-        visit_regulatormodule_RegulatorEventAndStatusPoint(visitor);
+        visit_regulatormodule_RegulatorEventAndStatusATCC(visitor);
         visitor.end_message_field();
     }
 }
@@ -5194,15 +5210,27 @@ void visit_regulatormodule_RegulatorEventAndStatusATCC(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("LDCZ", commonmodule::ASG::descriptor()))
-    {
-        visit_commonmodule_ASG(visitor);
-        visitor.end_message_field();
-    }
-
     if(visitor.start_message_field("ParOp", commonmodule::StatusSPS::descriptor()))
     {
         visit_commonmodule_StatusSPS(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("rampRates", commonmodule::RampRate::descriptor()))
+    {
+        visit_commonmodule_RampRate(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("state", commonmodule::Optional_StateKind::descriptor()))
+    {
+        visit_commonmodule_Optional_StateKind(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("StDlTmms", commonmodule::StatusINC::descriptor()))
+    {
+        visit_commonmodule_StatusINC(visitor);
         visitor.end_message_field();
     }
 
@@ -5217,37 +5245,10 @@ void visit_regulatormodule_RegulatorEventAndStatusATCC(IModelVisitor& visitor)
         visit_commonmodule_PhaseINS(visitor);
         visitor.end_message_field();
     }
-}
 
-void visit_regulatormodule_RegulatorEventAndStatusPoint(IModelVisitor& visitor)
-{
-    if(visitor.start_message_field("eventAndStatus", regulatormodule::RegulatorEventAndStatusATCC::descriptor()))
+    if(visitor.start_message_field("VolSpt", commonmodule::PhaseAPC::descriptor()))
     {
-        visit_regulatormodule_RegulatorEventAndStatusATCC(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("pctVDroop", google::protobuf::FloatValue::descriptor()))
-    {
-        visitor.handle("value", FloatFieldType::Value::mapped);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("rampRates", commonmodule::RampRate::descriptor()))
-    {
-        visit_commonmodule_RampRate(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("reactivePwrSetPointEnabled", commonmodule::StatusSPC::descriptor()))
-    {
-        visit_commonmodule_StatusSPC(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("state", commonmodule::Optional_StateKind::descriptor()))
-    {
-        visit_commonmodule_Optional_StateKind(visitor);
+        visit_commonmodule_PhaseAPC(visitor);
         visitor.end_message_field();
     }
 
@@ -5263,42 +5264,6 @@ void visit_regulatormodule_RegulatorPoint(IModelVisitor& visitor)
     if(visitor.start_message_field("control", regulatormodule::RegulatorControlATCC::descriptor()))
     {
         visit_regulatormodule_RegulatorControlATCC(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("pctVDroop", google::protobuf::FloatValue::descriptor()))
-    {
-        visitor.handle("value", FloatFieldType::Value::mapped);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("rampRates", commonmodule::RampRate::descriptor()))
-    {
-        visit_commonmodule_RampRate(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("reactivePwrSetPointEnabled", commonmodule::ControlDPC::descriptor()))
-    {
-        visit_commonmodule_ControlDPC(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("reset", commonmodule::ControlDPC::descriptor()))
-    {
-        visit_commonmodule_ControlDPC(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("state", commonmodule::Optional_StateKind::descriptor()))
-    {
-        visit_commonmodule_Optional_StateKind(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("voltageSetPointEnabled", commonmodule::ControlDPC::descriptor()))
-    {
-        visit_commonmodule_ControlDPC(visitor);
         visitor.end_message_field();
     }
 
@@ -5989,42 +5954,6 @@ void visit_switchmodule_ProtectedSwitch(IModelVisitor& visitor)
     if(visitor.start_message_field("conductingEquipment", commonmodule::ConductingEquipment::descriptor()))
     {
         visit_commonmodule_ConductingEquipment(visitor);
-        visitor.end_message_field();
-    }
-}
-
-void visit_switchmodule_SwitchControl(IModelVisitor& visitor)
-{
-    if(visitor.start_message_field("controlValue", commonmodule::ControlValue::descriptor()))
-    {
-        visit_commonmodule_ControlValue(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("check", commonmodule::CheckConditions::descriptor()))
-    {
-        visit_commonmodule_CheckConditions(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("SwitchControlFSCC", switchmodule::SwitchControlFSCC::descriptor()))
-    {
-        visit_switchmodule_SwitchControlFSCC(visitor);
-        visitor.end_message_field();
-    }
-}
-
-void visit_switchmodule_SwitchControlFSCC(IModelVisitor& visitor)
-{
-    if(visitor.start_message_field("logicalNodeForControl", commonmodule::LogicalNodeForControl::descriptor()))
-    {
-        visit_commonmodule_LogicalNodeForControl(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("switchControlScheduleFSCH", commonmodule::SwitchControlScheduleFSCH::descriptor()))
-    {
-        visit_commonmodule_SwitchControlScheduleFSCH(visitor);
         visitor.end_message_field();
     }
 }

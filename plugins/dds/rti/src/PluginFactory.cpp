@@ -52,7 +52,7 @@ schema::Object PluginFactory::get_plugin_schema() const
                 schema::enum_property<util::Profile>(
                     schema::Required::yes,
                     "name of the profile to subscribe to",
-                    util::Profile::Value::SwitchControlProfile
+                    util::Profile::Value::SwitchDiscreteControlProfile
                 ),
                 schema::string_property(
                     keys::subject,

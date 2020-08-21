@@ -62,8 +62,6 @@ void visit_generationmodule_ReactivePowerControl(const set_t<generationmodule::R
 
 void visit_generationmodule_RealPowerControl(const set_t<generationmodule::RealPowerControl>& setter, const get_t<generationmodule::RealPowerControl>& getter, ITypedModelVisitor<generationmodule::GenerationDiscreteControlProfile>& visitor);
 
-void visit_generationmodule_VV11PlaceHolder(const set_t<generationmodule::VV11PlaceHolder>& setter, const get_t<generationmodule::VV11PlaceHolder>& getter, ITypedModelVisitor<generationmodule::GenerationDiscreteControlProfile>& visitor);
-
 void visit_google_protobuf_BoolValue(const set_t<google::protobuf::BoolValue>& setter, const get_t<google::protobuf::BoolValue>& getter, ITypedModelVisitor<generationmodule::GenerationDiscreteControlProfile>& visitor);
 
 void visit_google_protobuf_FloatValue(const set_t<google::protobuf::FloatValue>& setter, const get_t<google::protobuf::FloatValue>& getter, ITypedModelVisitor<generationmodule::GenerationDiscreteControlProfile>& visitor);
@@ -915,30 +913,6 @@ void visit_generationmodule_Optional_RealPowerControlKind(const set_t<generation
 
 void visit_generationmodule_ReactivePowerControl(const set_t<generationmodule::ReactivePowerControl>& setter, const get_t<generationmodule::ReactivePowerControl>& getter, ITypedModelVisitor<generationmodule::GenerationDiscreteControlProfile>& visitor)
 {
-    if(visitor.start_message_field("advancedSetpoint", generationmodule::VV11PlaceHolder::descriptor()))
-    {
-        visit_generationmodule_VV11PlaceHolder(
-            [setter](generationmodule::GenerationDiscreteControlProfile& profile)
-            {
-                return setter(profile)->mutable_advancedsetpoint();
-            },
-            [getter](const generationmodule::GenerationDiscreteControlProfile& profile) -> generationmodule::VV11PlaceHolder const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_advancedsetpoint() ? &value->advancedsetpoint() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
     if(visitor.start_message_field("droopSetpoint", generationmodule::DroopParameter::descriptor()))
     {
         visit_generationmodule_DroopParameter(
@@ -1062,30 +1036,6 @@ void visit_generationmodule_ReactivePowerControl(const set_t<generationmodule::R
 
 void visit_generationmodule_RealPowerControl(const set_t<generationmodule::RealPowerControl>& setter, const get_t<generationmodule::RealPowerControl>& getter, ITypedModelVisitor<generationmodule::GenerationDiscreteControlProfile>& visitor)
 {
-    if(visitor.start_message_field("advancedSetpoint", generationmodule::VV11PlaceHolder::descriptor()))
-    {
-        visit_generationmodule_VV11PlaceHolder(
-            [setter](generationmodule::GenerationDiscreteControlProfile& profile)
-            {
-                return setter(profile)->mutable_advancedsetpoint();
-            },
-            [getter](const generationmodule::GenerationDiscreteControlProfile& profile) -> generationmodule::VV11PlaceHolder const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_advancedsetpoint() ? &value->advancedsetpoint() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
     if(visitor.start_message_field("droopSetpoint", generationmodule::DroopParameter::descriptor()))
     {
         visit_generationmodule_DroopParameter(
@@ -1171,47 +1121,6 @@ void visit_generationmodule_RealPowerControl(const set_t<generationmodule::RealP
                 if(value)
                 {
                     return value->has_realpowersetpoint() ? &value->realpowersetpoint() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-}
-
-void visit_generationmodule_VV11PlaceHolder(const set_t<generationmodule::VV11PlaceHolder>& setter, const get_t<generationmodule::VV11PlaceHolder>& getter, ITypedModelVisitor<generationmodule::GenerationDiscreteControlProfile>& visitor)
-{
-    visitor.handle(
-        "point",
-        AccessorBuilder<generationmodule::GenerationDiscreteControlProfile,float>::build(
-            [setter](generationmodule::GenerationDiscreteControlProfile& profile, const float& value) { setter(profile)->set_point(value); },
-            [getter](const generationmodule::GenerationDiscreteControlProfile& profile, const handler_t<float>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->point());
-                return true;
-            }
-        )
-    );
-
-    if(visitor.start_message_field("unloadedOffset", google::protobuf::FloatValue::descriptor()))
-    {
-        visit_google_protobuf_FloatValue(
-            [setter](generationmodule::GenerationDiscreteControlProfile& profile)
-            {
-                return setter(profile)->mutable_unloadedoffset();
-            },
-            [getter](const generationmodule::GenerationDiscreteControlProfile& profile) -> google::protobuf::FloatValue const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_unloadedoffset() ? &value->unloadedoffset() : nullptr;
                 }
                 else
                 {

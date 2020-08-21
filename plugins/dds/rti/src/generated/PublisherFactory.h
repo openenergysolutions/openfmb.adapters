@@ -251,15 +251,6 @@ struct PublisherFactory<metermodule::MeterReadingProfile>
 };
 
 template<>
-struct PublisherFactory<reclosermodule::RecloserControlProfile>
-{
-    static std::shared_ptr<api::ISubscriptionHandler<reclosermodule::RecloserControlProfile>> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::pub::Publisher> dds_publisher)
-    {
-        return std::make_shared<DDSPublisher<reclosermodule::RecloserControlProfile, openfmb::reclosermodule::RecloserControlProfile>>(logger, subject, dds_publisher, topic_repo.reclosercontrolprofile);
-    }
-};
-
-template<>
 struct PublisherFactory<reclosermodule::RecloserDiscreteControlProfile>
 {
     static std::shared_ptr<api::ISubscriptionHandler<reclosermodule::RecloserDiscreteControlProfile>> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::pub::Publisher> dds_publisher)
@@ -292,6 +283,15 @@ struct PublisherFactory<reclosermodule::RecloserStatusProfile>
     static std::shared_ptr<api::ISubscriptionHandler<reclosermodule::RecloserStatusProfile>> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::pub::Publisher> dds_publisher)
     {
         return std::make_shared<DDSPublisher<reclosermodule::RecloserStatusProfile, openfmb::reclosermodule::RecloserStatusProfile>>(logger, subject, dds_publisher, topic_repo.recloserstatusprofile);
+    }
+};
+
+template<>
+struct PublisherFactory<regulatormodule::RegulatorDiscreteControlProfile>
+{
+    static std::shared_ptr<api::ISubscriptionHandler<regulatormodule::RegulatorDiscreteControlProfile>> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::pub::Publisher> dds_publisher)
+    {
+        return std::make_shared<DDSPublisher<regulatormodule::RegulatorDiscreteControlProfile, openfmb::regulatormodule::RegulatorDiscreteControlProfile>>(logger, subject, dds_publisher, topic_repo.regulatordiscretecontrolprofile);
     }
 };
 
@@ -400,15 +400,6 @@ struct PublisherFactory<solarmodule::SolarStatusProfile>
     static std::shared_ptr<api::ISubscriptionHandler<solarmodule::SolarStatusProfile>> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::pub::Publisher> dds_publisher)
     {
         return std::make_shared<DDSPublisher<solarmodule::SolarStatusProfile, openfmb::solarmodule::SolarStatusProfile>>(logger, subject, dds_publisher, topic_repo.solarstatusprofile);
-    }
-};
-
-template<>
-struct PublisherFactory<switchmodule::SwitchControlProfile>
-{
-    static std::shared_ptr<api::ISubscriptionHandler<switchmodule::SwitchControlProfile>> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::pub::Publisher> dds_publisher)
-    {
-        return std::make_shared<DDSPublisher<switchmodule::SwitchControlProfile, openfmb::switchmodule::SwitchControlProfile>>(logger, subject, dds_publisher, topic_repo.switchcontrolprofile);
     }
 };
 
