@@ -69,6 +69,18 @@ installation:
 - `CONNEXTDDS_DIR`: "D:/Desktop/rti-dds-libs"
 - `CONNEXTDDS_ARCH`: "x64Win64VS2017"
 
+## Codegen
+
+Running the Java code generator is required when there are protobuf file
+changes. It requires java and maven be installed.
+
+In the codegen directory
+
+``` sh
+mvn compile
+mvn exec:java -Dexec.mainClass="com.oes.openfmb.Main
+```
+
 # CMake
 
 Inside the `build` directory, run `cmake` to create a build file for your
