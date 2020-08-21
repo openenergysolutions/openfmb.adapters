@@ -333,6 +333,12 @@ jobs:
     steps:
       - deploy_bc3:
           vault_id: "2851663050"
+  deploy-v2-final:
+    docker:
+      - image: circleci/python:3.7-buster
+    steps:
+      - deploy_bc3:
+          vault_id: "2851663050"
   deploy-release:
     docker:
       - image: circleci/python:3.7-buster
@@ -350,6 +356,7 @@ workflows:
                 - develop
                 - experimental
                 - v2_working
+                - v2_final
             tags:
               only:
                 - /.*/
@@ -360,6 +367,7 @@ workflows:
                 - develop
                 - experimental
                 - v2_working
+                - v2_final
             tags:
               only:
                 - /.*/
@@ -370,6 +378,7 @@ workflows:
                 - develop
                 - experimental
                 - v2_working
+                - v2_final
             tags:
               only:
                 - /.*/
@@ -380,6 +389,7 @@ workflows:
                 - develop
                 - experimental
                 - v2_working
+                - v2_final
             tags:
               only:
                 - /.*/
@@ -413,6 +423,17 @@ workflows:
             branches:
               only:
                 - v2_working
+      - deploy-v2-final:
+          requires:
+            - gcc-release
+            - clang-release
+            - armv7-release
+            - windows
+          filters:
+            branches:
+              only:
+                - v2_working
+
       # - deploy-release:
       #     requires:
       #       - gcc-release
