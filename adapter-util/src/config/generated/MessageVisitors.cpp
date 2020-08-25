@@ -28,15 +28,11 @@ void visit(const capbankmodule::CapBankControlYPSH& message, IMessageVisitor& vi
 
 void visit(const capbankmodule::CapBankDiscreteControl& message, IMessageVisitor& visitor);
 
-void visit(const capbankmodule::CapBankDiscreteControlZCAP& message, IMessageVisitor& visitor);
+void visit(const capbankmodule::CapBankDiscreteControlYPSH& message, IMessageVisitor& visitor);
 
 void visit(const capbankmodule::CapBankEvent& message, IMessageVisitor& visitor);
 
-void visit(const capbankmodule::CapBankEventAndStatusPoint& message, IMessageVisitor& visitor);
-
 void visit(const capbankmodule::CapBankEventAndStatusYPSH& message, IMessageVisitor& visitor);
-
-void visit(const capbankmodule::CapBankEventAndStatusZCAP& message, IMessageVisitor& visitor);
 
 void visit(const capbankmodule::CapBankPoint& message, IMessageVisitor& visitor);
 
@@ -97,6 +93,8 @@ void visit(const commonmodule::ControlValue& message, IMessageVisitor& visitor);
 void visit(const commonmodule::DEL& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::DetailQual& message, IMessageVisitor& visitor);
+
+void visit(const commonmodule::DiscreteControlXCBR& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::ENG_CalcMethodKind& message, IMessageVisitor& visitor);
 
@@ -466,34 +464,10 @@ void visit(const breakermodule::BreakerDiscreteControl& message, IMessageVisitor
 
 void visit(const breakermodule::BreakerDiscreteControlXCBR& message, IMessageVisitor& visitor)
 {
-    if(message.has_logicalnodeforcontrol())
+    if(message.has_discretecontrolxcbr())
     {
-        visitor.start_message_field("logicalNodeForControl");
-        visit(message.logicalnodeforcontrol(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_pos())
-    {
-        visitor.start_message_field("Pos");
-        visit(message.pos(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_protectionmode())
-    {
-        visitor.start_message_field("ProtectionMode");
-        visit(message.protectionmode(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_recloseenabled())
-    {
-        visitor.start_message_field("RecloseEnabled");
-        visit(message.recloseenabled(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_resetprotectionpickup())
-    {
-        visitor.start_message_field("ResetProtectionPickup");
-        visit(message.resetprotectionpickup(), visitor);
+        visitor.start_message_field("discreteControlXCBR");
+        visit(message.discretecontrolxcbr(), visitor);
         visitor.end_message_field();
     }
 }
@@ -626,18 +600,6 @@ void visit(const capbankmodule::CapBankControlScheduleFSCH& message, IMessageVis
 
 void visit(const capbankmodule::CapBankControlYPSH& message, IMessageVisitor& visitor)
 {
-    if(message.has_blkcls())
-    {
-        visitor.start_message_field("BlkCls");
-        visit(message.blkcls(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_blkopn())
-    {
-        visitor.start_message_field("BlkOpn");
-        visit(message.blkopn(), visitor);
-        visitor.end_message_field();
-    }
     if(message.has_pos())
     {
         visitor.start_message_field("Pos");
@@ -660,15 +622,15 @@ void visit(const capbankmodule::CapBankDiscreteControl& message, IMessageVisitor
         visit(message.check(), visitor);
         visitor.end_message_field();
     }
-    if(message.has_capbankdiscretecontrolzcap())
+    if(message.has_capbankdiscretecontrolypsh())
     {
-        visitor.start_message_field("capBankDiscreteControlZCAP");
-        visit(message.capbankdiscretecontrolzcap(), visitor);
+        visitor.start_message_field("capBankDiscreteControlYPSH");
+        visit(message.capbankdiscretecontrolypsh(), visitor);
         visitor.end_message_field();
     }
 }
 
-void visit(const capbankmodule::CapBankDiscreteControlZCAP& message, IMessageVisitor& visitor)
+void visit(const capbankmodule::CapBankDiscreteControlYPSH& message, IMessageVisitor& visitor)
 {
     if(message.has_logicalnodeforcontrol())
     {
@@ -692,47 +654,15 @@ void visit(const capbankmodule::CapBankEvent& message, IMessageVisitor& visitor)
         visit(message.eventvalue(), visitor);
         visitor.end_message_field();
     }
-    if(message.has_capbankeventandstatuszcap())
+    if(message.has_capbankeventandstatusypsh())
     {
-        visitor.start_message_field("capBankEventAndStatusZCAP");
-        visit(message.capbankeventandstatuszcap(), visitor);
-        visitor.end_message_field();
-    }
-}
-
-void visit(const capbankmodule::CapBankEventAndStatusPoint& message, IMessageVisitor& visitor)
-{
-    if(message.has_eventandstatus())
-    {
-        visitor.start_message_field("eventAndStatus");
-        visit(message.eventandstatus(), visitor);
+        visitor.start_message_field("CapBankEventAndStatusYPSH");
+        visit(message.capbankeventandstatusypsh(), visitor);
         visitor.end_message_field();
     }
 }
 
 void visit(const capbankmodule::CapBankEventAndStatusYPSH& message, IMessageVisitor& visitor)
-{
-    if(message.has_blkcls())
-    {
-        visitor.start_message_field("BlkCls");
-        visit(message.blkcls(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_blkopn())
-    {
-        visitor.start_message_field("BlkOpn");
-        visit(message.blkopn(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_pos())
-    {
-        visitor.start_message_field("Pos");
-        visit(message.pos(), visitor);
-        visitor.end_message_field();
-    }
-}
-
-void visit(const capbankmodule::CapBankEventAndStatusZCAP& message, IMessageVisitor& visitor)
 {
     if(message.has_logicalnodeforeventandstatus())
     {
@@ -746,10 +676,10 @@ void visit(const capbankmodule::CapBankEventAndStatusZCAP& message, IMessageVisi
         visit(message.dynamictest(), visitor);
         visitor.end_message_field();
     }
-    if(message.has_pointstatus())
+    if(message.has_pos())
     {
-        visitor.start_message_field("PointStatus");
-        visit(message.pointstatus(), visitor);
+        visitor.start_message_field("Pos");
+        visit(message.pos(), visitor);
         visitor.end_message_field();
     }
 }
@@ -806,10 +736,10 @@ void visit(const capbankmodule::CapBankStatus& message, IMessageVisitor& visitor
         visit(message.statusvalue(), visitor);
         visitor.end_message_field();
     }
-    if(message.has_capbankeventandstatuszcap())
+    if(message.has_capbankeventandstatusypsh())
     {
-        visitor.start_message_field("capBankEventAndStatusZCAP");
-        visit(message.capbankeventandstatuszcap(), visitor);
+        visitor.start_message_field("capBankEventAndStatusYPSH");
+        visit(message.capbankeventandstatusypsh(), visitor);
         visitor.end_message_field();
     }
 }
@@ -1233,6 +1163,40 @@ void visit(const commonmodule::DetailQual& message, IMessageVisitor& visitor)
     visitor.handle("oscillatory", message.oscillatory());
     visitor.handle("outOfRange", message.outofrange());
     visitor.handle("overflow", message.overflow());
+}
+
+void visit(const commonmodule::DiscreteControlXCBR& message, IMessageVisitor& visitor)
+{
+    if(message.has_logicalnodeforcontrol())
+    {
+        visitor.start_message_field("logicalNodeForControl");
+        visit(message.logicalnodeforcontrol(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_pos())
+    {
+        visitor.start_message_field("Pos");
+        visit(message.pos(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_protectionmode())
+    {
+        visitor.start_message_field("ProtectionMode");
+        visit(message.protectionmode(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_recloseenabled())
+    {
+        visitor.start_message_field("RecloseEnabled");
+        visit(message.recloseenabled(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_resetprotectionpickup())
+    {
+        visitor.start_message_field("ResetProtectionPickup");
+        visit(message.resetprotectionpickup(), visitor);
+        visitor.end_message_field();
+    }
 }
 
 void visit(const commonmodule::ENG_CalcMethodKind& message, IMessageVisitor& visitor)
@@ -3905,10 +3869,10 @@ void visit(const reclosermodule::RecloserDiscreteControl& message, IMessageVisit
 
 void visit(const reclosermodule::RecloserDiscreteControlXCBR& message, IMessageVisitor& visitor)
 {
-    if(message.has_breakerdiscretecontrolxcbr())
+    if(message.has_discretecontrolxcbr())
     {
-        visitor.start_message_field("breakerDiscreteControlXCBR");
-        visit(message.breakerdiscretecontrolxcbr(), visitor);
+        visitor.start_message_field("discreteControlXCBR");
+        visit(message.discretecontrolxcbr(), visitor);
         visitor.end_message_field();
     }
 }

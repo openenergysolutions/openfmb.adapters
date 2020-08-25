@@ -28,7 +28,7 @@ using get_t = getter_t<capbankmodule::CapBankDiscreteControlProfile, V>;
 
 void visit_capbankmodule_CapBankDiscreteControl(const set_t<capbankmodule::CapBankDiscreteControl>& setter, const get_t<capbankmodule::CapBankDiscreteControl>& getter, ITypedModelVisitor<capbankmodule::CapBankDiscreteControlProfile>& visitor);
 
-void visit_capbankmodule_CapBankDiscreteControlZCAP(const set_t<capbankmodule::CapBankDiscreteControlZCAP>& setter, const get_t<capbankmodule::CapBankDiscreteControlZCAP>& getter, ITypedModelVisitor<capbankmodule::CapBankDiscreteControlProfile>& visitor);
+void visit_capbankmodule_CapBankDiscreteControlYPSH(const set_t<capbankmodule::CapBankDiscreteControlYPSH>& setter, const get_t<capbankmodule::CapBankDiscreteControlYPSH>& getter, ITypedModelVisitor<capbankmodule::CapBankDiscreteControlProfile>& visitor);
 
 void visit_capbankmodule_CapBankSystem(const set_t<capbankmodule::CapBankSystem>& setter, const get_t<capbankmodule::CapBankSystem>& getter, ITypedModelVisitor<capbankmodule::CapBankDiscreteControlProfile>& visitor);
 
@@ -217,19 +217,19 @@ void visit_capbankmodule_CapBankDiscreteControl(const set_t<capbankmodule::CapBa
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("capBankDiscreteControlZCAP", capbankmodule::CapBankDiscreteControlZCAP::descriptor()))
+    if(visitor.start_message_field("capBankDiscreteControlYPSH", capbankmodule::CapBankDiscreteControlYPSH::descriptor()))
     {
-        visit_capbankmodule_CapBankDiscreteControlZCAP(
+        visit_capbankmodule_CapBankDiscreteControlYPSH(
             [setter](capbankmodule::CapBankDiscreteControlProfile& profile)
             {
-                return setter(profile)->mutable_capbankdiscretecontrolzcap();
+                return setter(profile)->mutable_capbankdiscretecontrolypsh();
             },
-            [getter](const capbankmodule::CapBankDiscreteControlProfile& profile) -> capbankmodule::CapBankDiscreteControlZCAP const *
+            [getter](const capbankmodule::CapBankDiscreteControlProfile& profile) -> capbankmodule::CapBankDiscreteControlYPSH const *
             {
                 const auto value = getter(profile);
                 if(value)
                 {
-                    return value->has_capbankdiscretecontrolzcap() ? &value->capbankdiscretecontrolzcap() : nullptr;
+                    return value->has_capbankdiscretecontrolypsh() ? &value->capbankdiscretecontrolypsh() : nullptr;
                 }
                 else
                 {
@@ -242,7 +242,7 @@ void visit_capbankmodule_CapBankDiscreteControl(const set_t<capbankmodule::CapBa
     }
 }
 
-void visit_capbankmodule_CapBankDiscreteControlZCAP(const set_t<capbankmodule::CapBankDiscreteControlZCAP>& setter, const get_t<capbankmodule::CapBankDiscreteControlZCAP>& getter, ITypedModelVisitor<capbankmodule::CapBankDiscreteControlProfile>& visitor)
+void visit_capbankmodule_CapBankDiscreteControlYPSH(const set_t<capbankmodule::CapBankDiscreteControlYPSH>& setter, const get_t<capbankmodule::CapBankDiscreteControlYPSH>& getter, ITypedModelVisitor<capbankmodule::CapBankDiscreteControlProfile>& visitor)
 {
     if(visitor.start_message_field("logicalNodeForControl", commonmodule::LogicalNodeForControl::descriptor()))
     {

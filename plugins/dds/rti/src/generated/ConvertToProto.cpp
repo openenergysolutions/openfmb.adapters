@@ -45,6 +45,8 @@ void convert_to_proto(const openfmb::commonmodule::CheckConditions& in, commonmo
 
 void convert_to_proto(const openfmb::breakermodule::BreakerDiscreteControlXCBR& in, breakermodule::BreakerDiscreteControlXCBR& out);
 
+void convert_to_proto(const openfmb::commonmodule::DiscreteControlXCBR& in, commonmodule::DiscreteControlXCBR& out);
+
 void convert_to_proto(const openfmb::commonmodule::LogicalNodeForControl& in, commonmodule::LogicalNodeForControl& out);
 
 void convert_to_proto(const openfmb::commonmodule::LogicalNode& in, commonmodule::LogicalNode& out);
@@ -165,13 +167,9 @@ void convert_to_proto(const openfmb::capbankmodule::CapBankSystem& in, capbankmo
 
 void convert_to_proto(const openfmb::capbankmodule::CapBankDiscreteControl& in, capbankmodule::CapBankDiscreteControl& out);
 
-void convert_to_proto(const openfmb::capbankmodule::CapBankDiscreteControlZCAP& in, capbankmodule::CapBankDiscreteControlZCAP& out);
+void convert_to_proto(const openfmb::capbankmodule::CapBankDiscreteControlYPSH& in, capbankmodule::CapBankDiscreteControlYPSH& out);
 
 void convert_to_proto(const openfmb::capbankmodule::CapBankEvent& in, capbankmodule::CapBankEvent& out);
-
-void convert_to_proto(const openfmb::capbankmodule::CapBankEventAndStatusZCAP& in, capbankmodule::CapBankEventAndStatusZCAP& out);
-
-void convert_to_proto(const openfmb::capbankmodule::CapBankEventAndStatusPoint& in, capbankmodule::CapBankEventAndStatusPoint& out);
 
 void convert_to_proto(const openfmb::capbankmodule::CapBankEventAndStatusYPSH& in, capbankmodule::CapBankEventAndStatusYPSH& out);
 
@@ -1123,6 +1121,13 @@ void convert_to_proto(const openfmb::breakermodule::BreakerDiscreteControlXCBR& 
 {
     out.Clear();
 
+    convert_to_proto(in, *out.mutable_discretecontrolxcbr()); // inherited type
+}
+
+void convert_to_proto(const openfmb::commonmodule::DiscreteControlXCBR& in, commonmodule::DiscreteControlXCBR& out)
+{
+    out.Clear();
+
     convert_to_proto(in, *out.mutable_logicalnodeforcontrol()); // inherited type
 
     if(in.Pos().is_set()) convert_to_proto(in.Pos().get(), *out.mutable_pos());
@@ -1790,10 +1795,6 @@ void convert_to_proto(const openfmb::capbankmodule::CapBankControlYPSH& in, capb
 {
     out.Clear();
 
-    if(in.BlkCls().is_set()) convert_to_proto(in.BlkCls().get(), *out.mutable_blkcls());
-
-    if(in.BlkOpn().is_set()) convert_to_proto(in.BlkOpn().get(), *out.mutable_blkopn());
-
     if(in.Pos().is_set()) convert_to_proto(in.Pos().get(), *out.mutable_pos());
 }
 
@@ -1812,10 +1813,10 @@ void convert_to_proto(const openfmb::capbankmodule::CapBankDiscreteControl& in, 
 
     if(in.check().is_set()) convert_to_proto(in.check().get(), *out.mutable_check());
 
-    if(in.capBankDiscreteControlZCAP().is_set()) convert_to_proto(in.capBankDiscreteControlZCAP().get(), *out.mutable_capbankdiscretecontrolzcap());
+    if(in.capBankDiscreteControlYPSH().is_set()) convert_to_proto(in.capBankDiscreteControlYPSH().get(), *out.mutable_capbankdiscretecontrolypsh());
 }
 
-void convert_to_proto(const openfmb::capbankmodule::CapBankDiscreteControlZCAP& in, capbankmodule::CapBankDiscreteControlZCAP& out)
+void convert_to_proto(const openfmb::capbankmodule::CapBankDiscreteControlYPSH& in, capbankmodule::CapBankDiscreteControlYPSH& out)
 {
     out.Clear();
 
@@ -1830,34 +1831,16 @@ void convert_to_proto(const openfmb::capbankmodule::CapBankEvent& in, capbankmod
 
     convert_to_proto(in, *out.mutable_eventvalue()); // inherited type
 
-    if(in.capBankEventAndStatusZCAP().is_set()) convert_to_proto(in.capBankEventAndStatusZCAP().get(), *out.mutable_capbankeventandstatuszcap());
-}
-
-void convert_to_proto(const openfmb::capbankmodule::CapBankEventAndStatusZCAP& in, capbankmodule::CapBankEventAndStatusZCAP& out)
-{
-    out.Clear();
-
-    convert_to_proto(in, *out.mutable_logicalnodeforeventandstatus()); // inherited type
-
-    if(in.DynamicTest().is_set()) convert_to_proto(in.DynamicTest().get(), *out.mutable_dynamictest());
-
-    if(in.PointStatus().is_set()) convert_to_proto(in.PointStatus().get(), *out.mutable_pointstatus());
-}
-
-void convert_to_proto(const openfmb::capbankmodule::CapBankEventAndStatusPoint& in, capbankmodule::CapBankEventAndStatusPoint& out)
-{
-    out.Clear();
-
-    if(in.eventAndStatus().is_set()) convert_to_proto(in.eventAndStatus().get(), *out.mutable_eventandstatus());
+    if(in.CapBankEventAndStatusYPSH().is_set()) convert_to_proto(in.CapBankEventAndStatusYPSH().get(), *out.mutable_capbankeventandstatusypsh());
 }
 
 void convert_to_proto(const openfmb::capbankmodule::CapBankEventAndStatusYPSH& in, capbankmodule::CapBankEventAndStatusYPSH& out)
 {
     out.Clear();
 
-    if(in.BlkCls().is_set()) convert_to_proto(in.BlkCls().get(), *out.mutable_blkcls());
+    convert_to_proto(in, *out.mutable_logicalnodeforeventandstatus()); // inherited type
 
-    if(in.BlkOpn().is_set()) convert_to_proto(in.BlkOpn().get(), *out.mutable_blkopn());
+    if(in.DynamicTest().is_set()) convert_to_proto(in.DynamicTest().get(), *out.mutable_dynamictest());
 
     if(in.Pos().is_set()) convert_to_proto(in.Pos().get(), *out.mutable_pos());
 }
@@ -1881,7 +1864,7 @@ void convert_to_proto(const openfmb::capbankmodule::CapBankStatus& in, capbankmo
 
     convert_to_proto(in, *out.mutable_statusvalue()); // inherited type
 
-    if(in.capBankEventAndStatusZCAP().is_set()) convert_to_proto(in.capBankEventAndStatusZCAP().get(), *out.mutable_capbankeventandstatuszcap());
+    if(in.capBankEventAndStatusYPSH().is_set()) convert_to_proto(in.capBankEventAndStatusYPSH().get(), *out.mutable_capbankeventandstatusypsh());
 }
 
 void convert_to_proto(const openfmb::commonmodule::ESS& in, commonmodule::ESS& out)
@@ -2650,7 +2633,7 @@ void convert_to_proto(const openfmb::reclosermodule::RecloserDiscreteControlXCBR
 {
     out.Clear();
 
-    convert_to_proto(in, *out.mutable_breakerdiscretecontrolxcbr()); // inherited type
+    convert_to_proto(in, *out.mutable_discretecontrolxcbr()); // inherited type
 }
 
 void convert_to_proto(const openfmb::reclosermodule::RecloserEvent& in, reclosermodule::RecloserEvent& out)

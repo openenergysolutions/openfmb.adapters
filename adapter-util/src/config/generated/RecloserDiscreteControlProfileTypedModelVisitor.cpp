@@ -26,8 +26,6 @@ using get_t = getter_t<reclosermodule::RecloserDiscreteControlProfile, V>;
 
 // ---- forward declare all the child visit method names ----
 
-void visit_breakermodule_BreakerDiscreteControlXCBR(const set_t<breakermodule::BreakerDiscreteControlXCBR>& setter, const get_t<breakermodule::BreakerDiscreteControlXCBR>& getter, ITypedModelVisitor<reclosermodule::RecloserDiscreteControlProfile>& visitor);
-
 void visit_commonmodule_CheckConditions(const set_t<commonmodule::CheckConditions>& setter, const get_t<commonmodule::CheckConditions>& getter, ITypedModelVisitor<reclosermodule::RecloserDiscreteControlProfile>& visitor);
 
 void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::ConductingEquipment>& setter, const get_t<commonmodule::ConductingEquipment>& getter, ITypedModelVisitor<reclosermodule::RecloserDiscreteControlProfile>& visitor);
@@ -41,6 +39,8 @@ void visit_commonmodule_ControlMessageInfo(const set_t<commonmodule::ControlMess
 void visit_commonmodule_ControlSPC(const set_t<commonmodule::ControlSPC>& setter, const get_t<commonmodule::ControlSPC>& getter, ITypedModelVisitor<reclosermodule::RecloserDiscreteControlProfile>& visitor);
 
 void visit_commonmodule_ControlValue(const set_t<commonmodule::ControlValue>& setter, const get_t<commonmodule::ControlValue>& getter, ITypedModelVisitor<reclosermodule::RecloserDiscreteControlProfile>& visitor);
+
+void visit_commonmodule_DiscreteControlXCBR(const set_t<commonmodule::DiscreteControlXCBR>& setter, const get_t<commonmodule::DiscreteControlXCBR>& getter, ITypedModelVisitor<reclosermodule::RecloserDiscreteControlProfile>& visitor);
 
 void visit_commonmodule_IED(const set_t<commonmodule::IED>& setter, const get_t<commonmodule::IED>& getter, ITypedModelVisitor<reclosermodule::RecloserDiscreteControlProfile>& visitor);
 
@@ -172,129 +172,6 @@ void visit(ITypedModelVisitor<reclosermodule::RecloserDiscreteControlProfile>& v
 }
 
 // ---- template definitions for child types ----
-
-void visit_breakermodule_BreakerDiscreteControlXCBR(const set_t<breakermodule::BreakerDiscreteControlXCBR>& setter, const get_t<breakermodule::BreakerDiscreteControlXCBR>& getter, ITypedModelVisitor<reclosermodule::RecloserDiscreteControlProfile>& visitor)
-{
-    if(visitor.start_message_field("logicalNodeForControl", commonmodule::LogicalNodeForControl::descriptor()))
-    {
-        visit_commonmodule_LogicalNodeForControl(
-            [setter](reclosermodule::RecloserDiscreteControlProfile& profile)
-            {
-                return setter(profile)->mutable_logicalnodeforcontrol();
-            },
-            [getter](const reclosermodule::RecloserDiscreteControlProfile& profile) -> commonmodule::LogicalNodeForControl const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_logicalnodeforcontrol() ? &value->logicalnodeforcontrol() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("Pos", commonmodule::PhaseDPC::descriptor()))
-    {
-        visit_commonmodule_PhaseDPC(
-            [setter](reclosermodule::RecloserDiscreteControlProfile& profile)
-            {
-                return setter(profile)->mutable_pos();
-            },
-            [getter](const reclosermodule::RecloserDiscreteControlProfile& profile) -> commonmodule::PhaseDPC const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_pos() ? &value->pos() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("ProtectionMode", commonmodule::ControlINC::descriptor()))
-    {
-        visit_commonmodule_ControlINC(
-            [setter](reclosermodule::RecloserDiscreteControlProfile& profile)
-            {
-                return setter(profile)->mutable_protectionmode();
-            },
-            [getter](const reclosermodule::RecloserDiscreteControlProfile& profile) -> commonmodule::ControlINC const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_protectionmode() ? &value->protectionmode() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("RecloseEnabled", commonmodule::ControlSPC::descriptor()))
-    {
-        visit_commonmodule_ControlSPC(
-            [setter](reclosermodule::RecloserDiscreteControlProfile& profile)
-            {
-                return setter(profile)->mutable_recloseenabled();
-            },
-            [getter](const reclosermodule::RecloserDiscreteControlProfile& profile) -> commonmodule::ControlSPC const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_recloseenabled() ? &value->recloseenabled() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("ResetProtectionPickup", commonmodule::ControlSPC::descriptor()))
-    {
-        visit_commonmodule_ControlSPC(
-            [setter](reclosermodule::RecloserDiscreteControlProfile& profile)
-            {
-                return setter(profile)->mutable_resetprotectionpickup();
-            },
-            [getter](const reclosermodule::RecloserDiscreteControlProfile& profile) -> commonmodule::ControlSPC const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_resetprotectionpickup() ? &value->resetprotectionpickup() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-}
 
 void visit_commonmodule_CheckConditions(const set_t<commonmodule::CheckConditions>& setter, const get_t<commonmodule::CheckConditions>& getter, ITypedModelVisitor<reclosermodule::RecloserDiscreteControlProfile>& visitor)
 {
@@ -529,6 +406,129 @@ void visit_commonmodule_ControlValue(const set_t<commonmodule::ControlValue>& se
                 if(value)
                 {
                     return value->has_reset() ? &value->reset() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+}
+
+void visit_commonmodule_DiscreteControlXCBR(const set_t<commonmodule::DiscreteControlXCBR>& setter, const get_t<commonmodule::DiscreteControlXCBR>& getter, ITypedModelVisitor<reclosermodule::RecloserDiscreteControlProfile>& visitor)
+{
+    if(visitor.start_message_field("logicalNodeForControl", commonmodule::LogicalNodeForControl::descriptor()))
+    {
+        visit_commonmodule_LogicalNodeForControl(
+            [setter](reclosermodule::RecloserDiscreteControlProfile& profile)
+            {
+                return setter(profile)->mutable_logicalnodeforcontrol();
+            },
+            [getter](const reclosermodule::RecloserDiscreteControlProfile& profile) -> commonmodule::LogicalNodeForControl const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_logicalnodeforcontrol() ? &value->logicalnodeforcontrol() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("Pos", commonmodule::PhaseDPC::descriptor()))
+    {
+        visit_commonmodule_PhaseDPC(
+            [setter](reclosermodule::RecloserDiscreteControlProfile& profile)
+            {
+                return setter(profile)->mutable_pos();
+            },
+            [getter](const reclosermodule::RecloserDiscreteControlProfile& profile) -> commonmodule::PhaseDPC const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_pos() ? &value->pos() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("ProtectionMode", commonmodule::ControlINC::descriptor()))
+    {
+        visit_commonmodule_ControlINC(
+            [setter](reclosermodule::RecloserDiscreteControlProfile& profile)
+            {
+                return setter(profile)->mutable_protectionmode();
+            },
+            [getter](const reclosermodule::RecloserDiscreteControlProfile& profile) -> commonmodule::ControlINC const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_protectionmode() ? &value->protectionmode() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("RecloseEnabled", commonmodule::ControlSPC::descriptor()))
+    {
+        visit_commonmodule_ControlSPC(
+            [setter](reclosermodule::RecloserDiscreteControlProfile& profile)
+            {
+                return setter(profile)->mutable_recloseenabled();
+            },
+            [getter](const reclosermodule::RecloserDiscreteControlProfile& profile) -> commonmodule::ControlSPC const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_recloseenabled() ? &value->recloseenabled() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("ResetProtectionPickup", commonmodule::ControlSPC::descriptor()))
+    {
+        visit_commonmodule_ControlSPC(
+            [setter](reclosermodule::RecloserDiscreteControlProfile& profile)
+            {
+                return setter(profile)->mutable_resetprotectionpickup();
+            },
+            [getter](const reclosermodule::RecloserDiscreteControlProfile& profile) -> commonmodule::ControlSPC const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_resetprotectionpickup() ? &value->resetprotectionpickup() : nullptr;
                 }
                 else
                 {
@@ -1050,19 +1050,19 @@ void visit_reclosermodule_RecloserDiscreteControl(const set_t<reclosermodule::Re
 
 void visit_reclosermodule_RecloserDiscreteControlXCBR(const set_t<reclosermodule::RecloserDiscreteControlXCBR>& setter, const get_t<reclosermodule::RecloserDiscreteControlXCBR>& getter, ITypedModelVisitor<reclosermodule::RecloserDiscreteControlProfile>& visitor)
 {
-    if(visitor.start_message_field("breakerDiscreteControlXCBR", breakermodule::BreakerDiscreteControlXCBR::descriptor()))
+    if(visitor.start_message_field("discreteControlXCBR", commonmodule::DiscreteControlXCBR::descriptor()))
     {
-        visit_breakermodule_BreakerDiscreteControlXCBR(
+        visit_commonmodule_DiscreteControlXCBR(
             [setter](reclosermodule::RecloserDiscreteControlProfile& profile)
             {
-                return setter(profile)->mutable_breakerdiscretecontrolxcbr();
+                return setter(profile)->mutable_discretecontrolxcbr();
             },
-            [getter](const reclosermodule::RecloserDiscreteControlProfile& profile) -> breakermodule::BreakerDiscreteControlXCBR const *
+            [getter](const reclosermodule::RecloserDiscreteControlProfile& profile) -> commonmodule::DiscreteControlXCBR const *
             {
                 const auto value = getter(profile);
                 if(value)
                 {
-                    return value->has_breakerdiscretecontrolxcbr() ? &value->breakerdiscretecontrolxcbr() : nullptr;
+                    return value->has_discretecontrolxcbr() ? &value->discretecontrolxcbr() : nullptr;
                 }
                 else
                 {

@@ -26,11 +26,7 @@ using get_t = getter_t<capbankmodule::CapBankStatusProfile, V>;
 
 // ---- forward declare all the child visit method names ----
 
-void visit_capbankmodule_CapBankEventAndStatusPoint(const set_t<capbankmodule::CapBankEventAndStatusPoint>& setter, const get_t<capbankmodule::CapBankEventAndStatusPoint>& getter, ITypedModelVisitor<capbankmodule::CapBankStatusProfile>& visitor);
-
 void visit_capbankmodule_CapBankEventAndStatusYPSH(const set_t<capbankmodule::CapBankEventAndStatusYPSH>& setter, const get_t<capbankmodule::CapBankEventAndStatusYPSH>& getter, ITypedModelVisitor<capbankmodule::CapBankStatusProfile>& visitor);
-
-void visit_capbankmodule_CapBankEventAndStatusZCAP(const set_t<capbankmodule::CapBankEventAndStatusZCAP>& setter, const get_t<capbankmodule::CapBankEventAndStatusZCAP>& getter, ITypedModelVisitor<capbankmodule::CapBankStatusProfile>& visitor);
 
 void visit_capbankmodule_CapBankStatus(const set_t<capbankmodule::CapBankStatus>& setter, const get_t<capbankmodule::CapBankStatus>& getter, ITypedModelVisitor<capbankmodule::CapBankStatusProfile>& visitor);
 
@@ -177,109 +173,7 @@ void visit(ITypedModelVisitor<capbankmodule::CapBankStatusProfile>& visitor)
 
 // ---- template definitions for child types ----
 
-void visit_capbankmodule_CapBankEventAndStatusPoint(const set_t<capbankmodule::CapBankEventAndStatusPoint>& setter, const get_t<capbankmodule::CapBankEventAndStatusPoint>& getter, ITypedModelVisitor<capbankmodule::CapBankStatusProfile>& visitor)
-{
-    if(visitor.start_message_field("eventAndStatus", capbankmodule::CapBankEventAndStatusYPSH::descriptor()))
-    {
-        visit_capbankmodule_CapBankEventAndStatusYPSH(
-            [setter](capbankmodule::CapBankStatusProfile& profile)
-            {
-                return setter(profile)->mutable_eventandstatus();
-            },
-            [getter](const capbankmodule::CapBankStatusProfile& profile) -> capbankmodule::CapBankEventAndStatusYPSH const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_eventandstatus() ? &value->eventandstatus() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-}
-
 void visit_capbankmodule_CapBankEventAndStatusYPSH(const set_t<capbankmodule::CapBankEventAndStatusYPSH>& setter, const get_t<capbankmodule::CapBankEventAndStatusYPSH>& getter, ITypedModelVisitor<capbankmodule::CapBankStatusProfile>& visitor)
-{
-    if(visitor.start_message_field("BlkCls", commonmodule::StatusSPS::descriptor()))
-    {
-        visit_commonmodule_StatusSPS(
-            [setter](capbankmodule::CapBankStatusProfile& profile)
-            {
-                return setter(profile)->mutable_blkcls();
-            },
-            [getter](const capbankmodule::CapBankStatusProfile& profile) -> commonmodule::StatusSPS const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_blkcls() ? &value->blkcls() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("BlkOpn", commonmodule::StatusSPS::descriptor()))
-    {
-        visit_commonmodule_StatusSPS(
-            [setter](capbankmodule::CapBankStatusProfile& profile)
-            {
-                return setter(profile)->mutable_blkopn();
-            },
-            [getter](const capbankmodule::CapBankStatusProfile& profile) -> commonmodule::StatusSPS const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_blkopn() ? &value->blkopn() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("Pos", commonmodule::PhaseDPS::descriptor()))
-    {
-        visit_commonmodule_PhaseDPS(
-            [setter](capbankmodule::CapBankStatusProfile& profile)
-            {
-                return setter(profile)->mutable_pos();
-            },
-            [getter](const capbankmodule::CapBankStatusProfile& profile) -> commonmodule::PhaseDPS const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_pos() ? &value->pos() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-}
-
-void visit_capbankmodule_CapBankEventAndStatusZCAP(const set_t<capbankmodule::CapBankEventAndStatusZCAP>& setter, const get_t<capbankmodule::CapBankEventAndStatusZCAP>& getter, ITypedModelVisitor<capbankmodule::CapBankStatusProfile>& visitor)
 {
     if(visitor.start_message_field("logicalNodeForEventAndStatus", commonmodule::LogicalNodeForEventAndStatus::descriptor()))
     {
@@ -329,19 +223,19 @@ void visit_capbankmodule_CapBankEventAndStatusZCAP(const set_t<capbankmodule::Ca
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("PointStatus", capbankmodule::CapBankEventAndStatusPoint::descriptor()))
+    if(visitor.start_message_field("Pos", commonmodule::PhaseDPS::descriptor()))
     {
-        visit_capbankmodule_CapBankEventAndStatusPoint(
+        visit_commonmodule_PhaseDPS(
             [setter](capbankmodule::CapBankStatusProfile& profile)
             {
-                return setter(profile)->mutable_pointstatus();
+                return setter(profile)->mutable_pos();
             },
-            [getter](const capbankmodule::CapBankStatusProfile& profile) -> capbankmodule::CapBankEventAndStatusPoint const *
+            [getter](const capbankmodule::CapBankStatusProfile& profile) -> commonmodule::PhaseDPS const *
             {
                 const auto value = getter(profile);
                 if(value)
                 {
-                    return value->has_pointstatus() ? &value->pointstatus() : nullptr;
+                    return value->has_pos() ? &value->pos() : nullptr;
                 }
                 else
                 {
@@ -380,19 +274,19 @@ void visit_capbankmodule_CapBankStatus(const set_t<capbankmodule::CapBankStatus>
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("capBankEventAndStatusZCAP", capbankmodule::CapBankEventAndStatusZCAP::descriptor()))
+    if(visitor.start_message_field("capBankEventAndStatusYPSH", capbankmodule::CapBankEventAndStatusYPSH::descriptor()))
     {
-        visit_capbankmodule_CapBankEventAndStatusZCAP(
+        visit_capbankmodule_CapBankEventAndStatusYPSH(
             [setter](capbankmodule::CapBankStatusProfile& profile)
             {
-                return setter(profile)->mutable_capbankeventandstatuszcap();
+                return setter(profile)->mutable_capbankeventandstatusypsh();
             },
-            [getter](const capbankmodule::CapBankStatusProfile& profile) -> capbankmodule::CapBankEventAndStatusZCAP const *
+            [getter](const capbankmodule::CapBankStatusProfile& profile) -> capbankmodule::CapBankEventAndStatusYPSH const *
             {
                 const auto value = getter(profile);
                 if(value)
                 {
-                    return value->has_capbankeventandstatuszcap() ? &value->capbankeventandstatuszcap() : nullptr;
+                    return value->has_capbankeventandstatusypsh() ? &value->capbankeventandstatusypsh() : nullptr;
                 }
                 else
                 {

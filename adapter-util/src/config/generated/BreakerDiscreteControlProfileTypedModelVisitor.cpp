@@ -46,6 +46,8 @@ void visit_commonmodule_ControlSPC(const set_t<commonmodule::ControlSPC>& setter
 
 void visit_commonmodule_ControlValue(const set_t<commonmodule::ControlValue>& setter, const get_t<commonmodule::ControlValue>& getter, ITypedModelVisitor<breakermodule::BreakerDiscreteControlProfile>& visitor);
 
+void visit_commonmodule_DiscreteControlXCBR(const set_t<commonmodule::DiscreteControlXCBR>& setter, const get_t<commonmodule::DiscreteControlXCBR>& getter, ITypedModelVisitor<breakermodule::BreakerDiscreteControlProfile>& visitor);
+
 void visit_commonmodule_IED(const set_t<commonmodule::IED>& setter, const get_t<commonmodule::IED>& getter, ITypedModelVisitor<breakermodule::BreakerDiscreteControlProfile>& visitor);
 
 void visit_commonmodule_IdentifiedObject(const set_t<commonmodule::IdentifiedObject>& setter, const get_t<commonmodule::IdentifiedObject>& getter, ITypedModelVisitor<breakermodule::BreakerDiscreteControlProfile>& visitor);
@@ -275,115 +277,19 @@ void visit_breakermodule_BreakerDiscreteControl(const set_t<breakermodule::Break
 
 void visit_breakermodule_BreakerDiscreteControlXCBR(const set_t<breakermodule::BreakerDiscreteControlXCBR>& setter, const get_t<breakermodule::BreakerDiscreteControlXCBR>& getter, ITypedModelVisitor<breakermodule::BreakerDiscreteControlProfile>& visitor)
 {
-    if(visitor.start_message_field("logicalNodeForControl", commonmodule::LogicalNodeForControl::descriptor()))
+    if(visitor.start_message_field("discreteControlXCBR", commonmodule::DiscreteControlXCBR::descriptor()))
     {
-        visit_commonmodule_LogicalNodeForControl(
+        visit_commonmodule_DiscreteControlXCBR(
             [setter](breakermodule::BreakerDiscreteControlProfile& profile)
             {
-                return setter(profile)->mutable_logicalnodeforcontrol();
+                return setter(profile)->mutable_discretecontrolxcbr();
             },
-            [getter](const breakermodule::BreakerDiscreteControlProfile& profile) -> commonmodule::LogicalNodeForControl const *
+            [getter](const breakermodule::BreakerDiscreteControlProfile& profile) -> commonmodule::DiscreteControlXCBR const *
             {
                 const auto value = getter(profile);
                 if(value)
                 {
-                    return value->has_logicalnodeforcontrol() ? &value->logicalnodeforcontrol() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("Pos", commonmodule::PhaseDPC::descriptor()))
-    {
-        visit_commonmodule_PhaseDPC(
-            [setter](breakermodule::BreakerDiscreteControlProfile& profile)
-            {
-                return setter(profile)->mutable_pos();
-            },
-            [getter](const breakermodule::BreakerDiscreteControlProfile& profile) -> commonmodule::PhaseDPC const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_pos() ? &value->pos() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("ProtectionMode", commonmodule::ControlINC::descriptor()))
-    {
-        visit_commonmodule_ControlINC(
-            [setter](breakermodule::BreakerDiscreteControlProfile& profile)
-            {
-                return setter(profile)->mutable_protectionmode();
-            },
-            [getter](const breakermodule::BreakerDiscreteControlProfile& profile) -> commonmodule::ControlINC const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_protectionmode() ? &value->protectionmode() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("RecloseEnabled", commonmodule::ControlSPC::descriptor()))
-    {
-        visit_commonmodule_ControlSPC(
-            [setter](breakermodule::BreakerDiscreteControlProfile& profile)
-            {
-                return setter(profile)->mutable_recloseenabled();
-            },
-            [getter](const breakermodule::BreakerDiscreteControlProfile& profile) -> commonmodule::ControlSPC const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_recloseenabled() ? &value->recloseenabled() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("ResetProtectionPickup", commonmodule::ControlSPC::descriptor()))
-    {
-        visit_commonmodule_ControlSPC(
-            [setter](breakermodule::BreakerDiscreteControlProfile& profile)
-            {
-                return setter(profile)->mutable_resetprotectionpickup();
-            },
-            [getter](const breakermodule::BreakerDiscreteControlProfile& profile) -> commonmodule::ControlSPC const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_resetprotectionpickup() ? &value->resetprotectionpickup() : nullptr;
+                    return value->has_discretecontrolxcbr() ? &value->discretecontrolxcbr() : nullptr;
                 }
                 else
                 {
@@ -629,6 +535,129 @@ void visit_commonmodule_ControlValue(const set_t<commonmodule::ControlValue>& se
                 if(value)
                 {
                     return value->has_reset() ? &value->reset() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+}
+
+void visit_commonmodule_DiscreteControlXCBR(const set_t<commonmodule::DiscreteControlXCBR>& setter, const get_t<commonmodule::DiscreteControlXCBR>& getter, ITypedModelVisitor<breakermodule::BreakerDiscreteControlProfile>& visitor)
+{
+    if(visitor.start_message_field("logicalNodeForControl", commonmodule::LogicalNodeForControl::descriptor()))
+    {
+        visit_commonmodule_LogicalNodeForControl(
+            [setter](breakermodule::BreakerDiscreteControlProfile& profile)
+            {
+                return setter(profile)->mutable_logicalnodeforcontrol();
+            },
+            [getter](const breakermodule::BreakerDiscreteControlProfile& profile) -> commonmodule::LogicalNodeForControl const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_logicalnodeforcontrol() ? &value->logicalnodeforcontrol() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("Pos", commonmodule::PhaseDPC::descriptor()))
+    {
+        visit_commonmodule_PhaseDPC(
+            [setter](breakermodule::BreakerDiscreteControlProfile& profile)
+            {
+                return setter(profile)->mutable_pos();
+            },
+            [getter](const breakermodule::BreakerDiscreteControlProfile& profile) -> commonmodule::PhaseDPC const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_pos() ? &value->pos() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("ProtectionMode", commonmodule::ControlINC::descriptor()))
+    {
+        visit_commonmodule_ControlINC(
+            [setter](breakermodule::BreakerDiscreteControlProfile& profile)
+            {
+                return setter(profile)->mutable_protectionmode();
+            },
+            [getter](const breakermodule::BreakerDiscreteControlProfile& profile) -> commonmodule::ControlINC const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_protectionmode() ? &value->protectionmode() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("RecloseEnabled", commonmodule::ControlSPC::descriptor()))
+    {
+        visit_commonmodule_ControlSPC(
+            [setter](breakermodule::BreakerDiscreteControlProfile& profile)
+            {
+                return setter(profile)->mutable_recloseenabled();
+            },
+            [getter](const breakermodule::BreakerDiscreteControlProfile& profile) -> commonmodule::ControlSPC const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_recloseenabled() ? &value->recloseenabled() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("ResetProtectionPickup", commonmodule::ControlSPC::descriptor()))
+    {
+        visit_commonmodule_ControlSPC(
+            [setter](breakermodule::BreakerDiscreteControlProfile& profile)
+            {
+                return setter(profile)->mutable_resetprotectionpickup();
+            },
+            [getter](const breakermodule::BreakerDiscreteControlProfile& profile) -> commonmodule::ControlSPC const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_resetprotectionpickup() ? &value->resetprotectionpickup() : nullptr;
                 }
                 else
                 {

@@ -45,6 +45,8 @@ void convert_from_proto(const commonmodule::CheckConditions& in, openfmb::common
 
 void convert_from_proto(const breakermodule::BreakerDiscreteControlXCBR& in, openfmb::breakermodule::BreakerDiscreteControlXCBR& out);
 
+void convert_from_proto(const commonmodule::DiscreteControlXCBR& in, openfmb::commonmodule::DiscreteControlXCBR& out);
+
 void convert_from_proto(const commonmodule::LogicalNodeForControl& in, openfmb::commonmodule::LogicalNodeForControl& out);
 
 void convert_from_proto(const commonmodule::LogicalNode& in, openfmb::commonmodule::LogicalNode& out);
@@ -165,13 +167,9 @@ void convert_from_proto(const capbankmodule::CapBankSystem& in, openfmb::capbank
 
 void convert_from_proto(const capbankmodule::CapBankDiscreteControl& in, openfmb::capbankmodule::CapBankDiscreteControl& out);
 
-void convert_from_proto(const capbankmodule::CapBankDiscreteControlZCAP& in, openfmb::capbankmodule::CapBankDiscreteControlZCAP& out);
+void convert_from_proto(const capbankmodule::CapBankDiscreteControlYPSH& in, openfmb::capbankmodule::CapBankDiscreteControlYPSH& out);
 
 void convert_from_proto(const capbankmodule::CapBankEvent& in, openfmb::capbankmodule::CapBankEvent& out);
-
-void convert_from_proto(const capbankmodule::CapBankEventAndStatusZCAP& in, openfmb::capbankmodule::CapBankEventAndStatusZCAP& out);
-
-void convert_from_proto(const capbankmodule::CapBankEventAndStatusPoint& in, openfmb::capbankmodule::CapBankEventAndStatusPoint& out);
 
 void convert_from_proto(const capbankmodule::CapBankEventAndStatusYPSH& in, openfmb::capbankmodule::CapBankEventAndStatusYPSH& out);
 
@@ -1045,6 +1043,11 @@ void convert_from_proto(const commonmodule::CheckConditions& in, openfmb::common
 }
 
 void convert_from_proto(const breakermodule::BreakerDiscreteControlXCBR& in, openfmb::breakermodule::BreakerDiscreteControlXCBR& out)
+{
+    if(in.has_discretecontrolxcbr()) convert_from_proto(in.discretecontrolxcbr(), out); // inherited type
+}
+
+void convert_from_proto(const commonmodule::DiscreteControlXCBR& in, openfmb::commonmodule::DiscreteControlXCBR& out)
 {
     if(in.has_logicalnodeforcontrol()) convert_from_proto(in.logicalnodeforcontrol(), out); // inherited type
 
@@ -2153,20 +2156,6 @@ void convert_from_proto(const capbankmodule::CapBankPoint& in, openfmb::capbankm
 
 void convert_from_proto(const capbankmodule::CapBankControlYPSH& in, openfmb::capbankmodule::CapBankControlYPSH& out)
 {
-    if(in.has_blkcls()) // optional field in DDS
-    {
-        openfmb::commonmodule::ControlSPC temp{};
-        convert_from_proto(in.blkcls(), temp);
-        out.BlkCls() = temp;
-    }
-
-    if(in.has_blkopn()) // optional field in DDS
-    {
-        openfmb::commonmodule::ControlSPC temp{};
-        convert_from_proto(in.blkopn(), temp);
-        out.BlkOpn() = temp;
-    }
-
     if(in.has_pos()) // optional field in DDS
     {
         openfmb::commonmodule::PhaseDPC temp{};
@@ -2191,15 +2180,15 @@ void convert_from_proto(const capbankmodule::CapBankDiscreteControl& in, openfmb
         out.check() = temp;
     }
 
-    if(in.has_capbankdiscretecontrolzcap()) // optional field in DDS
+    if(in.has_capbankdiscretecontrolypsh()) // optional field in DDS
     {
-        openfmb::capbankmodule::CapBankDiscreteControlZCAP temp{};
-        convert_from_proto(in.capbankdiscretecontrolzcap(), temp);
-        out.capBankDiscreteControlZCAP() = temp;
+        openfmb::capbankmodule::CapBankDiscreteControlYPSH temp{};
+        convert_from_proto(in.capbankdiscretecontrolypsh(), temp);
+        out.capBankDiscreteControlYPSH() = temp;
     }
 }
 
-void convert_from_proto(const capbankmodule::CapBankDiscreteControlZCAP& in, openfmb::capbankmodule::CapBankDiscreteControlZCAP& out)
+void convert_from_proto(const capbankmodule::CapBankDiscreteControlYPSH& in, openfmb::capbankmodule::CapBankDiscreteControlYPSH& out)
 {
     if(in.has_logicalnodeforcontrol()) convert_from_proto(in.logicalnodeforcontrol(), out); // inherited type
 
@@ -2215,15 +2204,15 @@ void convert_from_proto(const capbankmodule::CapBankEvent& in, openfmb::capbankm
 {
     if(in.has_eventvalue()) convert_from_proto(in.eventvalue(), out); // inherited type
 
-    if(in.has_capbankeventandstatuszcap()) // optional field in DDS
+    if(in.has_capbankeventandstatusypsh()) // optional field in DDS
     {
-        openfmb::capbankmodule::CapBankEventAndStatusZCAP temp{};
-        convert_from_proto(in.capbankeventandstatuszcap(), temp);
-        out.capBankEventAndStatusZCAP() = temp;
+        openfmb::capbankmodule::CapBankEventAndStatusYPSH temp{};
+        convert_from_proto(in.capbankeventandstatusypsh(), temp);
+        out.CapBankEventAndStatusYPSH() = temp;
     }
 }
 
-void convert_from_proto(const capbankmodule::CapBankEventAndStatusZCAP& in, openfmb::capbankmodule::CapBankEventAndStatusZCAP& out)
+void convert_from_proto(const capbankmodule::CapBankEventAndStatusYPSH& in, openfmb::capbankmodule::CapBankEventAndStatusYPSH& out)
 {
     if(in.has_logicalnodeforeventandstatus()) convert_from_proto(in.logicalnodeforeventandstatus(), out); // inherited type
 
@@ -2232,40 +2221,6 @@ void convert_from_proto(const capbankmodule::CapBankEventAndStatusZCAP& in, open
         openfmb::commonmodule::ENS_DynamicTestKind temp{};
         convert_from_proto(in.dynamictest(), temp);
         out.DynamicTest() = temp;
-    }
-
-    if(in.has_pointstatus()) // optional field in DDS
-    {
-        openfmb::capbankmodule::CapBankEventAndStatusPoint temp{};
-        convert_from_proto(in.pointstatus(), temp);
-        out.PointStatus() = temp;
-    }
-}
-
-void convert_from_proto(const capbankmodule::CapBankEventAndStatusPoint& in, openfmb::capbankmodule::CapBankEventAndStatusPoint& out)
-{
-    if(in.has_eventandstatus()) // optional field in DDS
-    {
-        openfmb::capbankmodule::CapBankEventAndStatusYPSH temp{};
-        convert_from_proto(in.eventandstatus(), temp);
-        out.eventAndStatus() = temp;
-    }
-}
-
-void convert_from_proto(const capbankmodule::CapBankEventAndStatusYPSH& in, openfmb::capbankmodule::CapBankEventAndStatusYPSH& out)
-{
-    if(in.has_blkcls()) // optional field in DDS
-    {
-        openfmb::commonmodule::StatusSPS temp{};
-        convert_from_proto(in.blkcls(), temp);
-        out.BlkCls() = temp;
-    }
-
-    if(in.has_blkopn()) // optional field in DDS
-    {
-        openfmb::commonmodule::StatusSPS temp{};
-        convert_from_proto(in.blkopn(), temp);
-        out.BlkOpn() = temp;
     }
 
     if(in.has_pos()) // optional field in DDS
@@ -2306,11 +2261,11 @@ void convert_from_proto(const capbankmodule::CapBankStatus& in, openfmb::capbank
 {
     if(in.has_statusvalue()) convert_from_proto(in.statusvalue(), out); // inherited type
 
-    if(in.has_capbankeventandstatuszcap()) // optional field in DDS
+    if(in.has_capbankeventandstatusypsh()) // optional field in DDS
     {
-        openfmb::capbankmodule::CapBankEventAndStatusZCAP temp{};
-        convert_from_proto(in.capbankeventandstatuszcap(), temp);
-        out.capBankEventAndStatusZCAP() = temp;
+        openfmb::capbankmodule::CapBankEventAndStatusYPSH temp{};
+        convert_from_proto(in.capbankeventandstatusypsh(), temp);
+        out.capBankEventAndStatusYPSH() = temp;
     }
 }
 
@@ -3724,7 +3679,7 @@ void convert_from_proto(const reclosermodule::RecloserDiscreteControl& in, openf
 
 void convert_from_proto(const reclosermodule::RecloserDiscreteControlXCBR& in, openfmb::reclosermodule::RecloserDiscreteControlXCBR& out)
 {
-    if(in.has_breakerdiscretecontrolxcbr()) convert_from_proto(in.breakerdiscretecontrolxcbr(), out); // inherited type
+    if(in.has_discretecontrolxcbr()) convert_from_proto(in.discretecontrolxcbr(), out); // inherited type
 }
 
 void convert_from_proto(const reclosermodule::RecloserEvent& in, openfmb::reclosermodule::RecloserEvent& out)

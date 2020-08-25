@@ -50,8 +50,6 @@ void visit_commonmodule_ControlFSCC(const set_t<commonmodule::ControlFSCC>& sett
 
 void visit_commonmodule_ControlMessageInfo(const set_t<commonmodule::ControlMessageInfo>& setter, const get_t<commonmodule::ControlMessageInfo>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor);
 
-void visit_commonmodule_ControlSPC(const set_t<commonmodule::ControlSPC>& setter, const get_t<commonmodule::ControlSPC>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor);
-
 void visit_commonmodule_ControlScheduleFSCH(const set_t<commonmodule::ControlScheduleFSCH>& setter, const get_t<commonmodule::ControlScheduleFSCH>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor);
 
 void visit_commonmodule_ControlValue(const set_t<commonmodule::ControlValue>& setter, const get_t<commonmodule::ControlValue>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor);
@@ -380,54 +378,6 @@ void visit_capbankmodule_CapBankControlScheduleFSCH(const set_t<capbankmodule::C
 
 void visit_capbankmodule_CapBankControlYPSH(const set_t<capbankmodule::CapBankControlYPSH>& setter, const get_t<capbankmodule::CapBankControlYPSH>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor)
 {
-    if(visitor.start_message_field("BlkCls", commonmodule::ControlSPC::descriptor()))
-    {
-        visit_commonmodule_ControlSPC(
-            [setter](capbankmodule::CapBankControlProfile& profile)
-            {
-                return setter(profile)->mutable_blkcls();
-            },
-            [getter](const capbankmodule::CapBankControlProfile& profile) -> commonmodule::ControlSPC const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_blkcls() ? &value->blkcls() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("BlkOpn", commonmodule::ControlSPC::descriptor()))
-    {
-        visit_commonmodule_ControlSPC(
-            [setter](capbankmodule::CapBankControlProfile& profile)
-            {
-                return setter(profile)->mutable_blkopn();
-            },
-            [getter](const capbankmodule::CapBankControlProfile& profile) -> commonmodule::ControlSPC const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_blkopn() ? &value->blkopn() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
     if(visitor.start_message_field("Pos", commonmodule::PhaseDPC::descriptor()))
     {
         visit_commonmodule_PhaseDPC(
@@ -730,23 +680,6 @@ void visit_commonmodule_ControlMessageInfo(const set_t<commonmodule::ControlMess
         );
         visitor.end_message_field();
     }
-}
-
-void visit_commonmodule_ControlSPC(const set_t<commonmodule::ControlSPC>& setter, const get_t<commonmodule::ControlSPC>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor)
-{
-    visitor.handle(
-        "ctlVal",
-        AccessorBuilder<capbankmodule::CapBankControlProfile,bool>::build(
-            [setter](capbankmodule::CapBankControlProfile& profile, const bool& value) { setter(profile)->set_ctlval(value); },
-            [getter](const capbankmodule::CapBankControlProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->ctlval());
-                return true;
-            }
-        )
-    );
 }
 
 void visit_commonmodule_ControlScheduleFSCH(const set_t<commonmodule::ControlScheduleFSCH>& setter, const get_t<commonmodule::ControlScheduleFSCH>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor)

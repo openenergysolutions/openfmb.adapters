@@ -45,6 +45,8 @@ void convert_to_proto(const twinoaks::commonmodule::CheckConditions& in, commonm
 
 void convert_to_proto(const twinoaks::breakermodule::BreakerDiscreteControlXCBR& in, breakermodule::BreakerDiscreteControlXCBR& out);
 
+void convert_to_proto(const twinoaks::commonmodule::DiscreteControlXCBR& in, commonmodule::DiscreteControlXCBR& out);
+
 void convert_to_proto(const twinoaks::commonmodule::LogicalNodeForControl& in, commonmodule::LogicalNodeForControl& out);
 
 void convert_to_proto(const twinoaks::commonmodule::LogicalNode& in, commonmodule::LogicalNode& out);
@@ -165,13 +167,9 @@ void convert_to_proto(const twinoaks::capbankmodule::CapBankSystem& in, capbankm
 
 void convert_to_proto(const twinoaks::capbankmodule::CapBankDiscreteControl& in, capbankmodule::CapBankDiscreteControl& out);
 
-void convert_to_proto(const twinoaks::capbankmodule::CapBankDiscreteControlZCAP& in, capbankmodule::CapBankDiscreteControlZCAP& out);
+void convert_to_proto(const twinoaks::capbankmodule::CapBankDiscreteControlYPSH& in, capbankmodule::CapBankDiscreteControlYPSH& out);
 
 void convert_to_proto(const twinoaks::capbankmodule::CapBankEvent& in, capbankmodule::CapBankEvent& out);
-
-void convert_to_proto(const twinoaks::capbankmodule::CapBankEventAndStatusZCAP& in, capbankmodule::CapBankEventAndStatusZCAP& out);
-
-void convert_to_proto(const twinoaks::capbankmodule::CapBankEventAndStatusPoint& in, capbankmodule::CapBankEventAndStatusPoint& out);
 
 void convert_to_proto(const twinoaks::capbankmodule::CapBankEventAndStatusYPSH& in, capbankmodule::CapBankEventAndStatusYPSH& out);
 
@@ -1123,6 +1121,13 @@ void convert_to_proto(const twinoaks::breakermodule::BreakerDiscreteControlXCBR&
 {
     out.Clear();
 
+    convert_to_proto(in, *out.mutable_discretecontrolxcbr()); // inherited type
+}
+
+void convert_to_proto(const twinoaks::commonmodule::DiscreteControlXCBR& in, commonmodule::DiscreteControlXCBR& out)
+{
+    out.Clear();
+
     convert_to_proto(in, *out.mutable_logicalnodeforcontrol()); // inherited type
 
     if(in.Pos) convert_to_proto(*in.Pos, *out.mutable_pos());
@@ -1790,10 +1795,6 @@ void convert_to_proto(const twinoaks::capbankmodule::CapBankControlYPSH& in, cap
 {
     out.Clear();
 
-    if(in.BlkCls) convert_to_proto(*in.BlkCls, *out.mutable_blkcls());
-
-    if(in.BlkOpn) convert_to_proto(*in.BlkOpn, *out.mutable_blkopn());
-
     if(in.Pos) convert_to_proto(*in.Pos, *out.mutable_pos());
 }
 
@@ -1812,10 +1813,10 @@ void convert_to_proto(const twinoaks::capbankmodule::CapBankDiscreteControl& in,
 
     if(in.check) convert_to_proto(*in.check, *out.mutable_check());
 
-    if(in.capBankDiscreteControlZCAP) convert_to_proto(*in.capBankDiscreteControlZCAP, *out.mutable_capbankdiscretecontrolzcap());
+    if(in.capBankDiscreteControlYPSH) convert_to_proto(*in.capBankDiscreteControlYPSH, *out.mutable_capbankdiscretecontrolypsh());
 }
 
-void convert_to_proto(const twinoaks::capbankmodule::CapBankDiscreteControlZCAP& in, capbankmodule::CapBankDiscreteControlZCAP& out)
+void convert_to_proto(const twinoaks::capbankmodule::CapBankDiscreteControlYPSH& in, capbankmodule::CapBankDiscreteControlYPSH& out)
 {
     out.Clear();
 
@@ -1830,34 +1831,16 @@ void convert_to_proto(const twinoaks::capbankmodule::CapBankEvent& in, capbankmo
 
     convert_to_proto(in, *out.mutable_eventvalue()); // inherited type
 
-    if(in.capBankEventAndStatusZCAP) convert_to_proto(*in.capBankEventAndStatusZCAP, *out.mutable_capbankeventandstatuszcap());
-}
-
-void convert_to_proto(const twinoaks::capbankmodule::CapBankEventAndStatusZCAP& in, capbankmodule::CapBankEventAndStatusZCAP& out)
-{
-    out.Clear();
-
-    convert_to_proto(in, *out.mutable_logicalnodeforeventandstatus()); // inherited type
-
-    if(in.DynamicTest) convert_to_proto(*in.DynamicTest, *out.mutable_dynamictest());
-
-    if(in.PointStatus) convert_to_proto(*in.PointStatus, *out.mutable_pointstatus());
-}
-
-void convert_to_proto(const twinoaks::capbankmodule::CapBankEventAndStatusPoint& in, capbankmodule::CapBankEventAndStatusPoint& out)
-{
-    out.Clear();
-
-    if(in.eventAndStatus) convert_to_proto(*in.eventAndStatus, *out.mutable_eventandstatus());
+    if(in.CapBankEventAndStatusYPSH) convert_to_proto(*in.CapBankEventAndStatusYPSH, *out.mutable_capbankeventandstatusypsh());
 }
 
 void convert_to_proto(const twinoaks::capbankmodule::CapBankEventAndStatusYPSH& in, capbankmodule::CapBankEventAndStatusYPSH& out)
 {
     out.Clear();
 
-    if(in.BlkCls) convert_to_proto(*in.BlkCls, *out.mutable_blkcls());
+    convert_to_proto(in, *out.mutable_logicalnodeforeventandstatus()); // inherited type
 
-    if(in.BlkOpn) convert_to_proto(*in.BlkOpn, *out.mutable_blkopn());
+    if(in.DynamicTest) convert_to_proto(*in.DynamicTest, *out.mutable_dynamictest());
 
     if(in.Pos) convert_to_proto(*in.Pos, *out.mutable_pos());
 }
@@ -1881,7 +1864,7 @@ void convert_to_proto(const twinoaks::capbankmodule::CapBankStatus& in, capbankm
 
     convert_to_proto(in, *out.mutable_statusvalue()); // inherited type
 
-    if(in.capBankEventAndStatusZCAP) convert_to_proto(*in.capBankEventAndStatusZCAP, *out.mutable_capbankeventandstatuszcap());
+    if(in.capBankEventAndStatusYPSH) convert_to_proto(*in.capBankEventAndStatusYPSH, *out.mutable_capbankeventandstatusypsh());
 }
 
 void convert_to_proto(const twinoaks::commonmodule::ESS& in, commonmodule::ESS& out)
@@ -2650,7 +2633,7 @@ void convert_to_proto(const twinoaks::reclosermodule::RecloserDiscreteControlXCB
 {
     out.Clear();
 
-    convert_to_proto(in, *out.mutable_breakerdiscretecontrolxcbr()); // inherited type
+    convert_to_proto(in, *out.mutable_discretecontrolxcbr()); // inherited type
 }
 
 void convert_to_proto(const twinoaks::reclosermodule::RecloserEvent& in, reclosermodule::RecloserEvent& out)

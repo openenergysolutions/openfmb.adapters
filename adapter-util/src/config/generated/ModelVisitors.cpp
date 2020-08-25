@@ -42,15 +42,11 @@ void visit_capbankmodule_CapBankControlYPSH(IModelVisitor& visitor);
 
 void visit_capbankmodule_CapBankDiscreteControl(IModelVisitor& visitor);
 
-void visit_capbankmodule_CapBankDiscreteControlZCAP(IModelVisitor& visitor);
+void visit_capbankmodule_CapBankDiscreteControlYPSH(IModelVisitor& visitor);
 
 void visit_capbankmodule_CapBankEvent(IModelVisitor& visitor);
 
-void visit_capbankmodule_CapBankEventAndStatusPoint(IModelVisitor& visitor);
-
 void visit_capbankmodule_CapBankEventAndStatusYPSH(IModelVisitor& visitor);
-
-void visit_capbankmodule_CapBankEventAndStatusZCAP(IModelVisitor& visitor);
 
 void visit_capbankmodule_CapBankPoint(IModelVisitor& visitor);
 
@@ -107,6 +103,8 @@ void visit_commonmodule_ControlScheduleFSCH(IModelVisitor& visitor);
 void visit_commonmodule_ControlValue(IModelVisitor& visitor);
 
 void visit_commonmodule_DEL(IModelVisitor& visitor);
+
+void visit_commonmodule_DiscreteControlXCBR(IModelVisitor& visitor);
 
 void visit_commonmodule_ENG_CalcMethodKind(IModelVisitor& visitor);
 
@@ -1712,33 +1710,9 @@ void visit_breakermodule_BreakerDiscreteControl(IModelVisitor& visitor)
 
 void visit_breakermodule_BreakerDiscreteControlXCBR(IModelVisitor& visitor)
 {
-    if(visitor.start_message_field("logicalNodeForControl", commonmodule::LogicalNodeForControl::descriptor()))
+    if(visitor.start_message_field("discreteControlXCBR", commonmodule::DiscreteControlXCBR::descriptor()))
     {
-        visit_commonmodule_LogicalNodeForControl(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("Pos", commonmodule::PhaseDPC::descriptor()))
-    {
-        visit_commonmodule_PhaseDPC(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("ProtectionMode", commonmodule::ControlINC::descriptor()))
-    {
-        visit_commonmodule_ControlINC(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("RecloseEnabled", commonmodule::ControlSPC::descriptor()))
-    {
-        visit_commonmodule_ControlSPC(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("ResetProtectionPickup", commonmodule::ControlSPC::descriptor()))
-    {
-        visit_commonmodule_ControlSPC(visitor);
+        visit_commonmodule_DiscreteControlXCBR(visitor);
         visitor.end_message_field();
     }
 }
@@ -1867,18 +1841,6 @@ void visit_capbankmodule_CapBankControlScheduleFSCH(IModelVisitor& visitor)
 
 void visit_capbankmodule_CapBankControlYPSH(IModelVisitor& visitor)
 {
-    if(visitor.start_message_field("BlkCls", commonmodule::ControlSPC::descriptor()))
-    {
-        visit_commonmodule_ControlSPC(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("BlkOpn", commonmodule::ControlSPC::descriptor()))
-    {
-        visit_commonmodule_ControlSPC(visitor);
-        visitor.end_message_field();
-    }
-
     if(visitor.start_message_field("Pos", commonmodule::PhaseDPC::descriptor()))
     {
         visit_commonmodule_PhaseDPC(visitor);
@@ -1900,14 +1862,14 @@ void visit_capbankmodule_CapBankDiscreteControl(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("capBankDiscreteControlZCAP", capbankmodule::CapBankDiscreteControlZCAP::descriptor()))
+    if(visitor.start_message_field("capBankDiscreteControlYPSH", capbankmodule::CapBankDiscreteControlYPSH::descriptor()))
     {
-        visit_capbankmodule_CapBankDiscreteControlZCAP(visitor);
+        visit_capbankmodule_CapBankDiscreteControlYPSH(visitor);
         visitor.end_message_field();
     }
 }
 
-void visit_capbankmodule_CapBankDiscreteControlZCAP(IModelVisitor& visitor)
+void visit_capbankmodule_CapBankDiscreteControlYPSH(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("logicalNodeForControl", commonmodule::LogicalNodeForControl::descriptor()))
     {
@@ -1930,16 +1892,7 @@ void visit_capbankmodule_CapBankEvent(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("capBankEventAndStatusZCAP", capbankmodule::CapBankEventAndStatusZCAP::descriptor()))
-    {
-        visit_capbankmodule_CapBankEventAndStatusZCAP(visitor);
-        visitor.end_message_field();
-    }
-}
-
-void visit_capbankmodule_CapBankEventAndStatusPoint(IModelVisitor& visitor)
-{
-    if(visitor.start_message_field("eventAndStatus", capbankmodule::CapBankEventAndStatusYPSH::descriptor()))
+    if(visitor.start_message_field("CapBankEventAndStatusYPSH", capbankmodule::CapBankEventAndStatusYPSH::descriptor()))
     {
         visit_capbankmodule_CapBankEventAndStatusYPSH(visitor);
         visitor.end_message_field();
@@ -1947,27 +1900,6 @@ void visit_capbankmodule_CapBankEventAndStatusPoint(IModelVisitor& visitor)
 }
 
 void visit_capbankmodule_CapBankEventAndStatusYPSH(IModelVisitor& visitor)
-{
-    if(visitor.start_message_field("BlkCls", commonmodule::StatusSPS::descriptor()))
-    {
-        visit_commonmodule_StatusSPS(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("BlkOpn", commonmodule::StatusSPS::descriptor()))
-    {
-        visit_commonmodule_StatusSPS(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("Pos", commonmodule::PhaseDPS::descriptor()))
-    {
-        visit_commonmodule_PhaseDPS(visitor);
-        visitor.end_message_field();
-    }
-}
-
-void visit_capbankmodule_CapBankEventAndStatusZCAP(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("logicalNodeForEventAndStatus", commonmodule::LogicalNodeForEventAndStatus::descriptor()))
     {
@@ -1981,9 +1913,9 @@ void visit_capbankmodule_CapBankEventAndStatusZCAP(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("PointStatus", capbankmodule::CapBankEventAndStatusPoint::descriptor()))
+    if(visitor.start_message_field("Pos", commonmodule::PhaseDPS::descriptor()))
     {
-        visit_capbankmodule_CapBankEventAndStatusPoint(visitor);
+        visit_commonmodule_PhaseDPS(visitor);
         visitor.end_message_field();
     }
 }
@@ -2034,9 +1966,9 @@ void visit_capbankmodule_CapBankStatus(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("capBankEventAndStatusZCAP", capbankmodule::CapBankEventAndStatusZCAP::descriptor()))
+    if(visitor.start_message_field("capBankEventAndStatusYPSH", capbankmodule::CapBankEventAndStatusYPSH::descriptor()))
     {
-        visit_capbankmodule_CapBankEventAndStatusZCAP(visitor);
+        visit_capbankmodule_CapBankEventAndStatusYPSH(visitor);
         visitor.end_message_field();
     }
 }
@@ -2436,6 +2368,39 @@ void visit_commonmodule_DEL(IModelVisitor& visitor)
     if(visitor.start_message_field("phsCA", commonmodule::CMV::descriptor()))
     {
         visit_commonmodule_CMV(visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit_commonmodule_DiscreteControlXCBR(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("logicalNodeForControl", commonmodule::LogicalNodeForControl::descriptor()))
+    {
+        visit_commonmodule_LogicalNodeForControl(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("Pos", commonmodule::PhaseDPC::descriptor()))
+    {
+        visit_commonmodule_PhaseDPC(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("ProtectionMode", commonmodule::ControlINC::descriptor()))
+    {
+        visit_commonmodule_ControlINC(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("RecloseEnabled", commonmodule::ControlSPC::descriptor()))
+    {
+        visit_commonmodule_ControlSPC(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("ResetProtectionPickup", commonmodule::ControlSPC::descriptor()))
+    {
+        visit_commonmodule_ControlSPC(visitor);
         visitor.end_message_field();
     }
 }
@@ -4923,9 +4888,9 @@ void visit_reclosermodule_RecloserDiscreteControl(IModelVisitor& visitor)
 
 void visit_reclosermodule_RecloserDiscreteControlXCBR(IModelVisitor& visitor)
 {
-    if(visitor.start_message_field("breakerDiscreteControlXCBR", breakermodule::BreakerDiscreteControlXCBR::descriptor()))
+    if(visitor.start_message_field("discreteControlXCBR", commonmodule::DiscreteControlXCBR::descriptor()))
     {
-        visit_breakermodule_BreakerDiscreteControlXCBR(visitor);
+        visit_commonmodule_DiscreteControlXCBR(visitor);
         visitor.end_message_field();
     }
 }

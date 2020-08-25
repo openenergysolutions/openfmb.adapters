@@ -45,6 +45,8 @@ void convert_from_proto(const commonmodule::CheckConditions& in, twinoaks::commo
 
 void convert_from_proto(const breakermodule::BreakerDiscreteControlXCBR& in, twinoaks::breakermodule::BreakerDiscreteControlXCBR& out);
 
+void convert_from_proto(const commonmodule::DiscreteControlXCBR& in, twinoaks::commonmodule::DiscreteControlXCBR& out);
+
 void convert_from_proto(const commonmodule::LogicalNodeForControl& in, twinoaks::commonmodule::LogicalNodeForControl& out);
 
 void convert_from_proto(const commonmodule::LogicalNode& in, twinoaks::commonmodule::LogicalNode& out);
@@ -165,13 +167,9 @@ void convert_from_proto(const capbankmodule::CapBankSystem& in, twinoaks::capban
 
 void convert_from_proto(const capbankmodule::CapBankDiscreteControl& in, twinoaks::capbankmodule::CapBankDiscreteControl& out);
 
-void convert_from_proto(const capbankmodule::CapBankDiscreteControlZCAP& in, twinoaks::capbankmodule::CapBankDiscreteControlZCAP& out);
+void convert_from_proto(const capbankmodule::CapBankDiscreteControlYPSH& in, twinoaks::capbankmodule::CapBankDiscreteControlYPSH& out);
 
 void convert_from_proto(const capbankmodule::CapBankEvent& in, twinoaks::capbankmodule::CapBankEvent& out);
-
-void convert_from_proto(const capbankmodule::CapBankEventAndStatusZCAP& in, twinoaks::capbankmodule::CapBankEventAndStatusZCAP& out);
-
-void convert_from_proto(const capbankmodule::CapBankEventAndStatusPoint& in, twinoaks::capbankmodule::CapBankEventAndStatusPoint& out);
 
 void convert_from_proto(const capbankmodule::CapBankEventAndStatusYPSH& in, twinoaks::capbankmodule::CapBankEventAndStatusYPSH& out);
 
@@ -1155,6 +1153,13 @@ void convert_from_proto(const commonmodule::CheckConditions& in, twinoaks::commo
 }
 
 void convert_from_proto(const breakermodule::BreakerDiscreteControlXCBR& in, twinoaks::breakermodule::BreakerDiscreteControlXCBR& out)
+{
+    out.clear();
+
+    if(in.has_discretecontrolxcbr()) convert_from_proto(in.discretecontrolxcbr(), out); // inherited type
+}
+
+void convert_from_proto(const commonmodule::DiscreteControlXCBR& in, twinoaks::commonmodule::DiscreteControlXCBR& out)
 {
     out.clear();
 
@@ -2267,18 +2272,6 @@ void convert_from_proto(const capbankmodule::CapBankControlYPSH& in, twinoaks::c
 {
     out.clear();
 
-    if(in.has_blkcls()) // optional field in DDS
-    {
-        out.BlkCls = new twinoaks::commonmodule::ControlSPC();
-        convert_from_proto(in.blkcls(), *out.BlkCls);
-    }
-
-    if(in.has_blkopn()) // optional field in DDS
-    {
-        out.BlkOpn = new twinoaks::commonmodule::ControlSPC();
-        convert_from_proto(in.blkopn(), *out.BlkOpn);
-    }
-
     if(in.has_pos()) // optional field in DDS
     {
         out.Pos = new twinoaks::commonmodule::PhaseDPC();
@@ -2305,14 +2298,14 @@ void convert_from_proto(const capbankmodule::CapBankDiscreteControl& in, twinoak
         convert_from_proto(in.check(), *out.check);
     }
 
-    if(in.has_capbankdiscretecontrolzcap()) // optional field in DDS
+    if(in.has_capbankdiscretecontrolypsh()) // optional field in DDS
     {
-        out.capBankDiscreteControlZCAP = new twinoaks::capbankmodule::CapBankDiscreteControlZCAP();
-        convert_from_proto(in.capbankdiscretecontrolzcap(), *out.capBankDiscreteControlZCAP);
+        out.capBankDiscreteControlYPSH = new twinoaks::capbankmodule::CapBankDiscreteControlYPSH();
+        convert_from_proto(in.capbankdiscretecontrolypsh(), *out.capBankDiscreteControlYPSH);
     }
 }
 
-void convert_from_proto(const capbankmodule::CapBankDiscreteControlZCAP& in, twinoaks::capbankmodule::CapBankDiscreteControlZCAP& out)
+void convert_from_proto(const capbankmodule::CapBankDiscreteControlYPSH& in, twinoaks::capbankmodule::CapBankDiscreteControlYPSH& out)
 {
     out.clear();
 
@@ -2331,14 +2324,14 @@ void convert_from_proto(const capbankmodule::CapBankEvent& in, twinoaks::capbank
 
     if(in.has_eventvalue()) convert_from_proto(in.eventvalue(), out); // inherited type
 
-    if(in.has_capbankeventandstatuszcap()) // optional field in DDS
+    if(in.has_capbankeventandstatusypsh()) // optional field in DDS
     {
-        out.capBankEventAndStatusZCAP = new twinoaks::capbankmodule::CapBankEventAndStatusZCAP();
-        convert_from_proto(in.capbankeventandstatuszcap(), *out.capBankEventAndStatusZCAP);
+        out.CapBankEventAndStatusYPSH = new twinoaks::capbankmodule::CapBankEventAndStatusYPSH();
+        convert_from_proto(in.capbankeventandstatusypsh(), *out.CapBankEventAndStatusYPSH);
     }
 }
 
-void convert_from_proto(const capbankmodule::CapBankEventAndStatusZCAP& in, twinoaks::capbankmodule::CapBankEventAndStatusZCAP& out)
+void convert_from_proto(const capbankmodule::CapBankEventAndStatusYPSH& in, twinoaks::capbankmodule::CapBankEventAndStatusYPSH& out)
 {
     out.clear();
 
@@ -2348,40 +2341,6 @@ void convert_from_proto(const capbankmodule::CapBankEventAndStatusZCAP& in, twin
     {
         out.DynamicTest = new twinoaks::commonmodule::ENS_DynamicTestKind();
         convert_from_proto(in.dynamictest(), *out.DynamicTest);
-    }
-
-    if(in.has_pointstatus()) // optional field in DDS
-    {
-        out.PointStatus = new twinoaks::capbankmodule::CapBankEventAndStatusPoint();
-        convert_from_proto(in.pointstatus(), *out.PointStatus);
-    }
-}
-
-void convert_from_proto(const capbankmodule::CapBankEventAndStatusPoint& in, twinoaks::capbankmodule::CapBankEventAndStatusPoint& out)
-{
-    out.clear();
-
-    if(in.has_eventandstatus()) // optional field in DDS
-    {
-        out.eventAndStatus = new twinoaks::capbankmodule::CapBankEventAndStatusYPSH();
-        convert_from_proto(in.eventandstatus(), *out.eventAndStatus);
-    }
-}
-
-void convert_from_proto(const capbankmodule::CapBankEventAndStatusYPSH& in, twinoaks::capbankmodule::CapBankEventAndStatusYPSH& out)
-{
-    out.clear();
-
-    if(in.has_blkcls()) // optional field in DDS
-    {
-        out.BlkCls = new twinoaks::commonmodule::StatusSPS();
-        convert_from_proto(in.blkcls(), *out.BlkCls);
-    }
-
-    if(in.has_blkopn()) // optional field in DDS
-    {
-        out.BlkOpn = new twinoaks::commonmodule::StatusSPS();
-        convert_from_proto(in.blkopn(), *out.BlkOpn);
     }
 
     if(in.has_pos()) // optional field in DDS
@@ -2422,10 +2381,10 @@ void convert_from_proto(const capbankmodule::CapBankStatus& in, twinoaks::capban
 
     if(in.has_statusvalue()) convert_from_proto(in.statusvalue(), out); // inherited type
 
-    if(in.has_capbankeventandstatuszcap()) // optional field in DDS
+    if(in.has_capbankeventandstatusypsh()) // optional field in DDS
     {
-        out.capBankEventAndStatusZCAP = new twinoaks::capbankmodule::CapBankEventAndStatusZCAP();
-        convert_from_proto(in.capbankeventandstatuszcap(), *out.capBankEventAndStatusZCAP);
+        out.capBankEventAndStatusYPSH = new twinoaks::capbankmodule::CapBankEventAndStatusYPSH();
+        convert_from_proto(in.capbankeventandstatusypsh(), *out.capBankEventAndStatusYPSH);
     }
 }
 
@@ -3819,7 +3778,7 @@ void convert_from_proto(const reclosermodule::RecloserDiscreteControlXCBR& in, t
 {
     out.clear();
 
-    if(in.has_breakerdiscretecontrolxcbr()) convert_from_proto(in.breakerdiscretecontrolxcbr(), out); // inherited type
+    if(in.has_discretecontrolxcbr()) convert_from_proto(in.discretecontrolxcbr(), out); // inherited type
 }
 
 void convert_from_proto(const reclosermodule::RecloserEvent& in, twinoaks::reclosermodule::RecloserEvent& out)
