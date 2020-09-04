@@ -51,7 +51,7 @@ commands:
             compiler.libcxx=libstdc++11\n
             build_type=Release\n
             [env]\n
-            CHOST=/target_host\n
+            CHOST=/$target_host\n
             AR=\$target_host-ar\n
             AS=\$target_host-as\n
             RANLIB=\$target_host-ranlib\n
