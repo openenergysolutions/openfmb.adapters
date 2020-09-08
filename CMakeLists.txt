@@ -38,11 +38,16 @@ option(OPENFMB_USE_TIMESCALEDB "Build the historian using TimescaleDB" ${BUILD_B
 option(OPENFMB_USE_TWINOAKS_DDS "Build the Twin Oaks DDS plugin" OFF)
 option(OPENFMB_USE_RTI_DDS "Build the RTI DDS plugin" OFF)
 option(OPENFMB_LINK_STATIC "Link dependencies statically where possible" OFF)
+option(OPENFMB_LINK_STATIC_LIBC "Link libc statically where possible" OFF)
+
 
 if(OPENFMB_LINK_STATIC AND NOT WIN32)
   set(BUILD_SHARED_LIBS OFF)
-  #set(CMAKE_EXE_LINKER_FLAGS "-static") # --enable-static-nss
   set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
+endif()
+
+if(OPENFMB_LINK_STATIC_LIBC AND NOT WIN32)
+    set(CMAKE_EXE_LINKER_FLAGS "-static") # really only sensible with musl
 endif()
 
 set(CMAKE_CXX_STANDARD 14)
