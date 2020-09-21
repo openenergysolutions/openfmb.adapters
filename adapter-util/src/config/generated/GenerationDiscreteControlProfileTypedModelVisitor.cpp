@@ -36,8 +36,6 @@ void visit_commonmodule_ControlMessageInfo(const set_t<commonmodule::ControlMess
 
 void visit_commonmodule_ControlValue(const set_t<commonmodule::ControlValue>& setter, const get_t<commonmodule::ControlValue>& getter, ITypedModelVisitor<generationmodule::GenerationDiscreteControlProfile>& visitor);
 
-void visit_commonmodule_IED(const set_t<commonmodule::IED>& setter, const get_t<commonmodule::IED>& getter, ITypedModelVisitor<generationmodule::GenerationDiscreteControlProfile>& visitor);
-
 void visit_commonmodule_IdentifiedObject(const set_t<commonmodule::IdentifiedObject>& setter, const get_t<commonmodule::IdentifiedObject>& getter, ITypedModelVisitor<generationmodule::GenerationDiscreteControlProfile>& visitor);
 
 void visit_commonmodule_MessageInfo(const set_t<commonmodule::MessageInfo>& setter, const get_t<commonmodule::MessageInfo>& getter, ITypedModelVisitor<generationmodule::GenerationDiscreteControlProfile>& visitor);
@@ -137,30 +135,6 @@ void visit(ITypedModelVisitor<generationmodule::GenerationDiscreteControlProfile
                 if(value)
                 {
                     return value->has_generationdiscretecontrol() ? &value->generationdiscretecontrol() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
-    {
-        visit_commonmodule_IED(
-            [setter](generationmodule::GenerationDiscreteControlProfile& profile)
-            {
-                return setter(profile)->mutable_ied();
-            },
-            [getter](const generationmodule::GenerationDiscreteControlProfile& profile) -> commonmodule::IED const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_ied() ? &value->ied() : nullptr;
                 }
                 else
                 {
@@ -432,33 +406,6 @@ void visit_commonmodule_ControlValue(const set_t<commonmodule::ControlValue>& se
                 if(value)
                 {
                     return value->has_reset() ? &value->reset() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-}
-
-void visit_commonmodule_IED(const set_t<commonmodule::IED>& setter, const get_t<commonmodule::IED>& getter, ITypedModelVisitor<generationmodule::GenerationDiscreteControlProfile>& visitor)
-{
-    if(visitor.start_message_field("identifiedObject", commonmodule::IdentifiedObject::descriptor()))
-    {
-        visit_commonmodule_IdentifiedObject(
-            [setter](generationmodule::GenerationDiscreteControlProfile& profile)
-            {
-                return setter(profile)->mutable_identifiedobject();
-            },
-            [getter](const generationmodule::GenerationDiscreteControlProfile& profile) -> commonmodule::IdentifiedObject const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_identifiedobject() ? &value->identifiedobject() : nullptr;
                 }
                 else
                 {

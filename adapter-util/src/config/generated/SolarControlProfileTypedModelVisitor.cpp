@@ -42,8 +42,6 @@ void visit_commonmodule_ControlValue(const set_t<commonmodule::ControlValue>& se
 
 void visit_commonmodule_ENG_GridConnectModeKind(const set_t<commonmodule::ENG_GridConnectModeKind>& setter, const get_t<commonmodule::ENG_GridConnectModeKind>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
-void visit_commonmodule_IED(const set_t<commonmodule::IED>& setter, const get_t<commonmodule::IED>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor);
-
 void visit_commonmodule_IdentifiedObject(const set_t<commonmodule::IdentifiedObject>& setter, const get_t<commonmodule::IdentifiedObject>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
 void visit_commonmodule_LogicalNode(const set_t<commonmodule::LogicalNode>& setter, const get_t<commonmodule::LogicalNode>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor);
@@ -101,30 +99,6 @@ void visit(ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor)
                 if(value)
                 {
                     return value->has_controlmessageinfo() ? &value->controlmessageinfo() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
-    {
-        visit_commonmodule_IED(
-            [setter](solarmodule::SolarControlProfile& profile)
-            {
-                return setter(profile)->mutable_ied();
-            },
-            [getter](const solarmodule::SolarControlProfile& profile) -> commonmodule::IED const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_ied() ? &value->ied() : nullptr;
                 }
                 else
                 {
@@ -530,33 +504,6 @@ void visit_commonmodule_ENG_GridConnectModeKind(const set_t<commonmodule::ENG_Gr
                 if(value)
                 {
                     return value->has_setvalextension() ? &value->setvalextension() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-}
-
-void visit_commonmodule_IED(const set_t<commonmodule::IED>& setter, const get_t<commonmodule::IED>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor)
-{
-    if(visitor.start_message_field("identifiedObject", commonmodule::IdentifiedObject::descriptor()))
-    {
-        visit_commonmodule_IdentifiedObject(
-            [setter](solarmodule::SolarControlProfile& profile)
-            {
-                return setter(profile)->mutable_identifiedobject();
-            },
-            [getter](const solarmodule::SolarControlProfile& profile) -> commonmodule::IdentifiedObject const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_identifiedobject() ? &value->identifiedobject() : nullptr;
                 }
                 else
                 {

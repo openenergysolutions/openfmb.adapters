@@ -46,8 +46,6 @@ void visit_commonmodule_ENG_PFSignKind(const set_t<commonmodule::ENG_PFSignKind>
 
 void visit_commonmodule_EnergyConsumer(const set_t<commonmodule::EnergyConsumer>& setter, const get_t<commonmodule::EnergyConsumer>& getter, ITypedModelVisitor<loadmodule::LoadReadingProfile>& visitor);
 
-void visit_commonmodule_IED(const set_t<commonmodule::IED>& setter, const get_t<commonmodule::IED>& getter, ITypedModelVisitor<loadmodule::LoadReadingProfile>& visitor);
-
 void visit_commonmodule_IdentifiedObject(const set_t<commonmodule::IdentifiedObject>& setter, const get_t<commonmodule::IdentifiedObject>& getter, ITypedModelVisitor<loadmodule::LoadReadingProfile>& visitor);
 
 void visit_commonmodule_LogicalNode(const set_t<commonmodule::LogicalNode>& setter, const get_t<commonmodule::LogicalNode>& getter, ITypedModelVisitor<loadmodule::LoadReadingProfile>& visitor);
@@ -135,30 +133,6 @@ void visit(ITypedModelVisitor<loadmodule::LoadReadingProfile>& visitor)
                 if(value)
                 {
                     return value->has_energyconsumer() ? &value->energyconsumer() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
-    {
-        visit_commonmodule_IED(
-            [setter](loadmodule::LoadReadingProfile& profile)
-            {
-                return setter(profile)->mutable_ied();
-            },
-            [getter](const loadmodule::LoadReadingProfile& profile) -> commonmodule::IED const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_ied() ? &value->ied() : nullptr;
                 }
                 else
                 {
@@ -641,33 +615,6 @@ void visit_commonmodule_EnergyConsumer(const set_t<commonmodule::EnergyConsumer>
                 if(value)
                 {
                     return value->has_operatinglimit() ? &value->operatinglimit() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-}
-
-void visit_commonmodule_IED(const set_t<commonmodule::IED>& setter, const get_t<commonmodule::IED>& getter, ITypedModelVisitor<loadmodule::LoadReadingProfile>& visitor)
-{
-    if(visitor.start_message_field("identifiedObject", commonmodule::IdentifiedObject::descriptor()))
-    {
-        visit_commonmodule_IdentifiedObject(
-            [setter](loadmodule::LoadReadingProfile& profile)
-            {
-                return setter(profile)->mutable_identifiedobject();
-            },
-            [getter](const loadmodule::LoadReadingProfile& profile) -> commonmodule::IdentifiedObject const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_identifiedobject() ? &value->identifiedobject() : nullptr;
                 }
                 else
                 {

@@ -59,8 +59,6 @@ void convert_to_proto(const twinoaks::commonmodule::ControlINC& in, commonmodule
 
 void convert_to_proto(const twinoaks::commonmodule::ControlSPC& in, commonmodule::ControlSPC& out);
 
-void convert_to_proto(const twinoaks::commonmodule::IED& in, commonmodule::IED& out);
-
 void convert_to_proto(const twinoaks::commonmodule::EventMessageInfo& in, commonmodule::EventMessageInfo& out);
 
 void convert_to_proto(const twinoaks::breakermodule::BreakerEvent& in, breakermodule::BreakerEvent& out);
@@ -434,8 +432,6 @@ void convert_to_proto(const twinoaks::breakermodule::BreakerDiscreteControlProfi
     convert_to_proto(in.breaker, *out.mutable_breaker()); // required field in DDS
 
     convert_to_proto(in.breakerDiscreteControl, *out.mutable_breakerdiscretecontrol()); // required field in DDS
-
-    convert_to_proto(in.ied, *out.mutable_ied()); // required field in DDS
 }
 
 void convert_to_proto(const twinoaks::breakermodule::BreakerEventProfile& in, breakermodule::BreakerEventProfile& out)
@@ -447,8 +443,6 @@ void convert_to_proto(const twinoaks::breakermodule::BreakerEventProfile& in, br
     convert_to_proto(in.breaker, *out.mutable_breaker()); // required field in DDS
 
     convert_to_proto(in.breakerEvent, *out.mutable_breakerevent()); // required field in DDS
-
-    convert_to_proto(in.ied, *out.mutable_ied()); // required field in DDS
 }
 
 void convert_to_proto(const twinoaks::breakermodule::BreakerReadingProfile& in, breakermodule::BreakerReadingProfile& out)
@@ -463,8 +457,6 @@ void convert_to_proto(const twinoaks::breakermodule::BreakerReadingProfile& in, 
     {
         convert_to_proto(in.breakerReading.at(i), *out.mutable_breakerreading()->Add());
     }
-
-    convert_to_proto(in.ied, *out.mutable_ied()); // required field in DDS
 }
 
 void convert_to_proto(const twinoaks::breakermodule::BreakerStatusProfile& in, breakermodule::BreakerStatusProfile& out)
@@ -476,8 +468,6 @@ void convert_to_proto(const twinoaks::breakermodule::BreakerStatusProfile& in, b
     convert_to_proto(in.breaker, *out.mutable_breaker()); // required field in DDS
 
     convert_to_proto(in.breakerStatus, *out.mutable_breakerstatus()); // required field in DDS
-
-    convert_to_proto(in.ied, *out.mutable_ied()); // required field in DDS
 }
 
 void convert_to_proto(const twinoaks::capbankmodule::CapBankControlProfile& in, capbankmodule::CapBankControlProfile& out)
@@ -489,8 +479,6 @@ void convert_to_proto(const twinoaks::capbankmodule::CapBankControlProfile& in, 
     convert_to_proto(in.capBankControl, *out.mutable_capbankcontrol()); // required field in DDS
 
     convert_to_proto(in.capBankSystem, *out.mutable_capbanksystem()); // required field in DDS
-
-    convert_to_proto(in.ied, *out.mutable_ied()); // required field in DDS
 }
 
 void convert_to_proto(const twinoaks::capbankmodule::CapBankDiscreteControlProfile& in, capbankmodule::CapBankDiscreteControlProfile& out)
@@ -502,8 +490,6 @@ void convert_to_proto(const twinoaks::capbankmodule::CapBankDiscreteControlProfi
     convert_to_proto(in.capBankControl, *out.mutable_capbankcontrol()); // required field in DDS
 
     convert_to_proto(in.capBankSystem, *out.mutable_capbanksystem()); // required field in DDS
-
-    convert_to_proto(in.ied, *out.mutable_ied()); // required field in DDS
 }
 
 void convert_to_proto(const twinoaks::capbankmodule::CapBankEventProfile& in, capbankmodule::CapBankEventProfile& out)
@@ -515,8 +501,6 @@ void convert_to_proto(const twinoaks::capbankmodule::CapBankEventProfile& in, ca
     convert_to_proto(in.capBankEvent, *out.mutable_capbankevent()); // required field in DDS
 
     convert_to_proto(in.capBankSystem, *out.mutable_capbanksystem()); // required field in DDS
-
-    convert_to_proto(in.ied, *out.mutable_ied()); // required field in DDS
 }
 
 void convert_to_proto(const twinoaks::capbankmodule::CapBankReadingProfile& in, capbankmodule::CapBankReadingProfile& out)
@@ -524,8 +508,6 @@ void convert_to_proto(const twinoaks::capbankmodule::CapBankReadingProfile& in, 
     out.Clear();
 
     convert_to_proto(in, *out.mutable_readingmessageinfo()); // inherited type
-
-    convert_to_proto(in.ied, *out.mutable_ied()); // required field in DDS
 
     convert_to_proto(in.capBankReading, *out.mutable_capbankreading()); // required field in DDS
 
@@ -541,8 +523,6 @@ void convert_to_proto(const twinoaks::capbankmodule::CapBankStatusProfile& in, c
     convert_to_proto(in.capBankStatus, *out.mutable_capbankstatus()); // required field in DDS
 
     convert_to_proto(in.capBankSystem, *out.mutable_capbanksystem()); // required field in DDS
-
-    convert_to_proto(in.ied, *out.mutable_ied()); // required field in DDS
 }
 
 void convert_to_proto(const twinoaks::essmodule::ESSControlProfile& in, essmodule::ESSControlProfile& out)
@@ -554,8 +534,6 @@ void convert_to_proto(const twinoaks::essmodule::ESSControlProfile& in, essmodul
     convert_to_proto(in.ess, *out.mutable_ess()); // required field in DDS
 
     convert_to_proto(in.essControl, *out.mutable_esscontrol()); // required field in DDS
-
-    convert_to_proto(in.ied, *out.mutable_ied()); // required field in DDS
 }
 
 void convert_to_proto(const twinoaks::essmodule::ESSEventProfile& in, essmodule::ESSEventProfile& out)
@@ -567,8 +545,6 @@ void convert_to_proto(const twinoaks::essmodule::ESSEventProfile& in, essmodule:
     convert_to_proto(in.ess, *out.mutable_ess()); // required field in DDS
 
     convert_to_proto(in.essEvent, *out.mutable_essevent()); // required field in DDS
-
-    convert_to_proto(in.ied, *out.mutable_ied()); // required field in DDS
 }
 
 void convert_to_proto(const twinoaks::essmodule::ESSReadingProfile& in, essmodule::ESSReadingProfile& out)
@@ -580,8 +556,6 @@ void convert_to_proto(const twinoaks::essmodule::ESSReadingProfile& in, essmodul
     convert_to_proto(in.ess, *out.mutable_ess()); // required field in DDS
 
     convert_to_proto(in.essReading, *out.mutable_essreading()); // required field in DDS
-
-    convert_to_proto(in.ied, *out.mutable_ied()); // required field in DDS
 }
 
 void convert_to_proto(const twinoaks::essmodule::ESSStatusProfile& in, essmodule::ESSStatusProfile& out)
@@ -593,8 +567,6 @@ void convert_to_proto(const twinoaks::essmodule::ESSStatusProfile& in, essmodule
     convert_to_proto(in.ess, *out.mutable_ess()); // required field in DDS
 
     convert_to_proto(in.essStatus, *out.mutable_essstatus()); // required field in DDS
-
-    convert_to_proto(in.ied, *out.mutable_ied()); // required field in DDS
 }
 
 void convert_to_proto(const twinoaks::generationmodule::GenerationControlProfile& in, generationmodule::GenerationControlProfile& out)
@@ -606,8 +578,6 @@ void convert_to_proto(const twinoaks::generationmodule::GenerationControlProfile
     convert_to_proto(in.generatingUnit, *out.mutable_generatingunit()); // required field in DDS
 
     convert_to_proto(in.generationControl, *out.mutable_generationcontrol()); // required field in DDS
-
-    convert_to_proto(in.ied, *out.mutable_ied()); // required field in DDS
 }
 
 void convert_to_proto(const twinoaks::generationmodule::GenerationDiscreteControlProfile& in, generationmodule::GenerationDiscreteControlProfile& out)
@@ -619,8 +589,6 @@ void convert_to_proto(const twinoaks::generationmodule::GenerationDiscreteContro
     convert_to_proto(in.generatingUnit, *out.mutable_generatingunit()); // required field in DDS
 
     convert_to_proto(in.generationDiscreteControl, *out.mutable_generationdiscretecontrol()); // required field in DDS
-
-    convert_to_proto(in.ied, *out.mutable_ied()); // required field in DDS
 }
 
 void convert_to_proto(const twinoaks::generationmodule::GenerationEventProfile& in, generationmodule::GenerationEventProfile& out)
@@ -632,8 +600,6 @@ void convert_to_proto(const twinoaks::generationmodule::GenerationEventProfile& 
     convert_to_proto(in.generatingUnit, *out.mutable_generatingunit()); // required field in DDS
 
     convert_to_proto(in.generationEvent, *out.mutable_generationevent()); // required field in DDS
-
-    convert_to_proto(in.ied, *out.mutable_ied()); // required field in DDS
 }
 
 void convert_to_proto(const twinoaks::generationmodule::GenerationReadingProfile& in, generationmodule::GenerationReadingProfile& out)
@@ -645,8 +611,6 @@ void convert_to_proto(const twinoaks::generationmodule::GenerationReadingProfile
     convert_to_proto(in.generatingUnit, *out.mutable_generatingunit()); // required field in DDS
 
     convert_to_proto(in.generationReading, *out.mutable_generationreading()); // required field in DDS
-
-    convert_to_proto(in.ied, *out.mutable_ied()); // required field in DDS
 }
 
 void convert_to_proto(const twinoaks::generationmodule::GenerationStatusProfile& in, generationmodule::GenerationStatusProfile& out)
@@ -658,8 +622,6 @@ void convert_to_proto(const twinoaks::generationmodule::GenerationStatusProfile&
     convert_to_proto(in.generatingUnit, *out.mutable_generatingunit()); // required field in DDS
 
     convert_to_proto(in.generationStatus, *out.mutable_generationstatus()); // required field in DDS
-
-    convert_to_proto(in.ied, *out.mutable_ied()); // required field in DDS
 }
 
 void convert_to_proto(const twinoaks::loadmodule::LoadControlProfile& in, loadmodule::LoadControlProfile& out)
@@ -669,8 +631,6 @@ void convert_to_proto(const twinoaks::loadmodule::LoadControlProfile& in, loadmo
     convert_to_proto(in, *out.mutable_controlmessageinfo()); // inherited type
 
     convert_to_proto(in.energyConsumer, *out.mutable_energyconsumer()); // required field in DDS
-
-    convert_to_proto(in.ied, *out.mutable_ied()); // required field in DDS
 
     convert_to_proto(in.loadControl, *out.mutable_loadcontrol()); // required field in DDS
 }
@@ -683,8 +643,6 @@ void convert_to_proto(const twinoaks::loadmodule::LoadEventProfile& in, loadmodu
 
     convert_to_proto(in.energyConsumer, *out.mutable_energyconsumer()); // required field in DDS
 
-    convert_to_proto(in.ied, *out.mutable_ied()); // required field in DDS
-
     convert_to_proto(in.loadEvent, *out.mutable_loadevent()); // required field in DDS
 }
 
@@ -695,8 +653,6 @@ void convert_to_proto(const twinoaks::loadmodule::LoadReadingProfile& in, loadmo
     convert_to_proto(in, *out.mutable_readingmessageinfo()); // inherited type
 
     convert_to_proto(in.energyConsumer, *out.mutable_energyconsumer()); // required field in DDS
-
-    convert_to_proto(in.ied, *out.mutable_ied()); // required field in DDS
 
     convert_to_proto(in.loadReading, *out.mutable_loadreading()); // required field in DDS
 }
@@ -709,8 +665,6 @@ void convert_to_proto(const twinoaks::loadmodule::LoadStatusProfile& in, loadmod
 
     convert_to_proto(in.energyConsumer, *out.mutable_energyconsumer()); // required field in DDS
 
-    convert_to_proto(in.ied, *out.mutable_ied()); // required field in DDS
-
     convert_to_proto(in.loadStatus, *out.mutable_loadstatus()); // required field in DDS
 }
 
@@ -719,8 +673,6 @@ void convert_to_proto(const twinoaks::metermodule::MeterReadingProfile& in, mete
     out.Clear();
 
     convert_to_proto(in, *out.mutable_readingmessageinfo()); // inherited type
-
-    convert_to_proto(in.ied, *out.mutable_ied()); // required field in DDS
 
     convert_to_proto(in.meter, *out.mutable_meter()); // required field in DDS
 
@@ -733,8 +685,6 @@ void convert_to_proto(const twinoaks::reclosermodule::RecloserDiscreteControlPro
 
     convert_to_proto(in, *out.mutable_controlmessageinfo()); // inherited type
 
-    convert_to_proto(in.ied, *out.mutable_ied()); // required field in DDS
-
     convert_to_proto(in.recloser, *out.mutable_recloser()); // required field in DDS
 
     convert_to_proto(in.recloserDiscreteControl, *out.mutable_recloserdiscretecontrol()); // required field in DDS
@@ -746,8 +696,6 @@ void convert_to_proto(const twinoaks::reclosermodule::RecloserEventProfile& in, 
 
     convert_to_proto(in, *out.mutable_eventmessageinfo()); // inherited type
 
-    convert_to_proto(in.ied, *out.mutable_ied()); // required field in DDS
-
     convert_to_proto(in.recloser, *out.mutable_recloser()); // required field in DDS
 
     convert_to_proto(in.recloserEvent, *out.mutable_recloserevent()); // required field in DDS
@@ -758,8 +706,6 @@ void convert_to_proto(const twinoaks::reclosermodule::RecloserReadingProfile& in
     out.Clear();
 
     convert_to_proto(in, *out.mutable_readingmessageinfo()); // inherited type
-
-    convert_to_proto(in.ied, *out.mutable_ied()); // required field in DDS
 
     convert_to_proto(in.recloser, *out.mutable_recloser()); // required field in DDS
 
@@ -775,8 +721,6 @@ void convert_to_proto(const twinoaks::reclosermodule::RecloserStatusProfile& in,
 
     convert_to_proto(in, *out.mutable_statusmessageinfo()); // inherited type
 
-    convert_to_proto(in.ied, *out.mutable_ied()); // required field in DDS
-
     convert_to_proto(in.recloser, *out.mutable_recloser()); // required field in DDS
 
     convert_to_proto(in.recloserStatus, *out.mutable_recloserstatus()); // required field in DDS
@@ -787,8 +731,6 @@ void convert_to_proto(const twinoaks::regulatormodule::RegulatorDiscreteControlP
     out.Clear();
 
     convert_to_proto(in, *out.mutable_controlmessageinfo()); // inherited type
-
-    convert_to_proto(in.ied, *out.mutable_ied()); // required field in DDS
 
     convert_to_proto(in.regulatorDiscreteControl, *out.mutable_regulatordiscretecontrol()); // required field in DDS
 
@@ -801,8 +743,6 @@ void convert_to_proto(const twinoaks::regulatormodule::RegulatorControlProfile& 
 
     convert_to_proto(in, *out.mutable_controlmessageinfo()); // inherited type
 
-    convert_to_proto(in.ied, *out.mutable_ied()); // required field in DDS
-
     convert_to_proto(in.regulatorControl, *out.mutable_regulatorcontrol()); // required field in DDS
 
     convert_to_proto(in.regulatorSystem, *out.mutable_regulatorsystem()); // required field in DDS
@@ -814,8 +754,6 @@ void convert_to_proto(const twinoaks::regulatormodule::RegulatorEventProfile& in
 
     convert_to_proto(in, *out.mutable_eventmessageinfo()); // inherited type
 
-    convert_to_proto(in.ied, *out.mutable_ied()); // required field in DDS
-
     convert_to_proto(in.regulatorEvent, *out.mutable_regulatorevent()); // required field in DDS
 
     convert_to_proto(in.regulatorSystem, *out.mutable_regulatorsystem()); // required field in DDS
@@ -826,8 +764,6 @@ void convert_to_proto(const twinoaks::regulatormodule::RegulatorReadingProfile& 
     out.Clear();
 
     convert_to_proto(in, *out.mutable_readingmessageinfo()); // inherited type
-
-    convert_to_proto(in.ied, *out.mutable_ied()); // required field in DDS
 
     for(decltype(in.regulatorReading.length()) i = 0; i < in.regulatorReading.length(); ++i)
     {
@@ -843,8 +779,6 @@ void convert_to_proto(const twinoaks::regulatormodule::RegulatorStatusProfile& i
 
     convert_to_proto(in, *out.mutable_statusmessageinfo()); // inherited type
 
-    convert_to_proto(in.ied, *out.mutable_ied()); // required field in DDS
-
     convert_to_proto(in.regulatorStatus, *out.mutable_regulatorstatus()); // required field in DDS
 
     convert_to_proto(in.regulatorSystem, *out.mutable_regulatorsystem()); // required field in DDS
@@ -858,8 +792,6 @@ void convert_to_proto(const twinoaks::resourcemodule::ResourceDiscreteControlPro
 
     convert_to_proto(in.conductingEquipment, *out.mutable_conductingequipment()); // required field in DDS
 
-    convert_to_proto(in.ied, *out.mutable_ied()); // required field in DDS
-
     convert_to_proto(in.resourceDiscreteControl, *out.mutable_resourcediscretecontrol()); // required field in DDS
 }
 
@@ -870,8 +802,6 @@ void convert_to_proto(const twinoaks::resourcemodule::ResourceEventProfile& in, 
     convert_to_proto(in, *out.mutable_eventmessageinfo()); // inherited type
 
     convert_to_proto(in.conductingEquipment, *out.mutable_conductingequipment()); // required field in DDS
-
-    convert_to_proto(in.ied, *out.mutable_ied()); // required field in DDS
 
     convert_to_proto(in.resourceEvent, *out.mutable_resourceevent()); // required field in DDS
 }
@@ -884,8 +814,6 @@ void convert_to_proto(const twinoaks::resourcemodule::ResourceReadingProfile& in
 
     convert_to_proto(in.conductingEquipment, *out.mutable_conductingequipment()); // required field in DDS
 
-    convert_to_proto(in.ied, *out.mutable_ied()); // required field in DDS
-
     convert_to_proto(in.resourceReading, *out.mutable_resourcereading()); // required field in DDS
 }
 
@@ -897,8 +825,6 @@ void convert_to_proto(const twinoaks::resourcemodule::ResourceStatusProfile& in,
 
     convert_to_proto(in.conductingEquipment, *out.mutable_conductingequipment()); // required field in DDS
 
-    convert_to_proto(in.ied, *out.mutable_ied()); // required field in DDS
-
     convert_to_proto(in.resourceStatus, *out.mutable_resourcestatus()); // required field in DDS
 }
 
@@ -907,8 +833,6 @@ void convert_to_proto(const twinoaks::solarmodule::SolarControlProfile& in, sola
     out.Clear();
 
     convert_to_proto(in, *out.mutable_controlmessageinfo()); // inherited type
-
-    convert_to_proto(in.ied, *out.mutable_ied()); // required field in DDS
 
     convert_to_proto(in.solarControl, *out.mutable_solarcontrol()); // required field in DDS
 
@@ -921,8 +845,6 @@ void convert_to_proto(const twinoaks::solarmodule::SolarEventProfile& in, solarm
 
     convert_to_proto(in, *out.mutable_eventmessageinfo()); // inherited type
 
-    convert_to_proto(in.ied, *out.mutable_ied()); // required field in DDS
-
     convert_to_proto(in.solarEvent, *out.mutable_solarevent()); // required field in DDS
 
     convert_to_proto(in.solarInverter, *out.mutable_solarinverter()); // required field in DDS
@@ -933,8 +855,6 @@ void convert_to_proto(const twinoaks::solarmodule::SolarReadingProfile& in, sola
     out.Clear();
 
     convert_to_proto(in, *out.mutable_readingmessageinfo()); // inherited type
-
-    convert_to_proto(in.ied, *out.mutable_ied()); // required field in DDS
 
     convert_to_proto(in.solarInverter, *out.mutable_solarinverter()); // required field in DDS
 
@@ -947,8 +867,6 @@ void convert_to_proto(const twinoaks::solarmodule::SolarStatusProfile& in, solar
 
     convert_to_proto(in, *out.mutable_statusmessageinfo()); // inherited type
 
-    convert_to_proto(in.ied, *out.mutable_ied()); // required field in DDS
-
     convert_to_proto(in.solarInverter, *out.mutable_solarinverter()); // required field in DDS
 
     convert_to_proto(in.solarStatus, *out.mutable_solarstatus()); // required field in DDS
@@ -959,8 +877,6 @@ void convert_to_proto(const twinoaks::switchmodule::SwitchDiscreteControlProfile
     out.Clear();
 
     convert_to_proto(in, *out.mutable_controlmessageinfo()); // inherited type
-
-    convert_to_proto(in.ied, *out.mutable_ied()); // required field in DDS
 
     convert_to_proto(in.protectedSwitch, *out.mutable_protectedswitch()); // required field in DDS
 
@@ -973,8 +889,6 @@ void convert_to_proto(const twinoaks::switchmodule::SwitchEventProfile& in, swit
 
     convert_to_proto(in, *out.mutable_eventmessageinfo()); // inherited type
 
-    convert_to_proto(in.ied, *out.mutable_ied()); // required field in DDS
-
     convert_to_proto(in.protectedSwitch, *out.mutable_protectedswitch()); // required field in DDS
 
     convert_to_proto(in.switchEvent, *out.mutable_switchevent()); // required field in DDS
@@ -985,8 +899,6 @@ void convert_to_proto(const twinoaks::switchmodule::SwitchReadingProfile& in, sw
     out.Clear();
 
     convert_to_proto(in, *out.mutable_readingmessageinfo()); // inherited type
-
-    convert_to_proto(in.ied, *out.mutable_ied()); // required field in DDS
 
     convert_to_proto(in.protectedSwitch, *out.mutable_protectedswitch()); // required field in DDS
 
@@ -1001,8 +913,6 @@ void convert_to_proto(const twinoaks::switchmodule::SwitchStatusProfile& in, swi
     out.Clear();
 
     convert_to_proto(in, *out.mutable_statusmessageinfo()); // inherited type
-
-    convert_to_proto(in.ied, *out.mutable_ied()); // required field in DDS
 
     convert_to_proto(in.protectedSwitch, *out.mutable_protectedswitch()); // required field in DDS
 
@@ -1185,13 +1095,6 @@ void convert_to_proto(const twinoaks::commonmodule::ControlSPC& in, commonmodule
     out.Clear();
 
     out.set_ctlval(in.ctlVal);
-}
-
-void convert_to_proto(const twinoaks::commonmodule::IED& in, commonmodule::IED& out)
-{
-    out.Clear();
-
-    convert_to_proto(in, *out.mutable_identifiedobject()); // inherited type
 }
 
 void convert_to_proto(const twinoaks::commonmodule::EventMessageInfo& in, commonmodule::EventMessageInfo& out)
@@ -3090,11 +2993,11 @@ void convert_to_proto(const twinoaks::commonmodule::VSS& in, commonmodule::VSS& 
 {
     out.Clear();
 
-    convert_to_proto(in.q, *out.mutable_q()); // required field in DDS
+    if(in.q) convert_to_proto(*in.q, *out.mutable_q());
 
     if(in.stVal) out.set_stval(convert_string(in.stVal));
 
-    convert_to_proto(in.t, *out.mutable_t()); // required field in DDS
+    if(in.t) convert_to_proto(*in.t, *out.mutable_t());
 }
 
 void convert_to_proto(const twinoaks::resourcemodule::ResourceReading& in, resourcemodule::ResourceReading& out)

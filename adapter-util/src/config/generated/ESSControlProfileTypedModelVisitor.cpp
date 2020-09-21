@@ -44,8 +44,6 @@ void visit_commonmodule_ENG_GridConnectModeKind(const set_t<commonmodule::ENG_Gr
 
 void visit_commonmodule_ESS(const set_t<commonmodule::ESS>& setter, const get_t<commonmodule::ESS>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
 
-void visit_commonmodule_IED(const set_t<commonmodule::IED>& setter, const get_t<commonmodule::IED>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
-
 void visit_commonmodule_IdentifiedObject(const set_t<commonmodule::IdentifiedObject>& setter, const get_t<commonmodule::IdentifiedObject>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
 
 void visit_commonmodule_LogicalNode(const set_t<commonmodule::LogicalNode>& setter, const get_t<commonmodule::LogicalNode>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
@@ -167,30 +165,6 @@ void visit(ITypedModelVisitor<essmodule::ESSControlProfile>& visitor)
                 if(value)
                 {
                     return value->has_esscontrol() ? &value->esscontrol() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
-    {
-        visit_commonmodule_IED(
-            [setter](essmodule::ESSControlProfile& profile)
-            {
-                return setter(profile)->mutable_ied();
-            },
-            [getter](const essmodule::ESSControlProfile& profile) -> commonmodule::IED const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_ied() ? &value->ied() : nullptr;
                 }
                 else
                 {
@@ -575,33 +549,6 @@ void visit_commonmodule_ESS(const set_t<commonmodule::ESS>& setter, const get_t<
                 if(value)
                 {
                     return value->has_conductingequipment() ? &value->conductingequipment() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-}
-
-void visit_commonmodule_IED(const set_t<commonmodule::IED>& setter, const get_t<commonmodule::IED>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor)
-{
-    if(visitor.start_message_field("identifiedObject", commonmodule::IdentifiedObject::descriptor()))
-    {
-        visit_commonmodule_IdentifiedObject(
-            [setter](essmodule::ESSControlProfile& profile)
-            {
-                return setter(profile)->mutable_identifiedobject();
-            },
-            [getter](const essmodule::ESSControlProfile& profile) -> commonmodule::IdentifiedObject const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_identifiedobject() ? &value->identifiedobject() : nullptr;
                 }
                 else
                 {

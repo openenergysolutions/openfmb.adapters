@@ -59,8 +59,6 @@ void convert_from_proto(const commonmodule::ControlINC& in, openfmb::commonmodul
 
 void convert_from_proto(const commonmodule::ControlSPC& in, openfmb::commonmodule::ControlSPC& out);
 
-void convert_from_proto(const commonmodule::IED& in, openfmb::commonmodule::IED& out);
-
 void convert_from_proto(const commonmodule::EventMessageInfo& in, openfmb::commonmodule::EventMessageInfo& out);
 
 void convert_from_proto(const breakermodule::BreakerEvent& in, openfmb::breakermodule::BreakerEvent& out);
@@ -432,8 +430,6 @@ void convert_from_proto(const breakermodule::BreakerDiscreteControlProfile& in, 
     convert_from_proto(in.breaker(), out.breaker()); // required field in DDS
 
     convert_from_proto(in.breakerdiscretecontrol(), out.breakerDiscreteControl()); // required field in DDS
-
-    convert_from_proto(in.ied(), out.ied()); // required field in DDS
 }
 
 void convert_from_proto(const breakermodule::BreakerEventProfile& in, openfmb::breakermodule::BreakerEventProfile& out)
@@ -443,8 +439,6 @@ void convert_from_proto(const breakermodule::BreakerEventProfile& in, openfmb::b
     convert_from_proto(in.breaker(), out.breaker()); // required field in DDS
 
     convert_from_proto(in.breakerevent(), out.breakerEvent()); // required field in DDS
-
-    convert_from_proto(in.ied(), out.ied()); // required field in DDS
 }
 
 void convert_from_proto(const breakermodule::BreakerReadingProfile& in, openfmb::breakermodule::BreakerReadingProfile& out)
@@ -459,8 +453,6 @@ void convert_from_proto(const breakermodule::BreakerReadingProfile& in, openfmb:
         convert_from_proto(input, output);
         out.breakerReading().push_back(output);
     }
-
-    convert_from_proto(in.ied(), out.ied()); // required field in DDS
 }
 
 void convert_from_proto(const breakermodule::BreakerStatusProfile& in, openfmb::breakermodule::BreakerStatusProfile& out)
@@ -470,8 +462,6 @@ void convert_from_proto(const breakermodule::BreakerStatusProfile& in, openfmb::
     convert_from_proto(in.breaker(), out.breaker()); // required field in DDS
 
     convert_from_proto(in.breakerstatus(), out.breakerStatus()); // required field in DDS
-
-    convert_from_proto(in.ied(), out.ied()); // required field in DDS
 }
 
 void convert_from_proto(const capbankmodule::CapBankControlProfile& in, openfmb::capbankmodule::CapBankControlProfile& out)
@@ -481,8 +471,6 @@ void convert_from_proto(const capbankmodule::CapBankControlProfile& in, openfmb:
     convert_from_proto(in.capbankcontrol(), out.capBankControl()); // required field in DDS
 
     convert_from_proto(in.capbanksystem(), out.capBankSystem()); // required field in DDS
-
-    convert_from_proto(in.ied(), out.ied()); // required field in DDS
 }
 
 void convert_from_proto(const capbankmodule::CapBankDiscreteControlProfile& in, openfmb::capbankmodule::CapBankDiscreteControlProfile& out)
@@ -492,8 +480,6 @@ void convert_from_proto(const capbankmodule::CapBankDiscreteControlProfile& in, 
     convert_from_proto(in.capbankcontrol(), out.capBankControl()); // required field in DDS
 
     convert_from_proto(in.capbanksystem(), out.capBankSystem()); // required field in DDS
-
-    convert_from_proto(in.ied(), out.ied()); // required field in DDS
 }
 
 void convert_from_proto(const capbankmodule::CapBankEventProfile& in, openfmb::capbankmodule::CapBankEventProfile& out)
@@ -503,15 +489,11 @@ void convert_from_proto(const capbankmodule::CapBankEventProfile& in, openfmb::c
     convert_from_proto(in.capbankevent(), out.capBankEvent()); // required field in DDS
 
     convert_from_proto(in.capbanksystem(), out.capBankSystem()); // required field in DDS
-
-    convert_from_proto(in.ied(), out.ied()); // required field in DDS
 }
 
 void convert_from_proto(const capbankmodule::CapBankReadingProfile& in, openfmb::capbankmodule::CapBankReadingProfile& out)
 {
     if(in.has_readingmessageinfo()) convert_from_proto(in.readingmessageinfo(), out); // inherited type
-
-    convert_from_proto(in.ied(), out.ied()); // required field in DDS
 
     convert_from_proto(in.capbankreading(), out.capBankReading()); // required field in DDS
 
@@ -525,8 +507,6 @@ void convert_from_proto(const capbankmodule::CapBankStatusProfile& in, openfmb::
     convert_from_proto(in.capbankstatus(), out.capBankStatus()); // required field in DDS
 
     convert_from_proto(in.capbanksystem(), out.capBankSystem()); // required field in DDS
-
-    convert_from_proto(in.ied(), out.ied()); // required field in DDS
 }
 
 void convert_from_proto(const essmodule::ESSControlProfile& in, openfmb::essmodule::ESSControlProfile& out)
@@ -536,8 +516,6 @@ void convert_from_proto(const essmodule::ESSControlProfile& in, openfmb::essmodu
     convert_from_proto(in.ess(), out.ess()); // required field in DDS
 
     convert_from_proto(in.esscontrol(), out.essControl()); // required field in DDS
-
-    convert_from_proto(in.ied(), out.ied()); // required field in DDS
 }
 
 void convert_from_proto(const essmodule::ESSEventProfile& in, openfmb::essmodule::ESSEventProfile& out)
@@ -547,8 +525,6 @@ void convert_from_proto(const essmodule::ESSEventProfile& in, openfmb::essmodule
     convert_from_proto(in.ess(), out.ess()); // required field in DDS
 
     convert_from_proto(in.essevent(), out.essEvent()); // required field in DDS
-
-    convert_from_proto(in.ied(), out.ied()); // required field in DDS
 }
 
 void convert_from_proto(const essmodule::ESSReadingProfile& in, openfmb::essmodule::ESSReadingProfile& out)
@@ -558,8 +534,6 @@ void convert_from_proto(const essmodule::ESSReadingProfile& in, openfmb::essmodu
     convert_from_proto(in.ess(), out.ess()); // required field in DDS
 
     convert_from_proto(in.essreading(), out.essReading()); // required field in DDS
-
-    convert_from_proto(in.ied(), out.ied()); // required field in DDS
 }
 
 void convert_from_proto(const essmodule::ESSStatusProfile& in, openfmb::essmodule::ESSStatusProfile& out)
@@ -569,8 +543,6 @@ void convert_from_proto(const essmodule::ESSStatusProfile& in, openfmb::essmodul
     convert_from_proto(in.ess(), out.ess()); // required field in DDS
 
     convert_from_proto(in.essstatus(), out.essStatus()); // required field in DDS
-
-    convert_from_proto(in.ied(), out.ied()); // required field in DDS
 }
 
 void convert_from_proto(const generationmodule::GenerationControlProfile& in, openfmb::generationmodule::GenerationControlProfile& out)
@@ -580,8 +552,6 @@ void convert_from_proto(const generationmodule::GenerationControlProfile& in, op
     convert_from_proto(in.generatingunit(), out.generatingUnit()); // required field in DDS
 
     convert_from_proto(in.generationcontrol(), out.generationControl()); // required field in DDS
-
-    convert_from_proto(in.ied(), out.ied()); // required field in DDS
 }
 
 void convert_from_proto(const generationmodule::GenerationDiscreteControlProfile& in, openfmb::generationmodule::GenerationDiscreteControlProfile& out)
@@ -591,8 +561,6 @@ void convert_from_proto(const generationmodule::GenerationDiscreteControlProfile
     convert_from_proto(in.generatingunit(), out.generatingUnit()); // required field in DDS
 
     convert_from_proto(in.generationdiscretecontrol(), out.generationDiscreteControl()); // required field in DDS
-
-    convert_from_proto(in.ied(), out.ied()); // required field in DDS
 }
 
 void convert_from_proto(const generationmodule::GenerationEventProfile& in, openfmb::generationmodule::GenerationEventProfile& out)
@@ -602,8 +570,6 @@ void convert_from_proto(const generationmodule::GenerationEventProfile& in, open
     convert_from_proto(in.generatingunit(), out.generatingUnit()); // required field in DDS
 
     convert_from_proto(in.generationevent(), out.generationEvent()); // required field in DDS
-
-    convert_from_proto(in.ied(), out.ied()); // required field in DDS
 }
 
 void convert_from_proto(const generationmodule::GenerationReadingProfile& in, openfmb::generationmodule::GenerationReadingProfile& out)
@@ -613,8 +579,6 @@ void convert_from_proto(const generationmodule::GenerationReadingProfile& in, op
     convert_from_proto(in.generatingunit(), out.generatingUnit()); // required field in DDS
 
     convert_from_proto(in.generationreading(), out.generationReading()); // required field in DDS
-
-    convert_from_proto(in.ied(), out.ied()); // required field in DDS
 }
 
 void convert_from_proto(const generationmodule::GenerationStatusProfile& in, openfmb::generationmodule::GenerationStatusProfile& out)
@@ -624,8 +588,6 @@ void convert_from_proto(const generationmodule::GenerationStatusProfile& in, ope
     convert_from_proto(in.generatingunit(), out.generatingUnit()); // required field in DDS
 
     convert_from_proto(in.generationstatus(), out.generationStatus()); // required field in DDS
-
-    convert_from_proto(in.ied(), out.ied()); // required field in DDS
 }
 
 void convert_from_proto(const loadmodule::LoadControlProfile& in, openfmb::loadmodule::LoadControlProfile& out)
@@ -633,8 +595,6 @@ void convert_from_proto(const loadmodule::LoadControlProfile& in, openfmb::loadm
     if(in.has_controlmessageinfo()) convert_from_proto(in.controlmessageinfo(), out); // inherited type
 
     convert_from_proto(in.energyconsumer(), out.energyConsumer()); // required field in DDS
-
-    convert_from_proto(in.ied(), out.ied()); // required field in DDS
 
     convert_from_proto(in.loadcontrol(), out.loadControl()); // required field in DDS
 }
@@ -645,8 +605,6 @@ void convert_from_proto(const loadmodule::LoadEventProfile& in, openfmb::loadmod
 
     convert_from_proto(in.energyconsumer(), out.energyConsumer()); // required field in DDS
 
-    convert_from_proto(in.ied(), out.ied()); // required field in DDS
-
     convert_from_proto(in.loadevent(), out.loadEvent()); // required field in DDS
 }
 
@@ -655,8 +613,6 @@ void convert_from_proto(const loadmodule::LoadReadingProfile& in, openfmb::loadm
     if(in.has_readingmessageinfo()) convert_from_proto(in.readingmessageinfo(), out); // inherited type
 
     convert_from_proto(in.energyconsumer(), out.energyConsumer()); // required field in DDS
-
-    convert_from_proto(in.ied(), out.ied()); // required field in DDS
 
     convert_from_proto(in.loadreading(), out.loadReading()); // required field in DDS
 }
@@ -667,16 +623,12 @@ void convert_from_proto(const loadmodule::LoadStatusProfile& in, openfmb::loadmo
 
     convert_from_proto(in.energyconsumer(), out.energyConsumer()); // required field in DDS
 
-    convert_from_proto(in.ied(), out.ied()); // required field in DDS
-
     convert_from_proto(in.loadstatus(), out.loadStatus()); // required field in DDS
 }
 
 void convert_from_proto(const metermodule::MeterReadingProfile& in, openfmb::metermodule::MeterReadingProfile& out)
 {
     if(in.has_readingmessageinfo()) convert_from_proto(in.readingmessageinfo(), out); // inherited type
-
-    convert_from_proto(in.ied(), out.ied()); // required field in DDS
 
     convert_from_proto(in.meter(), out.meter()); // required field in DDS
 
@@ -687,8 +639,6 @@ void convert_from_proto(const reclosermodule::RecloserDiscreteControlProfile& in
 {
     if(in.has_controlmessageinfo()) convert_from_proto(in.controlmessageinfo(), out); // inherited type
 
-    convert_from_proto(in.ied(), out.ied()); // required field in DDS
-
     convert_from_proto(in.recloser(), out.recloser()); // required field in DDS
 
     convert_from_proto(in.recloserdiscretecontrol(), out.recloserDiscreteControl()); // required field in DDS
@@ -698,8 +648,6 @@ void convert_from_proto(const reclosermodule::RecloserEventProfile& in, openfmb:
 {
     if(in.has_eventmessageinfo()) convert_from_proto(in.eventmessageinfo(), out); // inherited type
 
-    convert_from_proto(in.ied(), out.ied()); // required field in DDS
-
     convert_from_proto(in.recloser(), out.recloser()); // required field in DDS
 
     convert_from_proto(in.recloserevent(), out.recloserEvent()); // required field in DDS
@@ -708,8 +656,6 @@ void convert_from_proto(const reclosermodule::RecloserEventProfile& in, openfmb:
 void convert_from_proto(const reclosermodule::RecloserReadingProfile& in, openfmb::reclosermodule::RecloserReadingProfile& out)
 {
     if(in.has_readingmessageinfo()) convert_from_proto(in.readingmessageinfo(), out); // inherited type
-
-    convert_from_proto(in.ied(), out.ied()); // required field in DDS
 
     convert_from_proto(in.recloser(), out.recloser()); // required field in DDS
 
@@ -725,8 +671,6 @@ void convert_from_proto(const reclosermodule::RecloserStatusProfile& in, openfmb
 {
     if(in.has_statusmessageinfo()) convert_from_proto(in.statusmessageinfo(), out); // inherited type
 
-    convert_from_proto(in.ied(), out.ied()); // required field in DDS
-
     convert_from_proto(in.recloser(), out.recloser()); // required field in DDS
 
     convert_from_proto(in.recloserstatus(), out.recloserStatus()); // required field in DDS
@@ -735,8 +679,6 @@ void convert_from_proto(const reclosermodule::RecloserStatusProfile& in, openfmb
 void convert_from_proto(const regulatormodule::RegulatorDiscreteControlProfile& in, openfmb::regulatormodule::RegulatorDiscreteControlProfile& out)
 {
     if(in.has_controlmessageinfo()) convert_from_proto(in.controlmessageinfo(), out); // inherited type
-
-    convert_from_proto(in.ied(), out.ied()); // required field in DDS
 
     convert_from_proto(in.regulatordiscretecontrol(), out.regulatorDiscreteControl()); // required field in DDS
 
@@ -747,8 +689,6 @@ void convert_from_proto(const regulatormodule::RegulatorControlProfile& in, open
 {
     if(in.has_controlmessageinfo()) convert_from_proto(in.controlmessageinfo(), out); // inherited type
 
-    convert_from_proto(in.ied(), out.ied()); // required field in DDS
-
     convert_from_proto(in.regulatorcontrol(), out.regulatorControl()); // required field in DDS
 
     convert_from_proto(in.regulatorsystem(), out.regulatorSystem()); // required field in DDS
@@ -758,8 +698,6 @@ void convert_from_proto(const regulatormodule::RegulatorEventProfile& in, openfm
 {
     if(in.has_eventmessageinfo()) convert_from_proto(in.eventmessageinfo(), out); // inherited type
 
-    convert_from_proto(in.ied(), out.ied()); // required field in DDS
-
     convert_from_proto(in.regulatorevent(), out.regulatorEvent()); // required field in DDS
 
     convert_from_proto(in.regulatorsystem(), out.regulatorSystem()); // required field in DDS
@@ -768,8 +706,6 @@ void convert_from_proto(const regulatormodule::RegulatorEventProfile& in, openfm
 void convert_from_proto(const regulatormodule::RegulatorReadingProfile& in, openfmb::regulatormodule::RegulatorReadingProfile& out)
 {
     if(in.has_readingmessageinfo()) convert_from_proto(in.readingmessageinfo(), out); // inherited type
-
-    convert_from_proto(in.ied(), out.ied()); // required field in DDS
 
     for(const auto& input : in.regulatorreading())
     {
@@ -785,8 +721,6 @@ void convert_from_proto(const regulatormodule::RegulatorStatusProfile& in, openf
 {
     if(in.has_statusmessageinfo()) convert_from_proto(in.statusmessageinfo(), out); // inherited type
 
-    convert_from_proto(in.ied(), out.ied()); // required field in DDS
-
     convert_from_proto(in.regulatorstatus(), out.regulatorStatus()); // required field in DDS
 
     convert_from_proto(in.regulatorsystem(), out.regulatorSystem()); // required field in DDS
@@ -798,8 +732,6 @@ void convert_from_proto(const resourcemodule::ResourceDiscreteControlProfile& in
 
     convert_from_proto(in.conductingequipment(), out.conductingEquipment()); // required field in DDS
 
-    convert_from_proto(in.ied(), out.ied()); // required field in DDS
-
     convert_from_proto(in.resourcediscretecontrol(), out.resourceDiscreteControl()); // required field in DDS
 }
 
@@ -808,8 +740,6 @@ void convert_from_proto(const resourcemodule::ResourceEventProfile& in, openfmb:
     if(in.has_eventmessageinfo()) convert_from_proto(in.eventmessageinfo(), out); // inherited type
 
     convert_from_proto(in.conductingequipment(), out.conductingEquipment()); // required field in DDS
-
-    convert_from_proto(in.ied(), out.ied()); // required field in DDS
 
     convert_from_proto(in.resourceevent(), out.resourceEvent()); // required field in DDS
 }
@@ -820,8 +750,6 @@ void convert_from_proto(const resourcemodule::ResourceReadingProfile& in, openfm
 
     convert_from_proto(in.conductingequipment(), out.conductingEquipment()); // required field in DDS
 
-    convert_from_proto(in.ied(), out.ied()); // required field in DDS
-
     convert_from_proto(in.resourcereading(), out.resourceReading()); // required field in DDS
 }
 
@@ -831,16 +759,12 @@ void convert_from_proto(const resourcemodule::ResourceStatusProfile& in, openfmb
 
     convert_from_proto(in.conductingequipment(), out.conductingEquipment()); // required field in DDS
 
-    convert_from_proto(in.ied(), out.ied()); // required field in DDS
-
     convert_from_proto(in.resourcestatus(), out.resourceStatus()); // required field in DDS
 }
 
 void convert_from_proto(const solarmodule::SolarControlProfile& in, openfmb::solarmodule::SolarControlProfile& out)
 {
     if(in.has_controlmessageinfo()) convert_from_proto(in.controlmessageinfo(), out); // inherited type
-
-    convert_from_proto(in.ied(), out.ied()); // required field in DDS
 
     convert_from_proto(in.solarcontrol(), out.solarControl()); // required field in DDS
 
@@ -851,8 +775,6 @@ void convert_from_proto(const solarmodule::SolarEventProfile& in, openfmb::solar
 {
     if(in.has_eventmessageinfo()) convert_from_proto(in.eventmessageinfo(), out); // inherited type
 
-    convert_from_proto(in.ied(), out.ied()); // required field in DDS
-
     convert_from_proto(in.solarevent(), out.solarEvent()); // required field in DDS
 
     convert_from_proto(in.solarinverter(), out.solarInverter()); // required field in DDS
@@ -861,8 +783,6 @@ void convert_from_proto(const solarmodule::SolarEventProfile& in, openfmb::solar
 void convert_from_proto(const solarmodule::SolarReadingProfile& in, openfmb::solarmodule::SolarReadingProfile& out)
 {
     if(in.has_readingmessageinfo()) convert_from_proto(in.readingmessageinfo(), out); // inherited type
-
-    convert_from_proto(in.ied(), out.ied()); // required field in DDS
 
     convert_from_proto(in.solarinverter(), out.solarInverter()); // required field in DDS
 
@@ -873,8 +793,6 @@ void convert_from_proto(const solarmodule::SolarStatusProfile& in, openfmb::sola
 {
     if(in.has_statusmessageinfo()) convert_from_proto(in.statusmessageinfo(), out); // inherited type
 
-    convert_from_proto(in.ied(), out.ied()); // required field in DDS
-
     convert_from_proto(in.solarinverter(), out.solarInverter()); // required field in DDS
 
     convert_from_proto(in.solarstatus(), out.solarStatus()); // required field in DDS
@@ -883,8 +801,6 @@ void convert_from_proto(const solarmodule::SolarStatusProfile& in, openfmb::sola
 void convert_from_proto(const switchmodule::SwitchDiscreteControlProfile& in, openfmb::switchmodule::SwitchDiscreteControlProfile& out)
 {
     if(in.has_controlmessageinfo()) convert_from_proto(in.controlmessageinfo(), out); // inherited type
-
-    convert_from_proto(in.ied(), out.ied()); // required field in DDS
 
     convert_from_proto(in.protectedswitch(), out.protectedSwitch()); // required field in DDS
 
@@ -895,8 +811,6 @@ void convert_from_proto(const switchmodule::SwitchEventProfile& in, openfmb::swi
 {
     if(in.has_eventmessageinfo()) convert_from_proto(in.eventmessageinfo(), out); // inherited type
 
-    convert_from_proto(in.ied(), out.ied()); // required field in DDS
-
     convert_from_proto(in.protectedswitch(), out.protectedSwitch()); // required field in DDS
 
     convert_from_proto(in.switchevent(), out.switchEvent()); // required field in DDS
@@ -905,8 +819,6 @@ void convert_from_proto(const switchmodule::SwitchEventProfile& in, openfmb::swi
 void convert_from_proto(const switchmodule::SwitchReadingProfile& in, openfmb::switchmodule::SwitchReadingProfile& out)
 {
     if(in.has_readingmessageinfo()) convert_from_proto(in.readingmessageinfo(), out); // inherited type
-
-    convert_from_proto(in.ied(), out.ied()); // required field in DDS
 
     convert_from_proto(in.protectedswitch(), out.protectedSwitch()); // required field in DDS
 
@@ -921,8 +833,6 @@ void convert_from_proto(const switchmodule::SwitchReadingProfile& in, openfmb::s
 void convert_from_proto(const switchmodule::SwitchStatusProfile& in, openfmb::switchmodule::SwitchStatusProfile& out)
 {
     if(in.has_statusmessageinfo()) convert_from_proto(in.statusmessageinfo(), out); // inherited type
-
-    convert_from_proto(in.ied(), out.ied()); // required field in DDS
 
     convert_from_proto(in.protectedswitch(), out.protectedSwitch()); // required field in DDS
 
@@ -1134,11 +1044,6 @@ void convert_from_proto(const commonmodule::ControlINC& in, openfmb::commonmodul
 void convert_from_proto(const commonmodule::ControlSPC& in, openfmb::commonmodule::ControlSPC& out)
 {
     out.ctlVal() = in.ctlval(); // required BOOL primitive
-}
-
-void convert_from_proto(const commonmodule::IED& in, openfmb::commonmodule::IED& out)
-{
-    if(in.has_identifiedobject()) convert_from_proto(in.identifiedobject(), out); // inherited type
 }
 
 void convert_from_proto(const commonmodule::EventMessageInfo& in, openfmb::commonmodule::EventMessageInfo& out)
@@ -4409,11 +4314,21 @@ void convert_from_proto(const commonmodule::StringEventAndStatusGGIO& in, openfm
 
 void convert_from_proto(const commonmodule::VSS& in, openfmb::commonmodule::VSS& out)
 {
-    convert_from_proto(in.q(), out.q()); // required field in DDS
+    if(in.has_q()) // optional field in DDS
+    {
+        openfmb::commonmodule::Quality temp{};
+        convert_from_proto(in.q(), temp);
+        out.q() = temp;
+    }
 
     out.stVal() = in.stval(); // required string
 
-    convert_from_proto(in.t(), out.t()); // required field in DDS
+    if(in.has_t()) // optional field in DDS
+    {
+        openfmb::commonmodule::Timestamp temp{};
+        convert_from_proto(in.t(), temp);
+        out.t() = temp;
+    }
 }
 
 void convert_from_proto(const resourcemodule::ResourceReading& in, openfmb::resourcemodule::ResourceReading& out)

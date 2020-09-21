@@ -36,8 +36,6 @@ void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::Conducting
 
 void visit_commonmodule_EventMessageInfo(const set_t<commonmodule::EventMessageInfo>& setter, const get_t<commonmodule::EventMessageInfo>& getter, ITypedModelVisitor<resourcemodule::ResourceEventProfile>& visitor);
 
-void visit_commonmodule_IED(const set_t<commonmodule::IED>& setter, const get_t<commonmodule::IED>& getter, ITypedModelVisitor<resourcemodule::ResourceEventProfile>& visitor);
-
 void visit_commonmodule_IdentifiedObject(const set_t<commonmodule::IdentifiedObject>& setter, const get_t<commonmodule::IdentifiedObject>& getter, ITypedModelVisitor<resourcemodule::ResourceEventProfile>& visitor);
 
 void visit_commonmodule_IntegerEventAndStatusGGIO(const set_t<commonmodule::IntegerEventAndStatusGGIO>& setter, const get_t<commonmodule::IntegerEventAndStatusGGIO>& getter, ITypedModelVisitor<resourcemodule::ResourceEventProfile>& visitor);
@@ -117,30 +115,6 @@ void visit(ITypedModelVisitor<resourcemodule::ResourceEventProfile>& visitor)
                 if(value)
                 {
                     return value->has_conductingequipment() ? &value->conductingequipment() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
-    {
-        visit_commonmodule_IED(
-            [setter](resourcemodule::ResourceEventProfile& profile)
-            {
-                return setter(profile)->mutable_ied();
-            },
-            [getter](const resourcemodule::ResourceEventProfile& profile) -> commonmodule::IED const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_ied() ? &value->ied() : nullptr;
                 }
                 else
                 {
@@ -436,33 +410,6 @@ void visit_commonmodule_EventMessageInfo(const set_t<commonmodule::EventMessageI
                 if(value)
                 {
                     return value->has_messageinfo() ? &value->messageinfo() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-}
-
-void visit_commonmodule_IED(const set_t<commonmodule::IED>& setter, const get_t<commonmodule::IED>& getter, ITypedModelVisitor<resourcemodule::ResourceEventProfile>& visitor)
-{
-    if(visitor.start_message_field("identifiedObject", commonmodule::IdentifiedObject::descriptor()))
-    {
-        visit_commonmodule_IdentifiedObject(
-            [setter](resourcemodule::ResourceEventProfile& profile)
-            {
-                return setter(profile)->mutable_identifiedobject();
-            },
-            [getter](const resourcemodule::ResourceEventProfile& profile) -> commonmodule::IdentifiedObject const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_identifiedobject() ? &value->identifiedobject() : nullptr;
                 }
                 else
                 {

@@ -34,8 +34,6 @@ void visit_commonmodule_BooleanEventAndStatusGGIO(const set_t<commonmodule::Bool
 
 void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::ConductingEquipment>& setter, const get_t<commonmodule::ConductingEquipment>& getter, ITypedModelVisitor<resourcemodule::ResourceStatusProfile>& visitor);
 
-void visit_commonmodule_IED(const set_t<commonmodule::IED>& setter, const get_t<commonmodule::IED>& getter, ITypedModelVisitor<resourcemodule::ResourceStatusProfile>& visitor);
-
 void visit_commonmodule_IdentifiedObject(const set_t<commonmodule::IdentifiedObject>& setter, const get_t<commonmodule::IdentifiedObject>& getter, ITypedModelVisitor<resourcemodule::ResourceStatusProfile>& visitor);
 
 void visit_commonmodule_IntegerEventAndStatusGGIO(const set_t<commonmodule::IntegerEventAndStatusGGIO>& setter, const get_t<commonmodule::IntegerEventAndStatusGGIO>& getter, ITypedModelVisitor<resourcemodule::ResourceStatusProfile>& visitor);
@@ -117,30 +115,6 @@ void visit(ITypedModelVisitor<resourcemodule::ResourceStatusProfile>& visitor)
                 if(value)
                 {
                     return value->has_conductingequipment() ? &value->conductingequipment() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
-    {
-        visit_commonmodule_IED(
-            [setter](resourcemodule::ResourceStatusProfile& profile)
-            {
-                return setter(profile)->mutable_ied();
-            },
-            [getter](const resourcemodule::ResourceStatusProfile& profile) -> commonmodule::IED const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_ied() ? &value->ied() : nullptr;
                 }
                 else
                 {
@@ -419,33 +393,6 @@ void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::Conducting
             }
         )
     );
-}
-
-void visit_commonmodule_IED(const set_t<commonmodule::IED>& setter, const get_t<commonmodule::IED>& getter, ITypedModelVisitor<resourcemodule::ResourceStatusProfile>& visitor)
-{
-    if(visitor.start_message_field("identifiedObject", commonmodule::IdentifiedObject::descriptor()))
-    {
-        visit_commonmodule_IdentifiedObject(
-            [setter](resourcemodule::ResourceStatusProfile& profile)
-            {
-                return setter(profile)->mutable_identifiedobject();
-            },
-            [getter](const resourcemodule::ResourceStatusProfile& profile) -> commonmodule::IdentifiedObject const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_identifiedobject() ? &value->identifiedobject() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
 }
 
 void visit_commonmodule_IdentifiedObject(const set_t<commonmodule::IdentifiedObject>& setter, const get_t<commonmodule::IdentifiedObject>& getter, ITypedModelVisitor<resourcemodule::ResourceStatusProfile>& visitor)

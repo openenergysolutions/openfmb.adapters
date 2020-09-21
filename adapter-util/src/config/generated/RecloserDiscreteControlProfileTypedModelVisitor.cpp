@@ -42,8 +42,6 @@ void visit_commonmodule_ControlValue(const set_t<commonmodule::ControlValue>& se
 
 void visit_commonmodule_DiscreteControlXCBR(const set_t<commonmodule::DiscreteControlXCBR>& setter, const get_t<commonmodule::DiscreteControlXCBR>& getter, ITypedModelVisitor<reclosermodule::RecloserDiscreteControlProfile>& visitor);
 
-void visit_commonmodule_IED(const set_t<commonmodule::IED>& setter, const get_t<commonmodule::IED>& getter, ITypedModelVisitor<reclosermodule::RecloserDiscreteControlProfile>& visitor);
-
 void visit_commonmodule_IdentifiedObject(const set_t<commonmodule::IdentifiedObject>& setter, const get_t<commonmodule::IdentifiedObject>& getter, ITypedModelVisitor<reclosermodule::RecloserDiscreteControlProfile>& visitor);
 
 void visit_commonmodule_LogicalNode(const set_t<commonmodule::LogicalNode>& setter, const get_t<commonmodule::LogicalNode>& getter, ITypedModelVisitor<reclosermodule::RecloserDiscreteControlProfile>& visitor);
@@ -87,30 +85,6 @@ void visit(ITypedModelVisitor<reclosermodule::RecloserDiscreteControlProfile>& v
                 if(value)
                 {
                     return value->has_controlmessageinfo() ? &value->controlmessageinfo() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("ied", commonmodule::IED::descriptor()))
-    {
-        visit_commonmodule_IED(
-            [setter](reclosermodule::RecloserDiscreteControlProfile& profile)
-            {
-                return setter(profile)->mutable_ied();
-            },
-            [getter](const reclosermodule::RecloserDiscreteControlProfile& profile) -> commonmodule::IED const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_ied() ? &value->ied() : nullptr;
                 }
                 else
                 {
@@ -529,33 +503,6 @@ void visit_commonmodule_DiscreteControlXCBR(const set_t<commonmodule::DiscreteCo
                 if(value)
                 {
                     return value->has_resetprotectionpickup() ? &value->resetprotectionpickup() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-}
-
-void visit_commonmodule_IED(const set_t<commonmodule::IED>& setter, const get_t<commonmodule::IED>& getter, ITypedModelVisitor<reclosermodule::RecloserDiscreteControlProfile>& visitor)
-{
-    if(visitor.start_message_field("identifiedObject", commonmodule::IdentifiedObject::descriptor()))
-    {
-        visit_commonmodule_IdentifiedObject(
-            [setter](reclosermodule::RecloserDiscreteControlProfile& profile)
-            {
-                return setter(profile)->mutable_identifiedobject();
-            },
-            [getter](const reclosermodule::RecloserDiscreteControlProfile& profile) -> commonmodule::IdentifiedObject const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_identifiedobject() ? &value->identifiedobject() : nullptr;
                 }
                 else
                 {
