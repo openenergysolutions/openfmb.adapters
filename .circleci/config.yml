@@ -379,7 +379,6 @@ workflows:
                 - develop
                 - experimental
                 - v2_working
-                - v2_final
             tags:
               only:
                 - /.*/
