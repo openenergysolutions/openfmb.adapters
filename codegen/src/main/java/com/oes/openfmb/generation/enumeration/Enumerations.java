@@ -99,6 +99,7 @@ public class Enumerations {
                     getBasicFieldType("Int32"),
                     getBasicFieldType("Int64"),
                     getBasicFieldType("Float"),
+                    getBasicFieldType("Double"),
                     getBasicFieldType("Bool"),
                     stringFieldType,
                     enumFieldType,

@@ -294,8 +294,6 @@ void visit_generationmodule_ReactivePowerControl(IModelVisitor& visitor);
 
 void visit_generationmodule_RealPowerControl(IModelVisitor& visitor);
 
-void visit_google_protobuf_DoubleValue(IModelVisitor& visitor);
-
 void visit_loadmodule_LoadCSG(IModelVisitor& visitor);
 
 void visit_loadmodule_LoadControl(IModelVisitor& visitor);
@@ -3065,7 +3063,7 @@ void visit_commonmodule_Vector(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("ang", google::protobuf::DoubleValue::descriptor()))
     {
-        visit_google_protobuf_DoubleValue(visitor);
+        visitor.handle("value", DoubleFieldType::Value::mapped);
         visitor.end_message_field();
     }
 
@@ -4255,11 +4253,6 @@ void visit_generationmodule_RealPowerControl(IModelVisitor& visitor)
         visitor.handle("value", FloatFieldType::Value::mapped);
         visitor.end_message_field();
     }
-}
-
-void visit_google_protobuf_DoubleValue(IModelVisitor& visitor)
-{
-    visitor.handle("value", DoubleFieldType::Value::mapped);
 }
 
 void visit_loadmodule_LoadCSG(IModelVisitor& visitor)

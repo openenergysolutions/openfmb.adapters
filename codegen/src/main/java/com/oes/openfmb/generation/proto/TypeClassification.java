@@ -189,6 +189,10 @@ public class TypeClassification {
                     return getFloatWrapper(path);
                 }
 
+                if(path.last().getMessageType() == DoubleValue.getDescriptor()) {
+                    return getDoubleWrapper(path);
+                }
+
                 if(path.last().getMessageType() == StringValue.getDescriptor()) {
                     return getStringWrapper(path);
                 }
@@ -241,7 +245,7 @@ public class TypeClassification {
 
     private static String getDouble(FieldPath path)
     {
-        if(path.hasName("setMag", "ctlVal", "mag", "value")) {
+        if(path.hasName("setMag", "ctlVal", "mag", "value", "ang")) {
             return Types.float64.mapped;
         }
 
@@ -278,6 +282,11 @@ public class TypeClassification {
     private static String getFloatWrapper(FieldPath path)
     {
         return Types.float32.mapped;
+    }
+
+    private static String getDoubleWrapper(FieldPath path)
+    {
+        return Types.float64.mapped;
     }
 
     private static String getStringWrapper(FieldPath path)

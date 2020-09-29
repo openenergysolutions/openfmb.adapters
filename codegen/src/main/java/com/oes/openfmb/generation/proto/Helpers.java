@@ -33,6 +33,7 @@ class Helpers {
                     StringValue.getDescriptor(),
                     BoolValue.getDescriptor(),
                     FloatValue.getDescriptor(),
+                    DoubleValue.getDescriptor(),
                     Int32Value.getDescriptor(),
                     Int64Value.getDescriptor(),
                     UInt32Value.getDescriptor(),
