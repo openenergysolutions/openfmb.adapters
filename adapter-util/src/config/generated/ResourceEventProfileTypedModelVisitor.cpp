@@ -28,8 +28,6 @@ using get_t = getter_t<resourcemodule::ResourceEventProfile, V>;
 
 void visit_commonmodule_AnalogEventAndStatusGGIO(const set_t<commonmodule::AnalogEventAndStatusGGIO>& setter, const get_t<commonmodule::AnalogEventAndStatusGGIO>& getter, ITypedModelVisitor<resourcemodule::ResourceEventProfile>& visitor);
 
-void visit_commonmodule_AnalogueValue(const set_t<commonmodule::AnalogueValue>& setter, const get_t<commonmodule::AnalogueValue>& getter, ITypedModelVisitor<resourcemodule::ResourceEventProfile>& visitor);
-
 void visit_commonmodule_BooleanEventAndStatusGGIO(const set_t<commonmodule::BooleanEventAndStatusGGIO>& setter, const get_t<commonmodule::BooleanEventAndStatusGGIO>& getter, ITypedModelVisitor<resourcemodule::ResourceEventProfile>& visitor);
 
 void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::ConductingEquipment>& setter, const get_t<commonmodule::ConductingEquipment>& getter, ITypedModelVisitor<resourcemodule::ResourceEventProfile>& visitor);
@@ -61,10 +59,6 @@ void visit_commonmodule_StringEventAndStatusGGIO(const set_t<commonmodule::Strin
 void visit_commonmodule_Unit(const set_t<commonmodule::Unit>& setter, const get_t<commonmodule::Unit>& getter, ITypedModelVisitor<resourcemodule::ResourceEventProfile>& visitor);
 
 void visit_commonmodule_VSS(const set_t<commonmodule::VSS>& setter, const get_t<commonmodule::VSS>& getter, ITypedModelVisitor<resourcemodule::ResourceEventProfile>& visitor);
-
-void visit_google_protobuf_FloatValue(const set_t<google::protobuf::FloatValue>& setter, const get_t<google::protobuf::FloatValue>& getter, ITypedModelVisitor<resourcemodule::ResourceEventProfile>& visitor);
-
-void visit_google_protobuf_Int32Value(const set_t<google::protobuf::Int32Value>& setter, const get_t<google::protobuf::Int32Value>& getter, ITypedModelVisitor<resourcemodule::ResourceEventProfile>& visitor);
 
 void visit_google_protobuf_StringValue(const set_t<google::protobuf::StringValue>& setter, const get_t<google::protobuf::StringValue>& getter, ITypedModelVisitor<resourcemodule::ResourceEventProfile>& visitor);
 
@@ -216,57 +210,6 @@ void visit_commonmodule_AnalogEventAndStatusGGIO(const set_t<commonmodule::Analo
                 if(value)
                 {
                     return value->has_phase() ? &value->phase() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-}
-
-void visit_commonmodule_AnalogueValue(const set_t<commonmodule::AnalogueValue>& setter, const get_t<commonmodule::AnalogueValue>& getter, ITypedModelVisitor<resourcemodule::ResourceEventProfile>& visitor)
-{
-    if(visitor.start_message_field("f", google::protobuf::FloatValue::descriptor()))
-    {
-        visit_google_protobuf_FloatValue(
-            [setter](resourcemodule::ResourceEventProfile& profile)
-            {
-                return setter(profile)->mutable_f();
-            },
-            [getter](const resourcemodule::ResourceEventProfile& profile) -> google::protobuf::FloatValue const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_f() ? &value->f() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("i", google::protobuf::Int32Value::descriptor()))
-    {
-        visit_google_protobuf_Int32Value(
-            [setter](resourcemodule::ResourceEventProfile& profile)
-            {
-                return setter(profile)->mutable_i();
-            },
-            [getter](const resourcemodule::ResourceEventProfile& profile) -> google::protobuf::Int32Value const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_i() ? &value->i() : nullptr;
                 }
                 else
                 {
@@ -601,29 +544,19 @@ void visit_commonmodule_LogicalNode(const set_t<commonmodule::LogicalNode>& sett
 
 void visit_commonmodule_MV(const set_t<commonmodule::MV>& setter, const get_t<commonmodule::MV>& getter, ITypedModelVisitor<resourcemodule::ResourceEventProfile>& visitor)
 {
-    if(visitor.start_message_field("mag", commonmodule::AnalogueValue::descriptor()))
-    {
-        visit_commonmodule_AnalogueValue(
-            [setter](resourcemodule::ResourceEventProfile& profile)
+    visitor.handle(
+        "mag",
+        AccessorBuilder<resourcemodule::ResourceEventProfile,double>::build(
+            [setter](resourcemodule::ResourceEventProfile& profile, const double& value) { setter(profile)->set_mag(value); },
+            [getter](const resourcemodule::ResourceEventProfile& profile, const handler_t<double>& handler)
             {
-                return setter(profile)->mutable_mag();
-            },
-            [getter](const resourcemodule::ResourceEventProfile& profile) -> commonmodule::AnalogueValue const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_mag() ? &value->mag() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->mag());
+                return true;
+            }
+        )
+    );
 
     visitor.handle(
         "q",
@@ -1052,40 +985,6 @@ void visit_commonmodule_VSS(const set_t<commonmodule::VSS>& setter, const get_t<
                 const auto parent = getter(profile);
                 if(!parent || !parent->has_t()) return false;
                 handler(parent->t());
-                return true;
-            }
-        )
-    );
-}
-
-void visit_google_protobuf_FloatValue(const set_t<google::protobuf::FloatValue>& setter, const get_t<google::protobuf::FloatValue>& getter, ITypedModelVisitor<resourcemodule::ResourceEventProfile>& visitor)
-{
-    visitor.handle(
-        "value",
-        AccessorBuilder<resourcemodule::ResourceEventProfile,float>::build(
-            [setter](resourcemodule::ResourceEventProfile& profile, const float& value) { setter(profile)->set_value(value); },
-            [getter](const resourcemodule::ResourceEventProfile& profile, const handler_t<float>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->value());
-                return true;
-            }
-        )
-    );
-}
-
-void visit_google_protobuf_Int32Value(const set_t<google::protobuf::Int32Value>& setter, const get_t<google::protobuf::Int32Value>& getter, ITypedModelVisitor<resourcemodule::ResourceEventProfile>& visitor)
-{
-    visitor.handle(
-        "value",
-        AccessorBuilder<resourcemodule::ResourceEventProfile,int32_t>::build(
-            [setter](resourcemodule::ResourceEventProfile& profile, const int32_t& value) { setter(profile)->set_value(value); },
-            [getter](const resourcemodule::ResourceEventProfile& profile, const handler_t<int32_t>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->value());
                 return true;
             }
         )

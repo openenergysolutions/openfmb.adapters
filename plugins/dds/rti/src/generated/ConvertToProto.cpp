@@ -111,7 +111,7 @@ void convert_to_proto(const openfmb::commonmodule::CMV& in, commonmodule::CMV& o
 
 void convert_to_proto(const openfmb::commonmodule::Vector& in, commonmodule::Vector& out);
 
-void convert_to_proto(const openfmb::commonmodule::AnalogueValue& in, commonmodule::AnalogueValue& out);
+void convert_to_proto(const openfmb::google::protobuf::DoubleValue& in, google::protobuf::DoubleValue& out);
 
 void convert_to_proto(const openfmb::commonmodule::ENG_CalcMethodKind& in, commonmodule::ENG_CalcMethodKind& out);
 
@@ -310,8 +310,6 @@ void convert_to_proto(const openfmb::regulatormodule::RegulatorDiscreteControl& 
 void convert_to_proto(const openfmb::regulatormodule::RegulatorControlATCC& in, regulatormodule::RegulatorControlATCC& out);
 
 void convert_to_proto(const openfmb::commonmodule::ASG& in, commonmodule::ASG& out);
-
-void convert_to_proto(const openfmb::commonmodule::AnalogueValueCtl& in, commonmodule::AnalogueValueCtl& out);
 
 void convert_to_proto(const openfmb::commonmodule::ControlING& in, commonmodule::ControlING& out);
 
@@ -1428,16 +1426,14 @@ void convert_to_proto(const openfmb::commonmodule::Vector& in, commonmodule::Vec
 
     if(in.ang().is_set()) convert_to_proto(in.ang().get(), *out.mutable_ang());
 
-    convert_to_proto(in.mag(), *out.mutable_mag()); // required field in DDS
+    out.set_mag(in.mag());
 }
 
-void convert_to_proto(const openfmb::commonmodule::AnalogueValue& in, commonmodule::AnalogueValue& out)
+void convert_to_proto(const openfmb::google::protobuf::DoubleValue& in, google::protobuf::DoubleValue& out)
 {
     out.Clear();
 
-    if(in.f().is_set()) out.mutable_f()->set_value(in.f().get());
-
-    if(in.i().is_set()) out.mutable_i()->set_value(in.i().get());
+    out.set_value(in.value());
 }
 
 void convert_to_proto(const openfmb::commonmodule::ENG_CalcMethodKind& in, commonmodule::ENG_CalcMethodKind& out)
@@ -1451,7 +1447,7 @@ void convert_to_proto(const openfmb::commonmodule::MV& in, commonmodule::MV& out
 {
     out.Clear();
 
-    convert_to_proto(in.mag(), *out.mutable_mag()); // required field in DDS
+    out.set_mag(in.mag());
 
     if(in.q().is_set()) convert_to_proto(in.q().get(), *out.mutable_q());
 
@@ -2482,6 +2478,8 @@ void convert_to_proto(const openfmb::loadmodule::LoadStatus& in, loadmodule::Loa
 
     convert_to_proto(in, *out.mutable_statusvalue()); // inherited type
 
+    if(in.isUncontrollable().is_set()) out.mutable_isuncontrollable()->set_value(in.isUncontrollable().get());
+
     if(in.loadStatusZGLD().is_set()) convert_to_proto(in.loadStatusZGLD().get(), *out.mutable_loadstatuszgld());
 }
 
@@ -2616,18 +2614,9 @@ void convert_to_proto(const openfmb::commonmodule::ASG& in, commonmodule::ASG& o
 {
     out.Clear();
 
-    convert_to_proto(in.setMag(), *out.mutable_setmag()); // required field in DDS
+    out.set_setmag(in.setMag());
 
     if(in.units().is_set()) convert_to_proto(in.units().get(), *out.mutable_units());
-}
-
-void convert_to_proto(const openfmb::commonmodule::AnalogueValueCtl& in, commonmodule::AnalogueValueCtl& out)
-{
-    out.Clear();
-
-    if(in.f().is_set()) out.mutable_f()->set_value(in.f().get());
-
-    if(in.i().is_set()) out.mutable_i()->set_value(in.i().get());
 }
 
 void convert_to_proto(const openfmb::commonmodule::ControlING& in, commonmodule::ControlING& out)
@@ -2676,7 +2665,7 @@ void convert_to_proto(const openfmb::commonmodule::ControlAPC& in, commonmodule:
 {
     out.Clear();
 
-    convert_to_proto(in.ctlVal(), *out.mutable_ctlval()); // required field in DDS
+    out.set_ctlval(in.ctlVal());
 }
 
 void convert_to_proto(const openfmb::regulatormodule::RegulatorSystem& in, regulatormodule::RegulatorSystem& out)

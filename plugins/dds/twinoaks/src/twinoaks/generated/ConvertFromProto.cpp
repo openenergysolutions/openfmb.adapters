@@ -111,7 +111,7 @@ void convert_from_proto(const commonmodule::CMV& in, twinoaks::commonmodule::CMV
 
 void convert_from_proto(const commonmodule::Vector& in, twinoaks::commonmodule::Vector& out);
 
-void convert_from_proto(const commonmodule::AnalogueValue& in, twinoaks::commonmodule::AnalogueValue& out);
+void convert_from_proto(const google::protobuf::DoubleValue& in, twinoaks::google::protobuf::DoubleValue& out);
 
 void convert_from_proto(const commonmodule::ENG_CalcMethodKind& in, twinoaks::commonmodule::ENG_CalcMethodKind& out);
 
@@ -310,8 +310,6 @@ void convert_from_proto(const regulatormodule::RegulatorDiscreteControl& in, twi
 void convert_from_proto(const regulatormodule::RegulatorControlATCC& in, twinoaks::regulatormodule::RegulatorControlATCC& out);
 
 void convert_from_proto(const commonmodule::ASG& in, twinoaks::commonmodule::ASG& out);
-
-void convert_from_proto(const commonmodule::AnalogueValueCtl& in, twinoaks::commonmodule::AnalogueValueCtl& out);
 
 void convert_from_proto(const commonmodule::ControlING& in, twinoaks::commonmodule::ControlING& out);
 
@@ -1730,26 +1728,18 @@ void convert_from_proto(const commonmodule::Vector& in, twinoaks::commonmodule::
 
     if(in.has_ang()) // optional field in DDS
     {
-        out.ang = new twinoaks::commonmodule::AnalogueValue();
+        out.ang = new twinoaks::google::protobuf::DoubleValue();
         convert_from_proto(in.ang(), *out.ang);
     }
 
-    convert_from_proto(in.mag(), out.mag); // required field in DDS
+    out.mag = in.mag(); // required DOUBLE primitive
 }
 
-void convert_from_proto(const commonmodule::AnalogueValue& in, twinoaks::commonmodule::AnalogueValue& out)
+void convert_from_proto(const google::protobuf::DoubleValue& in, twinoaks::google::protobuf::DoubleValue& out)
 {
     out.clear();
 
-    if(in.has_f())
-    {
-        out.f = allocate_from_wrapper_type(in.f());
-    }
-
-    if(in.has_i())
-    {
-        out.i = allocate_from_wrapper_type(in.i());
-    }
+    out.value = in.value(); // required DOUBLE primitive
 }
 
 void convert_from_proto(const commonmodule::ENG_CalcMethodKind& in, twinoaks::commonmodule::ENG_CalcMethodKind& out)
@@ -1763,7 +1753,7 @@ void convert_from_proto(const commonmodule::MV& in, twinoaks::commonmodule::MV& 
 {
     out.clear();
 
-    convert_from_proto(in.mag(), out.mag); // required field in DDS
+    out.mag = in.mag(); // required DOUBLE primitive
 
     if(in.has_q()) // optional field in DDS
     {
@@ -2127,7 +2117,7 @@ void convert_from_proto(const commonmodule::ENG_ScheduleParameter& in, twinoaks:
 
     out.scheduleParameterType = static_cast<twinoaks::commonmodule::ScheduleParameterKind>(in.scheduleparametertype());
 
-    out.value = in.value(); // required FLOAT primitive
+    out.value = in.value(); // required DOUBLE primitive
 }
 
 void convert_from_proto(const commonmodule::ControlTimestamp& in, twinoaks::commonmodule::ControlTimestamp& out)
@@ -3600,6 +3590,11 @@ void convert_from_proto(const loadmodule::LoadStatus& in, twinoaks::loadmodule::
 
     if(in.has_statusvalue()) convert_from_proto(in.statusvalue(), out); // inherited type
 
+    if(in.has_isuncontrollable())
+    {
+        out.isUncontrollable = allocate_from_wrapper_type(in.isuncontrollable());
+    }
+
     if(in.has_loadstatuszgld()) // optional field in DDS
     {
         out.loadStatusZGLD = new twinoaks::loadmodule::LoadStatusZGLD();
@@ -3833,27 +3828,12 @@ void convert_from_proto(const commonmodule::ASG& in, twinoaks::commonmodule::ASG
 {
     out.clear();
 
-    convert_from_proto(in.setmag(), out.setMag); // required field in DDS
+    out.setMag = in.setmag(); // required DOUBLE primitive
 
     if(in.has_units()) // optional field in DDS
     {
         out.units = new twinoaks::commonmodule::Unit();
         convert_from_proto(in.units(), *out.units);
-    }
-}
-
-void convert_from_proto(const commonmodule::AnalogueValueCtl& in, twinoaks::commonmodule::AnalogueValueCtl& out)
-{
-    out.clear();
-
-    if(in.has_f())
-    {
-        out.f = allocate_from_wrapper_type(in.f());
-    }
-
-    if(in.has_i())
-    {
-        out.i = allocate_from_wrapper_type(in.i());
     }
 }
 
@@ -3939,7 +3919,7 @@ void convert_from_proto(const commonmodule::ControlAPC& in, twinoaks::commonmodu
 {
     out.clear();
 
-    convert_from_proto(in.ctlval(), out.ctlVal); // required field in DDS
+    out.ctlVal = in.ctlval(); // required DOUBLE primitive
 }
 
 void convert_from_proto(const regulatormodule::RegulatorSystem& in, twinoaks::regulatormodule::RegulatorSystem& out)

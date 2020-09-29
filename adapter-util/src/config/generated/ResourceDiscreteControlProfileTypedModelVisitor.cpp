@@ -26,8 +26,6 @@ using get_t = getter_t<resourcemodule::ResourceDiscreteControlProfile, V>;
 
 // ---- forward declare all the child visit method names ----
 
-void visit_commonmodule_AnalogueValueCtl(const set_t<commonmodule::AnalogueValueCtl>& setter, const get_t<commonmodule::AnalogueValueCtl>& getter, ITypedModelVisitor<resourcemodule::ResourceDiscreteControlProfile>& visitor);
-
 void visit_commonmodule_CheckConditions(const set_t<commonmodule::CheckConditions>& setter, const get_t<commonmodule::CheckConditions>& getter, ITypedModelVisitor<resourcemodule::ResourceDiscreteControlProfile>& visitor);
 
 void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::ConductingEquipment>& setter, const get_t<commonmodule::ConductingEquipment>& getter, ITypedModelVisitor<resourcemodule::ResourceDiscreteControlProfile>& visitor);
@@ -53,10 +51,6 @@ void visit_commonmodule_Optional_PhaseCodeKind(const set_t<commonmodule::Optiona
 void visit_commonmodule_VSC(const set_t<commonmodule::VSC>& setter, const get_t<commonmodule::VSC>& getter, ITypedModelVisitor<resourcemodule::ResourceDiscreteControlProfile>& visitor);
 
 void visit_google_protobuf_BoolValue(const set_t<google::protobuf::BoolValue>& setter, const get_t<google::protobuf::BoolValue>& getter, ITypedModelVisitor<resourcemodule::ResourceDiscreteControlProfile>& visitor);
-
-void visit_google_protobuf_FloatValue(const set_t<google::protobuf::FloatValue>& setter, const get_t<google::protobuf::FloatValue>& getter, ITypedModelVisitor<resourcemodule::ResourceDiscreteControlProfile>& visitor);
-
-void visit_google_protobuf_Int32Value(const set_t<google::protobuf::Int32Value>& setter, const get_t<google::protobuf::Int32Value>& getter, ITypedModelVisitor<resourcemodule::ResourceDiscreteControlProfile>& visitor);
 
 void visit_google_protobuf_StringValue(const set_t<google::protobuf::StringValue>& setter, const get_t<google::protobuf::StringValue>& getter, ITypedModelVisitor<resourcemodule::ResourceDiscreteControlProfile>& visitor);
 
@@ -153,57 +147,6 @@ void visit(ITypedModelVisitor<resourcemodule::ResourceDiscreteControlProfile>& v
 
 // ---- template definitions for child types ----
 
-void visit_commonmodule_AnalogueValueCtl(const set_t<commonmodule::AnalogueValueCtl>& setter, const get_t<commonmodule::AnalogueValueCtl>& getter, ITypedModelVisitor<resourcemodule::ResourceDiscreteControlProfile>& visitor)
-{
-    if(visitor.start_message_field("f", google::protobuf::FloatValue::descriptor()))
-    {
-        visit_google_protobuf_FloatValue(
-            [setter](resourcemodule::ResourceDiscreteControlProfile& profile)
-            {
-                return setter(profile)->mutable_f();
-            },
-            [getter](const resourcemodule::ResourceDiscreteControlProfile& profile) -> google::protobuf::FloatValue const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_f() ? &value->f() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("i", google::protobuf::Int32Value::descriptor()))
-    {
-        visit_google_protobuf_Int32Value(
-            [setter](resourcemodule::ResourceDiscreteControlProfile& profile)
-            {
-                return setter(profile)->mutable_i();
-            },
-            [getter](const resourcemodule::ResourceDiscreteControlProfile& profile) -> google::protobuf::Int32Value const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_i() ? &value->i() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-}
-
 void visit_commonmodule_CheckConditions(const set_t<commonmodule::CheckConditions>& setter, const get_t<commonmodule::CheckConditions>& getter, ITypedModelVisitor<resourcemodule::ResourceDiscreteControlProfile>& visitor)
 {
     if(visitor.start_message_field("interlockCheck", google::protobuf::BoolValue::descriptor()))
@@ -298,29 +241,19 @@ void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::Conducting
 
 void visit_commonmodule_ControlAPC(const set_t<commonmodule::ControlAPC>& setter, const get_t<commonmodule::ControlAPC>& getter, ITypedModelVisitor<resourcemodule::ResourceDiscreteControlProfile>& visitor)
 {
-    if(visitor.start_message_field("ctlVal", commonmodule::AnalogueValueCtl::descriptor()))
-    {
-        visit_commonmodule_AnalogueValueCtl(
-            [setter](resourcemodule::ResourceDiscreteControlProfile& profile)
+    visitor.handle(
+        "ctlVal",
+        AccessorBuilder<resourcemodule::ResourceDiscreteControlProfile,double>::build(
+            [setter](resourcemodule::ResourceDiscreteControlProfile& profile, const double& value) { setter(profile)->set_ctlval(value); },
+            [getter](const resourcemodule::ResourceDiscreteControlProfile& profile, const handler_t<double>& handler)
             {
-                return setter(profile)->mutable_ctlval();
-            },
-            [getter](const resourcemodule::ResourceDiscreteControlProfile& profile) -> commonmodule::AnalogueValueCtl const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_ctlval() ? &value->ctlval() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->ctlval());
+                return true;
+            }
+        )
+    );
 }
 
 void visit_commonmodule_ControlINC(const set_t<commonmodule::ControlINC>& setter, const get_t<commonmodule::ControlINC>& getter, ITypedModelVisitor<resourcemodule::ResourceDiscreteControlProfile>& visitor)
@@ -620,40 +553,6 @@ void visit_google_protobuf_BoolValue(const set_t<google::protobuf::BoolValue>& s
         AccessorBuilder<resourcemodule::ResourceDiscreteControlProfile,bool>::build(
             [setter](resourcemodule::ResourceDiscreteControlProfile& profile, const bool& value) { setter(profile)->set_value(value); },
             [getter](const resourcemodule::ResourceDiscreteControlProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->value());
-                return true;
-            }
-        )
-    );
-}
-
-void visit_google_protobuf_FloatValue(const set_t<google::protobuf::FloatValue>& setter, const get_t<google::protobuf::FloatValue>& getter, ITypedModelVisitor<resourcemodule::ResourceDiscreteControlProfile>& visitor)
-{
-    visitor.handle(
-        "value",
-        AccessorBuilder<resourcemodule::ResourceDiscreteControlProfile,float>::build(
-            [setter](resourcemodule::ResourceDiscreteControlProfile& profile, const float& value) { setter(profile)->set_value(value); },
-            [getter](const resourcemodule::ResourceDiscreteControlProfile& profile, const handler_t<float>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->value());
-                return true;
-            }
-        )
-    );
-}
-
-void visit_google_protobuf_Int32Value(const set_t<google::protobuf::Int32Value>& setter, const get_t<google::protobuf::Int32Value>& getter, ITypedModelVisitor<resourcemodule::ResourceDiscreteControlProfile>& visitor)
-{
-    visitor.handle(
-        "value",
-        AccessorBuilder<resourcemodule::ResourceDiscreteControlProfile,int32_t>::build(
-            [setter](resourcemodule::ResourceDiscreteControlProfile& profile, const int32_t& value) { setter(profile)->set_value(value); },
-            [getter](const resourcemodule::ResourceDiscreteControlProfile& profile, const handler_t<int32_t>& handler)
             {
                 const auto parent = getter(profile);
                 if(!parent) return false;

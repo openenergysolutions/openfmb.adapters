@@ -52,10 +52,6 @@ void visit(const commonmodule::ActivePower& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::AnalogEventAndStatusGGIO& message, IMessageVisitor& visitor);
 
-void visit(const commonmodule::AnalogueValue& message, IMessageVisitor& visitor);
-
-void visit(const commonmodule::AnalogueValueCtl& message, IMessageVisitor& visitor);
-
 void visit(const commonmodule::BCR& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::BooleanEventAndStatusGGIO& message, IMessageVisitor& visitor);
@@ -299,6 +295,8 @@ void visit(const generationmodule::ReactivePowerControl& message, IMessageVisito
 void visit(const generationmodule::RealPowerControl& message, IMessageVisitor& visitor);
 
 void visit(const google::protobuf::BoolValue& message, IMessageVisitor& visitor);
+
+void visit(const google::protobuf::DoubleValue& message, IMessageVisitor& visitor);
 
 void visit(const google::protobuf::FloatValue& message, IMessageVisitor& visitor);
 
@@ -830,12 +828,7 @@ void visit(const commonmodule::ACDCTerminal& message, IMessageVisitor& visitor)
 
 void visit(const commonmodule::ASG& message, IMessageVisitor& visitor)
 {
-    if(message.has_setmag())
-    {
-        visitor.start_message_field("setMag");
-        visit(message.setmag(), visitor);
-        visitor.end_message_field();
-    }
+    visitor.handle("setMag", message.setmag());
     if(message.has_units())
     {
         visitor.start_message_field("units");
@@ -884,38 +877,6 @@ void visit(const commonmodule::AnalogEventAndStatusGGIO& message, IMessageVisito
     {
         visitor.start_message_field("Phase");
         visit(message.phase(), visitor);
-        visitor.end_message_field();
-    }
-}
-
-void visit(const commonmodule::AnalogueValue& message, IMessageVisitor& visitor)
-{
-    if(message.has_f())
-    {
-        visitor.start_message_field("f");
-        visit(message.f(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_i())
-    {
-        visitor.start_message_field("i");
-        visit(message.i(), visitor);
-        visitor.end_message_field();
-    }
-}
-
-void visit(const commonmodule::AnalogueValueCtl& message, IMessageVisitor& visitor)
-{
-    if(message.has_f())
-    {
-        visitor.start_message_field("f");
-        visit(message.f(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_i())
-    {
-        visitor.start_message_field("i");
-        visit(message.i(), visitor);
         visitor.end_message_field();
     }
 }
@@ -1020,12 +981,7 @@ void visit(const commonmodule::ConductingEquipmentTerminalReading& message, IMes
 
 void visit(const commonmodule::ControlAPC& message, IMessageVisitor& visitor)
 {
-    if(message.has_ctlval())
-    {
-        visitor.start_message_field("ctlVal");
-        visit(message.ctlval(), visitor);
-        visitor.end_message_field();
-    }
+    visitor.handle("ctlVal", message.ctlval());
 }
 
 void visit(const commonmodule::ControlDPC& message, IMessageVisitor& visitor)
@@ -1421,12 +1377,7 @@ void visit(const commonmodule::LogicalNodeForEventAndStatus& message, IMessageVi
 
 void visit(const commonmodule::MV& message, IMessageVisitor& visitor)
 {
-    if(message.has_mag())
-    {
-        visitor.start_message_field("mag");
-        visit(message.mag(), visitor);
-        visitor.end_message_field();
-    }
+    visitor.handle("mag", message.mag());
     if(message.has_q())
     {
         visitor.start_message_field("q");
@@ -2291,12 +2242,7 @@ void visit(const commonmodule::Vector& message, IMessageVisitor& visitor)
         visit(message.ang(), visitor);
         visitor.end_message_field();
     }
-    if(message.has_mag())
-    {
-        visitor.start_message_field("mag");
-        visit(message.mag(), visitor);
-        visitor.end_message_field();
-    }
+    visitor.handle("mag", message.mag());
 }
 
 void visit(const commonmodule::WYE& message, IMessageVisitor& visitor)
@@ -3532,6 +3478,11 @@ void visit(const google::protobuf::BoolValue& message, IMessageVisitor& visitor)
     visitor.handle("value", message.value());
 }
 
+void visit(const google::protobuf::DoubleValue& message, IMessageVisitor& visitor)
+{
+    visitor.handle("value", message.value());
+}
+
 void visit(const google::protobuf::FloatValue& message, IMessageVisitor& visitor)
 {
     visitor.handle("value", message.value());
@@ -3769,6 +3720,12 @@ void visit(const loadmodule::LoadStatus& message, IMessageVisitor& visitor)
     {
         visitor.start_message_field("statusValue");
         visit(message.statusvalue(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_isuncontrollable())
+    {
+        visitor.start_message_field("isUncontrollable");
+        visit(message.isuncontrollable(), visitor);
         visitor.end_message_field();
     }
     if(message.has_loadstatuszgld())

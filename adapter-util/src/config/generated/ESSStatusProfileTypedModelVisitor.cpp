@@ -26,8 +26,6 @@ using get_t = getter_t<essmodule::ESSStatusProfile, V>;
 
 // ---- forward declare all the child visit method names ----
 
-void visit_commonmodule_AnalogueValue(const set_t<commonmodule::AnalogueValue>& setter, const get_t<commonmodule::AnalogueValue>& getter, ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor);
-
 void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::ConductingEquipment>& setter, const get_t<commonmodule::ConductingEquipment>& getter, ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 void visit_commonmodule_ENG_GridConnectModeKind(const set_t<commonmodule::ENG_GridConnectModeKind>& setter, const get_t<commonmodule::ENG_GridConnectModeKind>& getter, ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor);
@@ -99,8 +97,6 @@ void visit_essmodule_VoltageRegulation(const set_t<essmodule::VoltageRegulation>
 void visit_google_protobuf_BoolValue(const set_t<google::protobuf::BoolValue>& setter, const get_t<google::protobuf::BoolValue>& getter, ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 void visit_google_protobuf_FloatValue(const set_t<google::protobuf::FloatValue>& setter, const get_t<google::protobuf::FloatValue>& getter, ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor);
-
-void visit_google_protobuf_Int32Value(const set_t<google::protobuf::Int32Value>& setter, const get_t<google::protobuf::Int32Value>& getter, ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 void visit_google_protobuf_StringValue(const set_t<google::protobuf::StringValue>& setter, const get_t<google::protobuf::StringValue>& getter, ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
@@ -186,57 +182,6 @@ void visit(ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor)
 }
 
 // ---- template definitions for child types ----
-
-void visit_commonmodule_AnalogueValue(const set_t<commonmodule::AnalogueValue>& setter, const get_t<commonmodule::AnalogueValue>& getter, ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor)
-{
-    if(visitor.start_message_field("f", google::protobuf::FloatValue::descriptor()))
-    {
-        visit_google_protobuf_FloatValue(
-            [setter](essmodule::ESSStatusProfile& profile)
-            {
-                return setter(profile)->mutable_f();
-            },
-            [getter](const essmodule::ESSStatusProfile& profile) -> google::protobuf::FloatValue const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_f() ? &value->f() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("i", google::protobuf::Int32Value::descriptor()))
-    {
-        visit_google_protobuf_Int32Value(
-            [setter](essmodule::ESSStatusProfile& profile)
-            {
-                return setter(profile)->mutable_i();
-            },
-            [getter](const essmodule::ESSStatusProfile& profile) -> google::protobuf::Int32Value const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_i() ? &value->i() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-}
 
 void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::ConductingEquipment>& setter, const get_t<commonmodule::ConductingEquipment>& getter, ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
@@ -709,29 +654,19 @@ void visit_commonmodule_LogicalNodeForEventAndStatus(const set_t<commonmodule::L
 
 void visit_commonmodule_MV(const set_t<commonmodule::MV>& setter, const get_t<commonmodule::MV>& getter, ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
-    if(visitor.start_message_field("mag", commonmodule::AnalogueValue::descriptor()))
-    {
-        visit_commonmodule_AnalogueValue(
-            [setter](essmodule::ESSStatusProfile& profile)
+    visitor.handle(
+        "mag",
+        AccessorBuilder<essmodule::ESSStatusProfile,double>::build(
+            [setter](essmodule::ESSStatusProfile& profile, const double& value) { setter(profile)->set_mag(value); },
+            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<double>& handler)
             {
-                return setter(profile)->mutable_mag();
-            },
-            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::AnalogueValue const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_mag() ? &value->mag() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->mag());
+                return true;
+            }
+        )
+    );
 
     visitor.handle(
         "q",
@@ -2970,23 +2905,6 @@ void visit_google_protobuf_FloatValue(const set_t<google::protobuf::FloatValue>&
         AccessorBuilder<essmodule::ESSStatusProfile,float>::build(
             [setter](essmodule::ESSStatusProfile& profile, const float& value) { setter(profile)->set_value(value); },
             [getter](const essmodule::ESSStatusProfile& profile, const handler_t<float>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->value());
-                return true;
-            }
-        )
-    );
-}
-
-void visit_google_protobuf_Int32Value(const set_t<google::protobuf::Int32Value>& setter, const get_t<google::protobuf::Int32Value>& getter, ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor)
-{
-    visitor.handle(
-        "value",
-        AccessorBuilder<essmodule::ESSStatusProfile,int32_t>::build(
-            [setter](essmodule::ESSStatusProfile& profile, const int32_t& value) { setter(profile)->set_value(value); },
-            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<int32_t>& handler)
             {
                 const auto parent = getter(profile);
                 if(!parent) return false;

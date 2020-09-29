@@ -30,8 +30,6 @@ void visit_commonmodule_ACDCTerminal(const set_t<commonmodule::ACDCTerminal>& se
 
 void visit_commonmodule_ActivePower(const set_t<commonmodule::ActivePower>& setter, const get_t<commonmodule::ActivePower>& getter, ITypedModelVisitor<generationmodule::GenerationReadingProfile>& visitor);
 
-void visit_commonmodule_AnalogueValue(const set_t<commonmodule::AnalogueValue>& setter, const get_t<commonmodule::AnalogueValue>& getter, ITypedModelVisitor<generationmodule::GenerationReadingProfile>& visitor);
-
 void visit_commonmodule_BCR(const set_t<commonmodule::BCR>& setter, const get_t<commonmodule::BCR>& getter, ITypedModelVisitor<generationmodule::GenerationReadingProfile>& visitor);
 
 void visit_commonmodule_CMV(const set_t<commonmodule::CMV>& setter, const get_t<commonmodule::CMV>& getter, ITypedModelVisitor<generationmodule::GenerationReadingProfile>& visitor);
@@ -85,6 +83,8 @@ void visit_generationmodule_GeneratingUnit(const set_t<generationmodule::Generat
 void visit_generationmodule_GenerationReading(const set_t<generationmodule::GenerationReading>& setter, const get_t<generationmodule::GenerationReading>& getter, ITypedModelVisitor<generationmodule::GenerationReadingProfile>& visitor);
 
 void visit_google_protobuf_BoolValue(const set_t<google::protobuf::BoolValue>& setter, const get_t<google::protobuf::BoolValue>& getter, ITypedModelVisitor<generationmodule::GenerationReadingProfile>& visitor);
+
+void visit_google_protobuf_DoubleValue(const set_t<google::protobuf::DoubleValue>& setter, const get_t<google::protobuf::DoubleValue>& getter, ITypedModelVisitor<generationmodule::GenerationReadingProfile>& visitor);
 
 void visit_google_protobuf_FloatValue(const set_t<google::protobuf::FloatValue>& setter, const get_t<google::protobuf::FloatValue>& getter, ITypedModelVisitor<generationmodule::GenerationReadingProfile>& visitor);
 
@@ -313,57 +313,6 @@ void visit_commonmodule_ActivePower(const set_t<commonmodule::ActivePower>& sett
                 if(value)
                 {
                     return value->has_value() ? &value->value() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-}
-
-void visit_commonmodule_AnalogueValue(const set_t<commonmodule::AnalogueValue>& setter, const get_t<commonmodule::AnalogueValue>& getter, ITypedModelVisitor<generationmodule::GenerationReadingProfile>& visitor)
-{
-    if(visitor.start_message_field("f", google::protobuf::FloatValue::descriptor()))
-    {
-        visit_google_protobuf_FloatValue(
-            [setter](generationmodule::GenerationReadingProfile& profile)
-            {
-                return setter(profile)->mutable_f();
-            },
-            [getter](const generationmodule::GenerationReadingProfile& profile) -> google::protobuf::FloatValue const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_f() ? &value->f() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("i", google::protobuf::Int32Value::descriptor()))
-    {
-        visit_google_protobuf_Int32Value(
-            [setter](generationmodule::GenerationReadingProfile& profile)
-            {
-                return setter(profile)->mutable_i();
-            },
-            [getter](const generationmodule::GenerationReadingProfile& profile) -> google::protobuf::Int32Value const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_i() ? &value->i() : nullptr;
                 }
                 else
                 {
@@ -759,29 +708,19 @@ void visit_commonmodule_LogicalNode(const set_t<commonmodule::LogicalNode>& sett
 
 void visit_commonmodule_MV(const set_t<commonmodule::MV>& setter, const get_t<commonmodule::MV>& getter, ITypedModelVisitor<generationmodule::GenerationReadingProfile>& visitor)
 {
-    if(visitor.start_message_field("mag", commonmodule::AnalogueValue::descriptor()))
-    {
-        visit_commonmodule_AnalogueValue(
-            [setter](generationmodule::GenerationReadingProfile& profile)
+    visitor.handle(
+        "mag",
+        AccessorBuilder<generationmodule::GenerationReadingProfile,double>::build(
+            [setter](generationmodule::GenerationReadingProfile& profile, const double& value) { setter(profile)->set_mag(value); },
+            [getter](const generationmodule::GenerationReadingProfile& profile, const handler_t<double>& handler)
             {
-                return setter(profile)->mutable_mag();
-            },
-            [getter](const generationmodule::GenerationReadingProfile& profile) -> commonmodule::AnalogueValue const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_mag() ? &value->mag() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->mag());
+                return true;
+            }
+        )
+    );
 
     visitor.handle(
         "q",
@@ -2004,14 +1943,14 @@ void visit_commonmodule_Unit(const set_t<commonmodule::Unit>& setter, const get_
 
 void visit_commonmodule_Vector(const set_t<commonmodule::Vector>& setter, const get_t<commonmodule::Vector>& getter, ITypedModelVisitor<generationmodule::GenerationReadingProfile>& visitor)
 {
-    if(visitor.start_message_field("ang", commonmodule::AnalogueValue::descriptor()))
+    if(visitor.start_message_field("ang", google::protobuf::DoubleValue::descriptor()))
     {
-        visit_commonmodule_AnalogueValue(
+        visit_google_protobuf_DoubleValue(
             [setter](generationmodule::GenerationReadingProfile& profile)
             {
                 return setter(profile)->mutable_ang();
             },
-            [getter](const generationmodule::GenerationReadingProfile& profile) -> commonmodule::AnalogueValue const *
+            [getter](const generationmodule::GenerationReadingProfile& profile) -> google::protobuf::DoubleValue const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -2028,29 +1967,19 @@ void visit_commonmodule_Vector(const set_t<commonmodule::Vector>& setter, const 
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("mag", commonmodule::AnalogueValue::descriptor()))
-    {
-        visit_commonmodule_AnalogueValue(
-            [setter](generationmodule::GenerationReadingProfile& profile)
+    visitor.handle(
+        "mag",
+        AccessorBuilder<generationmodule::GenerationReadingProfile,double>::build(
+            [setter](generationmodule::GenerationReadingProfile& profile, const double& value) { setter(profile)->set_mag(value); },
+            [getter](const generationmodule::GenerationReadingProfile& profile, const handler_t<double>& handler)
             {
-                return setter(profile)->mutable_mag();
-            },
-            [getter](const generationmodule::GenerationReadingProfile& profile) -> commonmodule::AnalogueValue const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_mag() ? &value->mag() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->mag());
+                return true;
+            }
+        )
+    );
 }
 
 void visit_commonmodule_WYE(const set_t<commonmodule::WYE>& setter, const get_t<commonmodule::WYE>& getter, ITypedModelVisitor<generationmodule::GenerationReadingProfile>& visitor)
@@ -2333,6 +2262,23 @@ void visit_google_protobuf_BoolValue(const set_t<google::protobuf::BoolValue>& s
         AccessorBuilder<generationmodule::GenerationReadingProfile,bool>::build(
             [setter](generationmodule::GenerationReadingProfile& profile, const bool& value) { setter(profile)->set_value(value); },
             [getter](const generationmodule::GenerationReadingProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->value());
+                return true;
+            }
+        )
+    );
+}
+
+void visit_google_protobuf_DoubleValue(const set_t<google::protobuf::DoubleValue>& setter, const get_t<google::protobuf::DoubleValue>& getter, ITypedModelVisitor<generationmodule::GenerationReadingProfile>& visitor)
+{
+    visitor.handle(
+        "value",
+        AccessorBuilder<generationmodule::GenerationReadingProfile,double>::build(
+            [setter](generationmodule::GenerationReadingProfile& profile, const double& value) { setter(profile)->set_value(value); },
+            [getter](const generationmodule::GenerationReadingProfile& profile, const handler_t<double>& handler)
             {
                 const auto parent = getter(profile);
                 if(!parent) return false;

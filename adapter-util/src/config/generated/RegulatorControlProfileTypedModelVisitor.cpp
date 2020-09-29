@@ -28,8 +28,6 @@ using get_t = getter_t<regulatormodule::RegulatorControlProfile, V>;
 
 void visit_commonmodule_ASG(const set_t<commonmodule::ASG>& setter, const get_t<commonmodule::ASG>& getter, ITypedModelVisitor<regulatormodule::RegulatorControlProfile>& visitor);
 
-void visit_commonmodule_AnalogueValueCtl(const set_t<commonmodule::AnalogueValueCtl>& setter, const get_t<commonmodule::AnalogueValueCtl>& getter, ITypedModelVisitor<regulatormodule::RegulatorControlProfile>& visitor);
-
 void visit_commonmodule_CheckConditions(const set_t<commonmodule::CheckConditions>& setter, const get_t<commonmodule::CheckConditions>& getter, ITypedModelVisitor<regulatormodule::RegulatorControlProfile>& visitor);
 
 void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::ConductingEquipment>& setter, const get_t<commonmodule::ConductingEquipment>& getter, ITypedModelVisitor<regulatormodule::RegulatorControlProfile>& visitor);
@@ -81,8 +79,6 @@ void visit_commonmodule_Unit(const set_t<commonmodule::Unit>& setter, const get_
 void visit_google_protobuf_BoolValue(const set_t<google::protobuf::BoolValue>& setter, const get_t<google::protobuf::BoolValue>& getter, ITypedModelVisitor<regulatormodule::RegulatorControlProfile>& visitor);
 
 void visit_google_protobuf_FloatValue(const set_t<google::protobuf::FloatValue>& setter, const get_t<google::protobuf::FloatValue>& getter, ITypedModelVisitor<regulatormodule::RegulatorControlProfile>& visitor);
-
-void visit_google_protobuf_Int32Value(const set_t<google::protobuf::Int32Value>& setter, const get_t<google::protobuf::Int32Value>& getter, ITypedModelVisitor<regulatormodule::RegulatorControlProfile>& visitor);
 
 void visit_google_protobuf_StringValue(const set_t<google::protobuf::StringValue>& setter, const get_t<google::protobuf::StringValue>& getter, ITypedModelVisitor<regulatormodule::RegulatorControlProfile>& visitor);
 
@@ -185,29 +181,19 @@ void visit(ITypedModelVisitor<regulatormodule::RegulatorControlProfile>& visitor
 
 void visit_commonmodule_ASG(const set_t<commonmodule::ASG>& setter, const get_t<commonmodule::ASG>& getter, ITypedModelVisitor<regulatormodule::RegulatorControlProfile>& visitor)
 {
-    if(visitor.start_message_field("setMag", commonmodule::AnalogueValueCtl::descriptor()))
-    {
-        visit_commonmodule_AnalogueValueCtl(
-            [setter](regulatormodule::RegulatorControlProfile& profile)
+    visitor.handle(
+        "setMag",
+        AccessorBuilder<regulatormodule::RegulatorControlProfile,double>::build(
+            [setter](regulatormodule::RegulatorControlProfile& profile, const double& value) { setter(profile)->set_setmag(value); },
+            [getter](const regulatormodule::RegulatorControlProfile& profile, const handler_t<double>& handler)
             {
-                return setter(profile)->mutable_setmag();
-            },
-            [getter](const regulatormodule::RegulatorControlProfile& profile) -> commonmodule::AnalogueValueCtl const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_setmag() ? &value->setmag() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->setmag());
+                return true;
+            }
+        )
+    );
 
     if(visitor.start_message_field("units", commonmodule::Unit::descriptor()))
     {
@@ -222,57 +208,6 @@ void visit_commonmodule_ASG(const set_t<commonmodule::ASG>& setter, const get_t<
                 if(value)
                 {
                     return value->has_units() ? &value->units() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-}
-
-void visit_commonmodule_AnalogueValueCtl(const set_t<commonmodule::AnalogueValueCtl>& setter, const get_t<commonmodule::AnalogueValueCtl>& getter, ITypedModelVisitor<regulatormodule::RegulatorControlProfile>& visitor)
-{
-    if(visitor.start_message_field("f", google::protobuf::FloatValue::descriptor()))
-    {
-        visit_google_protobuf_FloatValue(
-            [setter](regulatormodule::RegulatorControlProfile& profile)
-            {
-                return setter(profile)->mutable_f();
-            },
-            [getter](const regulatormodule::RegulatorControlProfile& profile) -> google::protobuf::FloatValue const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_f() ? &value->f() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("i", google::protobuf::Int32Value::descriptor()))
-    {
-        visit_google_protobuf_Int32Value(
-            [setter](regulatormodule::RegulatorControlProfile& profile)
-            {
-                return setter(profile)->mutable_i();
-            },
-            [getter](const regulatormodule::RegulatorControlProfile& profile) -> google::protobuf::Int32Value const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_i() ? &value->i() : nullptr;
                 }
                 else
                 {
@@ -379,29 +314,19 @@ void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::Conducting
 
 void visit_commonmodule_ControlAPC(const set_t<commonmodule::ControlAPC>& setter, const get_t<commonmodule::ControlAPC>& getter, ITypedModelVisitor<regulatormodule::RegulatorControlProfile>& visitor)
 {
-    if(visitor.start_message_field("ctlVal", commonmodule::AnalogueValueCtl::descriptor()))
-    {
-        visit_commonmodule_AnalogueValueCtl(
-            [setter](regulatormodule::RegulatorControlProfile& profile)
+    visitor.handle(
+        "ctlVal",
+        AccessorBuilder<regulatormodule::RegulatorControlProfile,double>::build(
+            [setter](regulatormodule::RegulatorControlProfile& profile, const double& value) { setter(profile)->set_ctlval(value); },
+            [getter](const regulatormodule::RegulatorControlProfile& profile, const handler_t<double>& handler)
             {
-                return setter(profile)->mutable_ctlval();
-            },
-            [getter](const regulatormodule::RegulatorControlProfile& profile) -> commonmodule::AnalogueValueCtl const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_ctlval() ? &value->ctlval() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->ctlval());
+                return true;
+            }
+        )
+    );
 }
 
 void visit_commonmodule_ControlDPC(const set_t<commonmodule::ControlDPC>& setter, const get_t<commonmodule::ControlDPC>& getter, ITypedModelVisitor<regulatormodule::RegulatorControlProfile>& visitor)
@@ -1394,23 +1319,6 @@ void visit_google_protobuf_FloatValue(const set_t<google::protobuf::FloatValue>&
         AccessorBuilder<regulatormodule::RegulatorControlProfile,float>::build(
             [setter](regulatormodule::RegulatorControlProfile& profile, const float& value) { setter(profile)->set_value(value); },
             [getter](const regulatormodule::RegulatorControlProfile& profile, const handler_t<float>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->value());
-                return true;
-            }
-        )
-    );
-}
-
-void visit_google_protobuf_Int32Value(const set_t<google::protobuf::Int32Value>& setter, const get_t<google::protobuf::Int32Value>& getter, ITypedModelVisitor<regulatormodule::RegulatorControlProfile>& visitor)
-{
-    visitor.handle(
-        "value",
-        AccessorBuilder<regulatormodule::RegulatorControlProfile,int32_t>::build(
-            [setter](regulatormodule::RegulatorControlProfile& profile, const int32_t& value) { setter(profile)->set_value(value); },
-            [getter](const regulatormodule::RegulatorControlProfile& profile, const handler_t<int32_t>& handler)
             {
                 const auto parent = getter(profile);
                 if(!parent) return false;

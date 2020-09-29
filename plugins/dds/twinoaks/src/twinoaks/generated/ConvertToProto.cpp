@@ -111,7 +111,7 @@ void convert_to_proto(const twinoaks::commonmodule::CMV& in, commonmodule::CMV& 
 
 void convert_to_proto(const twinoaks::commonmodule::Vector& in, commonmodule::Vector& out);
 
-void convert_to_proto(const twinoaks::commonmodule::AnalogueValue& in, commonmodule::AnalogueValue& out);
+void convert_to_proto(const twinoaks::google::protobuf::DoubleValue& in, google::protobuf::DoubleValue& out);
 
 void convert_to_proto(const twinoaks::commonmodule::ENG_CalcMethodKind& in, commonmodule::ENG_CalcMethodKind& out);
 
@@ -310,8 +310,6 @@ void convert_to_proto(const twinoaks::regulatormodule::RegulatorDiscreteControl&
 void convert_to_proto(const twinoaks::regulatormodule::RegulatorControlATCC& in, regulatormodule::RegulatorControlATCC& out);
 
 void convert_to_proto(const twinoaks::commonmodule::ASG& in, commonmodule::ASG& out);
-
-void convert_to_proto(const twinoaks::commonmodule::AnalogueValueCtl& in, commonmodule::AnalogueValueCtl& out);
 
 void convert_to_proto(const twinoaks::commonmodule::ControlING& in, commonmodule::ControlING& out);
 
@@ -1428,16 +1426,14 @@ void convert_to_proto(const twinoaks::commonmodule::Vector& in, commonmodule::Ve
 
     if(in.ang) convert_to_proto(*in.ang, *out.mutable_ang());
 
-    convert_to_proto(in.mag, *out.mutable_mag()); // required field in DDS
+    out.set_mag(in.mag);
 }
 
-void convert_to_proto(const twinoaks::commonmodule::AnalogueValue& in, commonmodule::AnalogueValue& out)
+void convert_to_proto(const twinoaks::google::protobuf::DoubleValue& in, google::protobuf::DoubleValue& out)
 {
     out.Clear();
 
-    if(in.f) out.mutable_f()->set_value(*in.f);
-
-    if(in.i) out.mutable_i()->set_value(*in.i);
+    out.set_value(in.value);
 }
 
 void convert_to_proto(const twinoaks::commonmodule::ENG_CalcMethodKind& in, commonmodule::ENG_CalcMethodKind& out)
@@ -1451,7 +1447,7 @@ void convert_to_proto(const twinoaks::commonmodule::MV& in, commonmodule::MV& ou
 {
     out.Clear();
 
-    convert_to_proto(in.mag, *out.mutable_mag()); // required field in DDS
+    out.set_mag(in.mag);
 
     if(in.q) convert_to_proto(*in.q, *out.mutable_q());
 
@@ -2482,6 +2478,8 @@ void convert_to_proto(const twinoaks::loadmodule::LoadStatus& in, loadmodule::Lo
 
     convert_to_proto(in, *out.mutable_statusvalue()); // inherited type
 
+    if(in.isUncontrollable) out.mutable_isuncontrollable()->set_value(*in.isUncontrollable);
+
     if(in.loadStatusZGLD) convert_to_proto(*in.loadStatusZGLD, *out.mutable_loadstatuszgld());
 }
 
@@ -2616,18 +2614,9 @@ void convert_to_proto(const twinoaks::commonmodule::ASG& in, commonmodule::ASG& 
 {
     out.Clear();
 
-    convert_to_proto(in.setMag, *out.mutable_setmag()); // required field in DDS
+    out.set_setmag(in.setMag);
 
     if(in.units) convert_to_proto(*in.units, *out.mutable_units());
-}
-
-void convert_to_proto(const twinoaks::commonmodule::AnalogueValueCtl& in, commonmodule::AnalogueValueCtl& out)
-{
-    out.Clear();
-
-    if(in.f) out.mutable_f()->set_value(*in.f);
-
-    if(in.i) out.mutable_i()->set_value(*in.i);
 }
 
 void convert_to_proto(const twinoaks::commonmodule::ControlING& in, commonmodule::ControlING& out)
@@ -2676,7 +2665,7 @@ void convert_to_proto(const twinoaks::commonmodule::ControlAPC& in, commonmodule
 {
     out.Clear();
 
-    convert_to_proto(in.ctlVal, *out.mutable_ctlval()); // required field in DDS
+    out.set_ctlval(in.ctlVal);
 }
 
 void convert_to_proto(const twinoaks::regulatormodule::RegulatorSystem& in, regulatormodule::RegulatorSystem& out)

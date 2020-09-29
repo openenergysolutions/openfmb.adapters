@@ -1283,6 +1283,30 @@ void visit_loadmodule_LoadStatus(const set_t<loadmodule::LoadStatus>& setter, co
         visitor.end_message_field();
     }
 
+    if(visitor.start_message_field("isUncontrollable", google::protobuf::BoolValue::descriptor()))
+    {
+        visit_google_protobuf_BoolValue(
+            [setter](loadmodule::LoadStatusProfile& profile)
+            {
+                return setter(profile)->mutable_isuncontrollable();
+            },
+            [getter](const loadmodule::LoadStatusProfile& profile) -> google::protobuf::BoolValue const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_isuncontrollable() ? &value->isuncontrollable() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
     if(visitor.start_message_field("loadStatusZGLD", loadmodule::LoadStatusZGLD::descriptor()))
     {
         visit_loadmodule_LoadStatusZGLD(
