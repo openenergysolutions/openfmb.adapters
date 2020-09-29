@@ -127,6 +127,7 @@ public class TypeClassification {
         static BasicType int64 = new BasicType("Int64FieldType");
         static BasicType enumeration = new BasicType("EnumFieldType");
         static BasicType float32 = new BasicType("FloatFieldType");
+        static BasicType float64 = new BasicType("DoubleFieldType");
         static StringType string = new StringType();
         static BasicType quality = new BasicType("QualityFieldType");
         static BasicType timestamp = new BasicType("TimestampFieldType");
@@ -154,6 +155,8 @@ public class TypeClassification {
                 return getEnum(path);
             case FLOAT:
                 return getFloat(path);
+            case DOUBLE:
+                return getDouble(path);
             case MESSAGE:
             {
                 if(path.last().getMessageType() == Quality.getDescriptor()) {
@@ -236,6 +239,16 @@ public class TypeClassification {
         throw new NoClassificationException(path);
     }
 
+    private static String getDouble(FieldPath path)
+    {
+        if(path.hasName("setMag", "ctlVal", "mag", "value")) {
+            return Types.float64.mapped;
+        }
+
+        throw new NoClassificationException(path);
+    }
+
+
     private static String getBoolWrapper(FieldPath path)
     {
         if(path.matches("connected", ACDCTerminal.getDescriptor()))
@@ -248,7 +261,7 @@ public class TypeClassification {
             return Types.bool.ignored;
         }
 
-       return Types.bool.mapped;
+        return Types.bool.mapped;
     }
 
     private static String getInt32Wrapper(FieldPath path)
@@ -257,19 +270,6 @@ public class TypeClassification {
         if(path.matches("sequenceNumber", ACDCTerminal.getDescriptor()))
         {
             return Types.int32.ignored;
-        }
-
-        if(path.hasName("i"))
-        {
-            if(path.hasParents(AnalogueValue.getDescriptor()))
-            {
-                return Types.int32.ignored;
-            }
-
-            if(path.hasParents(AnalogueValueCtl.getDescriptor()))
-            {
-                return Types.int32.ignored;
-            }
         }
 
         return Types.int32.mapped;
