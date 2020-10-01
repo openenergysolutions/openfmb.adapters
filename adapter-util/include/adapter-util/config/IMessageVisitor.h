@@ -47,6 +47,7 @@ namespace util {
         virtual void handle(const std::string& field_name, int64_t value) = 0;
         virtual void handle(const std::string& field_name, uint64_t value) = 0;
         virtual void handle(const std::string& field_name, float value) = 0;
+        virtual void handle(const std::string& field_name, double value) = 0;
         virtual void handle(const std::string& field_name, const std::string& value) = 0;
         virtual void handle(const std::string& field_name, int value, const google::protobuf::EnumDescriptor& descriptor) = 0;
     };

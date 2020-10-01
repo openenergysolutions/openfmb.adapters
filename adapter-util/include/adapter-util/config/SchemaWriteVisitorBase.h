@@ -8,6 +8,7 @@
 #include <adapter-util/config/generated/BoolFieldType.h>
 #include <adapter-util/config/generated/EnumFieldType.h>
 #include <adapter-util/config/generated/FloatFieldType.h>
+#include <adapter-util/config/generated/DoubleFieldType.h>
 #include <adapter-util/config/generated/Int32FieldType.h>
 #include <adapter-util/config/generated/Int64FieldType.h>
 #include <adapter-util/config/generated/StringFieldType.h>
@@ -33,6 +34,8 @@ namespace util {
         virtual std::shared_ptr<schema::Object> get_mapped_int64_schema() { return nullptr; };
 
         virtual std::shared_ptr<schema::Object> get_mapped_float_schema() { return nullptr; };
+
+        virtual std::shared_ptr<schema::Object> get_mapped_double_schema() { return nullptr; };
 
         virtual std::shared_ptr<schema::Object> get_mapped_string_schema() { return nullptr; }
 
@@ -73,6 +76,8 @@ namespace util {
 
         void handle(const std::string& field_name, FloatFieldType::Value type) final;
 
+        void handle(const std::string& field_name, DoubleFieldType::Value type) final;
+
         void handle(const std::string& field_name, StringFieldType::Value type) final;
 
         void handle(const std::string& field_name, google::protobuf::EnumDescriptor const* descriptor, EnumFieldType::Value type) final;
@@ -102,6 +107,7 @@ namespace util {
         static Int32FieldType::Value remap(Int32FieldType::Value type);
         static Int64FieldType::Value remap(Int64FieldType::Value type);
         static FloatFieldType::Value remap(FloatFieldType::Value type);
+        static DoubleFieldType::Value remap(DoubleFieldType::Value type);
         static StringFieldType::Value remap(StringFieldType::Value type);
         static EnumFieldType::Value remap(EnumFieldType::Value type);
         static QualityFieldType::Value remap(QualityFieldType::Value type);

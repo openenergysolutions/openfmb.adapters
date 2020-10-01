@@ -6,6 +6,7 @@
 #include "generated/Int32FieldType.h"
 #include "generated/Int64FieldType.h"
 #include "generated/FloatFieldType.h"
+#include "generated/DoubleFieldType.h"
 #include "generated/StringFieldType.h"
 #include "generated/EnumFieldType.h"
 #include "generated/QualityFieldType.h"

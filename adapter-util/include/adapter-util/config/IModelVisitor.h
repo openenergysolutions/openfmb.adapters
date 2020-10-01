@@ -21,6 +21,7 @@ namespace util {
         virtual void handle(const std::string& field_name, Int32FieldType::Value type) = 0;
         virtual void handle(const std::string& field_name, Int64FieldType::Value type) = 0;
         virtual void handle(const std::string& field_name, FloatFieldType::Value type) = 0;
+        virtual void handle(const std::string& field_name, DoubleFieldType::Value type) = 0;
         virtual void handle(const std::string& field_name, StringFieldType::Value type) = 0;
         virtual void handle(const std::string& field_name, google::protobuf::EnumDescriptor const* descriptor, EnumFieldType::Value type) = 0;
 
