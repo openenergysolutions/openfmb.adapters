@@ -302,6 +302,8 @@ namespace adapter {
 
             virtual void on_property(const NumericProperty<float> &prop) = 0;
 
+            virtual void on_property(const NumericProperty<double> &prop) = 0;
+
             virtual void on_property(const NumericProperty<int64_t> &prop) = 0;
 
             virtual void on_property(const NumericProperty<uint16_t> &prop) = 0;

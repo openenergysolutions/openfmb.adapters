@@ -141,6 +141,19 @@ namespace adapter {
             this->writer.end_object();
         }
 
+        void JSONSchemaPrinter::on_property(const NumericProperty<double> &prop) {
+            this->writer.begin_object_property(prop.get_name());
+            this->writer.write_property("description", prop.get_description());
+            this->writer.write_property("type", "number");
+            if(prop.min.valid) {
+                this->writer.write_property("minimum", prop.min.value);
+            }
+            if(prop.max.valid) {
+                this->writer.write_property("maximum", prop.max.value);
+            }
+            this->writer.end_object();
+        }
+
         void JSONSchemaPrinter::on_property(const NumericProperty<int64_t> &prop) {
             this->writer.begin_object_property(prop.get_name());
             this->writer.write_property("description", prop.get_description());

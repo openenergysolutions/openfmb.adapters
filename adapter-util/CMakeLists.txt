@@ -44,6 +44,7 @@ set(HEADERS
     ./include/adapter-util/config/generated/Int32FieldType.h
     ./include/adapter-util/config/generated/Int64FieldType.h
     ./include/adapter-util/config/generated/FloatFieldType.h
+    ./include/adapter-util/config/generated/DoubleFieldType.h
     ./include/adapter-util/config/generated/EnumFieldType.h
     ./include/adapter-util/config/generated/StringFieldType.h
     ./include/adapter-util/config/generated/TimestampFieldType.h
@@ -71,6 +72,7 @@ set(SOURCES
     ./src/config/generated/Int32FieldType.cpp
     ./src/config/generated/Int64FieldType.cpp
     ./src/config/generated/FloatFieldType.cpp
+    ./src/config/generated/DoubleFieldType.cpp
     ./src/config/generated/EnumFieldType.cpp
     ./src/config/generated/StringFieldType.cpp
     ./src/config/generated/TimestampFieldType.cpp

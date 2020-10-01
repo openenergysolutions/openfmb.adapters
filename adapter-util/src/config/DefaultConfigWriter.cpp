@@ -73,6 +73,13 @@ namespace yaml {
             << YAML::Comment(prop.get_description());
     }
 
+    void DefaultConfigWriter::on_property(const NumericProperty<double>& prop)
+    {
+        out << YAML::Key << prop.get_name()
+            << YAML::Value << prop.get_default_value()
+            << YAML::Comment(prop.get_description());
+    }
+
     void DefaultConfigWriter::on_property(const NumericProperty<int64_t>& prop)
     {
         out << YAML::Key << prop.get_name()

@@ -138,6 +138,11 @@ namespace log {
             this->handle_value(field_name, getter(value));
         }
 
+        void handle(const std::string& field_name, double value) override
+        {
+            this->handle_value(field_name, getter(value));
+        }
+
         void handle(const std::string& field_name, const std::string& value) override
         {
             this->handle_value(field_name, getter(value));

@@ -199,6 +199,34 @@ namespace util {
         );
     }
 
+    void SchemaWriteVisitorBase::handle(const std::string& field_name, DoubleFieldType::Value type)
+    {
+        auto obj = Object({}, OneOf({
+            variant<DoubleFieldType>(DoubleFieldType::Value::ignored, type, {}),
+            variant<DoubleFieldType>(DoubleFieldType::Value::constant, type,
+            {
+                numeric_property<double>(keys::value, Required::yes, "", 0, Bound<double>::unused(), Bound<double>::unused())
+            })
+        }));
+
+        const auto mapped_schema = this->get_mapped_double_schema();
+        if(mapped_schema) {
+            obj.one_of.variants.push_back(
+                variant_obj<DoubleFieldType>(DoubleFieldType::Value::mapped, type, mapped_schema)
+            );
+        }
+
+        props.back()->object.properties.emplace_back(
+            object_property(
+                field_name,
+                Required::no,
+                "",
+                obj
+            )
+        );
+    }
+
+
     void SchemaWriteVisitorBase::handle(const std::string& field_name, StringFieldType::Value type)
     {
         if(type == StringFieldType::Value::primary_uuid) {
@@ -445,6 +473,17 @@ namespace util {
         // it's impossible to provide intelligent defaults for constants, so let the user override it if they want a constant
         case (FloatFieldType::Value::constant):
             return FloatFieldType::Value::ignored;
+        default:
+            return type;
+        }
+    }
+
+    DoubleFieldType::Value SchemaWriteVisitorBase::remap(DoubleFieldType::Value type)
+    {
+        switch (type) {
+        // it's impossible to provide intelligent defaults for constants, so let the user override it if they want a constant
+        case (DoubleFieldType::Value::constant):
+            return DoubleFieldType::Value::ignored;
         default:
             return type;
         }

@@ -185,6 +185,8 @@ namespace dnp3 {
 
             void handle_mapped_field(const YAML::Node& node, const util::accessor_t<T, float>& accessor) override;
 
+            void handle_mapped_field(const YAML::Node& node, const util::accessor_t<T, double>& accessor) override;
+
             void handle_mapped_field(const YAML::Node& node, const util::accessor_t<T, int>& accessor,
                                      google::protobuf::EnumDescriptor const* descriptor) override;
         };
@@ -262,6 +264,23 @@ namespace dnp3 {
 
             this->configuration->add([=](const T& profile, api::Logger& logger, ICommandSink& sink) {
                 accessor->if_present(profile, [&](const float& value) {
+                    for(const auto& action : actions)
+                        action(sink, value);
+                });
+            });
+        }
+
+        template <class T>
+        void SubscribingConfigReadVisitor<T>::handle_mapped_field(const YAML::Node& node,
+                                                                  const util::accessor_t<T, double>& accessor)
+        {
+            const auto actions = read::analog_list(util::yaml::require(node, util::keys::outputs), this->priorities);
+
+            if (actions.empty())
+                return;
+
+            this->configuration->add([=](const T& profile, api::Logger& logger, ICommandSink& sink) {
+                accessor->if_present(profile, [&](const double& value) {
                     for(const auto& action : actions)
                         action(sink, value);
                 });

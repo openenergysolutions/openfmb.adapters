@@ -137,6 +137,21 @@ namespace dnp3 {
                 }
             }
 
+            void handle_mapped_double(const YAML::Node& node, const util::accessor_t<T, double>& accessor) override
+            {
+                const auto command_type = util::yaml::require_enum<CommandSourceType>(node);
+
+                switch (command_type) {
+                case CommandSourceType::Value::none:
+                    break;
+                case CommandSourceType::Value::analog_output:
+                    this->handle_numeric_mapped_from_ao(node, accessor);
+                    break;
+                default:
+                    throw api::Exception(node.Mark(), "Unsupported command type for float: ", CommandSourceType::to_string(command_type));
+                }
+            }
+
             void handle_mapped_enum(const YAML::Node& node, const util::accessor_t<T, int>& accessor,
                                     google::protobuf::EnumDescriptor const* descriptor) override
             {

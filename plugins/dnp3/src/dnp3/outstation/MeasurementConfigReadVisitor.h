@@ -77,6 +77,8 @@ namespace dnp3 {
 
             void handle_mapped_field(const YAML::Node& node, const util::accessor_t<T, float>& accessor) override;
 
+            void handle_mapped_field(const YAML::Node& node, const util::accessor_t<T, double>& accessor) override;
+
             void handle_mapped_field(const YAML::Node& node, const util::accessor_t<T, int>& accessor,
                                      google::protobuf::EnumDescriptor const* descriptor) override;
 
@@ -165,6 +167,22 @@ namespace dnp3 {
         template <class T>
         void MeasurementConfigReadVisitor<T>::handle_mapped_field(const YAML::Node& node,
                                                                   const util::accessor_t<T, float>& accessor)
+        {
+            const auto dest_type = util::yaml::require_enum<DestinationType>(node);
+            switch (dest_type) {
+            case (DestinationType::Value::none):
+                break;
+            case (DestinationType::Value::analog):
+                this->map_to_analog(node, accessor);
+                break;
+            default:
+                throw api::Exception(node.Mark(), "Unsupported destination type for floating point field: ", DestinationType::to_string(dest_type));
+            }
+        }
+
+        template <class T>
+        void MeasurementConfigReadVisitor<T>::handle_mapped_field(const YAML::Node& node,
+                                                                  const util::accessor_t<T, double>& accessor)
         {
             const auto dest_type = util::yaml::require_enum<DestinationType>(node);
             switch (dest_type) {

@@ -78,6 +78,18 @@ namespace goose {
             return true;
         }
 
+        bool get_double(const std::string& name, util::accessor_t<T, double>& accessor) const
+        {
+            auto search = m_double_accessors.find(name);
+            if (search == m_double_accessors.end()) {
+                return false;
+            };
+
+            accessor = search->second;
+            return true;
+        }
+
+
         bool get_string(const std::string& name, util::accessor_t<T, std::string>& accessor) const
         {
             auto search = m_string_accessors.find(name);
@@ -168,6 +180,14 @@ namespace goose {
             std::string name;
             if (get_name(node, keys::name, name)) {
                 m_float_accessors.insert({ name, accessor });
+            }
+        }
+
+        void handle_mapped_field(const YAML::Node& node, const util::accessor_t<T, float>& accessor) final
+        {
+            std::string name;
+            if (get_name(node, keys::name, name)) {
+                m_double_accessors.insert({ name, accessor });
             }
         }
 

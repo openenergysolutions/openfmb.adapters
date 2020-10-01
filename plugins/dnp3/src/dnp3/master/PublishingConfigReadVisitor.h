@@ -46,6 +46,8 @@ namespace dnp3 {
 
             void handle_mapped_float(const YAML::Node& node, const util::accessor_t<T, float>& accessor) override;
 
+            void handle_mapped_double(const YAML::Node& node, const util::accessor_t<T, double>& accessor) override;
+
             void handle_mapped_enum(const YAML::Node& node, const util::accessor_t<T, int>& accessor,
                                     google::protobuf::EnumDescriptor const* descriptor) override;
 
@@ -165,6 +167,27 @@ namespace dnp3 {
                 break;
             default:
                 throw api::Exception("float cannot be mapped to DNP3 type: ", SourceType::to_string(source));
+            }
+        }
+
+        template <class T>
+        void PublishingConfigReadVisitor<T>::handle_mapped_double(const YAML::Node& node,
+                                                                 const util::accessor_t<T, double>& accessor)
+        {
+            const auto source = util::yaml::require_enum<SourceType>(node);
+            switch (source) {
+            case (SourceType::Value::none):
+                break;
+            case (SourceType::Value::analog):
+                this->builder->add_measurement_handler(
+                    [accessor, profile = this->profile, scale = util::yaml::get::scale(node)](
+                        const opendnp3::Analog& meas) {
+                        accessor->set(*profile, static_cast<double>(meas.value * scale));
+                    },
+                    util::yaml::get::index(node));
+                break;
+            default:
+                throw api::Exception("double cannot be mapped to DNP3 type: ", SourceType::to_string(source));
             }
         }
 

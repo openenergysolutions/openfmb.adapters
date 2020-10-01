@@ -38,6 +38,8 @@ namespace util {
 
         void handle(const std::string& field_name, const accessor_t<T, float>& accessor) final;
 
+        void handle(const std::string& field_name, const accessor_t<T, double>& accessor) final;
+
         void handle(const std::string& field_name, const accessor_t<T, std::string>& accessor) final;
 
         void handle(const std::string& field_name, const accessor_t<T, int>& setter, google::protobuf::EnumDescriptor const* descriptor) final;
@@ -85,6 +87,8 @@ namespace util {
 
         virtual void handle_mapped_float(const YAML::Node& node, const accessor_t<T, float>& accessor) = 0;
 
+        virtual void handle_mapped_double(const YAML::Node& node, const accessor_t<T, double>& accessor) = 0;
+
         virtual void handle_mapped_string(const YAML::Node& node, const accessor_t<T, std::string>& accessor) {} // TODO: decide purity
 
         virtual void handle_mapped_enum(const YAML::Node& node, const accessor_t<T, int>& accessor, google::protobuf::EnumDescriptor const* descriptor) = 0;
@@ -101,6 +105,8 @@ namespace util {
         void handle_constant_int64(const YAML::Node& node, const accessor_t<T, int64_t>& accessor);
 
         void handle_optional_const_float(const YAML::Node& node, const accessor_t<T, float>& accessor);
+
+        void handle_optional_const_double(const YAML::Node& node, const accessor_t<T, double>& accessor);
 
         void handle_const_uuid(const YAML::Node& node, const accessor_t<T, std::string>& accessor);
 
@@ -176,6 +182,23 @@ namespace util {
             break;
         case (FloatFieldType::Value::constant):
             this->handle_optional_const_float(node, accessor);
+        default:
+            // ignored
+            break;
+        }
+    }
+
+    template <class T>
+    void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, const accessor_t<T, double>& accessor)
+    {
+        const auto node = this->get_config_node(field_name);
+        const auto field_type = yaml::require_enum<DoubleFieldType>(node);
+        switch (field_type) {
+        case (DoubleFieldType::Value::mapped):
+            this->handle_mapped_double(node, accessor);
+            break;
+        case (DoubleFieldType::Value::constant):
+            this->handle_optional_const_double(node, accessor);
         default:
             // ignored
             break;
@@ -315,6 +338,15 @@ namespace util {
     {
         this->add_message_init_action(
             [accessor, value = yaml::require(node, util::keys::value).as<float>()](T& profile) {
+                accessor->set(profile, value);
+            });
+    }
+
+    template <class T>
+    void PublishingConfigReadVisitorBase<T>::handle_optional_const_double(const YAML::Node& node, const accessor_t<T, double>& accessor)
+    {
+        this->add_message_init_action(
+            [accessor, value = yaml::require(node, util::keys::value).as<double>()](T& profile) {
                 accessor->set(profile, value);
             });
     }

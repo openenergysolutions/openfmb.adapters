@@ -45,6 +45,8 @@ namespace adapter {
 
         void on_property(const NumericProperty<float> &prop) override;
 
+        void on_property(const NumericProperty<double> &prop) override;
+
         void on_property(const NumericProperty<int64_t> &prop) override;
 
         void on_property(const NumericProperty<uint16_t> &prop) override;

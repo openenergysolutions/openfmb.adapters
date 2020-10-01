@@ -24,6 +24,7 @@ namespace yaml {
         void on_property(const schema::EnumProperty& prop) override;
         void on_property(const schema::ArrayProperty& prop) override;
         void on_property(const schema::NumericProperty<float>& prop) override;
+        void on_property(const schema::NumericProperty<double>& prop) override;
         void on_property(const schema::NumericProperty<int64_t>& prop) override;
         void on_property(const schema::NumericProperty<uint16_t>& prop) override;
 

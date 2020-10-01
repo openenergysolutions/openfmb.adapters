@@ -34,6 +34,8 @@ namespace util {
 
         void handle(const std::string& field_name, const accessor_t<T, float>& accessor) final;
 
+        void handle(const std::string& field_name, const accessor_t<T, double>& accessor) final;
+
         void handle(const std::string& field_name, const accessor_t<T, std::string>& accessor) final;
 
         void handle(const std::string& field_name, const accessor_t<T, int>& accessor, google::protobuf::EnumDescriptor const* descriptor) final;
@@ -52,6 +54,8 @@ namespace util {
         virtual void handle_mapped_field(const YAML::Node& node, const accessor_t<T, int64_t>& accessor) = 0;
 
         virtual void handle_mapped_field(const YAML::Node& node, const accessor_t<T, float>& accessor) = 0;
+
+        virtual void handle_mapped_field(const YAML::Node& node, const accessor_t<T, double>& accessor) = 0;
 
         virtual void handle_mapped_field(const YAML::Node& node, const accessor_t<T, std::string>& accessor) {} // TODO: decide purity
 
@@ -112,6 +116,17 @@ namespace util {
         const auto field_type = yaml::require_enum<FloatFieldType>(node);
 
         if (field_type == FloatFieldType::Value::mapped) {
+            this->handle_mapped_field(node, accessor);
+        }
+    }
+
+    template <class T>
+    void SubscribingConfigReadVisitorBase<T>::handle(const std::string& field_name, const accessor_t<T, double>& accessor)
+    {
+        const auto node = this->get_config_node(field_name);
+        const auto field_type = yaml::require_enum<DoubleFieldType>(node);
+
+        if (field_type == DoubleFieldType::Value::mapped) {
             this->handle_mapped_field(node, accessor);
         }
     }
