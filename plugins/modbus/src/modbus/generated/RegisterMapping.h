@@ -39,6 +39,8 @@ struct RegisterMapping
         uint32_with_modulus,
         // 32-bit IEEE 754 floating point value
         float32,
+        // 64-bit IEEE 754 double-precision floating point value
+        float64,
     };
 
     static const char sint16[];
@@ -48,10 +50,11 @@ struct RegisterMapping
     static const char sint32_with_modulus[];
     static const char uint32_with_modulus[];
     static const char float32[];
+    static const char float64[];
 
     static constexpr const char* label = "register-mapping";
 
-    static const std::array<Value, 7> values;
+    static const std::array<Value, 8> values;
 
     static std::string to_string(Value value);
     static Value from_string(const std::string& name);

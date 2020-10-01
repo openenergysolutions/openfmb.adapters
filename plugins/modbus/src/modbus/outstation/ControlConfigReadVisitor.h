@@ -87,6 +87,11 @@ namespace outstation {
             handle_mapped_numeric(node, accessor);
         }
 
+        void handle_mapped_double(const YAML::Node& node, const util::accessor_t<T, double>& accessor) override
+        {
+            handle_mapped_numeric(node, accessor);
+        }
+
         void handle_mapped_enum(const YAML::Node& node, const util::accessor_t<T, int>& accessor,
                                 google::protobuf::EnumDescriptor const* descriptor) override
         {

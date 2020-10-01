@@ -48,6 +48,8 @@ namespace master {
 
         void handle_mapped_field(const YAML::Node& node, const util::accessor_t<T, float>& accessor) override;
 
+        void handle_mapped_field(const YAML::Node& node, const util::accessor_t<T, double>& accessor) override;
+
         void handle_mapped_field(const YAML::Node& node, const util::accessor_t<T, int>& accessor, google::protobuf::EnumDescriptor const* descriptor) override;
     };
 
@@ -116,6 +118,22 @@ namespace master {
 
     template <class T>
     void SubscribeConfigReadVisitor<T>::handle_mapped_field(const YAML::Node& node, const util::accessor_t<T, float>& accessor)
+    {
+        auto float_config = read::float_config(node, this->priority_source);
+
+        this->config->add(
+            [accessor, float_config](const T& profile, ICommandSink& sink, api::Logger& logger) {
+                accessor->if_present(
+                    profile,
+                    [&sink, float_config](float value) {
+                        float_config(sink, value);
+                    });
+            }
+        );
+    }
+
+    template <class T>
+    void SubscribeConfigReadVisitor<T>::handle_mapped_field(const YAML::Node& node, const util::accessor_t<T, double>& accessor)
     {
         auto float_config = read::float_config(node, this->priority_source);
 

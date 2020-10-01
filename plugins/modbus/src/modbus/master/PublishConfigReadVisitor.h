@@ -48,6 +48,8 @@ namespace master {
 
         void handle_mapped_float(const YAML::Node& node, const util::accessor_t<T, float>& accessor) override;
 
+        void handle_mapped_double(const YAML::Node& node, const util::accessor_t<T, double>& accessor) override;
+
         void handle_mapped_enum(const YAML::Node& node, const util::accessor_t<T, int>& accessor, google::protobuf::EnumDescriptor const* descriptor) override;
 
         void add_message_init_action(const std::function<void(T&)>& action) override;
@@ -176,6 +178,13 @@ namespace master {
     }
 
     template <class T>
+    void PublishConfigReadVisitor<T>::handle_mapped_double(const YAML::Node& node, const util::accessor_t<T, double>& accessor)
+    { 
+        map_numeric(node, accessor);
+    }
+
+
+    template <class T>
     void PublishConfigReadVisitor<T>::handle_mapped_enum(const YAML::Node& node, const util::accessor_t<T, int>& accessor, google::protobuf::EnumDescriptor const* descriptor)
     {
         const auto source_type = util::yaml::require_enum<SourceType>(node);
@@ -297,6 +306,11 @@ namespace master {
                 accessor->set(profile, static_cast<S>(reg->to_float32() * scale));
             });
             break;
+        case (RegisterMapping::Value::float64):
+            this->map_register64(node, source_type, [accessor, scale](T& profile, const std::shared_ptr<Register64>& reg, api::Logger&) {
+                accessor->set(profile, static_cast<S>(reg->to_float64() * scale));
+            });
+            break;
         default:
             throw api::Exception(node.Mark(), "Unhandled register mapping type: ", RegisterMapping::to_string(mapping));
         }
@@ -384,6 +398,47 @@ namespace master {
         const auto upper_index = util::yaml::require_integer<uint16_t>(node, keys::upper_index);
 
         const auto reg = std::make_shared<Register32>();
+
+        switch(source_type)
+        {
+            case SourceType::Value::none:
+                return;
+            case SourceType::Value::holding_register:
+            {
+                this->builder->add_holding_register(lower_index, reg->get_lower());
+                this->builder->add_holding_register(upper_index, reg->get_upper());
+                break;
+            }
+            case SourceType::Value::input_register:
+            {
+                this->builder->add_input_register(lower_index, reg->get_lower());
+                this->builder->add_input_register(upper_index, reg->get_upper());
+                break;
+            }
+            default:
+                throw api::Exception(node.Mark(), "Unsupported source type:", SourceType::to_string(source_type));
+        }
+
+        this->builder->add_begin_action([reg](api::Logger&) {
+            reg->reset();
+        });
+
+        this->builder->add_end_action(
+            [reg, setter, profile = this->profile](api::Logger& logger) {
+                if (reg->is_set()) {
+                    setter(*profile, reg, logger);
+                }
+            });
+    }
+
+    template <class T>
+    template <class S>
+    void PublishConfigReadVisitor<T>::map_register64(const YAML::Node& node, SourceType::Value source_type, const S& setter)
+    {
+        const auto lower_index = util::yaml::require_integer<uint16_t>(node, keys::lower_index);
+        const auto upper_index = util::yaml::require_integer<uint16_t>(node, keys::upper_index);
+
+        const auto reg = std::make_shared<Register64>();
 
         switch(source_type)
         {

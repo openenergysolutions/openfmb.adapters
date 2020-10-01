@@ -42,6 +42,22 @@ namespace modbus {
         virtual float to_float32() const = 0;
     };
 
+    class ICachedValue64 : public ICachedValue {
+
+    public:
+        virtual ~ICachedValue64() = default;
+
+        virtual uint64_t to_uint64() const = 0;
+
+        virtual int64_t to_sint64() const = 0;
+
+        virtual uint64_t to_uint64(uint64_t modulus) const = 0;
+
+        virtual int64_t to_sint64(uint64_t modulus) const = 0;
+
+        virtual float to_float64() const = 0;
+    };
+
 }
 }
 

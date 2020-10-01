@@ -45,6 +45,8 @@ namespace outstation {
 
         void handle_mapped_field(const YAML::Node& node, const util::accessor_t<T, float>& accessor) override;
 
+        void handle_mapped_field(const YAML::Node& node, const util::accessor_t<T, double>& accessor) override;
+
         void handle_mapped_field(const YAML::Node& node, const util::accessor_t<T, int>& accessor,
                                  google::protobuf::EnumDescriptor const* descriptor) override;
                                  
@@ -109,6 +111,15 @@ namespace outstation {
     template <class T>
     void MeasurementConfigReadVisitor<T>::handle_mapped_field(const YAML::Node& node,
                                                               const util::accessor_t<T, float>& accessor)
+    {
+        util::yaml::foreach(util::yaml::require(node, keys::actions), [&](const YAML::Node& node) {
+            this->handle_mapped_numeric(node, accessor);
+        });
+    }
+
+    template <class T>
+    void MeasurementConfigReadVisitor<T>::handle_mapped_field(const YAML::Node& node,
+                                                              const util::accessor_t<T, double>& accessor)
     {
         util::yaml::foreach(util::yaml::require(node, keys::actions), [&](const YAML::Node& node) {
             this->handle_mapped_numeric(node, accessor);
