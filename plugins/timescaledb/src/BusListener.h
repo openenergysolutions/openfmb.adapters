@@ -82,6 +82,11 @@ namespace timescaledb {
             this->add_value(field_name, std::to_string(value));
         }
 
+        void handle(const std::string& field_name, double value) override
+        {
+            this->add_value(field_name, std::to_string(value));
+        }
+
         void handle(const std::string& field_name, const std::string& value) override
         {
             this->add_value(field_name, value);
