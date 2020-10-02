@@ -74,6 +74,16 @@ namespace goose {
             }
         }
 
+        void handle_mapped_double(const YAML::Node& node, const util::accessor_t<T, double>& accessor) final
+        {
+            std::string name;
+            if (get_name(node, name)) {
+                m_builder.add_double_handler(name, [accessor, profile = m_profile](const double& value) {
+                    accessor->set(*profile, value);
+                });
+            }
+        }
+
         void handle_mapped_string(const YAML::Node& node, const util::accessor_t<T, std::string>& accessor) final
         {
             std::string name;

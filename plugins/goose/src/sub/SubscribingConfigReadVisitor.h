@@ -183,7 +183,7 @@ namespace goose {
             }
         }
 
-        void handle_mapped_field(const YAML::Node& node, const util::accessor_t<T, float>& accessor) final
+        void handle_mapped_field(const YAML::Node& node, const util::accessor_t<T, double>& accessor) final
         {
             std::string name;
             if (get_name(node, keys::name, name)) {
@@ -312,6 +312,7 @@ namespace goose {
         std::unordered_map<std::string, const util::accessor_t<T, int32_t>> m_int32_accessors;
         std::unordered_map<std::string, const util::accessor_t<T, int64_t>> m_int64_accessors;
         std::unordered_map<std::string, const util::accessor_t<T, float>> m_float_accessors;
+        std::unordered_map<std::string, const util::accessor_t<T, double>> m_double_accessors;
         std::unordered_map<std::string, const util::accessor_t<T, std::string>> m_string_accessors;
         std::unordered_map<std::string, const std::pair<const util::accessor_t<T, int>, const std::unordered_map<int, goose_cpp::BitString>>> m_enum_accessors;
         std::unordered_map<std::string, const util::message_accessor_t<T, commonmodule::Quality>> m_quality_accessors;

@@ -245,6 +245,12 @@ namespace goose {
         m_float_handlers.insert({ name, handler });
     }
 
+    void PubGooseStructureConfigReader::add_double_handler(const std::string& name, const meas_fn_t<double>& handler)
+    {
+        m_all_handlers.insert(name);
+        m_double_handlers.insert({ name, handler });
+    }
+
     void PubGooseStructureConfigReader::add_string_handler(const std::string& name, const meas_fn_t<std::string>& handler)
     {
         m_all_handlers.insert(name);
