@@ -32,17 +32,23 @@ namespace modbus {
 
         void reset() override
         {
-            this->lower->is_set = this->upper->is_set = false;
+            this->lower->is_set = this->upper->is_set = this->upper_mid->is_set = this->lower_mid->is_set = false;
         }
 
         bool is_set() const override
         {
-            return this->lower->is_set && this->upper->is_set;
+            return this->lower->is_set
+                && this->lower_mid->is_set
+                && this->upper_mid->is_set
+                && this->upper->is_set;
         }
 
         uint64_t to_uint64() const override
         {
-            return (static_cast<uint64_t>(upper->value) << 16) | static_cast<uint64_t>(lower->value);
+            return (static_cast<uint64_t>(upper->value) << 48)
+                | (static_cast<uint64_t>(upper_mid->value) << 32)
+                | (static_cast<uint64_t>(lower_mid->value) << 16)
+                | static_cast<uint64_t>(lower->value);
         }
 
         int64_t to_sint64() const override
@@ -64,7 +70,7 @@ namespace modbus {
         {
             auto value = to_uint64();
 
-            return ser4cpp::DoubleFloat::to_float64(to_uint64());
+            return ser4cpp::DoubleFloat::to_double(to_uint64());
         }
 
         // ---- getters for upper / lower pieces ----
@@ -72,6 +78,16 @@ namespace modbus {
         std::shared_ptr<IRegister> get_upper()
         {
             return this->upper;
+        }
+
+        std::shared_ptr<IRegister> get_upper_mid()
+        {
+            return this->upper_mid;
+        }
+
+        std::shared_ptr<IRegister> get_lower_mid()
+        {
+            return this->lower_mid;
         }
 
         std::shared_ptr<IRegister> get_lower()

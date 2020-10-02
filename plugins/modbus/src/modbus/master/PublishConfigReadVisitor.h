@@ -7,6 +7,7 @@
 #include "MultipleRegisterEnumMapping.h"
 #include "Register16.h"
 #include "Register32.h"
+#include "Register64.h"
 #include "SingleRegisterEnumMapping.h"
 
 #include "generated/EnumMappingType.h"
@@ -74,6 +75,9 @@ namespace master {
 
         template <class S>
         void map_register32(const YAML::Node& node, SourceType::Value source_type, const S& setter);
+
+        template <class S>
+        void map_register64(const YAML::Node& node, SourceType::Value source_type, const S& setter);
     };
 
     template <class T>
@@ -437,6 +441,13 @@ namespace master {
     {
         const auto lower_index = util::yaml::require_integer<uint16_t>(node, keys::lower_index);
         const auto upper_index = util::yaml::require_integer<uint16_t>(node, keys::upper_index);
+        int16_t inc = 0;
+        if(lower_index < upper_index) {
+            inc = 1;
+        } else {
+            inc = -1;
+        }
+        uint16_t index = lower_index;
 
         const auto reg = std::make_shared<Register64>();
 
@@ -446,14 +457,24 @@ namespace master {
                 return;
             case SourceType::Value::holding_register:
             {
-                this->builder->add_holding_register(lower_index, reg->get_lower());
-                this->builder->add_holding_register(upper_index, reg->get_upper());
+                this->builder->add_holding_register(index, reg->get_lower());
+                index += inc;
+                this->builder->add_holding_register(index, reg->get_lower_mid());
+                index += inc;
+                this->builder->add_holding_register(index, reg->get_upper_mid());
+                index += inc;
+                this->builder->add_holding_register(index, reg->get_upper());
                 break;
             }
             case SourceType::Value::input_register:
             {
-                this->builder->add_input_register(lower_index, reg->get_lower());
-                this->builder->add_input_register(upper_index, reg->get_upper());
+                this->builder->add_input_register(index, reg->get_lower());
+                index += inc;
+                this->builder->add_input_register(index, reg->get_lower_mid());
+                index += inc;
+                this->builder->add_input_register(index, reg->get_upper_mid());
+                index += inc;
+                this->builder->add_input_register(index, reg->get_upper());
                 break;
             }
             default:

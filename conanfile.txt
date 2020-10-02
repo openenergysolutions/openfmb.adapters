@@ -16,4 +16,6 @@ paho-cpp:SSL=True
 boost:header_only=True
 
 [generators]
+cmake_find_package
+cmake_paths
 cmake
