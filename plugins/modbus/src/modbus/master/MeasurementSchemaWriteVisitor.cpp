@@ -90,6 +90,11 @@ namespace master {
         return get_numeric_schema();
     }
 
+    std::shared_ptr<schema::Object> MeasurementSchemaWriteVisitor::get_mapped_double_schema()
+    {
+        return get_numeric_schema();
+    }
+
     std::shared_ptr<schema::Object> MeasurementSchemaWriteVisitor::get_mapped_enum_schema(google::protobuf::EnumDescriptor const* descriptor)
     {
         const auto bit_mapping = std::make_shared<Object>(std::vector<property_ptr_t>(), OneOf({

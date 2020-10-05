@@ -34,6 +34,11 @@ namespace goose {
         return get_name_schema();
     }
 
+    std::shared_ptr<schema::Object> PublishingSchemaWriteVisitor::get_mapped_double_schema()
+    {
+        return get_name_schema();
+    }
+
     std::shared_ptr<schema::Object> PublishingSchemaWriteVisitor::get_mapped_string_schema()
     {
         return get_name_schema();

@@ -160,6 +160,32 @@ namespace outstation {
         }));
     }
 
+    std::shared_ptr<schema::Object> MeasurementSchemaWriteVisitor::get_mapped_double_schema()
+    {
+        return std::make_shared<Object>(std::vector<property_ptr_t>(), OneOf({
+            Variant({ConstantProperty::from_enum<DestinationType>(DestinationType::Value::none)}, {}),
+            Variant({ConstantProperty::from_enum<DestinationType>(DestinationType::Value::analog)},
+            {
+                numeric_property<uint16_t>(
+                    util::keys::index,
+                    Required::yes,
+                    "DNP3 index of the analog input",
+                    0,
+                    Bound<uint16_t>::from(0),
+                    Bound<uint16_t>::from(65535)
+                ),
+                numeric_property<double>(
+                    util::keys::scale,
+                    Required::yes,
+                    "scaling factor",
+                    1.0f,
+                    Bound<double>::unused(),
+                    Bound<double>::unused()
+                )
+            })
+        }));
+    }
+
     std::shared_ptr<schema::Object> MeasurementSchemaWriteVisitor::get_mapped_enum_schema(google::protobuf::EnumDescriptor const* descriptor)
     {
         auto binary_variants = Object{{}};
