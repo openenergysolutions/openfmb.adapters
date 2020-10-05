@@ -26,6 +26,8 @@ namespace master {
 
         std::shared_ptr<schema::Object> get_mapped_float_schema() override;
 
+        std::shared_ptr<schema::Object> get_mapped_double_schema() override;
+
         std::shared_ptr<schema::Object> get_mapped_enum_schema(google::protobuf::EnumDescriptor const* descriptor) override;
     };
 
