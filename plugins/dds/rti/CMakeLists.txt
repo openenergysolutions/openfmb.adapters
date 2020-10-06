@@ -6,8 +6,9 @@ message("CONNEXTDDS_DIR is ${CONNEXTDDS_DIR}")
 list(APPEND CMAKE_MODULE_PATH ${CONNEXTDDS_DIR}/resource/cmake)
 cmake_policy(SET CMP0057 NEW)
 
-find_package(RTICodeGenerator REQUIRED)
-find_package(RTIConnextDDS REQUIRED)
+find_package(RTIConnextDDS "6.0.1" REQUIRED)
+#include(ConnextDdsCodegen)
+#find_package(RTICodeGenerator REQUIRED)
 
 # Generate RTI DDS bindings
 set(dds_gen_path ${CMAKE_CURRENT_BINARY_DIR}/rtidds-generated-sources)

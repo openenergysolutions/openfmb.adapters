@@ -111,8 +111,6 @@ void convert_to_proto(const twinoaks::commonmodule::CMV& in, commonmodule::CMV& 
 
 void convert_to_proto(const twinoaks::commonmodule::Vector& in, commonmodule::Vector& out);
 
-void convert_to_proto(const twinoaks::google::protobuf::DoubleValue& in, google::protobuf::DoubleValue& out);
-
 void convert_to_proto(const twinoaks::commonmodule::ENG_CalcMethodKind& in, commonmodule::ENG_CalcMethodKind& out);
 
 void convert_to_proto(const twinoaks::commonmodule::MV& in, commonmodule::MV& out);
@@ -1424,16 +1422,9 @@ void convert_to_proto(const twinoaks::commonmodule::Vector& in, commonmodule::Ve
 {
     out.Clear();
 
-    if(in.ang) convert_to_proto(*in.ang, *out.mutable_ang());
+    if(in.ang) out.mutable_ang()->set_value(*in.ang);
 
     out.set_mag(in.mag);
-}
-
-void convert_to_proto(const twinoaks::google::protobuf::DoubleValue& in, google::protobuf::DoubleValue& out)
-{
-    out.Clear();
-
-    out.set_value(in.value);
 }
 
 void convert_to_proto(const twinoaks::commonmodule::ENG_CalcMethodKind& in, commonmodule::ENG_CalcMethodKind& out)

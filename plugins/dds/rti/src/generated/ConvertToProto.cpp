@@ -111,8 +111,6 @@ void convert_to_proto(const openfmb::commonmodule::CMV& in, commonmodule::CMV& o
 
 void convert_to_proto(const openfmb::commonmodule::Vector& in, commonmodule::Vector& out);
 
-void convert_to_proto(const openfmb::google::protobuf::DoubleValue& in, google::protobuf::DoubleValue& out);
-
 void convert_to_proto(const openfmb::commonmodule::ENG_CalcMethodKind& in, commonmodule::ENG_CalcMethodKind& out);
 
 void convert_to_proto(const openfmb::commonmodule::MV& in, commonmodule::MV& out);
@@ -1424,16 +1422,9 @@ void convert_to_proto(const openfmb::commonmodule::Vector& in, commonmodule::Vec
 {
     out.Clear();
 
-    if(in.ang().is_set()) convert_to_proto(in.ang().get(), *out.mutable_ang());
+    if(in.ang().is_set()) out.mutable_ang()->set_value(in.ang().get());
 
     out.set_mag(in.mag());
-}
-
-void convert_to_proto(const openfmb::google::protobuf::DoubleValue& in, google::protobuf::DoubleValue& out)
-{
-    out.Clear();
-
-    out.set_value(in.value());
 }
 
 void convert_to_proto(const openfmb::commonmodule::ENG_CalcMethodKind& in, commonmodule::ENG_CalcMethodKind& out)

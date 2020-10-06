@@ -111,8 +111,6 @@ void convert_from_proto(const commonmodule::CMV& in, openfmb::commonmodule::CMV&
 
 void convert_from_proto(const commonmodule::Vector& in, openfmb::commonmodule::Vector& out);
 
-void convert_from_proto(const google::protobuf::DoubleValue& in, openfmb::google::protobuf::DoubleValue& out);
-
 void convert_from_proto(const commonmodule::ENG_CalcMethodKind& in, openfmb::commonmodule::ENG_CalcMethodKind& out);
 
 void convert_from_proto(const commonmodule::MV& in, openfmb::commonmodule::MV& out);
@@ -1619,19 +1617,12 @@ void convert_from_proto(const commonmodule::CMV& in, openfmb::commonmodule::CMV&
 
 void convert_from_proto(const commonmodule::Vector& in, openfmb::commonmodule::Vector& out)
 {
-    if(in.has_ang()) // optional field in DDS
+    if(in.has_ang())
     {
-        openfmb::google::protobuf::DoubleValue temp{};
-        convert_from_proto(in.ang(), temp);
-        out.ang() = temp;
+        out.ang() = in.ang().value();
     }
 
     out.mag() = in.mag(); // required DOUBLE primitive
-}
-
-void convert_from_proto(const google::protobuf::DoubleValue& in, openfmb::google::protobuf::DoubleValue& out)
-{
-    out.value() = in.value(); // required DOUBLE primitive
 }
 
 void convert_from_proto(const commonmodule::ENG_CalcMethodKind& in, openfmb::commonmodule::ENG_CalcMethodKind& out)

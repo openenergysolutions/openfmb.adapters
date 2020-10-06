@@ -111,8 +111,6 @@ void convert_from_proto(const commonmodule::CMV& in, twinoaks::commonmodule::CMV
 
 void convert_from_proto(const commonmodule::Vector& in, twinoaks::commonmodule::Vector& out);
 
-void convert_from_proto(const google::protobuf::DoubleValue& in, twinoaks::google::protobuf::DoubleValue& out);
-
 void convert_from_proto(const commonmodule::ENG_CalcMethodKind& in, twinoaks::commonmodule::ENG_CalcMethodKind& out);
 
 void convert_from_proto(const commonmodule::MV& in, twinoaks::commonmodule::MV& out);
@@ -1726,20 +1724,12 @@ void convert_from_proto(const commonmodule::Vector& in, twinoaks::commonmodule::
 {
     out.clear();
 
-    if(in.has_ang()) // optional field in DDS
+    if(in.has_ang())
     {
-        out.ang = new twinoaks::google::protobuf::DoubleValue();
-        convert_from_proto(in.ang(), *out.ang);
+        out.ang = allocate_from_wrapper_type(in.ang());
     }
 
     out.mag = in.mag(); // required DOUBLE primitive
-}
-
-void convert_from_proto(const google::protobuf::DoubleValue& in, twinoaks::google::protobuf::DoubleValue& out)
-{
-    out.clear();
-
-    out.value = in.value(); // required DOUBLE primitive
 }
 
 void convert_from_proto(const commonmodule::ENG_CalcMethodKind& in, twinoaks::commonmodule::ENG_CalcMethodKind& out)
