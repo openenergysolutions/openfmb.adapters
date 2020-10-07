@@ -110,7 +110,7 @@ commands:
             $TOOLCHAIN_SPEC
             -DCMAKE_BUILD_TYPE=<< parameters.build_type >>
             -DOPENFMB_LINK_STATIC=<< parameters.build_static >>
-            -DOPENFMB_USE_RTI_DDS=${<< parameters.build_with_rti >>^^} -DCONNEXTDDS_DIR="/root/project/deps/rti-dds"
+            -DOPENFMB_USE_RTI_DDS=<< parameters.build_with_rti >> -DCONNEXTDDS_DIR="/root/project/deps/rti-dds"
             ..
       - run:
           name: CMake build
