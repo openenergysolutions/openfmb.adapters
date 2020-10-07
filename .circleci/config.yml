@@ -106,7 +106,6 @@ commands:
           name: CMake configure
           working_directory: build
           command: >
-            if [ "<< parameters.compiler >>" = "arm" ]; then TOOLCHAIN_SPEC="-DCMAKE_TOOLCHAIN_FILE=~/project/cmake/Armv7HfToolchain.cmake"; else TOOLCHAIN_SPEC=""; fi &&
             cmake
             $TOOLCHAIN_SPEC
             -DCMAKE_BUILD_TYPE=<< parameters.build_type >>
@@ -129,7 +128,6 @@ commands:
           working_directory: build/application
           command: |
             if [ "<< parameters.build_with_rti >>" = "true" ]; then cp /root/project/deps/rti-dds/rti_license.dat ./rti_license.dat && RTI_COPY="COPY rti_license.dat /"; else RTI_COPY=""; fi && \
-            if [ "<< parameters.compiler >>" = "arm" ]; then DOCKER_PLATFORM="--platform=linux/arm/v7"; else DOCKER_PLATFORM=""; fi &&\
             echo -e "FROM $DOCKER_PLATFORM debian:buster-slim\n
             COPY openfmb-adapter /\n
             $RTI_COPY\n
