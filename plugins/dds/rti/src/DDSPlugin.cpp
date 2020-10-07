@@ -41,7 +41,7 @@ DDSPlugin::DDSPlugin(const api::Logger& logger, const YAML::Node& node, api::mes
     : m_logger{logger},
       m_participant{util::yaml::require_integer<int32_t>(node, keys::domain_id)},
       m_topics{m_participant},
-      m_dds_publisher{std::make_shared<::dds::pub::Publisher>(m_participant, get_publisher_qos())},
+      m_dds_publisher{std::make_shared<::dds::pub::Publisher>(m_participant)},
       m_dds_subscriber{std::make_shared<::dds::sub::Subscriber>(m_participant)}
 {
     // Read each publisher (read from message bus and publish to DDS)
@@ -79,13 +79,6 @@ void DDSPlugin::start()
     {
         subscriber->start();
     }
-}
-
-::dds::pub::qos::PublisherQos DDSPlugin::get_publisher_qos()
-{
-    ::dds::pub::qos::PublisherQos qos{};
-    qos << ::rti::core::policy::AsynchronousPublisher::Enabled();
-    return qos;
 }
 
 }

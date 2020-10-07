@@ -23,7 +23,7 @@ public:
         : m_logger{logger},
           m_subject{subject},
           m_dds_publisher{dds_publisher},
-          m_data_writer{*m_dds_publisher, topic, get_qos()}
+          m_data_writer{*m_dds_publisher, topic}
     {
 
     }
@@ -42,15 +42,6 @@ public:
     }
 
 private:
-    static ::dds::pub::qos::DataWriterQos get_qos()
-    {
-        ::dds::pub::qos::DataWriterQos qos{};
-        qos << ::dds::core::policy::Reliability::BestEffort();
-        qos << ::dds::core::policy::History::KeepLast(100);
-        qos << ::rti::core::policy::PublishMode::Asynchronous();
-        return qos;
-    }
-
     api::Logger m_logger;
     util::SubjectNameSuffix m_subject;
     std::shared_ptr<::dds::pub::Publisher> m_dds_publisher;
