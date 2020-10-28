@@ -1,9 +1,3 @@
-[submodule "deps/argagg"]
-	path = deps/argagg
-	url = https://github.com/vietjtnguyen/argagg.git
-[submodule "deps/cppcodec"]
-	path = deps/cppcodec
-	url = https://github.com/tplgy/cppcodec.git
 [submodule "deps/openfmb-schemas"]
 	path = deps/openfmb-schemas
 	url = https://github.com/openenergysolutions/openfmb-schemas.git

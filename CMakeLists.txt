@@ -4,6 +4,8 @@ set(OPENFMB_ADAPTER_VERSION 0.0.1)
 
 option(OPENFMB_USE_CONAN "Use the conan package manager" ON)
 
+option(OPENFMB_VENDORED_DEPS "Use CMake's FetchContent to fetch, build, and vendor deps" OFF)
+
 if(OPENFMB_USE_CONAN)
   if(NOT EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
     message(FATAL_ERROR "Unable to locate 'conanbuildinfo.cmake' file. Make sure to run 'conan install ..' in the build directory.")
@@ -14,6 +16,7 @@ if(OPENFMB_USE_CONAN)
   endif()
 else()
   message("Conan support is disabled")
+  set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 endif()
 
 if(MSVC)

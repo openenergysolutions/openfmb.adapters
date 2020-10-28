@@ -1,6 +1,10 @@
 set(Protobuf_USE_STATIC_LIBS TRUE)
+
+# find protoc in in PATH only before looking for the package, fixes cross compile
+find_program(Protobuf_PROTOC_EXECUTABLE NAMES protoc NO_PACKAGE_ROOT_PATH NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH NO_CMAKE_SYSTEM_PATH )
+message("Protobuf compiler before package is: ${Protobuf_PROTOC_EXECUTABLE}")
 find_package(Protobuf REQUIRED)
-message("Protobuf compiler is: ${Protobuf_PROTOC_EXECUTABLE}")
+message("Protobuf compiler after package is: ${Protobuf_PROTOC_EXECUTABLE}")
 
 # the base directory where the protos live
 set(PROTO_INPUT_DIR ${CMAKE_SOURCE_DIR}/deps/openfmb-schemas/protobuf/openfmb)

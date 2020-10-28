@@ -12,3 +12,11 @@
 # Visual Studio Code
 /.vscode
 *.un~
+
+# Nix output
+result*
+result-dev
+
+# docker tars
+*.tar.gz
+*.tar

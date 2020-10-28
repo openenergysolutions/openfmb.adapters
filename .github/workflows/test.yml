@@ -1,0 +1,60 @@
+---
+name: "Build"
+on:
+  pull_request:
+  push:
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.3.4
+      - uses: cachix/install-nix-action@v12
+        with:
+          nix_path: nixpkgs=channel:nixos-20.09
+      - name: Setup SSH Keys and known_hosts
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+          ssh-add - <<< "${{ secrets.DEPLOY_KEY }}"
+      - uses: cachix/cachix-action@v8
+
+        with:
+          name: openenergysolutions
+          authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
+      - name: Update submodules
+        env:
+           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        run: git submodule update --init
+      - name: Build all
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        run: nix-build all.nix
+      - name: Prepare Artifacts
+        run: |
+          mkdir artifacts
+          cp -r `readlink result` artifacts/.
+          cp -r `readlink result-2` artifacts/.
+          cp -r `readlink result-3` artifacts/.
+          cp -r `readlink result-4` artifacts/.
+          cp -r `readlink result-5` artifacts/.
+          cp -r `readlink result-6` artifacts/.
+      - name: Upload Armv8 64bit Docker Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: openfmb.adapters-aarch64-docker
+          path: artifacts/*docker*aarch64*.tar.gz
+      - name: Upload Armv7 Docker Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: openfmb.adapters-armv7-docker
+          path: artifacts/*docker*armv7*.tar.gz
+      - name: Upload x86_64 Docker Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: openfmb.adapters-x86_64-docker
+          path: artifacts/*docker*x86_64*.tar.gz
+      - name: Ok
+        run: nix-shell --run "echo OK"
