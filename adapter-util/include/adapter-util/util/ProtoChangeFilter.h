@@ -158,9 +158,21 @@ private:
                     // Continue the recursion
                     std::vector<google::protobuf::util::MessageDifferencer::SpecificField> sub_field_path{};
                     std::copy(++field_path.begin(), field_path.end(), std::back_inserter(sub_field_path));
+                    if (field_descriptor->is_repeated()) {
+                        auto index = field_path.front().index;
+                        auto size = reflection->FieldSize(current_msg, field_descriptor);
 
-                    auto sub_msg = reflection->MutableMessage(&current_msg, field_descriptor);
-                    recursive_update(received_msg, *sub_msg, sub_field_path, add_end_message, is_ignored, is_deleted);
+                        for (int i = size; i < index + 1; ++i) {
+                            reflection->AddMessage(&current_msg, field_descriptor);
+                        }
+
+                        auto sub_msg = reflection->MutableRepeatedMessage(&current_msg, field_descriptor, index);
+                        recursive_update(received_msg, *sub_msg, sub_field_path, add_end_message, is_ignored, is_deleted);
+                    }
+                    else {
+                        auto sub_msg = reflection->MutableMessage(&current_msg, field_descriptor);
+                        recursive_update(received_msg, *sub_msg, sub_field_path, add_end_message, is_ignored, is_deleted);
+                    }
                 }
                 break;
             }
