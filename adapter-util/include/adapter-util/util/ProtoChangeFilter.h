@@ -148,10 +148,24 @@ private:
                 if(field_path.size() == 1 && add_end_message && !is_deleted)
                 {
                     // Copy the whole message because it was added, not modified
-                    auto sub_current_msg = reflection->MutableMessage(&current_msg, field_descriptor);
-                    const auto& sub_received_msg = reflection->GetMessage(received_msg, field_descriptor);
-                    sub_current_msg->CopyFrom(sub_received_msg);
-                    if (!is_ignored) m_is_changed = true;
+                    if (field_descriptor->is_repeated()) {
+                        auto index = field_path.front().index;
+                        auto size = reflection->FieldSize(current_msg, field_descriptor);
+
+                        for (int i = size; i < index + 1; ++i) {
+                            reflection->AddMessage(&current_msg, field_descriptor);
+                        }
+                        auto sub_current_msg = reflection->MutableRepeatedMessage(&current_msg, field_descriptor, index);
+                        const auto& sub_received_msg = reflection->GetRepeatedMessage(received_msg, field_descriptor, index);
+                        sub_current_msg->CopyFrom(sub_received_msg);
+                        if (!is_ignored) m_is_changed = true;
+                    }
+                    else {
+                        auto sub_current_msg = reflection->MutableMessage(&current_msg, field_descriptor);
+                        const auto& sub_received_msg = reflection->GetMessage(received_msg, field_descriptor);
+                        sub_current_msg->CopyFrom(sub_received_msg);
+                        if (!is_ignored) m_is_changed = true;
+                    }
                 }
                 else if(field_path.size() > 1)
                 {
@@ -162,7 +176,7 @@ private:
                         auto index = field_path.front().index;
                         auto size = reflection->FieldSize(current_msg, field_descriptor);
 
-                        for (int i = size; i < index + 1; ++i) {
+                        for (int i = size; i < index + 1; ++i) {                            
                             reflection->AddMessage(&current_msg, field_descriptor);
                         }
 
