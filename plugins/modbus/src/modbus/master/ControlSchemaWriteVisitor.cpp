@@ -246,8 +246,8 @@ namespace master {
                     Required::yes,
                     "Value to write to the register",
                     0,
-                    Bound<int64_t>::from(-2147483648),
-                    Bound<int64_t>::from(2147483647)
+                    Bound<int64_t>::from(INT_MIN),
+                    Bound<int64_t>::from(INT_MAX)
                 )
             }),
             Variant({ConstantProperty::from_enum<OutputType>(OutputType::Value::write_multiple_registers_float32)}, {
@@ -372,6 +372,13 @@ namespace master {
     std::shared_ptr<schema::Object> ControlSchemaWriteVisitor::get_numeric_schema()
     {
         const auto mapping_16bit = std::make_shared<Object>(std::vector<property_ptr_t>({
+            string_property(
+                util::keys::command_id,
+                Required::yes,
+                "command ID",
+                "some-command-id",
+                StringFormat::None
+            ),
             numeric_property<uint16_t>(
                 util::keys::index,
                 Required::yes,
@@ -391,6 +398,13 @@ namespace master {
         }));
 
         const auto mapping_32bit = std::make_shared<Object>(std::vector<property_ptr_t>({
+            string_property(
+                util::keys::command_id,
+                Required::yes,
+                "command ID",
+                "some-command-id",
+                StringFormat::None
+            ),
             numeric_property<uint16_t>(
                 keys::lower_index,
                 Required::yes,

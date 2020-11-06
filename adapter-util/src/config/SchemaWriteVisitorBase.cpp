@@ -39,7 +39,7 @@ namespace util {
 
         auto obj = object_property(
             field_name,
-            Required::no,
+            Required::yes,
             description,
             Object({})
         );
