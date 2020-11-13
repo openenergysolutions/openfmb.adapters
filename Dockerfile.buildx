@@ -5,7 +5,7 @@ WORKDIR /usr/src/openfmb.adapters
 RUN echo "Running on $BUILDPLATFORM, Building for $TARGETPLATFORM" > /log
 RUN apk update
 RUN apk upgrade
-RUN apk add git cmake ninja build-base flex bison python3 py3-pip perl curl tar gzip linux-headers
+RUN apk add git cmake ninja build-base flex bison python3 py3-pip perl curl tar gzip linux-headers openssl
 RUN pip install conan
 RUN conan profile new default --detect
 RUN conan profile update settings.compiler.libcxx=libstdc++11 default
@@ -14,19 +14,20 @@ RUN git config --global --add url."https://oauth2:64ef39deea6162ae64ba00e052df26
 COPY . .
 RUN git submodule update --init
 WORKDIR /usr/src/openfmb.adapters/build
-RUN CXXFLAGS="-flto -Os -ffunction-sections -fdata-sections" CFLAGS="-flto -Os -ffunction-sections -fdata-sections" LDFLAGS="-flto -Wl,--gc-sections" conan install --build=* ..
+RUN CXXFLAGS="-flto -Os -ffunction-sections -fdata-sections -fPIC" CFLAGS="-flto -Os -ffunction-sections -fdata-sections -fPIC" LDFLAGS="-flto -Wl,--gc-sections -fPIC" conan install --build=* ..
 WORKDIR /usr/src/openfmb.adapters/deps/nats
-RUN git clone --depth 1 --single-branch -b v2.0.0 https://github.com/nats-io/nats.c.git .
-RUN CXXFLAGS="-flto -Os -ffunction-sections -fdata-sections" CFLAGS="-flto -Os -ffunction-sections -fdata-sections" LDFLAGS="-flto -Wl,--gc-sections" cmake -G Ninja -DCMAKE_PREFIX_PATH="$(conan info --package-filter OpenSSL* --paths -n package_folder /usr/src/openfmb.adapters | grep -o /root.*)" -DCMAKE_BUILD_TYPE=Release -DNATS_BUILD_STREAMING=OFF
+RUN git clone --depth 1 --single-branch -b v2.3.0 https://github.com/nats-io/nats.c.git .
+WORKDIR /usr/src/openfmb.adapters/deps/nats/build
+RUN CXXFLAGS="-flto -Os -ffunction-sections -fdata-sections -fPIC" CFLAGS="-flto -Os -ffunction-sections -fdata-sections -fPIC" LDFLAGS="-flto -Wl,--gc-sections -fPIC" cmake -G Ninja -DCMAKE_PREFIX_PATH="$(conan info --package-filter OpenSSL* --paths -n package_folder /usr/src/openfmb.adapters | grep -o /root.*)" -DCMAKE_BUILD_TYPE=Release -DNATS_BUILD_STREAMING=OFF -DNATS_BUILD_EXAMPLES=OFF -DNATS_BUILD_LIB_SHARED=OFF -DNATS_BUILD_LIB_STATIC=ON ..
 RUN ninja install
 WORKDIR /usr/src/openfmb.adapters/deps/pcap
 RUN curl https://www.tcpdump.org/release/libpcap-1.9.1.tar.gz > libpcap-1.9.1.tar.gz && tar -xzf libpcap-1.9.1.tar.gz 
 WORKDIR /usr/src/openfmb.adapters/deps/pcap/libpcap-1.9.1
 RUN ./configure --prefix=/usr/local
-RUN CXXFLAGS="-flto -Os -ffunction-sections -fdata-sections" CFLAGS="-flto -Os -ffunction-sections -fdata-sections" LDFLAGS="-flto -Wl,--gc-sections" make -j8 all
+RUN CXXFLAGS="-flto -Os -ffunction-sections -fdata-sections -fPIC" CFLAGS="-flto -Os -ffunction-sections -fdata-sections -fPIC" LDFLAGS="-flto -Wl,--gc-sections -fPIC" make -j8 all
 RUN make install
 WORKDIR /usr/src/openfmb.adapters/build
-RUN CXXFLAGS="-flto -Os -ffunction-sections -fdata-sections -U_FORTIFY_SOURCE" CFLAGS="-flto -Os -ffunction-sections -fdata-sections -U_FORTIFY_SOURCE" LDFLAGS="-flto -Wl,--gc-sections" cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DOPENFMB_LINK_STATIC=true -DOPENFMB_LINK_STATIC_LIBC=true -DOPENFMB_USE_RTI_DDS=false ..
+RUN CXXFLAGS="-flto -Os -ffunction-sections -fdata-sections -U_FORTIFY_SOURCE -fPIC" CFLAGS="-flto -Os -ffunction-sections -fdata-sections -U_FORTIFY_SOURCE -fPIC" LDFLAGS="-flto -Wl,--gc-sections -fPIC" cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DOPENFMB_LINK_STATIC=true -DOPENFMB_LINK_STATIC_LIBC=true -DOPENFMB_USE_RTI_DDS=false ..
 RUN ninja -v
 RUN ctest .
 WORKDIR /usr/src/openfmb.adapters/build/application
