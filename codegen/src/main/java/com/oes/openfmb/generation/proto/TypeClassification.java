@@ -3,8 +3,6 @@ package com.oes.openfmb.generation.proto;
 import com.google.protobuf.*;
 import openfmb.commonmodule.*;
 import openfmb.commonmodule.Timestamp;
-import openfmb.generationmodule.ReactivePowerControlKind;
-import openfmb.generationmodule.RealPowerControlKind;
 
 import java.util.*;
 
@@ -350,6 +348,9 @@ public class TypeClassification {
         Map<Descriptors.EnumDescriptor, String> temp = new HashMap<>();
 
         // constant types
+        temp.put(ControlModeKind.getDescriptor(), Types.enumeration.constant);
+        temp.put(DirectionModeKind.getDescriptor(), Types.enumeration.constant);
+        temp.put(VoltLimitModeKind.getDescriptor(), Types.enumeration.constant);
         temp.put(CalcMethodKind.getDescriptor(), Types.enumeration.constant);
         temp.put(PFSignKind.getDescriptor(), Types.enumeration.constant);
         temp.put(BehaviourModeKind.getDescriptor(), Types.enumeration.constant);

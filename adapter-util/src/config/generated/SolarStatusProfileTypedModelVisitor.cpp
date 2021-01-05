@@ -50,8 +50,6 @@ void visit_commonmodule_Optional_StateKind(const set_t<commonmodule::Optional_St
 
 void visit_commonmodule_RampRate(const set_t<commonmodule::RampRate>& setter, const get_t<commonmodule::RampRate>& getter, ITypedModelVisitor<solarmodule::SolarStatusProfile>& visitor);
 
-void visit_commonmodule_StatusDPS(const set_t<commonmodule::StatusDPS>& setter, const get_t<commonmodule::StatusDPS>& getter, ITypedModelVisitor<solarmodule::SolarStatusProfile>& visitor);
-
 void visit_commonmodule_StatusMessageInfo(const set_t<commonmodule::StatusMessageInfo>& setter, const get_t<commonmodule::StatusMessageInfo>& getter, ITypedModelVisitor<solarmodule::SolarStatusProfile>& visitor);
 
 void visit_commonmodule_StatusSPS(const set_t<commonmodule::StatusSPS>& setter, const get_t<commonmodule::StatusSPS>& getter, ITypedModelVisitor<solarmodule::SolarStatusProfile>& visitor);
@@ -808,52 +806,6 @@ void visit_commonmodule_RampRate(const set_t<commonmodule::RampRate>& setter, co
     }
 }
 
-void visit_commonmodule_StatusDPS(const set_t<commonmodule::StatusDPS>& setter, const get_t<commonmodule::StatusDPS>& getter, ITypedModelVisitor<solarmodule::SolarStatusProfile>& visitor)
-{
-    visitor.handle(
-        "q",
-        MessageAccessorBuilder<solarmodule::SolarStatusProfile,commonmodule::Quality>::build(
-            [setter](solarmodule::SolarStatusProfile& profile) { return setter(profile)->mutable_q(); },
-            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<commonmodule::Quality>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent || !parent->has_q()) return false;
-                handler(parent->q());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "stVal",
-        AccessorBuilder<solarmodule::SolarStatusProfile,int>::build(
-            [setter](solarmodule::SolarStatusProfile& profile, const int& value) { setter(profile)->set_stval(static_cast<commonmodule::DbPosKind>(value)); },
-            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<int>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->stval());
-                return true;
-            }
-        ),
-        commonmodule::DbPosKind_descriptor()
-    );
-
-    visitor.handle(
-        "t",
-        MessageAccessorBuilder<solarmodule::SolarStatusProfile,commonmodule::Timestamp>::build(
-            [setter](solarmodule::SolarStatusProfile& profile) { return setter(profile)->mutable_t(); },
-            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<commonmodule::Timestamp>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent || !parent->has_t()) return false;
-                handler(parent->t());
-                return true;
-            }
-        )
-    );
-}
-
 void visit_commonmodule_StatusMessageInfo(const set_t<commonmodule::StatusMessageInfo>& setter, const get_t<commonmodule::StatusMessageInfo>& getter, ITypedModelVisitor<solarmodule::SolarStatusProfile>& visitor)
 {
     if(visitor.start_message_field("messageInfo", commonmodule::MessageInfo::descriptor()))
@@ -1180,14 +1132,14 @@ void visit_solarmodule_SolarInverter(const set_t<solarmodule::SolarInverter>& se
 
 void visit_solarmodule_SolarPointStatus(const set_t<solarmodule::SolarPointStatus>& setter, const get_t<solarmodule::SolarPointStatus>& getter, ITypedModelVisitor<solarmodule::SolarStatusProfile>& visitor)
 {
-    if(visitor.start_message_field("frequencySetPointEnabled", commonmodule::StatusDPS::descriptor()))
+    if(visitor.start_message_field("frequencySetPointEnabled", commonmodule::StatusSPS::descriptor()))
     {
-        visit_commonmodule_StatusDPS(
+        visit_commonmodule_StatusSPS(
             [setter](solarmodule::SolarStatusProfile& profile)
             {
                 return setter(profile)->mutable_frequencysetpointenabled();
             },
-            [getter](const solarmodule::SolarStatusProfile& profile) -> commonmodule::StatusDPS const *
+            [getter](const solarmodule::SolarStatusProfile& profile) -> commonmodule::StatusSPS const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1300,14 +1252,14 @@ void visit_solarmodule_SolarPointStatus(const set_t<solarmodule::SolarPointStatu
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("reactivePwrSetPointEnabled", commonmodule::StatusDPS::descriptor()))
+    if(visitor.start_message_field("reactivePwrSetPointEnabled", commonmodule::StatusSPS::descriptor()))
     {
-        visit_commonmodule_StatusDPS(
+        visit_commonmodule_StatusSPS(
             [setter](solarmodule::SolarStatusProfile& profile)
             {
                 return setter(profile)->mutable_reactivepwrsetpointenabled();
             },
-            [getter](const solarmodule::SolarStatusProfile& profile) -> commonmodule::StatusDPS const *
+            [getter](const solarmodule::SolarStatusProfile& profile) -> commonmodule::StatusSPS const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1324,14 +1276,14 @@ void visit_solarmodule_SolarPointStatus(const set_t<solarmodule::SolarPointStatu
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("realPwrSetPointEnabled", commonmodule::StatusDPS::descriptor()))
+    if(visitor.start_message_field("realPwrSetPointEnabled", commonmodule::StatusSPS::descriptor()))
     {
-        visit_commonmodule_StatusDPS(
+        visit_commonmodule_StatusSPS(
             [setter](solarmodule::SolarStatusProfile& profile)
             {
                 return setter(profile)->mutable_realpwrsetpointenabled();
             },
-            [getter](const solarmodule::SolarStatusProfile& profile) -> commonmodule::StatusDPS const *
+            [getter](const solarmodule::SolarStatusProfile& profile) -> commonmodule::StatusSPS const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1372,14 +1324,14 @@ void visit_solarmodule_SolarPointStatus(const set_t<solarmodule::SolarPointStatu
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("voltageSetPointEnabled", commonmodule::StatusDPS::descriptor()))
+    if(visitor.start_message_field("voltageSetPointEnabled", commonmodule::StatusSPS::descriptor()))
     {
-        visit_commonmodule_StatusDPS(
+        visit_commonmodule_StatusSPS(
             [setter](solarmodule::SolarStatusProfile& profile)
             {
                 return setter(profile)->mutable_voltagesetpointenabled();
             },
-            [getter](const solarmodule::SolarStatusProfile& profile) -> commonmodule::StatusDPS const *
+            [getter](const solarmodule::SolarStatusProfile& profile) -> commonmodule::StatusSPS const *
             {
                 const auto value = getter(profile);
                 if(value)

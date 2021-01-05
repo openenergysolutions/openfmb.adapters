@@ -44,11 +44,13 @@ void visit_commonmodule_CheckConditions(const set_t<commonmodule::CheckCondition
 
 void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::ConductingEquipment>& setter, const get_t<commonmodule::ConductingEquipment>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor);
 
-void visit_commonmodule_ControlDPC(const set_t<commonmodule::ControlDPC>& setter, const get_t<commonmodule::ControlDPC>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor);
+void visit_commonmodule_ControlAPC(const set_t<commonmodule::ControlAPC>& setter, const get_t<commonmodule::ControlAPC>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor);
 
 void visit_commonmodule_ControlFSCC(const set_t<commonmodule::ControlFSCC>& setter, const get_t<commonmodule::ControlFSCC>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor);
 
 void visit_commonmodule_ControlMessageInfo(const set_t<commonmodule::ControlMessageInfo>& setter, const get_t<commonmodule::ControlMessageInfo>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor);
+
+void visit_commonmodule_ControlSPC(const set_t<commonmodule::ControlSPC>& setter, const get_t<commonmodule::ControlSPC>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor);
 
 void visit_commonmodule_ControlScheduleFSCH(const set_t<commonmodule::ControlScheduleFSCH>& setter, const get_t<commonmodule::ControlScheduleFSCH>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor);
 
@@ -64,7 +66,11 @@ void visit_commonmodule_MessageInfo(const set_t<commonmodule::MessageInfo>& sett
 
 void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& setter, const get_t<commonmodule::NamedObject>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor);
 
-void visit_commonmodule_PhaseDPC(const set_t<commonmodule::PhaseDPC>& setter, const get_t<commonmodule::PhaseDPC>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor);
+void visit_commonmodule_Optional_DirectionModeKind(const set_t<commonmodule::Optional_DirectionModeKind>& setter, const get_t<commonmodule::Optional_DirectionModeKind>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor);
+
+void visit_commonmodule_PhaseAPC(const set_t<commonmodule::PhaseAPC>& setter, const get_t<commonmodule::PhaseAPC>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor);
+
+void visit_commonmodule_PhaseSPC(const set_t<commonmodule::PhaseSPC>& setter, const get_t<commonmodule::PhaseSPC>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor);
 
 void visit_commonmodule_ScheduleCSG(const set_t<commonmodule::ScheduleCSG>& setter, const get_t<commonmodule::ScheduleCSG>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor);
 
@@ -352,19 +358,403 @@ void visit_capbankmodule_CapBankControlScheduleFSCH(const set_t<capbankmodule::C
 
 void visit_capbankmodule_CapBankControlYPSH(const set_t<capbankmodule::CapBankControlYPSH>& setter, const get_t<capbankmodule::CapBankControlYPSH>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor)
 {
-    if(visitor.start_message_field("Pos", commonmodule::PhaseDPC::descriptor()))
+    if(visitor.start_message_field("AmpLmt", commonmodule::PhaseSPC::descriptor()))
     {
-        visit_commonmodule_PhaseDPC(
+        visit_commonmodule_PhaseSPC(
+            [setter](capbankmodule::CapBankControlProfile& profile)
+            {
+                return setter(profile)->mutable_amplmt();
+            },
+            [getter](const capbankmodule::CapBankControlProfile& profile) -> commonmodule::PhaseSPC const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_amplmt() ? &value->amplmt() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("AmpThdHi", commonmodule::PhaseAPC::descriptor()))
+    {
+        visit_commonmodule_PhaseAPC(
+            [setter](capbankmodule::CapBankControlProfile& profile)
+            {
+                return setter(profile)->mutable_ampthdhi();
+            },
+            [getter](const capbankmodule::CapBankControlProfile& profile) -> commonmodule::PhaseAPC const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_ampthdhi() ? &value->ampthdhi() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("AmpThdLo", commonmodule::PhaseAPC::descriptor()))
+    {
+        visit_commonmodule_PhaseAPC(
+            [setter](capbankmodule::CapBankControlProfile& profile)
+            {
+                return setter(profile)->mutable_ampthdlo();
+            },
+            [getter](const capbankmodule::CapBankControlProfile& profile) -> commonmodule::PhaseAPC const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_ampthdlo() ? &value->ampthdlo() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("CtlModeAuto", commonmodule::ControlSPC::descriptor()))
+    {
+        visit_commonmodule_ControlSPC(
+            [setter](capbankmodule::CapBankControlProfile& profile)
+            {
+                return setter(profile)->mutable_ctlmodeauto();
+            },
+            [getter](const capbankmodule::CapBankControlProfile& profile) -> commonmodule::ControlSPC const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_ctlmodeauto() ? &value->ctlmodeauto() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("CtlModeOvrRd", commonmodule::ControlSPC::descriptor()))
+    {
+        visit_commonmodule_ControlSPC(
+            [setter](capbankmodule::CapBankControlProfile& profile)
+            {
+                return setter(profile)->mutable_ctlmodeovrrd();
+            },
+            [getter](const capbankmodule::CapBankControlProfile& profile) -> commonmodule::ControlSPC const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_ctlmodeovrrd() ? &value->ctlmodeovrrd() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("CtlModeRem", commonmodule::ControlSPC::descriptor()))
+    {
+        visit_commonmodule_ControlSPC(
+            [setter](capbankmodule::CapBankControlProfile& profile)
+            {
+                return setter(profile)->mutable_ctlmoderem();
+            },
+            [getter](const capbankmodule::CapBankControlProfile& profile) -> commonmodule::ControlSPC const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_ctlmoderem() ? &value->ctlmoderem() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("DirMode", commonmodule::Optional_DirectionModeKind::descriptor()))
+    {
+        visit_commonmodule_Optional_DirectionModeKind(
+            [setter](capbankmodule::CapBankControlProfile& profile)
+            {
+                return setter(profile)->mutable_dirmode();
+            },
+            [getter](const capbankmodule::CapBankControlProfile& profile) -> commonmodule::Optional_DirectionModeKind const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_dirmode() ? &value->dirmode() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("Pos", commonmodule::PhaseSPC::descriptor()))
+    {
+        visit_commonmodule_PhaseSPC(
             [setter](capbankmodule::CapBankControlProfile& profile)
             {
                 return setter(profile)->mutable_pos();
             },
-            [getter](const capbankmodule::CapBankControlProfile& profile) -> commonmodule::PhaseDPC const *
+            [getter](const capbankmodule::CapBankControlProfile& profile) -> commonmodule::PhaseSPC const *
             {
                 const auto value = getter(profile);
                 if(value)
                 {
                     return value->has_pos() ? &value->pos() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("TempLmt", commonmodule::ControlSPC::descriptor()))
+    {
+        visit_commonmodule_ControlSPC(
+            [setter](capbankmodule::CapBankControlProfile& profile)
+            {
+                return setter(profile)->mutable_templmt();
+            },
+            [getter](const capbankmodule::CapBankControlProfile& profile) -> commonmodule::ControlSPC const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_templmt() ? &value->templmt() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("TempThdHi", commonmodule::ControlAPC::descriptor()))
+    {
+        visit_commonmodule_ControlAPC(
+            [setter](capbankmodule::CapBankControlProfile& profile)
+            {
+                return setter(profile)->mutable_tempthdhi();
+            },
+            [getter](const capbankmodule::CapBankControlProfile& profile) -> commonmodule::ControlAPC const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_tempthdhi() ? &value->tempthdhi() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("TempThdLo", commonmodule::ControlAPC::descriptor()))
+    {
+        visit_commonmodule_ControlAPC(
+            [setter](capbankmodule::CapBankControlProfile& profile)
+            {
+                return setter(profile)->mutable_tempthdlo();
+            },
+            [getter](const capbankmodule::CapBankControlProfile& profile) -> commonmodule::ControlAPC const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_tempthdlo() ? &value->tempthdlo() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("VArLmt", commonmodule::PhaseSPC::descriptor()))
+    {
+        visit_commonmodule_PhaseSPC(
+            [setter](capbankmodule::CapBankControlProfile& profile)
+            {
+                return setter(profile)->mutable_varlmt();
+            },
+            [getter](const capbankmodule::CapBankControlProfile& profile) -> commonmodule::PhaseSPC const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_varlmt() ? &value->varlmt() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("VArThdHi", commonmodule::PhaseAPC::descriptor()))
+    {
+        visit_commonmodule_PhaseAPC(
+            [setter](capbankmodule::CapBankControlProfile& profile)
+            {
+                return setter(profile)->mutable_varthdhi();
+            },
+            [getter](const capbankmodule::CapBankControlProfile& profile) -> commonmodule::PhaseAPC const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_varthdhi() ? &value->varthdhi() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("VArThdLo", commonmodule::PhaseAPC::descriptor()))
+    {
+        visit_commonmodule_PhaseAPC(
+            [setter](capbankmodule::CapBankControlProfile& profile)
+            {
+                return setter(profile)->mutable_varthdlo();
+            },
+            [getter](const capbankmodule::CapBankControlProfile& profile) -> commonmodule::PhaseAPC const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_varthdlo() ? &value->varthdlo() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("VolLmt", commonmodule::PhaseSPC::descriptor()))
+    {
+        visit_commonmodule_PhaseSPC(
+            [setter](capbankmodule::CapBankControlProfile& profile)
+            {
+                return setter(profile)->mutable_vollmt();
+            },
+            [getter](const capbankmodule::CapBankControlProfile& profile) -> commonmodule::PhaseSPC const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_vollmt() ? &value->vollmt() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("VolThdHi", commonmodule::PhaseAPC::descriptor()))
+    {
+        visit_commonmodule_PhaseAPC(
+            [setter](capbankmodule::CapBankControlProfile& profile)
+            {
+                return setter(profile)->mutable_volthdhi();
+            },
+            [getter](const capbankmodule::CapBankControlProfile& profile) -> commonmodule::PhaseAPC const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_volthdhi() ? &value->volthdhi() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("VolThdLo", commonmodule::PhaseAPC::descriptor()))
+    {
+        visit_commonmodule_PhaseAPC(
+            [setter](capbankmodule::CapBankControlProfile& profile)
+            {
+                return setter(profile)->mutable_volthdlo();
+            },
+            [getter](const capbankmodule::CapBankControlProfile& profile) -> commonmodule::PhaseAPC const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_volthdlo() ? &value->volthdlo() : nullptr;
                 }
                 else
                 {
@@ -537,13 +927,13 @@ void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::Conducting
     );
 }
 
-void visit_commonmodule_ControlDPC(const set_t<commonmodule::ControlDPC>& setter, const get_t<commonmodule::ControlDPC>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor)
+void visit_commonmodule_ControlAPC(const set_t<commonmodule::ControlAPC>& setter, const get_t<commonmodule::ControlAPC>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor)
 {
     visitor.handle(
         "ctlVal",
-        AccessorBuilder<capbankmodule::CapBankControlProfile,bool>::build(
-            [setter](capbankmodule::CapBankControlProfile& profile, const bool& value) { setter(profile)->set_ctlval(value); },
-            [getter](const capbankmodule::CapBankControlProfile& profile, const handler_t<bool>& handler)
+        AccessorBuilder<capbankmodule::CapBankControlProfile,double>::build(
+            [setter](capbankmodule::CapBankControlProfile& profile, const double& value) { setter(profile)->set_ctlval(value); },
+            [getter](const capbankmodule::CapBankControlProfile& profile, const handler_t<double>& handler)
             {
                 const auto parent = getter(profile);
                 if(!parent) return false;
@@ -654,6 +1044,23 @@ void visit_commonmodule_ControlMessageInfo(const set_t<commonmodule::ControlMess
         );
         visitor.end_message_field();
     }
+}
+
+void visit_commonmodule_ControlSPC(const set_t<commonmodule::ControlSPC>& setter, const get_t<commonmodule::ControlSPC>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor)
+{
+    visitor.handle(
+        "ctlVal",
+        AccessorBuilder<capbankmodule::CapBankControlProfile,bool>::build(
+            [setter](capbankmodule::CapBankControlProfile& profile, const bool& value) { setter(profile)->set_ctlval(value); },
+            [getter](const capbankmodule::CapBankControlProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->ctlval());
+                return true;
+            }
+        )
+    );
 }
 
 void visit_commonmodule_ControlScheduleFSCH(const set_t<commonmodule::ControlScheduleFSCH>& setter, const get_t<commonmodule::ControlScheduleFSCH>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor)
@@ -979,16 +1386,34 @@ void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& sett
     }
 }
 
-void visit_commonmodule_PhaseDPC(const set_t<commonmodule::PhaseDPC>& setter, const get_t<commonmodule::PhaseDPC>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor)
+void visit_commonmodule_Optional_DirectionModeKind(const set_t<commonmodule::Optional_DirectionModeKind>& setter, const get_t<commonmodule::Optional_DirectionModeKind>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor)
 {
-    if(visitor.start_message_field("phs3", commonmodule::ControlDPC::descriptor()))
+    visitor.handle(
+        "value",
+        AccessorBuilder<capbankmodule::CapBankControlProfile,int>::build(
+            [setter](capbankmodule::CapBankControlProfile& profile, const int& value) { setter(profile)->set_value(static_cast<commonmodule::DirectionModeKind>(value)); },
+            [getter](const capbankmodule::CapBankControlProfile& profile, const handler_t<int>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->value());
+                return true;
+            }
+        ),
+        commonmodule::DirectionModeKind_descriptor()
+    );
+}
+
+void visit_commonmodule_PhaseAPC(const set_t<commonmodule::PhaseAPC>& setter, const get_t<commonmodule::PhaseAPC>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor)
+{
+    if(visitor.start_message_field("phs3", commonmodule::ControlAPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC(
+        visit_commonmodule_ControlAPC(
             [setter](capbankmodule::CapBankControlProfile& profile)
             {
                 return setter(profile)->mutable_phs3();
             },
-            [getter](const capbankmodule::CapBankControlProfile& profile) -> commonmodule::ControlDPC const *
+            [getter](const capbankmodule::CapBankControlProfile& profile) -> commonmodule::ControlAPC const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1005,14 +1430,14 @@ void visit_commonmodule_PhaseDPC(const set_t<commonmodule::PhaseDPC>& setter, co
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("phsA", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("phsA", commonmodule::ControlAPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC(
+        visit_commonmodule_ControlAPC(
             [setter](capbankmodule::CapBankControlProfile& profile)
             {
                 return setter(profile)->mutable_phsa();
             },
-            [getter](const capbankmodule::CapBankControlProfile& profile) -> commonmodule::ControlDPC const *
+            [getter](const capbankmodule::CapBankControlProfile& profile) -> commonmodule::ControlAPC const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1029,14 +1454,14 @@ void visit_commonmodule_PhaseDPC(const set_t<commonmodule::PhaseDPC>& setter, co
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("phsB", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("phsB", commonmodule::ControlAPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC(
+        visit_commonmodule_ControlAPC(
             [setter](capbankmodule::CapBankControlProfile& profile)
             {
                 return setter(profile)->mutable_phsb();
             },
-            [getter](const capbankmodule::CapBankControlProfile& profile) -> commonmodule::ControlDPC const *
+            [getter](const capbankmodule::CapBankControlProfile& profile) -> commonmodule::ControlAPC const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1053,14 +1478,113 @@ void visit_commonmodule_PhaseDPC(const set_t<commonmodule::PhaseDPC>& setter, co
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("phsC", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("phsC", commonmodule::ControlAPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC(
+        visit_commonmodule_ControlAPC(
             [setter](capbankmodule::CapBankControlProfile& profile)
             {
                 return setter(profile)->mutable_phsc();
             },
-            [getter](const capbankmodule::CapBankControlProfile& profile) -> commonmodule::ControlDPC const *
+            [getter](const capbankmodule::CapBankControlProfile& profile) -> commonmodule::ControlAPC const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_phsc() ? &value->phsc() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+}
+
+void visit_commonmodule_PhaseSPC(const set_t<commonmodule::PhaseSPC>& setter, const get_t<commonmodule::PhaseSPC>& getter, ITypedModelVisitor<capbankmodule::CapBankControlProfile>& visitor)
+{
+    if(visitor.start_message_field("phs3", commonmodule::ControlSPC::descriptor()))
+    {
+        visit_commonmodule_ControlSPC(
+            [setter](capbankmodule::CapBankControlProfile& profile)
+            {
+                return setter(profile)->mutable_phs3();
+            },
+            [getter](const capbankmodule::CapBankControlProfile& profile) -> commonmodule::ControlSPC const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_phs3() ? &value->phs3() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("phsA", commonmodule::ControlSPC::descriptor()))
+    {
+        visit_commonmodule_ControlSPC(
+            [setter](capbankmodule::CapBankControlProfile& profile)
+            {
+                return setter(profile)->mutable_phsa();
+            },
+            [getter](const capbankmodule::CapBankControlProfile& profile) -> commonmodule::ControlSPC const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_phsa() ? &value->phsa() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("phsB", commonmodule::ControlSPC::descriptor()))
+    {
+        visit_commonmodule_ControlSPC(
+            [setter](capbankmodule::CapBankControlProfile& profile)
+            {
+                return setter(profile)->mutable_phsb();
+            },
+            [getter](const capbankmodule::CapBankControlProfile& profile) -> commonmodule::ControlSPC const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_phsb() ? &value->phsb() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("phsC", commonmodule::ControlSPC::descriptor()))
+    {
+        visit_commonmodule_ControlSPC(
+            [setter](capbankmodule::CapBankControlProfile& profile)
+            {
+                return setter(profile)->mutable_phsc();
+            },
+            [getter](const capbankmodule::CapBankControlProfile& profile) -> commonmodule::ControlSPC const *
             {
                 const auto value = getter(profile);
                 if(value)

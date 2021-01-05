@@ -50,7 +50,11 @@ void visit_commonmodule_MessageInfo(const set_t<commonmodule::MessageInfo>& sett
 
 void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& setter, const get_t<commonmodule::NamedObject>& getter, ITypedModelVisitor<capbankmodule::CapBankStatusProfile>& visitor);
 
+void visit_commonmodule_Optional_ControlModeKind(const set_t<commonmodule::Optional_ControlModeKind>& setter, const get_t<commonmodule::Optional_ControlModeKind>& getter, ITypedModelVisitor<capbankmodule::CapBankStatusProfile>& visitor);
+
 void visit_commonmodule_PhaseDPS(const set_t<commonmodule::PhaseDPS>& setter, const get_t<commonmodule::PhaseDPS>& getter, ITypedModelVisitor<capbankmodule::CapBankStatusProfile>& visitor);
+
+void visit_commonmodule_PhaseSPS(const set_t<commonmodule::PhaseSPS>& setter, const get_t<commonmodule::PhaseSPS>& getter, ITypedModelVisitor<capbankmodule::CapBankStatusProfile>& visitor);
 
 void visit_commonmodule_StatusDPS(const set_t<commonmodule::StatusDPS>& setter, const get_t<commonmodule::StatusDPS>& getter, ITypedModelVisitor<capbankmodule::CapBankStatusProfile>& visitor);
 
@@ -173,6 +177,78 @@ void visit_capbankmodule_CapBankEventAndStatusYPSH(const set_t<capbankmodule::Ca
         visitor.end_message_field();
     }
 
+    if(visitor.start_message_field("AmpLmt", commonmodule::PhaseSPS::descriptor()))
+    {
+        visit_commonmodule_PhaseSPS(
+            [setter](capbankmodule::CapBankStatusProfile& profile)
+            {
+                return setter(profile)->mutable_amplmt();
+            },
+            [getter](const capbankmodule::CapBankStatusProfile& profile) -> commonmodule::PhaseSPS const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_amplmt() ? &value->amplmt() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("CtlMode", commonmodule::Optional_ControlModeKind::descriptor()))
+    {
+        visit_commonmodule_Optional_ControlModeKind(
+            [setter](capbankmodule::CapBankStatusProfile& profile)
+            {
+                return setter(profile)->mutable_ctlmode();
+            },
+            [getter](const capbankmodule::CapBankStatusProfile& profile) -> commonmodule::Optional_ControlModeKind const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_ctlmode() ? &value->ctlmode() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("DirRev", commonmodule::PhaseSPS::descriptor()))
+    {
+        visit_commonmodule_PhaseSPS(
+            [setter](capbankmodule::CapBankStatusProfile& profile)
+            {
+                return setter(profile)->mutable_dirrev();
+            },
+            [getter](const capbankmodule::CapBankStatusProfile& profile) -> commonmodule::PhaseSPS const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_dirrev() ? &value->dirrev() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
     if(visitor.start_message_field("DynamicTest", commonmodule::ENS_DynamicTestKind::descriptor()))
     {
         visit_commonmodule_ENS_DynamicTestKind(
@@ -210,6 +286,78 @@ void visit_capbankmodule_CapBankEventAndStatusYPSH(const set_t<capbankmodule::Ca
                 if(value)
                 {
                     return value->has_pos() ? &value->pos() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("TempLmt", commonmodule::PhaseSPS::descriptor()))
+    {
+        visit_commonmodule_PhaseSPS(
+            [setter](capbankmodule::CapBankStatusProfile& profile)
+            {
+                return setter(profile)->mutable_templmt();
+            },
+            [getter](const capbankmodule::CapBankStatusProfile& profile) -> commonmodule::PhaseSPS const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_templmt() ? &value->templmt() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("VArLmt", commonmodule::PhaseSPS::descriptor()))
+    {
+        visit_commonmodule_PhaseSPS(
+            [setter](capbankmodule::CapBankStatusProfile& profile)
+            {
+                return setter(profile)->mutable_varlmt();
+            },
+            [getter](const capbankmodule::CapBankStatusProfile& profile) -> commonmodule::PhaseSPS const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_varlmt() ? &value->varlmt() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("VolLmt", commonmodule::PhaseSPS::descriptor()))
+    {
+        visit_commonmodule_PhaseSPS(
+            [setter](capbankmodule::CapBankStatusProfile& profile)
+            {
+                return setter(profile)->mutable_vollmt();
+            },
+            [getter](const capbankmodule::CapBankStatusProfile& profile) -> commonmodule::PhaseSPS const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_vollmt() ? &value->vollmt() : nullptr;
                 }
                 else
                 {
@@ -792,6 +940,24 @@ void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& sett
     }
 }
 
+void visit_commonmodule_Optional_ControlModeKind(const set_t<commonmodule::Optional_ControlModeKind>& setter, const get_t<commonmodule::Optional_ControlModeKind>& getter, ITypedModelVisitor<capbankmodule::CapBankStatusProfile>& visitor)
+{
+    visitor.handle(
+        "value",
+        AccessorBuilder<capbankmodule::CapBankStatusProfile,int>::build(
+            [setter](capbankmodule::CapBankStatusProfile& profile, const int& value) { setter(profile)->set_value(static_cast<commonmodule::ControlModeKind>(value)); },
+            [getter](const capbankmodule::CapBankStatusProfile& profile, const handler_t<int>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->value());
+                return true;
+            }
+        ),
+        commonmodule::ControlModeKind_descriptor()
+    );
+}
+
 void visit_commonmodule_PhaseDPS(const set_t<commonmodule::PhaseDPS>& setter, const get_t<commonmodule::PhaseDPS>& getter, ITypedModelVisitor<capbankmodule::CapBankStatusProfile>& visitor)
 {
     if(visitor.start_message_field("phs3", commonmodule::StatusDPS::descriptor()))
@@ -874,6 +1040,105 @@ void visit_commonmodule_PhaseDPS(const set_t<commonmodule::PhaseDPS>& setter, co
                 return setter(profile)->mutable_phsc();
             },
             [getter](const capbankmodule::CapBankStatusProfile& profile) -> commonmodule::StatusDPS const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_phsc() ? &value->phsc() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+}
+
+void visit_commonmodule_PhaseSPS(const set_t<commonmodule::PhaseSPS>& setter, const get_t<commonmodule::PhaseSPS>& getter, ITypedModelVisitor<capbankmodule::CapBankStatusProfile>& visitor)
+{
+    if(visitor.start_message_field("phs3", commonmodule::StatusSPS::descriptor()))
+    {
+        visit_commonmodule_StatusSPS(
+            [setter](capbankmodule::CapBankStatusProfile& profile)
+            {
+                return setter(profile)->mutable_phs3();
+            },
+            [getter](const capbankmodule::CapBankStatusProfile& profile) -> commonmodule::StatusSPS const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_phs3() ? &value->phs3() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("phsA", commonmodule::StatusSPS::descriptor()))
+    {
+        visit_commonmodule_StatusSPS(
+            [setter](capbankmodule::CapBankStatusProfile& profile)
+            {
+                return setter(profile)->mutable_phsa();
+            },
+            [getter](const capbankmodule::CapBankStatusProfile& profile) -> commonmodule::StatusSPS const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_phsa() ? &value->phsa() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("phsB", commonmodule::StatusSPS::descriptor()))
+    {
+        visit_commonmodule_StatusSPS(
+            [setter](capbankmodule::CapBankStatusProfile& profile)
+            {
+                return setter(profile)->mutable_phsb();
+            },
+            [getter](const capbankmodule::CapBankStatusProfile& profile) -> commonmodule::StatusSPS const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_phsb() ? &value->phsb() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("phsC", commonmodule::StatusSPS::descriptor()))
+    {
+        visit_commonmodule_StatusSPS(
+            [setter](capbankmodule::CapBankStatusProfile& profile)
+            {
+                return setter(profile)->mutable_phsc();
+            },
+            [getter](const capbankmodule::CapBankStatusProfile& profile) -> commonmodule::StatusSPS const *
             {
                 const auto value = getter(profile);
                 if(value)

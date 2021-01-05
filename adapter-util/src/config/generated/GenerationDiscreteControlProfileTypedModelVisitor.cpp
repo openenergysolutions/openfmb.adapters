@@ -42,6 +42,10 @@ void visit_commonmodule_MessageInfo(const set_t<commonmodule::MessageInfo>& sett
 
 void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& setter, const get_t<commonmodule::NamedObject>& getter, ITypedModelVisitor<generationmodule::GenerationDiscreteControlProfile>& visitor);
 
+void visit_commonmodule_Optional_ReactivePowerControlKind(const set_t<commonmodule::Optional_ReactivePowerControlKind>& setter, const get_t<commonmodule::Optional_ReactivePowerControlKind>& getter, ITypedModelVisitor<generationmodule::GenerationDiscreteControlProfile>& visitor);
+
+void visit_commonmodule_Optional_RealPowerControlKind(const set_t<commonmodule::Optional_RealPowerControlKind>& setter, const get_t<commonmodule::Optional_RealPowerControlKind>& getter, ITypedModelVisitor<generationmodule::GenerationDiscreteControlProfile>& visitor);
+
 void visit_commonmodule_Optional_UnitMultiplierKind(const set_t<commonmodule::Optional_UnitMultiplierKind>& setter, const get_t<commonmodule::Optional_UnitMultiplierKind>& getter, ITypedModelVisitor<generationmodule::GenerationDiscreteControlProfile>& visitor);
 
 void visit_commonmodule_Optional_UnitSymbolKind(const set_t<commonmodule::Optional_UnitSymbolKind>& setter, const get_t<commonmodule::Optional_UnitSymbolKind>& getter, ITypedModelVisitor<generationmodule::GenerationDiscreteControlProfile>& visitor);
@@ -51,10 +55,6 @@ void visit_generationmodule_DroopParameter(const set_t<generationmodule::DroopPa
 void visit_generationmodule_GeneratingUnit(const set_t<generationmodule::GeneratingUnit>& setter, const get_t<generationmodule::GeneratingUnit>& getter, ITypedModelVisitor<generationmodule::GenerationDiscreteControlProfile>& visitor);
 
 void visit_generationmodule_GenerationDiscreteControl(const set_t<generationmodule::GenerationDiscreteControl>& setter, const get_t<generationmodule::GenerationDiscreteControl>& getter, ITypedModelVisitor<generationmodule::GenerationDiscreteControlProfile>& visitor);
-
-void visit_generationmodule_Optional_ReactivePowerControlKind(const set_t<generationmodule::Optional_ReactivePowerControlKind>& setter, const get_t<generationmodule::Optional_ReactivePowerControlKind>& getter, ITypedModelVisitor<generationmodule::GenerationDiscreteControlProfile>& visitor);
-
-void visit_generationmodule_Optional_RealPowerControlKind(const set_t<generationmodule::Optional_RealPowerControlKind>& setter, const get_t<generationmodule::Optional_RealPowerControlKind>& getter, ITypedModelVisitor<generationmodule::GenerationDiscreteControlProfile>& visitor);
 
 void visit_generationmodule_ReactivePowerControl(const set_t<generationmodule::ReactivePowerControl>& setter, const get_t<generationmodule::ReactivePowerControl>& getter, ITypedModelVisitor<generationmodule::GenerationDiscreteControlProfile>& visitor);
 
@@ -585,6 +585,42 @@ void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& sett
     }
 }
 
+void visit_commonmodule_Optional_ReactivePowerControlKind(const set_t<commonmodule::Optional_ReactivePowerControlKind>& setter, const get_t<commonmodule::Optional_ReactivePowerControlKind>& getter, ITypedModelVisitor<generationmodule::GenerationDiscreteControlProfile>& visitor)
+{
+    visitor.handle(
+        "value",
+        AccessorBuilder<generationmodule::GenerationDiscreteControlProfile,int>::build(
+            [setter](generationmodule::GenerationDiscreteControlProfile& profile, const int& value) { setter(profile)->set_value(static_cast<commonmodule::ReactivePowerControlKind>(value)); },
+            [getter](const generationmodule::GenerationDiscreteControlProfile& profile, const handler_t<int>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->value());
+                return true;
+            }
+        ),
+        commonmodule::ReactivePowerControlKind_descriptor()
+    );
+}
+
+void visit_commonmodule_Optional_RealPowerControlKind(const set_t<commonmodule::Optional_RealPowerControlKind>& setter, const get_t<commonmodule::Optional_RealPowerControlKind>& getter, ITypedModelVisitor<generationmodule::GenerationDiscreteControlProfile>& visitor)
+{
+    visitor.handle(
+        "value",
+        AccessorBuilder<generationmodule::GenerationDiscreteControlProfile,int>::build(
+            [setter](generationmodule::GenerationDiscreteControlProfile& profile, const int& value) { setter(profile)->set_value(static_cast<commonmodule::RealPowerControlKind>(value)); },
+            [getter](const generationmodule::GenerationDiscreteControlProfile& profile, const handler_t<int>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->value());
+                return true;
+            }
+        ),
+        commonmodule::RealPowerControlKind_descriptor()
+    );
+}
+
 void visit_commonmodule_Optional_UnitMultiplierKind(const set_t<commonmodule::Optional_UnitMultiplierKind>& setter, const get_t<commonmodule::Optional_UnitMultiplierKind>& getter, ITypedModelVisitor<generationmodule::GenerationDiscreteControlProfile>& visitor)
 {
     visitor.handle(
@@ -822,42 +858,6 @@ void visit_generationmodule_GenerationDiscreteControl(const set_t<generationmodu
     }
 }
 
-void visit_generationmodule_Optional_ReactivePowerControlKind(const set_t<generationmodule::Optional_ReactivePowerControlKind>& setter, const get_t<generationmodule::Optional_ReactivePowerControlKind>& getter, ITypedModelVisitor<generationmodule::GenerationDiscreteControlProfile>& visitor)
-{
-    visitor.handle(
-        "value",
-        AccessorBuilder<generationmodule::GenerationDiscreteControlProfile,int>::build(
-            [setter](generationmodule::GenerationDiscreteControlProfile& profile, const int& value) { setter(profile)->set_value(static_cast<generationmodule::ReactivePowerControlKind>(value)); },
-            [getter](const generationmodule::GenerationDiscreteControlProfile& profile, const handler_t<int>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->value());
-                return true;
-            }
-        ),
-        generationmodule::ReactivePowerControlKind_descriptor()
-    );
-}
-
-void visit_generationmodule_Optional_RealPowerControlKind(const set_t<generationmodule::Optional_RealPowerControlKind>& setter, const get_t<generationmodule::Optional_RealPowerControlKind>& getter, ITypedModelVisitor<generationmodule::GenerationDiscreteControlProfile>& visitor)
-{
-    visitor.handle(
-        "value",
-        AccessorBuilder<generationmodule::GenerationDiscreteControlProfile,int>::build(
-            [setter](generationmodule::GenerationDiscreteControlProfile& profile, const int& value) { setter(profile)->set_value(static_cast<generationmodule::RealPowerControlKind>(value)); },
-            [getter](const generationmodule::GenerationDiscreteControlProfile& profile, const handler_t<int>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->value());
-                return true;
-            }
-        ),
-        generationmodule::RealPowerControlKind_descriptor()
-    );
-}
-
 void visit_generationmodule_ReactivePowerControl(const set_t<generationmodule::ReactivePowerControl>& setter, const get_t<generationmodule::ReactivePowerControl>& getter, ITypedModelVisitor<generationmodule::GenerationDiscreteControlProfile>& visitor)
 {
     if(visitor.start_message_field("droopSetpoint", generationmodule::DroopParameter::descriptor()))
@@ -908,14 +908,14 @@ void visit_generationmodule_ReactivePowerControl(const set_t<generationmodule::R
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("reactivePowerControlMode", generationmodule::Optional_ReactivePowerControlKind::descriptor()))
+    if(visitor.start_message_field("reactivePowerControlMode", commonmodule::Optional_ReactivePowerControlKind::descriptor()))
     {
-        visit_generationmodule_Optional_ReactivePowerControlKind(
+        visit_commonmodule_Optional_ReactivePowerControlKind(
             [setter](generationmodule::GenerationDiscreteControlProfile& profile)
             {
                 return setter(profile)->mutable_reactivepowercontrolmode();
             },
-            [getter](const generationmodule::GenerationDiscreteControlProfile& profile) -> generationmodule::Optional_ReactivePowerControlKind const *
+            [getter](const generationmodule::GenerationDiscreteControlProfile& profile) -> commonmodule::Optional_ReactivePowerControlKind const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1031,14 +1031,14 @@ void visit_generationmodule_RealPowerControl(const set_t<generationmodule::RealP
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("realPowerControlMode", generationmodule::Optional_RealPowerControlKind::descriptor()))
+    if(visitor.start_message_field("realPowerControlMode", commonmodule::Optional_RealPowerControlKind::descriptor()))
     {
-        visit_generationmodule_Optional_RealPowerControlKind(
+        visit_commonmodule_Optional_RealPowerControlKind(
             [setter](generationmodule::GenerationDiscreteControlProfile& profile)
             {
                 return setter(profile)->mutable_realpowercontrolmode();
             },
-            [getter](const generationmodule::GenerationDiscreteControlProfile& profile) -> generationmodule::Optional_RealPowerControlKind const *
+            [getter](const generationmodule::GenerationDiscreteControlProfile& profile) -> commonmodule::Optional_RealPowerControlKind const *
             {
                 const auto value = getter(profile);
                 if(value)

@@ -159,6 +159,12 @@ void convert_from_proto(const capbankmodule::CapBankPoint& in, twinoaks::capbank
 
 void convert_from_proto(const capbankmodule::CapBankControlYPSH& in, twinoaks::capbankmodule::CapBankControlYPSH& out);
 
+void convert_from_proto(const commonmodule::PhaseSPC& in, twinoaks::commonmodule::PhaseSPC& out);
+
+void convert_from_proto(const commonmodule::PhaseAPC& in, twinoaks::commonmodule::PhaseAPC& out);
+
+void convert_from_proto(const commonmodule::ControlAPC& in, twinoaks::commonmodule::ControlAPC& out);
+
 void convert_from_proto(const capbankmodule::CapBankSystem& in, twinoaks::capbankmodule::CapBankSystem& out);
 
 void convert_from_proto(const capbankmodule::CapBankDiscreteControl& in, twinoaks::capbankmodule::CapBankDiscreteControl& out);
@@ -307,17 +313,11 @@ void convert_from_proto(const regulatormodule::RegulatorDiscreteControl& in, twi
 
 void convert_from_proto(const regulatormodule::RegulatorControlATCC& in, twinoaks::regulatormodule::RegulatorControlATCC& out);
 
-void convert_from_proto(const commonmodule::ASG& in, twinoaks::commonmodule::ASG& out);
-
-void convert_from_proto(const commonmodule::ControlING& in, twinoaks::commonmodule::ControlING& out);
+void convert_from_proto(const regulatormodule::DirectionalATCC& in, twinoaks::regulatormodule::DirectionalATCC& out);
 
 void convert_from_proto(const commonmodule::PhaseISC& in, twinoaks::commonmodule::PhaseISC& out);
 
 void convert_from_proto(const commonmodule::ControlISC& in, twinoaks::commonmodule::ControlISC& out);
-
-void convert_from_proto(const commonmodule::PhaseAPC& in, twinoaks::commonmodule::PhaseAPC& out);
-
-void convert_from_proto(const commonmodule::ControlAPC& in, twinoaks::commonmodule::ControlAPC& out);
 
 void convert_from_proto(const regulatormodule::RegulatorSystem& in, twinoaks::regulatormodule::RegulatorSystem& out);
 
@@ -337,11 +337,11 @@ void convert_from_proto(const regulatormodule::RegulatorEventAndStatusANCR& in, 
 
 void convert_from_proto(const regulatormodule::RegulatorEventAndStatusATCC& in, twinoaks::regulatormodule::RegulatorEventAndStatusATCC& out);
 
+void convert_from_proto(const commonmodule::ASG& in, twinoaks::commonmodule::ASG& out);
+
 void convert_from_proto(const commonmodule::StatusINC& in, twinoaks::commonmodule::StatusINC& out);
 
 void convert_from_proto(const commonmodule::PhaseINS& in, twinoaks::commonmodule::PhaseINS& out);
-
-void convert_from_proto(const commonmodule::StatusSPC& in, twinoaks::commonmodule::StatusSPC& out);
 
 void convert_from_proto(const regulatormodule::RegulatorReading& in, twinoaks::regulatormodule::RegulatorReading& out);
 
@@ -2155,11 +2155,168 @@ void convert_from_proto(const capbankmodule::CapBankControlYPSH& in, twinoaks::c
 {
     out.clear();
 
+    if(in.has_amplmt()) // optional field in DDS
+    {
+        out.AmpLmt = new twinoaks::commonmodule::PhaseSPC();
+        convert_from_proto(in.amplmt(), *out.AmpLmt);
+    }
+
+    if(in.has_ampthdhi()) // optional field in DDS
+    {
+        out.AmpThdHi = new twinoaks::commonmodule::PhaseAPC();
+        convert_from_proto(in.ampthdhi(), *out.AmpThdHi);
+    }
+
+    if(in.has_ampthdlo()) // optional field in DDS
+    {
+        out.AmpThdLo = new twinoaks::commonmodule::PhaseAPC();
+        convert_from_proto(in.ampthdlo(), *out.AmpThdLo);
+    }
+
+    if(in.has_ctlmodeauto()) // optional field in DDS
+    {
+        out.CtlModeAuto = new twinoaks::commonmodule::ControlSPC();
+        convert_from_proto(in.ctlmodeauto(), *out.CtlModeAuto);
+    }
+
+    if(in.has_ctlmodeovrrd()) // optional field in DDS
+    {
+        out.CtlModeOvrRd = new twinoaks::commonmodule::ControlSPC();
+        convert_from_proto(in.ctlmodeovrrd(), *out.CtlModeOvrRd);
+    }
+
+    if(in.has_ctlmoderem()) // optional field in DDS
+    {
+        out.CtlModeRem = new twinoaks::commonmodule::ControlSPC();
+        convert_from_proto(in.ctlmoderem(), *out.CtlModeRem);
+    }
+
+    out.DirMode = new twinoaks::commonmodule::DirectionModeKind(static_cast<twinoaks::commonmodule::DirectionModeKind>(in.dirmode().value())); // optional enum
+
     if(in.has_pos()) // optional field in DDS
     {
-        out.Pos = new twinoaks::commonmodule::PhaseDPC();
+        out.Pos = new twinoaks::commonmodule::PhaseSPC();
         convert_from_proto(in.pos(), *out.Pos);
     }
+
+    if(in.has_templmt()) // optional field in DDS
+    {
+        out.TempLmt = new twinoaks::commonmodule::ControlSPC();
+        convert_from_proto(in.templmt(), *out.TempLmt);
+    }
+
+    if(in.has_tempthdhi()) // optional field in DDS
+    {
+        out.TempThdHi = new twinoaks::commonmodule::ControlAPC();
+        convert_from_proto(in.tempthdhi(), *out.TempThdHi);
+    }
+
+    if(in.has_tempthdlo()) // optional field in DDS
+    {
+        out.TempThdLo = new twinoaks::commonmodule::ControlAPC();
+        convert_from_proto(in.tempthdlo(), *out.TempThdLo);
+    }
+
+    if(in.has_varlmt()) // optional field in DDS
+    {
+        out.VArLmt = new twinoaks::commonmodule::PhaseSPC();
+        convert_from_proto(in.varlmt(), *out.VArLmt);
+    }
+
+    if(in.has_varthdhi()) // optional field in DDS
+    {
+        out.VArThdHi = new twinoaks::commonmodule::PhaseAPC();
+        convert_from_proto(in.varthdhi(), *out.VArThdHi);
+    }
+
+    if(in.has_varthdlo()) // optional field in DDS
+    {
+        out.VArThdLo = new twinoaks::commonmodule::PhaseAPC();
+        convert_from_proto(in.varthdlo(), *out.VArThdLo);
+    }
+
+    if(in.has_vollmt()) // optional field in DDS
+    {
+        out.VolLmt = new twinoaks::commonmodule::PhaseSPC();
+        convert_from_proto(in.vollmt(), *out.VolLmt);
+    }
+
+    if(in.has_volthdhi()) // optional field in DDS
+    {
+        out.VolThdHi = new twinoaks::commonmodule::PhaseAPC();
+        convert_from_proto(in.volthdhi(), *out.VolThdHi);
+    }
+
+    if(in.has_volthdlo()) // optional field in DDS
+    {
+        out.VolThdLo = new twinoaks::commonmodule::PhaseAPC();
+        convert_from_proto(in.volthdlo(), *out.VolThdLo);
+    }
+}
+
+void convert_from_proto(const commonmodule::PhaseSPC& in, twinoaks::commonmodule::PhaseSPC& out)
+{
+    out.clear();
+
+    if(in.has_phs3()) // optional field in DDS
+    {
+        out.phs3 = new twinoaks::commonmodule::ControlSPC();
+        convert_from_proto(in.phs3(), *out.phs3);
+    }
+
+    if(in.has_phsa()) // optional field in DDS
+    {
+        out.phsA = new twinoaks::commonmodule::ControlSPC();
+        convert_from_proto(in.phsa(), *out.phsA);
+    }
+
+    if(in.has_phsb()) // optional field in DDS
+    {
+        out.phsB = new twinoaks::commonmodule::ControlSPC();
+        convert_from_proto(in.phsb(), *out.phsB);
+    }
+
+    if(in.has_phsc()) // optional field in DDS
+    {
+        out.phsC = new twinoaks::commonmodule::ControlSPC();
+        convert_from_proto(in.phsc(), *out.phsC);
+    }
+}
+
+void convert_from_proto(const commonmodule::PhaseAPC& in, twinoaks::commonmodule::PhaseAPC& out)
+{
+    out.clear();
+
+    if(in.has_phs3()) // optional field in DDS
+    {
+        out.phs3 = new twinoaks::commonmodule::ControlAPC();
+        convert_from_proto(in.phs3(), *out.phs3);
+    }
+
+    if(in.has_phsa()) // optional field in DDS
+    {
+        out.phsA = new twinoaks::commonmodule::ControlAPC();
+        convert_from_proto(in.phsa(), *out.phsA);
+    }
+
+    if(in.has_phsb()) // optional field in DDS
+    {
+        out.phsB = new twinoaks::commonmodule::ControlAPC();
+        convert_from_proto(in.phsb(), *out.phsB);
+    }
+
+    if(in.has_phsc()) // optional field in DDS
+    {
+        out.phsC = new twinoaks::commonmodule::ControlAPC();
+        convert_from_proto(in.phsc(), *out.phsC);
+    }
+}
+
+void convert_from_proto(const commonmodule::ControlAPC& in, twinoaks::commonmodule::ControlAPC& out)
+{
+    out.clear();
+
+    out.ctlVal = in.ctlval(); // required DOUBLE primitive
 }
 
 void convert_from_proto(const capbankmodule::CapBankSystem& in, twinoaks::capbankmodule::CapBankSystem& out)
@@ -2194,10 +2351,10 @@ void convert_from_proto(const capbankmodule::CapBankDiscreteControlYPSH& in, twi
 
     if(in.has_logicalnodeforcontrol()) convert_from_proto(in.logicalnodeforcontrol(), out); // inherited type
 
-    if(in.has_pos()) // optional field in DDS
+    if(in.has_control()) // optional field in DDS
     {
-        out.Pos = new twinoaks::commonmodule::PhaseDPC();
-        convert_from_proto(in.pos(), *out.Pos);
+        out.control = new twinoaks::capbankmodule::CapBankControlYPSH();
+        convert_from_proto(in.control(), *out.control);
     }
 }
 
@@ -2220,6 +2377,20 @@ void convert_from_proto(const capbankmodule::CapBankEventAndStatusYPSH& in, twin
 
     if(in.has_logicalnodeforeventandstatus()) convert_from_proto(in.logicalnodeforeventandstatus(), out); // inherited type
 
+    if(in.has_amplmt()) // optional field in DDS
+    {
+        out.AmpLmt = new twinoaks::commonmodule::PhaseSPS();
+        convert_from_proto(in.amplmt(), *out.AmpLmt);
+    }
+
+    out.CtlMode = new twinoaks::commonmodule::ControlModeKind(static_cast<twinoaks::commonmodule::ControlModeKind>(in.ctlmode().value())); // optional enum
+
+    if(in.has_dirrev()) // optional field in DDS
+    {
+        out.DirRev = new twinoaks::commonmodule::PhaseSPS();
+        convert_from_proto(in.dirrev(), *out.DirRev);
+    }
+
     if(in.has_dynamictest()) // optional field in DDS
     {
         out.DynamicTest = new twinoaks::commonmodule::ENS_DynamicTestKind();
@@ -2230,6 +2401,24 @@ void convert_from_proto(const capbankmodule::CapBankEventAndStatusYPSH& in, twin
     {
         out.Pos = new twinoaks::commonmodule::PhaseDPS();
         convert_from_proto(in.pos(), *out.Pos);
+    }
+
+    if(in.has_templmt()) // optional field in DDS
+    {
+        out.TempLmt = new twinoaks::commonmodule::PhaseSPS();
+        convert_from_proto(in.templmt(), *out.TempLmt);
+    }
+
+    if(in.has_varlmt()) // optional field in DDS
+    {
+        out.VArLmt = new twinoaks::commonmodule::PhaseSPS();
+        convert_from_proto(in.varlmt(), *out.VArLmt);
+    }
+
+    if(in.has_vollmt()) // optional field in DDS
+    {
+        out.VolLmt = new twinoaks::commonmodule::PhaseSPS();
+        convert_from_proto(in.vollmt(), *out.VolLmt);
     }
 }
 
@@ -2255,6 +2444,12 @@ void convert_from_proto(const capbankmodule::CapBankReading& in, twinoaks::capba
     {
         out.readingMMXU = new twinoaks::commonmodule::ReadingMMXU();
         convert_from_proto(in.readingmmxu(), *out.readingMMXU);
+    }
+
+    if(in.has_secondaryreadingmmxu()) // optional field in DDS
+    {
+        out.secondaryReadingMMXU = new twinoaks::commonmodule::ReadingMMXU();
+        convert_from_proto(in.secondaryreadingmmxu(), *out.secondaryReadingMMXU);
     }
 }
 
@@ -2335,13 +2530,13 @@ void convert_from_proto(const essmodule::ESSPoint& in, twinoaks::essmodule::ESSP
 
     if(in.has_blackstartenabled()) // optional field in DDS
     {
-        out.blackStartEnabled = new twinoaks::commonmodule::ControlDPC();
+        out.blackStartEnabled = new twinoaks::commonmodule::ControlSPC();
         convert_from_proto(in.blackstartenabled(), *out.blackStartEnabled);
     }
 
     if(in.has_frequencysetpointenabled()) // optional field in DDS
     {
-        out.frequencySetPointEnabled = new twinoaks::commonmodule::ControlDPC();
+        out.frequencySetPointEnabled = new twinoaks::commonmodule::ControlSPC();
         convert_from_proto(in.frequencysetpointenabled(), *out.frequencySetPointEnabled);
     }
 
@@ -2375,19 +2570,19 @@ void convert_from_proto(const essmodule::ESSPoint& in, twinoaks::essmodule::ESSP
 
     if(in.has_reactivepwrsetpointenabled()) // optional field in DDS
     {
-        out.reactivePwrSetPointEnabled = new twinoaks::commonmodule::ControlDPC();
+        out.reactivePwrSetPointEnabled = new twinoaks::commonmodule::ControlSPC();
         convert_from_proto(in.reactivepwrsetpointenabled(), *out.reactivePwrSetPointEnabled);
     }
 
     if(in.has_realpwrsetpointenabled()) // optional field in DDS
     {
-        out.realPwrSetPointEnabled = new twinoaks::commonmodule::ControlDPC();
+        out.realPwrSetPointEnabled = new twinoaks::commonmodule::ControlSPC();
         convert_from_proto(in.realpwrsetpointenabled(), *out.realPwrSetPointEnabled);
     }
 
     if(in.has_reset()) // optional field in DDS
     {
-        out.reset = new twinoaks::commonmodule::ControlDPC();
+        out.reset = new twinoaks::commonmodule::ControlSPC();
         convert_from_proto(in.reset(), *out.reset);
     }
 
@@ -2395,19 +2590,19 @@ void convert_from_proto(const essmodule::ESSPoint& in, twinoaks::essmodule::ESSP
 
     if(in.has_syncbacktogrid()) // optional field in DDS
     {
-        out.syncBackToGrid = new twinoaks::commonmodule::ControlDPC();
+        out.syncBackToGrid = new twinoaks::commonmodule::ControlSPC();
         convert_from_proto(in.syncbacktogrid(), *out.syncBackToGrid);
     }
 
     if(in.has_transtoislndongridlossenabled()) // optional field in DDS
     {
-        out.transToIslndOnGridLossEnabled = new twinoaks::commonmodule::ControlDPC();
+        out.transToIslndOnGridLossEnabled = new twinoaks::commonmodule::ControlSPC();
         convert_from_proto(in.transtoislndongridlossenabled(), *out.transToIslndOnGridLossEnabled);
     }
 
     if(in.has_voltagesetpointenabled()) // optional field in DDS
     {
-        out.voltageSetPointEnabled = new twinoaks::commonmodule::ControlDPC();
+        out.voltageSetPointEnabled = new twinoaks::commonmodule::ControlSPC();
         convert_from_proto(in.voltagesetpointenabled(), *out.voltageSetPointEnabled);
     }
 
@@ -2818,13 +3013,13 @@ void convert_from_proto(const essmodule::ESSPointStatus& in, twinoaks::essmodule
 
     if(in.has_blackstartenabled()) // optional field in DDS
     {
-        out.blackStartEnabled = new twinoaks::commonmodule::StatusDPS();
+        out.blackStartEnabled = new twinoaks::commonmodule::StatusSPS();
         convert_from_proto(in.blackstartenabled(), *out.blackStartEnabled);
     }
 
     if(in.has_frequencysetpointenabled()) // optional field in DDS
     {
-        out.frequencySetPointEnabled = new twinoaks::commonmodule::StatusDPS();
+        out.frequencySetPointEnabled = new twinoaks::commonmodule::StatusSPS();
         convert_from_proto(in.frequencysetpointenabled(), *out.frequencySetPointEnabled);
     }
 
@@ -2858,13 +3053,13 @@ void convert_from_proto(const essmodule::ESSPointStatus& in, twinoaks::essmodule
 
     if(in.has_reactivepwrsetpointenabled()) // optional field in DDS
     {
-        out.reactivePwrSetPointEnabled = new twinoaks::commonmodule::StatusDPS();
+        out.reactivePwrSetPointEnabled = new twinoaks::commonmodule::StatusSPS();
         convert_from_proto(in.reactivepwrsetpointenabled(), *out.reactivePwrSetPointEnabled);
     }
 
     if(in.has_realpwrsetpointenabled()) // optional field in DDS
     {
-        out.realPwrSetPointEnabled = new twinoaks::commonmodule::StatusDPS();
+        out.realPwrSetPointEnabled = new twinoaks::commonmodule::StatusSPS();
         convert_from_proto(in.realpwrsetpointenabled(), *out.realPwrSetPointEnabled);
     }
 
@@ -2872,19 +3067,19 @@ void convert_from_proto(const essmodule::ESSPointStatus& in, twinoaks::essmodule
 
     if(in.has_syncbacktogrid()) // optional field in DDS
     {
-        out.syncBackToGrid = new twinoaks::commonmodule::StatusDPS();
+        out.syncBackToGrid = new twinoaks::commonmodule::StatusSPS();
         convert_from_proto(in.syncbacktogrid(), *out.syncBackToGrid);
     }
 
     if(in.has_transtoislndongridlossenabled()) // optional field in DDS
     {
-        out.transToIslndOnGridLossEnabled = new twinoaks::commonmodule::StatusDPS();
+        out.transToIslndOnGridLossEnabled = new twinoaks::commonmodule::StatusSPS();
         convert_from_proto(in.transtoislndongridlossenabled(), *out.transToIslndOnGridLossEnabled);
     }
 
     if(in.has_voltagesetpointenabled()) // optional field in DDS
     {
-        out.voltageSetPointEnabled = new twinoaks::commonmodule::StatusDPS();
+        out.voltageSetPointEnabled = new twinoaks::commonmodule::StatusSPS();
         convert_from_proto(in.voltagesetpointenabled(), *out.voltageSetPointEnabled);
     }
 }
@@ -3055,13 +3250,13 @@ void convert_from_proto(const generationmodule::GenerationPoint& in, twinoaks::g
 
     if(in.has_blackstartenabled()) // optional field in DDS
     {
-        out.blackStartEnabled = new twinoaks::commonmodule::ControlDPC();
+        out.blackStartEnabled = new twinoaks::commonmodule::ControlSPC();
         convert_from_proto(in.blackstartenabled(), *out.blackStartEnabled);
     }
 
     if(in.has_frequencysetpointenabled()) // optional field in DDS
     {
-        out.frequencySetPointEnabled = new twinoaks::commonmodule::ControlDPC();
+        out.frequencySetPointEnabled = new twinoaks::commonmodule::ControlSPC();
         convert_from_proto(in.frequencysetpointenabled(), *out.frequencySetPointEnabled);
     }
 
@@ -3083,19 +3278,19 @@ void convert_from_proto(const generationmodule::GenerationPoint& in, twinoaks::g
 
     if(in.has_reactivepwrsetpointenabled()) // optional field in DDS
     {
-        out.reactivePwrSetPointEnabled = new twinoaks::commonmodule::ControlDPC();
+        out.reactivePwrSetPointEnabled = new twinoaks::commonmodule::ControlSPC();
         convert_from_proto(in.reactivepwrsetpointenabled(), *out.reactivePwrSetPointEnabled);
     }
 
     if(in.has_realpwrsetpointenabled()) // optional field in DDS
     {
-        out.realPwrSetPointEnabled = new twinoaks::commonmodule::ControlDPC();
+        out.realPwrSetPointEnabled = new twinoaks::commonmodule::ControlSPC();
         convert_from_proto(in.realpwrsetpointenabled(), *out.realPwrSetPointEnabled);
     }
 
     if(in.has_reset()) // optional field in DDS
     {
-        out.reset = new twinoaks::commonmodule::ControlDPC();
+        out.reset = new twinoaks::commonmodule::ControlSPC();
         convert_from_proto(in.reset(), *out.reset);
     }
 
@@ -3103,19 +3298,19 @@ void convert_from_proto(const generationmodule::GenerationPoint& in, twinoaks::g
 
     if(in.has_syncbacktogrid()) // optional field in DDS
     {
-        out.syncBackToGrid = new twinoaks::commonmodule::ControlDPC();
+        out.syncBackToGrid = new twinoaks::commonmodule::ControlSPC();
         convert_from_proto(in.syncbacktogrid(), *out.syncBackToGrid);
     }
 
     if(in.has_transtoislndongridlossenabled()) // optional field in DDS
     {
-        out.transToIslndOnGridLossEnabled = new twinoaks::commonmodule::ControlDPC();
+        out.transToIslndOnGridLossEnabled = new twinoaks::commonmodule::ControlSPC();
         convert_from_proto(in.transtoislndongridlossenabled(), *out.transToIslndOnGridLossEnabled);
     }
 
     if(in.has_voltagesetpointenabled()) // optional field in DDS
     {
-        out.voltageSetPointEnabled = new twinoaks::commonmodule::ControlDPC();
+        out.voltageSetPointEnabled = new twinoaks::commonmodule::ControlSPC();
         convert_from_proto(in.voltagesetpointenabled(), *out.voltageSetPointEnabled);
     }
 
@@ -3162,7 +3357,7 @@ void convert_from_proto(const generationmodule::ReactivePowerControl& in, twinoa
         out.powerFactorSetpoint = allocate_from_wrapper_type(in.powerfactorsetpoint());
     }
 
-    out.reactivePowerControlMode = new twinoaks::generationmodule::ReactivePowerControlKind(static_cast<twinoaks::generationmodule::ReactivePowerControlKind>(in.reactivepowercontrolmode().value())); // optional enum
+    out.reactivePowerControlMode = new twinoaks::commonmodule::ReactivePowerControlKind(static_cast<twinoaks::commonmodule::ReactivePowerControlKind>(in.reactivepowercontrolmode().value())); // optional enum
 
     if(in.has_reactivepowersetpoint())
     {
@@ -3205,7 +3400,7 @@ void convert_from_proto(const generationmodule::RealPowerControl& in, twinoaks::
         out.isochronousSetpoint = allocate_from_wrapper_type(in.isochronoussetpoint());
     }
 
-    out.realPowerControlMode = new twinoaks::generationmodule::RealPowerControlKind(static_cast<twinoaks::generationmodule::RealPowerControlKind>(in.realpowercontrolmode().value())); // optional enum
+    out.realPowerControlMode = new twinoaks::commonmodule::RealPowerControlKind(static_cast<twinoaks::commonmodule::RealPowerControlKind>(in.realpowercontrolmode().value())); // optional enum
 
     if(in.has_realpowersetpoint())
     {
@@ -3276,13 +3471,13 @@ void convert_from_proto(const generationmodule::GenerationPointStatus& in, twino
 
     if(in.has_blackstartenabled()) // optional field in DDS
     {
-        out.blackStartEnabled = new twinoaks::commonmodule::StatusDPS();
+        out.blackStartEnabled = new twinoaks::commonmodule::StatusSPS();
         convert_from_proto(in.blackstartenabled(), *out.blackStartEnabled);
     }
 
     if(in.has_frequencysetpointenabled()) // optional field in DDS
     {
-        out.frequencySetPointEnabled = new twinoaks::commonmodule::StatusDPS();
+        out.frequencySetPointEnabled = new twinoaks::commonmodule::StatusSPS();
         convert_from_proto(in.frequencysetpointenabled(), *out.frequencySetPointEnabled);
     }
 
@@ -3304,13 +3499,13 @@ void convert_from_proto(const generationmodule::GenerationPointStatus& in, twino
 
     if(in.has_reactivepwrsetpointenabled()) // optional field in DDS
     {
-        out.reactivePwrSetPointEnabled = new twinoaks::commonmodule::StatusDPS();
+        out.reactivePwrSetPointEnabled = new twinoaks::commonmodule::StatusSPS();
         convert_from_proto(in.reactivepwrsetpointenabled(), *out.reactivePwrSetPointEnabled);
     }
 
     if(in.has_realpwrsetpointenabled()) // optional field in DDS
     {
-        out.realPwrSetPointEnabled = new twinoaks::commonmodule::StatusDPS();
+        out.realPwrSetPointEnabled = new twinoaks::commonmodule::StatusSPS();
         convert_from_proto(in.realpwrsetpointenabled(), *out.realPwrSetPointEnabled);
     }
 
@@ -3318,19 +3513,19 @@ void convert_from_proto(const generationmodule::GenerationPointStatus& in, twino
 
     if(in.has_syncbacktogrid()) // optional field in DDS
     {
-        out.syncBackToGrid = new twinoaks::commonmodule::StatusDPS();
+        out.syncBackToGrid = new twinoaks::commonmodule::StatusSPS();
         convert_from_proto(in.syncbacktogrid(), *out.syncBackToGrid);
     }
 
     if(in.has_transtoislndongridlossenabled()) // optional field in DDS
     {
-        out.transToIslndOnGridLossEnabled = new twinoaks::commonmodule::StatusDPS();
+        out.transToIslndOnGridLossEnabled = new twinoaks::commonmodule::StatusSPS();
         convert_from_proto(in.transtoislndongridlossenabled(), *out.transToIslndOnGridLossEnabled);
     }
 
     if(in.has_voltagesetpointenabled()) // optional field in DDS
     {
-        out.voltageSetPointEnabled = new twinoaks::commonmodule::StatusDPS();
+        out.voltageSetPointEnabled = new twinoaks::commonmodule::StatusSPS();
         convert_from_proto(in.voltagesetpointenabled(), *out.voltageSetPointEnabled);
     }
 }
@@ -3452,19 +3647,19 @@ void convert_from_proto(const loadmodule::LoadPoint& in, twinoaks::loadmodule::L
 
     if(in.has_reactivepwrsetpointenabled()) // optional field in DDS
     {
-        out.reactivePwrSetPointEnabled = new twinoaks::commonmodule::ControlDPC();
+        out.reactivePwrSetPointEnabled = new twinoaks::commonmodule::ControlSPC();
         convert_from_proto(in.reactivepwrsetpointenabled(), *out.reactivePwrSetPointEnabled);
     }
 
     if(in.has_realpwrsetpointenabled()) // optional field in DDS
     {
-        out.realPwrSetPointEnabled = new twinoaks::commonmodule::ControlDPC();
+        out.realPwrSetPointEnabled = new twinoaks::commonmodule::ControlSPC();
         convert_from_proto(in.realpwrsetpointenabled(), *out.realPwrSetPointEnabled);
     }
 
     if(in.has_reset()) // optional field in DDS
     {
-        out.reset = new twinoaks::commonmodule::ControlDPC();
+        out.reset = new twinoaks::commonmodule::ControlSPC();
         convert_from_proto(in.reset(), *out.reset);
     }
 
@@ -3530,19 +3725,19 @@ void convert_from_proto(const loadmodule::LoadPointStatus& in, twinoaks::loadmod
 
     if(in.has_reactivepwrsetpointenabled()) // optional field in DDS
     {
-        out.reactivePwrSetPointEnabled = new twinoaks::commonmodule::StatusDPS();
+        out.reactivePwrSetPointEnabled = new twinoaks::commonmodule::StatusSPS();
         convert_from_proto(in.reactivepwrsetpointenabled(), *out.reactivePwrSetPointEnabled);
     }
 
     if(in.has_realpwrsetpointenabled()) // optional field in DDS
     {
-        out.realPwrSetPointEnabled = new twinoaks::commonmodule::StatusDPS();
+        out.realPwrSetPointEnabled = new twinoaks::commonmodule::StatusSPS();
         convert_from_proto(in.realpwrsetpointenabled(), *out.realPwrSetPointEnabled);
     }
 
     if(in.has_reset()) // optional field in DDS
     {
-        out.reset = new twinoaks::commonmodule::StatusDPS();
+        out.reset = new twinoaks::commonmodule::StatusSPS();
         convert_from_proto(in.reset(), *out.reset);
     }
 
@@ -3751,39 +3946,29 @@ void convert_from_proto(const regulatormodule::RegulatorControlATCC& in, twinoak
 
     if(in.has_logicalnodeforcontrol()) convert_from_proto(in.logicalnodeforcontrol(), out); // inherited type
 
-    if(in.has_bndctr()) // optional field in DDS
+    if(in.has_dirfwd()) // optional field in DDS
     {
-        out.BndCtr = new twinoaks::commonmodule::ASG();
-        convert_from_proto(in.bndctr(), *out.BndCtr);
+        out.DirFwd = new twinoaks::regulatormodule::DirectionalATCC();
+        convert_from_proto(in.dirfwd(), *out.DirFwd);
     }
 
-    if(in.has_bndwid()) // optional field in DDS
+    out.DirMode = new twinoaks::commonmodule::DirectionModeKind(static_cast<twinoaks::commonmodule::DirectionModeKind>(in.dirmode().value())); // optional enum
+
+    if(in.has_dirrev()) // optional field in DDS
     {
-        out.BndWid = new twinoaks::commonmodule::ASG();
-        convert_from_proto(in.bndwid(), *out.BndWid);
+        out.DirRev = new twinoaks::regulatormodule::DirectionalATCC();
+        convert_from_proto(in.dirrev(), *out.DirRev);
     }
 
-    if(in.has_ctldltmms()) // optional field in DDS
+    if(in.has_dirthd()) // optional field in DDS
     {
-        out.CtlDlTmms = new twinoaks::commonmodule::ControlING();
-        convert_from_proto(in.ctldltmms(), *out.CtlDlTmms);
-    }
-
-    if(in.has_ldcr()) // optional field in DDS
-    {
-        out.LDCR = new twinoaks::commonmodule::ASG();
-        convert_from_proto(in.ldcr(), *out.LDCR);
-    }
-
-    if(in.has_ldcx()) // optional field in DDS
-    {
-        out.LDCX = new twinoaks::commonmodule::ASG();
-        convert_from_proto(in.ldcx(), *out.LDCX);
+        out.DirThd = new twinoaks::commonmodule::PhaseAPC();
+        convert_from_proto(in.dirthd(), *out.DirThd);
     }
 
     if(in.has_parop()) // optional field in DDS
     {
-        out.ParOp = new twinoaks::commonmodule::ControlSPC();
+        out.ParOp = new twinoaks::commonmodule::PhaseSPC();
         convert_from_proto(in.parop(), *out.ParOp);
     }
 
@@ -3795,10 +3980,59 @@ void convert_from_proto(const regulatormodule::RegulatorControlATCC& in, twinoak
 
     out.state = new twinoaks::commonmodule::StateKind(static_cast<twinoaks::commonmodule::StateKind>(in.state().value())); // optional enum
 
-    if(in.has_tappos()) // optional field in DDS
+    if(in.has_tapopl()) // optional field in DDS
     {
-        out.TapPos = new twinoaks::commonmodule::PhaseISC();
-        convert_from_proto(in.tappos(), *out.TapPos);
+        out.TapOpL = new twinoaks::commonmodule::PhaseSPC();
+        convert_from_proto(in.tapopl(), *out.TapOpL);
+    }
+
+    if(in.has_tapopr()) // optional field in DDS
+    {
+        out.TapOpR = new twinoaks::commonmodule::PhaseSPC();
+        convert_from_proto(in.tapopr(), *out.TapOpR);
+    }
+
+    if(in.has_vollmthi()) // optional field in DDS
+    {
+        out.VolLmtHi = new twinoaks::commonmodule::PhaseAPC();
+        convert_from_proto(in.vollmthi(), *out.VolLmtHi);
+    }
+
+    if(in.has_vollmtlo()) // optional field in DDS
+    {
+        out.VolLmtLo = new twinoaks::commonmodule::PhaseAPC();
+        convert_from_proto(in.vollmtlo(), *out.VolLmtLo);
+    }
+
+    out.VolLmtMode = new twinoaks::commonmodule::VoltLimitModeKind(static_cast<twinoaks::commonmodule::VoltLimitModeKind>(in.vollmtmode().value())); // optional enum
+}
+
+void convert_from_proto(const regulatormodule::DirectionalATCC& in, twinoaks::regulatormodule::DirectionalATCC& out)
+{
+    out.clear();
+
+    if(in.has_bndwid()) // optional field in DDS
+    {
+        out.BndWid = new twinoaks::commonmodule::PhaseAPC();
+        convert_from_proto(in.bndwid(), *out.BndWid);
+    }
+
+    if(in.has_ctldltmms()) // optional field in DDS
+    {
+        out.CtlDlTmms = new twinoaks::commonmodule::PhaseISC();
+        convert_from_proto(in.ctldltmms(), *out.CtlDlTmms);
+    }
+
+    if(in.has_ldcr()) // optional field in DDS
+    {
+        out.LDCR = new twinoaks::commonmodule::PhaseAPC();
+        convert_from_proto(in.ldcr(), *out.LDCR);
+    }
+
+    if(in.has_ldcx()) // optional field in DDS
+    {
+        out.LDCX = new twinoaks::commonmodule::PhaseAPC();
+        convert_from_proto(in.ldcx(), *out.LDCX);
     }
 
     if(in.has_volspt()) // optional field in DDS
@@ -3809,34 +4043,8 @@ void convert_from_proto(const regulatormodule::RegulatorControlATCC& in, twinoak
 
     if(in.has_voltagesetpointenabled()) // optional field in DDS
     {
-        out.voltageSetPointEnabled = new twinoaks::commonmodule::ControlDPC();
+        out.voltageSetPointEnabled = new twinoaks::commonmodule::PhaseDPC();
         convert_from_proto(in.voltagesetpointenabled(), *out.voltageSetPointEnabled);
-    }
-}
-
-void convert_from_proto(const commonmodule::ASG& in, twinoaks::commonmodule::ASG& out)
-{
-    out.clear();
-
-    out.setMag = in.setmag(); // required DOUBLE primitive
-
-    if(in.has_units()) // optional field in DDS
-    {
-        out.units = new twinoaks::commonmodule::Unit();
-        convert_from_proto(in.units(), *out.units);
-    }
-}
-
-void convert_from_proto(const commonmodule::ControlING& in, twinoaks::commonmodule::ControlING& out)
-{
-    out.clear();
-
-    out.setVal = in.setval(); // required INT32 primitive
-
-    if(in.has_units()) // optional field in DDS
-    {
-        out.units = new twinoaks::commonmodule::Unit();
-        convert_from_proto(in.units(), *out.units);
     }
 }
 
@@ -3874,42 +4082,6 @@ void convert_from_proto(const commonmodule::ControlISC& in, twinoaks::commonmodu
     out.clear();
 
     out.ctlVal = in.ctlval(); // required INT32 primitive
-}
-
-void convert_from_proto(const commonmodule::PhaseAPC& in, twinoaks::commonmodule::PhaseAPC& out)
-{
-    out.clear();
-
-    if(in.has_phs3()) // optional field in DDS
-    {
-        out.phs3 = new twinoaks::commonmodule::ControlAPC();
-        convert_from_proto(in.phs3(), *out.phs3);
-    }
-
-    if(in.has_phsa()) // optional field in DDS
-    {
-        out.phsA = new twinoaks::commonmodule::ControlAPC();
-        convert_from_proto(in.phsa(), *out.phsA);
-    }
-
-    if(in.has_phsb()) // optional field in DDS
-    {
-        out.phsB = new twinoaks::commonmodule::ControlAPC();
-        convert_from_proto(in.phsb(), *out.phsB);
-    }
-
-    if(in.has_phsc()) // optional field in DDS
-    {
-        out.phsC = new twinoaks::commonmodule::ControlAPC();
-        convert_from_proto(in.phsc(), *out.phsC);
-    }
-}
-
-void convert_from_proto(const commonmodule::ControlAPC& in, twinoaks::commonmodule::ControlAPC& out)
-{
-    out.clear();
-
-    out.ctlVal = in.ctlval(); // required DOUBLE primitive
 }
 
 void convert_from_proto(const regulatormodule::RegulatorSystem& in, twinoaks::regulatormodule::RegulatorSystem& out)
@@ -4031,6 +4203,36 @@ void convert_from_proto(const regulatormodule::RegulatorEventAndStatusATCC& in, 
         convert_from_proto(in.bndwid(), *out.BndWid);
     }
 
+    if(in.has_bndwidhi()) // optional field in DDS
+    {
+        out.BndWidHi = new twinoaks::commonmodule::PhaseSPS();
+        convert_from_proto(in.bndwidhi(), *out.BndWidHi);
+    }
+
+    if(in.has_bndwidlo()) // optional field in DDS
+    {
+        out.BndWidLo = new twinoaks::commonmodule::PhaseSPS();
+        convert_from_proto(in.bndwidlo(), *out.BndWidLo);
+    }
+
+    if(in.has_dirctlrev()) // optional field in DDS
+    {
+        out.DirCtlRev = new twinoaks::commonmodule::PhaseSPS();
+        convert_from_proto(in.dirctlrev(), *out.DirCtlRev);
+    }
+
+    if(in.has_dirindt()) // optional field in DDS
+    {
+        out.DirIndt = new twinoaks::commonmodule::PhaseSPS();
+        convert_from_proto(in.dirindt(), *out.DirIndt);
+    }
+
+    if(in.has_dirrev()) // optional field in DDS
+    {
+        out.DirRev = new twinoaks::commonmodule::PhaseSPS();
+        convert_from_proto(in.dirrev(), *out.DirRev);
+    }
+
     if(in.has_ldcr()) // optional field in DDS
     {
         out.LDCR = new twinoaks::commonmodule::ASG();
@@ -4075,6 +4277,18 @@ void convert_from_proto(const regulatormodule::RegulatorEventAndStatusATCC& in, 
         convert_from_proto(in.tappos(), *out.TapPos);
     }
 
+    if(in.has_vollmthi()) // optional field in DDS
+    {
+        out.VolLmtHi = new twinoaks::commonmodule::PhaseSPS();
+        convert_from_proto(in.vollmthi(), *out.VolLmtHi);
+    }
+
+    if(in.has_vollmtlo()) // optional field in DDS
+    {
+        out.VolLmtLo = new twinoaks::commonmodule::PhaseSPS();
+        convert_from_proto(in.vollmtlo(), *out.VolLmtLo);
+    }
+
     if(in.has_volspt()) // optional field in DDS
     {
         out.VolSpt = new twinoaks::commonmodule::PhaseAPC();
@@ -4083,9 +4297,16 @@ void convert_from_proto(const regulatormodule::RegulatorEventAndStatusATCC& in, 
 
     if(in.has_voltagesetpointenabled()) // optional field in DDS
     {
-        out.voltageSetPointEnabled = new twinoaks::commonmodule::StatusSPC();
+        out.voltageSetPointEnabled = new twinoaks::commonmodule::StatusSPS();
         convert_from_proto(in.voltagesetpointenabled(), *out.voltageSetPointEnabled);
     }
+}
+
+void convert_from_proto(const commonmodule::ASG& in, twinoaks::commonmodule::ASG& out)
+{
+    out.clear();
+
+    out.setMag = in.setmag(); // required DOUBLE primitive
 }
 
 void convert_from_proto(const commonmodule::StatusINC& in, twinoaks::commonmodule::StatusINC& out)
@@ -4136,26 +4357,6 @@ void convert_from_proto(const commonmodule::PhaseINS& in, twinoaks::commonmodule
     }
 }
 
-void convert_from_proto(const commonmodule::StatusSPC& in, twinoaks::commonmodule::StatusSPC& out)
-{
-    out.clear();
-
-    if(in.has_q()) // optional field in DDS
-    {
-        out.q = new twinoaks::commonmodule::Quality();
-        convert_from_proto(in.q(), *out.q);
-    }
-
-    static_assert(std::is_same<decltype(out.stVal), unsigned char>::value, "unexpected type");
-    out.stVal = static_cast<unsigned char>(in.stval()); // required bool
-
-    if(in.has_t()) // optional field in DDS
-    {
-        out.t = new twinoaks::commonmodule::Timestamp();
-        convert_from_proto(in.t(), *out.t);
-    }
-}
-
 void convert_from_proto(const regulatormodule::RegulatorReading& in, twinoaks::regulatormodule::RegulatorReading& out)
 {
     out.clear();
@@ -4178,6 +4379,12 @@ void convert_from_proto(const regulatormodule::RegulatorReading& in, twinoaks::r
     {
         out.readingMMXU = new twinoaks::commonmodule::ReadingMMXU();
         convert_from_proto(in.readingmmxu(), *out.readingMMXU);
+    }
+
+    if(in.has_secondaryreadingmmxu()) // optional field in DDS
+    {
+        out.secondaryReadingMMXU = new twinoaks::commonmodule::ReadingMMXU();
+        convert_from_proto(in.secondaryreadingmmxu(), *out.secondaryReadingMMXU);
     }
 }
 
@@ -4501,7 +4708,7 @@ void convert_from_proto(const solarmodule::SolarPoint& in, twinoaks::solarmodule
 
     if(in.has_frequencysetpointenabled()) // optional field in DDS
     {
-        out.frequencySetPointEnabled = new twinoaks::commonmodule::ControlDPC();
+        out.frequencySetPointEnabled = new twinoaks::commonmodule::ControlSPC();
         convert_from_proto(in.frequencysetpointenabled(), *out.frequencySetPointEnabled);
     }
 
@@ -4529,19 +4736,19 @@ void convert_from_proto(const solarmodule::SolarPoint& in, twinoaks::solarmodule
 
     if(in.has_reactivepwrsetpointenabled()) // optional field in DDS
     {
-        out.reactivePwrSetPointEnabled = new twinoaks::commonmodule::ControlDPC();
+        out.reactivePwrSetPointEnabled = new twinoaks::commonmodule::ControlSPC();
         convert_from_proto(in.reactivepwrsetpointenabled(), *out.reactivePwrSetPointEnabled);
     }
 
     if(in.has_realpwrsetpointenabled()) // optional field in DDS
     {
-        out.realPwrSetPointEnabled = new twinoaks::commonmodule::ControlDPC();
+        out.realPwrSetPointEnabled = new twinoaks::commonmodule::ControlSPC();
         convert_from_proto(in.realpwrsetpointenabled(), *out.realPwrSetPointEnabled);
     }
 
     if(in.has_reset()) // optional field in DDS
     {
-        out.reset = new twinoaks::commonmodule::ControlDPC();
+        out.reset = new twinoaks::commonmodule::ControlSPC();
         convert_from_proto(in.reset(), *out.reset);
     }
 
@@ -4549,7 +4756,7 @@ void convert_from_proto(const solarmodule::SolarPoint& in, twinoaks::solarmodule
 
     if(in.has_voltagesetpointenabled()) // optional field in DDS
     {
-        out.voltageSetPointEnabled = new twinoaks::commonmodule::ControlDPC();
+        out.voltageSetPointEnabled = new twinoaks::commonmodule::ControlSPC();
         convert_from_proto(in.voltagesetpointenabled(), *out.voltageSetPointEnabled);
     }
 
@@ -4626,7 +4833,7 @@ void convert_from_proto(const solarmodule::SolarPointStatus& in, twinoaks::solar
 
     if(in.has_frequencysetpointenabled()) // optional field in DDS
     {
-        out.frequencySetPointEnabled = new twinoaks::commonmodule::StatusDPS();
+        out.frequencySetPointEnabled = new twinoaks::commonmodule::StatusSPS();
         convert_from_proto(in.frequencysetpointenabled(), *out.frequencySetPointEnabled);
     }
 
@@ -4654,13 +4861,13 @@ void convert_from_proto(const solarmodule::SolarPointStatus& in, twinoaks::solar
 
     if(in.has_reactivepwrsetpointenabled()) // optional field in DDS
     {
-        out.reactivePwrSetPointEnabled = new twinoaks::commonmodule::StatusDPS();
+        out.reactivePwrSetPointEnabled = new twinoaks::commonmodule::StatusSPS();
         convert_from_proto(in.reactivepwrsetpointenabled(), *out.reactivePwrSetPointEnabled);
     }
 
     if(in.has_realpwrsetpointenabled()) // optional field in DDS
     {
-        out.realPwrSetPointEnabled = new twinoaks::commonmodule::StatusDPS();
+        out.realPwrSetPointEnabled = new twinoaks::commonmodule::StatusSPS();
         convert_from_proto(in.realpwrsetpointenabled(), *out.realPwrSetPointEnabled);
     }
 
@@ -4668,7 +4875,7 @@ void convert_from_proto(const solarmodule::SolarPointStatus& in, twinoaks::solar
 
     if(in.has_voltagesetpointenabled()) // optional field in DDS
     {
-        out.voltageSetPointEnabled = new twinoaks::commonmodule::StatusDPS();
+        out.voltageSetPointEnabled = new twinoaks::commonmodule::StatusSPS();
         convert_from_proto(in.voltagesetpointenabled(), *out.voltageSetPointEnabled);
     }
 }
@@ -5042,6 +5249,22 @@ static_assert(static_cast<int>(commonmodule::ScheduleParameterKind::SchedulePara
 static_assert(static_cast<int>(commonmodule::ScheduleParameterKind::ScheduleParameterKind_W_phsB_mag) == static_cast<int>(twinoaks::commonmodule::ScheduleParameterKind::ScheduleParameterKind_W_phsB_mag), "mismatched enum values");
 static_assert(static_cast<int>(commonmodule::ScheduleParameterKind::ScheduleParameterKind_W_phsC_mag) == static_cast<int>(twinoaks::commonmodule::ScheduleParameterKind::ScheduleParameterKind_W_phsC_mag), "mismatched enum values");
 
+static_assert(static_cast<int>(commonmodule::DirectionModeKind::DirectionModeKind_locked_forward) == static_cast<int>(twinoaks::commonmodule::DirectionModeKind::DirectionModeKind_locked_forward), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::DirectionModeKind::DirectionModeKind_locked_reverse) == static_cast<int>(twinoaks::commonmodule::DirectionModeKind::DirectionModeKind_locked_reverse), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::DirectionModeKind::DirectionModeKind_reverse_idle) == static_cast<int>(twinoaks::commonmodule::DirectionModeKind::DirectionModeKind_reverse_idle), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::DirectionModeKind::DirectionModeKind_bidirectional) == static_cast<int>(twinoaks::commonmodule::DirectionModeKind::DirectionModeKind_bidirectional), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::DirectionModeKind::DirectionModeKind_neutral_idle) == static_cast<int>(twinoaks::commonmodule::DirectionModeKind::DirectionModeKind_neutral_idle), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::DirectionModeKind::DirectionModeKind_cogeneration) == static_cast<int>(twinoaks::commonmodule::DirectionModeKind::DirectionModeKind_cogeneration), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::DirectionModeKind::DirectionModeKind_reactive_bidirectional) == static_cast<int>(twinoaks::commonmodule::DirectionModeKind::DirectionModeKind_reactive_bidirectional), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::DirectionModeKind::DirectionModeKind_bias_bidirectional) == static_cast<int>(twinoaks::commonmodule::DirectionModeKind::DirectionModeKind_bias_bidirectional), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::DirectionModeKind::DirectionModeKind_bias_cogeneration) == static_cast<int>(twinoaks::commonmodule::DirectionModeKind::DirectionModeKind_bias_cogeneration), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::DirectionModeKind::DirectionModeKind_reverse_cogeneration) == static_cast<int>(twinoaks::commonmodule::DirectionModeKind::DirectionModeKind_reverse_cogeneration), "mismatched enum values");
+
+static_assert(static_cast<int>(commonmodule::ControlModeKind::ControlModeKind_auto) == static_cast<int>(twinoaks::commonmodule::ControlModeKind::ControlModeKind_auto), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::ControlModeKind::ControlModeKind_manual) == static_cast<int>(twinoaks::commonmodule::ControlModeKind::ControlModeKind_manual), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::ControlModeKind::ControlModeKind_override) == static_cast<int>(twinoaks::commonmodule::ControlModeKind::ControlModeKind_override), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::ControlModeKind::ControlModeKind_remote) == static_cast<int>(twinoaks::commonmodule::ControlModeKind::ControlModeKind_remote), "mismatched enum values");
+
 static_assert(static_cast<int>(commonmodule::GridConnectModeKind::GridConnectModeKind_CSI) == static_cast<int>(twinoaks::commonmodule::GridConnectModeKind::GridConnectModeKind_CSI), "mismatched enum values");
 static_assert(static_cast<int>(commonmodule::GridConnectModeKind::GridConnectModeKind_VC_VSI) == static_cast<int>(twinoaks::commonmodule::GridConnectModeKind::GridConnectModeKind_VC_VSI), "mismatched enum values");
 static_assert(static_cast<int>(commonmodule::GridConnectModeKind::GridConnectModeKind_CC_VSI) == static_cast<int>(twinoaks::commonmodule::GridConnectModeKind::GridConnectModeKind_CC_VSI), "mismatched enum values");
@@ -5055,16 +5278,24 @@ static_assert(static_cast<int>(commonmodule::StateKind::StateKind_off) == static
 static_assert(static_cast<int>(commonmodule::StateKind::StateKind_on) == static_cast<int>(twinoaks::commonmodule::StateKind::StateKind_on), "mismatched enum values");
 static_assert(static_cast<int>(commonmodule::StateKind::StateKind_standby) == static_cast<int>(twinoaks::commonmodule::StateKind::StateKind_standby), "mismatched enum values");
 
-static_assert(static_cast<int>(generationmodule::ReactivePowerControlKind::ReactivePowerControlKind_advanced) == static_cast<int>(twinoaks::generationmodule::ReactivePowerControlKind::ReactivePowerControlKind_advanced), "mismatched enum values");
-static_assert(static_cast<int>(generationmodule::ReactivePowerControlKind::ReactivePowerControlKind_droop) == static_cast<int>(twinoaks::generationmodule::ReactivePowerControlKind::ReactivePowerControlKind_droop), "mismatched enum values");
-static_assert(static_cast<int>(generationmodule::ReactivePowerControlKind::ReactivePowerControlKind_voltage) == static_cast<int>(twinoaks::generationmodule::ReactivePowerControlKind::ReactivePowerControlKind_voltage), "mismatched enum values");
-static_assert(static_cast<int>(generationmodule::ReactivePowerControlKind::ReactivePowerControlKind_reactivePower) == static_cast<int>(twinoaks::generationmodule::ReactivePowerControlKind::ReactivePowerControlKind_reactivePower), "mismatched enum values");
-static_assert(static_cast<int>(generationmodule::ReactivePowerControlKind::ReactivePowerControlKind_powerFactor) == static_cast<int>(twinoaks::generationmodule::ReactivePowerControlKind::ReactivePowerControlKind_powerFactor), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::ReactivePowerControlKind::ReactivePowerControlKind_advanced) == static_cast<int>(twinoaks::commonmodule::ReactivePowerControlKind::ReactivePowerControlKind_advanced), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::ReactivePowerControlKind::ReactivePowerControlKind_droop) == static_cast<int>(twinoaks::commonmodule::ReactivePowerControlKind::ReactivePowerControlKind_droop), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::ReactivePowerControlKind::ReactivePowerControlKind_voltage) == static_cast<int>(twinoaks::commonmodule::ReactivePowerControlKind::ReactivePowerControlKind_voltage), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::ReactivePowerControlKind::ReactivePowerControlKind_reactivePower) == static_cast<int>(twinoaks::commonmodule::ReactivePowerControlKind::ReactivePowerControlKind_reactivePower), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::ReactivePowerControlKind::ReactivePowerControlKind_powerFactor) == static_cast<int>(twinoaks::commonmodule::ReactivePowerControlKind::ReactivePowerControlKind_powerFactor), "mismatched enum values");
 
-static_assert(static_cast<int>(generationmodule::RealPowerControlKind::RealPowerControlKind_advanced) == static_cast<int>(twinoaks::generationmodule::RealPowerControlKind::RealPowerControlKind_advanced), "mismatched enum values");
-static_assert(static_cast<int>(generationmodule::RealPowerControlKind::RealPowerControlKind_droop) == static_cast<int>(twinoaks::generationmodule::RealPowerControlKind::RealPowerControlKind_droop), "mismatched enum values");
-static_assert(static_cast<int>(generationmodule::RealPowerControlKind::RealPowerControlKind_isochronous) == static_cast<int>(twinoaks::generationmodule::RealPowerControlKind::RealPowerControlKind_isochronous), "mismatched enum values");
-static_assert(static_cast<int>(generationmodule::RealPowerControlKind::RealPowerControlKind_realPower) == static_cast<int>(twinoaks::generationmodule::RealPowerControlKind::RealPowerControlKind_realPower), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::RealPowerControlKind::RealPowerControlKind_advanced) == static_cast<int>(twinoaks::commonmodule::RealPowerControlKind::RealPowerControlKind_advanced), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::RealPowerControlKind::RealPowerControlKind_droop) == static_cast<int>(twinoaks::commonmodule::RealPowerControlKind::RealPowerControlKind_droop), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::RealPowerControlKind::RealPowerControlKind_isochronous) == static_cast<int>(twinoaks::commonmodule::RealPowerControlKind::RealPowerControlKind_isochronous), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::RealPowerControlKind::RealPowerControlKind_realPower) == static_cast<int>(twinoaks::commonmodule::RealPowerControlKind::RealPowerControlKind_realPower), "mismatched enum values");
+
+static_assert(static_cast<int>(commonmodule::VoltLimitModeKind::VoltLimitModeKind_off) == static_cast<int>(twinoaks::commonmodule::VoltLimitModeKind::VoltLimitModeKind_off), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::VoltLimitModeKind::VoltLimitModeKind_high_limit_only) == static_cast<int>(twinoaks::commonmodule::VoltLimitModeKind::VoltLimitModeKind_high_limit_only), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::VoltLimitModeKind::VoltLimitModeKind_low_limit_only) == static_cast<int>(twinoaks::commonmodule::VoltLimitModeKind::VoltLimitModeKind_low_limit_only), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::VoltLimitModeKind::VoltLimitModeKind_high_low_limits) == static_cast<int>(twinoaks::commonmodule::VoltLimitModeKind::VoltLimitModeKind_high_low_limits), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::VoltLimitModeKind::VoltLimitModeKind_ivvc_high_limit_only) == static_cast<int>(twinoaks::commonmodule::VoltLimitModeKind::VoltLimitModeKind_ivvc_high_limit_only), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::VoltLimitModeKind::VoltLimitModeKind_ivvc_low_limit_only) == static_cast<int>(twinoaks::commonmodule::VoltLimitModeKind::VoltLimitModeKind_ivvc_low_limit_only), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::VoltLimitModeKind::VoltLimitModeKind_ivvc_high_low_limits) == static_cast<int>(twinoaks::commonmodule::VoltLimitModeKind::VoltLimitModeKind_ivvc_high_low_limits), "mismatched enum values");
 
 } // end namespace dds
 

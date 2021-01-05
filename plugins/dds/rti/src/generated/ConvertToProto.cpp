@@ -159,6 +159,12 @@ void convert_to_proto(const openfmb::capbankmodule::CapBankPoint& in, capbankmod
 
 void convert_to_proto(const openfmb::capbankmodule::CapBankControlYPSH& in, capbankmodule::CapBankControlYPSH& out);
 
+void convert_to_proto(const openfmb::commonmodule::PhaseSPC& in, commonmodule::PhaseSPC& out);
+
+void convert_to_proto(const openfmb::commonmodule::PhaseAPC& in, commonmodule::PhaseAPC& out);
+
+void convert_to_proto(const openfmb::commonmodule::ControlAPC& in, commonmodule::ControlAPC& out);
+
 void convert_to_proto(const openfmb::capbankmodule::CapBankSystem& in, capbankmodule::CapBankSystem& out);
 
 void convert_to_proto(const openfmb::capbankmodule::CapBankDiscreteControl& in, capbankmodule::CapBankDiscreteControl& out);
@@ -307,17 +313,11 @@ void convert_to_proto(const openfmb::regulatormodule::RegulatorDiscreteControl& 
 
 void convert_to_proto(const openfmb::regulatormodule::RegulatorControlATCC& in, regulatormodule::RegulatorControlATCC& out);
 
-void convert_to_proto(const openfmb::commonmodule::ASG& in, commonmodule::ASG& out);
-
-void convert_to_proto(const openfmb::commonmodule::ControlING& in, commonmodule::ControlING& out);
+void convert_to_proto(const openfmb::regulatormodule::DirectionalATCC& in, regulatormodule::DirectionalATCC& out);
 
 void convert_to_proto(const openfmb::commonmodule::PhaseISC& in, commonmodule::PhaseISC& out);
 
 void convert_to_proto(const openfmb::commonmodule::ControlISC& in, commonmodule::ControlISC& out);
-
-void convert_to_proto(const openfmb::commonmodule::PhaseAPC& in, commonmodule::PhaseAPC& out);
-
-void convert_to_proto(const openfmb::commonmodule::ControlAPC& in, commonmodule::ControlAPC& out);
 
 void convert_to_proto(const openfmb::regulatormodule::RegulatorSystem& in, regulatormodule::RegulatorSystem& out);
 
@@ -337,11 +337,11 @@ void convert_to_proto(const openfmb::regulatormodule::RegulatorEventAndStatusANC
 
 void convert_to_proto(const openfmb::regulatormodule::RegulatorEventAndStatusATCC& in, regulatormodule::RegulatorEventAndStatusATCC& out);
 
+void convert_to_proto(const openfmb::commonmodule::ASG& in, commonmodule::ASG& out);
+
 void convert_to_proto(const openfmb::commonmodule::StatusINC& in, commonmodule::StatusINC& out);
 
 void convert_to_proto(const openfmb::commonmodule::PhaseINS& in, commonmodule::PhaseINS& out);
-
-void convert_to_proto(const openfmb::commonmodule::StatusSPC& in, commonmodule::StatusSPC& out);
 
 void convert_to_proto(const openfmb::regulatormodule::RegulatorReading& in, regulatormodule::RegulatorReading& out);
 
@@ -1685,7 +1685,72 @@ void convert_to_proto(const openfmb::capbankmodule::CapBankControlYPSH& in, capb
 {
     out.Clear();
 
+    if(in.AmpLmt().is_set()) convert_to_proto(in.AmpLmt().get(), *out.mutable_amplmt());
+
+    if(in.AmpThdHi().is_set()) convert_to_proto(in.AmpThdHi().get(), *out.mutable_ampthdhi());
+
+    if(in.AmpThdLo().is_set()) convert_to_proto(in.AmpThdLo().get(), *out.mutable_ampthdlo());
+
+    if(in.CtlModeAuto().is_set()) convert_to_proto(in.CtlModeAuto().get(), *out.mutable_ctlmodeauto());
+
+    if(in.CtlModeOvrRd().is_set()) convert_to_proto(in.CtlModeOvrRd().get(), *out.mutable_ctlmodeovrrd());
+
+    if(in.CtlModeRem().is_set()) convert_to_proto(in.CtlModeRem().get(), *out.mutable_ctlmoderem());
+
+    if(in.DirMode().is_set()) out.mutable_dirmode()->set_value(static_cast<commonmodule::DirectionModeKind>(in.DirMode().get().underlying()));  // wrapped optional enum
+
     if(in.Pos().is_set()) convert_to_proto(in.Pos().get(), *out.mutable_pos());
+
+    if(in.TempLmt().is_set()) convert_to_proto(in.TempLmt().get(), *out.mutable_templmt());
+
+    if(in.TempThdHi().is_set()) convert_to_proto(in.TempThdHi().get(), *out.mutable_tempthdhi());
+
+    if(in.TempThdLo().is_set()) convert_to_proto(in.TempThdLo().get(), *out.mutable_tempthdlo());
+
+    if(in.VArLmt().is_set()) convert_to_proto(in.VArLmt().get(), *out.mutable_varlmt());
+
+    if(in.VArThdHi().is_set()) convert_to_proto(in.VArThdHi().get(), *out.mutable_varthdhi());
+
+    if(in.VArThdLo().is_set()) convert_to_proto(in.VArThdLo().get(), *out.mutable_varthdlo());
+
+    if(in.VolLmt().is_set()) convert_to_proto(in.VolLmt().get(), *out.mutable_vollmt());
+
+    if(in.VolThdHi().is_set()) convert_to_proto(in.VolThdHi().get(), *out.mutable_volthdhi());
+
+    if(in.VolThdLo().is_set()) convert_to_proto(in.VolThdLo().get(), *out.mutable_volthdlo());
+}
+
+void convert_to_proto(const openfmb::commonmodule::PhaseSPC& in, commonmodule::PhaseSPC& out)
+{
+    out.Clear();
+
+    if(in.phs3().is_set()) convert_to_proto(in.phs3().get(), *out.mutable_phs3());
+
+    if(in.phsA().is_set()) convert_to_proto(in.phsA().get(), *out.mutable_phsa());
+
+    if(in.phsB().is_set()) convert_to_proto(in.phsB().get(), *out.mutable_phsb());
+
+    if(in.phsC().is_set()) convert_to_proto(in.phsC().get(), *out.mutable_phsc());
+}
+
+void convert_to_proto(const openfmb::commonmodule::PhaseAPC& in, commonmodule::PhaseAPC& out)
+{
+    out.Clear();
+
+    if(in.phs3().is_set()) convert_to_proto(in.phs3().get(), *out.mutable_phs3());
+
+    if(in.phsA().is_set()) convert_to_proto(in.phsA().get(), *out.mutable_phsa());
+
+    if(in.phsB().is_set()) convert_to_proto(in.phsB().get(), *out.mutable_phsb());
+
+    if(in.phsC().is_set()) convert_to_proto(in.phsC().get(), *out.mutable_phsc());
+}
+
+void convert_to_proto(const openfmb::commonmodule::ControlAPC& in, commonmodule::ControlAPC& out)
+{
+    out.Clear();
+
+    out.set_ctlval(in.ctlVal());
 }
 
 void convert_to_proto(const openfmb::capbankmodule::CapBankSystem& in, capbankmodule::CapBankSystem& out)
@@ -1712,7 +1777,7 @@ void convert_to_proto(const openfmb::capbankmodule::CapBankDiscreteControlYPSH& 
 
     convert_to_proto(in, *out.mutable_logicalnodeforcontrol()); // inherited type
 
-    if(in.Pos().is_set()) convert_to_proto(in.Pos().get(), *out.mutable_pos());
+    if(in.control().is_set()) convert_to_proto(in.control().get(), *out.mutable_control());
 }
 
 void convert_to_proto(const openfmb::capbankmodule::CapBankEvent& in, capbankmodule::CapBankEvent& out)
@@ -1730,9 +1795,21 @@ void convert_to_proto(const openfmb::capbankmodule::CapBankEventAndStatusYPSH& i
 
     convert_to_proto(in, *out.mutable_logicalnodeforeventandstatus()); // inherited type
 
+    if(in.AmpLmt().is_set()) convert_to_proto(in.AmpLmt().get(), *out.mutable_amplmt());
+
+    if(in.CtlMode().is_set()) out.mutable_ctlmode()->set_value(static_cast<commonmodule::ControlModeKind>(in.CtlMode().get().underlying()));  // wrapped optional enum
+
+    if(in.DirRev().is_set()) convert_to_proto(in.DirRev().get(), *out.mutable_dirrev());
+
     if(in.DynamicTest().is_set()) convert_to_proto(in.DynamicTest().get(), *out.mutable_dynamictest());
 
     if(in.Pos().is_set()) convert_to_proto(in.Pos().get(), *out.mutable_pos());
+
+    if(in.TempLmt().is_set()) convert_to_proto(in.TempLmt().get(), *out.mutable_templmt());
+
+    if(in.VArLmt().is_set()) convert_to_proto(in.VArLmt().get(), *out.mutable_varlmt());
+
+    if(in.VolLmt().is_set()) convert_to_proto(in.VolLmt().get(), *out.mutable_vollmt());
 }
 
 void convert_to_proto(const openfmb::capbankmodule::CapBankReading& in, capbankmodule::CapBankReading& out)
@@ -1746,6 +1823,8 @@ void convert_to_proto(const openfmb::capbankmodule::CapBankReading& in, capbankm
     if(in.readingMMTR().is_set()) convert_to_proto(in.readingMMTR().get(), *out.mutable_readingmmtr());
 
     if(in.readingMMXU().is_set()) convert_to_proto(in.readingMMXU().get(), *out.mutable_readingmmxu());
+
+    if(in.secondaryReadingMMXU().is_set()) convert_to_proto(in.secondaryReadingMMXU().get(), *out.mutable_secondaryreadingmmxu());
 }
 
 void convert_to_proto(const openfmb::capbankmodule::CapBankStatus& in, capbankmodule::CapBankStatus& out)
@@ -2225,7 +2304,7 @@ void convert_to_proto(const openfmb::generationmodule::ReactivePowerControl& in,
 
     if(in.powerFactorSetpoint().is_set()) out.mutable_powerfactorsetpoint()->set_value(in.powerFactorSetpoint().get());
 
-    if(in.reactivePowerControlMode().is_set()) out.mutable_reactivepowercontrolmode()->set_value(static_cast<generationmodule::ReactivePowerControlKind>(in.reactivePowerControlMode().get().underlying()));  // wrapped optional enum
+    if(in.reactivePowerControlMode().is_set()) out.mutable_reactivepowercontrolmode()->set_value(static_cast<commonmodule::ReactivePowerControlKind>(in.reactivePowerControlMode().get().underlying()));  // wrapped optional enum
 
     if(in.reactivePowerSetpoint().is_set()) out.mutable_reactivepowersetpoint()->set_value(in.reactivePowerSetpoint().get());
 
@@ -2249,7 +2328,7 @@ void convert_to_proto(const openfmb::generationmodule::RealPowerControl& in, gen
 
     if(in.isochronousSetpoint().is_set()) out.mutable_isochronoussetpoint()->set_value(in.isochronousSetpoint().get());
 
-    if(in.realPowerControlMode().is_set()) out.mutable_realpowercontrolmode()->set_value(static_cast<generationmodule::RealPowerControlKind>(in.realPowerControlMode().get().underlying()));  // wrapped optional enum
+    if(in.realPowerControlMode().is_set()) out.mutable_realpowercontrolmode()->set_value(static_cast<commonmodule::RealPowerControlKind>(in.realPowerControlMode().get().underlying()));  // wrapped optional enum
 
     if(in.realPowerSetpoint().is_set()) out.mutable_realpowersetpoint()->set_value(in.realPowerSetpoint().get());
 }
@@ -2578,7 +2657,34 @@ void convert_to_proto(const openfmb::regulatormodule::RegulatorControlATCC& in, 
 
     convert_to_proto(in, *out.mutable_logicalnodeforcontrol()); // inherited type
 
-    if(in.BndCtr().is_set()) convert_to_proto(in.BndCtr().get(), *out.mutable_bndctr());
+    if(in.DirFwd().is_set()) convert_to_proto(in.DirFwd().get(), *out.mutable_dirfwd());
+
+    if(in.DirMode().is_set()) out.mutable_dirmode()->set_value(static_cast<commonmodule::DirectionModeKind>(in.DirMode().get().underlying()));  // wrapped optional enum
+
+    if(in.DirRev().is_set()) convert_to_proto(in.DirRev().get(), *out.mutable_dirrev());
+
+    if(in.DirThd().is_set()) convert_to_proto(in.DirThd().get(), *out.mutable_dirthd());
+
+    if(in.ParOp().is_set()) convert_to_proto(in.ParOp().get(), *out.mutable_parop());
+
+    if(in.rampRates().is_set()) convert_to_proto(in.rampRates().get(), *out.mutable_ramprates());
+
+    if(in.state().is_set()) out.mutable_state()->set_value(static_cast<commonmodule::StateKind>(in.state().get().underlying()));  // wrapped optional enum
+
+    if(in.TapOpL().is_set()) convert_to_proto(in.TapOpL().get(), *out.mutable_tapopl());
+
+    if(in.TapOpR().is_set()) convert_to_proto(in.TapOpR().get(), *out.mutable_tapopr());
+
+    if(in.VolLmtHi().is_set()) convert_to_proto(in.VolLmtHi().get(), *out.mutable_vollmthi());
+
+    if(in.VolLmtLo().is_set()) convert_to_proto(in.VolLmtLo().get(), *out.mutable_vollmtlo());
+
+    if(in.VolLmtMode().is_set()) out.mutable_vollmtmode()->set_value(static_cast<commonmodule::VoltLimitModeKind>(in.VolLmtMode().get().underlying()));  // wrapped optional enum
+}
+
+void convert_to_proto(const openfmb::regulatormodule::DirectionalATCC& in, regulatormodule::DirectionalATCC& out)
+{
+    out.Clear();
 
     if(in.BndWid().is_set()) convert_to_proto(in.BndWid().get(), *out.mutable_bndwid());
 
@@ -2588,35 +2694,9 @@ void convert_to_proto(const openfmb::regulatormodule::RegulatorControlATCC& in, 
 
     if(in.LDCX().is_set()) convert_to_proto(in.LDCX().get(), *out.mutable_ldcx());
 
-    if(in.ParOp().is_set()) convert_to_proto(in.ParOp().get(), *out.mutable_parop());
-
-    if(in.rampRates().is_set()) convert_to_proto(in.rampRates().get(), *out.mutable_ramprates());
-
-    if(in.state().is_set()) out.mutable_state()->set_value(static_cast<commonmodule::StateKind>(in.state().get().underlying()));  // wrapped optional enum
-
-    if(in.TapPos().is_set()) convert_to_proto(in.TapPos().get(), *out.mutable_tappos());
-
     if(in.VolSpt().is_set()) convert_to_proto(in.VolSpt().get(), *out.mutable_volspt());
 
     if(in.voltageSetPointEnabled().is_set()) convert_to_proto(in.voltageSetPointEnabled().get(), *out.mutable_voltagesetpointenabled());
-}
-
-void convert_to_proto(const openfmb::commonmodule::ASG& in, commonmodule::ASG& out)
-{
-    out.Clear();
-
-    out.set_setmag(in.setMag());
-
-    if(in.units().is_set()) convert_to_proto(in.units().get(), *out.mutable_units());
-}
-
-void convert_to_proto(const openfmb::commonmodule::ControlING& in, commonmodule::ControlING& out)
-{
-    out.Clear();
-
-    out.set_setval(in.setVal());
-
-    if(in.units().is_set()) convert_to_proto(in.units().get(), *out.mutable_units());
 }
 
 void convert_to_proto(const openfmb::commonmodule::PhaseISC& in, commonmodule::PhaseISC& out)
@@ -2633,26 +2713,6 @@ void convert_to_proto(const openfmb::commonmodule::PhaseISC& in, commonmodule::P
 }
 
 void convert_to_proto(const openfmb::commonmodule::ControlISC& in, commonmodule::ControlISC& out)
-{
-    out.Clear();
-
-    out.set_ctlval(in.ctlVal());
-}
-
-void convert_to_proto(const openfmb::commonmodule::PhaseAPC& in, commonmodule::PhaseAPC& out)
-{
-    out.Clear();
-
-    if(in.phs3().is_set()) convert_to_proto(in.phs3().get(), *out.mutable_phs3());
-
-    if(in.phsA().is_set()) convert_to_proto(in.phsA().get(), *out.mutable_phsa());
-
-    if(in.phsB().is_set()) convert_to_proto(in.phsB().get(), *out.mutable_phsb());
-
-    if(in.phsC().is_set()) convert_to_proto(in.phsC().get(), *out.mutable_phsc());
-}
-
-void convert_to_proto(const openfmb::commonmodule::ControlAPC& in, commonmodule::ControlAPC& out)
 {
     out.Clear();
 
@@ -2740,6 +2800,16 @@ void convert_to_proto(const openfmb::regulatormodule::RegulatorEventAndStatusATC
 
     if(in.BndWid().is_set()) convert_to_proto(in.BndWid().get(), *out.mutable_bndwid());
 
+    if(in.BndWidHi().is_set()) convert_to_proto(in.BndWidHi().get(), *out.mutable_bndwidhi());
+
+    if(in.BndWidLo().is_set()) convert_to_proto(in.BndWidLo().get(), *out.mutable_bndwidlo());
+
+    if(in.DirCtlRev().is_set()) convert_to_proto(in.DirCtlRev().get(), *out.mutable_dirctlrev());
+
+    if(in.DirIndt().is_set()) convert_to_proto(in.DirIndt().get(), *out.mutable_dirindt());
+
+    if(in.DirRev().is_set()) convert_to_proto(in.DirRev().get(), *out.mutable_dirrev());
+
     if(in.LDCR().is_set()) convert_to_proto(in.LDCR().get(), *out.mutable_ldcr());
 
     if(in.LDCX().is_set()) convert_to_proto(in.LDCX().get(), *out.mutable_ldcx());
@@ -2756,9 +2826,20 @@ void convert_to_proto(const openfmb::regulatormodule::RegulatorEventAndStatusATC
 
     if(in.TapPos().is_set()) convert_to_proto(in.TapPos().get(), *out.mutable_tappos());
 
+    if(in.VolLmtHi().is_set()) convert_to_proto(in.VolLmtHi().get(), *out.mutable_vollmthi());
+
+    if(in.VolLmtLo().is_set()) convert_to_proto(in.VolLmtLo().get(), *out.mutable_vollmtlo());
+
     if(in.VolSpt().is_set()) convert_to_proto(in.VolSpt().get(), *out.mutable_volspt());
 
     if(in.voltageSetPointEnabled().is_set()) convert_to_proto(in.voltageSetPointEnabled().get(), *out.mutable_voltagesetpointenabled());
+}
+
+void convert_to_proto(const openfmb::commonmodule::ASG& in, commonmodule::ASG& out)
+{
+    out.Clear();
+
+    out.set_setmag(in.setMag());
 }
 
 void convert_to_proto(const openfmb::commonmodule::StatusINC& in, commonmodule::StatusINC& out)
@@ -2785,17 +2866,6 @@ void convert_to_proto(const openfmb::commonmodule::PhaseINS& in, commonmodule::P
     if(in.phsC().is_set()) convert_to_proto(in.phsC().get(), *out.mutable_phsc());
 }
 
-void convert_to_proto(const openfmb::commonmodule::StatusSPC& in, commonmodule::StatusSPC& out)
-{
-    out.Clear();
-
-    if(in.q().is_set()) convert_to_proto(in.q().get(), *out.mutable_q());
-
-    out.set_stval(in.stVal());
-
-    if(in.t().is_set()) convert_to_proto(in.t().get(), *out.mutable_t());
-}
-
 void convert_to_proto(const openfmb::regulatormodule::RegulatorReading& in, regulatormodule::RegulatorReading& out)
 {
     out.Clear();
@@ -2807,6 +2877,8 @@ void convert_to_proto(const openfmb::regulatormodule::RegulatorReading& in, regu
     if(in.readingMMTR().is_set()) convert_to_proto(in.readingMMTR().get(), *out.mutable_readingmmtr());
 
     if(in.readingMMXU().is_set()) convert_to_proto(in.readingMMXU().get(), *out.mutable_readingmmxu());
+
+    if(in.secondaryReadingMMXU().is_set()) convert_to_proto(in.secondaryReadingMMXU().get(), *out.mutable_secondaryreadingmmxu());
 }
 
 void convert_to_proto(const openfmb::regulatormodule::RegulatorStatus& in, regulatormodule::RegulatorStatus& out)

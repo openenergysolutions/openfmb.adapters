@@ -30,11 +30,11 @@ void visit_commonmodule_CheckConditions(const set_t<commonmodule::CheckCondition
 
 void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::ConductingEquipment>& setter, const get_t<commonmodule::ConductingEquipment>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
 
-void visit_commonmodule_ControlDPC(const set_t<commonmodule::ControlDPC>& setter, const get_t<commonmodule::ControlDPC>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
-
 void visit_commonmodule_ControlFSCC(const set_t<commonmodule::ControlFSCC>& setter, const get_t<commonmodule::ControlFSCC>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
 
 void visit_commonmodule_ControlMessageInfo(const set_t<commonmodule::ControlMessageInfo>& setter, const get_t<commonmodule::ControlMessageInfo>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
+
+void visit_commonmodule_ControlSPC(const set_t<commonmodule::ControlSPC>& setter, const get_t<commonmodule::ControlSPC>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
 
 void visit_commonmodule_ControlScheduleFSCH(const set_t<commonmodule::ControlScheduleFSCH>& setter, const get_t<commonmodule::ControlScheduleFSCH>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
 
@@ -271,23 +271,6 @@ void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::Conducting
     );
 }
 
-void visit_commonmodule_ControlDPC(const set_t<commonmodule::ControlDPC>& setter, const get_t<commonmodule::ControlDPC>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor)
-{
-    visitor.handle(
-        "ctlVal",
-        AccessorBuilder<essmodule::ESSControlProfile,bool>::build(
-            [setter](essmodule::ESSControlProfile& profile, const bool& value) { setter(profile)->set_ctlval(value); },
-            [getter](const essmodule::ESSControlProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->ctlval());
-                return true;
-            }
-        )
-    );
-}
-
 void visit_commonmodule_ControlFSCC(const set_t<commonmodule::ControlFSCC>& setter, const get_t<commonmodule::ControlFSCC>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor)
 {
     if(visitor.start_message_field("logicalNodeForControl", commonmodule::LogicalNodeForControl::descriptor()))
@@ -388,6 +371,23 @@ void visit_commonmodule_ControlMessageInfo(const set_t<commonmodule::ControlMess
         );
         visitor.end_message_field();
     }
+}
+
+void visit_commonmodule_ControlSPC(const set_t<commonmodule::ControlSPC>& setter, const get_t<commonmodule::ControlSPC>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor)
+{
+    visitor.handle(
+        "ctlVal",
+        AccessorBuilder<essmodule::ESSControlProfile,bool>::build(
+            [setter](essmodule::ESSControlProfile& profile, const bool& value) { setter(profile)->set_ctlval(value); },
+            [getter](const essmodule::ESSControlProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->ctlval());
+                return true;
+            }
+        )
+    );
 }
 
 void visit_commonmodule_ControlScheduleFSCH(const set_t<commonmodule::ControlScheduleFSCH>& setter, const get_t<commonmodule::ControlScheduleFSCH>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor)
@@ -1363,14 +1363,14 @@ void visit_essmodule_ESSFunction(const set_t<essmodule::ESSFunction>& setter, co
 
 void visit_essmodule_ESSPoint(const set_t<essmodule::ESSPoint>& setter, const get_t<essmodule::ESSPoint>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor)
 {
-    if(visitor.start_message_field("blackStartEnabled", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("blackStartEnabled", commonmodule::ControlSPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC(
+        visit_commonmodule_ControlSPC(
             [setter](essmodule::ESSControlProfile& profile)
             {
                 return setter(profile)->mutable_blackstartenabled();
             },
-            [getter](const essmodule::ESSControlProfile& profile) -> commonmodule::ControlDPC const *
+            [getter](const essmodule::ESSControlProfile& profile) -> commonmodule::ControlSPC const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1387,14 +1387,14 @@ void visit_essmodule_ESSPoint(const set_t<essmodule::ESSPoint>& setter, const ge
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("frequencySetPointEnabled", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("frequencySetPointEnabled", commonmodule::ControlSPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC(
+        visit_commonmodule_ControlSPC(
             [setter](essmodule::ESSControlProfile& profile)
             {
                 return setter(profile)->mutable_frequencysetpointenabled();
             },
-            [getter](const essmodule::ESSControlProfile& profile) -> commonmodule::ControlDPC const *
+            [getter](const essmodule::ESSControlProfile& profile) -> commonmodule::ControlSPC const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1531,14 +1531,14 @@ void visit_essmodule_ESSPoint(const set_t<essmodule::ESSPoint>& setter, const ge
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("reactivePwrSetPointEnabled", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("reactivePwrSetPointEnabled", commonmodule::ControlSPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC(
+        visit_commonmodule_ControlSPC(
             [setter](essmodule::ESSControlProfile& profile)
             {
                 return setter(profile)->mutable_reactivepwrsetpointenabled();
             },
-            [getter](const essmodule::ESSControlProfile& profile) -> commonmodule::ControlDPC const *
+            [getter](const essmodule::ESSControlProfile& profile) -> commonmodule::ControlSPC const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1555,14 +1555,14 @@ void visit_essmodule_ESSPoint(const set_t<essmodule::ESSPoint>& setter, const ge
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("realPwrSetPointEnabled", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("realPwrSetPointEnabled", commonmodule::ControlSPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC(
+        visit_commonmodule_ControlSPC(
             [setter](essmodule::ESSControlProfile& profile)
             {
                 return setter(profile)->mutable_realpwrsetpointenabled();
             },
-            [getter](const essmodule::ESSControlProfile& profile) -> commonmodule::ControlDPC const *
+            [getter](const essmodule::ESSControlProfile& profile) -> commonmodule::ControlSPC const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1579,14 +1579,14 @@ void visit_essmodule_ESSPoint(const set_t<essmodule::ESSPoint>& setter, const ge
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("reset", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("reset", commonmodule::ControlSPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC(
+        visit_commonmodule_ControlSPC(
             [setter](essmodule::ESSControlProfile& profile)
             {
                 return setter(profile)->mutable_reset();
             },
-            [getter](const essmodule::ESSControlProfile& profile) -> commonmodule::ControlDPC const *
+            [getter](const essmodule::ESSControlProfile& profile) -> commonmodule::ControlSPC const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1627,14 +1627,14 @@ void visit_essmodule_ESSPoint(const set_t<essmodule::ESSPoint>& setter, const ge
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("syncBackToGrid", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("syncBackToGrid", commonmodule::ControlSPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC(
+        visit_commonmodule_ControlSPC(
             [setter](essmodule::ESSControlProfile& profile)
             {
                 return setter(profile)->mutable_syncbacktogrid();
             },
-            [getter](const essmodule::ESSControlProfile& profile) -> commonmodule::ControlDPC const *
+            [getter](const essmodule::ESSControlProfile& profile) -> commonmodule::ControlSPC const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1651,14 +1651,14 @@ void visit_essmodule_ESSPoint(const set_t<essmodule::ESSPoint>& setter, const ge
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("transToIslndOnGridLossEnabled", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("transToIslndOnGridLossEnabled", commonmodule::ControlSPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC(
+        visit_commonmodule_ControlSPC(
             [setter](essmodule::ESSControlProfile& profile)
             {
                 return setter(profile)->mutable_transtoislndongridlossenabled();
             },
-            [getter](const essmodule::ESSControlProfile& profile) -> commonmodule::ControlDPC const *
+            [getter](const essmodule::ESSControlProfile& profile) -> commonmodule::ControlSPC const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1675,14 +1675,14 @@ void visit_essmodule_ESSPoint(const set_t<essmodule::ESSPoint>& setter, const ge
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("voltageSetPointEnabled", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("voltageSetPointEnabled", commonmodule::ControlSPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC(
+        visit_commonmodule_ControlSPC(
             [setter](essmodule::ESSControlProfile& profile)
             {
                 return setter(profile)->mutable_voltagesetpointenabled();
             },
-            [getter](const essmodule::ESSControlProfile& profile) -> commonmodule::ControlDPC const *
+            [getter](const essmodule::ESSControlProfile& profile) -> commonmodule::ControlSPC const *
             {
                 const auto value = getter(profile);
                 if(value)

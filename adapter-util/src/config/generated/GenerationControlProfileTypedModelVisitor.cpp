@@ -32,11 +32,11 @@ void visit_commonmodule_CheckConditions(const set_t<commonmodule::CheckCondition
 
 void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::ConductingEquipment>& setter, const get_t<commonmodule::ConductingEquipment>& getter, ITypedModelVisitor<generationmodule::GenerationControlProfile>& visitor);
 
-void visit_commonmodule_ControlDPC(const set_t<commonmodule::ControlDPC>& setter, const get_t<commonmodule::ControlDPC>& getter, ITypedModelVisitor<generationmodule::GenerationControlProfile>& visitor);
-
 void visit_commonmodule_ControlFSCC(const set_t<commonmodule::ControlFSCC>& setter, const get_t<commonmodule::ControlFSCC>& getter, ITypedModelVisitor<generationmodule::GenerationControlProfile>& visitor);
 
 void visit_commonmodule_ControlMessageInfo(const set_t<commonmodule::ControlMessageInfo>& setter, const get_t<commonmodule::ControlMessageInfo>& getter, ITypedModelVisitor<generationmodule::GenerationControlProfile>& visitor);
+
+void visit_commonmodule_ControlSPC(const set_t<commonmodule::ControlSPC>& setter, const get_t<commonmodule::ControlSPC>& getter, ITypedModelVisitor<generationmodule::GenerationControlProfile>& visitor);
 
 void visit_commonmodule_ControlScheduleFSCH(const set_t<commonmodule::ControlScheduleFSCH>& setter, const get_t<commonmodule::ControlScheduleFSCH>& getter, ITypedModelVisitor<generationmodule::GenerationControlProfile>& visitor);
 
@@ -332,23 +332,6 @@ void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::Conducting
     );
 }
 
-void visit_commonmodule_ControlDPC(const set_t<commonmodule::ControlDPC>& setter, const get_t<commonmodule::ControlDPC>& getter, ITypedModelVisitor<generationmodule::GenerationControlProfile>& visitor)
-{
-    visitor.handle(
-        "ctlVal",
-        AccessorBuilder<generationmodule::GenerationControlProfile,bool>::build(
-            [setter](generationmodule::GenerationControlProfile& profile, const bool& value) { setter(profile)->set_ctlval(value); },
-            [getter](const generationmodule::GenerationControlProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->ctlval());
-                return true;
-            }
-        )
-    );
-}
-
 void visit_commonmodule_ControlFSCC(const set_t<commonmodule::ControlFSCC>& setter, const get_t<commonmodule::ControlFSCC>& getter, ITypedModelVisitor<generationmodule::GenerationControlProfile>& visitor)
 {
     if(visitor.start_message_field("logicalNodeForControl", commonmodule::LogicalNodeForControl::descriptor()))
@@ -449,6 +432,23 @@ void visit_commonmodule_ControlMessageInfo(const set_t<commonmodule::ControlMess
         );
         visitor.end_message_field();
     }
+}
+
+void visit_commonmodule_ControlSPC(const set_t<commonmodule::ControlSPC>& setter, const get_t<commonmodule::ControlSPC>& getter, ITypedModelVisitor<generationmodule::GenerationControlProfile>& visitor)
+{
+    visitor.handle(
+        "ctlVal",
+        AccessorBuilder<generationmodule::GenerationControlProfile,bool>::build(
+            [setter](generationmodule::GenerationControlProfile& profile, const bool& value) { setter(profile)->set_ctlval(value); },
+            [getter](const generationmodule::GenerationControlProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->ctlval());
+                return true;
+            }
+        )
+    );
 }
 
 void visit_commonmodule_ControlScheduleFSCH(const set_t<commonmodule::ControlScheduleFSCH>& setter, const get_t<commonmodule::ControlScheduleFSCH>& getter, ITypedModelVisitor<generationmodule::GenerationControlProfile>& visitor)
@@ -1247,14 +1247,14 @@ void visit_generationmodule_GenerationControlScheduleFSCH(const set_t<generation
 
 void visit_generationmodule_GenerationPoint(const set_t<generationmodule::GenerationPoint>& setter, const get_t<generationmodule::GenerationPoint>& getter, ITypedModelVisitor<generationmodule::GenerationControlProfile>& visitor)
 {
-    if(visitor.start_message_field("blackStartEnabled", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("blackStartEnabled", commonmodule::ControlSPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC(
+        visit_commonmodule_ControlSPC(
             [setter](generationmodule::GenerationControlProfile& profile)
             {
                 return setter(profile)->mutable_blackstartenabled();
             },
-            [getter](const generationmodule::GenerationControlProfile& profile) -> commonmodule::ControlDPC const *
+            [getter](const generationmodule::GenerationControlProfile& profile) -> commonmodule::ControlSPC const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1271,14 +1271,14 @@ void visit_generationmodule_GenerationPoint(const set_t<generationmodule::Genera
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("frequencySetPointEnabled", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("frequencySetPointEnabled", commonmodule::ControlSPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC(
+        visit_commonmodule_ControlSPC(
             [setter](generationmodule::GenerationControlProfile& profile)
             {
                 return setter(profile)->mutable_frequencysetpointenabled();
             },
-            [getter](const generationmodule::GenerationControlProfile& profile) -> commonmodule::ControlDPC const *
+            [getter](const generationmodule::GenerationControlProfile& profile) -> commonmodule::ControlSPC const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1367,14 +1367,14 @@ void visit_generationmodule_GenerationPoint(const set_t<generationmodule::Genera
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("reactivePwrSetPointEnabled", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("reactivePwrSetPointEnabled", commonmodule::ControlSPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC(
+        visit_commonmodule_ControlSPC(
             [setter](generationmodule::GenerationControlProfile& profile)
             {
                 return setter(profile)->mutable_reactivepwrsetpointenabled();
             },
-            [getter](const generationmodule::GenerationControlProfile& profile) -> commonmodule::ControlDPC const *
+            [getter](const generationmodule::GenerationControlProfile& profile) -> commonmodule::ControlSPC const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1391,14 +1391,14 @@ void visit_generationmodule_GenerationPoint(const set_t<generationmodule::Genera
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("realPwrSetPointEnabled", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("realPwrSetPointEnabled", commonmodule::ControlSPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC(
+        visit_commonmodule_ControlSPC(
             [setter](generationmodule::GenerationControlProfile& profile)
             {
                 return setter(profile)->mutable_realpwrsetpointenabled();
             },
-            [getter](const generationmodule::GenerationControlProfile& profile) -> commonmodule::ControlDPC const *
+            [getter](const generationmodule::GenerationControlProfile& profile) -> commonmodule::ControlSPC const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1415,14 +1415,14 @@ void visit_generationmodule_GenerationPoint(const set_t<generationmodule::Genera
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("reset", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("reset", commonmodule::ControlSPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC(
+        visit_commonmodule_ControlSPC(
             [setter](generationmodule::GenerationControlProfile& profile)
             {
                 return setter(profile)->mutable_reset();
             },
-            [getter](const generationmodule::GenerationControlProfile& profile) -> commonmodule::ControlDPC const *
+            [getter](const generationmodule::GenerationControlProfile& profile) -> commonmodule::ControlSPC const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1463,14 +1463,14 @@ void visit_generationmodule_GenerationPoint(const set_t<generationmodule::Genera
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("syncBackToGrid", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("syncBackToGrid", commonmodule::ControlSPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC(
+        visit_commonmodule_ControlSPC(
             [setter](generationmodule::GenerationControlProfile& profile)
             {
                 return setter(profile)->mutable_syncbacktogrid();
             },
-            [getter](const generationmodule::GenerationControlProfile& profile) -> commonmodule::ControlDPC const *
+            [getter](const generationmodule::GenerationControlProfile& profile) -> commonmodule::ControlSPC const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1487,14 +1487,14 @@ void visit_generationmodule_GenerationPoint(const set_t<generationmodule::Genera
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("transToIslndOnGridLossEnabled", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("transToIslndOnGridLossEnabled", commonmodule::ControlSPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC(
+        visit_commonmodule_ControlSPC(
             [setter](generationmodule::GenerationControlProfile& profile)
             {
                 return setter(profile)->mutable_transtoislndongridlossenabled();
             },
-            [getter](const generationmodule::GenerationControlProfile& profile) -> commonmodule::ControlDPC const *
+            [getter](const generationmodule::GenerationControlProfile& profile) -> commonmodule::ControlSPC const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1511,14 +1511,14 @@ void visit_generationmodule_GenerationPoint(const set_t<generationmodule::Genera
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("voltageSetPointEnabled", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("voltageSetPointEnabled", commonmodule::ControlSPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC(
+        visit_commonmodule_ControlSPC(
             [setter](generationmodule::GenerationControlProfile& profile)
             {
                 return setter(profile)->mutable_voltagesetpointenabled();
             },
-            [getter](const generationmodule::GenerationControlProfile& profile) -> commonmodule::ControlDPC const *
+            [getter](const generationmodule::GenerationControlProfile& profile) -> commonmodule::ControlSPC const *
             {
                 const auto value = getter(profile);
                 if(value)

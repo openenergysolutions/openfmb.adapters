@@ -266,6 +266,30 @@ void visit_capbankmodule_CapBankReading(const set_t<capbankmodule::CapBankReadin
         );
         visitor.end_message_field();
     }
+
+    if(visitor.start_message_field("secondaryReadingMMXU", commonmodule::ReadingMMXU::descriptor()))
+    {
+        visit_commonmodule_ReadingMMXU(
+            [setter](capbankmodule::CapBankReadingProfile& profile)
+            {
+                return setter(profile)->mutable_secondaryreadingmmxu();
+            },
+            [getter](const capbankmodule::CapBankReadingProfile& profile) -> commonmodule::ReadingMMXU const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_secondaryreadingmmxu() ? &value->secondaryreadingmmxu() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
 }
 
 void visit_capbankmodule_CapBankSystem(const set_t<capbankmodule::CapBankSystem>& setter, const get_t<capbankmodule::CapBankSystem>& getter, ITypedModelVisitor<capbankmodule::CapBankReadingProfile>& visitor)

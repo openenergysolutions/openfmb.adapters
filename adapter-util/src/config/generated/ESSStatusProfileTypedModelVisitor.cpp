@@ -56,8 +56,6 @@ void visit_commonmodule_Optional_UnitMultiplierKind(const set_t<commonmodule::Op
 
 void visit_commonmodule_RampRate(const set_t<commonmodule::RampRate>& setter, const get_t<commonmodule::RampRate>& getter, ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
-void visit_commonmodule_StatusDPS(const set_t<commonmodule::StatusDPS>& setter, const get_t<commonmodule::StatusDPS>& getter, ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor);
-
 void visit_commonmodule_StatusMessageInfo(const set_t<commonmodule::StatusMessageInfo>& setter, const get_t<commonmodule::StatusMessageInfo>& getter, ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 void visit_commonmodule_StatusSPS(const set_t<commonmodule::StatusSPS>& setter, const get_t<commonmodule::StatusSPS>& getter, ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor);
@@ -948,52 +946,6 @@ void visit_commonmodule_RampRate(const set_t<commonmodule::RampRate>& setter, co
     }
 }
 
-void visit_commonmodule_StatusDPS(const set_t<commonmodule::StatusDPS>& setter, const get_t<commonmodule::StatusDPS>& getter, ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor)
-{
-    visitor.handle(
-        "q",
-        MessageAccessorBuilder<essmodule::ESSStatusProfile,commonmodule::Quality>::build(
-            [setter](essmodule::ESSStatusProfile& profile) { return setter(profile)->mutable_q(); },
-            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<commonmodule::Quality>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent || !parent->has_q()) return false;
-                handler(parent->q());
-                return true;
-            }
-        )
-    );
-
-    visitor.handle(
-        "stVal",
-        AccessorBuilder<essmodule::ESSStatusProfile,int>::build(
-            [setter](essmodule::ESSStatusProfile& profile, const int& value) { setter(profile)->set_stval(static_cast<commonmodule::DbPosKind>(value)); },
-            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<int>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->stval());
-                return true;
-            }
-        ),
-        commonmodule::DbPosKind_descriptor()
-    );
-
-    visitor.handle(
-        "t",
-        MessageAccessorBuilder<essmodule::ESSStatusProfile,commonmodule::Timestamp>::build(
-            [setter](essmodule::ESSStatusProfile& profile) { return setter(profile)->mutable_t(); },
-            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<commonmodule::Timestamp>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent || !parent->has_t()) return false;
-                handler(parent->t());
-                return true;
-            }
-        )
-    );
-}
-
 void visit_commonmodule_StatusMessageInfo(const set_t<commonmodule::StatusMessageInfo>& setter, const get_t<commonmodule::StatusMessageInfo>& getter, ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
     if(visitor.start_message_field("messageInfo", commonmodule::MessageInfo::descriptor()))
@@ -1554,14 +1506,14 @@ void visit_essmodule_ESSFunction(const set_t<essmodule::ESSFunction>& setter, co
 
 void visit_essmodule_ESSPointStatus(const set_t<essmodule::ESSPointStatus>& setter, const get_t<essmodule::ESSPointStatus>& getter, ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
-    if(visitor.start_message_field("blackStartEnabled", commonmodule::StatusDPS::descriptor()))
+    if(visitor.start_message_field("blackStartEnabled", commonmodule::StatusSPS::descriptor()))
     {
-        visit_commonmodule_StatusDPS(
+        visit_commonmodule_StatusSPS(
             [setter](essmodule::ESSStatusProfile& profile)
             {
                 return setter(profile)->mutable_blackstartenabled();
             },
-            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::StatusDPS const *
+            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::StatusSPS const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1578,14 +1530,14 @@ void visit_essmodule_ESSPointStatus(const set_t<essmodule::ESSPointStatus>& sett
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("frequencySetPointEnabled", commonmodule::StatusDPS::descriptor()))
+    if(visitor.start_message_field("frequencySetPointEnabled", commonmodule::StatusSPS::descriptor()))
     {
-        visit_commonmodule_StatusDPS(
+        visit_commonmodule_StatusSPS(
             [setter](essmodule::ESSStatusProfile& profile)
             {
                 return setter(profile)->mutable_frequencysetpointenabled();
             },
-            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::StatusDPS const *
+            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::StatusSPS const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1722,14 +1674,14 @@ void visit_essmodule_ESSPointStatus(const set_t<essmodule::ESSPointStatus>& sett
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("reactivePwrSetPointEnabled", commonmodule::StatusDPS::descriptor()))
+    if(visitor.start_message_field("reactivePwrSetPointEnabled", commonmodule::StatusSPS::descriptor()))
     {
-        visit_commonmodule_StatusDPS(
+        visit_commonmodule_StatusSPS(
             [setter](essmodule::ESSStatusProfile& profile)
             {
                 return setter(profile)->mutable_reactivepwrsetpointenabled();
             },
-            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::StatusDPS const *
+            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::StatusSPS const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1746,14 +1698,14 @@ void visit_essmodule_ESSPointStatus(const set_t<essmodule::ESSPointStatus>& sett
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("realPwrSetPointEnabled", commonmodule::StatusDPS::descriptor()))
+    if(visitor.start_message_field("realPwrSetPointEnabled", commonmodule::StatusSPS::descriptor()))
     {
-        visit_commonmodule_StatusDPS(
+        visit_commonmodule_StatusSPS(
             [setter](essmodule::ESSStatusProfile& profile)
             {
                 return setter(profile)->mutable_realpwrsetpointenabled();
             },
-            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::StatusDPS const *
+            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::StatusSPS const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1794,14 +1746,14 @@ void visit_essmodule_ESSPointStatus(const set_t<essmodule::ESSPointStatus>& sett
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("syncBackToGrid", commonmodule::StatusDPS::descriptor()))
+    if(visitor.start_message_field("syncBackToGrid", commonmodule::StatusSPS::descriptor()))
     {
-        visit_commonmodule_StatusDPS(
+        visit_commonmodule_StatusSPS(
             [setter](essmodule::ESSStatusProfile& profile)
             {
                 return setter(profile)->mutable_syncbacktogrid();
             },
-            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::StatusDPS const *
+            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::StatusSPS const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1818,14 +1770,14 @@ void visit_essmodule_ESSPointStatus(const set_t<essmodule::ESSPointStatus>& sett
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("transToIslndOnGridLossEnabled", commonmodule::StatusDPS::descriptor()))
+    if(visitor.start_message_field("transToIslndOnGridLossEnabled", commonmodule::StatusSPS::descriptor()))
     {
-        visit_commonmodule_StatusDPS(
+        visit_commonmodule_StatusSPS(
             [setter](essmodule::ESSStatusProfile& profile)
             {
                 return setter(profile)->mutable_transtoislndongridlossenabled();
             },
-            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::StatusDPS const *
+            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::StatusSPS const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1842,14 +1794,14 @@ void visit_essmodule_ESSPointStatus(const set_t<essmodule::ESSPointStatus>& sett
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("voltageSetPointEnabled", commonmodule::StatusDPS::descriptor()))
+    if(visitor.start_message_field("voltageSetPointEnabled", commonmodule::StatusSPS::descriptor()))
     {
-        visit_commonmodule_StatusDPS(
+        visit_commonmodule_StatusSPS(
             [setter](essmodule::ESSStatusProfile& profile)
             {
                 return setter(profile)->mutable_voltagesetpointenabled();
             },
-            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::StatusDPS const *
+            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::StatusSPS const *
             {
                 const auto value = getter(profile);
                 if(value)

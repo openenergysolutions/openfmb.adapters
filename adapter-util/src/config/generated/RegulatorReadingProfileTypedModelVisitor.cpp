@@ -2184,6 +2184,30 @@ void visit_regulatormodule_RegulatorReading(const set_t<regulatormodule::Regulat
         );
         visitor.end_message_field();
     }
+
+    if(visitor.start_message_field("secondaryReadingMMXU", commonmodule::ReadingMMXU::descriptor()))
+    {
+        visit_commonmodule_ReadingMMXU(
+            [setter](regulatormodule::RegulatorReadingProfile& profile)
+            {
+                return setter(profile)->mutable_secondaryreadingmmxu();
+            },
+            [getter](const regulatormodule::RegulatorReadingProfile& profile) -> commonmodule::ReadingMMXU const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_secondaryreadingmmxu() ? &value->secondaryreadingmmxu() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
 }
 
 void visit_regulatormodule_RegulatorSystem(const set_t<regulatormodule::RegulatorSystem>& setter, const get_t<regulatormodule::RegulatorSystem>& getter, ITypedModelVisitor<regulatormodule::RegulatorReadingProfile>& visitor)

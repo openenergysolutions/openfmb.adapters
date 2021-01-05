@@ -86,8 +86,6 @@ void visit_commonmodule_ControlFSCC(IModelVisitor& visitor);
 
 void visit_commonmodule_ControlINC(IModelVisitor& visitor);
 
-void visit_commonmodule_ControlING(IModelVisitor& visitor);
-
 void visit_commonmodule_ControlISC(IModelVisitor& visitor);
 
 void visit_commonmodule_ControlMessageInfo(IModelVisitor& visitor);
@@ -138,9 +136,17 @@ void visit_commonmodule_Meter(IModelVisitor& visitor);
 
 void visit_commonmodule_NamedObject(IModelVisitor& visitor);
 
+void visit_commonmodule_Optional_ControlModeKind(IModelVisitor& visitor);
+
+void visit_commonmodule_Optional_DirectionModeKind(IModelVisitor& visitor);
+
 void visit_commonmodule_Optional_PhaseCodeKind(IModelVisitor& visitor);
 
 void visit_commonmodule_Optional_PhaseFaultDirectionKind(IModelVisitor& visitor);
+
+void visit_commonmodule_Optional_ReactivePowerControlKind(IModelVisitor& visitor);
+
+void visit_commonmodule_Optional_RealPowerControlKind(IModelVisitor& visitor);
 
 void visit_commonmodule_Optional_RecloseActionKind(IModelVisitor& visitor);
 
@@ -149,6 +155,8 @@ void visit_commonmodule_Optional_StateKind(IModelVisitor& visitor);
 void visit_commonmodule_Optional_UnitMultiplierKind(IModelVisitor& visitor);
 
 void visit_commonmodule_Optional_UnitSymbolKind(IModelVisitor& visitor);
+
+void visit_commonmodule_Optional_VoltLimitModeKind(IModelVisitor& visitor);
 
 void visit_commonmodule_PhaseAPC(IModelVisitor& visitor);
 
@@ -163,6 +171,8 @@ void visit_commonmodule_PhaseISC(IModelVisitor& visitor);
 void visit_commonmodule_PhaseMMTN(IModelVisitor& visitor);
 
 void visit_commonmodule_PhaseRecloseAction(IModelVisitor& visitor);
+
+void visit_commonmodule_PhaseSPC(IModelVisitor& visitor);
 
 void visit_commonmodule_PhaseSPS(IModelVisitor& visitor);
 
@@ -189,8 +199,6 @@ void visit_commonmodule_StatusINC(IModelVisitor& visitor);
 void visit_commonmodule_StatusINS(IModelVisitor& visitor);
 
 void visit_commonmodule_StatusMessageInfo(IModelVisitor& visitor);
-
-void visit_commonmodule_StatusSPC(IModelVisitor& visitor);
 
 void visit_commonmodule_StatusSPS(IModelVisitor& visitor);
 
@@ -286,10 +294,6 @@ void visit_generationmodule_GenerationStatus(IModelVisitor& visitor);
 
 void visit_generationmodule_GenerationStatusZGEN(IModelVisitor& visitor);
 
-void visit_generationmodule_Optional_ReactivePowerControlKind(IModelVisitor& visitor);
-
-void visit_generationmodule_Optional_RealPowerControlKind(IModelVisitor& visitor);
-
 void visit_generationmodule_ReactivePowerControl(IModelVisitor& visitor);
 
 void visit_generationmodule_RealPowerControl(IModelVisitor& visitor);
@@ -331,6 +335,8 @@ void visit_reclosermodule_RecloserEvent(IModelVisitor& visitor);
 void visit_reclosermodule_RecloserReading(IModelVisitor& visitor);
 
 void visit_reclosermodule_RecloserStatus(IModelVisitor& visitor);
+
+void visit_regulatormodule_DirectionalATCC(IModelVisitor& visitor);
 
 void visit_regulatormodule_RegulatorCSG(IModelVisitor& visitor);
 
@@ -1571,9 +1577,105 @@ void visit_capbankmodule_CapBankControlScheduleFSCH(IModelVisitor& visitor)
 
 void visit_capbankmodule_CapBankControlYPSH(IModelVisitor& visitor)
 {
-    if(visitor.start_message_field("Pos", commonmodule::PhaseDPC::descriptor()))
+    if(visitor.start_message_field("AmpLmt", commonmodule::PhaseSPC::descriptor()))
     {
-        visit_commonmodule_PhaseDPC(visitor);
+        visit_commonmodule_PhaseSPC(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("AmpThdHi", commonmodule::PhaseAPC::descriptor()))
+    {
+        visit_commonmodule_PhaseAPC(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("AmpThdLo", commonmodule::PhaseAPC::descriptor()))
+    {
+        visit_commonmodule_PhaseAPC(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("CtlModeAuto", commonmodule::ControlSPC::descriptor()))
+    {
+        visit_commonmodule_ControlSPC(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("CtlModeOvrRd", commonmodule::ControlSPC::descriptor()))
+    {
+        visit_commonmodule_ControlSPC(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("CtlModeRem", commonmodule::ControlSPC::descriptor()))
+    {
+        visit_commonmodule_ControlSPC(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("DirMode", commonmodule::Optional_DirectionModeKind::descriptor()))
+    {
+        visit_commonmodule_Optional_DirectionModeKind(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("Pos", commonmodule::PhaseSPC::descriptor()))
+    {
+        visit_commonmodule_PhaseSPC(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("TempLmt", commonmodule::ControlSPC::descriptor()))
+    {
+        visit_commonmodule_ControlSPC(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("TempThdHi", commonmodule::ControlAPC::descriptor()))
+    {
+        visit_commonmodule_ControlAPC(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("TempThdLo", commonmodule::ControlAPC::descriptor()))
+    {
+        visit_commonmodule_ControlAPC(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("VArLmt", commonmodule::PhaseSPC::descriptor()))
+    {
+        visit_commonmodule_PhaseSPC(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("VArThdHi", commonmodule::PhaseAPC::descriptor()))
+    {
+        visit_commonmodule_PhaseAPC(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("VArThdLo", commonmodule::PhaseAPC::descriptor()))
+    {
+        visit_commonmodule_PhaseAPC(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("VolLmt", commonmodule::PhaseSPC::descriptor()))
+    {
+        visit_commonmodule_PhaseSPC(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("VolThdHi", commonmodule::PhaseAPC::descriptor()))
+    {
+        visit_commonmodule_PhaseAPC(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("VolThdLo", commonmodule::PhaseAPC::descriptor()))
+    {
+        visit_commonmodule_PhaseAPC(visitor);
         visitor.end_message_field();
     }
 }
@@ -1607,9 +1709,9 @@ void visit_capbankmodule_CapBankDiscreteControlYPSH(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("Pos", commonmodule::PhaseDPC::descriptor()))
+    if(visitor.start_message_field("control", capbankmodule::CapBankControlYPSH::descriptor()))
     {
-        visit_commonmodule_PhaseDPC(visitor);
+        visit_capbankmodule_CapBankControlYPSH(visitor);
         visitor.end_message_field();
     }
 }
@@ -1637,6 +1739,24 @@ void visit_capbankmodule_CapBankEventAndStatusYPSH(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
+    if(visitor.start_message_field("AmpLmt", commonmodule::PhaseSPS::descriptor()))
+    {
+        visit_commonmodule_PhaseSPS(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("CtlMode", commonmodule::Optional_ControlModeKind::descriptor()))
+    {
+        visit_commonmodule_Optional_ControlModeKind(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("DirRev", commonmodule::PhaseSPS::descriptor()))
+    {
+        visit_commonmodule_PhaseSPS(visitor);
+        visitor.end_message_field();
+    }
+
     if(visitor.start_message_field("DynamicTest", commonmodule::ENS_DynamicTestKind::descriptor()))
     {
         visit_commonmodule_ENS_DynamicTestKind(visitor);
@@ -1646,6 +1766,24 @@ void visit_capbankmodule_CapBankEventAndStatusYPSH(IModelVisitor& visitor)
     if(visitor.start_message_field("Pos", commonmodule::PhaseDPS::descriptor()))
     {
         visit_commonmodule_PhaseDPS(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("TempLmt", commonmodule::PhaseSPS::descriptor()))
+    {
+        visit_commonmodule_PhaseSPS(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("VArLmt", commonmodule::PhaseSPS::descriptor()))
+    {
+        visit_commonmodule_PhaseSPS(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("VolLmt", commonmodule::PhaseSPS::descriptor()))
+    {
+        visit_commonmodule_PhaseSPS(visitor);
         visitor.end_message_field();
     }
 }
@@ -1682,6 +1820,12 @@ void visit_capbankmodule_CapBankReading(IModelVisitor& visitor)
     }
 
     if(visitor.start_message_field("readingMMXU", commonmodule::ReadingMMXU::descriptor()))
+    {
+        visit_commonmodule_ReadingMMXU(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("secondaryReadingMMXU", commonmodule::ReadingMMXU::descriptor()))
     {
         visit_commonmodule_ReadingMMXU(visitor);
         visitor.end_message_field();
@@ -1805,12 +1949,6 @@ void visit_commonmodule_ACDCTerminal(IModelVisitor& visitor)
 void visit_commonmodule_ASG(IModelVisitor& visitor)
 {
     visitor.handle("setMag", DoubleFieldType::Value::mapped);
-
-    if(visitor.start_message_field("units", commonmodule::Unit::descriptor()))
-    {
-        visit_commonmodule_Unit(visitor);
-        visitor.end_message_field();
-    }
 }
 
 void visit_commonmodule_ActivePower(IModelVisitor& visitor)
@@ -1967,17 +2105,6 @@ void visit_commonmodule_ControlFSCC(IModelVisitor& visitor)
 void visit_commonmodule_ControlINC(IModelVisitor& visitor)
 {
     visitor.handle("ctlVal", Int32FieldType::Value::mapped);
-}
-
-void visit_commonmodule_ControlING(IModelVisitor& visitor)
-{
-    visitor.handle("setVal", Int32FieldType::Value::mapped);
-
-    if(visitor.start_message_field("units", commonmodule::Unit::descriptor()))
-    {
-        visit_commonmodule_Unit(visitor);
-        visitor.end_message_field();
-    }
 }
 
 void visit_commonmodule_ControlISC(IModelVisitor& visitor)
@@ -2359,6 +2486,16 @@ void visit_commonmodule_NamedObject(IModelVisitor& visitor)
     }
 }
 
+void visit_commonmodule_Optional_ControlModeKind(IModelVisitor& visitor)
+{
+    visitor.handle("value", commonmodule::ControlModeKind_descriptor(), EnumFieldType::Value::constant);
+}
+
+void visit_commonmodule_Optional_DirectionModeKind(IModelVisitor& visitor)
+{
+    visitor.handle("value", commonmodule::DirectionModeKind_descriptor(), EnumFieldType::Value::constant);
+}
+
 void visit_commonmodule_Optional_PhaseCodeKind(IModelVisitor& visitor)
 {
     visitor.handle("value", commonmodule::PhaseCodeKind_descriptor(), EnumFieldType::Value::constant);
@@ -2367,6 +2504,16 @@ void visit_commonmodule_Optional_PhaseCodeKind(IModelVisitor& visitor)
 void visit_commonmodule_Optional_PhaseFaultDirectionKind(IModelVisitor& visitor)
 {
     visitor.handle("value", commonmodule::PhaseFaultDirectionKind_descriptor(), EnumFieldType::Value::constant);
+}
+
+void visit_commonmodule_Optional_ReactivePowerControlKind(IModelVisitor& visitor)
+{
+    visitor.handle("value", commonmodule::ReactivePowerControlKind_descriptor(), EnumFieldType::Value::constant);
+}
+
+void visit_commonmodule_Optional_RealPowerControlKind(IModelVisitor& visitor)
+{
+    visitor.handle("value", commonmodule::RealPowerControlKind_descriptor(), EnumFieldType::Value::constant);
 }
 
 void visit_commonmodule_Optional_RecloseActionKind(IModelVisitor& visitor)
@@ -2387,6 +2534,11 @@ void visit_commonmodule_Optional_UnitMultiplierKind(IModelVisitor& visitor)
 void visit_commonmodule_Optional_UnitSymbolKind(IModelVisitor& visitor)
 {
     visitor.handle("value", commonmodule::UnitSymbolKind_descriptor(), EnumFieldType::Value::constant);
+}
+
+void visit_commonmodule_Optional_VoltLimitModeKind(IModelVisitor& visitor)
+{
+    visitor.handle("value", commonmodule::VoltLimitModeKind_descriptor(), EnumFieldType::Value::constant);
 }
 
 void visit_commonmodule_PhaseAPC(IModelVisitor& visitor)
@@ -2586,6 +2738,33 @@ void visit_commonmodule_PhaseRecloseAction(IModelVisitor& visitor)
     if(visitor.start_message_field("phsC", commonmodule::Optional_RecloseActionKind::descriptor()))
     {
         visit_commonmodule_Optional_RecloseActionKind(visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit_commonmodule_PhaseSPC(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("phs3", commonmodule::ControlSPC::descriptor()))
+    {
+        visit_commonmodule_ControlSPC(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("phsA", commonmodule::ControlSPC::descriptor()))
+    {
+        visit_commonmodule_ControlSPC(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("phsB", commonmodule::ControlSPC::descriptor()))
+    {
+        visit_commonmodule_ControlSPC(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("phsC", commonmodule::ControlSPC::descriptor()))
+    {
+        visit_commonmodule_ControlSPC(visitor);
         visitor.end_message_field();
     }
 }
@@ -2951,15 +3130,6 @@ void visit_commonmodule_StatusMessageInfo(IModelVisitor& visitor)
     }
 }
 
-void visit_commonmodule_StatusSPC(IModelVisitor& visitor)
-{
-    visitor.handle("q", QualityFieldType::Value::ignored);
-
-    visitor.handle("stVal", BoolFieldType::Value::mapped);
-
-    visitor.handle("t", TimestampFieldType::Value::ignored);
-}
-
 void visit_commonmodule_StatusSPS(IModelVisitor& visitor)
 {
     visitor.handle("q", QualityFieldType::Value::ignored);
@@ -3284,15 +3454,15 @@ void visit_essmodule_ESSFunction(IModelVisitor& visitor)
 
 void visit_essmodule_ESSPoint(IModelVisitor& visitor)
 {
-    if(visitor.start_message_field("blackStartEnabled", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("blackStartEnabled", commonmodule::ControlSPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC(visitor);
+        visit_commonmodule_ControlSPC(visitor);
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("frequencySetPointEnabled", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("frequencySetPointEnabled", commonmodule::ControlSPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC(visitor);
+        visit_commonmodule_ControlSPC(visitor);
         visitor.end_message_field();
     }
 
@@ -3326,21 +3496,21 @@ void visit_essmodule_ESSPoint(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("reactivePwrSetPointEnabled", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("reactivePwrSetPointEnabled", commonmodule::ControlSPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC(visitor);
+        visit_commonmodule_ControlSPC(visitor);
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("realPwrSetPointEnabled", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("realPwrSetPointEnabled", commonmodule::ControlSPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC(visitor);
+        visit_commonmodule_ControlSPC(visitor);
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("reset", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("reset", commonmodule::ControlSPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC(visitor);
+        visit_commonmodule_ControlSPC(visitor);
         visitor.end_message_field();
     }
 
@@ -3350,21 +3520,21 @@ void visit_essmodule_ESSPoint(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("syncBackToGrid", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("syncBackToGrid", commonmodule::ControlSPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC(visitor);
+        visit_commonmodule_ControlSPC(visitor);
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("transToIslndOnGridLossEnabled", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("transToIslndOnGridLossEnabled", commonmodule::ControlSPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC(visitor);
+        visit_commonmodule_ControlSPC(visitor);
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("voltageSetPointEnabled", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("voltageSetPointEnabled", commonmodule::ControlSPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC(visitor);
+        visit_commonmodule_ControlSPC(visitor);
         visitor.end_message_field();
     }
 
@@ -3373,15 +3543,15 @@ void visit_essmodule_ESSPoint(IModelVisitor& visitor)
 
 void visit_essmodule_ESSPointStatus(IModelVisitor& visitor)
 {
-    if(visitor.start_message_field("blackStartEnabled", commonmodule::StatusDPS::descriptor()))
+    if(visitor.start_message_field("blackStartEnabled", commonmodule::StatusSPS::descriptor()))
     {
-        visit_commonmodule_StatusDPS(visitor);
+        visit_commonmodule_StatusSPS(visitor);
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("frequencySetPointEnabled", commonmodule::StatusDPS::descriptor()))
+    if(visitor.start_message_field("frequencySetPointEnabled", commonmodule::StatusSPS::descriptor()))
     {
-        visit_commonmodule_StatusDPS(visitor);
+        visit_commonmodule_StatusSPS(visitor);
         visitor.end_message_field();
     }
 
@@ -3415,15 +3585,15 @@ void visit_essmodule_ESSPointStatus(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("reactivePwrSetPointEnabled", commonmodule::StatusDPS::descriptor()))
+    if(visitor.start_message_field("reactivePwrSetPointEnabled", commonmodule::StatusSPS::descriptor()))
     {
-        visit_commonmodule_StatusDPS(visitor);
+        visit_commonmodule_StatusSPS(visitor);
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("realPwrSetPointEnabled", commonmodule::StatusDPS::descriptor()))
+    if(visitor.start_message_field("realPwrSetPointEnabled", commonmodule::StatusSPS::descriptor()))
     {
-        visit_commonmodule_StatusDPS(visitor);
+        visit_commonmodule_StatusSPS(visitor);
         visitor.end_message_field();
     }
 
@@ -3433,21 +3603,21 @@ void visit_essmodule_ESSPointStatus(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("syncBackToGrid", commonmodule::StatusDPS::descriptor()))
+    if(visitor.start_message_field("syncBackToGrid", commonmodule::StatusSPS::descriptor()))
     {
-        visit_commonmodule_StatusDPS(visitor);
+        visit_commonmodule_StatusSPS(visitor);
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("transToIslndOnGridLossEnabled", commonmodule::StatusDPS::descriptor()))
+    if(visitor.start_message_field("transToIslndOnGridLossEnabled", commonmodule::StatusSPS::descriptor()))
     {
-        visit_commonmodule_StatusDPS(visitor);
+        visit_commonmodule_StatusSPS(visitor);
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("voltageSetPointEnabled", commonmodule::StatusDPS::descriptor()))
+    if(visitor.start_message_field("voltageSetPointEnabled", commonmodule::StatusSPS::descriptor()))
     {
-        visit_commonmodule_StatusDPS(visitor);
+        visit_commonmodule_StatusSPS(visitor);
         visitor.end_message_field();
     }
 }
@@ -3990,15 +4160,15 @@ void visit_generationmodule_GenerationEventZGEN(IModelVisitor& visitor)
 
 void visit_generationmodule_GenerationPoint(IModelVisitor& visitor)
 {
-    if(visitor.start_message_field("blackStartEnabled", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("blackStartEnabled", commonmodule::ControlSPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC(visitor);
+        visit_commonmodule_ControlSPC(visitor);
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("frequencySetPointEnabled", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("frequencySetPointEnabled", commonmodule::ControlSPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC(visitor);
+        visit_commonmodule_ControlSPC(visitor);
         visitor.end_message_field();
     }
 
@@ -4020,21 +4190,21 @@ void visit_generationmodule_GenerationPoint(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("reactivePwrSetPointEnabled", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("reactivePwrSetPointEnabled", commonmodule::ControlSPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC(visitor);
+        visit_commonmodule_ControlSPC(visitor);
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("realPwrSetPointEnabled", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("realPwrSetPointEnabled", commonmodule::ControlSPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC(visitor);
+        visit_commonmodule_ControlSPC(visitor);
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("reset", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("reset", commonmodule::ControlSPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC(visitor);
+        visit_commonmodule_ControlSPC(visitor);
         visitor.end_message_field();
     }
 
@@ -4044,21 +4214,21 @@ void visit_generationmodule_GenerationPoint(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("syncBackToGrid", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("syncBackToGrid", commonmodule::ControlSPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC(visitor);
+        visit_commonmodule_ControlSPC(visitor);
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("transToIslndOnGridLossEnabled", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("transToIslndOnGridLossEnabled", commonmodule::ControlSPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC(visitor);
+        visit_commonmodule_ControlSPC(visitor);
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("voltageSetPointEnabled", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("voltageSetPointEnabled", commonmodule::ControlSPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC(visitor);
+        visit_commonmodule_ControlSPC(visitor);
         visitor.end_message_field();
     }
 
@@ -4067,15 +4237,15 @@ void visit_generationmodule_GenerationPoint(IModelVisitor& visitor)
 
 void visit_generationmodule_GenerationPointStatus(IModelVisitor& visitor)
 {
-    if(visitor.start_message_field("blackStartEnabled", commonmodule::StatusDPS::descriptor()))
+    if(visitor.start_message_field("blackStartEnabled", commonmodule::StatusSPS::descriptor()))
     {
-        visit_commonmodule_StatusDPS(visitor);
+        visit_commonmodule_StatusSPS(visitor);
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("frequencySetPointEnabled", commonmodule::StatusDPS::descriptor()))
+    if(visitor.start_message_field("frequencySetPointEnabled", commonmodule::StatusSPS::descriptor()))
     {
-        visit_commonmodule_StatusDPS(visitor);
+        visit_commonmodule_StatusSPS(visitor);
         visitor.end_message_field();
     }
 
@@ -4097,15 +4267,15 @@ void visit_generationmodule_GenerationPointStatus(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("reactivePwrSetPointEnabled", commonmodule::StatusDPS::descriptor()))
+    if(visitor.start_message_field("reactivePwrSetPointEnabled", commonmodule::StatusSPS::descriptor()))
     {
-        visit_commonmodule_StatusDPS(visitor);
+        visit_commonmodule_StatusSPS(visitor);
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("realPwrSetPointEnabled", commonmodule::StatusDPS::descriptor()))
+    if(visitor.start_message_field("realPwrSetPointEnabled", commonmodule::StatusSPS::descriptor()))
     {
-        visit_commonmodule_StatusDPS(visitor);
+        visit_commonmodule_StatusSPS(visitor);
         visitor.end_message_field();
     }
 
@@ -4115,21 +4285,21 @@ void visit_generationmodule_GenerationPointStatus(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("syncBackToGrid", commonmodule::StatusDPS::descriptor()))
+    if(visitor.start_message_field("syncBackToGrid", commonmodule::StatusSPS::descriptor()))
     {
-        visit_commonmodule_StatusDPS(visitor);
+        visit_commonmodule_StatusSPS(visitor);
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("transToIslndOnGridLossEnabled", commonmodule::StatusDPS::descriptor()))
+    if(visitor.start_message_field("transToIslndOnGridLossEnabled", commonmodule::StatusSPS::descriptor()))
     {
-        visit_commonmodule_StatusDPS(visitor);
+        visit_commonmodule_StatusSPS(visitor);
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("voltageSetPointEnabled", commonmodule::StatusDPS::descriptor()))
+    if(visitor.start_message_field("voltageSetPointEnabled", commonmodule::StatusSPS::descriptor()))
     {
-        visit_commonmodule_StatusDPS(visitor);
+        visit_commonmodule_StatusSPS(visitor);
         visitor.end_message_field();
     }
 }
@@ -4185,16 +4355,6 @@ void visit_generationmodule_GenerationStatusZGEN(IModelVisitor& visitor)
     }
 }
 
-void visit_generationmodule_Optional_ReactivePowerControlKind(IModelVisitor& visitor)
-{
-    visitor.handle("value", generationmodule::ReactivePowerControlKind_descriptor(), EnumFieldType::Value::constant);
-}
-
-void visit_generationmodule_Optional_RealPowerControlKind(IModelVisitor& visitor)
-{
-    visitor.handle("value", generationmodule::RealPowerControlKind_descriptor(), EnumFieldType::Value::constant);
-}
-
 void visit_generationmodule_ReactivePowerControl(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("droopSetpoint", generationmodule::DroopParameter::descriptor()))
@@ -4209,9 +4369,9 @@ void visit_generationmodule_ReactivePowerControl(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("reactivePowerControlMode", generationmodule::Optional_ReactivePowerControlKind::descriptor()))
+    if(visitor.start_message_field("reactivePowerControlMode", commonmodule::Optional_ReactivePowerControlKind::descriptor()))
     {
-        visit_generationmodule_Optional_ReactivePowerControlKind(visitor);
+        visit_commonmodule_Optional_ReactivePowerControlKind(visitor);
         visitor.end_message_field();
     }
 
@@ -4242,9 +4402,9 @@ void visit_generationmodule_RealPowerControl(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("realPowerControlMode", generationmodule::Optional_RealPowerControlKind::descriptor()))
+    if(visitor.start_message_field("realPowerControlMode", commonmodule::Optional_RealPowerControlKind::descriptor()))
     {
-        visit_generationmodule_Optional_RealPowerControlKind(visitor);
+        visit_commonmodule_Optional_RealPowerControlKind(visitor);
         visitor.end_message_field();
     }
 
@@ -4373,21 +4533,21 @@ void visit_loadmodule_LoadPoint(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("reactivePwrSetPointEnabled", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("reactivePwrSetPointEnabled", commonmodule::ControlSPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC(visitor);
+        visit_commonmodule_ControlSPC(visitor);
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("realPwrSetPointEnabled", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("realPwrSetPointEnabled", commonmodule::ControlSPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC(visitor);
+        visit_commonmodule_ControlSPC(visitor);
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("reset", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("reset", commonmodule::ControlSPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC(visitor);
+        visit_commonmodule_ControlSPC(visitor);
         visitor.end_message_field();
     }
 
@@ -4408,21 +4568,21 @@ void visit_loadmodule_LoadPointStatus(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("reactivePwrSetPointEnabled", commonmodule::StatusDPS::descriptor()))
+    if(visitor.start_message_field("reactivePwrSetPointEnabled", commonmodule::StatusSPS::descriptor()))
     {
-        visit_commonmodule_StatusDPS(visitor);
+        visit_commonmodule_StatusSPS(visitor);
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("realPwrSetPointEnabled", commonmodule::StatusDPS::descriptor()))
+    if(visitor.start_message_field("realPwrSetPointEnabled", commonmodule::StatusSPS::descriptor()))
     {
-        visit_commonmodule_StatusDPS(visitor);
+        visit_commonmodule_StatusSPS(visitor);
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("reset", commonmodule::StatusDPS::descriptor()))
+    if(visitor.start_message_field("reset", commonmodule::StatusSPS::descriptor()))
     {
-        visit_commonmodule_StatusDPS(visitor);
+        visit_commonmodule_StatusSPS(visitor);
         visitor.end_message_field();
     }
 
@@ -4625,6 +4785,45 @@ void visit_reclosermodule_RecloserStatus(IModelVisitor& visitor)
     }
 }
 
+void visit_regulatormodule_DirectionalATCC(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("BndWid", commonmodule::PhaseAPC::descriptor()))
+    {
+        visit_commonmodule_PhaseAPC(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("CtlDlTmms", commonmodule::PhaseISC::descriptor()))
+    {
+        visit_commonmodule_PhaseISC(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("LDCR", commonmodule::PhaseAPC::descriptor()))
+    {
+        visit_commonmodule_PhaseAPC(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("LDCX", commonmodule::PhaseAPC::descriptor()))
+    {
+        visit_commonmodule_PhaseAPC(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("VolSpt", commonmodule::PhaseAPC::descriptor()))
+    {
+        visit_commonmodule_PhaseAPC(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("voltageSetPointEnabled", commonmodule::PhaseDPC::descriptor()))
+    {
+        visit_commonmodule_PhaseDPC(visitor);
+        visitor.end_message_field();
+    }
+}
+
 void visit_regulatormodule_RegulatorCSG(IModelVisitor& visitor)
 {
     {
@@ -4668,39 +4867,33 @@ void visit_regulatormodule_RegulatorControlATCC(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("BndCtr", commonmodule::ASG::descriptor()))
+    if(visitor.start_message_field("DirFwd", regulatormodule::DirectionalATCC::descriptor()))
     {
-        visit_commonmodule_ASG(visitor);
+        visit_regulatormodule_DirectionalATCC(visitor);
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("BndWid", commonmodule::ASG::descriptor()))
+    if(visitor.start_message_field("DirMode", commonmodule::Optional_DirectionModeKind::descriptor()))
     {
-        visit_commonmodule_ASG(visitor);
+        visit_commonmodule_Optional_DirectionModeKind(visitor);
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("CtlDlTmms", commonmodule::ControlING::descriptor()))
+    if(visitor.start_message_field("DirRev", regulatormodule::DirectionalATCC::descriptor()))
     {
-        visit_commonmodule_ControlING(visitor);
+        visit_regulatormodule_DirectionalATCC(visitor);
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("LDCR", commonmodule::ASG::descriptor()))
+    if(visitor.start_message_field("DirThd", commonmodule::PhaseAPC::descriptor()))
     {
-        visit_commonmodule_ASG(visitor);
+        visit_commonmodule_PhaseAPC(visitor);
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("LDCX", commonmodule::ASG::descriptor()))
+    if(visitor.start_message_field("ParOp", commonmodule::PhaseSPC::descriptor()))
     {
-        visit_commonmodule_ASG(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("ParOp", commonmodule::ControlSPC::descriptor()))
-    {
-        visit_commonmodule_ControlSPC(visitor);
+        visit_commonmodule_PhaseSPC(visitor);
         visitor.end_message_field();
     }
 
@@ -4716,21 +4909,33 @@ void visit_regulatormodule_RegulatorControlATCC(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("TapPos", commonmodule::PhaseISC::descriptor()))
+    if(visitor.start_message_field("TapOpL", commonmodule::PhaseSPC::descriptor()))
     {
-        visit_commonmodule_PhaseISC(visitor);
+        visit_commonmodule_PhaseSPC(visitor);
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("VolSpt", commonmodule::PhaseAPC::descriptor()))
+    if(visitor.start_message_field("TapOpR", commonmodule::PhaseSPC::descriptor()))
+    {
+        visit_commonmodule_PhaseSPC(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("VolLmtHi", commonmodule::PhaseAPC::descriptor()))
     {
         visit_commonmodule_PhaseAPC(visitor);
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("voltageSetPointEnabled", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("VolLmtLo", commonmodule::PhaseAPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC(visitor);
+        visit_commonmodule_PhaseAPC(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("VolLmtMode", commonmodule::Optional_VoltLimitModeKind::descriptor()))
+    {
+        visit_commonmodule_Optional_VoltLimitModeKind(visitor);
         visitor.end_message_field();
     }
 }
@@ -4830,6 +5035,36 @@ void visit_regulatormodule_RegulatorEventAndStatusATCC(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
+    if(visitor.start_message_field("BndWidHi", commonmodule::PhaseSPS::descriptor()))
+    {
+        visit_commonmodule_PhaseSPS(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("BndWidLo", commonmodule::PhaseSPS::descriptor()))
+    {
+        visit_commonmodule_PhaseSPS(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("DirCtlRev", commonmodule::PhaseSPS::descriptor()))
+    {
+        visit_commonmodule_PhaseSPS(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("DirIndt", commonmodule::PhaseSPS::descriptor()))
+    {
+        visit_commonmodule_PhaseSPS(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("DirRev", commonmodule::PhaseSPS::descriptor()))
+    {
+        visit_commonmodule_PhaseSPS(visitor);
+        visitor.end_message_field();
+    }
+
     if(visitor.start_message_field("LDCR", commonmodule::ASG::descriptor()))
     {
         visit_commonmodule_ASG(visitor);
@@ -4878,15 +5113,27 @@ void visit_regulatormodule_RegulatorEventAndStatusATCC(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
+    if(visitor.start_message_field("VolLmtHi", commonmodule::PhaseSPS::descriptor()))
+    {
+        visit_commonmodule_PhaseSPS(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("VolLmtLo", commonmodule::PhaseSPS::descriptor()))
+    {
+        visit_commonmodule_PhaseSPS(visitor);
+        visitor.end_message_field();
+    }
+
     if(visitor.start_message_field("VolSpt", commonmodule::PhaseAPC::descriptor()))
     {
         visit_commonmodule_PhaseAPC(visitor);
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("voltageSetPointEnabled", commonmodule::StatusSPC::descriptor()))
+    if(visitor.start_message_field("voltageSetPointEnabled", commonmodule::StatusSPS::descriptor()))
     {
-        visit_commonmodule_StatusSPC(visitor);
+        visit_commonmodule_StatusSPS(visitor);
         visitor.end_message_field();
     }
 }
@@ -4923,6 +5170,12 @@ void visit_regulatormodule_RegulatorReading(IModelVisitor& visitor)
     }
 
     if(visitor.start_message_field("readingMMXU", commonmodule::ReadingMMXU::descriptor()))
+    {
+        visit_commonmodule_ReadingMMXU(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("secondaryReadingMMXU", commonmodule::ReadingMMXU::descriptor()))
     {
         visit_commonmodule_ReadingMMXU(visitor);
         visitor.end_message_field();
@@ -5404,9 +5657,9 @@ void visit_solarmodule_SolarInverter(IModelVisitor& visitor)
 
 void visit_solarmodule_SolarPoint(IModelVisitor& visitor)
 {
-    if(visitor.start_message_field("frequencySetPointEnabled", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("frequencySetPointEnabled", commonmodule::ControlSPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC(visitor);
+        visit_commonmodule_ControlSPC(visitor);
         visitor.end_message_field();
     }
 
@@ -5434,21 +5687,21 @@ void visit_solarmodule_SolarPoint(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("reactivePwrSetPointEnabled", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("reactivePwrSetPointEnabled", commonmodule::ControlSPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC(visitor);
+        visit_commonmodule_ControlSPC(visitor);
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("realPwrSetPointEnabled", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("realPwrSetPointEnabled", commonmodule::ControlSPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC(visitor);
+        visit_commonmodule_ControlSPC(visitor);
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("reset", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("reset", commonmodule::ControlSPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC(visitor);
+        visit_commonmodule_ControlSPC(visitor);
         visitor.end_message_field();
     }
 
@@ -5458,9 +5711,9 @@ void visit_solarmodule_SolarPoint(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("voltageSetPointEnabled", commonmodule::ControlDPC::descriptor()))
+    if(visitor.start_message_field("voltageSetPointEnabled", commonmodule::ControlSPC::descriptor()))
     {
-        visit_commonmodule_ControlDPC(visitor);
+        visit_commonmodule_ControlSPC(visitor);
         visitor.end_message_field();
     }
 
@@ -5469,9 +5722,9 @@ void visit_solarmodule_SolarPoint(IModelVisitor& visitor)
 
 void visit_solarmodule_SolarPointStatus(IModelVisitor& visitor)
 {
-    if(visitor.start_message_field("frequencySetPointEnabled", commonmodule::StatusDPS::descriptor()))
+    if(visitor.start_message_field("frequencySetPointEnabled", commonmodule::StatusSPS::descriptor()))
     {
-        visit_commonmodule_StatusDPS(visitor);
+        visit_commonmodule_StatusSPS(visitor);
         visitor.end_message_field();
     }
 
@@ -5499,15 +5752,15 @@ void visit_solarmodule_SolarPointStatus(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("reactivePwrSetPointEnabled", commonmodule::StatusDPS::descriptor()))
+    if(visitor.start_message_field("reactivePwrSetPointEnabled", commonmodule::StatusSPS::descriptor()))
     {
-        visit_commonmodule_StatusDPS(visitor);
+        visit_commonmodule_StatusSPS(visitor);
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("realPwrSetPointEnabled", commonmodule::StatusDPS::descriptor()))
+    if(visitor.start_message_field("realPwrSetPointEnabled", commonmodule::StatusSPS::descriptor()))
     {
-        visit_commonmodule_StatusDPS(visitor);
+        visit_commonmodule_StatusSPS(visitor);
         visitor.end_message_field();
     }
 
@@ -5517,9 +5770,9 @@ void visit_solarmodule_SolarPointStatus(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("voltageSetPointEnabled", commonmodule::StatusDPS::descriptor()))
+    if(visitor.start_message_field("voltageSetPointEnabled", commonmodule::StatusSPS::descriptor()))
     {
-        visit_commonmodule_StatusDPS(visitor);
+        visit_commonmodule_StatusSPS(visitor);
         visitor.end_message_field();
     }
 }

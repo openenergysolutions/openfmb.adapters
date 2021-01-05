@@ -159,6 +159,12 @@ void convert_to_proto(const twinoaks::capbankmodule::CapBankPoint& in, capbankmo
 
 void convert_to_proto(const twinoaks::capbankmodule::CapBankControlYPSH& in, capbankmodule::CapBankControlYPSH& out);
 
+void convert_to_proto(const twinoaks::commonmodule::PhaseSPC& in, commonmodule::PhaseSPC& out);
+
+void convert_to_proto(const twinoaks::commonmodule::PhaseAPC& in, commonmodule::PhaseAPC& out);
+
+void convert_to_proto(const twinoaks::commonmodule::ControlAPC& in, commonmodule::ControlAPC& out);
+
 void convert_to_proto(const twinoaks::capbankmodule::CapBankSystem& in, capbankmodule::CapBankSystem& out);
 
 void convert_to_proto(const twinoaks::capbankmodule::CapBankDiscreteControl& in, capbankmodule::CapBankDiscreteControl& out);
@@ -307,17 +313,11 @@ void convert_to_proto(const twinoaks::regulatormodule::RegulatorDiscreteControl&
 
 void convert_to_proto(const twinoaks::regulatormodule::RegulatorControlATCC& in, regulatormodule::RegulatorControlATCC& out);
 
-void convert_to_proto(const twinoaks::commonmodule::ASG& in, commonmodule::ASG& out);
-
-void convert_to_proto(const twinoaks::commonmodule::ControlING& in, commonmodule::ControlING& out);
+void convert_to_proto(const twinoaks::regulatormodule::DirectionalATCC& in, regulatormodule::DirectionalATCC& out);
 
 void convert_to_proto(const twinoaks::commonmodule::PhaseISC& in, commonmodule::PhaseISC& out);
 
 void convert_to_proto(const twinoaks::commonmodule::ControlISC& in, commonmodule::ControlISC& out);
-
-void convert_to_proto(const twinoaks::commonmodule::PhaseAPC& in, commonmodule::PhaseAPC& out);
-
-void convert_to_proto(const twinoaks::commonmodule::ControlAPC& in, commonmodule::ControlAPC& out);
 
 void convert_to_proto(const twinoaks::regulatormodule::RegulatorSystem& in, regulatormodule::RegulatorSystem& out);
 
@@ -337,11 +337,11 @@ void convert_to_proto(const twinoaks::regulatormodule::RegulatorEventAndStatusAN
 
 void convert_to_proto(const twinoaks::regulatormodule::RegulatorEventAndStatusATCC& in, regulatormodule::RegulatorEventAndStatusATCC& out);
 
+void convert_to_proto(const twinoaks::commonmodule::ASG& in, commonmodule::ASG& out);
+
 void convert_to_proto(const twinoaks::commonmodule::StatusINC& in, commonmodule::StatusINC& out);
 
 void convert_to_proto(const twinoaks::commonmodule::PhaseINS& in, commonmodule::PhaseINS& out);
-
-void convert_to_proto(const twinoaks::commonmodule::StatusSPC& in, commonmodule::StatusSPC& out);
 
 void convert_to_proto(const twinoaks::regulatormodule::RegulatorReading& in, regulatormodule::RegulatorReading& out);
 
@@ -1685,7 +1685,72 @@ void convert_to_proto(const twinoaks::capbankmodule::CapBankControlYPSH& in, cap
 {
     out.Clear();
 
+    if(in.AmpLmt) convert_to_proto(*in.AmpLmt, *out.mutable_amplmt());
+
+    if(in.AmpThdHi) convert_to_proto(*in.AmpThdHi, *out.mutable_ampthdhi());
+
+    if(in.AmpThdLo) convert_to_proto(*in.AmpThdLo, *out.mutable_ampthdlo());
+
+    if(in.CtlModeAuto) convert_to_proto(*in.CtlModeAuto, *out.mutable_ctlmodeauto());
+
+    if(in.CtlModeOvrRd) convert_to_proto(*in.CtlModeOvrRd, *out.mutable_ctlmodeovrrd());
+
+    if(in.CtlModeRem) convert_to_proto(*in.CtlModeRem, *out.mutable_ctlmoderem());
+
+    if(in.DirMode) out.mutable_dirmode()->set_value(static_cast<commonmodule::DirectionModeKind>(*in.DirMode));  // wrapped optional enum
+
     if(in.Pos) convert_to_proto(*in.Pos, *out.mutable_pos());
+
+    if(in.TempLmt) convert_to_proto(*in.TempLmt, *out.mutable_templmt());
+
+    if(in.TempThdHi) convert_to_proto(*in.TempThdHi, *out.mutable_tempthdhi());
+
+    if(in.TempThdLo) convert_to_proto(*in.TempThdLo, *out.mutable_tempthdlo());
+
+    if(in.VArLmt) convert_to_proto(*in.VArLmt, *out.mutable_varlmt());
+
+    if(in.VArThdHi) convert_to_proto(*in.VArThdHi, *out.mutable_varthdhi());
+
+    if(in.VArThdLo) convert_to_proto(*in.VArThdLo, *out.mutable_varthdlo());
+
+    if(in.VolLmt) convert_to_proto(*in.VolLmt, *out.mutable_vollmt());
+
+    if(in.VolThdHi) convert_to_proto(*in.VolThdHi, *out.mutable_volthdhi());
+
+    if(in.VolThdLo) convert_to_proto(*in.VolThdLo, *out.mutable_volthdlo());
+}
+
+void convert_to_proto(const twinoaks::commonmodule::PhaseSPC& in, commonmodule::PhaseSPC& out)
+{
+    out.Clear();
+
+    if(in.phs3) convert_to_proto(*in.phs3, *out.mutable_phs3());
+
+    if(in.phsA) convert_to_proto(*in.phsA, *out.mutable_phsa());
+
+    if(in.phsB) convert_to_proto(*in.phsB, *out.mutable_phsb());
+
+    if(in.phsC) convert_to_proto(*in.phsC, *out.mutable_phsc());
+}
+
+void convert_to_proto(const twinoaks::commonmodule::PhaseAPC& in, commonmodule::PhaseAPC& out)
+{
+    out.Clear();
+
+    if(in.phs3) convert_to_proto(*in.phs3, *out.mutable_phs3());
+
+    if(in.phsA) convert_to_proto(*in.phsA, *out.mutable_phsa());
+
+    if(in.phsB) convert_to_proto(*in.phsB, *out.mutable_phsb());
+
+    if(in.phsC) convert_to_proto(*in.phsC, *out.mutable_phsc());
+}
+
+void convert_to_proto(const twinoaks::commonmodule::ControlAPC& in, commonmodule::ControlAPC& out)
+{
+    out.Clear();
+
+    out.set_ctlval(in.ctlVal);
 }
 
 void convert_to_proto(const twinoaks::capbankmodule::CapBankSystem& in, capbankmodule::CapBankSystem& out)
@@ -1712,7 +1777,7 @@ void convert_to_proto(const twinoaks::capbankmodule::CapBankDiscreteControlYPSH&
 
     convert_to_proto(in, *out.mutable_logicalnodeforcontrol()); // inherited type
 
-    if(in.Pos) convert_to_proto(*in.Pos, *out.mutable_pos());
+    if(in.control) convert_to_proto(*in.control, *out.mutable_control());
 }
 
 void convert_to_proto(const twinoaks::capbankmodule::CapBankEvent& in, capbankmodule::CapBankEvent& out)
@@ -1730,9 +1795,21 @@ void convert_to_proto(const twinoaks::capbankmodule::CapBankEventAndStatusYPSH& 
 
     convert_to_proto(in, *out.mutable_logicalnodeforeventandstatus()); // inherited type
 
+    if(in.AmpLmt) convert_to_proto(*in.AmpLmt, *out.mutable_amplmt());
+
+    if(in.CtlMode) out.mutable_ctlmode()->set_value(static_cast<commonmodule::ControlModeKind>(*in.CtlMode));  // wrapped optional enum
+
+    if(in.DirRev) convert_to_proto(*in.DirRev, *out.mutable_dirrev());
+
     if(in.DynamicTest) convert_to_proto(*in.DynamicTest, *out.mutable_dynamictest());
 
     if(in.Pos) convert_to_proto(*in.Pos, *out.mutable_pos());
+
+    if(in.TempLmt) convert_to_proto(*in.TempLmt, *out.mutable_templmt());
+
+    if(in.VArLmt) convert_to_proto(*in.VArLmt, *out.mutable_varlmt());
+
+    if(in.VolLmt) convert_to_proto(*in.VolLmt, *out.mutable_vollmt());
 }
 
 void convert_to_proto(const twinoaks::capbankmodule::CapBankReading& in, capbankmodule::CapBankReading& out)
@@ -1746,6 +1823,8 @@ void convert_to_proto(const twinoaks::capbankmodule::CapBankReading& in, capbank
     if(in.readingMMTR) convert_to_proto(*in.readingMMTR, *out.mutable_readingmmtr());
 
     if(in.readingMMXU) convert_to_proto(*in.readingMMXU, *out.mutable_readingmmxu());
+
+    if(in.secondaryReadingMMXU) convert_to_proto(*in.secondaryReadingMMXU, *out.mutable_secondaryreadingmmxu());
 }
 
 void convert_to_proto(const twinoaks::capbankmodule::CapBankStatus& in, capbankmodule::CapBankStatus& out)
@@ -2225,7 +2304,7 @@ void convert_to_proto(const twinoaks::generationmodule::ReactivePowerControl& in
 
     if(in.powerFactorSetpoint) out.mutable_powerfactorsetpoint()->set_value(*in.powerFactorSetpoint);
 
-    if(in.reactivePowerControlMode) out.mutable_reactivepowercontrolmode()->set_value(static_cast<generationmodule::ReactivePowerControlKind>(*in.reactivePowerControlMode));  // wrapped optional enum
+    if(in.reactivePowerControlMode) out.mutable_reactivepowercontrolmode()->set_value(static_cast<commonmodule::ReactivePowerControlKind>(*in.reactivePowerControlMode));  // wrapped optional enum
 
     if(in.reactivePowerSetpoint) out.mutable_reactivepowersetpoint()->set_value(*in.reactivePowerSetpoint);
 
@@ -2249,7 +2328,7 @@ void convert_to_proto(const twinoaks::generationmodule::RealPowerControl& in, ge
 
     if(in.isochronousSetpoint) out.mutable_isochronoussetpoint()->set_value(*in.isochronousSetpoint);
 
-    if(in.realPowerControlMode) out.mutable_realpowercontrolmode()->set_value(static_cast<generationmodule::RealPowerControlKind>(*in.realPowerControlMode));  // wrapped optional enum
+    if(in.realPowerControlMode) out.mutable_realpowercontrolmode()->set_value(static_cast<commonmodule::RealPowerControlKind>(*in.realPowerControlMode));  // wrapped optional enum
 
     if(in.realPowerSetpoint) out.mutable_realpowersetpoint()->set_value(*in.realPowerSetpoint);
 }
@@ -2578,7 +2657,34 @@ void convert_to_proto(const twinoaks::regulatormodule::RegulatorControlATCC& in,
 
     convert_to_proto(in, *out.mutable_logicalnodeforcontrol()); // inherited type
 
-    if(in.BndCtr) convert_to_proto(*in.BndCtr, *out.mutable_bndctr());
+    if(in.DirFwd) convert_to_proto(*in.DirFwd, *out.mutable_dirfwd());
+
+    if(in.DirMode) out.mutable_dirmode()->set_value(static_cast<commonmodule::DirectionModeKind>(*in.DirMode));  // wrapped optional enum
+
+    if(in.DirRev) convert_to_proto(*in.DirRev, *out.mutable_dirrev());
+
+    if(in.DirThd) convert_to_proto(*in.DirThd, *out.mutable_dirthd());
+
+    if(in.ParOp) convert_to_proto(*in.ParOp, *out.mutable_parop());
+
+    if(in.rampRates) convert_to_proto(*in.rampRates, *out.mutable_ramprates());
+
+    if(in.state) out.mutable_state()->set_value(static_cast<commonmodule::StateKind>(*in.state));  // wrapped optional enum
+
+    if(in.TapOpL) convert_to_proto(*in.TapOpL, *out.mutable_tapopl());
+
+    if(in.TapOpR) convert_to_proto(*in.TapOpR, *out.mutable_tapopr());
+
+    if(in.VolLmtHi) convert_to_proto(*in.VolLmtHi, *out.mutable_vollmthi());
+
+    if(in.VolLmtLo) convert_to_proto(*in.VolLmtLo, *out.mutable_vollmtlo());
+
+    if(in.VolLmtMode) out.mutable_vollmtmode()->set_value(static_cast<commonmodule::VoltLimitModeKind>(*in.VolLmtMode));  // wrapped optional enum
+}
+
+void convert_to_proto(const twinoaks::regulatormodule::DirectionalATCC& in, regulatormodule::DirectionalATCC& out)
+{
+    out.Clear();
 
     if(in.BndWid) convert_to_proto(*in.BndWid, *out.mutable_bndwid());
 
@@ -2588,35 +2694,9 @@ void convert_to_proto(const twinoaks::regulatormodule::RegulatorControlATCC& in,
 
     if(in.LDCX) convert_to_proto(*in.LDCX, *out.mutable_ldcx());
 
-    if(in.ParOp) convert_to_proto(*in.ParOp, *out.mutable_parop());
-
-    if(in.rampRates) convert_to_proto(*in.rampRates, *out.mutable_ramprates());
-
-    if(in.state) out.mutable_state()->set_value(static_cast<commonmodule::StateKind>(*in.state));  // wrapped optional enum
-
-    if(in.TapPos) convert_to_proto(*in.TapPos, *out.mutable_tappos());
-
     if(in.VolSpt) convert_to_proto(*in.VolSpt, *out.mutable_volspt());
 
     if(in.voltageSetPointEnabled) convert_to_proto(*in.voltageSetPointEnabled, *out.mutable_voltagesetpointenabled());
-}
-
-void convert_to_proto(const twinoaks::commonmodule::ASG& in, commonmodule::ASG& out)
-{
-    out.Clear();
-
-    out.set_setmag(in.setMag);
-
-    if(in.units) convert_to_proto(*in.units, *out.mutable_units());
-}
-
-void convert_to_proto(const twinoaks::commonmodule::ControlING& in, commonmodule::ControlING& out)
-{
-    out.Clear();
-
-    out.set_setval(in.setVal);
-
-    if(in.units) convert_to_proto(*in.units, *out.mutable_units());
 }
 
 void convert_to_proto(const twinoaks::commonmodule::PhaseISC& in, commonmodule::PhaseISC& out)
@@ -2633,26 +2713,6 @@ void convert_to_proto(const twinoaks::commonmodule::PhaseISC& in, commonmodule::
 }
 
 void convert_to_proto(const twinoaks::commonmodule::ControlISC& in, commonmodule::ControlISC& out)
-{
-    out.Clear();
-
-    out.set_ctlval(in.ctlVal);
-}
-
-void convert_to_proto(const twinoaks::commonmodule::PhaseAPC& in, commonmodule::PhaseAPC& out)
-{
-    out.Clear();
-
-    if(in.phs3) convert_to_proto(*in.phs3, *out.mutable_phs3());
-
-    if(in.phsA) convert_to_proto(*in.phsA, *out.mutable_phsa());
-
-    if(in.phsB) convert_to_proto(*in.phsB, *out.mutable_phsb());
-
-    if(in.phsC) convert_to_proto(*in.phsC, *out.mutable_phsc());
-}
-
-void convert_to_proto(const twinoaks::commonmodule::ControlAPC& in, commonmodule::ControlAPC& out)
 {
     out.Clear();
 
@@ -2740,6 +2800,16 @@ void convert_to_proto(const twinoaks::regulatormodule::RegulatorEventAndStatusAT
 
     if(in.BndWid) convert_to_proto(*in.BndWid, *out.mutable_bndwid());
 
+    if(in.BndWidHi) convert_to_proto(*in.BndWidHi, *out.mutable_bndwidhi());
+
+    if(in.BndWidLo) convert_to_proto(*in.BndWidLo, *out.mutable_bndwidlo());
+
+    if(in.DirCtlRev) convert_to_proto(*in.DirCtlRev, *out.mutable_dirctlrev());
+
+    if(in.DirIndt) convert_to_proto(*in.DirIndt, *out.mutable_dirindt());
+
+    if(in.DirRev) convert_to_proto(*in.DirRev, *out.mutable_dirrev());
+
     if(in.LDCR) convert_to_proto(*in.LDCR, *out.mutable_ldcr());
 
     if(in.LDCX) convert_to_proto(*in.LDCX, *out.mutable_ldcx());
@@ -2756,9 +2826,20 @@ void convert_to_proto(const twinoaks::regulatormodule::RegulatorEventAndStatusAT
 
     if(in.TapPos) convert_to_proto(*in.TapPos, *out.mutable_tappos());
 
+    if(in.VolLmtHi) convert_to_proto(*in.VolLmtHi, *out.mutable_vollmthi());
+
+    if(in.VolLmtLo) convert_to_proto(*in.VolLmtLo, *out.mutable_vollmtlo());
+
     if(in.VolSpt) convert_to_proto(*in.VolSpt, *out.mutable_volspt());
 
     if(in.voltageSetPointEnabled) convert_to_proto(*in.voltageSetPointEnabled, *out.mutable_voltagesetpointenabled());
+}
+
+void convert_to_proto(const twinoaks::commonmodule::ASG& in, commonmodule::ASG& out)
+{
+    out.Clear();
+
+    out.set_setmag(in.setMag);
 }
 
 void convert_to_proto(const twinoaks::commonmodule::StatusINC& in, commonmodule::StatusINC& out)
@@ -2785,17 +2866,6 @@ void convert_to_proto(const twinoaks::commonmodule::PhaseINS& in, commonmodule::
     if(in.phsC) convert_to_proto(*in.phsC, *out.mutable_phsc());
 }
 
-void convert_to_proto(const twinoaks::commonmodule::StatusSPC& in, commonmodule::StatusSPC& out)
-{
-    out.Clear();
-
-    if(in.q) convert_to_proto(*in.q, *out.mutable_q());
-
-    out.set_stval(in.stVal);
-
-    if(in.t) convert_to_proto(*in.t, *out.mutable_t());
-}
-
 void convert_to_proto(const twinoaks::regulatormodule::RegulatorReading& in, regulatormodule::RegulatorReading& out)
 {
     out.Clear();
@@ -2807,6 +2877,8 @@ void convert_to_proto(const twinoaks::regulatormodule::RegulatorReading& in, reg
     if(in.readingMMTR) convert_to_proto(*in.readingMMTR, *out.mutable_readingmmtr());
 
     if(in.readingMMXU) convert_to_proto(*in.readingMMXU, *out.mutable_readingmmxu());
+
+    if(in.secondaryReadingMMXU) convert_to_proto(*in.secondaryReadingMMXU, *out.mutable_secondaryreadingmmxu());
 }
 
 void convert_to_proto(const twinoaks::regulatormodule::RegulatorStatus& in, regulatormodule::RegulatorStatus& out)
