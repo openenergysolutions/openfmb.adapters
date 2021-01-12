@@ -159,12 +159,26 @@ namespace master {
                         else
                         {
                             dword = DoubleWord::get(ser4cpp::SingleFloat::to_uint32(util::yaml::require(node, util::keys::value).as<float>()));
+                        } 
+
+                        uint16_t start = lower_index;
+                        std::vector<uint16_t> values;
+
+                        if (lower_index > upper_index) {
+                            start = upper_index;
+                            values.push_back(dword.upper);
+                            values.push_back(dword.lower);                            
+                        }
+                        else {
+                            values.push_back(dword.lower);
+                            values.push_back(dword.upper);
                         }
 
                         actions.push_back(
-                            [upper_index, lower_index, priority, dword](ICommandSink& sink) {
-                                sink.write_single_register(lower_index, priority, dword.lower);
-                                sink.write_single_register(upper_index, priority, dword.upper);
+                            [start, priority, dword, values](ICommandSink& sink) {
+                                sink.write_multiple_registers(start, priority, values);
+                                //sink.write_single_register(lower_index, priority, dword.lower);
+                                //sink.write_single_register(upper_index, priority, dword.upper);                                
                             });
 
                         break;

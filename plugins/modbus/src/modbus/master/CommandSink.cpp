@@ -55,6 +55,15 @@ namespace master {
             priority);
     }
 
+    void CommandSink::write_multiple_registers(uint16_t start_index, size_t priority, std::vector<uint16_t> values)
+    {
+        this->transactions.emplace_back(
+            [start_index, values](api::Logger logger) -> std::shared_ptr<ITransaction> {
+                return std::make_shared<WriteMultipleRegistersTransaction>(logger, start_index, values);
+            },
+            priority);
+    }
+
     void CommandSink::modify_single_register(uint16_t index, size_t priority, modify_reg_op_t operation)
     {
         this->modify_map[key_t(index, priority)].push_back(std::move(operation));

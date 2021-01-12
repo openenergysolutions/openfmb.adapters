@@ -26,6 +26,7 @@ namespace master {
         void flip_single_coil(uint16_t index, size_t priority) override;
 
         void write_single_register(uint16_t index, size_t priority, uint16_t value) override;
+        void write_multiple_registers(uint16_t start_index, size_t priority, std::vector<uint16_t> values) override;
         void modify_single_register(uint16_t index, size_t priority, modify_reg_op_t operation) override;
 
         std::shared_ptr<ITransaction> try_get_transaction(std::string name, api::Logger logger) const;
