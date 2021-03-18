@@ -16,7 +16,7 @@ in
     name = "openfmb.adapter-${cpu_arch}-${abi}-${version}";
     tag = tag;
     contents = adapter;
-    config.Cmd = ["/bin/openfmb-adapter"];
+    config.Entrypoint = ["/bin/openfmb-adapter"];
   };
   adapter = adapter;
 }
