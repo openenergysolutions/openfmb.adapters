@@ -13,7 +13,7 @@ gitignoreSrc = pkgs.fetchFromGitHub {
   };
   inherit (import gitignoreSrc { inherit (pkgs) lib; }) gitignoreSource;
 in
-pkgs.callPackage ({cmake, protobuf3_6, openssl, libpcap, boost166, asio, spdlog, catch2, deps }: pkgs.stdenv.mkDerivation {
+pkgs.callPackage ({ninja, cmake, protobuf3_6, openssl, libpcap, boost166, asio, spdlog, catch2, deps }: pkgs.stdenv.mkDerivation {
   pname = "adapter";
   version = "2.1";
   src = if pkgs.lib.inNixShell then null else gitignoreSource ./.;
@@ -21,6 +21,7 @@ pkgs.callPackage ({cmake, protobuf3_6, openssl, libpcap, boost166, asio, spdlog,
 
   nativeBuildInputs = [
     cmake
+    ninja
     protobuf3_6
   ];
 

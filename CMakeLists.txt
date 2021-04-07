@@ -2,7 +2,7 @@ cmake_minimum_required (VERSION 3.12)
 project (openfmb-adapter)
 set(OPENFMB_ADAPTER_VERSION 0.0.1)
 
-option(OPENFMB_USE_CONAN "Use the conan package manager" ON)
+option(OPENFMB_USE_CONAN "Use the conan package manager" OFF)
 
 option(OPENFMB_VENDORED_DEPS "Use CMake's FetchContent to fetch, build, and vendor deps" OFF)
 
@@ -34,7 +34,7 @@ endif()
 # optionally disable certain plugins
 option(OPENFMB_USE_DNP3 "Build the DNP3 plugin" ${BUILD_BY_DEFAULT})
 option(OPENFMB_USE_MODBUS "Build the Modbus plugin" ${BUILD_BY_DEFAULT})
-option(OPENFMB_USE_GOOSE "Build the GOOSE plugin" ${BUILD_BY_DEFAULT})
+option(OPENFMB_USE_GOOSE "Build the GOOSE plugin" OFF)
 option(OPENFMB_USE_MQTT "Build the MQTT plugin" ${BUILD_BY_DEFAULT})
 option(OPENFMB_USE_NATS "Build the NATS plugin" ${BUILD_BY_DEFAULT})
 option(OPENFMB_USE_TIMESCALEDB "Build the historian using TimescaleDB" ${BUILD_BY_DEFAULT})

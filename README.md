@@ -18,56 +18,68 @@ If developing, directly clone from the develop branch:
 > git clone --branch develop --recursive https://github.com/openenergysolutions/openfmb.adapters.git
 ```
 
-# Dependencies
+# Building
 
-## Building with Conan
+The openfmb.adapters project uses cmake to locate dependencies, determine
+which plugins are built into the binary, and generate the appropriate files
+for the build tool (ninja, make, visual studio).
 
-The build defaults to using the [conan](https://conan.io/) package manager. This
-greatly simplifies the build process on Windows.
+This requires that the dependencies be in a place where CMake is looking.
 
-You can install it using python pip:
+To do this in a highly repeatable way, with cross compiling support, Nix is
+the preferred way.
 
-```
-> pip install conan
-```
+## Building Docker Images with Nix
 
-Edit your default Conan profile to tell it to explicitly use C++11 standard
-library.
+Simply building docker images may be done at any time, for all supported architectures
+by running
 
-```
-> conan profile new default --detect && conan profile update settings.compiler.libcxx=libstdc++11 default
-```
-
-Then, inside a `build` directory, install the dependencies:
-
-```
-> conan install .. --build=missing
+``` sh
+nix build all.nix
 ```
 
-This can take a long time the first time it runs on your system.
+This produces several static links to .tar.gz files holding docker images in the
+current director. To see what they link to 
 
-## Building without Conan
-
-If you don't want to use Conan, you can configure CMake as follows:
-
-```
-> cmake -DOPENFMB_USE_CONAN=OFF
+``` sh
+ls -alh default*
 ```
 
-You'll have to use your system package manager to install boost / yaml-cpp /
-libpcap / etc, or install these packages via manual builds.
+This should give you a good sense of which architecture each docker image
+is for.
 
-## RTI DDS
 
-To compile the RTI DDS plugin, an installation of the 6.0.0 version of RTI
-library must be installed on the system. It can be found
-[here](http://www.rti.com/downloads/connext-files.html).
+## Building local executable
 
-You can also specify the following variables to help CMake find the
-installation:
+To build only the project itself and get a non-portable executable which
+depends on the local /nix repository.
 
-- `CONNEXTDDS_DIR`: "D:/Desktop/rti-dds-libs"
-- `CONNEXTDDS_ARCH`: "x64Win64VS2017"
+``` sh
+nix build
+cd default
+./openfmb.adapters --help
+```
+
+Notably this executable *cannot* simply be copied as its not fully statically
+linked. This may change in the future.
+
+# Developing
+
+To obtain a bash shell with nix and all required dependencies
+which you can build the project from is very simple with nix.
+
+``` sh
+nix-shell --pure
+mkdir build
+cd build
+cmake -GNinja ..
+ninja
+```
+
+Please note the --pure argument to nix-shell removes your local machine
+paths so your local tooling is unavailable in this shell. You can create
+a custom developer shell for yourself using the instructions here
+https://nixos.wiki/wiki/Development_environment_with_nix-shell
 
 ## Codegen
 
@@ -80,6 +92,18 @@ In the codegen directory
 mvn compile
 mvn exec:java -Dexec.mainClass="com.oes.openfmb.Main
 ```
+
+## RTI DDS
+
+To compile the RTI DDS plugin, an installation of the 6.0.0 version of RTI
+library must be installed on the system. It can be found
+[here](http://www.rti.com/downloads/connext-files.html).
+
+You can also specify the following variables to help CMake find the
+installation:
+
+- `CONNEXTDDS_DIR`: "D:/Desktop/rti-dds-libs"
+- `CONNEXTDDS_ARCH`: "x64Win64VS2017"
 
 # CMake
 
@@ -97,7 +121,7 @@ Plugins can be optionally enabled or disabled:
 - `-DOPENFMB_USE_TWINOAKS_DDS={OFF|ON}`  (off by default)
 - `-DOPENFMB_USE_RTI_DDS={OFF|ON}`  (off by default)
 - `-DOPENFMB_USE_MODBUS={OFF|ON}`
-- `-DOPENFMB_USE_GOOSE={OFF|ON}`
+- `-DOPENFMB_USE_GOOSE={OFF|ON}` (off by default, not a complete goose implementation)
 - `-DOPENFMB_USE_NATS={OFF|ON}`
 - `-DOPENFMB_USE_TWINOAKS_DDS={OFF|ON}`
 - `-DOPENFMB_USE_TIMESCALEDB={OFF|ON}`
@@ -107,4 +131,4 @@ You can then run your build using the build file created by cmake
 # Docker
 
 Docker builds for various distributions and architectures can be found in [this
-repo](https://github.com/openenergysolutions/openfmb.adapters.docker).
+repo](https://github.com/openenergysolutions/openfmb.adapters).
