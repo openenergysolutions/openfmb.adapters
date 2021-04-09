@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2021 Open Energy Solutions Inc
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 # Nix for OpenFMB Adapter
 
 This directory contains a number of nix (https://nixos.org) files and expressions that describe

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2021 Open Energy Solutions Inc
+//
+// SPDX-License-Identifier: Apache-2.0
+
 #include "modbus/outstation/PluginFactory.h"
 
 #include <adapter-util/ConfigStrings.h>

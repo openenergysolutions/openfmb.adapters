@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2021 Open Energy Solutions Inc
+#
+# SPDX-License-Identifier: Apache-2.0
+
 { target ? "x86_64-unknown-linux-musl",
   target-pkgs ? (import ./nix/nixpkgs.nix {
     crossSystem = {

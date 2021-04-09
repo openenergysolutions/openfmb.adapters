@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2021 Open Energy Solutions Inc
+//
+// SPDX-License-Identifier: Apache-2.0
+
 #include "adapter-util/config/DefaultConfigWriter.h"
 
 using namespace adapter::schema;

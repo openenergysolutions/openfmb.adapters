@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2021 Open Energy Solutions Inc
+#
+# SPDX-License-Identifier: Apache-2.0
+
 set(TEST_SOURCES main.cpp
                  test_double_word.cpp
                  test_poll_handler.cpp

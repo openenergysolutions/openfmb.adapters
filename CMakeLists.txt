@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2021 Open Energy Solutions Inc
+#
+# SPDX-License-Identifier: Apache-2.0
+
 cmake_minimum_required (VERSION 3.12)
 project (openfmb-adapter)
 set(OPENFMB_ADAPTER_VERSION 0.0.1)

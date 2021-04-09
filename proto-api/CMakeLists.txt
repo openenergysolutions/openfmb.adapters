@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2021 Open Energy Solutions Inc
+#
+# SPDX-License-Identifier: Apache-2.0
+
 set(Protobuf_USE_STATIC_LIBS TRUE)
 
 # find protoc in in PATH only before looking for the package, fixes cross compile

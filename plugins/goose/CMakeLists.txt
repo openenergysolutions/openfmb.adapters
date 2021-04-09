@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2021 Open Energy Solutions Inc
+#
+# SPDX-License-Identifier: Apache-2.0
+
 set(goose_public_headers
     ./include/goose/PublishingPluginFactory.h
     ./include/goose/SubscribingPluginFactory.h

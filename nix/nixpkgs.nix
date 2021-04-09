@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2021 Open Energy Solutions Inc
+#
+# SPDX-License-Identifier: Apache-2.0
+
 import (builtins.fetchTarball {
   # Descriptive name to make the store path easier to identify
   name = "nixos-20.09-oes";

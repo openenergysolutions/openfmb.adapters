@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2021 Open Energy Solutions Inc
+//
+// SPDX-License-Identifier: Apache-2.0
+
 #include "adapter-util/config/generated/ModelVisitors.h"
 
 #include "reclosermodule/reclosermodule.pb.h"

@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2021 Open Energy Solutions Inc
+#
+# SPDX-License-Identifier: Apache-2.0
+
 set(DNP3_PUBLIC_HEADERS
         include/dnp3/master/PluginFactory.h
         include/dnp3/outstation/PluginFactory.h

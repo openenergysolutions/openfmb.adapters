@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2021 Open Energy Solutions Inc
+#
+# SPDX-License-Identifier: Apache-2.0
 
 if(OPENFMB_LINK_STATIC)
 	find_library(NATS_LIB nats_static)

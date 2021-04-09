@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2021 Open Energy Solutions Inc
+#
+# SPDX-License-Identifier: Apache-2.0
+
 # Find RTI DDS dependency
 if(NOT DEFINED CONNEXTDDS_DIR)	
     message(FATAL_ERROR "You must define CONNEXTDDS_DIR when configuring CMake or via environment")
