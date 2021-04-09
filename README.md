@@ -57,7 +57,7 @@ is for.
 
 ## Building local executable
 
-To build only the project itself and get a non-portable executable which
+To build only the project itself and get an executable which
 depends on the local /nix repository.
 
 ``` sh
@@ -66,8 +66,13 @@ cd default
 ./openfmb.adapters --help
 ```
 
-Notably this executable *cannot* simply be copied as its not fully statically
-linked. This may change in the future.
+Rebuilding with nix is inefficient for development and a better method using
+nix-shell is given below for incremental builds and development.
+
+Also notable is that this executable *cannot* simply be copied from one
+machine to another as its not fully statically linked. However it should be
+portable on the same machine as the linked library paths are fixed to the nix
+store located in /nix.
 
 # Developing
 
@@ -89,6 +94,12 @@ https://nixos.wiki/wiki/Development_environment_with_nix-shell
 
 ## Codegen
 
+A sizeable portion of the C++ source code is generated from protobuf IDL files
+to generate the mappings from each protocol. While code generation isn't needed
+to build the project it is needed if the source OpenFMB schemas are changed or
+if a new method for mapping a protocol is needed (for example adding support
+for 128bit integers).
+
 Running the Java code generator is required when there are protobuf file
 changes. It requires java and maven be installed.
 
@@ -98,6 +109,12 @@ In the codegen directory
 mvn compile
 mvn exec:java -Dexec.mainClass="com.oes.openfmb.Main
 ```
+
+These generated files are committed to the repo for ease of building.
+
+When regenerating the code note that the license header is *not* regenerated
+and a script ./scripts/license_files.sh should be run to add the appropriate
+header.
 
 ## RTI DDS
 
@@ -111,30 +128,7 @@ installation:
 - `CONNEXTDDS_DIR`: "D:/Desktop/rti-dds-libs"
 - `CONNEXTDDS_ARCH`: "x64Win64VS2017"
 
-# CMake
+# Docker Images
 
-Inside the `build` directory, run `cmake` to create a build file for your
-platform, optionally disabling
-components:
-
-```
-> cmake .. <options>
-```
-
-Plugins can be optionally enabled or disabled:
-
-- `-DOPENFMB_USE_DNP3={OFF|ON}`
-- `-DOPENFMB_USE_TWINOAKS_DDS={OFF|ON}`  (off by default)
-- `-DOPENFMB_USE_RTI_DDS={OFF|ON}`  (off by default)
-- `-DOPENFMB_USE_MODBUS={OFF|ON}`
-- `-DOPENFMB_USE_GOOSE={OFF|ON}` (off by default, not a complete goose implementation)
-- `-DOPENFMB_USE_NATS={OFF|ON}`
-- `-DOPENFMB_USE_TWINOAKS_DDS={OFF|ON}`
-- `-DOPENFMB_USE_TIMESCALEDB={OFF|ON}`
-
-You can then run your build using the build file created by cmake
-
-# Docker
-
-Docker builds for various distributions and architectures can be found in [this
-repo](https://github.com/openenergysolutions/openfmb.adapters).
+Docker images for several common cpu architectures can be found for each
+commit in the actions tab. (https://github.com/openenergysolutions/openfmb.adapters).
