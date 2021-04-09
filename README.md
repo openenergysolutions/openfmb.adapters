@@ -112,7 +112,7 @@ In the codegen directory
 
 ``` sh
 mvn compile
-mvn exec:java -Dexec.mainClass="com.oes.openfmb.Main
+mvn exec:java -Dexec.mainClass="com.oes.openfmb.Main"
 ```
 
 These generated files are committed to the repo for ease of building.
