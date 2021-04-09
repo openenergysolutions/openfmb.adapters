@@ -33,7 +33,13 @@ for the build tool (ninja, make, visual studio).
 This requires that the dependencies be in a place where CMake is looking.
 
 To do this in a highly repeatable way, with cross compiling support, Nix is
-the preferred way.
+the preferred and supported way.
+
+## Getting Nix
+
+Nix is easily installed on any linux system with a single curl command
+
+https://nixos.org/download.html
 
 ## Building Docker Images with Nix
 
