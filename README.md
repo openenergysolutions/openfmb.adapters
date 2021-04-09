@@ -62,8 +62,7 @@ depends on the local /nix repository.
 
 ``` sh
 nix build
-cd default
-./openfmb.adapters --help
+./result/bin/openfmb-adapter --help
 ```
 
 Rebuilding with nix is inefficient for development and a better method using
