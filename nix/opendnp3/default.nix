@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2021 Open Energy Solutions Inc
+#
+# SPDX-License-Identifier: Apache-2.0
+
 { pkgs ? import ../nixpkgs.nix {}
 , exe4cpp ? import ../exe4cpp/default.nix {}
 , ser4cpp ? import ../ser4cpp/default.nix {} 

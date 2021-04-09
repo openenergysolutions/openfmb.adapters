@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2021 Open Energy Solutions Inc
+#
+# SPDX-License-Identifier: Apache-2.0
+
 if(NOT OPENFMB_USE_CONAN)
 	find_library(LIBPAHOCPP paho-mqttpp3)
 	if(NOT LIBPAHOCPP)

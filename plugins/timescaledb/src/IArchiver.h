@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2021 Open Energy Solutions Inc
+//
+// SPDX-License-Identifier: Apache-2.0
+
 #ifndef OPENFMB_PLUGIN_TIMESCALEDB_IARCHIVER_H
 #define OPENFMB_PLUGIN_TIMESCALEDB_IARCHIVER_H
 

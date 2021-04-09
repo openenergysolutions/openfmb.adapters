@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2021 Open Energy Solutions Inc
+#
+# SPDX-License-Identifier: Apache-2.0
+
 if(NOT DEFINED COREDX_TOP)	
 	# try to find via COREDX_TOP environment variable instead
 	if(DEFINED ENV{COREDX_TOP})

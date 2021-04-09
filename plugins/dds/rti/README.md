@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2021 Open Energy Solutions Inc
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 # RTI DDS
 To compile this plugin, you will need the following RTI DDS installed on your computer.
 You can download it from here: https://www.rti.com/free-trial/dds-files#6.0.0

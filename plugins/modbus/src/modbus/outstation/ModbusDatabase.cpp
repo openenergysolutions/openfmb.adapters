@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2021 Open Energy Solutions Inc
+//
+// SPDX-License-Identifier: Apache-2.0
+
 #include "outstation/ModbusDatabase.h"
 
 #include <modbus/server/db/InMemoryDatabase.h>

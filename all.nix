@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2021 Open Energy Solutions Inc
+#
+# SPDX-License-Identifier: Apache-2.0
+
 # builds all the docker images for our target arch's in a single go
 let docker = import ./docker.nix;
   x86_64-musl = docker { target = "x86_64-unknown-linux-musl"; };

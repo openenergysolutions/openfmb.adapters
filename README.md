@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2021 Open Energy Solutions Inc
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 # openfmb.adapters
 
 Adapter that converts legacy protocols to OpenFMB messages over various
