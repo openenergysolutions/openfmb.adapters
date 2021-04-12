@@ -39,7 +39,7 @@ pkgs.callPackage ({ninja, cmake, protobuf3_6, openssl, libpcap, boost166, asio, 
     catch2
     deps.libnats-c
     deps.libpq
-    deps.libyamlcpp
+    deps.libyaml-cpp
     deps.argagg
     deps.cppcodec
     deps.exe4cpp

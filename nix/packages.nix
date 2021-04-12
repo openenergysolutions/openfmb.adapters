@@ -13,7 +13,7 @@ let
     exe4cpp = callPackage ./exe4cpp/default.nix { };
     libnats-c = callPackage ./libnats-c/default.nix { };
     libpq = callPackage ./libpq/default.nix { };
-    libyamlcpp = callPackage ./libyaml-cpp/default.nix { };
+    libyaml-cpp = callPackage ./libyaml-cpp/default.nix { };
     log4cpp = callPackage ./log4cpp/default.nix { };
     modbus-cpp = callPackage ./modbus-cpp/default.nix { };
     #goose-cpp = callPackage ./modbus-cpp.nix { };
