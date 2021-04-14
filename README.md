@@ -28,7 +28,7 @@ If developing, directly clone from the develop branch:
 
 The openfmb.adapters project uses cmake to locate dependencies, determine
 which plugins are built into the binary, and generate the appropriate files
-for the build tool (ninja, make, visual studio).
+for the build tool (ninja, make, etc).
 
 This requires that the dependencies be in a place where CMake is looking.
 
@@ -37,9 +37,9 @@ the preferred and supported way.
 
 ## Getting Nix
 
-Nix is easily installed on any linux system with a single curl command
+Nix is easily installed on linux, mac, or windows (with WSL) with a single curl command
 
-https://nixos.org/download.html
+https://nixos.org/guides/install-nix.html
 
 ## Building Docker Images with Nix
 
