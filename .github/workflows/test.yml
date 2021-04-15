@@ -71,44 +71,29 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_TOKEN }}
-      - name: Download Armv8 Docker Image
-        if: ${{ env.PUSH_IMAGES == 'true' }}
-        uses: actions/download-artifact@v2
-        with:
-          name: openfmb.adapters-aarch64-docker
       - name: Push Armv8 Image to DockerHub
         if: ${{ env.PUSH_IMAGES == 'true' }}
         shell: bash
         run: |
-          IMAGE_NAME=$(find . -name *openfmb.adapter-aarch64*)
+          IMAGE_NAME=$(find . -name *docker*aarch64*.tar.gz)
           docker load --input $IMAGE_NAME.tar.gz
           IMAGE_REPOSITORY=$(docker images --format "{{.Repository}}" | grep aarch64)
           docker tag oesinc/$IMAGE_REPOSITORY docker.io/oesinc/openfmb:aarch64-${GITHUB_SHA::7}
           docker push docker.io/oesinc/openfmb:aarch64-${GITHUB_SHA::7}
-      - name: Download Armv7 Docker Image
-        if: ${{ env.PUSH_IMAGES == 'true' }}
-        uses: actions/download-artifact@v2
-        with:
-          name: openfmb.adapters-armv7-docker
       - name: Push Armv7 Image to DockerHub
         if: ${{ env.PUSH_IMAGES == 'true' }}
         shell: bash
         run: |
-          IMAGE_NAME=$(find . -name *openfmb.adapter-armv7*)
+          IMAGE_NAME=$(find . -name *docker*armv7*.tar.gz)
           docker load --input $IMAGE_NAME.tar.gz
           IMAGE_REPOSITORY=$(docker images --format "{{.Repository}}" | grep armv7)
           docker tag oesinc/$IMAGE_REPOSITORY docker.io/oesinc/openfmb:armv7-${GITHUB_SHA::7}
           docker push docker.io/oesinc/openfmb:armv7-${GITHUB_SHA::7}
-      - name: Download x86_64 Docker Image
-        if: ${{ env.PUSH_IMAGES == 'true' }}
-        uses: actions/download-artifact@v2
-        with:
-          name: openfmb.adapters-x86_64-docker
       - name: Push x86_64 Image to DockerHub
         if: ${{ env.PUSH_IMAGES == 'true' }}
         shell: bash
         run: |
-          IMAGE_NAME=$(find . -name *openfmb.adapter-x86_64*)
+          IMAGE_NAME=$(find . -name *docker*x86_64*.tar.gz)
           docker load --input $IMAGE_NAME.tar.gz
           IMAGE_REPOSITORY=$(docker images --format "{{.Repository}}" | grep x86_64)
           docker tag oesinc/$IMAGE_REPOSITORY docker.io/oesinc/openfmb:x86_64-${GITHUB_SHA::7}
@@ -123,4 +108,4 @@ jobs:
             --amend oesinc/$IMAGE_NAME:x86_64-${GITHUB_SHA::7} \
             --amend oesinc/$IMAGE_NAME:arm32-${GITHUB_SHA::7} \
             --amend oesinc/$IMAGE_NAME:aarch64-${GITHUB_SHA::7}
-          docker manifest push seandrexler/$IMAGE_NAME:${GITHUB_SHA::7}
+          docker manifest push oesinc/$IMAGE_NAME:${GITHUB_SHA::7}
