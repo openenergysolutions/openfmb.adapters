@@ -6,8 +6,6 @@
 name: "Build"
 on:
   push:
-    branches:
-      - "default"
 jobs:
   tests:
     runs-on: ubuntu-latest
