@@ -10,6 +10,8 @@ on:
 jobs:
   tests:
     runs-on: ubuntu-latest
+    env:
+      PUSH_IMAGES: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
     steps:
       - uses: actions/checkout@v2.3.4
       - uses: cachix/install-nix-action@v12
@@ -62,3 +64,62 @@ jobs:
           path: artifacts/*docker*x86_64*.tar.gz
       - name: Ok
         run: nix-shell --run "echo OK"
+      - name: Login to DockerHub
+        if: ${{ env.PUSH_IMAGES == 'true' }}
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+      - name: Download Armv8 Docker Image
+        if: ${{ env.PUSH_IMAGES == 'true' }}
+        uses: actions/download-artifact@v2
+        with:
+          name: openfmb.adapters-aarch64-docker
+      - name: Push Armv8 Image to DockerHub
+        if: ${{ env.PUSH_IMAGES == 'true' }}
+        shell: bash
+        run: |
+          IMAGE_NAME=$(find . -name *openfmb.adapter-aarch64*)
+          docker load --input $IMAGE_NAME.tar.gz
+          IMAGE_REPOSITORY=$(docker images --format "{{.Repository}}" | grep aarch64)
+          docker tag oesinc/$IMAGE_REPOSITORY docker.io/oesinc/openfmb:aarch64-${GITHUB_SHA::7}
+          docker push docker.io/oesinc/openfmb:aarch64-${GITHUB_SHA::7}
+      - name: Download Armv7 Docker Image
+        if: ${{ env.PUSH_IMAGES == 'true' }}
+        uses: actions/download-artifact@v2
+        with:
+          name: openfmb.adapters-armv7-docker
+      - name: Push Armv7 Image to DockerHub
+        if: ${{ env.PUSH_IMAGES == 'true' }}
+        shell: bash
+        run: |
+          IMAGE_NAME=$(find . -name *openfmb.adapter-armv7*)
+          docker load --input $IMAGE_NAME.tar.gz
+          IMAGE_REPOSITORY=$(docker images --format "{{.Repository}}" | grep armv7)
+          docker tag oesinc/$IMAGE_REPOSITORY docker.io/oesinc/openfmb:armv7-${GITHUB_SHA::7}
+          docker push docker.io/oesinc/openfmb:armv7-${GITHUB_SHA::7}
+      - name: Download x86_64 Docker Image
+        if: ${{ env.PUSH_IMAGES == 'true' }}
+        uses: actions/download-artifact@v2
+        with:
+          name: openfmb.adapters-x86_64-docker
+      - name: Push x86_64 Image to DockerHub
+        if: ${{ env.PUSH_IMAGES == 'true' }}
+        shell: bash
+        run: |
+          IMAGE_NAME=$(find . -name *openfmb.adapter-x86_64*)
+          docker load --input $IMAGE_NAME.tar.gz
+          IMAGE_REPOSITORY=$(docker images --format "{{.Repository}}" | grep x86_64)
+          docker tag oesinc/$IMAGE_REPOSITORY docker.io/oesinc/openfmb:x86_64-${GITHUB_SHA::7}
+          docker push docker.io/oesinc/openfmb:x86_64-${GITHUB_SHA::7}
+      - name: Create and push the multiarch Image to DockerHub
+        if: ${{ env.PUSH_IMAGES == 'true' }}
+        shell: bash
+        run: |
+          IMAGE_NAME=${GITHUB_REPOSITORY#*/}
+          docker manifest create \
+            oesinc/$IMAGE_NAME:${GITHUB_SHA::7} \
+            --amend oesinc/$IMAGE_NAME:x86_64-${GITHUB_SHA::7} \
+            --amend oesinc/$IMAGE_NAME:arm32-${GITHUB_SHA::7} \
+            --amend oesinc/$IMAGE_NAME:aarch64-${GITHUB_SHA::7}
+          docker manifest push seandrexler/$IMAGE_NAME:${GITHUB_SHA::7}
