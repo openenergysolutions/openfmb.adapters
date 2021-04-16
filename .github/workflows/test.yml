@@ -74,8 +74,12 @@ jobs:
         shell: bash
         run: |
           IMAGE_NAME=$(find . -name *docker*aarch64*.tar.gz)
+          echo $IMAGE_NAME
+          echo '-----'
           docker load --input $IMAGE_NAME
           IMAGE_REPOSITORY=$(docker images --format "{{.Repository}}" | grep aarch64)
+          echo $IMAGE_REPOSITORY
+          echo '-----'
           docker tag $IMAGE_REPOSITORY docker.io/oesinc/openfmb:aarch64-${GITHUB_SHA::7}
           docker push docker.io/oesinc/openfmb:aarch64-${GITHUB_SHA::7}
       - name: Push Armv7 Image to DockerHub
