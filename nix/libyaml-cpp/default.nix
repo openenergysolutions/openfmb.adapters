@@ -8,7 +8,7 @@
 pkgs.callPackage({ stdenv, fetchFromGitHub, cmake }:
   stdenv.mkDerivation rec {
     pname = "libyaml-cpp";
-    version = "0.6.4-git";
+    version = "0.6.4";
   
     src = fetchFromGitHub {
       owner = "jbeder";
