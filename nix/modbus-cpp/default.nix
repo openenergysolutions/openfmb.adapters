@@ -7,15 +7,17 @@
 , ser4cpp ? import ../ser4cpp/default.nix {}
 }:
 
-pkgs.callPackage({ stdenv, lib, fetchgit, cmake, openssl, asio, ser4cpp, exe4cpp, spdlog, catch2, trompeloeil }:
+pkgs.callPackage({ stdenv, lib, fetchFromGitHub, cmake, openssl, asio, ser4cpp, exe4cpp, spdlog, catch2, trompeloeil }:
 
   stdenv.mkDerivation rec {
     pname = "modbus-cpp";
     version = "1.0";
 
-    src = builtins.fetchGit {
-      url = "ssh://git@github.com/openenergysolutions/modbus-cpp.git";
+    src = fetchFromGitHub {
+      repo = pname;
+      owner = "openenergysolutions";
       rev = "4287a7fa582c0e91deb930abdb24f170720643db";
+      sha256 = "06i3m7vd7nwma89lj4aaxjd82ya1z5p4v79mxahdnpp568r6c106";
     };
 
     cmakeFlags = [ "-DMODBUS_VENDORED_DEPS=OFF" ];
