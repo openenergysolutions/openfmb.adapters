@@ -28,9 +28,9 @@ configurations and visualize data on our documentation site.
 
 https://openenergysolutionsinc.com/openfmb.docs
 
-## Commercial licenses and support
+## Commercial licensing, support, and protocols
 
-Support and commercial license options are provided by Open Energy Solutions Inc. Please contact support@openenergysolutionsinc.com for more details.
+Support and commercial license options are provided by Open Energy Solutions Inc. Additional licensed protocols are available. Please contact support@openenergysolutionsinc.com for more details.
 
 ## Contributing
 
