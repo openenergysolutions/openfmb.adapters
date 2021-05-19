@@ -9,6 +9,23 @@ SPDX-License-Identifier: Apache-2.0
 Adapter that converts legacy protocols to OpenFMB messages over various
 transports.
 
+# Running the Adapter
+
+To run the adapter, the fastest and easiest way to get going is to use Docker.
+
+Assuming docker has been installed
+
+```
+docker run oesinc:openfmb.adapters:latest
+```
+
+Will run the adapter.
+
+For more information on how the adapter can be used in a broader way please
+visit our documentation site
+
+https://openenergysolutionsinc.com/openfmb.docs
+
 # Cloning
 
 Clone the repository with the "--recursive" option to automatically obtain
