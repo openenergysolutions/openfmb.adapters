@@ -111,13 +111,13 @@ jobs:
           docker manifest annotate oesinc/$IMAGE_NAME:${GITHUB_SHA::7} oesinc/$IMAGE_NAME:armv7-${GITHUB_SHA::7} --arch arm --os linux --variant v7
           docker manifest annotate oesinc/$IMAGE_NAME:${GITHUB_SHA::7} oesinc/$IMAGE_NAME:aarch64-${GITHUB_SHA::7} --arch arm64 --os linux
           docker manifest push oesinc/$IMAGE_NAME:${GITHUB_SHA::7}
-          # create a ubuntu-latest tag and push
+          # create a develop tag and push
           docker manifest create \
-            oesinc/$IMAGE_NAME:latest \
+            oesinc/$IMAGE_NAME:develop \
             --amend oesinc/$IMAGE_NAME:x86_64-${GITHUB_SHA::7} \
             --amend oesinc/$IMAGE_NAME:armv7-${GITHUB_SHA::7} \
             --amend oesinc/$IMAGE_NAME:aarch64-${GITHUB_SHA::7}
-          docker manifest annotate oesinc/$IMAGE_NAME:latest oesinc/$IMAGE_NAME:x86_64-${GITHUB_SHA::7} --arch amd64 --os linux
-          docker manifest annotate oesinc/$IMAGE_NAME:latest oesinc/$IMAGE_NAME:armv7-${GITHUB_SHA::7} --arch arm --os linux --variant v7
-          docker manifest annotate oesinc/$IMAGE_NAME:latest oesinc/$IMAGE_NAME:aarch64-${GITHUB_SHA::7} --arch arm64 --os linux
-          docker manifest push oesinc/$IMAGE_NAME:latest
+          docker manifest annotate oesinc/$IMAGE_NAME:develop oesinc/$IMAGE_NAME:x86_64-${GITHUB_SHA::7} --arch amd64 --os linux
+          docker manifest annotate oesinc/$IMAGE_NAME:develop oesinc/$IMAGE_NAME:armv7-${GITHUB_SHA::7} --arch arm --os linux --variant v7
+          docker manifest annotate oesinc/$IMAGE_NAME:develop oesinc/$IMAGE_NAME:aarch64-${GITHUB_SHA::7} --arch arm64 --os linux
+          docker manifest push oesinc/$IMAGE_NAME:develop
