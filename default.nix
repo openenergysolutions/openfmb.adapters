@@ -19,7 +19,7 @@ gitignoreSrc = pkgs.fetchFromGitHub {
 in
 pkgs.callPackage ({ninja, cmake, protobuf3_6, openssl, libpcap, boost166, asio, spdlog, catch2, deps }: pkgs.stdenv.mkDerivation {
   pname = "adapter";
-  version = "2.1";
+  version = "2.0.0-preview";
   src = if pkgs.lib.inNixShell then null else gitignoreSource ./.;
   cmakeFlags = [ "-DOPENFMB_USE_CONAN=OFF" "-DOPENFMB_USE_GOOSE=OFF" "-DCMAKE_BUILD_TYPE=Release"];
 
