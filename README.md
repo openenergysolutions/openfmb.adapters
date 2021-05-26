@@ -16,8 +16,8 @@ To run the adapter, the fastest and easiest way to get going is to use Docker.
 Assuming docker has been installed the adapter is easily obtained and ran.
 
 ```
-docker pull oesinc:openfmb.adapters:latest
-docker run oesinc:openfmb.adapters:latest
+docker pull oesinc/openfmb.adapters:latest
+docker run oesinc/openfmb.adapters:latest
 ```
 
 ## Configuring and Using the Adapter
