@@ -5,6 +5,8 @@
 #ifndef OPENFMB_ADAPTER_REPLAY_PLUGIN_H
 #define OPENFMB_ADAPTER_REPLAY_PLUGIN_H
 
+#include <thread>
+
 #include <yaml-cpp/node/node.h>
 
 #include <adapter-api/IMessageBus.h>

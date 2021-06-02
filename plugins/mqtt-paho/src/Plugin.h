@@ -5,6 +5,8 @@
 #ifndef OPENFMB_ADAPTER_MQTT_PLUGIN_H
 #define OPENFMB_ADAPTER_NATS_PLUGIN_H
 
+#include <thread>
+
 #include <adapter-api/IPlugin.h>
 #include <adapter-api/Logger.h>
 #include <adapter-api/IMessageBus.h>

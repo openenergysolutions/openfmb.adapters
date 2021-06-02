@@ -9,6 +9,8 @@
 
 #include <adapter-util/util/YAMLUtil.h>
 
+#include <thread>
+
 using namespace opendnp3;
 
 namespace adapter {

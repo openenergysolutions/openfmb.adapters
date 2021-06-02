@@ -175,7 +175,7 @@ namespace timescaledb {
                     google::protobuf::util::Status status = google::protobuf::util::MessageToJsonString(proto, &message->json_data);
 
                 } else if (m_archiver->raw_message_format() == 1) { // Protobuf format
-                    const auto size_int = proto.ByteSize();
+                    const auto size_int = proto.ByteSizeLong();
                     const auto size = boost::numeric_cast<size_t>(size_int);
 
                     message->raw_data = std::make_unique<char[]>(size);

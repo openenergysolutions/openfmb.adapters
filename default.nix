@@ -2,12 +2,24 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-{ pkgs ? (import ./nix/nixpkgs.nix {}) }:
+{ pkgs ? (import ./nix/nixpkgs.nix {})}:
 
-let deps = import ./nix/packages.nix { 
-  pkgs = pkgs;
-};
-gitignoreSrc = pkgs.fetchFromGitHub {
+let 
+#  pkgs = nixpkgs.appendOverlays [ (final: prev: {
+#    spdlog = prev.spdlog.overrideAttrs (old: {
+#      version = "1.7.0";
+#      src = prev.fetchFromGitHub {
+#        owner  = "gabime";
+#        repo   = "spdlog";
+#        rev    = "v1.7.0";
+#        sha256 = "1ryaa22ppj60461hcdb8nk7jwj84arp4iw4lyw594py92g4vnx3j";
+#      };
+#    });
+#  }) ];
+  deps = import ./nix/packages.nix { 
+    pkgs = pkgs;
+  };
+  gitignoreSrc = pkgs.fetchFromGitHub {
     owner = "hercules-ci";
     repo = "gitignore";
     # put the latest commit sha of gitignore Nix library here:

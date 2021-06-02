@@ -73,7 +73,7 @@ namespace capture {
         const auto millisec = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
 
         try {
-            const auto size_int = message.ByteSize();
+            const auto size_int = message.ByteSizeLong();
             const auto size = boost::numeric_cast<size_t>(size_int);
             const auto buffer = std::make_unique<uint8_t[]>(size);
             if (!message.SerializeToArray(buffer.get(), size_int)) {

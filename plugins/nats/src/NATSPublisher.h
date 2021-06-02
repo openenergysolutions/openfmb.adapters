@@ -43,7 +43,7 @@ namespace nats {
             try {
 
                 // create a buffer just large enough to hold the serialized payload
-                util::Buffer buffer(boost::numeric_cast<size_t>(proto.ByteSize()));
+                util::Buffer buffer(boost::numeric_cast<size_t>(proto.ByteSizeLong()));
 
                 if (!proto.SerializeToArray(buffer.data(), buffer.length())) {
                     logger.error("Failed to serialize proto of type: {}", T::descriptor()->name());
