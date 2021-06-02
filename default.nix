@@ -17,7 +17,7 @@ gitignoreSrc = pkgs.fetchFromGitHub {
   };
   inherit (import gitignoreSrc { inherit (pkgs) lib; }) gitignoreSource;
 in
-pkgs.callPackage ({ninja, cmake, protobuf3_6, openssl, libpcap, boost166, asio, spdlog, catch2, deps }: pkgs.stdenv.mkDerivation {
+pkgs.callPackage ({ninja, cmake, protobuf, openssl, libpcap, boost166, asio, spdlog, catch2, deps }: pkgs.stdenv.mkDerivation {
   pname = "adapter";
   version = "2.1";
   src = if pkgs.lib.inNixShell then null else gitignoreSource ./.;
@@ -26,12 +26,12 @@ pkgs.callPackage ({ninja, cmake, protobuf3_6, openssl, libpcap, boost166, asio, 
   nativeBuildInputs = [
     cmake
     ninja
-    protobuf3_6
+    protobuf
   ];
 
   buildInputs = [
     openssl
-    protobuf3_6 # waiting on a fix for https://github.com/NixOS/nixpkgs/issues/76873 to avoid this and use the static version
+    protobuf # waiting on a fix for https://github.com/NixOS/nixpkgs/issues/76873 to avoid this and use the static version
     libpcap
     (pkgs.boost166.override { enableStatic = true; })
     asio
