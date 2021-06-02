@@ -21,6 +21,7 @@ let
     paho-mqtt-c = callPackage ./paho-mqtt-c/default.nix { };
     paho-mqtt-cpp = callPackage ./paho-mqtt-cpp/default.nix { };
     ser4cpp = callPackage ./ser4cpp/default.nix { };
+    zenoh-c = callPackage ./zenoh-c/default.nix { };
   };
 in
 self

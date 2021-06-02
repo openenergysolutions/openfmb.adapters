@@ -66,7 +66,7 @@ set(DNP3_SOURCES
         )
 
 add_library(dnp3-plugin STATIC ${DNP3_SOURCES} ${DNP3_PUBLIC_HEADERS})
-target_link_libraries(dnp3-plugin PUBLIC adapter-util opendnp3)
+target_link_libraries(dnp3-plugin PUBLIC adapter-util opendnp3 OpenSSL::SSL)
 target_include_directories(dnp3-plugin PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_include_directories(dnp3-plugin PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 clang_tidy(dnp3-plugin)
