@@ -3,11 +3,11 @@
 # SPDX-License-Identifier: Apache-2.0
 
 ---
-name: "Build"
+name: "Nix Docker Build"
 on:
   push:
 jobs:
-  tests:
+  build:
     runs-on: ubuntu-latest
     env:
       PUSH_IMAGES: ${{ github.event_name == 'push' && github.ref == 'refs/heads/develop' }}

@@ -38,6 +38,6 @@ endif()
 
 
 
-target_link_libraries(adapter-api INTERFACE proto-api spdlog schema-util)
+target_link_libraries(adapter-api INTERFACE proto-api spdlog::spdlog schema-util)
 target_include_directories(adapter-api INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 clang_tidy(adapter-api)

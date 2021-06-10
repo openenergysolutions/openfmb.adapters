@@ -5,6 +5,8 @@
 #ifndef OPENFMB_PLUGIN_TIMESCALEDB_TIMESCALEDB_ARCHIVER_H
 #define OPENFMB_PLUGIN_TIMESCALEDB_TIMESCALEDB_ARCHIVER_H
 
+#include <thread>
+
 #include "IArchiver.h"
 #include "PQConnection.h"
 #include "adapter-util/util/SynchronizedQueue.h"
