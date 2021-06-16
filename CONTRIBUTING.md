@@ -32,6 +32,17 @@ Nix is easily installed on linux, mac, or windows (with WSL) with a single curl 
 
 https://nixos.org/guides/install-nix.html
 
+## Using Cachix
+
+Many dependencies of the adapter have been precompiled by NixOS and ourselves
+and cached. It can save immense amounts of build time by first setting up
+cachix.
+
+```
+nix-env -iA cachix -f https://cachix.org/api/v1/install
+cachix use openenergysolutions
+```
+
 ## Building Docker Images with Nix
 
 Simply building docker images may be done at any time, for all supported architectures
