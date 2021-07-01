@@ -190,14 +190,7 @@ namespace outstation {
     }
 
     std::shared_ptr<schema::Object> MeasurementSchemaWriteVisitor::get_mapped_enum_schema(google::protobuf::EnumDescriptor const* descriptor)
-    {
-        auto binary_variants = Object{{}};
-        auto analog_variants = Object{{}};
-        for(int i = 0; i < descriptor->value_count(); ++i) {
-            binary_variants.one_of.variants.emplace_back(Variant({}, { bool_property(descriptor->value(i)->name(), Required::yes, descriptor->value(i)->name(), false) }));
-            analog_variants.one_of.variants.emplace_back(Variant({}, { numeric_property<float>(descriptor->value(i)->name(), Required::yes, descriptor->value(i)->name(), 0.0f, Bound<float>::unused(), Bound<float>::unused()) }));
-        }
-
+    {        
         return std::make_shared<Object>(std::vector<property_ptr_t>(), OneOf({
             Variant({ConstantProperty::from_enum<DestinationType>(DestinationType::Value::none)}, {}),
             Variant({ConstantProperty::from_enum<DestinationType>(DestinationType::Value::binary)},
@@ -213,8 +206,21 @@ namespace outstation {
                 array_property(
                     util::keys::mapping,
                     Required::yes,
-                    "Mapping from the enum to the boolean value",
-                    binary_variants
+                    "Mapping from the enum to the boolean value", 
+                    Object({ 
+                        enum_property(
+                            util::keys::name, 
+                            get_enum_variants_from_proto(descriptor), 
+                            Required::yes, 
+                            "OpenFMB enum variant", 
+                            descriptor->value(0)->name()), 
+                        bool_property(
+                            util::keys::value, 
+                            Required::yes, 
+                            "Value to write", 
+                            false
+                        )                         
+                    })
                 )
             }),
             Variant({ConstantProperty::from_enum<DestinationType>(DestinationType::Value::analog)},
@@ -230,8 +236,22 @@ namespace outstation {
                 array_property(
                     util::keys::mapping,
                     Required::yes,
-                    "Mapping from the enum to the analog value",
-                    analog_variants
+                    "Mapping from the enum to the analog value", 
+                    Object({ 
+                        enum_property(
+                            util::keys::name, 
+                            get_enum_variants_from_proto(descriptor), 
+                            Required::yes, 
+                            "OpenFMB enum variant", 
+                            descriptor->value(0)->name()), 
+                        numeric_property<float>(
+                            util::keys::value, 
+                            Required::yes, 
+                            "Value to write", 
+                            0.0f, 
+                            Bound<float>::unused(), 
+                            Bound<float>::unused()) 
+                    })
                 )
             })
         }));
