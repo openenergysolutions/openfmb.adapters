@@ -42,6 +42,8 @@ option(OPENFMB_USE_GOOSE "Build the GOOSE plugin" OFF)
 option(OPENFMB_USE_MQTT "Build the MQTT plugin" ${BUILD_BY_DEFAULT})
 option(OPENFMB_USE_NATS "Build the NATS plugin" ${BUILD_BY_DEFAULT})
 option(OPENFMB_USE_TIMESCALEDB "Build the historian using TimescaleDB" ${BUILD_BY_DEFAULT})
+option(OPENFMB_USE_ZENOH "Build the Zenoh plugin" ${BUILD_BY_DEFAULT})
+
 # the proprietary plugins are always opt-in
 option(OPENFMB_USE_TWINOAKS_DDS "Build the Twin Oaks DDS plugin" OFF)
 option(OPENFMB_USE_RTI_DDS "Build the RTI DDS plugin" OFF)
@@ -135,6 +137,10 @@ endif()
 
 if(OPENFMB_USE_TIMESCALEDB)
   add_subdirectory(./plugins/timescaledb)
+endif()
+
+if(OPENFMB_USE_ZENOH)
+  add_subdirectory(./plugins/zenoh)
 endif()
 
 # main application

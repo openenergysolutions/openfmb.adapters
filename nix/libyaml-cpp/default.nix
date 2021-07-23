@@ -5,7 +5,7 @@
 { pkgs ? import ../nixpkgs.nix {} }:
 
 
-pkgs.callPackage({ stdenv, fetchFromGitHub, cmake }:
+pkgs.callPackage({ lib, stdenv, fetchFromGitHub, cmake }:
   stdenv.mkDerivation rec {
     pname = "libyaml-cpp";
     version = "0.6.4";
@@ -30,7 +30,7 @@ pkgs.callPackage({ stdenv, fetchFromGitHub, cmake }:
   
     outputs = ["dev" "out"];
   
-    meta = with stdenv.lib; {
+    meta = with lib; {
       inherit (src.meta) homepage;
       description = "A YAML parser and emitter for C++";
       license = licenses.mit;

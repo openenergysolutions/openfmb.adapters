@@ -17,3 +17,4 @@
 #endif()
 
 find_package(opendnp3 REQUIRED)
+find_package(OpenSSL REQUIRED)

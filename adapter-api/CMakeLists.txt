@@ -23,21 +23,7 @@ SET(CPP_FORMAT_DIRS
 
 add_library(adapter-api INTERFACE)
 
-if(OPENFMB_USE_CONAN)
-    target_link_libraries(adapter-api INTERFACE CONAN_PKG::yaml-cpp)
-else()
-    find_library(LIBYAMLCPP yaml-cpp)
-    if(NOT LIBYAMLCPP)
-        message(FATAL_ERROR "Yaml CPP library not found. Is yaml-cpp (https://github.com/jbeder/yaml-cpp) installed?")
-    else()
-        message("LIBYAMLCPP is ${LIBYAMLCPP}")
-    endif()
-
-    target_link_libraries(adapter-api INTERFACE ${LIBYAMLCPP})
-endif()
-
-
-
-target_link_libraries(adapter-api INTERFACE proto-api spdlog::spdlog schema-util)
+find_library(LIBYAMLCPP yaml-cpp REQUIRED)
+target_link_libraries(adapter-api INTERFACE proto-api spdlog::spdlog schema-util ${LIBYAMLCPP})
 target_include_directories(adapter-api INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 clang_tidy(adapter-api)

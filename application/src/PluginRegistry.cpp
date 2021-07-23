@@ -4,8 +4,8 @@
 
 #include "PluginRegistry.h"
 
-#include "capture/PluginFactory.h"
 #include "log/PluginFactory.h"
+#include "capture/PluginFactory.h"
 #include "replay/PluginFactory.h"
 
 #include <adapter-api/Exception.h>
@@ -31,6 +31,10 @@
 
 #ifdef OPENFMB_USE_NATS
 #include "nats/PluginFactory.h"
+#endif
+
+#ifdef OPENFMB_USE_ZENOH
+#include "zenoh/PluginFactory.h"
 #endif
 
 #ifdef OPENFMB_USE_TWINOAKS_DDS
@@ -75,6 +79,11 @@ PluginRegistry::PluginRegistry()
 #ifdef OPENFMB_USE_NATS
     this->add<nats::PluginFactory>();
 #endif
+
+#ifdef OPENFMB_USE_ZENOH
+    this->add<zenoh::PluginFactory>();
+#endif
+
 
 #ifdef OPENFMB_USE_TWINOAKS_DDS
     this->add<adapter::DDSPluginFactory>();

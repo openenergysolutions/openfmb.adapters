@@ -5,17 +5,6 @@
 { pkgs ? (import ./nix/nixpkgs.nix {})}:
 
 let 
-#  pkgs = nixpkgs.appendOverlays [ (final: prev: {
-#    spdlog = prev.spdlog.overrideAttrs (old: {
-#      version = "1.7.0";
-#      src = prev.fetchFromGitHub {
-#        owner  = "gabime";
-#        repo   = "spdlog";
-#        rev    = "v1.7.0";
-#        sha256 = "1ryaa22ppj60461hcdb8nk7jwj84arp4iw4lyw594py92g4vnx3j";
-#      };
-#    });
-#  }) ];
   deps = import ./nix/packages.nix { 
     pkgs = pkgs;
   };
@@ -61,6 +50,7 @@ pkgs.callPackage ({ninja, cmake, protobuf, openssl, libpcap, boost166, asio, spd
     deps.paho-mqtt-c
     deps.paho-mqtt-cpp
     deps.ser4cpp
+    deps.zenoh-c
   ];
 
   stripAllList = ["bin"];
