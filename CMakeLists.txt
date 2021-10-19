@@ -79,6 +79,11 @@ include(./deps/log4cpp.cmake)
 include(./deps/ser4cpp.cmake)
 include(./deps/spdlog.cmake)
 
+if(OPENFMB_USE_CONAN)
+  include(./deps/argagg.cmake)
+  include(./deps/cppcodec.cmake)
+endif()
+
 # Protobuf C++ objects, used by adapter-util and transitively by all plugins
 add_subdirectory(./proto-api)
 

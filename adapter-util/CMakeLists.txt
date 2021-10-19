@@ -159,7 +159,15 @@ execute_process(
 
 add_library(adapter-util ${SOURCES} ${HEADERS})
 
-target_link_libraries(adapter-util PUBLIC adapter-api Boost::boost exe4cpp)
+if(OPENFMB_USE_CONAN)
+    target_link_libraries(adapter-util PUBLIC
+        adapter-api
+        CONAN_PKG::boost
+        exe4cpp
+    )
+else()
+    target_link_libraries(adapter-util PUBLIC adapter-api Boost::boost exe4cpp)
+endif()
 
 target_include_directories(adapter-util PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_include_directories(adapter-util PUBLIC ${CMAKE_SOURCE_DIR}/deps/spdlog/include)

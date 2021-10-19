@@ -20,7 +20,7 @@ target_link_libraries(replay-plugin PUBLIC adapter-util)
 target_include_directories(
         replay-plugin
         PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
-        PRIVATE ${CMAKE_SOURCE_DIR}/deps/cppcodec/
+        PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/../../_deps/cppcodec-src
 )
 clang_tidy(replay-plugin)
 clang_format(replay-plugin)
