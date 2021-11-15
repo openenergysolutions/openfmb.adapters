@@ -6,6 +6,8 @@
 
 #include "NATSPublisher.h"
 
+#include <boost/algorithm/string.hpp>
+
 #include <adapter-api/Exception.h>
 #include <adapter-util/ConfigStrings.h>
 #include <adapter-util/config/SubjectNameSuffix.h>
@@ -147,17 +149,34 @@ namespace nats {
 
     void Plugin::read_nats_options(const YAML::Node& node)
     {
-        // we always need the connect url
-        try_nats(
-            [&]() -> natsStatus {
-                return natsOptions_SetURL(
-                    this->options.impl,
-                    util::yaml::require_string(node, keys::connect_url).c_str());
-            },
-            "Unable to set url");
+        std::vector<std::string> tokens;
+        auto connect_url = util::yaml::require_string(node, keys::connect_url);
+        boost::split(tokens, connect_url, boost::is_any_of(",;|"));
+
+        if (tokens.size() > 1) {
+            std::vector<const char *> chars(tokens.size());
+            std::transform(tokens.begin(), tokens.end(), chars.begin(), std::mem_fun_ref(&std::string::c_str));
+            try_nats(
+                [&]() -> natsStatus {
+                    return natsOptions_SetServers(
+                        this->options.impl,
+                        chars.data(),
+                        chars.size());
+                },
+                "Unable to set servers");
+        }
+        else {
+            // we always need the connect url
+            try_nats(
+                [&]() -> natsStatus {
+                    return natsOptions_SetURL(
+                        this->options.impl,
+                        util::yaml::require_string(node, keys::connect_url).c_str());
+                },
+               "Unable to set url");
+        }
 
         // figure out what type of security we're using
-
         const auto sec_node = util::yaml::require(node, util::keys::security);
         const auto sec_type = util::yaml::require_enum<SecurityType>(sec_node);
         switch (sec_type) {
