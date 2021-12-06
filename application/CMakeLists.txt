@@ -41,6 +41,11 @@ if(OPENFMB_USE_GOOSE)
     list(APPEND plugin_definitions OPENFMB_USE_GOOSE)
 endif()
 
+if(OPENFMB_USE_ICCP)
+    list(APPEND plugins iccp-plugin)
+    list(APPEND plugin_definitions OPENFMB_USE_ICCP)
+endif()
+
 if(OPENFMB_USE_MQTT)
     list(APPEND plugins mqtt-plugin)
     list(APPEND plugin_definitions OPENFMB_USE_MQTT)

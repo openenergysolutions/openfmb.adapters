@@ -38,13 +38,14 @@ endif()
 # optionally disable certain plugins
 option(OPENFMB_USE_DNP3 "Build the DNP3 plugin" ${BUILD_BY_DEFAULT})
 option(OPENFMB_USE_MODBUS "Build the Modbus plugin" ${BUILD_BY_DEFAULT})
-option(OPENFMB_USE_GOOSE "Build the GOOSE plugin" OFF)
 option(OPENFMB_USE_MQTT "Build the MQTT plugin" ${BUILD_BY_DEFAULT})
 option(OPENFMB_USE_NATS "Build the NATS plugin" ${BUILD_BY_DEFAULT})
 option(OPENFMB_USE_TIMESCALEDB "Build the historian using TimescaleDB" ${BUILD_BY_DEFAULT})
 option(OPENFMB_USE_ZENOH "Build the Zenoh plugin" ${BUILD_BY_DEFAULT})
 
 # the proprietary plugins are always opt-in
+option(OPENFMB_USE_GOOSE "Build the GOOSE plugin" OFF)
+option(OPENFMB_USE_ICCP "Build the ICCP plugin" OFF)
 option(OPENFMB_USE_TWINOAKS_DDS "Build the Twin Oaks DDS plugin" OFF)
 option(OPENFMB_USE_RTI_DDS "Build the RTI DDS plugin" OFF)
 option(OPENFMB_LINK_STATIC "Link dependencies statically where possible" OFF)
@@ -121,6 +122,10 @@ endif()
 if(OPENFMB_USE_GOOSE)
   include(./deps/goose-cpp.cmake)
   add_subdirectory(./plugins/goose)
+endif()
+
+if(OPENFMB_USE_ICCP)
+  add_subdirectory(./plugins/iccp)
 endif()
 
 if(OPENFMB_USE_TWINOAKS_DDS)

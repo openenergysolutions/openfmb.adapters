@@ -70,12 +70,22 @@ namespace goose {
                         "OpenFMB enum variant",
                         descriptor->value(0)->name()
                     ),
+                    /*
                     string_property(
                         util::keys::value,
                         Required::yes,
                         "Bitstring value",
                         "0001",
                         StringFormat::BitString
+                    ),
+                    */
+                    numeric_property<uint16_t>(
+                            util::keys::value,
+                            Required::yes,
+                            "Numerical value",
+                            0,
+                            Bound<uint16_t>::from(0),
+                            Bound<uint16_t>::from(65535)
                     )
                 })
             )

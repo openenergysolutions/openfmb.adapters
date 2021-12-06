@@ -25,6 +25,11 @@
 #include "goose/SubscribingPluginFactory.h"
 #endif
 
+#ifdef OPENFMB_USE_ICCP
+#include "iccp/client/PluginFactory.h"
+#include "iccp/server/PluginFactory.h"
+#endif
+
 #ifdef OPENFMB_USE_MQTT
 #include "mqtt-paho/PluginFactory.h"
 #endif
@@ -70,6 +75,11 @@ PluginRegistry::PluginRegistry()
 #ifdef OPENFMB_USE_GOOSE
     this->add<goose::PublishingPluginFactory>();
     this->add<goose::SubscribingPluginFactory>();
+#endif
+
+#ifdef OPENFMB_USE_ICCP
+    this->add<iccp::client::PluginFactory>();
+    this->add<iccp::server::PluginFactory>();
 #endif
 
 #ifdef OPENFMB_USE_MQTT

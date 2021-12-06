@@ -25,6 +25,16 @@ namespace goose {
         {
             using namespace adapter::schema;
 
+            props.emplace_back(
+                string_property(
+                   keys::goCbRef,
+                   Required::yes,
+                   "GOOSE Control Block Reference",
+                   "REF615A_204LD0/LLN0$GO$OpenFMBheartbeat",
+                   StringFormat::None
+                )
+            );
+
             auto visitor = PublishingSchemaWriteVisitor{};
             util::visit<T>(visitor);
             props.emplace_back(
