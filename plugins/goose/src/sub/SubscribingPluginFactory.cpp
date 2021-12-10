@@ -26,148 +26,13 @@ namespace goose {
         {
             using namespace adapter::schema;
 
-            // Quality templates
             props.emplace_back(
-                array_property(
-                    keys::quality_templates,
+                string_property(
+                    keys::control_block,
                     Required::yes,
-                    "Quality templates",
-                    Object({
-                        string_property(
-                            keys::quality_id,
-                            Required::yes,
-                            "unique ID",
-                            "default-quality",
-                            StringFormat::None
-                        ),
-                        enum_property(
-                            keys::quality_validity,
-                            util::SchemaWriteVisitorBase::get_enum_variants_from_proto(commonmodule::ValidityKind_descriptor()),
-                            Required::yes,
-                            "Quality validity",
-                            commonmodule::ValidityKind_Name(commonmodule::ValidityKind_good)
-                        ),
-                        bool_property(
-                            keys::quality_overflow,
-                            Required::yes,
-                            "Overflow",
-                            false
-                        ),
-                        bool_property(
-                            keys::quality_outofrange,
-                            Required::yes,
-                            "Out of range",
-                            false
-                        ),
-                        bool_property(
-                            keys::quality_badreference,
-                            Required::yes,
-                            "Bad reference",
-                            false
-                        ),
-                        bool_property(
-                            keys::quality_oscillatory,
-                            Required::yes,
-                            "Oscillatory",
-                            false
-                        ),
-                        bool_property(
-                            keys::quality_failure,
-                            Required::yes,
-                            "Failure",
-                            false
-                        ),
-                        bool_property(
-                            keys::quality_olddata,
-                            Required::yes,
-                            "Old data",
-                            false
-                        ),
-                        bool_property(
-                            keys::quality_inconsistent,
-                            Required::yes,
-                            "Inconsistent",
-                            false
-                        ),
-                        bool_property(
-                            keys::quality_inaccurate,
-                            Required::yes,
-                            "Inaccurate",
-                            false
-                        ),
-                        enum_property(
-                            keys::quality_source,
-                            util::SchemaWriteVisitorBase::get_enum_variants_from_proto(commonmodule::SourceKind_descriptor()),
-                            Required::yes,
-                            "Source",
-                            commonmodule::SourceKind_Name(commonmodule::SourceKind_process)
-                        ),
-                        bool_property(
-                            keys::quality_test,
-                            Required::yes,
-                            "Test",
-                            false
-                        ),
-                        bool_property(
-                            keys::quality_operatorblocked,
-                            Required::yes,
-                            "Operator blocked",
-                            false
-                        ),
-                    })
-                )
-            );
-
-            // Timequality templates
-            props.emplace_back(
-                array_property(
-                    keys::timequality_templates,
-                    Required::yes,
-                    "Timequality templates",
-                    Object({
-                        string_property(
-                            keys::timequality_id,
-                            Required::yes,
-                            "unique ID",
-                            "default-time-quality",
-                            StringFormat::None
-                        ),
-                        bool_property(
-                            keys::timequality_clock_failure,
-                            Required::yes,
-                            "Clock failure",
-                            false
-                        ),
-                        bool_property(
-                            keys::timequality_clock_not_synchronized,
-                            Required::yes,
-                            "Clock not synchronized",
-                            false
-                        ),
-                        bool_property(
-                            keys::timequality_leap_seconds_known,
-                            Required::yes,
-                            "Lead seconds known",
-                            false
-                        ),
-                        enum_property(
-                            keys::timequality_time_accuracy,
-                            util::SchemaWriteVisitorBase::get_enum_variants_from_proto(commonmodule::TimeAccuracyKind_descriptor()),
-                            Required::yes,
-                            "Time accuracy",
-                            commonmodule::TimeAccuracyKind_Name(commonmodule::TimeAccuracyKind_T0)
-                        )
-                    })
-                )
-            );
-
-            // GOOSE structure
-            props.emplace_back(
-                array_property(
-                    keys::goose_struct,
-                    Required::yes,
-                    "GOOSE message structure",
-                    GooseStructureConfigVisitor::get_schema()
+                    "control block name",
+                    "OES/LLN0.gcb_name",
+                    StringFormat::None
                 )
             );
 
@@ -186,12 +51,12 @@ namespace goose {
 
     std::string SubscribingPluginFactory::name() const
     {
-        return "goose-sub";
+        return "IEC61850-server";
     }
 
     std::string SubscribingPluginFactory::description() const
     {
-        return "maps OpenFMB messages to the GOOSE protocol";
+        return "maps OpenFMB messages to the IEC61850 protocol";
     }
 
     std::unique_ptr<api::IPlugin> SubscribingPluginFactory::create(const YAML::Node& node, const api::Logger& logger, api::message_bus_t bus)

@@ -15,6 +15,7 @@ namespace goose {
         constexpr const char* const goCbRef = "goCbRef";
         constexpr const char* const profiles = "profiles";
         constexpr const char* const mapping = "mapping";
+        constexpr const char* const control_block = "control-block";
 
         constexpr const char* const goose_struct = "gooseStructure";
         constexpr const char* const name = "name";

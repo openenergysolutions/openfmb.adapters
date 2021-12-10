@@ -27,10 +27,10 @@ namespace goose {
 
             props.emplace_back(
                 string_property(
-                   keys::goCbRef,
+                   keys::control_block,
                    Required::yes,
-                   "GOOSE Control Block Reference",
-                   "REF615A_204LD0/LLN0$GO$OpenFMBheartbeat",
+                   "Control Block Reference",
+                   "OES/LLN0.gcb_name",
                    StringFormat::None
                 )
             );
@@ -50,12 +50,12 @@ namespace goose {
 
     std::string PublishingPluginFactory::name() const
     {
-        return "goose-pub";
+        return "IEC61850-client";
     }
 
     std::string PublishingPluginFactory::description() const
     {
-        return "maps GOOSE protocol messages to OpenFMB";
+        return "maps IEC61850 protocol messages to OpenFMB";
     }
 
     std::unique_ptr<api::IPlugin> PublishingPluginFactory::create(const YAML::Node& node, const api::Logger& logger, api::message_bus_t bus)
