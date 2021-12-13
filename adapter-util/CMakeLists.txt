@@ -57,6 +57,7 @@ set(HEADERS
     ./include/adapter-util/config/generated/MessageVisitors.h
     ./include/adapter-util/config/generated/ModelVisitors.h
     ./include/adapter-util/config/generated/TypedModelVisitors.h
+    ./include/adapter-util/config/generated/ClearingTimeFieldType.h
 )
 
 set(SOURCES
@@ -84,6 +85,7 @@ set(SOURCES
     ./src/config/generated/QualityFieldType.cpp
     ./src/config/generated/MessageVisitors.cpp
     ./src/config/generated/ModelVisitors.cpp
+    ./src/config/generated/ClearingTimeFieldType.cpp
 # typed model visitors
     ./src/config/generated/BreakerDiscreteControlProfileTypedModelVisitor.cpp
     ./src/config/generated/BreakerEventProfileTypedModelVisitor.cpp
@@ -94,10 +96,17 @@ set(SOURCES
     ./src/config/generated/CapBankEventProfileTypedModelVisitor.cpp
     ./src/config/generated/CapBankReadingProfileTypedModelVisitor.cpp
     ./src/config/generated/CapBankStatusProfileTypedModelVisitor.cpp
+    ./src/config/generated/CircuitSegmentControlProfileTypedModelVisitor.cpp
+    ./src/config/generated/CircuitSegmentEventProfileTypedModelVisitor.cpp
+    ./src/config/generated/CircuitSegmentStatusProfileTypedModelVisitor.cpp
+    ./src/config/generated/ESSCapabilityOverrideProfileTypedModelVisitor.cpp
+    ./src/config/generated/ESSCapabilityProfileTypedModelVisitor.cpp
     ./src/config/generated/ESSControlProfileTypedModelVisitor.cpp
     ./src/config/generated/ESSEventProfileTypedModelVisitor.cpp
     ./src/config/generated/ESSReadingProfileTypedModelVisitor.cpp
     ./src/config/generated/ESSStatusProfileTypedModelVisitor.cpp
+    ./src/config/generated/GenerationCapabilityOverrideProfileTypedModelVisitor.cpp
+    ./src/config/generated/GenerationCapabilityProfileTypedModelVisitor.cpp
     ./src/config/generated/GenerationControlProfileTypedModelVisitor.cpp
     ./src/config/generated/GenerationDiscreteControlProfileTypedModelVisitor.cpp
     ./src/config/generated/GenerationEventProfileTypedModelVisitor.cpp
@@ -121,6 +130,8 @@ set(SOURCES
     ./src/config/generated/ResourceEventProfileTypedModelVisitor.cpp
     ./src/config/generated/ResourceReadingProfileTypedModelVisitor.cpp
     ./src/config/generated/ResourceStatusProfileTypedModelVisitor.cpp
+    ./src/config/generated/SolarCapabilityOverrideProfileTypedModelVisitor.cpp
+    ./src/config/generated/SolarCapabilityProfileTypedModelVisitor.cpp
     ./src/config/generated/SolarControlProfileTypedModelVisitor.cpp
     ./src/config/generated/SolarEventProfileTypedModelVisitor.cpp
     ./src/config/generated/SolarReadingProfileTypedModelVisitor.cpp

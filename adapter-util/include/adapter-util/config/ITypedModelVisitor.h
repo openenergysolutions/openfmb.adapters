@@ -34,6 +34,7 @@ namespace util {
         virtual void handle(const std::string& field_name, const message_accessor_t<P, commonmodule::Quality>& accessor) = 0;
         virtual void handle(const std::string& field_name, const message_accessor_t<P, commonmodule::Timestamp>& accessor) = 0;
         virtual void handle(const std::string& field_name, const message_accessor_t<P, commonmodule::ControlTimestamp>& accessor) = 0;
+        virtual void handle(const std::string& field_name, const message_accessor_t<P, commonmodule::ClearingTime>& accessor) = 0;
 
         // --- handler for specialized repetitions in inside of schedules ---
         virtual void handle(const std::string& field_name, const getter_t<P, repeated_schedule_parameter_t>& getter) = 0;

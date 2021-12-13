@@ -22,6 +22,7 @@ set(PROTO_OUTPUT_DIR ${GENERATED_SOURCES_BASE_DIR}/proto-api)
 set(PROTO_MODULES
     breaker
     capbank
+    circuitsegmentservice
     common
     ess
     generation

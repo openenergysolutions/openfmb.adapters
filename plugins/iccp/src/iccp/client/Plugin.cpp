@@ -47,7 +47,8 @@ namespace adapter {
                 template <class U = T>
                 static return_t<
                     util::profile_info<U>::type == util::ProfileType::Reading ||
-                    util::profile_info<U>::type == util::ProfileType::Status>
+                    util::profile_info<U>::type == util::ProfileType::Status ||
+                    util::profile_info<U>::type == util::ProfileType::Capability>
                 handle(const YAML::Node& node, const api::Logger& logger, api::message_bus_t bus, std::shared_ptr<exe4cpp::IExecutor> executor, std::shared_ptr<ITransactionProcessor> processor, client_t client)
                 {
                     const auto poll_handler = std::make_shared<PollHandler>();

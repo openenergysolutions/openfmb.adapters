@@ -19,6 +19,7 @@
 #define OPENFMB_CONVERTFROMPROTO_H
 
 #include "reclosermodule/reclosermodule.pb.h"
+#include "circuitsegmentservicemodule/circuitsegmentservicemodule.pb.h"
 #include "solarmodule/solarmodule.pb.h"
 #include "breakermodule/breakermodule.pb.h"
 #include "capbankmodule/capbankmodule.pb.h"
@@ -56,6 +57,16 @@ void convert_from_proto(const capbankmodule::CapBankReadingProfile& in, twinoaks
 
 void convert_from_proto(const capbankmodule::CapBankStatusProfile& in, twinoaks::capbankmodule::CapBankStatusProfile& out);
 
+void convert_from_proto(const circuitsegmentservicemodule::CircuitSegmentControlProfile& in, twinoaks::circuitsegmentservicemodule::CircuitSegmentControlProfile& out);
+
+void convert_from_proto(const circuitsegmentservicemodule::CircuitSegmentEventProfile& in, twinoaks::circuitsegmentservicemodule::CircuitSegmentEventProfile& out);
+
+void convert_from_proto(const circuitsegmentservicemodule::CircuitSegmentStatusProfile& in, twinoaks::circuitsegmentservicemodule::CircuitSegmentStatusProfile& out);
+
+void convert_from_proto(const essmodule::ESSCapabilityOverrideProfile& in, twinoaks::essmodule::ESSCapabilityOverrideProfile& out);
+
+void convert_from_proto(const essmodule::ESSCapabilityProfile& in, twinoaks::essmodule::ESSCapabilityProfile& out);
+
 void convert_from_proto(const essmodule::ESSControlProfile& in, twinoaks::essmodule::ESSControlProfile& out);
 
 void convert_from_proto(const essmodule::ESSEventProfile& in, twinoaks::essmodule::ESSEventProfile& out);
@@ -63,6 +74,10 @@ void convert_from_proto(const essmodule::ESSEventProfile& in, twinoaks::essmodul
 void convert_from_proto(const essmodule::ESSReadingProfile& in, twinoaks::essmodule::ESSReadingProfile& out);
 
 void convert_from_proto(const essmodule::ESSStatusProfile& in, twinoaks::essmodule::ESSStatusProfile& out);
+
+void convert_from_proto(const generationmodule::GenerationCapabilityOverrideProfile& in, twinoaks::generationmodule::GenerationCapabilityOverrideProfile& out);
+
+void convert_from_proto(const generationmodule::GenerationCapabilityProfile& in, twinoaks::generationmodule::GenerationCapabilityProfile& out);
 
 void convert_from_proto(const generationmodule::GenerationControlProfile& in, twinoaks::generationmodule::GenerationControlProfile& out);
 
@@ -109,6 +124,10 @@ void convert_from_proto(const resourcemodule::ResourceEventProfile& in, twinoaks
 void convert_from_proto(const resourcemodule::ResourceReadingProfile& in, twinoaks::resourcemodule::ResourceReadingProfile& out);
 
 void convert_from_proto(const resourcemodule::ResourceStatusProfile& in, twinoaks::resourcemodule::ResourceStatusProfile& out);
+
+void convert_from_proto(const solarmodule::SolarCapabilityOverrideProfile& in, twinoaks::solarmodule::SolarCapabilityOverrideProfile& out);
+
+void convert_from_proto(const solarmodule::SolarCapabilityProfile& in, twinoaks::solarmodule::SolarCapabilityProfile& out);
 
 void convert_from_proto(const solarmodule::SolarControlProfile& in, twinoaks::solarmodule::SolarControlProfile& out);
 

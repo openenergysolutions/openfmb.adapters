@@ -47,6 +47,16 @@ struct Profile
         CapBankReadingProfile,
         // capbankmodule.CapBankStatusProfile
         CapBankStatusProfile,
+        // circuitsegmentservicemodule.CircuitSegmentControlProfile
+        CircuitSegmentControlProfile,
+        // circuitsegmentservicemodule.CircuitSegmentEventProfile
+        CircuitSegmentEventProfile,
+        // circuitsegmentservicemodule.CircuitSegmentStatusProfile
+        CircuitSegmentStatusProfile,
+        // essmodule.ESSCapabilityOverrideProfile
+        ESSCapabilityOverrideProfile,
+        // essmodule.ESSCapabilityProfile
+        ESSCapabilityProfile,
         // essmodule.ESSControlProfile
         ESSControlProfile,
         // essmodule.ESSEventProfile
@@ -55,6 +65,10 @@ struct Profile
         ESSReadingProfile,
         // essmodule.ESSStatusProfile
         ESSStatusProfile,
+        // generationmodule.GenerationCapabilityOverrideProfile
+        GenerationCapabilityOverrideProfile,
+        // generationmodule.GenerationCapabilityProfile
+        GenerationCapabilityProfile,
         // generationmodule.GenerationControlProfile
         GenerationControlProfile,
         // generationmodule.GenerationDiscreteControlProfile
@@ -101,6 +115,10 @@ struct Profile
         ResourceReadingProfile,
         // resourcemodule.ResourceStatusProfile
         ResourceStatusProfile,
+        // solarmodule.SolarCapabilityOverrideProfile
+        SolarCapabilityOverrideProfile,
+        // solarmodule.SolarCapabilityProfile
+        SolarCapabilityProfile,
         // solarmodule.SolarControlProfile
         SolarControlProfile,
         // solarmodule.SolarEventProfile
@@ -128,10 +146,17 @@ struct Profile
     static const char CapBankEventProfile[];
     static const char CapBankReadingProfile[];
     static const char CapBankStatusProfile[];
+    static const char CircuitSegmentControlProfile[];
+    static const char CircuitSegmentEventProfile[];
+    static const char CircuitSegmentStatusProfile[];
+    static const char ESSCapabilityOverrideProfile[];
+    static const char ESSCapabilityProfile[];
     static const char ESSControlProfile[];
     static const char ESSEventProfile[];
     static const char ESSReadingProfile[];
     static const char ESSStatusProfile[];
+    static const char GenerationCapabilityOverrideProfile[];
+    static const char GenerationCapabilityProfile[];
     static const char GenerationControlProfile[];
     static const char GenerationDiscreteControlProfile[];
     static const char GenerationEventProfile[];
@@ -155,6 +180,8 @@ struct Profile
     static const char ResourceEventProfile[];
     static const char ResourceReadingProfile[];
     static const char ResourceStatusProfile[];
+    static const char SolarCapabilityOverrideProfile[];
+    static const char SolarCapabilityProfile[];
     static const char SolarControlProfile[];
     static const char SolarEventProfile[];
     static const char SolarReadingProfile[];
@@ -166,7 +193,7 @@ struct Profile
 
     static constexpr const char* label = "profile";
 
-    static const std::array<Value, 44> values;
+    static const std::array<Value, 53> values;
 
     static std::string to_string(Value value);
     static Value from_string(const std::string& name);

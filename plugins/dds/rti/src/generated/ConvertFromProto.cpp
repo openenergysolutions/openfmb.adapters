@@ -183,7 +183,41 @@ void convert_from_proto(const capbankmodule::CapBankReading& in, openfmb::capban
 
 void convert_from_proto(const capbankmodule::CapBankStatus& in, openfmb::capbankmodule::CapBankStatus& out);
 
+void convert_from_proto(const commonmodule::ApplicationSystem& in, openfmb::commonmodule::ApplicationSystem& out);
+
+void convert_from_proto(const circuitsegmentservicemodule::CircuitSegmentControl& in, openfmb::circuitsegmentservicemodule::CircuitSegmentControl& out);
+
+void convert_from_proto(const circuitsegmentservicemodule::CircuitSegmentControlDCSC& in, openfmb::circuitsegmentservicemodule::CircuitSegmentControlDCSC& out);
+
+void convert_from_proto(const circuitsegmentservicemodule::ENG_CircuitSegmentServiceModeKind& in, openfmb::circuitsegmentservicemodule::ENG_CircuitSegmentServiceModeKind& out);
+
+void convert_from_proto(const circuitsegmentservicemodule::CircuitSegmentEvent& in, openfmb::circuitsegmentservicemodule::CircuitSegmentEvent& out);
+
+void convert_from_proto(const circuitsegmentservicemodule::CircuitSegmentEventDCSC& in, openfmb::circuitsegmentservicemodule::CircuitSegmentEventDCSC& out);
+
+void convert_from_proto(const circuitsegmentservicemodule::CircuitSegmentStatus& in, openfmb::circuitsegmentservicemodule::CircuitSegmentStatus& out);
+
+void convert_from_proto(const circuitsegmentservicemodule::CircuitSegmentStatusDCSC& in, openfmb::circuitsegmentservicemodule::CircuitSegmentStatusDCSC& out);
+
+void convert_from_proto(const commonmodule::CapabilityMessageInfo& in, openfmb::commonmodule::CapabilityMessageInfo& out);
+
 void convert_from_proto(const commonmodule::ESS& in, openfmb::commonmodule::ESS& out);
+
+void convert_from_proto(const essmodule::ESSCapabilityOverride& in, openfmb::essmodule::ESSCapabilityOverride& out);
+
+void convert_from_proto(const commonmodule::NameplateValue& in, openfmb::commonmodule::NameplateValue& out);
+
+void convert_from_proto(const essmodule::ESSCapabilityConfiguration& in, openfmb::essmodule::ESSCapabilityConfiguration& out);
+
+void convert_from_proto(const commonmodule::SourceCapabilityConfiguration& in, openfmb::commonmodule::SourceCapabilityConfiguration& out);
+
+void convert_from_proto(const commonmodule::ASG& in, openfmb::commonmodule::ASG& out);
+
+void convert_from_proto(const essmodule::ESSCapability& in, openfmb::essmodule::ESSCapability& out);
+
+void convert_from_proto(const essmodule::ESSCapabilityRatings& in, openfmb::essmodule::ESSCapabilityRatings& out);
+
+void convert_from_proto(const commonmodule::SourceCapabilityRatings& in, openfmb::commonmodule::SourceCapabilityRatings& out);
 
 void convert_from_proto(const essmodule::ESSControl& in, openfmb::essmodule::ESSControl& out);
 
@@ -217,6 +251,62 @@ void convert_from_proto(const commonmodule::ENG_GridConnectModeKind& in, openfmb
 
 void convert_from_proto(const commonmodule::RampRate& in, openfmb::commonmodule::RampRate& out);
 
+void convert_from_proto(const commonmodule::EnterServiceAPC& in, openfmb::commonmodule::EnterServiceAPC& out);
+
+void convert_from_proto(const commonmodule::OperationDCTE& in, openfmb::commonmodule::OperationDCTE& out);
+
+void convert_from_proto(const commonmodule::HzWAPC& in, openfmb::commonmodule::HzWAPC& out);
+
+void convert_from_proto(const commonmodule::HzWPoint& in, openfmb::commonmodule::HzWPoint& out);
+
+void convert_from_proto(const commonmodule::OperationDHFW& in, openfmb::commonmodule::OperationDHFW& out);
+
+void convert_from_proto(const commonmodule::ClearingTime& in, openfmb::commonmodule::ClearingTime& out);
+
+void convert_from_proto(const commonmodule::OperationDLFW& in, openfmb::commonmodule::OperationDLFW& out);
+
+void convert_from_proto(const commonmodule::LimitWAPC& in, openfmb::commonmodule::LimitWAPC& out);
+
+void convert_from_proto(const commonmodule::OperationDWMX& in, openfmb::commonmodule::OperationDWMX& out);
+
+void convert_from_proto(const commonmodule::OperationDWMN& in, openfmb::commonmodule::OperationDWMN& out);
+
+void convert_from_proto(const commonmodule::PFStorageSPC& in, openfmb::commonmodule::PFStorageSPC& out);
+
+void convert_from_proto(const commonmodule::OperationStorageDFPF& in, openfmb::commonmodule::OperationStorageDFPF& out);
+
+void convert_from_proto(const commonmodule::OperationDFPF& in, openfmb::commonmodule::OperationDFPF& out);
+
+void convert_from_proto(const commonmodule::TmHzCSG& in, openfmb::commonmodule::TmHzCSG& out);
+
+void convert_from_proto(const commonmodule::TmHzPoint& in, openfmb::commonmodule::TmHzPoint& out);
+
+void convert_from_proto(const commonmodule::TmVoltCSG& in, openfmb::commonmodule::TmVoltCSG& out);
+
+void convert_from_proto(const commonmodule::TmVoltPoint& in, openfmb::commonmodule::TmVoltPoint& out);
+
+void convert_from_proto(const commonmodule::VarSPC& in, openfmb::commonmodule::VarSPC& out);
+
+void convert_from_proto(const commonmodule::OperationDVAR& in, openfmb::commonmodule::OperationDVAR& out);
+
+void convert_from_proto(const commonmodule::VoltVarCSG& in, openfmb::commonmodule::VoltVarCSG& out);
+
+void convert_from_proto(const commonmodule::VoltVarPoint& in, openfmb::commonmodule::VoltVarPoint& out);
+
+void convert_from_proto(const commonmodule::OperationDVVR& in, openfmb::commonmodule::OperationDVVR& out);
+
+void convert_from_proto(const commonmodule::VoltWCSG& in, openfmb::commonmodule::VoltWCSG& out);
+
+void convert_from_proto(const commonmodule::VoltWPoint& in, openfmb::commonmodule::VoltWPoint& out);
+
+void convert_from_proto(const commonmodule::OperationDVWC& in, openfmb::commonmodule::OperationDVWC& out);
+
+void convert_from_proto(const commonmodule::WVarCSG& in, openfmb::commonmodule::WVarCSG& out);
+
+void convert_from_proto(const commonmodule::WVarPoint& in, openfmb::commonmodule::WVarPoint& out);
+
+void convert_from_proto(const commonmodule::OperationDWVR& in, openfmb::commonmodule::OperationDWVR& out);
+
 void convert_from_proto(const essmodule::ESSEvent& in, openfmb::essmodule::ESSEvent& out);
 
 void convert_from_proto(const essmodule::EssEventZBAT& in, openfmb::essmodule::EssEventZBAT& out);
@@ -235,9 +325,19 @@ void convert_from_proto(const essmodule::EssStatusZBAT& in, openfmb::essmodule::
 
 void convert_from_proto(const essmodule::ESSStatusZGEN& in, openfmb::essmodule::ESSStatusZGEN& out);
 
+void convert_from_proto(const commonmodule::CapabilityOverrideMessageInfo& in, openfmb::commonmodule::CapabilityOverrideMessageInfo& out);
+
+void convert_from_proto(const generationmodule::GenerationCapabilityOverride& in, openfmb::generationmodule::GenerationCapabilityOverride& out);
+
+void convert_from_proto(const generationmodule::GenerationCapabilityConfiguration& in, openfmb::generationmodule::GenerationCapabilityConfiguration& out);
+
 void convert_from_proto(const generationmodule::GeneratingUnit& in, openfmb::generationmodule::GeneratingUnit& out);
 
 void convert_from_proto(const commonmodule::ActivePower& in, openfmb::commonmodule::ActivePower& out);
+
+void convert_from_proto(const generationmodule::GenerationCapability& in, openfmb::generationmodule::GenerationCapability& out);
+
+void convert_from_proto(const generationmodule::GenerationCapabilityRatings& in, openfmb::generationmodule::GenerationCapabilityRatings& out);
 
 void convert_from_proto(const generationmodule::GenerationControl& in, openfmb::generationmodule::GenerationControl& out);
 
@@ -248,6 +348,8 @@ void convert_from_proto(const generationmodule::GenerationControlScheduleFSCH& i
 void convert_from_proto(const generationmodule::GenerationCSG& in, openfmb::generationmodule::GenerationCSG& out);
 
 void convert_from_proto(const generationmodule::GenerationPoint& in, openfmb::generationmodule::GenerationPoint& out);
+
+void convert_from_proto(const commonmodule::PFSPC& in, openfmb::commonmodule::PFSPC& out);
 
 void convert_from_proto(const generationmodule::GenerationDiscreteControl& in, openfmb::generationmodule::GenerationDiscreteControl& out);
 
@@ -341,8 +443,6 @@ void convert_from_proto(const regulatormodule::RegulatorEventAndStatusANCR& in, 
 
 void convert_from_proto(const regulatormodule::RegulatorEventAndStatusATCC& in, openfmb::regulatormodule::RegulatorEventAndStatusATCC& out);
 
-void convert_from_proto(const commonmodule::ASG& in, openfmb::commonmodule::ASG& out);
-
 void convert_from_proto(const commonmodule::StatusINC& in, openfmb::commonmodule::StatusINC& out);
 
 void convert_from_proto(const commonmodule::PhaseINS& in, openfmb::commonmodule::PhaseINS& out);
@@ -379,6 +479,16 @@ void convert_from_proto(const resourcemodule::ResourceReading& in, openfmb::reso
 
 void convert_from_proto(const resourcemodule::ResourceStatus& in, openfmb::resourcemodule::ResourceStatus& out);
 
+void convert_from_proto(const solarmodule::SolarCapabilityOverride& in, openfmb::solarmodule::SolarCapabilityOverride& out);
+
+void convert_from_proto(const solarmodule::SolarCapabilityConfiguration& in, openfmb::solarmodule::SolarCapabilityConfiguration& out);
+
+void convert_from_proto(const solarmodule::SolarInverter& in, openfmb::solarmodule::SolarInverter& out);
+
+void convert_from_proto(const solarmodule::SolarCapability& in, openfmb::solarmodule::SolarCapability& out);
+
+void convert_from_proto(const solarmodule::SolarCapabilityRatings& in, openfmb::solarmodule::SolarCapabilityRatings& out);
+
 void convert_from_proto(const solarmodule::SolarControl& in, openfmb::solarmodule::SolarControl& out);
 
 void convert_from_proto(const solarmodule::SolarControlFSCC& in, openfmb::solarmodule::SolarControlFSCC& out);
@@ -388,8 +498,6 @@ void convert_from_proto(const solarmodule::SolarControlScheduleFSCH& in, openfmb
 void convert_from_proto(const solarmodule::SolarCSG& in, openfmb::solarmodule::SolarCSG& out);
 
 void convert_from_proto(const solarmodule::SolarPoint& in, openfmb::solarmodule::SolarPoint& out);
-
-void convert_from_proto(const solarmodule::SolarInverter& in, openfmb::solarmodule::SolarInverter& out);
 
 void convert_from_proto(const solarmodule::SolarEvent& in, openfmb::solarmodule::SolarEvent& out);
 
@@ -509,6 +617,51 @@ void convert_from_proto(const capbankmodule::CapBankStatusProfile& in, openfmb::
     convert_from_proto(in.capbanksystem(), out.capBankSystem()); // required field in DDS
 }
 
+void convert_from_proto(const circuitsegmentservicemodule::CircuitSegmentControlProfile& in, openfmb::circuitsegmentservicemodule::CircuitSegmentControlProfile& out)
+{
+    if(in.has_controlmessageinfo()) convert_from_proto(in.controlmessageinfo(), out); // inherited type
+
+    convert_from_proto(in.applicationsystem(), out.applicationSystem()); // required field in DDS
+
+    convert_from_proto(in.circuitsegmentcontrol(), out.circuitSegmentControl()); // required field in DDS
+}
+
+void convert_from_proto(const circuitsegmentservicemodule::CircuitSegmentEventProfile& in, openfmb::circuitsegmentservicemodule::CircuitSegmentEventProfile& out)
+{
+    if(in.has_eventmessageinfo()) convert_from_proto(in.eventmessageinfo(), out); // inherited type
+
+    convert_from_proto(in.applicationsystem(), out.applicationSystem()); // required field in DDS
+
+    convert_from_proto(in.circuitsegmentevent(), out.circuitSegmentEvent()); // required field in DDS
+}
+
+void convert_from_proto(const circuitsegmentservicemodule::CircuitSegmentStatusProfile& in, openfmb::circuitsegmentservicemodule::CircuitSegmentStatusProfile& out)
+{
+    if(in.has_eventmessageinfo()) convert_from_proto(in.eventmessageinfo(), out); // inherited type
+
+    convert_from_proto(in.applicationsystem(), out.applicationSystem()); // required field in DDS
+
+    convert_from_proto(in.circuitsegmentstatus(), out.circuitSegmentStatus()); // required field in DDS
+}
+
+void convert_from_proto(const essmodule::ESSCapabilityOverrideProfile& in, openfmb::essmodule::ESSCapabilityOverrideProfile& out)
+{
+    if(in.has_capabilitymessageinfo()) convert_from_proto(in.capabilitymessageinfo(), out); // inherited type
+
+    convert_from_proto(in.ess(), out.ess()); // required field in DDS
+
+    convert_from_proto(in.esscapabilityoverride(), out.essCapabilityOverride()); // required field in DDS
+}
+
+void convert_from_proto(const essmodule::ESSCapabilityProfile& in, openfmb::essmodule::ESSCapabilityProfile& out)
+{
+    if(in.has_capabilitymessageinfo()) convert_from_proto(in.capabilitymessageinfo(), out); // inherited type
+
+    convert_from_proto(in.ess(), out.ess()); // required field in DDS
+
+    convert_from_proto(in.esscapability(), out.essCapability()); // required field in DDS
+}
+
 void convert_from_proto(const essmodule::ESSControlProfile& in, openfmb::essmodule::ESSControlProfile& out)
 {
     if(in.has_controlmessageinfo()) convert_from_proto(in.controlmessageinfo(), out); // inherited type
@@ -543,6 +696,24 @@ void convert_from_proto(const essmodule::ESSStatusProfile& in, openfmb::essmodul
     convert_from_proto(in.ess(), out.ess()); // required field in DDS
 
     convert_from_proto(in.essstatus(), out.essStatus()); // required field in DDS
+}
+
+void convert_from_proto(const generationmodule::GenerationCapabilityOverrideProfile& in, openfmb::generationmodule::GenerationCapabilityOverrideProfile& out)
+{
+    if(in.has_capabilityoverridemessageinfo()) convert_from_proto(in.capabilityoverridemessageinfo(), out); // inherited type
+
+    convert_from_proto(in.generationcapabilityoverride(), out.generationCapabilityOverride()); // required field in DDS
+
+    convert_from_proto(in.generatingunit(), out.generatingUnit()); // required field in DDS
+}
+
+void convert_from_proto(const generationmodule::GenerationCapabilityProfile& in, openfmb::generationmodule::GenerationCapabilityProfile& out)
+{
+    if(in.has_capabilitymessageinfo()) convert_from_proto(in.capabilitymessageinfo(), out); // inherited type
+
+    convert_from_proto(in.generationcapability(), out.generationCapability()); // required field in DDS
+
+    convert_from_proto(in.generatingunit(), out.generatingUnit()); // required field in DDS
 }
 
 void convert_from_proto(const generationmodule::GenerationControlProfile& in, openfmb::generationmodule::GenerationControlProfile& out)
@@ -760,6 +931,24 @@ void convert_from_proto(const resourcemodule::ResourceStatusProfile& in, openfmb
     convert_from_proto(in.conductingequipment(), out.conductingEquipment()); // required field in DDS
 
     convert_from_proto(in.resourcestatus(), out.resourceStatus()); // required field in DDS
+}
+
+void convert_from_proto(const solarmodule::SolarCapabilityOverrideProfile& in, openfmb::solarmodule::SolarCapabilityOverrideProfile& out)
+{
+    if(in.has_capabilityoverridemessageinfo()) convert_from_proto(in.capabilityoverridemessageinfo(), out); // inherited type
+
+    convert_from_proto(in.solarcapabilityoverride(), out.solarCapabilityOverride()); // required field in DDS
+
+    convert_from_proto(in.solarinverter(), out.solarInverter()); // required field in DDS
+}
+
+void convert_from_proto(const solarmodule::SolarCapabilityProfile& in, openfmb::solarmodule::SolarCapabilityProfile& out)
+{
+    if(in.has_capabilitymessageinfo()) convert_from_proto(in.capabilitymessageinfo(), out); // inherited type
+
+    convert_from_proto(in.solarcapability(), out.solarCapability()); // required field in DDS
+
+    convert_from_proto(in.solarinverter(), out.solarInverter()); // required field in DDS
 }
 
 void convert_from_proto(const solarmodule::SolarControlProfile& in, openfmb::solarmodule::SolarControlProfile& out)
@@ -2383,9 +2572,401 @@ void convert_from_proto(const capbankmodule::CapBankStatus& in, openfmb::capbank
     }
 }
 
+void convert_from_proto(const commonmodule::ApplicationSystem& in, openfmb::commonmodule::ApplicationSystem& out)
+{
+    if(in.has_namedobject()) convert_from_proto(in.namedobject(), out); // inherited type
+
+    out.mRID() = in.mrid(); // required string
+}
+
+void convert_from_proto(const circuitsegmentservicemodule::CircuitSegmentControl& in, openfmb::circuitsegmentservicemodule::CircuitSegmentControl& out)
+{
+    if(in.has_identifiedobject()) convert_from_proto(in.identifiedobject(), out); // inherited type
+
+    if(in.has_check()) // optional field in DDS
+    {
+        openfmb::commonmodule::CheckConditions temp{};
+        convert_from_proto(in.check(), temp);
+        out.check() = temp;
+    }
+
+    convert_from_proto(in.circuitsegmentcontroldcsc(), out.circuitSegmentControlDCSC()); // required field in DDS
+}
+
+void convert_from_proto(const circuitsegmentservicemodule::CircuitSegmentControlDCSC& in, openfmb::circuitsegmentservicemodule::CircuitSegmentControlDCSC& out)
+{
+    if(in.has_logicalnodeforcontrol()) convert_from_proto(in.logicalnodeforcontrol(), out); // inherited type
+
+    if(in.has_circuitsegmentservicemode()) // optional field in DDS
+    {
+        openfmb::circuitsegmentservicemodule::ENG_CircuitSegmentServiceModeKind temp{};
+        convert_from_proto(in.circuitsegmentservicemode(), temp);
+        out.CircuitSegmentServiceMode() = temp;
+    }
+
+    if(in.has_island()) // optional field in DDS
+    {
+        openfmb::commonmodule::ControlDPC temp{};
+        convert_from_proto(in.island(), temp);
+        out.Island() = temp;
+    }
+}
+
+void convert_from_proto(const circuitsegmentservicemodule::ENG_CircuitSegmentServiceModeKind& in, openfmb::circuitsegmentservicemodule::ENG_CircuitSegmentServiceModeKind& out)
+{
+    out.setVal() = static_cast<openfmb::circuitsegmentservicemodule::CircuitSegmentServiceModeKind::inner_enum>(in.setval());
+
+    if(in.has_setvalextension()) out.setValExtension() = in.setvalextension().value(); // optional string
+}
+
+void convert_from_proto(const circuitsegmentservicemodule::CircuitSegmentEvent& in, openfmb::circuitsegmentservicemodule::CircuitSegmentEvent& out)
+{
+    if(in.has_identifiedobject()) convert_from_proto(in.identifiedobject(), out); // inherited type
+
+    convert_from_proto(in.circuitsegmenteventdcsc(), out.circuitSegmentEventDCSC()); // required field in DDS
+}
+
+void convert_from_proto(const circuitsegmentservicemodule::CircuitSegmentEventDCSC& in, openfmb::circuitsegmentservicemodule::CircuitSegmentEventDCSC& out)
+{
+    if(in.has_logicalnode()) convert_from_proto(in.logicalnode(), out); // inherited type
+
+    if(in.has_circuitsegmentservicemode()) // optional field in DDS
+    {
+        openfmb::circuitsegmentservicemodule::ENG_CircuitSegmentServiceModeKind temp{};
+        convert_from_proto(in.circuitsegmentservicemode(), temp);
+        out.CircuitSegmentServiceMode() = temp;
+    }
+
+    if(in.has_island()) // optional field in DDS
+    {
+        openfmb::commonmodule::StatusSPS temp{};
+        convert_from_proto(in.island(), temp);
+        out.Island() = temp;
+    }
+
+    if(in.has_permissibleauto()) // optional field in DDS
+    {
+        openfmb::commonmodule::StatusSPS temp{};
+        convert_from_proto(in.permissibleauto(), temp);
+        out.PermissibleAuto() = temp;
+    }
+
+    if(in.has_permissiblemanual()) // optional field in DDS
+    {
+        openfmb::commonmodule::StatusSPS temp{};
+        convert_from_proto(in.permissiblemanual(), temp);
+        out.PermissibleManual() = temp;
+    }
+
+    if(in.has_permissiblenetzero()) // optional field in DDS
+    {
+        openfmb::commonmodule::StatusSPS temp{};
+        convert_from_proto(in.permissiblenetzero(), temp);
+        out.PermissibleNetzero() = temp;
+    }
+
+    if(in.has_permissiblestart()) // optional field in DDS
+    {
+        openfmb::commonmodule::StatusSPS temp{};
+        convert_from_proto(in.permissiblestart(), temp);
+        out.PermissibleStart() = temp;
+    }
+
+    if(in.has_permissiblestop()) // optional field in DDS
+    {
+        openfmb::commonmodule::StatusSPS temp{};
+        convert_from_proto(in.permissiblestop(), temp);
+        out.PermissibleStop() = temp;
+    }
+}
+
+void convert_from_proto(const circuitsegmentservicemodule::CircuitSegmentStatus& in, openfmb::circuitsegmentservicemodule::CircuitSegmentStatus& out)
+{
+    if(in.has_identifiedobject()) convert_from_proto(in.identifiedobject(), out); // inherited type
+
+    convert_from_proto(in.circuitsegmentstatusdcsc(), out.circuitSegmentStatusDCSC()); // required field in DDS
+}
+
+void convert_from_proto(const circuitsegmentservicemodule::CircuitSegmentStatusDCSC& in, openfmb::circuitsegmentservicemodule::CircuitSegmentStatusDCSC& out)
+{
+    if(in.has_logicalnode()) convert_from_proto(in.logicalnode(), out); // inherited type
+
+    if(in.has_circuitsegmentservicemode()) // optional field in DDS
+    {
+        openfmb::circuitsegmentservicemodule::ENG_CircuitSegmentServiceModeKind temp{};
+        convert_from_proto(in.circuitsegmentservicemode(), temp);
+        out.CircuitSegmentServiceMode() = temp;
+    }
+
+    if(in.has_island()) // optional field in DDS
+    {
+        openfmb::commonmodule::StatusDPS temp{};
+        convert_from_proto(in.island(), temp);
+        out.Island() = temp;
+    }
+
+    if(in.has_permissibleauto()) // optional field in DDS
+    {
+        openfmb::commonmodule::StatusSPS temp{};
+        convert_from_proto(in.permissibleauto(), temp);
+        out.PermissibleAuto() = temp;
+    }
+
+    if(in.has_permissiblemanual()) // optional field in DDS
+    {
+        openfmb::commonmodule::StatusSPS temp{};
+        convert_from_proto(in.permissiblemanual(), temp);
+        out.PermissibleManual() = temp;
+    }
+
+    if(in.has_permissiblenetzero()) // optional field in DDS
+    {
+        openfmb::commonmodule::StatusSPS temp{};
+        convert_from_proto(in.permissiblenetzero(), temp);
+        out.PermissibleNetzero() = temp;
+    }
+
+    if(in.has_permissiblestart()) // optional field in DDS
+    {
+        openfmb::commonmodule::StatusSPS temp{};
+        convert_from_proto(in.permissiblestart(), temp);
+        out.PermissibleStart() = temp;
+    }
+
+    if(in.has_permissiblestop()) // optional field in DDS
+    {
+        openfmb::commonmodule::StatusSPS temp{};
+        convert_from_proto(in.permissiblestop(), temp);
+        out.PermissibleStop() = temp;
+    }
+}
+
+void convert_from_proto(const commonmodule::CapabilityMessageInfo& in, openfmb::commonmodule::CapabilityMessageInfo& out)
+{
+    if(in.has_messageinfo()) convert_from_proto(in.messageinfo(), out); // inherited type
+}
+
 void convert_from_proto(const commonmodule::ESS& in, openfmb::commonmodule::ESS& out)
 {
     if(in.has_conductingequipment()) convert_from_proto(in.conductingequipment(), out); // inherited type
+}
+
+void convert_from_proto(const essmodule::ESSCapabilityOverride& in, openfmb::essmodule::ESSCapabilityOverride& out)
+{
+    if(in.has_nameplatevalue()) convert_from_proto(in.nameplatevalue(), out); // inherited type
+
+    convert_from_proto(in.esscapabilityconfiguration(), out.essCapabilityConfiguration()); // required field in DDS
+}
+
+void convert_from_proto(const commonmodule::NameplateValue& in, openfmb::commonmodule::NameplateValue& out)
+{
+    if(in.has_identifiedobject()) convert_from_proto(in.identifiedobject(), out); // inherited type
+
+    if(in.has_model()) out.model() = in.model().value(); // optional string
+
+    if(in.has_sernum()) out.sernum() = in.sernum().value(); // optional string
+
+    if(in.has_swrev()) out.swRev() = in.swrev().value(); // optional string
+
+    if(in.has_vendor()) out.vendor() = in.vendor().value(); // optional string
+}
+
+void convert_from_proto(const essmodule::ESSCapabilityConfiguration& in, openfmb::essmodule::ESSCapabilityConfiguration& out)
+{
+    if(in.has_sourcecapabilityconfiguration()) convert_from_proto(in.sourcecapabilityconfiguration(), out); // inherited type
+
+    if(in.has_vachartemax()) // optional field in DDS
+    {
+        openfmb::commonmodule::ASG temp{};
+        convert_from_proto(in.vachartemax(), temp);
+        out.VAChaRteMax() = temp;
+    }
+
+    if(in.has_vadischartemax()) // optional field in DDS
+    {
+        openfmb::commonmodule::ASG temp{};
+        convert_from_proto(in.vadischartemax(), temp);
+        out.VADisChaRteMax() = temp;
+    }
+
+    if(in.has_wchartemax()) // optional field in DDS
+    {
+        openfmb::commonmodule::ASG temp{};
+        convert_from_proto(in.wchartemax(), temp);
+        out.WChaRteMax() = temp;
+    }
+
+    if(in.has_wdischartemax()) // optional field in DDS
+    {
+        openfmb::commonmodule::ASG temp{};
+        convert_from_proto(in.wdischartemax(), temp);
+        out.WDisChaRteMax() = temp;
+    }
+}
+
+void convert_from_proto(const commonmodule::SourceCapabilityConfiguration& in, openfmb::commonmodule::SourceCapabilityConfiguration& out)
+{
+    if(in.has_logicalnode()) convert_from_proto(in.logicalnode(), out); // inherited type
+
+    if(in.has_amax()) // optional field in DDS
+    {
+        openfmb::commonmodule::ASG temp{};
+        convert_from_proto(in.amax(), temp);
+        out.AMax() = temp;
+    }
+
+    if(in.has_vamax()) // optional field in DDS
+    {
+        openfmb::commonmodule::ASG temp{};
+        convert_from_proto(in.vamax(), temp);
+        out.VAMax() = temp;
+    }
+
+    if(in.has_varmaxabs()) // optional field in DDS
+    {
+        openfmb::commonmodule::ASG temp{};
+        convert_from_proto(in.varmaxabs(), temp);
+        out.VarMaxAbs() = temp;
+    }
+
+    if(in.has_varmaxinj()) // optional field in DDS
+    {
+        openfmb::commonmodule::ASG temp{};
+        convert_from_proto(in.varmaxinj(), temp);
+        out.VarMaxInj() = temp;
+    }
+
+    if(in.has_vmax()) // optional field in DDS
+    {
+        openfmb::commonmodule::ASG temp{};
+        convert_from_proto(in.vmax(), temp);
+        out.VMax() = temp;
+    }
+
+    if(in.has_vmin()) // optional field in DDS
+    {
+        openfmb::commonmodule::ASG temp{};
+        convert_from_proto(in.vmin(), temp);
+        out.VMin() = temp;
+    }
+
+    if(in.has_vnom()) // optional field in DDS
+    {
+        openfmb::commonmodule::ASG temp{};
+        convert_from_proto(in.vnom(), temp);
+        out.VNom() = temp;
+    }
+
+    if(in.has_wmax()) // optional field in DDS
+    {
+        openfmb::commonmodule::ASG temp{};
+        convert_from_proto(in.wmax(), temp);
+        out.WMax() = temp;
+    }
+
+    if(in.has_wovrext()) // optional field in DDS
+    {
+        openfmb::commonmodule::ASG temp{};
+        convert_from_proto(in.wovrext(), temp);
+        out.WOvrExt() = temp;
+    }
+
+    if(in.has_wovrextpf()) // optional field in DDS
+    {
+        openfmb::commonmodule::ASG temp{};
+        convert_from_proto(in.wovrextpf(), temp);
+        out.WOvrExtPF() = temp;
+    }
+
+    if(in.has_wundext()) // optional field in DDS
+    {
+        openfmb::commonmodule::ASG temp{};
+        convert_from_proto(in.wundext(), temp);
+        out.WUndExt() = temp;
+    }
+
+    if(in.has_wundextpf()) // optional field in DDS
+    {
+        openfmb::commonmodule::ASG temp{};
+        convert_from_proto(in.wundextpf(), temp);
+        out.WUndExtPF() = temp;
+    }
+}
+
+void convert_from_proto(const commonmodule::ASG& in, openfmb::commonmodule::ASG& out)
+{
+    out.setMag() = in.setmag(); // required DOUBLE primitive
+}
+
+void convert_from_proto(const essmodule::ESSCapability& in, openfmb::essmodule::ESSCapability& out)
+{
+    if(in.has_nameplatevalue()) convert_from_proto(in.nameplatevalue(), out); // inherited type
+
+    convert_from_proto(in.esscapabilityratings(), out.essCapabilityRatings()); // required field in DDS
+
+    if(in.has_esscapabilityconfiguration()) // optional field in DDS
+    {
+        openfmb::essmodule::ESSCapabilityConfiguration temp{};
+        convert_from_proto(in.esscapabilityconfiguration(), temp);
+        out.essCapabilityConfiguration() = temp;
+    }
+}
+
+void convert_from_proto(const essmodule::ESSCapabilityRatings& in, openfmb::essmodule::ESSCapabilityRatings& out)
+{
+    if(in.has_sourcecapabilityratings()) convert_from_proto(in.sourcecapabilityratings(), out); // inherited type
+
+    convert_from_proto(in.vachartemaxrtg(), out.VAChaRteMaxRtg()); // required field in DDS
+
+    convert_from_proto(in.vadischartemaxrtg(), out.VADisChaRteMaxRtg()); // required field in DDS
+
+    convert_from_proto(in.wchartemaxrtg(), out.WChaRteMaxRtg()); // required field in DDS
+
+    convert_from_proto(in.wdischartemaxrtg(), out.WDisChaRteMaxRtg()); // required field in DDS
+
+    convert_from_proto(in.whrtg(), out.WHRtg()); // required field in DDS
+}
+
+void convert_from_proto(const commonmodule::SourceCapabilityRatings& in, openfmb::commonmodule::SourceCapabilityRatings& out)
+{
+    if(in.has_logicalnode()) convert_from_proto(in.logicalnode(), out); // inherited type
+
+    out.AbnOpCatRtg() = static_cast<openfmb::commonmodule::AbnOpCatKind::inner_enum>(in.abnopcatrtg());
+
+    if(in.has_amaxrtg()) // optional field in DDS
+    {
+        openfmb::commonmodule::ASG temp{};
+        convert_from_proto(in.amaxrtg(), temp);
+        out.AMaxRtg() = temp;
+    }
+
+    convert_from_proto(in.freqnomrtg(), out.FreqNomRtg()); // required field in DDS
+
+    out.NorOpCatRtg() = static_cast<openfmb::commonmodule::NorOpCatKind::inner_enum>(in.noropcatrtg());
+
+    convert_from_proto(in.reactsusceptrtg(), out.ReactSusceptRtg()); // required field in DDS
+
+    convert_from_proto(in.vamaxrtg(), out.VAMaxRtg()); // required field in DDS
+
+    convert_from_proto(in.varmaxabsrtg(), out.VarMaxAbsRtg()); // required field in DDS
+
+    convert_from_proto(in.varmaxinjrtg(), out.VarMaxInjRtg()); // required field in DDS
+
+    convert_from_proto(in.vmaxrtg(), out.VMaxRtg()); // required field in DDS
+
+    convert_from_proto(in.vminrtg(), out.VMinRtg()); // required field in DDS
+
+    convert_from_proto(in.vnomrtg(), out.VNomRtg()); // required field in DDS
+
+    convert_from_proto(in.wmaxrtg(), out.WMaxRtg()); // required field in DDS
+
+    convert_from_proto(in.wovrextrtg(), out.WOvrExtRtg()); // required field in DDS
+
+    convert_from_proto(in.wovrextrtgpf(), out.WOvrExtRtgPF()); // required field in DDS
+
+    convert_from_proto(in.wundextrtg(), out.WUndExtRtg()); // required field in DDS
+
+    convert_from_proto(in.wundextrtgpf(), out.WUndExtRtgPF()); // required field in DDS
 }
 
 void convert_from_proto(const essmodule::ESSControl& in, openfmb::essmodule::ESSControl& out)
@@ -2529,6 +3110,76 @@ void convert_from_proto(const essmodule::ESSPoint& in, openfmb::essmodule::ESSPo
     }
 
     convert_from_proto(in.starttime(), out.startTime()); // required field in DDS
+
+    if(in.has_enterserviceoperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::EnterServiceAPC temp{};
+        convert_from_proto(in.enterserviceoperation(), temp);
+        out.enterServiceOperation() = temp;
+    }
+
+    if(in.has_hzwoperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::HzWAPC temp{};
+        convert_from_proto(in.hzwoperation(), temp);
+        out.hzWOperation() = temp;
+    }
+
+    if(in.has_limitwoperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::LimitWAPC temp{};
+        convert_from_proto(in.limitwoperation(), temp);
+        out.limitWOperation() = temp;
+    }
+
+    if(in.has_pfstorageoperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::PFStorageSPC temp{};
+        convert_from_proto(in.pfstorageoperation(), temp);
+        out.pFStorageOperation() = temp;
+    }
+
+    if(in.has_tmhztripoperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::TmHzCSG temp{};
+        convert_from_proto(in.tmhztripoperation(), temp);
+        out.tmHzTripOperation() = temp;
+    }
+
+    if(in.has_tmvolttripoperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::TmVoltCSG temp{};
+        convert_from_proto(in.tmvolttripoperation(), temp);
+        out.tmVoltTripOperation() = temp;
+    }
+
+    if(in.has_varoperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::VarSPC temp{};
+        convert_from_proto(in.varoperation(), temp);
+        out.vArOperation() = temp;
+    }
+
+    if(in.has_voltvaroperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::VoltVarCSG temp{};
+        convert_from_proto(in.voltvaroperation(), temp);
+        out.voltVarOperation() = temp;
+    }
+
+    if(in.has_voltwoperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::VoltWCSG temp{};
+        convert_from_proto(in.voltwoperation(), temp);
+        out.voltWOperation() = temp;
+    }
+
+    if(in.has_wvaroperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::WVarCSG temp{};
+        convert_from_proto(in.wvaroperation(), temp);
+        out.wVarOperation() = temp;
+    }
 }
 
 void convert_from_proto(const essmodule::ESSFunction& in, openfmb::essmodule::ESSFunction& out)
@@ -2816,6 +3467,255 @@ void convert_from_proto(const commonmodule::RampRate& in, openfmb::commonmodule:
     }
 }
 
+void convert_from_proto(const commonmodule::EnterServiceAPC& in, openfmb::commonmodule::EnterServiceAPC& out)
+{
+    convert_from_proto(in.enterserviceparameter(), out.enterServiceParameter()); // required field in DDS
+
+    out.hzHiLim() = in.hzhilim(); // required FLOAT primitive
+
+    out.hzLoLim() = in.hzlolim(); // required FLOAT primitive
+
+    out.rtnSrvAuto() = in.rtnsrvauto(); // required BOOL primitive
+
+    out.vHiLim() = in.vhilim(); // required FLOAT primitive
+
+    out.vLoLim() = in.vlolim(); // required FLOAT primitive
+}
+
+void convert_from_proto(const commonmodule::OperationDCTE& in, openfmb::commonmodule::OperationDCTE& out)
+{
+    out.rndDlTmms() = in.rnddltmms(); // required FLOAT primitive
+
+    out.rtnDlTmms() = in.rtndltmms(); // required FLOAT primitive
+
+    out.rtnRmpTmms() = in.rtnrmptmms(); // required FLOAT primitive
+}
+
+void convert_from_proto(const commonmodule::HzWAPC& in, openfmb::commonmodule::HzWAPC& out)
+{
+    convert_from_proto(in.overhzwpt(), out.overHzWPt()); // required field in DDS
+
+    convert_from_proto(in.overhzwparameter(), out.overHzWParameter()); // required field in DDS
+
+    convert_from_proto(in.underhzwpt(), out.underHzWPt()); // required field in DDS
+
+    convert_from_proto(in.underhzwparameter(), out.underHzWParameter()); // required field in DDS
+}
+
+void convert_from_proto(const commonmodule::HzWPoint& in, openfmb::commonmodule::HzWPoint& out)
+{
+    out.deadbandHzVal() = in.deadbandhzval(); // required FLOAT primitive
+
+    out.slopeVal() = in.slopeval(); // required FLOAT primitive
+}
+
+void convert_from_proto(const commonmodule::OperationDHFW& in, openfmb::commonmodule::OperationDHFW& out)
+{
+    out.modEna() = in.modena(); // required BOOL primitive
+
+    convert_from_proto(in.opltmmsmax(), out.OplTmmsMax()); // required field in DDS
+}
+
+void convert_from_proto(const commonmodule::ClearingTime& in, openfmb::commonmodule::ClearingTime& out)
+{
+    out.seconds() = in.seconds(); // required UINT64 primitive
+
+    out.nanoseconds() = in.nanoseconds(); // required UINT32 primitive
+}
+
+void convert_from_proto(const commonmodule::OperationDLFW& in, openfmb::commonmodule::OperationDLFW& out)
+{
+    out.modEna() = in.modena(); // required BOOL primitive
+
+    convert_from_proto(in.opltmmsmax(), out.OplTmmsMax()); // required field in DDS
+}
+
+void convert_from_proto(const commonmodule::LimitWAPC& in, openfmb::commonmodule::LimitWAPC& out)
+{
+    convert_from_proto(in.maxlimparameter(), out.maxLimParameter()); // required field in DDS
+
+    convert_from_proto(in.minlimparameter(), out.minLimParameter()); // required field in DDS
+
+    out.wMaxSptVal() = in.wmaxsptval(); // required FLOAT primitive
+
+    out.wMinSptVal() = in.wminsptval(); // required FLOAT primitive
+}
+
+void convert_from_proto(const commonmodule::OperationDWMX& in, openfmb::commonmodule::OperationDWMX& out)
+{
+    out.modEna() = in.modena(); // required BOOL primitive
+}
+
+void convert_from_proto(const commonmodule::OperationDWMN& in, openfmb::commonmodule::OperationDWMN& out)
+{
+    out.modEna() = in.modena(); // required BOOL primitive
+}
+
+void convert_from_proto(const commonmodule::PFStorageSPC& in, openfmb::commonmodule::PFStorageSPC& out)
+{
+    out.ctlVal() = in.ctlval(); // required BOOL primitive
+
+    convert_from_proto(in.pfstorageparameter(), out.pFStorageParameter()); // required field in DDS
+}
+
+void convert_from_proto(const commonmodule::OperationStorageDFPF& in, openfmb::commonmodule::OperationStorageDFPF& out)
+{
+    if(in.has_operationdfpf()) convert_from_proto(in.operationdfpf(), out); // inherited type
+
+    out.pFLodTgtMxVal() = in.pflodtgtmxval(); // required FLOAT primitive
+}
+
+void convert_from_proto(const commonmodule::OperationDFPF& in, openfmb::commonmodule::OperationDFPF& out)
+{
+    out.modEna() = in.modena(); // required BOOL primitive
+
+    out.pFExtSet() = in.pfextset(); // required BOOL primitive
+
+    out.pFGnTgtMxVal() = in.pfgntgtmxval(); // required FLOAT primitive
+}
+
+void convert_from_proto(const commonmodule::TmHzCSG& in, openfmb::commonmodule::TmHzCSG& out)
+{
+    for(const auto& input : in.overcrvpts())
+    {
+        openfmb::commonmodule::TmHzPoint output;
+        convert_from_proto(input, output);
+        out.overCrvPts().push_back(output);
+    }
+
+    for(const auto& input : in.undercrvpts())
+    {
+        openfmb::commonmodule::TmHzPoint output;
+        convert_from_proto(input, output);
+        out.underCrvPts().push_back(output);
+    }
+}
+
+void convert_from_proto(const commonmodule::TmHzPoint& in, openfmb::commonmodule::TmHzPoint& out)
+{
+    out.hzVal() = in.hzval(); // required FLOAT primitive
+
+    convert_from_proto(in.tmval(), out.tmVal()); // required field in DDS
+}
+
+void convert_from_proto(const commonmodule::TmVoltCSG& in, openfmb::commonmodule::TmVoltCSG& out)
+{
+    for(const auto& input : in.overcrvpts())
+    {
+        openfmb::commonmodule::TmVoltPoint output;
+        convert_from_proto(input, output);
+        out.overCrvPts().push_back(output);
+    }
+
+    for(const auto& input : in.undercrvpts())
+    {
+        openfmb::commonmodule::TmVoltPoint output;
+        convert_from_proto(input, output);
+        out.underCrvPts().push_back(output);
+    }
+}
+
+void convert_from_proto(const commonmodule::TmVoltPoint& in, openfmb::commonmodule::TmVoltPoint& out)
+{
+    convert_from_proto(in.tmval(), out.tmVal()); // required field in DDS
+
+    out.voltVal() = in.voltval(); // required FLOAT primitive
+}
+
+void convert_from_proto(const commonmodule::VarSPC& in, openfmb::commonmodule::VarSPC& out)
+{
+    out.modEna() = in.modena(); // required BOOL primitive
+
+    convert_from_proto(in.varparameter(), out.varParameter()); // required field in DDS
+}
+
+void convert_from_proto(const commonmodule::OperationDVAR& in, openfmb::commonmodule::OperationDVAR& out)
+{
+    out.varTgtSpt() = in.vartgtspt(); // required FLOAT primitive
+}
+
+void convert_from_proto(const commonmodule::VoltVarCSG& in, openfmb::commonmodule::VoltVarCSG& out)
+{
+    for(const auto& input : in.crvpts())
+    {
+        openfmb::commonmodule::VoltVarPoint output;
+        convert_from_proto(input, output);
+        out.crvPts().push_back(output);
+    }
+
+    convert_from_proto(in.vvarparameter(), out.vVarParameter()); // required field in DDS
+}
+
+void convert_from_proto(const commonmodule::VoltVarPoint& in, openfmb::commonmodule::VoltVarPoint& out)
+{
+    out.varVal() = in.varval(); // required FLOAT primitive
+
+    out.voltVal() = in.voltval(); // required FLOAT primitive
+}
+
+void convert_from_proto(const commonmodule::OperationDVVR& in, openfmb::commonmodule::OperationDVVR& out)
+{
+    out.modEna() = in.modena(); // required BOOL primitive
+
+    convert_from_proto(in.opltmmsmax(), out.OplTmmsMax()); // required field in DDS
+
+    out.VRef() = in.vref(); // required FLOAT primitive
+
+    out.VRefAdjEna() = in.vrefadjena(); // required BOOL primitive
+
+    out.VRefTmms() = in.vreftmms(); // required FLOAT primitive
+}
+
+void convert_from_proto(const commonmodule::VoltWCSG& in, openfmb::commonmodule::VoltWCSG& out)
+{
+    for(const auto& input : in.crvpts())
+    {
+        openfmb::commonmodule::VoltWPoint output;
+        convert_from_proto(input, output);
+        out.crvPts().push_back(output);
+    }
+
+    convert_from_proto(in.voltwparameter(), out.voltWParameter()); // required field in DDS
+}
+
+void convert_from_proto(const commonmodule::VoltWPoint& in, openfmb::commonmodule::VoltWPoint& out)
+{
+    out.voltVal() = in.voltval(); // required FLOAT primitive
+
+    out.wVal() = in.wval(); // required FLOAT primitive
+}
+
+void convert_from_proto(const commonmodule::OperationDVWC& in, openfmb::commonmodule::OperationDVWC& out)
+{
+    out.modEna() = in.modena(); // required BOOL primitive
+
+    convert_from_proto(in.opltmmsmax(), out.OplTmmsMax()); // required field in DDS
+}
+
+void convert_from_proto(const commonmodule::WVarCSG& in, openfmb::commonmodule::WVarCSG& out)
+{
+    for(const auto& input : in.crvpts())
+    {
+        openfmb::commonmodule::WVarPoint output;
+        convert_from_proto(input, output);
+        out.crvPts().push_back(output);
+    }
+
+    convert_from_proto(in.wvarparameter(), out.wVarParameter()); // required field in DDS
+}
+
+void convert_from_proto(const commonmodule::WVarPoint& in, openfmb::commonmodule::WVarPoint& out)
+{
+    out.varVal() = in.varval(); // required FLOAT primitive
+
+    out.wVal() = in.wval(); // required FLOAT primitive
+}
+
+void convert_from_proto(const commonmodule::OperationDWVR& in, openfmb::commonmodule::OperationDWVR& out)
+{
+    out.modEna() = in.modena(); // required BOOL primitive
+}
+
 void convert_from_proto(const essmodule::ESSEvent& in, openfmb::essmodule::ESSEvent& out)
 {
     if(in.has_eventvalue()) convert_from_proto(in.eventvalue(), out); // inherited type
@@ -2872,6 +3772,20 @@ void convert_from_proto(const essmodule::EssEventZBAT& in, openfmb::essmodule::E
         openfmb::commonmodule::StatusSPS temp{};
         convert_from_proto(in.stdby(), temp);
         out.Stdby() = temp;
+    }
+
+    if(in.has_soh()) // optional field in DDS
+    {
+        openfmb::commonmodule::MV temp{};
+        convert_from_proto(in.soh(), temp);
+        out.SoH() = temp;
+    }
+
+    if(in.has_whavail()) // optional field in DDS
+    {
+        openfmb::commonmodule::MV temp{};
+        convert_from_proto(in.whavail(), temp);
+        out.WHAvail() = temp;
     }
 }
 
@@ -3006,6 +3920,76 @@ void convert_from_proto(const essmodule::ESSPointStatus& in, openfmb::essmodule:
         convert_from_proto(in.voltagesetpointenabled(), temp);
         out.voltageSetPointEnabled() = temp;
     }
+
+    if(in.has_enterserviceoperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::EnterServiceAPC temp{};
+        convert_from_proto(in.enterserviceoperation(), temp);
+        out.enterServiceOperation() = temp;
+    }
+
+    if(in.has_hzwoperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::HzWAPC temp{};
+        convert_from_proto(in.hzwoperation(), temp);
+        out.hzWOperation() = temp;
+    }
+
+    if(in.has_limitwoperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::LimitWAPC temp{};
+        convert_from_proto(in.limitwoperation(), temp);
+        out.limitWOperation() = temp;
+    }
+
+    if(in.has_pfstorageoperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::PFStorageSPC temp{};
+        convert_from_proto(in.pfstorageoperation(), temp);
+        out.pFStorageOperation() = temp;
+    }
+
+    if(in.has_tmhztripoperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::TmHzCSG temp{};
+        convert_from_proto(in.tmhztripoperation(), temp);
+        out.tmHzTripOperation() = temp;
+    }
+
+    if(in.has_tmvolttripoperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::TmVoltCSG temp{};
+        convert_from_proto(in.tmvolttripoperation(), temp);
+        out.tmVoltTripOperation() = temp;
+    }
+
+    if(in.has_varoperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::VarSPC temp{};
+        convert_from_proto(in.varoperation(), temp);
+        out.vArOperation() = temp;
+    }
+
+    if(in.has_voltvaroperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::VoltVarCSG temp{};
+        convert_from_proto(in.voltvaroperation(), temp);
+        out.voltVarOperation() = temp;
+    }
+
+    if(in.has_voltwoperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::VoltWCSG temp{};
+        convert_from_proto(in.voltwoperation(), temp);
+        out.voltWOperation() = temp;
+    }
+
+    if(in.has_wvaroperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::WVarCSG temp{};
+        convert_from_proto(in.wvaroperation(), temp);
+        out.wVarOperation() = temp;
+    }
 }
 
 void convert_from_proto(const essmodule::ESSReading& in, openfmb::essmodule::ESSReading& out)
@@ -3084,11 +4068,42 @@ void convert_from_proto(const essmodule::EssStatusZBAT& in, openfmb::essmodule::
         convert_from_proto(in.stdby(), temp);
         out.Stdby() = temp;
     }
+
+    if(in.has_soh()) // optional field in DDS
+    {
+        openfmb::commonmodule::MV temp{};
+        convert_from_proto(in.soh(), temp);
+        out.SoH() = temp;
+    }
+
+    if(in.has_whavail()) // optional field in DDS
+    {
+        openfmb::commonmodule::MV temp{};
+        convert_from_proto(in.whavail(), temp);
+        out.WHAvail() = temp;
+    }
 }
 
 void convert_from_proto(const essmodule::ESSStatusZGEN& in, openfmb::essmodule::ESSStatusZGEN& out)
 {
     if(in.has_esseventandstatuszgen()) convert_from_proto(in.esseventandstatuszgen(), out); // inherited type
+}
+
+void convert_from_proto(const commonmodule::CapabilityOverrideMessageInfo& in, openfmb::commonmodule::CapabilityOverrideMessageInfo& out)
+{
+    if(in.has_messageinfo()) convert_from_proto(in.messageinfo(), out); // inherited type
+}
+
+void convert_from_proto(const generationmodule::GenerationCapabilityOverride& in, openfmb::generationmodule::GenerationCapabilityOverride& out)
+{
+    if(in.has_identifiedobject()) convert_from_proto(in.identifiedobject(), out); // inherited type
+
+    convert_from_proto(in.generationcapabilityconfiguration(), out.generationCapabilityConfiguration()); // required field in DDS
+}
+
+void convert_from_proto(const generationmodule::GenerationCapabilityConfiguration& in, openfmb::generationmodule::GenerationCapabilityConfiguration& out)
+{
+    if(in.has_sourcecapabilityconfiguration()) convert_from_proto(in.sourcecapabilityconfiguration(), out); // inherited type
 }
 
 void convert_from_proto(const generationmodule::GeneratingUnit& in, openfmb::generationmodule::GeneratingUnit& out)
@@ -3119,6 +4134,25 @@ void convert_from_proto(const commonmodule::ActivePower& in, openfmb::commonmodu
     {
         out.value() = in.value().value();
     }
+}
+
+void convert_from_proto(const generationmodule::GenerationCapability& in, openfmb::generationmodule::GenerationCapability& out)
+{
+    if(in.has_nameplatevalue()) convert_from_proto(in.nameplatevalue(), out); // inherited type
+
+    convert_from_proto(in.generationcapabilityratings(), out.generationCapabilityRatings()); // required field in DDS
+
+    if(in.has_generationcapabilityconfiguration()) // optional field in DDS
+    {
+        openfmb::generationmodule::GenerationCapabilityConfiguration temp{};
+        convert_from_proto(in.generationcapabilityconfiguration(), temp);
+        out.generationCapabilityConfiguration() = temp;
+    }
+}
+
+void convert_from_proto(const generationmodule::GenerationCapabilityRatings& in, openfmb::generationmodule::GenerationCapabilityRatings& out)
+{
+    if(in.has_sourcecapabilityratings()) convert_from_proto(in.sourcecapabilityratings(), out); // inherited type
 }
 
 void convert_from_proto(const generationmodule::GenerationControl& in, openfmb::generationmodule::GenerationControl& out)
@@ -3248,6 +4282,83 @@ void convert_from_proto(const generationmodule::GenerationPoint& in, openfmb::ge
     }
 
     convert_from_proto(in.starttime(), out.startTime()); // required field in DDS
+
+    if(in.has_enterserviceoperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::EnterServiceAPC temp{};
+        convert_from_proto(in.enterserviceoperation(), temp);
+        out.enterServiceOperation() = temp;
+    }
+
+    if(in.has_hzwoperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::HzWAPC temp{};
+        convert_from_proto(in.hzwoperation(), temp);
+        out.hzWOperation() = temp;
+    }
+
+    if(in.has_limitwoperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::LimitWAPC temp{};
+        convert_from_proto(in.limitwoperation(), temp);
+        out.limitWOperation() = temp;
+    }
+
+    if(in.has_pfoperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::PFSPC temp{};
+        convert_from_proto(in.pfoperation(), temp);
+        out.pFOperation() = temp;
+    }
+
+    if(in.has_tmhztripoperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::TmHzCSG temp{};
+        convert_from_proto(in.tmhztripoperation(), temp);
+        out.tmHzTripOperation() = temp;
+    }
+
+    if(in.has_tmvolttripoperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::TmVoltCSG temp{};
+        convert_from_proto(in.tmvolttripoperation(), temp);
+        out.tmVoltTripOperation() = temp;
+    }
+
+    if(in.has_varoperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::VarSPC temp{};
+        convert_from_proto(in.varoperation(), temp);
+        out.vArOperation() = temp;
+    }
+
+    if(in.has_voltvaroperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::VoltVarCSG temp{};
+        convert_from_proto(in.voltvaroperation(), temp);
+        out.voltVarOperation() = temp;
+    }
+
+    if(in.has_voltwoperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::VoltWCSG temp{};
+        convert_from_proto(in.voltwoperation(), temp);
+        out.voltWOperation() = temp;
+    }
+
+    if(in.has_wvaroperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::WVarCSG temp{};
+        convert_from_proto(in.wvaroperation(), temp);
+        out.wVarOperation() = temp;
+    }
+}
+
+void convert_from_proto(const commonmodule::PFSPC& in, openfmb::commonmodule::PFSPC& out)
+{
+    out.ctlVal() = in.ctlval(); // required BOOL primitive
+
+    convert_from_proto(in.pfparameter(), out.pFParameter()); // required field in DDS
 }
 
 void convert_from_proto(const generationmodule::GenerationDiscreteControl& in, openfmb::generationmodule::GenerationDiscreteControl& out)
@@ -3399,6 +4510,23 @@ void convert_from_proto(const generationmodule::GenerationEventAndStatusZGEN& in
         convert_from_proto(in.pointstatus(), temp);
         out.PointStatus() = temp;
     }
+
+    if(in.has_alrm()) // optional enum in DDS
+    {
+        out.Alrm() = static_cast<openfmb::commonmodule::AlrmKind::inner_enum>(in.alrm().value());
+    }
+
+    if(in.has_gridconnectionstate()) // optional enum in DDS
+    {
+        out.GridConnectionState() = static_cast<openfmb::commonmodule::GridConnectionStateKind::inner_enum>(in.gridconnectionstate().value());
+    }
+
+    if(in.has_manalrminfo()) out.ManAlrmInfo() = in.manalrminfo().value(); // optional string
+
+    if(in.has_operatingstate()) // optional enum in DDS
+    {
+        out.OperatingState() = static_cast<openfmb::commonmodule::OperatingStateKind::inner_enum>(in.operatingstate().value());
+    }
 }
 
 void convert_from_proto(const generationmodule::GenerationPointStatus& in, openfmb::generationmodule::GenerationPointStatus& out)
@@ -3472,6 +4600,76 @@ void convert_from_proto(const generationmodule::GenerationPointStatus& in, openf
         openfmb::commonmodule::StatusSPS temp{};
         convert_from_proto(in.voltagesetpointenabled(), temp);
         out.voltageSetPointEnabled() = temp;
+    }
+
+    if(in.has_enterserviceoperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::EnterServiceAPC temp{};
+        convert_from_proto(in.enterserviceoperation(), temp);
+        out.enterServiceOperation() = temp;
+    }
+
+    if(in.has_hzwoperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::HzWAPC temp{};
+        convert_from_proto(in.hzwoperation(), temp);
+        out.hzWOperation() = temp;
+    }
+
+    if(in.has_limitwoperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::LimitWAPC temp{};
+        convert_from_proto(in.limitwoperation(), temp);
+        out.limitWOperation() = temp;
+    }
+
+    if(in.has_pfoperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::PFSPC temp{};
+        convert_from_proto(in.pfoperation(), temp);
+        out.pFOperation() = temp;
+    }
+
+    if(in.has_tmhztripoperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::TmHzCSG temp{};
+        convert_from_proto(in.tmhztripoperation(), temp);
+        out.tmHzTripOperation() = temp;
+    }
+
+    if(in.has_tmvolttripoperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::TmVoltCSG temp{};
+        convert_from_proto(in.tmvolttripoperation(), temp);
+        out.tmVoltTripOperation() = temp;
+    }
+
+    if(in.has_varoperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::VarSPC temp{};
+        convert_from_proto(in.varoperation(), temp);
+        out.vArOperation() = temp;
+    }
+
+    if(in.has_voltvaroperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::VoltVarCSG temp{};
+        convert_from_proto(in.voltvaroperation(), temp);
+        out.voltVarOperation() = temp;
+    }
+
+    if(in.has_voltwoperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::VoltWCSG temp{};
+        convert_from_proto(in.voltwoperation(), temp);
+        out.voltWOperation() = temp;
+    }
+
+    if(in.has_wvaroperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::WVarCSG temp{};
+        convert_from_proto(in.wvaroperation(), temp);
+        out.wVarOperation() = temp;
     }
 }
 
@@ -4269,11 +5467,6 @@ void convert_from_proto(const regulatormodule::RegulatorEventAndStatusATCC& in, 
     }
 }
 
-void convert_from_proto(const commonmodule::ASG& in, openfmb::commonmodule::ASG& out)
-{
-    out.setMag() = in.setmag(); // required DOUBLE primitive
-}
-
 void convert_from_proto(const commonmodule::StatusINC& in, openfmb::commonmodule::StatusINC& out)
 {
     if(in.has_q()) // optional field in DDS
@@ -4621,6 +5814,42 @@ void convert_from_proto(const resourcemodule::ResourceStatus& in, openfmb::resou
     }
 }
 
+void convert_from_proto(const solarmodule::SolarCapabilityOverride& in, openfmb::solarmodule::SolarCapabilityOverride& out)
+{
+    if(in.has_identifiedobject()) convert_from_proto(in.identifiedobject(), out); // inherited type
+
+    convert_from_proto(in.solarcapabilityconfiguration(), out.solarCapabilityConfiguration()); // required field in DDS
+}
+
+void convert_from_proto(const solarmodule::SolarCapabilityConfiguration& in, openfmb::solarmodule::SolarCapabilityConfiguration& out)
+{
+    if(in.has_sourcecapabilityconfiguration()) convert_from_proto(in.sourcecapabilityconfiguration(), out); // inherited type
+}
+
+void convert_from_proto(const solarmodule::SolarInverter& in, openfmb::solarmodule::SolarInverter& out)
+{
+    if(in.has_conductingequipment()) convert_from_proto(in.conductingequipment(), out); // inherited type
+}
+
+void convert_from_proto(const solarmodule::SolarCapability& in, openfmb::solarmodule::SolarCapability& out)
+{
+    if(in.has_nameplatevalue()) convert_from_proto(in.nameplatevalue(), out); // inherited type
+
+    if(in.has_solarcapabilityconfiguration()) // optional field in DDS
+    {
+        openfmb::solarmodule::SolarCapabilityConfiguration temp{};
+        convert_from_proto(in.solarcapabilityconfiguration(), temp);
+        out.solarCapabilityConfiguration() = temp;
+    }
+
+    convert_from_proto(in.solarcapabilityratings(), out.solarCapabilityRatings()); // required field in DDS
+}
+
+void convert_from_proto(const solarmodule::SolarCapabilityRatings& in, openfmb::solarmodule::SolarCapabilityRatings& out)
+{
+    if(in.has_sourcecapabilityratings()) convert_from_proto(in.sourcecapabilityratings(), out); // inherited type
+}
+
 void convert_from_proto(const solarmodule::SolarControl& in, openfmb::solarmodule::SolarControl& out)
 {
     if(in.has_controlvalue()) convert_from_proto(in.controlvalue(), out); // inherited type
@@ -4734,11 +5963,90 @@ void convert_from_proto(const solarmodule::SolarPoint& in, openfmb::solarmodule:
     }
 
     convert_from_proto(in.starttime(), out.startTime()); // required field in DDS
-}
 
-void convert_from_proto(const solarmodule::SolarInverter& in, openfmb::solarmodule::SolarInverter& out)
-{
-    if(in.has_conductingequipment()) convert_from_proto(in.conductingequipment(), out); // inherited type
+    if(in.has_enterserviceoperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::EnterServiceAPC temp{};
+        convert_from_proto(in.enterserviceoperation(), temp);
+        out.enterServiceOperation() = temp;
+    }
+
+    if(in.has_hzwoperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::HzWAPC temp{};
+        convert_from_proto(in.hzwoperation(), temp);
+        out.hzWOperation() = temp;
+    }
+
+    if(in.has_limitwoperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::LimitWAPC temp{};
+        convert_from_proto(in.limitwoperation(), temp);
+        out.limitWOperation() = temp;
+    }
+
+    if(in.has_pfoperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::PFSPC temp{};
+        convert_from_proto(in.pfoperation(), temp);
+        out.pFOperation() = temp;
+    }
+
+    if(in.has_tmhztripoperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::TmHzCSG temp{};
+        convert_from_proto(in.tmhztripoperation(), temp);
+        out.tmHzTripOperation() = temp;
+    }
+
+    if(in.has_tmvolttripoperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::TmVoltCSG temp{};
+        convert_from_proto(in.tmvolttripoperation(), temp);
+        out.tmVoltTripOperation() = temp;
+    }
+
+    if(in.has_varoperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::VarSPC temp{};
+        convert_from_proto(in.varoperation(), temp);
+        out.vArOperation() = temp;
+    }
+
+    if(in.has_voltvaroperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::VoltVarCSG temp{};
+        convert_from_proto(in.voltvaroperation(), temp);
+        out.voltVarOperation() = temp;
+    }
+
+    if(in.has_voltwoperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::VoltWCSG temp{};
+        convert_from_proto(in.voltwoperation(), temp);
+        out.voltWOperation() = temp;
+    }
+
+    if(in.has_wvaroperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::WVarCSG temp{};
+        convert_from_proto(in.wvaroperation(), temp);
+        out.wVarOperation() = temp;
+    }
+
+    if(in.has_blackstartenabled()) // optional field in DDS
+    {
+        openfmb::commonmodule::ControlSPC temp{};
+        convert_from_proto(in.blackstartenabled(), temp);
+        out.blackStartEnabled() = temp;
+    }
+
+    if(in.has_syncbacktogrid()) // optional field in DDS
+    {
+        openfmb::commonmodule::ControlSPC temp{};
+        convert_from_proto(in.syncbacktogrid(), temp);
+        out.syncBackToGrid() = temp;
+    }
 }
 
 void convert_from_proto(const solarmodule::SolarEvent& in, openfmb::solarmodule::SolarEvent& out)
@@ -4795,6 +6103,30 @@ void convert_from_proto(const solarmodule::SolarEventAndStatusZGEN& in, openfmb:
         openfmb::solarmodule::SolarPointStatus temp{};
         convert_from_proto(in.pointstatus(), temp);
         out.PointStatus() = temp;
+    }
+
+    if(in.has_alrm()) // optional enum in DDS
+    {
+        out.Alrm() = static_cast<openfmb::commonmodule::AlrmKind::inner_enum>(in.alrm().value());
+    }
+
+    if(in.has_gnsynst()) // optional field in DDS
+    {
+        openfmb::commonmodule::StatusSPS temp{};
+        convert_from_proto(in.gnsynst(), temp);
+        out.GnSynSt() = temp;
+    }
+
+    if(in.has_gridconnectionstate()) // optional enum in DDS
+    {
+        out.GridConnectionState() = static_cast<openfmb::commonmodule::GridConnectionStateKind::inner_enum>(in.gridconnectionstate().value());
+    }
+
+    if(in.has_manalrminfo()) out.ManAlrmInfo() = in.manalrminfo().value(); // optional string
+
+    if(in.has_operatingstate()) // optional enum in DDS
+    {
+        out.OperatingState() = static_cast<openfmb::commonmodule::OperatingStateKind::inner_enum>(in.operatingstate().value());
     }
 }
 
@@ -4855,6 +6187,90 @@ void convert_from_proto(const solarmodule::SolarPointStatus& in, openfmb::solarm
         openfmb::commonmodule::StatusSPS temp{};
         convert_from_proto(in.voltagesetpointenabled(), temp);
         out.voltageSetPointEnabled() = temp;
+    }
+
+    if(in.has_blackstartenabled()) // optional field in DDS
+    {
+        openfmb::commonmodule::ControlSPC temp{};
+        convert_from_proto(in.blackstartenabled(), temp);
+        out.blackStartEnabled() = temp;
+    }
+
+    if(in.has_enterserviceoperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::EnterServiceAPC temp{};
+        convert_from_proto(in.enterserviceoperation(), temp);
+        out.enterServiceOperation() = temp;
+    }
+
+    if(in.has_hzwoperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::HzWPoint temp{};
+        convert_from_proto(in.hzwoperation(), temp);
+        out.hzWOperation() = temp;
+    }
+
+    if(in.has_limitwoperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::LimitWAPC temp{};
+        convert_from_proto(in.limitwoperation(), temp);
+        out.limitWOperation() = temp;
+    }
+
+    if(in.has_pfoperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::PFSPC temp{};
+        convert_from_proto(in.pfoperation(), temp);
+        out.pFOperation() = temp;
+    }
+
+    if(in.has_syncbacktogrid()) // optional field in DDS
+    {
+        openfmb::commonmodule::ControlSPC temp{};
+        convert_from_proto(in.syncbacktogrid(), temp);
+        out.syncBackToGrid() = temp;
+    }
+
+    if(in.has_tmhztripoperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::TmHzCSG temp{};
+        convert_from_proto(in.tmhztripoperation(), temp);
+        out.tmHzTripOperation() = temp;
+    }
+
+    if(in.has_tmvolttripoperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::TmVoltCSG temp{};
+        convert_from_proto(in.tmvolttripoperation(), temp);
+        out.tmVoltTripOperation() = temp;
+    }
+
+    if(in.has_varoperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::VarSPC temp{};
+        convert_from_proto(in.varoperation(), temp);
+        out.vArOperation() = temp;
+    }
+
+    if(in.has_voltvaroperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::VoltVarCSG temp{};
+        convert_from_proto(in.voltvaroperation(), temp);
+        out.voltVarOperation() = temp;
+    }
+
+    if(in.has_voltwoperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::VoltWCSG temp{};
+        convert_from_proto(in.voltwoperation(), temp);
+        out.voltWOperation() = temp;
+    }
+
+    if(in.has_wvaroperation()) // optional field in DDS
+    {
+        openfmb::commonmodule::WVarCSG temp{};
+        convert_from_proto(in.wvaroperation(), temp);
+        out.wVarOperation() = temp;
     }
 }
 
@@ -5240,6 +6656,20 @@ static_assert(static_cast<int>(commonmodule::ControlModeKind::ControlModeKind_ma
 static_assert(static_cast<int>(commonmodule::ControlModeKind::ControlModeKind_override) == static_cast<int>(openfmb::commonmodule::ControlModeKind::ControlModeKind_override), "mismatched enum values");
 static_assert(static_cast<int>(commonmodule::ControlModeKind::ControlModeKind_remote) == static_cast<int>(openfmb::commonmodule::ControlModeKind::ControlModeKind_remote), "mismatched enum values");
 
+static_assert(static_cast<int>(circuitsegmentservicemodule::CircuitSegmentServiceModeKind::CircuitSegmentServiceModeKind_none) == static_cast<int>(openfmb::circuitsegmentservicemodule::CircuitSegmentServiceModeKind::CircuitSegmentServiceModeKind_none), "mismatched enum values");
+static_assert(static_cast<int>(circuitsegmentservicemodule::CircuitSegmentServiceModeKind::CircuitSegmentServiceModeKind_auto) == static_cast<int>(openfmb::circuitsegmentservicemodule::CircuitSegmentServiceModeKind::CircuitSegmentServiceModeKind_auto), "mismatched enum values");
+static_assert(static_cast<int>(circuitsegmentservicemodule::CircuitSegmentServiceModeKind::CircuitSegmentServiceModeKind_manual) == static_cast<int>(openfmb::circuitsegmentservicemodule::CircuitSegmentServiceModeKind::CircuitSegmentServiceModeKind_manual), "mismatched enum values");
+static_assert(static_cast<int>(circuitsegmentservicemodule::CircuitSegmentServiceModeKind::CircuitSegmentServiceModeKind_netzero) == static_cast<int>(openfmb::circuitsegmentservicemodule::CircuitSegmentServiceModeKind::CircuitSegmentServiceModeKind_netzero), "mismatched enum values");
+static_assert(static_cast<int>(circuitsegmentservicemodule::CircuitSegmentServiceModeKind::CircuitSegmentServiceModeKind_start) == static_cast<int>(openfmb::circuitsegmentservicemodule::CircuitSegmentServiceModeKind::CircuitSegmentServiceModeKind_start), "mismatched enum values");
+static_assert(static_cast<int>(circuitsegmentservicemodule::CircuitSegmentServiceModeKind::CircuitSegmentServiceModeKind_stop) == static_cast<int>(openfmb::circuitsegmentservicemodule::CircuitSegmentServiceModeKind::CircuitSegmentServiceModeKind_stop), "mismatched enum values");
+
+static_assert(static_cast<int>(commonmodule::AbnOpCatKind::AbnOpCatKind_I) == static_cast<int>(openfmb::commonmodule::AbnOpCatKind::AbnOpCatKind_I), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::AbnOpCatKind::AbnOpCatKind_II) == static_cast<int>(openfmb::commonmodule::AbnOpCatKind::AbnOpCatKind_II), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::AbnOpCatKind::AbnOpCatKind_III) == static_cast<int>(openfmb::commonmodule::AbnOpCatKind::AbnOpCatKind_III), "mismatched enum values");
+
+static_assert(static_cast<int>(commonmodule::NorOpCatKind::NorOpCatKind_A) == static_cast<int>(openfmb::commonmodule::NorOpCatKind::NorOpCatKind_A), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::NorOpCatKind::NorOpCatKind_B) == static_cast<int>(openfmb::commonmodule::NorOpCatKind::NorOpCatKind_B), "mismatched enum values");
+
 static_assert(static_cast<int>(commonmodule::GridConnectModeKind::GridConnectModeKind_CSI) == static_cast<int>(openfmb::commonmodule::GridConnectModeKind::GridConnectModeKind_CSI), "mismatched enum values");
 static_assert(static_cast<int>(commonmodule::GridConnectModeKind::GridConnectModeKind_VC_VSI) == static_cast<int>(openfmb::commonmodule::GridConnectModeKind::GridConnectModeKind_VC_VSI), "mismatched enum values");
 static_assert(static_cast<int>(commonmodule::GridConnectModeKind::GridConnectModeKind_CC_VSI) == static_cast<int>(openfmb::commonmodule::GridConnectModeKind::GridConnectModeKind_CC_VSI), "mismatched enum values");
@@ -5263,6 +6693,41 @@ static_assert(static_cast<int>(commonmodule::RealPowerControlKind::RealPowerCont
 static_assert(static_cast<int>(commonmodule::RealPowerControlKind::RealPowerControlKind_droop) == static_cast<int>(openfmb::commonmodule::RealPowerControlKind::RealPowerControlKind_droop), "mismatched enum values");
 static_assert(static_cast<int>(commonmodule::RealPowerControlKind::RealPowerControlKind_isochronous) == static_cast<int>(openfmb::commonmodule::RealPowerControlKind::RealPowerControlKind_isochronous), "mismatched enum values");
 static_assert(static_cast<int>(commonmodule::RealPowerControlKind::RealPowerControlKind_realPower) == static_cast<int>(openfmb::commonmodule::RealPowerControlKind::RealPowerControlKind_realPower), "mismatched enum values");
+
+static_assert(static_cast<int>(commonmodule::AlrmKind::AlrmKind_ground_fault) == static_cast<int>(openfmb::commonmodule::AlrmKind::AlrmKind_ground_fault), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::AlrmKind::AlrmKind_dc_over_voltage) == static_cast<int>(openfmb::commonmodule::AlrmKind::AlrmKind_dc_over_voltage), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::AlrmKind::AlrmKind_ac_disconnect_open) == static_cast<int>(openfmb::commonmodule::AlrmKind::AlrmKind_ac_disconnect_open), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::AlrmKind::AlrmKind_dc_disconnect_open) == static_cast<int>(openfmb::commonmodule::AlrmKind::AlrmKind_dc_disconnect_open), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::AlrmKind::AlrmKind_grid_disconnect) == static_cast<int>(openfmb::commonmodule::AlrmKind::AlrmKind_grid_disconnect), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::AlrmKind::AlrmKind_cabinet_open) == static_cast<int>(openfmb::commonmodule::AlrmKind::AlrmKind_cabinet_open), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::AlrmKind::AlrmKind_manual_shutdown) == static_cast<int>(openfmb::commonmodule::AlrmKind::AlrmKind_manual_shutdown), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::AlrmKind::AlrmKind_over_temperature) == static_cast<int>(openfmb::commonmodule::AlrmKind::AlrmKind_over_temperature), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::AlrmKind::AlrmKind_frequency_above_limit) == static_cast<int>(openfmb::commonmodule::AlrmKind::AlrmKind_frequency_above_limit), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::AlrmKind::AlrmKind_frequency_under_limit) == static_cast<int>(openfmb::commonmodule::AlrmKind::AlrmKind_frequency_under_limit), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::AlrmKind::AlrmKind_ac_voltage_above_limit) == static_cast<int>(openfmb::commonmodule::AlrmKind::AlrmKind_ac_voltage_above_limit), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::AlrmKind::AlrmKind_ac_voltage_under_limit) == static_cast<int>(openfmb::commonmodule::AlrmKind::AlrmKind_ac_voltage_under_limit), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::AlrmKind::AlrmKind_blown_string_fuse_on_input) == static_cast<int>(openfmb::commonmodule::AlrmKind::AlrmKind_blown_string_fuse_on_input), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::AlrmKind::AlrmKind_under_temperature) == static_cast<int>(openfmb::commonmodule::AlrmKind::AlrmKind_under_temperature), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::AlrmKind::AlrmKind_generic_memory_or_communication_error) == static_cast<int>(openfmb::commonmodule::AlrmKind::AlrmKind_generic_memory_or_communication_error), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::AlrmKind::AlrmKind_hardware_test_failure) == static_cast<int>(openfmb::commonmodule::AlrmKind::AlrmKind_hardware_test_failure), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::AlrmKind::AlrmKind_manufacturer_alarm) == static_cast<int>(openfmb::commonmodule::AlrmKind::AlrmKind_manufacturer_alarm), "mismatched enum values");
+
+static_assert(static_cast<int>(commonmodule::GridConnectionStateKind::GridConnectionStateKind_disconnected) == static_cast<int>(openfmb::commonmodule::GridConnectionStateKind::GridConnectionStateKind_disconnected), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::GridConnectionStateKind::GridConnectionStateKind_connected) == static_cast<int>(openfmb::commonmodule::GridConnectionStateKind::GridConnectionStateKind_connected), "mismatched enum values");
+
+static_assert(static_cast<int>(commonmodule::OperatingStateKind::OperatingStateKind_off) == static_cast<int>(openfmb::commonmodule::OperatingStateKind::OperatingStateKind_off), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::OperatingStateKind::OperatingStateKind_disconnected_and_standby) == static_cast<int>(openfmb::commonmodule::OperatingStateKind::OperatingStateKind_disconnected_and_standby), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::OperatingStateKind::OperatingStateKind_disconnected_and_available) == static_cast<int>(openfmb::commonmodule::OperatingStateKind::OperatingStateKind_disconnected_and_available), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::OperatingStateKind::OperatingStateKind_disconnected_and_authorized) == static_cast<int>(openfmb::commonmodule::OperatingStateKind::OperatingStateKind_disconnected_and_authorized), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::OperatingStateKind::OperatingStateKind_starting_and_synchronizing) == static_cast<int>(openfmb::commonmodule::OperatingStateKind::OperatingStateKind_starting_and_synchronizing), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::OperatingStateKind::OperatingStateKind_connected_and_idle) == static_cast<int>(openfmb::commonmodule::OperatingStateKind::OperatingStateKind_connected_and_idle), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::OperatingStateKind::OperatingStateKind_connected_and_generating) == static_cast<int>(openfmb::commonmodule::OperatingStateKind::OperatingStateKind_connected_and_generating), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::OperatingStateKind::OperatingStateKind_connected_and_consuming) == static_cast<int>(openfmb::commonmodule::OperatingStateKind::OperatingStateKind_connected_and_consuming), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::OperatingStateKind::OperatingStateKind_stopping) == static_cast<int>(openfmb::commonmodule::OperatingStateKind::OperatingStateKind_stopping), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::OperatingStateKind::OperatingStateKind_disconnected_and_blocked) == static_cast<int>(openfmb::commonmodule::OperatingStateKind::OperatingStateKind_disconnected_and_blocked), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::OperatingStateKind::OperatingStateKind_disconnected_and_in_maintenance) == static_cast<int>(openfmb::commonmodule::OperatingStateKind::OperatingStateKind_disconnected_and_in_maintenance), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::OperatingStateKind::OperatingStateKind_ceased_to_energize) == static_cast<int>(openfmb::commonmodule::OperatingStateKind::OperatingStateKind_ceased_to_energize), "mismatched enum values");
+static_assert(static_cast<int>(commonmodule::OperatingStateKind::OperatingStateKind_failed) == static_cast<int>(openfmb::commonmodule::OperatingStateKind::OperatingStateKind_failed), "mismatched enum values");
 
 static_assert(static_cast<int>(commonmodule::VoltLimitModeKind::VoltLimitModeKind_off) == static_cast<int>(openfmb::commonmodule::VoltLimitModeKind::VoltLimitModeKind_off), "mismatched enum values");
 static_assert(static_cast<int>(commonmodule::VoltLimitModeKind::VoltLimitModeKind_high_limit_only) == static_cast<int>(openfmb::commonmodule::VoltLimitModeKind::VoltLimitModeKind_high_limit_only), "mismatched enum values");

@@ -42,10 +42,17 @@ struct TopicRepository
     ::dds::topic::Topic<openfmb::capbankmodule::CapBankEventProfile> capbankeventprofile;
     ::dds::topic::Topic<openfmb::capbankmodule::CapBankReadingProfile> capbankreadingprofile;
     ::dds::topic::Topic<openfmb::capbankmodule::CapBankStatusProfile> capbankstatusprofile;
+    ::dds::topic::Topic<openfmb::circuitsegmentservicemodule::CircuitSegmentControlProfile> circuitsegmentcontrolprofile;
+    ::dds::topic::Topic<openfmb::circuitsegmentservicemodule::CircuitSegmentEventProfile> circuitsegmenteventprofile;
+    ::dds::topic::Topic<openfmb::circuitsegmentservicemodule::CircuitSegmentStatusProfile> circuitsegmentstatusprofile;
+    ::dds::topic::Topic<openfmb::essmodule::ESSCapabilityOverrideProfile> esscapabilityoverrideprofile;
+    ::dds::topic::Topic<openfmb::essmodule::ESSCapabilityProfile> esscapabilityprofile;
     ::dds::topic::Topic<openfmb::essmodule::ESSControlProfile> esscontrolprofile;
     ::dds::topic::Topic<openfmb::essmodule::ESSEventProfile> esseventprofile;
     ::dds::topic::Topic<openfmb::essmodule::ESSReadingProfile> essreadingprofile;
     ::dds::topic::Topic<openfmb::essmodule::ESSStatusProfile> essstatusprofile;
+    ::dds::topic::Topic<openfmb::generationmodule::GenerationCapabilityOverrideProfile> generationcapabilityoverrideprofile;
+    ::dds::topic::Topic<openfmb::generationmodule::GenerationCapabilityProfile> generationcapabilityprofile;
     ::dds::topic::Topic<openfmb::generationmodule::GenerationControlProfile> generationcontrolprofile;
     ::dds::topic::Topic<openfmb::generationmodule::GenerationDiscreteControlProfile> generationdiscretecontrolprofile;
     ::dds::topic::Topic<openfmb::generationmodule::GenerationEventProfile> generationeventprofile;
@@ -69,6 +76,8 @@ struct TopicRepository
     ::dds::topic::Topic<openfmb::resourcemodule::ResourceEventProfile> resourceeventprofile;
     ::dds::topic::Topic<openfmb::resourcemodule::ResourceReadingProfile> resourcereadingprofile;
     ::dds::topic::Topic<openfmb::resourcemodule::ResourceStatusProfile> resourcestatusprofile;
+    ::dds::topic::Topic<openfmb::solarmodule::SolarCapabilityOverrideProfile> solarcapabilityoverrideprofile;
+    ::dds::topic::Topic<openfmb::solarmodule::SolarCapabilityProfile> solarcapabilityprofile;
     ::dds::topic::Topic<openfmb::solarmodule::SolarControlProfile> solarcontrolprofile;
     ::dds::topic::Topic<openfmb::solarmodule::SolarEventProfile> solareventprofile;
     ::dds::topic::Topic<openfmb::solarmodule::SolarReadingProfile> solarreadingprofile;

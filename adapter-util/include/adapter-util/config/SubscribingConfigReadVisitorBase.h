@@ -49,6 +49,8 @@ namespace util {
 
         void handle(const std::string& field_name, const message_accessor_t<T, commonmodule::ControlTimestamp>& accessor) final;
 
+        void handle(const std::string& field_name, const message_accessor_t<T, commonmodule::ClearingTime>& accessor) final;
+
     protected:
         virtual void handle_mapped_field(const YAML::Node& node, const accessor_t<T, bool>& accessor) = 0;
 
@@ -67,6 +69,8 @@ namespace util {
         virtual void handle_mapped_field(const YAML::Node& node, const message_accessor_t<T, commonmodule::Quality>& accessor) {} // TODO: decide purity
 
         virtual void handle_mapped_field(const YAML::Node& node, const message_accessor_t<T, commonmodule::Timestamp>& accessor) {} // TODO: decide purity
+
+        virtual void handle_mapped_field(const YAML::Node& node, const message_accessor_t<T, commonmodule::ClearingTime>& accessor) {} // TODO: decide purity
     };
 
     template <class T>
@@ -194,6 +198,17 @@ namespace util {
     void SubscribingConfigReadVisitorBase<T>::handle(const std::string& field_name, const message_accessor_t<T, commonmodule::ControlTimestamp>& accessor)
     {
         // ignore all
+    }
+
+    template <class T>
+    void SubscribingConfigReadVisitorBase<T>::handle(const std::string& field_name, const message_accessor_t<T, commonmodule::ClearingTime>& accessor)
+    {
+        const auto node = this->get_config_node(field_name);
+        const auto field_type = yaml::require_enum<ClearingTimeFieldType>(node);
+
+        if (field_type == ClearingTimeFieldType::Value::mapped) {
+            this->handle_mapped_field(node, accessor);
+        }
     }
 }
 }

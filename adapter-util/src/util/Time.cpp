@@ -29,6 +29,11 @@ namespace util {
             set_generic(time, timestamp);
         }
 
+        void set(const std::chrono::system_clock::time_point& time, commonmodule::ClearingTime& timestamp)
+        {
+            set_generic(time, timestamp);
+        }
+
         std::chrono::system_clock::time_point get(uint64_t seconds, uint32_t nanoseconds)
         {
             std::chrono::seconds sec { seconds };

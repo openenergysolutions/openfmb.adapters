@@ -47,6 +47,8 @@ namespace util {
 
         virtual std::shared_ptr<schema::Object> get_mapped_commonmodule_timestamp_schema() { return nullptr; }
 
+        virtual std::shared_ptr<schema::Object> get_mapped_commonmodule_clearingtime_schema() { return nullptr; }
+
         virtual std::shared_ptr<schema::Object> get_mapped_schedule_parameter_schema() { return nullptr; };
 
     public:
@@ -92,6 +94,8 @@ namespace util {
 
         void handle(const std::string& field_name, ControlTimestampFieldType::Value type) final;
 
+        void handle(const std::string& field_name, ClearingTimeFieldType::Value type) final;
+
         void handle_repeated_schedule_parameter(const std::string& field_name) final;
 
         static std::vector<std::string> get_enum_variants_from_proto(google::protobuf::EnumDescriptor const* descriptor) {
@@ -115,6 +119,7 @@ namespace util {
         static QualityFieldType::Value remap(QualityFieldType::Value type);
         static TimestampFieldType::Value remap(TimestampFieldType::Value type);
         static ControlTimestampFieldType::Value remap(ControlTimestampFieldType::Value type);
+        static ClearingTimeFieldType::Value remap(ClearingTimeFieldType::Value type);
 
         template <typename T>
         schema::Variant variant_obj(typename T::Value value, typename T::Value mapped_value, std::shared_ptr<schema::Object> obj) const

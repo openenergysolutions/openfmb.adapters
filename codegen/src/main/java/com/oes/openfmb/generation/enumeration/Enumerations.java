@@ -84,6 +84,15 @@ public class Enumerations {
                 )
         );
 
+        private final static Enumeration clearingTimeFieldType = new Enumeration(
+                getFieldName("ClearingTime"),
+                Arrays.asList(
+                        Enumeration.entry("message", "the clearing time for the point"),
+                        Enumeration.entry("mapped", "the value is mapped dynamically from the underlying protocol"),
+                        Enumeration.entry("ignored", "the time is ignored in this configuration")
+                )
+        );
+
         private final static Enumeration qualityFieldType = new Enumeration(
                 getFieldName("Quality"),
                 Arrays.asList(
@@ -119,7 +128,8 @@ public class Enumerations {
                     timestampFieldType,
                     qualityFieldType,
                     controlTimestampFieldType,
-                    profile
+                    profile,
+                    clearingTimeFieldType
             );
         }
 

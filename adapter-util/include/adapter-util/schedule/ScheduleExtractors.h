@@ -7,6 +7,7 @@
 
 #include <proto-api/breakermodule/breakermodule.pb.h>
 #include <proto-api/capbankmodule/capbankmodule.pb.h>
+#include <proto-api/circuitsegmentservicemodule/circuitsegmentservicemodule.pb.h>
 #include <proto-api/essmodule/essmodule.pb.h>
 #include <proto-api/generationmodule/generationmodule.pb.h>
 #include <proto-api/loadmodule/loadmodule.pb.h>
@@ -103,6 +104,25 @@ struct schedule_extractor<capbankmodule::CapBankDiscreteControlProfile>
     // No control FSCC
 
     // No custom points
+};
+
+template <>
+struct schedule_extractor<circuitsegmentservicemodule::CircuitSegmentControlProfile>
+{
+    static void set_source_mrid(circuitsegmentservicemodule::CircuitSegmentControlProfile& profile, const std::string& mrid)
+    {
+        profile.mutable_applicationsystem()->set_mrid(mrid);
+    }
+
+    static void set_message_mrid(circuitsegmentservicemodule::CircuitSegmentControlProfile& profile, const std::string& mrid)
+    {
+        profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_identifiedobject()->mutable_mrid()->set_value(mrid);
+    }
+
+    static commonmodule::Timestamp* get_message_timestamp(circuitsegmentservicemodule::CircuitSegmentControlProfile& profile)
+    {
+        return profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_messagetimestamp();
+    }
 };
 
 template <>

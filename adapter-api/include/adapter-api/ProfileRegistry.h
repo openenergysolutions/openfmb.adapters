@@ -7,6 +7,7 @@
 
 #include <proto-api/breakermodule/breakermodule.pb.h>
 #include <proto-api/capbankmodule/capbankmodule.pb.h>
+#include <proto-api/circuitsegmentservicemodule/circuitsegmentservicemodule.pb.h>
 #include <proto-api/essmodule/essmodule.pb.h>
 #include <proto-api/generationmodule/generationmodule.pb.h>
 #include <proto-api/loadmodule/loadmodule.pb.h>
@@ -99,12 +100,20 @@ namespace api {
         capbankmodule::CapBankEventProfile,
         capbankmodule::CapBankReadingProfile,
         capbankmodule::CapBankStatusProfile,
+        // circuit segment service module
+        circuitsegmentservicemodule::CircuitSegmentControlProfile,
+        circuitsegmentservicemodule::CircuitSegmentEventProfile,
+        circuitsegmentservicemodule::CircuitSegmentStatusProfile,
         // ess module
+        essmodule::ESSCapabilityProfile,
+        essmodule::ESSCapabilityOverrideProfile,
         essmodule::ESSControlProfile,
         essmodule::ESSEventProfile,
         essmodule::ESSReadingProfile,
         essmodule::ESSStatusProfile,
         // generation module
+        generationmodule::GenerationCapabilityProfile,
+        generationmodule::GenerationCapabilityOverrideProfile,
         generationmodule::GenerationControlProfile,
         generationmodule::GenerationDiscreteControlProfile,
         generationmodule::GenerationEventProfile,
@@ -134,6 +143,8 @@ namespace api {
         resourcemodule::ResourceReadingProfile,
         resourcemodule::ResourceStatusProfile,
         // solar module
+        solarmodule::SolarCapabilityProfile,
+        solarmodule::SolarCapabilityOverrideProfile,
         solarmodule::SolarControlProfile,
         solarmodule::SolarEventProfile,
         solarmodule::SolarReadingProfile,

@@ -7,6 +7,7 @@ package com.oes.openfmb.generation;
 import com.google.protobuf.Descriptors;
 import openfmb.breakermodule.*;
 import openfmb.capbankmodule.*;
+import openfmb.circuitsegmentservicemodule.*;
 import openfmb.essmodule.*;
 import openfmb.generationmodule.*;
 import openfmb.loadmodule.*;
@@ -39,12 +40,20 @@ public class Profiles {
                         CapBankEventProfile.getDescriptor(),
                         CapBankReadingProfile.getDescriptor(),
                         CapBankStatusProfile.getDescriptor(),
+                        // Circuit Segment Service
+                        CircuitSegmentControlProfile.getDescriptor(),
+                        CircuitSegmentEventProfile.getDescriptor(),
+                        CircuitSegmentStatusProfile.getDescriptor(),
                         // ESS
+                        ESSCapabilityOverrideProfile.getDescriptor(),
+                        ESSCapabilityProfile.getDescriptor(),
                         ESSControlProfile.getDescriptor(),
                         ESSEventProfile.getDescriptor(),
                         ESSReadingProfile.getDescriptor(),
                         ESSStatusProfile.getDescriptor(),
                         // Generation
+                        GenerationCapabilityOverrideProfile.getDescriptor(),
+                        GenerationCapabilityProfile.getDescriptor(),
                         GenerationControlProfile.getDescriptor(),
                         GenerationDiscreteControlProfile.getDescriptor(),
                         GenerationEventProfile.getDescriptor(),
@@ -75,6 +84,8 @@ public class Profiles {
                         ResourceReadingProfile.getDescriptor(),
                         ResourceStatusProfile.getDescriptor(),
                         // Solar
+                        SolarCapabilityOverrideProfile.getDescriptor(),
+                        SolarCapabilityProfile.getDescriptor(),
                         SolarControlProfile.getDescriptor(),
                         SolarEventProfile.getDescriptor(),
                         SolarReadingProfile.getDescriptor(),

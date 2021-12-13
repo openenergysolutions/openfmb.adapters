@@ -55,6 +55,8 @@ namespace util {
 
         void handle(const std::string& field_name, const message_accessor_t<T, commonmodule::ControlTimestamp>& accessor) override;
 
+        void handle(const std::string& field_name, const message_accessor_t<T, commonmodule::ClearingTime>& accessor) override;
+
         void handle(const std::string& field_name,
                     const getter_t<T, google::protobuf::RepeatedPtrField<commonmodule::ENG_ScheduleParameter>>& getter) override;
 
@@ -99,6 +101,8 @@ namespace util {
         virtual void handle_mapped_quality(const YAML::Node& node, const message_accessor_t<T, commonmodule::Quality>& accessor) {} // TODO: decide purity
 
         virtual void handle_mapped_timestamp(const YAML::Node& node, const message_accessor_t<T, commonmodule::Timestamp>& accessor) {} // TODO: decide purity
+
+        virtual void handle_mapped_clearingtime(const YAML::Node& node, const message_accessor_t<T, commonmodule::ClearingTime>& accessor) {} // TODO: decide purity
 
     private:
         void handle_optional_const_bool(const YAML::Node& node, const accessor_t<T, bool>& accessor);
@@ -296,6 +300,28 @@ namespace util {
                 [accessor](T& profile) {
                     time::set(std::chrono::system_clock::now(), *accessor->mutable_get(profile));
                 });
+            break;
+        default:
+            // ignore
+            break;
+        }
+    }
+
+    template <class T>
+    void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, const message_accessor_t<T, commonmodule::ClearingTime>& accessor)
+    {
+        const auto node = this->get_config_node(field_name);
+        const auto field_type = yaml::require_enum<ClearingTimeFieldType>(node);
+
+        switch (field_type) {
+        case ClearingTimeFieldType::Value::message:
+            this->add_message_complete_action(
+                [accessor](T& profile) {
+                    time::set(std::chrono::system_clock::now(), *accessor->mutable_get(profile));
+                });
+            break;
+        case ClearingTimeFieldType::Value::mapped:
+            this->handle_mapped_clearingtime(node, accessor);
             break;
         default:
             // ignore

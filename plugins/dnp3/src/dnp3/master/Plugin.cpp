@@ -52,7 +52,8 @@ namespace dnp3 {
             template <class U = T>
             static return_t<
                 util::profile_info<U>::type == util::ProfileType::Reading ||
-                util::profile_info<U>::type == util::ProfileType::Status>
+                util::profile_info<U>::type == util::ProfileType::Status ||
+                util::profile_info<U>::type == util::ProfileType::Capability>
             handle(const YAML::Node& node, const api::Logger& logger, api::message_bus_t bus,
                    const PollRepository& poll_repo, std::shared_ptr<exe4cpp::IExecutor>, std::shared_ptr<ICommandSequenceExecutor>)
             {

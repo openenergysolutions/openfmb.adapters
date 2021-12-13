@@ -19,6 +19,7 @@
 #define OPENFMB_TYPEDMODELVISITORS_H
 
 #include "reclosermodule/reclosermodule.pb.h"
+#include "circuitsegmentservicemodule/circuitsegmentservicemodule.pb.h"
 #include "solarmodule/solarmodule.pb.h"
 #include "breakermodule/breakermodule.pb.h"
 #include "capbankmodule/capbankmodule.pb.h"
@@ -54,6 +55,16 @@ void visit(ITypedModelVisitor<capbankmodule::CapBankReadingProfile>& visitor);
 
 void visit(ITypedModelVisitor<capbankmodule::CapBankStatusProfile>& visitor);
 
+void visit(ITypedModelVisitor<circuitsegmentservicemodule::CircuitSegmentControlProfile>& visitor);
+
+void visit(ITypedModelVisitor<circuitsegmentservicemodule::CircuitSegmentEventProfile>& visitor);
+
+void visit(ITypedModelVisitor<circuitsegmentservicemodule::CircuitSegmentStatusProfile>& visitor);
+
+void visit(ITypedModelVisitor<essmodule::ESSCapabilityOverrideProfile>& visitor);
+
+void visit(ITypedModelVisitor<essmodule::ESSCapabilityProfile>& visitor);
+
 void visit(ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
 
 void visit(ITypedModelVisitor<essmodule::ESSEventProfile>& visitor);
@@ -61,6 +72,10 @@ void visit(ITypedModelVisitor<essmodule::ESSEventProfile>& visitor);
 void visit(ITypedModelVisitor<essmodule::ESSReadingProfile>& visitor);
 
 void visit(ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor);
+
+void visit(ITypedModelVisitor<generationmodule::GenerationCapabilityOverrideProfile>& visitor);
+
+void visit(ITypedModelVisitor<generationmodule::GenerationCapabilityProfile>& visitor);
 
 void visit(ITypedModelVisitor<generationmodule::GenerationControlProfile>& visitor);
 
@@ -107,6 +122,10 @@ void visit(ITypedModelVisitor<resourcemodule::ResourceEventProfile>& visitor);
 void visit(ITypedModelVisitor<resourcemodule::ResourceReadingProfile>& visitor);
 
 void visit(ITypedModelVisitor<resourcemodule::ResourceStatusProfile>& visitor);
+
+void visit(ITypedModelVisitor<solarmodule::SolarCapabilityOverrideProfile>& visitor);
+
+void visit(ITypedModelVisitor<solarmodule::SolarCapabilityProfile>& visitor);
 
 void visit(ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor);
 

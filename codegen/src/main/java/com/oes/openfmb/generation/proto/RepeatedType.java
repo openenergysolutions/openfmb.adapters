@@ -57,6 +57,13 @@ public enum RepeatedType {
         // list of schedule parameters
         temp.put(openfmb.commonmodule.ENG_ScheduleParameter.getDescriptor(), RepeatedType.SCHEDULE_PARAMETER);
 
+        // new
+        temp.put(openfmb.commonmodule.TmHzPoint.getDescriptor(), RepeatedType.SCHEDULE);
+        temp.put(openfmb.commonmodule.TmVoltPoint.getDescriptor(), RepeatedType.SCHEDULE);
+        temp.put(openfmb.commonmodule.VoltVarPoint.getDescriptor(), RepeatedType.SCHEDULE);
+        temp.put(openfmb.commonmodule.VoltWPoint.getDescriptor(), RepeatedType.SCHEDULE);
+        temp.put(openfmb.commonmodule.WVarPoint.getDescriptor(), RepeatedType.SCHEDULE);
+
         lookupMap = Collections.unmodifiableMap(temp);
     }
 
