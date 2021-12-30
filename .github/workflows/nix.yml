@@ -6,6 +6,9 @@
 name: "Nix Build"
 on:
   push:
+    branches: ["feature/v2.1-testing"]
+  pull_request:
+    branches: ["feature/v2.1-testing"]
 jobs:
   build:
     runs-on: ubuntu-latest

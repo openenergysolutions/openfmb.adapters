@@ -2,12 +2,8 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-{ target ? "x86_64-unknown-linux-musl",
-  target-pkgs ? (import ./nix/nixpkgs.nix {
-    crossSystem = {
-      config = target;
-    };
-  }),
+{ target ? "x86_64-unknown-linux-gnu",  
+  target-pkgs ? if target == "x86_64-unknown-linux-gnu" then (import ./nix/nixpkgs.nix { system = "x86_64-linux"; }) else (import ./nix/nixpkgs.nix { crossSystem = { config = target; }; }),
   host-pkgs ? import ./nix/nixpkgs.nix {},
   version ? host-pkgs.lib.commitIdFromGitRepo ./.git,
 }:

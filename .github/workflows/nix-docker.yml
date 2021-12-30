@@ -6,6 +6,9 @@
 name: "Nix Docker Build"
 on:
   push:
+    branches: ["feature/v2.1-testing"]
+  pull_request:
+    branches: ["feature/v2.1-testing"]
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -36,7 +39,7 @@ jobs:
       - name: Build all
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-        run: nix-build all.nix
+        run: nix-build all-gnu.nix
       - name: Prepare Artifacts
         run: |
           mkdir artifacts
@@ -76,8 +79,8 @@ jobs:
           IMAGE_NAME=$(find . -name *docker*aarch64*.tar.gz)
           docker load --input $IMAGE_NAME
           IMAGE_REPOSITORY=$(docker images --format "{{.Repository}}:{{.Tag}}" | grep aarch64)
-          docker tag $IMAGE_REPOSITORY docker.io/oesinc/openfmb.adapters:aarch64-${GITHUB_SHA::7}
-          docker push docker.io/oesinc/openfmb.adapters:aarch64-${GITHUB_SHA::7}
+          docker tag $IMAGE_REPOSITORY docker.io/oesinc/openfmb.adapters:aarch64-gnu-2-1-${GITHUB_SHA::7}
+          docker push docker.io/oesinc/openfmb.adapters:aarch64-gnu-2-1-${GITHUB_SHA::7}
       - name: Push Armv7 Image to DockerHub
         if: ${{ env.PUSH_IMAGES == 'true' }}
         shell: bash
@@ -85,8 +88,8 @@ jobs:
           IMAGE_NAME=$(find . -name *docker*armv7*.tar.gz)
           docker load --input $IMAGE_NAME
           IMAGE_REPOSITORY=$(docker images --format "{{.Repository}}:{{.Tag}}" | grep armv7)
-          docker tag $IMAGE_REPOSITORY docker.io/oesinc/openfmb.adapters:armv7-${GITHUB_SHA::7}
-          docker push docker.io/oesinc/openfmb.adapters:armv7-${GITHUB_SHA::7}
+          docker tag $IMAGE_REPOSITORY docker.io/oesinc/openfmb.adapters:armv7-gnu-2-1-${GITHUB_SHA::7}
+          docker push docker.io/oesinc/openfmb.adapters:armv7-gnu-2-1-${GITHUB_SHA::7}
       - name: Push x86_64 Image to DockerHub
         if: ${{ env.PUSH_IMAGES == 'true' }}
         shell: bash
@@ -94,30 +97,30 @@ jobs:
           IMAGE_NAME=$(find . -name *docker*x86_64*.tar.gz)
           docker load --input $IMAGE_NAME
           IMAGE_REPOSITORY=$(docker images --format "{{.Repository}}:{{.Tag}}" | grep x86_64)
-          docker tag $IMAGE_REPOSITORY docker.io/oesinc/openfmb.adapters:x86_64-${GITHUB_SHA::7}
-          docker push docker.io/oesinc/openfmb.adapters:x86_64-${GITHUB_SHA::7}
+          docker tag $IMAGE_REPOSITORY docker.io/oesinc/openfmb.adapters:x86_64-gnu-2-1-${GITHUB_SHA::7}
+          docker push docker.io/oesinc/openfmb.adapters:x86_64-gnu-2-1-${GITHUB_SHA::7}
       - name: Create and push the multiarch Image to DockerHub
         if: ${{ env.PUSH_IMAGES == 'true' }}
         shell: bash
         run: |
-          IMAGE_NAME=${GITHUB_REPOSITORY#*/}
+          IMAGE_NAME=${GITHUB_REPOSITORY#*/}-2-1
           # create a build specific tag and push
           docker manifest create \
-            oesinc/$IMAGE_NAME:${GITHUB_SHA::7} \
-            --amend oesinc/$IMAGE_NAME:x86_64-${GITHUB_SHA::7} \
-            --amend oesinc/$IMAGE_NAME:armv7-${GITHUB_SHA::7} \
-            --amend oesinc/$IMAGE_NAME:aarch64-${GITHUB_SHA::7}
-          docker manifest annotate oesinc/$IMAGE_NAME:${GITHUB_SHA::7} oesinc/$IMAGE_NAME:x86_64-${GITHUB_SHA::7} --arch amd64 --os linux
-          docker manifest annotate oesinc/$IMAGE_NAME:${GITHUB_SHA::7} oesinc/$IMAGE_NAME:armv7-${GITHUB_SHA::7} --arch arm --os linux --variant v7
-          docker manifest annotate oesinc/$IMAGE_NAME:${GITHUB_SHA::7} oesinc/$IMAGE_NAME:aarch64-${GITHUB_SHA::7} --arch arm64 --os linux
-          docker manifest push oesinc/$IMAGE_NAME:${GITHUB_SHA::7}
+            oesinc/$IMAGE_NAME:2.1-${GITHUB_SHA::7} \
+            --amend oesinc/$IMAGE_NAME:x86_64-gnu-2-1-${GITHUB_SHA::7} \
+            --amend oesinc/$IMAGE_NAME:armv7-gnu-2-1-${GITHUB_SHA::7} \
+            --amend oesinc/$IMAGE_NAME:aarch64-gnu-2-1-${GITHUB_SHA::7}
+          docker manifest annotate oesinc/$IMAGE_NAME:${GITHUB_SHA::7} oesinc/$IMAGE_NAME:x86_64-gnu-2-1-${GITHUB_SHA::7} --arch amd64 --os linux
+          docker manifest annotate oesinc/$IMAGE_NAME:${GITHUB_SHA::7} oesinc/$IMAGE_NAME:armv7-gnu-2-1-${GITHUB_SHA::7} --arch arm --os linux --variant v7
+          docker manifest annotate oesinc/$IMAGE_NAME:${GITHUB_SHA::7} oesinc/$IMAGE_NAME:aarch64-gnu-2-1-${GITHUB_SHA::7} --arch arm64 --os linux
+          docker manifest push oesinc/$IMAGE_NAME:2.1-${GITHUB_SHA::7}
           # create a develop tag and push
           docker manifest create \
-            oesinc/$IMAGE_NAME:develop \
-            --amend oesinc/$IMAGE_NAME:x86_64-${GITHUB_SHA::7} \
-            --amend oesinc/$IMAGE_NAME:armv7-${GITHUB_SHA::7} \
-            --amend oesinc/$IMAGE_NAME:aarch64-${GITHUB_SHA::7}
-          docker manifest annotate oesinc/$IMAGE_NAME:develop oesinc/$IMAGE_NAME:x86_64-${GITHUB_SHA::7} --arch amd64 --os linux
-          docker manifest annotate oesinc/$IMAGE_NAME:develop oesinc/$IMAGE_NAME:armv7-${GITHUB_SHA::7} --arch arm --os linux --variant v7
-          docker manifest annotate oesinc/$IMAGE_NAME:develop oesinc/$IMAGE_NAME:aarch64-${GITHUB_SHA::7} --arch arm64 --os linux
-          docker manifest push oesinc/$IMAGE_NAME:develop
+            oesinc/$IMAGE_NAME:develop-2.1 \
+            --amend oesinc/$IMAGE_NAME:x86_64-gnu-2-1-${GITHUB_SHA::7} \
+            --amend oesinc/$IMAGE_NAME:armv7-gnu-2-1-${GITHUB_SHA::7} \
+            --amend oesinc/$IMAGE_NAME:aarch64-gnu-2-1-${GITHUB_SHA::7}
+          docker manifest annotate oesinc/$IMAGE_NAME:develop-2.1 oesinc/$IMAGE_NAME:x86_64-gnu-2-1-${GITHUB_SHA::7} --arch amd64 --os linux
+          docker manifest annotate oesinc/$IMAGE_NAME:develop-2.1 oesinc/$IMAGE_NAME:armv7-gnu-2-1-${GITHUB_SHA::7} --arch arm --os linux --variant v7
+          docker manifest annotate oesinc/$IMAGE_NAME:develop-2.1 oesinc/$IMAGE_NAME:aarch64-gnu-2-1-${GITHUB_SHA::7} --arch arm64 --os linux
+          docker manifest push oesinc/$IMAGE_NAME:develop-2.1
