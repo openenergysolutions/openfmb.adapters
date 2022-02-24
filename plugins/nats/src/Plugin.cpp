@@ -118,6 +118,8 @@ namespace nats {
 
                 logger.info("Established connection to NATS broker");
 
+                this->connection_closed = false;
+
                 // set up any subscriptions
                 for (auto& sub : this->subscriptions) {
                     sub->start(connection);
@@ -132,7 +134,7 @@ namespace nats {
 
     void Plugin::run(natsConnection& conn)
     {
-        while (!shutdown) {
+        while (!shutdown && !connection_closed) {
             auto msg = this->messages->pop(std::chrono::milliseconds(100));
             if (msg) {
 
@@ -175,6 +177,37 @@ namespace nats {
                 },
                "Unable to set url");
         }
+
+        try_nats(
+            [&]() -> natsStatus {
+                return natsOptions_SetClosedCB(
+                    this->options.impl,
+                    [](natsConnection *nc, void *closure) {
+                        auto plugin = static_cast<Plugin*>(closure);
+                        const char  *err    = NULL;
+                        natsConnection_GetLastError(nc, &err);
+                        plugin->logger.error("Connect to NATS has lost: {}", err);
+                        plugin->connection_closed = true;
+                    },
+                    (void*)this);
+            },
+            "Unable to set connection close callback");
+
+        try_nats(
+            [&]() -> natsStatus {
+                return natsOptions_SetMaxReconnect(
+                    this->options.impl,
+                    10);
+            },
+            "Unable to set MaxReconnect");
+
+        try_nats(
+            [&]() -> natsStatus {
+                return natsOptions_SetReconnectWait(
+                    this->options.impl,
+                    500);
+            },
+            "Unable to set ReconnectWait");
 
         // figure out what type of security we're using
         const auto sec_node = util::yaml::require(node, util::keys::security);
