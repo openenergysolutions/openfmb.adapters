@@ -68,6 +68,7 @@ namespace nats {
         api::Logger logger;
         std::unique_ptr<std::thread> background_thread;
         bool shutdown = false;
+        bool connection_closed = false;
 
         const message_queue_t messages;
 
