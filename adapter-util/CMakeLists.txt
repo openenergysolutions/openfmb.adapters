@@ -186,4 +186,4 @@ target_compile_definitions(adapter-util PRIVATE MACRO_GIT_COMMIT_HASH=${GIT_COMM
 clang_tidy(adapter-util)
 clang_format(adapter-util EXCLUDES "/config/generated/")
 
-add_subdirectory(./test)
+# add_subdirectory(./test)

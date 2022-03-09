@@ -23,8 +23,18 @@ SET(CPP_FORMAT_DIRS
 )
 
 # Build plugin list
-set(plugins log-plugin capture-plugin replay-plugin)
+set(plugins log-plugin)
 set(plugin_definitions)
+
+if(OPENFMB_USE_CAPTURE)
+    list(APPEND plugins capture-plugin)
+    list(APPEND plugin_definitions OPENFMB_USE_CAPTURE)
+endif()
+
+if(OPENFMB_USE_REPLAY)
+    list(APPEND plugins replay-plugin)
+    list(APPEND plugin_definitions OPENFMB_USE_REPLAY)
+endif()
 
 if(OPENFMB_USE_DNP3)
     list(APPEND plugins dnp3-plugin)

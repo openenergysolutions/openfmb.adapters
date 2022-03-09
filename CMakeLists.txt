@@ -46,6 +46,8 @@ option(OPENFMB_USE_ZENOH "Build the Zenoh plugin" ${BUILD_BY_DEFAULT})
 # the proprietary plugins are always opt-in
 option(OPENFMB_USE_GOOSE "Build the GOOSE plugin" OFF)
 option(OPENFMB_USE_ICCP "Build the ICCP plugin" OFF)
+option(OPENFMB_USE_CAPTURE "Build the Capture plugin" OFF)
+option(OPENFMB_USE_REPLAY "Build the Replay plugin" OFF)
 option(OPENFMB_USE_TWINOAKS_DDS "Build the Twin Oaks DDS plugin" OFF)
 option(OPENFMB_USE_RTI_DDS "Build the RTI DDS plugin" OFF)
 option(OPENFMB_LINK_STATIC "Link dependencies statically where possible" OFF)
@@ -79,11 +81,8 @@ include(./deps/exe4cpp.cmake)
 include(./deps/log4cpp.cmake)
 include(./deps/ser4cpp.cmake)
 include(./deps/spdlog.cmake)
-
-if(OPENFMB_USE_CONAN)
-  include(./deps/argagg.cmake)
-  include(./deps/cppcodec.cmake)
-endif()
+include(./deps/argagg.cmake)
+include(./deps/cppcodec.cmake)
 
 # Protobuf C++ objects, used by adapter-util and transitively by all plugins
 add_subdirectory(./proto-api)
@@ -101,10 +100,16 @@ add_subdirectory(./adapter-util)
 add_subdirectory(./plugins/log)
 
 # plugin that can capture published messages to replayable format
-add_subdirectory(./plugins/capture)
+if (OPENFMB_USE_CAPTURE)
+  add_subdirectory(./plugins/capture)
+  # capture decoder
+  add_subdirectory(./util/decode-capture)
+endif()
 
 # plugin that can replay the capture format above
-add_subdirectory(./plugins/replay)
+if (OPENFMB_USE_REPLAY)
+  add_subdirectory(./plugins/replay)
+endif()
 
 if(OPENFMB_USE_DNP3)
   if(OPENFMB_LINK_STATIC)
@@ -155,9 +160,6 @@ endif()
 
 # main application
 add_subdirectory(./application)
-
-# capture decoder
-add_subdirectory(./util/decode-capture)
 
 # Clang format
 define_clang_format()

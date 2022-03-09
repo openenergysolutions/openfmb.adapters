@@ -5,8 +5,14 @@
 #include "PluginRegistry.h"
 
 #include "log/PluginFactory.h"
+
+#ifdef OPENFMB_USE_CAPTURE
 #include "capture/PluginFactory.h"
+#endif
+
+#ifdef OPENFMB_USE_REPLAY
 #include "replay/PluginFactory.h"
+#endif
 
 #include <adapter-api/Exception.h>
 
@@ -59,8 +65,14 @@ namespace adapter {
 PluginRegistry::PluginRegistry()
 {
     this->add<log::PluginFactory>();
+
+#ifdef OPENFMB_USE_CAPTURE
     this->add<capture::PluginFactory>();
+#endif
+
+#ifdef OPENFMB_USE_REPLAY
     this->add<replay::PluginFactory>();
+#endif
 
 #ifdef OPENFMB_USE_DNP3
     this->add<dnp3::master::PluginFactory>();

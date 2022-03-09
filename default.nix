@@ -22,7 +22,7 @@ pkgs.callPackage ({ninja, cmake, protobuf, openssl, libpcap, boost166, asio, spd
   pname = "adapter";
   version = "2.1";
   src = if pkgs.lib.inNixShell then null else gitignoreSource ./.;
-  cmakeFlags = [ "-DOPENFMB_USE_CONAN=OFF" "-DOPENFMB_USE_GOOSE=OFF" "-DCMAKE_BUILD_TYPE=Release"];
+  cmakeFlags = [ "-DOPENFMB_USE_CONAN=OFF" "-DOPENFMB_USE_GOOSE=OFF" "-DOPENFMB_USE_CAPTURE=ON" "-DOPENFMB_USE_REPLAY=ON" "-DCMAKE_BUILD_TYPE=Release"];
 
   nativeBuildInputs = [
     cmake

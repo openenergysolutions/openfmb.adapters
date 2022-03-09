@@ -7,7 +7,7 @@ if(OPENFMB_USE_CONAN)
 
     FetchContent_Declare(
         modbus-cpp
-        GIT_REPOSITORY git@github.com:openenergysolutions/modbus-cpp.git
+        GIT_REPOSITORY https://github.com/openenergysolutions/modbus-cpp.git
         GIT_TAG        669b3e47545faa71816c685276f7cdcf64629f9a
     )
 
