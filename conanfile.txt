@@ -4,19 +4,16 @@
 
 [requires]
 boost/1.77.0
-libpq/11.5@bincrafters/stable
-OpenSSL/1.1.0k@conan/stable
-paho-cpp/1.0.1@conan/stable
-protobuf/3.5.2@bincrafters/stable
+libpq/11.5
+openssl/1.1.1k
+paho-mqtt-cpp/1.2.0
+protobuf/3.16.0
 yaml-cpp/0.7.0
 
-[build_requires]
-protoc_installer/3.5.2@bincrafters/stable
-
 [options]
-OpenSSL:no_dso=True
+openssl:no_dso=True
 libpq:with_openssl=True
-paho-cpp:SSL=True
+paho-mqtt-cpp:SSL=True
 boost:header_only=True
 
 [generators]
