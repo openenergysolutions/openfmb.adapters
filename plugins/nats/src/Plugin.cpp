@@ -210,6 +210,7 @@ namespace nats {
             "Unable to set ReconnectWait");
 
         // figure out what type of security we're using
+        
         const auto sec_node = util::yaml::require(node, util::keys::security);
         const auto sec_type = util::yaml::require_enum<SecurityType>(sec_node);
         switch (sec_type) {
