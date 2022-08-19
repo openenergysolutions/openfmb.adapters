@@ -13,7 +13,7 @@ yaml-cpp/0.7.0
 [options]
 openssl:no_dso=True
 libpq:with_openssl=True
-paho-mqtt-cpp:SSL=True
+# paho-mqtt-cpp:SSL=True
 boost:header_only=True
 
 [generators]
