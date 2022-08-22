@@ -47,6 +47,10 @@ namespace dnp3 {
 
             void handle_mapped_int64(const YAML::Node& node, const util::accessor_t<T, int64_t>& accessor) override;
 
+            void handle_mapped_uint32(const YAML::Node& node, const util::accessor_t<T, uint32_t>& accessor) override;
+
+            void handle_mapped_uint64(const YAML::Node& node, const util::accessor_t<T, uint64_t>& accessor) override;
+
             void handle_mapped_float(const YAML::Node& node, const util::accessor_t<T, float>& accessor) override;
 
             void handle_mapped_double(const YAML::Node& node, const util::accessor_t<T, double>& accessor) override;
@@ -117,8 +121,22 @@ namespace dnp3 {
         }
 
         template <class T>
+        void PublishingConfigReadVisitor<T>::handle_mapped_uint32(const YAML::Node& node,
+                                                                 const util::accessor_t<T, uint32_t>& accessor)
+        {
+            handle_mapped_int(node, accessor);
+        }
+
+        template <class T>
         void PublishingConfigReadVisitor<T>::handle_mapped_int64(const YAML::Node& node,
                                                                  const util::accessor_t<T, int64_t>& accessor)
+        {
+            handle_mapped_int(node, accessor);
+        }
+
+        template <class T>
+        void PublishingConfigReadVisitor<T>::handle_mapped_uint64(const YAML::Node& node,
+                                                                 const util::accessor_t<T, uint64_t>& accessor)
         {
             handle_mapped_int(node, accessor);
         }

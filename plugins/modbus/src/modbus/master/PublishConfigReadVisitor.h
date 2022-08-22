@@ -50,6 +50,10 @@ namespace master {
 
         void handle_mapped_int64(const YAML::Node& node, const util::accessor_t<T, int64_t>& accessor) override;
 
+        void handle_mapped_uint32(const YAML::Node& node, const util::accessor_t<T, uint32_t>& accessor) override;
+
+        void handle_mapped_uint64(const YAML::Node& node, const util::accessor_t<T, uint64_t>& accessor) override;
+
         void handle_mapped_float(const YAML::Node& node, const util::accessor_t<T, float>& accessor) override;
 
         void handle_mapped_double(const YAML::Node& node, const util::accessor_t<T, double>& accessor) override;
@@ -173,7 +177,19 @@ namespace master {
     }
 
     template <class T>
+    void PublishConfigReadVisitor<T>::handle_mapped_uint32(const YAML::Node& node, const util::accessor_t<T, uint32_t>& accessor)
+    {
+        map_numeric(node, accessor);
+    }
+
+    template <class T>
     void PublishConfigReadVisitor<T>::handle_mapped_int64(const YAML::Node& node, const util::accessor_t<T, int64_t>& accessor)
+    {
+        map_numeric(node, accessor);
+    }
+
+    template <class T>
+    void PublishConfigReadVisitor<T>::handle_mapped_uint64(const YAML::Node& node, const util::accessor_t<T, uint64_t>& accessor)
     {
         map_numeric(node, accessor);
     }

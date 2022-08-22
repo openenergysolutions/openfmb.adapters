@@ -39,6 +39,10 @@ namespace util {
 
         void handle(const std::string& field_name, const accessor_t<T, int64_t>& accessor) final;
 
+        void handle(const std::string& field_name, const accessor_t<T, uint32_t>& accessor) final;
+
+        void handle(const std::string& field_name, const accessor_t<T, uint64_t>& accessor) final;
+
         void handle(const std::string& field_name, const accessor_t<T, float>& accessor) final;
 
         void handle(const std::string& field_name, const accessor_t<T, double>& accessor) final;
@@ -90,6 +94,10 @@ namespace util {
 
         virtual void handle_mapped_int64(const YAML::Node& node, const accessor_t<T, int64_t>& accessor) = 0;
 
+        virtual void handle_mapped_uint32(const YAML::Node& node, const accessor_t<T, uint32_t>& accessor) = 0;
+
+        virtual void handle_mapped_uint64(const YAML::Node& node, const accessor_t<T, uint64_t>& accessor) = 0;
+
         virtual void handle_mapped_float(const YAML::Node& node, const accessor_t<T, float>& accessor) = 0;
 
         virtual void handle_mapped_double(const YAML::Node& node, const accessor_t<T, double>& accessor) = 0;
@@ -109,7 +117,11 @@ namespace util {
 
         void handle_constant_int32(const YAML::Node& node, const accessor_t<T, int32_t>& accessor);
 
+        void handle_constant_uint32(const YAML::Node& node, const accessor_t<T, uint32_t>& accessor);
+
         void handle_constant_int64(const YAML::Node& node, const accessor_t<T, int64_t>& accessor);
+
+        void handle_constant_uint64(const YAML::Node& node, const accessor_t<T, uint64_t>& accessor);
 
         void handle_optional_const_float(const YAML::Node& node, const accessor_t<T, float>& accessor);
 
@@ -162,6 +174,23 @@ namespace util {
     }
 
     template <class T>
+    void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, const accessor_t<T, uint32_t>& accessor)
+    {
+        const auto node = this->get_config_node(field_name);
+        const auto field_type = yaml::require_enum<Int32FieldType>(node);
+        switch (field_type) {
+        case (Int32FieldType::Value::mapped):
+            this->handle_mapped_uint32(node, accessor);
+            break;
+        case (Int32FieldType::Value::constant):
+            this->handle_constant_uint32(node, accessor);
+        default:
+            // ignored
+            break;
+        }
+    }
+
+    template <class T>
     void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, const accessor_t<T, int64_t>& accessor)
     {
         const auto node = this->get_config_node(field_name);
@@ -172,6 +201,23 @@ namespace util {
             break;
         case (Int64FieldType::Value::constant):
             this->handle_constant_int64(node, accessor);
+        default:
+            // ignored
+            break;
+        }
+    }
+
+    template <class T>
+    void PublishingConfigReadVisitorBase<T>::handle(const std::string& field_name, const accessor_t<T, uint64_t>& accessor)
+    {
+        const auto node = this->get_config_node(field_name);
+        const auto field_type = yaml::require_enum<Int64FieldType>(node);
+        switch (field_type) {
+        case (Int64FieldType::Value::mapped):
+            this->handle_mapped_uint64(node, accessor);
+            break;
+        case (Int64FieldType::Value::constant):
+            this->handle_constant_uint64(node, accessor);
         default:
             // ignored
             break;
@@ -354,10 +400,28 @@ namespace util {
     }
 
     template <class T>
+    void PublishingConfigReadVisitorBase<T>::handle_constant_uint32(const YAML::Node& node, const accessor_t<T, uint32_t>& accessor)
+    {
+        this->add_message_init_action(
+            [accessor, value = yaml::require_integer<int32_t>(node, util::keys::value)](T& profile) {
+                accessor->set(profile, value);
+            });
+    }
+
+    template <class T>
     void PublishingConfigReadVisitorBase<T>::handle_constant_int64(const YAML::Node& node, const accessor_t<T, int64_t>& accessor)
     {
         this->add_message_init_action(
             [accessor, value = yaml::require(node, util::keys::value).as<int64_t>()](T& profile) {
+                accessor->set(profile, value);
+            });
+    }
+
+    template <class T>
+    void PublishingConfigReadVisitorBase<T>::handle_constant_uint64(const YAML::Node& node, const accessor_t<T, uint64_t>& accessor)
+    {
+        this->add_message_init_action(
+            [accessor, value = yaml::require(node, util::keys::value).as<uint64_t>()](T& profile) {
                 accessor->set(profile, value);
             });
     }

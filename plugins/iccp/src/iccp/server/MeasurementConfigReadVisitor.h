@@ -34,6 +34,10 @@ namespace iccp {
 
             void handle_mapped_field(const YAML::Node& node, const util::accessor_t<T, int64_t>& accessor) override;
 
+            void handle_mapped_field(const YAML::Node& node, const util::accessor_t<T, uint32_t>& accessor) override;
+
+            void handle_mapped_field(const YAML::Node& node, const util::accessor_t<T, uint64_t>& accessor) override;
+
             void handle_mapped_field(const YAML::Node& node, const util::accessor_t<T, float>& accessor) override;
 
             void handle_mapped_field(const YAML::Node& node, const util::accessor_t<T, double>& accessor) override;
@@ -70,7 +74,21 @@ namespace iccp {
 
         template <class T>
         void MeasurementConfigReadVisitor<T>::handle_mapped_field(const YAML::Node& node,
+                                                                  const util::accessor_t<T, uint32_t>& accessor)
+        {
+            throw api::Exception("Not implemented");
+        }
+
+        template <class T>
+        void MeasurementConfigReadVisitor<T>::handle_mapped_field(const YAML::Node& node,
                                                                   const util::accessor_t<T, int64_t>& accessor)
+        {
+            throw api::Exception("Not implemented");
+        }
+
+        template <class T>
+        void MeasurementConfigReadVisitor<T>::handle_mapped_field(const YAML::Node& node,
+                                                                  const util::accessor_t<T, uint64_t>& accessor)
         {
             throw api::Exception("Not implemented");
         }

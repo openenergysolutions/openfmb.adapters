@@ -150,8 +150,12 @@ public class TypeClassification {
                 return getBool(path);
             case INT32:
                 return getInt32(path);
+            case UINT32:
+                return getUInt32(path);
             case INT64:
                 return getInt64(path);
+            case UINT64:
+                return getUInt64(path);
             case STRING:
                 return getString(path);
             case ENUM:
@@ -181,7 +185,9 @@ public class TypeClassification {
                 }
 
                 if(path.last().getMessageType() == ClearingTime.getDescriptor()) {
-                    // just ignore for now
+                    if(path.last().getName().equals("tmVal")) {
+                        return getDoubleWrapper(path);
+                    }
                     return Types.clearingTime.ignored;
                 }
 
@@ -234,6 +240,14 @@ public class TypeClassification {
         return Types.int32.mapped;
     }
 
+    private static String getUInt32(FieldPath path)
+    {
+        if(path.hasName("nanoseconds")) {
+            return Types.int32.mapped;
+        }
+        return Types.int32.mapped;
+    }
+
     private static String getInt64(FieldPath path)
     {
         /*
@@ -244,6 +258,14 @@ public class TypeClassification {
         throw new NoClassificationException(path);
         */
         return Types.int64.mapped;
+    }
+
+    private static String getUInt64(FieldPath path)
+    {
+        if(path.hasName("seconds")) {
+            return Types.int64.mapped;
+        }
+        return Types.int64.ignored;
     }
 
 

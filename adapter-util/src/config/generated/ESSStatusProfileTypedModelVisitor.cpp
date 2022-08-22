@@ -30,6 +30,8 @@ using get_t = getter_t<essmodule::ESSStatusProfile, V>;
 
 // ---- forward declare all the child visit method names ----
 
+void visit_commonmodule_ClearingTime(const set_t<commonmodule::ClearingTime>& setter, const get_t<commonmodule::ClearingTime>& getter, ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor);
+
 void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::ConductingEquipment>& setter, const get_t<commonmodule::ConductingEquipment>& getter, ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor);
 
 void visit_commonmodule_ENG_GridConnectModeKind(const set_t<commonmodule::ENG_GridConnectModeKind>& setter, const get_t<commonmodule::ENG_GridConnectModeKind>& getter, ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor);
@@ -238,6 +240,37 @@ void visit(ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor)
 }
 
 // ---- template definitions for child types ----
+
+void visit_commonmodule_ClearingTime(const set_t<commonmodule::ClearingTime>& setter, const get_t<commonmodule::ClearingTime>& getter, ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor)
+{
+    visitor.handle(
+        "seconds",
+        AccessorBuilder<essmodule::ESSStatusProfile,uint64_t>::build(
+            [setter](essmodule::ESSStatusProfile& profile, const uint64_t& value) { setter(profile)->set_seconds(value); },
+            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<uint64_t>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->seconds());
+                return true;
+            }
+        )
+    );
+
+    visitor.handle(
+        "nanoseconds",
+        AccessorBuilder<essmodule::ESSStatusProfile,uint32_t>::build(
+            [setter](essmodule::ESSStatusProfile& profile, const uint32_t& value) { setter(profile)->set_nanoseconds(value); },
+            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<uint32_t>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->nanoseconds());
+                return true;
+            }
+        )
+    );
+}
 
 void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::ConductingEquipment>& setter, const get_t<commonmodule::ConductingEquipment>& getter, ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
@@ -1281,19 +1314,29 @@ void visit_commonmodule_OperationDHFW(const set_t<commonmodule::OperationDHFW>& 
         )
     );
 
-    visitor.handle(
-        "OplTmmsMax",
-        MessageAccessorBuilder<essmodule::ESSStatusProfile,commonmodule::ClearingTime>::build(
-            [setter](essmodule::ESSStatusProfile& profile) { return setter(profile)->mutable_opltmmsmax(); },
-            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<commonmodule::ClearingTime>& handler)
+    if(visitor.start_message_field("OplTmmsMax", commonmodule::ClearingTime::descriptor()))
+    {
+        visit_commonmodule_ClearingTime(
+            [setter](essmodule::ESSStatusProfile& profile)
             {
-                const auto parent = getter(profile);
-                if(!parent || !parent->has_opltmmsmax()) return false;
-                handler(parent->opltmmsmax());
-                return true;
-            }
-        )
-    );
+                return setter(profile)->mutable_opltmmsmax();
+            },
+            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::ClearingTime const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_opltmmsmax() ? &value->opltmmsmax() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
 }
 
 void visit_commonmodule_OperationDLFW(const set_t<commonmodule::OperationDLFW>& setter, const get_t<commonmodule::OperationDLFW>& getter, ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor)
@@ -1312,19 +1355,29 @@ void visit_commonmodule_OperationDLFW(const set_t<commonmodule::OperationDLFW>& 
         )
     );
 
-    visitor.handle(
-        "OplTmmsMax",
-        MessageAccessorBuilder<essmodule::ESSStatusProfile,commonmodule::ClearingTime>::build(
-            [setter](essmodule::ESSStatusProfile& profile) { return setter(profile)->mutable_opltmmsmax(); },
-            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<commonmodule::ClearingTime>& handler)
+    if(visitor.start_message_field("OplTmmsMax", commonmodule::ClearingTime::descriptor()))
+    {
+        visit_commonmodule_ClearingTime(
+            [setter](essmodule::ESSStatusProfile& profile)
             {
-                const auto parent = getter(profile);
-                if(!parent || !parent->has_opltmmsmax()) return false;
-                handler(parent->opltmmsmax());
-                return true;
-            }
-        )
-    );
+                return setter(profile)->mutable_opltmmsmax();
+            },
+            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::ClearingTime const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_opltmmsmax() ? &value->opltmmsmax() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
 }
 
 void visit_commonmodule_OperationDVAR(const set_t<commonmodule::OperationDVAR>& setter, const get_t<commonmodule::OperationDVAR>& getter, ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor)
@@ -1360,19 +1413,29 @@ void visit_commonmodule_OperationDVVR(const set_t<commonmodule::OperationDVVR>& 
         )
     );
 
-    visitor.handle(
-        "OplTmmsMax",
-        MessageAccessorBuilder<essmodule::ESSStatusProfile,commonmodule::ClearingTime>::build(
-            [setter](essmodule::ESSStatusProfile& profile) { return setter(profile)->mutable_opltmmsmax(); },
-            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<commonmodule::ClearingTime>& handler)
+    if(visitor.start_message_field("OplTmmsMax", commonmodule::ClearingTime::descriptor()))
+    {
+        visit_commonmodule_ClearingTime(
+            [setter](essmodule::ESSStatusProfile& profile)
             {
-                const auto parent = getter(profile);
-                if(!parent || !parent->has_opltmmsmax()) return false;
-                handler(parent->opltmmsmax());
-                return true;
-            }
-        )
-    );
+                return setter(profile)->mutable_opltmmsmax();
+            },
+            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::ClearingTime const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_opltmmsmax() ? &value->opltmmsmax() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
 
     visitor.handle(
         "VRef",
@@ -1433,19 +1496,29 @@ void visit_commonmodule_OperationDVWC(const set_t<commonmodule::OperationDVWC>& 
         )
     );
 
-    visitor.handle(
-        "OplTmmsMax",
-        MessageAccessorBuilder<essmodule::ESSStatusProfile,commonmodule::ClearingTime>::build(
-            [setter](essmodule::ESSStatusProfile& profile) { return setter(profile)->mutable_opltmmsmax(); },
-            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<commonmodule::ClearingTime>& handler)
+    if(visitor.start_message_field("OplTmmsMax", commonmodule::ClearingTime::descriptor()))
+    {
+        visit_commonmodule_ClearingTime(
+            [setter](essmodule::ESSStatusProfile& profile)
             {
-                const auto parent = getter(profile);
-                if(!parent || !parent->has_opltmmsmax()) return false;
-                handler(parent->opltmmsmax());
-                return true;
-            }
-        )
-    );
+                return setter(profile)->mutable_opltmmsmax();
+            },
+            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::ClearingTime const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_opltmmsmax() ? &value->opltmmsmax() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
 }
 
 void visit_commonmodule_OperationDWMN(const set_t<commonmodule::OperationDWMN>& setter, const get_t<commonmodule::OperationDWMN>& getter, ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor)
@@ -1932,19 +2005,29 @@ void visit_commonmodule_TmHzPoint(const set_t<commonmodule::TmHzPoint>& setter, 
         )
     );
 
-    visitor.handle(
-        "tmVal",
-        MessageAccessorBuilder<essmodule::ESSStatusProfile,commonmodule::ClearingTime>::build(
-            [setter](essmodule::ESSStatusProfile& profile) { return setter(profile)->mutable_tmval(); },
-            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<commonmodule::ClearingTime>& handler)
+    if(visitor.start_message_field("tmVal", commonmodule::ClearingTime::descriptor()))
+    {
+        visit_commonmodule_ClearingTime(
+            [setter](essmodule::ESSStatusProfile& profile)
             {
-                const auto parent = getter(profile);
-                if(!parent || !parent->has_tmval()) return false;
-                handler(parent->tmval());
-                return true;
-            }
-        )
-    );
+                return setter(profile)->mutable_tmval();
+            },
+            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::ClearingTime const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_tmval() ? &value->tmval() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
 }
 
 void visit_commonmodule_TmVoltCSG(const set_t<commonmodule::TmVoltCSG>& setter, const get_t<commonmodule::TmVoltCSG>& getter, ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor)
@@ -2026,19 +2109,29 @@ void visit_commonmodule_TmVoltCSG(const set_t<commonmodule::TmVoltCSG>& setter, 
 
 void visit_commonmodule_TmVoltPoint(const set_t<commonmodule::TmVoltPoint>& setter, const get_t<commonmodule::TmVoltPoint>& getter, ITypedModelVisitor<essmodule::ESSStatusProfile>& visitor)
 {
-    visitor.handle(
-        "tmVal",
-        MessageAccessorBuilder<essmodule::ESSStatusProfile,commonmodule::ClearingTime>::build(
-            [setter](essmodule::ESSStatusProfile& profile) { return setter(profile)->mutable_tmval(); },
-            [getter](const essmodule::ESSStatusProfile& profile, const handler_t<commonmodule::ClearingTime>& handler)
+    if(visitor.start_message_field("tmVal", commonmodule::ClearingTime::descriptor()))
+    {
+        visit_commonmodule_ClearingTime(
+            [setter](essmodule::ESSStatusProfile& profile)
             {
-                const auto parent = getter(profile);
-                if(!parent || !parent->has_tmval()) return false;
-                handler(parent->tmval());
-                return true;
-            }
-        )
-    );
+                return setter(profile)->mutable_tmval();
+            },
+            [getter](const essmodule::ESSStatusProfile& profile) -> commonmodule::ClearingTime const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_tmval() ? &value->tmval() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
 
     visitor.handle(
         "voltVal",

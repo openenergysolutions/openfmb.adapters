@@ -223,7 +223,17 @@ namespace iccp {
         return get_discrete_schema();
     }
 
+    std::shared_ptr<schema::Object> ServerSchemaWriteVisitor::get_mapped_uint32_schema()
+    {
+        return get_discrete_schema();
+    }
+
     std::shared_ptr<schema::Object> ServerSchemaWriteVisitor::get_mapped_int64_schema()
+    {
+        return get_discrete_schema();
+    }
+
+    std::shared_ptr<schema::Object> ServerSchemaWriteVisitor::get_mapped_uint64_schema()
     {
         return get_discrete_schema();
     }

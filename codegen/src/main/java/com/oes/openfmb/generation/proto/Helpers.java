@@ -19,8 +19,7 @@ class Helpers {
             Arrays.asList(
                     Quality.getDescriptor(),
                     Timestamp.getDescriptor(),
-                    ControlTimestamp.getDescriptor(),
-                    ClearingTime.getDescriptor()
+                    ControlTimestamp.getDescriptor()
             )
     );
 
@@ -29,8 +28,7 @@ class Helpers {
             Arrays.asList(
                     DetailQual.getDescriptor(),
                     TimeQuality.getDescriptor(),
-                    ENG_ScheduleParameter.getDescriptor(),
-                    ClearingTime.getDescriptor()
+                    ENG_ScheduleParameter.getDescriptor()
             )
     );
 
@@ -43,7 +41,7 @@ class Helpers {
                     Int32Value.getDescriptor(),
                     Int64Value.getDescriptor(),
                     UInt32Value.getDescriptor(),
-                    UInt32Value.getDescriptor()
+                    UInt64Value.getDescriptor()
             )
     );
 

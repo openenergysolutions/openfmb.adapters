@@ -35,6 +35,10 @@ namespace util {
 
         virtual std::shared_ptr<schema::Object> get_mapped_int64_schema() { return nullptr; };
 
+        virtual std::shared_ptr<schema::Object> get_mapped_uint32_schema() { return nullptr; };
+
+        virtual std::shared_ptr<schema::Object> get_mapped_uint64_schema() { return nullptr; };
+
         virtual std::shared_ptr<schema::Object> get_mapped_float_schema() { return nullptr; };
 
         virtual std::shared_ptr<schema::Object> get_mapped_double_schema() { return nullptr; };

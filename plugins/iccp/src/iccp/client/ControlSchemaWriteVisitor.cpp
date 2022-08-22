@@ -43,7 +43,17 @@ namespace iccp {
             return get_control_schema();
         }
 
+        std::shared_ptr<schema::Object> ControlSchemaWriteVisitor::get_mapped_uint32_schema()
+        {
+            return get_control_schema();
+        }
+
         std::shared_ptr<schema::Object> ControlSchemaWriteVisitor::get_mapped_int64_schema()
+        {
+            return get_control_schema();
+        }
+
+        std::shared_ptr<schema::Object> ControlSchemaWriteVisitor::get_mapped_uint64_schema()
         {
             return get_control_schema();
         }

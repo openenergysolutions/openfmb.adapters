@@ -186,6 +186,10 @@ namespace dnp3 {
 
             void handle_mapped_field(const YAML::Node& node, const util::accessor_t<T, int64_t>& accessor) override;
 
+            void handle_mapped_field(const YAML::Node& node, const util::accessor_t<T, uint32_t>& accessor) override;
+
+            void handle_mapped_field(const YAML::Node& node, const util::accessor_t<T, uint64_t>& accessor) override;
+
             void handle_mapped_field(const YAML::Node& node, const util::accessor_t<T, float>& accessor) override;
 
             void handle_mapped_field(const YAML::Node& node, const util::accessor_t<T, double>& accessor) override;
@@ -241,6 +245,23 @@ namespace dnp3 {
 
         template <class T>
         void SubscribingConfigReadVisitor<T>::handle_mapped_field(const YAML::Node& node,
+                                                                  const util::accessor_t<T, uint32_t>& accessor)
+        {
+            const auto actions = read::analog_list(util::yaml::require(node, util::keys::outputs), this->priorities);
+
+            if (actions.empty())
+                return;
+
+            this->configuration->add([=](const T& profile, api::Logger& logger, ICommandSink& sink) {
+                accessor->if_present(profile, [&](const uint32_t& value) {
+                    for(const auto& action : actions)
+                        action(sink, static_cast<double>(value));
+                });
+            });
+        }
+
+        template <class T>
+        void SubscribingConfigReadVisitor<T>::handle_mapped_field(const YAML::Node& node,
                                                                   const util::accessor_t<T, int64_t>& accessor)
         {
             const auto actions = read::analog_list(util::yaml::require(node, util::keys::outputs), this->priorities);
@@ -250,6 +271,23 @@ namespace dnp3 {
 
             this->configuration->add([=](const T& profile, api::Logger& logger, ICommandSink& sink) {
                 accessor->if_present(profile, [&](const int64_t& value) {
+                    for(const auto& action : actions)
+                        action(sink, static_cast<double>(value));
+                });
+            });
+        }
+
+        template <class T>
+        void SubscribingConfigReadVisitor<T>::handle_mapped_field(const YAML::Node& node,
+                                                                  const util::accessor_t<T, uint64_t>& accessor)
+        {
+            const auto actions = read::analog_list(util::yaml::require(node, util::keys::outputs), this->priorities);
+
+            if (actions.empty())
+                return;
+
+            this->configuration->add([=](const T& profile, api::Logger& logger, ICommandSink& sink) {
+                accessor->if_present(profile, [&](const uint64_t& value) {
                     for(const auto& action : actions)
                         action(sink, static_cast<double>(value));
                 });

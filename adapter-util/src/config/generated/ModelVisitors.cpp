@@ -99,6 +99,8 @@ void visit_commonmodule_CapabilityOverrideMessageInfo(IModelVisitor& visitor);
 
 void visit_commonmodule_CheckConditions(IModelVisitor& visitor);
 
+void visit_commonmodule_ClearingTime(IModelVisitor& visitor);
+
 void visit_commonmodule_ConductingEquipment(IModelVisitor& visitor);
 
 void visit_commonmodule_ConductingEquipmentTerminalReading(IModelVisitor& visitor);
@@ -2622,6 +2624,13 @@ void visit_commonmodule_CheckConditions(IModelVisitor& visitor)
     }
 }
 
+void visit_commonmodule_ClearingTime(IModelVisitor& visitor)
+{
+    visitor.handle("seconds", Int64FieldType::Value::mapped);
+
+    visitor.handle("nanoseconds", Int32FieldType::Value::mapped);
+}
+
 void visit_commonmodule_ConductingEquipment(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("namedObject", commonmodule::NamedObject::descriptor()))
@@ -3198,14 +3207,22 @@ void visit_commonmodule_OperationDHFW(IModelVisitor& visitor)
 {
     visitor.handle("modEna", BoolFieldType::Value::mapped);
 
-    visitor.handle("OplTmmsMax", ClearingTimeFieldType::Value::ignored);
+    if(visitor.start_message_field("OplTmmsMax", commonmodule::ClearingTime::descriptor()))
+    {
+        visit_commonmodule_ClearingTime(visitor);
+        visitor.end_message_field();
+    }
 }
 
 void visit_commonmodule_OperationDLFW(IModelVisitor& visitor)
 {
     visitor.handle("modEna", BoolFieldType::Value::mapped);
 
-    visitor.handle("OplTmmsMax", ClearingTimeFieldType::Value::ignored);
+    if(visitor.start_message_field("OplTmmsMax", commonmodule::ClearingTime::descriptor()))
+    {
+        visit_commonmodule_ClearingTime(visitor);
+        visitor.end_message_field();
+    }
 }
 
 void visit_commonmodule_OperationDVAR(IModelVisitor& visitor)
@@ -3217,7 +3234,11 @@ void visit_commonmodule_OperationDVVR(IModelVisitor& visitor)
 {
     visitor.handle("modEna", BoolFieldType::Value::mapped);
 
-    visitor.handle("OplTmmsMax", ClearingTimeFieldType::Value::ignored);
+    if(visitor.start_message_field("OplTmmsMax", commonmodule::ClearingTime::descriptor()))
+    {
+        visit_commonmodule_ClearingTime(visitor);
+        visitor.end_message_field();
+    }
 
     visitor.handle("VRef", FloatFieldType::Value::mapped);
 
@@ -3230,7 +3251,11 @@ void visit_commonmodule_OperationDVWC(IModelVisitor& visitor)
 {
     visitor.handle("modEna", BoolFieldType::Value::mapped);
 
-    visitor.handle("OplTmmsMax", ClearingTimeFieldType::Value::ignored);
+    if(visitor.start_message_field("OplTmmsMax", commonmodule::ClearingTime::descriptor()))
+    {
+        visit_commonmodule_ClearingTime(visitor);
+        visitor.end_message_field();
+    }
 }
 
 void visit_commonmodule_OperationDWMN(IModelVisitor& visitor)
@@ -4221,7 +4246,11 @@ void visit_commonmodule_TmHzPoint(IModelVisitor& visitor)
 {
     visitor.handle("hzVal", FloatFieldType::Value::mapped);
 
-    visitor.handle("tmVal", ClearingTimeFieldType::Value::ignored);
+    if(visitor.start_message_field("tmVal", commonmodule::ClearingTime::descriptor()))
+    {
+        visit_commonmodule_ClearingTime(visitor);
+        visitor.end_message_field();
+    }
 }
 
 void visit_commonmodule_TmVoltCSG(IModelVisitor& visitor)
@@ -4251,7 +4280,11 @@ void visit_commonmodule_TmVoltCSG(IModelVisitor& visitor)
 
 void visit_commonmodule_TmVoltPoint(IModelVisitor& visitor)
 {
-    visitor.handle("tmVal", ClearingTimeFieldType::Value::ignored);
+    if(visitor.start_message_field("tmVal", commonmodule::ClearingTime::descriptor()))
+    {
+        visit_commonmodule_ClearingTime(visitor);
+        visitor.end_message_field();
+    }
 
     visitor.handle("voltVal", FloatFieldType::Value::mapped);
 }

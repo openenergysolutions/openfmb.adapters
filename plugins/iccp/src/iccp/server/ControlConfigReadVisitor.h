@@ -86,6 +86,16 @@ namespace iccp {
                 throw api::Exception("Not implemented");
             }
 
+            void handle_mapped_uint32(const YAML::Node& node, const util::accessor_t<T, uint32_t>& accessor) override
+            {
+                throw api::Exception("Not implemented");
+            }
+
+            void handle_mapped_uint64(const YAML::Node& node, const util::accessor_t<T, uint64_t>& accessor) override
+            {
+                throw api::Exception("Not implemented");
+            }
+
             void handle_mapped_float(const YAML::Node& node, const util::accessor_t<T, float>& accessor) override
             {
                 throw api::Exception("Not implemented");
