@@ -254,32 +254,37 @@ namespace master {
                 const auto upper_index = util::yaml::require_integer<uint16_t>(node, keys::upper_index);
                 const auto lower_index = util::yaml::require_integer<uint16_t>(node, keys::lower_index);
                 const auto scale = util::yaml::get::scale(node);
-                const auto priority = priority_source.get_priority(node);
+                const auto priority = priority_source.get_priority(node);                
 
-                if (output_type == OutputType::Value::write_multiple_registers_uint32)
-                {
-                    return [upper_index, lower_index, scale, priority](ICommandSink& sink, float value) {
-                        const auto dword = DoubleWord::get(static_cast<uint32_t>(value * scale));
-                        sink.write_single_register(lower_index, priority, dword.lower);
-                        sink.write_single_register(upper_index, priority, dword.upper);
-                    };
-                }
-                else if (output_type == OutputType::Value::write_multiple_registers_int32)
-                {
-                    return [upper_index, lower_index, scale, priority](ICommandSink& sink, float value) {
-                        const auto dword = DoubleWord::get(static_cast<int32_t>(value * scale));
-                        sink.write_single_register(lower_index, priority, dword.lower);
-                        sink.write_single_register(upper_index, priority, dword.upper);
-                    };
-                }
-                else
-                {
-                    return [upper_index, lower_index, scale, priority](ICommandSink& sink, float value) {
-                        const auto dword = DoubleWord::get(ser4cpp::SingleFloat::to_uint32(static_cast<float>(value * scale)));
-                        sink.write_single_register(lower_index, priority, dword.lower);
-                        sink.write_single_register(upper_index, priority, dword.upper);
-                    };
-                }
+                return [upper_index, lower_index, scale, priority, output_type](ICommandSink& sink, float value) {
+                    auto dword = DoubleWord::get(0);
+                    if (output_type == OutputType::Value::write_multiple_registers_uint32)
+                    {
+                        dword = DoubleWord::get(static_cast<uint32_t>(value * scale));                    
+                    }
+                    else if (output_type == OutputType::Value::write_multiple_registers_int32)
+                    {
+                        dword = DoubleWord::get(static_cast<int32_t>(value * scale));                    
+                    }
+                    else
+                    {
+                        dword = DoubleWord::get(ser4cpp::SingleFloat::to_uint32(static_cast<float>(value * scale)));                   
+                    }
+
+                    uint16_t start = lower_index;
+                    std::vector<uint16_t> values;
+
+                    if (lower_index > upper_index) {
+                        start = upper_index;
+                        values.push_back(dword.upper);
+                        values.push_back(dword.lower);                            
+                    }
+                    else {
+                        values.push_back(dword.lower);
+                        values.push_back(dword.upper);
+                    }
+                    sink.write_multiple_registers(start, priority, values);
+                };
             }
             default:
                 throw api::Exception("unsupported output type: ", OutputType::to_string(output_type));
