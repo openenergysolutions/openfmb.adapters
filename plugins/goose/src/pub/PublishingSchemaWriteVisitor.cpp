@@ -33,6 +33,16 @@ namespace goose {
         return get_name_schema();
     }
 
+    std::shared_ptr<schema::Object> PublishingSchemaWriteVisitor::get_mapped_uint32_schema()
+    {
+        return get_name_schema();
+    }
+
+    std::shared_ptr<schema::Object> PublishingSchemaWriteVisitor::get_mapped_uint64_schema()
+    {
+        return get_name_schema();
+    }
+
     std::shared_ptr<schema::Object> PublishingSchemaWriteVisitor::get_mapped_float_schema()
     {
         return get_name_schema();

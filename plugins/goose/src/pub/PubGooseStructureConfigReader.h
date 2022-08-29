@@ -34,6 +34,8 @@ namespace goose {
         void add_bool_handler(const std::string& name, const meas_fn_t<bool>& handler) final;
         void add_int32_handler(const std::string& name, const meas_fn_t<int32_t>& handler) final;
         void add_int64_handler(const std::string& name, const meas_fn_t<int64_t>& handler) final;
+        void add_uint32_handler(const std::string& name, const meas_fn_t<uint32_t>& handler) final;
+        void add_uint64_handler(const std::string& name, const meas_fn_t<uint64_t>& handler) final;
         void add_float_handler(const std::string& name, const meas_fn_t<float>& handler) final;
         void add_double_handler(const std::string& name, const meas_fn_t<double>& handler) final;
         void add_string_handler(const std::string& name, const meas_fn_t<std::string>& handler) final;
@@ -46,6 +48,8 @@ namespace goose {
         std::unordered_map<std::string, meas_fn_t<bool>> m_bool_handlers;
         std::unordered_map<std::string, meas_fn_t<int32_t>> m_int32_handlers;
         std::unordered_map<std::string, meas_fn_t<int64_t>> m_int64_handlers;
+        std::unordered_map<std::string, meas_fn_t<uint32_t>> m_uint32_handlers;
+        std::unordered_map<std::string, meas_fn_t<uint64_t>> m_uint64_handlers;
         std::unordered_map<std::string, meas_fn_t<float>> m_float_handlers;
         std::unordered_map<std::string, meas_fn_t<double>> m_double_handlers;
         std::unordered_map<std::string, meas_fn_t<std::string>> m_string_handlers;
