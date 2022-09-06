@@ -6,7 +6,7 @@
 
 #include <boost/uuid/uuid_io.hpp>
 #include <boost/assign.hpp>
-#include <boost/algorithm/string/predicate.hpp>
+#include <regex>
 #include <sstream>
 #include <thread>
 #include <libpq-fe.h>
@@ -240,59 +240,61 @@ namespace timescaledb {
     bool TimescaleDBArchiver::get_column_value(const MessageItem *item, std::string& value, std::string& column_name)
     {
         static const std::map<std::string,std::string> variable_lookup = boost::assign::map_list_of
-                (".readingMMXU.A.neut.cVal.mag", "A_neut_mag")
-                (".readingMMXU.A.net.cVal.mag",  "A_net_mag")
-                (".readingMMXU.A.phsA.cVal.mag", "A_phsA_mag")
-                (".readingMMXU.A.phsB.cVal.mag", "A_phsB_mag")
-                (".readingMMXU.A.phsC.cVal.mag", "A_phsC_mag")
+                ("[a-zA-Z0-9]+\\.[0]?[.]?readingMMXU.A.neut.cVal.mag", "A_neut_mag")
+                ("[a-zA-Z0-9]+\\.[0]?[.]?readingMMXU.A.net.cVal.mag",  "A_net_mag")
+                ("[a-zA-Z0-9]+\\.[0]?[.]?readingMMXU.A.phsA.cVal.mag", "A_phsA_mag")
+                ("[a-zA-Z0-9]+\\.[0]?[.]?readingMMXU.A.phsB.cVal.mag", "A_phsB_mag")
+                ("[a-zA-Z0-9]+\\.[0]?[.]?readingMMXU.A.phsC.cVal.mag", "A_phsC_mag")
 
-                (".readingMMXU.Hz.mag", "Hz_mag")
+                ("[a-zA-Z0-9]+\\.[0]?[.]?readingMMXU.Hz.mag", "Hz_mag")
 
-                (".readingMMXU.PF.neut.cVal.mag", "PF_neut_mag")
-                (".readingMMXU.PF.net.cVal.mag",  "PF_net_mag")
-                (".readingMMXU.PF.phsA.cVal.mag", "PF_phsA_mag")
-                (".readingMMXU.PF.phsB.cVal.mag", "PF_phsB_mag")
-                (".readingMMXU.PF.phsC.cVal.mag", "PF_phsC_mag")
+                ("[a-zA-Z0-9]+\\.[0]?[.]?readingMMXU.PF.neut.cVal.mag", "PF_neut_mag")
+                ("[a-zA-Z0-9]+\\.[0]?[.]?readingMMXU.PF.net.cVal.mag",  "PF_net_mag")
+                ("[a-zA-Z0-9]+\\.[0]?[.]?readingMMXU.PF.phsA.cVal.mag", "PF_phsA_mag")
+                ("[a-zA-Z0-9]+\\.[0]?[.]?readingMMXU.PF.phsB.cVal.mag", "PF_phsB_mag")
+                ("[a-zA-Z0-9]+\\.[0]?[.]?readingMMXU.PF.phsC.cVal.mag", "PF_phsC_mag")
 
-                (".readingMMXU.PhV.neut.cVal.mag", "PhV_neut_mag")
-                (".readingMMXU.PhV.neut.cVal.ang.value", "PhV_neut_ang")
-                (".readingMMXU.PhV.net.cVal.mag", "PhV_net_mag")
-                (".readingMMXU.PhV.net.cVal.ang.value", "PhV_net_ang")
-                (".readingMMXU.PhV.phsA.cVal.mag", "PhV_phsA_mag")
-                (".readingMMXU.PhV.phsA.cVal.ang.value", "PhV_phsA_ang")
-                (".readingMMXU.PhV.phsB.cVal.mag", "PhV_phsB_mag")
-                (".readingMMXU.PhV.phsB.cVal.ang.value", "PhV_phsB_ang")
-                (".readingMMXU.PhV.phsC.cVal.mag", "PhV_phsC_mag")
-                (".readingMMXU.PhV.phsC.cVal.ang.value", "PhV_phsC_ang")
+                ("[a-zA-Z0-9]+\\.[0]?[.]?readingMMXU.PhV.neut.cVal.mag", "PhV_neut_mag")
+                ("[a-zA-Z0-9]+\\.[0]?[.]?readingMMXU.PhV.neut.cVal.ang.value", "PhV_neut_ang")
+                ("[a-zA-Z0-9]+\\.[0]?[.]?readingMMXU.PhV.net.cVal.mag", "PhV_net_mag")
+                ("[a-zA-Z0-9]+\\.[0]?[.]?readingMMXU.PhV.net.cVal.ang.value", "PhV_net_ang")
+                ("[a-zA-Z0-9]+\\.[0]?[.]?readingMMXU.PhV.phsA.cVal.mag", "PhV_phsA_mag")
+                ("[a-zA-Z0-9]+\\.[0]?[.]?readingMMXU.PhV.phsA.cVal.ang.value", "PhV_phsA_ang")
+                ("[a-zA-Z0-9]+\\.[0]?[.]?readingMMXU.PhV.phsB.cVal.mag", "PhV_phsB_mag")
+                ("[a-zA-Z0-9]+\\.[0]?[.]?readingMMXU.PhV.phsB.cVal.ang.value", "PhV_phsB_ang")
+                ("[a-zA-Z0-9]+\\.[0]?[.]?readingMMXU.PhV.phsC.cVal.mag", "PhV_phsC_mag")
+                ("[a-zA-Z0-9]+\\.[0]?[.]?readingMMXU.PhV.phsC.cVal.ang.value", "PhV_phsC_ang")
 
-                (".readingMMXU.PPV.phsAB.cVal.mag", "PPV_phsAB_mag")
-                (".readingMMXU.PPV.phsAB.cVal.ang.value", "PPV_phsAB_ang")
-                (".readingMMXU.PPV.phsBC.cVal.mag", "PPV_phsBC_mag")
-                (".readingMMXU.PPV.phsBC.cVal.ang.value", "PPV_phsBC_ang")
-                (".readingMMXU.PPV.phsCA.cVal.mag", "PPV_phsCA_mag")
-                (".readingMMXU.PPV.phsCA.cVal.ang.value", "PPV_phsCA_ang")
+                ("[a-zA-Z0-9]+\\.[0]?[.]?readingMMXU.PPV.phsAB.cVal.mag", "PPV_phsAB_mag")
+                ("[a-zA-Z0-9]+\\.[0]?[.]?readingMMXU.PPV.phsAB.cVal.ang.value", "PPV_phsAB_ang")
+                ("[a-zA-Z0-9]+\\.[0]?[.]?readingMMXU.PPV.phsBC.cVal.mag", "PPV_phsBC_mag")
+                ("[a-zA-Z0-9]+\\.[0]?[.]?readingMMXU.PPV.phsBC.cVal.ang.value", "PPV_phsBC_ang")
+                ("[a-zA-Z0-9]+\\.[0]?[.]?readingMMXU.PPV.phsCA.cVal.mag", "PPV_phsCA_mag")
+                ("[a-zA-Z0-9]+\\.[0]?[.]?readingMMXU.PPV.phsCA.cVal.ang.value", "PPV_phsCA_ang")
 
-                (".readingMMXU.VA.neut.cVal.mag", "VA_neut_mag")
-                (".readingMMXU.VA.net.cVal.mag", "VA_net_mag")
-                (".readingMMXU.VA.phsA.cVal.mag", "VA_phsA_mag")
-                (".readingMMXU.VA.phsB.cVal.mag", "VA_phsB_mag")
-                (".readingMMXU.VA.phsC.cVal.mag", "VA_phsC_mag")
+                ("[a-zA-Z0-9]+\\.[0]?[.]?readingMMXU.VA.neut.cVal.mag", "VA_neut_mag")
+                ("[a-zA-Z0-9]+\\.[0]?[.]?readingMMXU.VA.net.cVal.mag", "VA_net_mag")
+                ("[a-zA-Z0-9]+\\.[0]?[.]?readingMMXU.VA.phsA.cVal.mag", "VA_phsA_mag")
+                ("[a-zA-Z0-9]+\\.[0]?[.]?readingMMXU.VA.phsB.cVal.mag", "VA_phsB_mag")
+                ("[a-zA-Z0-9]+\\.[0]?[.]?readingMMXU.VA.phsC.cVal.mag", "VA_phsC_mag")
 
-                (".readingMMXU.VAr.neut.cVal.mag", "VAr_neut_mag")
-                (".readingMMXU.VAr.net.cVal.mag", "VAr_net_mag")
-                (".readingMMXU.VAr.phsA.cVal.mag", "VAr_phsA_mag")
-                (".readingMMXU.VAr.phsB.cVal.mag", "VAr_phsB_mag")
+                ("[a-zA-Z0-9]+\\.[0]?[.]?readingMMXU.VAr.neut.cVal.mag", "VAr_neut_mag")
+                ("[a-zA-Z0-9]+\\.[0]?[.]?readingMMXU.VAr.net.cVal.mag", "VAr_net_mag")
+                ("[a-zA-Z0-9]+\\.[0]?[.]?readingMMXU.VAr.phsA.cVal.mag", "VAr_phsA_mag")
+                ("[a-zA-Z0-9]+\\.[0]?[.]?readingMMXU.VAr.phsB.cVal.mag", "VAr_phsB_mag")
                 (".readingMMXU.VAr.phsC.cVal.mag", "VAr_phsC_mag")
 
-                (".readingMMXU.W.neut.cVal.mag", "W_neut_mag")
-                (".readingMMXU.W.net.cVal.mag", "W_net_mag")
-                (".readingMMXU.W.phsA.cVal.mag", "W_phsA_mag")
-                (".readingMMXU.W.phsB.cVal.mag", "W_phsB_mag")
-                (".readingMMXU.W.phsC.cVal.mag", "W_phsC_mag")
+                ("[a-zA-Z0-9]+\\.[0]?[.]?readingMMXU.W.neut.cVal.mag", "W_neut_mag")
+                ("[a-zA-Z0-9]+\\.[0]?[.]?readingMMXU.W.net.cVal.mag", "W_net_mag")
+                ("[a-zA-Z0-9]+\\.[0]?[.]?readingMMXU.W.phsA.cVal.mag", "W_phsA_mag")
+                ("[a-zA-Z0-9]+\\.[0]?[.]?readingMMXU.W.phsB.cVal.mag", "W_phsB_mag")
+                ("[a-zA-Z0-9]+\\.[0]?[.]?readingMMXU.W.phsC.cVal.mag", "W_phsC_mag")
                 ;
 
         for (const auto &kvp : variable_lookup) {
-            if (boost::algorithm::ends_with(item->tagname, kvp.first))
+            std::regex expr{kvp.first};
+            std::smatch m;
+            if (regex_search(item->tagname, m, expr))
             {
                 column_name = kvp.second;
                 value = item->value;
