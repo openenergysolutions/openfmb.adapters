@@ -30,6 +30,19 @@ namespace util {
             return child;
         }
 
+        YAML::Node option(const YAML::Node& parent, const std::string& key)
+        {
+            if (!parent) {
+                throw api::Exception("parent node is invalid");
+            }
+
+            if (!parent.IsMap()) {
+                const auto mark = parent.Mark();
+                throw api::Exception("parent node is not a map (key == ", key, "), line: ", mark.line, " column: ", mark.column);
+            }
+            return parent[key];
+        }
+
         std::string require_string(const YAML::Node& parent, const std::string& key)
         {
             return require(parent, key).Scalar();

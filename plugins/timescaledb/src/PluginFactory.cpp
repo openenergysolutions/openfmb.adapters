@@ -32,6 +32,14 @@ namespace timescaledb {
                 "postgresql://user:password@localhost:5432/dbname",
                 schema::StringFormat::None
             ),
+            schema::numeric_property<int64_t>(
+                keys::data_store_interval_seconds,
+                schema::Required::no,
+                "store data in every x seconds, 0 means 'no wait'",
+                0,
+                schema::Bound<int64_t>::from(0),
+                schema::Bound<int64_t>::from(1000)
+            ),
             schema::bool_property(
                 keys::store_measurement,
                 schema::Required::yes,

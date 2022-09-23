@@ -17,6 +17,7 @@ namespace timescaledb {
         constexpr const char* const raw_data_format = "raw-data-format";
         constexpr const char* const max_queued_messages = "max-queued-messages";
         constexpr const char* const connect_retry_seconds = "connect-retry-seconds";
+        constexpr const char* const data_store_interval_seconds = "data-store-interval-seconds";
     }
 }
 }

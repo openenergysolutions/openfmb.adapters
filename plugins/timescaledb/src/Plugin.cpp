@@ -14,9 +14,9 @@ namespace timescaledb {
 
     template <class T>
     struct ProfileSubscriber {
-        static void handle(const api::Logger& logger, const std::shared_ptr<TimescaleDBArchiver>& archiver, api::ISubscribeOne<T>& bus)
+        static void handle(const api::Logger& logger, const std::shared_ptr<TimescaleDBArchiver>& archiver, api::ISubscribeOne<T>& bus, size_t wait_interval_sec)
         {
-            bus.subscribe(std::make_shared<BusListener<T>>(logger, archiver));
+            bus.subscribe(std::make_shared<BusListener<T>>(logger, archiver, wait_interval_sec));
         }
     };
 
@@ -32,7 +32,12 @@ namespace timescaledb {
                                                             util::yaml::require(node, keys::max_queued_messages).as<size_t>(),
                                                             std::chrono::seconds(util::yaml::require(node, keys::connect_retry_seconds).as<uint32_t>())) }
     {
-        api::ProfileRegistry::handle_all<ProfileSubscriber>(logger, this->m_archiver, bus);
+        auto n = util::yaml::option(node, keys::data_store_interval_seconds);
+        auto wait_interval_sec = 0;
+        if (n) {
+            wait_interval_sec = util::yaml::require(node, keys::data_store_interval_seconds).as<size_t>();
+        }
+        api::ProfileRegistry::handle_all<ProfileSubscriber>(logger, this->m_archiver, bus, wait_interval_sec);
     }
 
     Plugin::~Plugin()

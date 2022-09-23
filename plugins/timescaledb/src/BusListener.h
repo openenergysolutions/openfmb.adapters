@@ -18,6 +18,7 @@
 
 #include <boost/numeric/conversion/cast.hpp>
 #include <boost/uuid/uuid_generators.hpp>
+#include <boost/uuid/uuid_io.hpp>
 #include <deque>
 #include <memory>
 #include <sstream>
@@ -130,9 +131,10 @@ namespace timescaledb {
     template <typename Proto>
     class BusListener : public api::ISubscriptionHandler<Proto> {
     public:
-        explicit BusListener(const api::Logger& logger, const std::shared_ptr<IArchiver>& archiver)
+        explicit BusListener(const api::Logger& logger, const std::shared_ptr<IArchiver>& archiver, size_t wait_interval_sec)
             : m_logger{ logger }
             , m_archiver{ archiver }
+            , m_wait_seconds{ wait_interval_sec }
         {
         }
 
@@ -163,6 +165,14 @@ namespace timescaledb {
 
             const auto timestamp = message_info.messagetimestamp().seconds();
 
+            std::ostringstream oss;
+            oss << Proto::descriptor()->name() << boost::uuids::to_string(device_uuid);
+
+            auto key = oss.str();
+            if (!last_process_elapsed(key, timestamp)) {
+                return;
+            }
+
             auto message = std::make_unique<Message>(message_uuid, timestamp, device_uuid);
             ProtoMessageVisitor visitor(Proto::descriptor()->name(), *message);
             visit(proto, visitor);
@@ -192,8 +202,24 @@ namespace timescaledb {
             this->m_archiver->save(std::move(message));
         }
 
+        bool last_process_elapsed(const std::string& key, uint64_t timestamp) {
+            std::lock_guard<std::mutex> lock(m_mutex);
+            auto ts = m_last_processes.find(key);
+            if (ts != m_last_processes.end()) {
+                auto now = std::chrono::duration_cast<std::chrono::seconds >(std::chrono::system_clock::now().time_since_epoch()).count();
+                if (now - ts->second < m_wait_seconds) {
+                    return false;
+                }
+            }
+            m_last_processes[key] = timestamp;
+            return true;
+        }
+
         api::Logger m_logger;
         const std::shared_ptr<IArchiver> m_archiver;
+        std::mutex m_mutex;
+        size_t m_wait_seconds;
+        std::map<std::string, uint64_t> m_last_processes;
     };
 }
 }

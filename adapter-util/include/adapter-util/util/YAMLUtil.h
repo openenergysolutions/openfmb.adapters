@@ -24,6 +24,16 @@ namespace util {
          */
         YAML::Node require(const YAML::Node& parent, const std::string& key);
 
+        /**
+         * Obtain a child node from a map node, not throwing exception if the node doesn't exist
+         *
+         * @param parent the YAML::Node expected to be a map and contain an entry with the specified key
+         * @param key the specified key
+         * @return A YAML::Node if it exists
+         * @throws ::adapter::Exception if parent is invalid, isn't a map
+         */
+        YAML::Node option(const YAML::Node& parent, const std::string& key);
+
         std::string require_string(const YAML::Node& parent, const std::string& key);
 
         std::string require_uuid(const YAML::Node& parent, const std::string& key);
