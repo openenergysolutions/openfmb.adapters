@@ -18,18 +18,20 @@
 #ifndef OPENFMB_CONVERTFROMPROTO_H
 #define OPENFMB_CONVERTFROMPROTO_H
 
-#include "reclosermodule/reclosermodule.pb.h"
 #include "circuitsegmentservicemodule/circuitsegmentservicemodule.pb.h"
+#include "generationmodule/generationmodule.pb.h"
+#include "loadmodule/loadmodule.pb.h"
+#include "metermodule/metermodule.pb.h"
+#include "resourcemodule/resourcemodule.pb.h"
+#include "reclosermodule/reclosermodule.pb.h"
+#include "interconnectionmodule/interconnectionmodule.pb.h"
 #include "solarmodule/solarmodule.pb.h"
 #include "breakermodule/breakermodule.pb.h"
 #include "capbankmodule/capbankmodule.pb.h"
 #include "switchmodule/switchmodule.pb.h"
-#include "generationmodule/generationmodule.pb.h"
-#include "loadmodule/loadmodule.pb.h"
 #include "essmodule/essmodule.pb.h"
 #include "regulatormodule/regulatormodule.pb.h"
-#include "metermodule/metermodule.pb.h"
-#include "resourcemodule/resourcemodule.pb.h"
+#include "reservemodule/reservemodule.pb.h"
 
 #include "OpenFMB-IDLTypeSupport.hh"
 
@@ -89,6 +91,10 @@ void convert_from_proto(const generationmodule::GenerationReadingProfile& in, tw
 
 void convert_from_proto(const generationmodule::GenerationStatusProfile& in, twinoaks::generationmodule::GenerationStatusProfile& out);
 
+void convert_from_proto(const interconnectionmodule::PlannedInterconnectionScheduleProfile& in, twinoaks::interconnectionmodule::PlannedInterconnectionScheduleProfile& out);
+
+void convert_from_proto(const interconnectionmodule::RequestedInterconnectionScheduleProfile& in, twinoaks::interconnectionmodule::RequestedInterconnectionScheduleProfile& out);
+
 void convert_from_proto(const loadmodule::LoadControlProfile& in, twinoaks::loadmodule::LoadControlProfile& out);
 
 void convert_from_proto(const loadmodule::LoadEventProfile& in, twinoaks::loadmodule::LoadEventProfile& out);
@@ -116,6 +122,10 @@ void convert_from_proto(const regulatormodule::RegulatorEventProfile& in, twinoa
 void convert_from_proto(const regulatormodule::RegulatorReadingProfile& in, twinoaks::regulatormodule::RegulatorReadingProfile& out);
 
 void convert_from_proto(const regulatormodule::RegulatorStatusProfile& in, twinoaks::regulatormodule::RegulatorStatusProfile& out);
+
+void convert_from_proto(const reservemodule::ReserveAvailabilityProfile& in, twinoaks::reservemodule::ReserveAvailabilityProfile& out);
+
+void convert_from_proto(const reservemodule::ReserveRequestProfile& in, twinoaks::reservemodule::ReserveRequestProfile& out);
 
 void convert_from_proto(const resourcemodule::ResourceDiscreteControlProfile& in, twinoaks::resourcemodule::ResourceDiscreteControlProfile& out);
 

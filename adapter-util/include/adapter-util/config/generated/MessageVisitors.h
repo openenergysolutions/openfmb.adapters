@@ -18,18 +18,20 @@
 #ifndef OPENFMB_MESSAGEVISITORS_H
 #define OPENFMB_MESSAGEVISITORS_H
 
-#include "reclosermodule/reclosermodule.pb.h"
 #include "circuitsegmentservicemodule/circuitsegmentservicemodule.pb.h"
+#include "generationmodule/generationmodule.pb.h"
+#include "loadmodule/loadmodule.pb.h"
+#include "metermodule/metermodule.pb.h"
+#include "resourcemodule/resourcemodule.pb.h"
+#include "reclosermodule/reclosermodule.pb.h"
+#include "interconnectionmodule/interconnectionmodule.pb.h"
 #include "solarmodule/solarmodule.pb.h"
 #include "breakermodule/breakermodule.pb.h"
 #include "capbankmodule/capbankmodule.pb.h"
 #include "switchmodule/switchmodule.pb.h"
-#include "generationmodule/generationmodule.pb.h"
-#include "loadmodule/loadmodule.pb.h"
 #include "essmodule/essmodule.pb.h"
 #include "regulatormodule/regulatormodule.pb.h"
-#include "metermodule/metermodule.pb.h"
-#include "resourcemodule/resourcemodule.pb.h"
+#include "reservemodule/reservemodule.pb.h"
 #include "../IMessageVisitor.h"
 
 namespace adapter {
@@ -86,6 +88,10 @@ void visit(const generationmodule::GenerationReadingProfile& message, IMessageVi
 
 void visit(const generationmodule::GenerationStatusProfile& message, IMessageVisitor& visitor);
 
+void visit(const interconnectionmodule::PlannedInterconnectionScheduleProfile& message, IMessageVisitor& visitor);
+
+void visit(const interconnectionmodule::RequestedInterconnectionScheduleProfile& message, IMessageVisitor& visitor);
+
 void visit(const loadmodule::LoadControlProfile& message, IMessageVisitor& visitor);
 
 void visit(const loadmodule::LoadEventProfile& message, IMessageVisitor& visitor);
@@ -113,6 +119,10 @@ void visit(const regulatormodule::RegulatorEventProfile& message, IMessageVisito
 void visit(const regulatormodule::RegulatorReadingProfile& message, IMessageVisitor& visitor);
 
 void visit(const regulatormodule::RegulatorStatusProfile& message, IMessageVisitor& visitor);
+
+void visit(const reservemodule::ReserveAvailabilityProfile& message, IMessageVisitor& visitor);
+
+void visit(const reservemodule::ReserveRequestProfile& message, IMessageVisitor& visitor);
 
 void visit(const resourcemodule::ResourceDiscreteControlProfile& message, IMessageVisitor& visitor);
 

@@ -24,18 +24,20 @@
 
 #include "adapter-util/config/SubjectNameSuffix.h"
 
-#include "reclosermodule/reclosermodule.pb.h"
 #include "circuitsegmentservicemodule/circuitsegmentservicemodule.pb.h"
+#include "generationmodule/generationmodule.pb.h"
+#include "loadmodule/loadmodule.pb.h"
+#include "metermodule/metermodule.pb.h"
+#include "resourcemodule/resourcemodule.pb.h"
+#include "reclosermodule/reclosermodule.pb.h"
+#include "interconnectionmodule/interconnectionmodule.pb.h"
 #include "solarmodule/solarmodule.pb.h"
 #include "breakermodule/breakermodule.pb.h"
 #include "capbankmodule/capbankmodule.pb.h"
 #include "switchmodule/switchmodule.pb.h"
-#include "generationmodule/generationmodule.pb.h"
-#include "loadmodule/loadmodule.pb.h"
 #include "essmodule/essmodule.pb.h"
 #include "regulatormodule/regulatormodule.pb.h"
-#include "metermodule/metermodule.pb.h"
-#include "resourcemodule/resourcemodule.pb.h"
+#include "reservemodule/reservemodule.pb.h"
 
 #include "OpenFMB-IDL.hpp"
 
@@ -274,6 +276,24 @@ struct SubscriberFactory<generationmodule::GenerationStatusProfile>
 };
 
 template<>
+struct SubscriberFactory<interconnectionmodule::PlannedInterconnectionScheduleProfile>
+{
+    static std::unique_ptr<IDDSSubscriber> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, api::publisher_one_t<interconnectionmodule::PlannedInterconnectionScheduleProfile> publisher)
+    {
+        return std::make_unique<DDSSubscriber<interconnectionmodule::PlannedInterconnectionScheduleProfile, openfmb::interconnectionmodule::PlannedInterconnectionScheduleProfile>>(logger, subject, dds_subscriber, topic_repo.plannedinterconnectionscheduleprofile, publisher);
+    }
+};
+
+template<>
+struct SubscriberFactory<interconnectionmodule::RequestedInterconnectionScheduleProfile>
+{
+    static std::unique_ptr<IDDSSubscriber> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, api::publisher_one_t<interconnectionmodule::RequestedInterconnectionScheduleProfile> publisher)
+    {
+        return std::make_unique<DDSSubscriber<interconnectionmodule::RequestedInterconnectionScheduleProfile, openfmb::interconnectionmodule::RequestedInterconnectionScheduleProfile>>(logger, subject, dds_subscriber, topic_repo.requestedinterconnectionscheduleprofile, publisher);
+    }
+};
+
+template<>
 struct SubscriberFactory<loadmodule::LoadControlProfile>
 {
     static std::unique_ptr<IDDSSubscriber> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, api::publisher_one_t<loadmodule::LoadControlProfile> publisher)
@@ -396,6 +416,24 @@ struct SubscriberFactory<regulatormodule::RegulatorStatusProfile>
     static std::unique_ptr<IDDSSubscriber> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, api::publisher_one_t<regulatormodule::RegulatorStatusProfile> publisher)
     {
         return std::make_unique<DDSSubscriber<regulatormodule::RegulatorStatusProfile, openfmb::regulatormodule::RegulatorStatusProfile>>(logger, subject, dds_subscriber, topic_repo.regulatorstatusprofile, publisher);
+    }
+};
+
+template<>
+struct SubscriberFactory<reservemodule::ReserveAvailabilityProfile>
+{
+    static std::unique_ptr<IDDSSubscriber> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, api::publisher_one_t<reservemodule::ReserveAvailabilityProfile> publisher)
+    {
+        return std::make_unique<DDSSubscriber<reservemodule::ReserveAvailabilityProfile, openfmb::reservemodule::ReserveAvailabilityProfile>>(logger, subject, dds_subscriber, topic_repo.reserveavailabilityprofile, publisher);
+    }
+};
+
+template<>
+struct SubscriberFactory<reservemodule::ReserveRequestProfile>
+{
+    static std::unique_ptr<IDDSSubscriber> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, api::publisher_one_t<reservemodule::ReserveRequestProfile> publisher)
+    {
+        return std::make_unique<DDSSubscriber<reservemodule::ReserveRequestProfile, openfmb::reservemodule::ReserveRequestProfile>>(logger, subject, dds_subscriber, topic_repo.reserverequestprofile, publisher);
     }
 };
 

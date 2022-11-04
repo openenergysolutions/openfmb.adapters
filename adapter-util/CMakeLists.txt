@@ -116,7 +116,8 @@ set(SOURCES
     ./src/config/generated/LoadEventProfileTypedModelVisitor.cpp
     ./src/config/generated/LoadReadingProfileTypedModelVisitor.cpp
     ./src/config/generated/LoadStatusProfileTypedModelVisitor.cpp
-    ./src/config/generated/MeterReadingProfileTypedModelVisitor.cpp    
+    ./src/config/generated/MeterReadingProfileTypedModelVisitor.cpp
+    ./src/config/generated/PlannedInterconnectionScheduleProfileTypedModelVisitor.cpp
     ./src/config/generated/RecloserDiscreteControlProfileTypedModelVisitor.cpp
     ./src/config/generated/RecloserEventProfileTypedModelVisitor.cpp
     ./src/config/generated/RecloserReadingProfileTypedModelVisitor.cpp
@@ -126,6 +127,9 @@ set(SOURCES
     ./src/config/generated/RegulatorEventProfileTypedModelVisitor.cpp
     ./src/config/generated/RegulatorReadingProfileTypedModelVisitor.cpp
     ./src/config/generated/RegulatorStatusProfileTypedModelVisitor.cpp
+    ./src/config/generated/RequestedInterconnectionScheduleProfileTypedModelVisitor.cpp
+    ./src/config/generated/ReserveAvailabilityProfileTypedModelVisitor.cpp
+    ./src/config/generated/ReserveRequestProfileTypedModelVisitor.cpp
     ./src/config/generated/ResourceDiscreteControlProfileTypedModelVisitor.cpp
     ./src/config/generated/ResourceEventProfileTypedModelVisitor.cpp
     ./src/config/generated/ResourceReadingProfileTypedModelVisitor.cpp

@@ -50,6 +50,8 @@ const char Profile::GenerationDiscreteControlProfile[] = "GenerationDiscreteCont
 const char Profile::GenerationEventProfile[] = "GenerationEventProfile";
 const char Profile::GenerationReadingProfile[] = "GenerationReadingProfile";
 const char Profile::GenerationStatusProfile[] = "GenerationStatusProfile";
+const char Profile::PlannedInterconnectionScheduleProfile[] = "PlannedInterconnectionScheduleProfile";
+const char Profile::RequestedInterconnectionScheduleProfile[] = "RequestedInterconnectionScheduleProfile";
 const char Profile::LoadControlProfile[] = "LoadControlProfile";
 const char Profile::LoadEventProfile[] = "LoadEventProfile";
 const char Profile::LoadReadingProfile[] = "LoadReadingProfile";
@@ -64,6 +66,8 @@ const char Profile::RegulatorControlProfile[] = "RegulatorControlProfile";
 const char Profile::RegulatorEventProfile[] = "RegulatorEventProfile";
 const char Profile::RegulatorReadingProfile[] = "RegulatorReadingProfile";
 const char Profile::RegulatorStatusProfile[] = "RegulatorStatusProfile";
+const char Profile::ReserveAvailabilityProfile[] = "ReserveAvailabilityProfile";
+const char Profile::ReserveRequestProfile[] = "ReserveRequestProfile";
 const char Profile::ResourceDiscreteControlProfile[] = "ResourceDiscreteControlProfile";
 const char Profile::ResourceEventProfile[] = "ResourceEventProfile";
 const char Profile::ResourceReadingProfile[] = "ResourceReadingProfile";
@@ -79,7 +83,7 @@ const char Profile::SwitchEventProfile[] = "SwitchEventProfile";
 const char Profile::SwitchReadingProfile[] = "SwitchReadingProfile";
 const char Profile::SwitchStatusProfile[] = "SwitchStatusProfile";
 
-const std::array<Profile::Value, 53> Profile::values =
+const std::array<Profile::Value, 57> Profile::values =
 {
     Profile::Value::BreakerDiscreteControlProfile,
     Profile::Value::BreakerEventProfile,
@@ -106,6 +110,8 @@ const std::array<Profile::Value, 53> Profile::values =
     Profile::Value::GenerationEventProfile,
     Profile::Value::GenerationReadingProfile,
     Profile::Value::GenerationStatusProfile,
+    Profile::Value::PlannedInterconnectionScheduleProfile,
+    Profile::Value::RequestedInterconnectionScheduleProfile,
     Profile::Value::LoadControlProfile,
     Profile::Value::LoadEventProfile,
     Profile::Value::LoadReadingProfile,
@@ -120,6 +126,8 @@ const std::array<Profile::Value, 53> Profile::values =
     Profile::Value::RegulatorEventProfile,
     Profile::Value::RegulatorReadingProfile,
     Profile::Value::RegulatorStatusProfile,
+    Profile::Value::ReserveAvailabilityProfile,
+    Profile::Value::ReserveRequestProfile,
     Profile::Value::ResourceDiscreteControlProfile,
     Profile::Value::ResourceEventProfile,
     Profile::Value::ResourceReadingProfile,
@@ -165,6 +173,8 @@ std::string Profile::to_string(Profile::Value value)
         case(Value::GenerationEventProfile): return GenerationEventProfile;
         case(Value::GenerationReadingProfile): return GenerationReadingProfile;
         case(Value::GenerationStatusProfile): return GenerationStatusProfile;
+        case(Value::PlannedInterconnectionScheduleProfile): return PlannedInterconnectionScheduleProfile;
+        case(Value::RequestedInterconnectionScheduleProfile): return RequestedInterconnectionScheduleProfile;
         case(Value::LoadControlProfile): return LoadControlProfile;
         case(Value::LoadEventProfile): return LoadEventProfile;
         case(Value::LoadReadingProfile): return LoadReadingProfile;
@@ -179,6 +189,8 @@ std::string Profile::to_string(Profile::Value value)
         case(Value::RegulatorEventProfile): return RegulatorEventProfile;
         case(Value::RegulatorReadingProfile): return RegulatorReadingProfile;
         case(Value::RegulatorStatusProfile): return RegulatorStatusProfile;
+        case(Value::ReserveAvailabilityProfile): return ReserveAvailabilityProfile;
+        case(Value::ReserveRequestProfile): return ReserveRequestProfile;
         case(Value::ResourceDiscreteControlProfile): return ResourceDiscreteControlProfile;
         case(Value::ResourceEventProfile): return ResourceEventProfile;
         case(Value::ResourceReadingProfile): return ResourceReadingProfile;
@@ -225,6 +237,8 @@ Profile::Value Profile::from_string(const std::string& name)
         {GenerationEventProfile, Value::GenerationEventProfile},
         {GenerationReadingProfile, Value::GenerationReadingProfile},
         {GenerationStatusProfile, Value::GenerationStatusProfile},
+        {PlannedInterconnectionScheduleProfile, Value::PlannedInterconnectionScheduleProfile},
+        {RequestedInterconnectionScheduleProfile, Value::RequestedInterconnectionScheduleProfile},
         {LoadControlProfile, Value::LoadControlProfile},
         {LoadEventProfile, Value::LoadEventProfile},
         {LoadReadingProfile, Value::LoadReadingProfile},
@@ -239,6 +253,8 @@ Profile::Value Profile::from_string(const std::string& name)
         {RegulatorEventProfile, Value::RegulatorEventProfile},
         {RegulatorReadingProfile, Value::RegulatorReadingProfile},
         {RegulatorStatusProfile, Value::RegulatorStatusProfile},
+        {ReserveAvailabilityProfile, Value::ReserveAvailabilityProfile},
+        {ReserveRequestProfile, Value::ReserveRequestProfile},
         {ResourceDiscreteControlProfile, Value::ResourceDiscreteControlProfile},
         {ResourceEventProfile, Value::ResourceEventProfile},
         {ResourceReadingProfile, Value::ResourceReadingProfile},

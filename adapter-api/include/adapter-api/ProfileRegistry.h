@@ -10,10 +10,12 @@
 #include <proto-api/circuitsegmentservicemodule/circuitsegmentservicemodule.pb.h>
 #include <proto-api/essmodule/essmodule.pb.h>
 #include <proto-api/generationmodule/generationmodule.pb.h>
+#include <proto-api/interconnectionmodule/interconnectionmodule.pb.h>
 #include <proto-api/loadmodule/loadmodule.pb.h>
 #include <proto-api/metermodule/metermodule.pb.h>
 #include <proto-api/reclosermodule/reclosermodule.pb.h>
 #include <proto-api/regulatormodule/regulatormodule.pb.h>
+#include <proto-api/reservemodule/reservemodule.pb.h>
 #include <proto-api/resourcemodule/resourcemodule.pb.h>
 #include <proto-api/solarmodule/solarmodule.pb.h>
 #include <proto-api/switchmodule/switchmodule.pb.h>
@@ -119,6 +121,9 @@ namespace api {
         generationmodule::GenerationEventProfile,
         generationmodule::GenerationReadingProfile,
         generationmodule::GenerationStatusProfile,
+        // interconnection module
+        interconnectionmodule::PlannedInterconnectionScheduleProfile,
+        interconnectionmodule::RequestedInterconnectionScheduleProfile,
         // load module
         loadmodule::LoadControlProfile,
         loadmodule::LoadEventProfile,
@@ -137,6 +142,9 @@ namespace api {
         regulatormodule::RegulatorEventProfile,
         regulatormodule::RegulatorReadingProfile,
         regulatormodule::RegulatorStatusProfile,
+        // reserve module
+        reservemodule::ReserveAvailabilityProfile,
+        reservemodule::ReserveRequestProfile,
         // resource module
         resourcemodule::ResourceDiscreteControlProfile,
         resourcemodule::ResourceEventProfile,

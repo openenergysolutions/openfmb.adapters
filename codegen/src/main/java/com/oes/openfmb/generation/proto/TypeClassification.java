@@ -7,6 +7,8 @@ package com.oes.openfmb.generation.proto;
 import com.google.protobuf.*;
 import openfmb.commonmodule.*;
 import openfmb.commonmodule.Timestamp;
+import openfmb.reservemodule.AllocatedMargin;
+import openfmb.reservemodule.ReserveRequest;
 
 import java.util.*;
 
@@ -389,6 +391,10 @@ public class TypeClassification {
 
         if(path.matches("mRID", ApplicationSystem.getDescriptor())) {
             return Types.string.primaryUUID;
+        }
+
+        if(path.matches("requestID", AllocatedMargin.getDescriptor()) || path.matches("requestID", ReserveRequest.getDescriptor())) {
+            return Types.string.ignored;
         }
 
         throw new NoClassificationException(path);

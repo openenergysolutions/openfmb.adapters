@@ -24,18 +24,20 @@
 
 #include "adapter-util/config/SubjectNameSuffix.h"
 
-#include "reclosermodule/reclosermodule.pb.h"
 #include "circuitsegmentservicemodule/circuitsegmentservicemodule.pb.h"
+#include "generationmodule/generationmodule.pb.h"
+#include "loadmodule/loadmodule.pb.h"
+#include "metermodule/metermodule.pb.h"
+#include "resourcemodule/resourcemodule.pb.h"
+#include "reclosermodule/reclosermodule.pb.h"
+#include "interconnectionmodule/interconnectionmodule.pb.h"
 #include "solarmodule/solarmodule.pb.h"
 #include "breakermodule/breakermodule.pb.h"
 #include "capbankmodule/capbankmodule.pb.h"
 #include "switchmodule/switchmodule.pb.h"
-#include "generationmodule/generationmodule.pb.h"
-#include "loadmodule/loadmodule.pb.h"
 #include "essmodule/essmodule.pb.h"
 #include "regulatormodule/regulatormodule.pb.h"
-#include "metermodule/metermodule.pb.h"
-#include "resourcemodule/resourcemodule.pb.h"
+#include "reservemodule/reservemodule.pb.h"
 
 #include "OpenFMB-IDL.hpp"
 
@@ -274,6 +276,24 @@ struct PublisherFactory<generationmodule::GenerationStatusProfile>
 };
 
 template<>
+struct PublisherFactory<interconnectionmodule::PlannedInterconnectionScheduleProfile>
+{
+    static std::shared_ptr<api::ISubscriptionHandler<interconnectionmodule::PlannedInterconnectionScheduleProfile>> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::pub::Publisher> dds_publisher)
+    {
+        return std::make_shared<DDSPublisher<interconnectionmodule::PlannedInterconnectionScheduleProfile, openfmb::interconnectionmodule::PlannedInterconnectionScheduleProfile>>(logger, subject, dds_publisher, topic_repo.plannedinterconnectionscheduleprofile);
+    }
+};
+
+template<>
+struct PublisherFactory<interconnectionmodule::RequestedInterconnectionScheduleProfile>
+{
+    static std::shared_ptr<api::ISubscriptionHandler<interconnectionmodule::RequestedInterconnectionScheduleProfile>> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::pub::Publisher> dds_publisher)
+    {
+        return std::make_shared<DDSPublisher<interconnectionmodule::RequestedInterconnectionScheduleProfile, openfmb::interconnectionmodule::RequestedInterconnectionScheduleProfile>>(logger, subject, dds_publisher, topic_repo.requestedinterconnectionscheduleprofile);
+    }
+};
+
+template<>
 struct PublisherFactory<loadmodule::LoadControlProfile>
 {
     static std::shared_ptr<api::ISubscriptionHandler<loadmodule::LoadControlProfile>> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::pub::Publisher> dds_publisher)
@@ -396,6 +416,24 @@ struct PublisherFactory<regulatormodule::RegulatorStatusProfile>
     static std::shared_ptr<api::ISubscriptionHandler<regulatormodule::RegulatorStatusProfile>> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::pub::Publisher> dds_publisher)
     {
         return std::make_shared<DDSPublisher<regulatormodule::RegulatorStatusProfile, openfmb::regulatormodule::RegulatorStatusProfile>>(logger, subject, dds_publisher, topic_repo.regulatorstatusprofile);
+    }
+};
+
+template<>
+struct PublisherFactory<reservemodule::ReserveAvailabilityProfile>
+{
+    static std::shared_ptr<api::ISubscriptionHandler<reservemodule::ReserveAvailabilityProfile>> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::pub::Publisher> dds_publisher)
+    {
+        return std::make_shared<DDSPublisher<reservemodule::ReserveAvailabilityProfile, openfmb::reservemodule::ReserveAvailabilityProfile>>(logger, subject, dds_publisher, topic_repo.reserveavailabilityprofile);
+    }
+};
+
+template<>
+struct PublisherFactory<reservemodule::ReserveRequestProfile>
+{
+    static std::shared_ptr<api::ISubscriptionHandler<reservemodule::ReserveRequestProfile>> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::pub::Publisher> dds_publisher)
+    {
+        return std::make_shared<DDSPublisher<reservemodule::ReserveRequestProfile, openfmb::reservemodule::ReserveRequestProfile>>(logger, subject, dds_publisher, topic_repo.reserverequestprofile);
     }
 };
 

@@ -54,6 +54,8 @@ public enum RepeatedType {
         temp.put(openfmb.resourcemodule.BooleanControlGGIO.getDescriptor(), RepeatedType.SCHEDULE);
         temp.put(openfmb.resourcemodule.IntegerControlGGIO.getDescriptor(), RepeatedType.SCHEDULE);
         temp.put(openfmb.resourcemodule.StringControlGGIO.getDescriptor(), RepeatedType.SCHEDULE);
+        temp.put(openfmb.interconnectionmodule.InterconnectionPoint.getDescriptor(), RepeatedType.SCHEDULE);
+        temp.put(openfmb.interconnectionmodule.InterconnectionControlScheduleFSCH.getDescriptor(), RepeatedType.SCHEDULE);
         // list of schedule parameters
         temp.put(openfmb.commonmodule.ENG_ScheduleParameter.getDescriptor(), RepeatedType.SCHEDULE_PARAMETER);
 

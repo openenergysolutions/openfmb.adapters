@@ -26,10 +26,12 @@ set(PROTO_MODULES
     common
     ess
     generation
+    interconnection
     load
     meter
     recloser
     regulator
+    reserve
     resource
     solar
     switch

@@ -18,18 +18,20 @@
 #ifndef OPENFMB_CONVERTTOPROTO_H
 #define OPENFMB_CONVERTTOPROTO_H
 
-#include "reclosermodule/reclosermodule.pb.h"
 #include "circuitsegmentservicemodule/circuitsegmentservicemodule.pb.h"
+#include "generationmodule/generationmodule.pb.h"
+#include "loadmodule/loadmodule.pb.h"
+#include "metermodule/metermodule.pb.h"
+#include "resourcemodule/resourcemodule.pb.h"
+#include "reclosermodule/reclosermodule.pb.h"
+#include "interconnectionmodule/interconnectionmodule.pb.h"
 #include "solarmodule/solarmodule.pb.h"
 #include "breakermodule/breakermodule.pb.h"
 #include "capbankmodule/capbankmodule.pb.h"
 #include "switchmodule/switchmodule.pb.h"
-#include "generationmodule/generationmodule.pb.h"
-#include "loadmodule/loadmodule.pb.h"
 #include "essmodule/essmodule.pb.h"
 #include "regulatormodule/regulatormodule.pb.h"
-#include "metermodule/metermodule.pb.h"
-#include "resourcemodule/resourcemodule.pb.h"
+#include "reservemodule/reservemodule.pb.h"
 
 #include "OpenFMB-IDL.hpp"
 
@@ -89,6 +91,10 @@ void convert_to_proto(const openfmb::generationmodule::GenerationReadingProfile&
 
 void convert_to_proto(const openfmb::generationmodule::GenerationStatusProfile& in, generationmodule::GenerationStatusProfile& out);
 
+void convert_to_proto(const openfmb::interconnectionmodule::PlannedInterconnectionScheduleProfile& in, interconnectionmodule::PlannedInterconnectionScheduleProfile& out);
+
+void convert_to_proto(const openfmb::interconnectionmodule::RequestedInterconnectionScheduleProfile& in, interconnectionmodule::RequestedInterconnectionScheduleProfile& out);
+
 void convert_to_proto(const openfmb::loadmodule::LoadControlProfile& in, loadmodule::LoadControlProfile& out);
 
 void convert_to_proto(const openfmb::loadmodule::LoadEventProfile& in, loadmodule::LoadEventProfile& out);
@@ -116,6 +122,10 @@ void convert_to_proto(const openfmb::regulatormodule::RegulatorEventProfile& in,
 void convert_to_proto(const openfmb::regulatormodule::RegulatorReadingProfile& in, regulatormodule::RegulatorReadingProfile& out);
 
 void convert_to_proto(const openfmb::regulatormodule::RegulatorStatusProfile& in, regulatormodule::RegulatorStatusProfile& out);
+
+void convert_to_proto(const openfmb::reservemodule::ReserveAvailabilityProfile& in, reservemodule::ReserveAvailabilityProfile& out);
+
+void convert_to_proto(const openfmb::reservemodule::ReserveRequestProfile& in, reservemodule::ReserveRequestProfile& out);
 
 void convert_to_proto(const openfmb::resourcemodule::ResourceDiscreteControlProfile& in, resourcemodule::ResourceDiscreteControlProfile& out);
 

@@ -79,6 +79,10 @@ struct Profile
         GenerationReadingProfile,
         // generationmodule.GenerationStatusProfile
         GenerationStatusProfile,
+        // interconnectionmodule.PlannedInterconnectionScheduleProfile
+        PlannedInterconnectionScheduleProfile,
+        // interconnectionmodule.RequestedInterconnectionScheduleProfile
+        RequestedInterconnectionScheduleProfile,
         // loadmodule.LoadControlProfile
         LoadControlProfile,
         // loadmodule.LoadEventProfile
@@ -107,6 +111,10 @@ struct Profile
         RegulatorReadingProfile,
         // regulatormodule.RegulatorStatusProfile
         RegulatorStatusProfile,
+        // reservemodule.ReserveAvailabilityProfile
+        ReserveAvailabilityProfile,
+        // reservemodule.ReserveRequestProfile
+        ReserveRequestProfile,
         // resourcemodule.ResourceDiscreteControlProfile
         ResourceDiscreteControlProfile,
         // resourcemodule.ResourceEventProfile
@@ -162,6 +170,8 @@ struct Profile
     static const char GenerationEventProfile[];
     static const char GenerationReadingProfile[];
     static const char GenerationStatusProfile[];
+    static const char PlannedInterconnectionScheduleProfile[];
+    static const char RequestedInterconnectionScheduleProfile[];
     static const char LoadControlProfile[];
     static const char LoadEventProfile[];
     static const char LoadReadingProfile[];
@@ -176,6 +186,8 @@ struct Profile
     static const char RegulatorEventProfile[];
     static const char RegulatorReadingProfile[];
     static const char RegulatorStatusProfile[];
+    static const char ReserveAvailabilityProfile[];
+    static const char ReserveRequestProfile[];
     static const char ResourceDiscreteControlProfile[];
     static const char ResourceEventProfile[];
     static const char ResourceReadingProfile[];
@@ -193,7 +205,7 @@ struct Profile
 
     static constexpr const char* label = "profile";
 
-    static const std::array<Value, 53> values;
+    static const std::array<Value, 57> values;
 
     static std::string to_string(Value value);
     static Value from_string(const std::string& name);

@@ -424,6 +424,38 @@ namespace util {
     };
 
     template <>
+    struct profile_info<interconnectionmodule::PlannedInterconnectionScheduleProfile> {
+
+        static constexpr ProfileType type = ProfileType::Control;
+
+        static const commonmodule::MessageInfo& get_message_info(const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+        {
+            return profile.controlmessageinfo().messageinfo();
+        }
+
+        static const commonmodule::ApplicationSystem& get_conducting_equip(const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+        {
+            return profile.requestercircuitsegmentservice();
+        }
+    };
+
+    template <>
+    struct profile_info<interconnectionmodule::RequestedInterconnectionScheduleProfile> {
+
+        static constexpr ProfileType type = ProfileType::Control;
+
+        static const commonmodule::MessageInfo& get_message_info(const interconnectionmodule::RequestedInterconnectionScheduleProfile& profile)
+        {
+            return profile.controlmessageinfo().messageinfo();
+        }
+
+        static const commonmodule::ApplicationSystem& get_conducting_equip(const interconnectionmodule::RequestedInterconnectionScheduleProfile& profile)
+        {
+            return profile.requestercircuitsegmentservice();
+        }
+    };
+
+    template <>
     struct profile_info<loadmodule::LoadControlProfile> {
 
         static constexpr ProfileType type = ProfileType::Control;
@@ -660,6 +692,38 @@ namespace util {
         static const commonmodule::ConductingEquipment& get_conducting_equip(const resourcemodule::ResourceDiscreteControlProfile& profile)
         {
             return profile.conductingequipment();
+        }
+    };
+
+    template <>
+    struct profile_info<reservemodule::ReserveAvailabilityProfile> {
+
+        static constexpr ProfileType type = ProfileType::Control;
+
+        static const commonmodule::MessageInfo& get_message_info(const reservemodule::ReserveAvailabilityProfile& profile)
+        {
+            return profile.controlmessageinfo().messageinfo();
+        }
+
+        static const commonmodule::ApplicationSystem& get_conducting_equip(const reservemodule::ReserveAvailabilityProfile& profile)
+        {
+            return profile.requestercircuitsegmentservice();
+        }
+    };
+
+    template <>
+    struct profile_info<reservemodule::ReserveRequestProfile> {
+
+        static constexpr ProfileType type = ProfileType::Control;
+
+        static const commonmodule::MessageInfo& get_message_info(const reservemodule::ReserveRequestProfile& profile)
+        {
+            return profile.controlmessageinfo().messageinfo();
+        }
+
+        static const commonmodule::ApplicationSystem& get_conducting_equip(const reservemodule::ReserveRequestProfile& profile)
+        {
+            return profile.requestercircuitsegmentservice();
         }
     };
 

@@ -8,12 +8,14 @@ import com.google.protobuf.Descriptors;
 import openfmb.breakermodule.*;
 import openfmb.capbankmodule.*;
 import openfmb.circuitsegmentservicemodule.*;
+import openfmb.interconnectionmodule.*;
 import openfmb.essmodule.*;
 import openfmb.generationmodule.*;
 import openfmb.loadmodule.*;
 import openfmb.metermodule.*;
 import openfmb.reclosermodule.*;
 import openfmb.regulatormodule.*;
+import openfmb.reservemodule.*;
 import openfmb.resourcemodule.*;
 import openfmb.solarmodule.*;
 import openfmb.switchmodule.*;
@@ -59,6 +61,9 @@ public class Profiles {
                         GenerationEventProfile.getDescriptor(),
                         GenerationReadingProfile.getDescriptor(),
                         GenerationStatusProfile.getDescriptor(),
+                        // Interconnection
+                        PlannedInterconnectionScheduleProfile.getDescriptor(),
+                        RequestedInterconnectionScheduleProfile.getDescriptor(),
                         // Load
                         LoadControlProfile.getDescriptor(),
                         LoadEventProfile.getDescriptor(),
@@ -67,7 +72,6 @@ public class Profiles {
                         // Meter
                         MeterReadingProfile.getDescriptor(),
                         // Recloser
-                        //RecloserControlProfile.getDescriptor(),
                         RecloserDiscreteControlProfile.getDescriptor(),
                         RecloserEventProfile.getDescriptor(),
                         RecloserReadingProfile.getDescriptor(),
@@ -78,6 +82,9 @@ public class Profiles {
                         RegulatorEventProfile.getDescriptor(),
                         RegulatorReadingProfile.getDescriptor(),
                         RegulatorStatusProfile.getDescriptor(),
+                        // Reserve
+                        ReserveAvailabilityProfile.getDescriptor(),
+                        ReserveRequestProfile.getDescriptor(),
                         // Resource
                         ResourceDiscreteControlProfile.getDescriptor(),
                         ResourceEventProfile.getDescriptor(),
@@ -91,7 +98,6 @@ public class Profiles {
                         SolarReadingProfile.getDescriptor(),
                         SolarStatusProfile.getDescriptor(),
                         // Switch
-                        //SwitchControlProfile.getDescriptor(),
                         SwitchDiscreteControlProfile.getDescriptor(),
                         SwitchEventProfile.getDescriptor(),
                         SwitchReadingProfile.getDescriptor(),

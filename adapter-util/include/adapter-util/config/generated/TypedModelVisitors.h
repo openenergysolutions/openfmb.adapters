@@ -18,18 +18,20 @@
 #ifndef OPENFMB_TYPEDMODELVISITORS_H
 #define OPENFMB_TYPEDMODELVISITORS_H
 
-#include "reclosermodule/reclosermodule.pb.h"
 #include "circuitsegmentservicemodule/circuitsegmentservicemodule.pb.h"
+#include "generationmodule/generationmodule.pb.h"
+#include "loadmodule/loadmodule.pb.h"
+#include "metermodule/metermodule.pb.h"
+#include "resourcemodule/resourcemodule.pb.h"
+#include "reclosermodule/reclosermodule.pb.h"
+#include "interconnectionmodule/interconnectionmodule.pb.h"
 #include "solarmodule/solarmodule.pb.h"
 #include "breakermodule/breakermodule.pb.h"
 #include "capbankmodule/capbankmodule.pb.h"
 #include "switchmodule/switchmodule.pb.h"
-#include "generationmodule/generationmodule.pb.h"
-#include "loadmodule/loadmodule.pb.h"
 #include "essmodule/essmodule.pb.h"
 #include "regulatormodule/regulatormodule.pb.h"
-#include "metermodule/metermodule.pb.h"
-#include "resourcemodule/resourcemodule.pb.h"
+#include "reservemodule/reservemodule.pb.h"
 
 #include "../ITypedModelVisitor.h"
 
@@ -87,6 +89,10 @@ void visit(ITypedModelVisitor<generationmodule::GenerationReadingProfile>& visit
 
 void visit(ITypedModelVisitor<generationmodule::GenerationStatusProfile>& visitor);
 
+void visit(ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor);
+
+void visit(ITypedModelVisitor<interconnectionmodule::RequestedInterconnectionScheduleProfile>& visitor);
+
 void visit(ITypedModelVisitor<loadmodule::LoadControlProfile>& visitor);
 
 void visit(ITypedModelVisitor<loadmodule::LoadEventProfile>& visitor);
@@ -114,6 +120,10 @@ void visit(ITypedModelVisitor<regulatormodule::RegulatorEventProfile>& visitor);
 void visit(ITypedModelVisitor<regulatormodule::RegulatorReadingProfile>& visitor);
 
 void visit(ITypedModelVisitor<regulatormodule::RegulatorStatusProfile>& visitor);
+
+void visit(ITypedModelVisitor<reservemodule::ReserveAvailabilityProfile>& visitor);
+
+void visit(ITypedModelVisitor<reservemodule::ReserveRequestProfile>& visitor);
 
 void visit(ITypedModelVisitor<resourcemodule::ResourceDiscreteControlProfile>& visitor);
 

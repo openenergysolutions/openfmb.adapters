@@ -373,6 +373,16 @@ void convert_to_proto(const twinoaks::generationmodule::GenerationStatus& in, ge
 
 void convert_to_proto(const twinoaks::generationmodule::GenerationStatusZGEN& in, generationmodule::GenerationStatusZGEN& out);
 
+void convert_to_proto(const twinoaks::interconnectionmodule::InterconnectionSchedule& in, interconnectionmodule::InterconnectionSchedule& out);
+
+void convert_to_proto(const twinoaks::interconnectionmodule::InterconnectionScheduleFSCC& in, interconnectionmodule::InterconnectionScheduleFSCC& out);
+
+void convert_to_proto(const twinoaks::interconnectionmodule::InterconnectionControlScheduleFSCH& in, interconnectionmodule::InterconnectionControlScheduleFSCH& out);
+
+void convert_to_proto(const twinoaks::interconnectionmodule::InterconnectionCSG& in, interconnectionmodule::InterconnectionCSG& out);
+
+void convert_to_proto(const twinoaks::interconnectionmodule::InterconnectionPoint& in, interconnectionmodule::InterconnectionPoint& out);
+
 void convert_to_proto(const twinoaks::commonmodule::EnergyConsumer& in, commonmodule::EnergyConsumer& out);
 
 void convert_to_proto(const twinoaks::loadmodule::LoadControl& in, loadmodule::LoadControl& out);
@@ -450,6 +460,16 @@ void convert_to_proto(const twinoaks::commonmodule::PhaseINS& in, commonmodule::
 void convert_to_proto(const twinoaks::regulatormodule::RegulatorReading& in, regulatormodule::RegulatorReading& out);
 
 void convert_to_proto(const twinoaks::regulatormodule::RegulatorStatus& in, regulatormodule::RegulatorStatus& out);
+
+void convert_to_proto(const twinoaks::reservemodule::AllocatedMargin& in, reservemodule::AllocatedMargin& out);
+
+void convert_to_proto(const twinoaks::reservemodule::ReserveMargin& in, reservemodule::ReserveMargin& out);
+
+void convert_to_proto(const twinoaks::commonmodule::PMG& in, commonmodule::PMG& out);
+
+void convert_to_proto(const twinoaks::reservemodule::ReserveAvailability& in, reservemodule::ReserveAvailability& out);
+
+void convert_to_proto(const twinoaks::reservemodule::ReserveRequest& in, reservemodule::ReserveRequest& out);
 
 void convert_to_proto(const twinoaks::resourcemodule::ResourceDiscreteControl& in, resourcemodule::ResourceDiscreteControl& out);
 
@@ -809,6 +829,36 @@ void convert_to_proto(const twinoaks::generationmodule::GenerationStatusProfile&
     convert_to_proto(in.generationStatus, *out.mutable_generationstatus()); // required field in DDS
 }
 
+void convert_to_proto(const twinoaks::interconnectionmodule::PlannedInterconnectionScheduleProfile& in, interconnectionmodule::PlannedInterconnectionScheduleProfile& out)
+{
+    out.Clear();
+
+    convert_to_proto(in, *out.mutable_controlmessageinfo()); // inherited type
+
+    convert_to_proto(in.requesterCircuitSegmentService, *out.mutable_requestercircuitsegmentservice()); // required field in DDS
+
+    convert_to_proto(in.interconnectionSchedule, *out.mutable_interconnectionschedule()); // required field in DDS
+
+    convert_to_proto(in.tiePoint, *out.mutable_tiepoint()); // required field in DDS
+
+    convert_to_proto(in.responderCircuitSegmentService, *out.mutable_respondercircuitsegmentservice()); // required field in DDS
+}
+
+void convert_to_proto(const twinoaks::interconnectionmodule::RequestedInterconnectionScheduleProfile& in, interconnectionmodule::RequestedInterconnectionScheduleProfile& out)
+{
+    out.Clear();
+
+    convert_to_proto(in, *out.mutable_controlmessageinfo()); // inherited type
+
+    convert_to_proto(in.requesterCircuitSegmentService, *out.mutable_requestercircuitsegmentservice()); // required field in DDS
+
+    convert_to_proto(in.interconnectionSchedule, *out.mutable_interconnectionschedule()); // required field in DDS
+
+    convert_to_proto(in.tiePoint, *out.mutable_tiepoint()); // required field in DDS
+
+    convert_to_proto(in.responderCircuitSegmentService, *out.mutable_respondercircuitsegmentservice()); // required field in DDS
+}
+
 void convert_to_proto(const twinoaks::loadmodule::LoadControlProfile& in, loadmodule::LoadControlProfile& out)
 {
     out.Clear();
@@ -967,6 +1017,38 @@ void convert_to_proto(const twinoaks::regulatormodule::RegulatorStatusProfile& i
     convert_to_proto(in.regulatorStatus, *out.mutable_regulatorstatus()); // required field in DDS
 
     convert_to_proto(in.regulatorSystem, *out.mutable_regulatorsystem()); // required field in DDS
+}
+
+void convert_to_proto(const twinoaks::reservemodule::ReserveAvailabilityProfile& in, reservemodule::ReserveAvailabilityProfile& out)
+{
+    out.Clear();
+
+    convert_to_proto(in, *out.mutable_controlmessageinfo()); // inherited type
+
+    if(in.allocatedMargin) convert_to_proto(*in.allocatedMargin, *out.mutable_allocatedmargin());
+
+    convert_to_proto(in.requesterCircuitSegmentService, *out.mutable_requestercircuitsegmentservice()); // required field in DDS
+
+    convert_to_proto(in.reserveAvailability, *out.mutable_reserveavailability()); // required field in DDS
+
+    convert_to_proto(in.responderCircuitSegmentService, *out.mutable_respondercircuitsegmentservice()); // required field in DDS
+
+    convert_to_proto(in.tiePoint, *out.mutable_tiepoint()); // required field in DDS
+}
+
+void convert_to_proto(const twinoaks::reservemodule::ReserveRequestProfile& in, reservemodule::ReserveRequestProfile& out)
+{
+    out.Clear();
+
+    convert_to_proto(in, *out.mutable_controlmessageinfo()); // inherited type
+
+    convert_to_proto(in.requesterCircuitSegmentService, *out.mutable_requestercircuitsegmentservice()); // required field in DDS
+
+    convert_to_proto(in.reserveRequest, *out.mutable_reserverequest()); // required field in DDS
+
+    convert_to_proto(in.responderCircuitSegmentService, *out.mutable_respondercircuitsegmentservice()); // required field in DDS
+
+    convert_to_proto(in.tiePoint, *out.mutable_tiepoint()); // required field in DDS
 }
 
 void convert_to_proto(const twinoaks::resourcemodule::ResourceDiscreteControlProfile& in, resourcemodule::ResourceDiscreteControlProfile& out)
@@ -3321,6 +3403,71 @@ void convert_to_proto(const twinoaks::generationmodule::GenerationStatusZGEN& in
     convert_to_proto(in, *out.mutable_generationeventandstatuszgen()); // inherited type
 }
 
+void convert_to_proto(const twinoaks::interconnectionmodule::InterconnectionSchedule& in, interconnectionmodule::InterconnectionSchedule& out)
+{
+    out.Clear();
+
+    convert_to_proto(in, *out.mutable_identifiedobject()); // inherited type
+
+    if(in.check) convert_to_proto(*in.check, *out.mutable_check());
+
+    convert_to_proto(in.interconnectionScheduleFSCC, *out.mutable_interconnectionschedulefscc()); // required field in DDS
+}
+
+void convert_to_proto(const twinoaks::interconnectionmodule::InterconnectionScheduleFSCC& in, interconnectionmodule::InterconnectionScheduleFSCC& out)
+{
+    out.Clear();
+
+    convert_to_proto(in, *out.mutable_controlfscc()); // inherited type
+
+    for(decltype(in.interconnectionControlScheduleFSCH.length()) i = 0; i < in.interconnectionControlScheduleFSCH.length(); ++i)
+    {
+        convert_to_proto(in.interconnectionControlScheduleFSCH.at(i), *out.mutable_interconnectioncontrolschedulefsch()->Add());
+    }
+}
+
+void convert_to_proto(const twinoaks::interconnectionmodule::InterconnectionControlScheduleFSCH& in, interconnectionmodule::InterconnectionControlScheduleFSCH& out)
+{
+    out.Clear();
+
+    convert_to_proto(in.ValDCSG, *out.mutable_valdcsg()); // required field in DDS
+}
+
+void convert_to_proto(const twinoaks::interconnectionmodule::InterconnectionCSG& in, interconnectionmodule::InterconnectionCSG& out)
+{
+    out.Clear();
+
+    for(decltype(in.crvPts.length()) i = 0; i < in.crvPts.length(); ++i)
+    {
+        convert_to_proto(in.crvPts.at(i), *out.mutable_crvpts()->Add());
+    }
+}
+
+void convert_to_proto(const twinoaks::interconnectionmodule::InterconnectionPoint& in, interconnectionmodule::InterconnectionPoint& out)
+{
+    out.Clear();
+
+    if(in.blackStartEnabled) convert_to_proto(*in.blackStartEnabled, *out.mutable_blackstartenabled());
+
+    if(in.frequencySetPointEnabled) convert_to_proto(*in.frequencySetPointEnabled, *out.mutable_frequencysetpointenabled());
+
+    if(in.island) convert_to_proto(*in.island, *out.mutable_island());
+
+    if(in.pctHzDroop) out.mutable_pcthzdroop()->set_value(*in.pctHzDroop);
+
+    if(in.pctVDroop) out.mutable_pctvdroop()->set_value(*in.pctVDroop);
+
+    if(in.rampRates) convert_to_proto(*in.rampRates, *out.mutable_ramprates());
+
+    if(in.reactivePwrSetPointEnabled) convert_to_proto(*in.reactivePwrSetPointEnabled, *out.mutable_reactivepwrsetpointenabled());
+
+    if(in.realPwrSetPointEnabled) convert_to_proto(*in.realPwrSetPointEnabled, *out.mutable_realpwrsetpointenabled());
+
+    if(in.voltageSetPointEnabled) convert_to_proto(*in.voltageSetPointEnabled, *out.mutable_voltagesetpointenabled());
+
+    convert_to_proto(in.startTime, *out.mutable_starttime()); // required field in DDS
+}
+
 void convert_to_proto(const twinoaks::commonmodule::EnergyConsumer& in, commonmodule::EnergyConsumer& out)
 {
     out.Clear();
@@ -3780,6 +3927,67 @@ void convert_to_proto(const twinoaks::regulatormodule::RegulatorStatus& in, regu
     convert_to_proto(in, *out.mutable_statusvalue()); // inherited type
 
     if(in.regulatorEventAndStatusANCR) convert_to_proto(*in.regulatorEventAndStatusANCR, *out.mutable_regulatoreventandstatusancr());
+}
+
+void convert_to_proto(const twinoaks::reservemodule::AllocatedMargin& in, reservemodule::AllocatedMargin& out)
+{
+    out.Clear();
+
+    if(in.requestID) out.set_requestid(convert_string(in.requestID));
+
+    if(in.allocatedMargin) convert_to_proto(*in.allocatedMargin, *out.mutable_allocatedmargin());
+
+    if(in.allocatedStandbyMargin) convert_to_proto(*in.allocatedStandbyMargin, *out.mutable_allocatedstandbymargin());
+}
+
+void convert_to_proto(const twinoaks::reservemodule::ReserveMargin& in, reservemodule::ReserveMargin& out)
+{
+    out.Clear();
+
+    convert_to_proto(in, *out.mutable_logicalnode()); // inherited type
+
+    if(in.A) convert_to_proto(*in.A, *out.mutable_a());
+
+    if(in.VA) convert_to_proto(*in.VA, *out.mutable_va());
+
+    if(in.VAr) convert_to_proto(*in.VAr, *out.mutable_var());
+
+    if(in.W) convert_to_proto(*in.W, *out.mutable_w());
+}
+
+void convert_to_proto(const twinoaks::commonmodule::PMG& in, commonmodule::PMG& out)
+{
+    out.Clear();
+
+    if(in.net) convert_to_proto(*in.net, *out.mutable_net());
+
+    if(in.phsA) convert_to_proto(*in.phsA, *out.mutable_phsa());
+
+    if(in.phsB) convert_to_proto(*in.phsB, *out.mutable_phsb());
+
+    if(in.phsC) convert_to_proto(*in.phsC, *out.mutable_phsc());
+}
+
+void convert_to_proto(const twinoaks::reservemodule::ReserveAvailability& in, reservemodule::ReserveAvailability& out)
+{
+    out.Clear();
+
+    if(in.incrementalMargin) convert_to_proto(*in.incrementalMargin, *out.mutable_incrementalmargin());
+
+    if(in.margin) convert_to_proto(*in.margin, *out.mutable_margin());
+
+    if(in.standbyMargin) convert_to_proto(*in.standbyMargin, *out.mutable_standbymargin());
+}
+
+void convert_to_proto(const twinoaks::reservemodule::ReserveRequest& in, reservemodule::ReserveRequest& out)
+{
+    out.Clear();
+
+    if(in.requestID) out.set_requestid(convert_string(in.requestID));
+
+    if(in.margin) convert_to_proto(*in.margin, *out.mutable_margin());
+
+    if(in.standbyMargin) convert_to_proto(*in.standbyMargin, *out.mutable_standbymargin());
 }
 
 void convert_to_proto(const twinoaks::resourcemodule::ResourceDiscreteControl& in, resourcemodule::ResourceDiscreteControl& out)

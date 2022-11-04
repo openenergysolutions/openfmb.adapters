@@ -58,6 +58,8 @@ struct TopicRepository
     ::dds::topic::Topic<openfmb::generationmodule::GenerationEventProfile> generationeventprofile;
     ::dds::topic::Topic<openfmb::generationmodule::GenerationReadingProfile> generationreadingprofile;
     ::dds::topic::Topic<openfmb::generationmodule::GenerationStatusProfile> generationstatusprofile;
+    ::dds::topic::Topic<openfmb::interconnectionmodule::PlannedInterconnectionScheduleProfile> plannedinterconnectionscheduleprofile;
+    ::dds::topic::Topic<openfmb::interconnectionmodule::RequestedInterconnectionScheduleProfile> requestedinterconnectionscheduleprofile;
     ::dds::topic::Topic<openfmb::loadmodule::LoadControlProfile> loadcontrolprofile;
     ::dds::topic::Topic<openfmb::loadmodule::LoadEventProfile> loadeventprofile;
     ::dds::topic::Topic<openfmb::loadmodule::LoadReadingProfile> loadreadingprofile;
@@ -72,6 +74,8 @@ struct TopicRepository
     ::dds::topic::Topic<openfmb::regulatormodule::RegulatorEventProfile> regulatoreventprofile;
     ::dds::topic::Topic<openfmb::regulatormodule::RegulatorReadingProfile> regulatorreadingprofile;
     ::dds::topic::Topic<openfmb::regulatormodule::RegulatorStatusProfile> regulatorstatusprofile;
+    ::dds::topic::Topic<openfmb::reservemodule::ReserveAvailabilityProfile> reserveavailabilityprofile;
+    ::dds::topic::Topic<openfmb::reservemodule::ReserveRequestProfile> reserverequestprofile;
     ::dds::topic::Topic<openfmb::resourcemodule::ResourceDiscreteControlProfile> resourcediscretecontrolprofile;
     ::dds::topic::Topic<openfmb::resourcemodule::ResourceEventProfile> resourceeventprofile;
     ::dds::topic::Topic<openfmb::resourcemodule::ResourceReadingProfile> resourcereadingprofile;

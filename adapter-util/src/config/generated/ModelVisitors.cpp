@@ -4,18 +4,20 @@
 
 #include "adapter-util/config/generated/ModelVisitors.h"
 
-#include "reclosermodule/reclosermodule.pb.h"
 #include "circuitsegmentservicemodule/circuitsegmentservicemodule.pb.h"
+#include "generationmodule/generationmodule.pb.h"
+#include "loadmodule/loadmodule.pb.h"
+#include "metermodule/metermodule.pb.h"
+#include "resourcemodule/resourcemodule.pb.h"
+#include "reclosermodule/reclosermodule.pb.h"
+#include "interconnectionmodule/interconnectionmodule.pb.h"
 #include "solarmodule/solarmodule.pb.h"
 #include "breakermodule/breakermodule.pb.h"
 #include "capbankmodule/capbankmodule.pb.h"
 #include "switchmodule/switchmodule.pb.h"
-#include "generationmodule/generationmodule.pb.h"
-#include "loadmodule/loadmodule.pb.h"
 #include "essmodule/essmodule.pb.h"
 #include "regulatormodule/regulatormodule.pb.h"
-#include "metermodule/metermodule.pb.h"
-#include "resourcemodule/resourcemodule.pb.h"
+#include "reservemodule/reservemodule.pb.h"
 
 namespace adapter {
 
@@ -227,6 +229,8 @@ void visit_commonmodule_PFSPC(IModelVisitor& visitor);
 
 void visit_commonmodule_PFStorageSPC(IModelVisitor& visitor);
 
+void visit_commonmodule_PMG(IModelVisitor& visitor);
+
 void visit_commonmodule_PhaseAPC(IModelVisitor& visitor);
 
 void visit_commonmodule_PhaseDPC(IModelVisitor& visitor);
@@ -409,6 +413,16 @@ void visit_generationmodule_ReactivePowerControl(IModelVisitor& visitor);
 
 void visit_generationmodule_RealPowerControl(IModelVisitor& visitor);
 
+void visit_interconnectionmodule_InterconnectionCSG(IModelVisitor& visitor);
+
+void visit_interconnectionmodule_InterconnectionControlScheduleFSCH(IModelVisitor& visitor);
+
+void visit_interconnectionmodule_InterconnectionPoint(IModelVisitor& visitor);
+
+void visit_interconnectionmodule_InterconnectionSchedule(IModelVisitor& visitor);
+
+void visit_interconnectionmodule_InterconnectionScheduleFSCC(IModelVisitor& visitor);
+
 void visit_loadmodule_LoadCSG(IModelVisitor& visitor);
 
 void visit_loadmodule_LoadControl(IModelVisitor& visitor);
@@ -474,6 +488,14 @@ void visit_regulatormodule_RegulatorReading(IModelVisitor& visitor);
 void visit_regulatormodule_RegulatorStatus(IModelVisitor& visitor);
 
 void visit_regulatormodule_RegulatorSystem(IModelVisitor& visitor);
+
+void visit_reservemodule_AllocatedMargin(IModelVisitor& visitor);
+
+void visit_reservemodule_ReserveAvailability(IModelVisitor& visitor);
+
+void visit_reservemodule_ReserveMargin(IModelVisitor& visitor);
+
+void visit_reservemodule_ReserveRequest(IModelVisitor& visitor);
 
 void visit_resourcemodule_AnalogControlGGIO(IModelVisitor& visitor);
 
@@ -1099,6 +1121,74 @@ void visit<generationmodule::GenerationStatusProfile>(IModelVisitor& visitor)
 }
 
 template <>
+void visit<interconnectionmodule::PlannedInterconnectionScheduleProfile>(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("controlMessageInfo", commonmodule::ControlMessageInfo::descriptor()))
+    {
+        visit_commonmodule_ControlMessageInfo(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("requesterCircuitSegmentService", commonmodule::ApplicationSystem::descriptor()))
+    {
+        visit_commonmodule_ApplicationSystem(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("interconnectionSchedule", interconnectionmodule::InterconnectionSchedule::descriptor()))
+    {
+        visit_interconnectionmodule_InterconnectionSchedule(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("tiePoint", commonmodule::ConductingEquipment::descriptor()))
+    {
+        visit_commonmodule_ConductingEquipment(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("responderCircuitSegmentService", commonmodule::ApplicationSystem::descriptor()))
+    {
+        visit_commonmodule_ApplicationSystem(visitor);
+        visitor.end_message_field();
+    }
+}
+
+template <>
+void visit<interconnectionmodule::RequestedInterconnectionScheduleProfile>(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("controlMessageInfo", commonmodule::ControlMessageInfo::descriptor()))
+    {
+        visit_commonmodule_ControlMessageInfo(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("requesterCircuitSegmentService", commonmodule::ApplicationSystem::descriptor()))
+    {
+        visit_commonmodule_ApplicationSystem(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("interconnectionSchedule", interconnectionmodule::InterconnectionSchedule::descriptor()))
+    {
+        visit_interconnectionmodule_InterconnectionSchedule(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("tiePoint", commonmodule::ConductingEquipment::descriptor()))
+    {
+        visit_commonmodule_ConductingEquipment(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("responderCircuitSegmentService", commonmodule::ApplicationSystem::descriptor()))
+    {
+        visit_commonmodule_ApplicationSystem(visitor);
+        visitor.end_message_field();
+    }
+}
+
+template <>
 void visit<loadmodule::LoadControlProfile>(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("controlMessageInfo", commonmodule::ControlMessageInfo::descriptor()))
@@ -1412,6 +1502,80 @@ void visit<regulatormodule::RegulatorStatusProfile>(IModelVisitor& visitor)
     if(visitor.start_message_field("regulatorSystem", regulatormodule::RegulatorSystem::descriptor()))
     {
         visit_regulatormodule_RegulatorSystem(visitor);
+        visitor.end_message_field();
+    }
+}
+
+template <>
+void visit<reservemodule::ReserveAvailabilityProfile>(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("controlMessageInfo", commonmodule::ControlMessageInfo::descriptor()))
+    {
+        visit_commonmodule_ControlMessageInfo(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("allocatedMargin", reservemodule::AllocatedMargin::descriptor()))
+    {
+        visit_reservemodule_AllocatedMargin(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("requesterCircuitSegmentService", commonmodule::ApplicationSystem::descriptor()))
+    {
+        visit_commonmodule_ApplicationSystem(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("reserveAvailability", reservemodule::ReserveAvailability::descriptor()))
+    {
+        visit_reservemodule_ReserveAvailability(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("responderCircuitSegmentService", commonmodule::ApplicationSystem::descriptor()))
+    {
+        visit_commonmodule_ApplicationSystem(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("tiePoint", commonmodule::ConductingEquipment::descriptor()))
+    {
+        visit_commonmodule_ConductingEquipment(visitor);
+        visitor.end_message_field();
+    }
+}
+
+template <>
+void visit<reservemodule::ReserveRequestProfile>(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("controlMessageInfo", commonmodule::ControlMessageInfo::descriptor()))
+    {
+        visit_commonmodule_ControlMessageInfo(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("requesterCircuitSegmentService", commonmodule::ApplicationSystem::descriptor()))
+    {
+        visit_commonmodule_ApplicationSystem(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("reserveRequest", reservemodule::ReserveRequest::descriptor()))
+    {
+        visit_reservemodule_ReserveRequest(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("responderCircuitSegmentService", commonmodule::ApplicationSystem::descriptor()))
+    {
+        visit_commonmodule_ApplicationSystem(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("tiePoint", commonmodule::ConductingEquipment::descriptor()))
+    {
+        visit_commonmodule_ConductingEquipment(visitor);
         visitor.end_message_field();
     }
 }
@@ -3372,6 +3536,33 @@ void visit_commonmodule_PFStorageSPC(IModelVisitor& visitor)
     if(visitor.start_message_field("pFStorageParameter", commonmodule::OperationStorageDFPF::descriptor()))
     {
         visit_commonmodule_OperationStorageDFPF(visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit_commonmodule_PMG(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("net", commonmodule::MV::descriptor()))
+    {
+        visit_commonmodule_MV(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("phsA", commonmodule::MV::descriptor()))
+    {
+        visit_commonmodule_MV(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("phsB", commonmodule::MV::descriptor()))
+    {
+        visit_commonmodule_MV(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("phsC", commonmodule::MV::descriptor()))
+    {
+        visit_commonmodule_MV(visitor);
         visitor.end_message_field();
     }
 }
@@ -6056,6 +6247,143 @@ void visit_generationmodule_RealPowerControl(IModelVisitor& visitor)
     }
 }
 
+void visit_interconnectionmodule_InterconnectionCSG(IModelVisitor& visitor)
+{
+    {
+        const auto count = visitor.start_repeated_message_field("crvpts", interconnectionmodule::InterconnectionPoint::descriptor());
+        for(int i = 0; i < count; ++i)
+        {
+            visitor.start_iteration(i);
+            visit_interconnectionmodule_InterconnectionPoint(visitor);
+            visitor.end_iteration();
+        }
+        visitor.end_repeated_message_field();
+    }
+}
+
+void visit_interconnectionmodule_InterconnectionControlScheduleFSCH(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("ValDCSG", interconnectionmodule::InterconnectionCSG::descriptor()))
+    {
+        visit_interconnectionmodule_InterconnectionCSG(visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit_interconnectionmodule_InterconnectionPoint(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("blackStartEnabled", commonmodule::ControlSPC::descriptor()))
+    {
+        visit_commonmodule_ControlSPC(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("frequencySetPointEnabled", commonmodule::ControlSPC::descriptor()))
+    {
+        visit_commonmodule_ControlSPC(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("island", commonmodule::ControlSPC::descriptor()))
+    {
+        visit_commonmodule_ControlSPC(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("pctHzDroop", google::protobuf::FloatValue::descriptor()))
+    {
+        visitor.handle("value", FloatFieldType::Value::mapped);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("pctVDroop", google::protobuf::FloatValue::descriptor()))
+    {
+        visitor.handle("value", FloatFieldType::Value::mapped);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("rampRates", commonmodule::RampRate::descriptor()))
+    {
+        visit_commonmodule_RampRate(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("reactivePwrSetPointEnabled", commonmodule::ControlSPC::descriptor()))
+    {
+        visit_commonmodule_ControlSPC(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("realPwrSetPointEnabled", commonmodule::ControlSPC::descriptor()))
+    {
+        visit_commonmodule_ControlSPC(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("voltageSetPointEnabled", commonmodule::ControlSPC::descriptor()))
+    {
+        visit_commonmodule_ControlSPC(visitor);
+        visitor.end_message_field();
+    }
+
+    visitor.handle("startTime", TimestampFieldType::Value::ignored);
+}
+
+void visit_interconnectionmodule_InterconnectionSchedule(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("identifiedObject", commonmodule::IdentifiedObject::descriptor()))
+    {
+        if(visitor.start_message_field("description", google::protobuf::StringValue::descriptor()))
+        {
+            visitor.handle("value", StringFieldType::Value::constant);
+            visitor.end_message_field();
+        }
+        if(visitor.start_message_field("mRID", google::protobuf::StringValue::descriptor()))
+        {
+            visitor.handle("value", StringFieldType::Value::constant_uuid);
+            visitor.end_message_field();
+        }
+        if(visitor.start_message_field("name", google::protobuf::StringValue::descriptor()))
+        {
+            visitor.handle("value", StringFieldType::Value::constant);
+            visitor.end_message_field();
+        }
+    }
+    visitor.end_message_field();
+
+    if(visitor.start_message_field("check", commonmodule::CheckConditions::descriptor()))
+    {
+        visit_commonmodule_CheckConditions(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("interconnectionScheduleFSCC", interconnectionmodule::InterconnectionScheduleFSCC::descriptor()))
+    {
+        visit_interconnectionmodule_InterconnectionScheduleFSCC(visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit_interconnectionmodule_InterconnectionScheduleFSCC(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("controlFSCC", commonmodule::ControlFSCC::descriptor()))
+    {
+        visit_commonmodule_ControlFSCC(visitor);
+        visitor.end_message_field();
+    }
+
+    {
+        const auto count = visitor.start_repeated_message_field("interconnectioncontrolschedulefsch", interconnectionmodule::InterconnectionControlScheduleFSCH::descriptor());
+        for(int i = 0; i < count; ++i)
+        {
+            visitor.start_iteration(i);
+            visit_interconnectionmodule_InterconnectionControlScheduleFSCH(visitor);
+            visitor.end_iteration();
+        }
+        visitor.end_repeated_message_field();
+    }
+}
+
 void visit_loadmodule_LoadCSG(IModelVisitor& visitor)
 {
     {
@@ -6843,6 +7171,94 @@ void visit_regulatormodule_RegulatorSystem(IModelVisitor& visitor)
     if(visitor.start_message_field("conductingEquipment", commonmodule::ConductingEquipment::descriptor()))
     {
         visit_commonmodule_ConductingEquipment(visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit_reservemodule_AllocatedMargin(IModelVisitor& visitor)
+{
+    visitor.handle("requestID", StringFieldType::Value::ignored);
+
+    if(visitor.start_message_field("allocatedMargin", reservemodule::ReserveMargin::descriptor()))
+    {
+        visit_reservemodule_ReserveMargin(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("allocatedStandbyMargin", reservemodule::ReserveMargin::descriptor()))
+    {
+        visit_reservemodule_ReserveMargin(visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit_reservemodule_ReserveAvailability(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("incrementalMargin", reservemodule::ReserveMargin::descriptor()))
+    {
+        visit_reservemodule_ReserveMargin(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("margin", reservemodule::ReserveMargin::descriptor()))
+    {
+        visit_reservemodule_ReserveMargin(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("standbyMargin", reservemodule::ReserveMargin::descriptor()))
+    {
+        visit_reservemodule_ReserveMargin(visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit_reservemodule_ReserveMargin(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("logicalNode", commonmodule::LogicalNode::descriptor()))
+    {
+        visit_commonmodule_LogicalNode(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("A", commonmodule::PMG::descriptor()))
+    {
+        visit_commonmodule_PMG(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("VA", commonmodule::PMG::descriptor()))
+    {
+        visit_commonmodule_PMG(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("VAr", commonmodule::PMG::descriptor()))
+    {
+        visit_commonmodule_PMG(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("W", commonmodule::PMG::descriptor()))
+    {
+        visit_commonmodule_PMG(visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit_reservemodule_ReserveRequest(IModelVisitor& visitor)
+{
+    visitor.handle("requestID", StringFieldType::Value::ignored);
+
+    if(visitor.start_message_field("margin", reservemodule::ReserveMargin::descriptor()))
+    {
+        visit_reservemodule_ReserveMargin(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("standbyMargin", reservemodule::ReserveMargin::descriptor()))
+    {
+        visit_reservemodule_ReserveMargin(visitor);
         visitor.end_message_field();
     }
 }

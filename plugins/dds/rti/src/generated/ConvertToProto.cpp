@@ -373,6 +373,16 @@ void convert_to_proto(const openfmb::generationmodule::GenerationStatus& in, gen
 
 void convert_to_proto(const openfmb::generationmodule::GenerationStatusZGEN& in, generationmodule::GenerationStatusZGEN& out);
 
+void convert_to_proto(const openfmb::interconnectionmodule::InterconnectionSchedule& in, interconnectionmodule::InterconnectionSchedule& out);
+
+void convert_to_proto(const openfmb::interconnectionmodule::InterconnectionScheduleFSCC& in, interconnectionmodule::InterconnectionScheduleFSCC& out);
+
+void convert_to_proto(const openfmb::interconnectionmodule::InterconnectionControlScheduleFSCH& in, interconnectionmodule::InterconnectionControlScheduleFSCH& out);
+
+void convert_to_proto(const openfmb::interconnectionmodule::InterconnectionCSG& in, interconnectionmodule::InterconnectionCSG& out);
+
+void convert_to_proto(const openfmb::interconnectionmodule::InterconnectionPoint& in, interconnectionmodule::InterconnectionPoint& out);
+
 void convert_to_proto(const openfmb::commonmodule::EnergyConsumer& in, commonmodule::EnergyConsumer& out);
 
 void convert_to_proto(const openfmb::loadmodule::LoadControl& in, loadmodule::LoadControl& out);
@@ -450,6 +460,16 @@ void convert_to_proto(const openfmb::commonmodule::PhaseINS& in, commonmodule::P
 void convert_to_proto(const openfmb::regulatormodule::RegulatorReading& in, regulatormodule::RegulatorReading& out);
 
 void convert_to_proto(const openfmb::regulatormodule::RegulatorStatus& in, regulatormodule::RegulatorStatus& out);
+
+void convert_to_proto(const openfmb::reservemodule::AllocatedMargin& in, reservemodule::AllocatedMargin& out);
+
+void convert_to_proto(const openfmb::reservemodule::ReserveMargin& in, reservemodule::ReserveMargin& out);
+
+void convert_to_proto(const openfmb::commonmodule::PMG& in, commonmodule::PMG& out);
+
+void convert_to_proto(const openfmb::reservemodule::ReserveAvailability& in, reservemodule::ReserveAvailability& out);
+
+void convert_to_proto(const openfmb::reservemodule::ReserveRequest& in, reservemodule::ReserveRequest& out);
 
 void convert_to_proto(const openfmb::resourcemodule::ResourceDiscreteControl& in, resourcemodule::ResourceDiscreteControl& out);
 
@@ -809,6 +829,36 @@ void convert_to_proto(const openfmb::generationmodule::GenerationStatusProfile& 
     convert_to_proto(in.generationStatus(), *out.mutable_generationstatus()); // required field in DDS
 }
 
+void convert_to_proto(const openfmb::interconnectionmodule::PlannedInterconnectionScheduleProfile& in, interconnectionmodule::PlannedInterconnectionScheduleProfile& out)
+{
+    out.Clear();
+
+    convert_to_proto(in, *out.mutable_controlmessageinfo()); // inherited type
+
+    convert_to_proto(in.requesterCircuitSegmentService(), *out.mutable_requestercircuitsegmentservice()); // required field in DDS
+
+    convert_to_proto(in.interconnectionSchedule(), *out.mutable_interconnectionschedule()); // required field in DDS
+
+    convert_to_proto(in.tiePoint(), *out.mutable_tiepoint()); // required field in DDS
+
+    convert_to_proto(in.responderCircuitSegmentService(), *out.mutable_respondercircuitsegmentservice()); // required field in DDS
+}
+
+void convert_to_proto(const openfmb::interconnectionmodule::RequestedInterconnectionScheduleProfile& in, interconnectionmodule::RequestedInterconnectionScheduleProfile& out)
+{
+    out.Clear();
+
+    convert_to_proto(in, *out.mutable_controlmessageinfo()); // inherited type
+
+    convert_to_proto(in.requesterCircuitSegmentService(), *out.mutable_requestercircuitsegmentservice()); // required field in DDS
+
+    convert_to_proto(in.interconnectionSchedule(), *out.mutable_interconnectionschedule()); // required field in DDS
+
+    convert_to_proto(in.tiePoint(), *out.mutable_tiepoint()); // required field in DDS
+
+    convert_to_proto(in.responderCircuitSegmentService(), *out.mutable_respondercircuitsegmentservice()); // required field in DDS
+}
+
 void convert_to_proto(const openfmb::loadmodule::LoadControlProfile& in, loadmodule::LoadControlProfile& out)
 {
     out.Clear();
@@ -967,6 +1017,38 @@ void convert_to_proto(const openfmb::regulatormodule::RegulatorStatusProfile& in
     convert_to_proto(in.regulatorStatus(), *out.mutable_regulatorstatus()); // required field in DDS
 
     convert_to_proto(in.regulatorSystem(), *out.mutable_regulatorsystem()); // required field in DDS
+}
+
+void convert_to_proto(const openfmb::reservemodule::ReserveAvailabilityProfile& in, reservemodule::ReserveAvailabilityProfile& out)
+{
+    out.Clear();
+
+    convert_to_proto(in, *out.mutable_controlmessageinfo()); // inherited type
+
+    if(in.allocatedMargin().is_set()) convert_to_proto(in.allocatedMargin().get(), *out.mutable_allocatedmargin());
+
+    convert_to_proto(in.requesterCircuitSegmentService(), *out.mutable_requestercircuitsegmentservice()); // required field in DDS
+
+    convert_to_proto(in.reserveAvailability(), *out.mutable_reserveavailability()); // required field in DDS
+
+    convert_to_proto(in.responderCircuitSegmentService(), *out.mutable_respondercircuitsegmentservice()); // required field in DDS
+
+    convert_to_proto(in.tiePoint(), *out.mutable_tiepoint()); // required field in DDS
+}
+
+void convert_to_proto(const openfmb::reservemodule::ReserveRequestProfile& in, reservemodule::ReserveRequestProfile& out)
+{
+    out.Clear();
+
+    convert_to_proto(in, *out.mutable_controlmessageinfo()); // inherited type
+
+    convert_to_proto(in.requesterCircuitSegmentService(), *out.mutable_requestercircuitsegmentservice()); // required field in DDS
+
+    convert_to_proto(in.reserveRequest(), *out.mutable_reserverequest()); // required field in DDS
+
+    convert_to_proto(in.responderCircuitSegmentService(), *out.mutable_respondercircuitsegmentservice()); // required field in DDS
+
+    convert_to_proto(in.tiePoint(), *out.mutable_tiepoint()); // required field in DDS
 }
 
 void convert_to_proto(const openfmb::resourcemodule::ResourceDiscreteControlProfile& in, resourcemodule::ResourceDiscreteControlProfile& out)
@@ -3321,6 +3403,71 @@ void convert_to_proto(const openfmb::generationmodule::GenerationStatusZGEN& in,
     convert_to_proto(in, *out.mutable_generationeventandstatuszgen()); // inherited type
 }
 
+void convert_to_proto(const openfmb::interconnectionmodule::InterconnectionSchedule& in, interconnectionmodule::InterconnectionSchedule& out)
+{
+    out.Clear();
+
+    convert_to_proto(in, *out.mutable_identifiedobject()); // inherited type
+
+    if(in.check().is_set()) convert_to_proto(in.check().get(), *out.mutable_check());
+
+    convert_to_proto(in.interconnectionScheduleFSCC(), *out.mutable_interconnectionschedulefscc()); // required field in DDS
+}
+
+void convert_to_proto(const openfmb::interconnectionmodule::InterconnectionScheduleFSCC& in, interconnectionmodule::InterconnectionScheduleFSCC& out)
+{
+    out.Clear();
+
+    convert_to_proto(in, *out.mutable_controlfscc()); // inherited type
+
+    for(const auto& value : in.interconnectionControlScheduleFSCH())
+    {
+        convert_to_proto(value, *out.mutable_interconnectioncontrolschedulefsch()->Add());
+    }
+}
+
+void convert_to_proto(const openfmb::interconnectionmodule::InterconnectionControlScheduleFSCH& in, interconnectionmodule::InterconnectionControlScheduleFSCH& out)
+{
+    out.Clear();
+
+    convert_to_proto(in.ValDCSG(), *out.mutable_valdcsg()); // required field in DDS
+}
+
+void convert_to_proto(const openfmb::interconnectionmodule::InterconnectionCSG& in, interconnectionmodule::InterconnectionCSG& out)
+{
+    out.Clear();
+
+    for(const auto& value : in.crvPts())
+    {
+        convert_to_proto(value, *out.mutable_crvpts()->Add());
+    }
+}
+
+void convert_to_proto(const openfmb::interconnectionmodule::InterconnectionPoint& in, interconnectionmodule::InterconnectionPoint& out)
+{
+    out.Clear();
+
+    if(in.blackStartEnabled().is_set()) convert_to_proto(in.blackStartEnabled().get(), *out.mutable_blackstartenabled());
+
+    if(in.frequencySetPointEnabled().is_set()) convert_to_proto(in.frequencySetPointEnabled().get(), *out.mutable_frequencysetpointenabled());
+
+    if(in.island().is_set()) convert_to_proto(in.island().get(), *out.mutable_island());
+
+    if(in.pctHzDroop().is_set()) out.mutable_pcthzdroop()->set_value(in.pctHzDroop().get());
+
+    if(in.pctVDroop().is_set()) out.mutable_pctvdroop()->set_value(in.pctVDroop().get());
+
+    if(in.rampRates().is_set()) convert_to_proto(in.rampRates().get(), *out.mutable_ramprates());
+
+    if(in.reactivePwrSetPointEnabled().is_set()) convert_to_proto(in.reactivePwrSetPointEnabled().get(), *out.mutable_reactivepwrsetpointenabled());
+
+    if(in.realPwrSetPointEnabled().is_set()) convert_to_proto(in.realPwrSetPointEnabled().get(), *out.mutable_realpwrsetpointenabled());
+
+    if(in.voltageSetPointEnabled().is_set()) convert_to_proto(in.voltageSetPointEnabled().get(), *out.mutable_voltagesetpointenabled());
+
+    convert_to_proto(in.startTime(), *out.mutable_starttime()); // required field in DDS
+}
+
 void convert_to_proto(const openfmb::commonmodule::EnergyConsumer& in, commonmodule::EnergyConsumer& out)
 {
     out.Clear();
@@ -3780,6 +3927,67 @@ void convert_to_proto(const openfmb::regulatormodule::RegulatorStatus& in, regul
     convert_to_proto(in, *out.mutable_statusvalue()); // inherited type
 
     if(in.regulatorEventAndStatusANCR().is_set()) convert_to_proto(in.regulatorEventAndStatusANCR().get(), *out.mutable_regulatoreventandstatusancr());
+}
+
+void convert_to_proto(const openfmb::reservemodule::AllocatedMargin& in, reservemodule::AllocatedMargin& out)
+{
+    out.Clear();
+
+    out.set_requestid(in.requestID());
+
+    if(in.allocatedMargin().is_set()) convert_to_proto(in.allocatedMargin().get(), *out.mutable_allocatedmargin());
+
+    if(in.allocatedStandbyMargin().is_set()) convert_to_proto(in.allocatedStandbyMargin().get(), *out.mutable_allocatedstandbymargin());
+}
+
+void convert_to_proto(const openfmb::reservemodule::ReserveMargin& in, reservemodule::ReserveMargin& out)
+{
+    out.Clear();
+
+    convert_to_proto(in, *out.mutable_logicalnode()); // inherited type
+
+    if(in.A().is_set()) convert_to_proto(in.A().get(), *out.mutable_a());
+
+    if(in.VA().is_set()) convert_to_proto(in.VA().get(), *out.mutable_va());
+
+    if(in.VAr().is_set()) convert_to_proto(in.VAr().get(), *out.mutable_var());
+
+    if(in.W().is_set()) convert_to_proto(in.W().get(), *out.mutable_w());
+}
+
+void convert_to_proto(const openfmb::commonmodule::PMG& in, commonmodule::PMG& out)
+{
+    out.Clear();
+
+    if(in.net().is_set()) convert_to_proto(in.net().get(), *out.mutable_net());
+
+    if(in.phsA().is_set()) convert_to_proto(in.phsA().get(), *out.mutable_phsa());
+
+    if(in.phsB().is_set()) convert_to_proto(in.phsB().get(), *out.mutable_phsb());
+
+    if(in.phsC().is_set()) convert_to_proto(in.phsC().get(), *out.mutable_phsc());
+}
+
+void convert_to_proto(const openfmb::reservemodule::ReserveAvailability& in, reservemodule::ReserveAvailability& out)
+{
+    out.Clear();
+
+    if(in.incrementalMargin().is_set()) convert_to_proto(in.incrementalMargin().get(), *out.mutable_incrementalmargin());
+
+    if(in.margin().is_set()) convert_to_proto(in.margin().get(), *out.mutable_margin());
+
+    if(in.standbyMargin().is_set()) convert_to_proto(in.standbyMargin().get(), *out.mutable_standbymargin());
+}
+
+void convert_to_proto(const openfmb::reservemodule::ReserveRequest& in, reservemodule::ReserveRequest& out)
+{
+    out.Clear();
+
+    out.set_requestid(in.requestID());
+
+    if(in.margin().is_set()) convert_to_proto(in.margin().get(), *out.mutable_margin());
+
+    if(in.standbyMargin().is_set()) convert_to_proto(in.standbyMargin().get(), *out.mutable_standbymargin());
 }
 
 void convert_to_proto(const openfmb::resourcemodule::ResourceDiscreteControl& in, resourcemodule::ResourceDiscreteControl& out)

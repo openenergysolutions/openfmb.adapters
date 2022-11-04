@@ -221,6 +221,80 @@ struct schedule_extractor<generationmodule::GenerationDiscreteControlProfile>
 };
 
 template <>
+struct schedule_extractor<interconnectionmodule::PlannedInterconnectionScheduleProfile>
+{
+    static void set_source_mrid(interconnectionmodule::PlannedInterconnectionScheduleProfile& profile, const std::string& mrid)
+    {
+        profile.mutable_requestercircuitsegmentservice()->set_mrid(mrid);
+    }
+
+    static void set_message_mrid(interconnectionmodule::PlannedInterconnectionScheduleProfile& profile, const std::string& mrid)
+    {
+        profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_identifiedobject()->mutable_mrid()->set_value(mrid);
+    }
+
+    static commonmodule::Timestamp* get_message_timestamp(interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+    {
+        return profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_messagetimestamp();
+    }
+
+    static commonmodule::ControlFSCC* get_control_fscc(interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+    {
+        return profile.mutable_interconnectionschedule()->mutable_interconnectionschedulefscc()->mutable_controlfscc();
+    }
+
+    using custom_point_t = interconnectionmodule::InterconnectionPoint;
+
+    static bool has_custom_points(const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+    {
+        return profile.interconnectionschedule().interconnectionschedulefscc().has_controlfscc();
+    }
+
+    static google::protobuf::RepeatedPtrField<custom_point_t>* get_custom_points(interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+    {
+        // TODO:: Handle multiple dim array, assume only the first interconnectioncontrolschedulefsch is used
+        return profile.mutable_interconnectionschedule()->mutable_interconnectionschedulefscc()->mutable_interconnectioncontrolschedulefsch()->mutable_data()[0]->mutable_valdcsg()->mutable_crvpts();
+    }
+};
+
+template <>
+struct schedule_extractor<interconnectionmodule::RequestedInterconnectionScheduleProfile>
+{
+    static void set_source_mrid(interconnectionmodule::RequestedInterconnectionScheduleProfile& profile, const std::string& mrid)
+    {
+        profile.mutable_requestercircuitsegmentservice()->set_mrid(mrid);
+    }
+
+    static void set_message_mrid(interconnectionmodule::RequestedInterconnectionScheduleProfile& profile, const std::string& mrid)
+    {
+        profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_identifiedobject()->mutable_mrid()->set_value(mrid);
+    }
+
+    static commonmodule::Timestamp* get_message_timestamp(interconnectionmodule::RequestedInterconnectionScheduleProfile& profile)
+    {
+        return profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_messagetimestamp();
+    }
+
+    static commonmodule::ControlFSCC* get_control_fscc(interconnectionmodule::RequestedInterconnectionScheduleProfile& profile)
+    {
+        return profile.mutable_interconnectionschedule()->mutable_interconnectionschedulefscc()->mutable_controlfscc();
+    }
+
+    using custom_point_t = interconnectionmodule::InterconnectionPoint;
+
+    static bool has_custom_points(const interconnectionmodule::RequestedInterconnectionScheduleProfile& profile)
+    {
+        return profile.interconnectionschedule().interconnectionschedulefscc().has_controlfscc();
+    }
+
+    static google::protobuf::RepeatedPtrField<custom_point_t>* get_custom_points(interconnectionmodule::RequestedInterconnectionScheduleProfile& profile)
+    {
+        // TODO:: Handle multiple dim array, assume only the first interconnectioncontrolschedulefsch is used
+        return profile.mutable_interconnectionschedule()->mutable_interconnectionschedulefscc()->mutable_interconnectioncontrolschedulefsch()->mutable_data()[0]->mutable_valdcsg()->mutable_crvpts();
+    }
+};
+
+template <>
 struct schedule_extractor<loadmodule::LoadControlProfile>
 {
     static void set_source_mrid(loadmodule::LoadControlProfile& profile, const std::string& mrid)
@@ -336,6 +410,44 @@ struct schedule_extractor<regulatormodule::RegulatorDiscreteControlProfile>
     // No control FSCC
 
     // No custom points
+};
+
+template <>
+struct schedule_extractor<reservemodule::ReserveAvailabilityProfile>
+{
+    static void set_source_mrid(reservemodule::ReserveAvailabilityProfile& profile, const std::string& mrid)
+    {
+        profile.mutable_requestercircuitsegmentservice()->set_mrid(mrid);
+    }
+
+    static void set_message_mrid(reservemodule::ReserveAvailabilityProfile& profile, const std::string& mrid)
+    {
+        profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_identifiedobject()->mutable_mrid()->set_value(mrid);
+    }
+
+    static commonmodule::Timestamp* get_message_timestamp(reservemodule::ReserveAvailabilityProfile& profile)
+    {
+        return profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_messagetimestamp();
+    }
+};
+
+template <>
+struct schedule_extractor<reservemodule::ReserveRequestProfile>
+{
+    static void set_source_mrid(reservemodule::ReserveRequestProfile& profile, const std::string& mrid)
+    {
+        profile.mutable_requestercircuitsegmentservice()->set_mrid(mrid);
+    }
+
+    static void set_message_mrid(reservemodule::ReserveRequestProfile& profile, const std::string& mrid)
+    {
+        profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_identifiedobject()->mutable_mrid()->set_value(mrid);
+    }
+
+    static commonmodule::Timestamp* get_message_timestamp(reservemodule::ReserveRequestProfile& profile)
+    {
+        return profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_messagetimestamp();
+    }
 };
 
 template <>
