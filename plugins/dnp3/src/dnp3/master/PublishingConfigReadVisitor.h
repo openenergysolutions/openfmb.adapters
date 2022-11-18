@@ -154,8 +154,9 @@ namespace dnp3 {
                 this->builder->add_measurement_handler(
                     [accessor, profile = this->profile, scale = util::yaml::get::scale(node)](
                         const opendnp3::Analog& meas) {
-                        auto v = isnan(meas.value) ? 0 : meas.value;
-                        accessor->set(*profile, static_cast<IntT>(v * scale));
+                        if (!isnan(meas.value)) {
+                            accessor->set(*profile, static_cast<IntT>(meas.value * scale));
+                        }
                     },
                     util::yaml::get::index(node));
                 break;
@@ -163,8 +164,9 @@ namespace dnp3 {
                 this->builder->add_measurement_handler(
                     [accessor, profile = this->profile, scale = util::yaml::get::scale(node)](
                         const opendnp3::Counter& meas) {
-                        auto v = isnan(meas.value) ? 0 : meas.value;
-                        accessor->set(*profile, static_cast<IntT>(v * scale));
+                        if (!isnan(meas.value)) {
+                            accessor->set(*profile, static_cast<IntT>(meas.value * scale));
+                        }
                     },
                     util::yaml::get::index(node));
                 break;
@@ -185,8 +187,9 @@ namespace dnp3 {
                 this->builder->add_measurement_handler(
                     [accessor, profile = this->profile, scale = util::yaml::get::scale(node)](
                         const opendnp3::Analog& meas) {
-                        auto v = isnan(meas.value) ? 0 : meas.value;
-                        accessor->set(*profile, static_cast<float>(v * scale));
+                        if (!isnan(meas.value)) {
+                            accessor->set(*profile, static_cast<float>(meas.value * scale));
+                        }
                     },
                     util::yaml::get::index(node));
                 break;
@@ -207,8 +210,9 @@ namespace dnp3 {
                 this->builder->add_measurement_handler(
                     [accessor, profile = this->profile, scale = util::yaml::get::scale(node)](
                         const opendnp3::Analog& meas) {
-                        auto v = isnan(meas.value) ? 0 : meas.value;
-                        accessor->set(*profile, static_cast<double>(v * scale));
+                        if (!isnan(meas.value)) {
+                            accessor->set(*profile, static_cast<double>(meas.value * scale));
+                        }
                     },
                     util::yaml::get::index(node));
                 break;
