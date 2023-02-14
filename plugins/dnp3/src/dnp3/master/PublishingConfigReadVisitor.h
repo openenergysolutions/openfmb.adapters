@@ -154,7 +154,7 @@ namespace dnp3 {
                 this->builder->add_measurement_handler(
                     [accessor, profile = this->profile, scale = util::yaml::get::scale(node)](
                         const opendnp3::Analog& meas) {
-                        if (!isnan(meas.value)) {
+                        if (!isnan(static_cast<double>(meas.value))) {
                             accessor->set(*profile, static_cast<IntT>(meas.value * scale));
                         }
                     },
@@ -164,7 +164,7 @@ namespace dnp3 {
                 this->builder->add_measurement_handler(
                     [accessor, profile = this->profile, scale = util::yaml::get::scale(node)](
                         const opendnp3::Counter& meas) {
-                        if (!isnan(meas.value)) {
+                        if (!isnan(static_cast<double>(meas.value))) {
                             accessor->set(*profile, static_cast<IntT>(meas.value * scale));
                         }
                     },
@@ -187,7 +187,7 @@ namespace dnp3 {
                 this->builder->add_measurement_handler(
                     [accessor, profile = this->profile, scale = util::yaml::get::scale(node)](
                         const opendnp3::Analog& meas) {
-                        if (!isnan(meas.value)) {
+                        if (!isnan(static_cast<double>(meas.value))) {
                             accessor->set(*profile, static_cast<float>(meas.value * scale));
                         }
                     },
