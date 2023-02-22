@@ -186,6 +186,15 @@ struct SubscriberFactory<essmodule::ESSControlProfile>
 };
 
 template<>
+struct SubscriberFactory<essmodule::ESSDiscreteControlProfile>
+{
+    static std::unique_ptr<IDDSSubscriber> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, api::publisher_one_t<essmodule::ESSDiscreteControlProfile> publisher)
+    {
+        return std::make_unique<DDSSubscriber<essmodule::ESSDiscreteControlProfile, openfmb::essmodule::ESSDiscreteControlProfile>>(logger, subject, dds_subscriber, topic_repo.essdiscretecontrolprofile, publisher);
+    }
+};
+
+template<>
 struct SubscriberFactory<essmodule::ESSEventProfile>
 {
     static std::unique_ptr<IDDSSubscriber> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, api::publisher_one_t<essmodule::ESSEventProfile> publisher)
@@ -276,20 +285,20 @@ struct SubscriberFactory<generationmodule::GenerationStatusProfile>
 };
 
 template<>
-struct SubscriberFactory<interconnectionmodule::PlannedInterconnectionScheduleProfile>
+struct SubscriberFactory<interconnectionmodule::InterconnectionPlannedScheduleProfile>
 {
-    static std::unique_ptr<IDDSSubscriber> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, api::publisher_one_t<interconnectionmodule::PlannedInterconnectionScheduleProfile> publisher)
+    static std::unique_ptr<IDDSSubscriber> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, api::publisher_one_t<interconnectionmodule::InterconnectionPlannedScheduleProfile> publisher)
     {
-        return std::make_unique<DDSSubscriber<interconnectionmodule::PlannedInterconnectionScheduleProfile, openfmb::interconnectionmodule::PlannedInterconnectionScheduleProfile>>(logger, subject, dds_subscriber, topic_repo.plannedinterconnectionscheduleprofile, publisher);
+        return std::make_unique<DDSSubscriber<interconnectionmodule::InterconnectionPlannedScheduleProfile, openfmb::interconnectionmodule::InterconnectionPlannedScheduleProfile>>(logger, subject, dds_subscriber, topic_repo.interconnectionplannedscheduleprofile, publisher);
     }
 };
 
 template<>
-struct SubscriberFactory<interconnectionmodule::RequestedInterconnectionScheduleProfile>
+struct SubscriberFactory<interconnectionmodule::InterconnectionRequestedScheduleProfile>
 {
-    static std::unique_ptr<IDDSSubscriber> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, api::publisher_one_t<interconnectionmodule::RequestedInterconnectionScheduleProfile> publisher)
+    static std::unique_ptr<IDDSSubscriber> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, api::publisher_one_t<interconnectionmodule::InterconnectionRequestedScheduleProfile> publisher)
     {
-        return std::make_unique<DDSSubscriber<interconnectionmodule::RequestedInterconnectionScheduleProfile, openfmb::interconnectionmodule::RequestedInterconnectionScheduleProfile>>(logger, subject, dds_subscriber, topic_repo.requestedinterconnectionscheduleprofile, publisher);
+        return std::make_unique<DDSSubscriber<interconnectionmodule::InterconnectionRequestedScheduleProfile, openfmb::interconnectionmodule::InterconnectionRequestedScheduleProfile>>(logger, subject, dds_subscriber, topic_repo.interconnectionrequestedscheduleprofile, publisher);
     }
 };
 
@@ -497,6 +506,15 @@ struct SubscriberFactory<solarmodule::SolarControlProfile>
     static std::unique_ptr<IDDSSubscriber> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, api::publisher_one_t<solarmodule::SolarControlProfile> publisher)
     {
         return std::make_unique<DDSSubscriber<solarmodule::SolarControlProfile, openfmb::solarmodule::SolarControlProfile>>(logger, subject, dds_subscriber, topic_repo.solarcontrolprofile, publisher);
+    }
+};
+
+template<>
+struct SubscriberFactory<solarmodule::SolarDiscreteControlProfile>
+{
+    static std::unique_ptr<IDDSSubscriber> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, api::publisher_one_t<solarmodule::SolarDiscreteControlProfile> publisher)
+    {
+        return std::make_unique<DDSSubscriber<solarmodule::SolarDiscreteControlProfile, openfmb::solarmodule::SolarDiscreteControlProfile>>(logger, subject, dds_subscriber, topic_repo.solardiscretecontrolprofile, publisher);
     }
 };
 

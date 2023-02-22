@@ -38,8 +38,6 @@ void visit_circuitsegmentservicemodule_ENG_CircuitSegmentServiceModeKind(const s
 
 void visit_commonmodule_ApplicationSystem(const set_t<commonmodule::ApplicationSystem>& setter, const get_t<commonmodule::ApplicationSystem>& getter, ITypedModelVisitor<circuitsegmentservicemodule::CircuitSegmentStatusProfile>& visitor);
 
-void visit_commonmodule_EventMessageInfo(const set_t<commonmodule::EventMessageInfo>& setter, const get_t<commonmodule::EventMessageInfo>& getter, ITypedModelVisitor<circuitsegmentservicemodule::CircuitSegmentStatusProfile>& visitor);
-
 void visit_commonmodule_IdentifiedObject(const set_t<commonmodule::IdentifiedObject>& setter, const get_t<commonmodule::IdentifiedObject>& getter, ITypedModelVisitor<circuitsegmentservicemodule::CircuitSegmentStatusProfile>& visitor);
 
 void visit_commonmodule_LogicalNode(const set_t<commonmodule::LogicalNode>& setter, const get_t<commonmodule::LogicalNode>& getter, ITypedModelVisitor<circuitsegmentservicemodule::CircuitSegmentStatusProfile>& visitor);
@@ -49,6 +47,8 @@ void visit_commonmodule_MessageInfo(const set_t<commonmodule::MessageInfo>& sett
 void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& setter, const get_t<commonmodule::NamedObject>& getter, ITypedModelVisitor<circuitsegmentservicemodule::CircuitSegmentStatusProfile>& visitor);
 
 void visit_commonmodule_StatusDPS(const set_t<commonmodule::StatusDPS>& setter, const get_t<commonmodule::StatusDPS>& getter, ITypedModelVisitor<circuitsegmentservicemodule::CircuitSegmentStatusProfile>& visitor);
+
+void visit_commonmodule_StatusMessageInfo(const set_t<commonmodule::StatusMessageInfo>& setter, const get_t<commonmodule::StatusMessageInfo>& getter, ITypedModelVisitor<circuitsegmentservicemodule::CircuitSegmentStatusProfile>& visitor);
 
 void visit_commonmodule_StatusSPS(const set_t<commonmodule::StatusSPS>& setter, const get_t<commonmodule::StatusSPS>& getter, ITypedModelVisitor<circuitsegmentservicemodule::CircuitSegmentStatusProfile>& visitor);
 
@@ -62,19 +62,19 @@ void visit(ITypedModelVisitor<circuitsegmentservicemodule::CircuitSegmentStatusP
     const auto setter = [](circuitsegmentservicemodule::CircuitSegmentStatusProfile& profile) { return &profile; };
     const auto getter = [](const circuitsegmentservicemodule::CircuitSegmentStatusProfile& profile) { return &profile; };
 
-    if(visitor.start_message_field("eventMessageInfo", commonmodule::EventMessageInfo::descriptor()))
+    if(visitor.start_message_field("statusMessageInfo", commonmodule::StatusMessageInfo::descriptor()))
     {
-        visit_commonmodule_EventMessageInfo(
+        visit_commonmodule_StatusMessageInfo(
             [setter](circuitsegmentservicemodule::CircuitSegmentStatusProfile& profile)
             {
-                return setter(profile)->mutable_eventmessageinfo();
+                return setter(profile)->mutable_statusmessageinfo();
             },
-            [getter](const circuitsegmentservicemodule::CircuitSegmentStatusProfile& profile) -> commonmodule::EventMessageInfo const *
+            [getter](const circuitsegmentservicemodule::CircuitSegmentStatusProfile& profile) -> commonmodule::StatusMessageInfo const *
             {
                 const auto value = getter(profile);
                 if(value)
                 {
-                    return value->has_eventmessageinfo() ? &value->eventmessageinfo() : nullptr;
+                    return value->has_statusmessageinfo() ? &value->statusmessageinfo() : nullptr;
                 }
                 else
                 {
@@ -466,33 +466,6 @@ void visit_commonmodule_ApplicationSystem(const set_t<commonmodule::ApplicationS
     );
 }
 
-void visit_commonmodule_EventMessageInfo(const set_t<commonmodule::EventMessageInfo>& setter, const get_t<commonmodule::EventMessageInfo>& getter, ITypedModelVisitor<circuitsegmentservicemodule::CircuitSegmentStatusProfile>& visitor)
-{
-    if(visitor.start_message_field("messageInfo", commonmodule::MessageInfo::descriptor()))
-    {
-        visit_commonmodule_MessageInfo(
-            [setter](circuitsegmentservicemodule::CircuitSegmentStatusProfile& profile)
-            {
-                return setter(profile)->mutable_messageinfo();
-            },
-            [getter](const circuitsegmentservicemodule::CircuitSegmentStatusProfile& profile) -> commonmodule::MessageInfo const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_messageinfo() ? &value->messageinfo() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-}
-
 void visit_commonmodule_IdentifiedObject(const set_t<commonmodule::IdentifiedObject>& setter, const get_t<commonmodule::IdentifiedObject>& getter, ITypedModelVisitor<circuitsegmentservicemodule::CircuitSegmentStatusProfile>& visitor)
 {
     if(visitor.start_message_field("description", google::protobuf::StringValue::descriptor()))
@@ -731,6 +704,33 @@ void visit_commonmodule_StatusDPS(const set_t<commonmodule::StatusDPS>& setter, 
             }
         )
     );
+}
+
+void visit_commonmodule_StatusMessageInfo(const set_t<commonmodule::StatusMessageInfo>& setter, const get_t<commonmodule::StatusMessageInfo>& getter, ITypedModelVisitor<circuitsegmentservicemodule::CircuitSegmentStatusProfile>& visitor)
+{
+    if(visitor.start_message_field("messageInfo", commonmodule::MessageInfo::descriptor()))
+    {
+        visit_commonmodule_MessageInfo(
+            [setter](circuitsegmentservicemodule::CircuitSegmentStatusProfile& profile)
+            {
+                return setter(profile)->mutable_messageinfo();
+            },
+            [getter](const circuitsegmentservicemodule::CircuitSegmentStatusProfile& profile) -> commonmodule::MessageInfo const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_messageinfo() ? &value->messageinfo() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
 }
 
 void visit_commonmodule_StatusSPS(const set_t<commonmodule::StatusSPS>& setter, const get_t<commonmodule::StatusSPS>& getter, ITypedModelVisitor<circuitsegmentservicemodule::CircuitSegmentStatusProfile>& visitor)

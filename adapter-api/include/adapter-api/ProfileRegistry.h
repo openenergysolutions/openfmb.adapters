@@ -110,6 +110,7 @@ namespace api {
         essmodule::ESSCapabilityProfile,
         essmodule::ESSCapabilityOverrideProfile,
         essmodule::ESSControlProfile,
+        essmodule::ESSDiscreteControlProfile,
         essmodule::ESSEventProfile,
         essmodule::ESSReadingProfile,
         essmodule::ESSStatusProfile,
@@ -122,8 +123,8 @@ namespace api {
         generationmodule::GenerationReadingProfile,
         generationmodule::GenerationStatusProfile,
         // interconnection module
-        interconnectionmodule::PlannedInterconnectionScheduleProfile,
-        interconnectionmodule::RequestedInterconnectionScheduleProfile,
+        interconnectionmodule::InterconnectionPlannedScheduleProfile,
+        interconnectionmodule::InterconnectionRequestedScheduleProfile,
         // load module
         loadmodule::LoadControlProfile,
         loadmodule::LoadEventProfile,
@@ -154,6 +155,7 @@ namespace api {
         solarmodule::SolarCapabilityProfile,
         solarmodule::SolarCapabilityOverrideProfile,
         solarmodule::SolarControlProfile,
+        solarmodule::SolarDiscreteControlProfile,
         solarmodule::SolarEventProfile,
         solarmodule::SolarReadingProfile,
         solarmodule::SolarStatusProfile,

@@ -68,6 +68,8 @@ void visit(const essmodule::ESSCapabilityProfile& message, IMessageVisitor& visi
 
 void visit(const essmodule::ESSControlProfile& message, IMessageVisitor& visitor);
 
+void visit(const essmodule::ESSDiscreteControlProfile& message, IMessageVisitor& visitor);
+
 void visit(const essmodule::ESSEventProfile& message, IMessageVisitor& visitor);
 
 void visit(const essmodule::ESSReadingProfile& message, IMessageVisitor& visitor);
@@ -88,9 +90,9 @@ void visit(const generationmodule::GenerationReadingProfile& message, IMessageVi
 
 void visit(const generationmodule::GenerationStatusProfile& message, IMessageVisitor& visitor);
 
-void visit(const interconnectionmodule::PlannedInterconnectionScheduleProfile& message, IMessageVisitor& visitor);
+void visit(const interconnectionmodule::InterconnectionPlannedScheduleProfile& message, IMessageVisitor& visitor);
 
-void visit(const interconnectionmodule::RequestedInterconnectionScheduleProfile& message, IMessageVisitor& visitor);
+void visit(const interconnectionmodule::InterconnectionRequestedScheduleProfile& message, IMessageVisitor& visitor);
 
 void visit(const loadmodule::LoadControlProfile& message, IMessageVisitor& visitor);
 
@@ -137,6 +139,8 @@ void visit(const solarmodule::SolarCapabilityOverrideProfile& message, IMessageV
 void visit(const solarmodule::SolarCapabilityProfile& message, IMessageVisitor& visitor);
 
 void visit(const solarmodule::SolarControlProfile& message, IMessageVisitor& visitor);
+
+void visit(const solarmodule::SolarDiscreteControlProfile& message, IMessageVisitor& visitor);
 
 void visit(const solarmodule::SolarEventProfile& message, IMessageVisitor& visitor);
 

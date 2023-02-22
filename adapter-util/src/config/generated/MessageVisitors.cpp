@@ -80,8 +80,6 @@ void visit(const commonmodule::CMV& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::CapabilityMessageInfo& message, IMessageVisitor& visitor);
 
-void visit(const commonmodule::CapabilityOverrideMessageInfo& message, IMessageVisitor& visitor);
-
 void visit(const commonmodule::CheckConditions& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::ClearingTime& message, IMessageVisitor& visitor);
@@ -97,6 +95,8 @@ void visit(const commonmodule::ControlDPC& message, IMessageVisitor& visitor);
 void visit(const commonmodule::ControlFSCC& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::ControlINC& message, IMessageVisitor& visitor);
+
+void visit(const commonmodule::ControlING& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::ControlISC& message, IMessageVisitor& visitor);
 
@@ -186,8 +186,6 @@ void visit(const commonmodule::OperationDWMX& message, IMessageVisitor& visitor)
 
 void visit(const commonmodule::OperationDWVR& message, IMessageVisitor& visitor);
 
-void visit(const commonmodule::OperationStorageDFPF& message, IMessageVisitor& visitor);
-
 void visit(const commonmodule::Optional_AlrmKind& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::Optional_ControlModeKind& message, IMessageVisitor& visitor);
@@ -217,8 +215,6 @@ void visit(const commonmodule::Optional_UnitSymbolKind& message, IMessageVisitor
 void visit(const commonmodule::Optional_VoltLimitModeKind& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::PFSPC& message, IMessageVisitor& visitor);
-
-void visit(const commonmodule::PFStorageSPC& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::PMG& message, IMessageVisitor& visitor);
 
@@ -330,6 +326,10 @@ void visit(const essmodule::ESSControl& message, IMessageVisitor& visitor);
 
 void visit(const essmodule::ESSControlScheduleFSCH& message, IMessageVisitor& visitor);
 
+void visit(const essmodule::ESSDiscreteControl& message, IMessageVisitor& visitor);
+
+void visit(const essmodule::ESSDiscreteControlDBAT& message, IMessageVisitor& visitor);
+
 void visit(const essmodule::ESSEvent& message, IMessageVisitor& visitor);
 
 void visit(const essmodule::ESSEventAndStatusZGEN& message, IMessageVisitor& visitor);
@@ -356,6 +356,8 @@ void visit(const essmodule::EssStatusZBAT& message, IMessageVisitor& visitor);
 
 void visit(const essmodule::FrequencyRegulation& message, IMessageVisitor& visitor);
 
+void visit(const essmodule::OperationDWGC& message, IMessageVisitor& visitor);
+
 void visit(const essmodule::PeakShaving& message, IMessageVisitor& visitor);
 
 void visit(const essmodule::SOCManagement& message, IMessageVisitor& visitor);
@@ -367,6 +369,8 @@ void visit(const essmodule::VoltageDroop& message, IMessageVisitor& visitor);
 void visit(const essmodule::VoltagePI& message, IMessageVisitor& visitor);
 
 void visit(const essmodule::VoltageRegulation& message, IMessageVisitor& visitor);
+
+void visit(const essmodule::WSPC& message, IMessageVisitor& visitor);
 
 void visit(const generationmodule::DroopParameter& message, IMessageVisitor& visitor);
 
@@ -535,6 +539,10 @@ void visit(const solarmodule::SolarControl& message, IMessageVisitor& visitor);
 void visit(const solarmodule::SolarControlFSCC& message, IMessageVisitor& visitor);
 
 void visit(const solarmodule::SolarControlScheduleFSCH& message, IMessageVisitor& visitor);
+
+void visit(const solarmodule::SolarDiscreteControl& message, IMessageVisitor& visitor);
+
+void visit(const solarmodule::SolarDiscreteControlPV& message, IMessageVisitor& visitor);
 
 void visit(const solarmodule::SolarEvent& message, IMessageVisitor& visitor);
 
@@ -1430,16 +1438,6 @@ void visit(const commonmodule::CapabilityMessageInfo& message, IMessageVisitor& 
     }
 }
 
-void visit(const commonmodule::CapabilityOverrideMessageInfo& message, IMessageVisitor& visitor)
-{
-    if(message.has_messageinfo())
-    {
-        visitor.start_message_field("messageInfo");
-        visit(message.messageinfo(), visitor);
-        visitor.end_message_field();
-    }
-}
-
 void visit(const commonmodule::CheckConditions& message, IMessageVisitor& visitor)
 {
     if(message.has_interlockcheck())
@@ -1518,6 +1516,17 @@ void visit(const commonmodule::ControlFSCC& message, IMessageVisitor& visitor)
 void visit(const commonmodule::ControlINC& message, IMessageVisitor& visitor)
 {
     visitor.handle("ctlVal", message.ctlval());
+}
+
+void visit(const commonmodule::ControlING& message, IMessageVisitor& visitor)
+{
+    visitor.handle("setVal", message.setval());
+    if(message.has_units())
+    {
+        visitor.start_message_field("units");
+        visit(message.units(), visitor);
+        visitor.end_message_field();
+    }
 }
 
 void visit(const commonmodule::ControlISC& message, IMessageVisitor& visitor)
@@ -2036,9 +2045,24 @@ void visit(const commonmodule::NameplateValue& message, IMessageVisitor& visitor
 
 void visit(const commonmodule::OperationDCTE& message, IMessageVisitor& visitor)
 {
-    visitor.handle("rndDlTmms", message.rnddltmms());
-    visitor.handle("rtnDlTmms", message.rtndltmms());
-    visitor.handle("rtnRmpTmms", message.rtnrmptmms());
+    if(message.has_rnddltmms())
+    {
+        visitor.start_message_field("rndDlTmms");
+        visit(message.rnddltmms(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_rtndltmms())
+    {
+        visitor.start_message_field("rtnDlTmms");
+        visit(message.rtndltmms(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_rtnrmptmms())
+    {
+        visitor.start_message_field("rtnRmpTmms");
+        visit(message.rtnrmptmms(), visitor);
+        visitor.end_message_field();
+    }
 }
 
 void visit(const commonmodule::OperationDFPF& message, IMessageVisitor& visitor)
@@ -2086,7 +2110,12 @@ void visit(const commonmodule::OperationDVVR& message, IMessageVisitor& visitor)
     }
     visitor.handle("VRef", message.vref());
     visitor.handle("VRefAdjEna", message.vrefadjena());
-    visitor.handle("VRefTmms", message.vreftmms());
+    if(message.has_vreftmms())
+    {
+        visitor.start_message_field("VRefTmms");
+        visit(message.vreftmms(), visitor);
+        visitor.end_message_field();
+    }
 }
 
 void visit(const commonmodule::OperationDVWC& message, IMessageVisitor& visitor)
@@ -2113,17 +2142,6 @@ void visit(const commonmodule::OperationDWMX& message, IMessageVisitor& visitor)
 void visit(const commonmodule::OperationDWVR& message, IMessageVisitor& visitor)
 {
     visitor.handle("modEna", message.modena());
-}
-
-void visit(const commonmodule::OperationStorageDFPF& message, IMessageVisitor& visitor)
-{
-    if(message.has_operationdfpf())
-    {
-        visitor.start_message_field("operationDFPF");
-        visit(message.operationdfpf(), visitor);
-        visitor.end_message_field();
-    }
-    visitor.handle("pFLodTgtMxVal", message.pflodtgtmxval());
 }
 
 void visit(const commonmodule::Optional_AlrmKind& message, IMessageVisitor& visitor)
@@ -2203,17 +2221,6 @@ void visit(const commonmodule::PFSPC& message, IMessageVisitor& visitor)
     {
         visitor.start_message_field("pFParameter");
         visit(message.pfparameter(), visitor);
-        visitor.end_message_field();
-    }
-}
-
-void visit(const commonmodule::PFStorageSPC& message, IMessageVisitor& visitor)
-{
-    visitor.handle("ctlVal", message.ctlval());
-    if(message.has_pfstorageparameter())
-    {
-        visitor.start_message_field("pFStorageParameter");
-        visit(message.pfstorageparameter(), visitor);
         visitor.end_message_field();
     }
 }
@@ -3567,6 +3574,44 @@ void visit(const essmodule::ESSControlScheduleFSCH& message, IMessageVisitor& vi
     }
 }
 
+void visit(const essmodule::ESSDiscreteControl& message, IMessageVisitor& visitor)
+{
+    if(message.has_controlvalue())
+    {
+        visitor.start_message_field("controlValue");
+        visit(message.controlvalue(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_check())
+    {
+        visitor.start_message_field("check");
+        visit(message.check(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_essdiscretecontroldbat())
+    {
+        visitor.start_message_field("essDiscreteControlDBAT");
+        visit(message.essdiscretecontroldbat(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const essmodule::ESSDiscreteControlDBAT& message, IMessageVisitor& visitor)
+{
+    if(message.has_logicalnodeforcontrol())
+    {
+        visitor.start_message_field("logicalNodeForControl");
+        visit(message.logicalnodeforcontrol(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_control())
+    {
+        visitor.start_message_field("control");
+        visit(message.control(), visitor);
+        visitor.end_message_field();
+    }
+}
+
 void visit(const essmodule::ESSEvent& message, IMessageVisitor& visitor)
 {
     if(message.has_eventvalue())
@@ -3693,12 +3738,6 @@ void visit(const essmodule::ESSPoint& message, IMessageVisitor& visitor)
         visit(message.blackstartenabled(), visitor);
         visitor.end_message_field();
     }
-    if(message.has_frequencysetpointenabled())
-    {
-        visitor.start_message_field("frequencySetPointEnabled");
-        visit(message.frequencysetpointenabled(), visitor);
-        visitor.end_message_field();
-    }
     if(message.has_function())
     {
         visitor.start_message_field("function");
@@ -3711,34 +3750,10 @@ void visit(const essmodule::ESSPoint& message, IMessageVisitor& visitor)
         visit(message.mode(), visitor);
         visitor.end_message_field();
     }
-    if(message.has_pcthzdroop())
-    {
-        visitor.start_message_field("pctHzDroop");
-        visit(message.pcthzdroop(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_pctvdroop())
-    {
-        visitor.start_message_field("pctVDroop");
-        visit(message.pctvdroop(), visitor);
-        visitor.end_message_field();
-    }
     if(message.has_ramprates())
     {
         visitor.start_message_field("rampRates");
         visit(message.ramprates(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_reactivepwrsetpointenabled())
-    {
-        visitor.start_message_field("reactivePwrSetPointEnabled");
-        visit(message.reactivepwrsetpointenabled(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_realpwrsetpointenabled())
-    {
-        visitor.start_message_field("realPwrSetPointEnabled");
-        visit(message.realpwrsetpointenabled(), visitor);
         visitor.end_message_field();
     }
     if(message.has_reset())
@@ -3753,22 +3768,10 @@ void visit(const essmodule::ESSPoint& message, IMessageVisitor& visitor)
         visit(message.state(), visitor);
         visitor.end_message_field();
     }
-    if(message.has_syncbacktogrid())
-    {
-        visitor.start_message_field("syncBackToGrid");
-        visit(message.syncbacktogrid(), visitor);
-        visitor.end_message_field();
-    }
     if(message.has_transtoislndongridlossenabled())
     {
         visitor.start_message_field("transToIslndOnGridLossEnabled");
         visit(message.transtoislndongridlossenabled(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_voltagesetpointenabled())
-    {
-        visitor.start_message_field("voltageSetPointEnabled");
-        visit(message.voltagesetpointenabled(), visitor);
         visitor.end_message_field();
     }
     if(message.has_starttime())
@@ -3795,10 +3798,10 @@ void visit(const essmodule::ESSPoint& message, IMessageVisitor& visitor)
         visit(message.limitwoperation(), visitor);
         visitor.end_message_field();
     }
-    if(message.has_pfstorageoperation())
+    if(message.has_pfoperation())
     {
-        visitor.start_message_field("pFStorageOperation");
-        visit(message.pfstorageoperation(), visitor);
+        visitor.start_message_field("pFOperation");
+        visit(message.pfoperation(), visitor);
         visitor.end_message_field();
     }
     if(message.has_tmhztripoperation())
@@ -3835,6 +3838,12 @@ void visit(const essmodule::ESSPoint& message, IMessageVisitor& visitor)
     {
         visitor.start_message_field("wVarOperation");
         visit(message.wvaroperation(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_woperation())
+    {
+        visitor.start_message_field("wOperation");
+        visit(message.woperation(), visitor);
         visitor.end_message_field();
     }
 }
@@ -3937,10 +3946,10 @@ void visit(const essmodule::ESSPointStatus& message, IMessageVisitor& visitor)
         visit(message.limitwoperation(), visitor);
         visitor.end_message_field();
     }
-    if(message.has_pfstorageoperation())
+    if(message.has_pfoperation())
     {
-        visitor.start_message_field("pFStorageOperation");
-        visit(message.pfstorageoperation(), visitor);
+        visitor.start_message_field("pFOperation");
+        visit(message.pfoperation(), visitor);
         visitor.end_message_field();
     }
     if(message.has_tmhztripoperation())
@@ -4207,6 +4216,11 @@ void visit(const essmodule::FrequencyRegulation& message, IMessageVisitor& visit
     }
 }
 
+void visit(const essmodule::OperationDWGC& message, IMessageVisitor& visitor)
+{
+    visitor.handle("wSpt", message.wspt());
+}
+
 void visit(const essmodule::PeakShaving& message, IMessageVisitor& visitor)
 {
     if(message.has_baseshavinglimit())
@@ -4371,6 +4385,17 @@ void visit(const essmodule::VoltageRegulation& message, IMessageVisitor& visitor
     {
         visitor.start_message_field("voltageSetPoint");
         visit(message.voltagesetpoint(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const essmodule::WSPC& message, IMessageVisitor& visitor)
+{
+    visitor.handle("modEna", message.modena());
+    if(message.has_wparameter())
+    {
+        visitor.start_message_field("wParameter");
+        visit(message.wparameter(), visitor);
         visitor.end_message_field();
     }
 }
@@ -6464,6 +6489,44 @@ void visit(const solarmodule::SolarControlScheduleFSCH& message, IMessageVisitor
     }
 }
 
+void visit(const solarmodule::SolarDiscreteControl& message, IMessageVisitor& visitor)
+{
+    if(message.has_controlvalue())
+    {
+        visitor.start_message_field("controlValue");
+        visit(message.controlvalue(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_check())
+    {
+        visitor.start_message_field("check");
+        visit(message.check(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_solardiscretecontrolpv())
+    {
+        visitor.start_message_field("solarDiscreteControlPV");
+        visit(message.solardiscretecontrolpv(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const solarmodule::SolarDiscreteControlPV& message, IMessageVisitor& visitor)
+{
+    if(message.has_logicalnodeforcontrol())
+    {
+        visitor.start_message_field("logicalNodeForControl");
+        visit(message.logicalnodeforcontrol(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_control())
+    {
+        visitor.start_message_field("control");
+        visit(message.control(), visitor);
+        visitor.end_message_field();
+    }
+}
+
 void visit(const solarmodule::SolarEvent& message, IMessageVisitor& visitor)
 {
     if(message.has_eventvalue())
@@ -7317,10 +7380,10 @@ void visit(const circuitsegmentservicemodule::CircuitSegmentEventProfile& messag
 
 void visit(const circuitsegmentservicemodule::CircuitSegmentStatusProfile& message, IMessageVisitor& visitor)
 {
-    if(message.has_eventmessageinfo())
+    if(message.has_statusmessageinfo())
     {
-        visitor.start_message_field("eventMessageInfo");
-        visit(message.eventmessageinfo(), visitor);
+        visitor.start_message_field("statusMessageInfo");
+        visit(message.statusmessageinfo(), visitor);
         visitor.end_message_field();
     }
     if(message.has_applicationsystem())
@@ -7403,6 +7466,28 @@ void visit(const essmodule::ESSControlProfile& message, IMessageVisitor& visitor
     }
 }
 
+void visit(const essmodule::ESSDiscreteControlProfile& message, IMessageVisitor& visitor)
+{
+    if(message.has_controlmessageinfo())
+    {
+        visitor.start_message_field("controlMessageInfo");
+        visit(message.controlmessageinfo(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_ess())
+    {
+        visitor.start_message_field("ess");
+        visit(message.ess(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_essdiscretecontrol())
+    {
+        visitor.start_message_field("essDiscreteControl");
+        visit(message.essdiscretecontrol(), visitor);
+        visitor.end_message_field();
+    }
+}
+
 void visit(const essmodule::ESSEventProfile& message, IMessageVisitor& visitor)
 {
     if(message.has_eventmessageinfo())
@@ -7471,10 +7556,10 @@ void visit(const essmodule::ESSStatusProfile& message, IMessageVisitor& visitor)
 
 void visit(const generationmodule::GenerationCapabilityOverrideProfile& message, IMessageVisitor& visitor)
 {
-    if(message.has_capabilityoverridemessageinfo())
+    if(message.has_capabilitymessageinfo())
     {
-        visitor.start_message_field("capabilityOverrideMessageInfo");
-        visit(message.capabilityoverridemessageinfo(), visitor);
+        visitor.start_message_field("capabilityMessageInfo");
+        visit(message.capabilitymessageinfo(), visitor);
         visitor.end_message_field();
     }
     if(message.has_generationcapabilityoverride())
@@ -7623,7 +7708,7 @@ void visit(const generationmodule::GenerationStatusProfile& message, IMessageVis
     }
 }
 
-void visit(const interconnectionmodule::PlannedInterconnectionScheduleProfile& message, IMessageVisitor& visitor)
+void visit(const interconnectionmodule::InterconnectionPlannedScheduleProfile& message, IMessageVisitor& visitor)
 {
     if(message.has_controlmessageinfo())
     {
@@ -7657,7 +7742,7 @@ void visit(const interconnectionmodule::PlannedInterconnectionScheduleProfile& m
     }
 }
 
-void visit(const interconnectionmodule::RequestedInterconnectionScheduleProfile& message, IMessageVisitor& visitor)
+void visit(const interconnectionmodule::InterconnectionRequestedScheduleProfile& message, IMessageVisitor& visitor)
 {
     if(message.has_controlmessageinfo())
     {
@@ -8167,10 +8252,10 @@ void visit(const resourcemodule::ResourceStatusProfile& message, IMessageVisitor
 
 void visit(const solarmodule::SolarCapabilityOverrideProfile& message, IMessageVisitor& visitor)
 {
-    if(message.has_capabilityoverridemessageinfo())
+    if(message.has_capabilitymessageinfo())
     {
-        visitor.start_message_field("capabilityOverrideMessageInfo");
-        visit(message.capabilityoverridemessageinfo(), visitor);
+        visitor.start_message_field("capabilityMessageInfo");
+        visit(message.capabilitymessageinfo(), visitor);
         visitor.end_message_field();
     }
     if(message.has_solarcapabilityoverride())
@@ -8221,6 +8306,28 @@ void visit(const solarmodule::SolarControlProfile& message, IMessageVisitor& vis
     {
         visitor.start_message_field("solarControl");
         visit(message.solarcontrol(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_solarinverter())
+    {
+        visitor.start_message_field("solarInverter");
+        visit(message.solarinverter(), visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit(const solarmodule::SolarDiscreteControlProfile& message, IMessageVisitor& visitor)
+{
+    if(message.has_controlmessageinfo())
+    {
+        visitor.start_message_field("controlMessageInfo");
+        visit(message.controlmessageinfo(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_solardiscretecontrol())
+    {
+        visitor.start_message_field("solarDiscreteControl");
+        visit(message.solardiscretecontrol(), visitor);
         visitor.end_message_field();
     }
     if(message.has_solarinverter())

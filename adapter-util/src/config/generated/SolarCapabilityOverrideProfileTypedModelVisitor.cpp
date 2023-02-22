@@ -32,7 +32,7 @@ using get_t = getter_t<solarmodule::SolarCapabilityOverrideProfile, V>;
 
 void visit_commonmodule_ASG(const set_t<commonmodule::ASG>& setter, const get_t<commonmodule::ASG>& getter, ITypedModelVisitor<solarmodule::SolarCapabilityOverrideProfile>& visitor);
 
-void visit_commonmodule_CapabilityOverrideMessageInfo(const set_t<commonmodule::CapabilityOverrideMessageInfo>& setter, const get_t<commonmodule::CapabilityOverrideMessageInfo>& getter, ITypedModelVisitor<solarmodule::SolarCapabilityOverrideProfile>& visitor);
+void visit_commonmodule_CapabilityMessageInfo(const set_t<commonmodule::CapabilityMessageInfo>& setter, const get_t<commonmodule::CapabilityMessageInfo>& getter, ITypedModelVisitor<solarmodule::SolarCapabilityOverrideProfile>& visitor);
 
 void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::ConductingEquipment>& setter, const get_t<commonmodule::ConductingEquipment>& getter, ITypedModelVisitor<solarmodule::SolarCapabilityOverrideProfile>& visitor);
 
@@ -62,19 +62,19 @@ void visit(ITypedModelVisitor<solarmodule::SolarCapabilityOverrideProfile>& visi
     const auto setter = [](solarmodule::SolarCapabilityOverrideProfile& profile) { return &profile; };
     const auto getter = [](const solarmodule::SolarCapabilityOverrideProfile& profile) { return &profile; };
 
-    if(visitor.start_message_field("capabilityOverrideMessageInfo", commonmodule::CapabilityOverrideMessageInfo::descriptor()))
+    if(visitor.start_message_field("capabilityMessageInfo", commonmodule::CapabilityMessageInfo::descriptor()))
     {
-        visit_commonmodule_CapabilityOverrideMessageInfo(
+        visit_commonmodule_CapabilityMessageInfo(
             [setter](solarmodule::SolarCapabilityOverrideProfile& profile)
             {
-                return setter(profile)->mutable_capabilityoverridemessageinfo();
+                return setter(profile)->mutable_capabilitymessageinfo();
             },
-            [getter](const solarmodule::SolarCapabilityOverrideProfile& profile) -> commonmodule::CapabilityOverrideMessageInfo const *
+            [getter](const solarmodule::SolarCapabilityOverrideProfile& profile) -> commonmodule::CapabilityMessageInfo const *
             {
                 const auto value = getter(profile);
                 if(value)
                 {
-                    return value->has_capabilityoverridemessageinfo() ? &value->capabilityoverridemessageinfo() : nullptr;
+                    return value->has_capabilitymessageinfo() ? &value->capabilitymessageinfo() : nullptr;
                 }
                 else
                 {
@@ -154,7 +154,7 @@ void visit_commonmodule_ASG(const set_t<commonmodule::ASG>& setter, const get_t<
     );
 }
 
-void visit_commonmodule_CapabilityOverrideMessageInfo(const set_t<commonmodule::CapabilityOverrideMessageInfo>& setter, const get_t<commonmodule::CapabilityOverrideMessageInfo>& getter, ITypedModelVisitor<solarmodule::SolarCapabilityOverrideProfile>& visitor)
+void visit_commonmodule_CapabilityMessageInfo(const set_t<commonmodule::CapabilityMessageInfo>& setter, const get_t<commonmodule::CapabilityMessageInfo>& getter, ITypedModelVisitor<solarmodule::SolarCapabilityOverrideProfile>& visitor)
 {
     if(visitor.start_message_field("messageInfo", commonmodule::MessageInfo::descriptor()))
     {

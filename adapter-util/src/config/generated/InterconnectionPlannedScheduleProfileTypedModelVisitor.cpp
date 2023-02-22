@@ -23,75 +23,75 @@ namespace adapter {
 namespace util {
 
 template <class V>
-using set_t = setter_t<interconnectionmodule::PlannedInterconnectionScheduleProfile, V>;
+using set_t = setter_t<interconnectionmodule::InterconnectionPlannedScheduleProfile, V>;
 
 template <class V>
-using get_t = getter_t<interconnectionmodule::PlannedInterconnectionScheduleProfile, V>;
+using get_t = getter_t<interconnectionmodule::InterconnectionPlannedScheduleProfile, V>;
 
 // ---- forward declare all the child visit method names ----
 
-void visit_commonmodule_ApplicationSystem(const set_t<commonmodule::ApplicationSystem>& setter, const get_t<commonmodule::ApplicationSystem>& getter, ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor);
+void visit_commonmodule_ApplicationSystem(const set_t<commonmodule::ApplicationSystem>& setter, const get_t<commonmodule::ApplicationSystem>& getter, ITypedModelVisitor<interconnectionmodule::InterconnectionPlannedScheduleProfile>& visitor);
 
-void visit_commonmodule_CheckConditions(const set_t<commonmodule::CheckConditions>& setter, const get_t<commonmodule::CheckConditions>& getter, ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor);
+void visit_commonmodule_CheckConditions(const set_t<commonmodule::CheckConditions>& setter, const get_t<commonmodule::CheckConditions>& getter, ITypedModelVisitor<interconnectionmodule::InterconnectionPlannedScheduleProfile>& visitor);
 
-void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::ConductingEquipment>& setter, const get_t<commonmodule::ConductingEquipment>& getter, ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor);
+void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::ConductingEquipment>& setter, const get_t<commonmodule::ConductingEquipment>& getter, ITypedModelVisitor<interconnectionmodule::InterconnectionPlannedScheduleProfile>& visitor);
 
-void visit_commonmodule_ControlFSCC(const set_t<commonmodule::ControlFSCC>& setter, const get_t<commonmodule::ControlFSCC>& getter, ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor);
+void visit_commonmodule_ControlFSCC(const set_t<commonmodule::ControlFSCC>& setter, const get_t<commonmodule::ControlFSCC>& getter, ITypedModelVisitor<interconnectionmodule::InterconnectionPlannedScheduleProfile>& visitor);
 
-void visit_commonmodule_ControlMessageInfo(const set_t<commonmodule::ControlMessageInfo>& setter, const get_t<commonmodule::ControlMessageInfo>& getter, ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor);
+void visit_commonmodule_ControlMessageInfo(const set_t<commonmodule::ControlMessageInfo>& setter, const get_t<commonmodule::ControlMessageInfo>& getter, ITypedModelVisitor<interconnectionmodule::InterconnectionPlannedScheduleProfile>& visitor);
 
-void visit_commonmodule_ControlSPC(const set_t<commonmodule::ControlSPC>& setter, const get_t<commonmodule::ControlSPC>& getter, ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor);
+void visit_commonmodule_ControlSPC(const set_t<commonmodule::ControlSPC>& setter, const get_t<commonmodule::ControlSPC>& getter, ITypedModelVisitor<interconnectionmodule::InterconnectionPlannedScheduleProfile>& visitor);
 
-void visit_commonmodule_ControlScheduleFSCH(const set_t<commonmodule::ControlScheduleFSCH>& setter, const get_t<commonmodule::ControlScheduleFSCH>& getter, ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor);
+void visit_commonmodule_ControlScheduleFSCH(const set_t<commonmodule::ControlScheduleFSCH>& setter, const get_t<commonmodule::ControlScheduleFSCH>& getter, ITypedModelVisitor<interconnectionmodule::InterconnectionPlannedScheduleProfile>& visitor);
 
-void visit_commonmodule_IdentifiedObject(const set_t<commonmodule::IdentifiedObject>& setter, const get_t<commonmodule::IdentifiedObject>& getter, ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor);
+void visit_commonmodule_IdentifiedObject(const set_t<commonmodule::IdentifiedObject>& setter, const get_t<commonmodule::IdentifiedObject>& getter, ITypedModelVisitor<interconnectionmodule::InterconnectionPlannedScheduleProfile>& visitor);
 
-void visit_commonmodule_LogicalNode(const set_t<commonmodule::LogicalNode>& setter, const get_t<commonmodule::LogicalNode>& getter, ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor);
+void visit_commonmodule_LogicalNode(const set_t<commonmodule::LogicalNode>& setter, const get_t<commonmodule::LogicalNode>& getter, ITypedModelVisitor<interconnectionmodule::InterconnectionPlannedScheduleProfile>& visitor);
 
-void visit_commonmodule_LogicalNodeForControl(const set_t<commonmodule::LogicalNodeForControl>& setter, const get_t<commonmodule::LogicalNodeForControl>& getter, ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor);
+void visit_commonmodule_LogicalNodeForControl(const set_t<commonmodule::LogicalNodeForControl>& setter, const get_t<commonmodule::LogicalNodeForControl>& getter, ITypedModelVisitor<interconnectionmodule::InterconnectionPlannedScheduleProfile>& visitor);
 
-void visit_commonmodule_MessageInfo(const set_t<commonmodule::MessageInfo>& setter, const get_t<commonmodule::MessageInfo>& getter, ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor);
+void visit_commonmodule_MessageInfo(const set_t<commonmodule::MessageInfo>& setter, const get_t<commonmodule::MessageInfo>& getter, ITypedModelVisitor<interconnectionmodule::InterconnectionPlannedScheduleProfile>& visitor);
 
-void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& setter, const get_t<commonmodule::NamedObject>& getter, ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor);
+void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& setter, const get_t<commonmodule::NamedObject>& getter, ITypedModelVisitor<interconnectionmodule::InterconnectionPlannedScheduleProfile>& visitor);
 
-void visit_commonmodule_RampRate(const set_t<commonmodule::RampRate>& setter, const get_t<commonmodule::RampRate>& getter, ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor);
+void visit_commonmodule_RampRate(const set_t<commonmodule::RampRate>& setter, const get_t<commonmodule::RampRate>& getter, ITypedModelVisitor<interconnectionmodule::InterconnectionPlannedScheduleProfile>& visitor);
 
-void visit_commonmodule_ScheduleCSG(const set_t<commonmodule::ScheduleCSG>& setter, const get_t<commonmodule::ScheduleCSG>& getter, ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor);
+void visit_commonmodule_ScheduleCSG(const set_t<commonmodule::ScheduleCSG>& setter, const get_t<commonmodule::ScheduleCSG>& getter, ITypedModelVisitor<interconnectionmodule::InterconnectionPlannedScheduleProfile>& visitor);
 
-void visit_commonmodule_SchedulePoint(const set_t<commonmodule::SchedulePoint>& setter, const get_t<commonmodule::SchedulePoint>& getter, ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor);
+void visit_commonmodule_SchedulePoint(const set_t<commonmodule::SchedulePoint>& setter, const get_t<commonmodule::SchedulePoint>& getter, ITypedModelVisitor<interconnectionmodule::InterconnectionPlannedScheduleProfile>& visitor);
 
-void visit_google_protobuf_BoolValue(const set_t<google::protobuf::BoolValue>& setter, const get_t<google::protobuf::BoolValue>& getter, ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor);
+void visit_google_protobuf_BoolValue(const set_t<google::protobuf::BoolValue>& setter, const get_t<google::protobuf::BoolValue>& getter, ITypedModelVisitor<interconnectionmodule::InterconnectionPlannedScheduleProfile>& visitor);
 
-void visit_google_protobuf_FloatValue(const set_t<google::protobuf::FloatValue>& setter, const get_t<google::protobuf::FloatValue>& getter, ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor);
+void visit_google_protobuf_FloatValue(const set_t<google::protobuf::FloatValue>& setter, const get_t<google::protobuf::FloatValue>& getter, ITypedModelVisitor<interconnectionmodule::InterconnectionPlannedScheduleProfile>& visitor);
 
-void visit_google_protobuf_StringValue(const set_t<google::protobuf::StringValue>& setter, const get_t<google::protobuf::StringValue>& getter, ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor);
+void visit_google_protobuf_StringValue(const set_t<google::protobuf::StringValue>& setter, const get_t<google::protobuf::StringValue>& getter, ITypedModelVisitor<interconnectionmodule::InterconnectionPlannedScheduleProfile>& visitor);
 
-void visit_interconnectionmodule_InterconnectionCSG(const set_t<interconnectionmodule::InterconnectionCSG>& setter, const get_t<interconnectionmodule::InterconnectionCSG>& getter, ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor);
+void visit_interconnectionmodule_InterconnectionCSG(const set_t<interconnectionmodule::InterconnectionCSG>& setter, const get_t<interconnectionmodule::InterconnectionCSG>& getter, ITypedModelVisitor<interconnectionmodule::InterconnectionPlannedScheduleProfile>& visitor);
 
-void visit_interconnectionmodule_InterconnectionControlScheduleFSCH(const set_t<interconnectionmodule::InterconnectionControlScheduleFSCH>& setter, const get_t<interconnectionmodule::InterconnectionControlScheduleFSCH>& getter, ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor);
+void visit_interconnectionmodule_InterconnectionControlScheduleFSCH(const set_t<interconnectionmodule::InterconnectionControlScheduleFSCH>& setter, const get_t<interconnectionmodule::InterconnectionControlScheduleFSCH>& getter, ITypedModelVisitor<interconnectionmodule::InterconnectionPlannedScheduleProfile>& visitor);
 
-void visit_interconnectionmodule_InterconnectionPoint(const set_t<interconnectionmodule::InterconnectionPoint>& setter, const get_t<interconnectionmodule::InterconnectionPoint>& getter, ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor);
+void visit_interconnectionmodule_InterconnectionPoint(const set_t<interconnectionmodule::InterconnectionPoint>& setter, const get_t<interconnectionmodule::InterconnectionPoint>& getter, ITypedModelVisitor<interconnectionmodule::InterconnectionPlannedScheduleProfile>& visitor);
 
-void visit_interconnectionmodule_InterconnectionSchedule(const set_t<interconnectionmodule::InterconnectionSchedule>& setter, const get_t<interconnectionmodule::InterconnectionSchedule>& getter, ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor);
+void visit_interconnectionmodule_InterconnectionSchedule(const set_t<interconnectionmodule::InterconnectionSchedule>& setter, const get_t<interconnectionmodule::InterconnectionSchedule>& getter, ITypedModelVisitor<interconnectionmodule::InterconnectionPlannedScheduleProfile>& visitor);
 
-void visit_interconnectionmodule_InterconnectionScheduleFSCC(const set_t<interconnectionmodule::InterconnectionScheduleFSCC>& setter, const get_t<interconnectionmodule::InterconnectionScheduleFSCC>& getter, ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor);
+void visit_interconnectionmodule_InterconnectionScheduleFSCC(const set_t<interconnectionmodule::InterconnectionScheduleFSCC>& setter, const get_t<interconnectionmodule::InterconnectionScheduleFSCC>& getter, ITypedModelVisitor<interconnectionmodule::InterconnectionPlannedScheduleProfile>& visitor);
 
 // ---- the exposed visit function ----
 
-void visit(ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor)
+void visit(ITypedModelVisitor<interconnectionmodule::InterconnectionPlannedScheduleProfile>& visitor)
 {
     // this is so that we can reuse the same generators for child visitors
-    const auto setter = [](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) { return &profile; };
-    const auto getter = [](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) { return &profile; };
+    const auto setter = [](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) { return &profile; };
+    const auto getter = [](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) { return &profile; };
 
     if(visitor.start_message_field("controlMessageInfo", commonmodule::ControlMessageInfo::descriptor()))
     {
         visit_commonmodule_ControlMessageInfo(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
             {
                 return setter(profile)->mutable_controlmessageinfo();
             },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) -> commonmodule::ControlMessageInfo const *
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) -> commonmodule::ControlMessageInfo const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -111,11 +111,11 @@ void visit(ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionSched
     if(visitor.start_message_field("requesterCircuitSegmentService", commonmodule::ApplicationSystem::descriptor()))
     {
         visit_commonmodule_ApplicationSystem(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
             {
                 return setter(profile)->mutable_requestercircuitsegmentservice();
             },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) -> commonmodule::ApplicationSystem const *
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) -> commonmodule::ApplicationSystem const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -135,11 +135,11 @@ void visit(ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionSched
     if(visitor.start_message_field("interconnectionSchedule", interconnectionmodule::InterconnectionSchedule::descriptor()))
     {
         visit_interconnectionmodule_InterconnectionSchedule(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
             {
                 return setter(profile)->mutable_interconnectionschedule();
             },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) -> interconnectionmodule::InterconnectionSchedule const *
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) -> interconnectionmodule::InterconnectionSchedule const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -159,11 +159,11 @@ void visit(ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionSched
     if(visitor.start_message_field("tiePoint", commonmodule::ConductingEquipment::descriptor()))
     {
         visit_commonmodule_ConductingEquipment(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
             {
                 return setter(profile)->mutable_tiepoint();
             },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) -> commonmodule::ConductingEquipment const *
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) -> commonmodule::ConductingEquipment const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -183,11 +183,11 @@ void visit(ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionSched
     if(visitor.start_message_field("responderCircuitSegmentService", commonmodule::ApplicationSystem::descriptor()))
     {
         visit_commonmodule_ApplicationSystem(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
             {
                 return setter(profile)->mutable_respondercircuitsegmentservice();
             },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) -> commonmodule::ApplicationSystem const *
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) -> commonmodule::ApplicationSystem const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -207,16 +207,16 @@ void visit(ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionSched
 
 // ---- template definitions for child types ----
 
-void visit_commonmodule_ApplicationSystem(const set_t<commonmodule::ApplicationSystem>& setter, const get_t<commonmodule::ApplicationSystem>& getter, ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor)
+void visit_commonmodule_ApplicationSystem(const set_t<commonmodule::ApplicationSystem>& setter, const get_t<commonmodule::ApplicationSystem>& getter, ITypedModelVisitor<interconnectionmodule::InterconnectionPlannedScheduleProfile>& visitor)
 {
     if(visitor.start_message_field("namedObject", commonmodule::NamedObject::descriptor()))
     {
         visit_commonmodule_NamedObject(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
             {
                 return setter(profile)->mutable_namedobject();
             },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) -> commonmodule::NamedObject const *
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) -> commonmodule::NamedObject const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -235,9 +235,9 @@ void visit_commonmodule_ApplicationSystem(const set_t<commonmodule::ApplicationS
 
     visitor.handle(
         "mRID",
-        AccessorBuilder<interconnectionmodule::PlannedInterconnectionScheduleProfile,std::string>::build(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile, const std::string& value) { setter(profile)->set_mrid(value); },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile, const handler_t<std::string>& handler)
+        AccessorBuilder<interconnectionmodule::InterconnectionPlannedScheduleProfile,std::string>::build(
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile, const std::string& value) { setter(profile)->set_mrid(value); },
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile, const handler_t<std::string>& handler)
             {
                 const auto parent = getter(profile);
                 if(!parent) return false;
@@ -248,16 +248,16 @@ void visit_commonmodule_ApplicationSystem(const set_t<commonmodule::ApplicationS
     );
 }
 
-void visit_commonmodule_CheckConditions(const set_t<commonmodule::CheckConditions>& setter, const get_t<commonmodule::CheckConditions>& getter, ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor)
+void visit_commonmodule_CheckConditions(const set_t<commonmodule::CheckConditions>& setter, const get_t<commonmodule::CheckConditions>& getter, ITypedModelVisitor<interconnectionmodule::InterconnectionPlannedScheduleProfile>& visitor)
 {
     if(visitor.start_message_field("interlockCheck", google::protobuf::BoolValue::descriptor()))
     {
         visit_google_protobuf_BoolValue(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
             {
                 return setter(profile)->mutable_interlockcheck();
             },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) -> google::protobuf::BoolValue const *
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) -> google::protobuf::BoolValue const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -277,11 +277,11 @@ void visit_commonmodule_CheckConditions(const set_t<commonmodule::CheckCondition
     if(visitor.start_message_field("synchroCheck", google::protobuf::BoolValue::descriptor()))
     {
         visit_google_protobuf_BoolValue(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
             {
                 return setter(profile)->mutable_synchrocheck();
             },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) -> google::protobuf::BoolValue const *
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) -> google::protobuf::BoolValue const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -299,16 +299,16 @@ void visit_commonmodule_CheckConditions(const set_t<commonmodule::CheckCondition
     }
 }
 
-void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::ConductingEquipment>& setter, const get_t<commonmodule::ConductingEquipment>& getter, ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor)
+void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::ConductingEquipment>& setter, const get_t<commonmodule::ConductingEquipment>& getter, ITypedModelVisitor<interconnectionmodule::InterconnectionPlannedScheduleProfile>& visitor)
 {
     if(visitor.start_message_field("namedObject", commonmodule::NamedObject::descriptor()))
     {
         visit_commonmodule_NamedObject(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
             {
                 return setter(profile)->mutable_namedobject();
             },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) -> commonmodule::NamedObject const *
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) -> commonmodule::NamedObject const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -327,9 +327,9 @@ void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::Conducting
 
     visitor.handle(
         "mRID",
-        AccessorBuilder<interconnectionmodule::PlannedInterconnectionScheduleProfile,std::string>::build(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile, const std::string& value) { setter(profile)->set_mrid(value); },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile, const handler_t<std::string>& handler)
+        AccessorBuilder<interconnectionmodule::InterconnectionPlannedScheduleProfile,std::string>::build(
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile, const std::string& value) { setter(profile)->set_mrid(value); },
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile, const handler_t<std::string>& handler)
             {
                 const auto parent = getter(profile);
                 if(!parent) return false;
@@ -340,16 +340,16 @@ void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::Conducting
     );
 }
 
-void visit_commonmodule_ControlFSCC(const set_t<commonmodule::ControlFSCC>& setter, const get_t<commonmodule::ControlFSCC>& getter, ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor)
+void visit_commonmodule_ControlFSCC(const set_t<commonmodule::ControlFSCC>& setter, const get_t<commonmodule::ControlFSCC>& getter, ITypedModelVisitor<interconnectionmodule::InterconnectionPlannedScheduleProfile>& visitor)
 {
     if(visitor.start_message_field("logicalNodeForControl", commonmodule::LogicalNodeForControl::descriptor()))
     {
         visit_commonmodule_LogicalNodeForControl(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
             {
                 return setter(profile)->mutable_logicalnodeforcontrol();
             },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) -> commonmodule::LogicalNodeForControl const *
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) -> commonmodule::LogicalNodeForControl const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -369,11 +369,11 @@ void visit_commonmodule_ControlFSCC(const set_t<commonmodule::ControlFSCC>& sett
     if(visitor.start_message_field("controlScheduleFSCH", commonmodule::ControlScheduleFSCH::descriptor()))
     {
         visit_commonmodule_ControlScheduleFSCH(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
             {
                 return setter(profile)->mutable_controlschedulefsch();
             },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) -> commonmodule::ControlScheduleFSCH const *
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) -> commonmodule::ControlScheduleFSCH const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -393,11 +393,11 @@ void visit_commonmodule_ControlFSCC(const set_t<commonmodule::ControlFSCC>& sett
     if(visitor.start_message_field("islandControlScheduleFSCH", commonmodule::ControlScheduleFSCH::descriptor()))
     {
         visit_commonmodule_ControlScheduleFSCH(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
             {
                 return setter(profile)->mutable_islandcontrolschedulefsch();
             },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) -> commonmodule::ControlScheduleFSCH const *
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) -> commonmodule::ControlScheduleFSCH const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -415,16 +415,16 @@ void visit_commonmodule_ControlFSCC(const set_t<commonmodule::ControlFSCC>& sett
     }
 }
 
-void visit_commonmodule_ControlMessageInfo(const set_t<commonmodule::ControlMessageInfo>& setter, const get_t<commonmodule::ControlMessageInfo>& getter, ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor)
+void visit_commonmodule_ControlMessageInfo(const set_t<commonmodule::ControlMessageInfo>& setter, const get_t<commonmodule::ControlMessageInfo>& getter, ITypedModelVisitor<interconnectionmodule::InterconnectionPlannedScheduleProfile>& visitor)
 {
     if(visitor.start_message_field("messageInfo", commonmodule::MessageInfo::descriptor()))
     {
         visit_commonmodule_MessageInfo(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
             {
                 return setter(profile)->mutable_messageinfo();
             },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) -> commonmodule::MessageInfo const *
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) -> commonmodule::MessageInfo const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -442,13 +442,13 @@ void visit_commonmodule_ControlMessageInfo(const set_t<commonmodule::ControlMess
     }
 }
 
-void visit_commonmodule_ControlSPC(const set_t<commonmodule::ControlSPC>& setter, const get_t<commonmodule::ControlSPC>& getter, ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor)
+void visit_commonmodule_ControlSPC(const set_t<commonmodule::ControlSPC>& setter, const get_t<commonmodule::ControlSPC>& getter, ITypedModelVisitor<interconnectionmodule::InterconnectionPlannedScheduleProfile>& visitor)
 {
     visitor.handle(
         "ctlVal",
-        AccessorBuilder<interconnectionmodule::PlannedInterconnectionScheduleProfile,bool>::build(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile, const bool& value) { setter(profile)->set_ctlval(value); },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile, const handler_t<bool>& handler)
+        AccessorBuilder<interconnectionmodule::InterconnectionPlannedScheduleProfile,bool>::build(
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile, const bool& value) { setter(profile)->set_ctlval(value); },
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile, const handler_t<bool>& handler)
             {
                 const auto parent = getter(profile);
                 if(!parent) return false;
@@ -459,16 +459,16 @@ void visit_commonmodule_ControlSPC(const set_t<commonmodule::ControlSPC>& setter
     );
 }
 
-void visit_commonmodule_ControlScheduleFSCH(const set_t<commonmodule::ControlScheduleFSCH>& setter, const get_t<commonmodule::ControlScheduleFSCH>& getter, ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor)
+void visit_commonmodule_ControlScheduleFSCH(const set_t<commonmodule::ControlScheduleFSCH>& setter, const get_t<commonmodule::ControlScheduleFSCH>& getter, ITypedModelVisitor<interconnectionmodule::InterconnectionPlannedScheduleProfile>& visitor)
 {
     if(visitor.start_message_field("ValACSG", commonmodule::ScheduleCSG::descriptor()))
     {
         visit_commonmodule_ScheduleCSG(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
             {
                 return setter(profile)->mutable_valacsg();
             },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) -> commonmodule::ScheduleCSG const *
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) -> commonmodule::ScheduleCSG const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -486,16 +486,16 @@ void visit_commonmodule_ControlScheduleFSCH(const set_t<commonmodule::ControlSch
     }
 }
 
-void visit_commonmodule_IdentifiedObject(const set_t<commonmodule::IdentifiedObject>& setter, const get_t<commonmodule::IdentifiedObject>& getter, ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor)
+void visit_commonmodule_IdentifiedObject(const set_t<commonmodule::IdentifiedObject>& setter, const get_t<commonmodule::IdentifiedObject>& getter, ITypedModelVisitor<interconnectionmodule::InterconnectionPlannedScheduleProfile>& visitor)
 {
     if(visitor.start_message_field("description", google::protobuf::StringValue::descriptor()))
     {
         visit_google_protobuf_StringValue(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
             {
                 return setter(profile)->mutable_description();
             },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) -> google::protobuf::StringValue const *
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) -> google::protobuf::StringValue const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -515,11 +515,11 @@ void visit_commonmodule_IdentifiedObject(const set_t<commonmodule::IdentifiedObj
     if(visitor.start_message_field("mRID", google::protobuf::StringValue::descriptor()))
     {
         visit_google_protobuf_StringValue(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
             {
                 return setter(profile)->mutable_mrid();
             },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) -> google::protobuf::StringValue const *
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) -> google::protobuf::StringValue const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -539,11 +539,11 @@ void visit_commonmodule_IdentifiedObject(const set_t<commonmodule::IdentifiedObj
     if(visitor.start_message_field("name", google::protobuf::StringValue::descriptor()))
     {
         visit_google_protobuf_StringValue(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
             {
                 return setter(profile)->mutable_name();
             },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) -> google::protobuf::StringValue const *
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) -> google::protobuf::StringValue const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -561,16 +561,16 @@ void visit_commonmodule_IdentifiedObject(const set_t<commonmodule::IdentifiedObj
     }
 }
 
-void visit_commonmodule_LogicalNode(const set_t<commonmodule::LogicalNode>& setter, const get_t<commonmodule::LogicalNode>& getter, ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor)
+void visit_commonmodule_LogicalNode(const set_t<commonmodule::LogicalNode>& setter, const get_t<commonmodule::LogicalNode>& getter, ITypedModelVisitor<interconnectionmodule::InterconnectionPlannedScheduleProfile>& visitor)
 {
     if(visitor.start_message_field("identifiedObject", commonmodule::IdentifiedObject::descriptor()))
     {
         visit_commonmodule_IdentifiedObject(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
             {
                 return setter(profile)->mutable_identifiedobject();
             },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) -> commonmodule::IdentifiedObject const *
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) -> commonmodule::IdentifiedObject const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -588,16 +588,16 @@ void visit_commonmodule_LogicalNode(const set_t<commonmodule::LogicalNode>& sett
     }
 }
 
-void visit_commonmodule_LogicalNodeForControl(const set_t<commonmodule::LogicalNodeForControl>& setter, const get_t<commonmodule::LogicalNodeForControl>& getter, ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor)
+void visit_commonmodule_LogicalNodeForControl(const set_t<commonmodule::LogicalNodeForControl>& setter, const get_t<commonmodule::LogicalNodeForControl>& getter, ITypedModelVisitor<interconnectionmodule::InterconnectionPlannedScheduleProfile>& visitor)
 {
     if(visitor.start_message_field("logicalNode", commonmodule::LogicalNode::descriptor()))
     {
         visit_commonmodule_LogicalNode(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
             {
                 return setter(profile)->mutable_logicalnode();
             },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) -> commonmodule::LogicalNode const *
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) -> commonmodule::LogicalNode const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -615,16 +615,16 @@ void visit_commonmodule_LogicalNodeForControl(const set_t<commonmodule::LogicalN
     }
 }
 
-void visit_commonmodule_MessageInfo(const set_t<commonmodule::MessageInfo>& setter, const get_t<commonmodule::MessageInfo>& getter, ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor)
+void visit_commonmodule_MessageInfo(const set_t<commonmodule::MessageInfo>& setter, const get_t<commonmodule::MessageInfo>& getter, ITypedModelVisitor<interconnectionmodule::InterconnectionPlannedScheduleProfile>& visitor)
 {
     if(visitor.start_message_field("identifiedObject", commonmodule::IdentifiedObject::descriptor()))
     {
         visit_commonmodule_IdentifiedObject(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
             {
                 return setter(profile)->mutable_identifiedobject();
             },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) -> commonmodule::IdentifiedObject const *
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) -> commonmodule::IdentifiedObject const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -643,9 +643,9 @@ void visit_commonmodule_MessageInfo(const set_t<commonmodule::MessageInfo>& sett
 
     visitor.handle(
         "messageTimeStamp",
-        MessageAccessorBuilder<interconnectionmodule::PlannedInterconnectionScheduleProfile,commonmodule::Timestamp>::build(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) { return setter(profile)->mutable_messagetimestamp(); },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile, const handler_t<commonmodule::Timestamp>& handler)
+        MessageAccessorBuilder<interconnectionmodule::InterconnectionPlannedScheduleProfile,commonmodule::Timestamp>::build(
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) { return setter(profile)->mutable_messagetimestamp(); },
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile, const handler_t<commonmodule::Timestamp>& handler)
             {
                 const auto parent = getter(profile);
                 if(!parent || !parent->has_messagetimestamp()) return false;
@@ -656,16 +656,16 @@ void visit_commonmodule_MessageInfo(const set_t<commonmodule::MessageInfo>& sett
     );
 }
 
-void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& setter, const get_t<commonmodule::NamedObject>& getter, ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor)
+void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& setter, const get_t<commonmodule::NamedObject>& getter, ITypedModelVisitor<interconnectionmodule::InterconnectionPlannedScheduleProfile>& visitor)
 {
     if(visitor.start_message_field("description", google::protobuf::StringValue::descriptor()))
     {
         visit_google_protobuf_StringValue(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
             {
                 return setter(profile)->mutable_description();
             },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) -> google::protobuf::StringValue const *
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) -> google::protobuf::StringValue const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -685,11 +685,11 @@ void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& sett
     if(visitor.start_message_field("name", google::protobuf::StringValue::descriptor()))
     {
         visit_google_protobuf_StringValue(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
             {
                 return setter(profile)->mutable_name();
             },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) -> google::protobuf::StringValue const *
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) -> google::protobuf::StringValue const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -707,16 +707,16 @@ void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& sett
     }
 }
 
-void visit_commonmodule_RampRate(const set_t<commonmodule::RampRate>& setter, const get_t<commonmodule::RampRate>& getter, ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor)
+void visit_commonmodule_RampRate(const set_t<commonmodule::RampRate>& setter, const get_t<commonmodule::RampRate>& getter, ITypedModelVisitor<interconnectionmodule::InterconnectionPlannedScheduleProfile>& visitor)
 {
     if(visitor.start_message_field("negativeReactivePowerKVArPerMin", google::protobuf::FloatValue::descriptor()))
     {
         visit_google_protobuf_FloatValue(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
             {
                 return setter(profile)->mutable_negativereactivepowerkvarpermin();
             },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) -> google::protobuf::FloatValue const *
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) -> google::protobuf::FloatValue const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -736,11 +736,11 @@ void visit_commonmodule_RampRate(const set_t<commonmodule::RampRate>& setter, co
     if(visitor.start_message_field("negativeRealPowerKWPerMin", google::protobuf::FloatValue::descriptor()))
     {
         visit_google_protobuf_FloatValue(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
             {
                 return setter(profile)->mutable_negativerealpowerkwpermin();
             },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) -> google::protobuf::FloatValue const *
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) -> google::protobuf::FloatValue const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -760,11 +760,11 @@ void visit_commonmodule_RampRate(const set_t<commonmodule::RampRate>& setter, co
     if(visitor.start_message_field("positiveReactivePowerKVArPerMin", google::protobuf::FloatValue::descriptor()))
     {
         visit_google_protobuf_FloatValue(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
             {
                 return setter(profile)->mutable_positivereactivepowerkvarpermin();
             },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) -> google::protobuf::FloatValue const *
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) -> google::protobuf::FloatValue const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -784,11 +784,11 @@ void visit_commonmodule_RampRate(const set_t<commonmodule::RampRate>& setter, co
     if(visitor.start_message_field("positiveRealPowerKWPerMin", google::protobuf::FloatValue::descriptor()))
     {
         visit_google_protobuf_FloatValue(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
             {
                 return setter(profile)->mutable_positiverealpowerkwpermin();
             },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) -> google::protobuf::FloatValue const *
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) -> google::protobuf::FloatValue const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -806,14 +806,14 @@ void visit_commonmodule_RampRate(const set_t<commonmodule::RampRate>& setter, co
     }
 }
 
-void visit_commonmodule_ScheduleCSG(const set_t<commonmodule::ScheduleCSG>& setter, const get_t<commonmodule::ScheduleCSG>& getter, ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor)
+void visit_commonmodule_ScheduleCSG(const set_t<commonmodule::ScheduleCSG>& setter, const get_t<commonmodule::ScheduleCSG>& getter, ITypedModelVisitor<interconnectionmodule::InterconnectionPlannedScheduleProfile>& visitor)
 {
     {
         const auto count = visitor.start_repeated_message_field("schpts", commonmodule::SchedulePoint::descriptor());
         for(int i = 0; i < count; ++i)
         {
             visitor.start_iteration(i);
-            const auto set = [setter, i, max = count](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+            const auto set = [setter, i, max = count](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
             {
                 const auto repeated = setter(profile)->mutable_schpts();
                 if(repeated->size() < max)
@@ -827,7 +827,7 @@ void visit_commonmodule_ScheduleCSG(const set_t<commonmodule::ScheduleCSG>& sett
                 }
                 return repeated->Mutable(i);
             };
-            const auto get = [getter, i](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) -> commonmodule::SchedulePoint const*
+            const auto get = [getter, i](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) -> commonmodule::SchedulePoint const*
             {
                 const auto value = getter(profile);
                 if(value)
@@ -846,12 +846,12 @@ void visit_commonmodule_ScheduleCSG(const set_t<commonmodule::ScheduleCSG>& sett
     }
 }
 
-void visit_commonmodule_SchedulePoint(const set_t<commonmodule::SchedulePoint>& setter, const get_t<commonmodule::SchedulePoint>& getter, ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor)
+void visit_commonmodule_SchedulePoint(const set_t<commonmodule::SchedulePoint>& setter, const get_t<commonmodule::SchedulePoint>& getter, ITypedModelVisitor<interconnectionmodule::InterconnectionPlannedScheduleProfile>& visitor)
 {
     // repeated schedule parameter
     visitor.handle(
         "scheduleParameter",
-        [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) -> const google::protobuf::RepeatedPtrField<commonmodule::ENG_ScheduleParameter>*
+        [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) -> const google::protobuf::RepeatedPtrField<commonmodule::ENG_ScheduleParameter>*
         {
             const auto value = getter(profile);
             if(value)
@@ -867,9 +867,9 @@ void visit_commonmodule_SchedulePoint(const set_t<commonmodule::SchedulePoint>& 
 
     visitor.handle(
         "startTime",
-        MessageAccessorBuilder<interconnectionmodule::PlannedInterconnectionScheduleProfile,commonmodule::ControlTimestamp>::build(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) { return setter(profile)->mutable_starttime(); },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile, const handler_t<commonmodule::ControlTimestamp>& handler)
+        MessageAccessorBuilder<interconnectionmodule::InterconnectionPlannedScheduleProfile,commonmodule::ControlTimestamp>::build(
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) { return setter(profile)->mutable_starttime(); },
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile, const handler_t<commonmodule::ControlTimestamp>& handler)
             {
                 const auto parent = getter(profile);
                 if(!parent || !parent->has_starttime()) return false;
@@ -880,13 +880,13 @@ void visit_commonmodule_SchedulePoint(const set_t<commonmodule::SchedulePoint>& 
     );
 }
 
-void visit_google_protobuf_BoolValue(const set_t<google::protobuf::BoolValue>& setter, const get_t<google::protobuf::BoolValue>& getter, ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor)
+void visit_google_protobuf_BoolValue(const set_t<google::protobuf::BoolValue>& setter, const get_t<google::protobuf::BoolValue>& getter, ITypedModelVisitor<interconnectionmodule::InterconnectionPlannedScheduleProfile>& visitor)
 {
     visitor.handle(
         "value",
-        AccessorBuilder<interconnectionmodule::PlannedInterconnectionScheduleProfile,bool>::build(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile, const bool& value) { setter(profile)->set_value(value); },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile, const handler_t<bool>& handler)
+        AccessorBuilder<interconnectionmodule::InterconnectionPlannedScheduleProfile,bool>::build(
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile, const bool& value) { setter(profile)->set_value(value); },
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile, const handler_t<bool>& handler)
             {
                 const auto parent = getter(profile);
                 if(!parent) return false;
@@ -897,13 +897,13 @@ void visit_google_protobuf_BoolValue(const set_t<google::protobuf::BoolValue>& s
     );
 }
 
-void visit_google_protobuf_FloatValue(const set_t<google::protobuf::FloatValue>& setter, const get_t<google::protobuf::FloatValue>& getter, ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor)
+void visit_google_protobuf_FloatValue(const set_t<google::protobuf::FloatValue>& setter, const get_t<google::protobuf::FloatValue>& getter, ITypedModelVisitor<interconnectionmodule::InterconnectionPlannedScheduleProfile>& visitor)
 {
     visitor.handle(
         "value",
-        AccessorBuilder<interconnectionmodule::PlannedInterconnectionScheduleProfile,float>::build(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile, const float& value) { setter(profile)->set_value(value); },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile, const handler_t<float>& handler)
+        AccessorBuilder<interconnectionmodule::InterconnectionPlannedScheduleProfile,float>::build(
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile, const float& value) { setter(profile)->set_value(value); },
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile, const handler_t<float>& handler)
             {
                 const auto parent = getter(profile);
                 if(!parent) return false;
@@ -914,13 +914,13 @@ void visit_google_protobuf_FloatValue(const set_t<google::protobuf::FloatValue>&
     );
 }
 
-void visit_google_protobuf_StringValue(const set_t<google::protobuf::StringValue>& setter, const get_t<google::protobuf::StringValue>& getter, ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor)
+void visit_google_protobuf_StringValue(const set_t<google::protobuf::StringValue>& setter, const get_t<google::protobuf::StringValue>& getter, ITypedModelVisitor<interconnectionmodule::InterconnectionPlannedScheduleProfile>& visitor)
 {
     visitor.handle(
         "value",
-        AccessorBuilder<interconnectionmodule::PlannedInterconnectionScheduleProfile,std::string>::build(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile, const std::string& value) { setter(profile)->set_value(value); },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile, const handler_t<std::string>& handler)
+        AccessorBuilder<interconnectionmodule::InterconnectionPlannedScheduleProfile,std::string>::build(
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile, const std::string& value) { setter(profile)->set_value(value); },
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile, const handler_t<std::string>& handler)
             {
                 const auto parent = getter(profile);
                 if(!parent) return false;
@@ -931,14 +931,14 @@ void visit_google_protobuf_StringValue(const set_t<google::protobuf::StringValue
     );
 }
 
-void visit_interconnectionmodule_InterconnectionCSG(const set_t<interconnectionmodule::InterconnectionCSG>& setter, const get_t<interconnectionmodule::InterconnectionCSG>& getter, ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor)
+void visit_interconnectionmodule_InterconnectionCSG(const set_t<interconnectionmodule::InterconnectionCSG>& setter, const get_t<interconnectionmodule::InterconnectionCSG>& getter, ITypedModelVisitor<interconnectionmodule::InterconnectionPlannedScheduleProfile>& visitor)
 {
     {
         const auto count = visitor.start_repeated_message_field("crvpts", interconnectionmodule::InterconnectionPoint::descriptor());
         for(int i = 0; i < count; ++i)
         {
             visitor.start_iteration(i);
-            const auto set = [setter, i, max = count](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+            const auto set = [setter, i, max = count](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
             {
                 const auto repeated = setter(profile)->mutable_crvpts();
                 if(repeated->size() < max)
@@ -952,7 +952,7 @@ void visit_interconnectionmodule_InterconnectionCSG(const set_t<interconnectionm
                 }
                 return repeated->Mutable(i);
             };
-            const auto get = [getter, i](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) -> interconnectionmodule::InterconnectionPoint const*
+            const auto get = [getter, i](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) -> interconnectionmodule::InterconnectionPoint const*
             {
                 const auto value = getter(profile);
                 if(value)
@@ -971,16 +971,16 @@ void visit_interconnectionmodule_InterconnectionCSG(const set_t<interconnectionm
     }
 }
 
-void visit_interconnectionmodule_InterconnectionControlScheduleFSCH(const set_t<interconnectionmodule::InterconnectionControlScheduleFSCH>& setter, const get_t<interconnectionmodule::InterconnectionControlScheduleFSCH>& getter, ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor)
+void visit_interconnectionmodule_InterconnectionControlScheduleFSCH(const set_t<interconnectionmodule::InterconnectionControlScheduleFSCH>& setter, const get_t<interconnectionmodule::InterconnectionControlScheduleFSCH>& getter, ITypedModelVisitor<interconnectionmodule::InterconnectionPlannedScheduleProfile>& visitor)
 {
     if(visitor.start_message_field("ValDCSG", interconnectionmodule::InterconnectionCSG::descriptor()))
     {
         visit_interconnectionmodule_InterconnectionCSG(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
             {
                 return setter(profile)->mutable_valdcsg();
             },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) -> interconnectionmodule::InterconnectionCSG const *
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) -> interconnectionmodule::InterconnectionCSG const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -998,16 +998,16 @@ void visit_interconnectionmodule_InterconnectionControlScheduleFSCH(const set_t<
     }
 }
 
-void visit_interconnectionmodule_InterconnectionPoint(const set_t<interconnectionmodule::InterconnectionPoint>& setter, const get_t<interconnectionmodule::InterconnectionPoint>& getter, ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor)
+void visit_interconnectionmodule_InterconnectionPoint(const set_t<interconnectionmodule::InterconnectionPoint>& setter, const get_t<interconnectionmodule::InterconnectionPoint>& getter, ITypedModelVisitor<interconnectionmodule::InterconnectionPlannedScheduleProfile>& visitor)
 {
     if(visitor.start_message_field("blackStartEnabled", commonmodule::ControlSPC::descriptor()))
     {
         visit_commonmodule_ControlSPC(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
             {
                 return setter(profile)->mutable_blackstartenabled();
             },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) -> commonmodule::ControlSPC const *
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) -> commonmodule::ControlSPC const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1027,11 +1027,11 @@ void visit_interconnectionmodule_InterconnectionPoint(const set_t<interconnectio
     if(visitor.start_message_field("frequencySetPointEnabled", commonmodule::ControlSPC::descriptor()))
     {
         visit_commonmodule_ControlSPC(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
             {
                 return setter(profile)->mutable_frequencysetpointenabled();
             },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) -> commonmodule::ControlSPC const *
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) -> commonmodule::ControlSPC const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1051,11 +1051,11 @@ void visit_interconnectionmodule_InterconnectionPoint(const set_t<interconnectio
     if(visitor.start_message_field("island", commonmodule::ControlSPC::descriptor()))
     {
         visit_commonmodule_ControlSPC(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
             {
                 return setter(profile)->mutable_island();
             },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) -> commonmodule::ControlSPC const *
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) -> commonmodule::ControlSPC const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1075,11 +1075,11 @@ void visit_interconnectionmodule_InterconnectionPoint(const set_t<interconnectio
     if(visitor.start_message_field("pctHzDroop", google::protobuf::FloatValue::descriptor()))
     {
         visit_google_protobuf_FloatValue(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
             {
                 return setter(profile)->mutable_pcthzdroop();
             },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) -> google::protobuf::FloatValue const *
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) -> google::protobuf::FloatValue const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1099,11 +1099,11 @@ void visit_interconnectionmodule_InterconnectionPoint(const set_t<interconnectio
     if(visitor.start_message_field("pctVDroop", google::protobuf::FloatValue::descriptor()))
     {
         visit_google_protobuf_FloatValue(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
             {
                 return setter(profile)->mutable_pctvdroop();
             },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) -> google::protobuf::FloatValue const *
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) -> google::protobuf::FloatValue const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1123,11 +1123,11 @@ void visit_interconnectionmodule_InterconnectionPoint(const set_t<interconnectio
     if(visitor.start_message_field("rampRates", commonmodule::RampRate::descriptor()))
     {
         visit_commonmodule_RampRate(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
             {
                 return setter(profile)->mutable_ramprates();
             },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) -> commonmodule::RampRate const *
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) -> commonmodule::RampRate const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1147,11 +1147,11 @@ void visit_interconnectionmodule_InterconnectionPoint(const set_t<interconnectio
     if(visitor.start_message_field("reactivePwrSetPointEnabled", commonmodule::ControlSPC::descriptor()))
     {
         visit_commonmodule_ControlSPC(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
             {
                 return setter(profile)->mutable_reactivepwrsetpointenabled();
             },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) -> commonmodule::ControlSPC const *
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) -> commonmodule::ControlSPC const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1171,11 +1171,11 @@ void visit_interconnectionmodule_InterconnectionPoint(const set_t<interconnectio
     if(visitor.start_message_field("realPwrSetPointEnabled", commonmodule::ControlSPC::descriptor()))
     {
         visit_commonmodule_ControlSPC(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
             {
                 return setter(profile)->mutable_realpwrsetpointenabled();
             },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) -> commonmodule::ControlSPC const *
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) -> commonmodule::ControlSPC const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1195,11 +1195,11 @@ void visit_interconnectionmodule_InterconnectionPoint(const set_t<interconnectio
     if(visitor.start_message_field("voltageSetPointEnabled", commonmodule::ControlSPC::descriptor()))
     {
         visit_commonmodule_ControlSPC(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
             {
                 return setter(profile)->mutable_voltagesetpointenabled();
             },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) -> commonmodule::ControlSPC const *
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) -> commonmodule::ControlSPC const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1218,9 +1218,9 @@ void visit_interconnectionmodule_InterconnectionPoint(const set_t<interconnectio
 
     visitor.handle(
         "startTime",
-        MessageAccessorBuilder<interconnectionmodule::PlannedInterconnectionScheduleProfile,commonmodule::Timestamp>::build(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) { return setter(profile)->mutable_starttime(); },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile, const handler_t<commonmodule::Timestamp>& handler)
+        MessageAccessorBuilder<interconnectionmodule::InterconnectionPlannedScheduleProfile,commonmodule::Timestamp>::build(
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) { return setter(profile)->mutable_starttime(); },
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile, const handler_t<commonmodule::Timestamp>& handler)
             {
                 const auto parent = getter(profile);
                 if(!parent || !parent->has_starttime()) return false;
@@ -1231,16 +1231,16 @@ void visit_interconnectionmodule_InterconnectionPoint(const set_t<interconnectio
     );
 }
 
-void visit_interconnectionmodule_InterconnectionSchedule(const set_t<interconnectionmodule::InterconnectionSchedule>& setter, const get_t<interconnectionmodule::InterconnectionSchedule>& getter, ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor)
+void visit_interconnectionmodule_InterconnectionSchedule(const set_t<interconnectionmodule::InterconnectionSchedule>& setter, const get_t<interconnectionmodule::InterconnectionSchedule>& getter, ITypedModelVisitor<interconnectionmodule::InterconnectionPlannedScheduleProfile>& visitor)
 {
     if(visitor.start_message_field("identifiedObject", commonmodule::IdentifiedObject::descriptor()))
     {
         visit_commonmodule_IdentifiedObject(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
             {
                 return setter(profile)->mutable_identifiedobject();
             },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) -> commonmodule::IdentifiedObject const *
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) -> commonmodule::IdentifiedObject const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1260,11 +1260,11 @@ void visit_interconnectionmodule_InterconnectionSchedule(const set_t<interconnec
     if(visitor.start_message_field("check", commonmodule::CheckConditions::descriptor()))
     {
         visit_commonmodule_CheckConditions(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
             {
                 return setter(profile)->mutable_check();
             },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) -> commonmodule::CheckConditions const *
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) -> commonmodule::CheckConditions const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1284,11 +1284,11 @@ void visit_interconnectionmodule_InterconnectionSchedule(const set_t<interconnec
     if(visitor.start_message_field("interconnectionScheduleFSCC", interconnectionmodule::InterconnectionScheduleFSCC::descriptor()))
     {
         visit_interconnectionmodule_InterconnectionScheduleFSCC(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
             {
                 return setter(profile)->mutable_interconnectionschedulefscc();
             },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) -> interconnectionmodule::InterconnectionScheduleFSCC const *
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) -> interconnectionmodule::InterconnectionScheduleFSCC const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1306,16 +1306,16 @@ void visit_interconnectionmodule_InterconnectionSchedule(const set_t<interconnec
     }
 }
 
-void visit_interconnectionmodule_InterconnectionScheduleFSCC(const set_t<interconnectionmodule::InterconnectionScheduleFSCC>& setter, const get_t<interconnectionmodule::InterconnectionScheduleFSCC>& getter, ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor)
+void visit_interconnectionmodule_InterconnectionScheduleFSCC(const set_t<interconnectionmodule::InterconnectionScheduleFSCC>& setter, const get_t<interconnectionmodule::InterconnectionScheduleFSCC>& getter, ITypedModelVisitor<interconnectionmodule::InterconnectionPlannedScheduleProfile>& visitor)
 {
     if(visitor.start_message_field("controlFSCC", commonmodule::ControlFSCC::descriptor()))
     {
         visit_commonmodule_ControlFSCC(
-            [setter](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+            [setter](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
             {
                 return setter(profile)->mutable_controlfscc();
             },
-            [getter](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) -> commonmodule::ControlFSCC const *
+            [getter](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) -> commonmodule::ControlFSCC const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -1337,7 +1337,7 @@ void visit_interconnectionmodule_InterconnectionScheduleFSCC(const set_t<interco
         for(int i = 0; i < count; ++i)
         {
             visitor.start_iteration(i);
-            const auto set = [setter, i, max = count](interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+            const auto set = [setter, i, max = count](interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
             {
                 const auto repeated = setter(profile)->mutable_interconnectioncontrolschedulefsch();
                 if(repeated->size() < max)
@@ -1351,7 +1351,7 @@ void visit_interconnectionmodule_InterconnectionScheduleFSCC(const set_t<interco
                 }
                 return repeated->Mutable(i);
             };
-            const auto get = [getter, i](const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile) -> interconnectionmodule::InterconnectionControlScheduleFSCH const*
+            const auto get = [getter, i](const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile) -> interconnectionmodule::InterconnectionControlScheduleFSCH const*
             {
                 const auto value = getter(profile);
                 if(value)

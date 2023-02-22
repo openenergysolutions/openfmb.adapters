@@ -34,7 +34,7 @@ void visit_commonmodule_ASG(const set_t<commonmodule::ASG>& setter, const get_t<
 
 void visit_commonmodule_ActivePower(const set_t<commonmodule::ActivePower>& setter, const get_t<commonmodule::ActivePower>& getter, ITypedModelVisitor<generationmodule::GenerationCapabilityOverrideProfile>& visitor);
 
-void visit_commonmodule_CapabilityOverrideMessageInfo(const set_t<commonmodule::CapabilityOverrideMessageInfo>& setter, const get_t<commonmodule::CapabilityOverrideMessageInfo>& getter, ITypedModelVisitor<generationmodule::GenerationCapabilityOverrideProfile>& visitor);
+void visit_commonmodule_CapabilityMessageInfo(const set_t<commonmodule::CapabilityMessageInfo>& setter, const get_t<commonmodule::CapabilityMessageInfo>& getter, ITypedModelVisitor<generationmodule::GenerationCapabilityOverrideProfile>& visitor);
 
 void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::ConductingEquipment>& setter, const get_t<commonmodule::ConductingEquipment>& getter, ITypedModelVisitor<generationmodule::GenerationCapabilityOverrideProfile>& visitor);
 
@@ -70,19 +70,19 @@ void visit(ITypedModelVisitor<generationmodule::GenerationCapabilityOverrideProf
     const auto setter = [](generationmodule::GenerationCapabilityOverrideProfile& profile) { return &profile; };
     const auto getter = [](const generationmodule::GenerationCapabilityOverrideProfile& profile) { return &profile; };
 
-    if(visitor.start_message_field("capabilityOverrideMessageInfo", commonmodule::CapabilityOverrideMessageInfo::descriptor()))
+    if(visitor.start_message_field("capabilityMessageInfo", commonmodule::CapabilityMessageInfo::descriptor()))
     {
-        visit_commonmodule_CapabilityOverrideMessageInfo(
+        visit_commonmodule_CapabilityMessageInfo(
             [setter](generationmodule::GenerationCapabilityOverrideProfile& profile)
             {
-                return setter(profile)->mutable_capabilityoverridemessageinfo();
+                return setter(profile)->mutable_capabilitymessageinfo();
             },
-            [getter](const generationmodule::GenerationCapabilityOverrideProfile& profile) -> commonmodule::CapabilityOverrideMessageInfo const *
+            [getter](const generationmodule::GenerationCapabilityOverrideProfile& profile) -> commonmodule::CapabilityMessageInfo const *
             {
                 const auto value = getter(profile);
                 if(value)
                 {
-                    return value->has_capabilityoverridemessageinfo() ? &value->capabilityoverridemessageinfo() : nullptr;
+                    return value->has_capabilitymessageinfo() ? &value->capabilitymessageinfo() : nullptr;
                 }
                 else
                 {
@@ -237,7 +237,7 @@ void visit_commonmodule_ActivePower(const set_t<commonmodule::ActivePower>& sett
     }
 }
 
-void visit_commonmodule_CapabilityOverrideMessageInfo(const set_t<commonmodule::CapabilityOverrideMessageInfo>& setter, const get_t<commonmodule::CapabilityOverrideMessageInfo>& getter, ITypedModelVisitor<generationmodule::GenerationCapabilityOverrideProfile>& visitor)
+void visit_commonmodule_CapabilityMessageInfo(const set_t<commonmodule::CapabilityMessageInfo>& setter, const get_t<commonmodule::CapabilityMessageInfo>& getter, ITypedModelVisitor<generationmodule::GenerationCapabilityOverrideProfile>& visitor)
 {
     if(visitor.start_message_field("messageInfo", commonmodule::MessageInfo::descriptor()))
     {

@@ -69,6 +69,8 @@ void visit(ITypedModelVisitor<essmodule::ESSCapabilityProfile>& visitor);
 
 void visit(ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
 
+void visit(ITypedModelVisitor<essmodule::ESSDiscreteControlProfile>& visitor);
+
 void visit(ITypedModelVisitor<essmodule::ESSEventProfile>& visitor);
 
 void visit(ITypedModelVisitor<essmodule::ESSReadingProfile>& visitor);
@@ -89,9 +91,9 @@ void visit(ITypedModelVisitor<generationmodule::GenerationReadingProfile>& visit
 
 void visit(ITypedModelVisitor<generationmodule::GenerationStatusProfile>& visitor);
 
-void visit(ITypedModelVisitor<interconnectionmodule::PlannedInterconnectionScheduleProfile>& visitor);
+void visit(ITypedModelVisitor<interconnectionmodule::InterconnectionPlannedScheduleProfile>& visitor);
 
-void visit(ITypedModelVisitor<interconnectionmodule::RequestedInterconnectionScheduleProfile>& visitor);
+void visit(ITypedModelVisitor<interconnectionmodule::InterconnectionRequestedScheduleProfile>& visitor);
 
 void visit(ITypedModelVisitor<loadmodule::LoadControlProfile>& visitor);
 
@@ -138,6 +140,8 @@ void visit(ITypedModelVisitor<solarmodule::SolarCapabilityOverrideProfile>& visi
 void visit(ITypedModelVisitor<solarmodule::SolarCapabilityProfile>& visitor);
 
 void visit(ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor);
+
+void visit(ITypedModelVisitor<solarmodule::SolarDiscreteControlProfile>& visitor);
 
 void visit(ITypedModelVisitor<solarmodule::SolarEventProfile>& visitor);
 

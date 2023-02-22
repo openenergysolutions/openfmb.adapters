@@ -186,6 +186,15 @@ struct PublisherFactory<essmodule::ESSControlProfile>
 };
 
 template<>
+struct PublisherFactory<essmodule::ESSDiscreteControlProfile>
+{
+    static std::shared_ptr<api::ISubscriptionHandler<essmodule::ESSDiscreteControlProfile>> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::pub::Publisher> dds_publisher)
+    {
+        return std::make_shared<DDSPublisher<essmodule::ESSDiscreteControlProfile, openfmb::essmodule::ESSDiscreteControlProfile>>(logger, subject, dds_publisher, topic_repo.essdiscretecontrolprofile);
+    }
+};
+
+template<>
 struct PublisherFactory<essmodule::ESSEventProfile>
 {
     static std::shared_ptr<api::ISubscriptionHandler<essmodule::ESSEventProfile>> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::pub::Publisher> dds_publisher)
@@ -276,20 +285,20 @@ struct PublisherFactory<generationmodule::GenerationStatusProfile>
 };
 
 template<>
-struct PublisherFactory<interconnectionmodule::PlannedInterconnectionScheduleProfile>
+struct PublisherFactory<interconnectionmodule::InterconnectionPlannedScheduleProfile>
 {
-    static std::shared_ptr<api::ISubscriptionHandler<interconnectionmodule::PlannedInterconnectionScheduleProfile>> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::pub::Publisher> dds_publisher)
+    static std::shared_ptr<api::ISubscriptionHandler<interconnectionmodule::InterconnectionPlannedScheduleProfile>> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::pub::Publisher> dds_publisher)
     {
-        return std::make_shared<DDSPublisher<interconnectionmodule::PlannedInterconnectionScheduleProfile, openfmb::interconnectionmodule::PlannedInterconnectionScheduleProfile>>(logger, subject, dds_publisher, topic_repo.plannedinterconnectionscheduleprofile);
+        return std::make_shared<DDSPublisher<interconnectionmodule::InterconnectionPlannedScheduleProfile, openfmb::interconnectionmodule::InterconnectionPlannedScheduleProfile>>(logger, subject, dds_publisher, topic_repo.interconnectionplannedscheduleprofile);
     }
 };
 
 template<>
-struct PublisherFactory<interconnectionmodule::RequestedInterconnectionScheduleProfile>
+struct PublisherFactory<interconnectionmodule::InterconnectionRequestedScheduleProfile>
 {
-    static std::shared_ptr<api::ISubscriptionHandler<interconnectionmodule::RequestedInterconnectionScheduleProfile>> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::pub::Publisher> dds_publisher)
+    static std::shared_ptr<api::ISubscriptionHandler<interconnectionmodule::InterconnectionRequestedScheduleProfile>> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::pub::Publisher> dds_publisher)
     {
-        return std::make_shared<DDSPublisher<interconnectionmodule::RequestedInterconnectionScheduleProfile, openfmb::interconnectionmodule::RequestedInterconnectionScheduleProfile>>(logger, subject, dds_publisher, topic_repo.requestedinterconnectionscheduleprofile);
+        return std::make_shared<DDSPublisher<interconnectionmodule::InterconnectionRequestedScheduleProfile, openfmb::interconnectionmodule::InterconnectionRequestedScheduleProfile>>(logger, subject, dds_publisher, topic_repo.interconnectionrequestedscheduleprofile);
     }
 };
 
@@ -497,6 +506,15 @@ struct PublisherFactory<solarmodule::SolarControlProfile>
     static std::shared_ptr<api::ISubscriptionHandler<solarmodule::SolarControlProfile>> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::pub::Publisher> dds_publisher)
     {
         return std::make_shared<DDSPublisher<solarmodule::SolarControlProfile, openfmb::solarmodule::SolarControlProfile>>(logger, subject, dds_publisher, topic_repo.solarcontrolprofile);
+    }
+};
+
+template<>
+struct PublisherFactory<solarmodule::SolarDiscreteControlProfile>
+{
+    static std::shared_ptr<api::ISubscriptionHandler<solarmodule::SolarDiscreteControlProfile>> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::pub::Publisher> dds_publisher)
+    {
+        return std::make_shared<DDSPublisher<solarmodule::SolarDiscreteControlProfile, openfmb::solarmodule::SolarDiscreteControlProfile>>(logger, subject, dds_publisher, topic_repo.solardiscretecontrolprofile);
     }
 };
 

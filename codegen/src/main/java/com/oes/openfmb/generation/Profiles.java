@@ -50,6 +50,7 @@ public class Profiles {
                         ESSCapabilityOverrideProfile.getDescriptor(),
                         ESSCapabilityProfile.getDescriptor(),
                         ESSControlProfile.getDescriptor(),
+                        ESSDiscreteControlProfile.getDescriptor(),
                         ESSEventProfile.getDescriptor(),
                         ESSReadingProfile.getDescriptor(),
                         ESSStatusProfile.getDescriptor(),
@@ -62,8 +63,8 @@ public class Profiles {
                         GenerationReadingProfile.getDescriptor(),
                         GenerationStatusProfile.getDescriptor(),
                         // Interconnection
-                        PlannedInterconnectionScheduleProfile.getDescriptor(),
-                        RequestedInterconnectionScheduleProfile.getDescriptor(),
+                        InterconnectionPlannedScheduleProfile.getDescriptor(),
+                        InterconnectionRequestedScheduleProfile.getDescriptor(),
                         // Load
                         LoadControlProfile.getDescriptor(),
                         LoadEventProfile.getDescriptor(),
@@ -94,6 +95,7 @@ public class Profiles {
                         SolarCapabilityOverrideProfile.getDescriptor(),
                         SolarCapabilityProfile.getDescriptor(),
                         SolarControlProfile.getDescriptor(),
+                        SolarDiscreteControlProfile.getDescriptor(),
                         SolarEventProfile.getDescriptor(),
                         SolarReadingProfile.getDescriptor(),
                         SolarStatusProfile.getDescriptor(),

@@ -102,6 +102,7 @@ set(SOURCES
     ./src/config/generated/ESSCapabilityOverrideProfileTypedModelVisitor.cpp
     ./src/config/generated/ESSCapabilityProfileTypedModelVisitor.cpp
     ./src/config/generated/ESSControlProfileTypedModelVisitor.cpp
+    ./src/config/generated/ESSDiscreteControlProfileTypedModelVisitor.cpp
     ./src/config/generated/ESSEventProfileTypedModelVisitor.cpp
     ./src/config/generated/ESSReadingProfileTypedModelVisitor.cpp
     ./src/config/generated/ESSStatusProfileTypedModelVisitor.cpp
@@ -117,7 +118,7 @@ set(SOURCES
     ./src/config/generated/LoadReadingProfileTypedModelVisitor.cpp
     ./src/config/generated/LoadStatusProfileTypedModelVisitor.cpp
     ./src/config/generated/MeterReadingProfileTypedModelVisitor.cpp
-    ./src/config/generated/PlannedInterconnectionScheduleProfileTypedModelVisitor.cpp
+    ./src/config/generated/InterconnectionPlannedScheduleProfileTypedModelVisitor.cpp
     ./src/config/generated/RecloserDiscreteControlProfileTypedModelVisitor.cpp
     ./src/config/generated/RecloserEventProfileTypedModelVisitor.cpp
     ./src/config/generated/RecloserReadingProfileTypedModelVisitor.cpp
@@ -127,7 +128,7 @@ set(SOURCES
     ./src/config/generated/RegulatorEventProfileTypedModelVisitor.cpp
     ./src/config/generated/RegulatorReadingProfileTypedModelVisitor.cpp
     ./src/config/generated/RegulatorStatusProfileTypedModelVisitor.cpp
-    ./src/config/generated/RequestedInterconnectionScheduleProfileTypedModelVisitor.cpp
+    ./src/config/generated/InterconnectionRequestedScheduleProfileTypedModelVisitor.cpp
     ./src/config/generated/ReserveAvailabilityProfileTypedModelVisitor.cpp
     ./src/config/generated/ReserveRequestProfileTypedModelVisitor.cpp
     ./src/config/generated/ResourceDiscreteControlProfileTypedModelVisitor.cpp
@@ -137,6 +138,7 @@ set(SOURCES
     ./src/config/generated/SolarCapabilityOverrideProfileTypedModelVisitor.cpp
     ./src/config/generated/SolarCapabilityProfileTypedModelVisitor.cpp
     ./src/config/generated/SolarControlProfileTypedModelVisitor.cpp
+    ./src/config/generated/SolarDiscreteControlProfileTypedModelVisitor.cpp
     ./src/config/generated/SolarEventProfileTypedModelVisitor.cpp
     ./src/config/generated/SolarReadingProfileTypedModelVisitor.cpp
     ./src/config/generated/SolarStatusProfileTypedModelVisitor.cpp    .

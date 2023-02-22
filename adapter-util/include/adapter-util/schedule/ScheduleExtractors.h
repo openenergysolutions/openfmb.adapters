@@ -162,6 +162,29 @@ struct schedule_extractor<essmodule::ESSControlProfile>
 };
 
 template <>
+struct schedule_extractor<essmodule::ESSDiscreteControlProfile>
+{
+    static void set_source_mrid(essmodule::ESSDiscreteControlProfile& profile, const std::string& mrid)
+    {
+        profile.mutable_ess()->mutable_conductingequipment()->set_mrid(mrid);
+    }
+
+    static void set_message_mrid(essmodule::ESSDiscreteControlProfile& profile, const std::string& mrid)
+    {
+        profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_identifiedobject()->mutable_mrid()->set_value(mrid);
+    }
+
+    static commonmodule::Timestamp* get_message_timestamp(essmodule::ESSDiscreteControlProfile& profile)
+    {
+        return profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_messagetimestamp();
+    }
+
+    // No control FSCC
+
+    // No custom points
+};
+
+template <>
 struct schedule_extractor<generationmodule::GenerationControlProfile>
 {
     static void set_source_mrid(generationmodule::GenerationControlProfile& profile, const std::string& mrid)
@@ -221,36 +244,36 @@ struct schedule_extractor<generationmodule::GenerationDiscreteControlProfile>
 };
 
 template <>
-struct schedule_extractor<interconnectionmodule::PlannedInterconnectionScheduleProfile>
+struct schedule_extractor<interconnectionmodule::InterconnectionPlannedScheduleProfile>
 {
-    static void set_source_mrid(interconnectionmodule::PlannedInterconnectionScheduleProfile& profile, const std::string& mrid)
+    static void set_source_mrid(interconnectionmodule::InterconnectionPlannedScheduleProfile& profile, const std::string& mrid)
     {
         profile.mutable_requestercircuitsegmentservice()->set_mrid(mrid);
     }
 
-    static void set_message_mrid(interconnectionmodule::PlannedInterconnectionScheduleProfile& profile, const std::string& mrid)
+    static void set_message_mrid(interconnectionmodule::InterconnectionPlannedScheduleProfile& profile, const std::string& mrid)
     {
         profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_identifiedobject()->mutable_mrid()->set_value(mrid);
     }
 
-    static commonmodule::Timestamp* get_message_timestamp(interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+    static commonmodule::Timestamp* get_message_timestamp(interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
     {
         return profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_messagetimestamp();
     }
 
-    static commonmodule::ControlFSCC* get_control_fscc(interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+    static commonmodule::ControlFSCC* get_control_fscc(interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
     {
         return profile.mutable_interconnectionschedule()->mutable_interconnectionschedulefscc()->mutable_controlfscc();
     }
 
     using custom_point_t = interconnectionmodule::InterconnectionPoint;
 
-    static bool has_custom_points(const interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+    static bool has_custom_points(const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
     {
         return profile.interconnectionschedule().interconnectionschedulefscc().has_controlfscc();
     }
 
-    static google::protobuf::RepeatedPtrField<custom_point_t>* get_custom_points(interconnectionmodule::PlannedInterconnectionScheduleProfile& profile)
+    static google::protobuf::RepeatedPtrField<custom_point_t>* get_custom_points(interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
     {
         // TODO:: Handle multiple dim array, assume only the first interconnectioncontrolschedulefsch is used
         return profile.mutable_interconnectionschedule()->mutable_interconnectionschedulefscc()->mutable_interconnectioncontrolschedulefsch()->mutable_data()[0]->mutable_valdcsg()->mutable_crvpts();
@@ -258,36 +281,36 @@ struct schedule_extractor<interconnectionmodule::PlannedInterconnectionScheduleP
 };
 
 template <>
-struct schedule_extractor<interconnectionmodule::RequestedInterconnectionScheduleProfile>
+struct schedule_extractor<interconnectionmodule::InterconnectionRequestedScheduleProfile>
 {
-    static void set_source_mrid(interconnectionmodule::RequestedInterconnectionScheduleProfile& profile, const std::string& mrid)
+    static void set_source_mrid(interconnectionmodule::InterconnectionRequestedScheduleProfile& profile, const std::string& mrid)
     {
         profile.mutable_requestercircuitsegmentservice()->set_mrid(mrid);
     }
 
-    static void set_message_mrid(interconnectionmodule::RequestedInterconnectionScheduleProfile& profile, const std::string& mrid)
+    static void set_message_mrid(interconnectionmodule::InterconnectionRequestedScheduleProfile& profile, const std::string& mrid)
     {
         profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_identifiedobject()->mutable_mrid()->set_value(mrid);
     }
 
-    static commonmodule::Timestamp* get_message_timestamp(interconnectionmodule::RequestedInterconnectionScheduleProfile& profile)
+    static commonmodule::Timestamp* get_message_timestamp(interconnectionmodule::InterconnectionRequestedScheduleProfile& profile)
     {
         return profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_messagetimestamp();
     }
 
-    static commonmodule::ControlFSCC* get_control_fscc(interconnectionmodule::RequestedInterconnectionScheduleProfile& profile)
+    static commonmodule::ControlFSCC* get_control_fscc(interconnectionmodule::InterconnectionRequestedScheduleProfile& profile)
     {
         return profile.mutable_interconnectionschedule()->mutable_interconnectionschedulefscc()->mutable_controlfscc();
     }
 
     using custom_point_t = interconnectionmodule::InterconnectionPoint;
 
-    static bool has_custom_points(const interconnectionmodule::RequestedInterconnectionScheduleProfile& profile)
+    static bool has_custom_points(const interconnectionmodule::InterconnectionRequestedScheduleProfile& profile)
     {
         return profile.interconnectionschedule().interconnectionschedulefscc().has_controlfscc();
     }
 
-    static google::protobuf::RepeatedPtrField<custom_point_t>* get_custom_points(interconnectionmodule::RequestedInterconnectionScheduleProfile& profile)
+    static google::protobuf::RepeatedPtrField<custom_point_t>* get_custom_points(interconnectionmodule::InterconnectionRequestedScheduleProfile& profile)
     {
         // TODO:: Handle multiple dim array, assume only the first interconnectioncontrolschedulefsch is used
         return profile.mutable_interconnectionschedule()->mutable_interconnectionschedulefscc()->mutable_interconnectioncontrolschedulefsch()->mutable_data()[0]->mutable_valdcsg()->mutable_crvpts();
@@ -507,6 +530,29 @@ struct schedule_extractor<solarmodule::SolarControlProfile>
     {
         return profile.mutable_solarcontrol()->mutable_solarcontrolfscc()->mutable_solarcontrolschedulefsch()->mutable_valdcsg()->mutable_crvpts();
     }
+};
+
+template <>
+struct schedule_extractor<solarmodule::SolarDiscreteControlProfile>
+{
+    static void set_source_mrid(solarmodule::SolarDiscreteControlProfile& profile, const std::string& mrid)
+    {
+        profile.mutable_solarinverter()->mutable_conductingequipment()->set_mrid(mrid);
+    }
+
+    static void set_message_mrid(solarmodule::SolarDiscreteControlProfile& profile, const std::string& mrid)
+    {
+        profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_identifiedobject()->mutable_mrid()->set_value(mrid);
+    }
+
+    static commonmodule::Timestamp* get_message_timestamp(solarmodule::SolarDiscreteControlProfile& profile)
+    {
+        return profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_messagetimestamp();
+    }
+
+    // No control FSCC
+
+    // No custom points
 };
 
 template <>

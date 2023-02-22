@@ -97,8 +97,6 @@ void visit_commonmodule_CMV(IModelVisitor& visitor);
 
 void visit_commonmodule_CapabilityMessageInfo(IModelVisitor& visitor);
 
-void visit_commonmodule_CapabilityOverrideMessageInfo(IModelVisitor& visitor);
-
 void visit_commonmodule_CheckConditions(IModelVisitor& visitor);
 
 void visit_commonmodule_ClearingTime(IModelVisitor& visitor);
@@ -114,6 +112,8 @@ void visit_commonmodule_ControlDPC(IModelVisitor& visitor);
 void visit_commonmodule_ControlFSCC(IModelVisitor& visitor);
 
 void visit_commonmodule_ControlINC(IModelVisitor& visitor);
+
+void visit_commonmodule_ControlING(IModelVisitor& visitor);
 
 void visit_commonmodule_ControlISC(IModelVisitor& visitor);
 
@@ -195,8 +195,6 @@ void visit_commonmodule_OperationDWMX(IModelVisitor& visitor);
 
 void visit_commonmodule_OperationDWVR(IModelVisitor& visitor);
 
-void visit_commonmodule_OperationStorageDFPF(IModelVisitor& visitor);
-
 void visit_commonmodule_Optional_AlrmKind(IModelVisitor& visitor);
 
 void visit_commonmodule_Optional_ControlModeKind(IModelVisitor& visitor);
@@ -226,8 +224,6 @@ void visit_commonmodule_Optional_UnitSymbolKind(IModelVisitor& visitor);
 void visit_commonmodule_Optional_VoltLimitModeKind(IModelVisitor& visitor);
 
 void visit_commonmodule_PFSPC(IModelVisitor& visitor);
-
-void visit_commonmodule_PFStorageSPC(IModelVisitor& visitor);
 
 void visit_commonmodule_PMG(IModelVisitor& visitor);
 
@@ -333,6 +329,10 @@ void visit_essmodule_ESSControl(IModelVisitor& visitor);
 
 void visit_essmodule_ESSControlScheduleFSCH(IModelVisitor& visitor);
 
+void visit_essmodule_ESSDiscreteControl(IModelVisitor& visitor);
+
+void visit_essmodule_ESSDiscreteControlDBAT(IModelVisitor& visitor);
+
 void visit_essmodule_ESSEvent(IModelVisitor& visitor);
 
 void visit_essmodule_ESSEventAndStatusZGEN(IModelVisitor& visitor);
@@ -359,6 +359,8 @@ void visit_essmodule_EssStatusZBAT(IModelVisitor& visitor);
 
 void visit_essmodule_FrequencyRegulation(IModelVisitor& visitor);
 
+void visit_essmodule_OperationDWGC(IModelVisitor& visitor);
+
 void visit_essmodule_PeakShaving(IModelVisitor& visitor);
 
 void visit_essmodule_SOCManagement(IModelVisitor& visitor);
@@ -370,6 +372,8 @@ void visit_essmodule_VoltageDroop(IModelVisitor& visitor);
 void visit_essmodule_VoltagePI(IModelVisitor& visitor);
 
 void visit_essmodule_VoltageRegulation(IModelVisitor& visitor);
+
+void visit_essmodule_WSPC(IModelVisitor& visitor);
 
 void visit_generationmodule_DroopParameter(IModelVisitor& visitor);
 
@@ -528,6 +532,10 @@ void visit_solarmodule_SolarControl(IModelVisitor& visitor);
 void visit_solarmodule_SolarControlFSCC(IModelVisitor& visitor);
 
 void visit_solarmodule_SolarControlScheduleFSCH(IModelVisitor& visitor);
+
+void visit_solarmodule_SolarDiscreteControl(IModelVisitor& visitor);
+
+void visit_solarmodule_SolarDiscreteControlPV(IModelVisitor& visitor);
 
 void visit_solarmodule_SolarEvent(IModelVisitor& visitor);
 
@@ -815,9 +823,9 @@ void visit<circuitsegmentservicemodule::CircuitSegmentEventProfile>(IModelVisito
 template <>
 void visit<circuitsegmentservicemodule::CircuitSegmentStatusProfile>(IModelVisitor& visitor)
 {
-    if(visitor.start_message_field("eventMessageInfo", commonmodule::EventMessageInfo::descriptor()))
+    if(visitor.start_message_field("statusMessageInfo", commonmodule::StatusMessageInfo::descriptor()))
     {
-        visit_commonmodule_EventMessageInfo(visitor);
+        visit_commonmodule_StatusMessageInfo(visitor);
         visitor.end_message_field();
     }
 
@@ -901,6 +909,28 @@ void visit<essmodule::ESSControlProfile>(IModelVisitor& visitor)
 }
 
 template <>
+void visit<essmodule::ESSDiscreteControlProfile>(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("controlMessageInfo", commonmodule::ControlMessageInfo::descriptor()))
+    {
+        visit_commonmodule_ControlMessageInfo(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("ess", commonmodule::ESS::descriptor()))
+    {
+        visit_commonmodule_ESS(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("essDiscreteControl", essmodule::ESSDiscreteControl::descriptor()))
+    {
+        visit_essmodule_ESSDiscreteControl(visitor);
+        visitor.end_message_field();
+    }
+}
+
+template <>
 void visit<essmodule::ESSEventProfile>(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("eventMessageInfo", commonmodule::EventMessageInfo::descriptor()))
@@ -969,9 +999,9 @@ void visit<essmodule::ESSStatusProfile>(IModelVisitor& visitor)
 template <>
 void visit<generationmodule::GenerationCapabilityOverrideProfile>(IModelVisitor& visitor)
 {
-    if(visitor.start_message_field("capabilityOverrideMessageInfo", commonmodule::CapabilityOverrideMessageInfo::descriptor()))
+    if(visitor.start_message_field("capabilityMessageInfo", commonmodule::CapabilityMessageInfo::descriptor()))
     {
-        visit_commonmodule_CapabilityOverrideMessageInfo(visitor);
+        visit_commonmodule_CapabilityMessageInfo(visitor);
         visitor.end_message_field();
     }
 
@@ -1121,7 +1151,7 @@ void visit<generationmodule::GenerationStatusProfile>(IModelVisitor& visitor)
 }
 
 template <>
-void visit<interconnectionmodule::PlannedInterconnectionScheduleProfile>(IModelVisitor& visitor)
+void visit<interconnectionmodule::InterconnectionPlannedScheduleProfile>(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("controlMessageInfo", commonmodule::ControlMessageInfo::descriptor()))
     {
@@ -1155,7 +1185,7 @@ void visit<interconnectionmodule::PlannedInterconnectionScheduleProfile>(IModelV
 }
 
 template <>
-void visit<interconnectionmodule::RequestedInterconnectionScheduleProfile>(IModelVisitor& visitor)
+void visit<interconnectionmodule::InterconnectionRequestedScheduleProfile>(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("controlMessageInfo", commonmodule::ControlMessageInfo::descriptor()))
     {
@@ -1671,9 +1701,9 @@ void visit<resourcemodule::ResourceStatusProfile>(IModelVisitor& visitor)
 template <>
 void visit<solarmodule::SolarCapabilityOverrideProfile>(IModelVisitor& visitor)
 {
-    if(visitor.start_message_field("capabilityOverrideMessageInfo", commonmodule::CapabilityOverrideMessageInfo::descriptor()))
+    if(visitor.start_message_field("capabilityMessageInfo", commonmodule::CapabilityMessageInfo::descriptor()))
     {
-        visit_commonmodule_CapabilityOverrideMessageInfo(visitor);
+        visit_commonmodule_CapabilityMessageInfo(visitor);
         visitor.end_message_field();
     }
 
@@ -1724,6 +1754,28 @@ void visit<solarmodule::SolarControlProfile>(IModelVisitor& visitor)
     if(visitor.start_message_field("solarControl", solarmodule::SolarControl::descriptor()))
     {
         visit_solarmodule_SolarControl(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("solarInverter", solarmodule::SolarInverter::descriptor()))
+    {
+        visit_solarmodule_SolarInverter(visitor);
+        visitor.end_message_field();
+    }
+}
+
+template <>
+void visit<solarmodule::SolarDiscreteControlProfile>(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("controlMessageInfo", commonmodule::ControlMessageInfo::descriptor()))
+    {
+        visit_commonmodule_ControlMessageInfo(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("solarDiscreteControl", solarmodule::SolarDiscreteControl::descriptor()))
+    {
+        visit_solarmodule_SolarDiscreteControl(visitor);
         visitor.end_message_field();
     }
 
@@ -2764,15 +2816,6 @@ void visit_commonmodule_CapabilityMessageInfo(IModelVisitor& visitor)
     }
 }
 
-void visit_commonmodule_CapabilityOverrideMessageInfo(IModelVisitor& visitor)
-{
-    if(visitor.start_message_field("messageInfo", commonmodule::MessageInfo::descriptor()))
-    {
-        visit_commonmodule_MessageInfo(visitor);
-        visitor.end_message_field();
-    }
-}
-
 void visit_commonmodule_CheckConditions(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("interlockCheck", google::protobuf::BoolValue::descriptor()))
@@ -2849,6 +2892,17 @@ void visit_commonmodule_ControlFSCC(IModelVisitor& visitor)
 void visit_commonmodule_ControlINC(IModelVisitor& visitor)
 {
     visitor.handle("ctlVal", Int32FieldType::Value::mapped);
+}
+
+void visit_commonmodule_ControlING(IModelVisitor& visitor)
+{
+    visitor.handle("setVal", Int32FieldType::Value::mapped);
+
+    if(visitor.start_message_field("units", commonmodule::Unit::descriptor()))
+    {
+        visit_commonmodule_Unit(visitor);
+        visitor.end_message_field();
+    }
 }
 
 void visit_commonmodule_ControlISC(IModelVisitor& visitor)
@@ -3351,11 +3405,23 @@ void visit_commonmodule_NameplateValue(IModelVisitor& visitor)
 
 void visit_commonmodule_OperationDCTE(IModelVisitor& visitor)
 {
-    visitor.handle("rndDlTmms", FloatFieldType::Value::mapped);
+    if(visitor.start_message_field("rndDlTmms", commonmodule::ControlING::descriptor()))
+    {
+        visit_commonmodule_ControlING(visitor);
+        visitor.end_message_field();
+    }
 
-    visitor.handle("rtnDlTmms", FloatFieldType::Value::mapped);
+    if(visitor.start_message_field("rtnDlTmms", commonmodule::ControlING::descriptor()))
+    {
+        visit_commonmodule_ControlING(visitor);
+        visitor.end_message_field();
+    }
 
-    visitor.handle("rtnRmpTmms", FloatFieldType::Value::mapped);
+    if(visitor.start_message_field("rtnRmpTmms", commonmodule::ControlING::descriptor()))
+    {
+        visit_commonmodule_ControlING(visitor);
+        visitor.end_message_field();
+    }
 }
 
 void visit_commonmodule_OperationDFPF(IModelVisitor& visitor)
@@ -3408,7 +3474,11 @@ void visit_commonmodule_OperationDVVR(IModelVisitor& visitor)
 
     visitor.handle("VRefAdjEna", BoolFieldType::Value::mapped);
 
-    visitor.handle("VRefTmms", FloatFieldType::Value::mapped);
+    if(visitor.start_message_field("VRefTmms", commonmodule::ControlING::descriptor()))
+    {
+        visit_commonmodule_ControlING(visitor);
+        visitor.end_message_field();
+    }
 }
 
 void visit_commonmodule_OperationDVWC(IModelVisitor& visitor)
@@ -3435,17 +3505,6 @@ void visit_commonmodule_OperationDWMX(IModelVisitor& visitor)
 void visit_commonmodule_OperationDWVR(IModelVisitor& visitor)
 {
     visitor.handle("modEna", BoolFieldType::Value::mapped);
-}
-
-void visit_commonmodule_OperationStorageDFPF(IModelVisitor& visitor)
-{
-    if(visitor.start_message_field("operationDFPF", commonmodule::OperationDFPF::descriptor()))
-    {
-        visit_commonmodule_OperationDFPF(visitor);
-        visitor.end_message_field();
-    }
-
-    visitor.handle("pFLodTgtMxVal", FloatFieldType::Value::mapped);
 }
 
 void visit_commonmodule_Optional_AlrmKind(IModelVisitor& visitor)
@@ -3525,17 +3584,6 @@ void visit_commonmodule_PFSPC(IModelVisitor& visitor)
     if(visitor.start_message_field("pFParameter", commonmodule::OperationDFPF::descriptor()))
     {
         visit_commonmodule_OperationDFPF(visitor);
-        visitor.end_message_field();
-    }
-}
-
-void visit_commonmodule_PFStorageSPC(IModelVisitor& visitor)
-{
-    visitor.handle("ctlVal", BoolFieldType::Value::mapped);
-
-    if(visitor.start_message_field("pFStorageParameter", commonmodule::OperationStorageDFPF::descriptor()))
-    {
-        visit_commonmodule_OperationStorageDFPF(visitor);
         visitor.end_message_field();
     }
 }
@@ -4814,6 +4862,42 @@ void visit_essmodule_ESSControlScheduleFSCH(IModelVisitor& visitor)
     }
 }
 
+void visit_essmodule_ESSDiscreteControl(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("controlValue", commonmodule::ControlValue::descriptor()))
+    {
+        visit_commonmodule_ControlValue(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("check", commonmodule::CheckConditions::descriptor()))
+    {
+        visit_commonmodule_CheckConditions(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("essDiscreteControlDBAT", essmodule::ESSDiscreteControlDBAT::descriptor()))
+    {
+        visit_essmodule_ESSDiscreteControlDBAT(visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit_essmodule_ESSDiscreteControlDBAT(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("logicalNodeForControl", commonmodule::LogicalNodeForControl::descriptor()))
+    {
+        visit_commonmodule_LogicalNodeForControl(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("control", essmodule::ESSPoint::descriptor()))
+    {
+        visit_essmodule_ESSPoint(visitor);
+        visitor.end_message_field();
+    }
+}
+
 void visit_essmodule_ESSEvent(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("eventValue", commonmodule::EventValue::descriptor()))
@@ -4936,12 +5020,6 @@ void visit_essmodule_ESSPoint(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("frequencySetPointEnabled", commonmodule::ControlSPC::descriptor()))
-    {
-        visit_commonmodule_ControlSPC(visitor);
-        visitor.end_message_field();
-    }
-
     if(visitor.start_message_field("function", essmodule::ESSFunction::descriptor()))
     {
         visit_essmodule_ESSFunction(visitor);
@@ -4954,33 +5032,9 @@ void visit_essmodule_ESSPoint(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("pctHzDroop", google::protobuf::FloatValue::descriptor()))
-    {
-        visitor.handle("value", FloatFieldType::Value::mapped);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("pctVDroop", google::protobuf::FloatValue::descriptor()))
-    {
-        visitor.handle("value", FloatFieldType::Value::mapped);
-        visitor.end_message_field();
-    }
-
     if(visitor.start_message_field("rampRates", commonmodule::RampRate::descriptor()))
     {
         visit_commonmodule_RampRate(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("reactivePwrSetPointEnabled", commonmodule::ControlSPC::descriptor()))
-    {
-        visit_commonmodule_ControlSPC(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("realPwrSetPointEnabled", commonmodule::ControlSPC::descriptor()))
-    {
-        visit_commonmodule_ControlSPC(visitor);
         visitor.end_message_field();
     }
 
@@ -4996,19 +5050,7 @@ void visit_essmodule_ESSPoint(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("syncBackToGrid", commonmodule::ControlSPC::descriptor()))
-    {
-        visit_commonmodule_ControlSPC(visitor);
-        visitor.end_message_field();
-    }
-
     if(visitor.start_message_field("transToIslndOnGridLossEnabled", commonmodule::ControlSPC::descriptor()))
-    {
-        visit_commonmodule_ControlSPC(visitor);
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("voltageSetPointEnabled", commonmodule::ControlSPC::descriptor()))
     {
         visit_commonmodule_ControlSPC(visitor);
         visitor.end_message_field();
@@ -5034,9 +5076,9 @@ void visit_essmodule_ESSPoint(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("pFStorageOperation", commonmodule::PFStorageSPC::descriptor()))
+    if(visitor.start_message_field("pFOperation", commonmodule::PFSPC::descriptor()))
     {
-        visit_commonmodule_PFStorageSPC(visitor);
+        visit_commonmodule_PFSPC(visitor);
         visitor.end_message_field();
     }
 
@@ -5073,6 +5115,12 @@ void visit_essmodule_ESSPoint(IModelVisitor& visitor)
     if(visitor.start_message_field("wVarOperation", commonmodule::WVarCSG::descriptor()))
     {
         visit_commonmodule_WVarCSG(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("wOperation", essmodule::WSPC::descriptor()))
+    {
+        visit_essmodule_WSPC(visitor);
         visitor.end_message_field();
     }
 }
@@ -5175,9 +5223,9 @@ void visit_essmodule_ESSPointStatus(IModelVisitor& visitor)
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("pFStorageOperation", commonmodule::PFStorageSPC::descriptor()))
+    if(visitor.start_message_field("pFOperation", commonmodule::PFSPC::descriptor()))
     {
-        visit_commonmodule_PFStorageSPC(visitor);
+        visit_commonmodule_PFSPC(visitor);
         visitor.end_message_field();
     }
 
@@ -5437,6 +5485,11 @@ void visit_essmodule_FrequencyRegulation(IModelVisitor& visitor)
     }
 }
 
+void visit_essmodule_OperationDWGC(IModelVisitor& visitor)
+{
+    visitor.handle("wSpt", FloatFieldType::Value::mapped);
+}
+
 void visit_essmodule_PeakShaving(IModelVisitor& visitor)
 {
     if(visitor.start_message_field("baseShavingLimit", google::protobuf::FloatValue::descriptor()))
@@ -5595,6 +5648,17 @@ void visit_essmodule_VoltageRegulation(IModelVisitor& visitor)
     if(visitor.start_message_field("voltageSetPoint", google::protobuf::FloatValue::descriptor()))
     {
         visitor.handle("value", FloatFieldType::Value::mapped);
+        visitor.end_message_field();
+    }
+}
+
+void visit_essmodule_WSPC(IModelVisitor& visitor)
+{
+    visitor.handle("modEna", BoolFieldType::Value::mapped);
+
+    if(visitor.start_message_field("wParameter", essmodule::OperationDWGC::descriptor()))
+    {
+        visit_essmodule_OperationDWGC(visitor);
         visitor.end_message_field();
     }
 }
@@ -7704,6 +7768,42 @@ void visit_solarmodule_SolarControlScheduleFSCH(IModelVisitor& visitor)
     if(visitor.start_message_field("ValDCSG", solarmodule::SolarCSG::descriptor()))
     {
         visit_solarmodule_SolarCSG(visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit_solarmodule_SolarDiscreteControl(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("controlValue", commonmodule::ControlValue::descriptor()))
+    {
+        visit_commonmodule_ControlValue(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("check", commonmodule::CheckConditions::descriptor()))
+    {
+        visit_commonmodule_CheckConditions(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("solarDiscreteControlPV", solarmodule::SolarDiscreteControlPV::descriptor()))
+    {
+        visit_solarmodule_SolarDiscreteControlPV(visitor);
+        visitor.end_message_field();
+    }
+}
+
+void visit_solarmodule_SolarDiscreteControlPV(IModelVisitor& visitor)
+{
+    if(visitor.start_message_field("logicalNodeForControl", commonmodule::LogicalNodeForControl::descriptor()))
+    {
+        visit_commonmodule_LogicalNodeForControl(visitor);
+        visitor.end_message_field();
+    }
+
+    if(visitor.start_message_field("control", solarmodule::SolarPoint::descriptor()))
+    {
+        visit_solarmodule_SolarPoint(visitor);
         visitor.end_message_field();
     }
 }

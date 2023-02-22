@@ -34,6 +34,8 @@ void visit_commonmodule_ClearingTime(const set_t<commonmodule::ClearingTime>& se
 
 void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::ConductingEquipment>& setter, const get_t<commonmodule::ConductingEquipment>& getter, ITypedModelVisitor<solarmodule::SolarStatusProfile>& visitor);
 
+void visit_commonmodule_ControlING(const set_t<commonmodule::ControlING>& setter, const get_t<commonmodule::ControlING>& getter, ITypedModelVisitor<solarmodule::SolarStatusProfile>& visitor);
+
 void visit_commonmodule_ControlSPC(const set_t<commonmodule::ControlSPC>& setter, const get_t<commonmodule::ControlSPC>& getter, ITypedModelVisitor<solarmodule::SolarStatusProfile>& visitor);
 
 void visit_commonmodule_ENG_GridConnectModeKind(const set_t<commonmodule::ENG_GridConnectModeKind>& setter, const get_t<commonmodule::ENG_GridConnectModeKind>& getter, ITypedModelVisitor<solarmodule::SolarStatusProfile>& visitor);
@@ -84,6 +86,8 @@ void visit_commonmodule_Optional_OperatingStateKind(const set_t<commonmodule::Op
 
 void visit_commonmodule_Optional_StateKind(const set_t<commonmodule::Optional_StateKind>& setter, const get_t<commonmodule::Optional_StateKind>& getter, ITypedModelVisitor<solarmodule::SolarStatusProfile>& visitor);
 
+void visit_commonmodule_Optional_UnitMultiplierKind(const set_t<commonmodule::Optional_UnitMultiplierKind>& setter, const get_t<commonmodule::Optional_UnitMultiplierKind>& getter, ITypedModelVisitor<solarmodule::SolarStatusProfile>& visitor);
+
 void visit_commonmodule_PFSPC(const set_t<commonmodule::PFSPC>& setter, const get_t<commonmodule::PFSPC>& getter, ITypedModelVisitor<solarmodule::SolarStatusProfile>& visitor);
 
 void visit_commonmodule_RampRate(const set_t<commonmodule::RampRate>& setter, const get_t<commonmodule::RampRate>& getter, ITypedModelVisitor<solarmodule::SolarStatusProfile>& visitor);
@@ -101,6 +105,8 @@ void visit_commonmodule_TmHzPoint(const set_t<commonmodule::TmHzPoint>& setter, 
 void visit_commonmodule_TmVoltCSG(const set_t<commonmodule::TmVoltCSG>& setter, const get_t<commonmodule::TmVoltCSG>& getter, ITypedModelVisitor<solarmodule::SolarStatusProfile>& visitor);
 
 void visit_commonmodule_TmVoltPoint(const set_t<commonmodule::TmVoltPoint>& setter, const get_t<commonmodule::TmVoltPoint>& getter, ITypedModelVisitor<solarmodule::SolarStatusProfile>& visitor);
+
+void visit_commonmodule_Unit(const set_t<commonmodule::Unit>& setter, const get_t<commonmodule::Unit>& getter, ITypedModelVisitor<solarmodule::SolarStatusProfile>& visitor);
 
 void visit_commonmodule_VarSPC(const set_t<commonmodule::VarSPC>& setter, const get_t<commonmodule::VarSPC>& getter, ITypedModelVisitor<solarmodule::SolarStatusProfile>& visitor);
 
@@ -285,6 +291,47 @@ void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::Conducting
             }
         )
     );
+}
+
+void visit_commonmodule_ControlING(const set_t<commonmodule::ControlING>& setter, const get_t<commonmodule::ControlING>& getter, ITypedModelVisitor<solarmodule::SolarStatusProfile>& visitor)
+{
+    visitor.handle(
+        "setVal",
+        AccessorBuilder<solarmodule::SolarStatusProfile,int32_t>::build(
+            [setter](solarmodule::SolarStatusProfile& profile, const int32_t& value) { setter(profile)->set_setval(value); },
+            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<int32_t>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->setval());
+                return true;
+            }
+        )
+    );
+
+    if(visitor.start_message_field("units", commonmodule::Unit::descriptor()))
+    {
+        visit_commonmodule_Unit(
+            [setter](solarmodule::SolarStatusProfile& profile)
+            {
+                return setter(profile)->mutable_units();
+            },
+            [getter](const solarmodule::SolarStatusProfile& profile) -> commonmodule::Unit const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_units() ? &value->units() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
 }
 
 void visit_commonmodule_ControlSPC(const set_t<commonmodule::ControlSPC>& setter, const get_t<commonmodule::ControlSPC>& getter, ITypedModelVisitor<solarmodule::SolarStatusProfile>& visitor)
@@ -1006,47 +1053,77 @@ void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& sett
 
 void visit_commonmodule_OperationDCTE(const set_t<commonmodule::OperationDCTE>& setter, const get_t<commonmodule::OperationDCTE>& getter, ITypedModelVisitor<solarmodule::SolarStatusProfile>& visitor)
 {
-    visitor.handle(
-        "rndDlTmms",
-        AccessorBuilder<solarmodule::SolarStatusProfile,float>::build(
-            [setter](solarmodule::SolarStatusProfile& profile, const float& value) { setter(profile)->set_rnddltmms(value); },
-            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<float>& handler)
+    if(visitor.start_message_field("rndDlTmms", commonmodule::ControlING::descriptor()))
+    {
+        visit_commonmodule_ControlING(
+            [setter](solarmodule::SolarStatusProfile& profile)
             {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->rnddltmms());
-                return true;
-            }
-        )
-    );
+                return setter(profile)->mutable_rnddltmms();
+            },
+            [getter](const solarmodule::SolarStatusProfile& profile) -> commonmodule::ControlING const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_rnddltmms() ? &value->rnddltmms() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
 
-    visitor.handle(
-        "rtnDlTmms",
-        AccessorBuilder<solarmodule::SolarStatusProfile,float>::build(
-            [setter](solarmodule::SolarStatusProfile& profile, const float& value) { setter(profile)->set_rtndltmms(value); },
-            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<float>& handler)
+    if(visitor.start_message_field("rtnDlTmms", commonmodule::ControlING::descriptor()))
+    {
+        visit_commonmodule_ControlING(
+            [setter](solarmodule::SolarStatusProfile& profile)
             {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->rtndltmms());
-                return true;
-            }
-        )
-    );
+                return setter(profile)->mutable_rtndltmms();
+            },
+            [getter](const solarmodule::SolarStatusProfile& profile) -> commonmodule::ControlING const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_rtndltmms() ? &value->rtndltmms() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
 
-    visitor.handle(
-        "rtnRmpTmms",
-        AccessorBuilder<solarmodule::SolarStatusProfile,float>::build(
-            [setter](solarmodule::SolarStatusProfile& profile, const float& value) { setter(profile)->set_rtnrmptmms(value); },
-            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<float>& handler)
+    if(visitor.start_message_field("rtnRmpTmms", commonmodule::ControlING::descriptor()))
+    {
+        visit_commonmodule_ControlING(
+            [setter](solarmodule::SolarStatusProfile& profile)
             {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->rtnrmptmms());
-                return true;
-            }
-        )
-    );
+                return setter(profile)->mutable_rtnrmptmms();
+            },
+            [getter](const solarmodule::SolarStatusProfile& profile) -> commonmodule::ControlING const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_rtnrmptmms() ? &value->rtnrmptmms() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
 }
 
 void visit_commonmodule_OperationDFPF(const set_t<commonmodule::OperationDFPF>& setter, const get_t<commonmodule::OperationDFPF>& getter, ITypedModelVisitor<solarmodule::SolarStatusProfile>& visitor)
@@ -1179,19 +1256,29 @@ void visit_commonmodule_OperationDVVR(const set_t<commonmodule::OperationDVVR>& 
         )
     );
 
-    visitor.handle(
-        "VRefTmms",
-        AccessorBuilder<solarmodule::SolarStatusProfile,float>::build(
-            [setter](solarmodule::SolarStatusProfile& profile, const float& value) { setter(profile)->set_vreftmms(value); },
-            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<float>& handler)
+    if(visitor.start_message_field("VRefTmms", commonmodule::ControlING::descriptor()))
+    {
+        visit_commonmodule_ControlING(
+            [setter](solarmodule::SolarStatusProfile& profile)
             {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->vreftmms());
-                return true;
-            }
-        )
-    );
+                return setter(profile)->mutable_vreftmms();
+            },
+            [getter](const solarmodule::SolarStatusProfile& profile) -> commonmodule::ControlING const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_vreftmms() ? &value->vreftmms() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
 }
 
 void visit_commonmodule_OperationDVWC(const set_t<commonmodule::OperationDVWC>& setter, const get_t<commonmodule::OperationDVWC>& getter, ITypedModelVisitor<solarmodule::SolarStatusProfile>& visitor)
@@ -1355,6 +1442,24 @@ void visit_commonmodule_Optional_StateKind(const set_t<commonmodule::Optional_St
             }
         ),
         commonmodule::StateKind_descriptor()
+    );
+}
+
+void visit_commonmodule_Optional_UnitMultiplierKind(const set_t<commonmodule::Optional_UnitMultiplierKind>& setter, const get_t<commonmodule::Optional_UnitMultiplierKind>& getter, ITypedModelVisitor<solarmodule::SolarStatusProfile>& visitor)
+{
+    visitor.handle(
+        "value",
+        AccessorBuilder<solarmodule::SolarStatusProfile,int>::build(
+            [setter](solarmodule::SolarStatusProfile& profile, const int& value) { setter(profile)->set_value(static_cast<commonmodule::UnitMultiplierKind>(value)); },
+            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<int>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->value());
+                return true;
+            }
+        ),
+        commonmodule::UnitMultiplierKind_descriptor()
     );
 }
 
@@ -1854,6 +1959,48 @@ void visit_commonmodule_TmVoltPoint(const set_t<commonmodule::TmVoltPoint>& sett
                 return true;
             }
         )
+    );
+}
+
+void visit_commonmodule_Unit(const set_t<commonmodule::Unit>& setter, const get_t<commonmodule::Unit>& getter, ITypedModelVisitor<solarmodule::SolarStatusProfile>& visitor)
+{
+    if(visitor.start_message_field("multiplier", commonmodule::Optional_UnitMultiplierKind::descriptor()))
+    {
+        visit_commonmodule_Optional_UnitMultiplierKind(
+            [setter](solarmodule::SolarStatusProfile& profile)
+            {
+                return setter(profile)->mutable_multiplier();
+            },
+            [getter](const solarmodule::SolarStatusProfile& profile) -> commonmodule::Optional_UnitMultiplierKind const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_multiplier() ? &value->multiplier() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    visitor.handle(
+        "SIUnit",
+        AccessorBuilder<solarmodule::SolarStatusProfile,int>::build(
+            [setter](solarmodule::SolarStatusProfile& profile, const int& value) { setter(profile)->set_siunit(static_cast<commonmodule::UnitSymbolKind>(value)); },
+            [getter](const solarmodule::SolarStatusProfile& profile, const handler_t<int>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->siunit());
+                return true;
+            }
+        ),
+        commonmodule::UnitSymbolKind_descriptor()
     );
 }
 

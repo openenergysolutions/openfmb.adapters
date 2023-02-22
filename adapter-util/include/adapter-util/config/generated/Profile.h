@@ -59,6 +59,8 @@ struct Profile
         ESSCapabilityProfile,
         // essmodule.ESSControlProfile
         ESSControlProfile,
+        // essmodule.ESSDiscreteControlProfile
+        ESSDiscreteControlProfile,
         // essmodule.ESSEventProfile
         ESSEventProfile,
         // essmodule.ESSReadingProfile
@@ -79,10 +81,10 @@ struct Profile
         GenerationReadingProfile,
         // generationmodule.GenerationStatusProfile
         GenerationStatusProfile,
-        // interconnectionmodule.PlannedInterconnectionScheduleProfile
-        PlannedInterconnectionScheduleProfile,
-        // interconnectionmodule.RequestedInterconnectionScheduleProfile
-        RequestedInterconnectionScheduleProfile,
+        // interconnectionmodule.InterconnectionPlannedScheduleProfile
+        InterconnectionPlannedScheduleProfile,
+        // interconnectionmodule.InterconnectionRequestedScheduleProfile
+        InterconnectionRequestedScheduleProfile,
         // loadmodule.LoadControlProfile
         LoadControlProfile,
         // loadmodule.LoadEventProfile
@@ -129,6 +131,8 @@ struct Profile
         SolarCapabilityProfile,
         // solarmodule.SolarControlProfile
         SolarControlProfile,
+        // solarmodule.SolarDiscreteControlProfile
+        SolarDiscreteControlProfile,
         // solarmodule.SolarEventProfile
         SolarEventProfile,
         // solarmodule.SolarReadingProfile
@@ -160,6 +164,7 @@ struct Profile
     static const char ESSCapabilityOverrideProfile[];
     static const char ESSCapabilityProfile[];
     static const char ESSControlProfile[];
+    static const char ESSDiscreteControlProfile[];
     static const char ESSEventProfile[];
     static const char ESSReadingProfile[];
     static const char ESSStatusProfile[];
@@ -170,8 +175,8 @@ struct Profile
     static const char GenerationEventProfile[];
     static const char GenerationReadingProfile[];
     static const char GenerationStatusProfile[];
-    static const char PlannedInterconnectionScheduleProfile[];
-    static const char RequestedInterconnectionScheduleProfile[];
+    static const char InterconnectionPlannedScheduleProfile[];
+    static const char InterconnectionRequestedScheduleProfile[];
     static const char LoadControlProfile[];
     static const char LoadEventProfile[];
     static const char LoadReadingProfile[];
@@ -195,6 +200,7 @@ struct Profile
     static const char SolarCapabilityOverrideProfile[];
     static const char SolarCapabilityProfile[];
     static const char SolarControlProfile[];
+    static const char SolarDiscreteControlProfile[];
     static const char SolarEventProfile[];
     static const char SolarReadingProfile[];
     static const char SolarStatusProfile[];
@@ -205,7 +211,7 @@ struct Profile
 
     static constexpr const char* label = "profile";
 
-    static const std::array<Value, 57> values;
+    static const std::array<Value, 59> values;
 
     static std::string to_string(Value value);
     static Value from_string(const std::string& name);

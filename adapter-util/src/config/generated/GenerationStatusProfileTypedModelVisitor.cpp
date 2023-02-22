@@ -36,6 +36,8 @@ void visit_commonmodule_ClearingTime(const set_t<commonmodule::ClearingTime>& se
 
 void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::ConductingEquipment>& setter, const get_t<commonmodule::ConductingEquipment>& getter, ITypedModelVisitor<generationmodule::GenerationStatusProfile>& visitor);
 
+void visit_commonmodule_ControlING(const set_t<commonmodule::ControlING>& setter, const get_t<commonmodule::ControlING>& getter, ITypedModelVisitor<generationmodule::GenerationStatusProfile>& visitor);
+
 void visit_commonmodule_ENS_BehaviourModeKind(const set_t<commonmodule::ENS_BehaviourModeKind>& setter, const get_t<commonmodule::ENS_BehaviourModeKind>& getter, ITypedModelVisitor<generationmodule::GenerationStatusProfile>& visitor);
 
 void visit_commonmodule_ENS_DynamicTestKind(const set_t<commonmodule::ENS_DynamicTestKind>& setter, const get_t<commonmodule::ENS_DynamicTestKind>& getter, ITypedModelVisitor<generationmodule::GenerationStatusProfile>& visitor);
@@ -109,6 +111,8 @@ void visit_commonmodule_TmHzPoint(const set_t<commonmodule::TmHzPoint>& setter, 
 void visit_commonmodule_TmVoltCSG(const set_t<commonmodule::TmVoltCSG>& setter, const get_t<commonmodule::TmVoltCSG>& getter, ITypedModelVisitor<generationmodule::GenerationStatusProfile>& visitor);
 
 void visit_commonmodule_TmVoltPoint(const set_t<commonmodule::TmVoltPoint>& setter, const get_t<commonmodule::TmVoltPoint>& getter, ITypedModelVisitor<generationmodule::GenerationStatusProfile>& visitor);
+
+void visit_commonmodule_Unit(const set_t<commonmodule::Unit>& setter, const get_t<commonmodule::Unit>& getter, ITypedModelVisitor<generationmodule::GenerationStatusProfile>& visitor);
 
 void visit_commonmodule_VarSPC(const set_t<commonmodule::VarSPC>& setter, const get_t<commonmodule::VarSPC>& getter, ITypedModelVisitor<generationmodule::GenerationStatusProfile>& visitor);
 
@@ -368,6 +372,47 @@ void visit_commonmodule_ConductingEquipment(const set_t<commonmodule::Conducting
             }
         )
     );
+}
+
+void visit_commonmodule_ControlING(const set_t<commonmodule::ControlING>& setter, const get_t<commonmodule::ControlING>& getter, ITypedModelVisitor<generationmodule::GenerationStatusProfile>& visitor)
+{
+    visitor.handle(
+        "setVal",
+        AccessorBuilder<generationmodule::GenerationStatusProfile,int32_t>::build(
+            [setter](generationmodule::GenerationStatusProfile& profile, const int32_t& value) { setter(profile)->set_setval(value); },
+            [getter](const generationmodule::GenerationStatusProfile& profile, const handler_t<int32_t>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->setval());
+                return true;
+            }
+        )
+    );
+
+    if(visitor.start_message_field("units", commonmodule::Unit::descriptor()))
+    {
+        visit_commonmodule_Unit(
+            [setter](generationmodule::GenerationStatusProfile& profile)
+            {
+                return setter(profile)->mutable_units();
+            },
+            [getter](const generationmodule::GenerationStatusProfile& profile) -> commonmodule::Unit const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_units() ? &value->units() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
 }
 
 void visit_commonmodule_ENS_BehaviourModeKind(const set_t<commonmodule::ENS_BehaviourModeKind>& setter, const get_t<commonmodule::ENS_BehaviourModeKind>& getter, ITypedModelVisitor<generationmodule::GenerationStatusProfile>& visitor)
@@ -1129,47 +1174,77 @@ void visit_commonmodule_NamedObject(const set_t<commonmodule::NamedObject>& sett
 
 void visit_commonmodule_OperationDCTE(const set_t<commonmodule::OperationDCTE>& setter, const get_t<commonmodule::OperationDCTE>& getter, ITypedModelVisitor<generationmodule::GenerationStatusProfile>& visitor)
 {
-    visitor.handle(
-        "rndDlTmms",
-        AccessorBuilder<generationmodule::GenerationStatusProfile,float>::build(
-            [setter](generationmodule::GenerationStatusProfile& profile, const float& value) { setter(profile)->set_rnddltmms(value); },
-            [getter](const generationmodule::GenerationStatusProfile& profile, const handler_t<float>& handler)
+    if(visitor.start_message_field("rndDlTmms", commonmodule::ControlING::descriptor()))
+    {
+        visit_commonmodule_ControlING(
+            [setter](generationmodule::GenerationStatusProfile& profile)
             {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->rnddltmms());
-                return true;
-            }
-        )
-    );
+                return setter(profile)->mutable_rnddltmms();
+            },
+            [getter](const generationmodule::GenerationStatusProfile& profile) -> commonmodule::ControlING const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_rnddltmms() ? &value->rnddltmms() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
 
-    visitor.handle(
-        "rtnDlTmms",
-        AccessorBuilder<generationmodule::GenerationStatusProfile,float>::build(
-            [setter](generationmodule::GenerationStatusProfile& profile, const float& value) { setter(profile)->set_rtndltmms(value); },
-            [getter](const generationmodule::GenerationStatusProfile& profile, const handler_t<float>& handler)
+    if(visitor.start_message_field("rtnDlTmms", commonmodule::ControlING::descriptor()))
+    {
+        visit_commonmodule_ControlING(
+            [setter](generationmodule::GenerationStatusProfile& profile)
             {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->rtndltmms());
-                return true;
-            }
-        )
-    );
+                return setter(profile)->mutable_rtndltmms();
+            },
+            [getter](const generationmodule::GenerationStatusProfile& profile) -> commonmodule::ControlING const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_rtndltmms() ? &value->rtndltmms() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
 
-    visitor.handle(
-        "rtnRmpTmms",
-        AccessorBuilder<generationmodule::GenerationStatusProfile,float>::build(
-            [setter](generationmodule::GenerationStatusProfile& profile, const float& value) { setter(profile)->set_rtnrmptmms(value); },
-            [getter](const generationmodule::GenerationStatusProfile& profile, const handler_t<float>& handler)
+    if(visitor.start_message_field("rtnRmpTmms", commonmodule::ControlING::descriptor()))
+    {
+        visit_commonmodule_ControlING(
+            [setter](generationmodule::GenerationStatusProfile& profile)
             {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->rtnrmptmms());
-                return true;
-            }
-        )
-    );
+                return setter(profile)->mutable_rtnrmptmms();
+            },
+            [getter](const generationmodule::GenerationStatusProfile& profile) -> commonmodule::ControlING const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_rtnrmptmms() ? &value->rtnrmptmms() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
 }
 
 void visit_commonmodule_OperationDFPF(const set_t<commonmodule::OperationDFPF>& setter, const get_t<commonmodule::OperationDFPF>& getter, ITypedModelVisitor<generationmodule::GenerationStatusProfile>& visitor)
@@ -1384,19 +1459,29 @@ void visit_commonmodule_OperationDVVR(const set_t<commonmodule::OperationDVVR>& 
         )
     );
 
-    visitor.handle(
-        "VRefTmms",
-        AccessorBuilder<generationmodule::GenerationStatusProfile,float>::build(
-            [setter](generationmodule::GenerationStatusProfile& profile, const float& value) { setter(profile)->set_vreftmms(value); },
-            [getter](const generationmodule::GenerationStatusProfile& profile, const handler_t<float>& handler)
+    if(visitor.start_message_field("VRefTmms", commonmodule::ControlING::descriptor()))
+    {
+        visit_commonmodule_ControlING(
+            [setter](generationmodule::GenerationStatusProfile& profile)
             {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->vreftmms());
-                return true;
-            }
-        )
-    );
+                return setter(profile)->mutable_vreftmms();
+            },
+            [getter](const generationmodule::GenerationStatusProfile& profile) -> commonmodule::ControlING const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_vreftmms() ? &value->vreftmms() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
 }
 
 void visit_commonmodule_OperationDVWC(const set_t<commonmodule::OperationDVWC>& setter, const get_t<commonmodule::OperationDVWC>& getter, ITypedModelVisitor<generationmodule::GenerationStatusProfile>& visitor)
@@ -2095,6 +2180,48 @@ void visit_commonmodule_TmVoltPoint(const set_t<commonmodule::TmVoltPoint>& sett
                 return true;
             }
         )
+    );
+}
+
+void visit_commonmodule_Unit(const set_t<commonmodule::Unit>& setter, const get_t<commonmodule::Unit>& getter, ITypedModelVisitor<generationmodule::GenerationStatusProfile>& visitor)
+{
+    if(visitor.start_message_field("multiplier", commonmodule::Optional_UnitMultiplierKind::descriptor()))
+    {
+        visit_commonmodule_Optional_UnitMultiplierKind(
+            [setter](generationmodule::GenerationStatusProfile& profile)
+            {
+                return setter(profile)->mutable_multiplier();
+            },
+            [getter](const generationmodule::GenerationStatusProfile& profile) -> commonmodule::Optional_UnitMultiplierKind const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_multiplier() ? &value->multiplier() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    visitor.handle(
+        "SIUnit",
+        AccessorBuilder<generationmodule::GenerationStatusProfile,int>::build(
+            [setter](generationmodule::GenerationStatusProfile& profile, const int& value) { setter(profile)->set_siunit(static_cast<commonmodule::UnitSymbolKind>(value)); },
+            [getter](const generationmodule::GenerationStatusProfile& profile, const handler_t<int>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->siunit());
+                return true;
+            }
+        ),
+        commonmodule::UnitSymbolKind_descriptor()
     );
 }
 

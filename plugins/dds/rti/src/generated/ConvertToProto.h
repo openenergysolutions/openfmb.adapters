@@ -71,6 +71,8 @@ void convert_to_proto(const openfmb::essmodule::ESSCapabilityProfile& in, essmod
 
 void convert_to_proto(const openfmb::essmodule::ESSControlProfile& in, essmodule::ESSControlProfile& out);
 
+void convert_to_proto(const openfmb::essmodule::ESSDiscreteControlProfile& in, essmodule::ESSDiscreteControlProfile& out);
+
 void convert_to_proto(const openfmb::essmodule::ESSEventProfile& in, essmodule::ESSEventProfile& out);
 
 void convert_to_proto(const openfmb::essmodule::ESSReadingProfile& in, essmodule::ESSReadingProfile& out);
@@ -91,9 +93,9 @@ void convert_to_proto(const openfmb::generationmodule::GenerationReadingProfile&
 
 void convert_to_proto(const openfmb::generationmodule::GenerationStatusProfile& in, generationmodule::GenerationStatusProfile& out);
 
-void convert_to_proto(const openfmb::interconnectionmodule::PlannedInterconnectionScheduleProfile& in, interconnectionmodule::PlannedInterconnectionScheduleProfile& out);
+void convert_to_proto(const openfmb::interconnectionmodule::InterconnectionPlannedScheduleProfile& in, interconnectionmodule::InterconnectionPlannedScheduleProfile& out);
 
-void convert_to_proto(const openfmb::interconnectionmodule::RequestedInterconnectionScheduleProfile& in, interconnectionmodule::RequestedInterconnectionScheduleProfile& out);
+void convert_to_proto(const openfmb::interconnectionmodule::InterconnectionRequestedScheduleProfile& in, interconnectionmodule::InterconnectionRequestedScheduleProfile& out);
 
 void convert_to_proto(const openfmb::loadmodule::LoadControlProfile& in, loadmodule::LoadControlProfile& out);
 
@@ -140,6 +142,8 @@ void convert_to_proto(const openfmb::solarmodule::SolarCapabilityOverrideProfile
 void convert_to_proto(const openfmb::solarmodule::SolarCapabilityProfile& in, solarmodule::SolarCapabilityProfile& out);
 
 void convert_to_proto(const openfmb::solarmodule::SolarControlProfile& in, solarmodule::SolarControlProfile& out);
+
+void convert_to_proto(const openfmb::solarmodule::SolarDiscreteControlProfile& in, solarmodule::SolarDiscreteControlProfile& out);
 
 void convert_to_proto(const openfmb::solarmodule::SolarEventProfile& in, solarmodule::SolarEventProfile& out);
 

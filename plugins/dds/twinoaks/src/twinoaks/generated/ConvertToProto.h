@@ -71,6 +71,8 @@ void convert_to_proto(const twinoaks::essmodule::ESSCapabilityProfile& in, essmo
 
 void convert_to_proto(const twinoaks::essmodule::ESSControlProfile& in, essmodule::ESSControlProfile& out);
 
+void convert_to_proto(const twinoaks::essmodule::ESSDiscreteControlProfile& in, essmodule::ESSDiscreteControlProfile& out);
+
 void convert_to_proto(const twinoaks::essmodule::ESSEventProfile& in, essmodule::ESSEventProfile& out);
 
 void convert_to_proto(const twinoaks::essmodule::ESSReadingProfile& in, essmodule::ESSReadingProfile& out);
@@ -91,9 +93,9 @@ void convert_to_proto(const twinoaks::generationmodule::GenerationReadingProfile
 
 void convert_to_proto(const twinoaks::generationmodule::GenerationStatusProfile& in, generationmodule::GenerationStatusProfile& out);
 
-void convert_to_proto(const twinoaks::interconnectionmodule::PlannedInterconnectionScheduleProfile& in, interconnectionmodule::PlannedInterconnectionScheduleProfile& out);
+void convert_to_proto(const twinoaks::interconnectionmodule::InterconnectionPlannedScheduleProfile& in, interconnectionmodule::InterconnectionPlannedScheduleProfile& out);
 
-void convert_to_proto(const twinoaks::interconnectionmodule::RequestedInterconnectionScheduleProfile& in, interconnectionmodule::RequestedInterconnectionScheduleProfile& out);
+void convert_to_proto(const twinoaks::interconnectionmodule::InterconnectionRequestedScheduleProfile& in, interconnectionmodule::InterconnectionRequestedScheduleProfile& out);
 
 void convert_to_proto(const twinoaks::loadmodule::LoadControlProfile& in, loadmodule::LoadControlProfile& out);
 
@@ -140,6 +142,8 @@ void convert_to_proto(const twinoaks::solarmodule::SolarCapabilityOverrideProfil
 void convert_to_proto(const twinoaks::solarmodule::SolarCapabilityProfile& in, solarmodule::SolarCapabilityProfile& out);
 
 void convert_to_proto(const twinoaks::solarmodule::SolarControlProfile& in, solarmodule::SolarControlProfile& out);
+
+void convert_to_proto(const twinoaks::solarmodule::SolarDiscreteControlProfile& in, solarmodule::SolarDiscreteControlProfile& out);
 
 void convert_to_proto(const twinoaks::solarmodule::SolarEventProfile& in, solarmodule::SolarEventProfile& out);
 

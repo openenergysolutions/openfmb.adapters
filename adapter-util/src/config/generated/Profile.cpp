@@ -40,6 +40,7 @@ const char Profile::CircuitSegmentStatusProfile[] = "CircuitSegmentStatusProfile
 const char Profile::ESSCapabilityOverrideProfile[] = "ESSCapabilityOverrideProfile";
 const char Profile::ESSCapabilityProfile[] = "ESSCapabilityProfile";
 const char Profile::ESSControlProfile[] = "ESSControlProfile";
+const char Profile::ESSDiscreteControlProfile[] = "ESSDiscreteControlProfile";
 const char Profile::ESSEventProfile[] = "ESSEventProfile";
 const char Profile::ESSReadingProfile[] = "ESSReadingProfile";
 const char Profile::ESSStatusProfile[] = "ESSStatusProfile";
@@ -50,8 +51,8 @@ const char Profile::GenerationDiscreteControlProfile[] = "GenerationDiscreteCont
 const char Profile::GenerationEventProfile[] = "GenerationEventProfile";
 const char Profile::GenerationReadingProfile[] = "GenerationReadingProfile";
 const char Profile::GenerationStatusProfile[] = "GenerationStatusProfile";
-const char Profile::PlannedInterconnectionScheduleProfile[] = "PlannedInterconnectionScheduleProfile";
-const char Profile::RequestedInterconnectionScheduleProfile[] = "RequestedInterconnectionScheduleProfile";
+const char Profile::InterconnectionPlannedScheduleProfile[] = "InterconnectionPlannedScheduleProfile";
+const char Profile::InterconnectionRequestedScheduleProfile[] = "InterconnectionRequestedScheduleProfile";
 const char Profile::LoadControlProfile[] = "LoadControlProfile";
 const char Profile::LoadEventProfile[] = "LoadEventProfile";
 const char Profile::LoadReadingProfile[] = "LoadReadingProfile";
@@ -75,6 +76,7 @@ const char Profile::ResourceStatusProfile[] = "ResourceStatusProfile";
 const char Profile::SolarCapabilityOverrideProfile[] = "SolarCapabilityOverrideProfile";
 const char Profile::SolarCapabilityProfile[] = "SolarCapabilityProfile";
 const char Profile::SolarControlProfile[] = "SolarControlProfile";
+const char Profile::SolarDiscreteControlProfile[] = "SolarDiscreteControlProfile";
 const char Profile::SolarEventProfile[] = "SolarEventProfile";
 const char Profile::SolarReadingProfile[] = "SolarReadingProfile";
 const char Profile::SolarStatusProfile[] = "SolarStatusProfile";
@@ -83,7 +85,7 @@ const char Profile::SwitchEventProfile[] = "SwitchEventProfile";
 const char Profile::SwitchReadingProfile[] = "SwitchReadingProfile";
 const char Profile::SwitchStatusProfile[] = "SwitchStatusProfile";
 
-const std::array<Profile::Value, 57> Profile::values =
+const std::array<Profile::Value, 59> Profile::values =
 {
     Profile::Value::BreakerDiscreteControlProfile,
     Profile::Value::BreakerEventProfile,
@@ -100,6 +102,7 @@ const std::array<Profile::Value, 57> Profile::values =
     Profile::Value::ESSCapabilityOverrideProfile,
     Profile::Value::ESSCapabilityProfile,
     Profile::Value::ESSControlProfile,
+    Profile::Value::ESSDiscreteControlProfile,
     Profile::Value::ESSEventProfile,
     Profile::Value::ESSReadingProfile,
     Profile::Value::ESSStatusProfile,
@@ -110,8 +113,8 @@ const std::array<Profile::Value, 57> Profile::values =
     Profile::Value::GenerationEventProfile,
     Profile::Value::GenerationReadingProfile,
     Profile::Value::GenerationStatusProfile,
-    Profile::Value::PlannedInterconnectionScheduleProfile,
-    Profile::Value::RequestedInterconnectionScheduleProfile,
+    Profile::Value::InterconnectionPlannedScheduleProfile,
+    Profile::Value::InterconnectionRequestedScheduleProfile,
     Profile::Value::LoadControlProfile,
     Profile::Value::LoadEventProfile,
     Profile::Value::LoadReadingProfile,
@@ -135,6 +138,7 @@ const std::array<Profile::Value, 57> Profile::values =
     Profile::Value::SolarCapabilityOverrideProfile,
     Profile::Value::SolarCapabilityProfile,
     Profile::Value::SolarControlProfile,
+    Profile::Value::SolarDiscreteControlProfile,
     Profile::Value::SolarEventProfile,
     Profile::Value::SolarReadingProfile,
     Profile::Value::SolarStatusProfile,
@@ -163,6 +167,7 @@ std::string Profile::to_string(Profile::Value value)
         case(Value::ESSCapabilityOverrideProfile): return ESSCapabilityOverrideProfile;
         case(Value::ESSCapabilityProfile): return ESSCapabilityProfile;
         case(Value::ESSControlProfile): return ESSControlProfile;
+        case(Value::ESSDiscreteControlProfile): return ESSDiscreteControlProfile;
         case(Value::ESSEventProfile): return ESSEventProfile;
         case(Value::ESSReadingProfile): return ESSReadingProfile;
         case(Value::ESSStatusProfile): return ESSStatusProfile;
@@ -173,8 +178,8 @@ std::string Profile::to_string(Profile::Value value)
         case(Value::GenerationEventProfile): return GenerationEventProfile;
         case(Value::GenerationReadingProfile): return GenerationReadingProfile;
         case(Value::GenerationStatusProfile): return GenerationStatusProfile;
-        case(Value::PlannedInterconnectionScheduleProfile): return PlannedInterconnectionScheduleProfile;
-        case(Value::RequestedInterconnectionScheduleProfile): return RequestedInterconnectionScheduleProfile;
+        case(Value::InterconnectionPlannedScheduleProfile): return InterconnectionPlannedScheduleProfile;
+        case(Value::InterconnectionRequestedScheduleProfile): return InterconnectionRequestedScheduleProfile;
         case(Value::LoadControlProfile): return LoadControlProfile;
         case(Value::LoadEventProfile): return LoadEventProfile;
         case(Value::LoadReadingProfile): return LoadReadingProfile;
@@ -198,6 +203,7 @@ std::string Profile::to_string(Profile::Value value)
         case(Value::SolarCapabilityOverrideProfile): return SolarCapabilityOverrideProfile;
         case(Value::SolarCapabilityProfile): return SolarCapabilityProfile;
         case(Value::SolarControlProfile): return SolarControlProfile;
+        case(Value::SolarDiscreteControlProfile): return SolarDiscreteControlProfile;
         case(Value::SolarEventProfile): return SolarEventProfile;
         case(Value::SolarReadingProfile): return SolarReadingProfile;
         case(Value::SolarStatusProfile): return SolarStatusProfile;
@@ -227,6 +233,7 @@ Profile::Value Profile::from_string(const std::string& name)
         {ESSCapabilityOverrideProfile, Value::ESSCapabilityOverrideProfile},
         {ESSCapabilityProfile, Value::ESSCapabilityProfile},
         {ESSControlProfile, Value::ESSControlProfile},
+        {ESSDiscreteControlProfile, Value::ESSDiscreteControlProfile},
         {ESSEventProfile, Value::ESSEventProfile},
         {ESSReadingProfile, Value::ESSReadingProfile},
         {ESSStatusProfile, Value::ESSStatusProfile},
@@ -237,8 +244,8 @@ Profile::Value Profile::from_string(const std::string& name)
         {GenerationEventProfile, Value::GenerationEventProfile},
         {GenerationReadingProfile, Value::GenerationReadingProfile},
         {GenerationStatusProfile, Value::GenerationStatusProfile},
-        {PlannedInterconnectionScheduleProfile, Value::PlannedInterconnectionScheduleProfile},
-        {RequestedInterconnectionScheduleProfile, Value::RequestedInterconnectionScheduleProfile},
+        {InterconnectionPlannedScheduleProfile, Value::InterconnectionPlannedScheduleProfile},
+        {InterconnectionRequestedScheduleProfile, Value::InterconnectionRequestedScheduleProfile},
         {LoadControlProfile, Value::LoadControlProfile},
         {LoadEventProfile, Value::LoadEventProfile},
         {LoadReadingProfile, Value::LoadReadingProfile},
@@ -262,6 +269,7 @@ Profile::Value Profile::from_string(const std::string& name)
         {SolarCapabilityOverrideProfile, Value::SolarCapabilityOverrideProfile},
         {SolarCapabilityProfile, Value::SolarCapabilityProfile},
         {SolarControlProfile, Value::SolarControlProfile},
+        {SolarDiscreteControlProfile, Value::SolarDiscreteControlProfile},
         {SolarEventProfile, Value::SolarEventProfile},
         {SolarReadingProfile, Value::SolarReadingProfile},
         {SolarStatusProfile, Value::SolarStatusProfile},

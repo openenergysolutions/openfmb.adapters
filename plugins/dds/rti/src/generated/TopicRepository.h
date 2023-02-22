@@ -48,6 +48,7 @@ struct TopicRepository
     ::dds::topic::Topic<openfmb::essmodule::ESSCapabilityOverrideProfile> esscapabilityoverrideprofile;
     ::dds::topic::Topic<openfmb::essmodule::ESSCapabilityProfile> esscapabilityprofile;
     ::dds::topic::Topic<openfmb::essmodule::ESSControlProfile> esscontrolprofile;
+    ::dds::topic::Topic<openfmb::essmodule::ESSDiscreteControlProfile> essdiscretecontrolprofile;
     ::dds::topic::Topic<openfmb::essmodule::ESSEventProfile> esseventprofile;
     ::dds::topic::Topic<openfmb::essmodule::ESSReadingProfile> essreadingprofile;
     ::dds::topic::Topic<openfmb::essmodule::ESSStatusProfile> essstatusprofile;
@@ -58,8 +59,8 @@ struct TopicRepository
     ::dds::topic::Topic<openfmb::generationmodule::GenerationEventProfile> generationeventprofile;
     ::dds::topic::Topic<openfmb::generationmodule::GenerationReadingProfile> generationreadingprofile;
     ::dds::topic::Topic<openfmb::generationmodule::GenerationStatusProfile> generationstatusprofile;
-    ::dds::topic::Topic<openfmb::interconnectionmodule::PlannedInterconnectionScheduleProfile> plannedinterconnectionscheduleprofile;
-    ::dds::topic::Topic<openfmb::interconnectionmodule::RequestedInterconnectionScheduleProfile> requestedinterconnectionscheduleprofile;
+    ::dds::topic::Topic<openfmb::interconnectionmodule::InterconnectionPlannedScheduleProfile> interconnectionplannedscheduleprofile;
+    ::dds::topic::Topic<openfmb::interconnectionmodule::InterconnectionRequestedScheduleProfile> interconnectionrequestedscheduleprofile;
     ::dds::topic::Topic<openfmb::loadmodule::LoadControlProfile> loadcontrolprofile;
     ::dds::topic::Topic<openfmb::loadmodule::LoadEventProfile> loadeventprofile;
     ::dds::topic::Topic<openfmb::loadmodule::LoadReadingProfile> loadreadingprofile;
@@ -83,6 +84,7 @@ struct TopicRepository
     ::dds::topic::Topic<openfmb::solarmodule::SolarCapabilityOverrideProfile> solarcapabilityoverrideprofile;
     ::dds::topic::Topic<openfmb::solarmodule::SolarCapabilityProfile> solarcapabilityprofile;
     ::dds::topic::Topic<openfmb::solarmodule::SolarControlProfile> solarcontrolprofile;
+    ::dds::topic::Topic<openfmb::solarmodule::SolarDiscreteControlProfile> solardiscretecontrolprofile;
     ::dds::topic::Topic<openfmb::solarmodule::SolarEventProfile> solareventprofile;
     ::dds::topic::Topic<openfmb::solarmodule::SolarReadingProfile> solarreadingprofile;
     ::dds::topic::Topic<openfmb::solarmodule::SolarStatusProfile> solarstatusprofile;
