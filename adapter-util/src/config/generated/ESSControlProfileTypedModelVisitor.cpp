@@ -84,6 +84,8 @@ void visit_commonmodule_OperationDVVR(const set_t<commonmodule::OperationDVVR>& 
 
 void visit_commonmodule_OperationDVWC(const set_t<commonmodule::OperationDVWC>& setter, const get_t<commonmodule::OperationDVWC>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
 
+void visit_commonmodule_OperationDWGC(const set_t<commonmodule::OperationDWGC>& setter, const get_t<commonmodule::OperationDWGC>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
+
 void visit_commonmodule_OperationDWMN(const set_t<commonmodule::OperationDWMN>& setter, const get_t<commonmodule::OperationDWMN>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
 
 void visit_commonmodule_OperationDWMX(const set_t<commonmodule::OperationDWMX>& setter, const get_t<commonmodule::OperationDWMX>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
@@ -122,6 +124,8 @@ void visit_commonmodule_VoltWCSG(const set_t<commonmodule::VoltWCSG>& setter, co
 
 void visit_commonmodule_VoltWPoint(const set_t<commonmodule::VoltWPoint>& setter, const get_t<commonmodule::VoltWPoint>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
 
+void visit_commonmodule_WSPC(const set_t<commonmodule::WSPC>& setter, const get_t<commonmodule::WSPC>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
+
 void visit_commonmodule_WVarCSG(const set_t<commonmodule::WVarCSG>& setter, const get_t<commonmodule::WVarCSG>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
 
 void visit_commonmodule_WVarPoint(const set_t<commonmodule::WVarPoint>& setter, const get_t<commonmodule::WVarPoint>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
@@ -134,6 +138,8 @@ void visit_essmodule_ESSControl(const set_t<essmodule::ESSControl>& setter, cons
 
 void visit_essmodule_ESSControlScheduleFSCH(const set_t<essmodule::ESSControlScheduleFSCH>& setter, const get_t<essmodule::ESSControlScheduleFSCH>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
 
+void visit_essmodule_ESSCurvePoint(const set_t<essmodule::ESSCurvePoint>& setter, const get_t<essmodule::ESSCurvePoint>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
+
 void visit_essmodule_ESSFunction(const set_t<essmodule::ESSFunction>& setter, const get_t<essmodule::ESSFunction>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
 
 void visit_essmodule_ESSPoint(const set_t<essmodule::ESSPoint>& setter, const get_t<essmodule::ESSPoint>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
@@ -141,8 +147,6 @@ void visit_essmodule_ESSPoint(const set_t<essmodule::ESSPoint>& setter, const ge
 void visit_essmodule_EssControlFSCC(const set_t<essmodule::EssControlFSCC>& setter, const get_t<essmodule::EssControlFSCC>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
 
 void visit_essmodule_FrequencyRegulation(const set_t<essmodule::FrequencyRegulation>& setter, const get_t<essmodule::FrequencyRegulation>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
-
-void visit_essmodule_OperationDWGC(const set_t<essmodule::OperationDWGC>& setter, const get_t<essmodule::OperationDWGC>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
 
 void visit_essmodule_PeakShaving(const set_t<essmodule::PeakShaving>& setter, const get_t<essmodule::PeakShaving>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
 
@@ -155,8 +159,6 @@ void visit_essmodule_VoltageDroop(const set_t<essmodule::VoltageDroop>& setter, 
 void visit_essmodule_VoltagePI(const set_t<essmodule::VoltagePI>& setter, const get_t<essmodule::VoltagePI>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
 
 void visit_essmodule_VoltageRegulation(const set_t<essmodule::VoltageRegulation>& setter, const get_t<essmodule::VoltageRegulation>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
-
-void visit_essmodule_WSPC(const set_t<essmodule::WSPC>& setter, const get_t<essmodule::WSPC>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
 
 void visit_google_protobuf_BoolValue(const set_t<google::protobuf::BoolValue>& setter, const get_t<google::protobuf::BoolValue>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor);
 
@@ -1581,6 +1583,23 @@ void visit_commonmodule_OperationDVWC(const set_t<commonmodule::OperationDVWC>& 
     }
 }
 
+void visit_commonmodule_OperationDWGC(const set_t<commonmodule::OperationDWGC>& setter, const get_t<commonmodule::OperationDWGC>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor)
+{
+    visitor.handle(
+        "wSpt",
+        AccessorBuilder<essmodule::ESSControlProfile,float>::build(
+            [setter](essmodule::ESSControlProfile& profile, const float& value) { setter(profile)->set_wspt(value); },
+            [getter](const essmodule::ESSControlProfile& profile, const handler_t<float>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->wspt());
+                return true;
+            }
+        )
+    );
+}
+
 void visit_commonmodule_OperationDWMN(const set_t<commonmodule::OperationDWMN>& setter, const get_t<commonmodule::OperationDWMN>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor)
 {
     visitor.handle(
@@ -2391,6 +2410,47 @@ void visit_commonmodule_VoltWPoint(const set_t<commonmodule::VoltWPoint>& setter
     );
 }
 
+void visit_commonmodule_WSPC(const set_t<commonmodule::WSPC>& setter, const get_t<commonmodule::WSPC>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor)
+{
+    visitor.handle(
+        "modEna",
+        AccessorBuilder<essmodule::ESSControlProfile,bool>::build(
+            [setter](essmodule::ESSControlProfile& profile, const bool& value) { setter(profile)->set_modena(value); },
+            [getter](const essmodule::ESSControlProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->modena());
+                return true;
+            }
+        )
+    );
+
+    if(visitor.start_message_field("wParameter", commonmodule::OperationDWGC::descriptor()))
+    {
+        visit_commonmodule_OperationDWGC(
+            [setter](essmodule::ESSControlProfile& profile)
+            {
+                return setter(profile)->mutable_wparameter();
+            },
+            [getter](const essmodule::ESSControlProfile& profile) -> commonmodule::OperationDWGC const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_wparameter() ? &value->wparameter() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+}
+
 void visit_commonmodule_WVarCSG(const set_t<commonmodule::WVarCSG>& setter, const get_t<commonmodule::WVarCSG>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor)
 {
     {
@@ -2564,7 +2624,7 @@ void visit_essmodule_CapacityFirming(const set_t<essmodule::CapacityFirming>& se
 void visit_essmodule_ESSCSG(const set_t<essmodule::ESSCSG>& setter, const get_t<essmodule::ESSCSG>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor)
 {
     {
-        const auto count = visitor.start_repeated_message_field("crvpts", essmodule::ESSPoint::descriptor());
+        const auto count = visitor.start_repeated_message_field("crvpts", essmodule::ESSCurvePoint::descriptor());
         for(int i = 0; i < count; ++i)
         {
             visitor.start_iteration(i);
@@ -2582,7 +2642,7 @@ void visit_essmodule_ESSCSG(const set_t<essmodule::ESSCSG>& setter, const get_t<
                 }
                 return repeated->Mutable(i);
             };
-            const auto get = [getter, i](const essmodule::ESSControlProfile& profile) -> essmodule::ESSPoint const*
+            const auto get = [getter, i](const essmodule::ESSControlProfile& profile) -> essmodule::ESSCurvePoint const*
             {
                 const auto value = getter(profile);
                 if(value)
@@ -2594,7 +2654,7 @@ void visit_essmodule_ESSCSG(const set_t<essmodule::ESSCSG>& setter, const get_t<
                     return nullptr;
                 }
             };
-            visit_essmodule_ESSPoint(set, get, visitor);
+            visit_essmodule_ESSCurvePoint(set, get, visitor);
             visitor.end_iteration();
         }
         visitor.end_repeated_message_field();
@@ -2701,6 +2761,47 @@ void visit_essmodule_ESSControlScheduleFSCH(const set_t<essmodule::ESSControlSch
         );
         visitor.end_message_field();
     }
+}
+
+void visit_essmodule_ESSCurvePoint(const set_t<essmodule::ESSCurvePoint>& setter, const get_t<essmodule::ESSCurvePoint>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor)
+{
+    if(visitor.start_message_field("control", essmodule::ESSPoint::descriptor()))
+    {
+        visit_essmodule_ESSPoint(
+            [setter](essmodule::ESSControlProfile& profile)
+            {
+                return setter(profile)->mutable_control();
+            },
+            [getter](const essmodule::ESSControlProfile& profile) -> essmodule::ESSPoint const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_control() ? &value->control() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    visitor.handle(
+        "startTime",
+        MessageAccessorBuilder<essmodule::ESSControlProfile,commonmodule::ControlTimestamp>::build(
+            [setter](essmodule::ESSControlProfile& profile) { return setter(profile)->mutable_starttime(); },
+            [getter](const essmodule::ESSControlProfile& profile, const handler_t<commonmodule::ControlTimestamp>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent || !parent->has_starttime()) return false;
+                handler(parent->starttime());
+                return true;
+            }
+        )
+    );
 }
 
 void visit_essmodule_ESSFunction(const set_t<essmodule::ESSFunction>& setter, const get_t<essmodule::ESSFunction>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor)
@@ -3044,20 +3145,6 @@ void visit_essmodule_ESSPoint(const set_t<essmodule::ESSPoint>& setter, const ge
         visitor.end_message_field();
     }
 
-    visitor.handle(
-        "startTime",
-        MessageAccessorBuilder<essmodule::ESSControlProfile,commonmodule::ControlTimestamp>::build(
-            [setter](essmodule::ESSControlProfile& profile) { return setter(profile)->mutable_starttime(); },
-            [getter](const essmodule::ESSControlProfile& profile, const handler_t<commonmodule::ControlTimestamp>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent || !parent->has_starttime()) return false;
-                handler(parent->starttime());
-                return true;
-            }
-        )
-    );
-
     if(visitor.start_message_field("enterServiceOperation", commonmodule::EnterServiceAPC::descriptor()))
     {
         visit_commonmodule_EnterServiceAPC(
@@ -3298,14 +3385,14 @@ void visit_essmodule_ESSPoint(const set_t<essmodule::ESSPoint>& setter, const ge
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("wOperation", essmodule::WSPC::descriptor()))
+    if(visitor.start_message_field("wOperation", commonmodule::WSPC::descriptor()))
     {
-        visit_essmodule_WSPC(
+        visit_commonmodule_WSPC(
             [setter](essmodule::ESSControlProfile& profile)
             {
                 return setter(profile)->mutable_woperation();
             },
-            [getter](const essmodule::ESSControlProfile& profile) -> essmodule::WSPC const *
+            [getter](const essmodule::ESSControlProfile& profile) -> commonmodule::WSPC const *
             {
                 const auto value = getter(profile);
                 if(value)
@@ -3567,23 +3654,6 @@ void visit_essmodule_FrequencyRegulation(const set_t<essmodule::FrequencyRegulat
         );
         visitor.end_message_field();
     }
-}
-
-void visit_essmodule_OperationDWGC(const set_t<essmodule::OperationDWGC>& setter, const get_t<essmodule::OperationDWGC>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor)
-{
-    visitor.handle(
-        "wSpt",
-        AccessorBuilder<essmodule::ESSControlProfile,float>::build(
-            [setter](essmodule::ESSControlProfile& profile, const float& value) { setter(profile)->set_wspt(value); },
-            [getter](const essmodule::ESSControlProfile& profile, const handler_t<float>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->wspt());
-                return true;
-            }
-        )
-    );
 }
 
 void visit_essmodule_PeakShaving(const set_t<essmodule::PeakShaving>& setter, const get_t<essmodule::PeakShaving>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor)
@@ -4168,47 +4238,6 @@ void visit_essmodule_VoltageRegulation(const set_t<essmodule::VoltageRegulation>
                 if(value)
                 {
                     return value->has_voltagesetpoint() ? &value->voltagesetpoint() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-}
-
-void visit_essmodule_WSPC(const set_t<essmodule::WSPC>& setter, const get_t<essmodule::WSPC>& getter, ITypedModelVisitor<essmodule::ESSControlProfile>& visitor)
-{
-    visitor.handle(
-        "modEna",
-        AccessorBuilder<essmodule::ESSControlProfile,bool>::build(
-            [setter](essmodule::ESSControlProfile& profile, const bool& value) { setter(profile)->set_modena(value); },
-            [getter](const essmodule::ESSControlProfile& profile, const handler_t<bool>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent) return false;
-                handler(parent->modena());
-                return true;
-            }
-        )
-    );
-
-    if(visitor.start_message_field("wParameter", essmodule::OperationDWGC::descriptor()))
-    {
-        visit_essmodule_OperationDWGC(
-            [setter](essmodule::ESSControlProfile& profile)
-            {
-                return setter(profile)->mutable_wparameter();
-            },
-            [getter](const essmodule::ESSControlProfile& profile) -> essmodule::OperationDWGC const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_wparameter() ? &value->wparameter() : nullptr;
                 }
                 else
                 {

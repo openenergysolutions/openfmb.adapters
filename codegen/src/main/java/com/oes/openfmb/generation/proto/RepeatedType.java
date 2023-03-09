@@ -46,7 +46,9 @@ public enum RepeatedType {
         temp.put(openfmb.commonmodule.SwitchPoint.getDescriptor(), RepeatedType.SCHEDULE);
         temp.put(openfmb.capbankmodule.CapBankPoint.getDescriptor(), RepeatedType.SCHEDULE);
         temp.put(openfmb.essmodule.ESSPoint.getDescriptor(), RepeatedType.SCHEDULE);
+        temp.put(openfmb.essmodule.ESSCurvePoint.getDescriptor(), RepeatedType.SCHEDULE);
         temp.put(openfmb.solarmodule.SolarPoint.getDescriptor(), RepeatedType.SCHEDULE);
+        temp.put(openfmb.solarmodule.SolarCurvePoint.getDescriptor(), RepeatedType.SCHEDULE);
         temp.put(openfmb.loadmodule.LoadPoint.getDescriptor(), RepeatedType.SCHEDULE);
         temp.put(openfmb.generationmodule.GenerationPoint.getDescriptor(), RepeatedType.SCHEDULE);
         temp.put(openfmb.regulatormodule.RegulatorPoint.getDescriptor(), RepeatedType.SCHEDULE);

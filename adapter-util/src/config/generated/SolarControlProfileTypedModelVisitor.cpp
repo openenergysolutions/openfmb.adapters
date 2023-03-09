@@ -82,6 +82,8 @@ void visit_commonmodule_OperationDVVR(const set_t<commonmodule::OperationDVVR>& 
 
 void visit_commonmodule_OperationDVWC(const set_t<commonmodule::OperationDVWC>& setter, const get_t<commonmodule::OperationDVWC>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
+void visit_commonmodule_OperationDWGC(const set_t<commonmodule::OperationDWGC>& setter, const get_t<commonmodule::OperationDWGC>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor);
+
 void visit_commonmodule_OperationDWMN(const set_t<commonmodule::OperationDWMN>& setter, const get_t<commonmodule::OperationDWMN>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
 void visit_commonmodule_OperationDWMX(const set_t<commonmodule::OperationDWMX>& setter, const get_t<commonmodule::OperationDWMX>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor);
@@ -120,6 +122,8 @@ void visit_commonmodule_VoltWCSG(const set_t<commonmodule::VoltWCSG>& setter, co
 
 void visit_commonmodule_VoltWPoint(const set_t<commonmodule::VoltWPoint>& setter, const get_t<commonmodule::VoltWPoint>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
+void visit_commonmodule_WSPC(const set_t<commonmodule::WSPC>& setter, const get_t<commonmodule::WSPC>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor);
+
 void visit_commonmodule_WVarCSG(const set_t<commonmodule::WVarCSG>& setter, const get_t<commonmodule::WVarCSG>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
 void visit_commonmodule_WVarPoint(const set_t<commonmodule::WVarPoint>& setter, const get_t<commonmodule::WVarPoint>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor);
@@ -137,6 +141,8 @@ void visit_solarmodule_SolarControl(const set_t<solarmodule::SolarControl>& sett
 void visit_solarmodule_SolarControlFSCC(const set_t<solarmodule::SolarControlFSCC>& setter, const get_t<solarmodule::SolarControlFSCC>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
 void visit_solarmodule_SolarControlScheduleFSCH(const set_t<solarmodule::SolarControlScheduleFSCH>& setter, const get_t<solarmodule::SolarControlScheduleFSCH>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor);
+
+void visit_solarmodule_SolarCurvePoint(const set_t<solarmodule::SolarCurvePoint>& setter, const get_t<solarmodule::SolarCurvePoint>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
 void visit_solarmodule_SolarInverter(const set_t<solarmodule::SolarInverter>& setter, const get_t<solarmodule::SolarInverter>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor);
 
@@ -1532,6 +1538,23 @@ void visit_commonmodule_OperationDVWC(const set_t<commonmodule::OperationDVWC>& 
     }
 }
 
+void visit_commonmodule_OperationDWGC(const set_t<commonmodule::OperationDWGC>& setter, const get_t<commonmodule::OperationDWGC>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor)
+{
+    visitor.handle(
+        "wSpt",
+        AccessorBuilder<solarmodule::SolarControlProfile,float>::build(
+            [setter](solarmodule::SolarControlProfile& profile, const float& value) { setter(profile)->set_wspt(value); },
+            [getter](const solarmodule::SolarControlProfile& profile, const handler_t<float>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->wspt());
+                return true;
+            }
+        )
+    );
+}
+
 void visit_commonmodule_OperationDWMN(const set_t<commonmodule::OperationDWMN>& setter, const get_t<commonmodule::OperationDWMN>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor)
 {
     visitor.handle(
@@ -2342,6 +2365,47 @@ void visit_commonmodule_VoltWPoint(const set_t<commonmodule::VoltWPoint>& setter
     );
 }
 
+void visit_commonmodule_WSPC(const set_t<commonmodule::WSPC>& setter, const get_t<commonmodule::WSPC>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor)
+{
+    visitor.handle(
+        "modEna",
+        AccessorBuilder<solarmodule::SolarControlProfile,bool>::build(
+            [setter](solarmodule::SolarControlProfile& profile, const bool& value) { setter(profile)->set_modena(value); },
+            [getter](const solarmodule::SolarControlProfile& profile, const handler_t<bool>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent) return false;
+                handler(parent->modena());
+                return true;
+            }
+        )
+    );
+
+    if(visitor.start_message_field("wParameter", commonmodule::OperationDWGC::descriptor()))
+    {
+        visit_commonmodule_OperationDWGC(
+            [setter](solarmodule::SolarControlProfile& profile)
+            {
+                return setter(profile)->mutable_wparameter();
+            },
+            [getter](const solarmodule::SolarControlProfile& profile) -> commonmodule::OperationDWGC const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_wparameter() ? &value->wparameter() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+}
+
 void visit_commonmodule_WVarCSG(const set_t<commonmodule::WVarCSG>& setter, const get_t<commonmodule::WVarCSG>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor)
 {
     {
@@ -2491,7 +2555,7 @@ void visit_google_protobuf_StringValue(const set_t<google::protobuf::StringValue
 void visit_solarmodule_SolarCSG(const set_t<solarmodule::SolarCSG>& setter, const get_t<solarmodule::SolarCSG>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor)
 {
     {
-        const auto count = visitor.start_repeated_message_field("crvpts", solarmodule::SolarPoint::descriptor());
+        const auto count = visitor.start_repeated_message_field("crvpts", solarmodule::SolarCurvePoint::descriptor());
         for(int i = 0; i < count; ++i)
         {
             visitor.start_iteration(i);
@@ -2509,7 +2573,7 @@ void visit_solarmodule_SolarCSG(const set_t<solarmodule::SolarCSG>& setter, cons
                 }
                 return repeated->Mutable(i);
             };
-            const auto get = [getter, i](const solarmodule::SolarControlProfile& profile) -> solarmodule::SolarPoint const*
+            const auto get = [getter, i](const solarmodule::SolarControlProfile& profile) -> solarmodule::SolarCurvePoint const*
             {
                 const auto value = getter(profile);
                 if(value)
@@ -2521,7 +2585,7 @@ void visit_solarmodule_SolarCSG(const set_t<solarmodule::SolarCSG>& setter, cons
                     return nullptr;
                 }
             };
-            visit_solarmodule_SolarPoint(set, get, visitor);
+            visit_solarmodule_SolarCurvePoint(set, get, visitor);
             visitor.end_iteration();
         }
         visitor.end_repeated_message_field();
@@ -2681,6 +2745,47 @@ void visit_solarmodule_SolarControlScheduleFSCH(const set_t<solarmodule::SolarCo
     }
 }
 
+void visit_solarmodule_SolarCurvePoint(const set_t<solarmodule::SolarCurvePoint>& setter, const get_t<solarmodule::SolarCurvePoint>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor)
+{
+    if(visitor.start_message_field("control", solarmodule::SolarPoint::descriptor()))
+    {
+        visit_solarmodule_SolarPoint(
+            [setter](solarmodule::SolarControlProfile& profile)
+            {
+                return setter(profile)->mutable_control();
+            },
+            [getter](const solarmodule::SolarControlProfile& profile) -> solarmodule::SolarPoint const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_control() ? &value->control() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
+
+    visitor.handle(
+        "startTime",
+        MessageAccessorBuilder<solarmodule::SolarControlProfile,commonmodule::ControlTimestamp>::build(
+            [setter](solarmodule::SolarControlProfile& profile) { return setter(profile)->mutable_starttime(); },
+            [getter](const solarmodule::SolarControlProfile& profile, const handler_t<commonmodule::ControlTimestamp>& handler)
+            {
+                const auto parent = getter(profile);
+                if(!parent || !parent->has_starttime()) return false;
+                handler(parent->starttime());
+                return true;
+            }
+        )
+    );
+}
+
 void visit_solarmodule_SolarInverter(const set_t<solarmodule::SolarInverter>& setter, const get_t<solarmodule::SolarInverter>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor)
 {
     if(visitor.start_message_field("conductingEquipment", commonmodule::ConductingEquipment::descriptor()))
@@ -2710,30 +2815,6 @@ void visit_solarmodule_SolarInverter(const set_t<solarmodule::SolarInverter>& se
 
 void visit_solarmodule_SolarPoint(const set_t<solarmodule::SolarPoint>& setter, const get_t<solarmodule::SolarPoint>& getter, ITypedModelVisitor<solarmodule::SolarControlProfile>& visitor)
 {
-    if(visitor.start_message_field("frequencySetPointEnabled", commonmodule::ControlSPC::descriptor()))
-    {
-        visit_commonmodule_ControlSPC(
-            [setter](solarmodule::SolarControlProfile& profile)
-            {
-                return setter(profile)->mutable_frequencysetpointenabled();
-            },
-            [getter](const solarmodule::SolarControlProfile& profile) -> commonmodule::ControlSPC const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_frequencysetpointenabled() ? &value->frequencysetpointenabled() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
     if(visitor.start_message_field("mode", commonmodule::ENG_GridConnectModeKind::descriptor()))
     {
         visit_commonmodule_ENG_GridConnectModeKind(
@@ -2758,54 +2839,6 @@ void visit_solarmodule_SolarPoint(const set_t<solarmodule::SolarPoint>& setter, 
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("pctHzDroop", google::protobuf::FloatValue::descriptor()))
-    {
-        visit_google_protobuf_FloatValue(
-            [setter](solarmodule::SolarControlProfile& profile)
-            {
-                return setter(profile)->mutable_pcthzdroop();
-            },
-            [getter](const solarmodule::SolarControlProfile& profile) -> google::protobuf::FloatValue const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_pcthzdroop() ? &value->pcthzdroop() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("pctVDroop", google::protobuf::FloatValue::descriptor()))
-    {
-        visit_google_protobuf_FloatValue(
-            [setter](solarmodule::SolarControlProfile& profile)
-            {
-                return setter(profile)->mutable_pctvdroop();
-            },
-            [getter](const solarmodule::SolarControlProfile& profile) -> google::protobuf::FloatValue const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_pctvdroop() ? &value->pctvdroop() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
     if(visitor.start_message_field("rampRates", commonmodule::RampRate::descriptor()))
     {
         visit_commonmodule_RampRate(
@@ -2819,54 +2852,6 @@ void visit_solarmodule_SolarPoint(const set_t<solarmodule::SolarPoint>& setter, 
                 if(value)
                 {
                     return value->has_ramprates() ? &value->ramprates() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("reactivePwrSetPointEnabled", commonmodule::ControlSPC::descriptor()))
-    {
-        visit_commonmodule_ControlSPC(
-            [setter](solarmodule::SolarControlProfile& profile)
-            {
-                return setter(profile)->mutable_reactivepwrsetpointenabled();
-            },
-            [getter](const solarmodule::SolarControlProfile& profile) -> commonmodule::ControlSPC const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_reactivepwrsetpointenabled() ? &value->reactivepwrsetpointenabled() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    if(visitor.start_message_field("realPwrSetPointEnabled", commonmodule::ControlSPC::descriptor()))
-    {
-        visit_commonmodule_ControlSPC(
-            [setter](solarmodule::SolarControlProfile& profile)
-            {
-                return setter(profile)->mutable_realpwrsetpointenabled();
-            },
-            [getter](const solarmodule::SolarControlProfile& profile) -> commonmodule::ControlSPC const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_realpwrsetpointenabled() ? &value->realpwrsetpointenabled() : nullptr;
                 }
                 else
                 {
@@ -2925,44 +2910,6 @@ void visit_solarmodule_SolarPoint(const set_t<solarmodule::SolarPoint>& setter, 
         );
         visitor.end_message_field();
     }
-
-    if(visitor.start_message_field("voltageSetPointEnabled", commonmodule::ControlSPC::descriptor()))
-    {
-        visit_commonmodule_ControlSPC(
-            [setter](solarmodule::SolarControlProfile& profile)
-            {
-                return setter(profile)->mutable_voltagesetpointenabled();
-            },
-            [getter](const solarmodule::SolarControlProfile& profile) -> commonmodule::ControlSPC const *
-            {
-                const auto value = getter(profile);
-                if(value)
-                {
-                    return value->has_voltagesetpointenabled() ? &value->voltagesetpointenabled() : nullptr;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            },
-            visitor
-        );
-        visitor.end_message_field();
-    }
-
-    visitor.handle(
-        "startTime",
-        MessageAccessorBuilder<solarmodule::SolarControlProfile,commonmodule::ControlTimestamp>::build(
-            [setter](solarmodule::SolarControlProfile& profile) { return setter(profile)->mutable_starttime(); },
-            [getter](const solarmodule::SolarControlProfile& profile, const handler_t<commonmodule::ControlTimestamp>& handler)
-            {
-                const auto parent = getter(profile);
-                if(!parent || !parent->has_starttime()) return false;
-                handler(parent->starttime());
-                return true;
-            }
-        )
-    );
 
     if(visitor.start_message_field("enterServiceOperation", commonmodule::EnterServiceAPC::descriptor()))
     {
@@ -3228,19 +3175,19 @@ void visit_solarmodule_SolarPoint(const set_t<solarmodule::SolarPoint>& setter, 
         visitor.end_message_field();
     }
 
-    if(visitor.start_message_field("syncBackToGrid", commonmodule::ControlSPC::descriptor()))
+    if(visitor.start_message_field("wOperation", commonmodule::WSPC::descriptor()))
     {
-        visit_commonmodule_ControlSPC(
+        visit_commonmodule_WSPC(
             [setter](solarmodule::SolarControlProfile& profile)
             {
-                return setter(profile)->mutable_syncbacktogrid();
+                return setter(profile)->mutable_woperation();
             },
-            [getter](const solarmodule::SolarControlProfile& profile) -> commonmodule::ControlSPC const *
+            [getter](const solarmodule::SolarControlProfile& profile) -> commonmodule::WSPC const *
             {
                 const auto value = getter(profile);
                 if(value)
                 {
-                    return value->has_syncbacktogrid() ? &value->syncbacktogrid() : nullptr;
+                    return value->has_woperation() ? &value->woperation() : nullptr;
                 }
                 else
                 {

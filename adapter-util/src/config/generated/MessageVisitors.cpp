@@ -180,6 +180,8 @@ void visit(const commonmodule::OperationDVVR& message, IMessageVisitor& visitor)
 
 void visit(const commonmodule::OperationDVWC& message, IMessageVisitor& visitor);
 
+void visit(const commonmodule::OperationDWGC& message, IMessageVisitor& visitor);
+
 void visit(const commonmodule::OperationDWMN& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::OperationDWMX& message, IMessageVisitor& visitor);
@@ -304,6 +306,8 @@ void visit(const commonmodule::VoltWCSG& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::VoltWPoint& message, IMessageVisitor& visitor);
 
+void visit(const commonmodule::WSPC& message, IMessageVisitor& visitor);
+
 void visit(const commonmodule::WVarCSG& message, IMessageVisitor& visitor);
 
 void visit(const commonmodule::WVarPoint& message, IMessageVisitor& visitor);
@@ -325,6 +329,8 @@ void visit(const essmodule::ESSCapabilityRatings& message, IMessageVisitor& visi
 void visit(const essmodule::ESSControl& message, IMessageVisitor& visitor);
 
 void visit(const essmodule::ESSControlScheduleFSCH& message, IMessageVisitor& visitor);
+
+void visit(const essmodule::ESSCurvePoint& message, IMessageVisitor& visitor);
 
 void visit(const essmodule::ESSDiscreteControl& message, IMessageVisitor& visitor);
 
@@ -356,8 +362,6 @@ void visit(const essmodule::EssStatusZBAT& message, IMessageVisitor& visitor);
 
 void visit(const essmodule::FrequencyRegulation& message, IMessageVisitor& visitor);
 
-void visit(const essmodule::OperationDWGC& message, IMessageVisitor& visitor);
-
 void visit(const essmodule::PeakShaving& message, IMessageVisitor& visitor);
 
 void visit(const essmodule::SOCManagement& message, IMessageVisitor& visitor);
@@ -369,8 +373,6 @@ void visit(const essmodule::VoltageDroop& message, IMessageVisitor& visitor);
 void visit(const essmodule::VoltagePI& message, IMessageVisitor& visitor);
 
 void visit(const essmodule::VoltageRegulation& message, IMessageVisitor& visitor);
-
-void visit(const essmodule::WSPC& message, IMessageVisitor& visitor);
 
 void visit(const generationmodule::DroopParameter& message, IMessageVisitor& visitor);
 
@@ -539,6 +541,8 @@ void visit(const solarmodule::SolarControl& message, IMessageVisitor& visitor);
 void visit(const solarmodule::SolarControlFSCC& message, IMessageVisitor& visitor);
 
 void visit(const solarmodule::SolarControlScheduleFSCH& message, IMessageVisitor& visitor);
+
+void visit(const solarmodule::SolarCurvePoint& message, IMessageVisitor& visitor);
 
 void visit(const solarmodule::SolarDiscreteControl& message, IMessageVisitor& visitor);
 
@@ -2129,6 +2133,11 @@ void visit(const commonmodule::OperationDVWC& message, IMessageVisitor& visitor)
     }
 }
 
+void visit(const commonmodule::OperationDWGC& message, IMessageVisitor& visitor)
+{
+    visitor.handle("wSpt", message.wspt());
+}
+
 void visit(const commonmodule::OperationDWMN& message, IMessageVisitor& visitor)
 {
     visitor.handle("modEna", message.modena());
@@ -3338,6 +3347,17 @@ void visit(const commonmodule::VoltWPoint& message, IMessageVisitor& visitor)
     visitor.handle("wVal", message.wval());
 }
 
+void visit(const commonmodule::WSPC& message, IMessageVisitor& visitor)
+{
+    visitor.handle("modEna", message.modena());
+    if(message.has_wparameter())
+    {
+        visitor.start_message_field("wParameter");
+        visit(message.wparameter(), visitor);
+        visitor.end_message_field();
+    }
+}
+
 void visit(const commonmodule::WVarCSG& message, IMessageVisitor& visitor)
 {
     visitor.start_message_field("crvpts");
@@ -3574,6 +3594,22 @@ void visit(const essmodule::ESSControlScheduleFSCH& message, IMessageVisitor& vi
     }
 }
 
+void visit(const essmodule::ESSCurvePoint& message, IMessageVisitor& visitor)
+{
+    if(message.has_control())
+    {
+        visitor.start_message_field("control");
+        visit(message.control(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_starttime())
+    {
+        visitor.start_message_field("startTime");
+        visit(message.starttime(), visitor);
+        visitor.end_message_field();
+    }
+}
+
 void visit(const essmodule::ESSDiscreteControl& message, IMessageVisitor& visitor)
 {
     if(message.has_controlvalue())
@@ -3772,12 +3808,6 @@ void visit(const essmodule::ESSPoint& message, IMessageVisitor& visitor)
     {
         visitor.start_message_field("transToIslndOnGridLossEnabled");
         visit(message.transtoislndongridlossenabled(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_starttime())
-    {
-        visitor.start_message_field("startTime");
-        visit(message.starttime(), visitor);
         visitor.end_message_field();
     }
     if(message.has_enterserviceoperation())
@@ -4216,11 +4246,6 @@ void visit(const essmodule::FrequencyRegulation& message, IMessageVisitor& visit
     }
 }
 
-void visit(const essmodule::OperationDWGC& message, IMessageVisitor& visitor)
-{
-    visitor.handle("wSpt", message.wspt());
-}
-
 void visit(const essmodule::PeakShaving& message, IMessageVisitor& visitor)
 {
     if(message.has_baseshavinglimit())
@@ -4385,17 +4410,6 @@ void visit(const essmodule::VoltageRegulation& message, IMessageVisitor& visitor
     {
         visitor.start_message_field("voltageSetPoint");
         visit(message.voltagesetpoint(), visitor);
-        visitor.end_message_field();
-    }
-}
-
-void visit(const essmodule::WSPC& message, IMessageVisitor& visitor)
-{
-    visitor.handle("modEna", message.modena());
-    if(message.has_wparameter())
-    {
-        visitor.start_message_field("wParameter");
-        visit(message.wparameter(), visitor);
         visitor.end_message_field();
     }
 }
@@ -6489,6 +6503,22 @@ void visit(const solarmodule::SolarControlScheduleFSCH& message, IMessageVisitor
     }
 }
 
+void visit(const solarmodule::SolarCurvePoint& message, IMessageVisitor& visitor)
+{
+    if(message.has_control())
+    {
+        visitor.start_message_field("control");
+        visit(message.control(), visitor);
+        visitor.end_message_field();
+    }
+    if(message.has_starttime())
+    {
+        visitor.start_message_field("startTime");
+        visit(message.starttime(), visitor);
+        visitor.end_message_field();
+    }
+}
+
 void visit(const solarmodule::SolarDiscreteControl& message, IMessageVisitor& visitor)
 {
     if(message.has_controlvalue())
@@ -6635,46 +6665,16 @@ void visit(const solarmodule::SolarInverter& message, IMessageVisitor& visitor)
 
 void visit(const solarmodule::SolarPoint& message, IMessageVisitor& visitor)
 {
-    if(message.has_frequencysetpointenabled())
-    {
-        visitor.start_message_field("frequencySetPointEnabled");
-        visit(message.frequencysetpointenabled(), visitor);
-        visitor.end_message_field();
-    }
     if(message.has_mode())
     {
         visitor.start_message_field("mode");
         visit(message.mode(), visitor);
         visitor.end_message_field();
     }
-    if(message.has_pcthzdroop())
-    {
-        visitor.start_message_field("pctHzDroop");
-        visit(message.pcthzdroop(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_pctvdroop())
-    {
-        visitor.start_message_field("pctVDroop");
-        visit(message.pctvdroop(), visitor);
-        visitor.end_message_field();
-    }
     if(message.has_ramprates())
     {
         visitor.start_message_field("rampRates");
         visit(message.ramprates(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_reactivepwrsetpointenabled())
-    {
-        visitor.start_message_field("reactivePwrSetPointEnabled");
-        visit(message.reactivepwrsetpointenabled(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_realpwrsetpointenabled())
-    {
-        visitor.start_message_field("realPwrSetPointEnabled");
-        visit(message.realpwrsetpointenabled(), visitor);
         visitor.end_message_field();
     }
     if(message.has_reset())
@@ -6687,18 +6687,6 @@ void visit(const solarmodule::SolarPoint& message, IMessageVisitor& visitor)
     {
         visitor.start_message_field("state");
         visit(message.state(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_voltagesetpointenabled())
-    {
-        visitor.start_message_field("voltageSetPointEnabled");
-        visit(message.voltagesetpointenabled(), visitor);
-        visitor.end_message_field();
-    }
-    if(message.has_starttime())
-    {
-        visitor.start_message_field("startTime");
-        visit(message.starttime(), visitor);
         visitor.end_message_field();
     }
     if(message.has_enterserviceoperation())
@@ -6767,10 +6755,10 @@ void visit(const solarmodule::SolarPoint& message, IMessageVisitor& visitor)
         visit(message.blackstartenabled(), visitor);
         visitor.end_message_field();
     }
-    if(message.has_syncbacktogrid())
+    if(message.has_woperation())
     {
-        visitor.start_message_field("syncBackToGrid");
-        visit(message.syncbacktogrid(), visitor);
+        visitor.start_message_field("wOperation");
+        visit(message.woperation(), visitor);
         visitor.end_message_field();
     }
 }

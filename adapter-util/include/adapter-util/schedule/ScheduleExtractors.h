@@ -148,7 +148,7 @@ struct schedule_extractor<essmodule::ESSControlProfile>
         return profile.mutable_esscontrol()->mutable_esscontrolfscc()->mutable_controlfscc();
     }
 
-    using custom_point_t = essmodule::ESSPoint;
+    using custom_point_t = essmodule::ESSCurvePoint;
 
     static bool has_custom_points(const essmodule::ESSControlProfile& profile)
     {
@@ -519,7 +519,7 @@ struct schedule_extractor<solarmodule::SolarControlProfile>
         return profile.mutable_solarcontrol()->mutable_solarcontrolfscc()->mutable_controlfscc();
     }
 
-    using custom_point_t = solarmodule::SolarPoint;
+    using custom_point_t = solarmodule::SolarCurvePoint;
 
     static bool has_custom_points(const solarmodule::SolarControlProfile& profile)
     {

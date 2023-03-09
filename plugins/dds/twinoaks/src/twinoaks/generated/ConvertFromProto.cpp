@@ -227,6 +227,8 @@ void convert_from_proto(const essmodule::ESSControlScheduleFSCH& in, twinoaks::e
 
 void convert_from_proto(const essmodule::ESSCSG& in, twinoaks::essmodule::ESSCSG& out);
 
+void convert_from_proto(const essmodule::ESSCurvePoint& in, twinoaks::essmodule::ESSCurvePoint& out);
+
 void convert_from_proto(const essmodule::ESSPoint& in, twinoaks::essmodule::ESSPoint& out);
 
 void convert_from_proto(const essmodule::ESSFunction& in, twinoaks::essmodule::ESSFunction& out);
@@ -307,9 +309,9 @@ void convert_from_proto(const commonmodule::WVarPoint& in, twinoaks::commonmodul
 
 void convert_from_proto(const commonmodule::OperationDWVR& in, twinoaks::commonmodule::OperationDWVR& out);
 
-void convert_from_proto(const essmodule::WSPC& in, twinoaks::essmodule::WSPC& out);
+void convert_from_proto(const commonmodule::WSPC& in, twinoaks::commonmodule::WSPC& out);
 
-void convert_from_proto(const essmodule::OperationDWGC& in, twinoaks::essmodule::OperationDWGC& out);
+void convert_from_proto(const commonmodule::OperationDWGC& in, twinoaks::commonmodule::OperationDWGC& out);
 
 void convert_from_proto(const essmodule::ESSDiscreteControl& in, twinoaks::essmodule::ESSDiscreteControl& out);
 
@@ -520,6 +522,8 @@ void convert_from_proto(const solarmodule::SolarControlFSCC& in, twinoaks::solar
 void convert_from_proto(const solarmodule::SolarControlScheduleFSCH& in, twinoaks::solarmodule::SolarControlScheduleFSCH& out);
 
 void convert_from_proto(const solarmodule::SolarCSG& in, twinoaks::solarmodule::SolarCSG& out);
+
+void convert_from_proto(const solarmodule::SolarCurvePoint& in, twinoaks::solarmodule::SolarCurvePoint& out);
 
 void convert_from_proto(const solarmodule::SolarPoint& in, twinoaks::solarmodule::SolarPoint& out);
 
@@ -3236,10 +3240,19 @@ void convert_from_proto(const essmodule::ESSCSG& in, twinoaks::essmodule::ESSCSG
 
     for(const auto& input : in.crvpts())
     {
-        twinoaks::essmodule::ESSPoint ouput;
+        twinoaks::essmodule::ESSCurvePoint ouput;
         convert_from_proto(input, ouput);
         out.crvPts.push_back(ouput);
     }
+}
+
+void convert_from_proto(const essmodule::ESSCurvePoint& in, twinoaks::essmodule::ESSCurvePoint& out)
+{
+    out.clear();
+
+    convert_from_proto(in.control(), out.control); // required field in DDS
+
+    convert_from_proto(in.starttime(), out.startTime); // required field in DDS
 }
 
 void convert_from_proto(const essmodule::ESSPoint& in, twinoaks::essmodule::ESSPoint& out)
@@ -3283,8 +3296,6 @@ void convert_from_proto(const essmodule::ESSPoint& in, twinoaks::essmodule::ESSP
         out.transToIslndOnGridLossEnabled = new twinoaks::commonmodule::ControlSPC();
         convert_from_proto(in.transtoislndongridlossenabled(), *out.transToIslndOnGridLossEnabled);
     }
-
-    convert_from_proto(in.starttime(), out.startTime); // required field in DDS
 
     if(in.has_enterserviceoperation()) // optional field in DDS
     {
@@ -3348,7 +3359,7 @@ void convert_from_proto(const essmodule::ESSPoint& in, twinoaks::essmodule::ESSP
 
     if(in.has_woperation()) // optional field in DDS
     {
-        out.wOperation = new twinoaks::essmodule::WSPC();
+        out.wOperation = new twinoaks::commonmodule::WSPC();
         convert_from_proto(in.woperation(), *out.wOperation);
     }
 }
@@ -3973,7 +3984,7 @@ void convert_from_proto(const commonmodule::OperationDWVR& in, twinoaks::commonm
     out.modEna = static_cast<unsigned char>(in.modena()); // required bool
 }
 
-void convert_from_proto(const essmodule::WSPC& in, twinoaks::essmodule::WSPC& out)
+void convert_from_proto(const commonmodule::WSPC& in, twinoaks::commonmodule::WSPC& out)
 {
     out.clear();
 
@@ -3983,7 +3994,7 @@ void convert_from_proto(const essmodule::WSPC& in, twinoaks::essmodule::WSPC& ou
     convert_from_proto(in.wparameter(), out.wParameter); // required field in DDS
 }
 
-void convert_from_proto(const essmodule::OperationDWGC& in, twinoaks::essmodule::OperationDWGC& out)
+void convert_from_proto(const commonmodule::OperationDWGC& in, twinoaks::commonmodule::OperationDWGC& out)
 {
     out.clear();
 
@@ -6327,21 +6338,24 @@ void convert_from_proto(const solarmodule::SolarCSG& in, twinoaks::solarmodule::
 
     for(const auto& input : in.crvpts())
     {
-        twinoaks::solarmodule::SolarPoint ouput;
+        twinoaks::solarmodule::SolarCurvePoint ouput;
         convert_from_proto(input, ouput);
         out.crvPts.push_back(ouput);
     }
 }
 
-void convert_from_proto(const solarmodule::SolarPoint& in, twinoaks::solarmodule::SolarPoint& out)
+void convert_from_proto(const solarmodule::SolarCurvePoint& in, twinoaks::solarmodule::SolarCurvePoint& out)
 {
     out.clear();
 
-    if(in.has_frequencysetpointenabled()) // optional field in DDS
-    {
-        out.frequencySetPointEnabled = new twinoaks::commonmodule::ControlSPC();
-        convert_from_proto(in.frequencysetpointenabled(), *out.frequencySetPointEnabled);
-    }
+    convert_from_proto(in.control(), out.control); // required field in DDS
+
+    convert_from_proto(in.starttime(), out.startTime); // required field in DDS
+}
+
+void convert_from_proto(const solarmodule::SolarPoint& in, twinoaks::solarmodule::SolarPoint& out)
+{
+    out.clear();
 
     if(in.has_mode()) // optional field in DDS
     {
@@ -6349,32 +6363,10 @@ void convert_from_proto(const solarmodule::SolarPoint& in, twinoaks::solarmodule
         convert_from_proto(in.mode(), *out.mode);
     }
 
-    if(in.has_pcthzdroop())
-    {
-        out.pctHzDroop = allocate_from_wrapper_type(in.pcthzdroop());
-    }
-
-    if(in.has_pctvdroop())
-    {
-        out.pctVDroop = allocate_from_wrapper_type(in.pctvdroop());
-    }
-
     if(in.has_ramprates()) // optional field in DDS
     {
         out.rampRates = new twinoaks::commonmodule::RampRate();
         convert_from_proto(in.ramprates(), *out.rampRates);
-    }
-
-    if(in.has_reactivepwrsetpointenabled()) // optional field in DDS
-    {
-        out.reactivePwrSetPointEnabled = new twinoaks::commonmodule::ControlSPC();
-        convert_from_proto(in.reactivepwrsetpointenabled(), *out.reactivePwrSetPointEnabled);
-    }
-
-    if(in.has_realpwrsetpointenabled()) // optional field in DDS
-    {
-        out.realPwrSetPointEnabled = new twinoaks::commonmodule::ControlSPC();
-        convert_from_proto(in.realpwrsetpointenabled(), *out.realPwrSetPointEnabled);
     }
 
     if(in.has_reset()) // optional field in DDS
@@ -6384,14 +6376,6 @@ void convert_from_proto(const solarmodule::SolarPoint& in, twinoaks::solarmodule
     }
 
     out.state = new twinoaks::commonmodule::StateKind(static_cast<twinoaks::commonmodule::StateKind>(in.state().value())); // optional enum
-
-    if(in.has_voltagesetpointenabled()) // optional field in DDS
-    {
-        out.voltageSetPointEnabled = new twinoaks::commonmodule::ControlSPC();
-        convert_from_proto(in.voltagesetpointenabled(), *out.voltageSetPointEnabled);
-    }
-
-    convert_from_proto(in.starttime(), out.startTime); // required field in DDS
 
     if(in.has_enterserviceoperation()) // optional field in DDS
     {
@@ -6459,10 +6443,10 @@ void convert_from_proto(const solarmodule::SolarPoint& in, twinoaks::solarmodule
         convert_from_proto(in.blackstartenabled(), *out.blackStartEnabled);
     }
 
-    if(in.has_syncbacktogrid()) // optional field in DDS
+    if(in.has_woperation()) // optional field in DDS
     {
-        out.syncBackToGrid = new twinoaks::commonmodule::ControlSPC();
-        convert_from_proto(in.syncbacktogrid(), *out.syncBackToGrid);
+        out.wOperation = new twinoaks::commonmodule::WSPC();
+        convert_from_proto(in.woperation(), *out.wOperation);
     }
 }
 

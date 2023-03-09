@@ -227,6 +227,8 @@ void convert_to_proto(const openfmb::essmodule::ESSControlScheduleFSCH& in, essm
 
 void convert_to_proto(const openfmb::essmodule::ESSCSG& in, essmodule::ESSCSG& out);
 
+void convert_to_proto(const openfmb::essmodule::ESSCurvePoint& in, essmodule::ESSCurvePoint& out);
+
 void convert_to_proto(const openfmb::essmodule::ESSPoint& in, essmodule::ESSPoint& out);
 
 void convert_to_proto(const openfmb::essmodule::ESSFunction& in, essmodule::ESSFunction& out);
@@ -307,9 +309,9 @@ void convert_to_proto(const openfmb::commonmodule::WVarPoint& in, commonmodule::
 
 void convert_to_proto(const openfmb::commonmodule::OperationDWVR& in, commonmodule::OperationDWVR& out);
 
-void convert_to_proto(const openfmb::essmodule::WSPC& in, essmodule::WSPC& out);
+void convert_to_proto(const openfmb::commonmodule::WSPC& in, commonmodule::WSPC& out);
 
-void convert_to_proto(const openfmb::essmodule::OperationDWGC& in, essmodule::OperationDWGC& out);
+void convert_to_proto(const openfmb::commonmodule::OperationDWGC& in, commonmodule::OperationDWGC& out);
 
 void convert_to_proto(const openfmb::essmodule::ESSDiscreteControl& in, essmodule::ESSDiscreteControl& out);
 
@@ -520,6 +522,8 @@ void convert_to_proto(const openfmb::solarmodule::SolarControlFSCC& in, solarmod
 void convert_to_proto(const openfmb::solarmodule::SolarControlScheduleFSCH& in, solarmodule::SolarControlScheduleFSCH& out);
 
 void convert_to_proto(const openfmb::solarmodule::SolarCSG& in, solarmodule::SolarCSG& out);
+
+void convert_to_proto(const openfmb::solarmodule::SolarCurvePoint& in, solarmodule::SolarCurvePoint& out);
 
 void convert_to_proto(const openfmb::solarmodule::SolarPoint& in, solarmodule::SolarPoint& out);
 
@@ -2454,6 +2458,15 @@ void convert_to_proto(const openfmb::essmodule::ESSCSG& in, essmodule::ESSCSG& o
     }
 }
 
+void convert_to_proto(const openfmb::essmodule::ESSCurvePoint& in, essmodule::ESSCurvePoint& out)
+{
+    out.Clear();
+
+    convert_to_proto(in.control(), *out.mutable_control()); // required field in DDS
+
+    convert_to_proto(in.startTime(), *out.mutable_starttime()); // required field in DDS
+}
+
 void convert_to_proto(const openfmb::essmodule::ESSPoint& in, essmodule::ESSPoint& out)
 {
     out.Clear();
@@ -2471,8 +2484,6 @@ void convert_to_proto(const openfmb::essmodule::ESSPoint& in, essmodule::ESSPoin
     if(in.state().is_set()) out.mutable_state()->set_value(static_cast<commonmodule::StateKind>(in.state().get().underlying()));  // wrapped optional enum
 
     if(in.transToIslndOnGridLossEnabled().is_set()) convert_to_proto(in.transToIslndOnGridLossEnabled().get(), *out.mutable_transtoislndongridlossenabled());
-
-    convert_to_proto(in.startTime(), *out.mutable_starttime()); // required field in DDS
 
     if(in.enterServiceOperation().is_set()) convert_to_proto(in.enterServiceOperation().get(), *out.mutable_enterserviceoperation());
 
@@ -2939,7 +2950,7 @@ void convert_to_proto(const openfmb::commonmodule::OperationDWVR& in, commonmodu
     out.set_modena(in.modEna());
 }
 
-void convert_to_proto(const openfmb::essmodule::WSPC& in, essmodule::WSPC& out)
+void convert_to_proto(const openfmb::commonmodule::WSPC& in, commonmodule::WSPC& out)
 {
     out.Clear();
 
@@ -2948,7 +2959,7 @@ void convert_to_proto(const openfmb::essmodule::WSPC& in, essmodule::WSPC& out)
     convert_to_proto(in.wParameter(), *out.mutable_wparameter()); // required field in DDS
 }
 
-void convert_to_proto(const openfmb::essmodule::OperationDWGC& in, essmodule::OperationDWGC& out)
+void convert_to_proto(const openfmb::commonmodule::OperationDWGC& in, commonmodule::OperationDWGC& out)
 {
     out.Clear();
 
@@ -4308,31 +4319,26 @@ void convert_to_proto(const openfmb::solarmodule::SolarCSG& in, solarmodule::Sol
     }
 }
 
+void convert_to_proto(const openfmb::solarmodule::SolarCurvePoint& in, solarmodule::SolarCurvePoint& out)
+{
+    out.Clear();
+
+    convert_to_proto(in.control(), *out.mutable_control()); // required field in DDS
+
+    convert_to_proto(in.startTime(), *out.mutable_starttime()); // required field in DDS
+}
+
 void convert_to_proto(const openfmb::solarmodule::SolarPoint& in, solarmodule::SolarPoint& out)
 {
     out.Clear();
 
-    if(in.frequencySetPointEnabled().is_set()) convert_to_proto(in.frequencySetPointEnabled().get(), *out.mutable_frequencysetpointenabled());
-
     if(in.mode().is_set()) convert_to_proto(in.mode().get(), *out.mutable_mode());
 
-    if(in.pctHzDroop().is_set()) out.mutable_pcthzdroop()->set_value(in.pctHzDroop().get());
-
-    if(in.pctVDroop().is_set()) out.mutable_pctvdroop()->set_value(in.pctVDroop().get());
-
     if(in.rampRates().is_set()) convert_to_proto(in.rampRates().get(), *out.mutable_ramprates());
-
-    if(in.reactivePwrSetPointEnabled().is_set()) convert_to_proto(in.reactivePwrSetPointEnabled().get(), *out.mutable_reactivepwrsetpointenabled());
-
-    if(in.realPwrSetPointEnabled().is_set()) convert_to_proto(in.realPwrSetPointEnabled().get(), *out.mutable_realpwrsetpointenabled());
 
     if(in.reset().is_set()) convert_to_proto(in.reset().get(), *out.mutable_reset());
 
     if(in.state().is_set()) out.mutable_state()->set_value(static_cast<commonmodule::StateKind>(in.state().get().underlying()));  // wrapped optional enum
-
-    if(in.voltageSetPointEnabled().is_set()) convert_to_proto(in.voltageSetPointEnabled().get(), *out.mutable_voltagesetpointenabled());
-
-    convert_to_proto(in.startTime(), *out.mutable_starttime()); // required field in DDS
 
     if(in.enterServiceOperation().is_set()) convert_to_proto(in.enterServiceOperation().get(), *out.mutable_enterserviceoperation());
 
@@ -4356,7 +4362,7 @@ void convert_to_proto(const openfmb::solarmodule::SolarPoint& in, solarmodule::S
 
     if(in.blackStartEnabled().is_set()) convert_to_proto(in.blackStartEnabled().get(), *out.mutable_blackstartenabled());
 
-    if(in.syncBackToGrid().is_set()) convert_to_proto(in.syncBackToGrid().get(), *out.mutable_syncbacktogrid());
+    if(in.wOperation().is_set()) convert_to_proto(in.wOperation().get(), *out.mutable_woperation());
 }
 
 void convert_to_proto(const openfmb::solarmodule::SolarDiscreteControl& in, solarmodule::SolarDiscreteControl& out)
