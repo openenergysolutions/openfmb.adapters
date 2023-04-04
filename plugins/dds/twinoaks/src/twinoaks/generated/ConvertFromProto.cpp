@@ -2030,6 +2030,12 @@ void convert_from_proto(const commonmodule::WYE& in, twinoaks::commonmodule::WYE
         out.phsC = new twinoaks::commonmodule::CMV();
         convert_from_proto(in.phsc(), *out.phsC);
     }
+
+    if(in.has_res()) // optional field in DDS
+    {
+        out.res = new twinoaks::commonmodule::CMV();
+        convert_from_proto(in.res(), *out.res);
+    }
 }
 
 void convert_from_proto(const commonmodule::CMV& in, twinoaks::commonmodule::CMV& out)

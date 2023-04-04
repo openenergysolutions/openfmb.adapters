@@ -4707,6 +4707,12 @@ void visit_commonmodule_WYE(IModelVisitor& visitor)
         visit_commonmodule_CMV(visitor);
         visitor.end_message_field();
     }
+
+    if(visitor.start_message_field("res", commonmodule::CMV::descriptor()))
+    {
+        visit_commonmodule_CMV(visitor);
+        visitor.end_message_field();
+    }
 }
 
 void visit_essmodule_CapacityFirming(IModelVisitor& visitor)

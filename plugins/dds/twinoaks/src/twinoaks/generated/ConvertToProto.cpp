@@ -1732,6 +1732,8 @@ void convert_to_proto(const twinoaks::commonmodule::WYE& in, commonmodule::WYE& 
     if(in.phsB) convert_to_proto(*in.phsB, *out.mutable_phsb());
 
     if(in.phsC) convert_to_proto(*in.phsC, *out.mutable_phsc());
+
+    if(in.res) convert_to_proto(*in.res, *out.mutable_res());
 }
 
 void convert_to_proto(const twinoaks::commonmodule::CMV& in, commonmodule::CMV& out)

@@ -3414,6 +3414,12 @@ void visit(const commonmodule::WYE& message, IMessageVisitor& visitor)
         visit(message.phsc(), visitor);
         visitor.end_message_field();
     }
+    if(message.has_res())
+    {
+        visitor.start_message_field("res");
+        visit(message.res(), visitor);
+        visitor.end_message_field();
+    }
 }
 
 void visit(const essmodule::CapacityFirming& message, IMessageVisitor& visitor)

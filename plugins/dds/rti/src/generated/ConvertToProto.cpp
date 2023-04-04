@@ -1732,6 +1732,8 @@ void convert_to_proto(const openfmb::commonmodule::WYE& in, commonmodule::WYE& o
     if(in.phsB().is_set()) convert_to_proto(in.phsB().get(), *out.mutable_phsb());
 
     if(in.phsC().is_set()) convert_to_proto(in.phsC().get(), *out.mutable_phsc());
+
+    if(in.res().is_set()) convert_to_proto(in.res().get(), *out.mutable_res());
 }
 
 void convert_to_proto(const openfmb::commonmodule::CMV& in, commonmodule::CMV& out)

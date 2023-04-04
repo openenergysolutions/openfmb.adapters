@@ -1896,6 +1896,13 @@ void convert_from_proto(const commonmodule::WYE& in, openfmb::commonmodule::WYE&
         convert_from_proto(in.phsc(), temp);
         out.phsC() = temp;
     }
+
+    if(in.has_res()) // optional field in DDS
+    {
+        openfmb::commonmodule::CMV temp{};
+        convert_from_proto(in.res(), temp);
+        out.res() = temp;
+    }
 }
 
 void convert_from_proto(const commonmodule::CMV& in, openfmb::commonmodule::CMV& out)
