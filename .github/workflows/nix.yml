@@ -6,9 +6,12 @@
 name: "Nix Build"
 on:
   push:
+    branches: ["develop"]
+  pull_request:
+    branches: ["develop"]
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     env:
       PUSH_IMAGES: ${{ github.event_name == 'push' && github.ref == 'refs/heads/develop' }}
     steps:
