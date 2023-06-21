@@ -58,10 +58,10 @@ jobs:
         run: nix-shell --run "echo OK"
       - name: Login to DockerHub
         if: ${{ env.PUSH_IMAGES == 'true' }}
-        uses: docker/login-action@v1
+        uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_TOKEN }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Push Armv8 Image to DockerHub
         if: ${{ env.PUSH_IMAGES == 'true' }}
         shell: bash
