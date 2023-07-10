@@ -10,6 +10,7 @@ namespace goose {
     namespace keys {
 
         constexpr const char* const goCb = "goCb";
+        constexpr const char* const cb = "cb";
         constexpr const char* const networkAdapter = "networkAdapter";
         constexpr const char* const appId = "appId";
         constexpr const char* const goCbRef = "goCbRef";

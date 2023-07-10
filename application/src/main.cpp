@@ -14,6 +14,7 @@
 
 #include "ArgumentParser.h"
 #include "ConfigKeys.h"
+#include "FileInfo.h"
 #include "LoggerConfig.h"
 #include "MessageBus.h"
 #include "PluginRegistry.h"
@@ -353,5 +354,5 @@ std::vector<schema::property_ptr_t> get_config_schema()
     });
     const auto plugins = object_property("plugins", Required::yes, "map of plugin configurations", schema::Object{plugin_properties});
 
-    return {logging::get_logging_config_schema(), plugins};
+    return {logging::get_logging_config_schema(), file::get_file_info_config_schema(), plugins};
 }

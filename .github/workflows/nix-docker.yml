@@ -67,6 +67,7 @@ jobs:
         shell: bash
         run: |
           IMAGE_NAME=$(find . -name *docker*aarch64*.tar.gz)
+          docker rmi $(docker images --format "{{.Repository}}:{{.Tag}}" | grep aarch64)
           docker load --input $IMAGE_NAME
           IMAGE_REPOSITORY=$(docker images --format "{{.Repository}}:{{.Tag}}" | grep aarch64)
           docker tag $IMAGE_REPOSITORY docker.io/oesinc/openfmb.adapters:aarch64-${GITHUB_SHA::7}
@@ -76,6 +77,7 @@ jobs:
         shell: bash
         run: |
           IMAGE_NAME=$(find . -name *docker*armv7*.tar.gz)
+          docker rmi $(docker images --format "{{.Repository}}:{{.Tag}}" | grep armv7)
           docker load --input $IMAGE_NAME
           IMAGE_REPOSITORY=$(docker images --format "{{.Repository}}:{{.Tag}}" | grep armv7)
           docker tag $IMAGE_REPOSITORY docker.io/oesinc/openfmb.adapters:armv7-${GITHUB_SHA::7}
@@ -85,6 +87,7 @@ jobs:
         shell: bash
         run: |
           IMAGE_NAME=$(find . -name *docker*x86_64*.tar.gz)
+          docker rmi $(docker images --format "{{.Repository}}:{{.Tag}}" | grep x86_64)
           docker load --input $IMAGE_NAME
           IMAGE_REPOSITORY=$(docker images --format "{{.Repository}}:{{.Tag}}" | grep x86_64)
           docker tag $IMAGE_REPOSITORY docker.io/oesinc/openfmb.adapters:x86_64-${GITHUB_SHA::7}

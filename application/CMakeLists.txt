@@ -13,6 +13,8 @@ set(openfmb_adapter_src
     ./src/ConfigKeys.h
     ./src/LoggerConfig.h
     ./src/LoggerConfig.cpp
+    ./src/FileInfo.h
+    ./src/FileInfo.cpp
     ./src/SubscriptionRegistry.h)
 
 SET(CPP_FORMAT_DIRS
