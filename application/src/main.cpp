@@ -219,7 +219,7 @@ int write_default_config(const std::string& config_file_path)
 int write_config_schema(const std::string& schema_file_path, bool pretty_print)
 {
     std::ofstream file(schema_file_path);
-    write_schema(file, "https://www.github.com/openenergysolutions", get_config_schema(), pretty_print);
+    write_schema(file, "https://www.github.com/openenergysolutions", "OpenFMB configuration schema", get_config_schema(), pretty_print);
 
     return 0;
 }
@@ -296,7 +296,7 @@ int write_session_schema(const std::string& schema_file_path, const api::IPlugin
 
     // Print schema to file
     std::ofstream file(schema_file_path);
-    write_schema(file, "https://www.github.com/openenergysolutions", schema, pretty_print);
+    write_schema(file, "https://www.github.com/openenergysolutions", "OpenFMB device template schema", schema, pretty_print);
 
     return 0;
 }

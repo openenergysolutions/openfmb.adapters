@@ -13,7 +13,7 @@
 namespace adapter {
     namespace schema {
 
-        void write_schema(std::ostream& ostream, const std::string& id, std::vector<property_ptr_t> properties, bool pretty_print);
+        void write_schema(std::ostream& ostream, const std::string& id, const std::string& title, std::vector<property_ptr_t> properties, bool pretty_print);
 
         /// ---------  DSL for building up complex schemas -----------
 
