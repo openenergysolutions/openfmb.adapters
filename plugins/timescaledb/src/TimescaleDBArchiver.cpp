@@ -14,6 +14,113 @@
 namespace adapter {
 namespace timescaledb {
 
+<<<<<<< Updated upstream
+=======
+    static const std::map<std::string,std::regex> variable_lookup =
+    {
+        {"A_neut_mag_0", std::regex("[a-zA-Z.]+[\\.0]?\\.readingMMXU.A.neut.cVal.mag")},
+        {"A_net_mag_0",  std::regex("[a-zA-Z.]+[\\.0]?\\.readingMMXU.A.net.cVal.mag")},
+        {"A_phsA_mag_0", std::regex("[a-zA-Z.]+[\\.0]?\\.readingMMXU.A.phsA.cVal.mag")},
+        {"A_phsB_mag_0", std::regex("[a-zA-Z.]+[\\.0]?\\.readingMMXU.A.phsB.cVal.mag")},
+        {"A_phsC_mag_0", std::regex("[a-zA-Z.]+[\\.0]?\\.readingMMXU.A.phsC.cVal.mag")},
+
+        {"Hz_mag_0", std::regex("[a-zA-Z.]+[\\.0]?\\.readingMMXU.Hz.mag")},
+
+        {"PF_neut_mag_0", std::regex("[a-zA-Z.]+[\\.0]?\\.readingMMXU.PF.neut.cVal.mag")},
+        {"PF_net_mag_0", std::regex("[a-zA-Z.]+[\\.0]?\\.readingMMXU.PF.net.cVal.mag")},
+        {"PF_phsA_mag_0", std::regex("[a-zA-Z.]+[\\.0]?\\.readingMMXU.PF.phsA.cVal.mag")},
+        {"PF_phsB_mag_0", std::regex("[a-zA-Z.]+[\\.0]?\\.readingMMXU.PF.phsB.cVal.mag")},
+        {"PF_phsC_mag_0", std::regex("[a-zA-Z.]+[\\.0]?\\.readingMMXU.PF.phsC.cVal.mag")},
+
+        {"PhV_neut_mag_0", std::regex("[a-zA-Z.]+[\\.0]?\\.readingMMXU.PhV.neut.cVal.mag")},
+        {"PhV_neut_ang_0", std::regex("[a-zA-Z.]+[\\.0]?\\.readingMMXU.PhV.neut.cVal.ang.value")},
+        {"PhV_net_mag_0", std::regex("[a-zA-Z.]+[\\.0]?\\.readingMMXU.PhV.net.cVal.mag")},
+        {"PhV_net_ang_0", std::regex("[a-zA-Z.]+[\\.0]?\\.readingMMXU.PhV.net.cVal.ang.value")},
+        {"PhV_phsA_mag_0", std::regex("[a-zA-Z.]+[\\.0]?\\.readingMMXU.PhV.phsA.cVal.mag")},
+        {"PhV_phsA_ang_0", std::regex("[a-zA-Z.]+[\\.0]?\\.readingMMXU.PhV.phsA.cVal.ang.value")},
+        {"PhV_phsB_mag_0", std::regex("[a-zA-Z.]+[\\.0]?\\.readingMMXU.PhV.phsB.cVal.mag")},
+        {"PhV_phsB_ang_0", std::regex("[a-zA-Z.]+[\\.0]?\\.readingMMXU.PhV.phsB.cVal.ang.value")},
+        {"PhV_phsC_mag_0", std::regex("[a-zA-Z.]+[\\.0]?\\.readingMMXU.PhV.phsC.cVal.mag")},
+        {"PhV_phsC_ang_0", std::regex("[a-zA-Z.]+[\\.0]?\\.readingMMXU.PhV.phsC.cVal.ang.value")},
+
+        {"PPV_phsAB_mag_0", std::regex("[a-zA-Z.]+[\\.0]?\\.readingMMXU.PPV.phsAB.cVal.mag")},
+        {"PPV_phsAB_ang_0", std::regex("[a-zA-Z.]+[\\.0]?\\.readingMMXU.PPV.phsAB.cVal.ang.value")},
+        {"PPV_phsBC_mag_0", std::regex("[a-zA-Z.]+[\\.0]?\\.readingMMXU.PPV.phsBC.cVal.mag")},
+        {"PPV_phsBC_ang_0", std::regex("[a-zA-Z.]+[\\.0]?\\.readingMMXU.PPV.phsBC.cVal.ang.value")},
+        {"PPV_phsCA_mag_0", std::regex("[a-zA-Z.]+[\\.0]?\\.readingMMXU.PPV.phsCA.cVal.mag")},
+        {"PPV_phsCA_ang_0", std::regex("[a-zA-Z.]+[\\.0]?\\.readingMMXU.PPV.phsCA.cVal.ang.value")},
+
+        {"VA_neut_mag_0", std::regex("[a-zA-Z.]+[\\.0]?\\.readingMMXU.VA.neut.cVal.mag")},
+        {"VA_net_mag_0", std::regex("[a-zA-Z.]+[\\.0]?\\.readingMMXU.VA.net.cVal.mag")},
+        {"VA_phsA_mag_0", std::regex("[a-zA-Z.]+[\\.0]?\\.readingMMXU.VA.phsA.cVal.mag")},
+        {"VA_phsB_mag_0", std::regex("[a-zA-Z.]+[\\.0]?\\.readingMMXU.VA.phsB.cVal.mag")},
+        {"VA_phsC_mag_0", std::regex("[a-zA-Z.]+[\\.0]?\\.readingMMXU.VA.phsC.cVal.mag")},
+
+        {"VAr_neut_mag_0", std::regex("[a-zA-Z.]+[\\.0]?\\.readingMMXU.VAr.neut.cVal.mag")},
+        {"VAr_net_mag_0", std::regex("[a-zA-Z.]+[\\.0]?\\.readingMMXU.VAr.net.cVal.mag")},
+        {"VAr_phsA_mag_0", std::regex("[a-zA-Z.]+[\\.0]?\\.readingMMXU.VAr.phsA.cVal.mag")},
+        {"VAr_phsB_mag_0", std::regex("[a-zA-Z.]+[\\.0]?\\.readingMMXU.VAr.phsB.cVal.mag")},
+        {"VAr_phsC_mag_0", std::regex("[a-zA-Z.]+[\\.0]?\\.readingMMXU.VAr.phsC.cVal.mag")},
+
+        {"W_neut_mag_0", std::regex("[a-zA-Z.]+[\\.0]?\\.readingMMXU.W.neut.cVal.mag")},
+        {"W_net_mag_0", std::regex("[a-zA-Z.]+[\\.0]?\\.readingMMXU.W.net.cVal.mag")},
+        {"W_phsA_mag_0", std::regex("[a-zA-Z.]+[\\.0]?\\.readingMMXU.W.phsA.cVal.mag")},
+        {"W_phsB_mag_0", std::regex("[a-zA-Z.]+[\\.0]?\\.readingMMXU.W.phsB.cVal.mag")},
+        {"W_phsC_mag_0", std::regex("[a-zA-Z.]+[\\.0]?\\.readingMMXU.W.phsC.cVal.mag")},
+
+        // Load side
+        {"A_neut_mag_1", std::regex("[a-zA-Z.]+[\\.1]?\\.readingMMXU.A.neut.cVal.mag")},
+        {"A_net_mag_1",  std::regex("[a-zA-Z.]+[\\.1]?\\.readingMMXU.A.net.cVal.mag")},
+        {"A_phsA_mag_1", std::regex("[a-zA-Z.]+[\\.1]?\\.readingMMXU.A.phsA.cVal.mag")},
+        {"A_phsB_mag_1", std::regex("[a-zA-Z.]+[\\.1]?\\.readingMMXU.A.phsB.cVal.mag")},
+        {"A_phsC_mag_1", std::regex("[a-zA-Z.]+[\\.1]?\\.readingMMXU.A.phsC.cVal.mag")},
+
+        {"Hz_mag_1", std::regex("[a-zA-Z.]+[\\.1]?\\.readingMMXU.Hz.mag")},
+
+        {"PF_neut_mag_1", std::regex("[a-zA-Z.]+[\\.1]?\\.readingMMXU.PF.neut.cVal.mag")},
+        {"PF_net_mag_1", std::regex("[a-zA-Z.]+[\\.1]?\\.readingMMXU.PF.net.cVal.mag")},
+        {"PF_phsA_mag_1", std::regex("[a-zA-Z.]+[\\.1]?\\.readingMMXU.PF.phsA.cVal.mag")},
+        {"PF_phsB_mag_1", std::regex("[a-zA-Z.]+[\\.1]?\\.readingMMXU.PF.phsB.cVal.mag")},
+        {"PF_phsC_mag_1", std::regex("[a-zA-Z.]+[\\.1]?\\.readingMMXU.PF.phsC.cVal.mag")},
+
+        {"PhV_neut_mag_1", std::regex("[a-zA-Z.]+[\\.1]?\\.readingMMXU.PhV.neut.cVal.mag")},
+        {"PhV_neut_ang_1", std::regex("[a-zA-Z.]+[\\.1]?\\.readingMMXU.PhV.neut.cVal.ang.value")},
+        {"PhV_net_mag_1", std::regex("[a-zA-Z.]+[\\.1]?\\.readingMMXU.PhV.net.cVal.mag")},
+        {"PhV_net_ang_1", std::regex("[a-zA-Z.]+[\\.1]?\\.readingMMXU.PhV.net.cVal.ang.value")},
+        {"PhV_phsA_mag_1", std::regex("[a-zA-Z.]+[\\.1]?\\.readingMMXU.PhV.phsA.cVal.mag")},
+        {"PhV_phsA_ang_1", std::regex("[a-zA-Z.]+[\\.1]?\\.readingMMXU.PhV.phsA.cVal.ang.value")},
+        {"PhV_phsB_mag_1", std::regex("[a-zA-Z.]+[\\.1]?\\.readingMMXU.PhV.phsB.cVal.mag")},
+        {"PhV_phsB_ang_1", std::regex("[a-zA-Z.]+[\\.1]?\\.readingMMXU.PhV.phsB.cVal.ang.value")},
+        {"PhV_phsC_mag_1", std::regex("[a-zA-Z.]+[\\.1]?\\.readingMMXU.PhV.phsC.cVal.mag")},
+        {"PhV_phsC_ang_1", std::regex("[a-zA-Z.]+[\\.1]?\\.readingMMXU.PhV.phsC.cVal.ang.value")},
+
+        {"PPV_phsAB_mag_1", std::regex("[a-zA-Z.]+[\\.1]?\\.readingMMXU.PPV.phsAB.cVal.mag")},
+        {"PPV_phsAB_ang_1", std::regex("[a-zA-Z.]+[\\.1]?\\.readingMMXU.PPV.phsAB.cVal.ang.value")},
+        {"PPV_phsBC_mag_1", std::regex("[a-zA-Z.]+[\\.1]?\\.readingMMXU.PPV.phsBC.cVal.mag")},
+        {"PPV_phsBC_ang_1", std::regex("[a-zA-Z.]+[\\.1]?\\.readingMMXU.PPV.phsBC.cVal.ang.value")},
+        {"PPV_phsCA_mag_1", std::regex("[a-zA-Z.]+[\\.1]?\\.readingMMXU.PPV.phsCA.cVal.mag")},
+        {"PPV_phsCA_ang_1", std::regex("[a-zA-Z.]+[\\.1]?\\.readingMMXU.PPV.phsCA.cVal.ang.value")},
+
+        {"VA_neut_mag_1", std::regex("[a-zA-Z.]+[\\.1]?\\.readingMMXU.VA.neut.cVal.mag")},
+        {"VA_net_mag_1", std::regex("[a-zA-Z.]+[\\.1]?\\.readingMMXU.VA.net.cVal.mag")},
+        {"VA_phsA_mag_1", std::regex("[a-zA-Z.]+[\\.1]?\\.readingMMXU.VA.phsA.cVal.mag")},
+        {"VA_phsB_mag_1", std::regex("[a-zA-Z.]+[\\.1]?\\.readingMMXU.VA.phsB.cVal.mag")},
+        {"VA_phsC_mag_1", std::regex("[a-zA-Z.]+[\\.1]?\\.readingMMXU.VA.phsC.cVal.mag")},
+
+        {"VAr_neut_mag_1", std::regex("[a-zA-Z.]+[\\.1]?\\.readingMMXU.VAr.neut.cVal.mag")},
+        {"VAr_net_mag_1", std::regex("[a-zA-Z.]+[\\.1]?\\.readingMMXU.VAr.net.cVal.mag")},
+        {"VAr_phsA_mag_1", std::regex("[a-zA-Z.]+[\\.1]?\\.readingMMXU.VAr.phsA.cVal.mag")},
+        {"VAr_phsB_mag_1", std::regex("[a-zA-Z.]+[\\.1]?\\.readingMMXU.VAr.phsB.cVal.mag")},
+        {"VAr_phsC_mag_1", std::regex("[a-zA-Z.]+[\\.1]?\\.readingMMXU.VAr.phsC.cVal.mag")},
+
+        {"W_neut_mag_1", std::regex("[a-zA-Z.]+[\\.1]?\\.readingMMXU.W.neut.cVal.mag")},
+        {"W_net_mag_1", std::regex("[a-zA-Z.]+[\\.1]?\\.readingMMXU.W.net.cVal.mag")},
+        {"W_phsA_mag_1", std::regex("[a-zA-Z.]+[\\.1]?\\.readingMMXU.W.phsA.cVal.mag")},
+        {"W_phsB_mag_1", std::regex("[a-zA-Z.]+[\\.1]?\\.readingMMXU.W.phsB.cVal.mag")},
+        {"W_phsC_mag_1", std::regex("[a-zA-Z.]+[\\.1]?\\.readingMMXU.W.phsC.cVal.mag")}
+    };
+
+>>>>>>> Stashed changes
     TimescaleDBArchiver::TimescaleDBArchiver(const api::Logger& logger,
                                              const std::string& database_url,
                                              bool store_measurement,

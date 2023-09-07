@@ -2,10 +2,109 @@
 --
 -- SPDX-License-Identifier: Apache-2.0
 
+<<<<<<< Updated upstream
 -- Create database
 CREATE DATABASE openfmb;
 \c openfmb
 CREATE EXTENSION IF NOT EXISTS timescaledb CASCADE;
+=======
+CREATE TABLE data
+(
+    message_uuid uuid NOT NULL,
+    "timestamp" timestamp with time zone NOT NULL,
+    device_uuid uuid NOT NULL,
+    tagname character varying(1024) NOT NULL,
+    a_net_mag_0 numeric,
+    a_neut_mag_0 numeric,
+    a_phsa_mag_0 numeric,
+    a_phsb_mag_0 numeric,
+    a_phsc_mag_0 numeric,
+    hz_mag_0 numeric,
+    pf_neut_mag_0 numeric,
+    pf_net_mag_0 numeric,
+    pf_phsa_mag_0 numeric,
+    pf_phsb_mag_0 numeric,
+    pf_phsc_mag_0 numeric,
+    phv_neut_mag_0 numeric,
+    phv_neut_ang_0 numeric,
+    phv_net_mag_0 numeric,
+    phv_net_ang_0 numeric,
+    phv_phsa_mag_0 numeric,
+    phv_phsa_ang_0 numeric,
+    phv_phsb_mag_0 numeric,
+    phv_phsb_ang_0 numeric,
+    phv_phsc_mag_0 numeric,
+    phv_phsc_ang_0 numeric,
+    ppv_phsab_mag_0 numeric,
+    ppv_phsab_ang_0 numeric,
+    ppv_phsbc_mag_0 numeric,
+    ppv_phsbc_ang_0 numeric,
+    ppv_phsca_mag_0 numeric,
+    ppv_phsca_ang_0 numeric,
+    va_neut_mag_0 numeric,
+    va_net_mag_0 numeric,
+    va_phsa_mag_0 numeric,
+    va_phsb_mag_0 numeric,
+    va_phsc_mag_0 numeric,
+    var_neut_mag_0 numeric,
+    var_net_mag_0 numeric,
+    var_phsa_mag_0 numeric,
+    var_phsb_mag_0 numeric,
+    var_phsc_mag_0 numeric,
+    w_neut_mag_0 numeric,
+    w_net_mag_0 numeric,
+    w_phsa_mag_0 numeric,
+    w_phsb_mag_0 numeric,
+    w_phsc_mag_0 numeric,
+    -- start load side
+    a_net_mag_1 numeric,
+    a_neut_mag_1 numeric,
+    a_phsa_mag_1 numeric,
+    a_phsb_mag_1 numeric,
+    a_phsc_mag_1 numeric,
+    hz_mag_1 numeric,
+    pf_neut_mag_1 numeric,
+    pf_net_mag_1 numeric,
+    pf_phsa_mag_1 numeric,
+    pf_phsb_mag_1 numeric,
+    pf_phsc_mag_1 numeric,
+    phv_neut_mag_1 numeric,
+    phv_neut_ang_1 numeric,
+    phv_net_mag_1 numeric,
+    phv_net_ang_1 numeric,
+    phv_phsa_mag_1 numeric,
+    phv_phsa_ang_1 numeric,
+    phv_phsb_mag_1 numeric,
+    phv_phsb_ang_1 numeric,
+    phv_phsc_mag_1 numeric,
+    phv_phsc_ang_1 numeric,
+    ppv_phsab_mag_1 numeric,
+    ppv_phsab_ang_1 numeric,
+    ppv_phsbc_mag_1 numeric,
+    ppv_phsbc_ang_1 numeric,
+    ppv_phsca_mag_1 numeric,
+    ppv_phsca_ang_1 numeric,
+    va_neut_mag_1 numeric,
+    va_net_mag_1 numeric,
+    va_phsa_mag_1 numeric,
+    va_phsb_mag_1 numeric,
+    va_phsc_mag_1 numeric,
+    var_neut_mag_1 numeric,
+    var_net_mag_1 numeric,
+    var_phsa_mag_1 numeric,
+    var_phsb_mag_1 numeric,
+    var_phsc_mag_1 numeric,
+    w_neut_mag_1 numeric,
+    w_net_mag_1 numeric,
+    w_phsa_mag_1 numeric,
+    w_phsb_mag_1 numeric,
+    w_phsc_mag_1 numeric
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+>>>>>>> Stashed changes
 
 -- Create the data table
 CREATE TABLE data(
