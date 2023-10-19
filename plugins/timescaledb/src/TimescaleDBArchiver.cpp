@@ -87,7 +87,7 @@ namespace timescaledb {
                 continue;
 
             if (m_store_measurement) {
-                std::ostringstream oss;
+                std::ostringstream query;
                 oss << "INSERT INTO " << m_table_name + " "
                     << "(message_uuid, timestamp, device_uuid, tagname, ";
 
@@ -107,11 +107,11 @@ namespace timescaledb {
                     if (get_column_value(&item, value, column)) {
 
                         if (!first) {
-                            oss << ", ";
+                            query << ", ";
                             values << ", ";
                         }
 
-                        oss << column;
+                        query << column;
                         values << value;
 
                         first = false;
@@ -120,27 +120,44 @@ namespace timescaledb {
                     }
                 }
 
-                oss << ")";
+                query << ")";
                 values << ")";
 
                 m_logger.debug(values.str());
 
-                oss << " VALUES " << values.str();
+                query << " VALUES " << values.str();
 
-                oss << " ON CONFLICT DO NOTHING";
+                query << " ON CONFLICT DO NOTHING";
 
                 if (found_column) {
-                    auto result = m_connection->exec(oss.str().c_str());
-                    if (result.is_successful()) {
-                        m_logger.info("Successfully inserted {} row(s) into {}.", result.get_num_rows(), m_table_name);
-                    } else {
-                        m_logger.error("PostgreSQL request failed: {}", result.get_error());
+                    // Begin Transaction
+                    std::ostringstream begin;
+                    begin << "BEGIN";
+                    auto begin_result = m_connection->exec(begin.str().c_str());
+                    if (begin_result.is_successful()) {
+                        // Query
+                        auto query_result = m_connection->exec(query.str().c_str());
+                        if (oss_result.is_successful()) {
+                            // End Transaction
+                            std::ostringstream commit;
+                            commit << "COMMIT";
+                            auto commit_result = m_connection->exec(commit.str().c_str());
+                            if (commit_result.is_successful()) {
+                                m_logger.info("Successfully inserted {} row(s) into {}.", result.get_num_rows(), m_table_name);
+                            } else {
+                                m_logger.error("PostgreSQL failed to commit tx: {}");
+                            }
+                        } else {
+                            m_logger.error("PostgreSQL failed to insert: {}", result.get_error());
 
-                        // The value is put back in front for reprocessing
-                        auto successfully_pushed = m_queue.push_front(std::move(message));
-                        if (!successfully_pushed) {
-                            m_logger.warn("Buffer is full, the last message won't be reprocessed.");
+                            // The value is put back in front for reprocessing
+                            auto successfully_pushed = m_queue.push_front(std::move(message));
+                            if (!successfully_pushed) {
+                                m_logger.warn("Buffer is full, the last message won't be reprocessed.");
+                            }
                         }
+                    } else {
+                        m_logger.error("PostgreSQL failed to begin tx: {}");
                     }
                 }
             }
@@ -194,24 +211,7 @@ namespace timescaledb {
                        << "'" << message->profile_name + "',"
                        << "'" << message->json_data + "'"
                        << ")";
-
-                auto rs = m_connection_raw_messages->exec(query.str().c_str());
-
-                if (rs.is_successful()) {
-                    m_logger.info("Successfully inserted {} row(s) into {}.", rs.get_num_rows(), m_raw_table_name);
-                } else {
-                    m_logger.error("PostgreSQL request failed: {}", rs.get_error());
-
-                    // The value is put back in front for reprocessing
-                    auto successfully_pushed = m_queue_for_raw_messages.push_front(std::move(message));
-                    if (!successfully_pushed) {
-                        m_logger.warn("Buffer (raw messages) is full, the last message won't be reprocessed.");
-                    }
-                }
-
-
             } else if (m_raw_data_format == 1) {
-
                 query << "("
                       << "'" << boost::uuids::to_string(message->message_uuid) << "',"
                       << "to_timestamp(" << std::to_string(message->timestamp) << "),"
@@ -219,11 +219,25 @@ namespace timescaledb {
                       << "'" << message->profile_name + "',"
                       << "" << "$1::bytea"
                       << ")";
-
-                auto rs = m_connection_raw_messages->exec(query.str().c_str(), message->raw_data.get(), message->raw_data_size);
-
+            }
+            
+            // Begin Transaction
+            std::ostringstream begin;
+            begin << "BEGIN";
+            auto begin_rs = m_connection->exec(begin.str().c_str());
+            if (begin_rs.is_successful()) {
+                // Query
+                auto rs = m_connection_raw_messages->exec(query.str().c_str());
                 if (rs.is_successful()) {
-                    m_logger.info("Successfully inserted {} row(s) into {}.", rs.get_num_rows(), m_raw_table_name);
+                            // End Transaction
+                            std::ostringstream commit;
+                            commit << "COMMIT";
+                            auto commit_result = m_connection->exec(commit.str().c_str());
+                            if (commit_result.is_successful()) {
+                                m_logger.info("Successfully inserted {} row(s) into {}.", result.get_num_rows(), m_table_name);
+                            } else {
+                                m_logger.error("PostgreSQL failed to commit tx: {}");
+                            }
                 } else {
                     m_logger.error("PostgreSQL request failed: {}", rs.get_error());
 
