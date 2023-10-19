@@ -137,7 +137,7 @@ namespace timescaledb {
                     if (begin_result.is_successful()) {
                         // Query
                         auto query_result = m_connection->exec(query.str().c_str());
-                        if (oss_result.is_successful()) {
+                        if (query_result.is_successful()) {
                             // End Transaction
                             std::ostringstream commit;
                             commit << "COMMIT";
