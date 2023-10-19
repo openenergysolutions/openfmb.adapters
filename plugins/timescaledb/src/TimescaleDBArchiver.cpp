@@ -229,17 +229,17 @@ namespace timescaledb {
                 // Query
                 auto rs = m_connection_raw_messages->exec(query.str().c_str());
                 if (rs.is_successful()) {
-                            // End Transaction
-                            std::ostringstream commit;
-                            commit << "COMMIT";
-                            auto commit_result = m_connection->exec(commit.str().c_str());
-                            if (commit_result.is_successful()) {
-                                m_logger.info("Successfully inserted {} row(s) into {}.", result.get_num_rows(), m_table_name);
-                            } else {
-                                m_logger.error("PostgreSQL failed to commit tx: {}");
-                            }
+                    // End Transaction
+                    std::ostringstream commit;
+                    commit << "COMMIT";
+                    auto commit_result = m_connection->exec(commit.str().c_str());
+                    if (commit_result.is_successful()) {
+                        m_logger.info("Successfully inserted {} row(s) into {}.", result.get_num_rows(), m_table_name);
+                    } else {
+                        m_logger.error("PostgreSQL failed to commit tx: {}");
+                    }
                 } else {
-                    m_logger.error("PostgreSQL request failed: {}", rs.get_error());
+                    m_logger.error("PostgreSQL insert failed: {}", rs.get_error());
 
                     // The value is put back in front for reprocessing
                     auto successfully_pushed = m_queue_for_raw_messages.push_front(std::move(message));
