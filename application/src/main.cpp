@@ -14,6 +14,7 @@
 
 #include "ArgumentParser.h"
 #include "ConfigKeys.h"
+#include "FileInfo.h"
 #include "LoggerConfig.h"
 #include "MessageBus.h"
 #include "PluginRegistry.h"
@@ -218,7 +219,7 @@ int write_default_config(const std::string& config_file_path)
 int write_config_schema(const std::string& schema_file_path, bool pretty_print)
 {
     std::ofstream file(schema_file_path);
-    write_schema(file, "https://www.github.com/openenergysolutions", get_config_schema(), pretty_print);
+    write_schema(file, "https://www.github.com/openenergysolutions", "OpenFMB configuration schema", get_config_schema(), pretty_print);
 
     return 0;
 }
@@ -295,7 +296,7 @@ int write_session_schema(const std::string& schema_file_path, const api::IPlugin
 
     // Print schema to file
     std::ofstream file(schema_file_path);
-    write_schema(file, "https://www.github.com/openenergysolutions", schema, pretty_print);
+    write_schema(file, "https://www.github.com/openenergysolutions", "OpenFMB device template schema", schema, pretty_print);
 
     return 0;
 }
@@ -353,5 +354,5 @@ std::vector<schema::property_ptr_t> get_config_schema()
     });
     const auto plugins = object_property("plugins", Required::yes, "map of plugin configurations", schema::Object{plugin_properties});
 
-    return {logging::get_logging_config_schema(), plugins};
+    return {logging::get_logging_config_schema(), file::get_file_info_config_schema(), plugins};
 }

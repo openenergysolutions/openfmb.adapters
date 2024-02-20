@@ -18,17 +18,20 @@
 #ifndef OPENFMB_CONVERTTOPROTO_H
 #define OPENFMB_CONVERTTOPROTO_H
 
+#include "circuitsegmentservicemodule/circuitsegmentservicemodule.pb.h"
+#include "generationmodule/generationmodule.pb.h"
+#include "loadmodule/loadmodule.pb.h"
+#include "metermodule/metermodule.pb.h"
+#include "resourcemodule/resourcemodule.pb.h"
 #include "reclosermodule/reclosermodule.pb.h"
+#include "interconnectionmodule/interconnectionmodule.pb.h"
 #include "solarmodule/solarmodule.pb.h"
 #include "breakermodule/breakermodule.pb.h"
 #include "capbankmodule/capbankmodule.pb.h"
 #include "switchmodule/switchmodule.pb.h"
-#include "generationmodule/generationmodule.pb.h"
-#include "loadmodule/loadmodule.pb.h"
 #include "essmodule/essmodule.pb.h"
 #include "regulatormodule/regulatormodule.pb.h"
-#include "metermodule/metermodule.pb.h"
-#include "resourcemodule/resourcemodule.pb.h"
+#include "reservemodule/reservemodule.pb.h"
 
 #include "OpenFMB-IDL.hpp"
 
@@ -56,13 +59,29 @@ void convert_to_proto(const openfmb::capbankmodule::CapBankReadingProfile& in, c
 
 void convert_to_proto(const openfmb::capbankmodule::CapBankStatusProfile& in, capbankmodule::CapBankStatusProfile& out);
 
+void convert_to_proto(const openfmb::circuitsegmentservicemodule::CircuitSegmentControlProfile& in, circuitsegmentservicemodule::CircuitSegmentControlProfile& out);
+
+void convert_to_proto(const openfmb::circuitsegmentservicemodule::CircuitSegmentEventProfile& in, circuitsegmentservicemodule::CircuitSegmentEventProfile& out);
+
+void convert_to_proto(const openfmb::circuitsegmentservicemodule::CircuitSegmentStatusProfile& in, circuitsegmentservicemodule::CircuitSegmentStatusProfile& out);
+
+void convert_to_proto(const openfmb::essmodule::ESSCapabilityOverrideProfile& in, essmodule::ESSCapabilityOverrideProfile& out);
+
+void convert_to_proto(const openfmb::essmodule::ESSCapabilityProfile& in, essmodule::ESSCapabilityProfile& out);
+
 void convert_to_proto(const openfmb::essmodule::ESSControlProfile& in, essmodule::ESSControlProfile& out);
+
+void convert_to_proto(const openfmb::essmodule::ESSDiscreteControlProfile& in, essmodule::ESSDiscreteControlProfile& out);
 
 void convert_to_proto(const openfmb::essmodule::ESSEventProfile& in, essmodule::ESSEventProfile& out);
 
 void convert_to_proto(const openfmb::essmodule::ESSReadingProfile& in, essmodule::ESSReadingProfile& out);
 
 void convert_to_proto(const openfmb::essmodule::ESSStatusProfile& in, essmodule::ESSStatusProfile& out);
+
+void convert_to_proto(const openfmb::generationmodule::GenerationCapabilityOverrideProfile& in, generationmodule::GenerationCapabilityOverrideProfile& out);
+
+void convert_to_proto(const openfmb::generationmodule::GenerationCapabilityProfile& in, generationmodule::GenerationCapabilityProfile& out);
 
 void convert_to_proto(const openfmb::generationmodule::GenerationControlProfile& in, generationmodule::GenerationControlProfile& out);
 
@@ -73,6 +92,10 @@ void convert_to_proto(const openfmb::generationmodule::GenerationEventProfile& i
 void convert_to_proto(const openfmb::generationmodule::GenerationReadingProfile& in, generationmodule::GenerationReadingProfile& out);
 
 void convert_to_proto(const openfmb::generationmodule::GenerationStatusProfile& in, generationmodule::GenerationStatusProfile& out);
+
+void convert_to_proto(const openfmb::interconnectionmodule::InterconnectionPlannedScheduleProfile& in, interconnectionmodule::InterconnectionPlannedScheduleProfile& out);
+
+void convert_to_proto(const openfmb::interconnectionmodule::InterconnectionRequestedScheduleProfile& in, interconnectionmodule::InterconnectionRequestedScheduleProfile& out);
 
 void convert_to_proto(const openfmb::loadmodule::LoadControlProfile& in, loadmodule::LoadControlProfile& out);
 
@@ -102,6 +125,10 @@ void convert_to_proto(const openfmb::regulatormodule::RegulatorReadingProfile& i
 
 void convert_to_proto(const openfmb::regulatormodule::RegulatorStatusProfile& in, regulatormodule::RegulatorStatusProfile& out);
 
+void convert_to_proto(const openfmb::reservemodule::ReserveAvailabilityProfile& in, reservemodule::ReserveAvailabilityProfile& out);
+
+void convert_to_proto(const openfmb::reservemodule::ReserveRequestProfile& in, reservemodule::ReserveRequestProfile& out);
+
 void convert_to_proto(const openfmb::resourcemodule::ResourceDiscreteControlProfile& in, resourcemodule::ResourceDiscreteControlProfile& out);
 
 void convert_to_proto(const openfmb::resourcemodule::ResourceEventProfile& in, resourcemodule::ResourceEventProfile& out);
@@ -110,7 +137,13 @@ void convert_to_proto(const openfmb::resourcemodule::ResourceReadingProfile& in,
 
 void convert_to_proto(const openfmb::resourcemodule::ResourceStatusProfile& in, resourcemodule::ResourceStatusProfile& out);
 
+void convert_to_proto(const openfmb::solarmodule::SolarCapabilityOverrideProfile& in, solarmodule::SolarCapabilityOverrideProfile& out);
+
+void convert_to_proto(const openfmb::solarmodule::SolarCapabilityProfile& in, solarmodule::SolarCapabilityProfile& out);
+
 void convert_to_proto(const openfmb::solarmodule::SolarControlProfile& in, solarmodule::SolarControlProfile& out);
+
+void convert_to_proto(const openfmb::solarmodule::SolarDiscreteControlProfile& in, solarmodule::SolarDiscreteControlProfile& out);
 
 void convert_to_proto(const openfmb::solarmodule::SolarEventProfile& in, solarmodule::SolarEventProfile& out);
 

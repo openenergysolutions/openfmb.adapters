@@ -27,7 +27,16 @@ public class Enumerations {
             )
     );
 
-    public static final List<GeneratedFileSet> sets = Arrays.asList(API.set, DNP3.set, Modbus.set, Goose.set, Nats.set, MQTT.set);
+    private final static Enumeration authenticateType = new Enumeration(
+            Arrays.asList("Authentication","Type"),
+            Arrays.asList(
+                    Enumeration.entry("none", "no authenticate mechanism"),
+                    Enumeration.entry("password", "basic password authentication"),
+                    Enumeration.entry("certificate", "tls certificate authentication")
+            )
+    );
+
+    public static final List<GeneratedFileSet> sets = Arrays.asList(API.set, DNP3.set, Modbus.set, Goose.set, ICCP.set, Nats.set, MQTT.set);
 
     private static class API {
 
@@ -75,6 +84,15 @@ public class Enumerations {
                 )
         );
 
+        private final static Enumeration clearingTimeFieldType = new Enumeration(
+                getFieldName("ClearingTime"),
+                Arrays.asList(
+                        Enumeration.entry("message", "the clearing time for the point"),
+                        Enumeration.entry("mapped", "the value is mapped dynamically from the underlying protocol"),
+                        Enumeration.entry("ignored", "the time is ignored in this configuration")
+                )
+        );
+
         private final static Enumeration qualityFieldType = new Enumeration(
                 getFieldName("Quality"),
                 Arrays.asList(
@@ -110,7 +128,8 @@ public class Enumerations {
                     timestampFieldType,
                     qualityFieldType,
                     controlTimestampFieldType,
-                    profile
+                    profile,
+                    clearingTimeFieldType
             );
         }
 
@@ -342,6 +361,126 @@ public class Enumerations {
         private static final Path path = Paths.get("../plugins/goose/src/generated");
 
         private static final List<String> namespaces = Arrays.asList("goose", "adapter");
+
+        public static final GeneratedFileSet set = new GeneratedFileSet(
+                Collections.singletonList(path),
+                FileGenerator.convert(path, path, enums().stream().map(e -> new EnumFiles(e, namespaces)).collect(Collectors.toList()))
+        );
+    }
+
+    private static class ICCP {
+        private final static Enumeration type = new Enumeration(
+                Arrays.asList("Type"),
+                Arrays.asList(
+                        Enumeration.entry("ignored", "ignored"),
+                        Enumeration.entry("structure", "structure"),
+                        Enumeration.entry("array", "array"),
+                        Enumeration.entry("boolean", "boolean"),
+                        Enumeration.entry("integer", "integer"),
+                        Enumeration.entry("floating", "floating"),
+                        Enumeration.entry("visible_string", "visible_string"),
+                        Enumeration.entry("mms_string", "mms_string"),
+                        Enumeration.entry("bitstring", "bitstring"),
+                        Enumeration.entry("generalized_time", "generalized_time"),
+                        Enumeration.entry("binary_time", "binary_time"),
+                        Enumeration.entry("utc_time", "utc_time")
+                )
+        );
+
+        private final static Enumeration commandPointType = new Enumeration(
+                Arrays.asList("Command", "Point", "Type"),
+                Arrays.asList(
+                        Enumeration.entry("none", "field is not mapped"),
+                        Enumeration.entry("command", "Command type"),
+                        Enumeration.entry("command_sbo", "Command type (SBO)"),
+                        Enumeration.entry("set_point_real", "Real SetPoint type"),
+                        Enumeration.entry("set_point_real_sbo", "Real SetPoint type (SBO)"),
+                        Enumeration.entry("set_point_discrete", "Discrete SetPoint type"),
+                        Enumeration.entry("set_point_discrete_sbo", "Discrete SetPoint type (SBO)")
+                )
+        );
+
+        private final static Enumeration indicationPointType = new Enumeration(
+                Arrays.asList("Indication", "Point", "Type"),
+                Arrays.asList(
+                        Enumeration.entry("none", "field is not mapped"),
+                        Enumeration.entry("discrete", "Discrete indication point type"),
+                        Enumeration.entry("discrete_q", "DiscreteQ indication point type"),
+                        Enumeration.entry("discrete_q_t", "DiscreteQTimeTag indication point type"),
+                        Enumeration.entry("discrete_q_t_ext", "DiscreteQTimeTagExtended indication point type"),
+                        Enumeration.entry("discrete_ext", "DiscreteExtended indication point type"),
+
+                        Enumeration.entry("real", "Real indication point type"),
+                        Enumeration.entry("real_q", "RealQ indication point type"),
+                        Enumeration.entry("real_q_t", "RealQTimeTag indication point type"),
+                        Enumeration.entry("real_q_t_ext", "RealQTimeTagExtended indication point type"),
+                        Enumeration.entry("real_ext", "RealExtended indication point type"),
+
+                        Enumeration.entry("state", "State indication point type"),
+                        Enumeration.entry("state_q", "StateQ indication point type"),
+                        Enumeration.entry("state_q_t", "StateQTimeTag indication point type"),
+                        Enumeration.entry("state_q_t_ext", "StateQTimeTagExtended indication point type"),
+                        Enumeration.entry("state_ext", "StateExtended indication point type")
+                )
+        );
+
+        private final static Enumeration setPointType = new Enumeration(
+                Arrays.asList("Set", "Point", "Type"),
+                Arrays.asList(
+                        Enumeration.entry("real", "Real setpoint type"),
+                        Enumeration.entry("discrete", "Discrete setpoint type")
+                )
+        );
+
+        private final static Enumeration deviceClass = new Enumeration(
+                Arrays.asList("Device", "Class"),
+                Arrays.asList(
+                        Enumeration.entry("sbo", "SBO device class"),
+                        Enumeration.entry("non_sbo", "Non-SBO device class")
+                )
+        );
+
+        private final static Enumeration sboState = new Enumeration(
+                Arrays.asList("SBO", "State"),
+                Arrays.asList(
+                        Enumeration.entry("selected", "Selected state"),
+                        Enumeration.entry("not_selected", "Not selected state")
+                )
+        );
+
+        private final static Enumeration tagClass = new Enumeration(
+                Arrays.asList("Tag", "Class"),
+                Arrays.asList(
+                        Enumeration.entry("taggable", "Taggable tag class"),
+                        Enumeration.entry("non_taggable", "Non-Taggable tag class")
+                )
+        );
+
+        private final static Enumeration tag = new Enumeration(
+                Arrays.asList("Tag"),
+                Arrays.asList(
+                        Enumeration.entry("no_tag", "No tag"),
+                        Enumeration.entry("open_and_close_inhibit", "Open-And-Close-Inhibit"),
+                        Enumeration.entry("close_only_inhibit", "Close-Only-Inhibit")
+                )
+        );
+
+        private final static Enumeration qualityMapping = new Enumeration(
+                Arrays.asList("Quality", "Mapping", "Type"),
+                Arrays.asList(
+                        Enumeration.entry("copy", "copy the value of the OpenFMB proto"),
+                        Enumeration.entry("constant", "use a constant quality"),
+                        Enumeration.entry("constant_if_absent", "use a constant quality if the OpenFMB proto doesn't have a quality")
+                )
+        );
+
+        private static List<Enumeration> enums() {
+            return Arrays.asList(type, commandPointType, indicationPointType, setPointType, deviceClass, sboState, tagClass, tag, qualityMapping, authenticateType);
+        }
+
+        private static final Path path = Paths.get("../plugins/iccp/src/iccp/generated");
+
+        private static final List<String> namespaces = Arrays.asList("iccp", "adapter");
 
         public static final GeneratedFileSet set = new GeneratedFileSet(
                 Collections.singletonList(path),

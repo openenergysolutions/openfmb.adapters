@@ -15,5 +15,6 @@
 #include "generated/QualityFieldType.h"
 #include "generated/TimestampFieldType.h"
 #include "generated/ControlTimestampFieldType.h"
+#include "generated/ClearingTimeFieldType.h"
 
 #endif //OPENFMB_ADAPTER_FIELDTYPES_H

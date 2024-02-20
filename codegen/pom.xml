@@ -36,7 +36,7 @@ SPDX-License-Identifier: Apache-2.0
         <artifactId>protobuf-maven-plugin</artifactId>
         <version>0.5.1</version>
         <configuration>
-                <!-- <protocExecutable>C:/.conan/ab1cc2/1/bin/protoc.exe</protocExecutable> -->
+          <protocExecutable>/home/cory/.conan/data/protobuf/3.16.0/_/_/package/35f35211396802d98f502dcb5e3e87ae1b51c5f2/bin/protoc</protocExecutable>
           <protoSourceRoot>../deps/openfmb-schemas/protobuf/openfmb</protoSourceRoot>
         </configuration>
         <executions>

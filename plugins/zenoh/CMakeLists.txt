@@ -20,7 +20,7 @@ set(ZENOH_SOURCES
 
 add_library(zenoh-plugin STATIC ${ZENOH_PUBLIC_HEADERS} ${ZENOH_SOURCES})
 target_include_directories(zenoh-plugin PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include PRIVATE ${ZENOH_INCLUDE})
-target_link_libraries(zenoh-plugin PUBLIC adapter-util PRIVATE ${ZENOH_LIB})
+target_link_libraries(zenoh-plugin PUBLIC adapter-util PRIVATE ${ZENOH_LIB} dl rt)
 clang_tidy(zenoh-plugin)
 clang_format(zenoh-plugin)
 

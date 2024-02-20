@@ -41,7 +41,7 @@ set(SOURCES
 add_library(mqtt-plugin STATIC ${PUBLIC_HEADERS} ${SOURCES})
 target_include_directories(mqtt-plugin PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 if(OPENFMB_USE_CONAN)
-	target_link_libraries(mqtt-plugin PUBLIC adapter-util PRIVATE CONAN_PKG::paho-cpp)
+	target_link_libraries(mqtt-plugin PUBLIC adapter-util PRIVATE CONAN_PKG::paho-mqtt-cpp)
 else()
 	target_link_libraries(mqtt-plugin PUBLIC adapter-util PRIVATE ${LIBPAHOCPP} ${LIBPAHOC} ${OPENSSL_LIBRARIES})
 endif()

@@ -13,6 +13,8 @@ set(openfmb_adapter_src
     ./src/ConfigKeys.h
     ./src/LoggerConfig.h
     ./src/LoggerConfig.cpp
+    ./src/FileInfo.h
+    ./src/FileInfo.cpp
     ./src/SubscriptionRegistry.h)
 
 SET(CPP_FORMAT_DIRS
@@ -23,8 +25,18 @@ SET(CPP_FORMAT_DIRS
 )
 
 # Build plugin list
-set(plugins log-plugin capture-plugin replay-plugin)
+set(plugins log-plugin)
 set(plugin_definitions)
+
+if(OPENFMB_USE_CAPTURE)
+    list(APPEND plugins capture-plugin)
+    list(APPEND plugin_definitions OPENFMB_USE_CAPTURE)
+endif()
+
+if(OPENFMB_USE_REPLAY)
+    list(APPEND plugins replay-plugin)
+    list(APPEND plugin_definitions OPENFMB_USE_REPLAY)
+endif()
 
 if(OPENFMB_USE_DNP3)
     list(APPEND plugins dnp3-plugin)
@@ -39,6 +51,11 @@ endif()
 if(OPENFMB_USE_GOOSE)
     list(APPEND plugins goose-plugin)
     list(APPEND plugin_definitions OPENFMB_USE_GOOSE)
+endif()
+
+if(OPENFMB_USE_ICCP)
+    list(APPEND plugins iccp-plugin)
+    list(APPEND plugin_definitions OPENFMB_USE_ICCP)
 endif()
 
 if(OPENFMB_USE_MQTT)
@@ -77,7 +94,12 @@ message("Application will be built with support for: ${ADAPTERS}")
 find_package(Threads)
 add_executable(openfmb-adapter ${openfmb_adapter_src})
 target_link_libraries(openfmb-adapter PRIVATE ${plugins} Threads::Threads dl rt)
-target_include_directories(openfmb-adapter PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../deps/argagg/include)
+
+if(OPENFMB_USE_CONAN)
+    target_include_directories(openfmb-adapter PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/../_deps/argagg-src/include)
+else()
+    target_include_directories(openfmb-adapter PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../deps/argagg/include)
+endif()
 target_compile_definitions(openfmb-adapter PRIVATE ${plugin_definitions})
 clang_tidy(openfmb-adapter)
 clang_format(openfmb-adapter)

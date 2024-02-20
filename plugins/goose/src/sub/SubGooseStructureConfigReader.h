@@ -93,6 +93,10 @@ namespace goose {
 
             util::accessor_t<T, int32_t> accessor32;
             util::accessor_t<T, int64_t> accessor64;
+
+            util::accessor_t<T, uint32_t> accessoru32;
+            util::accessor_t<T, uint64_t> accessoru64;
+
             if (m_mappings.get_int32(name, accessor32)) {
                 m_funcs.push_back([accessor32, name](const T& msg, goose_cpp::Dataset& dataset) {
                     auto present = accessor32->if_present(msg, [&](int32_t value) {
@@ -106,6 +110,26 @@ namespace goose {
             } else if (m_mappings.get_int64(name, accessor64)) {
                 m_funcs.push_back([accessor64, name](const T& msg, goose_cpp::Dataset& dataset) {
                     auto present = accessor64->if_present(msg, [&](int64_t value) {
+                        dataset.add_integer(value);
+                    });
+
+                    if (!present) {
+                        throw api::Exception{ "Value \"" + name + "\" was not present in the message." };
+                    }
+                });
+            } else if (m_mappings.get_uint32(name, accessoru32)) {
+                m_funcs.push_back([accessoru32, name](const T& msg, goose_cpp::Dataset& dataset) {
+                    auto present = accessoru32->if_present(msg, [&](uint32_t value) {
+                        dataset.add_integer(value);
+                    });
+
+                    if (!present) {
+                        throw api::Exception{ "Value \"" + name + "\" was not present in the message." };
+                    }
+                });
+            } else if (m_mappings.get_uint64(name, accessoru64)) {
+                m_funcs.push_back([accessoru64, name](const T& msg, goose_cpp::Dataset& dataset) {
+                    auto present = accessoru64->if_present(msg, [&](uint64_t value) {
                         dataset.add_integer(value);
                     });
 

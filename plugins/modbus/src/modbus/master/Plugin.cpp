@@ -63,7 +63,8 @@ namespace master {
         template <class U = T>
         static return_t<
             util::profile_info<U>::type == util::ProfileType::Reading ||
-            util::profile_info<U>::type == util::ProfileType::Status>
+            util::profile_info<U>::type == util::ProfileType::Status ||
+            util::profile_info<U>::type == util::ProfileType::Capability>
         handle(const YAML::Node& node, const api::Logger& logger, std::shared_ptr<exe4cpp::IExecutor> executor, api::message_bus_t bus, std::shared_ptr<ITransactionProcessor> processor, const AutoPollConfig& auto_poll_config)
         {
             const auto poll_handler = std::make_shared<PollHandler>();

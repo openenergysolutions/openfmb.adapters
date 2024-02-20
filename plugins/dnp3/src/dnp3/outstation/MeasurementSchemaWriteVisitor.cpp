@@ -92,6 +92,51 @@ namespace outstation {
         }));
     }
 
+    std::shared_ptr<schema::Object> MeasurementSchemaWriteVisitor::get_mapped_uint32_schema()
+    {
+        return std::make_shared<Object>(std::vector<property_ptr_t>(), OneOf({
+                                                                           Variant({ConstantProperty::from_enum<DestinationType>(DestinationType::Value::none)}, {}),
+                                                                           Variant({ConstantProperty::from_enum<DestinationType>(DestinationType::Value::analog)},
+                                                                                   {
+                                                                                       numeric_property<uint16_t>(
+                                                                                           util::keys::index,
+                                                                                           Required::yes,
+                                                                                           "DNP3 index of the analog input",
+                                                                                           0,
+                                                                                           Bound<uint16_t>::from(0),
+                                                                                           Bound<uint16_t>::from(65535)
+                                                                                               ),
+                                                                                       numeric_property<float>(
+                                                                                           util::keys::scale,
+                                                                                           Required::yes,
+                                                                                           "scaling factor",
+                                                                                           1.0f,
+                                                                                           Bound<float>::unused(),
+                                                                                           Bound<float>::unused()
+                                                                                               )
+                                                                                   }),
+                                                                           Variant({ConstantProperty::from_enum<DestinationType>(DestinationType::Value::counter)},
+                                                                                   {
+                                                                                       numeric_property<uint16_t>(
+                                                                                           util::keys::index,
+                                                                                           Required::yes,
+                                                                                           "DNP3 index of the counter",
+                                                                                           0,
+                                                                                           Bound<uint16_t>::from(0),
+                                                                                           Bound<uint16_t>::from(65535)
+                                                                                               ),
+                                                                                       numeric_property<float>(
+                                                                                           util::keys::scale,
+                                                                                           Required::yes,
+                                                                                           "scaling factor",
+                                                                                           1.0f,
+                                                                                           Bound<float>::unused(),
+                                                                                           Bound<float>::unused()
+                                                                                               )
+                                                                                   })
+                                                                       }));
+    }
+
     std::shared_ptr<schema::Object> MeasurementSchemaWriteVisitor::get_mapped_int64_schema()
     {
         return std::make_shared<Object>(std::vector<property_ptr_t>(), OneOf({
@@ -135,6 +180,51 @@ namespace outstation {
                 )
             })
         }));
+    }
+
+    std::shared_ptr<schema::Object> MeasurementSchemaWriteVisitor::get_mapped_uint64_schema()
+    {
+        return std::make_shared<Object>(std::vector<property_ptr_t>(), OneOf({
+                                                                           Variant({ConstantProperty::from_enum<DestinationType>(DestinationType::Value::none)}, {}),
+                                                                           Variant({ConstantProperty::from_enum<DestinationType>(DestinationType::Value::analog)},
+                                                                                   {
+                                                                                       numeric_property<uint16_t>(
+                                                                                           util::keys::index,
+                                                                                           Required::yes,
+                                                                                           "DNP3 index of the analog input",
+                                                                                           0,
+                                                                                           Bound<uint16_t>::from(0),
+                                                                                           Bound<uint16_t>::from(65535)
+                                                                                               ),
+                                                                                       numeric_property<float>(
+                                                                                           util::keys::scale,
+                                                                                           Required::yes,
+                                                                                           "scaling factor",
+                                                                                           1.0f,
+                                                                                           Bound<float>::unused(),
+                                                                                           Bound<float>::unused()
+                                                                                               )
+                                                                                   }),
+                                                                           Variant({ConstantProperty::from_enum<DestinationType>(DestinationType::Value::counter)},
+                                                                                   {
+                                                                                       numeric_property<uint16_t>(
+                                                                                           util::keys::index,
+                                                                                           Required::yes,
+                                                                                           "DNP3 index of the counter",
+                                                                                           0,
+                                                                                           Bound<uint16_t>::from(0),
+                                                                                           Bound<uint16_t>::from(65535)
+                                                                                               ),
+                                                                                       numeric_property<float>(
+                                                                                           util::keys::scale,
+                                                                                           Required::yes,
+                                                                                           "scaling factor",
+                                                                                           1.0f,
+                                                                                           Bound<float>::unused(),
+                                                                                           Bound<float>::unused()
+                                                                                               )
+                                                                                   })
+                                                                       }));
     }
 
     std::shared_ptr<schema::Object> MeasurementSchemaWriteVisitor::get_mapped_float_schema()

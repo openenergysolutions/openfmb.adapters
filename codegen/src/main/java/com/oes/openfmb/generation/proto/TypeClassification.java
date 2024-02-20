@@ -7,6 +7,8 @@ package com.oes.openfmb.generation.proto;
 import com.google.protobuf.*;
 import openfmb.commonmodule.*;
 import openfmb.commonmodule.Timestamp;
+import openfmb.reservemodule.AllocatedMargin;
+import openfmb.reservemodule.ReserveRequest;
 
 import java.util.*;
 
@@ -134,6 +136,7 @@ public class TypeClassification {
         static BasicType quality = new BasicType("QualityFieldType");
         static BasicType timestamp = new BasicType("TimestampFieldType");
         static BasicType controlTimestamp = new BasicType("ControlTimestampFieldType");
+        static BasicType clearingTime = new BasicType("ClearingTimeFieldType");
     }
 
     static String getName(Descriptors.FieldDescriptor field)
@@ -149,8 +152,12 @@ public class TypeClassification {
                 return getBool(path);
             case INT32:
                 return getInt32(path);
+            case UINT32:
+                return getUInt32(path);
             case INT64:
                 return getInt64(path);
+            case UINT64:
+                return getUInt64(path);
             case STRING:
                 return getString(path);
             case ENUM:
@@ -177,6 +184,13 @@ public class TypeClassification {
                 if(path.last().getMessageType() == ControlTimestamp.getDescriptor()) {
                     // just ignore for now
                     return Types.controlTimestamp.ignored;
+                }
+
+                if(path.last().getMessageType() == ClearingTime.getDescriptor()) {
+                    if(path.last().getName().equals("tmVal")) {
+                        return getDoubleWrapper(path);
+                    }
+                    return Types.clearingTime.ignored;
                 }
 
                 if(path.last().getMessageType() == BoolValue.getDescriptor()) {
@@ -206,34 +220,60 @@ public class TypeClassification {
 
     private static String getBool(FieldPath path)
     {
+        /*
         if(path.hasName("ctlVal", "stVal", "value", "general")) {
             return Types.bool.mapped;
         }
 
         throw new NoClassificationException(path);
+        */
+        return Types.bool.mapped;
     }
 
     private static String getInt32(FieldPath path)
     {
+        /*
         if(path.hasName("setVal", "ctlVal", "stVal", "value")) {
             return Types.int32.mapped;
         }
 
         throw new NoClassificationException(path);
+        */
+        return Types.int32.mapped;
+    }
+
+    private static String getUInt32(FieldPath path)
+    {
+        if(path.hasName("nanoseconds")) {
+            return Types.int32.mapped;
+        }
+        return Types.int32.mapped;
     }
 
     private static String getInt64(FieldPath path)
     {
+        /*
         if(path.hasName("actVal")) {
             return Types.int64.mapped;
         }
 
         throw new NoClassificationException(path);
+        */
+        return Types.int64.mapped;
+    }
+
+    private static String getUInt64(FieldPath path)
+    {
+        if(path.hasName("seconds")) {
+            return Types.int64.mapped;
+        }
+        return Types.int64.ignored;
     }
 
 
     private static String getFloat(FieldPath path)
     {
+        /*
         if(path.hasName("value")) {
             return Types.float32.mapped;
         }
@@ -243,15 +283,20 @@ public class TypeClassification {
         }
 
         throw new NoClassificationException(path);
+        */
+        return Types.float32.mapped;
     }
 
     private static String getDouble(FieldPath path)
     {
+        /*
         if(path.hasName("setMag", "ctlVal", "mag", "value", "ang")) {
             return Types.float64.mapped;
         }
 
         throw new NoClassificationException(path);
+        */
+        return Types.float64.mapped;
     }
 
 
@@ -326,7 +371,8 @@ public class TypeClassification {
             return Types.string.ignored;
         }
 
-        throw new NoClassificationException(path);
+        return Types.string.ignored;
+        //throw new NoClassificationException(path);
     }
 
     private static String getString(FieldPath path)
@@ -341,6 +387,14 @@ public class TypeClassification {
 
         if(path.matches("mRID", ConductingEquipment.getDescriptor())) {
             return Types.string.primaryUUID;
+        }
+
+        if(path.matches("mRID", ApplicationSystem.getDescriptor())) {
+            return Types.string.primaryUUID;
+        }
+
+        if(path.matches("requestID", AllocatedMargin.getDescriptor()) || path.matches("requestID", ReserveRequest.getDescriptor())) {
+            return Types.string.ignored;
         }
 
         throw new NoClassificationException(path);
@@ -372,6 +426,7 @@ public class TypeClassification {
         temp.put(RealPowerControlKind.getDescriptor(), Types.enumeration.constant);
         temp.put(FaultDirectionKind.getDescriptor(), Types.enumeration.constant);
         temp.put(PhaseFaultDirectionKind.getDescriptor(), Types.enumeration.constant);
+        temp.put(openfmb.circuitsegmentservicemodule.CircuitSegmentServiceModeKind.getDescriptor(), Types.enumeration.constant);
 
         // mapped types
         temp.put(GridConnectModeKind.getDescriptor(), Types.enumeration.mapped);
@@ -379,6 +434,15 @@ public class TypeClassification {
         temp.put(DbPosKind.getDescriptor(), Types.enumeration.mapped);
         temp.put(StateKind.getDescriptor(), Types.enumeration.mapped);
         temp.put(RecloseActionKind.getDescriptor(), Types.enumeration.mapped);
+
+        // new
+        temp.put(AlrmKind.getDescriptor(), Types.enumeration.constant);
+        temp.put(GridConnectionStateKind.getDescriptor(), Types.enumeration.constant);
+        temp.put(OperatingStateKind.getDescriptor(), Types.enumeration.constant);
+
+        // capability
+        temp.put(AbnOpCatKind.getDescriptor(), Types.enumeration.constant);
+        temp.put(NorOpCatKind.getDescriptor(), Types.enumeration.constant);
 
         enumMap = Collections.unmodifiableMap(temp);
     }

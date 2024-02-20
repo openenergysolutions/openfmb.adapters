@@ -14,10 +14,11 @@ set(SOURCES
 
 add_library(capture-plugin STATIC ${PUBLIC_HEADERS} ${PROJECT_HEADERS} ${SOURCES})
 target_link_libraries(capture-plugin PUBLIC adapter-util)
+message(${CMAKE_CURRENT_BINARY_DIR})
 target_include_directories(
         capture-plugin
         PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
-        PRIVATE ${CMAKE_SOURCE_DIR}/deps/cppcodec/
+        PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/../../_deps/cppcodec-src
 )
 clang_tidy(capture-plugin)
 clang_format(capture-plugin)

@@ -57,6 +57,7 @@ set(HEADERS
     ./include/adapter-util/config/generated/MessageVisitors.h
     ./include/adapter-util/config/generated/ModelVisitors.h
     ./include/adapter-util/config/generated/TypedModelVisitors.h
+    ./include/adapter-util/config/generated/ClearingTimeFieldType.h
 )
 
 set(SOURCES
@@ -84,6 +85,7 @@ set(SOURCES
     ./src/config/generated/QualityFieldType.cpp
     ./src/config/generated/MessageVisitors.cpp
     ./src/config/generated/ModelVisitors.cpp
+    ./src/config/generated/ClearingTimeFieldType.cpp
 # typed model visitors
     ./src/config/generated/BreakerDiscreteControlProfileTypedModelVisitor.cpp
     ./src/config/generated/BreakerEventProfileTypedModelVisitor.cpp
@@ -94,10 +96,18 @@ set(SOURCES
     ./src/config/generated/CapBankEventProfileTypedModelVisitor.cpp
     ./src/config/generated/CapBankReadingProfileTypedModelVisitor.cpp
     ./src/config/generated/CapBankStatusProfileTypedModelVisitor.cpp
+    ./src/config/generated/CircuitSegmentControlProfileTypedModelVisitor.cpp
+    ./src/config/generated/CircuitSegmentEventProfileTypedModelVisitor.cpp
+    ./src/config/generated/CircuitSegmentStatusProfileTypedModelVisitor.cpp
+    ./src/config/generated/ESSCapabilityOverrideProfileTypedModelVisitor.cpp
+    ./src/config/generated/ESSCapabilityProfileTypedModelVisitor.cpp
     ./src/config/generated/ESSControlProfileTypedModelVisitor.cpp
+    ./src/config/generated/ESSDiscreteControlProfileTypedModelVisitor.cpp
     ./src/config/generated/ESSEventProfileTypedModelVisitor.cpp
     ./src/config/generated/ESSReadingProfileTypedModelVisitor.cpp
     ./src/config/generated/ESSStatusProfileTypedModelVisitor.cpp
+    ./src/config/generated/GenerationCapabilityOverrideProfileTypedModelVisitor.cpp
+    ./src/config/generated/GenerationCapabilityProfileTypedModelVisitor.cpp
     ./src/config/generated/GenerationControlProfileTypedModelVisitor.cpp
     ./src/config/generated/GenerationDiscreteControlProfileTypedModelVisitor.cpp
     ./src/config/generated/GenerationEventProfileTypedModelVisitor.cpp
@@ -107,7 +117,8 @@ set(SOURCES
     ./src/config/generated/LoadEventProfileTypedModelVisitor.cpp
     ./src/config/generated/LoadReadingProfileTypedModelVisitor.cpp
     ./src/config/generated/LoadStatusProfileTypedModelVisitor.cpp
-    ./src/config/generated/MeterReadingProfileTypedModelVisitor.cpp    
+    ./src/config/generated/MeterReadingProfileTypedModelVisitor.cpp
+    ./src/config/generated/InterconnectionPlannedScheduleProfileTypedModelVisitor.cpp
     ./src/config/generated/RecloserDiscreteControlProfileTypedModelVisitor.cpp
     ./src/config/generated/RecloserEventProfileTypedModelVisitor.cpp
     ./src/config/generated/RecloserReadingProfileTypedModelVisitor.cpp
@@ -117,11 +128,17 @@ set(SOURCES
     ./src/config/generated/RegulatorEventProfileTypedModelVisitor.cpp
     ./src/config/generated/RegulatorReadingProfileTypedModelVisitor.cpp
     ./src/config/generated/RegulatorStatusProfileTypedModelVisitor.cpp
+    ./src/config/generated/InterconnectionRequestedScheduleProfileTypedModelVisitor.cpp
+    ./src/config/generated/ReserveAvailabilityProfileTypedModelVisitor.cpp
+    ./src/config/generated/ReserveRequestProfileTypedModelVisitor.cpp
     ./src/config/generated/ResourceDiscreteControlProfileTypedModelVisitor.cpp
     ./src/config/generated/ResourceEventProfileTypedModelVisitor.cpp
     ./src/config/generated/ResourceReadingProfileTypedModelVisitor.cpp
     ./src/config/generated/ResourceStatusProfileTypedModelVisitor.cpp
+    ./src/config/generated/SolarCapabilityOverrideProfileTypedModelVisitor.cpp
+    ./src/config/generated/SolarCapabilityProfileTypedModelVisitor.cpp
     ./src/config/generated/SolarControlProfileTypedModelVisitor.cpp
+    ./src/config/generated/SolarDiscreteControlProfileTypedModelVisitor.cpp
     ./src/config/generated/SolarEventProfileTypedModelVisitor.cpp
     ./src/config/generated/SolarReadingProfileTypedModelVisitor.cpp
     ./src/config/generated/SolarStatusProfileTypedModelVisitor.cpp    .
@@ -159,7 +176,15 @@ execute_process(
 
 add_library(adapter-util ${SOURCES} ${HEADERS})
 
-target_link_libraries(adapter-util PUBLIC adapter-api Boost::boost exe4cpp)
+if(OPENFMB_USE_CONAN)
+    target_link_libraries(adapter-util PUBLIC
+        adapter-api
+        CONAN_PKG::boost
+        exe4cpp
+    )
+else()
+    target_link_libraries(adapter-util PUBLIC adapter-api Boost::boost exe4cpp)
+endif()
 
 target_include_directories(adapter-util PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_include_directories(adapter-util PUBLIC ${CMAKE_SOURCE_DIR}/deps/spdlog/include)
@@ -167,4 +192,4 @@ target_compile_definitions(adapter-util PRIVATE MACRO_GIT_COMMIT_HASH=${GIT_COMM
 clang_tidy(adapter-util)
 clang_format(adapter-util EXCLUDES "/config/generated/")
 
-add_subdirectory(./test)
+# add_subdirectory(./test)

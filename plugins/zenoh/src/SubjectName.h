@@ -11,12 +11,14 @@
 
 namespace adapter {
 namespace zenoh {
-    constexpr static const char* openfmb = "openfmb";
+    constexpr static const char* openfmb = "/openfmb";
 
     std::string get_subject_name(const std::string& profile, const std::string& suffix)
     {
         std::ostringstream oss;
-        oss << openfmb << "/" << profile << "/" << suffix;
+        std::string name(profile);
+        std::replace( name.begin(), name.end(), '.', '/');
+        oss << openfmb << "/" << name << "/" << suffix;
         return oss.str();
     }
 
@@ -35,7 +37,9 @@ namespace zenoh {
     std::string get_publish_subject_name(const T& profile)
     {
         std::ostringstream oss;
-        oss << openfmb << "/" << T::descriptor()->full_name() << "/" << get_subject_key_mrid(profile);
+        auto full_name = T::descriptor()->full_name();
+        std::replace( full_name.begin(), full_name.end(), '.', '/');
+        oss << openfmb << "/" << full_name << "/" << get_subject_key_mrid(profile);
         return oss.str();
     }
 }

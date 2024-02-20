@@ -48,6 +48,10 @@ namespace dnp3 {
 
             void handle_mapped_int64(const YAML::Node& node, const util::accessor_t<T, int64_t>& accessor) override;
 
+            void handle_mapped_uint32(const YAML::Node& node, const util::accessor_t<T, uint32_t>& accessor) override;
+
+            void handle_mapped_uint64(const YAML::Node& node, const util::accessor_t<T, uint64_t>& accessor) override;
+
             void handle_mapped_float(const YAML::Node& node, const util::accessor_t<T, float>& accessor) override;
 
             void handle_mapped_double(const YAML::Node& node, const util::accessor_t<T, double>& accessor) override;
@@ -118,8 +122,22 @@ namespace dnp3 {
         }
 
         template <class T>
+        void PublishingConfigReadVisitor<T>::handle_mapped_uint32(const YAML::Node& node,
+                                                                 const util::accessor_t<T, uint32_t>& accessor)
+        {
+            handle_mapped_int(node, accessor);
+        }
+
+        template <class T>
         void PublishingConfigReadVisitor<T>::handle_mapped_int64(const YAML::Node& node,
                                                                  const util::accessor_t<T, int64_t>& accessor)
+        {
+            handle_mapped_int(node, accessor);
+        }
+
+        template <class T>
+        void PublishingConfigReadVisitor<T>::handle_mapped_uint64(const YAML::Node& node,
+                                                                 const util::accessor_t<T, uint64_t>& accessor)
         {
             handle_mapped_int(node, accessor);
         }
@@ -136,7 +154,7 @@ namespace dnp3 {
                 this->builder->add_measurement_handler(
                     [accessor, profile = this->profile, scale = util::yaml::get::scale(node)](
                         const opendnp3::Analog& meas) {
-                        if (!isnan(meas.value)) {
+                        if (!isnan(static_cast<double>(meas.value))) {
                             accessor->set(*profile, static_cast<IntT>(meas.value * scale));
                         }
                     },
@@ -146,7 +164,7 @@ namespace dnp3 {
                 this->builder->add_measurement_handler(
                     [accessor, profile = this->profile, scale = util::yaml::get::scale(node)](
                         const opendnp3::Counter& meas) {
-                        if (!isnan(meas.value)) {
+                        if (!isnan(static_cast<double>(meas.value))) {
                             accessor->set(*profile, static_cast<IntT>(meas.value * scale));
                         }
                     },
@@ -169,7 +187,7 @@ namespace dnp3 {
                 this->builder->add_measurement_handler(
                     [accessor, profile = this->profile, scale = util::yaml::get::scale(node)](
                         const opendnp3::Analog& meas) {
-                        if (!isnan(meas.value)) {
+                        if (!isnan(static_cast<double>(meas.value))) {
                             accessor->set(*profile, static_cast<float>(meas.value * scale));
                         }
                     },

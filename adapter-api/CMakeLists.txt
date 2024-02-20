@@ -23,7 +23,12 @@ SET(CPP_FORMAT_DIRS
 
 add_library(adapter-api INTERFACE)
 
-find_library(LIBYAMLCPP yaml-cpp REQUIRED)
-target_link_libraries(adapter-api INTERFACE proto-api spdlog::spdlog schema-util ${LIBYAMLCPP})
+if(OPENFMB_USE_CONAN)
+    target_link_libraries(adapter-api INTERFACE proto-api spdlog schema-util CONAN_PKG::yaml-cpp)
+else()
+    find_library(LIBYAMLCPP yaml-cpp REQUIRED)
+    target_link_libraries(adapter-api INTERFACE proto-api spdlog::spdlog schema-util ${LIBYAMLCPP})
+endif()
+
 target_include_directories(adapter-api INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 clang_tidy(adapter-api)

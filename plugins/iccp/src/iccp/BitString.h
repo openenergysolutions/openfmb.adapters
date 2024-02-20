@@ -1,0 +1,181 @@
+// SPDX-FileCopyrightText: 2021 Open Energy Solutions Inc
+//
+// SPDX-License-Identifier: Apache-2.0
+
+#ifndef OPENFMB_ADAPTER_ICCP_BITSTRING_H
+#define OPENFMB_ADAPTER_ICCP_BITSTRING_H
+
+#include <cstdint>
+#include <string>
+#include <vector>
+
+namespace adapter {
+namespace iccp {
+
+    /**
+    * @brief Class to represent a bitstring (a series of bits stored in one or more bytes)
+    *
+    * This class is heavily modeled on <a href="https://en.cppreference.com/w/cpp/utility/bitset">std::bitset</a>.
+    */
+    class BitString {
+    public:
+        /**
+        * @brief Construct a bitstring with a number of bits
+        * @param size Size in bits (**not bytes**)
+        *
+        * The created bitstring will be filled with `0`.
+        */
+        explicit BitString(size_t size);
+
+        /**
+        * @brief Construct a bitstring from an existing buffer
+        * @param data Pointer to where the data starts
+        * @param size Size in bits (**not bytes**)
+        *
+        * The bitstring will copy the array to an internal storage.
+        */
+        BitString(uint8_t* data, size_t size);
+
+        ~BitString() = default;
+        BitString(const BitString&) = default;
+        BitString& operator=(const BitString&) = default;
+        BitString(BitString&&) noexcept = default;
+        BitString& operator=(BitString&&) noexcept = default;
+
+        /**
+        * @brief Return the number of bits contained in the bitstring
+        * @return Number of bits
+        */
+        size_t size() const;
+
+        /**
+        * @brief Return internal buffer of data
+        * @return Vector of byte used to store the bitstring
+        *
+        * This method can be useful when interacting with external libraries.
+        */
+        const std::vector<uint8_t> data() const;
+
+        /**
+        * @brief Extracts a bitstring from an existing bitstring
+        * @param start Start index
+        * @param size Number of **bits** to copy
+        * @return Sub-bitstring
+        * @throw BitStringException if the `start` and `size` combination
+        * is wrong.
+        */
+        BitString substring(size_t start, size_t size) const;
+
+        /**
+        * @brief Check if a bit is set or not
+        * @param pos Index of the bit to check
+        * @throw BitStringException if `pos` is not valid
+        * @return `true` if the bit is set, `false` otherwise
+        */
+        bool test(size_t pos) const;
+        /**
+        * @brief Check if all the bits are set
+        * @return `true` if all the bits are set, `false` otherwise
+        */
+        bool all() const;
+        /**
+        * @brief Check if any of the bits are set
+        * @return `true` if any of the bits are set, `false` otherwise
+        */
+        bool any() const;
+        /**
+        * @brief Check if none of the bits are set
+        * @return `true` if none of the bits are set, `false` otherwise
+        */
+        bool none() const;
+        /**
+        * @brief Counts the number of bits that are set
+        * @return Number of bits that are set
+        */
+        size_t count() const;
+
+        /**
+        * @brief Set all the bits on
+        * @return Reference to self for chaining methods
+        */
+        BitString& set();
+        /**
+        * @brief Set a particular bit to a value
+        * @param pos Index of the bit
+        * @param value Value to set
+        * @throw BitStringException if `pos` is not valid
+        * @return Reference to self for chaining methods
+        */
+        BitString& set(size_t pos, bool value = true);
+        /**
+        * @brief Reset all the bits to off
+        * @return Reference to self for chaining methods
+        */
+        BitString& reset();
+        /**
+        * @brief Reset a particular bit
+        * @param pos Index of the bit
+        * @throw BitStringException if `pos` is not valid
+        * @return Reference to self for chaining methods
+        */
+        BitString& reset(size_t pos);
+        /**
+        * @brief Flip all the bits (equivalent to `~`)
+        * @return Reference to self for chaining methods
+        */
+        BitString& flip();
+        /**
+        * @brief Flip a particular bit (equivalent to `~`)
+        * @param pos Index of the bit to flip
+        * @throw BitStringException if `pos` is not valid
+        * @return Reference to self for chaining methods
+        */
+        BitString& flip(size_t pos);
+
+        /**
+        * @brief Serialize a bitstring to a string representation
+        * @return String representation
+        *
+        * The string is a series of `0` and `1` representing the state of each bit.
+        */
+        std::string to_string() const;
+
+        /**
+         * @brief Builds a bitstring from a string
+         * @param str String representing the bitstring
+         * @return BitString object
+         * @throw BitStringException if the string does not have the proper format
+         *
+         * The string format must be the same as the string generated by @ref to_string().
+         */
+        static BitString from_string(const std::string& str);
+
+        /**
+         * @brief Check if two bitstrings are identical
+         * @param rhs Other bitstring to compare
+         * @return `true` if the bitstrings are identical, `false` otherwise.
+         */
+        bool operator==(const BitString& rhs) const;
+
+    private:
+        size_t calculate_vector_size(size_t num_bits) const;
+        void check_position(size_t pos) const;
+
+        size_t m_size;
+        std::vector<uint8_t> m_data;
+    };
+
+}
+}
+
+namespace std {
+template <>
+struct hash<adapter::iccp::BitString> {
+    size_t operator()(const adapter::iccp::BitString& k) const
+    {
+        return hash<std::string>()(k.to_string());
+    }
+};
+}
+
+#endif

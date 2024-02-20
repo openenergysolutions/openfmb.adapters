@@ -34,8 +34,11 @@ namespace util {
     public:
         bool start_message_field(const std::string& field_name, google::protobuf::Descriptor const* descriptor) final
         {
-            const auto node = this->get_config_node(field_name);
-
+            // Optional node for backward compatibility in OpenFMB model
+            const auto node = this->get_optional_config_node(field_name);
+            if (!node) {
+                return false;
+            }
             this->path.push(field_name, descriptor);
             this->current_node.push(node);
             return true;
@@ -49,8 +52,11 @@ namespace util {
 
         int start_repeated_message_field(const std::string& field_name, google::protobuf::Descriptor const* descriptor) final
         {
-            const auto node = get_config_node(field_name);
-
+            // Optional node for backward compatibility in OpenFMB model
+            const auto node = get_optional_config_node(field_name);
+            if (!node) {
+                return false;
+            }
             if (!node.IsSequence()) {
                 throw api::Exception("Node is not a sequence: ", field_name, " at line: ", node.Mark().line);
             }
@@ -88,6 +94,12 @@ namespace util {
         YAML::Node get_config_node(const std::string& name)
         {
             return yaml::require(current_node.top(), name);
+        }
+
+    private:
+        YAML::Node get_optional_config_node(const std::string& name)
+        {
+            return yaml::option(current_node.top(), name);
         }
     };
 }

@@ -110,6 +110,21 @@ namespace dnp3 {
                 }
             }
 
+            void handle_mapped_uint32(const YAML::Node& node, const util::accessor_t<T, uint32_t>& accessor) override
+            {
+                const auto command_type = util::yaml::require_enum<CommandSourceType>(node);
+
+                switch (command_type) {
+                case CommandSourceType::Value::none:
+                    break;
+                case CommandSourceType::Value::analog_output:
+                    this->handle_numeric_mapped_from_ao(node, accessor);
+                    break;
+                default:
+                    throw api::Exception(node.Mark(), "Unsupported command type for uint32_t: ", CommandSourceType::to_string(command_type));
+                }
+            }
+
             void handle_mapped_int64(const YAML::Node& node, const util::accessor_t<T, int64_t>& accessor) override
             {
                 const auto command_type = util::yaml::require_enum<CommandSourceType>(node);
@@ -122,6 +137,21 @@ namespace dnp3 {
                     break;
                 default:
                     throw api::Exception(node.Mark(), "Unsupported command type for int64_t: ", CommandSourceType::to_string(command_type));
+                }
+            }
+
+            void handle_mapped_uint64(const YAML::Node& node, const util::accessor_t<T, uint64_t>& accessor) override
+            {
+                const auto command_type = util::yaml::require_enum<CommandSourceType>(node);
+
+                switch (command_type) {
+                case CommandSourceType::Value::none:
+                    break;
+                case CommandSourceType::Value::analog_output:
+                    this->handle_numeric_mapped_from_ao(node, accessor);
+                    break;
+                default:
+                    throw api::Exception(node.Mark(), "Unsupported command type for uint64_t: ", CommandSourceType::to_string(command_type));
                 }
             }
 

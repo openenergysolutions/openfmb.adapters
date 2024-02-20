@@ -82,8 +82,22 @@ namespace goose {
                 return;
             }
 
+            auto uit32 = m_config_reader.m_uint32_handlers.find(name);
+            if (uit32 != m_config_reader.m_uint32_handlers.end()) {
+                m_mappings.add_int_field([handler = uit32->second](const int64_t& value) {
+                    handler(static_cast<int32_t>(value));
+                });
+                return;
+            }
+
             auto it64 = m_config_reader.m_int64_handlers.find(name);
             if (it64 != m_config_reader.m_int64_handlers.end()) {
+                m_mappings.add_int_field(it64->second);
+                return;
+            }
+
+            auto uit64 = m_config_reader.m_uint64_handlers.find(name);
+            if (uit64 != m_config_reader.m_uint64_handlers.end()) {
                 m_mappings.add_int_field(it64->second);
                 return;
             }
@@ -237,10 +251,22 @@ namespace goose {
         m_int32_handlers.insert({ name, handler });
     }
 
+    void PubGooseStructureConfigReader::add_uint32_handler(const std::string& name, const meas_fn_t<uint32_t>& handler)
+    {
+        m_all_handlers.insert(name);
+        m_uint32_handlers.insert({ name, handler });
+    }
+
     void PubGooseStructureConfigReader::add_int64_handler(const std::string& name, const meas_fn_t<int64_t>& handler)
     {
         m_all_handlers.insert(name);
         m_int64_handlers.insert({ name, handler });
+    }
+
+    void PubGooseStructureConfigReader::add_uint64_handler(const std::string& name, const meas_fn_t<uint64_t>& handler)
+    {
+        m_all_handlers.insert(name);
+        m_uint64_handlers.insert({ name, handler });
     }
 
     void PubGooseStructureConfigReader::add_float_handler(const std::string& name, const meas_fn_t<float>& handler)

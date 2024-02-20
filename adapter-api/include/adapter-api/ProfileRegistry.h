@@ -7,12 +7,15 @@
 
 #include <proto-api/breakermodule/breakermodule.pb.h>
 #include <proto-api/capbankmodule/capbankmodule.pb.h>
+#include <proto-api/circuitsegmentservicemodule/circuitsegmentservicemodule.pb.h>
 #include <proto-api/essmodule/essmodule.pb.h>
 #include <proto-api/generationmodule/generationmodule.pb.h>
+#include <proto-api/interconnectionmodule/interconnectionmodule.pb.h>
 #include <proto-api/loadmodule/loadmodule.pb.h>
 #include <proto-api/metermodule/metermodule.pb.h>
 #include <proto-api/reclosermodule/reclosermodule.pb.h>
 #include <proto-api/regulatormodule/regulatormodule.pb.h>
+#include <proto-api/reservemodule/reservemodule.pb.h>
 #include <proto-api/resourcemodule/resourcemodule.pb.h>
 #include <proto-api/solarmodule/solarmodule.pb.h>
 #include <proto-api/switchmodule/switchmodule.pb.h>
@@ -99,17 +102,29 @@ namespace api {
         capbankmodule::CapBankEventProfile,
         capbankmodule::CapBankReadingProfile,
         capbankmodule::CapBankStatusProfile,
+        // circuit segment service module
+        circuitsegmentservicemodule::CircuitSegmentControlProfile,
+        circuitsegmentservicemodule::CircuitSegmentEventProfile,
+        circuitsegmentservicemodule::CircuitSegmentStatusProfile,
         // ess module
+        essmodule::ESSCapabilityProfile,
+        essmodule::ESSCapabilityOverrideProfile,
         essmodule::ESSControlProfile,
+        essmodule::ESSDiscreteControlProfile,
         essmodule::ESSEventProfile,
         essmodule::ESSReadingProfile,
         essmodule::ESSStatusProfile,
         // generation module
+        generationmodule::GenerationCapabilityProfile,
+        generationmodule::GenerationCapabilityOverrideProfile,
         generationmodule::GenerationControlProfile,
         generationmodule::GenerationDiscreteControlProfile,
         generationmodule::GenerationEventProfile,
         generationmodule::GenerationReadingProfile,
         generationmodule::GenerationStatusProfile,
+        // interconnection module
+        interconnectionmodule::InterconnectionPlannedScheduleProfile,
+        interconnectionmodule::InterconnectionRequestedScheduleProfile,
         // load module
         loadmodule::LoadControlProfile,
         loadmodule::LoadEventProfile,
@@ -128,13 +143,19 @@ namespace api {
         regulatormodule::RegulatorEventProfile,
         regulatormodule::RegulatorReadingProfile,
         regulatormodule::RegulatorStatusProfile,
+        // reserve module
+        reservemodule::ReserveAvailabilityProfile,
+        reservemodule::ReserveRequestProfile,
         // resource module
         resourcemodule::ResourceDiscreteControlProfile,
         resourcemodule::ResourceEventProfile,
         resourcemodule::ResourceReadingProfile,
         resourcemodule::ResourceStatusProfile,
         // solar module
+        solarmodule::SolarCapabilityProfile,
+        solarmodule::SolarCapabilityOverrideProfile,
         solarmodule::SolarControlProfile,
+        solarmodule::SolarDiscreteControlProfile,
         solarmodule::SolarEventProfile,
         solarmodule::SolarReadingProfile,
         solarmodule::SolarStatusProfile,

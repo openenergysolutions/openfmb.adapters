@@ -22,7 +22,7 @@ pkgs.callPackage ({ninja, cmake, protobuf, openssl, libpcap, boost166, asio, spd
   pname = "adapter";
   version = "2.1";
   src = if pkgs.lib.inNixShell then null else gitignoreSource ./.;
-  cmakeFlags = [ "-DOPENFMB_USE_CONAN=OFF" "-DOPENFMB_USE_GOOSE=OFF" "-DOPENFMB_USE_ZENOH=OFF" "-DCMAKE_BUILD_TYPE=Release"];
+  cmakeFlags = [ "-DOPENFMB_USE_CONAN=OFF" "-DOPENFMB_USE_GOOSE=OFF" "-DOPENFMB_USE_CAPTURE=ON" "-DOPENFMB_USE_REPLAY=ON" "-DOPENFMB_USE_ZENOH=OFF" "-DCMAKE_BUILD_TYPE=Release"];
 
   nativeBuildInputs = [
     cmake
@@ -50,7 +50,7 @@ pkgs.callPackage ({ninja, cmake, protobuf, openssl, libpcap, boost166, asio, spd
     deps.paho-mqtt-c
     deps.paho-mqtt-cpp
     deps.ser4cpp
-    #deps.zenoh-c
+    # deps.zenoh-c
   ];
 
   stripAllList = ["bin"];

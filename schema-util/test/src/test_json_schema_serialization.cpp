@@ -61,14 +61,14 @@ TEST_CASE( "schema serialization" )
 
         );
 
-        write_schema(std::cout, "https://www.github.com/openenergysolutions", { endpoint }, true);
+        write_schema(std::cout, "https://www.github.com/openenergysolutions", "Test schema", { endpoint }, true);
     }
 
     SECTION("write a boolean")
     {
         const auto bool_prop = bool_property("foo", Required::yes, "foo or !foo", false);
 
-        write_schema(std::cout, "https://www.github.com/openenergysolutions", { bool_prop }, true);
+        write_schema(std::cout, "https://www.github.com/openenergysolutions", "Test schema",{ bool_prop }, true);
     }
 
     SECTION("writes an enum")
@@ -78,7 +78,7 @@ TEST_CASE( "schema serialization" )
                 "foo or bar",
                 FooBar::Value::bar);
 
-        write_schema(std::cout, "https://www.github.com/openenergysolutions", { enum_prop }, true);
+        write_schema(std::cout, "https://www.github.com/openenergysolutions", "Test schema", { enum_prop }, true);
     }
 
     SECTION("writes a OneOf object")
@@ -108,7 +108,7 @@ TEST_CASE( "schema serialization" )
         );
 
 
-        write_schema(std::cout, "https://www.github.com/openenergysolutions", { object }, true);
+        write_schema(std::cout, "https://www.github.com/openenergysolutions", "Test schema", { object }, true);
     }
 
 
@@ -133,7 +133,7 @@ TEST_CASE( "schema serialization" )
         );
 
 
-        write_schema(std::cout, "https://www.github.com/openenergysolutions", { array }, true);
+        write_schema(std::cout, "https://www.github.com/openenergysolutions", "Test schema", { array }, true);
     }
 }
 

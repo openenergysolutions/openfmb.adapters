@@ -33,6 +33,16 @@ namespace goose {
         return get_name_schema();
     }
 
+    std::shared_ptr<schema::Object> PublishingSchemaWriteVisitor::get_mapped_uint32_schema()
+    {
+        return get_name_schema();
+    }
+
+    std::shared_ptr<schema::Object> PublishingSchemaWriteVisitor::get_mapped_uint64_schema()
+    {
+        return get_name_schema();
+    }
+
     std::shared_ptr<schema::Object> PublishingSchemaWriteVisitor::get_mapped_float_schema()
     {
         return get_name_schema();
@@ -70,12 +80,22 @@ namespace goose {
                         "OpenFMB enum variant",
                         descriptor->value(0)->name()
                     ),
+                    /*
                     string_property(
                         util::keys::value,
                         Required::yes,
                         "Bitstring value",
                         "0001",
                         StringFormat::BitString
+                    ),
+                    */
+                    numeric_property<uint16_t>(
+                            util::keys::value,
+                            Required::yes,
+                            "Numerical value",
+                            0,
+                            Bound<uint16_t>::from(0),
+                            Bound<uint16_t>::from(65535)
                     )
                 })
             )

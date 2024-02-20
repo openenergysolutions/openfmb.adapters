@@ -58,11 +58,31 @@ namespace goose {
             }
         }
 
+        void handle_mapped_uint32(const YAML::Node& node, const util::accessor_t<T, uint32_t>& accessor) final
+        {
+            std::string name;
+            if (get_name(node, name)) {
+                m_builder.add_uint32_handler(name, [accessor, profile = m_profile](const uint32_t& value) {
+                    accessor->set(*profile, value);
+                });
+            }
+        }
+
         void handle_mapped_int64(const YAML::Node& node, const util::accessor_t<T, int64_t>& accessor) final
         {
             std::string name;
             if (get_name(node, name)) {
                 m_builder.add_int64_handler(name, [accessor, profile = m_profile](const int64_t& value) {
+                    accessor->set(*profile, value);
+                });
+            }
+        }
+
+        void handle_mapped_uint64(const YAML::Node& node, const util::accessor_t<T, uint64_t>& accessor) final
+        {
+            std::string name;
+            if (get_name(node, name)) {
+                m_builder.add_uint64_handler(name, [accessor, profile = m_profile](const uint64_t& value) {
                     accessor->set(*profile, value);
                 });
             }

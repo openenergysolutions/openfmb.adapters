@@ -32,6 +32,7 @@ namespace util {
         virtual void handle(const std::string& field_name, QualityFieldType::Value type) = 0;
         virtual void handle(const std::string& field_name, TimestampFieldType::Value type) = 0;
         virtual void handle(const std::string& field_name, ControlTimestampFieldType::Value type) = 0;
+        virtual void handle(const std::string& field_name, ClearingTimeFieldType::Value type) = 0;
 
         // --- handlers for specialized repeated fields ---
         virtual void handle_repeated_schedule_parameter(const std::string& field_name) = 0;

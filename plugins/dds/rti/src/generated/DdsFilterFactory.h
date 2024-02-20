@@ -20,17 +20,20 @@
 
 #include <string>
 
+#include "circuitsegmentservicemodule/circuitsegmentservicemodule.pb.h"
+#include "generationmodule/generationmodule.pb.h"
+#include "loadmodule/loadmodule.pb.h"
+#include "metermodule/metermodule.pb.h"
+#include "resourcemodule/resourcemodule.pb.h"
 #include "reclosermodule/reclosermodule.pb.h"
+#include "interconnectionmodule/interconnectionmodule.pb.h"
 #include "solarmodule/solarmodule.pb.h"
 #include "breakermodule/breakermodule.pb.h"
 #include "capbankmodule/capbankmodule.pb.h"
 #include "switchmodule/switchmodule.pb.h"
-#include "generationmodule/generationmodule.pb.h"
-#include "loadmodule/loadmodule.pb.h"
 #include "essmodule/essmodule.pb.h"
 #include "regulatormodule/regulatormodule.pb.h"
-#include "metermodule/metermodule.pb.h"
-#include "resourcemodule/resourcemodule.pb.h"
+#include "reservemodule/reservemodule.pb.h"
 
 namespace adapter {
 
@@ -132,12 +135,72 @@ struct DdsFilterFactory<openfmb::capbankmodule::CapBankStatusProfile>
 };
 
 template<>
+struct DdsFilterFactory<openfmb::circuitsegmentservicemodule::CircuitSegmentControlProfile>
+{
+    static ::dds::topic::ContentFilteredTopic<openfmb::circuitsegmentservicemodule::CircuitSegmentControlProfile> build(const ::dds::topic::Topic<openfmb::circuitsegmentservicemodule::CircuitSegmentControlProfile>& topic, const std::string& mRID)
+    {
+        std::string filter_string{"applicationSystem.mRID = '" + mRID + "'"};
+        return ::dds::topic::ContentFilteredTopic<openfmb::circuitsegmentservicemodule::CircuitSegmentControlProfile>{topic, "circuitsegmentservicemodule::CircuitSegmentControlProfile - " + mRID, ::dds::topic::Filter{filter_string}};
+    }
+};
+
+template<>
+struct DdsFilterFactory<openfmb::circuitsegmentservicemodule::CircuitSegmentEventProfile>
+{
+    static ::dds::topic::ContentFilteredTopic<openfmb::circuitsegmentservicemodule::CircuitSegmentEventProfile> build(const ::dds::topic::Topic<openfmb::circuitsegmentservicemodule::CircuitSegmentEventProfile>& topic, const std::string& mRID)
+    {
+        std::string filter_string{"applicationSystem.mRID = '" + mRID + "'"};
+        return ::dds::topic::ContentFilteredTopic<openfmb::circuitsegmentservicemodule::CircuitSegmentEventProfile>{topic, "circuitsegmentservicemodule::CircuitSegmentEventProfile - " + mRID, ::dds::topic::Filter{filter_string}};
+    }
+};
+
+template<>
+struct DdsFilterFactory<openfmb::circuitsegmentservicemodule::CircuitSegmentStatusProfile>
+{
+    static ::dds::topic::ContentFilteredTopic<openfmb::circuitsegmentservicemodule::CircuitSegmentStatusProfile> build(const ::dds::topic::Topic<openfmb::circuitsegmentservicemodule::CircuitSegmentStatusProfile>& topic, const std::string& mRID)
+    {
+        std::string filter_string{"applicationSystem.mRID = '" + mRID + "'"};
+        return ::dds::topic::ContentFilteredTopic<openfmb::circuitsegmentservicemodule::CircuitSegmentStatusProfile>{topic, "circuitsegmentservicemodule::CircuitSegmentStatusProfile - " + mRID, ::dds::topic::Filter{filter_string}};
+    }
+};
+
+template<>
+struct DdsFilterFactory<openfmb::essmodule::ESSCapabilityOverrideProfile>
+{
+    static ::dds::topic::ContentFilteredTopic<openfmb::essmodule::ESSCapabilityOverrideProfile> build(const ::dds::topic::Topic<openfmb::essmodule::ESSCapabilityOverrideProfile>& topic, const std::string& mRID)
+    {
+        std::string filter_string{"ess.mRID = '" + mRID + "'"};
+        return ::dds::topic::ContentFilteredTopic<openfmb::essmodule::ESSCapabilityOverrideProfile>{topic, "essmodule::ESSCapabilityOverrideProfile - " + mRID, ::dds::topic::Filter{filter_string}};
+    }
+};
+
+template<>
+struct DdsFilterFactory<openfmb::essmodule::ESSCapabilityProfile>
+{
+    static ::dds::topic::ContentFilteredTopic<openfmb::essmodule::ESSCapabilityProfile> build(const ::dds::topic::Topic<openfmb::essmodule::ESSCapabilityProfile>& topic, const std::string& mRID)
+    {
+        std::string filter_string{"ess.mRID = '" + mRID + "'"};
+        return ::dds::topic::ContentFilteredTopic<openfmb::essmodule::ESSCapabilityProfile>{topic, "essmodule::ESSCapabilityProfile - " + mRID, ::dds::topic::Filter{filter_string}};
+    }
+};
+
+template<>
 struct DdsFilterFactory<openfmb::essmodule::ESSControlProfile>
 {
     static ::dds::topic::ContentFilteredTopic<openfmb::essmodule::ESSControlProfile> build(const ::dds::topic::Topic<openfmb::essmodule::ESSControlProfile>& topic, const std::string& mRID)
     {
         std::string filter_string{"ess.mRID = '" + mRID + "'"};
         return ::dds::topic::ContentFilteredTopic<openfmb::essmodule::ESSControlProfile>{topic, "essmodule::ESSControlProfile - " + mRID, ::dds::topic::Filter{filter_string}};
+    }
+};
+
+template<>
+struct DdsFilterFactory<openfmb::essmodule::ESSDiscreteControlProfile>
+{
+    static ::dds::topic::ContentFilteredTopic<openfmb::essmodule::ESSDiscreteControlProfile> build(const ::dds::topic::Topic<openfmb::essmodule::ESSDiscreteControlProfile>& topic, const std::string& mRID)
+    {
+        std::string filter_string{"ess.mRID = '" + mRID + "'"};
+        return ::dds::topic::ContentFilteredTopic<openfmb::essmodule::ESSDiscreteControlProfile>{topic, "essmodule::ESSDiscreteControlProfile - " + mRID, ::dds::topic::Filter{filter_string}};
     }
 };
 
@@ -168,6 +231,26 @@ struct DdsFilterFactory<openfmb::essmodule::ESSStatusProfile>
     {
         std::string filter_string{"ess.mRID = '" + mRID + "'"};
         return ::dds::topic::ContentFilteredTopic<openfmb::essmodule::ESSStatusProfile>{topic, "essmodule::ESSStatusProfile - " + mRID, ::dds::topic::Filter{filter_string}};
+    }
+};
+
+template<>
+struct DdsFilterFactory<openfmb::generationmodule::GenerationCapabilityOverrideProfile>
+{
+    static ::dds::topic::ContentFilteredTopic<openfmb::generationmodule::GenerationCapabilityOverrideProfile> build(const ::dds::topic::Topic<openfmb::generationmodule::GenerationCapabilityOverrideProfile>& topic, const std::string& mRID)
+    {
+        std::string filter_string{"generatingUnit.mRID = '" + mRID + "'"};
+        return ::dds::topic::ContentFilteredTopic<openfmb::generationmodule::GenerationCapabilityOverrideProfile>{topic, "generationmodule::GenerationCapabilityOverrideProfile - " + mRID, ::dds::topic::Filter{filter_string}};
+    }
+};
+
+template<>
+struct DdsFilterFactory<openfmb::generationmodule::GenerationCapabilityProfile>
+{
+    static ::dds::topic::ContentFilteredTopic<openfmb::generationmodule::GenerationCapabilityProfile> build(const ::dds::topic::Topic<openfmb::generationmodule::GenerationCapabilityProfile>& topic, const std::string& mRID)
+    {
+        std::string filter_string{"generatingUnit.mRID = '" + mRID + "'"};
+        return ::dds::topic::ContentFilteredTopic<openfmb::generationmodule::GenerationCapabilityProfile>{topic, "generationmodule::GenerationCapabilityProfile - " + mRID, ::dds::topic::Filter{filter_string}};
     }
 };
 
@@ -218,6 +301,26 @@ struct DdsFilterFactory<openfmb::generationmodule::GenerationStatusProfile>
     {
         std::string filter_string{"generatingUnit.mRID = '" + mRID + "'"};
         return ::dds::topic::ContentFilteredTopic<openfmb::generationmodule::GenerationStatusProfile>{topic, "generationmodule::GenerationStatusProfile - " + mRID, ::dds::topic::Filter{filter_string}};
+    }
+};
+
+template<>
+struct DdsFilterFactory<openfmb::interconnectionmodule::InterconnectionPlannedScheduleProfile>
+{
+    static ::dds::topic::ContentFilteredTopic<openfmb::interconnectionmodule::InterconnectionPlannedScheduleProfile> build(const ::dds::topic::Topic<openfmb::interconnectionmodule::InterconnectionPlannedScheduleProfile>& topic, const std::string& mRID)
+    {
+        std::string filter_string{"requesterCircuitSegmentService.mRID = '" + mRID + "'"};
+        return ::dds::topic::ContentFilteredTopic<openfmb::interconnectionmodule::InterconnectionPlannedScheduleProfile>{topic, "interconnectionmodule::InterconnectionPlannedScheduleProfile - " + mRID, ::dds::topic::Filter{filter_string}};
+    }
+};
+
+template<>
+struct DdsFilterFactory<openfmb::interconnectionmodule::InterconnectionRequestedScheduleProfile>
+{
+    static ::dds::topic::ContentFilteredTopic<openfmb::interconnectionmodule::InterconnectionRequestedScheduleProfile> build(const ::dds::topic::Topic<openfmb::interconnectionmodule::InterconnectionRequestedScheduleProfile>& topic, const std::string& mRID)
+    {
+        std::string filter_string{"requesterCircuitSegmentService.mRID = '" + mRID + "'"};
+        return ::dds::topic::ContentFilteredTopic<openfmb::interconnectionmodule::InterconnectionRequestedScheduleProfile>{topic, "interconnectionmodule::InterconnectionRequestedScheduleProfile - " + mRID, ::dds::topic::Filter{filter_string}};
     }
 };
 
@@ -362,6 +465,26 @@ struct DdsFilterFactory<openfmb::regulatormodule::RegulatorStatusProfile>
 };
 
 template<>
+struct DdsFilterFactory<openfmb::reservemodule::ReserveAvailabilityProfile>
+{
+    static ::dds::topic::ContentFilteredTopic<openfmb::reservemodule::ReserveAvailabilityProfile> build(const ::dds::topic::Topic<openfmb::reservemodule::ReserveAvailabilityProfile>& topic, const std::string& mRID)
+    {
+        std::string filter_string{"requesterCircuitSegmentService.mRID = '" + mRID + "'"};
+        return ::dds::topic::ContentFilteredTopic<openfmb::reservemodule::ReserveAvailabilityProfile>{topic, "reservemodule::ReserveAvailabilityProfile - " + mRID, ::dds::topic::Filter{filter_string}};
+    }
+};
+
+template<>
+struct DdsFilterFactory<openfmb::reservemodule::ReserveRequestProfile>
+{
+    static ::dds::topic::ContentFilteredTopic<openfmb::reservemodule::ReserveRequestProfile> build(const ::dds::topic::Topic<openfmb::reservemodule::ReserveRequestProfile>& topic, const std::string& mRID)
+    {
+        std::string filter_string{"requesterCircuitSegmentService.mRID = '" + mRID + "'"};
+        return ::dds::topic::ContentFilteredTopic<openfmb::reservemodule::ReserveRequestProfile>{topic, "reservemodule::ReserveRequestProfile - " + mRID, ::dds::topic::Filter{filter_string}};
+    }
+};
+
+template<>
 struct DdsFilterFactory<openfmb::resourcemodule::ResourceDiscreteControlProfile>
 {
     static ::dds::topic::ContentFilteredTopic<openfmb::resourcemodule::ResourceDiscreteControlProfile> build(const ::dds::topic::Topic<openfmb::resourcemodule::ResourceDiscreteControlProfile>& topic, const std::string& mRID)
@@ -402,12 +525,42 @@ struct DdsFilterFactory<openfmb::resourcemodule::ResourceStatusProfile>
 };
 
 template<>
+struct DdsFilterFactory<openfmb::solarmodule::SolarCapabilityOverrideProfile>
+{
+    static ::dds::topic::ContentFilteredTopic<openfmb::solarmodule::SolarCapabilityOverrideProfile> build(const ::dds::topic::Topic<openfmb::solarmodule::SolarCapabilityOverrideProfile>& topic, const std::string& mRID)
+    {
+        std::string filter_string{"solarInverter.mRID = '" + mRID + "'"};
+        return ::dds::topic::ContentFilteredTopic<openfmb::solarmodule::SolarCapabilityOverrideProfile>{topic, "solarmodule::SolarCapabilityOverrideProfile - " + mRID, ::dds::topic::Filter{filter_string}};
+    }
+};
+
+template<>
+struct DdsFilterFactory<openfmb::solarmodule::SolarCapabilityProfile>
+{
+    static ::dds::topic::ContentFilteredTopic<openfmb::solarmodule::SolarCapabilityProfile> build(const ::dds::topic::Topic<openfmb::solarmodule::SolarCapabilityProfile>& topic, const std::string& mRID)
+    {
+        std::string filter_string{"solarInverter.mRID = '" + mRID + "'"};
+        return ::dds::topic::ContentFilteredTopic<openfmb::solarmodule::SolarCapabilityProfile>{topic, "solarmodule::SolarCapabilityProfile - " + mRID, ::dds::topic::Filter{filter_string}};
+    }
+};
+
+template<>
 struct DdsFilterFactory<openfmb::solarmodule::SolarControlProfile>
 {
     static ::dds::topic::ContentFilteredTopic<openfmb::solarmodule::SolarControlProfile> build(const ::dds::topic::Topic<openfmb::solarmodule::SolarControlProfile>& topic, const std::string& mRID)
     {
         std::string filter_string{"solarInverter.mRID = '" + mRID + "'"};
         return ::dds::topic::ContentFilteredTopic<openfmb::solarmodule::SolarControlProfile>{topic, "solarmodule::SolarControlProfile - " + mRID, ::dds::topic::Filter{filter_string}};
+    }
+};
+
+template<>
+struct DdsFilterFactory<openfmb::solarmodule::SolarDiscreteControlProfile>
+{
+    static ::dds::topic::ContentFilteredTopic<openfmb::solarmodule::SolarDiscreteControlProfile> build(const ::dds::topic::Topic<openfmb::solarmodule::SolarDiscreteControlProfile>& topic, const std::string& mRID)
+    {
+        std::string filter_string{"solarInverter.mRID = '" + mRID + "'"};
+        return ::dds::topic::ContentFilteredTopic<openfmb::solarmodule::SolarDiscreteControlProfile>{topic, "solarmodule::SolarDiscreteControlProfile - " + mRID, ::dds::topic::Filter{filter_string}};
     }
 };
 
