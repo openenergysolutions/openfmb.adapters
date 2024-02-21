@@ -32,12 +32,9 @@
           timeout-minutes: 120
         - name: Prepare Artifacts
           run: |
-            mkdir artifacts
-            cp -r `readlink result` artifacts/.
-            cp -r `readlink result-2` artifacts/.
-            cp -r `readlink result-3` artifacts/.
-            cp -r `readlink result-4` artifacts/.
-            cp -r `readlink result-5` artifacts/.
+            mkdir artifacts            
+            cp -r `readlink result-2` artifacts/.            
+            cp -r `readlink result-4` artifacts/.           
             cp -r `readlink result-6` artifacts/.
         - name: Upload Armv8 64bit Docker Artifact
           uses: actions/upload-artifact@v2
@@ -67,8 +64,9 @@
           shell: bash
           run: |
             IMAGE_NAME=$(find . -name *docker-image-openfmb.adapter-aarch64*.tar.gz)
+            echo $IMAGE_NAME
             docker load --input $IMAGE_NAME
-            IMAGE_REPOSITORY=$(docker images --format "{{.Repository}}:{{.Tag}}" | grep aarch64)
+            IMAGE_REPOSITORY=$(docker images --format "{{.Repository}}:{{.Tag}}" | grep aarch64 | head -n 1)
             echo $IMAGE_REPOSITORY
             docker tag $IMAGE_REPOSITORY docker.io/oesinc/openfmb.adapters:aarch64-${GITHUB_SHA::7}
             docker push docker.io/oesinc/openfmb.adapters:aarch64-${GITHUB_SHA::7}
@@ -77,8 +75,9 @@
           shell: bash
           run: |
             IMAGE_NAME=$(find . -name *docker-image-openfmb.adapter-armv7*.tar.gz)
+            echo $IMAGE_NAME
             docker load --input $IMAGE_NAME
-            IMAGE_REPOSITORY=$(docker images --format "{{.Repository}}:{{.Tag}}" | grep armv7)
+            IMAGE_REPOSITORY=$(docker images --format "{{.Repository}}:{{.Tag}}" | grep armv7 | head -n 1)
             echo $IMAGE_REPOSITORY
             docker tag $IMAGE_REPOSITORY docker.io/oesinc/openfmb.adapters:armv7-${GITHUB_SHA::7}
             docker push docker.io/oesinc/openfmb.adapters:armv7-${GITHUB_SHA::7}
@@ -87,8 +86,9 @@
           shell: bash
           run: |
             IMAGE_NAME=$(find . -name *docker-image-openfmb.adapter-x86_64*.tar.gz)
+            echo $IMAGE_NAME
             docker load --input $IMAGE_NAME
-            IMAGE_REPOSITORY=$(docker images --format "{{.Repository}}:{{.Tag}}" | grep x86_64)
+            IMAGE_REPOSITORY=$(docker images --format "{{.Repository}}:{{.Tag}}" | grep x86_64 | head -n 1)
             echo $IMAGE_REPOSITORY
             docker tag $IMAGE_REPOSITORY docker.io/oesinc/openfmb.adapters:x86_64-${GITHUB_SHA::7}
             docker push docker.io/oesinc/openfmb.adapters:x86_64-${GITHUB_SHA::7}
