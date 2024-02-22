@@ -6,17 +6,17 @@
   name: "Nix Docker Build"
   on:
     push:
-      branches: ["v2.1-prerelease"]
+      branches: ["develop"]
       tags:
         - 'v*'
     pull_request:
-      branches: ["v2.1-prerelease"]
+      branches: ["develop"]
   jobs:
     build:
       # runs-on: ubuntu-latest
       runs-on: self-hosted
       env:
-        PUSH_IMAGES: ${{ github.event_name == 'push' && github.ref == 'refs/heads/v2.1-prerelease' }}
+        PUSH_IMAGES: ${{ github.event_name == 'push' && github.ref == 'refs/heads/develop' }}
       steps:
         - uses: actions/checkout@v3
         - uses: cachix/install-nix-action@v20
