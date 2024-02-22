@@ -2171,6 +2171,30 @@ void visit_commonmodule_WYE(const set_t<commonmodule::WYE>& setter, const get_t<
         );
         visitor.end_message_field();
     }
+
+    if(visitor.start_message_field("res", commonmodule::CMV::descriptor()))
+    {
+        visit_commonmodule_CMV(
+            [setter](breakermodule::BreakerReadingProfile& profile)
+            {
+                return setter(profile)->mutable_res();
+            },
+            [getter](const breakermodule::BreakerReadingProfile& profile) -> commonmodule::CMV const *
+            {
+                const auto value = getter(profile);
+                if(value)
+                {
+                    return value->has_res() ? &value->res() : nullptr;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            },
+            visitor
+        );
+        visitor.end_message_field();
+    }
 }
 
 void visit_google_protobuf_BoolValue(const set_t<google::protobuf::BoolValue>& setter, const get_t<google::protobuf::BoolValue>& getter, ITypedModelVisitor<breakermodule::BreakerReadingProfile>& visitor)

@@ -41,7 +41,7 @@ class Helpers {
                     Int32Value.getDescriptor(),
                     Int64Value.getDescriptor(),
                     UInt32Value.getDescriptor(),
-                    UInt32Value.getDescriptor()
+                    UInt64Value.getDescriptor()
             )
     );
 

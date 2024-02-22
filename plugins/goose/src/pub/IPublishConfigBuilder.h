@@ -22,6 +22,8 @@ namespace goose {
         virtual void add_bool_handler(const std::string& name, const meas_fn_t<bool>& handler) = 0;
         virtual void add_int32_handler(const std::string& name, const meas_fn_t<int32_t>& handler) = 0;
         virtual void add_int64_handler(const std::string& name, const meas_fn_t<int64_t>& handler) = 0;
+        virtual void add_uint32_handler(const std::string& name, const meas_fn_t<uint32_t>& handler) = 0;
+        virtual void add_uint64_handler(const std::string& name, const meas_fn_t<uint64_t>& handler) = 0;
         virtual void add_float_handler(const std::string& name, const meas_fn_t<float>& handler) = 0;
         virtual void add_double_handler(const std::string& name, const meas_fn_t<double>& handler) = 0;
         virtual void add_string_handler(const std::string& name, const meas_fn_t<std::string>& handler) = 0;

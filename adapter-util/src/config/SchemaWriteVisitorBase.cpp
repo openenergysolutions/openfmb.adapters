@@ -403,6 +403,30 @@ namespace util {
         );
     }
 
+    void SchemaWriteVisitorBase::handle(const std::string& field_name, ClearingTimeFieldType::Value type)
+    {
+        auto obj = Object({}, OneOf({
+            variant<ClearingTimeFieldType>(ClearingTimeFieldType::Value::ignored, type, {}),
+            variant<ClearingTimeFieldType>(ClearingTimeFieldType::Value::message, type, {})
+        }));
+
+        const auto mapped_schema = this->get_mapped_commonmodule_clearingtime_schema();
+        if(mapped_schema) {
+            obj.one_of.variants.push_back(
+                variant_obj<ClearingTimeFieldType>(ClearingTimeFieldType::Value::mapped, type, mapped_schema)
+            );
+        }
+
+        props.back()->object.properties.emplace_back(
+            object_property(
+                field_name,
+                Required::no,
+                "",
+                obj
+            )
+        );
+    }
+
     void SchemaWriteVisitorBase::handle_repeated_schedule_parameter(const std::string& field_name)
     {
         const auto mapped_schema = this->get_mapped_schedule_parameter_schema();
@@ -532,6 +556,14 @@ namespace util {
     }
 
     ControlTimestampFieldType::Value SchemaWriteVisitorBase::remap(ControlTimestampFieldType::Value type)
+    {
+        switch (type) {
+        default:
+            return type;
+        }
+    }
+
+    ClearingTimeFieldType::Value SchemaWriteVisitorBase::remap(ClearingTimeFieldType::Value type)
     {
         switch (type) {
         default:

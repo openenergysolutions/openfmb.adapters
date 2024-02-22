@@ -46,7 +46,9 @@ public enum RepeatedType {
         temp.put(openfmb.commonmodule.SwitchPoint.getDescriptor(), RepeatedType.SCHEDULE);
         temp.put(openfmb.capbankmodule.CapBankPoint.getDescriptor(), RepeatedType.SCHEDULE);
         temp.put(openfmb.essmodule.ESSPoint.getDescriptor(), RepeatedType.SCHEDULE);
+        temp.put(openfmb.essmodule.ESSCurvePoint.getDescriptor(), RepeatedType.SCHEDULE);
         temp.put(openfmb.solarmodule.SolarPoint.getDescriptor(), RepeatedType.SCHEDULE);
+        temp.put(openfmb.solarmodule.SolarCurvePoint.getDescriptor(), RepeatedType.SCHEDULE);
         temp.put(openfmb.loadmodule.LoadPoint.getDescriptor(), RepeatedType.SCHEDULE);
         temp.put(openfmb.generationmodule.GenerationPoint.getDescriptor(), RepeatedType.SCHEDULE);
         temp.put(openfmb.regulatormodule.RegulatorPoint.getDescriptor(), RepeatedType.SCHEDULE);
@@ -54,8 +56,17 @@ public enum RepeatedType {
         temp.put(openfmb.resourcemodule.BooleanControlGGIO.getDescriptor(), RepeatedType.SCHEDULE);
         temp.put(openfmb.resourcemodule.IntegerControlGGIO.getDescriptor(), RepeatedType.SCHEDULE);
         temp.put(openfmb.resourcemodule.StringControlGGIO.getDescriptor(), RepeatedType.SCHEDULE);
+        temp.put(openfmb.interconnectionmodule.InterconnectionPoint.getDescriptor(), RepeatedType.SCHEDULE);
+        temp.put(openfmb.interconnectionmodule.InterconnectionControlScheduleFSCH.getDescriptor(), RepeatedType.SCHEDULE);
         // list of schedule parameters
         temp.put(openfmb.commonmodule.ENG_ScheduleParameter.getDescriptor(), RepeatedType.SCHEDULE_PARAMETER);
+
+        // new
+        temp.put(openfmb.commonmodule.TmHzPoint.getDescriptor(), RepeatedType.SCHEDULE);
+        temp.put(openfmb.commonmodule.TmVoltPoint.getDescriptor(), RepeatedType.SCHEDULE);
+        temp.put(openfmb.commonmodule.VoltVarPoint.getDescriptor(), RepeatedType.SCHEDULE);
+        temp.put(openfmb.commonmodule.VoltWPoint.getDescriptor(), RepeatedType.SCHEDULE);
+        temp.put(openfmb.commonmodule.WVarPoint.getDescriptor(), RepeatedType.SCHEDULE);
 
         lookupMap = Collections.unmodifiableMap(temp);
     }

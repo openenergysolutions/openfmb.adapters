@@ -24,17 +24,20 @@
 
 #include "adapter-util/config/SubjectNameSuffix.h"
 
+#include "circuitsegmentservicemodule/circuitsegmentservicemodule.pb.h"
+#include "generationmodule/generationmodule.pb.h"
+#include "loadmodule/loadmodule.pb.h"
+#include "metermodule/metermodule.pb.h"
+#include "resourcemodule/resourcemodule.pb.h"
 #include "reclosermodule/reclosermodule.pb.h"
+#include "interconnectionmodule/interconnectionmodule.pb.h"
 #include "solarmodule/solarmodule.pb.h"
 #include "breakermodule/breakermodule.pb.h"
 #include "capbankmodule/capbankmodule.pb.h"
 #include "switchmodule/switchmodule.pb.h"
-#include "generationmodule/generationmodule.pb.h"
-#include "loadmodule/loadmodule.pb.h"
 #include "essmodule/essmodule.pb.h"
 #include "regulatormodule/regulatormodule.pb.h"
-#include "metermodule/metermodule.pb.h"
-#include "resourcemodule/resourcemodule.pb.h"
+#include "reservemodule/reservemodule.pb.h"
 
 #include "OpenFMB-IDL.hpp"
 
@@ -129,11 +132,65 @@ struct SubscriberFactory<capbankmodule::CapBankStatusProfile>
 };
 
 template<>
+struct SubscriberFactory<circuitsegmentservicemodule::CircuitSegmentControlProfile>
+{
+    static std::unique_ptr<IDDSSubscriber> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, api::publisher_one_t<circuitsegmentservicemodule::CircuitSegmentControlProfile> publisher)
+    {
+        return std::make_unique<DDSSubscriber<circuitsegmentservicemodule::CircuitSegmentControlProfile, openfmb::circuitsegmentservicemodule::CircuitSegmentControlProfile>>(logger, subject, dds_subscriber, topic_repo.circuitsegmentcontrolprofile, publisher);
+    }
+};
+
+template<>
+struct SubscriberFactory<circuitsegmentservicemodule::CircuitSegmentEventProfile>
+{
+    static std::unique_ptr<IDDSSubscriber> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, api::publisher_one_t<circuitsegmentservicemodule::CircuitSegmentEventProfile> publisher)
+    {
+        return std::make_unique<DDSSubscriber<circuitsegmentservicemodule::CircuitSegmentEventProfile, openfmb::circuitsegmentservicemodule::CircuitSegmentEventProfile>>(logger, subject, dds_subscriber, topic_repo.circuitsegmenteventprofile, publisher);
+    }
+};
+
+template<>
+struct SubscriberFactory<circuitsegmentservicemodule::CircuitSegmentStatusProfile>
+{
+    static std::unique_ptr<IDDSSubscriber> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, api::publisher_one_t<circuitsegmentservicemodule::CircuitSegmentStatusProfile> publisher)
+    {
+        return std::make_unique<DDSSubscriber<circuitsegmentservicemodule::CircuitSegmentStatusProfile, openfmb::circuitsegmentservicemodule::CircuitSegmentStatusProfile>>(logger, subject, dds_subscriber, topic_repo.circuitsegmentstatusprofile, publisher);
+    }
+};
+
+template<>
+struct SubscriberFactory<essmodule::ESSCapabilityOverrideProfile>
+{
+    static std::unique_ptr<IDDSSubscriber> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, api::publisher_one_t<essmodule::ESSCapabilityOverrideProfile> publisher)
+    {
+        return std::make_unique<DDSSubscriber<essmodule::ESSCapabilityOverrideProfile, openfmb::essmodule::ESSCapabilityOverrideProfile>>(logger, subject, dds_subscriber, topic_repo.esscapabilityoverrideprofile, publisher);
+    }
+};
+
+template<>
+struct SubscriberFactory<essmodule::ESSCapabilityProfile>
+{
+    static std::unique_ptr<IDDSSubscriber> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, api::publisher_one_t<essmodule::ESSCapabilityProfile> publisher)
+    {
+        return std::make_unique<DDSSubscriber<essmodule::ESSCapabilityProfile, openfmb::essmodule::ESSCapabilityProfile>>(logger, subject, dds_subscriber, topic_repo.esscapabilityprofile, publisher);
+    }
+};
+
+template<>
 struct SubscriberFactory<essmodule::ESSControlProfile>
 {
     static std::unique_ptr<IDDSSubscriber> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, api::publisher_one_t<essmodule::ESSControlProfile> publisher)
     {
         return std::make_unique<DDSSubscriber<essmodule::ESSControlProfile, openfmb::essmodule::ESSControlProfile>>(logger, subject, dds_subscriber, topic_repo.esscontrolprofile, publisher);
+    }
+};
+
+template<>
+struct SubscriberFactory<essmodule::ESSDiscreteControlProfile>
+{
+    static std::unique_ptr<IDDSSubscriber> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, api::publisher_one_t<essmodule::ESSDiscreteControlProfile> publisher)
+    {
+        return std::make_unique<DDSSubscriber<essmodule::ESSDiscreteControlProfile, openfmb::essmodule::ESSDiscreteControlProfile>>(logger, subject, dds_subscriber, topic_repo.essdiscretecontrolprofile, publisher);
     }
 };
 
@@ -161,6 +218,24 @@ struct SubscriberFactory<essmodule::ESSStatusProfile>
     static std::unique_ptr<IDDSSubscriber> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, api::publisher_one_t<essmodule::ESSStatusProfile> publisher)
     {
         return std::make_unique<DDSSubscriber<essmodule::ESSStatusProfile, openfmb::essmodule::ESSStatusProfile>>(logger, subject, dds_subscriber, topic_repo.essstatusprofile, publisher);
+    }
+};
+
+template<>
+struct SubscriberFactory<generationmodule::GenerationCapabilityOverrideProfile>
+{
+    static std::unique_ptr<IDDSSubscriber> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, api::publisher_one_t<generationmodule::GenerationCapabilityOverrideProfile> publisher)
+    {
+        return std::make_unique<DDSSubscriber<generationmodule::GenerationCapabilityOverrideProfile, openfmb::generationmodule::GenerationCapabilityOverrideProfile>>(logger, subject, dds_subscriber, topic_repo.generationcapabilityoverrideprofile, publisher);
+    }
+};
+
+template<>
+struct SubscriberFactory<generationmodule::GenerationCapabilityProfile>
+{
+    static std::unique_ptr<IDDSSubscriber> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, api::publisher_one_t<generationmodule::GenerationCapabilityProfile> publisher)
+    {
+        return std::make_unique<DDSSubscriber<generationmodule::GenerationCapabilityProfile, openfmb::generationmodule::GenerationCapabilityProfile>>(logger, subject, dds_subscriber, topic_repo.generationcapabilityprofile, publisher);
     }
 };
 
@@ -206,6 +281,24 @@ struct SubscriberFactory<generationmodule::GenerationStatusProfile>
     static std::unique_ptr<IDDSSubscriber> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, api::publisher_one_t<generationmodule::GenerationStatusProfile> publisher)
     {
         return std::make_unique<DDSSubscriber<generationmodule::GenerationStatusProfile, openfmb::generationmodule::GenerationStatusProfile>>(logger, subject, dds_subscriber, topic_repo.generationstatusprofile, publisher);
+    }
+};
+
+template<>
+struct SubscriberFactory<interconnectionmodule::InterconnectionPlannedScheduleProfile>
+{
+    static std::unique_ptr<IDDSSubscriber> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, api::publisher_one_t<interconnectionmodule::InterconnectionPlannedScheduleProfile> publisher)
+    {
+        return std::make_unique<DDSSubscriber<interconnectionmodule::InterconnectionPlannedScheduleProfile, openfmb::interconnectionmodule::InterconnectionPlannedScheduleProfile>>(logger, subject, dds_subscriber, topic_repo.interconnectionplannedscheduleprofile, publisher);
+    }
+};
+
+template<>
+struct SubscriberFactory<interconnectionmodule::InterconnectionRequestedScheduleProfile>
+{
+    static std::unique_ptr<IDDSSubscriber> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, api::publisher_one_t<interconnectionmodule::InterconnectionRequestedScheduleProfile> publisher)
+    {
+        return std::make_unique<DDSSubscriber<interconnectionmodule::InterconnectionRequestedScheduleProfile, openfmb::interconnectionmodule::InterconnectionRequestedScheduleProfile>>(logger, subject, dds_subscriber, topic_repo.interconnectionrequestedscheduleprofile, publisher);
     }
 };
 
@@ -336,6 +429,24 @@ struct SubscriberFactory<regulatormodule::RegulatorStatusProfile>
 };
 
 template<>
+struct SubscriberFactory<reservemodule::ReserveAvailabilityProfile>
+{
+    static std::unique_ptr<IDDSSubscriber> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, api::publisher_one_t<reservemodule::ReserveAvailabilityProfile> publisher)
+    {
+        return std::make_unique<DDSSubscriber<reservemodule::ReserveAvailabilityProfile, openfmb::reservemodule::ReserveAvailabilityProfile>>(logger, subject, dds_subscriber, topic_repo.reserveavailabilityprofile, publisher);
+    }
+};
+
+template<>
+struct SubscriberFactory<reservemodule::ReserveRequestProfile>
+{
+    static std::unique_ptr<IDDSSubscriber> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, api::publisher_one_t<reservemodule::ReserveRequestProfile> publisher)
+    {
+        return std::make_unique<DDSSubscriber<reservemodule::ReserveRequestProfile, openfmb::reservemodule::ReserveRequestProfile>>(logger, subject, dds_subscriber, topic_repo.reserverequestprofile, publisher);
+    }
+};
+
+template<>
 struct SubscriberFactory<resourcemodule::ResourceDiscreteControlProfile>
 {
     static std::unique_ptr<IDDSSubscriber> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, api::publisher_one_t<resourcemodule::ResourceDiscreteControlProfile> publisher)
@@ -372,11 +483,38 @@ struct SubscriberFactory<resourcemodule::ResourceStatusProfile>
 };
 
 template<>
+struct SubscriberFactory<solarmodule::SolarCapabilityOverrideProfile>
+{
+    static std::unique_ptr<IDDSSubscriber> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, api::publisher_one_t<solarmodule::SolarCapabilityOverrideProfile> publisher)
+    {
+        return std::make_unique<DDSSubscriber<solarmodule::SolarCapabilityOverrideProfile, openfmb::solarmodule::SolarCapabilityOverrideProfile>>(logger, subject, dds_subscriber, topic_repo.solarcapabilityoverrideprofile, publisher);
+    }
+};
+
+template<>
+struct SubscriberFactory<solarmodule::SolarCapabilityProfile>
+{
+    static std::unique_ptr<IDDSSubscriber> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, api::publisher_one_t<solarmodule::SolarCapabilityProfile> publisher)
+    {
+        return std::make_unique<DDSSubscriber<solarmodule::SolarCapabilityProfile, openfmb::solarmodule::SolarCapabilityProfile>>(logger, subject, dds_subscriber, topic_repo.solarcapabilityprofile, publisher);
+    }
+};
+
+template<>
 struct SubscriberFactory<solarmodule::SolarControlProfile>
 {
     static std::unique_ptr<IDDSSubscriber> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, api::publisher_one_t<solarmodule::SolarControlProfile> publisher)
     {
         return std::make_unique<DDSSubscriber<solarmodule::SolarControlProfile, openfmb::solarmodule::SolarControlProfile>>(logger, subject, dds_subscriber, topic_repo.solarcontrolprofile, publisher);
+    }
+};
+
+template<>
+struct SubscriberFactory<solarmodule::SolarDiscreteControlProfile>
+{
+    static std::unique_ptr<IDDSSubscriber> build(const api::Logger& logger, const util::SubjectNameSuffix& subject, const TopicRepository& topic_repo, std::shared_ptr<::dds::sub::Subscriber> dds_subscriber, api::publisher_one_t<solarmodule::SolarDiscreteControlProfile> publisher)
+    {
+        return std::make_unique<DDSSubscriber<solarmodule::SolarDiscreteControlProfile, openfmb::solarmodule::SolarDiscreteControlProfile>>(logger, subject, dds_subscriber, topic_repo.solardiscretecontrolprofile, publisher);
     }
 };
 

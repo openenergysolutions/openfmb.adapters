@@ -3,121 +3,127 @@
 # SPDX-License-Identifier: Apache-2.0
 
 ---
-name: "Nix Docker Build"
-on:
-  push:
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    env:
-      PUSH_IMAGES: ${{ github.event_name == 'push' && github.ref == 'refs/heads/develop' }}
-    steps:
-      - uses: actions/checkout@v2.3.4
-      - uses: cachix/install-nix-action@v12
-        with:
-          nix_path: nixpkgs=channel:nixos-20.09
-      - name: Setup SSH Keys and known_hosts
-        env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-        run: |
-          mkdir -p ~/.ssh
-          ssh-keyscan github.com >> ~/.ssh/known_hosts
-          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-          ssh-add - <<< "${{ secrets.DEPLOY_KEY }}"
-      - uses: cachix/cachix-action@v10
-
-        with:
-          name: openenergysolutions
-          authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
-      - name: Update submodules
-        env:
-           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-        run: git submodule update --init
-      - name: Build all
-        env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-        run: nix-build all.nix
-      - name: Prepare Artifacts
-        run: |
-          mkdir artifacts
-          cp -r `readlink result` artifacts/.
-          cp -r `readlink result-2` artifacts/.
-          cp -r `readlink result-3` artifacts/.
-          cp -r `readlink result-4` artifacts/.
-          cp -r `readlink result-5` artifacts/.
-          cp -r `readlink result-6` artifacts/.
-      - name: Upload Armv8 64bit Docker Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: openfmb.adapters-aarch64-docker
-          path: artifacts/*docker*aarch64*.tar.gz
-      - name: Upload Armv7 Docker Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: openfmb.adapters-armv7-docker
-          path: artifacts/*docker*armv7*.tar.gz
-      - name: Upload x86_64 Docker Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: openfmb.adapters-x86_64-docker
-          path: artifacts/*docker*x86_64*.tar.gz
-      - name: Ok
-        run: nix-shell --run "echo OK"
-      - name: Login to DockerHub
-        if: ${{ env.PUSH_IMAGES == 'true' }}
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_TOKEN }}
-      - name: Push Armv8 Image to DockerHub
-        if: ${{ env.PUSH_IMAGES == 'true' }}
-        shell: bash
-        run: |
-          IMAGE_NAME=$(find . -name *docker*aarch64*.tar.gz)
-          docker load --input $IMAGE_NAME
-          IMAGE_REPOSITORY=$(docker images --format "{{.Repository}}:{{.Tag}}" | grep aarch64)
-          docker tag $IMAGE_REPOSITORY docker.io/oesinc/openfmb.adapters:aarch64-${GITHUB_SHA::7}
-          docker push docker.io/oesinc/openfmb.adapters:aarch64-${GITHUB_SHA::7}
-      - name: Push Armv7 Image to DockerHub
-        if: ${{ env.PUSH_IMAGES == 'true' }}
-        shell: bash
-        run: |
-          IMAGE_NAME=$(find . -name *docker*armv7*.tar.gz)
-          docker load --input $IMAGE_NAME
-          IMAGE_REPOSITORY=$(docker images --format "{{.Repository}}:{{.Tag}}" | grep armv7)
-          docker tag $IMAGE_REPOSITORY docker.io/oesinc/openfmb.adapters:armv7-${GITHUB_SHA::7}
-          docker push docker.io/oesinc/openfmb.adapters:armv7-${GITHUB_SHA::7}
-      - name: Push x86_64 Image to DockerHub
-        if: ${{ env.PUSH_IMAGES == 'true' }}
-        shell: bash
-        run: |
-          IMAGE_NAME=$(find . -name *docker*x86_64*.tar.gz)
-          docker load --input $IMAGE_NAME
-          IMAGE_REPOSITORY=$(docker images --format "{{.Repository}}:{{.Tag}}" | grep x86_64)
-          docker tag $IMAGE_REPOSITORY docker.io/oesinc/openfmb.adapters:x86_64-${GITHUB_SHA::7}
-          docker push docker.io/oesinc/openfmb.adapters:x86_64-${GITHUB_SHA::7}
-      - name: Create and push the multiarch Image to DockerHub
-        if: ${{ env.PUSH_IMAGES == 'true' }}
-        shell: bash
-        run: |
-          IMAGE_NAME=${GITHUB_REPOSITORY#*/}
-          # create a build specific tag and push
-          docker manifest create \
-            oesinc/$IMAGE_NAME:${GITHUB_SHA::7} \
-            --amend oesinc/$IMAGE_NAME:x86_64-${GITHUB_SHA::7} \
-            --amend oesinc/$IMAGE_NAME:armv7-${GITHUB_SHA::7} \
-            --amend oesinc/$IMAGE_NAME:aarch64-${GITHUB_SHA::7}
-          docker manifest annotate oesinc/$IMAGE_NAME:${GITHUB_SHA::7} oesinc/$IMAGE_NAME:x86_64-${GITHUB_SHA::7} --arch amd64 --os linux
-          docker manifest annotate oesinc/$IMAGE_NAME:${GITHUB_SHA::7} oesinc/$IMAGE_NAME:armv7-${GITHUB_SHA::7} --arch arm --os linux --variant v7
-          docker manifest annotate oesinc/$IMAGE_NAME:${GITHUB_SHA::7} oesinc/$IMAGE_NAME:aarch64-${GITHUB_SHA::7} --arch arm64 --os linux
-          docker manifest push oesinc/$IMAGE_NAME:${GITHUB_SHA::7}
-          # create a develop tag and push
-          docker manifest create \
-            oesinc/$IMAGE_NAME:develop \
-            --amend oesinc/$IMAGE_NAME:x86_64-${GITHUB_SHA::7} \
-            --amend oesinc/$IMAGE_NAME:armv7-${GITHUB_SHA::7} \
-            --amend oesinc/$IMAGE_NAME:aarch64-${GITHUB_SHA::7}
-          docker manifest annotate oesinc/$IMAGE_NAME:develop oesinc/$IMAGE_NAME:x86_64-${GITHUB_SHA::7} --arch amd64 --os linux
-          docker manifest annotate oesinc/$IMAGE_NAME:develop oesinc/$IMAGE_NAME:armv7-${GITHUB_SHA::7} --arch arm --os linux --variant v7
-          docker manifest annotate oesinc/$IMAGE_NAME:develop oesinc/$IMAGE_NAME:aarch64-${GITHUB_SHA::7} --arch arm64 --os linux
-          docker manifest push oesinc/$IMAGE_NAME:develop
+  name: "Nix Docker Build"
+  on:
+    push:
+      branches: ["v2.1-prerelease"]
+      tags:
+        - 'v*'
+    pull_request:
+      branches: ["v2.1-prerelease"]
+  jobs:
+    build:
+      # runs-on: ubuntu-latest
+      runs-on: self-hosted
+      env:
+        PUSH_IMAGES: ${{ github.event_name == 'push' && github.ref == 'refs/heads/v2.1-prerelease' }}
+      steps:
+        - uses: actions/checkout@v3
+        - uses: cachix/install-nix-action@v20
+          with:
+            nix_path: nixpkgs=channel:nixos-21.11
+        - uses: cachix/cachix-action@v12
+          with:
+            name: oesinc          
+        - name: Update submodules
+          run: git submodule update --init
+        - name: Build all
+          run: nix-build all.nix
+          timeout-minutes: 120
+        - name: Prepare Artifacts
+          run: |
+            mkdir artifacts            
+            cp -r `readlink result-2` artifacts/.            
+            cp -r `readlink result-4` artifacts/.           
+            cp -r `readlink result-6` artifacts/.
+        - name: Upload Armv8 64bit Docker Artifact
+          uses: actions/upload-artifact@v2
+          with:
+            name: openfmb.adapters-aarch64-docker
+            path: artifacts/*docker*aarch64*.tar.gz
+        - name: Upload Armv7 Docker Artifact
+          uses: actions/upload-artifact@v2
+          with:
+            name: openfmb.adapters-armv7-docker
+            path: artifacts/*docker*armv7*.tar.gz
+        - name: Upload x86_64 Docker Artifact
+          uses: actions/upload-artifact@v2
+          with:
+            name: openfmb.adapters-x86_64-docker
+            path: artifacts/*docker*x86_64*.tar.gz
+        - name: Ok
+          run: nix-shell --run "echo OK"
+        - name: Login to DockerHub
+          if: ${{ env.PUSH_IMAGES == 'true' }}
+          uses: docker/login-action@v2
+          with:
+            username: ${{ secrets.DOCKER_USERNAME }}
+            password: ${{ secrets.DOCKER_TOKEN }}
+        - name: Push Armv8 Image to DockerHub
+          if: ${{ env.PUSH_IMAGES == 'true' }}
+          shell: bash
+          run: |
+            IMAGE_NAME=$(find . -name *docker-image-openfmb.adapter-aarch64*.tar.gz)
+            echo $IMAGE_NAME
+            docker load --input $IMAGE_NAME
+            IMAGE_REPOSITORY=$(docker images --format "{{.Repository}}:{{.Tag}}" | grep aarch64 | head -n 1)
+            echo $IMAGE_REPOSITORY
+            docker tag $IMAGE_REPOSITORY docker.io/oesinc/openfmb.adapters:aarch64-${GITHUB_SHA::7}
+            docker push docker.io/oesinc/openfmb.adapters:aarch64-${GITHUB_SHA::7}
+        - name: Push Armv7 Image to DockerHub
+          if: ${{ env.PUSH_IMAGES == 'true' }}
+          shell: bash
+          run: |
+            IMAGE_NAME=$(find . -name *docker-image-openfmb.adapter-armv7*.tar.gz)
+            echo $IMAGE_NAME
+            docker load --input $IMAGE_NAME
+            IMAGE_REPOSITORY=$(docker images --format "{{.Repository}}:{{.Tag}}" | grep armv7 | head -n 1)
+            echo $IMAGE_REPOSITORY
+            docker tag $IMAGE_REPOSITORY docker.io/oesinc/openfmb.adapters:armv7-${GITHUB_SHA::7}
+            docker push docker.io/oesinc/openfmb.adapters:armv7-${GITHUB_SHA::7}
+        - name: Push x86_64 Image to DockerHub
+          if: ${{ env.PUSH_IMAGES == 'true' }}
+          shell: bash
+          run: |
+            IMAGE_NAME=$(find . -name *docker-image-openfmb.adapter-x86_64*.tar.gz)
+            echo $IMAGE_NAME
+            docker load --input $IMAGE_NAME
+            IMAGE_REPOSITORY=$(docker images --format "{{.Repository}}:{{.Tag}}" | grep x86_64 | head -n 1)
+            echo $IMAGE_REPOSITORY
+            docker tag $IMAGE_REPOSITORY docker.io/oesinc/openfmb.adapters:x86_64-${GITHUB_SHA::7}
+            docker push docker.io/oesinc/openfmb.adapters:x86_64-${GITHUB_SHA::7}
+        - name: Create and push the multiarch Image to DockerHub
+          if: ${{ env.PUSH_IMAGES == 'true' }}
+          shell: bash
+          run: |
+            IMAGE_NAME=${GITHUB_REPOSITORY#*/}
+            # create a build specific tag and push
+            docker manifest create \
+              oesinc/$IMAGE_NAME:${GITHUB_SHA::7} \
+              --amend oesinc/$IMAGE_NAME:x86_64-${GITHUB_SHA::7} \
+              --amend oesinc/$IMAGE_NAME:armv7-${GITHUB_SHA::7} \
+              --amend oesinc/$IMAGE_NAME:aarch64-${GITHUB_SHA::7}
+            docker manifest annotate oesinc/$IMAGE_NAME:${GITHUB_SHA::7} oesinc/$IMAGE_NAME:x86_64-${GITHUB_SHA::7} --arch amd64 --os linux
+            docker manifest annotate oesinc/$IMAGE_NAME:${GITHUB_SHA::7} oesinc/$IMAGE_NAME:armv7-${GITHUB_SHA::7} --arch arm --os linux --variant v7
+            docker manifest annotate oesinc/$IMAGE_NAME:${GITHUB_SHA::7} oesinc/$IMAGE_NAME:aarch64-${GITHUB_SHA::7} --arch arm64 --os linux
+            docker manifest push oesinc/$IMAGE_NAME:${GITHUB_SHA::7}
+            # create a version tag and push
+            docker manifest create \
+              oesinc/$IMAGE_NAME:${{ github.ref_name}} \
+              --amend oesinc/$IMAGE_NAME:x86_64-${GITHUB_SHA::7} \
+              --amend oesinc/$IMAGE_NAME:armv7-${GITHUB_SHA::7} \
+              --amend oesinc/$IMAGE_NAME:aarch64-${GITHUB_SHA::7}
+            docker manifest annotate oesinc/$IMAGE_NAME:${{ github.ref_name}} oesinc/$IMAGE_NAME:x86_64-${GITHUB_SHA::7} --arch amd64 --os linux
+            docker manifest annotate oesinc/$IMAGE_NAME:${{ github.ref_name}} oesinc/$IMAGE_NAME:armv7-${GITHUB_SHA::7} --arch arm --os linux --variant v7
+            docker manifest annotate oesinc/$IMAGE_NAME:${{ github.ref_name}} oesinc/$IMAGE_NAME:aarch64-${GITHUB_SHA::7} --arch arm64 --os linux
+            docker manifest push oesinc/$IMAGE_NAME:${{ github.ref_name}}
+            # create a latest tag and push
+            docker manifest create \
+              oesinc/$IMAGE_NAME:latest \
+              --amend oesinc/$IMAGE_NAME:x86_64-${GITHUB_SHA::7} \
+              --amend oesinc/$IMAGE_NAME:armv7-${GITHUB_SHA::7} \
+              --amend oesinc/$IMAGE_NAME:aarch64-${GITHUB_SHA::7}
+            docker manifest annotate oesinc/$IMAGE_NAME:latest oesinc/$IMAGE_NAME:x86_64-${GITHUB_SHA::7} --arch amd64 --os linux
+            docker manifest annotate oesinc/$IMAGE_NAME:latest oesinc/$IMAGE_NAME:armv7-${GITHUB_SHA::7} --arch arm --os linux --variant v7
+            docker manifest annotate oesinc/$IMAGE_NAME:latest oesinc/$IMAGE_NAME:aarch64-${GITHUB_SHA::7} --arch arm64 --os linux
+            docker manifest push oesinc/$IMAGE_NAME:latest

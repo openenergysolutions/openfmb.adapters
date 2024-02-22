@@ -9,10 +9,12 @@
 namespace adapter {
     namespace schema {
 
-        void JSONSchemaPrinter::declare_schema(const std::string& schema_id)
+        void JSONSchemaPrinter::declare_schema(const std::string& schema_id, const std::string& title)
         {
-            writer.write_property("$schema", "http://json-schema.org/schema#");
-            writer.write_property("id", schema_id);
+            writer.write_property("$schema", "http://json-schema.org/draft-07/schema#");
+            writer.write_property("$id", schema_id);
+            writer.write_property("title", title);
+            writer.write_property("type", "object");
             writer.begin_object_property("properties");
         }
 
@@ -39,9 +41,9 @@ namespace adapter {
            writer.close_document();
         }
 
-        JSONSchemaPrinter::JSONSchemaPrinter(std::ostream &output, const std::string& schema_id, bool pretty_print) : writer(output, pretty_print)
+        JSONSchemaPrinter::JSONSchemaPrinter(std::ostream &output, const std::string& schema_id, const std::string& title, bool pretty_print) : writer(output, pretty_print)
         {
-            this->declare_schema(schema_id);
+            this->declare_schema(schema_id, title);
         }
 
         void JSONSchemaPrinter::begin(const ObjectProperty &prop) {
@@ -60,6 +62,7 @@ namespace adapter {
 
             this->writer.write_property("description", prop.get_description());
             this->writer.write_property("type", "object");
+            this->writer.write_property("title", prop.get_name());
             this->writer.begin_object_property("properties");
         }
 
@@ -74,6 +77,7 @@ namespace adapter {
             this->writer.begin_object_property(prop.get_name());
             this->writer.write_property("description", prop.get_description());
             this->writer.write_property("type", "boolean");
+            this->writer.write_property("title", prop.get_name());
             this->writer.end_object();
         }
 
@@ -81,6 +85,7 @@ namespace adapter {
             this->writer.begin_object_property(prop.get_name());
             this->writer.write_property("description", prop.get_description());
             this->writer.write_property("type", "string");
+            this->writer.write_property("title", prop.get_name());
             switch(prop.format) {
                 case(StringFormat::Subject):
                     this->writer.write_property("pattern", "\\\\*|([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})");
@@ -111,6 +116,7 @@ namespace adapter {
             
             this->writer.write_property("description", prop.get_description());
             this->writer.write_property("type", "string");
+            this->writer.write_property("title", prop.get_name());
 
             this->writer.begin_array("enum");
             for(const auto& value : prop.values) {
@@ -125,6 +131,7 @@ namespace adapter {
             this->writer.begin_object_property(prop.get_name());
             this->writer.write_property("description", prop.get_description());
             this->writer.write_property("type", "array");
+            this->writer.write_property("title", prop.get_name());
 
             prop.array_items->visit(*this);
 
@@ -135,6 +142,8 @@ namespace adapter {
             this->writer.begin_object_property(prop.get_name());
             this->writer.write_property("description", prop.get_description());
             this->writer.write_property("type", "number");
+            this->writer.write_property("title", prop.get_name());
+
             if(prop.min.valid) {
                 this->writer.write_property("minimum", prop.min.value);
             }
@@ -148,6 +157,8 @@ namespace adapter {
             this->writer.begin_object_property(prop.get_name());
             this->writer.write_property("description", prop.get_description());
             this->writer.write_property("type", "number");
+            this->writer.write_property("title", prop.get_name());
+
             if(prop.min.valid) {
                 this->writer.write_property("minimum", prop.min.value);
             }
@@ -161,6 +172,8 @@ namespace adapter {
             this->writer.begin_object_property(prop.get_name());
             this->writer.write_property("description", prop.get_description());
             this->writer.write_property("type", "integer");
+            this->writer.write_property("title", prop.get_name());
+
             if(prop.min.valid) {
                 this->writer.write_property("minimum", prop.min.value);
             }
@@ -174,6 +187,8 @@ namespace adapter {
             this->writer.begin_object_property(prop.get_name());
             this->writer.write_property("description", prop.get_description());
             this->writer.write_property("type", "integer");
+            this->writer.write_property("title", prop.get_name());
+
             if(prop.min.valid) {
                 this->writer.write_property("minimum", prop.min.value);
             }

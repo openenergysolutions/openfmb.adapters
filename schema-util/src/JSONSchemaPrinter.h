@@ -20,7 +20,7 @@ namespace adapter {
         std::unordered_map<std::string, ObjectProperty> references;
 
         // called after construction
-        void declare_schema(const std::string& schema_id);
+        void declare_schema(const std::string& schema_id, const std::string& title);
 
         void write_oneofs(const Object& object);
         bool has_required_fields(const std::vector<property_ptr_t>& fields);
@@ -28,7 +28,7 @@ namespace adapter {
 
     public:
 
-        JSONSchemaPrinter(std::ostream &output, const std::string& schema_id, bool pretty_print);
+        JSONSchemaPrinter(std::ostream &output, const std::string& schema_id, const std::string& title, bool pretty_print);
 
         void close_document(const std::vector<property_ptr_t>& fields);
 

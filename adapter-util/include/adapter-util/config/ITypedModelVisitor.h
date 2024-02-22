@@ -25,6 +25,8 @@ namespace util {
         virtual void handle(const std::string& field_name, const accessor_t<P, bool>& accessor) = 0;
         virtual void handle(const std::string& field_name, const accessor_t<P, int32_t>& accessor) = 0;
         virtual void handle(const std::string& field_name, const accessor_t<P, int64_t>& accessor) = 0;
+        virtual void handle(const std::string& field_name, const accessor_t<P, uint32_t>& accessor) = 0;
+        virtual void handle(const std::string& field_name, const accessor_t<P, uint64_t>& accessor) = 0;
         virtual void handle(const std::string& field_name, const accessor_t<P, float>& accessor) = 0;
         virtual void handle(const std::string& field_name, const accessor_t<P, double>& accessor) = 0;
         virtual void handle(const std::string& field_name, const accessor_t<P, std::string>& accessor) = 0;
@@ -34,6 +36,7 @@ namespace util {
         virtual void handle(const std::string& field_name, const message_accessor_t<P, commonmodule::Quality>& accessor) = 0;
         virtual void handle(const std::string& field_name, const message_accessor_t<P, commonmodule::Timestamp>& accessor) = 0;
         virtual void handle(const std::string& field_name, const message_accessor_t<P, commonmodule::ControlTimestamp>& accessor) = 0;
+        virtual void handle(const std::string& field_name, const message_accessor_t<P, commonmodule::ClearingTime>& accessor) = 0;
 
         // --- handler for specialized repetitions in inside of schedules ---
         virtual void handle(const std::string& field_name, const getter_t<P, repeated_schedule_parameter_t>& getter) = 0;

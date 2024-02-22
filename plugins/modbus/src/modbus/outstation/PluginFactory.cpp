@@ -88,6 +88,41 @@ namespace outstation {
                 "device1",
                 StringFormat::None
             ),
+            object_property(
+                util::keys::file,
+                Required::no,
+                "file information, used by configuration tool",
+                Object({
+                    enum_property(
+                        util::keys::id,
+                        { "openfmb-adapter-template" },
+                        schema::Required::yes,
+                        "file id type",
+                        "openfmb-adapter-template"
+                    ),
+                    string_property(
+                        util::keys::edition,
+                        Required::yes,
+                        "openfmb edition",
+                        "2.1",
+                        StringFormat::None
+                    ),
+                    string_property(
+                        util::keys::version,
+                        Required::yes,
+                        "openfmb adapter version",
+                        "2.1.0.0",
+                        StringFormat::None
+                    ),
+                    enum_property(
+                        util::keys::plugin,
+                        { "modbus-outstation" },
+                        schema::Required::yes,
+                        "plugin type",
+                        "modbus-outstation"
+                    )
+                })
+            ),
             enum_property<LogLevel>(
                 Required::yes,
                 "Protocol log level",

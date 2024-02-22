@@ -7,6 +7,7 @@
 
 #include <proto-api/breakermodule/breakermodule.pb.h>
 #include <proto-api/capbankmodule/capbankmodule.pb.h>
+#include <proto-api/circuitsegmentservicemodule/circuitsegmentservicemodule.pb.h>
 #include <proto-api/essmodule/essmodule.pb.h>
 #include <proto-api/generationmodule/generationmodule.pb.h>
 #include <proto-api/loadmodule/loadmodule.pb.h>
@@ -106,6 +107,25 @@ struct schedule_extractor<capbankmodule::CapBankDiscreteControlProfile>
 };
 
 template <>
+struct schedule_extractor<circuitsegmentservicemodule::CircuitSegmentControlProfile>
+{
+    static void set_source_mrid(circuitsegmentservicemodule::CircuitSegmentControlProfile& profile, const std::string& mrid)
+    {
+        profile.mutable_applicationsystem()->set_mrid(mrid);
+    }
+
+    static void set_message_mrid(circuitsegmentservicemodule::CircuitSegmentControlProfile& profile, const std::string& mrid)
+    {
+        profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_identifiedobject()->mutable_mrid()->set_value(mrid);
+    }
+
+    static commonmodule::Timestamp* get_message_timestamp(circuitsegmentservicemodule::CircuitSegmentControlProfile& profile)
+    {
+        return profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_messagetimestamp();
+    }
+};
+
+template <>
 struct schedule_extractor<essmodule::ESSControlProfile>
 {
     static void set_source_mrid(essmodule::ESSControlProfile& profile, const std::string& mrid)
@@ -128,7 +148,7 @@ struct schedule_extractor<essmodule::ESSControlProfile>
         return profile.mutable_esscontrol()->mutable_esscontrolfscc()->mutable_controlfscc();
     }
 
-    using custom_point_t = essmodule::ESSPoint;
+    using custom_point_t = essmodule::ESSCurvePoint;
 
     static bool has_custom_points(const essmodule::ESSControlProfile& profile)
     {
@@ -139,6 +159,29 @@ struct schedule_extractor<essmodule::ESSControlProfile>
     {
         return profile.mutable_esscontrol()->mutable_esscontrolfscc()->mutable_esscontrolschedulefsch()->mutable_valdcsg()->mutable_crvpts();
     }
+};
+
+template <>
+struct schedule_extractor<essmodule::ESSDiscreteControlProfile>
+{
+    static void set_source_mrid(essmodule::ESSDiscreteControlProfile& profile, const std::string& mrid)
+    {
+        profile.mutable_ess()->mutable_conductingequipment()->set_mrid(mrid);
+    }
+
+    static void set_message_mrid(essmodule::ESSDiscreteControlProfile& profile, const std::string& mrid)
+    {
+        profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_identifiedobject()->mutable_mrid()->set_value(mrid);
+    }
+
+    static commonmodule::Timestamp* get_message_timestamp(essmodule::ESSDiscreteControlProfile& profile)
+    {
+        return profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_messagetimestamp();
+    }
+
+    // No control FSCC
+
+    // No custom points
 };
 
 template <>
@@ -198,6 +241,80 @@ struct schedule_extractor<generationmodule::GenerationDiscreteControlProfile>
     // No control FSCC
 
     // No custom points
+};
+
+template <>
+struct schedule_extractor<interconnectionmodule::InterconnectionPlannedScheduleProfile>
+{
+    static void set_source_mrid(interconnectionmodule::InterconnectionPlannedScheduleProfile& profile, const std::string& mrid)
+    {
+        profile.mutable_requestercircuitsegmentservice()->set_mrid(mrid);
+    }
+
+    static void set_message_mrid(interconnectionmodule::InterconnectionPlannedScheduleProfile& profile, const std::string& mrid)
+    {
+        profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_identifiedobject()->mutable_mrid()->set_value(mrid);
+    }
+
+    static commonmodule::Timestamp* get_message_timestamp(interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
+    {
+        return profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_messagetimestamp();
+    }
+
+    static commonmodule::ControlFSCC* get_control_fscc(interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
+    {
+        return profile.mutable_interconnectionschedule()->mutable_interconnectionschedulefscc()->mutable_controlfscc();
+    }
+
+    using custom_point_t = interconnectionmodule::InterconnectionPoint;
+
+    static bool has_custom_points(const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
+    {
+        return profile.interconnectionschedule().interconnectionschedulefscc().has_controlfscc();
+    }
+
+    static google::protobuf::RepeatedPtrField<custom_point_t>* get_custom_points(interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
+    {
+        // TODO:: Handle multiple dim array, assume only the first interconnectioncontrolschedulefsch is used
+        return profile.mutable_interconnectionschedule()->mutable_interconnectionschedulefscc()->mutable_interconnectioncontrolschedulefsch()->mutable_data()[0]->mutable_valdcsg()->mutable_crvpts();
+    }
+};
+
+template <>
+struct schedule_extractor<interconnectionmodule::InterconnectionRequestedScheduleProfile>
+{
+    static void set_source_mrid(interconnectionmodule::InterconnectionRequestedScheduleProfile& profile, const std::string& mrid)
+    {
+        profile.mutable_requestercircuitsegmentservice()->set_mrid(mrid);
+    }
+
+    static void set_message_mrid(interconnectionmodule::InterconnectionRequestedScheduleProfile& profile, const std::string& mrid)
+    {
+        profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_identifiedobject()->mutable_mrid()->set_value(mrid);
+    }
+
+    static commonmodule::Timestamp* get_message_timestamp(interconnectionmodule::InterconnectionRequestedScheduleProfile& profile)
+    {
+        return profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_messagetimestamp();
+    }
+
+    static commonmodule::ControlFSCC* get_control_fscc(interconnectionmodule::InterconnectionRequestedScheduleProfile& profile)
+    {
+        return profile.mutable_interconnectionschedule()->mutable_interconnectionschedulefscc()->mutable_controlfscc();
+    }
+
+    using custom_point_t = interconnectionmodule::InterconnectionPoint;
+
+    static bool has_custom_points(const interconnectionmodule::InterconnectionRequestedScheduleProfile& profile)
+    {
+        return profile.interconnectionschedule().interconnectionschedulefscc().has_controlfscc();
+    }
+
+    static google::protobuf::RepeatedPtrField<custom_point_t>* get_custom_points(interconnectionmodule::InterconnectionRequestedScheduleProfile& profile)
+    {
+        // TODO:: Handle multiple dim array, assume only the first interconnectioncontrolschedulefsch is used
+        return profile.mutable_interconnectionschedule()->mutable_interconnectionschedulefscc()->mutable_interconnectioncontrolschedulefsch()->mutable_data()[0]->mutable_valdcsg()->mutable_crvpts();
+    }
 };
 
 template <>
@@ -319,6 +436,44 @@ struct schedule_extractor<regulatormodule::RegulatorDiscreteControlProfile>
 };
 
 template <>
+struct schedule_extractor<reservemodule::ReserveAvailabilityProfile>
+{
+    static void set_source_mrid(reservemodule::ReserveAvailabilityProfile& profile, const std::string& mrid)
+    {
+        profile.mutable_requestercircuitsegmentservice()->set_mrid(mrid);
+    }
+
+    static void set_message_mrid(reservemodule::ReserveAvailabilityProfile& profile, const std::string& mrid)
+    {
+        profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_identifiedobject()->mutable_mrid()->set_value(mrid);
+    }
+
+    static commonmodule::Timestamp* get_message_timestamp(reservemodule::ReserveAvailabilityProfile& profile)
+    {
+        return profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_messagetimestamp();
+    }
+};
+
+template <>
+struct schedule_extractor<reservemodule::ReserveRequestProfile>
+{
+    static void set_source_mrid(reservemodule::ReserveRequestProfile& profile, const std::string& mrid)
+    {
+        profile.mutable_requestercircuitsegmentservice()->set_mrid(mrid);
+    }
+
+    static void set_message_mrid(reservemodule::ReserveRequestProfile& profile, const std::string& mrid)
+    {
+        profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_identifiedobject()->mutable_mrid()->set_value(mrid);
+    }
+
+    static commonmodule::Timestamp* get_message_timestamp(reservemodule::ReserveRequestProfile& profile)
+    {
+        return profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_messagetimestamp();
+    }
+};
+
+template <>
 struct schedule_extractor<resourcemodule::ResourceDiscreteControlProfile>
 {
     static void set_source_mrid(resourcemodule::ResourceDiscreteControlProfile& profile, const std::string& mrid)
@@ -364,7 +519,7 @@ struct schedule_extractor<solarmodule::SolarControlProfile>
         return profile.mutable_solarcontrol()->mutable_solarcontrolfscc()->mutable_controlfscc();
     }
 
-    using custom_point_t = solarmodule::SolarPoint;
+    using custom_point_t = solarmodule::SolarCurvePoint;
 
     static bool has_custom_points(const solarmodule::SolarControlProfile& profile)
     {
@@ -375,6 +530,29 @@ struct schedule_extractor<solarmodule::SolarControlProfile>
     {
         return profile.mutable_solarcontrol()->mutable_solarcontrolfscc()->mutable_solarcontrolschedulefsch()->mutable_valdcsg()->mutable_crvpts();
     }
+};
+
+template <>
+struct schedule_extractor<solarmodule::SolarDiscreteControlProfile>
+{
+    static void set_source_mrid(solarmodule::SolarDiscreteControlProfile& profile, const std::string& mrid)
+    {
+        profile.mutable_solarinverter()->mutable_conductingequipment()->set_mrid(mrid);
+    }
+
+    static void set_message_mrid(solarmodule::SolarDiscreteControlProfile& profile, const std::string& mrid)
+    {
+        profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_identifiedobject()->mutable_mrid()->set_value(mrid);
+    }
+
+    static commonmodule::Timestamp* get_message_timestamp(solarmodule::SolarDiscreteControlProfile& profile)
+    {
+        return profile.mutable_controlmessageinfo()->mutable_messageinfo()->mutable_messagetimestamp();
+    }
+
+    // No control FSCC
+
+    // No custom points
 };
 
 template <>

@@ -19,6 +19,8 @@ namespace goose {
         std::shared_ptr<schema::Object> get_mapped_bool_schema() override;
         std::shared_ptr<schema::Object> get_mapped_int32_schema() override;
         std::shared_ptr<schema::Object> get_mapped_int64_schema() override;
+        std::shared_ptr<schema::Object> get_mapped_uint32_schema() override;
+        std::shared_ptr<schema::Object> get_mapped_uint64_schema() override;
         std::shared_ptr<schema::Object> get_mapped_float_schema() override;
         std::shared_ptr<schema::Object> get_mapped_double_schema() override;
         std::shared_ptr<schema::Object> get_mapped_string_schema() override;

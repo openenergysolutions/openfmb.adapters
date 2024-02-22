@@ -7,12 +7,15 @@ package com.oes.openfmb.generation;
 import com.google.protobuf.Descriptors;
 import openfmb.breakermodule.*;
 import openfmb.capbankmodule.*;
+import openfmb.circuitsegmentservicemodule.*;
+import openfmb.interconnectionmodule.*;
 import openfmb.essmodule.*;
 import openfmb.generationmodule.*;
 import openfmb.loadmodule.*;
 import openfmb.metermodule.*;
 import openfmb.reclosermodule.*;
 import openfmb.regulatormodule.*;
+import openfmb.reservemodule.*;
 import openfmb.resourcemodule.*;
 import openfmb.solarmodule.*;
 import openfmb.switchmodule.*;
@@ -39,17 +42,29 @@ public class Profiles {
                         CapBankEventProfile.getDescriptor(),
                         CapBankReadingProfile.getDescriptor(),
                         CapBankStatusProfile.getDescriptor(),
+                        // Circuit Segment Service
+                        CircuitSegmentControlProfile.getDescriptor(),
+                        CircuitSegmentEventProfile.getDescriptor(),
+                        CircuitSegmentStatusProfile.getDescriptor(),
                         // ESS
+                        ESSCapabilityOverrideProfile.getDescriptor(),
+                        ESSCapabilityProfile.getDescriptor(),
                         ESSControlProfile.getDescriptor(),
+                        ESSDiscreteControlProfile.getDescriptor(),
                         ESSEventProfile.getDescriptor(),
                         ESSReadingProfile.getDescriptor(),
                         ESSStatusProfile.getDescriptor(),
                         // Generation
+                        GenerationCapabilityOverrideProfile.getDescriptor(),
+                        GenerationCapabilityProfile.getDescriptor(),
                         GenerationControlProfile.getDescriptor(),
                         GenerationDiscreteControlProfile.getDescriptor(),
                         GenerationEventProfile.getDescriptor(),
                         GenerationReadingProfile.getDescriptor(),
                         GenerationStatusProfile.getDescriptor(),
+                        // Interconnection
+                        InterconnectionPlannedScheduleProfile.getDescriptor(),
+                        InterconnectionRequestedScheduleProfile.getDescriptor(),
                         // Load
                         LoadControlProfile.getDescriptor(),
                         LoadEventProfile.getDescriptor(),
@@ -58,7 +73,6 @@ public class Profiles {
                         // Meter
                         MeterReadingProfile.getDescriptor(),
                         // Recloser
-                        //RecloserControlProfile.getDescriptor(),
                         RecloserDiscreteControlProfile.getDescriptor(),
                         RecloserEventProfile.getDescriptor(),
                         RecloserReadingProfile.getDescriptor(),
@@ -69,18 +83,23 @@ public class Profiles {
                         RegulatorEventProfile.getDescriptor(),
                         RegulatorReadingProfile.getDescriptor(),
                         RegulatorStatusProfile.getDescriptor(),
+                        // Reserve
+                        ReserveAvailabilityProfile.getDescriptor(),
+                        ReserveRequestProfile.getDescriptor(),
                         // Resource
                         ResourceDiscreteControlProfile.getDescriptor(),
                         ResourceEventProfile.getDescriptor(),
                         ResourceReadingProfile.getDescriptor(),
                         ResourceStatusProfile.getDescriptor(),
                         // Solar
+                        SolarCapabilityOverrideProfile.getDescriptor(),
+                        SolarCapabilityProfile.getDescriptor(),
                         SolarControlProfile.getDescriptor(),
+                        SolarDiscreteControlProfile.getDescriptor(),
                         SolarEventProfile.getDescriptor(),
                         SolarReadingProfile.getDescriptor(),
                         SolarStatusProfile.getDescriptor(),
                         // Switch
-                        //SwitchControlProfile.getDescriptor(),
                         SwitchDiscreteControlProfile.getDescriptor(),
                         SwitchEventProfile.getDescriptor(),
                         SwitchReadingProfile.getDescriptor(),

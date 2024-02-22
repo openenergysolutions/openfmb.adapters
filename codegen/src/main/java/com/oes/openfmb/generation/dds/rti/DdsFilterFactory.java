@@ -13,6 +13,7 @@ import com.oes.openfmb.generation.document.Document;
 import com.oes.openfmb.generation.document.FileHeader;
 import com.oes.openfmb.generation.proto.TypeClassification.FieldPath;
 import openfmb.commonmodule.ConductingEquipment;
+import openfmb.commonmodule.ApplicationSystem;
 
 import java.util.Collections;
 import java.util.List;
@@ -108,7 +109,7 @@ public class DdsFilterFactory implements CppFileCollection {
 
     private Optional<String> getPathRecursive(FieldPath path, Descriptors.FieldDescriptor field)
     {
-        if(path.matches("mRID", ConductingEquipment.getDescriptor())) {
+        if(path.matches("mRID", ConductingEquipment.getDescriptor()) || path.matches("mRID", ApplicationSystem.getDescriptor())) {
             StringJoiner joiner = new StringJoiner(".");
             for(Descriptors.FieldDescriptor pathField : path.path)
             {

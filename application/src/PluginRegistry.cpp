@@ -5,8 +5,14 @@
 #include "PluginRegistry.h"
 
 #include "log/PluginFactory.h"
+
+#ifdef OPENFMB_USE_CAPTURE
 #include "capture/PluginFactory.h"
+#endif
+
+#ifdef OPENFMB_USE_REPLAY
 #include "replay/PluginFactory.h"
+#endif
 
 #include <adapter-api/Exception.h>
 
@@ -23,6 +29,11 @@
 #ifdef OPENFMB_USE_GOOSE
 #include "goose/PublishingPluginFactory.h"
 #include "goose/SubscribingPluginFactory.h"
+#endif
+
+#ifdef OPENFMB_USE_ICCP
+#include "iccp/client/PluginFactory.h"
+#include "iccp/server/PluginFactory.h"
 #endif
 
 #ifdef OPENFMB_USE_MQTT
@@ -54,8 +65,14 @@ namespace adapter {
 PluginRegistry::PluginRegistry()
 {
     this->add<log::PluginFactory>();
+
+#ifdef OPENFMB_USE_CAPTURE
     this->add<capture::PluginFactory>();
+#endif
+
+#ifdef OPENFMB_USE_REPLAY
     this->add<replay::PluginFactory>();
+#endif
 
 #ifdef OPENFMB_USE_DNP3
     this->add<dnp3::master::PluginFactory>();
@@ -70,6 +87,11 @@ PluginRegistry::PluginRegistry()
 #ifdef OPENFMB_USE_GOOSE
     this->add<goose::PublishingPluginFactory>();
     this->add<goose::SubscribingPluginFactory>();
+#endif
+
+#ifdef OPENFMB_USE_ICCP
+    this->add<iccp::client::PluginFactory>();
+    this->add<iccp::server::PluginFactory>();
 #endif
 
 #ifdef OPENFMB_USE_MQTT

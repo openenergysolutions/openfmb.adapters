@@ -16,6 +16,7 @@ namespace util {
         Status,
         Control,
         Event,
+        Capability,
     };
 
     // no defaults, only specializations
@@ -167,6 +168,86 @@ namespace util {
     };
 
     template <>
+    struct profile_info<circuitsegmentservicemodule::CircuitSegmentControlProfile> {
+
+        static constexpr ProfileType type = ProfileType::Control;
+
+        static const commonmodule::MessageInfo& get_message_info(const circuitsegmentservicemodule::CircuitSegmentControlProfile& profile)
+        {
+            return profile.controlmessageinfo().messageinfo();
+        }
+
+        static const commonmodule::ApplicationSystem& get_conducting_equip(const circuitsegmentservicemodule::CircuitSegmentControlProfile& profile)
+        {
+            return profile.applicationsystem();
+        }
+    };
+
+    template <>
+    struct profile_info<circuitsegmentservicemodule::CircuitSegmentEventProfile> {
+
+        static constexpr ProfileType type = ProfileType::Event;
+
+        static const commonmodule::MessageInfo& get_message_info(const circuitsegmentservicemodule::CircuitSegmentEventProfile& profile)
+        {
+            return profile.eventmessageinfo().messageinfo();
+        }
+
+        static const commonmodule::ApplicationSystem& get_conducting_equip(const circuitsegmentservicemodule::CircuitSegmentEventProfile& profile)
+        {
+            return profile.applicationsystem();
+        }
+    };
+
+    template <>
+    struct profile_info<circuitsegmentservicemodule::CircuitSegmentStatusProfile> {
+
+        static constexpr ProfileType type = ProfileType::Status;
+
+        static const commonmodule::MessageInfo& get_message_info(const circuitsegmentservicemodule::CircuitSegmentStatusProfile& profile)
+        {
+            return profile.statusmessageinfo().messageinfo();
+        }
+
+        static const commonmodule::ApplicationSystem& get_conducting_equip(const circuitsegmentservicemodule::CircuitSegmentStatusProfile& profile)
+        {
+            return profile.applicationsystem();
+        }
+    };
+
+    template <>
+    struct profile_info<essmodule::ESSCapabilityOverrideProfile> {
+
+        static constexpr ProfileType type = ProfileType::Capability;
+
+        static const commonmodule::MessageInfo& get_message_info(const essmodule::ESSCapabilityOverrideProfile& profile)
+        {
+            return profile.capabilitymessageinfo().messageinfo();
+        }
+
+        static const commonmodule::ConductingEquipment& get_conducting_equip(const essmodule::ESSCapabilityOverrideProfile& profile)
+        {
+            return profile.ess().conductingequipment();
+        }
+    };
+
+    template <>
+    struct profile_info<essmodule::ESSCapabilityProfile> {
+
+        static constexpr ProfileType type = ProfileType::Capability;
+
+        static const commonmodule::MessageInfo& get_message_info(const essmodule::ESSCapabilityProfile& profile)
+        {
+            return profile.capabilitymessageinfo().messageinfo();
+        }
+
+        static const commonmodule::ConductingEquipment& get_conducting_equip(const essmodule::ESSCapabilityProfile& profile)
+        {
+            return profile.ess().conductingequipment();
+        }
+    };
+
+    template <>
     struct profile_info<essmodule::ESSControlProfile> {
 
         static constexpr ProfileType type = ProfileType::Control;
@@ -177,6 +258,22 @@ namespace util {
         }
 
         static const commonmodule::ConductingEquipment& get_conducting_equip(const essmodule::ESSControlProfile& profile)
+        {
+            return profile.ess().conductingequipment();
+        }
+    };
+
+    template <>
+    struct profile_info<essmodule::ESSDiscreteControlProfile> {
+
+        static constexpr ProfileType type = ProfileType::Control;
+
+        static const commonmodule::MessageInfo& get_message_info(const essmodule::ESSDiscreteControlProfile& profile)
+        {
+            return profile.controlmessageinfo().messageinfo();
+        }
+
+        static const commonmodule::ConductingEquipment& get_conducting_equip(const essmodule::ESSDiscreteControlProfile& profile)
         {
             return profile.ess().conductingequipment();
         }
@@ -227,6 +324,38 @@ namespace util {
         static const commonmodule::ConductingEquipment& get_conducting_equip(const essmodule::ESSStatusProfile& profile)
         {
             return profile.ess().conductingequipment();
+        }
+    };
+
+    template <>
+    struct profile_info<generationmodule::GenerationCapabilityOverrideProfile> {
+
+        static constexpr ProfileType type = ProfileType::Capability;
+
+        static const commonmodule::MessageInfo& get_message_info(const generationmodule::GenerationCapabilityOverrideProfile& profile)
+        {
+            return profile.capabilitymessageinfo().messageinfo();
+        }
+
+        static const commonmodule::ConductingEquipment& get_conducting_equip(const generationmodule::GenerationCapabilityOverrideProfile& profile)
+        {
+            return profile.generatingunit().conductingequipment();
+        }
+    };
+
+    template <>
+    struct profile_info<generationmodule::GenerationCapabilityProfile> {
+
+        static constexpr ProfileType type = ProfileType::Capability;
+
+        static const commonmodule::MessageInfo& get_message_info(const generationmodule::GenerationCapabilityProfile& profile)
+        {
+            return profile.capabilitymessageinfo().messageinfo();
+        }
+
+        static const commonmodule::ConductingEquipment& get_conducting_equip(const generationmodule::GenerationCapabilityProfile& profile)
+        {
+            return profile.generatingunit().conductingequipment();
         }
     };
 
@@ -307,6 +436,38 @@ namespace util {
         static const commonmodule::ConductingEquipment& get_conducting_equip(const generationmodule::GenerationStatusProfile& profile)
         {
             return profile.generatingunit().conductingequipment();
+        }
+    };
+
+    template <>
+    struct profile_info<interconnectionmodule::InterconnectionPlannedScheduleProfile> {
+
+        static constexpr ProfileType type = ProfileType::Control;
+
+        static const commonmodule::MessageInfo& get_message_info(const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
+        {
+            return profile.controlmessageinfo().messageinfo();
+        }
+
+        static const commonmodule::ApplicationSystem& get_conducting_equip(const interconnectionmodule::InterconnectionPlannedScheduleProfile& profile)
+        {
+            return profile.requestercircuitsegmentservice();
+        }
+    };
+
+    template <>
+    struct profile_info<interconnectionmodule::InterconnectionRequestedScheduleProfile> {
+
+        static constexpr ProfileType type = ProfileType::Control;
+
+        static const commonmodule::MessageInfo& get_message_info(const interconnectionmodule::InterconnectionRequestedScheduleProfile& profile)
+        {
+            return profile.controlmessageinfo().messageinfo();
+        }
+
+        static const commonmodule::ApplicationSystem& get_conducting_equip(const interconnectionmodule::InterconnectionRequestedScheduleProfile& profile)
+        {
+            return profile.requestercircuitsegmentservice();
         }
     };
 
@@ -551,6 +712,38 @@ namespace util {
     };
 
     template <>
+    struct profile_info<reservemodule::ReserveAvailabilityProfile> {
+
+        static constexpr ProfileType type = ProfileType::Control;
+
+        static const commonmodule::MessageInfo& get_message_info(const reservemodule::ReserveAvailabilityProfile& profile)
+        {
+            return profile.controlmessageinfo().messageinfo();
+        }
+
+        static const commonmodule::ApplicationSystem& get_conducting_equip(const reservemodule::ReserveAvailabilityProfile& profile)
+        {
+            return profile.requestercircuitsegmentservice();
+        }
+    };
+
+    template <>
+    struct profile_info<reservemodule::ReserveRequestProfile> {
+
+        static constexpr ProfileType type = ProfileType::Control;
+
+        static const commonmodule::MessageInfo& get_message_info(const reservemodule::ReserveRequestProfile& profile)
+        {
+            return profile.controlmessageinfo().messageinfo();
+        }
+
+        static const commonmodule::ApplicationSystem& get_conducting_equip(const reservemodule::ReserveRequestProfile& profile)
+        {
+            return profile.requestercircuitsegmentservice();
+        }
+    };
+
+    template <>
     struct profile_info<resourcemodule::ResourceEventProfile> {
 
         static constexpr ProfileType type = ProfileType::Event;
@@ -599,6 +792,38 @@ namespace util {
     };
 
     template <>
+    struct profile_info<solarmodule::SolarCapabilityOverrideProfile> {
+
+        static constexpr ProfileType type = ProfileType::Capability;
+
+        static const commonmodule::MessageInfo& get_message_info(const solarmodule::SolarCapabilityOverrideProfile& profile)
+        {
+            return profile.capabilitymessageinfo().messageinfo();
+        }
+
+        static const commonmodule::ConductingEquipment& get_conducting_equip(const solarmodule::SolarCapabilityOverrideProfile& profile)
+        {
+            return profile.solarinverter().conductingequipment();
+        }
+    };
+
+    template <>
+    struct profile_info<solarmodule::SolarCapabilityProfile> {
+
+        static constexpr ProfileType type = ProfileType::Capability;
+
+        static const commonmodule::MessageInfo& get_message_info(const solarmodule::SolarCapabilityProfile& profile)
+        {
+            return profile.capabilitymessageinfo().messageinfo();
+        }
+
+        static const commonmodule::ConductingEquipment& get_conducting_equip(const solarmodule::SolarCapabilityProfile& profile)
+        {
+            return profile.solarinverter().conductingequipment();
+        }
+    };
+
+    template <>
     struct profile_info<solarmodule::SolarControlProfile> {
 
         static constexpr ProfileType type = ProfileType::Control;
@@ -609,6 +834,22 @@ namespace util {
         }
 
         static const commonmodule::ConductingEquipment& get_conducting_equip(const solarmodule::SolarControlProfile& profile)
+        {
+            return profile.solarinverter().conductingequipment();
+        }
+    };
+
+    template <>
+    struct profile_info<solarmodule::SolarDiscreteControlProfile> {
+
+        static constexpr ProfileType type = ProfileType::Control;
+
+        static const commonmodule::MessageInfo& get_message_info(const solarmodule::SolarDiscreteControlProfile& profile)
+        {
+            return profile.controlmessageinfo().messageinfo();
+        }
+
+        static const commonmodule::ConductingEquipment& get_conducting_equip(const solarmodule::SolarDiscreteControlProfile& profile)
         {
             return profile.solarinverter().conductingequipment();
         }

@@ -60,10 +60,32 @@ namespace goose {
             return true;
         }
 
+        bool get_uint32(const std::string& name, util::accessor_t<T, uint32_t>& accessor) const
+        {
+            auto search = m_uint32_accessors.find(name);
+            if (search == m_uint32_accessors.end()) {
+                return false;
+            };
+
+            accessor = search->second;
+            return true;
+        }
+
         bool get_int64(const std::string& name, util::accessor_t<T, int64_t>& accessor) const
         {
             auto search = m_int64_accessors.find(name);
             if (search == m_int64_accessors.end()) {
+                return false;
+            };
+
+            accessor = search->second;
+            return true;
+        }
+
+        bool get_uint64(const std::string& name, util::accessor_t<T, uint64_t>& accessor) const
+        {
+            auto search = m_uint64_accessors.find(name);
+            if (search == m_uint64_accessors.end()) {
                 return false;
             };
 
@@ -171,11 +193,27 @@ namespace goose {
             }
         }
 
+        void handle_mapped_field(const YAML::Node& node, const util::accessor_t<T, uint32_t>& accessor) final
+        {
+            std::string name;
+            if (get_name(node, keys::name, name)) {
+                m_uint32_accessors.insert({ name, accessor });
+            }
+        }
+
         void handle_mapped_field(const YAML::Node& node, const util::accessor_t<T, int64_t>& accessor) final
         {
             std::string name;
             if (get_name(node, keys::name, name)) {
                 m_int64_accessors.insert({ name, accessor });
+            }
+        }
+
+        void handle_mapped_field(const YAML::Node& node, const util::accessor_t<T, uint64_t>& accessor) final
+        {
+            std::string name;
+            if (get_name(node, keys::name, name)) {
+                m_uint64_accessors.insert({ name, accessor });
             }
         }
 
@@ -315,6 +353,8 @@ namespace goose {
         std::unordered_map<std::string, const util::accessor_t<T, bool>> m_bool_accessors;
         std::unordered_map<std::string, const util::accessor_t<T, int32_t>> m_int32_accessors;
         std::unordered_map<std::string, const util::accessor_t<T, int64_t>> m_int64_accessors;
+        std::unordered_map<std::string, const util::accessor_t<T, uint32_t>> m_uint32_accessors;
+        std::unordered_map<std::string, const util::accessor_t<T, uint64_t>> m_uint64_accessors;
         std::unordered_map<std::string, const util::accessor_t<T, float>> m_float_accessors;
         std::unordered_map<std::string, const util::accessor_t<T, double>> m_double_accessors;
         std::unordered_map<std::string, const util::accessor_t<T, std::string>> m_string_accessors;

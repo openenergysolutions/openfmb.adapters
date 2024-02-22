@@ -32,6 +32,13 @@ namespace util {
         constexpr const char* const scheduleParameterType = "scheduleParameterType";
         constexpr const char* const tolerance = "tolerance-ms";
 
+        // file infomration, used for configuration tool
+        constexpr const char* const file = "file";
+        constexpr const char* const id = "id";
+        constexpr const char* const edition = "edition";
+        constexpr const char* const version = "version";
+        constexpr const char* const plugin = "plugin";
+
         // used for TLS configurations in NATS and MQTT
         static const char* const security = "security";
         static const char* const ca_trusted_cert_file = "ca-trusted-cert-file";

@@ -34,15 +34,25 @@ const char Profile::CapBankDiscreteControlProfile[] = "CapBankDiscreteControlPro
 const char Profile::CapBankEventProfile[] = "CapBankEventProfile";
 const char Profile::CapBankReadingProfile[] = "CapBankReadingProfile";
 const char Profile::CapBankStatusProfile[] = "CapBankStatusProfile";
+const char Profile::CircuitSegmentControlProfile[] = "CircuitSegmentControlProfile";
+const char Profile::CircuitSegmentEventProfile[] = "CircuitSegmentEventProfile";
+const char Profile::CircuitSegmentStatusProfile[] = "CircuitSegmentStatusProfile";
+const char Profile::ESSCapabilityOverrideProfile[] = "ESSCapabilityOverrideProfile";
+const char Profile::ESSCapabilityProfile[] = "ESSCapabilityProfile";
 const char Profile::ESSControlProfile[] = "ESSControlProfile";
+const char Profile::ESSDiscreteControlProfile[] = "ESSDiscreteControlProfile";
 const char Profile::ESSEventProfile[] = "ESSEventProfile";
 const char Profile::ESSReadingProfile[] = "ESSReadingProfile";
 const char Profile::ESSStatusProfile[] = "ESSStatusProfile";
+const char Profile::GenerationCapabilityOverrideProfile[] = "GenerationCapabilityOverrideProfile";
+const char Profile::GenerationCapabilityProfile[] = "GenerationCapabilityProfile";
 const char Profile::GenerationControlProfile[] = "GenerationControlProfile";
 const char Profile::GenerationDiscreteControlProfile[] = "GenerationDiscreteControlProfile";
 const char Profile::GenerationEventProfile[] = "GenerationEventProfile";
 const char Profile::GenerationReadingProfile[] = "GenerationReadingProfile";
 const char Profile::GenerationStatusProfile[] = "GenerationStatusProfile";
+const char Profile::InterconnectionPlannedScheduleProfile[] = "InterconnectionPlannedScheduleProfile";
+const char Profile::InterconnectionRequestedScheduleProfile[] = "InterconnectionRequestedScheduleProfile";
 const char Profile::LoadControlProfile[] = "LoadControlProfile";
 const char Profile::LoadEventProfile[] = "LoadEventProfile";
 const char Profile::LoadReadingProfile[] = "LoadReadingProfile";
@@ -57,11 +67,16 @@ const char Profile::RegulatorControlProfile[] = "RegulatorControlProfile";
 const char Profile::RegulatorEventProfile[] = "RegulatorEventProfile";
 const char Profile::RegulatorReadingProfile[] = "RegulatorReadingProfile";
 const char Profile::RegulatorStatusProfile[] = "RegulatorStatusProfile";
+const char Profile::ReserveAvailabilityProfile[] = "ReserveAvailabilityProfile";
+const char Profile::ReserveRequestProfile[] = "ReserveRequestProfile";
 const char Profile::ResourceDiscreteControlProfile[] = "ResourceDiscreteControlProfile";
 const char Profile::ResourceEventProfile[] = "ResourceEventProfile";
 const char Profile::ResourceReadingProfile[] = "ResourceReadingProfile";
 const char Profile::ResourceStatusProfile[] = "ResourceStatusProfile";
+const char Profile::SolarCapabilityOverrideProfile[] = "SolarCapabilityOverrideProfile";
+const char Profile::SolarCapabilityProfile[] = "SolarCapabilityProfile";
 const char Profile::SolarControlProfile[] = "SolarControlProfile";
+const char Profile::SolarDiscreteControlProfile[] = "SolarDiscreteControlProfile";
 const char Profile::SolarEventProfile[] = "SolarEventProfile";
 const char Profile::SolarReadingProfile[] = "SolarReadingProfile";
 const char Profile::SolarStatusProfile[] = "SolarStatusProfile";
@@ -70,7 +85,7 @@ const char Profile::SwitchEventProfile[] = "SwitchEventProfile";
 const char Profile::SwitchReadingProfile[] = "SwitchReadingProfile";
 const char Profile::SwitchStatusProfile[] = "SwitchStatusProfile";
 
-const std::array<Profile::Value, 44> Profile::values =
+const std::array<Profile::Value, 59> Profile::values =
 {
     Profile::Value::BreakerDiscreteControlProfile,
     Profile::Value::BreakerEventProfile,
@@ -81,15 +96,25 @@ const std::array<Profile::Value, 44> Profile::values =
     Profile::Value::CapBankEventProfile,
     Profile::Value::CapBankReadingProfile,
     Profile::Value::CapBankStatusProfile,
+    Profile::Value::CircuitSegmentControlProfile,
+    Profile::Value::CircuitSegmentEventProfile,
+    Profile::Value::CircuitSegmentStatusProfile,
+    Profile::Value::ESSCapabilityOverrideProfile,
+    Profile::Value::ESSCapabilityProfile,
     Profile::Value::ESSControlProfile,
+    Profile::Value::ESSDiscreteControlProfile,
     Profile::Value::ESSEventProfile,
     Profile::Value::ESSReadingProfile,
     Profile::Value::ESSStatusProfile,
+    Profile::Value::GenerationCapabilityOverrideProfile,
+    Profile::Value::GenerationCapabilityProfile,
     Profile::Value::GenerationControlProfile,
     Profile::Value::GenerationDiscreteControlProfile,
     Profile::Value::GenerationEventProfile,
     Profile::Value::GenerationReadingProfile,
     Profile::Value::GenerationStatusProfile,
+    Profile::Value::InterconnectionPlannedScheduleProfile,
+    Profile::Value::InterconnectionRequestedScheduleProfile,
     Profile::Value::LoadControlProfile,
     Profile::Value::LoadEventProfile,
     Profile::Value::LoadReadingProfile,
@@ -104,11 +129,16 @@ const std::array<Profile::Value, 44> Profile::values =
     Profile::Value::RegulatorEventProfile,
     Profile::Value::RegulatorReadingProfile,
     Profile::Value::RegulatorStatusProfile,
+    Profile::Value::ReserveAvailabilityProfile,
+    Profile::Value::ReserveRequestProfile,
     Profile::Value::ResourceDiscreteControlProfile,
     Profile::Value::ResourceEventProfile,
     Profile::Value::ResourceReadingProfile,
     Profile::Value::ResourceStatusProfile,
+    Profile::Value::SolarCapabilityOverrideProfile,
+    Profile::Value::SolarCapabilityProfile,
     Profile::Value::SolarControlProfile,
+    Profile::Value::SolarDiscreteControlProfile,
     Profile::Value::SolarEventProfile,
     Profile::Value::SolarReadingProfile,
     Profile::Value::SolarStatusProfile,
@@ -131,15 +161,25 @@ std::string Profile::to_string(Profile::Value value)
         case(Value::CapBankEventProfile): return CapBankEventProfile;
         case(Value::CapBankReadingProfile): return CapBankReadingProfile;
         case(Value::CapBankStatusProfile): return CapBankStatusProfile;
+        case(Value::CircuitSegmentControlProfile): return CircuitSegmentControlProfile;
+        case(Value::CircuitSegmentEventProfile): return CircuitSegmentEventProfile;
+        case(Value::CircuitSegmentStatusProfile): return CircuitSegmentStatusProfile;
+        case(Value::ESSCapabilityOverrideProfile): return ESSCapabilityOverrideProfile;
+        case(Value::ESSCapabilityProfile): return ESSCapabilityProfile;
         case(Value::ESSControlProfile): return ESSControlProfile;
+        case(Value::ESSDiscreteControlProfile): return ESSDiscreteControlProfile;
         case(Value::ESSEventProfile): return ESSEventProfile;
         case(Value::ESSReadingProfile): return ESSReadingProfile;
         case(Value::ESSStatusProfile): return ESSStatusProfile;
+        case(Value::GenerationCapabilityOverrideProfile): return GenerationCapabilityOverrideProfile;
+        case(Value::GenerationCapabilityProfile): return GenerationCapabilityProfile;
         case(Value::GenerationControlProfile): return GenerationControlProfile;
         case(Value::GenerationDiscreteControlProfile): return GenerationDiscreteControlProfile;
         case(Value::GenerationEventProfile): return GenerationEventProfile;
         case(Value::GenerationReadingProfile): return GenerationReadingProfile;
         case(Value::GenerationStatusProfile): return GenerationStatusProfile;
+        case(Value::InterconnectionPlannedScheduleProfile): return InterconnectionPlannedScheduleProfile;
+        case(Value::InterconnectionRequestedScheduleProfile): return InterconnectionRequestedScheduleProfile;
         case(Value::LoadControlProfile): return LoadControlProfile;
         case(Value::LoadEventProfile): return LoadEventProfile;
         case(Value::LoadReadingProfile): return LoadReadingProfile;
@@ -154,11 +194,16 @@ std::string Profile::to_string(Profile::Value value)
         case(Value::RegulatorEventProfile): return RegulatorEventProfile;
         case(Value::RegulatorReadingProfile): return RegulatorReadingProfile;
         case(Value::RegulatorStatusProfile): return RegulatorStatusProfile;
+        case(Value::ReserveAvailabilityProfile): return ReserveAvailabilityProfile;
+        case(Value::ReserveRequestProfile): return ReserveRequestProfile;
         case(Value::ResourceDiscreteControlProfile): return ResourceDiscreteControlProfile;
         case(Value::ResourceEventProfile): return ResourceEventProfile;
         case(Value::ResourceReadingProfile): return ResourceReadingProfile;
         case(Value::ResourceStatusProfile): return ResourceStatusProfile;
+        case(Value::SolarCapabilityOverrideProfile): return SolarCapabilityOverrideProfile;
+        case(Value::SolarCapabilityProfile): return SolarCapabilityProfile;
         case(Value::SolarControlProfile): return SolarControlProfile;
+        case(Value::SolarDiscreteControlProfile): return SolarDiscreteControlProfile;
         case(Value::SolarEventProfile): return SolarEventProfile;
         case(Value::SolarReadingProfile): return SolarReadingProfile;
         case(Value::SolarStatusProfile): return SolarStatusProfile;
@@ -182,15 +227,25 @@ Profile::Value Profile::from_string(const std::string& name)
         {CapBankEventProfile, Value::CapBankEventProfile},
         {CapBankReadingProfile, Value::CapBankReadingProfile},
         {CapBankStatusProfile, Value::CapBankStatusProfile},
+        {CircuitSegmentControlProfile, Value::CircuitSegmentControlProfile},
+        {CircuitSegmentEventProfile, Value::CircuitSegmentEventProfile},
+        {CircuitSegmentStatusProfile, Value::CircuitSegmentStatusProfile},
+        {ESSCapabilityOverrideProfile, Value::ESSCapabilityOverrideProfile},
+        {ESSCapabilityProfile, Value::ESSCapabilityProfile},
         {ESSControlProfile, Value::ESSControlProfile},
+        {ESSDiscreteControlProfile, Value::ESSDiscreteControlProfile},
         {ESSEventProfile, Value::ESSEventProfile},
         {ESSReadingProfile, Value::ESSReadingProfile},
         {ESSStatusProfile, Value::ESSStatusProfile},
+        {GenerationCapabilityOverrideProfile, Value::GenerationCapabilityOverrideProfile},
+        {GenerationCapabilityProfile, Value::GenerationCapabilityProfile},
         {GenerationControlProfile, Value::GenerationControlProfile},
         {GenerationDiscreteControlProfile, Value::GenerationDiscreteControlProfile},
         {GenerationEventProfile, Value::GenerationEventProfile},
         {GenerationReadingProfile, Value::GenerationReadingProfile},
         {GenerationStatusProfile, Value::GenerationStatusProfile},
+        {InterconnectionPlannedScheduleProfile, Value::InterconnectionPlannedScheduleProfile},
+        {InterconnectionRequestedScheduleProfile, Value::InterconnectionRequestedScheduleProfile},
         {LoadControlProfile, Value::LoadControlProfile},
         {LoadEventProfile, Value::LoadEventProfile},
         {LoadReadingProfile, Value::LoadReadingProfile},
@@ -205,11 +260,16 @@ Profile::Value Profile::from_string(const std::string& name)
         {RegulatorEventProfile, Value::RegulatorEventProfile},
         {RegulatorReadingProfile, Value::RegulatorReadingProfile},
         {RegulatorStatusProfile, Value::RegulatorStatusProfile},
+        {ReserveAvailabilityProfile, Value::ReserveAvailabilityProfile},
+        {ReserveRequestProfile, Value::ReserveRequestProfile},
         {ResourceDiscreteControlProfile, Value::ResourceDiscreteControlProfile},
         {ResourceEventProfile, Value::ResourceEventProfile},
         {ResourceReadingProfile, Value::ResourceReadingProfile},
         {ResourceStatusProfile, Value::ResourceStatusProfile},
+        {SolarCapabilityOverrideProfile, Value::SolarCapabilityOverrideProfile},
+        {SolarCapabilityProfile, Value::SolarCapabilityProfile},
         {SolarControlProfile, Value::SolarControlProfile},
+        {SolarDiscreteControlProfile, Value::SolarDiscreteControlProfile},
         {SolarEventProfile, Value::SolarEventProfile},
         {SolarReadingProfile, Value::SolarReadingProfile},
         {SolarStatusProfile, Value::SolarStatusProfile},

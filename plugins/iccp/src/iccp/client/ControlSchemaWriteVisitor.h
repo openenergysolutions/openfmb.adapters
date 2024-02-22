@@ -1,0 +1,52 @@
+// SPDX-FileCopyrightText: 2021 Open Energy Solutions Inc
+//
+// SPDX-License-Identifier: Apache-2.0
+
+#ifndef OPENFMB_ADAPTER_ICCP_CLIENT_CONTROLSCHEMAWRITEVISITOR_H
+#define OPENFMB_ADAPTER_ICCP_CLIENT_CONTROLSCHEMAWRITEVISITOR_H
+
+#include <adapter-api/Exception.h>
+#include <adapter-util/config/SchemaWriteVisitorBase.h>
+#include <adapter-util/util/EnumUtil.h>
+
+namespace adapter {
+    namespace iccp {
+        namespace client {
+
+            class ControlSchemaWriteVisitor final : public util::SchemaWriteVisitorBase {
+
+            public:
+                ControlSchemaWriteVisitor();
+
+            protected:
+                // --- mapping functions from base class  ---
+
+                std::shared_ptr<schema::Object> get_mapped_bool_schema() override;
+
+                std::shared_ptr<schema::Object> get_mapped_int32_schema() override;
+
+                std::shared_ptr<schema::Object> get_mapped_int64_schema() override;
+
+                std::shared_ptr<schema::Object> get_mapped_uint32_schema() override;
+
+                std::shared_ptr<schema::Object> get_mapped_uint64_schema() override;
+
+                std::shared_ptr<schema::Object> get_mapped_float_schema() override;
+
+                std::shared_ptr<schema::Object> get_mapped_double_schema() override;
+
+                std::shared_ptr<schema::Object> get_mapped_enum_schema(google::protobuf::EnumDescriptor const* descriptor) override;
+
+                std::shared_ptr<schema::Object> get_mapped_schedule_parameter_schema() override;
+
+            private:
+                schema::Object get_boolean_schema();
+                schema::Object get_enum_schema();
+                std::shared_ptr<schema::Object> get_control_schema();                
+            };
+
+        }
+    }
+}
+
+#endif //OPENFMB_ADAPTER_CONTROLSCHEMAWRITEVISITOR_H

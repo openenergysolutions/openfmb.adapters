@@ -18,17 +18,20 @@
 #ifndef OPENFMB_MESSAGEVISITORS_H
 #define OPENFMB_MESSAGEVISITORS_H
 
+#include "circuitsegmentservicemodule/circuitsegmentservicemodule.pb.h"
+#include "generationmodule/generationmodule.pb.h"
+#include "loadmodule/loadmodule.pb.h"
+#include "metermodule/metermodule.pb.h"
+#include "resourcemodule/resourcemodule.pb.h"
 #include "reclosermodule/reclosermodule.pb.h"
+#include "interconnectionmodule/interconnectionmodule.pb.h"
 #include "solarmodule/solarmodule.pb.h"
 #include "breakermodule/breakermodule.pb.h"
 #include "capbankmodule/capbankmodule.pb.h"
 #include "switchmodule/switchmodule.pb.h"
-#include "generationmodule/generationmodule.pb.h"
-#include "loadmodule/loadmodule.pb.h"
 #include "essmodule/essmodule.pb.h"
 #include "regulatormodule/regulatormodule.pb.h"
-#include "metermodule/metermodule.pb.h"
-#include "resourcemodule/resourcemodule.pb.h"
+#include "reservemodule/reservemodule.pb.h"
 #include "../IMessageVisitor.h"
 
 namespace adapter {
@@ -53,13 +56,29 @@ void visit(const capbankmodule::CapBankReadingProfile& message, IMessageVisitor&
 
 void visit(const capbankmodule::CapBankStatusProfile& message, IMessageVisitor& visitor);
 
+void visit(const circuitsegmentservicemodule::CircuitSegmentControlProfile& message, IMessageVisitor& visitor);
+
+void visit(const circuitsegmentservicemodule::CircuitSegmentEventProfile& message, IMessageVisitor& visitor);
+
+void visit(const circuitsegmentservicemodule::CircuitSegmentStatusProfile& message, IMessageVisitor& visitor);
+
+void visit(const essmodule::ESSCapabilityOverrideProfile& message, IMessageVisitor& visitor);
+
+void visit(const essmodule::ESSCapabilityProfile& message, IMessageVisitor& visitor);
+
 void visit(const essmodule::ESSControlProfile& message, IMessageVisitor& visitor);
+
+void visit(const essmodule::ESSDiscreteControlProfile& message, IMessageVisitor& visitor);
 
 void visit(const essmodule::ESSEventProfile& message, IMessageVisitor& visitor);
 
 void visit(const essmodule::ESSReadingProfile& message, IMessageVisitor& visitor);
 
 void visit(const essmodule::ESSStatusProfile& message, IMessageVisitor& visitor);
+
+void visit(const generationmodule::GenerationCapabilityOverrideProfile& message, IMessageVisitor& visitor);
+
+void visit(const generationmodule::GenerationCapabilityProfile& message, IMessageVisitor& visitor);
 
 void visit(const generationmodule::GenerationControlProfile& message, IMessageVisitor& visitor);
 
@@ -70,6 +89,10 @@ void visit(const generationmodule::GenerationEventProfile& message, IMessageVisi
 void visit(const generationmodule::GenerationReadingProfile& message, IMessageVisitor& visitor);
 
 void visit(const generationmodule::GenerationStatusProfile& message, IMessageVisitor& visitor);
+
+void visit(const interconnectionmodule::InterconnectionPlannedScheduleProfile& message, IMessageVisitor& visitor);
+
+void visit(const interconnectionmodule::InterconnectionRequestedScheduleProfile& message, IMessageVisitor& visitor);
 
 void visit(const loadmodule::LoadControlProfile& message, IMessageVisitor& visitor);
 
@@ -99,6 +122,10 @@ void visit(const regulatormodule::RegulatorReadingProfile& message, IMessageVisi
 
 void visit(const regulatormodule::RegulatorStatusProfile& message, IMessageVisitor& visitor);
 
+void visit(const reservemodule::ReserveAvailabilityProfile& message, IMessageVisitor& visitor);
+
+void visit(const reservemodule::ReserveRequestProfile& message, IMessageVisitor& visitor);
+
 void visit(const resourcemodule::ResourceDiscreteControlProfile& message, IMessageVisitor& visitor);
 
 void visit(const resourcemodule::ResourceEventProfile& message, IMessageVisitor& visitor);
@@ -107,7 +134,13 @@ void visit(const resourcemodule::ResourceReadingProfile& message, IMessageVisito
 
 void visit(const resourcemodule::ResourceStatusProfile& message, IMessageVisitor& visitor);
 
+void visit(const solarmodule::SolarCapabilityOverrideProfile& message, IMessageVisitor& visitor);
+
+void visit(const solarmodule::SolarCapabilityProfile& message, IMessageVisitor& visitor);
+
 void visit(const solarmodule::SolarControlProfile& message, IMessageVisitor& visitor);
+
+void visit(const solarmodule::SolarDiscreteControlProfile& message, IMessageVisitor& visitor);
 
 void visit(const solarmodule::SolarEventProfile& message, IMessageVisitor& visitor);
 
