@@ -32,6 +32,7 @@ namespace dnp3 {
         constexpr const char* const polls = "polls";
         constexpr const char* const poll_name = "poll-name";        
         constexpr const char* const poll_interval = "interval-ms";
+        constexpr const char* const invert = "invert";
         
         // polling for classes
         constexpr const char* const classes = "classes";

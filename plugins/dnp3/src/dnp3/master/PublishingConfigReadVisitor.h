@@ -98,14 +98,19 @@ namespace dnp3 {
                                                                 const util::accessor_t<T, bool>& accessor)
         {
             const auto source = util::yaml::require_enum<SourceType>(node);
+            const auto invert = util::yaml::optionally<bool>(node[keys::invert], false);
             switch (source) {
             case (SourceType::Value::none):
                 break;
             case (SourceType::Value::binary):
                 this->builder->add_measurement_handler(
-                    [accessor, profile = this->profile](
+                    [accessor, invert, profile = this->profile](
                         const opendnp3::Binary& meas) {
-                        accessor->set(*profile, meas.value);
+                        auto value = meas.value;
+                        if (invert) {
+                            value = !value;
+                        }
+                        accessor->set(*profile, value);
                     },
                     util::yaml::get::index(node));
                 break;
