@@ -36,6 +36,12 @@ namespace master {
                     0,
                     Bound<uint16_t>::from(0),
                     Bound<uint16_t>::from(65535)
+                ),
+                bool_property(
+                    keys::invert,
+                    Required::no,
+                    "invert the boolean value",
+                    false
                 )
             })
         }));
