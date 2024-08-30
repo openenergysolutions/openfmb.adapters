@@ -26,15 +26,15 @@ Configuring and using the Adapter requires configuration and additional
 services. These are documented along with the additional tools to generate
 configurations and visualize data on our documentation site.
 
-https://openenergysolutionsinc.com/openfmb.docs
+https://openenergysolutions.com/openfmb.docs
 
 ## Commercial licensing, support, and protocols
 
-Support and commercial license options are provided by Open Energy Solutions Inc. Additional licensed protocols are available. Please contact support@openenergysolutionsinc.com for more details.
+Support and commercial license options are provided by Open Energy Solutions Inc. Additional licensed protocols are available. Please contact support@openenergysolutions.com for more details.
 
 ## Contributing
 
-Contributing to the Adapter requires signing a CLA, please email cla@openenergysolutionsinc.com and
+Contributing to the Adapter requires signing a CLA, please email cla@openenergysolutions.com and
 request it.
 
 Building and developing the Adapter is better documented in [CONTRIBUTING.md](CONTRIBUTING.md)

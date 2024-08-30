@@ -30,7 +30,7 @@ the preferred and supported way. Note that we use Nix the tool and not NixOS.
 
 Nix is easily installed on linux, mac, or windows (with WSL) with a single curl command
 
-https://nixos.org/guides/install-nix.html
+https://nixos.org/download/
 
 ## Using Cachix
 
@@ -49,7 +49,7 @@ Simply building docker images may be done at any time, for all supported archite
 by running
 
 ``` sh
-nix build all.nix
+nix-build all.nix
 ```
 
 This produces several static links to .tar.gz files holding docker images in the
