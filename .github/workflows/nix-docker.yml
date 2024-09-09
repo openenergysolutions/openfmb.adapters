@@ -13,33 +13,44 @@
       branches: ["develop"]
   jobs:
     build:
-      runs-on: self-hosted      
+      # runs-on: ubuntu-latest
+      runs-on: self-hosted
       env:
         PUSH_IMAGES: ${{ github.event_name == 'push' && github.ref == 'refs/heads/develop' }}
       steps:
         - uses: actions/checkout@v3
-        - uses: cachix/install-nix-action@v25
+        - uses: cachix/install-nix-action@v20
           with:
-            nix_path: nixpkgs=channel:nixos-unstable
-        - uses: cachix/cachix-action@v14
+            nix_path: nixpkgs=channel:nixos-21.11
+        - uses: cachix/cachix-action@v12
           with:
-            name: openfmb          
+            name: oesinc          
         - name: Update submodules
           run: git submodule update --init
         - name: Build all
           run: nix-build all.nix
+          timeout-minutes: 120
         - name: Prepare Artifacts
           run: |
             mkdir artifacts            
             cp -r `readlink result-2` artifacts/.            
             cp -r `readlink result-4` artifacts/.           
             cp -r `readlink result-6` artifacts/.
-        - name: Upload Docker Image Artifacts
+        - name: Upload Armv8 64bit Docker Artifact
           uses: actions/upload-artifact@v2
           with:
-            name: docker-images
-            path: |
-              *.tar.gz
+            name: openfmb.adapters-aarch64-docker
+            path: artifacts/*docker*aarch64*.tar.gz
+        - name: Upload Armv7 Docker Artifact
+          uses: actions/upload-artifact@v2
+          with:
+            name: openfmb.adapters-armv7-docker
+            path: artifacts/*docker*armv7*.tar.gz
+        - name: Upload x86_64 Docker Artifact
+          uses: actions/upload-artifact@v2
+          with:
+            name: openfmb.adapters-x86_64-docker
+            path: artifacts/*docker*x86_64*.tar.gz
         - name: Ok
           run: nix-shell --run "echo OK"
         - name: Login to DockerHub
@@ -89,30 +100,30 @@
             # create a build specific tag and push
             docker manifest create \
               oesinc/$IMAGE_NAME:${GITHUB_SHA::7} \
-              --amend oesinc/$IMAGE_NAME:aarch64-${GITHUB_SHA::7} \
+              --amend oesinc/$IMAGE_NAME:x86_64-${GITHUB_SHA::7} \
               --amend oesinc/$IMAGE_NAME:armv7-${GITHUB_SHA::7} \
-              --amend oesinc/$IMAGE_NAME:x86_64-${GITHUB_SHA::7}
-            docker manifest annotate oesinc/$IMAGE_NAME:${GITHUB_SHA::7} oesinc/$IMAGE_NAME:aarch64-${GITHUB_SHA::7} --arch arm64 --os linux
-            docker manifest annotate oesinc/$IMAGE_NAME:${GITHUB_SHA::7} oesinc/$IMAGE_NAME:armv7-${GITHUB_SHA::7} --arch arm --os linux --variant v7
+              --amend oesinc/$IMAGE_NAME:aarch64-${GITHUB_SHA::7}
             docker manifest annotate oesinc/$IMAGE_NAME:${GITHUB_SHA::7} oesinc/$IMAGE_NAME:x86_64-${GITHUB_SHA::7} --arch amd64 --os linux
+            docker manifest annotate oesinc/$IMAGE_NAME:${GITHUB_SHA::7} oesinc/$IMAGE_NAME:armv7-${GITHUB_SHA::7} --arch arm --os linux --variant v7
+            docker manifest annotate oesinc/$IMAGE_NAME:${GITHUB_SHA::7} oesinc/$IMAGE_NAME:aarch64-${GITHUB_SHA::7} --arch arm64 --os linux
             docker manifest push oesinc/$IMAGE_NAME:${GITHUB_SHA::7}
             # create a version tag and push
             docker manifest create \
               oesinc/$IMAGE_NAME:${{ github.ref_name}} \
-              --amend oesinc/$IMAGE_NAME:aarch64-${GITHUB_SHA::7} \
+              --amend oesinc/$IMAGE_NAME:x86_64-${GITHUB_SHA::7} \
               --amend oesinc/$IMAGE_NAME:armv7-${GITHUB_SHA::7} \
-              --amend oesinc/$IMAGE_NAME:x86_64-${GITHUB_SHA::7}
-            docker manifest annotate oesinc/$IMAGE_NAME:${{ github.ref_name}} oesinc/$IMAGE_NAME:aarch64-${GITHUB_SHA::7} --arch arm64 --os linux
-            docker manifest annotate oesinc/$IMAGE_NAME:${{ github.ref_name}} oesinc/$IMAGE_NAME:armv7-${GITHUB_SHA::7} --arch arm --os linux --variant v7
+              --amend oesinc/$IMAGE_NAME:aarch64-${GITHUB_SHA::7}
             docker manifest annotate oesinc/$IMAGE_NAME:${{ github.ref_name}} oesinc/$IMAGE_NAME:x86_64-${GITHUB_SHA::7} --arch amd64 --os linux
+            docker manifest annotate oesinc/$IMAGE_NAME:${{ github.ref_name}} oesinc/$IMAGE_NAME:armv7-${GITHUB_SHA::7} --arch arm --os linux --variant v7
+            docker manifest annotate oesinc/$IMAGE_NAME:${{ github.ref_name}} oesinc/$IMAGE_NAME:aarch64-${GITHUB_SHA::7} --arch arm64 --os linux
             docker manifest push oesinc/$IMAGE_NAME:${{ github.ref_name}}
             # create a latest tag and push
             docker manifest create \
               oesinc/$IMAGE_NAME:latest \
-              --amend oesinc/$IMAGE_NAME:aarch64-${GITHUB_SHA::7} \
+              --amend oesinc/$IMAGE_NAME:x86_64-${GITHUB_SHA::7} \
               --amend oesinc/$IMAGE_NAME:armv7-${GITHUB_SHA::7} \
-              --amend oesinc/$IMAGE_NAME:x86_64-${GITHUB_SHA::7}
-            docker manifest annotate oesinc/$IMAGE_NAME:latest oesinc/$IMAGE_NAME:aarch64-${GITHUB_SHA::7} --arch arm64 --os linux
-            docker manifest annotate oesinc/$IMAGE_NAME:latest oesinc/$IMAGE_NAME:armv7-${GITHUB_SHA::7} --arch arm --os linux --variant v7
+              --amend oesinc/$IMAGE_NAME:aarch64-${GITHUB_SHA::7}
             docker manifest annotate oesinc/$IMAGE_NAME:latest oesinc/$IMAGE_NAME:x86_64-${GITHUB_SHA::7} --arch amd64 --os linux
+            docker manifest annotate oesinc/$IMAGE_NAME:latest oesinc/$IMAGE_NAME:armv7-${GITHUB_SHA::7} --arch arm --os linux --variant v7
+            docker manifest annotate oesinc/$IMAGE_NAME:latest oesinc/$IMAGE_NAME:aarch64-${GITHUB_SHA::7} --arch arm64 --os linux
             docker manifest push oesinc/$IMAGE_NAME:latest
