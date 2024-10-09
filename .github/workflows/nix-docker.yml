@@ -37,17 +37,17 @@
             cp -r `readlink result-4` artifacts/.           
             cp -r `readlink result-6` artifacts/.
         - name: Upload Armv8 64bit Docker Artifact
-          uses: actions/upload-artifact@v2
+          uses: actions/upload-artifact@v4
           with:
             name: openfmb.adapters-aarch64-docker
             path: artifacts/*docker*aarch64*.tar.gz
         - name: Upload Armv7 Docker Artifact
-          uses: actions/upload-artifact@v2
+          uses: actions/upload-artifact@v4
           with:
             name: openfmb.adapters-armv7-docker
             path: artifacts/*docker*armv7*.tar.gz
         - name: Upload x86_64 Docker Artifact
-          uses: actions/upload-artifact@v2
+          uses: actions/upload-artifact@v4
           with:
             name: openfmb.adapters-x86_64-docker
             path: artifacts/*docker*x86_64*.tar.gz
