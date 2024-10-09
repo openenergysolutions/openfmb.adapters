@@ -13,8 +13,8 @@
       branches: ["github-hosted-runner"]
   jobs:
     build:
-      # runs-on: ubuntu-latest
-      runs-on: self-hosted
+      runs-on: ubuntu-latest
+      #runs-on: self-hosted
       env:
         PUSH_IMAGES: ${{ github.event_name == 'push' && github.ref == 'refs/heads/github-hosted-runner' }}
       steps:
