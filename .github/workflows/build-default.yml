@@ -21,5 +21,5 @@ jobs:
         with:
           name: oesinc      
       - name: Build default
-        run: nix-build default.nix
+        run: nix-build all.nix
         timeout-minutes: 180
