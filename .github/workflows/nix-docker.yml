@@ -15,6 +15,11 @@
       env:
         PUSH_IMAGES: true
       steps:
+        - name: Git sha
+          uses: benjlevesque/short-sha@v2.1
+          id: git-sha
+          with:
+            length: 8
         - name: Checkout code with submodules
           uses: actions/checkout@v4
           with:
@@ -24,7 +29,7 @@
             nix_path: nixpkgs=channel:nixos-21.11
         - uses: cachix/cachix-action@v12  
           with:
-            name: oesinc
+            name: openfmb-adapter
             authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
         - name: Build all
           run: nix-build all.nix
@@ -62,44 +67,45 @@
           if: ${{ env.PUSH_IMAGES == 'true' }}
           shell: bash
           run: |
-            IMAGE_NAME=$(find . -name *docker*aarch64*.tar.gz)
+            IIMAGE_NAME=$(find . -name "*docker*aarch64*.tar.gz" -exec basename {} \;)
             docker load --input $IMAGE_NAME
-            IMAGE_REPOSITORY=$(docker images --format "{{.Repository}}:{{.Tag}}" | grep aarch64 | head -n 1)
+            IMAGE_REPOSITORY=$(docker images --format "{{.Repository}}:{{.Tag}}" | grep aarch64)
             echo $IMAGE_REPOSITORY
-            docker tag $IMAGE_REPOSITORY docker.io/oesinc/openfmb.adapters:aarch64-${GITHUB_SHA::7}
-            docker push docker.io/oesinc/openfmb.adapters:aarch64-${GITHUB_SHA::7}
+            docker tag $IMAGE_REPOSITORY docker.io/oesinc/openfmb.adapters:aarch64-${{ steps.git-sha.outputs.sha }}
+            docker push docker.io/oesinc/openfmb.adapters:aarch64-${{ steps.git-sha.outputs.sha }}
+            docker rmi $IMAGE_REPOSITORY docker.io/oesinc/openfmb.adapters:aarch64-${{ steps.git-sha.outputs.sha }}
         - name: Push Armv7 Image to DockerHub
           if: ${{ env.PUSH_IMAGES == 'true' }}
           shell: bash
-          run: |
-            IMAGE_NAME=$(find . -name *docker*armv7*.tar.gz)
+          run: |            
+            IMAGE_NAME=$(find . -name "*docker*armv7*.tar.gz" -exec basename {} \;)
             docker load --input $IMAGE_NAME
-            IMAGE_REPOSITORY=$(docker images --format "{{.Repository}}:{{.Tag}}" | grep armv7 | head -n 1)
+            IMAGE_REPOSITORY=$(docker images --format "{{.Repository}}:{{.Tag}}" | grep armv7)
             echo $IMAGE_REPOSITORY
-            docker tag $IMAGE_REPOSITORY docker.io/oesinc/openfmb.adapters:armv7-${GITHUB_SHA::7}
-            docker push docker.io/oesinc/openfmb.adapters:armv7-${GITHUB_SHA::7}
+            docker tag $IMAGE_REPOSITORY docker.io/oesinc/openfmb.adapters:armv7-${{ steps.git-sha.outputs.sha }}
+            docker push docker.io/oesinc/openfmb.adapters:armv7-${{ steps.git-sha.outputs.sha }}
+            docker rmi $IMAGE_REPOSITORY docker.io/oesinc/openfmb.adapters:armv7-${{ steps.git-sha.outputs.sha }}
         - name: Push x86_64 Image to DockerHub
           if: ${{ env.PUSH_IMAGES == 'true' }}
           shell: bash
-          run: |
-            IMAGE_NAME=$(find . -name *docker*x86_64*.tar.gz)
+          run: |            
+            IMAGE_NAME=$(find . -name "*docker*x86_64*.tar.gz" -exec basename {} \;)
             docker load --input $IMAGE_NAME
-            IMAGE_REPOSITORY=$(docker images --format "{{.Repository}}:{{.Tag}}" | grep x86_64 | head -n 1)
+            IMAGE_REPOSITORY=$(docker images --format "{{.Repository}}:{{.Tag}}" | grep x86_64)
             echo $IMAGE_REPOSITORY
-            docker tag $IMAGE_REPOSITORY docker.io/oesinc/openfmb.adapters:x86_64-${GITHUB_SHA::7}
-            docker push docker.io/oesinc/openfmb.adapters:x86_64-${GITHUB_SHA::7}
+            docker tag $IMAGE_REPOSITORY docker.io/oesinc/openfmb.adapters:x86_64-${{ steps.git-sha.outputs.sha }}
+            docker push docker.io/oesinc/openfmb.adapters:x86_64-${{ steps.git-sha.outputs.sha }}
+            docker rmi $IMAGE_REPOSITORY docker.io/oesinc/openfmb.adapters:x86_64-${{ steps.git-sha.outputs.sha }}
         - name: Create and push the multiarch Image to DockerHub
           if: ${{ env.PUSH_IMAGES == 'true' }}
           shell: bash
           run: |
             IMAGE_NAME=${GITHUB_REPOSITORY#*/}
+            docker manifest rm oesinc/$IMAGE_NAME:${{ steps.git-sha.outputs.sha }}
             # create a build specific tag and push
             docker manifest create \
-              oesinc/$IMAGE_NAME:${GITHUB_SHA::7} \
-              --amend oesinc/$IMAGE_NAME:x86_64-${GITHUB_SHA::7} \
-              --amend oesinc/$IMAGE_NAME:armv7-${GITHUB_SHA::7} \
-              --amend oesinc/$IMAGE_NAME:aarch64-${GITHUB_SHA::7}
-            docker manifest annotate oesinc/$IMAGE_NAME:${GITHUB_SHA::7} oesinc/$IMAGE_NAME:x86_64-${GITHUB_SHA::7} --arch amd64 --os linux
-            docker manifest annotate oesinc/$IMAGE_NAME:${GITHUB_SHA::7} oesinc/$IMAGE_NAME:armv7-${GITHUB_SHA::7} --arch arm --os linux --variant v7
-            docker manifest annotate oesinc/$IMAGE_NAME:${GITHUB_SHA::7} oesinc/$IMAGE_NAME:aarch64-${GITHUB_SHA::7} --arch arm64 --os linux
-            docker manifest push oesinc/$IMAGE_NAME:${GITHUB_SHA::7}
+              oesinc/$IMAGE_NAME:${{ steps.git-sha.outputs.sha }} \
+              --amend oesinc/$IMAGE_NAME:x86_64-${{ steps.git-sha.outputs.sha }} \
+              --amend oesinc/$IMAGE_NAME:armv7-${{ steps.git-sha.outputs.sha }} \
+              --amend oesinc/$IMAGE_NAME:aarch64-${{ steps.git-sha.outputs.sha }}            
+            docker manifest push oesinc/$IMAGE_NAME:${{ steps.git-sha.outputs.sha }}
