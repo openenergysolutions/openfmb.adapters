@@ -67,7 +67,7 @@
           if: ${{ env.PUSH_IMAGES == 'true' }}
           shell: bash
           run: |
-            IIMAGE_NAME=$(find . -name *docker*aarch64*.tar.gz -exec basename {} \;)
+            IIMAGE_NAME=$(find . -name *docker*aarch64*.tar.gz)
             docker load --input $IMAGE_NAME
             IMAGE_REPOSITORY=$(docker images --format "{{.Repository}}:{{.Tag}}" | grep aarch64)
             echo $IMAGE_REPOSITORY
@@ -78,7 +78,7 @@
           if: ${{ env.PUSH_IMAGES == 'true' }}
           shell: bash
           run: |            
-            IMAGE_NAME=$(find . -name *docker*armv7*.tar.gz -exec basename {} \;)
+            IMAGE_NAME=$(find . -name *docker*armv7*.tar.gz)
             docker load --input $IMAGE_NAME
             IMAGE_REPOSITORY=$(docker images --format "{{.Repository}}:{{.Tag}}" | grep armv7)
             echo $IMAGE_REPOSITORY
@@ -89,7 +89,7 @@
           if: ${{ env.PUSH_IMAGES == 'true' }}
           shell: bash
           run: |            
-            IMAGE_NAME=$(find . -name *docker*x86_64*.tar.gz -exec basename {} \;)
+            IMAGE_NAME=$(find . -name *docker*x86_64*.tar.gz)
             docker load --input $IMAGE_NAME
             IMAGE_REPOSITORY=$(docker images --format "{{.Repository}}:{{.Tag}}" | grep x86_64)
             echo $IMAGE_REPOSITORY
