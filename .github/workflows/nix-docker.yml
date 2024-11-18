@@ -82,7 +82,7 @@
               --amend oesinc/$IMAGE_NAME:x86_64-${{ steps.git-sha.outputs.sha }} \
               --amend oesinc/$IMAGE_NAME:armv7-${{ steps.git-sha.outputs.sha }} \
               --amend oesinc/$IMAGE_NAME:aarch64-${{ steps.git-sha.outputs.sha }}
-            docker manifest annotate oesinc/$IMAGE_NAME:x86_64-${{ steps.git-sha.outputs.sha }} oesinc/$IMAGE_NAME:x86_64-${GITHUB_SHA::7} --arch amd64 --os linux
-            docker manifest annotate oesinc/$IMAGE_NAME:armv7-${{ steps.git-sha.outputs.sha }} oesinc/$IMAGE_NAME:armv7-${GITHUB_SHA::7} --arch arm --os linux --variant v7
-            docker manifest annotate oesinc/$IMAGE_NAME:aarch64-${{ steps.git-sha.outputs.sha }} --arch arm64 --os linux            
+            docker manifest annotate oesinc/$IMAGE_NAME:${{ steps.git-sha.outputs.sha }} oesinc/$IMAGE_NAME:x86_64-${{ steps.git-sha.outputs.sha }} --arch amd64 --os linux
+            docker manifest annotate oesinc/$IMAGE_NAME:${{ steps.git-sha.outputs.sha }} oesinc/$IMAGE_NAME:armv7-${{ steps.git-sha.outputs.sha }} --arch arm --os linux --variant v7
+            docker manifest annotate oesinc/$IMAGE_NAME:${{ steps.git-sha.outputs.sha }} oesinc/$IMAGE_NAME:aarch64-${{ steps.git-sha.outputs.sha }} --arch arm64 --os linux            
             docker manifest push oesinc/$IMAGE_NAME:${{ steps.git-sha.outputs.sha }}
