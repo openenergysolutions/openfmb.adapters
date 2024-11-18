@@ -52,7 +52,7 @@
             cd artifacts
             echo ls -l
             echo "Push Armv8 Image to DockerHub"
-            IIMAGE_NAME=$(find . -name *docker*aarch64*.tar.gz)
+            IMAGE_NAME=$(find . -name *docker*aarch64*.tar.gz)
             docker load --input $IMAGE_NAME
             IMAGE_REPOSITORY=$(docker images --format "{{.Repository}}:{{.Tag}}" | grep aarch64)
             echo $IMAGE_REPOSITORY
