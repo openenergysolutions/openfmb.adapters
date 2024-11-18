@@ -49,7 +49,8 @@
             cp -r `readlink result-2` artifacts/.            
             cp -r `readlink result-4` artifacts/.
             cp -r `readlink result-6` artifacts/.
-            cd artifacts            
+            cd artifacts 
+            # Push Armv8 Image to DockerHub           
             echo "Push Armv8 Image to DockerHub"
             IMAGE_NAME=$(find . -name *docker*aarch64*.tar.gz)
             docker load --input $IMAGE_NAME
@@ -57,6 +58,7 @@
             echo $IMAGE_REPOSITORY
             docker tag $IMAGE_REPOSITORY docker.io/oesinc/openfmb.adapters:aarch64-${{ steps.git-sha.outputs.sha }}
             docker push docker.io/oesinc/openfmb.adapters:aarch64-${{ steps.git-sha.outputs.sha }}            
+            # Push Armv7 Image to DockerHub
             echo "Push Armv7 Image to DockerHub"
             IMAGE_NAME=$(find . -name *docker*armv7*.tar.gz)
             docker load --input $IMAGE_NAME
@@ -64,6 +66,7 @@
             echo $IMAGE_REPOSITORY
             docker tag $IMAGE_REPOSITORY docker.io/oesinc/openfmb.adapters:armv7-${{ steps.git-sha.outputs.sha }}
             docker push docker.io/oesinc/openfmb.adapters:armv7-${{ steps.git-sha.outputs.sha }}            
+            # Push x86_64 Image to DockerHub
             echo "Push x86_64 Image to DockerHub"
             IMAGE_NAME=$(find . -name *docker*x86_64*.tar.gz)
             docker load --input $IMAGE_NAME
@@ -71,11 +74,15 @@
             echo $IMAGE_REPOSITORY
             docker tag $IMAGE_REPOSITORY docker.io/oesinc/openfmb.adapters:x86_64-${{ steps.git-sha.outputs.sha }}
             docker push docker.io/oesinc/openfmb.adapters:x86_64-${{ steps.git-sha.outputs.sha }}
+            # Create and push the multiarch Image to DockerHub
             echo "Create and push the multiarch Image to DockerHub"
             IMAGE_NAME=${GITHUB_REPOSITORY#*/}            
             docker manifest create \
               oesinc/$IMAGE_NAME:${{ steps.git-sha.outputs.sha }} \
               --amend oesinc/$IMAGE_NAME:x86_64-${{ steps.git-sha.outputs.sha }} \
               --amend oesinc/$IMAGE_NAME:armv7-${{ steps.git-sha.outputs.sha }} \
-              --amend oesinc/$IMAGE_NAME:aarch64-${{ steps.git-sha.outputs.sha }}            
+              --amend oesinc/$IMAGE_NAME:aarch64-${{ steps.git-sha.outputs.sha }}
+            docker manifest annotate oesinc/$IMAGE_NAME:x86_64-${{ steps.git-sha.outputs.sha }} oesinc/$IMAGE_NAME:x86_64-${GITHUB_SHA::7} --arch amd64 --os linux
+            docker manifest annotate oesinc/$IMAGE_NAME:armv7-${{ steps.git-sha.outputs.sha }} oesinc/$IMAGE_NAME:armv7-${GITHUB_SHA::7} --arch arm --os linux --variant v7
+            docker manifest annotate oesinc/$IMAGE_NAME:aarch64-${{ steps.git-sha.outputs.sha }} --arch arm64 --os linux            
             docker manifest push oesinc/$IMAGE_NAME:${{ steps.git-sha.outputs.sha }}
