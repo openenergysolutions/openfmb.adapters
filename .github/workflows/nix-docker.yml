@@ -34,30 +34,6 @@
         - name: Build all
           run: nix-build all.nix
           timeout-minutes: 120
-        - name: Prepare Artifacts
-          run: |
-            mkdir artifacts            
-            cp -r `readlink result-2` artifacts/.            
-            cp -r `readlink result-4` artifacts/.
-            cp -r `readlink result-6` artifacts/.
-        - name: Upload Armv8 64bit Docker Artifact
-          uses: actions/upload-artifact@v4
-          with:
-            name: openfmb.adapters-aarch64-docker
-            compression-level: 0
-            path: artifacts/*docker*aarch64*.tar.gz
-        - name: Upload Armv7 Docker Artifact
-          uses: actions/upload-artifact@v4
-          with:
-            name: openfmb.adapters-armv7-docker
-            compression-level: 0
-            path: artifacts/*docker*armv7*.tar.gz
-        - name: Upload x86_64 Docker Artifact
-          uses: actions/upload-artifact@v4
-          with:
-            name: openfmb.adapters-x86_64-docker
-            compression-level: 0
-            path: artifacts/*docker*x86_64*.tar.gz
         - name: Ok
           run: nix-shell --run "echo OK"
         - name: Login to DockerHub
@@ -66,22 +42,24 @@
           with:
             username: ${{ secrets.DOCKER_USERNAME }}
             password: ${{ secrets.DOCKER_TOKEN }}
-        - name: Push Armv8 Image to DockerHub
+        - name: Prepare Artifacts and push to DockerHub
           if: ${{ env.PUSH_IMAGES == 'true' }}
-          shell: bash
           run: |
+            mkdir artifacts            
+            cp -r `readlink result-2` artifacts/.            
+            cp -r `readlink result-4` artifacts/.
+            cp -r `readlink result-6` artifacts/.
+            cd artifacts
+            echo ls -l
+            echo "Push Armv8 Image to DockerHub"
             IIMAGE_NAME=$(find . -name *docker*aarch64*.tar.gz)
-            echo $IMAGE_NAME
             docker load --input $IMAGE_NAME
             IMAGE_REPOSITORY=$(docker images --format "{{.Repository}}:{{.Tag}}" | grep aarch64)
             echo $IMAGE_REPOSITORY
             docker tag $IMAGE_REPOSITORY docker.io/oesinc/openfmb.adapters:aarch64-${{ steps.git-sha.outputs.sha }}
             docker push docker.io/oesinc/openfmb.adapters:aarch64-${{ steps.git-sha.outputs.sha }}
             docker rmi $IMAGE_REPOSITORY docker.io/oesinc/openfmb.adapters:aarch64-${{ steps.git-sha.outputs.sha }}
-        - name: Push Armv7 Image to DockerHub
-          if: ${{ env.PUSH_IMAGES == 'true' }}
-          shell: bash
-          run: |            
+            echo "Push Armv7 Image to DockerHub"
             IMAGE_NAME=$(find . -name *docker*armv7*.tar.gz)
             docker load --input $IMAGE_NAME
             IMAGE_REPOSITORY=$(docker images --format "{{.Repository}}:{{.Tag}}" | grep armv7)
@@ -89,17 +67,14 @@
             docker tag $IMAGE_REPOSITORY docker.io/oesinc/openfmb.adapters:armv7-${{ steps.git-sha.outputs.sha }}
             docker push docker.io/oesinc/openfmb.adapters:armv7-${{ steps.git-sha.outputs.sha }}
             docker rmi $IMAGE_REPOSITORY docker.io/oesinc/openfmb.adapters:armv7-${{ steps.git-sha.outputs.sha }}
-        - name: Push x86_64 Image to DockerHub
-          if: ${{ env.PUSH_IMAGES == 'true' }}
-          shell: bash
-          run: |            
+            echo "Push x86_64 Image to DockerHub"
             IMAGE_NAME=$(find . -name *docker*x86_64*.tar.gz)
             docker load --input $IMAGE_NAME
             IMAGE_REPOSITORY=$(docker images --format "{{.Repository}}:{{.Tag}}" | grep x86_64)
             echo $IMAGE_REPOSITORY
             docker tag $IMAGE_REPOSITORY docker.io/oesinc/openfmb.adapters:x86_64-${{ steps.git-sha.outputs.sha }}
             docker push docker.io/oesinc/openfmb.adapters:x86_64-${{ steps.git-sha.outputs.sha }}
-            docker rmi $IMAGE_REPOSITORY docker.io/oesinc/openfmb.adapters:x86_64-${{ steps.git-sha.outputs.sha }}
+            docker rmi $IMAGE_REPOSITORY docker.io/oesinc/openfmb.adapters:x86_64-${{ steps.git-sha.outputs.sha }}        
         - name: Create and push the multiarch Image to DockerHub
           if: ${{ env.PUSH_IMAGES == 'true' }}
           shell: bash
