@@ -40,12 +40,24 @@
             cp -r `readlink result-2` artifacts/.            
             cp -r `readlink result-4` artifacts/.
             cp -r `readlink result-6` artifacts/.
-        - name: Upload Docker Artifacts
+        - name: Upload Armv8 64bit Docker Artifact
           uses: actions/upload-artifact@v4
           with:
-            name: openfmb.adapters
-            compression-level: 0 # no compression
-            path: artifacts/        
+            name: openfmb.adapters-aarch64-docker
+            compression-level: 0
+            path: artifacts/*docker*aarch64*.tar.gz
+        - name: Upload Armv7 Docker Artifact
+          uses: actions/upload-artifact@v4
+          with:
+            name: openfmb.adapters-armv7-docker
+            compression-level: 0
+            path: artifacts/*docker*armv7*.tar.gz
+        - name: Upload x86_64 Docker Artifact
+          uses: actions/upload-artifact@v4
+          with:
+            name: openfmb.adapters-x86_64-docker
+            compression-level: 0
+            path: artifacts/*docker*x86_64*.tar.gz
         - name: Ok
           run: nix-shell --run "echo OK"
         - name: Login to DockerHub
@@ -59,6 +71,7 @@
           shell: bash
           run: |
             IIMAGE_NAME=$(find . -name *docker*aarch64*.tar.gz)
+            echo $IMAGE_NAME
             docker load --input $IMAGE_NAME
             IMAGE_REPOSITORY=$(docker images --format "{{.Repository}}:{{.Tag}}" | grep aarch64)
             echo $IMAGE_REPOSITORY
