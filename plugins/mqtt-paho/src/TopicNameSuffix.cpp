@@ -14,7 +14,7 @@ namespace mqtt {
 
     TopicNameSuffix::Type get_type(const std::string& value)
     {
-        if (value == "*") {
+        if (value == "*" || value == "#") {
             return TopicNameSuffix::Type::wildcard;
         } else {
             try {
