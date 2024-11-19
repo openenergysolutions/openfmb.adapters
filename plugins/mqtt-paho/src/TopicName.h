@@ -53,7 +53,8 @@ namespace mqtt {
     {
         const auto base_topic = get_base_topic_name<T>();
         std::ostringstream oss;
-        oss << base_topic << "/" << suffix.is_wildcard() ? "#" : suffix.get_value();
+        auto suff = suffix.is_wildcard() ? "+" : suffix.get_value();
+        oss << base_topic << "/" << suff;
         return oss.str();
     }
 }
