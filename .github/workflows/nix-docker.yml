@@ -13,7 +13,7 @@
       branches: ["develop"]
   jobs:
     build:
-      runs-on: ubuntu-latest
+      runs-on: self-hosted
       permissions:
         contents: read
         id-token: write
@@ -32,10 +32,10 @@
         - uses: cachix/install-nix-action@v20
           with:
             nix_path: nixpkgs=channel:nixos-21.11
-        # - uses: cachix/cachix-action@v12  
-        #   with:
-        #     name: openfmb-adapter
-        #     authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
+        - uses: cachix/cachix-action@v12  
+          with:
+            name: openfmb-adapter
+            authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
         - name: Build all
           run: nix-build all.nix
           timeout-minutes: 360
@@ -50,6 +50,8 @@
             username: ${{ secrets.DOCKER_USERNAME }}
             password: ${{ secrets.DOCKER_TOKEN }}
         - name: Prepare Artifacts and push to DockerHub
+          env:
+            COSIGN_EXPERIMENTAL: "1"
           if: ${{ env.PUSH_IMAGES == 'true' }}
           run: |
             mkdir artifacts            
@@ -65,9 +67,9 @@
             echo $IMAGE_REPOSITORY
             docker tag $IMAGE_REPOSITORY docker.io/oesinc/openfmb.adapters:aarch64-${{ steps.git-sha.outputs.sha }}
             docker push docker.io/oesinc/openfmb.adapters:aarch64-${{ steps.git-sha.outputs.sha }}
-            IMAGE_URL=oesinc/openfmb.adapters:aarch64-${{ steps.git-sha.outputs.sha }}
-            echo "Sign Image with Cosign for: $IMAGE_URL"
-            cosign sign --yes --rekor-url "https://rekor.sigstore.dev/" $IMAGE_URL            
+            IMAGE_DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' $IMAGE_REPOSITORY)            
+            echo "Sign Image with Cosign for: $IMAGE_DIGEST"
+            cosign sign --yes --rekor-url "https://rekor.sigstore.dev/" $IMAGE_DIGEST
             # Push Armv7 Image to DockerHub
             echo "Push Armv7 Image to DockerHub"
             IMAGE_NAME=$(find . -name *docker*armv7*.tar.gz)
@@ -76,9 +78,9 @@
             echo $IMAGE_REPOSITORY
             docker tag $IMAGE_REPOSITORY docker.io/oesinc/openfmb.adapters:armv7-${{ steps.git-sha.outputs.sha }}
             docker push docker.io/oesinc/openfmb.adapters:armv7-${{ steps.git-sha.outputs.sha }}
-            IMAGE_URL=oesinc/openfmb.adapters:armv7-${{ steps.git-sha.outputs.sha }}
-            echo "Sign Image with Cosign for: $IMAGE_URL"
-            cosign sign --yes --rekor-url "https://rekor.sigstore.dev/" $IMAGE_URL             
+            IMAGE_DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' $IMAGE_REPOSITORY)            
+            echo "Sign Image with Cosign for: $IMAGE_DIGEST"
+            cosign sign --yes --rekor-url "https://rekor.sigstore.dev/" $IMAGE_DIGEST           
             # Push x86_64 Image to DockerHub
             echo "Push x86_64 Image to DockerHub"
             IMAGE_NAME=$(find . -name *docker*x86_64*.tar.gz)
@@ -87,9 +89,9 @@
             echo $IMAGE_REPOSITORY
             docker tag $IMAGE_REPOSITORY docker.io/oesinc/openfmb.adapters:x86_64-${{ steps.git-sha.outputs.sha }}
             docker push docker.io/oesinc/openfmb.adapters:x86_64-${{ steps.git-sha.outputs.sha }}
-            IMAGE_URL=oesinc/openfmb.adapters:x86_64-${{ steps.git-sha.outputs.sha }}
-            echo "Sign Image with Cosign for: $IMAGE_URL"
-            cosign sign --yes --rekor-url "https://rekor.sigstore.dev/" $IMAGE_URL 
+            IMAGE_DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' $IMAGE_REPOSITORY)            
+            echo "Sign Image with Cosign for: $IMAGE_DIGEST"
+            cosign sign --yes --rekor-url "https://rekor.sigstore.dev/" $IMAGE_DIGEST 
             # Create and push the multiarch Image to DockerHub
             echo "Create and push the multiarch Image to DockerHub"
             IMAGE_NAME=${GITHUB_REPOSITORY#*/}            
@@ -102,3 +104,9 @@
             docker manifest annotate oesinc/$IMAGE_NAME:${{ steps.git-sha.outputs.sha }} oesinc/$IMAGE_NAME:armv7-${{ steps.git-sha.outputs.sha }} --arch arm --os linux --variant v7
             docker manifest annotate oesinc/$IMAGE_NAME:${{ steps.git-sha.outputs.sha }} oesinc/$IMAGE_NAME:aarch64-${{ steps.git-sha.outputs.sha }} --arch arm64 --os linux            
             docker manifest push oesinc/$IMAGE_NAME:${{ steps.git-sha.outputs.sha }}
+            # Sign the multiarch Image with Cosign
+            IMAGE_URL=oesinc/$IMAGE_NAME:${{ steps.git-sha.outputs.sha }}
+            docker pull $IMAGE_URL
+            IMAGE_DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' $IMAGE_URL)            
+            echo "Sign Image with Cosign for: $IMAGE_DIGEST"
+            cosign sign --yes --rekor-url "https://rekor.sigstore.dev/" $IMAGE_DIGEST
